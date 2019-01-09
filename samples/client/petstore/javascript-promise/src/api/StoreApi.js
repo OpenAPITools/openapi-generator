@@ -201,15 +201,15 @@
 
     /**
      * Place an order for a pet
-     * @param {module:model/Order} order order placed for purchasing the pet
+     * @param {module:model/Order} body order placed for purchasing the pet
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Order} and HTTP response
      */
-    this.placeOrderWithHttpInfo = function(order) {
-      var postBody = order;
+    this.placeOrderWithHttpInfo = function(body) {
+      var postBody = body;
 
-      // verify the required parameter 'order' is set
-      if (order === undefined || order === null) {
-        throw new Error("Missing the required parameter 'order' when calling placeOrder");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling placeOrder");
       }
 
 
@@ -238,11 +238,11 @@
 
     /**
      * Place an order for a pet
-     * @param {module:model/Order} order order placed for purchasing the pet
+     * @param {module:model/Order} body order placed for purchasing the pet
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Order}
      */
-    this.placeOrder = function(order) {
-      return this.placeOrderWithHttpInfo(order)
+    this.placeOrder = function(body) {
+      return this.placeOrderWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

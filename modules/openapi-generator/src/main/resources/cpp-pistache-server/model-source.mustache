@@ -36,7 +36,7 @@ nlohmann::json {{classname}}::toJson() const
     {{/required}}{{#required}}val["{{baseName}}"] = m_{{name}};
     {{/required}}{{/isListContainer}}{{/isPrimitiveType}}{{#isListContainer}}{
         nlohmann::json jsonArray;
-        for( auto& item : m_{{name}} )
+        for( const auto& item : m_{{name}} )
         {
             jsonArray.push_back({{prefix}}ModelBase::toJson(item));
         }
@@ -49,7 +49,7 @@ nlohmann::json {{classname}}::toJson() const
     }
     {{/isListContainer}}{{#isMapContainer}}{
         nlohmann::json jsonObj;
-        for( auto const& item : m_{{name}} )
+        for( const auto& item : m_{{name}} )
         {   {{^items.isContainer}} 
             jsonObj[item.first] = {{prefix}}ModelBase::toJson(item.second);{{/items.isContainer}} {{#items.isListContainer}} 
             jsonObj[item.first] = {{prefix}}ArrayHelper::toJson<{{{items.items.datatype}}}>(item.second);
@@ -84,7 +84,7 @@ void {{classname}}::fromJson(const nlohmann::json& val)
         {{^required}}if(val.find("{{baseName}}") != val.end())
         {
         {{/required}}
-            for( auto& item : val["{{baseName}}"] )
+            for( const auto& item : val["{{baseName}}"] )
             {
                 {{#isPrimitiveType}}m_{{name}}.push_back(item);
                 {{/isPrimitiveType}}{{^isPrimitiveType}}{{#items.isString}}m_{{name}}.push_back(item);
@@ -114,7 +114,7 @@ void {{classname}}::fromJson(const nlohmann::json& val)
             if(val["{{baseName}}"].is_object()) { {{^items.isContainer}}
                 m_{{name}} = {{prefix}}MapHelper::fromJson<{{{items.datatype}}}>(val["{{baseName}}"]);
                 {{/items.isContainer}} {{#items.isContainer}}
-                for( auto& item : val["{{baseName}}"].items() )
+                for( const auto& item : val["{{baseName}}"].items() )
                 {   {{#items.isMapContainer}}
                     {{{items.datatype}}} newItem = {{prefix}}MapHelper::fromJson<{{{items.items.datatype}}}>(item.value());
                     {{/items.isMapContainer}}{{#items.isListContainer}} 

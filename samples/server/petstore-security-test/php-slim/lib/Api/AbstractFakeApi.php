@@ -2,12 +2,11 @@
 /**
  * AbstractFakeApi
  *
- * PHP version 5
+ * PHP version 7
  *
- * @category Class
- * @package  OpenAPIServer\Api
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package OpenAPIServer\Api
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 
 /**
@@ -26,30 +25,32 @@
  */
 namespace OpenAPIServer\Api;
 
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Exception;
+
 /**
  * AbstractFakeApi Class Doc Comment
  *
- * PHP version 5
- *
- * @category Class
- * @package  OpenAPIServer\Api
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package OpenAPIServer\Api
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 abstract class AbstractFakeApi
 {
 
     /**
-     * @var \Interop\Container\ContainerInterface Slim app container instance
+     * @var ContainerInterface Slim app container instance
      */
     protected $container;
 
     /**
      * Route Controller constructor receives container
      *
-     * @param \Interop\Container\ContainerInterface $container Slim app container instance
+     * @param ContainerInterface $container Slim app container instance
      */
-    public function __construct($container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
@@ -60,17 +61,18 @@ abstract class AbstractFakeApi
      * Summary: To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * Notes: To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function testCodeInjectEndRnNR($request, $response, $args)
+    public function testCodeInjectEndRnNR(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $testCodeInjectEndRnNR = $request->getParsedBodyParam('test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r');
         $message = "How about implementing testCodeInjectEndRnNR as a PUT method in OpenAPIServer\Api\FakeApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }

@@ -145,6 +145,8 @@ Class | Method | HTTP request | Description
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
  - [Petstore::Tag](docs/Tag.md)
+ - [Petstore::TypeHolderDefault](docs/TypeHolderDefault.md)
+ - [Petstore::TypeHolderExample](docs/TypeHolderExample.md)
  - [Petstore::User](docs/User.md)
 
 

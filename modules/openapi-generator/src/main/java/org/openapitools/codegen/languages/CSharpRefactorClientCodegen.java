@@ -22,6 +22,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 
 import org.openapitools.codegen.CliOption;
@@ -32,6 +33,7 @@ import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,18 +86,38 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
 
+
     public CSharpRefactorClientCodegen() {
         super();
+
+        // mapped non-nullable type without ?
+        typeMapping = new HashMap<String, String>();
+        typeMapping.put("string", "string");
+        typeMapping.put("binary", "byte[]");
+        typeMapping.put("ByteArray", "byte[]");
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("float", "float");
+        typeMapping.put("long", "long");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("file", "System.IO.Stream");
+        typeMapping.put("array", "List");
+        typeMapping.put("list", "List");
+        typeMapping.put("map", "Dictionary");
+        typeMapping.put("object", "Object");
+        typeMapping.put("UUID", "Guid");
+
+        setSupportNullable(Boolean.TRUE);
+        hideGenerationTimestamp = Boolean.TRUE;
         supportsInheritance = true;
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("api.mustache", ".cs");
-
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-
         embeddedTemplateDir = templateDir = "csharp-refactor";
-
-        hideGenerationTimestamp = Boolean.TRUE;
 
         cliOptions.clear();
 
@@ -222,7 +244,6 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
-
 
         if (isEmpty(apiPackage)) {
             setApiPackage("Api");
@@ -609,6 +630,10 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
         super.postProcessParameter(parameter);
+
+        if (!parameter.required && nullableType.contains(parameter.dataType)) { //optional
+            parameter.dataType = parameter.dataType + "?";
+        }
     }
 
     @Override
@@ -851,5 +876,18 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
     public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
         // To avoid unexpected behaviors when options are passed programmatically such as { "supportsAsync": "" }
         return super.processCompiler(compiler).emptyStringIsFalse(true);
+    }
+
+    @Override
+    public String getNullableType(Schema p, String type) {
+        if (languageSpecificPrimitives.contains(type)) {
+            if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
+                return type + "?";
+            } else {
+                return type;
+            }
+        } else {
+            return null;
+        }
     }
 }

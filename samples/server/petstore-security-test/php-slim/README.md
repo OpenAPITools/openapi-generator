@@ -123,3 +123,15 @@ Class | Method | HTTP request | Description
 
 ## Authentication
 
+### Security schema `api_key`
+> Important! To make ApiKey authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
+
+### Security schema `petstore_auth`
+> Important! To make OAuth authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\OAuthAuthenticator](./src/Auth/OAuthAuthenticator.php) class.
+
+Scope list:
+* `write:pets` - modify pets in your account  *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+* `read:pets` - read your pets  *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+
+### Advanced middleware configuration
+Ref to used Slim Token Middleware [dyorg/slim-token-authentication](https://github.com/dyorg/slim-token-authentication/tree/1.x#readme)

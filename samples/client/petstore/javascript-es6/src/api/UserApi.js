@@ -45,15 +45,15 @@ export default class UserApi {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {module:model/User} user Created user object
+     * @param {module:model/User} body Created user object
      * @param {module:api/UserApi~createUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    createUser(user, callback) {
-      let postBody = user;
+    createUser(body, callback) {
+      let postBody = body;
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUser");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createUser");
       }
 
 
@@ -88,15 +88,15 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} user List of user object
+     * @param {Array.<User>} body List of user object
      * @param {module:api/UserApi~createUsersWithArrayInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    createUsersWithArrayInput(user, callback) {
-      let postBody = user;
+    createUsersWithArrayInput(body, callback) {
+      let postBody = body;
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUsersWithArrayInput");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createUsersWithArrayInput");
       }
 
 
@@ -131,15 +131,15 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} user List of user object
+     * @param {Array.<User>} body List of user object
      * @param {module:api/UserApi~createUsersWithListInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    createUsersWithListInput(user, callback) {
-      let postBody = user;
+    createUsersWithListInput(body, callback) {
+      let postBody = body;
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUsersWithListInput");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createUsersWithListInput");
       }
 
 
@@ -355,20 +355,20 @@ export default class UserApi {
      * Updated user
      * This can only be done by the logged in user.
      * @param {String} username name that need to be deleted
-     * @param {module:model/User} user Updated user object
+     * @param {module:model/User} body Updated user object
      * @param {module:api/UserApi~updateUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    updateUser(username, user, callback) {
-      let postBody = user;
+    updateUser(username, body, callback) {
+      let postBody = body;
 
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling updateUser");
       }
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling updateUser");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling updateUser");
       }
 
 

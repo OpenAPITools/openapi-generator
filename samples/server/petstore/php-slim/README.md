@@ -185,10 +185,28 @@ Class | Method | HTTP request | Description
 * OpenAPIServer\Model\ReadOnlyFirst
 * OpenAPIServer\Model\SpecialModelName
 * OpenAPIServer\Model\Tag
+* OpenAPIServer\Model\TypeHolderDefault
+* OpenAPIServer\Model\TypeHolderExample
 * OpenAPIServer\Model\User
 
 
 ## Authentication
 
-> Important! To make Basic Authentication work you need to implement `authenticator` function in [SlimRouter](lib/SlimRouter.php) class.
-> Documentation [tuupola/slim-basic-auth](https://github.com/tuupola/slim-basic-auth#readme)
+### Security schema `api_key`
+> Important! To make ApiKey authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
+
+### Security schema `api_key_query`
+> Important! To make ApiKey authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
+
+### Security schema `http_basic_test`
+> Important! To make Basic authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\BasicAuthenticator](./src/Auth/BasicAuthenticator.php) class.
+
+### Security schema `petstore_auth`
+> Important! To make OAuth authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\OAuthAuthenticator](./src/Auth/OAuthAuthenticator.php) class.
+
+Scope list:
+* `write:pets` - modify pets in your account
+* `read:pets` - read your pets
+
+### Advanced middleware configuration
+Ref to used Slim Token Middleware [dyorg/slim-token-authentication](https://github.com/dyorg/slim-token-authentication/tree/1.x#readme)

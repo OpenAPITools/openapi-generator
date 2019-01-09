@@ -144,7 +144,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **placeOrder**
-> Order placeOrder(order)
+> Order placeOrder(body)
 
 Place an order for a pet
 
@@ -153,10 +153,10 @@ Place an order for a pet
 import 'package:openapi/api.dart';
 
 var api_instance = new StoreApi();
-var order = new Order(); // Order | order placed for purchasing the pet
+var body = new Order(); // Order | order placed for purchasing the pet
 
 try { 
-    var result = api_instance.placeOrder(order);
+    var result = api_instance.placeOrder(body);
     print(result);
 } catch (e) {
     print("Exception when calling StoreApi->placeOrder: $e\n");
@@ -167,7 +167,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 

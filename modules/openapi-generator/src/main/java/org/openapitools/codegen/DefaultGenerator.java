@@ -434,13 +434,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     LOGGER.info("Model " + name + " not generated since it's a free-form object");
                     continue;
                 } else if (ModelUtils.isMapSchema(schema)) { // check to see if it's a "map" model
-                    if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
+                    if (!ModelUtils.isGenerateAliasAsModel() && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
                         // schema without property, i.e. alias to map
                         LOGGER.info("Model " + name + " not generated since it's an alias to map (without property)");
                         continue;
                     }
                 } else if (ModelUtils.isArraySchema(schema)) { // check to see if it's an "array" model
-                    if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
+                    if (!ModelUtils.isGenerateAliasAsModel() && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
                         // schema without property, i.e. alias to array
                         LOGGER.info("Model " + name + " not generated since it's an alias to array (without property)");
                         continue;
@@ -839,6 +839,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         if (authMethods != null && !authMethods.isEmpty()) {
             bundle.put("authMethods", authMethods);
             bundle.put("hasAuthMethods", true);
+
+            if (hasOAuthMethods(authMethods)) {
+                bundle.put("hasOAuthMethods", true);
+                bundle.put("oauthMethods", getOAuthMethods(authMethods));
+            }
         }
 
         List<CodegenServer> servers = config.fromServers(openAPI.getServers());
@@ -1181,5 +1186,27 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
         }
         return authMethods;
+    }
+
+    private boolean hasOAuthMethods(List<CodegenSecurity> authMethods) {
+        for (CodegenSecurity cs : authMethods) {
+            if (cs.isOAuth) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private List<CodegenSecurity> getOAuthMethods(List<CodegenSecurity> authMethods) {
+        List<CodegenSecurity> oauthMethods = new ArrayList<>();
+
+        for (CodegenSecurity cs : authMethods) {
+            if (cs.isOAuth) {
+                oauthMethods.add(cs);
+            }
+        }
+
+        return oauthMethods;
     }
 }

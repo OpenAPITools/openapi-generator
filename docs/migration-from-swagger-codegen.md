@@ -159,7 +159,7 @@ Corresponding java code: `CodegenProperty.datatype` is renamed to `CodegenProper
 `.swagger-codegen-ignore` is replaced by `.openapi-generator-ignore`.
 The syntax inside the file stays the same.
 
-You don't need to rename the file manually, OpenAPI Generator will do it when your run it against an existing an existing output directory.
+You don't need to rename the file manually, OpenAPI Generator will do it when your run it against an existing output directory.
 (When there is no `.openapi-generator-ignore` in a folder, if a `.swagger-codegen-ignore` file is present it will be considered and renamed to `.openapi-generator-ignore`).
 
 

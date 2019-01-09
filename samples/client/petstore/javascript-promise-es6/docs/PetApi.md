@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> addPet(pet)
+> addPet(body)
 
 Add a new pet to the store
 
@@ -31,8 +31,8 @@ let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
 let apiInstance = new OpenApiPetstore.PetApi();
-let pet = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
-apiInstance.addPet(pet).then(() => {
+let body = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
+apiInstance.addPet(body).then(() => {
   console.log('API called successfully.');
 }, (error) => {
   console.error(error);
@@ -44,7 +44,7 @@ apiInstance.addPet(pet).then(() => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -249,7 +249,7 @@ Name | Type | Description  | Notes
 
 <a name="updatePet"></a>
 # **updatePet**
-> updatePet(pet)
+> updatePet(body)
 
 Update an existing pet
 
@@ -263,8 +263,8 @@ let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
 let apiInstance = new OpenApiPetstore.PetApi();
-let pet = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
-apiInstance.updatePet(pet).then(() => {
+let body = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
+apiInstance.updatePet(body).then(() => {
   console.log('API called successfully.');
 }, (error) => {
   console.error(error);
@@ -276,7 +276,7 @@ apiInstance.updatePet(pet).then(() => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 

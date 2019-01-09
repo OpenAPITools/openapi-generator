@@ -26,5 +26,5 @@ sidebar_label: javascript
 |emitJSDoc|generate JSDoc comments| |true|
 |useInheritance|use JavaScript prototype chains &amp; delegation for inheritance| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|useES6|use JavaScript ES6 (ECMAScript 6) (beta). Default is ES5.| |false|
+|useES6|use JavaScript ES6 (ECMAScript 6) (beta). Default is ES6.| |true|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|

@@ -50,15 +50,15 @@
 
     /**
      * Add a new pet to the store
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    this.addPetWithHttpInfo = function(pet) {
-      var postBody = pet;
+    this.addPetWithHttpInfo = function(body) {
+      var postBody = body;
 
-      // verify the required parameter 'pet' is set
-      if (pet === undefined || pet === null) {
-        throw new Error("Missing the required parameter 'pet' when calling addPet");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling addPet");
       }
 
 
@@ -87,11 +87,11 @@
 
     /**
      * Add a new pet to the store
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    this.addPet = function(pet) {
-      return this.addPetWithHttpInfo(pet)
+    this.addPet = function(body) {
+      return this.addPetWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -322,15 +322,15 @@
 
     /**
      * Update an existing pet
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    this.updatePetWithHttpInfo = function(pet) {
-      var postBody = pet;
+    this.updatePetWithHttpInfo = function(body) {
+      var postBody = body;
 
-      // verify the required parameter 'pet' is set
-      if (pet === undefined || pet === null) {
-        throw new Error("Missing the required parameter 'pet' when calling updatePet");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling updatePet");
       }
 
 
@@ -359,11 +359,11 @@
 
     /**
      * Update an existing pet
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    this.updatePet = function(pet) {
-      return this.updatePetWithHttpInfo(pet)
+    this.updatePet = function(body) {
+      return this.updatePetWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

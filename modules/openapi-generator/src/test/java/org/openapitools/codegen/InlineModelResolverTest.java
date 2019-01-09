@@ -35,7 +35,7 @@ import static org.testng.AssertJUnit.*;
 @SuppressWarnings("static-method")
 public class InlineModelResolverTest {
     @Test
-    public void resolveInlineModelTestWithoutTitle() throws Exception {
+    public void resolveInlineModelTestWithoutTitle() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
         openapi.getComponents().addSchemas("User", new ObjectSchema()
@@ -44,33 +44,31 @@ public class InlineModelResolverTest {
                 .addProperties("name", new StringSchema())
                 .addProperties("address", new ObjectSchema()
                         .description("description")
-                        //._default("default")
-                        //.access("access")
                         .readOnly(false)
                         .description("description")
                         .name("name")
                         .addProperties("street", new StringSchema())
                         .addProperties("city", new StringSchema())));
 
-        assertNotNull(((Schema) openapi.getComponents().getSchemas().get("User")).getProperties().get("address"));
+        assertNotNull((openapi.getComponents().getSchemas().get("User")).getProperties().get("address"));
 
         new InlineModelResolver().flatten(openapi);
 
-        Schema user = (Schema) openapi.getComponents().getSchemas().get("User");
+        Schema user = openapi.getComponents().getSchemas().get("User");
 
         assertNotNull(user);
         assertNotNull(user.getProperties().get("address"));
         assertNotNull(((Schema) user.getProperties().get("address")).get$ref());
         assertEquals(((Schema) user.getProperties().get("address")).get$ref(), "#/components/schemas/User_address");
 
-        Schema address = (Schema) openapi.getComponents().getSchemas().get("User_address");
+        Schema address = openapi.getComponents().getSchemas().get("User_address");
         assertNotNull(address);
         assertNotNull(address.getProperties().get("city"));
         assertNotNull(address.getProperties().get("street"));
     }
 
     @Test
-    public void resolveInlineModelTestWithTitle() throws Exception {
+    public void resolveInlineModelTestWithTitle() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
         openapi.getComponents().addSchemas("User", new ObjectSchema()
@@ -87,19 +85,19 @@ public class InlineModelResolverTest {
 
         new InlineModelResolver().flatten(openapi);
 
-        Schema user = (Schema) openapi.getComponents().getSchemas().get("User");
+        Schema user = openapi.getComponents().getSchemas().get("User");
 
         assertNotNull(user);
         assertTrue(user.getProperties().get("address") instanceof Schema);
 
-        Schema address = (Schema) openapi.getComponents().getSchemas().get("UserAddressTitle");
+        Schema address = openapi.getComponents().getSchemas().get("UserAddressTitle");
         assertNotNull(address);
         assertNotNull(address.getProperties().get("city"));
         assertNotNull(address.getProperties().get("street"));
     }
 
     @Test
-    public void resolveInlineModel2EqualInnerModels() throws Exception {
+    public void resolveInlineModel2EqualInnerModels() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
         openapi.getComponents().addSchemas("User", new ObjectSchema()
@@ -132,18 +130,18 @@ public class InlineModelResolverTest {
         ObjectSchema user = (ObjectSchema) openapi.getComponents().getSchemas().get("User");
 
         assertNotNull(user);
-        assertTrue(user.getProperties().get("address") instanceof Schema);
+        assertNotNull(user.getProperties().get("address"));
 
-        Schema address = (Schema) openapi.getComponents().getSchemas().get("UserAddressTitle");
+        Schema address = openapi.getComponents().getSchemas().get("UserAddressTitle");
         assertNotNull(address);
         assertNotNull(address.getProperties().get("city"));
         assertNotNull(address.getProperties().get("street"));
-        Schema duplicateAddress = (Schema) openapi.getComponents().getSchemas().get("UserAddressTitle_0");
+        Schema duplicateAddress = openapi.getComponents().getSchemas().get("UserAddressTitle_0");
         assertNull(duplicateAddress);
     }
 
     @Test
-    public void resolveInlineModel2DifferentInnerModelsWIthSameTitle() throws Exception {
+    public void resolveInlineModel2DifferentInnerModelsWIthSameTitle() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
         openapi.getComponents().addSchemas("User", new ObjectSchema()
@@ -174,16 +172,16 @@ public class InlineModelResolverTest {
 
         new InlineModelResolver().flatten(openapi);
 
-        Schema user = (Schema) openapi.getComponents().getSchemas().get("User");
+        Schema user = openapi.getComponents().getSchemas().get("User");
 
         assertNotNull(user);
         assertTrue(user.getProperties().get("address") instanceof Schema);
 
-        Schema address = (Schema) openapi.getComponents().getSchemas().get("UserAddressTitle");
+        Schema address = openapi.getComponents().getSchemas().get("UserAddressTitle");
         assertNotNull(address);
         assertNotNull(address.getProperties().get("city"));
         assertNotNull(address.getProperties().get("street"));
-        Schema duplicateAddress = (Schema) openapi.getComponents().getSchemas().get("UserAddressTitle_1");
+        Schema duplicateAddress = openapi.getComponents().getSchemas().get("UserAddressTitle_1");
         assertNotNull(duplicateAddress);
         assertNotNull(duplicateAddress.getProperties().get("city"));
         assertNotNull(duplicateAddress.getProperties().get("street"));
@@ -191,7 +189,7 @@ public class InlineModelResolverTest {
     }
 
     @Test
-    public void testInlineResponseModel() throws Exception {
+    public void testInlineResponseModel() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
 
@@ -222,18 +220,18 @@ public class InlineModelResolverTest {
         ApiResponse response = responses.get("200");
         assertNotNull(response);
         Schema schema = response.getContent().get("application/json").getSchema();
-        assertTrue(schema instanceof Schema);
+        assertNotNull(schema);
         assertEquals(1, schema.getExtensions().size());
         assertEquals("ext-prop", schema.getExtensions().get("x-ext"));
 
-        Schema model = (Schema) openapi.getComponents().getSchemas().get("inline_response_200");
-        assertTrue(model.getProperties().size() == 1);
+        Schema model = openapi.getComponents().getSchemas().get("inline_response_200");
+        assertEquals(1, model.getProperties().size());
         assertNotNull(model.getProperties().get("name"));
         assertTrue(model.getProperties().get("name") instanceof StringSchema);
     }
 
     @Test
-    public void testInlineResponseModelWithTitle() throws Exception {
+    public void testInlineResponseModelWithTitle() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
 
@@ -264,16 +262,25 @@ public class InlineModelResolverTest {
         ApiResponse response = responses.get("200");
         assertNotNull(response);
         Schema schema = response.getContent().get("application/json").getSchema();
-        assertTrue(schema instanceof Schema);
+        assertNotNull(schema);
         assertEquals(1, schema.getExtensions().size());
         assertEquals("ext-prop", schema.getExtensions().get("x-ext"));
 
-        Schema model = (Schema) openapi.getComponents().getSchemas().get("GetBarResponse");
-        assertTrue(model.getProperties().size() == 1);
+        Schema model = openapi.getComponents().getSchemas().get("GetBarResponse");
+        assertEquals(1, model.getProperties().size());
         assertNotNull(model.getProperties().get("name"));
         assertTrue(model.getProperties().get("name") instanceof StringSchema);
     }
 
+    @Test
+    public void resolveInlineRequestBodyWhenNoComponents() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_request_body_no_components.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        assertNotNull(openAPI.getComponents());
+        assertNotNull(openAPI.getComponents().getRequestBodies());
+    }
+    
     @Test
     public void resolveInlineArraySchemaWithTitle() {
         OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
@@ -323,36 +330,14 @@ public class InlineModelResolverTest {
         assertTrue(requestBodyReference.getRequired());
     }
 
-/*
     @Test
-    public void resolveInlineBodyParameterWithTitle() throws Exception {
-        OpenAPI openapi = new OpenAPI();
+    public void resolveInlineRequestBodyWithTitle() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        ObjectSchema addressModelItem = new ObjectSchema();
-        String addressModelName = "DetailedAddress";
-    addressModelItem.setTitle(addressModelName);
-    openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .parameter(new BodyParameter()
-                                .name("body")
-                                .schema(addressModelItem
-                                        .addProperties("address", new ObjectSchema()
-                                            .addProperties("street", new StringSchema()))
-                                        .addProperties("name", new StringSchema())))));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Operation operation = openapi.getPaths().get("/hello").getGet();
-        BodyParameter bp = (BodyParameter)operation.getParameters().get(0);
-        assertTrue(bp.getSchema() instanceof RefModel);
-
-        Model body = openapi.getComponents().getSchemas().get(addressModelName);
-        assertTrue(body instanceof ObjectSchema);
-
-        ObjectSchema impl = (ObjectSchema) body;
-        assertNotNull(impl.getProperties().get("address"));
+        RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body_with_title").getPost().getRequestBody();
+        assertEquals("#/components/requestBodies/resolve_inline_request_body_with_title", requestBodyReference.get$ref());
     }
-    */
 
     @Test
     public void nonModelRequestBody() {
@@ -454,448 +439,256 @@ public class InlineModelResolverTest {
         ArraySchema responseSchema = (ArraySchema) mediaType.getSchema();
         assertEquals("#/components/schemas/resolveInlineArrayResponseWithTitleItems", responseSchema.getItems().get$ref());
     }
-/*
+
     @Test
-    public void testInlineMapResponse() throws Exception {
-        OpenAPI openapi = new OpenAPI();
+    public void resolveInlineObjectResponseWithAdditionalProperties() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        MapProperty schema = new MapProperty();
-        schema.setAdditionalProperties(new StringSchema());
-        schema.setVendorExtension("x-ext", "ext-prop");
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/resolve_inline_object_response_with_additional_properties")
+                .getGet()
+                .getResponses()
+                .get("200")
+                .getContent()
+                .get("application/json");
 
-        openapi.path("/foo/baz", new Path()
-                .get(new Operation()
-                        .response(200, new Response()
-                                .vendorExtension("x-foo", "bar")
-                                .description("it works!")
-                                .schema(schema))));
-        new InlineModelResolver().flatten(openapi);
-        Json.prettyPrint(openapi);
+        assertTrue(mediaType.getSchema() instanceof ObjectSchema);
+        assertTrue(mediaType.getSchema().getAdditionalProperties() instanceof ObjectSchema);
 
-        Response response = openapi.getPaths().get("/foo/baz").getGet().getResponses().get("200");
-
-        Property property = response.getSchema();
-        assertTrue(property instanceof MapProperty);
-        assertTrue(openapi.getComponents().getSchemas().size() == 0);
-        assertEquals(1, property.getVendorExtensions().size());
-        assertEquals("ext-prop", property.getVendorExtensions().get("x-ext"));
+        ObjectSchema additionalProperties = (ObjectSchema) mediaType.getSchema().getAdditionalProperties();
+        assertTrue(additionalProperties.getProperties().get("resolve_inline_object_response_with_additional_properties") instanceof StringSchema);
     }
 
     @Test
-    public void testInlineMapResponseWithObjectSchema() throws Exception {
-        OpenAPI openapi = new OpenAPI();
+    public void arbitraryObjectRequestBody() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        MapProperty schema = new MapProperty();
-        schema.setAdditionalProperties(new ObjectSchema()
-                .addProperties("name", new StringSchema()));
-        schema.setVendorExtension("x-ext", "ext-prop");
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/arbitrary_object_request_body")
+                .getPost()
+                .getRequestBody()
+                .getContent()
+                .get("application/json");
 
-        openapi.path("/foo/baz", new Path()
-                .get(new Operation()
-                        .response(200, new Response()
-                                .vendorExtension("x-foo", "bar")
-                                .description("it works!")
-                                .schema(schema))));
-        new InlineModelResolver().flatten(openapi);
-
-        Response response = openapi.getPaths().get("/foo/baz").getGet().getResponses().get("200");
-        Property property = response.getSchema();
-        assertTrue(property instanceof MapProperty);
-        assertEquals(1, property.getVendorExtensions().size());
-        assertEquals("ext-prop", property.getVendorExtensions().get("x-ext"));
-        assertTrue(openapi.getComponents().getSchemas().size() == 1);
-
-        Model inline = openapi.getComponents().getSchemas().get("inline_response_200");
-        assertTrue(inline instanceof ObjectSchema);
-        ObjectSchema impl = (ObjectSchema) inline;
-        assertNotNull(impl.getProperties().get("name"));
-        assertTrue(impl.getProperties().get("name") instanceof StringSchema);
+        assertTrue(mediaType.getSchema() instanceof ObjectSchema);
     }
 
     @Test
-    public void testArrayResponse() {
-        OpenAPI openapi = new OpenAPI();
+    public void arbitraryObjectRequestBodyProperty() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        ArrayProperty schema = new ArrayProperty();
-        schema.setItems(new ObjectSchema()
-                .addProperties("name", new StringSchema()));
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/arbitrary_object_request_body_property")
+                .getPost()
+                .getRequestBody()
+                .getContent()
+                .get("application/json");
 
-        openapi.path("/foo/baz", new Path()
-                .get(new Operation()
-                        .response(200, new Response()
-                                .vendorExtension("x-foo", "bar")
-                                .description("it works!")
-                                .schema(schema))));
-        new InlineModelResolver().flatten(openapi);
+        assertTrue(mediaType.getSchema() instanceof ObjectSchema);
 
-        Response response = openapi.getPaths().get("/foo/baz").getGet().getResponses().get("200");
-        assertTrue(response.getSchema() instanceof ArrayProperty);
-
-        ArrayProperty am = (ArrayProperty) response.getSchema();
-        Property items = am.getItems();
-        assertTrue(items instanceof Schema);
-        Schema rp = (Schema) items;
-        assertEquals(rp.getType(), "ref");
-        assertEquals(rp.get$ref(), "#/definitions/inline_response_200");
-        assertEquals(rp.getSimpleRef(), "inline_response_200");
-
-        Model inline = openapi.getComponents().getSchemas().get("inline_response_200");
-        assertTrue(inline instanceof ObjectSchema);
-        ObjectSchema impl = (ObjectSchema) inline;
-        assertNotNull(impl.getProperties().get("name"));
-        assertTrue(impl.getProperties().get("name") instanceof StringSchema);
+        ObjectSchema requestBodySchema = (ObjectSchema) mediaType.getSchema();
+        assertTrue(requestBodySchema.getProperties().get("arbitrary_object_request_body_property") instanceof ObjectSchema);
     }
 
     @Test
-    public void testBasicInput() {
-        OpenAPI openapi = new OpenAPI();
+    public void arbitraryRequestBodyArray() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        ObjectSchema user = new ObjectSchema()
-                .addProperties("name", new StringSchema());
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/arbitrary_request_body_array")
+                .getPost()
+                .getRequestBody()
+                .getContent()
+                .get("application/json");
 
-        openapi.path("/foo/baz", new Path()
-                .post(new Operation()
-                        .parameter(new BodyParameter()
-                            .name("myBody")
-                            .schema(new RefModel("User")))));
+        assertTrue(mediaType.getSchema() instanceof ArraySchema);
 
-        openapi.getComponents().addSchemas("User", user);
-
-        new InlineModelResolver().flatten(openapi);
-
-        Json.prettyPrint(openapi);
+        ArraySchema requestBodySchema = (ArraySchema) mediaType.getSchema();
+        assertTrue(requestBodySchema.getItems() instanceof ObjectSchema);
+        assertNull(requestBodySchema.getItems().getProperties());
     }
 
     @Test
-    public void testArbitraryObjectBodyParam() {
-        OpenAPI openapi = new OpenAPI();
+    public void arbitraryRequestBodyArrayProperty() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .parameter(new BodyParameter()
-                                .name("body")
-                                .schema(new ObjectSchema()))));
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/arbitrary_request_body_array_property")
+                .getPost()
+                .getRequestBody()
+                .getContent()
+                .get("application/json");
 
-        new InlineModelResolver().flatten(openapi);
+        assertTrue(mediaType.getSchema() instanceof ArraySchema);
 
-        Operation operation = openapi.getPaths().get("/hello").getGet();
-        BodyParameter bp = (BodyParameter)operation.getParameters().get(0);
-        assertTrue(bp.getSchema() instanceof ObjectSchema);
-        ObjectSchema m = (ObjectSchema) bp.getSchema();
-        assertNull(m.getType());
+        ArraySchema requestBodySchema = (ArraySchema) mediaType.getSchema();
+        assertNotNull(requestBodySchema.getItems().get$ref());
+
+        Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, requestBodySchema.getItems());
+        assertTrue(referencedSchema.getProperties().get("arbitrary_request_body_array_property") instanceof ObjectSchema);
     }
 
     @Test
-    public void testArbitraryObjectBodyParamInline() {
-        OpenAPI openapi = new OpenAPI();
+    public void arbitraryObjectResponse() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .parameter(new BodyParameter()
-                                .name("body")
-                                .schema(new ObjectSchema()
-                                        .addProperties("arbitrary", new ObjectSchema())))));
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/arbitrary_object_response")
+                .getGet()
+                .getResponses()
+                .get("200")
+                .getContent()
+                .get("application/json");
 
-        new InlineModelResolver().flatten(openapi);
-
-        Operation operation = openapi.getPaths().get("/hello").getGet();
-        BodyParameter bp = (BodyParameter)operation.getParameters().get(0);
-        assertTrue(bp.getSchema() instanceof RefModel);
-
-        Model body = openapi.getComponents().getSchemas().get("body");
-        assertTrue(body instanceof ObjectSchema);
-
-        ObjectSchema impl = (ObjectSchema) body;
-        Property p = impl.getProperties().get("arbitrary");
-        assertNotNull(p);
-        assertTrue(p instanceof ObjectSchema);
+        assertTrue(mediaType.getSchema() instanceof ObjectSchema);
+        assertNull(mediaType.getSchema().getProperties());
     }
 
     @Test
-    public void testArbitraryObjectBodyParamWithArray() {
-        OpenAPI openapi = new OpenAPI();
+    public void arbitraryObjectResponseArray() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .parameter(new BodyParameter()
-                                .name("body")
-                                .schema(new ArraySchema()
-                                        .items(new ObjectSchema())))));
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/arbitrary_object_response_array")
+                .getGet()
+                .getResponses()
+                .get("200")
+                .getContent()
+                .get("application/json");
 
-        new InlineModelResolver().flatten(openapi);
-
-        Parameter param = openapi.getPaths().get("/hello").getGet().getParameters().get(0);
-        assertTrue(param instanceof BodyParameter);
-
-        BodyParameter bp = (BodyParameter) param;
-        Model schema = bp.getSchema();
-
-        assertTrue(schema instanceof ArraySchema);
-
-        ArraySchema am = (ArraySchema) schema;
-        Property inner = am.getItems();
-        assertTrue(inner instanceof ObjectSchema);
-
-        ObjectSchema op = (ObjectSchema) inner;
-        assertNotNull(op);
-        assertNull(op.getProperties());
+        assertTrue(mediaType.getSchema() instanceof ArraySchema);
+        ArraySchema schema = (ArraySchema) mediaType.getSchema();
+        assertNull(schema.getItems().getProperties());
     }
 
     @Test
-    public void testArbitraryObjectBodyParamArrayInline() {
-        OpenAPI openapi = new OpenAPI();
+    public void arbitraryObjectResponseArrayInline() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .parameter(new BodyParameter()
-                                .name("body")
-                                .schema(new ArraySchema()
-                                        .items(new ObjectSchema()
-                                            .addProperties("arbitrary", new ObjectSchema()))))));
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/arbitrary_object_response_array_inline")
+                .getGet()
+                .getResponses()
+                .get("200")
+                .getContent()
+                .get("application/json");
 
-        new InlineModelResolver().flatten(openapi);
+        assertTrue(mediaType.getSchema() instanceof ArraySchema);
+        ArraySchema schema = (ArraySchema) mediaType.getSchema();
+        assertNotNull(schema.getItems().get$ref());
 
-        Parameter param = openapi.getPaths().get("/hello").getGet().getParameters().get(0);
-        assertTrue(param instanceof BodyParameter);
+        Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, schema.getItems());
+        assertTrue(referencedSchema.getProperties().get("arbitrary_object_response_array_inline") instanceof ObjectSchema);
 
-        BodyParameter bp = (BodyParameter) param;
-        Model schema = bp.getSchema();
-
-        assertTrue(schema instanceof ArraySchema);
-
-        ArraySchema am = (ArraySchema) schema;
-        Property inner = am.getItems();
-        assertTrue(inner instanceof Schema);
-
-        Schema rp = (Schema) inner;
-
-        assertEquals(rp.getType(), "ref");
-        assertEquals(rp.get$ref(), "#/definitions/body");
-        assertEquals(rp.getSimpleRef(), "body");
-
-        Model inline = openapi.getComponents().getSchemas().get("body");
-        assertNotNull(inline);
-        assertTrue(inline instanceof ObjectSchema);
-        ObjectSchema impl = (ObjectSchema) inline;
-        Property p = impl.getProperties().get("arbitrary");
-        assertNotNull(p);
-        assertTrue(p instanceof ObjectSchema);
+        ObjectSchema arbitaryObject = (ObjectSchema) referencedSchema.getProperties().get("arbitrary_object_response_array_inline");
+        assertNull(arbitaryObject.getProperties());
     }
 
     @Test
-    public void testArbitraryObjectResponse() {
-        OpenAPI openapi = new OpenAPI();
+    public void arbitraryObjectResponseWithAdditionalProperty() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        openapi.path("/foo/bar", new Path()
-            .get(new Operation()
-                    .response(200, new Response()
-                            .description("it works!")
-                            .schema(new ObjectSchema()))));
-        new InlineModelResolver().flatten(openapi);
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/arbitrary_object_response_with_additional_property")
+                .getGet()
+                .getResponses()
+                .get("200")
+                .getContent()
+                .get("application/json");
 
-        Map<String, Response> responses = openapi.getPaths().get("/foo/bar").getGet().getResponses();
+        assertTrue(mediaType.getSchema() instanceof ObjectSchema);
+        assertTrue(mediaType.getSchema().getAdditionalProperties() instanceof ObjectSchema);
 
-        Response response = responses.get("200");
-        assertNotNull(response);
-        assertTrue(response.getSchema() instanceof ObjectSchema);
-        ObjectSchema op = (ObjectSchema) response.getSchema();
-        assertNull(op.getProperties());
+        ObjectSchema additionalProperty = (ObjectSchema) mediaType.getSchema().getAdditionalProperties();
+        assertNull(additionalProperty.getProperties());
     }
 
     @Test
-    public void testArbitraryObjectResponseArray() {
-        OpenAPI openapi = new OpenAPI();
+    public void arbitraryObjectModelInline() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        openapi.path("/foo/baz", new Path()
-                .get(new Operation()
-                        .response(200, new Response()
-                                .description("it works!")
-                                .schema(new ArrayProperty()
-                                        .items(new ObjectSchema())))));
-        new InlineModelResolver().flatten(openapi);
+        ObjectSchema model = (ObjectSchema) openAPI.getComponents().getSchemas().get("ArbitraryObjectModelInline");
+        assertTrue(model.getProperties().get("arbitrary_object_model_inline") instanceof ObjectSchema);
 
-        Response response = openapi.getPaths().get("/foo/baz").getGet().getResponses().get("200");
-        assertTrue(response.getSchema() instanceof ArrayProperty);
-
-        ArrayProperty am = (ArrayProperty) response.getSchema();
-        Property items = am.getItems();
-        assertTrue(items instanceof ObjectSchema);
-        ObjectSchema op = (ObjectSchema) items;
-        assertNull(op.getProperties());
+        ObjectSchema schema = (ObjectSchema) model.getProperties().get("arbitrary_object_model_inline");
+        assertNull(schema.getProperties());
     }
 
     @Test
-    public void testArbitraryObjectResponseArrayInline() {
-        OpenAPI openapi = new OpenAPI();
+    public void arbitraryObjectModelWithArrayInlineWithoutTitle() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        openapi.path("/foo/baz", new Path()
-                .get(new Operation()
-                        .response(200, new Response()
-                                .vendorExtension("x-foo", "bar")
-                                .description("it works!")
-                                .schema(new ArrayProperty()
-                                        .items(new ObjectSchema()
-                                            .addProperties("arbitrary", new ObjectSchema()))))));
+        assertTrue(openAPI.getComponents().getSchemas().get("ArbitraryObjectModelWithArrayInlineWithoutTitle") instanceof ArraySchema);
 
-        new InlineModelResolver().flatten(openapi);
+        ArraySchema schema = (ArraySchema) openAPI.getComponents().getSchemas().get("ArbitraryObjectModelWithArrayInlineWithoutTitle");
+        assertTrue(schema.getItems() instanceof ObjectSchema);
 
-        Response response = openapi.getPaths().get("/foo/baz").getGet().getResponses().get("200");
-        assertNotNull(response);
+        ObjectSchema items = (ObjectSchema) schema.getItems();
+        assertTrue(items.getProperties().get("arbitrary_object_model_with_array_inline_without_title") instanceof ObjectSchema);
 
-        assertNotNull(response.getSchema());
-        Property responseProperty = response.getSchema();
-        assertTrue(responseProperty instanceof ArrayProperty);
-
-        ArrayProperty ap = (ArrayProperty) responseProperty;
-        Property p = ap.getItems();
-        assertNotNull(p);
-
-        Schema rp = (Schema) p;
-        assertEquals(rp.getType(), "ref");
-        assertEquals(rp.get$ref(), "#/definitions/inline_response_200");
-        assertEquals(rp.getSimpleRef(), "inline_response_200");
-
-        Model inline = openapi.getComponents().getSchemas().get("inline_response_200");
-        assertNotNull(inline);
-        assertTrue(inline instanceof ObjectSchema);
-        ObjectSchema impl = (ObjectSchema) inline;
-        Property inlineProp = impl.getProperties().get("arbitrary");
-        assertNotNull(inlineProp);
-        assertTrue(inlineProp instanceof ObjectSchema);
-        ObjectSchema op = (ObjectSchema) inlineProp;
-        assertNull(op.getProperties());
+        ObjectSchema itemsProperty = (ObjectSchema) items.getProperties().get("arbitrary_object_model_with_array_inline_without_title");
+        assertNull(itemsProperty.getProperties());
     }
 
     @Test
-    public void testArbitraryObjectResponseMapInline() {
-        OpenAPI openapi = new OpenAPI();
+    public void arbitraryObjectModelWithArrayInlineWithTitle() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        MapProperty schema = new MapProperty();
-        schema.setAdditionalProperties(new ObjectSchema());
+        assertTrue(openAPI.getComponents().getSchemas().get("ArbitraryObjectModelWithArrayInlineWithTitle") instanceof ArraySchema);
 
-        openapi.path("/foo/baz", new Path()
-                .get(new Operation()
-                        .response(200, new Response()
-                                .description("it works!")
-                                .schema(schema))));
-        new InlineModelResolver().flatten(openapi);
+        ArraySchema schema = (ArraySchema) openAPI.getComponents().getSchemas().get("ArbitraryObjectModelWithArrayInlineWithTitle");
+        assertTrue(schema.getItems() instanceof ObjectSchema);
 
-        Response response = openapi.getPaths().get("/foo/baz").getGet().getResponses().get("200");
+        ObjectSchema items = (ObjectSchema) schema.getItems();
+        // TODO: Fix the model as referenced schema which named with the title value
+        assertEquals("ArbitraryObjectModelWithArrayInlineWithTitleInner", items.getTitle());
+        assertTrue(items.getProperties().get("arbitrary_object_model_with_array_inline_with_title") instanceof ObjectSchema);
 
-        Property property = response.getSchema();
-        assertTrue(property instanceof MapProperty);
-        assertTrue(openapi.getComponents().getSchemas().size() == 0);
-        Property inlineProp = ((MapProperty) property).getAdditionalProperties();
-        assertTrue(inlineProp instanceof ObjectSchema);
-        ObjectSchema op = (ObjectSchema) inlineProp;
-        assertNull(op.getProperties());
+        ObjectSchema itemsProperty = (ObjectSchema) items.getProperties().get("arbitrary_object_model_with_array_inline_with_title");
+        assertNull(itemsProperty.getProperties());
     }
 
     @Test
-    public void testArbitraryObjectModelInline() {
-        OpenAPI openapi = new OpenAPI();
+    public void emptyExampleOnStringTypeModels() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
 
-        openapi.getComponents().addSchemas("User", new ObjectSchema()
-                .name("user")
-                .description("a common user")
-                .addProperties("name", new StringSchema())
-                .addProperties("arbitrary", new ObjectSchema()
-                        .title("title")
-                        ._default("default")
-                        .access("access")
-                        .readOnly(false)
-                        .required(true)
-                        .description("description")
-                        .name("name")));
+        MediaType mediaType = openAPI
+                .getPaths()
+                .get("/empty_example_on_string_models")
+                .getGet()
+                .getResponses()
+                .get("200")
+                .getContent()
+                .get("application/json");
 
-        new InlineModelResolver().flatten(openapi);
+        assertTrue(mediaType.getSchema() instanceof ArraySchema);
 
-        ObjectSchema user = (ObjectSchema)openapi.getComponents().getSchemas().get("User");
-        assertNotNull(user);
-        Property inlineProp = user.getProperties().get("arbitrary");
-        assertTrue(inlineProp instanceof ObjectSchema);
-        ObjectSchema op = (ObjectSchema) inlineProp;
-        assertNull(op.getProperties());
+        ArraySchema schema = (ArraySchema) mediaType.getSchema();
+        assertEquals("#/components/schemas/EmptyExampleOnStringTypeModels", schema.getItems().get$ref());
+
+        assertTrue(ModelUtils.getReferencedSchema(openAPI, schema.getItems()) instanceof StringSchema);
+        assertNull(ModelUtils.getReferencedSchema(openAPI, schema.getItems()).getExample());
     }
-
-    @Test
-    public void testArbitraryObjectModelWithArrayInlineWithoutTitle() {
-        OpenAPI openapi = new OpenAPI();
-
-        openapi.getComponents().addSchemas("User", new ArraySchema()
-                .items(new ObjectSchema()
-                        ._default("default")
-                        .access("access")
-                        .readOnly(false)
-                        .required(true)
-                        .description("description")
-                        .name("name")
-                        .addProperties("arbitrary", new ObjectSchema())));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Schema model = openapi.getComponents().getSchemas().get("User");
-        assertTrue(model instanceof ArraySchema);
-        ArraySchema am = (ArraySchema) model;
-        Property inner = am.getItems();
-        assertTrue(inner instanceof Schema);
-
-        ObjectSchema userInner = (ObjectSchema)openapi.getComponents().getSchemas().get("User_inner");
-        assertNotNull(userInner);
-        Property inlineProp = userInner.getProperties().get("arbitrary");
-        assertTrue(inlineProp instanceof ObjectSchema);
-        ObjectSchema op = (ObjectSchema) inlineProp;
-        assertNull(op.getProperties());
-    }
-    
-    @Test
-    public void testArbitraryObjectModelWithArrayInlineWithTitle() {
-        OpenAPI openapi = new OpenAPI();
-
-        openapi.getComponents().addSchemas("User", new ArraySchema()
-                .items(new ObjectSchema()
-                        .title("InnerUserTitle")
-                        ._default("default")
-                        .access("access")
-                        .readOnly(false)
-                        .required(true)
-                        .description("description")
-                        .name("name")
-                        .addProperties("arbitrary", new ObjectSchema())));
-
-        new InlineModelResolver().flatten(openapi);
-
-        Schema model = openapi.getComponents().getSchemas().get("User");
-        assertTrue(model instanceof ArraySchema);
-        ArraySchema am = (ArraySchema) model;
-        Property inner = am.getItems();
-        assertTrue(inner instanceof Schema);
-
-        ObjectSchema userInner = (ObjectSchema)openapi.getComponents().getSchemas().get("InnerUserTitle");
-        assertNotNull(userInner);
-        Property inlineProp = userInner.getProperties().get("arbitrary");
-        assertTrue(inlineProp instanceof ObjectSchema);
-        ObjectSchema op = (ObjectSchema) inlineProp;
-        assertNull(op.getProperties());
-    }
-
-    @Test
-    public void testEmptyExampleOnStrinngTypeModels() {
-        OpenAPI openapi = new OpenAPI();
-
-        Schema Schema = new Schema();
-        Schema.set$ref("#/definitions/Test");
-
-        openapi.path("/hello", new Path()
-                .get(new Operation()
-                        .response(200, new Response()
-                                .schema(new ArrayProperty()
-                                        .items(Schema)))));
-
-        openapi.getComponents().addSchemas("Test", new ObjectSchema()
-                .example(StringUtils.EMPTY)
-                .type("string"));
-        new InlineModelResolver().flatten(openapi);
-    }
-*/
 }

@@ -52,29 +52,29 @@ has version_info => ( is => 'ro',
                       );
 
 sub BUILD {
-	my $self = shift;
+    my $self = shift;
 
-	$self->_cfg->accept_tokens( $self->tokens ) if keys %{$self->tokens};
+    $self->_cfg->accept_tokens( $self->tokens ) if keys %{$self->tokens};
 
-	# ignore these symbols imported into API namespaces
-	my %outsiders = map {$_ => 1} qw( croak );
+    # ignore these symbols imported into API namespaces
+    my %outsiders = map {$_ => 1} qw( croak );
 
-	my %delegates;
+    my %delegates;
 
-	# collect the methods callable on each API
-	foreach my $api_name ($self->api_factory->apis_available) {
-		my $api_class = $self->api_factory->classname_for($api_name);
-		my $methods = Class::Inspector->methods($api_class, 'expanded'); # not Moose, so use CI instead
-		my @local_methods = grep {! /^_/} grep {! $outsiders{$_}} map {$_->[2]} grep {$_->[1] eq $api_class} @$methods;
-		push( @{$delegates{$_}}, {api_name => $api_name, api_class => $api_class} ) for @local_methods;
-	}
+    # collect the methods callable on each API
+    foreach my $api_name ($self->api_factory->apis_available) {
+        my $api_class = $self->api_factory->classname_for($api_name);
+        my $methods = Class::Inspector->methods($api_class, 'expanded'); # not Moose, so use CI instead
+        my @local_methods = grep {! /^_/} grep {! $outsiders{$_}} map {$_->[2]} grep {$_->[1] eq $api_class} @$methods;
+        push( @{$delegates{$_}}, {api_name => $api_name, api_class => $api_class} ) for @local_methods;
+    }
 
-	# remove clashes
-	foreach my $method (keys %delegates) {
-		if ( @{$delegates{$method}} > 1 ) {
-			my ($apis) = delete $delegates{$method};
-		}
-	}
+    # remove clashes
+    foreach my $method (keys %delegates) {
+        if ( @{$delegates{$method}} > 1 ) {
+            my ($apis) = delete $delegates{$method};
+        }
+    }
 
     # build the flattened API
     foreach my $api_name ($self->api_factory->apis_available) {
@@ -93,10 +93,10 @@ sub BUILD {
 }
 
 sub _build_af {
-	my $self = shift;
-	my %args;
-	$args{base_url} = $self->base_url if $self->base_url;
-	return {{moduleName}}::ApiFactory->new(%args);
+    my $self = shift;
+    my %args;
+    $args{base_url} = $self->base_url if $self->base_url;
+    return {{moduleName}}::ApiFactory->new(%args);
 }
 
 =head1 NAME
@@ -136,15 +136,15 @@ This module provides an interface to the generated library. All the classes,
 objects, and methods (well, not quite *all*, see below) are flattened into this
 role.
 
-	package MyApp;
-	use Moose;
-	with '{{moduleName}}::Role';
+    package MyApp;
+    use Moose;
+    with '{{moduleName}}::Role';
 
-	package main;
+    package main;
 
-	my $api = MyApp->new({ tokens => $tokens });
+    my $api = MyApp->new({ tokens => $tokens });
 
-	my $pet = $api->get_pet_by_id(pet_id => $pet_id);
+    my $pet = $api->get_pet_by_id(pet_id => $pet_id);
 
 =head2 Structure of the library
 
@@ -213,20 +213,20 @@ String. The password for basic auth.
 
 Hashref. Keyed on the name of each key (there can be multiple tokens).
 
-	$cfg->{api_key} = {
-		secretKey => 'aaaabbbbccccdddd',
-		anotherKey => '1111222233334444',
-		};
+    $cfg->{api_key} = {
+        secretKey => 'aaaabbbbccccdddd',
+        anotherKey => '1111222233334444',
+        };
 
 =item C<$cfg->{api_key_prefix}>
 
 Hashref. Keyed on the name of each key (there can be multiple tokens). Note not
 all api keys require a prefix.
 
-	$cfg->{api_key_prefix} = {
-		secretKey => 'string',
-		anotherKey => 'same or some other string',
-		};
+    $cfg->{api_key_prefix} = {
+        secretKey => 'string',
+        anotherKey => 'same or some other string',
+        };
 
 =item C<$config-\>{access_token}>
 
@@ -260,9 +260,9 @@ In principle, every API is susceptible to the presence of a few, random, undeleg
 method names. In practice, because of the way method names are constructed, it's
 unlikely in general that any methods will be undelegatable, except for:
 
-	new()
-	class_documentation()
-	method_documentation()
+    new()
+    class_documentation()
+    method_documentation()
 
 To call these methods, you need to get a handle on the relevant object, either
 by calling C<$api-E<gt>foo_api> or by retrieving an object, e.g.
@@ -278,14 +278,14 @@ maven 3.0.3 or better already installed.
 
 The config file should specify the project name for the generated library:
 
-	{"moduleName":"WWW::MyProjectName"}
+    {"moduleName":"WWW::MyProjectName"}
 
 Your library files will be built under C<WWW::MyProjectName>.
 
-	$ git clone https://github.com/openapitools/openapi-generator
-	$ cd openapi-generator
-	$ mvn package
-	$ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
+    $ git clone https://github.com/openapitools/openapi-generator
+    $ cd openapi-generator
+    $ mvn package
+    $ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
   -i [URL or file path to JSON OpenAPI API spec] \
   -g perl \
   -c /path/to/config/file.json \
@@ -300,7 +300,7 @@ You can print out a summary of the generated API by running the included
 C<autodoc> script in the C<bin> directory of your generated library. A few
 output formats are supported:
 
-	Usage: autodoc [OPTION]
+    Usage: autodoc [OPTION]
 
   -w           wide format (default)
   -n           narrow format
@@ -320,10 +320,10 @@ spec. If so, this is available via the C<class_documentation()> and
 C<method_documentation()> methods on each generated object class, and the
 C<method_documentation()> method on the endpoint API classes:
 
-	my $cmdoc = $api->pet_api->method_documentation->{$method_name};
+    my $cmdoc = $api->pet_api->method_documentation->{$method_name};
 
-	my $odoc = $api->get_pet_by_id->(pet_id => $pet_id)->class_documentation;
-	my $omdoc = $api->get_pet_by_id->(pet_id => $pet_id)->method_documentation->{method_name};
+    my $odoc = $api->get_pet_by_id->(pet_id => $pet_id)->class_documentation;
+    my $omdoc = $api->get_pet_by_id->(pet_id => $pet_id)->method_documentation->{method_name};
 
 Each of these calls returns a hashref with various useful pieces of information.
 

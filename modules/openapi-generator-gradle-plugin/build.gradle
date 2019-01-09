@@ -181,3 +181,5 @@ compileTestKotlin {
         jvmTarget = "1.8"
     }
 }
+
+uploadArchives.dependsOn 'check'

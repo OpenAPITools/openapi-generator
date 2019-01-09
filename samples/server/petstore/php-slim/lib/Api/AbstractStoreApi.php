@@ -2,12 +2,11 @@
 /**
  * AbstractStoreApi
  *
- * PHP version 5
+ * PHP version 7
  *
- * @category Class
- * @package  OpenAPIServer\Api
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package OpenAPIServer\Api
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 
 /**
@@ -25,30 +24,32 @@
  */
 namespace OpenAPIServer\Api;
 
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Exception;
+
 /**
  * AbstractStoreApi Class Doc Comment
  *
- * PHP version 5
- *
- * @category Class
- * @package  OpenAPIServer\Api
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package OpenAPIServer\Api
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 abstract class AbstractStoreApi
 {
 
     /**
-     * @var \Interop\Container\ContainerInterface Slim app container instance
+     * @var ContainerInterface Slim app container instance
      */
     protected $container;
 
     /**
      * Route Controller constructor receives container
      *
-     * @param \Interop\Container\ContainerInterface $container Slim app container instance
+     * @param ContainerInterface $container Slim app container instance
      */
-    public function __construct($container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
@@ -59,17 +60,18 @@ abstract class AbstractStoreApi
      * Summary: Delete purchase order by ID
      * Notes: For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function deleteOrder($request, $response, $args)
+    public function deleteOrder(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $orderId = $args['order_id'];
         $message = "How about implementing deleteOrder as a DELETE method in OpenAPIServer\Api\StoreApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -80,16 +82,17 @@ abstract class AbstractStoreApi
      * Notes: Returns a map of status codes to quantities
      * Output-Formats: [application/json]
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function getInventory($request, $response, $args)
+    public function getInventory(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $message = "How about implementing getInventory as a GET method in OpenAPIServer\Api\StoreApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -100,17 +103,18 @@ abstract class AbstractStoreApi
      * Notes: For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * Output-Formats: [application/xml, application/json]
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function getOrderById($request, $response, $args)
+    public function getOrderById(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $orderId = $args['order_id'];
         $message = "How about implementing getOrderById as a GET method in OpenAPIServer\Api\StoreApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }
@@ -120,17 +124,18 @@ abstract class AbstractStoreApi
      * Summary: Place an order for a pet
      * Output-Formats: [application/xml, application/json]
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
      *
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function placeOrder($request, $response, $args)
+    public function placeOrder(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing placeOrder as a POST method in OpenAPIServer\Api\StoreApi class?";
-        throw new \Exception($message);
+        throw new Exception($message);
 
         return $response->write($message)->withStatus(501);
     }

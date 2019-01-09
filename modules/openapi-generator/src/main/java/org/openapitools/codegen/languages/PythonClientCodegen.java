@@ -619,7 +619,15 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                if (p.getDefault().toString().equalsIgnoreCase("false"))
+                if (Boolean.valueOf(p.getDefault().toString()) == false)
+                    return "False";
+                else
+                    return "True";
+            }
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                if (Boolean.valueOf(p.getExample().toString()) == false)
                     return "False";
                 else
                     return "True";
@@ -632,9 +640,23 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
+            // default numbers are not yet returned by v2 spec openAPI results
+            // https://github.com/swagger-api/swagger-parser/issues/971
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                return p.getExample().toString();
+            }
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
+            }
+            // default integers are not yet returned by v2 spec openAPI results
+            // https://github.com/swagger-api/swagger-parser/issues/971
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                return p.getExample().toString();
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
@@ -642,6 +664,23 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                     return "'''" + p.getDefault() + "'''";
                 else
                     return "'" + p.getDefault() + "'";
+            }
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getExample()).find())
+                    return "'''" + p.getExample() + "'''";
+                else
+                    return "'" + p.getExample() + "'";
+            }
+        } else if (ModelUtils.isArraySchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                return p.getExample().toString();
             }
         }
 

@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createUser"></a>
 # **createUser**
-> createUser(user)
+> createUser(body)
 
 Create user
 
@@ -27,7 +27,7 @@ This can only be done by the logged in user.
 var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.UserApi();
-var user = new OpenApiPetstore.User(); // User | Created user object
+var body = new OpenApiPetstore.User(); // User | Created user object
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -35,14 +35,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-apiInstance.createUser(user, callback);
+apiInstance.createUser(body, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -59,7 +59,7 @@ No authorization required
 
 <a name="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(user)
+> createUsersWithArrayInput(body)
 
 Creates list of users with given input array
 
@@ -68,7 +68,7 @@ Creates list of users with given input array
 var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.UserApi();
-var user = [new OpenApiPetstore.User()]; // [User] | List of user object
+var body = [new OpenApiPetstore.User()]; // [User] | List of user object
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -76,14 +76,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-apiInstance.createUsersWithArrayInput(user, callback);
+apiInstance.createUsersWithArrayInput(body, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**[User]**](Array.md)| List of user object | 
+ **body** | [**[User]**](Array.md)| List of user object | 
 
 ### Return type
 
@@ -100,7 +100,7 @@ No authorization required
 
 <a name="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> createUsersWithListInput(user)
+> createUsersWithListInput(body)
 
 Creates list of users with given input array
 
@@ -109,7 +109,7 @@ Creates list of users with given input array
 var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.UserApi();
-var user = [new OpenApiPetstore.User()]; // [User] | List of user object
+var body = [new OpenApiPetstore.User()]; // [User] | List of user object
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -117,14 +117,14 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-apiInstance.createUsersWithListInput(user, callback);
+apiInstance.createUsersWithListInput(body, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**[User]**](Array.md)| List of user object | 
+ **body** | [**[User]**](Array.md)| List of user object | 
 
 ### Return type
 
@@ -305,7 +305,7 @@ No authorization required
 
 <a name="updateUser"></a>
 # **updateUser**
-> updateUser(username, user)
+> updateUser(username, body)
 
 Updated user
 
@@ -317,7 +317,7 @@ var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.UserApi();
 var username = "username_example"; // String | name that need to be deleted
-var user = new OpenApiPetstore.User(); // User | Updated user object
+var body = new OpenApiPetstore.User(); // User | Updated user object
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -325,7 +325,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-apiInstance.updateUser(username, user, callback);
+apiInstance.updateUser(username, body, callback);
 ```
 
 ### Parameters
@@ -333,7 +333,7 @@ apiInstance.updateUser(username, user, callback);
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted | 
- **user** | [**User**](User.md)| Updated user object | 
+ **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 

@@ -776,7 +776,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
     }
 
-
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
