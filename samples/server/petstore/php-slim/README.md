@@ -185,6 +185,8 @@ Class | Method | HTTP request | Description
 * OpenAPIServer\Model\ReadOnlyFirst
 * OpenAPIServer\Model\SpecialModelName
 * OpenAPIServer\Model\Tag
+* OpenAPIServer\Model\TypeHolderDefault
+* OpenAPIServer\Model\TypeHolderExample
 * OpenAPIServer\Model\User
 
 

@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 
 # **add_pet**
-> add_pet(pet)
+> add_pet(body)
 
 Add a new pet to the store
 
@@ -36,11 +36,11 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
+body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
 try:
     # Add a new pet to the store
-    api_instance.add_pet(pet)
+    api_instance.add_pet(body)
 except ApiException as e:
     print("Exception when calling PetApi->add_pet: %s\n" % e)
 ```
@@ -49,7 +49,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -284,7 +284,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet**
-> update_pet(pet)
+> update_pet(body)
 
 Update an existing pet
 
@@ -304,11 +304,11 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
+body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
 try:
     # Update an existing pet
-    api_instance.update_pet(pet)
+    api_instance.update_pet(body)
 except ApiException as e:
     print("Exception when calling PetApi->update_pet: %s\n" % e)
 ```
@@ -317,7 +317,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 

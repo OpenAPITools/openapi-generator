@@ -1646,6 +1646,59 @@ components:
           description: Test capitalization
           type: string
       type: object
+    TypeHolderDefault:
+      properties:
+        string_item:
+          default: what
+          type: string
+        number_item:
+          type: number
+        integer_item:
+          type: integer
+        bool_item:
+          default: true
+          type: boolean
+        array_item:
+          items:
+            type: integer
+          type: array
+      required:
+      - array_item
+      - bool_item
+      - integer_item
+      - number_item
+      - string_item
+      type: object
+    TypeHolderExample:
+      properties:
+        string_item:
+          example: what
+          type: string
+        number_item:
+          example: 1.234
+          type: number
+        integer_item:
+          example: -2
+          type: integer
+        bool_item:
+          example: true
+          type: boolean
+        array_item:
+          example:
+          - 0
+          - 1
+          - 2
+          - 3
+          items:
+            type: integer
+          type: array
+      required:
+      - array_item
+      - bool_item
+      - integer_item
+      - number_item
+      - string_item
+      type: object
   securitySchemes:
     petstore_auth:
       flows:

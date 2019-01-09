@@ -1574,3 +1574,63 @@ definitions:
       sourceURI:
         description: 'Test capitalization'
         type: string
+  TypeHolderDefault:
+    type: object
+    required:
+      - string_item
+      - number_item
+      - integer_item
+      - bool_item
+      - array_item
+    properties:
+      string_item:
+        type: string
+        default: what
+      number_item:
+        type: number
+        default: 1.234
+      integer_item:
+        type: integer
+        default: -2
+      bool_item:
+        type: boolean
+        default: true
+      array_item:
+          type: array
+          items:
+            type: integer
+          default:
+            - 0
+            - 1
+            - 2
+            - 3
+  TypeHolderExample:
+    type: object
+    required:
+      - string_item
+      - number_item
+      - integer_item
+      - bool_item
+      - array_item
+    properties:
+      string_item:
+        type: string
+        example: what
+      number_item:
+        type: number
+        example: 1.234
+      integer_item:
+        type: integer
+        example: -2
+      bool_item:
+        type: boolean
+        example: true
+      array_item:
+          type: array
+          items:
+            type: integer
+          example:
+            - 0
+            - 1
+            - 2
+            - 3
