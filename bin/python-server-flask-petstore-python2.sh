@@ -25,11 +25,14 @@ then
   mvn -B clean package
 fi
 
-out_folder=samples/server/petstore/flaskConnexion
+generator=python-flask
+input=modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+out_folder=samples/server/petstore/$generator-python2
+resources=modules/openapi-generator/src/main/resources/$generator
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/flaskConnexion -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g python-flask -o $out_folder -Dservice $@"
+ags="generate -t $resources -i $input -g $generator -o $out_folder -c bin/supportPython2.json -D service $@"
 
 rm -rf $out_folder/.openapi*
 rm -rf $out_folder/openapi_server
