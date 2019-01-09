@@ -20,7 +20,7 @@ class TestPetController(BaseTestCase):
 
         Add a new pet to the store
         """
-        pet = {
+        body = {
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
@@ -45,7 +45,7 @@ class TestPetController(BaseTestCase):
             '/v2/pet',
             method='POST',
             headers=headers,
-            data=json.dumps(pet),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -124,7 +124,7 @@ class TestPetController(BaseTestCase):
 
         Update an existing pet
         """
-        pet = {
+        body = {
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
   "id" : 0,
@@ -149,7 +149,7 @@ class TestPetController(BaseTestCase):
             '/v2/pet',
             method='PUT',
             headers=headers,
-            data=json.dumps(pet),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

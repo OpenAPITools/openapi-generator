@@ -19,7 +19,7 @@ class TestUserController(BaseTestCase):
 
         Create user
         """
-        user = {}
+        body = {}
         headers = { 
             'Content-Type': 'application/json',
         }
@@ -27,7 +27,7 @@ class TestUserController(BaseTestCase):
             '/v2/user',
             method='POST',
             headers=headers,
-            data=json.dumps(user),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -38,7 +38,7 @@ class TestUserController(BaseTestCase):
 
         Creates list of users with given input array
         """
-        user = []
+        body = []
         headers = { 
             'Content-Type': 'application/json',
         }
@@ -46,7 +46,7 @@ class TestUserController(BaseTestCase):
             '/v2/user/createWithArray',
             method='POST',
             headers=headers,
-            data=json.dumps(user),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -57,7 +57,7 @@ class TestUserController(BaseTestCase):
 
         Creates list of users with given input array
         """
-        user = []
+        body = []
         headers = { 
             'Content-Type': 'application/json',
         }
@@ -65,7 +65,7 @@ class TestUserController(BaseTestCase):
             '/v2/user/createWithList',
             method='POST',
             headers=headers,
-            data=json.dumps(user),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -137,7 +137,7 @@ class TestUserController(BaseTestCase):
 
         Updated user
         """
-        user = {}
+        body = {}
         headers = { 
             'Content-Type': 'application/json',
         }
@@ -145,7 +145,7 @@ class TestUserController(BaseTestCase):
             '/v2/user/{username}'.format(username='username_example'),
             method='PUT',
             headers=headers,
-            data=json.dumps(user),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

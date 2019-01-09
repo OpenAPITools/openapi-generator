@@ -64,7 +64,7 @@ class TestStoreController(BaseTestCase):
 
         Place an order for a pet
         """
-        order = {}
+        body = {}
         headers = { 
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ class TestStoreController(BaseTestCase):
             '/v2/store/order',
             method='POST',
             headers=headers,
-            data=json.dumps(order),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
