@@ -151,6 +151,8 @@ Class | Method | HTTP request | Description
  - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
  - [SpecialModelName](docs/Model/SpecialModelName.md)
  - [Tag](docs/Model/Tag.md)
+ - [TypeHolderDefault](docs/Model/TypeHolderDefault.md)
+ - [TypeHolderExample](docs/Model/TypeHolderExample.md)
  - [User](docs/Model/User.md)
 
 

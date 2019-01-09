@@ -117,6 +117,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         setReservedWordsLowerCase(
                 Arrays.asList(
+                        // special words
+                        "object",
                         // used as internal variables, can collide with parameter names
                         "localVarPath", "localVarQueryParams", "localVarCollectionQueryParams",
                         "localVarHeaderParams", "localVarFormParams", "localVarPostBody",
@@ -1435,5 +1437,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setParentOverridden(final boolean parentOverridden) {
         this.parentOverridden = parentOverridden;
+    }
+
+    @Override
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
+
+        // See https://github.com/OpenAPITools/openapi-generator/pull/1729#issuecomment-449937728
+        codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));
+        addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 }
