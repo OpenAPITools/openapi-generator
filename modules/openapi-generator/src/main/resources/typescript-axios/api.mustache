@@ -172,7 +172,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
     {{#headerParams}}
             {{#isListContainer}}
             if ({{paramName}}) {
-                localVarHeaderParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+                localVarHeaderParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
             }
             {{/isListContainer}}
             {{^isListContainer}}
