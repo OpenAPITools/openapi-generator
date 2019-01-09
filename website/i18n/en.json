@@ -364,6 +364,9 @@
       "swagger-codegen-migration": {
         "title": "Migrating from Swagger Codegen"
       },
+      "new-generator": {
+        "title": "Create a New Generator"
+      },
       "online": {
         "title": "Online"
       },

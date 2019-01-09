@@ -16,7 +16,8 @@
     "Contributing": [
       "contributing",
       "code-of-conduct",
-      "contribute-building"
+      "contribute-building",
+      "new-generator"
     ],
     "About": [
       "roadmap",
