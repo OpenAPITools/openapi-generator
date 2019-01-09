@@ -178,7 +178,6 @@ public class TypeHolderExample implements Parcelable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TypeHolderExample {\n");
-    
     sb.append("    stringItem: ").append(toIndentedString(stringItem)).append("\n");
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
     sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
