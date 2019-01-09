@@ -53,11 +53,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi(petstore_api.ApiClient(configuration))
-unknown_base_type = petstore_api.UNKNOWN_BASE_TYPE() # UNKNOWN_BASE_TYPE |  (optional)
+test_code_inject____end____rn_n_r = 'test_code_inject____end____rn_n_r_example' # str | To test code injection */ ' \\\" =end -- \\\\r\\\\n \\\\n \\\\r (optional)
 
 try:
     # To test code injection */ ' \" =end -- \\r\\n \\n \\r
-    api_instance.test_code_inject____end__rn_n_r(unknown_base_type=unknown_base_type)
+    api_instance.test_code_inject____end__rn_n_r(test_code_inject____end____rn_n_r=test_code_inject____end____rn_n_r)
 except ApiException as e:
     print("Exception when calling FakeApi->test_code_inject____end__rn_n_r: %s\n" % e)
 

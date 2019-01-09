@@ -61,4 +61,6 @@ from petstore_api.models.pet import Pet
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.tag import Tag
+from petstore_api.models.type_holder_default import TypeHolderDefault
+from petstore_api.models.type_holder_example import TypeHolderExample
 from petstore_api.models.user import User
