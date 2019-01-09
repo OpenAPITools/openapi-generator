@@ -117,6 +117,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         setReservedWordsLowerCase(
                 Arrays.asList(
+                        // special words
+                        "object",
                         // used as internal variables, can collide with parameter names
                         "localVarPath", "localVarQueryParams", "localVarCollectionQueryParams",
                         "localVarHeaderParams", "localVarFormParams", "localVarPostBody",
