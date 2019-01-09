@@ -7,6 +7,14 @@ assignees: ''
 
 ---
 
+#### Bug Report Checklist
+
+- [ ] Have you provided a full/minimal spec to reproduce the issue?
+- [ ] What's the version of OpenAPI Generator used?
+- [ ] Have you search for related issues/PRs?
+- [ ] What's the actual output vs expected output?
+- [ ] [Optional] Bounty to sponsor the fix ([example](https://www.bountysource.com/issues/66123212-javascript-client-produces-a-wrong-object-for-a-string-enum-type-that-is-used-with-ref))
+
 <!--
 Please follow the issue template below for bug reports.
 Also please indicate in the issue title which language/library is concerned. Eg:  [BUG][JAVA] Bug generating foo with bar 
