@@ -75,7 +75,7 @@ export class UserApi {
      * @summary Create user
      * @param body Created user object
      */
-    public createUser (body: User, options: {headerParams: {[name: string]: value}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public createUser (body: User, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -128,7 +128,7 @@ export class UserApi {
      * @summary Creates list of users with given input array
      * @param body List of user object
      */
-    public createUsersWithArrayInput (body: Array<User>, options: {headerParams: {[name: string]: value}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public createUsersWithArrayInput (body: Array<User>, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/createWithArray';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -181,7 +181,7 @@ export class UserApi {
      * @summary Creates list of users with given input array
      * @param body List of user object
      */
-    public createUsersWithListInput (body: Array<User>, options: {headerParams: {[name: string]: value}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public createUsersWithListInput (body: Array<User>, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/createWithList';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -234,7 +234,7 @@ export class UserApi {
      * @summary Delete user
      * @param username The name that needs to be deleted
      */
-    public deleteUser (username: string, options: {headerParams: {[name: string]: value}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public deleteUser (username: string, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
         let localVarQueryParameters: any = {};
@@ -287,7 +287,7 @@ export class UserApi {
      * @summary Get user by user name
      * @param username The name that needs to be fetched. Use user1 for testing.
      */
-    public getUserByName (username: string, options: {headerParams: {[name: string]: value}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body: User;  }> {
+    public getUserByName (username: string, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body: User;  }> {
         const localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
         let localVarQueryParameters: any = {};
@@ -342,7 +342,7 @@ export class UserApi {
      * @param username The user name for login
      * @param password The password for login in clear text
      */
-    public loginUser (username: string, password: string, options: {headerParams: {[name: string]: value}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body: string;  }> {
+    public loginUser (username: string, password: string, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body: string;  }> {
         const localVarPath = this.basePath + '/user/login';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -407,7 +407,7 @@ export class UserApi {
      * 
      * @summary Logs out current logged in user session
      */
-    public logoutUser (options: {headerParams: {[name: string]: value}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public logoutUser (options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/logout';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -455,7 +455,7 @@ export class UserApi {
      * @param username name that need to be deleted
      * @param body Updated user object
      */
-    public updateUser (username: string, body: User, options: {headerParams: {[name: string]: value}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public updateUser (username: string, body: User, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/user/{username}'
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
         let localVarQueryParameters: any = {};

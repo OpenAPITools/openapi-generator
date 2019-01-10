@@ -77,7 +77,7 @@ export class StoreApi {
      * @summary Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    public deleteOrder (orderId: string, options: {headerParams: {[name: string]: value}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public deleteOrder (orderId: string, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
         let localVarQueryParameters: any = {};
@@ -129,7 +129,7 @@ export class StoreApi {
      * Returns a map of status codes to quantities
      * @summary Returns pet inventories by status
      */
-    public getInventory (options: {headerParams: {[name: string]: value}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body: { [key: string]: number; };  }> {
+    public getInventory (options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body: { [key: string]: number; };  }> {
         const localVarPath = this.basePath + '/store/inventory';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -179,7 +179,7 @@ export class StoreApi {
      * @summary Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
-    public getOrderById (orderId: number, options: {headerParams: {[name: string]: value}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body: Order;  }> {
+    public getOrderById (orderId: number, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body: Order;  }> {
         const localVarPath = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
         let localVarQueryParameters: any = {};
@@ -233,7 +233,7 @@ export class StoreApi {
      * @summary Place an order for a pet
      * @param body order placed for purchasing the pet
      */
-    public placeOrder (body: Order, options: {headerParams: {[name: string]: value}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body: Order;  }> {
+    public placeOrder (body: Order, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body: Order;  }> {
         const localVarPath = this.basePath + '/store/order';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
