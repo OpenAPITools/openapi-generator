@@ -31,4 +31,7 @@ CONFIG OPTIONS for aspnetcore
 	useSwashbuckle
 	    Uses the Swashbuckle.AspNetCore NuGet package for documentation. (Default: true)
 
+	usePartialControllerClass
+	    Use partial classes when generating controllers. (Default: true)
+
 Back to the [generators list](README.md)

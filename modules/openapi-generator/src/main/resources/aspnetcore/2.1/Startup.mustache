@@ -12,6 +12,7 @@ using Newtonsoft.Json.Serialization;{{#useSwashbuckle}}
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using {{packageName}}.Filters;{{/useSwashbuckle}}
+using {{packageName}}.Formatters;
 
 namespace {{packageName}}
 {
@@ -42,7 +43,13 @@ namespace {{packageName}}
         {
             // Add framework services.
             services
-                .AddMvc()
+                .AddMvc(options => {
+                    options.InputFormatters.Add(new BinaryBodyFormatter());
+                    options.InputFormatters.Add(new ByteBodyFormatter());
+                    // Insert to give this highest priority (some implementations already have a stream I/O formatter).
+                    options.OutputFormatters.Insert(0, new BinaryResultFormatter());
+                    options.OutputFormatters.Add(new ByteResultFormatter());
+                })
                 .SetCompatibilityVersion                (CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(opts =>
                 {
@@ -86,7 +93,8 @@ namespace {{packageName}}
         /// <summary>
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
-        /// <param name="app"></param>
+        /// <param name="app">Application builder.</param>
+        /// <param name="env">Hosting environment.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseHttpsRedirection();

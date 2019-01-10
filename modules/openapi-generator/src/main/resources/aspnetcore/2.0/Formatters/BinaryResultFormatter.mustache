@@ -1,0 +1,70 @@
+using Microsoft.AspNetCore.Mvc.Formatters;
+using System;
+using System.Threading.Tasks;
+
+namespace {{packageName}}.Formatters
+{
+    /// <summary>
+    /// An output formatter that writes an I/O stream to the result content.
+    /// Supports content types of application/octet-stream
+    /// and text/plain.
+    ///
+    /// The Content-Length header is set if possible (i.e. if the stream
+    /// can seek).
+    ///
+    /// No support for sub-ranges is provided.
+    /// </summary>
+    public class BinaryResultFormatter: OutputFormatter
+    {
+        /// <summary>
+        /// Create a new BinaryResultFormatter instance.
+        /// </summary>
+        public BinaryResultFormatter()
+        {
+            SupportedMediaTypes.Add("application/octet-stream");
+            SupportedMediaTypes.Add("text/plain");
+        }
+
+        /// <summary>
+        /// Determine if the formatter supports reading to the given type.
+        /// <param name="type">Type to test.</param>
+        /// <returns>True if the type is assignable from System.IO.Stream.</returns>
+        /// </summary>
+        protected override bool CanWriteType(Type type)
+        {
+            return typeof(System.IO.Stream).IsAssignableFrom(type) && base.CanWriteType(type);
+        }
+
+        /// <summary>
+        /// If possible, set the Content-Length in the response header set.
+        /// <param name="context">The filter context.</param>
+        /// </summary>
+        public override void WriteResponseHeaders(OutputFormatterWriteContext context)
+        {
+            base.WriteResponseHeaders(context);
+
+            var stream = context.Object as System.IO.Stream;
+            if (stream == null) {
+                throw new ArgumentException("Object provided to BinaryResultFormatter cannot be cast to System.IO.Stream");
+            }
+            if (stream.CanSeek) {
+                context.HttpContext.Response.Headers.Add("Content-Length", stream.Length.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Write the result from a stream.
+        /// <param name="context">The filter context.</param>
+        /// <returns>A task copying the source stream to the output stream.</returns>
+        /// </summary>
+        public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context)
+        {
+            var stream = context.Object as System.IO.Stream;
+            if (stream == null) {
+                throw new ArgumentException("Object provided to BinaryResultFormatter cannot be cast to System.IO.Stream");
+            }
+            var response = context.HttpContext.Response;
+            return stream.CopyToAsync(response.Body);
+        }
+    }
+}

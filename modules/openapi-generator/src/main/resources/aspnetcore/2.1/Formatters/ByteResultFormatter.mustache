@@ -1,0 +1,67 @@
+using Microsoft.AspNetCore.Mvc.Formatters;
+using System;
+using System.Threading.Tasks;
+
+namespace {{packageName}}.Formatters
+{
+    /// <summary>
+    /// An output formatter that writes a byte array to the result content.
+    /// Supports content types of application/octet-stream
+    /// and text/plain.
+    ///
+    /// The Content-Length header is set based on the array length.
+    ///
+    /// No support for sub-ranges is provided.
+    /// </summary>
+    public class ByteResultFormatter: OutputFormatter
+    {
+        /// <summary>
+        /// Create a new ByteResultFormatter instance.
+        /// </summary>
+        public ByteResultFormatter()
+        {
+            SupportedMediaTypes.Add("application/octet-stream");
+            SupportedMediaTypes.Add("text/plain");
+        }
+
+        /// <summary>
+        /// Determine if the formatter supports reading to the given type.
+        /// <param name="type">Type to test.</param>
+        /// <returns>True if the type is assignable from byte [].</returns>
+        /// </summary>
+        protected override bool CanWriteType(Type type)
+        {
+            return typeof(byte []).IsAssignableFrom(type) && base.CanWriteType(type);
+        }
+
+        /// <summary>
+        /// Set the Content-Length in the response header set.
+        /// <param name="context">The filter context.</param>
+        /// </summary>
+        public override void WriteResponseHeaders (OutputFormatterWriteContext context)
+        {
+            base.WriteResponseHeaders(context);
+
+            var data = context.Object as byte [];
+            if (data == null) {
+                throw new ArgumentException("Object provided to ByteResultFormatter cannot be cast to byte");
+            }
+            context.HttpContext.Response.Headers.Add("Content-Length", data.Length.ToString());
+        }
+
+        /// <summary>
+        /// Write the result from a byte array.
+        /// <param name="context">The filter context.</param>
+        /// <returns>A task which will write the data.</returns>
+        /// </summary>
+        public override Task WriteResponseBodyAsync(OutputFormatterWriteContext context)
+        {
+            var data = context.Object as byte [];
+            if (data == null) {
+                throw new ArgumentException("Object provided to ByteResultFormatter cannot be cast to byte");
+            }
+            var response = context.HttpContext.Response;
+            return response.Body.WriteAsync(data, 0, data.Length);
+        }
+    }
+}
