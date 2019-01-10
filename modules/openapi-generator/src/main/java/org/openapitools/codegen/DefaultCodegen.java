@@ -1508,7 +1508,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param name string to be capitalized
      * @return capitalized string
-     * @deprecated
+     * @deprecated use {@link org.openapitools.codegen.utils.StringUtils#camelize(String)} instead
      */
     @SuppressWarnings("static-method")
     public String initialCaps(String name) {
