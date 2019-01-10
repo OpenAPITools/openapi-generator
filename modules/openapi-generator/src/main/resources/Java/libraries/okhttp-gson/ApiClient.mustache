@@ -53,9 +53,11 @@ import java.util.regex.Pattern;
 import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
+{{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
 import {{invokerPackage}}.auth.RetryingOAuth;
 import {{invokerPackage}}.auth.OAuthFlow;
+{{/hasOAuthMethods}}
 
 public class ApiClient {
 
@@ -117,12 +119,14 @@ public class ApiClient {
     public ApiClient(String clientId, String clientSecret, Map<String, String> parameters) {
         init();
 
+{{#hasOAuthMethods}}
         RetryingOAuth retryingOAuth = new RetryingOAuth("{{tokenUrl}}", clientId, OAuthFlow.{{flow}}, clientSecret, parameters);
         authentications.put(
                 "{{name}}",
                 retryingOAuth
         );
         httpClient.interceptors().add(retryingOAuth);
+{{/hasOAuthMethods}}
 
         // Prevent the authentications from being modified.
         authentications = Collections.unmodifiableMap(authentications);
@@ -399,12 +403,14 @@ public class ApiClient {
      * @param accessToken Access token
      */
     public void setAccessToken(String accessToken) {
+        {{#hasOAuthMethods}}
         for (Authentication auth : authentications.values()) {
             if (auth instanceof OAuth) {
                 ((OAuth) auth).setAccessToken(accessToken);
                 return;
             }
         }
+        {{/hasOAuthMethods}}
         throw new RuntimeException("No OAuth2 authentication configured!");
     }
 
@@ -550,6 +556,7 @@ public class ApiClient {
         return this;
     }
 
+    {{#hasOAuthMethods}}
     /**
      * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
      * @return Token request builder
@@ -563,6 +570,7 @@ public class ApiClient {
         }
         return null;
     }
+    {{/hasOAuthMethods}}
 
     /**
      * Format the given parameter object into string.
