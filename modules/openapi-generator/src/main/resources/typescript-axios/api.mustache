@@ -172,12 +172,14 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
     {{#headerParams}}
             {{#isListContainer}}
             if ({{paramName}}) {
-                localVarHeaderParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+                let mapped = {{paramName}}.map(value => (<any>"{{{dataType}}}" !== "Array<string>") ? JSON.stringify(value || {}) : (value || ""))
+                localVarHeaderParameter['{{baseName}}'] = mapped.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
             }
             {{/isListContainer}}
             {{^isListContainer}}
             if ({{paramName}} !== undefined && {{paramName}} !== null) {
-                localVarHeaderParameter['{{baseName}}'] = String({{paramName}});
+                let mapped = (<any>"{{dataType}}" !== "string") ? JSON.stringify({{paramName}} || {}) : ({{paramName}} || "")
+                localVarHeaderParameter['{{baseName}}'] = String(mapped);
             }
             {{/isListContainer}}
 
