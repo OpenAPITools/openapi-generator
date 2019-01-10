@@ -152,7 +152,7 @@ export class {{classname}} {
 {{#headerParams}}
         localVarHeaderParams['{{baseName}}'] = ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}");
 {{/headerParams}}
-        (<any>Object).assign(localVarHeaderParams, options.headers);
+        (<any>Object).assign(localVarHeaderParams, options.headerParams);
 
         let localVarUseFormData = false;
 
