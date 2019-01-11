@@ -3,9 +3,8 @@
 import { Observable, of } from 'rxjs';
 import { ajax, AjaxResponse } from 'rxjs/ajax';
 import { map, concatMap } from 'rxjs/operators';
-import { environment as env } from '../environments';
 
-export const BASE_PATH = (env.api || '{{{basePath}}}').replace(/\/+$/, '');
+export const BASE_PATH = '{{{basePath}}}'.replace(/\/+$/, '');
 
 /**
  * This is the base class for all generated API classes.
