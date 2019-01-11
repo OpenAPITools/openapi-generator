@@ -55,11 +55,11 @@ class Name(object):
 
         self.name = name
         if snake_case is not None:
-            self.snake_case = snake_case
+            self.snake_case = snake_case  # noqa: E501
         if _property is not None:
-            self._property = _property
+            self._property = _property  # noqa: E501
         if _123_number is not None:
-            self._123_number = _123_number
+            self._123_number = _123_number  # noqa: E501
 
     @property
     def name(self):

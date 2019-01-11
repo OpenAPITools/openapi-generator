@@ -81,26 +81,26 @@ class FormatTest(object):
         self.discriminator = None
 
         if integer is not None:
-            self.integer = integer
+            self.integer = integer  # noqa: E501
         if int32 is not None:
-            self.int32 = int32
+            self.int32 = int32  # noqa: E501
         if int64 is not None:
-            self.int64 = int64
+            self.int64 = int64  # noqa: E501
         self.number = number
         if float is not None:
-            self.float = float
+            self.float = float  # noqa: E501
         if double is not None:
-            self.double = double
+            self.double = double  # noqa: E501
         if string is not None:
-            self.string = string
+            self.string = string  # noqa: E501
         self.byte = byte
         if binary is not None:
-            self.binary = binary
+            self.binary = binary  # noqa: E501
         self.date = date
         if date_time is not None:
-            self.date_time = date_time
+            self.date_time = date_time  # noqa: E501
         if uuid is not None:
-            self.uuid = uuid
+            self.uuid = uuid  # noqa: E501
         self.password = password
 
     @property

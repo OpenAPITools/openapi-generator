@@ -60,15 +60,15 @@ class Pet(object):
         self.discriminator = None
 
         if id is not None:
-            self.id = id
+            self.id = id  # noqa: E501
         if category is not None:
-            self.category = category
+            self.category = category  # noqa: E501
         self.name = name
         self.photo_urls = photo_urls
         if tags is not None:
-            self.tags = tags
+            self.tags = tags  # noqa: E501
         if status is not None:
-            self.status = status
+            self.status = status  # noqa: E501
 
     @property
     def id(self):

@@ -48,9 +48,9 @@ class FileSchemaTestClass(object):
         self.discriminator = None
 
         if file is not None:
-            self.file = file
+            self.file = file  # noqa: E501
         if files is not None:
-            self.files = files
+            self.files = files  # noqa: E501
 
     @property
     def file(self):

@@ -48,9 +48,9 @@ class Tag(object):
         self.discriminator = None
 
         if id is not None:
-            self.id = id
+            self.id = id  # noqa: E501
         if name is not None:
-            self.name = name
+            self.name = name  # noqa: E501
 
     @property
     def id(self):

@@ -45,7 +45,7 @@ class List(object):
         self.discriminator = None
 
         if _123_list is not None:
-            self._123_list = _123_list
+            self._123_list = _123_list  # noqa: E501
 
     @property
     def _123_list(self):

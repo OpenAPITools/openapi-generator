@@ -51,11 +51,11 @@ class ApiResponse(object):
         self.discriminator = None
 
         if code is not None:
-            self.code = code
+            self.code = code  # noqa: E501
         if type is not None:
-            self.type = type
+            self.type = type  # noqa: E501
         if message is not None:
-            self.message = message
+            self.message = message  # noqa: E501
 
     @property
     def code(self):

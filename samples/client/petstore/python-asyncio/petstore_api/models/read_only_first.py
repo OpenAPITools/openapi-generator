@@ -48,9 +48,9 @@ class ReadOnlyFirst(object):
         self.discriminator = None
 
         if bar is not None:
-            self.bar = bar
+            self.bar = bar  # noqa: E501
         if baz is not None:
-            self.baz = baz
+            self.baz = baz  # noqa: E501
 
     @property
     def bar(self):
