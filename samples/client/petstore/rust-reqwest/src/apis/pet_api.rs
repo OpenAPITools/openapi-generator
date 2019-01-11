@@ -10,10 +10,11 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+use std::collections::HashMap;
 
 use reqwest;
 
-use super::{Error, configuration};
+use super::{Error, configuration, urlencode};
 
 pub struct PetApiClient {
     configuration: Rc<configuration::Configuration>,
@@ -28,30 +29,25 @@ impl PetApiClient {
 }
 
 pub trait PetApi {
-    fn add_pet(&self, pet: ::models::Pet) -> Result<(), Error>;
+    fn add_pet(&self, body: ::models::Pet) -> Result<(), Error>;
     fn delete_pet(&self, pet_id: i64, api_key: &str) -> Result<(), Error>;
     fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<::models::Pet>, Error>;
     fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<::models::Pet>, Error>;
     fn get_pet_by_id(&self, pet_id: i64) -> Result<::models::Pet, Error>;
-    fn update_pet(&self, pet: ::models::Pet) -> Result<(), Error>;
+    fn update_pet(&self, body: ::models::Pet) -> Result<(), Error>;
     fn update_pet_with_form(&self, pet_id: i64, name: &str, status: &str) -> Result<(), Error>;
     fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: ::models::File) -> Result<::models::ApiResponse, Error>;
 }
 
-
 impl PetApi for PetApiClient {
-    fn add_pet(&self, pet: ::models::Pet) -> Result<(), Error> {
+    fn add_pet(&self, body: ::models::Pet) -> Result<(), Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
-            query.finish()
-        };
-        let uri_str = format!("{}/pet?{}", configuration.base_path, query_string);
-
+        let uri_str = format!("{}/pet", configuration.base_path);
         let mut req_builder = client.post(uri_str.as_str());
+
+
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -63,7 +59,8 @@ impl PetApi for PetApiClient {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
 
-        req_builder = req_builder.json(&pet);
+
+        req_builder = req_builder.json(&body);
 
         // send request
         let req = req_builder.build()?;
@@ -76,14 +73,10 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
-            query.finish()
-        };
-        let uri_str = format!("{}/pet/{petId}?{}", configuration.base_path, query_string, petId=pet_id);
-
+        let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
         let mut req_builder = client.delete(uri_str.as_str());
+
+
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -97,6 +90,7 @@ impl PetApi for PetApiClient {
         };
 
 
+
         // send request
         let req = req_builder.build()?;
 
@@ -108,15 +102,11 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            query.append_pair("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string());
-
-            query.finish()
-        };
-        let uri_str = format!("{}/pet/findByStatus?{}", configuration.base_path, query_string);
-
+        let uri_str = format!("{}/pet/findByStatus", configuration.base_path);
         let mut req_builder = client.get(uri_str.as_str());
+
+        req_builder = req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
+
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -127,6 +117,7 @@ impl PetApi for PetApiClient {
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
+
 
 
         // send request
@@ -139,15 +130,11 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            query.append_pair("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string());
-
-            query.finish()
-        };
-        let uri_str = format!("{}/pet/findByTags?{}", configuration.base_path, query_string);
-
+        let uri_str = format!("{}/pet/findByTags", configuration.base_path);
         let mut req_builder = client.get(uri_str.as_str());
+
+        req_builder = req_builder.query(&[("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
+
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -160,6 +147,7 @@ impl PetApi for PetApiClient {
         };
 
 
+
         // send request
         let req = req_builder.build()?;
 
@@ -170,14 +158,10 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
-            query.finish()
-        };
-        let uri_str = format!("{}/pet/{petId}?{}", configuration.base_path, query_string, petId=pet_id);
-
+        let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
         let mut req_builder = client.get(uri_str.as_str());
+
+
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -196,24 +180,21 @@ impl PetApi for PetApiClient {
         
 
 
+
         // send request
         let req = req_builder.build()?;
 
         Ok(client.execute(req)?.error_for_status()?.json()?)
     }
 
-    fn update_pet(&self, pet: ::models::Pet) -> Result<(), Error> {
+    fn update_pet(&self, body: ::models::Pet) -> Result<(), Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
-            query.finish()
-        };
-        let uri_str = format!("{}/pet?{}", configuration.base_path, query_string);
-
+        let uri_str = format!("{}/pet", configuration.base_path);
         let mut req_builder = client.put(uri_str.as_str());
+
+
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -225,7 +206,8 @@ impl PetApi for PetApiClient {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
 
-        req_builder = req_builder.json(&pet);
+
+        req_builder = req_builder.json(&body);
 
         // send request
         let req = req_builder.build()?;
@@ -238,14 +220,10 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
-            query.finish()
-        };
-        let uri_str = format!("{}/pet/{petId}?{}", configuration.base_path, query_string, petId=pet_id);
-
+        let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
         let mut req_builder = client.post(uri_str.as_str());
+
+
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -256,6 +234,11 @@ impl PetApi for PetApiClient {
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
+
+        let mut form_params = HashMap::new();
+        form_params.insert("name".to_string(), name.to_string());
+        form_params.insert("status".to_string(), status.to_string());
+        req_builder = req_builder.form(&form_params);
 
 
         // send request
@@ -269,14 +252,10 @@ impl PetApi for PetApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
-            query.finish()
-        };
-        let uri_str = format!("{}/pet/{petId}/uploadImage?{}", configuration.base_path, query_string, petId=pet_id);
-
+        let uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=pet_id);
         let mut req_builder = client.post(uri_str.as_str());
+
+
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -287,6 +266,11 @@ impl PetApi for PetApiClient {
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
+
+        let mut form_params = HashMap::new();
+        form_params.insert("additionalMetadata".to_string(), additional_metadata.to_string());
+        form_params.insert("file".to_string(), unimplemented!());
+        req_builder = req_builder.form(&form_params);
 
 
         // send request

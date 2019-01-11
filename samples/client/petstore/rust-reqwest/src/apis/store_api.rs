@@ -10,10 +10,11 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
+use std::collections::HashMap;
 
 use reqwest;
 
-use super::{Error, configuration};
+use super::{Error, configuration, urlencode};
 
 pub struct StoreApiClient {
     configuration: Rc<configuration::Configuration>,
@@ -31,27 +32,23 @@ pub trait StoreApi {
     fn delete_order(&self, order_id: &str) -> Result<(), Error>;
     fn get_inventory(&self, ) -> Result<::std::collections::HashMap<String, i32>, Error>;
     fn get_order_by_id(&self, order_id: i64) -> Result<::models::Order, Error>;
-    fn place_order(&self, order: ::models::Order) -> Result<::models::Order, Error>;
+    fn place_order(&self, body: ::models::Order) -> Result<::models::Order, Error>;
 }
-
 
 impl StoreApi for StoreApiClient {
     fn delete_order(&self, order_id: &str) -> Result<(), Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
-            query.finish()
-        };
-        let uri_str = format!("{}/store/order/{orderId}?{}", configuration.base_path, query_string, orderId=order_id);
-
+        let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=urlencode(order_id));
         let mut req_builder = client.delete(uri_str.as_str());
+
+
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
+
 
 
 
@@ -67,14 +64,10 @@ impl StoreApi for StoreApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
-            query.finish()
-        };
-        let uri_str = format!("{}/store/inventory?{}", configuration.base_path, query_string);
-
+        let uri_str = format!("{}/store/inventory", configuration.base_path);
         let mut req_builder = client.get(uri_str.as_str());
+
+
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -93,6 +86,7 @@ impl StoreApi for StoreApiClient {
         
 
 
+
         // send request
         let req = req_builder.build()?;
 
@@ -103,18 +97,15 @@ impl StoreApi for StoreApiClient {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
-            query.finish()
-        };
-        let uri_str = format!("{}/store/order/{orderId}?{}", configuration.base_path, query_string, orderId=order_id);
-
+        let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=order_id);
         let mut req_builder = client.get(uri_str.as_str());
+
+
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
+
 
 
 
@@ -125,18 +116,14 @@ impl StoreApi for StoreApiClient {
         Ok(client.execute(req)?.error_for_status()?.json()?)
     }
 
-    fn place_order(&self, order: ::models::Order) -> Result<::models::Order, Error> {
+    fn place_order(&self, body: ::models::Order) -> Result<::models::Order, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-
-            query.finish()
-        };
-        let uri_str = format!("{}/store/order?{}", configuration.base_path, query_string);
-
+        let uri_str = format!("{}/store/order", configuration.base_path);
         let mut req_builder = client.post(uri_str.as_str());
+
+
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
@@ -144,7 +131,8 @@ impl StoreApi for StoreApiClient {
 
 
 
-        req_builder = req_builder.json(&order);
+
+        req_builder = req_builder.json(&body);
 
         // send request
         let req = req_builder.build()?;
