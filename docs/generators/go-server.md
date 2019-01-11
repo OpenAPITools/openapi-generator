@@ -9,5 +9,11 @@ CONFIG OPTIONS for go-server
 
 	hideGenerationTimestamp
 	    Hides the generation timestamp when files are generated. (Default: true)
+		
+	sourceFolder
+	    source folder for generated code (Default: go)
+
+	serverPort
+	    The network port the generated server binds to (Default: 8080)
 
 Back to the [generators list](README.md)
