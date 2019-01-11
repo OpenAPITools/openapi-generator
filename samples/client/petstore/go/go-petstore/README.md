@@ -31,7 +31,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **Patch** /another-fake/dummy | To test special tags
-*DefaultApi* | [**CreateXmlItem**](docs/DefaultApi.md#createxmlitem) | **Post** /fake/create_xml_item | creates an XmlItem
+*FakeApi* | [**CreateXmlItem**](docs/FakeApi.md#createxmlitem) | **Post** /fake/create_xml_item | creates an XmlItem
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **Post** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **Post** /fake/outer/composite | 
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **Post** /fake/outer/number | 

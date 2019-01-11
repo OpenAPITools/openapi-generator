@@ -1078,30 +1078,6 @@ paths:
       x-codegen-request-body-name: body
       x-tags:
       - tag: fake
-  /another-fake/dummy:
-    patch:
-      description: To test special tags and operation ID starting with number
-      operationId: 123_test_@#$%_special_tags
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Client'
-        description: client model
-        required: true
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Client'
-          description: successful operation
-      summary: To test special tags
-      tags:
-      - $another-fake?
-      x-codegen-request-body-name: body
-      x-tags:
-      - tag: $another-fake?
   /fake/body-with-file-schema:
     put:
       description: For this test, the body for this request much reference a schema named `File`.
@@ -1119,6 +1095,42 @@ paths:
       tags:
       - fake
       x-codegen-request-body-name: body
+      x-tags:
+      - tag: fake
+  /fake/create_xml_item:
+    post:
+      description: this route creates an XmlItem
+      operationId: createXmlItem
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          application/xml; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          application/xml; charset=utf-16:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          text/xml:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          text/xml; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+          text/xml; charset=utf-16:
+            schema:
+              $ref: '#/components/schemas/XmlItem'
+        description: XmlItem Body
+        required: true
+      responses:
+        200:
+          content: {}
+          description: successful operation
+      summary: creates an XmlItem
+      tags:
+      - fake
+      x-codegen-request-body-name: XmlItem
       x-tags:
       - tag: fake
   /fake/{petId}/uploadImageWithRequiredFile:
@@ -1163,38 +1175,30 @@ paths:
       - pet
       x-tags:
       - tag: pet
-  /fake/create_xml_item:
-    post:
-      description: this route creates an XmlItem
-      operationId: createXmlItem
+  /another-fake/dummy:
+    patch:
+      description: To test special tags and operation ID starting with number
+      operationId: 123_test_@#$%_special_tags
       requestBody:
         content:
-          application/xml:
+          application/json:
             schema:
-              $ref: '#/components/schemas/XmlItem'
-          application/xml; charset=utf-8:
-            schema:
-              $ref: '#/components/schemas/XmlItem'
-          application/xml; charset=utf-16:
-            schema:
-              $ref: '#/components/schemas/XmlItem'
-          text/xml:
-            schema:
-              $ref: '#/components/schemas/XmlItem'
-          text/xml; charset=utf-8:
-            schema:
-              $ref: '#/components/schemas/XmlItem'
-          text/xml; charset=utf-16:
-            schema:
-              $ref: '#/components/schemas/XmlItem'
-        description: XmlItem Body
+              $ref: '#/components/schemas/Client'
+        description: client model
         required: true
       responses:
         200:
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
           description: successful operation
-      summary: creates an XmlItem
-      x-codegen-request-body-name: XmlItem
+      summary: To test special tags
+      tags:
+      - $another-fake?
+      x-codegen-request-body-name: body
+      x-tags:
+      - tag: $another-fake?
 components:
   schemas:
     Order:

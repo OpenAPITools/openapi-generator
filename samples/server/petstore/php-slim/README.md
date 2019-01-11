@@ -114,7 +114,7 @@ For instance, when abstract class located at `./lib/Api/AbstractPetApi.php` you 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AbstractAnotherFakeApi* | **call123TestSpecialTags** | **PATCH** /another-fake/dummy | To test special tags
-*AbstractDefaultApi* | **createXmlItem** | **POST** /fake/create_xml_item | creates an XmlItem
+*AbstractFakeApi* | **createXmlItem** | **POST** /fake/create_xml_item | creates an XmlItem
 *AbstractFakeApi* | **fakeOuterBooleanSerialize** | **POST** /fake/outer/boolean | 
 *AbstractFakeApi* | **fakeOuterCompositeSerialize** | **POST** /fake/outer/composite | 
 *AbstractFakeApi* | **fakeOuterNumberSerialize** | **POST** /fake/outer/number | 

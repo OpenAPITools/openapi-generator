@@ -69,7 +69,7 @@ public class FakeApi  {
     @Path("/create_xml_item")
     @Consumes({ "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" })
     
-    @io.swagger.annotations.ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", response = Void.class, tags={  })
+    @io.swagger.annotations.ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
     public Response createXmlItem(@ApiParam(value = "XmlItem Body" ,required=true) @Valid XmlItem xmlItem

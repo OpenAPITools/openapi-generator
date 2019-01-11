@@ -39,9 +39,6 @@ public class ApiClient {
     public AnotherFakeApi anotherFakeApi() {
         return AnotherFakeApi.anotherFakeApi(config.baseReqSpec.get());
     }
-    public DefaultApi defaultApi() {
-        return DefaultApi.defaultApi(config.baseReqSpec.get());
-    }
     public FakeApi fakeApi() {
         return FakeApi.fakeApi(config.baseReqSpec.get());
     }

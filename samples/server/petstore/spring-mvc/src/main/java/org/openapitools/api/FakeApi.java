@@ -37,7 +37,7 @@ import java.util.Map;
 @Api(value = "fake", description = "the fake API")
 public interface FakeApi {
 
-    @ApiOperation(value = "creates an XmlItem", nickname = "createXmlItem", notes = "this route creates an XmlItem", tags={  })
+    @ApiOperation(value = "creates an XmlItem", nickname = "createXmlItem", notes = "this route creates an XmlItem", tags={ "fake", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/fake/create_xml_item",
