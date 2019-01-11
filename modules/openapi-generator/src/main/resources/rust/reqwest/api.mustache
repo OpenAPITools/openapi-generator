@@ -1,12 +1,11 @@
 {{>partial_header}}
 use std::rc::Rc;
 use std::borrow::Borrow;
-#[allow(unused_imports)]
 use std::collections::HashMap;
 
 use reqwest;
 
-use super::{Error, configuration};
+use super::{Error, configuration, urlencode};
 
 pub struct {{{classname}}}Client {
     configuration: Rc<configuration::Configuration>,
@@ -28,7 +27,6 @@ pub trait {{{classname}}} {
 {{/operations}}
 }
 
-
 impl {{{classname}}} for {{{classname}}}Client {
 {{#operations}}
 {{#operation}}
@@ -36,7 +34,7 @@ impl {{{classname}}} for {{{classname}}}Client {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{{baseName}}}={{{paramName}}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}}{{/pathParams}});
+        let uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}urlencode({{/isString}}{{{paramName}}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}}{{#isString}}){{/isString}}{{/pathParams}});
         let mut req_builder = client.{{{httpMethod}}}(uri_str.as_str());
 
 {{#queryParams}}
