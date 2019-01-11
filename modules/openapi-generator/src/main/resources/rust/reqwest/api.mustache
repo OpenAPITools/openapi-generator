@@ -1,6 +1,9 @@
 {{>partial_header}}
 use std::rc::Rc;
 use std::borrow::Borrow;
+{{#hasFormParams}}
+use std::collections::HashMap;
+{{/hasFormParams}}
 
 use reqwest;
 
@@ -89,6 +92,19 @@ impl {{{classname}}} for {{{classname}}}Client {
         {{/isOAuth}}
         {{/authMethods}}
         {{/hasAuthMethods}}
+
+        {{#hasFormParams}}
+        let mut form_params = HashMap::new();
+        {{#formParams}}
+        {{#isFile}}
+        form_params.insert("{{{baseName}}}".to_string(), unimplemented!());
+        {{/isFile}}
+        {{^isFile}}
+        form_params.insert("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/isFile}}
+        {{/formParams}}
+        req_builder = req_builder.form(&form_params);
+        {{/hasFormParams}}
 
         {{#hasBodyParam}}
         {{#bodyParams}}
