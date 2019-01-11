@@ -30,7 +30,7 @@ Add a new pet to the store
 
 PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).petApi();
 
 api.addPet()
     .body(body).execute(r -> r.prettyPeek());
@@ -70,7 +70,7 @@ Deletes a pet
 
 PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).petApi();
 
 api.deletePet()
     .petIdPath(petId).execute(r -> r.prettyPeek());
@@ -113,7 +113,7 @@ Multiple status values can be provided with comma separated strings
 
 PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).petApi();
 
 api.findPetsByStatus()
     .statusQuery(status).execute(r -> r.prettyPeek());
@@ -155,7 +155,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).petApi();
 
 api.findPetsByTags()
     .tagsQuery(tags).execute(r -> r.prettyPeek());
@@ -197,7 +197,7 @@ Returns a single pet
 
 PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).petApi();
 
 api.getPetById()
     .petIdPath(petId).execute(r -> r.prettyPeek());
@@ -237,7 +237,7 @@ Update an existing pet
 
 PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).petApi();
 
 api.updatePet()
     .body(body).execute(r -> r.prettyPeek());
@@ -277,7 +277,7 @@ Updates a pet in the store with form data
 
 PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).petApi();
 
 api.updatePetWithForm()
     .petIdPath(petId).execute(r -> r.prettyPeek());
@@ -319,7 +319,7 @@ uploads an image
 
 PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).petApi();
 
 api.uploadFile()
     .petIdPath(petId).execute(r -> r.prettyPeek());
@@ -361,7 +361,7 @@ uploads an image (required)
 
 PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).petApi();
 
 api.uploadFileWithRequiredFile()
     .petIdPath(petId)

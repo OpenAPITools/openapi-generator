@@ -45,7 +45,7 @@ public class FakeClassnameTags123Api {
         this.reqSpec = reqSpec;
     }
 
-    public static FakeClassnameTags123Api fakeClassnameTags123(RequestSpecBuilder reqSpec) {
+    public static FakeClassnameTags123Api fakeClassnameTags123Api(RequestSpecBuilder reqSpec) {
         return new FakeClassnameTags123Api(reqSpec);
     }
 

@@ -45,7 +45,7 @@ public class StoreApi {
         this.reqSpec = reqSpec;
     }
 
-    public static StoreApi store(RequestSpecBuilder reqSpec) {
+    public static StoreApi storeApi(RequestSpecBuilder reqSpec) {
         return new StoreApi(reqSpec);
     }
 

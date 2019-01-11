@@ -24,7 +24,7 @@ To test special tags and operation ID starting with number
 
 AnotherFakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).anotherFake();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).anotherFakeApi();
 
 api.call123testSpecialTags()
     .body(body).execute(r -> r.prettyPeek());

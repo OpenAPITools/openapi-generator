@@ -27,7 +27,7 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 
 StoreApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).store();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).storeApi();
 
 api.deleteOrder()
     .orderIdPath(orderId).execute(r -> r.prettyPeek());
@@ -69,7 +69,7 @@ Returns a map of status codes to quantities
 
 StoreApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).store();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).storeApi();
 
 api.getInventory().execute(r -> r.prettyPeek());
 ```
@@ -107,7 +107,7 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 
 StoreApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).store();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).storeApi();
 
 api.getOrderById()
     .orderIdPath(orderId).execute(r -> r.prettyPeek());
@@ -147,7 +147,7 @@ Place an order for a pet
 
 StoreApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).store();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).storeApi();
 
 api.placeOrder()
     .body(body).execute(r -> r.prettyPeek());

@@ -14,6 +14,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,30 @@ import java.util.List;
 import java.util.Map;
 
 public interface FakeApi {
+  /**
+   * creates an XmlItem
+   * Sync method
+   * this route creates an XmlItem
+   * @param xmlItem XmlItem Body (required)
+   * @return Void
+   */
+  
+  @POST("/fake/create_xml_item")
+  Void createXmlItem(
+    @retrofit.http.Body XmlItem xmlItem
+  );
+
+  /**
+   * creates an XmlItem
+   * Async method
+   * @param xmlItem XmlItem Body (required)
+   * @param cb callback method
+   */
+  
+  @POST("/fake/create_xml_item")
+  void createXmlItem(
+    @retrofit.http.Body XmlItem xmlItem, Callback<Void> cb
+  );
   /**
    * 
    * Sync method

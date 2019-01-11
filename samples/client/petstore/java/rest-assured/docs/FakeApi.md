@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**createXmlItem**](FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -17,6 +18,48 @@ Method | HTTP request | Description
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 
+
+<a name="createXmlItem"></a>
+# **createXmlItem**
+> createXmlItem(xmlItem)
+
+creates an XmlItem
+
+this route creates an XmlItem
+
+### Example
+```java
+// Import classes:
+//import org.openapitools.client.ApiClient;
+//import io.restassured.builder.RequestSpecBuilder;
+//import io.restassured.filter.log.ErrorLoggingFilter;
+
+FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
+                () -> new RequestSpecBuilder()
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
+
+api.createXmlItem()
+    .body(xmlItem).execute(r -> r.prettyPeek());
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **xmlItem** | [**XmlItem**](XmlItem.md)| XmlItem Body |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+ - **Accept**: Not defined
 
 <a name="fakeOuterBooleanSerialize"></a>
 # **fakeOuterBooleanSerialize**
@@ -35,7 +78,7 @@ Test serialization of outer boolean types
 
 FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
 
 api.fakeOuterBooleanSerialize().execute(r -> r.prettyPeek());
 ```
@@ -76,7 +119,7 @@ Test serialization of object with outer number type
 
 FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
 
 api.fakeOuterCompositeSerialize().execute(r -> r.prettyPeek());
 ```
@@ -117,7 +160,7 @@ Test serialization of outer number types
 
 FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
 
 api.fakeOuterNumberSerialize().execute(r -> r.prettyPeek());
 ```
@@ -158,7 +201,7 @@ Test serialization of outer string types
 
 FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
 
 api.fakeOuterStringSerialize().execute(r -> r.prettyPeek());
 ```
@@ -199,7 +242,7 @@ For this test, the body for this request much reference a schema named &#x60;Fil
 
 FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
 
 api.testBodyWithFileSchema()
     .body(body).execute(r -> r.prettyPeek());
@@ -239,7 +282,7 @@ No authorization required
 
 FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
 
 api.testBodyWithQueryParams()
     .queryQuery(query)
@@ -283,7 +326,7 @@ To test \&quot;client\&quot; model
 
 FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
 
 api.testClientModel()
     .body(body).execute(r -> r.prettyPeek());
@@ -325,7 +368,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
 
 api.testEndpointParameters()
     .numberForm(number)
@@ -383,7 +426,7 @@ To test enum parameters
 
 FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
 
 api.testEnumParameters().execute(r -> r.prettyPeek());
 ```
@@ -431,7 +474,7 @@ Fake endpoint to test group parameters (optional)
 
 FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
 
 api.testGroupParameters()
     .requiredStringGroupQuery(requiredStringGroup)
@@ -478,7 +521,7 @@ test inline additionalProperties
 
 FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
 
 api.testInlineAdditionalProperties()
     .body(param).execute(r -> r.prettyPeek());
@@ -518,7 +561,7 @@ test json serialization of form data
 
 FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
 
 api.testJsonFormData()
     .paramForm(param)

@@ -47,7 +47,7 @@ public class PetApi {
         this.reqSpec = reqSpec;
     }
 
-    public static PetApi pet(RequestSpecBuilder reqSpec) {
+    public static PetApi petApi(RequestSpecBuilder reqSpec) {
         return new PetApi(reqSpec);
     }
 
