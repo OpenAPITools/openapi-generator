@@ -126,7 +126,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof Integer) {
             this.setServerPort((int) additionalProperties.get("serverPort"));
         } else {
-        	additionalProperties.put("serverPort", serverPort);
+            additionalProperties.put("serverPort", serverPort);
         }
 
         modelPackage = packageName;
