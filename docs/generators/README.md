@@ -52,6 +52,7 @@ The following generators are available:
     - [typescript-inversify](typescript-inversify.md)
     - [typescript-jquery](typescript-jquery.md)
     - [typescript-node](typescript-node.md)
+    - [typescript-rxjs](typescript-rxjs.md)
 
 
 * SERVER generators:
