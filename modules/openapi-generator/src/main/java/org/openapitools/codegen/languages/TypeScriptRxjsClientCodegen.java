@@ -1,6 +1,6 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
+ * See: https://opensource.stackexchange.com/questions/7300/copyright-notice-in-the-file-header-apache-v2-license/7301#7301
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
