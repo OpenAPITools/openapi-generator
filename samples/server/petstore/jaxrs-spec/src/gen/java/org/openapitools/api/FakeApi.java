@@ -44,7 +44,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class)
     })
-    public Response fakeOuterCompositeSerialize(@Valid OuterComposite outerComposite) {
+    public Response fakeOuterCompositeSerialize(@Valid OuterComposite body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -77,7 +77,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithFileSchema(@Valid FileSchemaTestClass fileSchemaTestClass) {
+    public Response testBodyWithFileSchema(@Valid FileSchemaTestClass body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -88,7 +88,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithQueryParams(@QueryParam("query") @NotNull    String query,@Valid User user) {
+    public Response testBodyWithQueryParams(@QueryParam("query") @NotNull    String query,@Valid User body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -99,7 +99,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    public Response testClientModel(@Valid Client client) {
+    public Response testClientModel(@Valid Client body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -123,7 +123,7 @@ public class FakeApi {
         @ApiResponse(code = 400, message = "Invalid request", response = Void.class),
         @ApiResponse(code = 404, message = "Not found", response = Void.class)
     })
-    public Response testEnumParameters(@HeaderParam("enum_header_string_array")  @DefaultValue("new ArrayList<String>()")  @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@HeaderParam("enum_header_string")  @DefaultValue("-efg")  @ApiParam("Header parameter enum test (string)") String enumHeaderString,@QueryParam("enum_query_string_array")  @DefaultValue("new ArrayList<String>()")  @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string")  @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")   @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")   @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString) {
+    public Response testEnumParameters(@HeaderParam("enum_header_string_array")   @DefaultValue("new ArrayList<String>()")  @ApiParam("Header parameter enum test (string array)") List<String> enumHeaderStringArray,@HeaderParam("enum_header_string")   @DefaultValue("-efg")  @ApiParam("Header parameter enum test (string)") String enumHeaderString,@QueryParam("enum_query_string_array")  @DefaultValue("new ArrayList<String>()")  @ApiParam("Query parameter enum test (string array)")  List<String> enumQueryStringArray,@QueryParam("enum_query_string")  @DefaultValue("-efg")  @ApiParam("Query parameter enum test (string)")  String enumQueryString,@QueryParam("enum_query_integer")   @ApiParam("Query parameter enum test (double)")  Integer enumQueryInteger,@QueryParam("enum_query_double")   @ApiParam("Query parameter enum test (double)")  Double enumQueryDouble,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -132,7 +132,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Someting wrong", response = Void.class)
     })
-    public Response testGroupParameters(@QueryParam("required_string_group") @NotNull   @ApiParam("Required String in group parameters")  Integer requiredStringGroup,@HeaderParam("required_boolean_group") @NotNull   @ApiParam("Required Boolean in group parameters") Boolean requiredBooleanGroup,@QueryParam("required_int64_group") @NotNull   @ApiParam("Required Integer in group parameters")  Long requiredInt64Group,@QueryParam("string_group")   @ApiParam("String in group parameters")  Integer stringGroup,@HeaderParam("boolean_group")   @ApiParam("Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")   @ApiParam("Integer in group parameters")  Long int64Group) {
+    public Response testGroupParameters(@QueryParam("required_string_group") @NotNull   @ApiParam("Required String in group parameters")  Integer requiredStringGroup,@HeaderParam("required_boolean_group") @NotNull    @ApiParam("Required Boolean in group parameters") Boolean requiredBooleanGroup,@QueryParam("required_int64_group") @NotNull   @ApiParam("Required Integer in group parameters")  Long requiredInt64Group,@QueryParam("string_group")   @ApiParam("String in group parameters")  Integer stringGroup,@HeaderParam("boolean_group")    @ApiParam("Boolean in group parameters") Boolean booleanGroup,@QueryParam("int64_group")   @ApiParam("Integer in group parameters")  Long int64Group) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -143,7 +143,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testInlineAdditionalProperties(@Valid Map<String, String> requestBody) {
+    public Response testInlineAdditionalProperties(@Valid Map<String, String> param) {
         return Response.ok().entity("magic!").build();
     }
 

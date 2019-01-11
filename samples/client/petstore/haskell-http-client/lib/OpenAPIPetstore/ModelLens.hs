@@ -613,6 +613,64 @@ tagNameL f Tag{..} = (\tagName -> Tag { tagName, ..} ) <$> f tagName
 
 
 
+-- * TypeHolderDefault
+
+-- | 'typeHolderDefaultStringItem' Lens
+typeHolderDefaultStringItemL :: Lens_' TypeHolderDefault (Text)
+typeHolderDefaultStringItemL f TypeHolderDefault{..} = (\typeHolderDefaultStringItem -> TypeHolderDefault { typeHolderDefaultStringItem, ..} ) <$> f typeHolderDefaultStringItem
+{-# INLINE typeHolderDefaultStringItemL #-}
+
+-- | 'typeHolderDefaultNumberItem' Lens
+typeHolderDefaultNumberItemL :: Lens_' TypeHolderDefault (Double)
+typeHolderDefaultNumberItemL f TypeHolderDefault{..} = (\typeHolderDefaultNumberItem -> TypeHolderDefault { typeHolderDefaultNumberItem, ..} ) <$> f typeHolderDefaultNumberItem
+{-# INLINE typeHolderDefaultNumberItemL #-}
+
+-- | 'typeHolderDefaultIntegerItem' Lens
+typeHolderDefaultIntegerItemL :: Lens_' TypeHolderDefault (Int)
+typeHolderDefaultIntegerItemL f TypeHolderDefault{..} = (\typeHolderDefaultIntegerItem -> TypeHolderDefault { typeHolderDefaultIntegerItem, ..} ) <$> f typeHolderDefaultIntegerItem
+{-# INLINE typeHolderDefaultIntegerItemL #-}
+
+-- | 'typeHolderDefaultBoolItem' Lens
+typeHolderDefaultBoolItemL :: Lens_' TypeHolderDefault (Bool)
+typeHolderDefaultBoolItemL f TypeHolderDefault{..} = (\typeHolderDefaultBoolItem -> TypeHolderDefault { typeHolderDefaultBoolItem, ..} ) <$> f typeHolderDefaultBoolItem
+{-# INLINE typeHolderDefaultBoolItemL #-}
+
+-- | 'typeHolderDefaultArrayItem' Lens
+typeHolderDefaultArrayItemL :: Lens_' TypeHolderDefault ([Int])
+typeHolderDefaultArrayItemL f TypeHolderDefault{..} = (\typeHolderDefaultArrayItem -> TypeHolderDefault { typeHolderDefaultArrayItem, ..} ) <$> f typeHolderDefaultArrayItem
+{-# INLINE typeHolderDefaultArrayItemL #-}
+
+
+
+-- * TypeHolderExample
+
+-- | 'typeHolderExampleStringItem' Lens
+typeHolderExampleStringItemL :: Lens_' TypeHolderExample (Text)
+typeHolderExampleStringItemL f TypeHolderExample{..} = (\typeHolderExampleStringItem -> TypeHolderExample { typeHolderExampleStringItem, ..} ) <$> f typeHolderExampleStringItem
+{-# INLINE typeHolderExampleStringItemL #-}
+
+-- | 'typeHolderExampleNumberItem' Lens
+typeHolderExampleNumberItemL :: Lens_' TypeHolderExample (Double)
+typeHolderExampleNumberItemL f TypeHolderExample{..} = (\typeHolderExampleNumberItem -> TypeHolderExample { typeHolderExampleNumberItem, ..} ) <$> f typeHolderExampleNumberItem
+{-# INLINE typeHolderExampleNumberItemL #-}
+
+-- | 'typeHolderExampleIntegerItem' Lens
+typeHolderExampleIntegerItemL :: Lens_' TypeHolderExample (Int)
+typeHolderExampleIntegerItemL f TypeHolderExample{..} = (\typeHolderExampleIntegerItem -> TypeHolderExample { typeHolderExampleIntegerItem, ..} ) <$> f typeHolderExampleIntegerItem
+{-# INLINE typeHolderExampleIntegerItemL #-}
+
+-- | 'typeHolderExampleBoolItem' Lens
+typeHolderExampleBoolItemL :: Lens_' TypeHolderExample (Bool)
+typeHolderExampleBoolItemL f TypeHolderExample{..} = (\typeHolderExampleBoolItem -> TypeHolderExample { typeHolderExampleBoolItem, ..} ) <$> f typeHolderExampleBoolItem
+{-# INLINE typeHolderExampleBoolItemL #-}
+
+-- | 'typeHolderExampleArrayItem' Lens
+typeHolderExampleArrayItemL :: Lens_' TypeHolderExample ([Int])
+typeHolderExampleArrayItemL f TypeHolderExample{..} = (\typeHolderExampleArrayItem -> TypeHolderExample { typeHolderExampleArrayItem, ..} ) <$> f typeHolderExampleArrayItem
+{-# INLINE typeHolderExampleArrayItemL #-}
+
+
+
 -- * User
 
 -- | 'userId' Lens

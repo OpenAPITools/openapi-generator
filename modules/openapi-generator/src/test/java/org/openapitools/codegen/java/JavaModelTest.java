@@ -101,7 +101,7 @@ public class JavaModelTest {
         Assert.assertEquals(property1.baseType, "Long");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertFalse(property1.isContainer);
 
         final CodegenProperty property2 = vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -116,7 +116,7 @@ public class JavaModelTest {
         Assert.assertEquals(property2.example, "Tony");
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertFalse(property2.isContainer);
 
         final CodegenProperty property3 = vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -130,7 +130,7 @@ public class JavaModelTest {
         Assert.assertEquals(property3.baseType, "Date");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
     }
 
     @Test(description = "convert a model with list property")
@@ -264,7 +264,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "Boolean");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(property.isContainer);
     }
 
     @Test(description = "convert a model with complex properties")
@@ -290,7 +290,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "Children");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(property.isContainer);
     }
 
     @Test(description = "convert a model with complex list property")
@@ -348,8 +348,6 @@ public class JavaModelTest {
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
-        Assert.assertFalse(property.isNotContainer);
-
     }
 
     @Test(description = "convert a model with an array property with item name")
@@ -385,7 +383,6 @@ public class JavaModelTest {
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
-        Assert.assertFalse(property.isNotContainer);
 
         final CodegenProperty itemsProperty = property.items;
         Assert.assertEquals(itemsProperty.baseName,"child");
@@ -450,7 +447,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "String");
         Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(property.isContainer);
     }
 
     @Test(description = "convert a model with a 2nd char upper-case property names")
@@ -476,7 +473,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "String");
         Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(property.isContainer);
     }
 
     @Test(description = "convert a model starting with two upper-case letter property names")
@@ -502,7 +499,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "String");
         Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(property.isContainer);
     }
 
     @Test(description = "convert hyphens per issue 503")
@@ -564,7 +561,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.baseType, "byte[]");
         Assert.assertFalse(property.hasMore);
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(property.isContainer);
     }
 
     @Test(description = "translate an invalid param name")
@@ -588,7 +585,7 @@ public class JavaModelTest {
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
         Assert.assertFalse(property.hasMore);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(property.isContainer);
     }
 
     @Test(description = "convert a parameter")
@@ -719,7 +716,7 @@ public class JavaModelTest {
         Assert.assertEquals(property2.example, "Tony");
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertFalse(property2.isContainer);
         Assert.assertTrue(property2.isXmlAttribute);
         Assert.assertEquals(property2.xmlName, "myName");
         Assert.assertNull(property2.xmlNamespace);
@@ -734,7 +731,7 @@ public class JavaModelTest {
         Assert.assertEquals(property3.baseType, "Date");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
         Assert.assertFalse(property3.isXmlAttribute);
         Assert.assertEquals(property3.xmlName, "myCreatedAt");
         Assert.assertEquals(property3.xmlNamespace, "myNamespace");
@@ -802,7 +799,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.dataType, "Boolean");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "Boolean");
-        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isContainer);
         Assert.assertTrue(cp.isBoolean);
         Assert.assertEquals(cp.getter, "isProperty");
     }
@@ -817,7 +814,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.dataType, "Integer");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "Integer");
-        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isContainer);
         Assert.assertTrue(cp.isInteger);
         Assert.assertFalse(cp.isLong);
         Assert.assertEquals(cp.getter, "getProperty");
@@ -835,7 +832,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.dataType, "Long");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "Long");
-        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isContainer);
         Assert.assertTrue(cp.isLong);
         Assert.assertFalse(cp.isInteger);
         Assert.assertEquals(cp.getter, "getProperty");
@@ -912,7 +909,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.dataType, "String");
         Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.baseType, "String");
-        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isContainer);
         Assert.assertFalse(cp.isLong);
         Assert.assertFalse(cp.isInteger);
         Assert.assertTrue(cp.isString);
@@ -938,7 +935,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.dataType, "String");
         Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.baseType, "String");
-        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isContainer);
         Assert.assertFalse(cp.isLong);
         Assert.assertFalse(cp.isInteger);
         Assert.assertTrue(cp.isString);
@@ -967,7 +964,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.dataType, "String");
         Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.baseType, "String");
-        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isContainer);
         Assert.assertFalse(cp.isLong);
         Assert.assertFalse(cp.isInteger);
         Assert.assertTrue(cp.isString);

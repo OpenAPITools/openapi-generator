@@ -60,7 +60,7 @@ public class DefaultCodegenTest {
                                 .description("Ok response")));
         Operation createOperation = new Operation()
                 .requestBody(new RequestBody()
-                        .content(new Content().addMediaType("application/json", 
+                        .content(new Content().addMediaType("application/json",
                                 new MediaType().schema(refSchema))))
                 .responses(
                         new ApiResponses().addApiResponse("201", new ApiResponse()
@@ -83,11 +83,11 @@ public class DefaultCodegenTest {
         openAPI.setComponents(new Components());
         openAPI.getComponents().addSchemas("Pet", new ObjectSchema());
         openAPI.getComponents().addRequestBodies("MyRequestBody", new RequestBody()
-                .content(new Content().addMediaType("application/json", 
+                .content(new Content().addMediaType("application/json",
                         new MediaType().schema(refSchema))));
         openAPI.getComponents().addResponses("MyResponse", new ApiResponse()
-                        .description("Ok response")
-                        .content(new Content().addMediaType("application/xml", 
+                .description("Ok response")
+                .content(new Content().addMediaType("application/xml",
                         new MediaType().schema(refSchema))));
 
         Operation createOperation = new Operation()
@@ -172,7 +172,7 @@ public class DefaultCodegenTest {
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
-        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false );
+        Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
     @Test
@@ -221,14 +221,14 @@ public class DefaultCodegenTest {
         Assert.assertEquals(co.produces.size(), 1);
         Assert.assertEquals(co.produces.get(0).get("mediaType"), "application/json");
     }
-    
+
     @Test
     public void testConsistentParameterNameAfterUniquenessRename() throws Exception {
         Operation operation = new Operation()
-            .operationId("opId")
-            .addParametersItem(new QueryParameter().name("myparam").schema(new StringSchema()))
-            .addParametersItem(new QueryParameter().name("myparam").schema(new StringSchema()))
-            .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
+                .operationId("opId")
+                .addParametersItem(new QueryParameter().name("myparam").schema(new StringSchema()))
+                .addParametersItem(new QueryParameter().name("myparam").schema(new StringSchema()))
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
 
         DefaultCodegen codegen = new DefaultCodegen();
         CodegenOperation co = codegen.fromOperation("/some/path", "get", operation, Collections.emptyMap());
@@ -252,6 +252,7 @@ public class DefaultCodegenTest {
         String type = codegen.getSchemaType(schema);
 
         Assert.assertNotNull(type);
+        Assert.assertEquals(type, "oneOf<ObjA,ObjB>");
     }
 
     @Test
@@ -292,7 +293,7 @@ public class DefaultCodegenTest {
         Assert.assertNotNull(enumVars);
         Map<String, Object> testedEnumVar = enumVars.get(0);
         Assert.assertNotNull(testedEnumVar);
-        Assert.assertEquals(testedEnumVar.getOrDefault("name", ""),"_1");
+        Assert.assertEquals(testedEnumVar.getOrDefault("name", ""), "_1");
         Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "\"1\"");
         Assert.assertEquals(testedEnumVar.getOrDefault("isString", ""), false);
     }
@@ -352,9 +353,11 @@ public class DefaultCodegenTest {
         Assert.assertNotNull(enumVars.get(0));
         Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "DOGVAR");
         Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"dog\"");
+        Assert.assertEquals(enumVars.get(0).getOrDefault("enumDescription", ""), "This is a dog");
         Assert.assertNotNull(enumVars.get(1));
         Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "CATVAR");
         Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"cat\"");
+        Assert.assertEquals(enumVars.get(1).getOrDefault("enumDescription", ""), "This is a cat");
     }
 
     @Test
@@ -503,16 +506,16 @@ public class DefaultCodegenTest {
             Assert.assertEquals(req.responses.size(), 2);
 
             switch (req.httpMethod.toLowerCase(Locale.getDefault())) {
-            case "post":
-                Assert.assertEquals(req.operationId, "onDataDataPost");
-                Assert.assertEquals(req.bodyParam.dataType, "NewNotificationData");
-                break;
-            case "delete":
-                Assert.assertEquals(req.operationId, "onDataDataDelete");
-                Assert.assertEquals(req.bodyParam.dataType, "DeleteNotificationData");
-                break;
-            default:
-                Assert.fail(String.format(Locale.getDefault(), "invalid callback request http method '%s'", req.httpMethod));
+                case "post":
+                    Assert.assertEquals(req.operationId, "onDataDataPost");
+                    Assert.assertEquals(req.bodyParam.dataType, "NewNotificationData");
+                    break;
+                case "delete":
+                    Assert.assertEquals(req.operationId, "onDataDataDelete");
+                    Assert.assertEquals(req.bodyParam.dataType, "DeleteNotificationData");
+                    break;
+                default:
+                    Assert.fail(String.format(Locale.getDefault(), "invalid callback request http method '%s'", req.httpMethod));
             }
         });
     }
@@ -534,7 +537,7 @@ public class DefaultCodegenTest {
 
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
         CodegenDiscriminator test = new CodegenDiscriminator();
-        test.setPropertyName("$_type");
+        test.setPropertyName("DollarUnderscoretype");
         test.setMapping(new HashMap<>());
         test.getMapping().put("a", "#/components/schemas/Adult");
         test.getMapping().put("c", "#/components/schemas/Child");
@@ -574,7 +577,10 @@ public class DefaultCodegenTest {
         cm.setAllowableValues(allowableValues);
         cm.dataType = "String";
         final List<String> aliases = Arrays.asList("DOGVAR", "CATVAR");
-        Map<String, Object> extentions = Collections.singletonMap("x-enum-varnames", aliases);
+        final List<String> descriptions = Arrays.asList("This is a dog", "This is a cat");
+        Map<String, Object> extentions = new HashMap<>();
+        extentions.put("x-enum-varnames", aliases);
+        extentions.put("x-enum-descriptions", descriptions);
         cm.setVendorExtensions(extentions);
         cm.setVars(Collections.emptyList());
         Map<String, Object> objs = Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm)));

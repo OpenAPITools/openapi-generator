@@ -119,9 +119,9 @@ pplx::task<void> UserApi::createUser(std::shared_ptr<User> user)
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -244,9 +244,9 @@ pplx::task<void> UserApi::createUsersWithArrayInput(std::vector<std::shared_ptr<
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -369,9 +369,9 @@ pplx::task<void> UserApi::createUsersWithListInput(std::vector<std::shared_ptr<U
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -469,9 +469,9 @@ pplx::task<void> UserApi::deleteUser(utility::string_t username)
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("DELETE"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -571,9 +571,9 @@ pplx::task<std::shared_ptr<User>> UserApi::getUserByName(utility::string_t usern
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -701,9 +701,9 @@ pplx::task<utility::string_t> UserApi::loginUser(utility::string_t username, uti
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -823,9 +823,9 @@ pplx::task<void> UserApi::logoutUser()
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -944,9 +944,9 @@ pplx::task<void> UserApi::updateUser(utility::string_t username, std::shared_ptr
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("PUT"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK

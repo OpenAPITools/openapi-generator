@@ -40,7 +40,8 @@ use {Api,
      DummyGetResponse,
      DummyPutResponse,
      FileResponseGetResponse,
-     HtmlPostResponse
+     HtmlPostResponse,
+     RawJsonGetResponse
      };
 #[allow(unused_imports)]
 use models;
@@ -56,12 +57,14 @@ mod paths {
         pub static ref GLOBAL_REGEX_SET: regex::RegexSet = regex::RegexSet::new(&[
             r"^/dummy$",
             r"^/file_response$",
-            r"^/html$"
+            r"^/html$",
+            r"^/raw_json$"
         ]).unwrap();
     }
     pub static ID_DUMMY: usize = 0;
     pub static ID_FILE_RESPONSE: usize = 1;
     pub static ID_HTML: usize = 2;
+    pub static ID_RAW_JSON: usize = 3;
 }
 
 pub struct NewService<T, C> {
@@ -190,7 +193,7 @@ where
                             Ok(body) => {
 
                                 let mut unused_elements = Vec::new();
-                                let param_inline_object: Option<models::InlineObject> = if !body.is_empty() {
+                                let param_nested_response: Option<models::InlineObject> = if !body.is_empty() {
 
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
 
@@ -198,7 +201,7 @@ where
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_inline_object) => param_inline_object,
+                                        Ok(param_nested_response) => param_nested_response,
 
                                         Err(_) => None,
                                     }
@@ -208,7 +211,7 @@ where
                                 };
 
 
-                                Box::new(api_impl.dummy_put(param_inline_object, &context)
+                                Box::new(api_impl.dummy_put(param_nested_response, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
@@ -241,7 +244,7 @@ where
 
 
                             },
-                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter InlineObject: {}", e)))),
+                            Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter nested_response: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
@@ -377,6 +380,60 @@ where
             },
 
 
+            // RawJsonGet - GET /raw_json
+            &hyper::Method::Get if path.matched(paths::ID_RAW_JSON) => {
+
+
+
+
+
+
+
+                Box::new({
+                        {{
+
+                                Box::new(api_impl.raw_json_get(&context)
+                                    .then(move |result| {
+                                        let mut response = Response::new();
+                                        response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                RawJsonGetResponse::Success
+
+                                                    (body)
+
+
+                                                => {
+                                                    response.set_status(StatusCode::try_from(200).unwrap());
+
+                                                    response.headers_mut().set(ContentType(mimetypes::responses::RAW_JSON_GET_SUCCESS.clone()));
+
+
+                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+
+                                                    response.set_body(body);
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                response.set_status(StatusCode::InternalServerError);
+                                                response.set_body("An internal error occurred");
+                                            },
+                                        }
+
+                                        future::ok(response)
+                                    }
+                                ))
+
+                        }}
+                }) as Box<Future<Item=Response, Error=Error>>
+
+
+            },
+
+
             _ => Box::new(future::ok(Response::new().with_status(StatusCode::NotFound))) as Box<Future<Item=Response, Error=Error>>,
         }
     }
@@ -410,6 +467,9 @@ impl RequestParser for ApiRequestParser {
 
             // HtmlPost - POST /html
             &hyper::Method::Post if path.matched(paths::ID_HTML) => Ok("HtmlPost"),
+
+            // RawJsonGet - GET /raw_json
+            &hyper::Method::Get if path.matched(paths::ID_RAW_JSON) => Ok("RawJsonGet"),
             _ => Err(()),
         }
     }

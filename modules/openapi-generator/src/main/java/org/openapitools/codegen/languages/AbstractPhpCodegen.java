@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -40,6 +41,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractPhpCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -345,9 +353,17 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
+            if (inner == null) {
+                LOGGER.warn(ap.getName() + "(array property) does not have a proper inner type defined.Default to string");
+                inner = new StringSchema().description("TODO default missing array inner type to string");
+            }
             return getTypeDeclaration(inner) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
+            if (inner == null) {
+                LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
+                inner = new StringSchema().description("TODO default missing map inner type to string");
+            }
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         } else if (StringUtils.isNotBlank(p.get$ref())) { // model
             String type = super.getTypeDeclaration(p);
@@ -425,11 +441,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         if ("camelCase".equals(variableNamingConvention)) {
             // return the name in camelCase style
             // phone_number => phoneNumber
-            name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
+            name = camelize(name, true);
         } else { // default to snake case
             // return the name in underscore style
             // PhoneNumber => phone_number
-            name = org.openapitools.codegen.utils.StringUtils.underscore(name);
+            name = underscore(name);
         }
 
         // parameter name starting with number won't compile
@@ -460,13 +476,13 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // model name cannot use reserved keyword
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -483,7 +499,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return org.openapitools.codegen.utils.StringUtils.camelize(name);
+        return camelize(name);
     }
 
     @Override
@@ -505,7 +521,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
      * @return capitalized model name
      */
     public String toInterfaceName(final String name) {
-        return org.openapitools.codegen.utils.StringUtils.camelize(interfaceNamePrefix + name + interfaceNameSuffix);
+        return camelize(interfaceNamePrefix + name + interfaceNameSuffix);
     }
 
     /**
@@ -515,7 +531,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
      * @return capitalized abstract class name
      */
     public String toAbstractName(final String name) {
-        return org.openapitools.codegen.utils.StringUtils.camelize(abstractNamePrefix + name + abstractNameSuffix);
+        return camelize(abstractNamePrefix + name + abstractNameSuffix);
     }
 
     /**
@@ -525,7 +541,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
      * @return capitalized trait name
      */
     public String toTraitName(final String name) {
-        return org.openapitools.codegen.utils.StringUtils.camelize(traitNamePrefix + name + traitNameSuffix);
+        return camelize(traitNamePrefix + name + traitNameSuffix);
     }
 
     @Override
@@ -537,17 +553,17 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId), true));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId), true));
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
             operationId = "call_" + operationId;
         }
 
-        return org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
+        return camelize(sanitizeName(operationId), true);
     }
 
     /**
@@ -685,7 +701,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
 
         // string
-        String enumName = sanitizeName(org.openapitools.codegen.utils.StringUtils.underscore(name).toUpperCase(Locale.ROOT));
+        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -698,7 +714,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = org.openapitools.codegen.utils.StringUtils.underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
+        String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");
@@ -723,7 +739,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         for (CodegenOperation op : operationList) {
             // for API test method name
             // e.g. public function test{{vendorExtensions.x-testOperationId}}()
-            op.vendorExtensions.put("x-testOperationId", org.openapitools.codegen.utils.StringUtils.camelize(op.operationId));
+            op.vendorExtensions.put("x-testOperationId", camelize(op.operationId));
         }
         return objs;
     }

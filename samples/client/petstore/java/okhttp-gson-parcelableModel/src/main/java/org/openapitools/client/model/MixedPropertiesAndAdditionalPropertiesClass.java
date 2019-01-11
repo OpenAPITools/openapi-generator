@@ -47,7 +47,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
 
   public static final String SERIALIZED_NAME_MAP = "map";
   @SerializedName(SERIALIZED_NAME_MAP)
-  private Map<String, Animal> map = null;
+  private Map<String, Animal> map = new HashMap<String, Animal>();
 
   public MixedPropertiesAndAdditionalPropertiesClass() {
   }
@@ -138,7 +138,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class MixedPropertiesAndAdditionalPropertiesClass {\n");
-    
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    map: ").append(toIndentedString(map)).append("\n");

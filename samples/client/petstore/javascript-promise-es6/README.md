@@ -72,8 +72,8 @@ var OpenApiPetstore = require('open_api_petstore');
 
 
 var api = new OpenApiPetstore.AnotherFakeApi()
-var client = new OpenApiPetstore.Client(); // {Client} client model
-api.call123testSpecialTags(client).then(function(data) {
+var body = new OpenApiPetstore.Client(); // {Client} client model
+api.call123testSpecialTags(body).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
   console.error(error);
@@ -129,7 +129,6 @@ Class | Method | HTTP request | Description
 
  - [OpenApiPetstore.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [OpenApiPetstore.Animal](docs/Animal.md)
- - [OpenApiPetstore.AnimalFarm](docs/AnimalFarm.md)
  - [OpenApiPetstore.ApiResponse](docs/ApiResponse.md)
  - [OpenApiPetstore.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [OpenApiPetstore.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -160,7 +159,6 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.Pet](docs/Pet.md)
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
- - [OpenApiPetstore.StringBooleanMap](docs/StringBooleanMap.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
  - [OpenApiPetstore.User](docs/User.md)
 

@@ -17,6 +17,11 @@
 
 package org.openapitools.codegen.python;
 
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import org.openapitools.codegen.CodegenOperation;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -54,4 +59,25 @@ public class PythonClientCodegenTest {
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
+    @Test(description = "test regex patterns")
+    public void testRegularExpressionOpenAPISchemaVersion3() {
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_1517.yaml", null, new ParseOptions()).getOpenAPI();
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        final String path = "/ping";
+        final Operation p = openAPI.getPaths().get(path).getGet();
+        final CodegenOperation op = codegen.fromOperation(path, "get", p, openAPI.getComponents().getSchemas());
+        // pattern_no_forward_slashes '^pattern$'
+        Assert.assertEquals(op.allParams.get(0).pattern, "/^pattern$/");
+        // pattern_two_slashes '/^pattern$/'
+        Assert.assertEquals(op.allParams.get(1).pattern, "/^pattern$/");
+        // pattern_dont_escape_backslash '/^pattern\d{3}$/'
+        Assert.assertEquals(op.allParams.get(2).pattern, "/^pattern\\d{3}$/");
+        // pattern_dont_escape_escaped_forward_slash '/^pattern\/\d{3}$/'
+        Assert.assertEquals(op.allParams.get(3).pattern, "/^pattern\\/\\d{3}$/");
+        // pattern_escape_unescaped_forward_slash '^pattern/\d{3}$'
+        Assert.assertEquals(op.allParams.get(4).pattern, "/^pattern\\/\\d{3}$/");
+        // pattern_with_modifiers '/^pattern\d{3}$/i
+        Assert.assertEquals(op.allParams.get(5).pattern, "/^pattern\\d{3}$/i");
+    }
 }

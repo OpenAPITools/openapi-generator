@@ -75,11 +75,11 @@ public class FakeApiImpl implements FakeApi {
     /**
      * 
      * Test serialization of object with outer number type
-     * @param outerComposite Input composite as post body (optional)
+     * @param body Input composite as post body (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void fakeOuterCompositeSerialize(OuterComposite outerComposite, Handler<AsyncResult<OuterComposite>> resultHandler) {
-        Object localVarBody = outerComposite;
+    public void fakeOuterCompositeSerialize(OuterComposite body, Handler<AsyncResult<OuterComposite>> resultHandler) {
+        Object localVarBody = body;
         
         // create path and map variables
         String localVarPath = "/fake/outer/composite";
@@ -159,15 +159,15 @@ public class FakeApiImpl implements FakeApi {
     /**
      * 
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param fileSchemaTestClass  (required)
+     * @param body  (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, Handler<AsyncResult<Void>> resultHandler) {
-        Object localVarBody = fileSchemaTestClass;
+    public void testBodyWithFileSchema(FileSchemaTestClass body, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = body;
         
-        // verify the required parameter 'fileSchemaTestClass' is set
-        if (fileSchemaTestClass == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema"));
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling testBodyWithFileSchema"));
             return;
         }
         
@@ -194,11 +194,11 @@ public class FakeApiImpl implements FakeApi {
      * 
      * 
      * @param query  (required)
-     * @param user  (required)
+     * @param body  (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void testBodyWithQueryParams(String query, User user, Handler<AsyncResult<Void>> resultHandler) {
-        Object localVarBody = user;
+    public void testBodyWithQueryParams(String query, User body, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = body;
         
         // verify the required parameter 'query' is set
         if (query == null) {
@@ -206,9 +206,9 @@ public class FakeApiImpl implements FakeApi {
             return;
         }
         
-        // verify the required parameter 'user' is set
-        if (user == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'user' when calling testBodyWithQueryParams"));
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling testBodyWithQueryParams"));
             return;
         }
         
@@ -235,15 +235,15 @@ public class FakeApiImpl implements FakeApi {
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
-     * @param client client model (required)
+     * @param body client model (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void testClientModel(Client client, Handler<AsyncResult<Client>> resultHandler) {
-        Object localVarBody = client;
+    public void testClientModel(Client body, Handler<AsyncResult<Client>> resultHandler) {
+        Object localVarBody = body;
         
-        // verify the required parameter 'client' is set
-        if (client == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'client' when calling testClientModel"));
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling testClientModel"));
             return;
         }
         
@@ -452,15 +452,15 @@ if (booleanGroup != null)
     /**
      * test inline additionalProperties
      * 
-     * @param requestBody request body (required)
+     * @param param request body (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void testInlineAdditionalProperties(Map<String, String> requestBody, Handler<AsyncResult<Void>> resultHandler) {
-        Object localVarBody = requestBody;
+    public void testInlineAdditionalProperties(Map<String, String> param, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = param;
         
-        // verify the required parameter 'requestBody' is set
-        if (requestBody == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties"));
+        // verify the required parameter 'param' is set
+        if (param == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'param' when calling testInlineAdditionalProperties"));
             return;
         }
         

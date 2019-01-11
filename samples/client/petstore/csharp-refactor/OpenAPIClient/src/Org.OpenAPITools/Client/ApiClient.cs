@@ -19,9 +19,14 @@ using System.IO;
 using System.Web;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using RestSharp;
+using RestSharp.Deserializers;
+using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 using RestSharpMethod = RestSharp.Method;
 
 namespace Org.OpenAPITools.Client
@@ -36,8 +41,15 @@ namespace Org.OpenAPITools.Client
         private string _contentType = "application/json";
         private readonly JsonSerializerSettings _serializerSettings = new JsonSerializerSettings
         {
-            // Swagger generated types generally hide default constructors.
-            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+            // OpenAPI generated types generally hide default constructors.
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new CamelCaseNamingStrategy()
+                    {
+                        OverrideSpecifiedNames = true
+                    }
+                }
         };
 
         public CustomJsonCodec(IReadableConfiguration configuration)
@@ -55,21 +67,14 @@ namespace Org.OpenAPITools.Client
 
         public string Serialize(object obj)
         {
-            using (var writer = new StringWriter())
-            using (var jsonWriter = new JsonTextWriter(writer)
-            {
-                Formatting = Formatting.None, 
-                DateFormatString = _configuration.DateTimeFormat
-            })
-            {
-                _serializer.Serialize(jsonWriter, obj);
-                return writer.ToString();
-            }
+            String result = JsonConvert.SerializeObject(obj, _serializerSettings);
+            return result;
         }
 
         public T Deserialize<T>(IRestResponse response)
         {
-            return (T) Deserialize(response, typeof(T));
+            var result = (T) Deserialize(response, typeof(T));
+            return result;
         }
 
         /// <summary>
@@ -173,7 +178,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" />
         /// </summary>
-        /// <param name="baseUrl">The target service's base path in URL format.</param>
+        /// <param name="basePath">The target service's base path in URL format.</param>
         /// <exception cref="ArgumentException"></exception>
         public ApiClient(String basePath)
         {
@@ -244,7 +249,11 @@ namespace Org.OpenAPITools.Client
             if (options == null) throw new ArgumentNullException("options");
             if (configuration == null) throw new ArgumentNullException("configuration");
             
-            RestRequest request = new RestRequest(path, Method(method));
+            RestRequest request = new RestRequest(Method(method))
+            {
+                Resource = path,
+                JsonSerializer = new CustomJsonCodec(configuration)
+            };
 
             if (options.PathParameters != null)
             {
@@ -369,9 +378,19 @@ namespace Org.OpenAPITools.Client
         {
             RestClient client = new RestClient(_baseUrl);
 
-            var codec = new CustomJsonCodec(configuration);
-            req.JsonSerializer = codec;
-            client.AddHandler(codec.ContentType, codec);
+            client.ClearHandlers();
+            var existingDeserializer = req.JsonSerializer as IDeserializer;
+            if (existingDeserializer != null)
+            {
+                client.AddHandler(existingDeserializer, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+            }
+            else
+            {
+                var codec = new CustomJsonCodec(configuration);
+                client.AddHandler(codec, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+            }
+
+            client.AddHandler(new XmlDeserializer(), "application/xml", "text/xml", "*+xml", "*");
 
             client.Timeout = configuration.Timeout;
 
@@ -379,7 +398,7 @@ namespace Org.OpenAPITools.Client
             {
                 client.UserAgent = configuration.UserAgent;
             }
-            
+
             InterceptRequest(req);
             var response = await client.ExecuteTaskAsync<T>(req);
             InterceptResponse(req, response);
@@ -420,42 +439,98 @@ namespace Org.OpenAPITools.Client
         }
         
         #region IAsynchronousClient
+        /// <summary>
+        /// Make a HTTP GET request (async).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A Task containing ApiResponse</returns>
         public async Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return await Exec<T>(newRequest(HttpMethod.Get, path, options, config), config);
         }
 
+        /// <summary>
+        /// Make a HTTP POST request (async).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A Task containing ApiResponse</returns>
         public async Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return await Exec<T>(newRequest(HttpMethod.Post, path, options, config), config);
         }
 
+        /// <summary>
+        /// Make a HTTP PUT request (async).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A Task containing ApiResponse</returns>
         public async Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return await Exec<T>(newRequest(HttpMethod.Put, path, options, config), config);
         }
 
+        /// <summary>
+        /// Make a HTTP DELETE request (async).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A Task containing ApiResponse</returns>
         public async Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return await Exec<T>(newRequest(HttpMethod.Delete, path, options, config), config);
         }
 
+        /// <summary>
+        /// Make a HTTP HEAD request (async).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A Task containing ApiResponse</returns>
         public async Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return await Exec<T>(newRequest(HttpMethod.Head, path, options, config), config);
         }
 
+        /// <summary>
+        /// Make a HTTP OPTION request (async).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A Task containing ApiResponse</returns>
         public async Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
             return await Exec<T>(newRequest(HttpMethod.Options, path, options, config), config);
         }
 
+        /// <summary>
+        /// Make a HTTP PATCH request (async).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A Task containing ApiResponse</returns>
         public async Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             var config = configuration ?? GlobalConfiguration.Instance;
@@ -464,36 +539,92 @@ namespace Org.OpenAPITools.Client
         #endregion IAsynchronousClient
 
         #region ISynchronousClient
+        /// <summary>
+        /// Make a HTTP GET request (synchronous).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Get<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             return GetAsync<T>(path, options, configuration).Result;
         }
 
+        /// <summary>
+        /// Make a HTTP POST request (synchronous).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Post<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             return PostAsync<T>(path, options, configuration).Result;
         }
 
+        /// <summary>
+        /// Make a HTTP PUT request (synchronous).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Put<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             return PutAsync<T>(path, options, configuration).Result;
         }
 
+        /// <summary>
+        /// Make a HTTP DELETE request (synchronous).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Delete<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             return DeleteAsync<T>(path, options, configuration).Result;
         }
 
+        /// <summary>
+        /// Make a HTTP HEAD request (synchronous).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Head<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             return HeadAsync<T>(path, options, configuration).Result;
         }
 
+        /// <summary>
+        /// Make a HTTP OPTION request (synchronous).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Options<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             return OptionsAsync<T>(path, options, configuration).Result;
         }
 
+        /// <summary>
+        /// Make a HTTP PATCH request (synchronous).
+        /// </summary>
+        /// <param name="path">The target path (or resource).</param>
+        /// <param name="options">The additional request options.</param>
+        /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
+        /// GlobalConfiguration has been done before calling this method.</param>
+        /// <returns>A Task containing ApiResponse</returns>
         public ApiResponse<T> Patch<T>(string path, RequestOptions options, IReadableConfiguration configuration = null)
         {
             return PatchAsync<T>(path, options, configuration).Result;

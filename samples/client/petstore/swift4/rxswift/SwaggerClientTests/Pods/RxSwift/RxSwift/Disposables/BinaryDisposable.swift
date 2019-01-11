@@ -9,7 +9,7 @@
 /// Represents two disposable resources that are disposed together.
 private final class BinaryDisposable : DisposeBase, Cancelable {
 
-    private var _isDisposed: AtomicInt = 0
+    private var _isDisposed = AtomicInt(0)
 
     // state
     private var _disposable1: Disposable?
@@ -17,7 +17,7 @@ private final class BinaryDisposable : DisposeBase, Cancelable {
 
     /// - returns: Was resource disposed.
     var isDisposed: Bool {
-        return _isDisposed > 0
+        return _isDisposed.isFlagSet(1)
     }
 
     /// Constructs new binary disposable from two disposables.
@@ -34,7 +34,7 @@ private final class BinaryDisposable : DisposeBase, Cancelable {
     ///
     /// After invoking disposal action, disposal action will be dereferenced.
     func dispose() {
-        if AtomicCompareAndSwap(0, 1, &_isDisposed) {
+        if _isDisposed.fetchOr(1) == 0 {
             _disposable1?.dispose()
             _disposable2?.dispose()
             _disposable1 = nil

@@ -18,11 +18,11 @@ class TestPetController(BaseTestCase):
 
         Add a new pet to the store
         """
-        pet = Pet()
+        body = Pet()
         response = self.client.open(
             '/v2/pet',
             method='POST',
-            data=json.dumps(pet),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
@@ -82,11 +82,11 @@ class TestPetController(BaseTestCase):
 
         Update an existing pet
         """
-        pet = Pet()
+        body = Pet()
         response = self.client.open(
             '/v2/pet',
             method='PUT',
-            data=json.dumps(pet),
+            data=json.dumps(body),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))

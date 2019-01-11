@@ -81,6 +81,8 @@ public interface CodegenConfig {
 
     String escapeTextWhileAllowingNewLines(String text);
 
+    String encodePath(String text);
+
     String escapeUnsafeCharacters(String input);
 
     String escapeReservedWord(String name);
@@ -171,6 +173,8 @@ public interface CodegenConfig {
 
     void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
 
+    Map<String, Object> updateAllModels(Map<String, Object> objs);
+
     Map<String, Object> postProcessAllModels(Map<String, Object> objs);
 
     Map<String, Object> postProcessModels(Map<String, Object> objs);
@@ -260,11 +264,11 @@ public interface CodegenConfig {
 
     boolean isEnablePostProcessFile();
 
-    public void setEnablePostProcessFile(boolean isEnablePostProcessFile);
+    void setEnablePostProcessFile(boolean isEnablePostProcessFile);
 
     // set OpenAPI and schemas
-    public void setGlobalOpenAPI(OpenAPI openAPI);
+    void setGlobalOpenAPI(OpenAPI openAPI);
 
-    public void setGlobalSchemas(OpenAPI openAPI);
+    void setGlobalSchemas(OpenAPI openAPI);
 
 }

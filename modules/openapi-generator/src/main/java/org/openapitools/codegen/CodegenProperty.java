@@ -17,11 +17,7 @@
 
 package org.openapitools.codegen;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class CodegenProperty implements Cloneable {
     public String baseName, complexType, getter, setter, description, dataType,
@@ -57,7 +53,7 @@ public class CodegenProperty implements Cloneable {
     public boolean exclusiveMaximum;
     public boolean hasMore, required, secondaryParam;
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
-    public boolean isPrimitiveType, isModel, isContainer, isNotContainer;
+    public boolean isPrimitiveType, isModel, isContainer;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
             isBoolean, isDate, isDateTime, isUuid, isEmail, isFreeFormObject;
     public boolean isListContainer, isMapContainer;
@@ -65,6 +61,7 @@ public class CodegenProperty implements Cloneable {
     public boolean isReadOnly;
     public boolean isWriteOnly;
     public boolean isNullable;
+    public boolean isSelfReference;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
     public CodegenProperty items;
@@ -438,12 +435,12 @@ public class CodegenProperty implements Cloneable {
         result = prime * result + ((hasMoreNonReadOnly ? 13 : 31));
         result = prime * result + ((isContainer ? 13 : 31));
         result = prime * result + (isEnum ? 1231 : 1237);
-        result = prime * result + ((isNotContainer ? 13 : 31));
         result = prime * result + ((isPrimitiveType ? 13 : 31));
         result = prime * result + ((isModel ? 13 : 31));
         result = prime * result + ((isReadOnly ? 13 : 31));
         result = prime * result + ((isWriteOnly ? 13 : 31));
         result = prime * result + ((isNullable ? 13 : 31));
+        result = prime * result + ((isSelfReference ? 13 : 31));
         result = prime * result + ((items == null) ? 0 : items.hashCode());
         result = prime * result + ((mostInnerItems == null) ? 0 : mostInnerItems.hashCode());
         result = prime * result + ((jsonSchema == null) ? 0 : jsonSchema.hashCode());
@@ -590,9 +587,6 @@ public class CodegenProperty implements Cloneable {
         if (this.isContainer != other.isContainer) {
             return false;
         }
-        if (this.isNotContainer != other.isNotContainer) {
-            return false;
-        }
         if (this.isEnum != other.isEnum) {
             return false;
         }
@@ -603,6 +597,9 @@ public class CodegenProperty implements Cloneable {
             return false;
         }
         if (this.isNullable != other.isNullable) {
+            return false;
+        }
+        if (this.isSelfReference != other.isSelfReference ) {
             return false;
         }
         if (this._enum != other._enum && (this._enum == null || !this._enum.equals(other._enum))) {
@@ -733,6 +730,7 @@ public class CodegenProperty implements Cloneable {
             if (this.vendorExtensions != null) {
                 cp.vendorExtensions = new HashMap<String, Object>(this.vendorExtensions);
             }
+
             return cp;
         } catch (CloneNotSupportedException e) {
             throw new IllegalStateException(e);
@@ -775,7 +773,6 @@ public class CodegenProperty implements Cloneable {
                 ", isPrimitiveType=" + isPrimitiveType +
                 ", isModel=" + isModel +
                 ", isContainer=" + isContainer +
-                ", isNotContainer=" + isNotContainer +
                 ", isString=" + isString +
                 ", isNumeric=" + isNumeric +
                 ", isInteger=" + isInteger +
@@ -798,6 +795,7 @@ public class CodegenProperty implements Cloneable {
                 ", isReadOnly=" + isReadOnly +
                 ", isWriteOnly=" + isWriteOnly +
                 ", isNullable=" + isNullable +
+                ", isSelfReference=" + isSelfReference +
                 ", _enum=" + _enum +
                 ", allowableValues=" + allowableValues +
                 ", items=" + items +
@@ -817,4 +815,6 @@ public class CodegenProperty implements Cloneable {
                 ", isXmlWrapped=" + isXmlWrapped +
                 '}';
     }
+
+
 }

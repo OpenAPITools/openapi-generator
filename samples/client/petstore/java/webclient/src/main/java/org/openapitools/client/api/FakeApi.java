@@ -85,12 +85,12 @@ public class FakeApi {
      * 
      * Test serialization of object with outer number type
      * <p><b>200</b> - Output composite
-     * @param outerComposite Input composite as post body
+     * @param body Input composite as post body
      * @return OuterComposite
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Mono<OuterComposite> fakeOuterCompositeSerialize(OuterComposite outerComposite) throws RestClientException {
-        Object postBody = outerComposite;
+    public Mono<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body) throws RestClientException {
+        Object postBody = body;
         
         String path = UriComponentsBuilder.fromPath("/fake/outer/composite").build().toUriString();
         
@@ -172,15 +172,15 @@ public class FakeApi {
      * 
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      * <p><b>200</b> - Success
-     * @param fileSchemaTestClass The fileSchemaTestClass parameter
+     * @param body The body parameter
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws RestClientException {
-        Object postBody = fileSchemaTestClass;
+    public Mono<Void> testBodyWithFileSchema(FileSchemaTestClass body) throws RestClientException {
+        Object postBody = body;
         
-        // verify the required parameter 'fileSchemaTestClass' is set
-        if (fileSchemaTestClass == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testBodyWithFileSchema");
         }
         
         String path = UriComponentsBuilder.fromPath("/fake/body-with-file-schema").build().toUriString();
@@ -206,20 +206,20 @@ public class FakeApi {
      * 
      * <p><b>200</b> - Success
      * @param query The query parameter
-     * @param user The user parameter
+     * @param body The body parameter
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testBodyWithQueryParams(String query, User user) throws RestClientException {
-        Object postBody = user;
+    public Mono<Void> testBodyWithQueryParams(String query, User body) throws RestClientException {
+        Object postBody = body;
         
         // verify the required parameter 'query' is set
         if (query == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'query' when calling testBodyWithQueryParams");
         }
         
-        // verify the required parameter 'user' is set
-        if (user == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'user' when calling testBodyWithQueryParams");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testBodyWithQueryParams");
         }
         
         String path = UriComponentsBuilder.fromPath("/fake/body-with-query-params").build().toUriString();
@@ -246,16 +246,16 @@ public class FakeApi {
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
      * <p><b>200</b> - successful operation
-     * @param client client model
+     * @param body client model
      * @return Client
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Mono<Client> testClientModel(Client client) throws RestClientException {
-        Object postBody = client;
+    public Mono<Client> testClientModel(Client body) throws RestClientException {
+        Object postBody = body;
         
-        // verify the required parameter 'client' is set
-        if (client == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'client' when calling testClientModel");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testClientModel");
         }
         
         String path = UriComponentsBuilder.fromPath("/fake").build().toUriString();
@@ -480,15 +480,15 @@ public class FakeApi {
      * test inline additionalProperties
      * 
      * <p><b>200</b> - successful operation
-     * @param requestBody request body
+     * @param param request body
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testInlineAdditionalProperties(Map<String, String> requestBody) throws RestClientException {
-        Object postBody = requestBody;
+    public Mono<Void> testInlineAdditionalProperties(Map<String, String> param) throws RestClientException {
+        Object postBody = param;
         
-        // verify the required parameter 'requestBody' is set
-        if (requestBody == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
+        // verify the required parameter 'param' is set
+        if (param == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
         }
         
         String path = UriComponentsBuilder.fromPath("/fake/inline-additionalProperties").build().toUriString();

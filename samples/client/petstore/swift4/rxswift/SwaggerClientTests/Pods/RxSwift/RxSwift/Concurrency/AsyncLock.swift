@@ -58,7 +58,7 @@ final class AsyncLock<I: InvocableType>
 
     private func dequeue() -> I? {
         _lock.lock(); defer { _lock.unlock() } // {
-            if _queue.count > 0 {
+            if !_queue.isEmpty {
                 return _queue.dequeue()
             }
             else {

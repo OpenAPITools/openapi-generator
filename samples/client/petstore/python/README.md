@@ -53,11 +53,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.AnotherFakeApi(petstore_api.ApiClient(configuration))
-client = petstore_api.Client() # Client | client model
+body = petstore_api.Client() # Client | client model
 
 try:
     # To test special tags
-    api_response = api_instance.call_123_test_special_tags(client)
+    api_response = api_instance.call_123_test_special_tags(body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
@@ -111,7 +111,6 @@ Class | Method | HTTP request | Description
 
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Animal](docs/Animal.md)
- - [AnimalFarm](docs/AnimalFarm.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -142,8 +141,9 @@ Class | Method | HTTP request | Description
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SpecialModelName](docs/SpecialModelName.md)
- - [StringBooleanMap](docs/StringBooleanMap.md)
  - [Tag](docs/Tag.md)
+ - [TypeHolderDefault](docs/TypeHolderDefault.md)
+ - [TypeHolderExample](docs/TypeHolderExample.md)
  - [User](docs/User.md)
 
 

@@ -51,7 +51,7 @@ public interface FakeApi  {
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
-    public OuterComposite fakeOuterCompositeSerialize(@Valid OuterComposite outerComposite);
+    public OuterComposite fakeOuterCompositeSerialize(@Valid OuterComposite body);
 
     @POST
     @Path("/fake/outer/number")
@@ -75,7 +75,7 @@ public interface FakeApi  {
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })
-    public void testBodyWithFileSchema(@Valid FileSchemaTestClass fileSchemaTestClass);
+    public void testBodyWithFileSchema(@Valid FileSchemaTestClass body);
 
     @PUT
     @Path("/fake/body-with-query-params")
@@ -83,7 +83,7 @@ public interface FakeApi  {
     @ApiOperation(value = "", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success") })
-    public void testBodyWithQueryParams(@QueryParam("query") @NotNull String query, @Valid User user);
+    public void testBodyWithQueryParams(@QueryParam("query") @NotNull  String query, @Valid User body);
 
     /**
      * To test \&quot;client\&quot; model
@@ -98,7 +98,7 @@ public interface FakeApi  {
     @ApiOperation(value = "To test \"client\" model", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Client testClientModel(@Valid Client client);
+    public Client testClientModel(@Valid Client body);
 
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -128,7 +128,7 @@ public interface FakeApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid request"),
         @ApiResponse(code = 404, message = "Not found") })
-    public void testEnumParameters(@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray, @HeaderParam("enum_header_string") String enumHeaderString, @QueryParam("enum_query_string_array") @DefaultValue("new ArrayList<String>()") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @QueryParam("enum_query_double") Double enumQueryDouble, @Multipart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray, @Multipart(value = "enum_form_string", required = false)  String enumFormString);
+    public void testEnumParameters(@HeaderParam("enum_header_string_array")   List<String> enumHeaderStringArray, @HeaderParam("enum_header_string")   String enumHeaderString, @QueryParam("enum_query_string_array")  List<String> enumQueryStringArray, @QueryParam("enum_query_string")  @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer")  Integer enumQueryInteger, @QueryParam("enum_query_double")  Double enumQueryDouble, @Multipart(value = "enum_form_string_array", required = false)  List<String> enumFormStringArray, @Multipart(value = "enum_form_string", required = false)  String enumFormString);
 
     /**
      * Fake endpoint to test group parameters (optional)
@@ -141,7 +141,7 @@ public interface FakeApi  {
     @ApiOperation(value = "Fake endpoint to test group parameters (optional)", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Someting wrong") })
-    public void testGroupParameters(@QueryParam("required_string_group") @NotNull Integer requiredStringGroup, @HeaderParam("required_boolean_group") Boolean requiredBooleanGroup, @QueryParam("required_int64_group") @NotNull Long requiredInt64Group, @QueryParam("string_group") Integer stringGroup, @HeaderParam("boolean_group") Boolean booleanGroup, @QueryParam("int64_group") Long int64Group);
+    public void testGroupParameters(@QueryParam("required_string_group") @NotNull  Integer requiredStringGroup, @HeaderParam("required_boolean_group")  @NotNull  Boolean requiredBooleanGroup, @QueryParam("required_int64_group") @NotNull  Long requiredInt64Group, @QueryParam("string_group")  Integer stringGroup, @HeaderParam("boolean_group")   Boolean booleanGroup, @QueryParam("int64_group")  Long int64Group);
 
     /**
      * test inline additionalProperties
@@ -153,7 +153,7 @@ public interface FakeApi  {
     @ApiOperation(value = "test inline additionalProperties", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
-    public void testInlineAdditionalProperties(@Valid Map<String, String> requestBody);
+    public void testInlineAdditionalProperties(@Valid Map<String, String> param);
 
     /**
      * test json serialization of form data

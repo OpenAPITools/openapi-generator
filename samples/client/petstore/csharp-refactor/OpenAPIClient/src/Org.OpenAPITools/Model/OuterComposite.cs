@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="myNumber">myNumber.</param>
         /// <param name="myString">myString.</param>
         /// <param name="myBoolean">myBoolean.</param>
-        public OuterComposite(decimal? myNumber = default(decimal?), string myString = default(string), bool? myBoolean = default(bool?))
+        public OuterComposite(decimal myNumber = default(decimal), string myString = default(string), bool myBoolean = default(bool))
         {
             this.MyNumber = myNumber;
             this.MyString = myString;
@@ -48,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyNumber
         /// </summary>
         [DataMember(Name="my_number", EmitDefaultValue=false)]
-        public decimal? MyNumber { get; set; }
+        public decimal MyNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets MyString
@@ -60,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyBoolean
         /// </summary>
         [DataMember(Name="my_boolean", EmitDefaultValue=false)]
-        public bool? MyBoolean { get; set; }
+        public bool MyBoolean { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -93,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as OuterComposite);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as OuterComposite).AreEqual;
         }
 
         /// <summary>
@@ -103,25 +104,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(OuterComposite input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.MyNumber == input.MyNumber ||
-                    (this.MyNumber != null &&
-                    this.MyNumber.Equals(input.MyNumber))
-                ) && 
-                (
-                    this.MyString == input.MyString ||
-                    (this.MyString != null &&
-                    this.MyString.Equals(input.MyString))
-                ) && 
-                (
-                    this.MyBoolean == input.MyBoolean ||
-                    (this.MyBoolean != null &&
-                    this.MyBoolean.Equals(input.MyBoolean))
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

@@ -263,6 +263,23 @@ paths:
                     application/json:
                       schema:
                         $ref: '#/components/schemas/PingDataOutput21'
+  /some/p22:
+    post:
+      operationId: op22
+      parameters:
+        - name: callbackUrl
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uri
+            example: https://some-server.com
+      responses:
+        '201':
+          description: OK
+      callbacks:
+        sharedCallback:
+          $ref: "#/components/callbacks/sharedCallback22"
 components:
   schemas:
     UnusedObj1:
@@ -507,6 +524,20 @@ components:
           type: integer
         reply:
           type: String
+    SInput22:
+      type: object
+      properties:
+        uuid:
+          type: String
+        request:
+          type: String
+    SOutput22:
+      type: object
+      properties:
+        uuid:
+          type: String
+        response:
+          type: String
     SomeObjShared:
       type: object
       properties:
@@ -560,4 +591,20 @@ components:
       in: query
       schema:
         $ref: '#/components/schemas/SomeObj11'
+  callbacks:
+    sharedCallback22:
+      '{$request.query.callbackUrl}/shared':
+        post:
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SInput22'
+          responses:
+            '200':
+              description: Ok
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/SOutput22'
   

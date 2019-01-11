@@ -123,9 +123,9 @@ pplx::task<void> PetApi::addPet(std::shared_ptr<Pet> pet)
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -229,9 +229,9 @@ pplx::task<void> PetApi::deletePet(int64_t petId, boost::optional<utility::strin
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("DELETE"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -335,9 +335,9 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByStatus(std::vect
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -466,9 +466,9 @@ pplx::task<std::vector<std::shared_ptr<Pet>>> PetApi::findPetsByTags(std::vector
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -601,9 +601,9 @@ pplx::task<std::shared_ptr<Pet>> PetApi::getPetById(int64_t petId)
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("GET"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -743,9 +743,9 @@ pplx::task<void> PetApi::updatePet(std::shared_ptr<Pet> pet)
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("PUT"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -854,9 +854,9 @@ pplx::task<void> PetApi::updatePetWithForm(int64_t petId, boost::optional<utilit
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK
@@ -966,9 +966,9 @@ pplx::task<std::shared_ptr<ApiResponse>> PetApi::uploadFile(int64_t petId, boost
     return m_ApiClient->callApi(localVarPath, utility::conversions::to_string_t("POST"), localVarQueryParams, localVarHttpBody, localVarHeaderParams, localVarFormParams, localVarFileParams, localVarRequestHttpContentType)
     .then([=](web::http::http_response localVarResponse)
     {
-        if (m_ApiClient->getResponseHeadersHandler())
+        if (m_ApiClient->getResponseHandler())
         {
-            m_ApiClient->getResponseHeadersHandler()(localVarResponse.headers());
+            m_ApiClient->getResponseHandler()(localVarResponse.status_code(), localVarResponse.headers());
         }
 
         // 1xx - informational : OK

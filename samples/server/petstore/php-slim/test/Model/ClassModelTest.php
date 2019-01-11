@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Model;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Model\ClassModel;
 
 /**
@@ -36,7 +37,7 @@ use OpenAPIServer\Model\ClassModel;
  * @link     https://github.com/openapitools/openapi-generator
  * @coversDefaultClass \OpenAPIServer\Model\ClassModel
  */
-class ClassModelTest extends \PHPUnit_Framework_TestCase
+class ClassModelTest extends TestCase
 {
 
     /**

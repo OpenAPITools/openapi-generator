@@ -61,10 +61,10 @@ $apiInstance = new OpenAPI\Client\Api\AnotherFakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$client = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
+$body = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
 
 try {
-    $result = $apiInstance->call123TestSpecialTags($client);
+    $result = $apiInstance->call123TestSpecialTags($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AnotherFakeApi->call123TestSpecialTags: ', $e->getMessage(), PHP_EOL;
@@ -151,6 +151,8 @@ Class | Method | HTTP request | Description
  - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
  - [SpecialModelName](docs/Model/SpecialModelName.md)
  - [Tag](docs/Model/Tag.md)
+ - [TypeHolderDefault](docs/Model/TypeHolderDefault.md)
+ - [TypeHolderExample](docs/Model/TypeHolderExample.md)
  - [User](docs/Model/User.md)
 
 

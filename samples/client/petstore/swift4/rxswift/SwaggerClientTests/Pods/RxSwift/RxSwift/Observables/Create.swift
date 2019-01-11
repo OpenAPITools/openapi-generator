@@ -27,7 +27,7 @@ final fileprivate class AnonymousObservableSink<O: ObserverType> : Sink<O>, Obse
     typealias Parent = AnonymousObservable<E>
 
     // state
-    private var _isStopped: AtomicInt = 0
+    private var _isStopped = AtomicInt(0)
 
     #if DEBUG
         fileprivate let _synchronizationTracker = SynchronizationTracker()
@@ -44,12 +44,12 @@ final fileprivate class AnonymousObservableSink<O: ObserverType> : Sink<O>, Obse
         #endif
         switch event {
         case .next:
-            if _isStopped == 1 {
+            if _isStopped.load() == 1 {
                 return
             }
             forwardOn(event)
         case .error, .completed:
-            if AtomicCompareAndSwap(0, 1, &_isStopped) {
+            if _isStopped.fetchOr(1) == 0 {
                 forwardOn(event)
                 dispose()
             }

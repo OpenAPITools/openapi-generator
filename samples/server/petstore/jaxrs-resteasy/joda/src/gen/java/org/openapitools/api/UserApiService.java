@@ -17,11 +17,11 @@ import javax.ws.rs.core.SecurityContext;
 
 
 public interface UserApiService {
-      Response createUser(User user,SecurityContext securityContext)
+      Response createUser(User body,SecurityContext securityContext)
       throws NotFoundException;
-      Response createUsersWithArrayInput(List<User> user,SecurityContext securityContext)
+      Response createUsersWithArrayInput(List<User> body,SecurityContext securityContext)
       throws NotFoundException;
-      Response createUsersWithListInput(List<User> user,SecurityContext securityContext)
+      Response createUsersWithListInput(List<User> body,SecurityContext securityContext)
       throws NotFoundException;
       Response deleteUser(String username,SecurityContext securityContext)
       throws NotFoundException;
@@ -31,6 +31,6 @@ public interface UserApiService {
       throws NotFoundException;
       Response logoutUser(SecurityContext securityContext)
       throws NotFoundException;
-      Response updateUser(String username,User user,SecurityContext securityContext)
+      Response updateUser(String username,User body,SecurityContext securityContext)
       throws NotFoundException;
 }

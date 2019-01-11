@@ -10,7 +10,7 @@
 -}
 
 
-module Data.Order_ exposing (Order_, Status(..), decoder, encoder)
+module Data.Order_ exposing (Order_, Status(..), decoder, encode)
 
 import DateTime exposing (DateTime)
 import Dict exposing (Dict)
@@ -48,14 +48,14 @@ decoder =
         |> optional "complete" (Decode.nullable Decode.bool) (Just False)
 
 
-encoder : Order_ -> Encode.Value
-encoder model =
+encode : Order_ -> Encode.Value
+encode model =
     Encode.object
         [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
         , ( "petId", Maybe.withDefault Encode.null (Maybe.map Encode.int model.petId) )
         , ( "quantity", Maybe.withDefault Encode.null (Maybe.map Encode.int model.quantity) )
-        , ( "shipDate", Maybe.withDefault Encode.null (Maybe.map DateTime.encoder model.shipDate) )
-        , ( "status", Maybe.withDefault Encode.null (Maybe.map statusEncoder model.status) )
+        , ( "shipDate", Maybe.withDefault Encode.null (Maybe.map DateTime.encode model.shipDate) )
+        , ( "status", Maybe.withDefault Encode.null (Maybe.map encodeStatus model.status) )
         , ( "complete", Maybe.withDefault Encode.null (Maybe.map Encode.bool model.complete) )
         ]
 
@@ -80,8 +80,8 @@ statusDecoder =
             )
 
 
-statusEncoder : Status -> Encode.Value
-statusEncoder model =
+encodeStatus : Status -> Encode.Value
+encodeStatus model =
     case model of
         Placed ->
             Encode.string "placed"

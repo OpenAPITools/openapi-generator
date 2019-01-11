@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -40,6 +41,8 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
         /// <param name="breed">breed.</param>
+        /// <param name="className">className (required).</param>
+        /// <param name="color">color (default to &quot;red&quot;).</param>
         public Dog(string breed = default(string), string className = default(string), string color = "red") : base(className, color)
         {
             this.Breed = breed;
@@ -81,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Dog);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Dog).AreEqual;
         }
 
         /// <summary>
@@ -91,15 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(Dog input)
         {
-            if (input == null)
-                return false;
-
-            return base.Equals(input) && 
-                (
-                    this.Breed == input.Breed ||
-                    (this.Breed != null &&
-                    this.Breed.Equals(input.Breed))
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

@@ -28,6 +28,7 @@ import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
+import org.openapitools.codegen.config.GeneratorProperties
 
 
 /**
@@ -323,8 +324,6 @@ open class GenerateTask : DefaultTask() {
     @get:Internal
     val configOptions = project.objects.property<Map<String, String>>()
 
-    private val originalEnvironmentVariables = mutableMapOf<String, String?>()
-
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
             val item: T? = get()
@@ -352,36 +351,33 @@ open class GenerateTask : DefaultTask() {
         try {
             if (systemProperties.isPresent) {
                 systemProperties.get().forEach { (key, value) ->
-                    // System.setProperty returns the original value for a key, or null.
-                    // Cache the original value or null…we will late put the properties back in their original state.
-                    originalEnvironmentVariables[key] = System.setProperty(key, value)
                     configurator.addSystemProperty(key, value)
                 }
             }
 
             if (supportingFilesConstrainedTo.isPresent && supportingFilesConstrainedTo.get().isNotEmpty()) {
-                System.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesConstrainedTo.get().joinToString(","))
+                GeneratorProperties.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesConstrainedTo.get().joinToString(","))
             } else {
-                System.clearProperty(CodegenConstants.SUPPORTING_FILES)
+                GeneratorProperties.clearProperty(CodegenConstants.SUPPORTING_FILES)
             }
 
             if (modelFilesConstrainedTo.isPresent && modelFilesConstrainedTo.get().isNotEmpty()) {
-                System.setProperty(CodegenConstants.MODELS, modelFilesConstrainedTo.get().joinToString(","))
+                GeneratorProperties.setProperty(CodegenConstants.MODELS, modelFilesConstrainedTo.get().joinToString(","))
             } else {
-                System.clearProperty(CodegenConstants.MODELS)
+                GeneratorProperties.clearProperty(CodegenConstants.MODELS)
             }
 
             if (apiFilesConstrainedTo.isPresent && apiFilesConstrainedTo.get().isNotEmpty()) {
-                System.setProperty(CodegenConstants.APIS, apiFilesConstrainedTo.get().joinToString(","))
+                GeneratorProperties.setProperty(CodegenConstants.APIS, apiFilesConstrainedTo.get().joinToString(","))
             } else {
-                System.clearProperty(CodegenConstants.APIS)
+                GeneratorProperties.clearProperty(CodegenConstants.APIS)
             }
 
-            System.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.get().toString())
-            System.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
-            System.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.get().toString())
-            System.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
-            System.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
+            GeneratorProperties.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.get().toString())
+            GeneratorProperties.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
+            GeneratorProperties.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.get().toString())
+            GeneratorProperties.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
+            GeneratorProperties.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
 
             // now override with any specified parameters
             verbose.ifNotEmpty { value ->
@@ -541,14 +537,7 @@ open class GenerateTask : DefaultTask() {
                 throw GradleException("Code generation failed.", e)
             }
         } finally {
-            // Reset all modified system properties back to their original state
-            originalEnvironmentVariables.forEach {
-                when {
-                    it.value == null -> System.clearProperty(it.key)
-                    else -> System.setProperty(it.key, it.value)
-                }
-            }
-            originalEnvironmentVariables.clear()
+            GeneratorProperties.reset()
         }
     }
 }

@@ -1,6 +1,6 @@
 {{>licenseInfo}}
-#ifndef _{{prefix}}_{{classname}}_H_
-#define _{{prefix}}_{{classname}}_H_
+#ifndef {{prefix}}_{{classname}}_H
+#define {{prefix}}_{{classname}}_H
 
 #include "{{prefix}}HttpRequest.h"
 
@@ -25,13 +25,15 @@ public:
     QString basePath;
     QMap<QString, QString> defaultHeaders;
 
-    {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}{{{dataType}}}{{#isBodyParam}}&{{/isBodyParam}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}const {{{dataType}}}& {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
     {{/operation}}{{/operations}}
 private:
     {{#operations}}{{#operation}}void {{nickname}}Callback ({{prefix}}HttpRequestWorker * worker);
     {{/operation}}{{/operations}}
 signals:
     {{#operations}}{{#operation}}void {{nickname}}Signal({{#returnType}}{{{returnType}}} summary{{/returnType}});
+    {{/operation}}{{/operations}}
+    {{#operations}}{{#operation}}void {{nickname}}SignalFull({{prefix}}HttpRequestWorker* worker{{#returnType}}, {{{returnType}}} summary{{/returnType}});
     {{/operation}}{{/operations}}
     {{#operations}}{{#operation}}void {{nickname}}SignalE({{#returnType}}{{{returnType}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString& error_str);
     {{/operation}}{{/operations}}

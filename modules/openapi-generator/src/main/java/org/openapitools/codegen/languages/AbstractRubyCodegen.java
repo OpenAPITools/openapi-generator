@@ -31,6 +31,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Locale;
 
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
@@ -136,7 +137,7 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
 
         // camelize (lower first character) the variable name
         // petId => pet_id
-        name = org.openapitools.codegen.utils.StringUtils.underscore(name);
+        name = underscore(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -147,20 +148,7 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
     }
 
     public String toRegularExpression(String pattern) {
-        if (StringUtils.isEmpty(pattern)) {
-            return pattern;
-        }
-
-        // We don't escape \ in string since Ruby doesn't like \ escaped in regex literal
-        String regexString = pattern;
-        if (!regexString.startsWith("/")) {
-            regexString = "/" + regexString;
-        }
-        if (StringUtils.countMatches(regexString, '/') == 1) {
-            // we only have forward slash inserted at start... adding one to end
-            regexString = regexString + "/";
-        }
-        return regexString;
+        return addRegularExpressionDelimiter(pattern);
     }
 
     @Override
@@ -173,12 +161,12 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = org.openapitools.codegen.utils.StringUtils.underscore("call_" + operationId);
+            String newOperationId = underscore("call_" + operationId);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
-        return org.openapitools.codegen.utils.StringUtils.underscore(operationId);
+        return underscore(operationId);
     }
 
     @Override

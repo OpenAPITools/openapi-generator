@@ -33,16 +33,16 @@ import java.util.Map;
 
 public class JavaInheritanceTest {
 
-    @Test(description = "convert a composed model with parent")
+    @Test(description = "convert a composed model without discriminator")
     public void javaInheritanceTest() {
-        final Schema parentModel = new Schema().name("Base");
+        final Schema allOfModel = new Schema().name("Base");
 
         final Schema schema = new ComposedSchema()
                 .addAllOfItem(new Schema().$ref("Base"))
                 .name("composed");
 
         final Map<String, Schema> allSchemas = new HashMap<>();
-        allSchemas.put(parentModel.getName(), parentModel);
+        allSchemas.put(allOfModel.getName(), allOfModel);
         allSchemas.put(schema.getName(), schema);
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
@@ -50,14 +50,16 @@ public class JavaInheritanceTest {
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
-        Assert.assertEquals(cm.parent, "Base");
+        Assert.assertEquals(cm.parent, null);
         Assert.assertEquals(cm.imports, Sets.newHashSet("Base"));
     }
 
     @Test(description = "convert a composed model with discriminator")
     public void javaInheritanceWithDiscriminatorTest() {
         final Schema base = new Schema().name("Base");
-        base.setDiscriminator(new Discriminator().mapping("name", StringUtils.EMPTY));
+        Discriminator discriminator = new Discriminator().mapping("name", StringUtils.EMPTY);
+        discriminator.setPropertyName("model_type");
+        base.setDiscriminator(discriminator);
 
         final Schema schema = new ComposedSchema()
                 .addAllOfItem(new Schema().$ref("Base"));

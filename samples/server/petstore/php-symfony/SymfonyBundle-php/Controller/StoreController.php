@@ -305,18 +305,18 @@ class StoreController extends Controller
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $order = $request->getContent();
+        $body = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $order = $this->deserialize($order, 'OpenAPI\Server\Model\Order', $inputFormat);
+        $body = $this->deserialize($body, 'OpenAPI\Server\Model\Order', $inputFormat);
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Order");
-        $response = $this->validate($order, $asserts);
+        $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -329,7 +329,7 @@ class StoreController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
-            $result = $handler->placeOrder($order, $responseCode, $responseHeaders);
+            $result = $handler->placeOrder($body, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'successful operation';

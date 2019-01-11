@@ -14,8 +14,8 @@ defmodule OpenapiPetstore.Model.Tag do
   ]
 
   @type t :: %__MODULE__{
-    :"id" => integer(),
-    :"name" => String.t
+    :"id" => integer() | nil,
+    :"name" => String.t | nil
   }
 end
 

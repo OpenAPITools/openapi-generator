@@ -22,6 +22,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 
 import org.openapitools.codegen.CliOption;
@@ -32,6 +33,7 @@ import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,10 +45,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings({"hiding"})
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
-    private static final String NET45 = "v4.5";
+    private static final String NET45 = "v4.5.2";
     private static final String NET40 = "v4.0";
     private static final String NET35 = "v3.5";
     // TODO: v5.0 is PCL, not netstandard version 1.3, and not a specific .NET Framework. This needs to be updated,
@@ -81,18 +86,38 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
 
+
     public CSharpRefactorClientCodegen() {
         super();
+
+        // mapped non-nullable type without ?
+        typeMapping = new HashMap<String, String>();
+        typeMapping.put("string", "string");
+        typeMapping.put("binary", "byte[]");
+        typeMapping.put("ByteArray", "byte[]");
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("float", "float");
+        typeMapping.put("long", "long");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("file", "System.IO.Stream");
+        typeMapping.put("array", "List");
+        typeMapping.put("list", "List");
+        typeMapping.put("map", "Dictionary");
+        typeMapping.put("object", "Object");
+        typeMapping.put("UUID", "Guid");
+
+        setSupportNullable(Boolean.TRUE);
+        hideGenerationTimestamp = Boolean.TRUE;
         supportsInheritance = true;
         modelTemplateFiles.put("model.mustache", ".cs");
         apiTemplateFiles.put("api.mustache", ".cs");
-
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-
         embeddedTemplateDir = templateDir = "csharp-refactor";
-
-        hideGenerationTimestamp = Boolean.TRUE;
 
         cliOptions.clear();
 
@@ -124,7 +149,7 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
         frameworks = new ImmutableMap.Builder<String, String>()
                 .put(NET35, ".NET Framework 3.5 compatible")
                 .put(NET40, ".NET Framework 4.0 compatible")
-                .put(NET45, ".NET Framework 4.5+ compatible")
+                .put(NET45, ".NET Framework 4.5.2+ compatible")
                 .put(NETSTANDARD, ".NET Standard 1.3 compatible")
                 .put(UWP, "Universal Windows Platform (IMPORTANT: this will be decommissioned and replaced by v5.0)")
                 .build();
@@ -220,7 +245,6 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
 
-
         if (isEmpty(apiPackage)) {
             setApiPackage("Api");
         }
@@ -292,8 +316,10 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
 
             setTargetFrameworkNuget("net40");
             setSupportsAsync(Boolean.FALSE);
-        } else {
+        } else { // 4.5+
             additionalProperties.put(MCS_NET_VERSION_KEY, "4.5.2-api");
+            // some libs need 452 isntead of 45 in the config
+            additionalProperties.put("isNet452", true);
             setTargetFrameworkNuget("net45");
             setSupportsAsync(Boolean.TRUE);
         }
@@ -604,6 +630,10 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
         super.postProcessParameter(parameter);
+
+        if (!parameter.required && nullableType.contains(parameter.dataType)) { //optional
+            parameter.dataType = parameter.dataType + "?";
+        }
     }
 
     @Override
@@ -846,5 +876,18 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
     public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
         // To avoid unexpected behaviors when options are passed programmatically such as { "supportsAsync": "" }
         return super.processCompiler(compiler).emptyStringIsFalse(true);
+    }
+
+    @Override
+    public String getNullableType(Schema p, String type) {
+        if (languageSpecificPrimitives.contains(type)) {
+            if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
+                return type + "?";
+            } else {
+                return type;
+            }
+        } else {
+            return null;
+        }
     }
 }

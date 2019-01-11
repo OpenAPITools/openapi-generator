@@ -17,5 +17,5 @@ import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
 public abstract class FakeClassnameTags123ApiService {
-    public abstract Response testClassname(Client client,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response testClassname(Client body,SecurityContext securityContext) throws NotFoundException;
 }

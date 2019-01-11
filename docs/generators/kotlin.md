@@ -28,4 +28,9 @@ CONFIG OPTIONS for kotlin
 	        java8 - Java 8 native JSR310
 	        threetenbp - Threetenbp
 
+	collectionType
+	    Option. Collection type to use
+	        array - kotlin.Array
+	        list - kotlin.collections.List
+
 Back to the [generators list](README.md)

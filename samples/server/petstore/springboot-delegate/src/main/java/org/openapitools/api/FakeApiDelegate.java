@@ -32,7 +32,7 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#fakeOuterCompositeSerialize
      */
-    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite outerComposite);
+    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body);
 
     /**
      * @see FakeApi#fakeOuterNumberSerialize
@@ -47,18 +47,18 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testBodyWithFileSchema
      */
-    ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass);
+    ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass body);
 
     /**
      * @see FakeApi#testBodyWithQueryParams
      */
     ResponseEntity<Void> testBodyWithQueryParams(String query,
-        User user);
+        User body);
 
     /**
      * @see FakeApi#testClientModel
      */
-    ResponseEntity<Client> testClientModel(Client client);
+    ResponseEntity<Client> testClientModel(Client body);
 
     /**
      * @see FakeApi#testEndpointParameters
@@ -103,7 +103,7 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testInlineAdditionalProperties
      */
-    ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> requestBody);
+    ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> param);
 
     /**
      * @see FakeApi#testJsonFormData

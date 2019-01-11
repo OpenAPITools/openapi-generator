@@ -19,6 +19,7 @@ import io.swagger.v3.oas.models.tags.Tag;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 
 public class SerializerUtilsTest {
 
@@ -44,6 +45,7 @@ public class SerializerUtilsTest {
                 .operationId("pingOp")
                 .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("Ok")))));
         openAPI.components(new Components().addSchemas("SomeObject", new ObjectSchema().description("An Obj").addProperties("id", new StringSchema())));
+        openAPI.setExtensions(new LinkedHashMap<>()); // required because swagger-core is using HashMap instead of LinkedHashMap internally.
         openAPI.addExtension("x-custom", "value1");
         openAPI.addExtension("x-other", "value2");
 
@@ -87,8 +89,8 @@ public class SerializerUtilsTest {
                "        id:\n" + 
                "          type: string\n" + 
                "      type: object\n" + 
-               "x-other: value2\n" + 
-               "x-custom: value1\n";
+               "x-custom: value1\n" + 
+               "x-other: value2\n";
         assertEquals(content, expected);
     }
 

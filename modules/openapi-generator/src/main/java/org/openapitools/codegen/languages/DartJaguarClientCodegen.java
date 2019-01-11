@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
@@ -33,7 +34,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class DartJaguarClientCodegen extends DartClientCodegen {
+    private static final String NULLABLE_FIELDS = "nullableFields";
     private static Set<String> modelToIgnore = new HashSet<>();
 
     static {
@@ -43,11 +47,15 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         modelToIgnore.add("file");
     }
 
+    private boolean nullableFields = true;
+
     public DartJaguarClientCodegen() {
         super();
         browserClient = false;
         outputFolder = "generated-code/dart-jaguar";
         embeddedTemplateDir = templateDir = "dart-jaguar";
+
+        cliOptions.add(new CliOption(NULLABLE_FIELDS, "Is the null fields should be in the JSON payload"));
     }
 
     @Override
@@ -72,6 +80,13 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
     @Override
     public void processOpts() {
+        if (additionalProperties.containsKey(NULLABLE_FIELDS)) {
+            nullableFields = convertPropertyToBooleanAndWriteBack(NULLABLE_FIELDS);
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(NULLABLE_FIELDS, nullableFields);
+        }
+
         if (additionalProperties.containsKey(PUB_NAME)) {
             this.setPubName((String) additionalProperties.get(PUB_NAME));
         } else {

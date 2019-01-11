@@ -32,12 +32,12 @@ class Order(Model):
         :type complete: bool
         """
         self.openapi_types = {
-            'id': 'int',
-            'pet_id': 'int',
-            'quantity': 'int',
-            'ship_date': 'datetime',
-            'status': 'str',
-            'complete': 'bool'
+            'id': int,
+            'pet_id': int,
+            'quantity': int,
+            'ship_date': datetime,
+            'status': str,
+            'complete': bool
         }
 
         self.attribute_map = {

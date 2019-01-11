@@ -10,7 +10,7 @@
 -}
 
 
-module Data.Category exposing (Category, decoder, encoder)
+module Data.Category exposing (Category, decoder, encode)
 
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
@@ -33,8 +33,8 @@ decoder =
         |> optional "name" (Decode.nullable Decode.string) Nothing
 
 
-encoder : Category -> Encode.Value
-encoder model =
+encode : Category -> Encode.Value
+encode model =
     Encode.object
         [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
         , ( "name", Maybe.withDefault Encode.null (Maybe.map Encode.string model.name) )

@@ -13,11 +13,6 @@ import Foundation
 public struct Return: Codable {
 
     public var _return: Int?
-    public var _returnNum: NSNumber? {
-        get {
-            return _return.map({ return NSNumber(value: $0) })
-        }
-    }
 
     public init(_return: Int?) {
         self._return = _return

@@ -8,9 +8,9 @@
 {{/isEnum}}
 {{/isPrimitiveType}}
 {{/isContainer}}
-{{#isNotContainer}}
+{{^isContainer}}
 {{^isPrimitiveType}}
   @Valid
 {{/isPrimitiveType}}
-{{/isNotContainer}}
+{{/isContainer}}
 {{>beanValidationCore}}

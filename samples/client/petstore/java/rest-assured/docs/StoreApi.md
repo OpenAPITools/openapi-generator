@@ -134,7 +134,7 @@ No authorization required
 
 <a name="placeOrder"></a>
 # **placeOrder**
-> Order placeOrder(order)
+> Order placeOrder(body)
 
 Place an order for a pet
 
@@ -150,14 +150,14 @@ StoreApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).store();
 
 api.placeOrder()
-    .body(order).execute(r -> r.prettyPeek());
+    .body(body).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md)| order placed for purchasing the pet |
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet |
 
 ### Return type
 

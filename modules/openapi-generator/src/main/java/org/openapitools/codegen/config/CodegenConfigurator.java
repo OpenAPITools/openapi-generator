@@ -95,6 +95,7 @@ public class CodegenConfigurator implements Serializable {
     private boolean verbose;
     private boolean skipOverwrite;
     private boolean removeOperationIdPrefix;
+    private boolean logToStderr;
     private boolean validateSpec;
     private boolean enablePostProcessFile;
     private String templateDir;
@@ -217,6 +218,24 @@ public class CodegenConfigurator implements Serializable {
 
     public CodegenConfigurator setEnablePostProcessFile(boolean enablePostProcessFile) {
         this.enablePostProcessFile = enablePostProcessFile;
+        return this;
+    }
+
+    public boolean getLogToStderr() {
+        return logToStderr;
+    }
+
+    public CodegenConfigurator setLogToStderr(boolean logToStderrte) {
+        this.logToStderr = logToStderr;
+        return this;
+    }
+
+    public boolean isGenerateAliasAsModel() {
+        return ModelUtils.isGenerateAliasAsModel();
+    }
+
+    public CodegenConfigurator setGenerateAliasAsModel(boolean generateAliasAsModel) {
+        ModelUtils.setGenerateAliasAsModel(generateAliasAsModel);
         return this;
     }
 
@@ -629,15 +648,15 @@ public class CodegenConfigurator implements Serializable {
                 "\n - [debugOperations] prints operations passed to the template engine" +
                 "\n - [debugSupportingFiles] prints additional data passed to the template engine");
 
-        System.setProperty("debugOpenAPI", "");
-        System.setProperty("debugModels", "");
-        System.setProperty("debugOperations", "");
-        System.setProperty("debugSupportingFiles", "");
+        GeneratorProperties.setProperty("debugOpenAPI", "");
+        GeneratorProperties.setProperty("debugModels", "");
+        GeneratorProperties.setProperty("debugOperations", "");
+        GeneratorProperties.setProperty("debugSupportingFiles", "");
     }
 
     private void setSystemProperties() {
         for (Map.Entry<String, String> entry : systemProperties.entrySet()) {
-            System.setProperty(entry.getKey(), entry.getValue());
+            GeneratorProperties.setProperty(entry.getKey(), entry.getValue());
         }
     }
 

@@ -48,6 +48,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.dashize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
     private static final Logger LOGGER = LoggerFactory.getLogger(JavascriptClientCodegen.class);
@@ -99,7 +103,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected String modelDocPath = "docs/";
     protected String apiTestPath = "api/";
     protected String modelTestPath = "model/";
-    protected boolean useES6 = false; // default is ES5
+    protected boolean useES6 = true; // default is ES5
     private String modelPropertyNaming = "camelCase";
 
     public JavascriptClientCodegen() {
@@ -203,8 +207,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(USE_ES6,
-                "use JavaScript ES6 (ECMAScript 6) (beta). Default is ES5.")
-                .defaultValue(Boolean.FALSE.toString()));
+                "use JavaScript ES6 (ECMAScript 6) (beta). Default is ES6.")
+                .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
     }
 
@@ -289,7 +293,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             Info info = openAPI.getInfo();
             if (StringUtils.isBlank(projectName) && info.getTitle() != null) {
                 // when projectName is not specified, generate it from info.title
-                projectName = sanitizeName(org.openapitools.codegen.utils.StringUtils.dashize(info.getTitle()));
+                projectName = sanitizeName(dashize(info.getTitle()));
             }
             if (StringUtils.isBlank(projectVersion)) {
                 // when projectVersion is not specified, use info.version
@@ -316,7 +320,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             projectName = "openapi-js-client";
         }
         if (StringUtils.isBlank(moduleName)) {
-            moduleName = org.openapitools.codegen.utils.StringUtils.camelize(org.openapitools.codegen.utils.StringUtils.underscore(projectName));
+            moduleName = camelize(underscore(projectName));
         }
         if (StringUtils.isBlank(projectVersion)) {
             projectVersion = "1.0.0";
@@ -513,11 +517,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             case original:
                 return name;
             case camelCase:
-                return org.openapitools.codegen.utils.StringUtils.camelize(name, true);
+                return camelize(name, true);
             case PascalCase:
-                return org.openapitools.codegen.utils.StringUtils.camelize(name);
+                return camelize(name);
             case snake_case:
-                return org.openapitools.codegen.utils.StringUtils.underscore(name);
+                return underscore(name);
             default:
                 throw new IllegalArgumentException("Invalid model property naming '" +
                         name + "'. Must be 'original', 'camelCase', " +
@@ -571,7 +575,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // camelize the model name
         // phone_number => PhoneNumber
-        name = org.openapitools.codegen.utils.StringUtils.camelize(name);
+        name = camelize(name);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
@@ -840,18 +844,18 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        operationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), true);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
@@ -1042,6 +1046,16 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 }
             }
 
+            for (CodegenProperty var : cm.allVars) {
+                // Add JSDoc @type value for this property.
+                String jsDocType = getJSDocType(cm, var);
+                var.vendorExtensions.put("x-jsdoc-type", jsDocType);
+
+                if (Boolean.TRUE.equals(var.required)) {
+                    required.add(var);
+                }
+            }
+
             if (supportsInheritance || supportsMixins) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.required)) {
@@ -1133,7 +1147,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return sanitizeName(org.openapitools.codegen.utils.StringUtils.camelize(property.name)) + "Enum";
+        return sanitizeName(camelize(property.name)) + "Enum";
     }
 
     @Override
