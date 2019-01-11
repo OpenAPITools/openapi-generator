@@ -577,3 +577,35 @@ you need a task reference or instance. One way to do this is to access it as `ta
 
 You can run `gradle tasks --debug` to see this registration.
 ====
+
+== Troubleshooting
+
+=== Android Studio
+
+Android Studio may experience a Windows-specific Guava dependency conflict with openapig-enerator-gradle-plugin versions greater than 3.0.0.
+
+As a workaround, you may force exclude conflicting Guava dependencies.
+
+```gradle
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath('org.openapitools:openapi-generator-gradle-plugin:3.3.4') {
+            exclude group: 'com.google.guava'
+        }
+    }
+}
+// …
+
+configurations {
+    compile.exclude module: 'guava-jdk5'
+}
+// …
+apply plugin: 'org.openapi.generator'
+```
+
+See https://github.com/OpenAPITools/openapi-generator/issues/1818[OpenAPITools/openapi-generator#1818] for more details.
