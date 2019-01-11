@@ -44,9 +44,6 @@ public class GoServerCodegen extends AbstractGoCodegen {
         // set the output folder here
         outputFolder = "generated-code/go";
         
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Version of the package")
-                .defaultValue(packageVersion));
-        
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC)
                 .defaultValue(sourceFolder));
         
