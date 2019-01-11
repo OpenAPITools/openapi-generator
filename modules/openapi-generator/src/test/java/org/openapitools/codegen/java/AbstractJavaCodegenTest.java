@@ -27,6 +27,8 @@ import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.File;
+
 public class AbstractJavaCodegenTest {
 
     private final AbstractJavaCodegen fakeJavaCodegen = new P_AbstractJavaCodegen();
@@ -154,6 +156,49 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.toEnumValue("42", "Double"), "42");
         Assert.assertEquals(codegen.toEnumValue("1337", "Long"), "1337l");
         Assert.assertEquals(codegen.toEnumValue("3.14", "Float"), "3.14f");
+    }
+
+    @Test
+    public void apiFileFolder() {
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOutputDir("/User/open.api.tools");
+        codegen.setSourceFolder("source.folder");
+        codegen.setApiPackage("org.openapitools.codegen.api");
+        Assert.assertEquals(codegen.apiFileFolder(), "/User/open.api.tools/source.folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+    }
+
+    @Test
+    public void apiTestFileFolder() {
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOutputDir("/User/open.api.tools");
+        codegen.setTestFolder("test.folder");
+        codegen.setApiPackage("org.openapitools.codegen.api");
+        Assert.assertEquals(codegen.apiTestFileFolder(), "/User/open.api.tools/test.folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+    }
+
+    @Test
+    public void modelTestFileFolder() {
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOutputDir("/User/open.api.tools");
+        codegen.setTestFolder("test.folder");
+        codegen.setModelPackage("org.openapitools.codegen.model");
+        Assert.assertEquals(codegen.modelTestFileFolder(), "/User/open.api.tools/test.folder/org/openapitools/codegen/model".replace('/', File.separatorChar));
+    }
+
+    @Test
+    public void modelFileFolder() {
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOutputDir("/User/open.api.tools");
+        codegen.setSourceFolder("source.folder");
+        codegen.setModelPackage("org.openapitools.codegen.model");
+        Assert.assertEquals(codegen.modelFileFolder(), "/User/open.api.tools/source.folder/org/openapitools/codegen/model".replace('/', File.separatorChar));
+    }
+
+    @Test
+    public void apiDocFileFolder() {
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOutputDir("/User/open.api.tools");
+        Assert.assertEquals(codegen.apiDocFileFolder(), "/User/open.api.tools/docs/".replace('/', File.separatorChar));
     }
 
     private static class P_AbstractJavaCodegen extends AbstractJavaCodegen {
