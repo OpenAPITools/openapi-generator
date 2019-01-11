@@ -43,7 +43,7 @@ public class FakeClassnameTags123ApiTest {
         api = ApiClient.api(ApiClient.Config.apiConfig().reqSpecSupplier(
                 () -> new RequestSpecBuilder().setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())))
                         .addFilter(new ErrorLoggingFilter())
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeClassnameTags123();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeClassnameTags123Api();
     }
 
     /**
@@ -51,9 +51,9 @@ public class FakeClassnameTags123ApiTest {
      */
     @Test
     public void shouldSee200AfterTestClassname() {
-        Client client = null;
+        Client body = null;
         api.testClassname()
-                .body(client).execute(r -> r.prettyPeek());
+                .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 

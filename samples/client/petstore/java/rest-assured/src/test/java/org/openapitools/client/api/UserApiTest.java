@@ -43,7 +43,7 @@ public class UserApiTest {
         api = ApiClient.api(ApiClient.Config.apiConfig().reqSpecSupplier(
                 () -> new RequestSpecBuilder().setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())))
                         .addFilter(new ErrorLoggingFilter())
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).user();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).userApi();
     }
 
     /**
@@ -51,9 +51,9 @@ public class UserApiTest {
      */
     @Test
     public void shouldSee0AfterCreateUser() {
-        User user = null;
+        User body = null;
         api.createUser()
-                .body(user).execute(r -> r.prettyPeek());
+                .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -63,9 +63,9 @@ public class UserApiTest {
      */
     @Test
     public void shouldSee0AfterCreateUsersWithArrayInput() {
-        List<User> user = null;
+        List<User> body = null;
         api.createUsersWithArrayInput()
-                .body(user).execute(r -> r.prettyPeek());
+                .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -75,9 +75,9 @@ public class UserApiTest {
      */
     @Test
     public void shouldSee0AfterCreateUsersWithListInput() {
-        List<User> user = null;
+        List<User> body = null;
         api.createUsersWithListInput()
-                .body(user).execute(r -> r.prettyPeek());
+                .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -182,10 +182,10 @@ public class UserApiTest {
     @Test
     public void shouldSee400AfterUpdateUser() {
         String username = null;
-        User user = null;
+        User body = null;
         api.updateUser()
                 .usernamePath(username)
-                .body(user).execute(r -> r.prettyPeek());
+                .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -195,10 +195,10 @@ public class UserApiTest {
     @Test
     public void shouldSee404AfterUpdateUser() {
         String username = null;
-        User user = null;
+        User body = null;
         api.updateUser()
                 .usernamePath(username)
-                .body(user).execute(r -> r.prettyPeek());
+                .body(body).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
