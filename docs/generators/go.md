@@ -4,11 +4,11 @@ CONFIG OPTIONS for go
 	packageName
 	    Go package name (convention: lowercase). (Default: openapi)
 
-	hideGenerationTimestamp
-	    Hides the generation timestamp when files are generated. (Default: true)
-
 	packageVersion
 	    Go package version. (Default: 1.0.0)
+
+	hideGenerationTimestamp
+	    Hides the generation timestamp when files are generated. (Default: true)
 
 	withGoCodegenComment
 	    whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs (Default: false)
