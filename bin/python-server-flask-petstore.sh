@@ -22,17 +22,17 @@ executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
 if [ ! -f "$executable" ]
 then
-  mvn clean package
+  mvn -B clean package
 fi
 
-# if you've executed sbt assembly previously it will use that instead.
-input=modules/openapi-generator/src/test/resources/3_0/petstore.yaml
-out_folder=samples/server/openapi3/petstore/python-flask
-resources=modules/openapi-generator/src/main/resources/python-flask
+generator=python-flask
+input=modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+out_folder=samples/server/petstore/$generator
+resources=modules/openapi-generator/src/main/resources/$generator
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t $resources -i $input -g python-flask -o $out_folder -Dservice $@"
+ags="generate -t $resources -i $input -g $generator -o $out_folder -Dservice $@"
 
 rm -rf $out_folder/.openapi*
 rm -rf $out_folder/openapi_server
