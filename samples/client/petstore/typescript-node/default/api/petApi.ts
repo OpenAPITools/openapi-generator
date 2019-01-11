@@ -83,7 +83,7 @@ export class PetApi {
      * @summary Add a new pet to the store
      * @param body Pet object that needs to be added to the store
      */
-    public addPet (body: Pet, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public addPet (body: Pet, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -94,7 +94,7 @@ export class PetApi {
             throw new Error('Required parameter body was null or undefined when calling addPet.');
         }
 
-        (<any>Object).assign(localVarHeaderParams, options.headerParams);
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -139,7 +139,7 @@ export class PetApi {
      * @param petId Pet id to delete
      * @param apiKey 
      */
-    public deletePet (petId: number, apiKey?: string, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public deletePet (petId: number, apiKey?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
@@ -152,7 +152,7 @@ export class PetApi {
         }
 
         localVarHeaderParams['api_key'] = ObjectSerializer.serialize(apiKey, "string");
-        (<any>Object).assign(localVarHeaderParams, options.headerParams);
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -195,7 +195,7 @@ export class PetApi {
      * @summary Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus (status: Array<'available' | 'pending' | 'sold'>, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
+    public findPetsByStatus (status: Array<'available' | 'pending' | 'sold'>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByStatus';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -210,7 +210,7 @@ export class PetApi {
             localVarQueryParameters['status'] = ObjectSerializer.serialize(status, "Array<'available' | 'pending' | 'sold'>");
         }
 
-        (<any>Object).assign(localVarHeaderParams, options.headerParams);
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -254,7 +254,7 @@ export class PetApi {
      * @summary Finds Pets by tags
      * @param tags Tags to filter by
      */
-    public findPetsByTags (tags: Array<string>, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
+    public findPetsByTags (tags: Array<string>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByTags';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -269,7 +269,7 @@ export class PetApi {
             localVarQueryParameters['tags'] = ObjectSerializer.serialize(tags, "Array<string>");
         }
 
-        (<any>Object).assign(localVarHeaderParams, options.headerParams);
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -313,7 +313,7 @@ export class PetApi {
      * @summary Find pet by ID
      * @param petId ID of pet to return
      */
-    public getPetById (petId: number, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body: Pet;  }> {
+    public getPetById (petId: number, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Pet;  }> {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
@@ -325,7 +325,7 @@ export class PetApi {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
 
-        (<any>Object).assign(localVarHeaderParams, options.headerParams);
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -369,7 +369,7 @@ export class PetApi {
      * @summary Update an existing pet
      * @param body Pet object that needs to be added to the store
      */
-    public updatePet (body: Pet, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public updatePet (body: Pet, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -380,7 +380,7 @@ export class PetApi {
             throw new Error('Required parameter body was null or undefined when calling updatePet.');
         }
 
-        (<any>Object).assign(localVarHeaderParams, options.headerParams);
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -426,7 +426,7 @@ export class PetApi {
      * @param name Updated name of the pet
      * @param status Updated status of the pet
      */
-    public updatePetWithForm (petId: number, name?: string, status?: string, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public updatePetWithForm (petId: number, name?: string, status?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
@@ -438,7 +438,7 @@ export class PetApi {
             throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
 
-        (<any>Object).assign(localVarHeaderParams, options.headerParams);
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -491,7 +491,7 @@ export class PetApi {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    public uploadFile (petId: number, additionalMetadata?: string, file?: Buffer, options: {headerParams: {[name: string]: string}} = {headerParams: {}}) : Promise<{ response: http.ClientResponse; body: ApiResponse;  }> {
+    public uploadFile (petId: number, additionalMetadata?: string, file?: Buffer, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: ApiResponse;  }> {
         const localVarPath = this.basePath + '/pet/{petId}/uploadImage'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
@@ -503,7 +503,7 @@ export class PetApi {
             throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }
 
-        (<any>Object).assign(localVarHeaderParams, options.headerParams);
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
