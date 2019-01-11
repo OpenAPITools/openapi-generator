@@ -33,8 +33,8 @@ public class ApiClient {
 
      {{#apiInfo}}
      {{#apis}}
-    public {{classname}} {{classVarName}}() {
-        return {{classname}}.{{classVarName}}(config.baseReqSpec.get());
+    public {{classname}} {{classVarName}}Api() {
+        return {{classname}}.{{classVarName}}Api(config.baseReqSpec.get());
     }
      {{/apis}}
      {{/apiInfo}}
