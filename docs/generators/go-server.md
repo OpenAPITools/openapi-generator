@@ -9,7 +9,7 @@ CONFIG OPTIONS for go-server
 
 	hideGenerationTimestamp
 	    Hides the generation timestamp when files are generated. (Default: true)
-		
+
 	sourceFolder
 	    source folder for generated code (Default: go)
 
