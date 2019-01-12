@@ -121,6 +121,10 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     generateApiDocumentation.set(generate.generateApiDocumentation)
                     withXml.set(generate.withXml)
                     configOptions.set(generate.configOptions)
+                    logToStderr.set(generate.logToStderr)
+                    enablePostProcessFile.set(generate.enablePostProcessFile)
+                    skipValidateSpec.set(generate.skipValidateSpec)
+                    generateAliasAsModel.set(generate.generateAliasAsModel)
                 }
             }
         }
