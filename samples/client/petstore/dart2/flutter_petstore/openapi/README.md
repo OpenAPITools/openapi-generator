@@ -47,10 +47,10 @@ import 'package:openapi/api.dart';
 //openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try {
-    api_instance.addPet(pet);
+    api_instance.addPet(body);
 } catch (e) {
     print("Exception when calling PetApi->addPet: $e\n");
 }

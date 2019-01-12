@@ -95,6 +95,7 @@ public class CodegenConfigurator implements Serializable {
     private boolean verbose;
     private boolean skipOverwrite;
     private boolean removeOperationIdPrefix;
+    private boolean logToStderr;
     private boolean validateSpec;
     private boolean enablePostProcessFile;
     private String templateDir;
@@ -217,6 +218,15 @@ public class CodegenConfigurator implements Serializable {
 
     public CodegenConfigurator setEnablePostProcessFile(boolean enablePostProcessFile) {
         this.enablePostProcessFile = enablePostProcessFile;
+        return this;
+    }
+
+    public boolean getLogToStderr() {
+        return logToStderr;
+    }
+
+    public CodegenConfigurator setLogToStderr(boolean logToStderrte) {
+        this.logToStderr = logToStderr;
         return this;
     }
 

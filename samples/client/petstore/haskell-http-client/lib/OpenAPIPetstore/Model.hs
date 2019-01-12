@@ -1330,6 +1330,104 @@ mkTag =
   , tagName = Nothing
   }
 
+-- ** TypeHolderDefault
+-- | TypeHolderDefault
+data TypeHolderDefault = TypeHolderDefault
+  { typeHolderDefaultStringItem :: !(Text) -- ^ /Required/ "string_item"
+  , typeHolderDefaultNumberItem :: !(Double) -- ^ /Required/ "number_item"
+  , typeHolderDefaultIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
+  , typeHolderDefaultBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
+  , typeHolderDefaultArrayItem :: !([Int]) -- ^ /Required/ "array_item"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON TypeHolderDefault
+instance A.FromJSON TypeHolderDefault where
+  parseJSON = A.withObject "TypeHolderDefault" $ \o ->
+    TypeHolderDefault
+      <$> (o .:  "string_item")
+      <*> (o .:  "number_item")
+      <*> (o .:  "integer_item")
+      <*> (o .:  "bool_item")
+      <*> (o .:  "array_item")
+
+-- | ToJSON TypeHolderDefault
+instance A.ToJSON TypeHolderDefault where
+  toJSON TypeHolderDefault {..} =
+   _omitNulls
+      [ "string_item" .= typeHolderDefaultStringItem
+      , "number_item" .= typeHolderDefaultNumberItem
+      , "integer_item" .= typeHolderDefaultIntegerItem
+      , "bool_item" .= typeHolderDefaultBoolItem
+      , "array_item" .= typeHolderDefaultArrayItem
+      ]
+
+
+-- | Construct a value of type 'TypeHolderDefault' (by applying it's required fields, if any)
+mkTypeHolderDefault
+  :: Text -- ^ 'typeHolderDefaultStringItem' 
+  -> Double -- ^ 'typeHolderDefaultNumberItem' 
+  -> Int -- ^ 'typeHolderDefaultIntegerItem' 
+  -> Bool -- ^ 'typeHolderDefaultBoolItem' 
+  -> [Int] -- ^ 'typeHolderDefaultArrayItem' 
+  -> TypeHolderDefault
+mkTypeHolderDefault typeHolderDefaultStringItem typeHolderDefaultNumberItem typeHolderDefaultIntegerItem typeHolderDefaultBoolItem typeHolderDefaultArrayItem =
+  TypeHolderDefault
+  { typeHolderDefaultStringItem
+  , typeHolderDefaultNumberItem
+  , typeHolderDefaultIntegerItem
+  , typeHolderDefaultBoolItem
+  , typeHolderDefaultArrayItem
+  }
+
+-- ** TypeHolderExample
+-- | TypeHolderExample
+data TypeHolderExample = TypeHolderExample
+  { typeHolderExampleStringItem :: !(Text) -- ^ /Required/ "string_item"
+  , typeHolderExampleNumberItem :: !(Double) -- ^ /Required/ "number_item"
+  , typeHolderExampleIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
+  , typeHolderExampleBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
+  , typeHolderExampleArrayItem :: !([Int]) -- ^ /Required/ "array_item"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON TypeHolderExample
+instance A.FromJSON TypeHolderExample where
+  parseJSON = A.withObject "TypeHolderExample" $ \o ->
+    TypeHolderExample
+      <$> (o .:  "string_item")
+      <*> (o .:  "number_item")
+      <*> (o .:  "integer_item")
+      <*> (o .:  "bool_item")
+      <*> (o .:  "array_item")
+
+-- | ToJSON TypeHolderExample
+instance A.ToJSON TypeHolderExample where
+  toJSON TypeHolderExample {..} =
+   _omitNulls
+      [ "string_item" .= typeHolderExampleStringItem
+      , "number_item" .= typeHolderExampleNumberItem
+      , "integer_item" .= typeHolderExampleIntegerItem
+      , "bool_item" .= typeHolderExampleBoolItem
+      , "array_item" .= typeHolderExampleArrayItem
+      ]
+
+
+-- | Construct a value of type 'TypeHolderExample' (by applying it's required fields, if any)
+mkTypeHolderExample
+  :: Text -- ^ 'typeHolderExampleStringItem' 
+  -> Double -- ^ 'typeHolderExampleNumberItem' 
+  -> Int -- ^ 'typeHolderExampleIntegerItem' 
+  -> Bool -- ^ 'typeHolderExampleBoolItem' 
+  -> [Int] -- ^ 'typeHolderExampleArrayItem' 
+  -> TypeHolderExample
+mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem typeHolderExampleIntegerItem typeHolderExampleBoolItem typeHolderExampleArrayItem =
+  TypeHolderExample
+  { typeHolderExampleStringItem
+  , typeHolderExampleNumberItem
+  , typeHolderExampleIntegerItem
+  , typeHolderExampleBoolItem
+  , typeHolderExampleArrayItem
+  }
+
 -- ** User
 -- | User
 data User = User

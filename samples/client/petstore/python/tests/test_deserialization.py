@@ -8,6 +8,8 @@ $ pip install nose (optional)
 $ cd OpenAPIPetstore-python
 $ nosetests -v
 """
+from collections import namedtuple
+import json
 import os
 import time
 import unittest
@@ -16,11 +18,14 @@ import datetime
 import petstore_api
 
 
+MockResponse = namedtuple('MockResponse', 'data')
+
+
 class DeserializationTests(unittest.TestCase):
 
     def setUp(self):
         self.api_client = petstore_api.ApiClient()
-        self.deserialize = self.api_client._ApiClient__deserialize
+        self.deserialize = self.api_client.deserialize
 
     def test_enum_test(self):
         """ deserialize dict(str, Enum_Test) """
@@ -33,8 +38,9 @@ class DeserializationTests(unittest.TestCase):
                 "outerEnum": "placed"
             }
         }
+        response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(data, 'dict(str, EnumTest)')
+        deserialized = self.deserialize(response, 'dict(str, EnumTest)')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['enum_test'], petstore_api.EnumTest))
         self.assertEqual(deserialized['enum_test'],
@@ -66,8 +72,9 @@ class DeserializationTests(unittest.TestCase):
                 "status": "available"
             }
         }
+        response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(data, 'dict(str, Pet)')
+        deserialized = self.deserialize(response, 'dict(str, Pet)')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['pet'], petstore_api.Pet))
 
@@ -81,8 +88,9 @@ class DeserializationTests(unittest.TestCase):
                 "bread": "Jack Russel Terrier"
             }
         }
+        response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(data, 'dict(str, Animal)')
+        deserialized = self.deserialize(response, 'dict(str, Animal)')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['dog'], petstore_api.Dog))
 
@@ -91,27 +99,34 @@ class DeserializationTests(unittest.TestCase):
         data = {
             'integer': 1
         }
+        response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(data, 'dict(str, int)')
+        deserialized = self.deserialize(response, 'dict(str, int)')
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized['integer'], int))
 
     def test_deserialize_str(self):
         """ deserialize str """
         data = "test str"
-        deserialized = self.deserialize(data, "str")
+        response = MockResponse(data=json.dumps(data))
+
+        deserialized = self.deserialize(response, "str")
         self.assertTrue(isinstance(deserialized, str))
 
     def test_deserialize_date(self):
         """ deserialize date """
         data = "1997-07-16"
-        deserialized = self.deserialize(data, "date")
+        response = MockResponse(data=json.dumps(data))
+
+        deserialized = self.deserialize(response, "date")
         self.assertTrue(isinstance(deserialized, datetime.date))
 
     def test_deserialize_datetime(self):
         """ deserialize datetime """
         data = "1997-07-16T19:20:30.45+01:00"
-        deserialized = self.deserialize(data, "datetime")
+        response = MockResponse(data=json.dumps(data))
+
+        deserialized = self.deserialize(response, "datetime")
         self.assertTrue(isinstance(deserialized, datetime.datetime))
 
     def test_deserialize_pet(self):
@@ -134,7 +149,9 @@ class DeserializationTests(unittest.TestCase):
             ],
             "status": "available"
         }
-        deserialized = self.deserialize(data, "Pet")
+        response = MockResponse(data=json.dumps(data))
+
+        deserialized = self.deserialize(response, "Pet")
         self.assertTrue(isinstance(deserialized, petstore_api.Pet))
         self.assertEqual(deserialized.id, 0)
         self.assertEqual(deserialized.name, "doggie")
@@ -182,7 +199,9 @@ class DeserializationTests(unittest.TestCase):
                 ],
                 "status": "available"
             }]
-        deserialized = self.deserialize(data, "list[Pet]")
+        response = MockResponse(data=json.dumps(data))
+
+        deserialized = self.deserialize(response, "list[Pet]")
         self.assertTrue(isinstance(deserialized, list))
         self.assertTrue(isinstance(deserialized[0], petstore_api.Pet))
         self.assertEqual(deserialized[0].id, 0)
@@ -197,8 +216,9 @@ class DeserializationTests(unittest.TestCase):
                 "bar": 1
             }
         }
+        response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(data, "dict(str, dict(str, int))")
+        deserialized = self.deserialize(response, "dict(str, dict(str, int))")
         self.assertTrue(isinstance(deserialized, dict))
         self.assertTrue(isinstance(deserialized["foo"], dict))
         self.assertTrue(isinstance(deserialized["foo"]["bar"], int))
@@ -206,13 +226,16 @@ class DeserializationTests(unittest.TestCase):
     def test_deserialize_nested_list(self):
         """ deserialize list[list[str]] """
         data = [["foo"]]
+        response = MockResponse(data=json.dumps(data))
 
-        deserialized = self.deserialize(data, "list[list[str]]")
+        deserialized = self.deserialize(response, "list[list[str]]")
         self.assertTrue(isinstance(deserialized, list))
         self.assertTrue(isinstance(deserialized[0], list))
         self.assertTrue(isinstance(deserialized[0][0], str))
 
     def test_deserialize_none(self):
         """ deserialize None """
-        deserialized = self.deserialize(None, "datetime")
+        response = MockResponse(data=json.dumps(None))
+
+        deserialized = self.deserialize(response, "datetime")
         self.assertIsNone(deserialized)
