@@ -536,32 +536,32 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + (sourceFolder + "/" + apiPackage()).replace('.', File.separatorChar);
+        return outputFolder + File.separator + (sourceFolder + File.separator + apiPackage()).replace('.', File.separatorChar);
     }
 
     @Override
     public String apiTestFileFolder() {
-        return outputFolder + File.separator + (testFolder + "/" + apiPackage()).replace('.', File.separatorChar);
+        return outputFolder + File.separator + (testFolder + File.separator + apiPackage()).replace('.', File.separatorChar);
     }
 
     @Override
     public String modelTestFileFolder() {
-        return outputFolder + File.separator + (testFolder + "/" + modelPackage()).replace('.', File.separatorChar);
+        return outputFolder + File.separator + (testFolder + File.separator + modelPackage()).replace('.', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + File.separator + (sourceFolder + "/" + modelPackage()).replace('.', File.separatorChar);
+        return outputFolder + File.separator + (sourceFolder + File.separator + modelPackage()).replace('.', File.separatorChar);
     }
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+        return (outputFolder + File.separator + apiDocPath).replace('/', File.separatorChar);
     }
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+        return (outputFolder + File.separator + modelDocPath).replace('/', File.separatorChar);
     }
 
     @Override
