@@ -536,22 +536,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + "/" + sourceFolder + "/" + apiPackage()).replace('.', File.separatorChar);
+        return outputFolder + File.separator + (sourceFolder + "/" + apiPackage()).replace('.', File.separatorChar);
     }
 
     @Override
     public String apiTestFileFolder() {
-        return (outputFolder + "/" + testFolder + "/" + apiPackage()).replace('.', File.separatorChar);
+        return outputFolder + File.separator + (testFolder + "/" + apiPackage()).replace('.', File.separatorChar);
     }
 
     @Override
     public String modelTestFileFolder() {
-        return (outputFolder + "/" + testFolder + "/" + modelPackage()).replace('.', File.separatorChar);
+        return outputFolder + File.separator + (testFolder + "/" + modelPackage()).replace('.', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return (outputFolder + "/" + sourceFolder + "/" + modelPackage()).replace('.', File.separatorChar);
+        return outputFolder + File.separator + (sourceFolder + "/" + modelPackage()).replace('.', File.separatorChar);
     }
 
     @Override
