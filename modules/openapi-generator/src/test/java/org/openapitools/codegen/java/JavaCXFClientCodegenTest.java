@@ -29,7 +29,7 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.languages.JavaCXFClientCodegen;
+import org.openapitools.codegen.languages.java.JavaCXFClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

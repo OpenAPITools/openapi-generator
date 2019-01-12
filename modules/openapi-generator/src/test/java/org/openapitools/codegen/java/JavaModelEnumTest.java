@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.java.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

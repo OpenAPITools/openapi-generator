@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.openapitools.codegen.AbstractIntegrationTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
+import org.openapitools.codegen.languages.typescript.TypeScriptNodeClientCodegen;
 import org.openapitools.codegen.testutils.IntegrationTestPathsConfig;
 
 public class TypescriptNodeES5IntegrationTest extends AbstractIntegrationTest {

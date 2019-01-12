@@ -19,7 +19,7 @@ package org.openapitools.codegen.silex;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.PhpSilexServerCodegen;
+import org.openapitools.codegen.languages.php.PhpSilexServerCodegen;
 import org.openapitools.codegen.options.PhpSilexServerOptionsProvider;
 
 import mockit.Expectations;

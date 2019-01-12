@@ -19,7 +19,7 @@ package org.openapitools.codegen.python;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.python.PythonClientCodegen;
 import org.openapitools.codegen.options.PythonClientOptionsProvider;
 
 import mockit.Expectations;

@@ -18,7 +18,7 @@ package org.openapitools.codegen.mysql;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.MysqlSchemaCodegen;
+import org.openapitools.codegen.languages.mysql.MysqlSchemaCodegen;
 import org.openapitools.codegen.options.MysqlSchemaOptionsProvider;
 
 import mockit.Expectations;

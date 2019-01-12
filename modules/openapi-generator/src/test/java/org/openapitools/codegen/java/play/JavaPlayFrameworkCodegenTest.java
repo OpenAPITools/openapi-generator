@@ -18,7 +18,7 @@
 package org.openapitools.codegen.java.play;
 
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.JavaPlayFrameworkCodegen;
+import org.openapitools.codegen.languages.java.JavaPlayFrameworkCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

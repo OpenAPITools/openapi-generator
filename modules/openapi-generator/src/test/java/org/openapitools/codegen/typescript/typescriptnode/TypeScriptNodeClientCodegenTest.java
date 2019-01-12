@@ -1,6 +1,6 @@
 package org.openapitools.codegen.typescript.typescriptnode;
 
-import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
+import org.openapitools.codegen.languages.typescript.TypeScriptNodeClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

@@ -18,7 +18,7 @@
 package org.openapitools.codegen.android;
 
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.AndroidClientCodegen;
+import org.openapitools.codegen.languages.android.AndroidClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

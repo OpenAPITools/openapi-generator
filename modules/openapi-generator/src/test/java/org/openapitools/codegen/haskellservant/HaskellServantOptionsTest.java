@@ -20,7 +20,7 @@ package org.openapitools.codegen.haskellservant;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.HaskellServantCodegen;
+import org.openapitools.codegen.languages.haskell.HaskellServantCodegen;
 import org.openapitools.codegen.options.HaskellServantOptionsProvider;
 
 import mockit.Expectations;

@@ -25,7 +25,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.languages.JavascriptClientCodegen;
+import org.openapitools.codegen.languages.javascript.JavascriptClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

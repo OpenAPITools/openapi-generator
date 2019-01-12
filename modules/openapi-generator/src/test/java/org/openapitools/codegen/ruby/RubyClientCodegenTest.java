@@ -19,7 +19,7 @@ package org.openapitools.codegen.ruby;
 
 import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.RubyClientCodegen;
+import org.openapitools.codegen.languages.ruby.RubyClientCodegen;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;

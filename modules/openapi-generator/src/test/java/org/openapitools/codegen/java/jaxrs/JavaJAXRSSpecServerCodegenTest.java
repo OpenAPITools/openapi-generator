@@ -4,7 +4,7 @@ import io.swagger.v3.oas.models.Operation;
 import org.junit.Before;
 import org.junit.Test;
 import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen;
+import org.openapitools.codegen.languages.java.JavaJAXRSSpecServerCodegen;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +14,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Unit-Test for {@link org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen}.
+ * Unit-Test for {@link JavaJAXRSSpecServerCodegen}.
  *
  * @author attrobit
  */

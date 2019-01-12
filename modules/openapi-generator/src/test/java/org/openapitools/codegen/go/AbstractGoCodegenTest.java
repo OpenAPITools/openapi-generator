@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.languages.AbstractGoCodegen;
+import org.openapitools.codegen.languages.go.AbstractGoCodegen;
 
 public class AbstractGoCodegenTest {
 

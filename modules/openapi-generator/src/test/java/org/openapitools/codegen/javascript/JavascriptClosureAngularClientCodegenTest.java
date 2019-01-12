@@ -21,7 +21,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.JavascriptClosureAngularClientCodegen;
+import org.openapitools.codegen.languages.javascript.JavascriptClosureAngularClientCodegen;
 
 public class JavascriptClosureAngularClientCodegenTest {
 

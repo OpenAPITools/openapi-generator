@@ -12,7 +12,7 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
+import org.openapitools.codegen.languages.java.JavaJerseyServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

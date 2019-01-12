@@ -20,7 +20,7 @@ package org.openapitools.codegen.bash;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.languages.BashClientCodegen;
+import org.openapitools.codegen.languages.shell.BashClientCodegen;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;

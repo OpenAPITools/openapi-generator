@@ -23,7 +23,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 
 import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.languages.StaticHtmlGenerator;
+import org.openapitools.codegen.languages.html.StaticHtmlGenerator;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

@@ -18,7 +18,7 @@
 package org.openapitools.codegen.options;
 
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.PerlClientCodegen;
+import org.openapitools.codegen.languages.perl.PerlClientCodegen;
 
 import com.google.common.collect.ImmutableMap;
 

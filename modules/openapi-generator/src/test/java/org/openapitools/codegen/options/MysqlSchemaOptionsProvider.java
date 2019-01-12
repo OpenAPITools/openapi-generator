@@ -16,7 +16,7 @@
 
 package org.openapitools.codegen.options;
 
-import org.openapitools.codegen.languages.MysqlSchemaCodegen;
+import org.openapitools.codegen.languages.mysql.MysqlSchemaCodegen;
 
 import com.google.common.collect.ImmutableMap;
 

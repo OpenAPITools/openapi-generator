@@ -30,7 +30,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.languages.CSharpClientCodegen;
+import org.openapitools.codegen.languages.csharp.CSharpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

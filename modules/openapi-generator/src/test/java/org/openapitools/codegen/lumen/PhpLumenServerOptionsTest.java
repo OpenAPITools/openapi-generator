@@ -19,7 +19,7 @@ package org.openapitools.codegen.lumen;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.PhpLumenServerCodegen;
+import org.openapitools.codegen.languages.php.PhpLumenServerCodegen;
 import org.openapitools.codegen.options.PhpLumenServerOptionsProvider;
 
 import mockit.Expectations;

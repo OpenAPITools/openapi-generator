@@ -55,7 +55,7 @@ import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.java.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -1166,7 +1166,7 @@ public class JavaModelTest {
         final File output = folder.getRoot();
         Assert.assertTrue(new File(inputSpec).exists());
 
-        JavaClientCodegen config = new org.openapitools.codegen.languages.JavaClientCodegen();
+        JavaClientCodegen config = new JavaClientCodegen();
         config.setJava8Mode(true);
         config.setHideGenerationTimestamp(true);
         config.setOutputDir(output.getAbsolutePath());

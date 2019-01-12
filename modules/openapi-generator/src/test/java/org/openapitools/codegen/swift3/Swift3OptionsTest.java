@@ -19,7 +19,7 @@ package org.openapitools.codegen.swift3;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.Swift3Codegen;
+import org.openapitools.codegen.languages.swift.Swift3Codegen;
 import org.openapitools.codegen.options.Swift3OptionsProvider;
 import mockit.Expectations;
 import mockit.Tested;

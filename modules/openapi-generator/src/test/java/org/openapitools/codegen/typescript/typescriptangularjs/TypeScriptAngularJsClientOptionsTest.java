@@ -19,7 +19,7 @@ package org.openapitools.codegen.typescript.typescriptangularjs;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.TypeScriptAngularJsClientCodegen;
+import org.openapitools.codegen.languages.typescript.TypeScriptAngularJsClientCodegen;
 import org.openapitools.codegen.options.TypeScriptAngularJsClientOptionsProvider;
 
 import mockit.Expectations;

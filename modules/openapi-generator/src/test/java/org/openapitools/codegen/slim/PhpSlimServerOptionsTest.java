@@ -19,7 +19,7 @@ package org.openapitools.codegen.slim;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.PhpSlimServerCodegen;
+import org.openapitools.codegen.languages.php.PhpSlimServerCodegen;
 import org.openapitools.codegen.options.PhpSlimServerOptionsProvider;
 
 import mockit.Expectations;

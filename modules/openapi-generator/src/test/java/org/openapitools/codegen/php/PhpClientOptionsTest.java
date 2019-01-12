@@ -19,7 +19,7 @@ package org.openapitools.codegen.php;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.PhpClientCodegen;
+import org.openapitools.codegen.languages.php.PhpClientCodegen;
 import org.openapitools.codegen.options.PhpClientOptionsProvider;
 
 import mockit.Expectations;

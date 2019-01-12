@@ -19,7 +19,7 @@ package org.openapitools.codegen.typescript.fetch;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
+import org.openapitools.codegen.languages.typescript.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.options.TypeScriptFetchClientOptionsProvider;
 import mockit.Expectations;
 import mockit.Tested;

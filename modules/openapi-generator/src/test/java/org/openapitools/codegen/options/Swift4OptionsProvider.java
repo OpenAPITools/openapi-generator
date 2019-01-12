@@ -18,7 +18,7 @@
 package org.openapitools.codegen.options;
 
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.Swift4Codegen;
+import org.openapitools.codegen.languages.swift.Swift4Codegen;
 
 import com.google.common.collect.ImmutableMap;
 

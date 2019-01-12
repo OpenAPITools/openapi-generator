@@ -21,7 +21,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.DartClientCodegen;
+import org.openapitools.codegen.languages.dart.DartClientCodegen;
 
 public class DartClientCodegenTest {
 

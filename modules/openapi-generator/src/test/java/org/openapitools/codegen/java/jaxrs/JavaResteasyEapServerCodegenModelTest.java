@@ -1,10 +1,9 @@
 package org.openapitools.codegen.java.jaxrs;
 
-import io.swagger.util.Json;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.languages.JavaResteasyEapServerCodegen;
+import org.openapitools.codegen.languages.java.JavaResteasyEapServerCodegen;
 import org.testng.annotations.Test;
 
 import java.util.Collections;

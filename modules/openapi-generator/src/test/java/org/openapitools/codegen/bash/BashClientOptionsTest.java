@@ -19,7 +19,7 @@ package org.openapitools.codegen.bash;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.BashClientCodegen;
+import org.openapitools.codegen.languages.shell.BashClientCodegen;
 import org.openapitools.codegen.options.BashClientOptionsProvider;
 
 import mockit.Expectations;

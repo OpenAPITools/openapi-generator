@@ -26,7 +26,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.python.PythonClientCodegen;
 
 public class PythonClientCodegenTest {
 

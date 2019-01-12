@@ -24,7 +24,7 @@ import java.util.Set;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.openapitools.codegen.languages.MysqlSchemaCodegen;
+import org.openapitools.codegen.languages.mysql.MysqlSchemaCodegen;
 
 public class MysqlSchemaCodegenTest {
 

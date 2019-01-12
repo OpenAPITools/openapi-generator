@@ -19,7 +19,7 @@ package org.openapitools.codegen.scalahttpclient;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.ScalaHttpClientCodegen;
+import org.openapitools.codegen.languages.scala.ScalaHttpClientCodegen;
 import org.openapitools.codegen.options.ScalaHttpClientOptionsProvider;
 
 import mockit.Expectations;

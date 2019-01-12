@@ -30,7 +30,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.languages.TypeScriptAngularJsClientCodegen;
+import org.openapitools.codegen.languages.typescript.TypeScriptAngularJsClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

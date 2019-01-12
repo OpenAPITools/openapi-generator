@@ -21,7 +21,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.HaskellHttpClientCodegen;
+import org.openapitools.codegen.languages.haskell.HaskellHttpClientCodegen;
 
 public class HaskellHttpClientCodegenTest {
 

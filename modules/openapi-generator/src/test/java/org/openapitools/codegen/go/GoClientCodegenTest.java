@@ -24,8 +24,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.languages.GoClientCodegen;
-import org.openapitools.codegen.languages.RubyClientCodegen;
+import org.openapitools.codegen.languages.go.GoClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

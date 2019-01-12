@@ -19,7 +19,7 @@ package org.openapitools.codegen.typescript.aurelia;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen;
+import org.openapitools.codegen.languages.typescript.TypeScriptAureliaClientCodegen;
 import org.openapitools.codegen.options.TypeScriptAureliaClientOptionsProvider;
 import mockit.Expectations;
 import mockit.Tested;

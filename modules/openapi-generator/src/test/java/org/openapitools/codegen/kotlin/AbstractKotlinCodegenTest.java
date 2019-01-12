@@ -1,8 +1,7 @@
 package org.openapitools.codegen.kotlin;
 
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.languages.AbstractKotlinCodegen;
-import org.testng.Assert;
+import org.openapitools.codegen.languages.kotlin.AbstractKotlinCodegen;
 import org.testng.annotations.Test;
 
 import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.*;

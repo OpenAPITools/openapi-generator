@@ -18,7 +18,7 @@
 package org.openapitools.codegen.options;
 
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.python.PythonClientCodegen;
 
 import com.google.common.collect.ImmutableMap;
 

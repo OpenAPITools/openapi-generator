@@ -19,7 +19,7 @@ package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
+import org.openapitools.codegen.languages.typescript.TypeScriptFetchClientCodegen;
 
 import java.util.Map;
 

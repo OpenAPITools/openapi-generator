@@ -19,7 +19,7 @@ package org.openapitools.codegen.perl;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.PerlClientCodegen;
+import org.openapitools.codegen.languages.perl.PerlClientCodegen;
 import org.openapitools.codegen.options.PerlClientOptionsProvider;
 
 import mockit.Expectations;

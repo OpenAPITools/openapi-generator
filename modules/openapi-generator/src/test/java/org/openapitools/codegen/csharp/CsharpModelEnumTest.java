@@ -17,14 +17,10 @@
 
 package org.openapitools.codegen.csharp;
 
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.languages.CSharpClientCodegen;
+import org.openapitools.codegen.languages.csharp.CSharpClientCodegen;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;

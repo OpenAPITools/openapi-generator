@@ -21,10 +21,9 @@ import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.java.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

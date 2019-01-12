@@ -18,7 +18,7 @@
 package org.openapitools.codegen.options;
 
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.ObjcClientCodegen;
+import org.openapitools.codegen.languages.objectc.ObjcClientCodegen;
 
 import com.google.common.collect.ImmutableMap;
 

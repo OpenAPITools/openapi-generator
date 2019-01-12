@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.languages.AbstractEiffelCodegen;
+import org.openapitools.codegen.languages.eiffel.AbstractEiffelCodegen;
 
 public class AbstractEiffelCodegenTest {
 

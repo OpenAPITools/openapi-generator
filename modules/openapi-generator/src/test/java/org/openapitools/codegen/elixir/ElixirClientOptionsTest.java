@@ -19,7 +19,7 @@ package org.openapitools.codegen.elixir;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.ElixirClientCodegen;
+import org.openapitools.codegen.languages.elixir.ElixirClientCodegen;
 import org.openapitools.codegen.options.ElixirClientOptionsProvider;
 import mockit.Expectations;
 import mockit.Tested;

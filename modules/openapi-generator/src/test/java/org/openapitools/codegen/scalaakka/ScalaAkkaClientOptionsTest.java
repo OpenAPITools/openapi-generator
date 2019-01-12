@@ -19,7 +19,7 @@ package org.openapitools.codegen.scalaakka;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
+import org.openapitools.codegen.languages.scala.ScalaAkkaClientCodegen;
 import org.openapitools.codegen.options.ScalaAkkaClientOptionsProvider;
 
 import mockit.Expectations;

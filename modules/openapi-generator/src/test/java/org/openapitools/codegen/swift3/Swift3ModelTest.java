@@ -31,7 +31,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.languages.Swift3Codegen;
+import org.openapitools.codegen.languages.swift.Swift3Codegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

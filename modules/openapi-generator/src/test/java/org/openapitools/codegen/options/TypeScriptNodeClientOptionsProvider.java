@@ -22,7 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
+import org.openapitools.codegen.languages.typescript.TypeScriptAngularClientCodegen;
 
 
 public class TypeScriptNodeClientOptionsProvider implements OptionsProvider {

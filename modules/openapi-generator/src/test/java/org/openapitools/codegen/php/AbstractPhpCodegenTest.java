@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.languages.AbstractPhpCodegen;
+import org.openapitools.codegen.languages.php.AbstractPhpCodegen;
 
 import java.util.Arrays;
 import java.util.HashMap;

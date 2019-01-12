@@ -17,12 +17,10 @@
 
 package org.openapitools.codegen.typescript.typescriptnode;
 
-import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.languages.TypeScriptAngularJsClientCodegen;
-import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
+import org.openapitools.codegen.languages.typescript.TypeScriptNodeClientCodegen;
 
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.media.ArraySchema;

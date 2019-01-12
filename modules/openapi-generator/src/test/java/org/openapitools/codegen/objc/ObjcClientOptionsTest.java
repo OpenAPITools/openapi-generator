@@ -19,7 +19,7 @@ package org.openapitools.codegen.objc;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.ObjcClientCodegen;
+import org.openapitools.codegen.languages.objectc.ObjcClientCodegen;
 import org.openapitools.codegen.options.ObjcClientOptionsProvider;
 
 import mockit.Expectations;

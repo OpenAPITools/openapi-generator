@@ -18,11 +18,10 @@
 package org.openapitools.codegen.swift4;
 
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.languages.Swift4Codegen;
+import org.openapitools.codegen.languages.swift.Swift4Codegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

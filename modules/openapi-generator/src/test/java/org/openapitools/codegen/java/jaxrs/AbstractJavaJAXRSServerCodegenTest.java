@@ -22,7 +22,7 @@ import io.swagger.v3.oas.models.servers.Server;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
+import org.openapitools.codegen.languages.java.AbstractJavaJAXRSServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

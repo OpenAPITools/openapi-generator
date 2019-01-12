@@ -18,10 +18,9 @@
 package org.openapitools.codegen.swift4;
 
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.languages.Swift4Codegen;
+import org.openapitools.codegen.languages.swift.Swift4Codegen;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.parser.OpenAPIParser;

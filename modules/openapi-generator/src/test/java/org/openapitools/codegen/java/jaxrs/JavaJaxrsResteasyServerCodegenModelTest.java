@@ -6,7 +6,7 @@ import static org.testng.Assert.assertTrue;
 import java.util.Collections;
 
 import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.languages.JavaResteasyServerCodegen;
+import org.openapitools.codegen.languages.java.JavaResteasyServerCodegen;
 import org.testng.annotations.Test;
 
 import io.swagger.v3.oas.models.media.MapSchema;

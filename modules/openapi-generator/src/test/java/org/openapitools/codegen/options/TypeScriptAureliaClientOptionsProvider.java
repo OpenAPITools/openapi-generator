@@ -19,7 +19,7 @@ package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.TypeScriptAureliaClientCodegen;
+import org.openapitools.codegen.languages.typescript.TypeScriptAureliaClientCodegen;
 
 import java.util.Map;
 

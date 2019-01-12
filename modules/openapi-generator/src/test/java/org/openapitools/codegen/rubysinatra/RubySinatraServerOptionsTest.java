@@ -19,7 +19,7 @@ package org.openapitools.codegen.rubysinatra;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.RubySinatraServerCodegen;
+import org.openapitools.codegen.languages.ruby.RubySinatraServerCodegen;
 import org.openapitools.codegen.options.RubySinatraServerOptionsProvider;
 
 import mockit.Expectations;

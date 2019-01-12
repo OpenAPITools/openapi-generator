@@ -18,7 +18,7 @@
 package org.openapitools.codegen.options;
 
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.RubyClientCodegen;
+import org.openapitools.codegen.languages.ruby.RubyClientCodegen;
 
 import com.google.common.collect.ImmutableMap;
 

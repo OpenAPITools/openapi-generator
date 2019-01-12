@@ -19,7 +19,7 @@ package org.openapitools.codegen.ruby;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.RubyClientCodegen;
+import org.openapitools.codegen.languages.ruby.RubyClientCodegen;
 import org.openapitools.codegen.options.RubyClientOptionsProvider;
 
 import mockit.Expectations;

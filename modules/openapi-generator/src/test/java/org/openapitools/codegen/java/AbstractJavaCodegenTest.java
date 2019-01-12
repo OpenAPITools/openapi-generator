@@ -23,7 +23,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.java.AbstractJavaCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
