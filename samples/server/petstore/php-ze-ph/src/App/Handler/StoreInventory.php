@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Handler;
 
-use Articus\PathHandler\Operation;
 use Articus\PathHandler\Annotation as PHA;
 use Articus\PathHandler\Consumer as PHConsumer;
 use Articus\PathHandler\Producer as PHProducer;
@@ -13,10 +13,11 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * @PHA\Route(pattern="/store/inventory")
  */
-class StoreInventory implements Operation\GetInterface
+class StoreInventory
 {
     /**
      * Returns pet inventories by status
+     * @PHA\Get()
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json")
      * @param ServerRequestInterface $request
@@ -25,9 +26,9 @@ class StoreInventory implements Operation\GetInterface
      *
      * @return map[string,int]
      */
-    public function handleGet(ServerRequestInterface $request)
+    public function getInventory(ServerRequestInterface $request): map[string,int]
     {
         //TODO implement method
-        throw new PHException\HttpCode(500, "Not implemented");
+        throw new PHException\HttpCode(501, "Not implemented");
     }
 }

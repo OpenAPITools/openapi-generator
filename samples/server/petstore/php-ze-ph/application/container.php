@@ -1,8 +1,13 @@
 <?php
+declare(strict_types=1);
+
 use Zend\Config\Factory as ConfigFactory;
 
 //Use Composer autoload that includes code both from ../src and ../vendor
 require __DIR__ . '/../vendor/autoload.php';
+
+//Register Doctrine annotation autoload
+\Doctrine\Common\Annotations\AnnotationRegistry::registerLoader('class_exists');
 
 //Path to file for caching full configuration
 const CONFIG_CACHE_PATH = __DIR__ . '/../data/cache/config.php';

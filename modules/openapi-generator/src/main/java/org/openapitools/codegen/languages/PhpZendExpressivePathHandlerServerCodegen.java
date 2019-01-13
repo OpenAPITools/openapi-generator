@@ -78,7 +78,8 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
         supportingFiles.add(new SupportingFile("app.yml.mustache", "application" + File.separator + "config", "app.yml"));
         supportingFiles.add(new SupportingFile("path_handler.yml.mustache", "application" + File.separator + "config", "path_handler.yml"));
         supportingFiles.add(new SupportingFile("data_transfer.yml.mustache", "application" + File.separator + "config", "data_transfer.yml"));
-        supportingFiles.add(new SupportingFile("ErrorMiddleware.php.mustache", srcBasePath, "ErrorMiddleware.php"));
+        supportingFiles.add(new SupportingFile("Factory.php.mustache", srcBasePath, "Factory.php"));
+        supportingFiles.add(new SupportingFile("InternalServerError.php.mustache", srcBasePath + File.separator + "Middleware", "InternalServerError.php"));
         supportingFiles.add(new SupportingFile("Date.php.mustache", srcBasePath + File.separator + "Strategy", "Date.php"));
         supportingFiles.add(new SupportingFile("DateTime.php.mustache", srcBasePath + File.separator + "Strategy", "DateTime.php"));
         supportingFiles.add(new SupportingFile("QueryParameter.php.mustache", srcBasePath + File.separator + "Strategy", "QueryParameter.php"));
@@ -291,46 +292,34 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
         objs = super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-        String interfaceToImplement;
-        StringBuilder interfacesToImplement = new StringBuilder();
-        String classMethod;
+        String httpMethodDeclaration;
         String pathPattern = null;
         for (CodegenOperation op : operationList) {
             switch (op.httpMethod) {
                 case "GET":
-                    interfaceToImplement = "Operation\\GetInterface";
-                    classMethod = "handleGet";
+                    httpMethodDeclaration = "Get()";
                     break;
                 case "POST":
-                    interfaceToImplement = "Operation\\PostInterface";
-                    classMethod = "handlePost";
+                    httpMethodDeclaration = "Post()";
                     break;
                 case "PATCH":
-                    interfaceToImplement = "Operation\\PatchInterface";
-                    classMethod = "handlePatch";
+                    httpMethodDeclaration = "Patch()";
                     break;
                 case "PUT":
-                    interfaceToImplement = "Operation\\PutInterface";
-                    classMethod = "handlePut";
+                    httpMethodDeclaration = "Put()";
                     break;
                 case "DELETE":
-                    interfaceToImplement = "Operation\\DeleteInterface";
-                    classMethod = "handleDelete";
+                    httpMethodDeclaration = "Delete()";
                     break;
                 default:
-                    throw new RuntimeException("Unknown HTTP Method " + op.httpMethod + " not allowed");
+                    httpMethodDeclaration = "HttpMethod(\"" + op.httpMethod + "\")";
             }
-            if (interfacesToImplement.length() > 0) {
-                interfacesToImplement.append(", ");
-            }
-            interfacesToImplement.append(interfaceToImplement);
-            op.httpMethod = classMethod;
+            op.httpMethod = httpMethodDeclaration;
             //All operations have same path because of custom operation grouping, so path pattern can be calculated only once
             if (pathPattern == null) {
                 pathPattern = generatePathPattern(op);
             }
         }
-        operations.put("interfacesToImplement", interfacesToImplement.toString());
         operations.put("pathPattern", pathPattern);
 
         return objs;
