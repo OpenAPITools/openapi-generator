@@ -62,7 +62,7 @@ public class FakeClassnameTags123Api {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call testClassnameCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call testClassnameCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -87,10 +87,10 @@ public class FakeClassnameTags123Api {
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
+            apiClient.getHttpClient().networkInterceptors().add(new okhttp3.Interceptor() {
                 @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
+                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
+                    okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
                     .body(new ProgressResponseBody(originalResponse.body(), progressListener))
                     .build();
@@ -103,7 +103,7 @@ public class FakeClassnameTags123Api {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call testClassnameValidateBeforeCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call testClassnameValidateBeforeCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -111,7 +111,7 @@ public class FakeClassnameTags123Api {
         }
         
 
-        com.squareup.okhttp.Call call = testClassnameCall(body, progressListener, progressRequestListener);
+        okhttp3.Call call = testClassnameCall(body, progressListener, progressRequestListener);
         return call;
 
     }
@@ -136,7 +136,7 @@ public class FakeClassnameTags123Api {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Client> testClassnameWithHttpInfo(Client body) throws ApiException {
-        com.squareup.okhttp.Call call = testClassnameValidateBeforeCall(body, null, null);
+        okhttp3.Call call = testClassnameValidateBeforeCall(body, null, null);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -149,7 +149,7 @@ public class FakeClassnameTags123Api {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call testClassnameAsync(Client body, final ApiCallback<Client> callback) throws ApiException {
+    public okhttp3.Call testClassnameAsync(Client body, final ApiCallback<Client> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -170,7 +170,7 @@ public class FakeClassnameTags123Api {
             };
         }
 
-        com.squareup.okhttp.Call call = testClassnameValidateBeforeCall(body, progressListener, progressRequestListener);
+        okhttp3.Call call = testClassnameValidateBeforeCall(body, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
