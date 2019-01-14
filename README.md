@@ -644,6 +644,7 @@ Here is a list of template creators:
    * PHP Slim: @jfastnacht
    * PHP Symfony: @ksm2
    * PHP Zend Expressive (with Path Handler): @Articus
+   * Python AIOHTTP: @Jyhess
    * Ruby on Rails 5: @zlx
    * Rust (rust-server): @metaswitch
    * Scala Finch: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
