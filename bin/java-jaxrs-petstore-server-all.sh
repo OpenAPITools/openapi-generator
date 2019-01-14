@@ -5,6 +5,7 @@
 ./bin/jaxrs-cxf-cdi-petstore-server.sh
 ./bin/jaxrs-cxf-petstore-server-annotated-base-path.sh
 ./bin/jaxrs-cxf-petstore-server-non-spring-application.sh
+./bin/jaxrs-cxf-petstore-server-test-data.sh
 ./bin/jaxrs-cxf-petstore-server.sh
 ./bin/jaxrs-jersey1-petstore-server.sh
 ./bin/jaxrs-jersey1-usetags-petstore-server.sh
