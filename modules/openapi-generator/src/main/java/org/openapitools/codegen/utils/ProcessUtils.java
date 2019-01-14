@@ -38,6 +38,9 @@ public class ProcessUtils {
 
     /**
      * Returns true if at least one operation has OAuth security schema defined
+     *
+     * @param objs Map of operations
+     * @return True if at least one operation has OAuth security schema defined
      */
     public static boolean hasOAuthMethods(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
