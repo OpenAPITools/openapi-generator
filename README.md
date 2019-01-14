@@ -562,7 +562,7 @@ Here is a list of template creators:
    * Akka-Scala: @cchafer
    * Apex: @asnelling
    * Bash: @bkryza
-   * C: @PowerOfCreation @zhemant
+   * C: @PowerOfCreation @zhemant [:heart:](https://www.patreon.com/zhemant)
    * C++ REST: @Danielku15
    * C# (.NET 2.0): @who
    * C# (.NET Standard 1.3 ): @Gronsak
@@ -773,7 +773,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [Vlad Frolov](https://github.com/frol)
 - [Vladimir Pouzanov](https://github.com/farcaller)
 - [William Cheng](https://github.com/wing328)
-- [Xin Meng](https://github.com/xmeng1)
+- [Xin Meng](https://github.com/xmeng1) [:heart:](https://www.patreon.com/user/overview?u=16435385)
 - [Xu Hui Hui](https://github.com/xhh)
 - [antihax](https://github.com/antihax)
 - [beatcracker](https://github.com/beatcracker)
@@ -782,6 +782,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [jfiala](https://github.com/jfiala)
 - [lukoyanov](https://github.com/lukoyanov)
 
+:heart: = Link to support the contributor directly
 
 ## [7 - License](#table-of-contents)
 -------
