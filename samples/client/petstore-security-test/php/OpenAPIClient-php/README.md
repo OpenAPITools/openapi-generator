@@ -61,10 +61,10 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$unknown_base_type = new \OpenAPI\Client\Model\UNKNOWN_BASE_TYPE(); // \OpenAPI\Client\Model\UNKNOWN_BASE_TYPE | 
+$test_code_inject____end____rn_n_r = 'test_code_inject____end____rn_n_r_example'; // string | To test code injection *_/ ' \\\" =end -- \\\\r\\\\n \\\\n \\\\r
 
 try {
-    $apiInstance->testCodeInjectEndRnNR($unknown_base_type);
+    $apiInstance->testCodeInjectEndRnNR($test_code_inject____end____rn_n_r);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testCodeInjectEndRnNR: ', $e->getMessage(), PHP_EOL;
 }
@@ -78,12 +78,12 @@ All URIs are relative to *http://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*FakeApi* | [**testCodeInjectEndRnNR**](docs/Api/FakeApi.md#testcodeinjectendrnnr) | **PUT** /fake | To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+*FakeApi* | [**testCodeInjectEndRnNR**](docs\Api/FakeApi.md#testcodeinjectendrnnr) | **PUT** /fake | To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
 
 ## Documentation For Models
 
- - [ModelReturn](docs/Model/ModelReturn.md)
+ - [ModelReturn](docs\Model/ModelReturn.md)
 
 
 ## Documentation For Authorization

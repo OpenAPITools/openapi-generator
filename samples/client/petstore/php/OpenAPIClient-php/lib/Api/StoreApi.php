@@ -12,7 +12,7 @@
 /**
  * OpenAPI Petstore
  *
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * OpenAPI spec version: 1.0.0
  * 
@@ -258,7 +258,7 @@ class StoreApi
             );
         }
 
-        $resourcePath = '/store/order/{order_id}';
+        $resourcePath = '/store/order/{orderId}';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -269,7 +269,7 @@ class StoreApi
         // path params
         if ($order_id !== null) {
             $resourcePath = str_replace(
-                '{' . 'order_id' . '}',
+                '{' . 'orderId' . '}',
                 ObjectSerializer::toPathValue($order_id),
                 $resourcePath
             );
@@ -795,7 +795,7 @@ class StoreApi
         }
 
 
-        $resourcePath = '/store/order/{order_id}';
+        $resourcePath = '/store/order/{orderId}';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
@@ -806,7 +806,7 @@ class StoreApi
         // path params
         if ($order_id !== null) {
             $resourcePath = str_replace(
-                '{' . 'order_id' . '}',
+                '{' . 'orderId' . '}',
                 ObjectSerializer::toPathValue($order_id),
                 $resourcePath
             );
