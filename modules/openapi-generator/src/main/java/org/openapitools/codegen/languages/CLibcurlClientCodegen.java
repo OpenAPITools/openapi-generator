@@ -591,14 +591,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     }
 
     @Override
-    public boolean shouldOverwrite(String filename) {
-        // skip spec file as the file might have been updated with new test cases
-        return !(skipOverwrite && new File(filename).exists());
-        //
-        //return super.shouldOverwrite(filename) && !filename.endsWith("_spec.rb");
-    }
-
-    @Override
     public String escapeQuotationMark(String input) {
         // remove ' to avoid code injection
         return input.replace("'", "");
