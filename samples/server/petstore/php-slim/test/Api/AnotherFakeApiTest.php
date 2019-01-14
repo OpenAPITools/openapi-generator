@@ -35,7 +35,7 @@ use OpenAPIServer\Api\AnotherFakeApi;
  * @package  OpenAPIServer\Api
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
- * @coversDefaultClass \OpenAPIServer\Model\AnotherFakeApi
+ * @coversDefaultClass \OpenAPIServer\Api\AnotherFakeApi
  */
 class AnotherFakeApiTest extends TestCase
 {

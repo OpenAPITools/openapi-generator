@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
 
 public class FakeClassnameTestApiServiceImpl extends FakeClassnameTestApiService {
     @Override
-    public Response testClassname(Client client, SecurityContext securityContext)
+    public Response testClassname(Client body, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

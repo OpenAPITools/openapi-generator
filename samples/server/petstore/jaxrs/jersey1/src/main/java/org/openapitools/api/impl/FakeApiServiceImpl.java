@@ -35,7 +35,7 @@ public class FakeApiServiceImpl extends FakeApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response fakeOuterCompositeSerialize(OuterComposite outerComposite, SecurityContext securityContext)
+    public Response fakeOuterCompositeSerialize(OuterComposite body, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
@@ -53,19 +53,19 @@ public class FakeApiServiceImpl extends FakeApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, SecurityContext securityContext)
+    public Response testBodyWithFileSchema(FileSchemaTestClass body, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response testBodyWithQueryParams( @NotNull String query, User user, SecurityContext securityContext)
+    public Response testBodyWithQueryParams( @NotNull String query, User body, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response testClientModel(Client client, SecurityContext securityContext)
+    public Response testClientModel(Client body, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
@@ -89,7 +89,7 @@ public class FakeApiServiceImpl extends FakeApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response testInlineAdditionalProperties(Map<String, String> requestBody, SecurityContext securityContext)
+    public Response testInlineAdditionalProperties(Map<String, String> param, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

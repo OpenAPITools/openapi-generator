@@ -42,6 +42,7 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
+      x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
       x-tags:
@@ -75,6 +76,7 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
+      x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
       x-tags:
@@ -358,6 +360,7 @@ paths:
       summary: Place an order for a pet
       tags:
       - store
+      x-codegen-request-body-name: body
       x-contentType: '*/*'
       x-accepts: application/json
       x-tags:
@@ -439,6 +442,7 @@ paths:
       summary: Create user
       tags:
       - user
+      x-codegen-request-body-name: body
       x-contentType: '*/*'
       x-accepts: application/json
       x-tags:
@@ -462,6 +466,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
+      x-codegen-request-body-name: body
       x-contentType: '*/*'
       x-accepts: application/json
       x-tags:
@@ -485,6 +490,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
+      x-codegen-request-body-name: body
       x-contentType: '*/*'
       x-accepts: application/json
       x-tags:
@@ -630,6 +636,7 @@ paths:
       summary: Updated user
       tags:
       - user
+      x-codegen-request-body-name: body
       x-contentType: '*/*'
       x-accepts: application/json
       x-tags:
@@ -657,6 +664,7 @@ paths:
       summary: To test class name in snake case
       tags:
       - fake_classname_tags 123#$%^
+      x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
       x-tags:
@@ -836,6 +844,7 @@ paths:
       summary: To test "client" model
       tags:
       - fake
+      x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
       x-tags:
@@ -962,6 +971,7 @@ paths:
           description: Output number
       tags:
       - fake
+      x-codegen-request-body-name: body
       x-contentType: '*/*'
       x-accepts: '*/*'
       x-tags:
@@ -986,6 +996,7 @@ paths:
           description: Output string
       tags:
       - fake
+      x-codegen-request-body-name: body
       x-contentType: '*/*'
       x-accepts: '*/*'
       x-tags:
@@ -1010,6 +1021,7 @@ paths:
           description: Output boolean
       tags:
       - fake
+      x-codegen-request-body-name: body
       x-contentType: '*/*'
       x-accepts: '*/*'
       x-tags:
@@ -1034,6 +1046,7 @@ paths:
           description: Output composite
       tags:
       - fake
+      x-codegen-request-body-name: body
       x-contentType: '*/*'
       x-accepts: '*/*'
       x-tags:
@@ -1086,6 +1099,7 @@ paths:
       summary: test inline additionalProperties
       tags:
       - fake
+      x-codegen-request-body-name: param
       x-contentType: application/json
       x-accepts: application/json
       x-tags:
@@ -1111,6 +1125,7 @@ paths:
           description: Success
       tags:
       - fake
+      x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
       x-tags:
@@ -1136,6 +1151,7 @@ paths:
       summary: To test special tags
       tags:
       - $another-fake?
+      x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
       x-tags:
@@ -1156,6 +1172,7 @@ paths:
           description: Success
       tags:
       - fake
+      x-codegen-request-body-name: body
       x-contentType: application/json
       x-accepts: application/json
       x-tags:
@@ -1758,6 +1775,59 @@ components:
         sourceURI:
           description: Test capitalization
           type: string
+      type: object
+    TypeHolderDefault:
+      properties:
+        string_item:
+          default: what
+          type: string
+        number_item:
+          type: number
+        integer_item:
+          type: integer
+        bool_item:
+          default: true
+          type: boolean
+        array_item:
+          items:
+            type: integer
+          type: array
+      required:
+      - array_item
+      - bool_item
+      - integer_item
+      - number_item
+      - string_item
+      type: object
+    TypeHolderExample:
+      properties:
+        string_item:
+          example: what
+          type: string
+        number_item:
+          example: 1.234
+          type: number
+        integer_item:
+          example: -2
+          type: integer
+        bool_item:
+          example: true
+          type: boolean
+        array_item:
+          example:
+          - 0
+          - 1
+          - 2
+          - 3
+          items:
+            type: integer
+          type: array
+      required:
+      - array_item
+      - bool_item
+      - integer_item
+      - number_item
+      - string_item
       type: object
   securitySchemes:
     petstore_auth:

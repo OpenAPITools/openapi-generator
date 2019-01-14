@@ -4,7 +4,7 @@ function New-{{{classname}}} {
     [CmdletBinding()]
     Param (
 {{#vars}}
-        [Parameter(Position = 0, ValueFromPipelineByPropertyName = $true{{#required}}, Mandatory = $true{{/required}})]
+        [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipelineByPropertyName = $true{{#required}}, Mandatory = $true{{/required}})]
         [{{#isString}}{{{dataType}}}{{/isString}}{{^isString}}{{^required}}System.Nullable[{{/required}}{{dataType}}{{^required}}]{{/required}}{{/isString}}]
         {{=<% %>=}}
         ${<%name%>}<%^-last%>,<%/-last%>

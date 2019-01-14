@@ -59,7 +59,7 @@ CONFIG OPTIONS for javascript
 	    Hides the generation timestamp when files are generated. (Default: true)
 
 	useES6
-	    use JavaScript ES6 (ECMAScript 6) (beta). Default is ES5. (Default: false)
+	    use JavaScript ES6 (ECMAScript 6) (beta). Default is ES6. (Default: true)
 
 	modelPropertyNaming
 	    Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name (Default: camelCase)

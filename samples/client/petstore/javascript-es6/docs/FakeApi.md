@@ -76,7 +76,7 @@ import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
 let opts = {
-  'outerComposite': new OpenApiPetstore.OuterComposite() // OuterComposite | Input composite as post body
+  'body': new OpenApiPetstore.OuterComposite() // OuterComposite | Input composite as post body
 };
 apiInstance.fakeOuterCompositeSerialize(opts, (error, data, response) => {
   if (error) {
@@ -91,7 +91,7 @@ apiInstance.fakeOuterCompositeSerialize(opts, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
 
 ### Return type
 
@@ -196,7 +196,7 @@ No authorization required
 
 <a name="testBodyWithFileSchema"></a>
 # **testBodyWithFileSchema**
-> testBodyWithFileSchema(fileSchemaTestClass)
+> testBodyWithFileSchema(body)
 
 
 
@@ -207,8 +207,8 @@ For this test, the body for this request much reference a schema named &#x60;Fil
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
-let fileSchemaTestClass = new OpenApiPetstore.FileSchemaTestClass(); // FileSchemaTestClass | 
-apiInstance.testBodyWithFileSchema(fileSchemaTestClass, (error, data, response) => {
+let body = new OpenApiPetstore.FileSchemaTestClass(); // FileSchemaTestClass | 
+apiInstance.testBodyWithFileSchema(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -221,7 +221,7 @@ apiInstance.testBodyWithFileSchema(fileSchemaTestClass, (error, data, response) 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
 
 ### Return type
 
@@ -238,7 +238,7 @@ No authorization required
 
 <a name="testBodyWithQueryParams"></a>
 # **testBodyWithQueryParams**
-> testBodyWithQueryParams(query, user)
+> testBodyWithQueryParams(query, body)
 
 
 
@@ -248,8 +248,8 @@ import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
 let query = "query_example"; // String | 
-let user = new OpenApiPetstore.User(); // User | 
-apiInstance.testBodyWithQueryParams(query, user, (error, data, response) => {
+let body = new OpenApiPetstore.User(); // User | 
+apiInstance.testBodyWithQueryParams(query, body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -263,7 +263,7 @@ apiInstance.testBodyWithQueryParams(query, user, (error, data, response) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **String**|  | 
- **user** | [**User**](User.md)|  | 
+ **body** | [**User**](User.md)|  | 
 
 ### Return type
 
@@ -280,7 +280,7 @@ No authorization required
 
 <a name="testClientModel"></a>
 # **testClientModel**
-> Client testClientModel(client)
+> Client testClientModel(body)
 
 To test \&quot;client\&quot; model
 
@@ -291,8 +291,8 @@ To test \&quot;client\&quot; model
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
-let client = new OpenApiPetstore.Client(); // Client | client model
-apiInstance.testClientModel(client, (error, data, response) => {
+let body = new OpenApiPetstore.Client(); // Client | client model
+apiInstance.testClientModel(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -305,7 +305,7 @@ apiInstance.testClientModel(client, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
@@ -510,7 +510,7 @@ No authorization required
 
 <a name="testInlineAdditionalProperties"></a>
 # **testInlineAdditionalProperties**
-> testInlineAdditionalProperties(requestBody)
+> testInlineAdditionalProperties(param)
 
 test inline additionalProperties
 
@@ -519,8 +519,8 @@ test inline additionalProperties
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
-let requestBody = {key: "null"}; // {String: String} | request body
-apiInstance.testInlineAdditionalProperties(requestBody, (error, data, response) => {
+let param = {key: "null"}; // {String: String} | request body
+apiInstance.testInlineAdditionalProperties(param, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -533,7 +533,7 @@ apiInstance.testInlineAdditionalProperties(requestBody, (error, data, response) 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**{String: String}**](String.md)| request body | 
+ **param** | [**{String: String}**](String.md)| request body | 
 
 ### Return type
 

@@ -1,0 +1,3 @@
+connexion[aiohttp,swagger-ui] == 2.0.2
+swagger-ui-bundle == 0.0.2
+aiohttp_jinja2 == 1.1.0

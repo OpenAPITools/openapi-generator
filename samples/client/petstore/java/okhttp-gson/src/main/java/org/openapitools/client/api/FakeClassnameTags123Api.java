@@ -56,14 +56,14 @@ public class FakeClassnameTags123Api {
 
     /**
      * Build call for testClassname
-     * @param client client model (required)
+     * @param body client model (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call testClassnameCall(Client client, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = client;
+    public com.squareup.okhttp.Call testClassnameCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = body;
 
         // create path and map variables
         String localVarPath = "/fake_classname_test";
@@ -103,15 +103,15 @@ public class FakeClassnameTags123Api {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call testClassnameValidateBeforeCall(Client client, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call testClassnameValidateBeforeCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        // verify the required parameter 'client' is set
-        if (client == null) {
-            throw new ApiException("Missing the required parameter 'client' when calling testClassname(Async)");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling testClassname(Async)");
         }
         
 
-        com.squareup.okhttp.Call call = testClassnameCall(client, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = testClassnameCall(body, progressListener, progressRequestListener);
         return call;
 
     }
@@ -119,24 +119,24 @@ public class FakeClassnameTags123Api {
     /**
      * To test class name in snake case
      * To test class name in snake case
-     * @param client client model (required)
+     * @param body client model (required)
      * @return Client
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Client testClassname(Client client) throws ApiException {
-        ApiResponse<Client> resp = testClassnameWithHttpInfo(client);
+    public Client testClassname(Client body) throws ApiException {
+        ApiResponse<Client> resp = testClassnameWithHttpInfo(body);
         return resp.getData();
     }
 
     /**
      * To test class name in snake case
      * To test class name in snake case
-     * @param client client model (required)
+     * @param body client model (required)
      * @return ApiResponse&lt;Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Client> testClassnameWithHttpInfo(Client client) throws ApiException {
-        com.squareup.okhttp.Call call = testClassnameValidateBeforeCall(client, null, null);
+    public ApiResponse<Client> testClassnameWithHttpInfo(Client body) throws ApiException {
+        com.squareup.okhttp.Call call = testClassnameValidateBeforeCall(body, null, null);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -144,12 +144,12 @@ public class FakeClassnameTags123Api {
     /**
      * To test class name in snake case (asynchronously)
      * To test class name in snake case
-     * @param client client model (required)
+     * @param body client model (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call testClassnameAsync(Client client, final ApiCallback<Client> callback) throws ApiException {
+    public com.squareup.okhttp.Call testClassnameAsync(Client body, final ApiCallback<Client> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -170,7 +170,7 @@ public class FakeClassnameTags123Api {
             };
         }
 
-        com.squareup.okhttp.Call call = testClassnameValidateBeforeCall(client, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = testClassnameValidateBeforeCall(body, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

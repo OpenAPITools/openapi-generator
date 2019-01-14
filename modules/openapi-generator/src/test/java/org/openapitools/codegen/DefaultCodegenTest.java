@@ -252,6 +252,7 @@ public class DefaultCodegenTest {
         String type = codegen.getSchemaType(schema);
 
         Assert.assertNotNull(type);
+        Assert.assertEquals(type, "oneOf<ObjA,ObjB>");
     }
 
     @Test
@@ -352,9 +353,11 @@ public class DefaultCodegenTest {
         Assert.assertNotNull(enumVars.get(0));
         Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "DOGVAR");
         Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"dog\"");
+        Assert.assertEquals(enumVars.get(0).getOrDefault("enumDescription", ""), "This is a dog");
         Assert.assertNotNull(enumVars.get(1));
         Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "CATVAR");
         Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"cat\"");
+        Assert.assertEquals(enumVars.get(1).getOrDefault("enumDescription", ""), "This is a cat");
     }
 
     @Test
@@ -534,7 +537,7 @@ public class DefaultCodegenTest {
 
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
         CodegenDiscriminator test = new CodegenDiscriminator();
-        test.setPropertyName("$_type");
+        test.setPropertyName("DollarUnderscoretype");
         test.setMapping(new HashMap<>());
         test.getMapping().put("a", "#/components/schemas/Adult");
         test.getMapping().put("c", "#/components/schemas/Child");
@@ -574,7 +577,10 @@ public class DefaultCodegenTest {
         cm.setAllowableValues(allowableValues);
         cm.dataType = "String";
         final List<String> aliases = Arrays.asList("DOGVAR", "CATVAR");
-        Map<String, Object> extentions = Collections.singletonMap("x-enum-varnames", aliases);
+        final List<String> descriptions = Arrays.asList("This is a dog", "This is a cat");
+        Map<String, Object> extentions = new HashMap<>();
+        extentions.put("x-enum-varnames", aliases);
+        extentions.put("x-enum-descriptions", descriptions);
         cm.setVendorExtensions(extentions);
         cm.setVars(Collections.emptyList());
         Map<String, Object> objs = Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm)));

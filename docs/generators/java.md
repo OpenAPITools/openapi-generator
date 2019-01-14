@@ -146,6 +146,9 @@ CONFIG OPTIONS for java
 	feignVersion
 	    Version of OpenFeign: '10.x', '9.x' (default) (Default: false)
 
+	useReflectionEqualsHashCode
+	    Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact. (Default: false)
+
 	library
 	    library template (sub-template) to use (Default: okhttp-gson)
 	        jersey1 - HTTP client: Jersey client 1.19.4. JSON processing: Jackson 2.8.9. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.

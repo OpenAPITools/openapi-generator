@@ -77,7 +77,7 @@ pub trait Api<C> {
     fn dummy_get(&self, context: &C) -> Box<Future<Item=DummyGetResponse, Error=ApiError>>;
 
 
-    fn dummy_put(&self, inline_object: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>>;
+    fn dummy_put(&self, nested_response: models::InlineObject, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>>;
 
     /// Get a file
     fn file_response_get(&self, context: &C) -> Box<Future<Item=FileResponseGetResponse, Error=ApiError>>;
@@ -97,7 +97,7 @@ pub trait ApiNoContext {
     fn dummy_get(&self) -> Box<Future<Item=DummyGetResponse, Error=ApiError>>;
 
 
-    fn dummy_put(&self, inline_object: Option<models::InlineObject>) -> Box<Future<Item=DummyPutResponse, Error=ApiError>>;
+    fn dummy_put(&self, nested_response: models::InlineObject) -> Box<Future<Item=DummyPutResponse, Error=ApiError>>;
 
     /// Get a file
     fn file_response_get(&self) -> Box<Future<Item=FileResponseGetResponse, Error=ApiError>>;
@@ -130,8 +130,8 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     }
 
 
-    fn dummy_put(&self, inline_object: Option<models::InlineObject>) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
-        self.api().dummy_put(inline_object, &self.context())
+    fn dummy_put(&self, nested_response: models::InlineObject) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
+        self.api().dummy_put(nested_response, &self.context())
     }
 
     /// Get a file

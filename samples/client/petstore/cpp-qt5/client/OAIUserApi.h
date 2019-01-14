@@ -35,14 +35,14 @@ public:
     QString basePath;
     QMap<QString, QString> defaultHeaders;
 
-    void createUser(const OAIUser& oai_user);
-    void createUsersWithArrayInput(const QList<OAIUser>& oai_user);
-    void createUsersWithListInput(const QList<OAIUser>& oai_user);
+    void createUser(const OAIUser& body);
+    void createUsersWithArrayInput(const QList<OAIUser>& body);
+    void createUsersWithListInput(const QList<OAIUser>& body);
     void deleteUser(const QString& username);
     void getUserByName(const QString& username);
     void loginUser(const QString& username, const QString& password);
     void logoutUser();
-    void updateUser(const QString& username, const OAIUser& oai_user);
+    void updateUser(const QString& username, const OAIUser& body);
     
 private:
     void createUserCallback (OAIHttpRequestWorker * worker);
@@ -63,6 +63,15 @@ signals:
     void loginUserSignal(QString summary);
     void logoutUserSignal();
     void updateUserSignal();
+    
+    void createUserSignalFull(OAIHttpRequestWorker* worker);
+    void createUsersWithArrayInputSignalFull(OAIHttpRequestWorker* worker);
+    void createUsersWithListInputSignalFull(OAIHttpRequestWorker* worker);
+    void deleteUserSignalFull(OAIHttpRequestWorker* worker);
+    void getUserByNameSignalFull(OAIHttpRequestWorker* worker, OAIUser summary);
+    void loginUserSignalFull(OAIHttpRequestWorker* worker, QString summary);
+    void logoutUserSignalFull(OAIHttpRequestWorker* worker);
+    void updateUserSignalFull(OAIHttpRequestWorker* worker);
     
     void createUserSignalE(QNetworkReply::NetworkError error_type, QString& error_str);
     void createUsersWithArrayInputSignalE(QNetworkReply::NetworkError error_type, QString& error_str);

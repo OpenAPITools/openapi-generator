@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -155,25 +156,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="outerEnum">outerEnum.</param>
         public EnumTest(EnumStringEnum? enumString = default(EnumStringEnum?), EnumStringRequiredEnum enumStringRequired = default(EnumStringRequiredEnum), EnumIntegerEnum? enumInteger = default(EnumIntegerEnum?), EnumNumberEnum? enumNumber = default(EnumNumberEnum?), OuterEnum outerEnum = default(OuterEnum))
         {
-            // to ensure "enumStringRequired" is required (not null)
-            if (enumStringRequired == null)
-            {
-                throw new InvalidDataException("enumStringRequired is a required property for EnumTest and cannot be null");
-            }
-            else
-            {
-                this.EnumStringRequired = enumStringRequired;
-            }
+            this.EnumStringRequired = enumStringRequired;
             this.EnumString = enumString;
             this.EnumInteger = enumInteger;
             this.EnumNumber = enumNumber;
             this.OuterEnum = outerEnum;
         }
         
-
-
-
-
         /// <summary>
         /// Gets or Sets OuterEnum
         /// </summary>
@@ -213,7 +202,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EnumTest);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as EnumTest).AreEqual;
         }
 
         /// <summary>
@@ -223,35 +212,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(EnumTest input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.EnumString == input.EnumString ||
-                    (this.EnumString != null &&
-                    this.EnumString.Equals(input.EnumString))
-                ) && 
-                (
-                    this.EnumStringRequired == input.EnumStringRequired ||
-                    (this.EnumStringRequired != null &&
-                    this.EnumStringRequired.Equals(input.EnumStringRequired))
-                ) && 
-                (
-                    this.EnumInteger == input.EnumInteger ||
-                    (this.EnumInteger != null &&
-                    this.EnumInteger.Equals(input.EnumInteger))
-                ) && 
-                (
-                    this.EnumNumber == input.EnumNumber ||
-                    (this.EnumNumber != null &&
-                    this.EnumNumber.Equals(input.EnumNumber))
-                ) && 
-                (
-                    this.OuterEnum == input.OuterEnum ||
-                    (this.OuterEnum != null &&
-                    this.OuterEnum.Equals(input.OuterEnum))
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>
@@ -263,14 +224,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.EnumString != null)
-                    hashCode = hashCode * 59 + this.EnumString.GetHashCode();
-                if (this.EnumStringRequired != null)
-                    hashCode = hashCode * 59 + this.EnumStringRequired.GetHashCode();
-                if (this.EnumInteger != null)
-                    hashCode = hashCode * 59 + this.EnumInteger.GetHashCode();
-                if (this.EnumNumber != null)
-                    hashCode = hashCode * 59 + this.EnumNumber.GetHashCode();
+                hashCode = hashCode * 59 + this.EnumString.GetHashCode();
+                hashCode = hashCode * 59 + this.EnumStringRequired.GetHashCode();
+                hashCode = hashCode * 59 + this.EnumInteger.GetHashCode();
+                hashCode = hashCode * 59 + this.EnumNumber.GetHashCode();
                 if (this.OuterEnum != null)
                     hashCode = hashCode * 59 + this.OuterEnum.GetHashCode();
                 return hashCode;

@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 
 # **addPet**
-> addPet($pet)
+> addPet($body)
 
 Add a new pet to the store
 
@@ -34,10 +34,10 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
+$body = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
-    $apiInstance->addPet($pet);
+    $apiInstance->addPet($body);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->addPet: ', $e->getMessage(), PHP_EOL;
 }
@@ -48,7 +48,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -279,7 +279,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **updatePet**
-> updatePet($pet)
+> updatePet($body)
 
 Update an existing pet
 
@@ -297,10 +297,10 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
+$body = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
 
 try {
-    $apiInstance->updatePet($pet);
+    $apiInstance->updatePet($body);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->updatePet: ', $e->getMessage(), PHP_EOL;
 }
@@ -311,7 +311,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 

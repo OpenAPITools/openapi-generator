@@ -131,15 +131,15 @@ placeOrder
   :: (Consumes PlaceOrder contentType, MimeRender contentType Order)
   => ContentType contentType -- ^ request content-type ('MimeType')
   -> Accept accept -- ^ request accept ('MimeType')
-  -> Order -- ^ "order" -  order placed for purchasing the pet
+  -> Order -- ^ "body" -  order placed for purchasing the pet
   -> OpenAPIPetstoreRequest PlaceOrder contentType Order accept
-placeOrder _  _ order =
+placeOrder _  _ body =
   _mkRequest "POST" ["/store/order"]
-    `setBodyParam` order
+    `setBodyParam` body
 
 data PlaceOrder 
 
--- | /Body Param/ "Order" - order placed for purchasing the pet
+-- | /Body Param/ "body" - order placed for purchasing the pet
 instance HasBodyParam PlaceOrder Order 
 
 -- | @application/xml@

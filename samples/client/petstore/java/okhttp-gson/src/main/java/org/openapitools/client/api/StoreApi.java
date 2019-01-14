@@ -408,14 +408,14 @@ public class StoreApi {
     }
     /**
      * Build call for placeOrder
-     * @param order order placed for purchasing the pet (required)
+     * @param body order placed for purchasing the pet (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call placeOrderCall(Order order, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = order;
+    public com.squareup.okhttp.Call placeOrderCall(Order body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = body;
 
         // create path and map variables
         String localVarPath = "/store/order";
@@ -455,15 +455,15 @@ public class StoreApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call placeOrderValidateBeforeCall(Order order, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call placeOrderValidateBeforeCall(Order body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
-        // verify the required parameter 'order' is set
-        if (order == null) {
-            throw new ApiException("Missing the required parameter 'order' when calling placeOrder(Async)");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new ApiException("Missing the required parameter 'body' when calling placeOrder(Async)");
         }
         
 
-        com.squareup.okhttp.Call call = placeOrderCall(order, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = placeOrderCall(body, progressListener, progressRequestListener);
         return call;
 
     }
@@ -471,24 +471,24 @@ public class StoreApi {
     /**
      * Place an order for a pet
      * 
-     * @param order order placed for purchasing the pet (required)
+     * @param body order placed for purchasing the pet (required)
      * @return Order
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Order placeOrder(Order order) throws ApiException {
-        ApiResponse<Order> resp = placeOrderWithHttpInfo(order);
+    public Order placeOrder(Order body) throws ApiException {
+        ApiResponse<Order> resp = placeOrderWithHttpInfo(body);
         return resp.getData();
     }
 
     /**
      * Place an order for a pet
      * 
-     * @param order order placed for purchasing the pet (required)
+     * @param body order placed for purchasing the pet (required)
      * @return ApiResponse&lt;Order&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Order> placeOrderWithHttpInfo(Order order) throws ApiException {
-        com.squareup.okhttp.Call call = placeOrderValidateBeforeCall(order, null, null);
+    public ApiResponse<Order> placeOrderWithHttpInfo(Order body) throws ApiException {
+        com.squareup.okhttp.Call call = placeOrderValidateBeforeCall(body, null, null);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -496,12 +496,12 @@ public class StoreApi {
     /**
      * Place an order for a pet (asynchronously)
      * 
-     * @param order order placed for purchasing the pet (required)
+     * @param body order placed for purchasing the pet (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call placeOrderAsync(Order order, final ApiCallback<Order> callback) throws ApiException {
+    public com.squareup.okhttp.Call placeOrderAsync(Order body, final ApiCallback<Order> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -522,7 +522,7 @@ public class StoreApi {
             };
         }
 
-        com.squareup.okhttp.Call call = placeOrderValidateBeforeCall(order, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = placeOrderValidateBeforeCall(body, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

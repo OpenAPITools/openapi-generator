@@ -32,6 +32,7 @@ paths:
         200:
           content: {}
           description: Success
+      x-codegen-request-body-name: nested_response
   /html:
     post:
       requestBody:
@@ -48,6 +49,7 @@ paths:
                 type: string
           description: Success
       summary: Test HTML handling
+      x-codegen-request-body-name: body
   /file_response:
     get:
       responses:
@@ -89,6 +91,7 @@ components:
         '*/*':
           schema:
             $ref: '#/components/schemas/inline_object'
+      required: true
   schemas:
     additionalPropertiesObject:
       additionalProperties:

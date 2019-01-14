@@ -19,17 +19,17 @@ import javax.validation.constraints.*;
 
 public class UserApiServiceImpl extends UserApiService {
     @Override
-    public Response createUser(User user, SecurityContext securityContext) throws NotFoundException {
+    public Response createUser(User body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response createUsersWithArrayInput(List<User> user, SecurityContext securityContext) throws NotFoundException {
+    public Response createUsersWithArrayInput(List<User> body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response createUsersWithListInput(List<User> user, SecurityContext securityContext) throws NotFoundException {
+    public Response createUsersWithListInput(List<User> body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -54,7 +54,7 @@ public class UserApiServiceImpl extends UserApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response updateUser(String username, User user, SecurityContext securityContext) throws NotFoundException {
+    public Response updateUser(String username, User body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -41,7 +42,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name (required).</param>
         /// <param name="property">property.</param>
-        public Name(int? name = default(int?), string property = default(string))
+        public Name(int name = default(int), string property = default(string))
         {
             // to ensure "name" is required (not null)
             if (name == null)
@@ -52,6 +53,7 @@ namespace Org.OpenAPITools.Model
             {
                 this._Name = name;
             }
+
             this.Property = property;
         }
         
@@ -59,13 +61,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _Name
         /// </summary>
         [DataMember(Name="name", EmitDefaultValue=false)]
-        public int? _Name { get; set; }
+        public int _Name { get; set; }
 
         /// <summary>
         /// Gets or Sets SnakeCase
         /// </summary>
         [DataMember(Name="snake_case", EmitDefaultValue=false)]
-        public int? SnakeCase { get; private set; }
+        public int SnakeCase { get; private set; }
 
         /// <summary>
         /// Gets or Sets Property
@@ -77,7 +79,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _123Number
         /// </summary>
         [DataMember(Name="123Number", EmitDefaultValue=false)]
-        public int? _123Number { get; private set; }
+        public int _123Number { get; private set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -111,7 +113,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Name);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Name).AreEqual;
         }
 
         /// <summary>
@@ -121,30 +123,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(Name input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this._Name == input._Name ||
-                    (this._Name != null &&
-                    this._Name.Equals(input._Name))
-                ) && 
-                (
-                    this.SnakeCase == input.SnakeCase ||
-                    (this.SnakeCase != null &&
-                    this.SnakeCase.Equals(input.SnakeCase))
-                ) && 
-                (
-                    this.Property == input.Property ||
-                    (this.Property != null &&
-                    this.Property.Equals(input.Property))
-                ) && 
-                (
-                    this._123Number == input._123Number ||
-                    (this._123Number != null &&
-                    this._123Number.Equals(input._123Number))
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

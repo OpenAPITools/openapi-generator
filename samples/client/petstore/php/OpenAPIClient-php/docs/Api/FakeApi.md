@@ -68,7 +68,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **fakeOuterCompositeSerialize**
-> \OpenAPI\Client\Model\OuterComposite fakeOuterCompositeSerialize($outer_composite)
+> \OpenAPI\Client\Model\OuterComposite fakeOuterCompositeSerialize($body)
 
 
 
@@ -84,10 +84,10 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$outer_composite = new \OpenAPI\Client\Model\OuterComposite(); // \OpenAPI\Client\Model\OuterComposite | Input composite as post body
+$body = new \OpenAPI\Client\Model\OuterComposite(); // \OpenAPI\Client\Model\OuterComposite | Input composite as post body
 
 try {
-    $result = $apiInstance->fakeOuterCompositeSerialize($outer_composite);
+    $result = $apiInstance->fakeOuterCompositeSerialize($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeOuterCompositeSerialize: ', $e->getMessage(), PHP_EOL;
@@ -99,7 +99,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outer_composite** | [**\OpenAPI\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
+ **body** | [**\OpenAPI\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
 
 ### Return type
 
@@ -215,7 +215,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testBodyWithFileSchema**
-> testBodyWithFileSchema($file_schema_test_class)
+> testBodyWithFileSchema($body)
 
 
 
@@ -231,10 +231,10 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$file_schema_test_class = new \OpenAPI\Client\Model\FileSchemaTestClass(); // \OpenAPI\Client\Model\FileSchemaTestClass | 
+$body = new \OpenAPI\Client\Model\FileSchemaTestClass(); // \OpenAPI\Client\Model\FileSchemaTestClass | 
 
 try {
-    $apiInstance->testBodyWithFileSchema($file_schema_test_class);
+    $apiInstance->testBodyWithFileSchema($body);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testBodyWithFileSchema: ', $e->getMessage(), PHP_EOL;
 }
@@ -245,7 +245,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file_schema_test_class** | [**\OpenAPI\Client\Model\FileSchemaTestClass**](../Model/FileSchemaTestClass.md)|  |
+ **body** | [**\OpenAPI\Client\Model\FileSchemaTestClass**](../Model/FileSchemaTestClass.md)|  |
 
 ### Return type
 
@@ -263,7 +263,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testBodyWithQueryParams**
-> testBodyWithQueryParams($query, $user)
+> testBodyWithQueryParams($query, $body)
 
 
 
@@ -278,10 +278,10 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     new GuzzleHttp\Client()
 );
 $query = 'query_example'; // string | 
-$user = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | 
+$body = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | 
 
 try {
-    $apiInstance->testBodyWithQueryParams($query, $user);
+    $apiInstance->testBodyWithQueryParams($query, $body);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testBodyWithQueryParams: ', $e->getMessage(), PHP_EOL;
 }
@@ -293,7 +293,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **string**|  |
- **user** | [**\OpenAPI\Client\Model\User**](../Model/User.md)|  |
+ **body** | [**\OpenAPI\Client\Model\User**](../Model/User.md)|  |
 
 ### Return type
 
@@ -311,7 +311,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testClientModel**
-> \OpenAPI\Client\Model\Client testClientModel($client)
+> \OpenAPI\Client\Model\Client testClientModel($body)
 
 To test \"client\" model
 
@@ -327,10 +327,10 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$client = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
+$body = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
 
 try {
-    $result = $apiInstance->testClientModel($client);
+    $result = $apiInstance->testClientModel($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testClientModel: ', $e->getMessage(), PHP_EOL;
@@ -342,7 +342,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model |
+ **body** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model |
 
 ### Return type
 
@@ -562,7 +562,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testInlineAdditionalProperties**
-> testInlineAdditionalProperties($request_body)
+> testInlineAdditionalProperties($param)
 
 test inline additionalProperties
 
@@ -576,10 +576,10 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$request_body = array('key' => 'request_body_example'); // map[string,string] | request body
+$param = array('key' => 'param_example'); // map[string,string] | request body
 
 try {
-    $apiInstance->testInlineAdditionalProperties($request_body);
+    $apiInstance->testInlineAdditionalProperties($param);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testInlineAdditionalProperties: ', $e->getMessage(), PHP_EOL;
 }
@@ -590,7 +590,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**map[string,string]**](../Model/string.md)| request body |
+ **param** | [**map[string,string]**](../Model/string.md)| request body |
 
 ### Return type
 

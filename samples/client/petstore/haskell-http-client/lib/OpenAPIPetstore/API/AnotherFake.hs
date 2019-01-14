@@ -67,15 +67,15 @@ import qualified Prelude as P
 -- 
 op123testSpecialTags 
   :: (Consumes Op123testSpecialTags MimeJSON, MimeRender MimeJSON Client)
-  => Client -- ^ "client" -  client model
+  => Client -- ^ "body" -  client model
   -> OpenAPIPetstoreRequest Op123testSpecialTags MimeJSON Client MimeJSON
-op123testSpecialTags client =
+op123testSpecialTags body =
   _mkRequest "PATCH" ["/another-fake/dummy"]
-    `setBodyParam` client
+    `setBodyParam` body
 
 data Op123testSpecialTags 
 
--- | /Body Param/ "Client" - client model
+-- | /Body Param/ "body" - client model
 instance HasBodyParam Op123testSpecialTags Client 
 
 -- | @application/json@

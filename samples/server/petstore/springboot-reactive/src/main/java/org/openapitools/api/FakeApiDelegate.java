@@ -49,7 +49,7 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#fakeOuterCompositeSerialize
      */
-    default Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(Mono<OuterComposite> outerComposite,
+    default Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(Mono<OuterComposite> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -88,7 +88,7 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testBodyWithFileSchema
      */
-    default Mono<ResponseEntity<Void>> testBodyWithFileSchema(Mono<FileSchemaTestClass> fileSchemaTestClass,
+    default Mono<ResponseEntity<Void>> testBodyWithFileSchema(Mono<FileSchemaTestClass> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -100,7 +100,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#testBodyWithQueryParams
      */
     default Mono<ResponseEntity<Void>> testBodyWithQueryParams(String query,
-        Mono<User> user,
+        Mono<User> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -111,7 +111,7 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testClientModel
      */
-    default Mono<ResponseEntity<Client>> testClientModel(Mono<Client> client,
+    default Mono<ResponseEntity<Client>> testClientModel(Mono<Client> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -186,7 +186,7 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testInlineAdditionalProperties
      */
-    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(Mono<String> requestBody,
+    default Mono<ResponseEntity<Void>> testInlineAdditionalProperties(Mono<String> param,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

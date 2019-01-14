@@ -44,7 +44,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class)
     })
-    public Response fakeOuterCompositeSerialize(@Valid OuterComposite outerComposite) {
+    public Response fakeOuterCompositeSerialize(@Valid OuterComposite body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -77,7 +77,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithFileSchema(@Valid FileSchemaTestClass fileSchemaTestClass) {
+    public Response testBodyWithFileSchema(@Valid FileSchemaTestClass body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -88,7 +88,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithQueryParams(@QueryParam("query") @NotNull    String query,@Valid User user) {
+    public Response testBodyWithQueryParams(@QueryParam("query") @NotNull    String query,@Valid User body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -99,7 +99,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    public Response testClientModel(@Valid Client client) {
+    public Response testClientModel(@Valid Client body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -143,7 +143,7 @@ public class FakeApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testInlineAdditionalProperties(@Valid Map<String, String> requestBody) {
+    public Response testInlineAdditionalProperties(@Valid Map<String, String> param) {
         return Response.ok().entity("magic!").build();
     }
 

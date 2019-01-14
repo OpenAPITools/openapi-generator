@@ -96,7 +96,7 @@ fakeOuterCompositeSerialize _  _ =
 
 data FakeOuterCompositeSerialize 
 
--- | /Body Param/ "OuterComposite" - Input composite as post body
+-- | /Body Param/ "body" - Input composite as post body
 instance HasBodyParam FakeOuterCompositeSerialize OuterComposite 
 
 -- | @*/*@
@@ -120,7 +120,7 @@ fakeOuterNumberSerialize _  _ =
 data FakeOuterNumberSerialize 
 
 -- | /Body Param/ "body" - Input number as post body
-instance HasBodyParam FakeOuterNumberSerialize Body 
+instance HasBodyParam FakeOuterNumberSerialize BodyDouble 
 
 -- | @*/*@
 instance MimeType mtype => Produces FakeOuterNumberSerialize mtype
@@ -157,11 +157,11 @@ instance MimeType mtype => Produces FakeOuterStringSerialize mtype
 -- 
 testBodyWithFileSchema 
   :: (Consumes TestBodyWithFileSchema MimeJSON, MimeRender MimeJSON FileSchemaTestClass)
-  => FileSchemaTestClass -- ^ "fileSchemaTestClass"
+  => FileSchemaTestClass -- ^ "body"
   -> OpenAPIPetstoreRequest TestBodyWithFileSchema MimeJSON NoContent MimeNoContent
-testBodyWithFileSchema fileSchemaTestClass =
+testBodyWithFileSchema body =
   _mkRequest "PUT" ["/fake/body-with-file-schema"]
-    `setBodyParam` fileSchemaTestClass
+    `setBodyParam` body
 
 data TestBodyWithFileSchema 
 instance HasBodyParam TestBodyWithFileSchema FileSchemaTestClass 
@@ -178,12 +178,12 @@ instance Produces TestBodyWithFileSchema MimeNoContent
 -- 
 testBodyWithQueryParams 
   :: (Consumes TestBodyWithQueryParams MimeJSON, MimeRender MimeJSON User)
-  => User -- ^ "user"
+  => User -- ^ "body"
   -> Query -- ^ "query"
   -> OpenAPIPetstoreRequest TestBodyWithQueryParams MimeJSON NoContent MimeNoContent
-testBodyWithQueryParams user (Query query) =
+testBodyWithQueryParams body (Query query) =
   _mkRequest "PUT" ["/fake/body-with-query-params"]
-    `setBodyParam` user
+    `setBodyParam` body
     `setQuery` toQuery ("query", Just query)
 
 data TestBodyWithQueryParams 
@@ -205,15 +205,15 @@ instance Produces TestBodyWithQueryParams MimeNoContent
 -- 
 testClientModel 
   :: (Consumes TestClientModel MimeJSON, MimeRender MimeJSON Client)
-  => Client -- ^ "client" -  client model
+  => Client -- ^ "body" -  client model
   -> OpenAPIPetstoreRequest TestClientModel MimeJSON Client MimeJSON
-testClientModel client =
+testClientModel body =
   _mkRequest "PATCH" ["/fake"]
-    `setBodyParam` client
+    `setBodyParam` body
 
 data TestClientModel 
 
--- | /Body Param/ "Client" - client model
+-- | /Body Param/ "body" - client model
 instance HasBodyParam TestClientModel Client 
 
 -- | @application/json@
@@ -414,17 +414,17 @@ instance Produces TestGroupParameters MimeNoContent
 -- test inline additionalProperties
 -- 
 testInlineAdditionalProperties 
-  :: (Consumes TestInlineAdditionalProperties MimeJSON, MimeRender MimeJSON RequestBody)
-  => RequestBody -- ^ "requestBody" -  request body
+  :: (Consumes TestInlineAdditionalProperties MimeJSON, MimeRender MimeJSON ParamMapMapStringText)
+  => ParamMapMapStringText -- ^ "param" -  request body
   -> OpenAPIPetstoreRequest TestInlineAdditionalProperties MimeJSON NoContent MimeNoContent
-testInlineAdditionalProperties requestBody =
+testInlineAdditionalProperties param =
   _mkRequest "POST" ["/fake/inline-additionalProperties"]
-    `setBodyParam` requestBody
+    `setBodyParam` param
 
 data TestInlineAdditionalProperties 
 
--- | /Body Param/ "request_body" - request body
-instance HasBodyParam TestInlineAdditionalProperties RequestBody 
+-- | /Body Param/ "param" - request body
+instance HasBodyParam TestInlineAdditionalProperties ParamMapMapStringText 
 
 -- | @application/json@
 instance Consumes TestInlineAdditionalProperties MimeJSON

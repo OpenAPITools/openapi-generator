@@ -40,7 +40,7 @@ public interface FakeApi {
     @ApiOperation(value = "", notes = "Test serialization of object with outer number type", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
-    OuterComposite fakeOuterCompositeSerialize(@Valid OuterComposite outerComposite);
+    OuterComposite fakeOuterCompositeSerialize(@Valid OuterComposite body);
 
     @POST
     @Path("/outer/number")
@@ -64,7 +64,7 @@ public interface FakeApi {
     @ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
-    void testBodyWithFileSchema(@Valid FileSchemaTestClass fileSchemaTestClass);
+    void testBodyWithFileSchema(@Valid FileSchemaTestClass body);
 
     @PUT
     @Path("/body-with-query-params")
@@ -72,7 +72,7 @@ public interface FakeApi {
     @ApiOperation(value = "", notes = "", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
-    void testBodyWithQueryParams(@QueryParam("query") @NotNull    String query,@Valid User user);
+    void testBodyWithQueryParams(@QueryParam("query") @NotNull    String query,@Valid User body);
 
     @PATCH
     @Consumes({ "application/json" })
@@ -80,7 +80,7 @@ public interface FakeApi {
     @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    Client testClientModel(@Valid Client client);
+    Client testClientModel(@Valid Client body);
 
     @POST
     @Consumes({ "application/x-www-form-urlencoded" })
@@ -112,7 +112,7 @@ public interface FakeApi {
     @ApiOperation(value = "test inline additionalProperties", notes = "", tags={ "fake",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void testInlineAdditionalProperties(@Valid Map<String, String> requestBody);
+    void testInlineAdditionalProperties(@Valid Map<String, String> param);
 
     @GET
     @Path("/jsonFormData")

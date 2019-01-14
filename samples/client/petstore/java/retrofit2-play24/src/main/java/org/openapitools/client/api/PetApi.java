@@ -27,7 +27,7 @@ public interface PetApi {
   /**
    * Add a new pet to the store
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @return Call&lt;Void&gt;
    */
   @Headers({
@@ -35,7 +35,7 @@ public interface PetApi {
   })
   @POST("pet")
   F.Promise<Response<Void>> addPet(
-    @retrofit2.http.Body Pet pet
+    @retrofit2.http.Body Pet body
   );
 
   /**
@@ -86,7 +86,7 @@ public interface PetApi {
   /**
    * Update an existing pet
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @return Call&lt;Void&gt;
    */
   @Headers({
@@ -94,7 +94,7 @@ public interface PetApi {
   })
   @PUT("pet")
   F.Promise<Response<Void>> updatePet(
-    @retrofit2.http.Body Pet pet
+    @retrofit2.http.Body Pet body
   );
 
   /**

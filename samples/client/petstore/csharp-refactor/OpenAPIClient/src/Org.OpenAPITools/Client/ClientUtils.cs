@@ -18,6 +18,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using KellermanSoftware.CompareNetObjects;
 
 namespace Org.OpenAPITools.Client
 {
@@ -26,6 +27,19 @@ namespace Org.OpenAPITools.Client
     /// </summary>
     public static class ClientUtils
     {
+        /// <summary>
+        /// An instance of CompareLogic.
+        /// </summary>
+        public static CompareLogic compareLogic;
+
+        /// <summary>
+        /// Static contstructor to initialise compareLogic.
+        /// </summary>
+        static ClientUtils()
+        {
+            compareLogic = new CompareLogic();
+        }
+
         /// <summary>
         /// Sanitize filename by removing the path
         /// </summary>
@@ -74,7 +88,7 @@ namespace Org.OpenAPITools.Client
         /// Otherwise just return the string.
         /// </summary>
         /// <param name="obj">The parameter (header, path, query, form).</param>
-        /// <param name="configuration">An optional configuration instance, providing formatting options used in processing.</para>
+        /// <param name="configuration">An optional configuration instance, providing formatting options used in processing.</param>
         /// <returns>Formatted string.</returns>
         public static string ParameterToString(object obj, IReadableConfiguration configuration = null)
         {

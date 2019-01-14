@@ -33,7 +33,6 @@ fn main() {
             .help("Sets the operation to run")
             .possible_values(&[
     "DummyGet",
-    "DummyPut",
     "FileResponseGet",
     "HtmlPost",
     "RawJsonGet",
@@ -82,10 +81,11 @@ fn main() {
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
-        Some("DummyPut") => {
-            let result = core.run(client.dummy_put(None));
-            println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
-         },
+        // Disabled because there's no example.
+        // Some("DummyPut") => {
+        //     let result = core.run(client.dummy_put(???));
+        //     println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
+        //  },
 
         Some("FileResponseGet") => {
             let result = core.run(client.file_response_get());

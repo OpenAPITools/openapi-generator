@@ -27,7 +27,10 @@ import java.util.Map;
 public class CodegenSecurity {
     public String name;
     public String type;
+    public String scheme;
     public Boolean hasMore, isBasic, isOAuth, isApiKey;
+    // is Basic is true for all http authentication type. Those are to differentiate basic and bearer authentication
+    public Boolean isBasicBasic, isBasicBearer;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     // ApiKey specific
     public String keyParamName;

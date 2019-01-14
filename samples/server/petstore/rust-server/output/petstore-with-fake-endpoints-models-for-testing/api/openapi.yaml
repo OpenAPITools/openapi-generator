@@ -42,6 +42,7 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
+      x-codegen-request-body-name: body
     put:
       operationId: updatePet
       requestBody:
@@ -71,6 +72,7 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
+      x-codegen-request-body-name: body
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
@@ -327,6 +329,7 @@ paths:
       summary: Place an order for a pet
       tags:
       - store
+      x-codegen-request-body-name: body
   /store/order/{order_id}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -398,6 +401,7 @@ paths:
       summary: Create user
       tags:
       - user
+      x-codegen-request-body-name: body
   /user/createWithArray:
     post:
       operationId: createUsersWithArrayInput
@@ -417,6 +421,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
+      x-codegen-request-body-name: body
   /user/createWithList:
     post:
       operationId: createUsersWithListInput
@@ -436,6 +441,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
+      x-codegen-request-body-name: body
   /user/login:
     get:
       operationId: loginUser
@@ -565,6 +571,7 @@ paths:
       summary: Updated user
       tags:
       - user
+      x-codegen-request-body-name: body
   /fake_classname_test:
     patch:
       description: To test class name in snake case
@@ -588,6 +595,7 @@ paths:
       summary: To test class name in snake case
       tags:
       - fake_classname_tags 123#$%^
+      x-codegen-request-body-name: body
   /fake:
     get:
       description: To test enum parameters
@@ -700,6 +708,7 @@ paths:
       summary: To test "client" model
       tags:
       - fake
+      x-codegen-request-body-name: body
     post:
       description: |
         Fake endpoint for testing various parameters
@@ -818,6 +827,7 @@ paths:
           description: Output number
       tags:
       - fake
+      x-codegen-request-body-name: body
   /fake/outer/string:
     post:
       description: Test serialization of outer string types
@@ -838,6 +848,7 @@ paths:
           description: Output string
       tags:
       - fake
+      x-codegen-request-body-name: body
   /fake/outer/boolean:
     post:
       description: Test serialization of outer boolean types
@@ -858,6 +869,7 @@ paths:
           description: Output boolean
       tags:
       - fake
+      x-codegen-request-body-name: body
   /fake/outer/composite:
     post:
       description: Test serialization of object with outer number type
@@ -878,6 +890,7 @@ paths:
           description: Output composite
       tags:
       - fake
+      x-codegen-request-body-name: body
   /fake/jsonFormData:
     get:
       operationId: testJsonFormData
@@ -922,6 +935,7 @@ paths:
       summary: test inline additionalProperties
       tags:
       - fake
+      x-codegen-request-body-name: param
   /fake/body-with-query-params:
     put:
       operationId: testBodyWithQueryParams
@@ -943,6 +957,7 @@ paths:
           description: Success
       tags:
       - fake
+      x-codegen-request-body-name: body
   /another-fake/dummy:
     patch:
       description: To test special tags
@@ -964,6 +979,7 @@ paths:
       summary: To test special tags
       tags:
       - $another-fake?
+      x-codegen-request-body-name: body
 components:
   schemas:
     Order:

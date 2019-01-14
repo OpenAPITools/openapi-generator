@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
         /// </summary>
         /// <param name="specialPropertyName">specialPropertyName.</param>
-        public SpecialModelName(long? specialPropertyName = default(long?))
+        public SpecialModelName(long specialPropertyName = default(long))
         {
             this.SpecialPropertyName = specialPropertyName;
         }
@@ -44,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SpecialPropertyName
         /// </summary>
         [DataMember(Name="$special[property.name]", EmitDefaultValue=false)]
-        public long? SpecialPropertyName { get; set; }
+        public long SpecialPropertyName { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -75,7 +76,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as SpecialModelName);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as SpecialModelName).AreEqual;
         }
 
         /// <summary>
@@ -85,15 +86,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(SpecialModelName input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.SpecialPropertyName == input.SpecialPropertyName ||
-                    (this.SpecialPropertyName != null &&
-                    this.SpecialPropertyName.Equals(input.SpecialPropertyName))
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

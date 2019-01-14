@@ -31,9 +31,9 @@ namespace Org.OpenAPITools.Api
         /// To test special tags and operation ID starting with number
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ModelClient</returns>
-        ModelClient Call123TestSpecialTags (ModelClient modelClient);
+        ModelClient Call123TestSpecialTags (ModelClient body);
 
         /// <summary>
         /// To test special tags
@@ -42,9 +42,9 @@ namespace Org.OpenAPITools.Api
         /// To test special tags and operation ID starting with number
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> Call123TestSpecialTagsWithHttpInfo (ModelClient modelClient);
+        ApiResponse<ModelClient> Call123TestSpecialTagsWithHttpInfo (ModelClient body);
         #endregion Synchronous Operations
     }
 
@@ -160,11 +160,11 @@ namespace Org.OpenAPITools.Api
         /// To test special tags To test special tags and operation ID starting with number
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ModelClient</returns>
-        public ModelClient Call123TestSpecialTags (ModelClient modelClient)
+        public ModelClient Call123TestSpecialTags (ModelClient body)
         {
-             ApiResponse<ModelClient> localVarResponse = Call123TestSpecialTagsWithHttpInfo(modelClient);
+             ApiResponse<ModelClient> localVarResponse = Call123TestSpecialTagsWithHttpInfo(body);
              return localVarResponse.Data;
         }
 
@@ -172,13 +172,13 @@ namespace Org.OpenAPITools.Api
         /// To test special tags To test special tags and operation ID starting with number
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        public ApiResponse< ModelClient > Call123TestSpecialTagsWithHttpInfo (ModelClient modelClient)
+        public ApiResponse< ModelClient > Call123TestSpecialTagsWithHttpInfo (ModelClient body)
         {
-            // verify the required parameter 'modelClient' is set
-            if (modelClient == null)
-                throw new ApiException(400, "Missing required parameter 'modelClient' when calling AnotherFakeApi->Call123TestSpecialTags");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new ApiException(400, "Missing required parameter 'body' when calling AnotherFakeApi->Call123TestSpecialTags");
 
             var localVarPath = "/another-fake/dummy";
             var localVarPathParams = new Dictionary<String, String>();
@@ -202,13 +202,13 @@ namespace Org.OpenAPITools.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (modelClient != null && modelClient.GetType() != typeof(byte[]))
+            if (body != null && body.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(modelClient); // http body (model) parameter
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
             else
             {
-                localVarPostBody = modelClient; // byte array
+                localVarPostBody = body; // byte array
             }
 
 

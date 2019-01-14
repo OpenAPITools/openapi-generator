@@ -65,6 +65,12 @@ OpenAPI spec version: 1.0.0
         <HintPath Condition="Exists('..\..\packages')">..\..\packages\RestSharp.106.5.4\lib\net452\RestSharp.dll</HintPath>
         <HintPath Condition="Exists('..\..\vendor')">..\..\vendor\RestSharp.106.5.4\lib\net452\RestSharp.dll</HintPath>
     </Reference>
+    <Reference Include="KellermanSoftware.Compare-NET-Objects">
+        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\CompareNETObjects.4.57.0\lib\net452\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+        <HintPath Condition="Exists('..\packages')">..\packages\CompareNETObjects.4.57.0\lib\net452\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+        <HintPath Condition="Exists('..\..\packages')">..\..\packages\CompareNETObjects.4.57.0\lib\net452\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+        <HintPath Condition="Exists('..\..\vendor')">..\..\vendor\CompareNETObjects.4.57.0\lib\net452\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="**\*.cs"

@@ -96,7 +96,7 @@ Please follow the [installation](#installation) instruction and execute the foll
 var OpenApiPetstore = require('open_api_petstore');
 
 var api = new OpenApiPetstore.AnotherFakeApi()
-var client = new OpenApiPetstore.Client(); // {Client} client model
+var body = new OpenApiPetstore.Client(); // {Client} client model
 
 var callback = function(error, data, response) {
   if (error) {
@@ -105,7 +105,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.call123testSpecialTags(client, callback);
+api.call123testSpecialTags(body, callback);
 
 ```
 

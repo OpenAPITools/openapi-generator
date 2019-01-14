@@ -151,7 +151,6 @@ public class ArrayTest implements Parcelable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ArrayTest {\n");
-    
     sb.append("    arrayOfString: ").append(toIndentedString(arrayOfString)).append("\n");
     sb.append("    arrayArrayOfInteger: ").append(toIndentedString(arrayArrayOfInteger)).append("\n");
     sb.append("    arrayArrayOfModel: ").append(toIndentedString(arrayArrayOfModel)).append("\n");

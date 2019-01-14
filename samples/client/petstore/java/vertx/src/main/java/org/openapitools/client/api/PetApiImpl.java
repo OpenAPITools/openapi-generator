@@ -42,15 +42,15 @@ public class PetApiImpl implements PetApi {
     /**
      * Add a new pet to the store
      * 
-     * @param pet Pet object that needs to be added to the store (required)
+     * @param body Pet object that needs to be added to the store (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void addPet(Pet pet, Handler<AsyncResult<Void>> resultHandler) {
-        Object localVarBody = pet;
+    public void addPet(Pet body, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = body;
         
-        // verify the required parameter 'pet' is set
-        if (pet == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'pet' when calling addPet"));
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling addPet"));
             return;
         }
         
@@ -217,15 +217,15 @@ public class PetApiImpl implements PetApi {
     /**
      * Update an existing pet
      * 
-     * @param pet Pet object that needs to be added to the store (required)
+     * @param body Pet object that needs to be added to the store (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void updatePet(Pet pet, Handler<AsyncResult<Void>> resultHandler) {
-        Object localVarBody = pet;
+    public void updatePet(Pet body, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = body;
         
-        // verify the required parameter 'pet' is set
-        if (pet == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'pet' when calling updatePet"));
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling updatePet"));
             return;
         }
         

@@ -81,8 +81,8 @@ public class FakeClassnameTags123ApiTest {
      */
     @Test
     public void testClassnameTest() {
-        Client client = null;
-        //Client response = api.testClassname(client);
+        Client body = null;
+        //Client response = api.testClassname(body);
         //assertNotNull(response);
         // TODO: test validations
         

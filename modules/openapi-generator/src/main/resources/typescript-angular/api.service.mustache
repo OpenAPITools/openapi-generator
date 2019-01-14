@@ -221,7 +221,7 @@ export class {{classname}} {
 {{/isOAuth}}
 {{/authMethods}}
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
             {{#produces}}
             '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
             {{/produces}}
