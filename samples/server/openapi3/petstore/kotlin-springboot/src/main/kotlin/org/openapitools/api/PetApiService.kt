@@ -7,7 +7,7 @@ interface PetApiService {
 
     fun addPet(pet: Pet): Unit
 
-    fun deletePet(petId: Long,apiKey: String?): Unit
+    fun deletePet(petId: Long,apiKey: String): Unit
 
     fun findPetsByStatus(status: List<String>): List<Pet>
 

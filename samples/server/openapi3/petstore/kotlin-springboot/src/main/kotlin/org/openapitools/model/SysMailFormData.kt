@@ -7,17 +7,17 @@ import javax.validation.constraints.*
 import io.swagger.annotations.ApiModelProperty
 
 /**
- * A tag for a pet
- * @param id 
- * @param name 
+ * Data to update a SysMail template.
+ * @param subject 
+ * @param body 
  */
-data class Tag (
+data class SysMailFormData (
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") val id: Long? = null,
+        @JsonProperty("subject") val subject: String? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("name") val name: String? = null
+        @JsonProperty("body") val body: String? = null
 ) {
 
 }
