@@ -306,7 +306,7 @@ impl<F, C> Api<C> for Client<F> where
 
     }
 
-    fn dummy_put(&self, param_nested_response: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
+    fn dummy_put(&self, param_nested_response: models::InlineObject, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -321,14 +321,12 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-        let body = param_nested_response.map(|ref body| {
 
-            serde_json::to_string(body).expect("impossible to fail to serialize")
-        });
+        let body = serde_json::to_string(&param_nested_response).expect("impossible to fail to serialize");
 
-if let Some(body) = body {
-            request.set_body(body.into_bytes());
-        }
+
+        request.set_body(body.into_bytes());
+
 
         request.headers_mut().set(ContentType(mimetypes::requests::DUMMY_PUT.clone()));
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));

@@ -32,7 +32,7 @@ OAIUserApi::OAIUserApi(QString host, QString basePath) {
 }
 
 void
-OAIUserApi::createUser(const OAIUser& oai_user) {
+OAIUserApi::createUser(const OAIUser& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user");
     
@@ -40,7 +40,7 @@ OAIUserApi::createUser(const OAIUser& oai_user) {
     OAIHttpRequestInput input(fullPath, "POST");
 
     
-    QString output = oai_user.asJson();
+    QString output = body.asJson();
     input.request_body.append(output);
     
 
@@ -72,6 +72,7 @@ OAIUserApi::createUserCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit createUserSignal();
+        emit createUserSignalFull(worker);
     } else {
         emit createUserSignalE(error_type, error_str);
         emit createUserSignalEFull(worker, error_type, error_str);
@@ -79,7 +80,7 @@ OAIUserApi::createUserCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::createUsersWithArrayInput(const QList<OAIUser>& oai_user) {
+OAIUserApi::createUsersWithArrayInput(const QList<OAIUser>& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithArray");
     
@@ -87,7 +88,7 @@ OAIUserApi::createUsersWithArrayInput(const QList<OAIUser>& oai_user) {
     OAIHttpRequestInput input(fullPath, "POST");
 
     
-    QJsonDocument doc(::OpenAPI::toJsonValue(oai_user).toArray());
+    QJsonDocument doc(::OpenAPI::toJsonValue(body).toArray());
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
     
@@ -120,6 +121,7 @@ OAIUserApi::createUsersWithArrayInputCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit createUsersWithArrayInputSignal();
+        emit createUsersWithArrayInputSignalFull(worker);
     } else {
         emit createUsersWithArrayInputSignalE(error_type, error_str);
         emit createUsersWithArrayInputSignalEFull(worker, error_type, error_str);
@@ -127,7 +129,7 @@ OAIUserApi::createUsersWithArrayInputCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::createUsersWithListInput(const QList<OAIUser>& oai_user) {
+OAIUserApi::createUsersWithListInput(const QList<OAIUser>& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/createWithList");
     
@@ -135,7 +137,7 @@ OAIUserApi::createUsersWithListInput(const QList<OAIUser>& oai_user) {
     OAIHttpRequestInput input(fullPath, "POST");
 
     
-    QJsonDocument doc(::OpenAPI::toJsonValue(oai_user).toArray());
+    QJsonDocument doc(::OpenAPI::toJsonValue(body).toArray());
     QByteArray bytes = doc.toJson();
     input.request_body.append(bytes);
     
@@ -168,6 +170,7 @@ OAIUserApi::createUsersWithListInputCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit createUsersWithListInputSignal();
+        emit createUsersWithListInputSignalFull(worker);
     } else {
         emit createUsersWithListInputSignalE(error_type, error_str);
         emit createUsersWithListInputSignalEFull(worker, error_type, error_str);
@@ -214,6 +217,7 @@ OAIUserApi::deleteUserCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit deleteUserSignal();
+        emit deleteUserSignalFull(worker);
     } else {
         emit deleteUserSignalE(error_type, error_str);
         emit deleteUserSignalEFull(worker, error_type, error_str);
@@ -261,6 +265,7 @@ OAIUserApi::getUserByNameCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit getUserByNameSignal(output);
+        emit getUserByNameSignalFull(worker, output);
     } else {
         emit getUserByNameSignalE(output, error_type, error_str);
         emit getUserByNameSignalEFull(worker, error_type, error_str);
@@ -322,6 +327,7 @@ OAIUserApi::loginUserCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit loginUserSignal(output);
+        emit loginUserSignalFull(worker, output);
     } else {
         emit loginUserSignalE(output, error_type, error_str);
         emit loginUserSignalEFull(worker, error_type, error_str);
@@ -365,6 +371,7 @@ OAIUserApi::logoutUserCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit logoutUserSignal();
+        emit logoutUserSignalFull(worker);
     } else {
         emit logoutUserSignalE(error_type, error_str);
         emit logoutUserSignalEFull(worker, error_type, error_str);
@@ -372,7 +379,7 @@ OAIUserApi::logoutUserCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIUserApi::updateUser(const QString& username, const OAIUser& oai_user) {
+OAIUserApi::updateUser(const QString& username, const OAIUser& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
     QString usernamePathParam("{"); 
@@ -383,7 +390,7 @@ OAIUserApi::updateUser(const QString& username, const OAIUser& oai_user) {
     OAIHttpRequestInput input(fullPath, "PUT");
 
     
-    QString output = oai_user.asJson();
+    QString output = body.asJson();
     input.request_body.append(output);
     
 
@@ -415,6 +422,7 @@ OAIUserApi::updateUserCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit updateUserSignal();
+        emit updateUserSignalFull(worker);
     } else {
         emit updateUserSignalE(error_type, error_str);
         emit updateUserSignalEFull(worker, error_type, error_str);

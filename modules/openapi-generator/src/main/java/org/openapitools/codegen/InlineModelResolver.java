@@ -106,6 +106,7 @@ public class InlineModelResolver {
 
                     // create request body
                     RequestBody rb = new RequestBody();
+                    rb.setRequired(requestBody.getRequired());
                     Content content = new Content();
                     MediaType mt = new MediaType();
                     Schema schema = new Schema();
@@ -420,6 +421,7 @@ public class InlineModelResolver {
         }
         int count = 0;
         boolean done = false;
+        key = key.replaceAll("/", "_"); // e.g. /me/videos => _me_videos
         key = key.replaceAll("[^a-z_\\.A-Z0-9 ]", ""); // FIXME: a parameter
         // should not be assigned. Also declare the methods parameters as 'final'.
         while (!done) {

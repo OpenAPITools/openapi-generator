@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -65,7 +66,7 @@ public class ConfigHelp implements Runnable {
             generatePlainTextHelp(sb, config);
 
             if (!isEmpty(outputFile)) {
-                File out = new File(outputFile);
+                File out = Paths.get(outputFile).toFile();
                 //noinspection ResultOfMethodCallIgnored
                 out.mkdirs();
 

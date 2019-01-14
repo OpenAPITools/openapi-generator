@@ -34,7 +34,6 @@ public:
     OAIOrder();
     OAIOrder(QString json);
     ~OAIOrder() override;
-    void init();
 
     QString asJson () const override;
     QJsonObject asJsonObject() const override;
@@ -63,6 +62,7 @@ public:
     virtual bool isValid() const override;
 
 private:
+    void init();
     qint64 id;
     bool m_id_isSet;
     bool m_id_isValid;
