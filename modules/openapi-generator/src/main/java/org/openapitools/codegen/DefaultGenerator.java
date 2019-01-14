@@ -800,7 +800,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
     protected File writeInputStreamToFile(String filename, InputStream in, String templateFile) throws FileNotFoundException, IOException {
-        File outputFile = new File(filename);
+        File outputFile = java.nio.file.Paths.get(filename).toFile();
         if (in != null) {
             OutputStream out = new FileOutputStream(outputFile, false);
             LOGGER.info("writing file " + outputFile);
