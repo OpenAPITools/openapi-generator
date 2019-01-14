@@ -11,12 +11,12 @@ import io.swagger.annotations.ApiModelProperty
  * @param name Updated name of the pet
  * @param status Updated status of the pet
  */
-data class Body (
+data class InlineObject (
 
-        @ApiModelProperty(value = "Updated name of the pet")
+        @ApiModelProperty(example = "null", value = "Updated name of the pet")
         @JsonProperty("name") val name: String? = null,
 
-        @ApiModelProperty(value = "Updated status of the pet")
+        @ApiModelProperty(example = "null", value = "Updated status of the pet")
         @JsonProperty("status") val status: String? = null
 ) {
 

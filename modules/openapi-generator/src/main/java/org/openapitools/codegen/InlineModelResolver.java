@@ -106,6 +106,7 @@ public class InlineModelResolver {
 
                     // create request body
                     RequestBody rb = new RequestBody();
+                    rb.setRequired(requestBody.getRequired());
                     Content content = new Content();
                     MediaType mt = new MediaType();
                     Schema schema = new Schema();
