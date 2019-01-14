@@ -314,12 +314,12 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/src/Request/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + ("/src/Request/" + apiPackage().replace('.', File.separatorChar)).replace("/", File.separator);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/src/Data/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + ("/src/Data/" + modelPackage().replace('.', File.separatorChar)).replace("/", File.separator);
     }
 
     @Override

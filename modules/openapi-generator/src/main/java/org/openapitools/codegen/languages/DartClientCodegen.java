@@ -246,12 +246,12 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+        return outputFolder + File.separator + apiDocPath.replace('/', File.separatorChar);
     }
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+        return outputFolder + File.separator + modelDocPath.replace('/', File.separatorChar);
     }
 
     @Override
