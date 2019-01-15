@@ -14,7 +14,6 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
-import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.model.*;
@@ -77,7 +76,7 @@ public class PetApiTest {
 
     @Test
     public void testCreateAndGetPet() throws Exception {
-        Pet pet = createRandomPet();
+        Pet pet = createPet();
         api.addPet(pet);
 
         Pet fetched = api.getPetById(pet.getId());
@@ -89,7 +88,7 @@ public class PetApiTest {
 
     @Test
     public void testCreateAndGetPetWithHttpInfo() throws Exception {
-        Pet pet = createRandomPet();
+        Pet pet = createPet();
         api.addPetWithHttpInfo(pet);
 
         ApiResponse<Pet> resp = api.getPetByIdWithHttpInfo(pet.getId());
@@ -104,7 +103,7 @@ public class PetApiTest {
 
     @Test
     public void testCreateAndGetPetAsync() throws Exception {
-        Pet pet = createRandomPet();
+        Pet pet = createPet();
         api.addPet(pet);
         // to store returned Pet or error message/exception
         final Map<String, Object> result = new HashMap<String, Object>();
@@ -197,7 +196,7 @@ public class PetApiTest {
 
     @Test
     public void testUpdatePet() throws Exception {
-        Pet pet = createRandomPet();
+        Pet pet = createPet();
         pet.setName("programmer");
 
         api.updatePet(pet);
@@ -211,7 +210,7 @@ public class PetApiTest {
 
     @Test
     public void testFindPetsByStatus() throws Exception {
-        Pet pet = createRandomPet();
+        Pet pet = createPet();
         pet.setName("programmer");
         pet.setStatus(Pet.StatusEnum.PENDING);
 
@@ -235,7 +234,7 @@ public class PetApiTest {
 
     @Test
     public void testFindPetsByTags() throws Exception {
-        Pet pet = createRandomPet();
+        Pet pet = createPet();
         pet.setName("monster");
         pet.setStatus(Pet.StatusEnum.AVAILABLE);
 
@@ -264,7 +263,7 @@ public class PetApiTest {
 
     @Test
     public void testUpdatePetWithForm() throws Exception {
-        Pet pet = createRandomPet();
+        Pet pet = createPet();
         pet.setName("frank");
         api.addPet(pet);
 
@@ -278,7 +277,7 @@ public class PetApiTest {
 
     @Test
     public void testDeletePet() throws Exception {
-        Pet pet = createRandomPet();
+        Pet pet = createPet();
         api.addPet(pet);
 
         Pet fetched = api.getPetById(pet.getId());
@@ -294,7 +293,7 @@ public class PetApiTest {
 
     @Test
     public void testUploadFile() throws Exception {
-        Pet pet = createRandomPet();
+        Pet pet = createPet();
         api.addPet(pet);
 
         File file = new File("hello.txt");
@@ -333,7 +332,7 @@ public class PetApiTest {
     }
 
 
-    private Pet createRandomPet() {
+    private Pet createPet() {
         Pet pet = new Pet();
         pet.setId(1234567L);
         pet.setName("gorilla");
