@@ -43,9 +43,9 @@ export default {
         },
 
         // @return Order
-        PlaceOrder: ($order) => {
+        PlaceOrder: ($body) => {
             return {
-                "order": ""
+                "body": ""
             };
         },
 
