@@ -184,7 +184,8 @@ export function querystring(params: HttpQuery): string {
         .map((key) => {
             const value = params[key];
             if (value instanceof Array) {
-                const multiValue = value.join(`&${encodeURIComponent(key)}=`);
+                return value.map(val => `${encodeURIComponent(key)}=${encodeURIComponent(String(val))}`)
+                .join('&')
                 return `${encodeURIComponent(key)}=${multiValue}`;
             }
             return `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`;
