@@ -161,7 +161,11 @@ export type HttpHeaders = { [key: string]: string };
 export type HttpQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> };
 export type HttpBody = Json | FormData;
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
-
+interface AjaxRequestParts {
+    method: string;
+    body: any;
+    headers: Object;
+}
 export interface RequestArgs {
     url: string;
     options: RequestInit;
