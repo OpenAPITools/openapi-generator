@@ -61,7 +61,7 @@ export class {{classname}} extends BaseAPI {
 
         {{/isListContainer}}
         {{^isListContainer}}
-        if (requestParameters.{{paramName}} !== undefined) {
+        if (requestParameters.{{paramName}} !== undefined && requestParameters.{{paramName}} !== null) {
             {{#isDateTime}}
             queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
             {{/isDateTime}}
