@@ -8,7 +8,7 @@
     "scripts": {
         "clean": "rm -Rf node_modules/ *.js",
         "build": "tsc",
-        "test": "npm run build && node client.js"
+        "test": "npm run build && node dist/client.js"
     },
     "author": "OpenAPI-Generator Contributors",
     "license": "Unlicense",
