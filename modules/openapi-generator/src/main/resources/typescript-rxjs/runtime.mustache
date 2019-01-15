@@ -83,7 +83,7 @@ export class BaseAPI {
                 if (res.status >= 200 && res.status < 300) {
                     return res.response as T;
                 }
-                return throwError(res)
+                throw res;
             })
         );
     }
@@ -97,7 +97,7 @@ export class BaseAPI {
             url += '?' + querystring(context.query);
         }
         const body = context.body instanceof FormData ? context.body : JSON.stringify(context.body);
-        const options: AjaxRequestParts = {
+        const options = {
             method: context.method,
             headers: context.headers,
             body,
@@ -161,14 +161,10 @@ export type HttpHeaders = { [key: string]: string };
 export type HttpQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> };
 export type HttpBody = Json | FormData;
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
-interface AjaxRequestParts {
-    method: string;
-    body: any;
-    headers: Object;
-}
+
 export interface RequestArgs {
     url: string;
-    options: AjaxRequestParts;
+    options: RequestInit;
 }
 
 export interface RequestOpts {
