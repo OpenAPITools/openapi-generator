@@ -77,12 +77,12 @@ public:
     void setResponseHeaders(const QMultiMap<QString,QString>& headers);
 
 signals:
-    void addPet(OAIPet oai_pet);
+    void addPet(OAIPet body);
     void deletePet(qint64 pet_id, QString api_key);
     void findPetsByStatus(QList<QString> status);
     void findPetsByTags(QList<QString> tags);
     void getPetById(qint64 pet_id);
-    void updatePet(OAIPet oai_pet);
+    void updatePet(OAIPet body);
     void updatePetWithForm(qint64 pet_id, QString name, QString status);
     void uploadFile(qint64 pet_id, QString additional_metadata, QIODevice* file);
     
