@@ -37,6 +37,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RubyClientCodegen extends AbstractRubyCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
+    private static final String NUMERIC_ENUM_PREFIX = "N";
     public static final String GEM_NAME = "gemName";
     public static final String MODULE_NAME = "moduleName";
     public static final String GEM_VERSION = "gemVersion";
@@ -416,7 +417,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
             varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
+            return NUMERIC_ENUM_PREFIX + varName;
         }
 
         // string
@@ -425,7 +426,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         enumName = enumName.replaceFirst("_$", "");
 
         if (enumName.matches("\\d.*")) { // starts with number
-            return "N" + enumName;
+            return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;
         }
@@ -438,7 +439,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         enumName = enumName.replaceFirst("_$", "");
 
         if (enumName.matches("\\d.*")) { // starts with number
-            return "N" + enumName;
+            return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;
         }
