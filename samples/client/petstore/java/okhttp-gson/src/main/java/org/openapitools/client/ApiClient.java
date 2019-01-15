@@ -425,7 +425,7 @@ public class ApiClient {
             if (debugging) {
                 loggingInterceptor = new HttpLoggingInterceptor();
                 loggingInterceptor.setLevel(Level.BODY);
-                httpClient = httpClient.newBuilder().addInterceptor(loggingInterceptor).build();
+                httpClient.interceptors().add(loggingInterceptor);
             } else {
                 httpClient.interceptors().remove(loggingInterceptor);
                 loggingInterceptor = null;
