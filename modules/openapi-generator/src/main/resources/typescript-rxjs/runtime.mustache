@@ -52,7 +52,7 @@ export class BaseAPI {
             url += '?' + querystring(context.query);
         }
         const body = context.body instanceof FormData ? context.body : JSON.stringify(context.body);
-        const options = {
+        const options: AjaxRequestParts = {
             method: context.method,
             headers: context.headers,
             body,
