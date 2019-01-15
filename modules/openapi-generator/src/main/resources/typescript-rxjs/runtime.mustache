@@ -75,7 +75,7 @@ export class BaseAPI {
                 ajax({ url: args.url, ...args.options }).pipe(
                     map((response) => {
                         if (postMiddlewares) {
-                            postMiddlewares.forEach((mw) => (response = mw.post({ ...params, response: response })));
+                            postMiddlewares.forEach((mw) => (response = mw.post({ ...params, response })));
                         }
                         return response;
                     })
