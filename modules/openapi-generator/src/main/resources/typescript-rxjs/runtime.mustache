@@ -179,7 +179,7 @@ export interface RequestOpts {
     body?: HttpBody;
 }
 
-export function querystring(params: HttpQuery) {
+export function querystring(params: HttpQuery): string {
     return Object.keys(params)
         .map((key) => {
             const value = params[key];
