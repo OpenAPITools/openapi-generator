@@ -47,3 +47,4 @@ cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/model/EnumValueTes
 cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/model/PetTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/model/PetTest.java
 cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/model/ArrayOfArrayOfNumberOnly.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/model/ArrayOfArrayOfNumberOnlyTest.java
 cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/JSONTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/JSONTest.java
+cp CI/samples.ci/client/petstore/java/test-manual/okhttp-gson/api/PetApiTest.java samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/api/PetApiTest.java
