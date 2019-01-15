@@ -96,7 +96,7 @@ export class PetApi extends BaseAPI {
      * Add a new pet to the store
      */
     addPet(requestParameters: AddPetRequest): Observable<void> {
-        this.addPetRaw(requestParameters);
+        return this.addPetRaw(requestParameters);
     }
 
     /**
@@ -136,7 +136,7 @@ export class PetApi extends BaseAPI {
      * Deletes a pet
      */
     deletePet(requestParameters: DeletePetRequest): Observable<void> {
-        this.deletePetRaw(requestParameters);
+        return this.deletePetRaw(requestParameters);
     }
 
     /**
@@ -292,7 +292,7 @@ export class PetApi extends BaseAPI {
      * Update an existing pet
      */
     updatePet(requestParameters: UpdatePetRequest): Observable<void> {
-        this.updatePetRaw(requestParameters);
+        return this.updatePetRaw(requestParameters);
     }
 
     /**
@@ -338,7 +338,7 @@ export class PetApi extends BaseAPI {
      * Updates a pet in the store with form data
      */
     updatePetWithForm(requestParameters: UpdatePetWithFormRequest): Observable<void> {
-        this.updatePetWithFormRaw(requestParameters);
+        return this.updatePetWithFormRaw(requestParameters);
     }
 
     /**

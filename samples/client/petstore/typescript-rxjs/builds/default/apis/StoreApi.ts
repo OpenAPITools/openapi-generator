@@ -60,7 +60,7 @@ export class StoreApi extends BaseAPI {
      * Delete purchase order by ID
      */
     deleteOrder(requestParameters: DeleteOrderRequest): Observable<void> {
-        this.deleteOrderRaw(requestParameters);
+        return this.deleteOrderRaw(requestParameters);
     }
 
     /**

@@ -17,6 +17,51 @@ import { map, concatMap } from 'rxjs/operators';
 
 export const BASE_PATH = 'http://petstore.swagger.io/v2'.replace(/\/+$/, '');
 
+export interface ConfigurationParameters {
+    basePath?: string; // override base path
+    middleware?: Middleware[]; // middleware to apply before/after rxjs requests
+    username?: string; // parameter for basic security
+    password?: string; // parameter for basic security
+    apiKey?: string | ((name: string) => string); // parameter for apiKey security
+    accessToken?: string | ((name: string, scopes?: string[]) => string); // parameter for oauth2 security
+}
+
+export class Configuration {
+    constructor(private configuration: ConfigurationParameters = {}) {}
+
+    get basePath(): string {
+        return this.configuration.basePath || BASE_PATH;
+    }
+
+    get middleware(): Middleware[] {
+        return this.configuration.middleware || [];
+    }
+
+    get username(): string | undefined {
+        return this.configuration.username;
+    }
+
+    get password(): string | undefined {
+        return this.configuration.password;
+    }
+
+    get apiKey(): ((name: string) => string) | undefined {
+        const apiKey = this.configuration.apiKey;
+        if (apiKey) {
+            return typeof apiKey === 'function' ? apiKey : () => apiKey;
+        }
+        return undefined;
+    }
+
+    get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
+        const accessToken = this.configuration.accessToken;
+        if (accessToken) {
+            return typeof accessToken === 'function' ? accessToken : () => accessToken;
+        }
+        return undefined;
+    }
+}
+
 /**
  * This is the base class for all generated API classes.
  */
@@ -86,7 +131,7 @@ export class BaseAPI {
                 ajax({ url: args.url, ...args.options }).pipe(
                     map((response) => {
                         if (postMiddlewares) {
-                            postMiddlewares.forEach((mw) => (response = mw.post({ ...params, response: response })));
+                            postMiddlewares.forEach((mw) => (response = mw.post({ ...params, response })));
                         }
                         return response;
                     })
@@ -121,51 +166,6 @@ export const COLLECTION_FORMATS = {
     pipes: '|',
 };
 
-export interface ConfigurationParameters {
-    basePath?: string; // override base path
-    middleware?: Middleware[]; // middleware to apply before/after rxjs requests
-    username?: string; // parameter for basic security
-    password?: string; // parameter for basic security
-    apiKey?: string | ((name: string) => string); // parameter for apiKey security
-    accessToken?: string | ((name: string, scopes?: string[]) => string); // parameter for oauth2 security
-}
-
-export class Configuration {
-    constructor(private configuration: ConfigurationParameters = {}) {}
-
-    get basePath(): string {
-        return this.configuration.basePath || BASE_PATH;
-    }
-
-    get middleware(): Middleware[] {
-        return this.configuration.middleware || [];
-    }
-
-    get username(): string | undefined {
-        return this.configuration.username;
-    }
-
-    get password(): string | undefined {
-        return this.configuration.password;
-    }
-
-    get apiKey(): ((name: string) => string) | undefined {
-        const apiKey = this.configuration.apiKey;
-        if (apiKey) {
-            return typeof apiKey === 'function' ? apiKey : () => apiKey;
-        }
-        return undefined;
-    }
-
-    get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
-        const accessToken = this.configuration.accessToken;
-        if (accessToken) {
-            return typeof accessToken === 'function' ? accessToken : () => accessToken;
-        }
-        return undefined;
-    }
-}
-
 export type Json = any;
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
 export type HttpHeaders = { [key: string]: string };
@@ -186,13 +186,13 @@ export interface RequestOpts {
     body?: HttpBody;
 }
 
-export function querystring(params: HttpQuery) {
+export function querystring(params: HttpQuery): string {
     return Object.keys(params)
         .map((key) => {
             const value = params[key];
             if (value instanceof Array) {
-                const multiValue = value.join(`&${encodeURIComponent(key)}=`);
-                return `${encodeURIComponent(key)}=${multiValue}`;
+                return value.map((val) => `${encodeURIComponent(key)}=${encodeURIComponent(String(val))}`)
+                    .join('&');
             }
             return `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`;
         })

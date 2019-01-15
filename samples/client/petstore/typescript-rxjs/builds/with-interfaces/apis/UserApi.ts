@@ -81,7 +81,7 @@ export class UserApi extends BaseAPI {
      * Create user
      */
     createUser(requestParameters: CreateUserRequest): Observable<void> {
-        this.createUserRaw(requestParameters);
+        return this.createUserRaw(requestParameters);
     }
 
     /**
@@ -111,7 +111,7 @@ export class UserApi extends BaseAPI {
      * Creates list of users with given input array
      */
     createUsersWithArrayInput(requestParameters: CreateUsersWithArrayInputRequest): Observable<void> {
-        this.createUsersWithArrayInputRaw(requestParameters);
+        return this.createUsersWithArrayInputRaw(requestParameters);
     }
 
     /**
@@ -141,7 +141,7 @@ export class UserApi extends BaseAPI {
      * Creates list of users with given input array
      */
     createUsersWithListInput(requestParameters: CreateUsersWithListInputRequest): Observable<void> {
-        this.createUsersWithListInputRaw(requestParameters);
+        return this.createUsersWithListInputRaw(requestParameters);
     }
 
     /**
@@ -170,7 +170,7 @@ export class UserApi extends BaseAPI {
      * Delete user
      */
     deleteUser(requestParameters: DeleteUserRequest): Observable<void> {
-        this.deleteUserRaw(requestParameters);
+        return this.deleteUserRaw(requestParameters);
     }
 
     /**
@@ -214,11 +214,11 @@ export class UserApi extends BaseAPI {
 
         const queryParameters: HttpQuery = {};
 
-        if (requestParameters.username !== undefined) {
+        if (requestParameters.username !== undefined && requestParameters.username !== null) {
             queryParameters['username'] = requestParameters.username;
         }
 
-        if (requestParameters.password !== undefined) {
+        if (requestParameters.password !== undefined && requestParameters.password !== null) {
             queryParameters['password'] = requestParameters.password;
         }
 
@@ -259,7 +259,7 @@ export class UserApi extends BaseAPI {
      * Logs out current logged in user session
      */
     logoutUser(): Observable<void> {
-        this.logoutUserRaw();
+        return this.logoutUserRaw();
     }
 
     /**
@@ -295,7 +295,7 @@ export class UserApi extends BaseAPI {
      * Updated user
      */
     updateUser(requestParameters: UpdateUserRequest): Observable<void> {
-        this.updateUserRaw(requestParameters);
+        return this.updateUserRaw(requestParameters);
     }
 
 }
