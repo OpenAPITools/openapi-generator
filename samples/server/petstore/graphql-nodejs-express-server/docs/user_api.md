@@ -16,19 +16,19 @@ Method | HTTP request | Description
 
 <a name="CreateUser"></a>
 # **CreateUser**
-> CreateUser(user)
+> CreateUser(body)
 
 Create user
 
 This can only be done by the logged in user.
 <a name="CreateUsersWithArrayInput"></a>
 # **CreateUsersWithArrayInput**
-> CreateUsersWithArrayInput(user)
+> CreateUsersWithArrayInput(body)
 
 Creates list of users with given input array
 <a name="CreateUsersWithListInput"></a>
 # **CreateUsersWithListInput**
-> CreateUsersWithListInput(user)
+> CreateUsersWithListInput(body)
 
 Creates list of users with given input array
 <a name="DeleteUser"></a>
@@ -55,7 +55,7 @@ Logs user into the system
 Logs out current logged in user session
 <a name="UpdateUser"></a>
 # **UpdateUser**
-> UpdateUser(username, user)
+> UpdateUser(username, body)
 
 Updated user
 
