@@ -14,7 +14,6 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
-import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.model.*;
@@ -26,7 +25,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 
 import org.junit.*;
 
@@ -75,7 +76,7 @@ public class PetApiTest {
 
     @Test
     public void testCreateAndGetPet() throws Exception {
-        Pet pet = createRandomPet();
+        Pet pet = createPet();
         api.addPet(pet);
 
         Pet fetched = api.getPetById(pet.getId());
@@ -83,6 +84,224 @@ public class PetApiTest {
         assertEquals(pet.getId(), fetched.getId());
         assertNotNull(fetched.getCategory());
         assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+    }
+
+    @Test
+    public void testCreateAndGetPetWithHttpInfo() throws Exception {
+        Pet pet = createPet();
+        api.addPetWithHttpInfo(pet);
+
+        ApiResponse<Pet> resp = api.getPetByIdWithHttpInfo(pet.getId());
+        assertEquals(200, resp.getStatusCode());
+        assertEquals("application/json", resp.getHeaders().get("Content-Type").get(0));
+        Pet fetched = resp.getData();
+        assertNotNull(fetched);
+        assertEquals(pet.getId(), fetched.getId());
+        assertNotNull(fetched.getCategory());
+        assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+    }
+
+    @Test
+    public void testCreateAndGetPetAsync() throws Exception {
+        Pet pet = createPet();
+        api.addPet(pet);
+        // to store returned Pet or error message/exception
+        final Map<String, Object> result = new HashMap<String, Object>();
+
+        api.getPetByIdAsync(pet.getId(), new ApiCallback<Pet>() {
+            @Override
+            public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
+                result.put("error", e.getMessage());
+            }
+
+            @Override
+            public void onSuccess(Pet pet, int statusCode, Map<String, List<String>> responseHeaders) {
+                result.put("pet", pet);
+            }
+
+            @Override
+            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
+                //empty
+            }
+
+            @Override
+            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
+                //empty
+            }
+        });
+        // the API call should be executed asynchronously, so result should be empty at the moment
+        assertTrue(result.isEmpty());
+
+        // wait for the asynchronous call to finish (at most 10 seconds)
+        final int maxTry = 10;
+        int tryCount = 1;
+        Pet fetched = null;
+        do {
+            if (tryCount > maxTry) fail("have not got result of getPetByIdAsync after 10 seconds");
+            Thread.sleep(1000);
+            tryCount += 1;
+            if (result.get("error") != null) fail((String) result.get("error"));
+            if (result.get("pet") != null) {
+                fetched = (Pet) result.get("pet");
+                break;
+            }
+        } while (result.isEmpty());
+        assertNotNull(fetched);
+        assertEquals(pet.getId(), fetched.getId());
+        assertNotNull(fetched.getCategory());
+        assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+
+        // test getting a nonexistent pet
+        result.clear();
+        api.getPetByIdAsync(-10000L, new ApiCallback<Pet>() {
+            @Override
+            public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
+                result.put("exception", e);
+            }
+
+            @Override
+            public void onSuccess(Pet pet, int statusCode, Map<String, List<String>> responseHeaders) {
+                result.put("pet", pet);
+            }
+
+            @Override
+            public void onUploadProgress(long bytesWritten, long contentLength, boolean done) {
+                //empty
+            }
+
+            @Override
+            public void onDownloadProgress(long bytesRead, long contentLength, boolean done) {
+                //empty
+            }
+        });
+
+        // wait for the asynchronous call to finish (at most 10 seconds)
+        tryCount = 1;
+        ApiException exception = null;
+        do {
+            if (tryCount > maxTry) fail("have not got result of getPetByIdAsync after 10 seconds");
+            Thread.sleep(1000);
+            tryCount += 1;
+            if (result.get("pet") != null) fail("expected an error");
+            if (result.get("exception") != null) {
+                exception = (ApiException) result.get("exception");
+                break;
+            }
+        } while (result.isEmpty());
+        assertNotNull(exception);
+        assertEquals(404, exception.getCode());
+        assertEquals("Not Found", exception.getMessage());
+        assertEquals("application/json", exception.getResponseHeaders().get("Content-Type").get(0));
+    }
+
+    @Test
+    public void testUpdatePet() throws Exception {
+        Pet pet = createPet();
+        pet.setName("programmer");
+
+        api.updatePet(pet);
+
+        Pet fetched = api.getPetById(pet.getId());
+        assertNotNull(fetched);
+        assertEquals(pet.getId(), fetched.getId());
+        assertNotNull(fetched.getCategory());
+        assertEquals(fetched.getCategory().getName(), pet.getCategory().getName());
+    }
+
+    @Test
+    public void testFindPetsByStatus() throws Exception {
+        Pet pet = createPet();
+        pet.setName("programmer");
+        pet.setStatus(Pet.StatusEnum.PENDING);
+
+        api.updatePet(pet);
+
+        List<Pet> pets = api.findPetsByStatus(Arrays.asList("pending"));
+        assertNotNull(pets);
+
+        boolean found = false;
+        for (Pet fetched : pets) {
+            if (fetched.getId().equals(pet.getId())) {
+                found = true;
+                break;
+            }
+        }
+
+        assertTrue(found);
+
+        api.deletePet(pet.getId(), null);
+    }
+
+    @Test
+    public void testFindPetsByTags() throws Exception {
+        Pet pet = createPet();
+        pet.setName("monster");
+        pet.setStatus(Pet.StatusEnum.AVAILABLE);
+
+        List<Tag> tags = new ArrayList<Tag>();
+        Tag tag1 = new Tag();
+        tag1.setName("friendly");
+        tags.add(tag1);
+        pet.setTags(tags);
+
+        api.updatePet(pet);
+
+        List<Pet> pets = api.findPetsByTags(Arrays.asList("friendly"));
+        assertNotNull(pets);
+
+        boolean found = false;
+        for (Pet fetched : pets) {
+            if (fetched.getId().equals(pet.getId())) {
+                found = true;
+                break;
+            }
+        }
+        assertTrue(found);
+
+        api.deletePet(pet.getId(), null);
+    }
+
+    @Test
+    public void testUpdatePetWithForm() throws Exception {
+        Pet pet = createPet();
+        pet.setName("frank");
+        api.addPet(pet);
+
+        Pet fetched = api.getPetById(pet.getId());
+
+        api.updatePetWithForm(fetched.getId(), "furt", null);
+        Pet updated = api.getPetById(fetched.getId());
+
+        assertEquals(updated.getName(), "furt");
+    }
+
+    @Test
+    public void testDeletePet() throws Exception {
+        Pet pet = createPet();
+        api.addPet(pet);
+
+        Pet fetched = api.getPetById(pet.getId());
+        api.deletePet(fetched.getId(), null);
+
+        try {
+            fetched = api.getPetById(fetched.getId());
+            fail("expected an error");
+        } catch (ApiException e) {
+            assertEquals(404, e.getCode());
+        }
+    }
+
+    @Test
+    public void testUploadFile() throws Exception {
+        Pet pet = createPet();
+        api.addPet(pet);
+
+        File file = new File("hello.txt");
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        writer.write("Hello world!");
+        writer.close();
+
+        api.uploadFile(pet.getId(), "a test file", new File(file.getAbsolutePath()));
     }
 
     @Test
@@ -113,7 +332,7 @@ public class PetApiTest {
     }
 
 
-    private Pet createRandomPet() {
+    private Pet createPet() {
         Pet pet = new Pet();
         pet.setId(1234567L);
         pet.setName("gorilla");
