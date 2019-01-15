@@ -55,8 +55,8 @@ void OAIStoreApiHandler::getOrderById(qint64 order_id) {
         reqObj->getOrderByIdResponse(res);
     }    
 }
-void OAIStoreApiHandler::placeOrder(OAIOrder oai_order) {
-    Q_UNUSED(oai_order);
+void OAIStoreApiHandler::placeOrder(OAIOrder body) {
+    Q_UNUSED(body);
     auto reqObj = qobject_cast<OAIStoreApiRequest*>(sender());
     if( reqObj != nullptr ) 
     { 

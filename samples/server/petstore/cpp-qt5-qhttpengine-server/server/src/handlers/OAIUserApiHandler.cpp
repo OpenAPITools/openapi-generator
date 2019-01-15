@@ -29,8 +29,8 @@ OAIUserApiHandler::~OAIUserApiHandler(){
 
 }
 
-void OAIUserApiHandler::createUser(OAIUser oai_user) {
-    Q_UNUSED(oai_user);
+void OAIUserApiHandler::createUser(OAIUser body) {
+    Q_UNUSED(body);
     auto reqObj = qobject_cast<OAIUserApiRequest*>(sender());
     if( reqObj != nullptr ) 
     { 
@@ -38,8 +38,8 @@ void OAIUserApiHandler::createUser(OAIUser oai_user) {
         reqObj->createUserResponse();
     }    
 }
-void OAIUserApiHandler::createUsersWithArrayInput(QList<OAIUser> oai_user) {
-    Q_UNUSED(oai_user);
+void OAIUserApiHandler::createUsersWithArrayInput(QList<OAIUser> body) {
+    Q_UNUSED(body);
     auto reqObj = qobject_cast<OAIUserApiRequest*>(sender());
     if( reqObj != nullptr ) 
     { 
@@ -47,8 +47,8 @@ void OAIUserApiHandler::createUsersWithArrayInput(QList<OAIUser> oai_user) {
         reqObj->createUsersWithArrayInputResponse();
     }    
 }
-void OAIUserApiHandler::createUsersWithListInput(QList<OAIUser> oai_user) {
-    Q_UNUSED(oai_user);
+void OAIUserApiHandler::createUsersWithListInput(QList<OAIUser> body) {
+    Q_UNUSED(body);
     auto reqObj = qobject_cast<OAIUserApiRequest*>(sender());
     if( reqObj != nullptr ) 
     { 
@@ -92,9 +92,9 @@ void OAIUserApiHandler::logoutUser() {
         reqObj->logoutUserResponse();
     }    
 }
-void OAIUserApiHandler::updateUser(QString username, OAIUser oai_user) {
+void OAIUserApiHandler::updateUser(QString username, OAIUser body) {
     Q_UNUSED(username);
-    Q_UNUSED(oai_user);
+    Q_UNUSED(body);
     auto reqObj = qobject_cast<OAIUserApiRequest*>(sender());
     if( reqObj != nullptr ) 
     { 
