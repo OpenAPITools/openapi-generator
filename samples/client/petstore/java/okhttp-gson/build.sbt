@@ -10,8 +10,8 @@ lazy val root = (project in file(".")).
     resolvers += Resolver.mavenLocal,
     libraryDependencies ++= Seq(
       "io.swagger" % "swagger-annotations" % "1.5.21",
-      "com.squareup.okhttp" % "okhttp" % "2.7.5",
-      "com.squareup.okhttp" % "logging-interceptor" % "2.7.5",
+      "com.squareup.okhttp3" % "okhttp" % "3.12.1",
+      "com.squareup.okhttp3" % "logging-interceptor" % "3.12.1",
       "com.google.code.gson" % "gson" % "2.8.5",
       "org.apache.commons" % "commons-lang3" % "3.8.1",
       "org.apache.oltu.oauth2" % "org.apache.oltu.oauth2.client" % "1.0.1",
