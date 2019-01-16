@@ -74,12 +74,13 @@ export class FakeApi {
      * @summary To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
      * @param testCodeInjectEndRnNR To test code injection *_/ &#39; \\\&quot; &#x3D;end -- \\\\r\\\\n \\\\n \\\\r
      */
-    public testCodeInjectEndRnNR (testCodeInjectEndRnNR?: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public testCodeInjectEndRnNR (testCodeInjectEndRnNR?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/fake';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
