@@ -60,12 +60,12 @@ class StoreApi extends _$StoreApiClient implements ApiClient {
     @PostReq(path: "/store/order")
     Future<Order> placeOrder(
             
-              @AsJson() Order order
+              @AsJson() Order body
         ) {
         return super.placeOrder(
 
         
-        order
+        body
         ).timeout(timeout);
     }
 
