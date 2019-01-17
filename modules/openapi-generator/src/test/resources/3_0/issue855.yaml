@@ -1,0 +1,29 @@
+openapi: 3.0.1
+info:
+  title: Issue 855 example
+  version: 1.0.0
+components:
+  headers:
+    Request:
+      description: ID of the request, unique to the call, as determined by the initiating party.
+      required: true
+      example: "99391c7e-ad88-49ec-a2ad-99ddcb1f7721"
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    OK_200:
+      description: OK
+      headers:
+        Request:
+          $ref: "#/components/headers/Request"
+
+paths:
+  /ping:
+    get:
+      summary: Get Payment Information
+      description: Returns the content of a payment object
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200"

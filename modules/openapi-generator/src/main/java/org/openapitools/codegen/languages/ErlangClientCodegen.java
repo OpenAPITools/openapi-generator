@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.mustache.JoinWithCommaLambda;
 import io.swagger.v3.oas.models.media.*;
 
 import java.io.File;
@@ -32,6 +33,8 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ErlangClientCodegen.class);
@@ -132,6 +135,8 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void processOpts() {
         super.processOpts();
+
+        additionalProperties.put("joinWithComma", new JoinWithCommaLambda());
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
@@ -280,14 +285,14 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> os = (List<CodegenOperation>) operations.get("operation");
         List<ExtendedCodegenOperation> newOs = new ArrayList<ExtendedCodegenOperation>();
         Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}");
         for (CodegenOperation o : os) {
             // force http method to lower case
-            o.httpMethod = o.httpMethod.toLowerCase();
+            o.httpMethod = o.httpMethod.toLowerCase(Locale.ROOT);
 
             if (o.isListContainer) {
                 o.returnType = "[" + o.returnBaseType + "]";

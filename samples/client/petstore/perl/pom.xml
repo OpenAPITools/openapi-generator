@@ -1,6 +1,6 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.wordnik</groupId>
+    <groupId>org.openapitools</groupId>
     <artifactId>PerlPetstoreClientTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -78,6 +78,19 @@
                             </arguments>
                         </configuration>
                     </execution>
+                    <!--<execution>
+                        <id>Test::More for Inheritance</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>perl</executable>
+                            <arguments>
+                                <argument>tests/06_inheritance.t</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>-->
                 </executions>
             </plugin>
         </plugins>

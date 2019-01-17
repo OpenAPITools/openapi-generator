@@ -197,7 +197,7 @@ public class PythonTest {
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertFalse(property1.isContainer);
     }
 
     @Test(description = "convert a model with complex list property")

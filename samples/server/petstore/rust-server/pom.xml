@@ -27,7 +27,21 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
-                        <id>bundle-test</id>
+                        <id>build</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>cargo</executable>
+                            <arguments>
+                                <argument>build</argument>
+                                <argument>--examples</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>test</id>
                         <phase>integration-test</phase>
                         <goals>
                             <goal>exec</goal>

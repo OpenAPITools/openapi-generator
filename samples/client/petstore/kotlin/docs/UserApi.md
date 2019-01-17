@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createUser"></a>
 # **createUser**
-> createUser(user)
+> createUser(body)
 
 Create user
 
@@ -29,9 +29,9 @@ This can only be done by the logged in user.
 //import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
-val user : User =  // User | Created user object
+val body : User =  // User | Created user object
 try {
-    apiInstance.createUser(user)
+    apiInstance.createUser(body)
 } catch (e: ClientException) {
     println("4xx response calling UserApi#createUser")
     e.printStackTrace()
@@ -45,7 +45,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| Created user object |
+ **body** | [**User**](User.md)| Created user object |
 
 ### Return type
 
@@ -62,7 +62,7 @@ No authorization required
 
 <a name="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(user)
+> createUsersWithArrayInput(body)
 
 Creates list of users with given input array
 
@@ -73,9 +73,9 @@ Creates list of users with given input array
 //import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
-val user : kotlin.Array<User> =  // kotlin.Array<User> | List of user object
+val body : kotlin.Array<User> =  // kotlin.Array<User> | List of user object
 try {
-    apiInstance.createUsersWithArrayInput(user)
+    apiInstance.createUsersWithArrayInput(body)
 } catch (e: ClientException) {
     println("4xx response calling UserApi#createUsersWithArrayInput")
     e.printStackTrace()
@@ -89,7 +89,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**kotlin.Array&lt;User&gt;**](kotlin.Array.md)| List of user object |
+ **body** | [**kotlin.Array&lt;User&gt;**](kotlin.Array.md)| List of user object |
 
 ### Return type
 
@@ -106,7 +106,7 @@ No authorization required
 
 <a name="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> createUsersWithListInput(user)
+> createUsersWithListInput(body)
 
 Creates list of users with given input array
 
@@ -117,9 +117,9 @@ Creates list of users with given input array
 //import org.openapitools.client.models.*
 
 val apiInstance = UserApi()
-val user : kotlin.Array<User> =  // kotlin.Array<User> | List of user object
+val body : kotlin.Array<User> =  // kotlin.Array<User> | List of user object
 try {
-    apiInstance.createUsersWithListInput(user)
+    apiInstance.createUsersWithListInput(body)
 } catch (e: ClientException) {
     println("4xx response calling UserApi#createUsersWithListInput")
     e.printStackTrace()
@@ -133,7 +133,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**kotlin.Array&lt;User&gt;**](kotlin.Array.md)| List of user object |
+ **body** | [**kotlin.Array&lt;User&gt;**](kotlin.Array.md)| List of user object |
 
 ### Return type
 
@@ -179,7 +179,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| The name that needs to be deleted |
+ **username** | **kotlin.String**| The name that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -224,7 +224,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| The name that needs to be fetched. Use user1 for testing. |
+ **username** | **kotlin.String**| The name that needs to be fetched. Use user1 for testing. | [default to null]
 
 ### Return type
 
@@ -270,8 +270,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| The user name for login |
- **password** | **kotlin.String**| The password for login in clear text |
+ **username** | **kotlin.String**| The user name for login | [default to null]
+ **password** | **kotlin.String**| The password for login in clear text | [default to null]
 
 ### Return type
 
@@ -328,7 +328,7 @@ No authorization required
 
 <a name="updateUser"></a>
 # **updateUser**
-> updateUser(username, user)
+> updateUser(username, body)
 
 Updated user
 
@@ -342,9 +342,9 @@ This can only be done by the logged in user.
 
 val apiInstance = UserApi()
 val username : kotlin.String = username_example // kotlin.String | name that need to be deleted
-val user : User =  // User | Updated user object
+val body : User =  // User | Updated user object
 try {
-    apiInstance.updateUser(username, user)
+    apiInstance.updateUser(username, body)
 } catch (e: ClientException) {
     println("4xx response calling UserApi#updateUser")
     e.printStackTrace()
@@ -358,8 +358,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **kotlin.String**| name that need to be deleted |
- **user** | [**User**](User.md)| Updated user object |
+ **username** | **kotlin.String**| name that need to be deleted | [default to null]
+ **body** | [**User**](User.md)| Updated user object |
 
 ### Return type
 

@@ -38,7 +38,7 @@ public class Pet {
   @JsonProperty("id")
   @JacksonXmlProperty(localName = "id")
   @XmlElement(name = "id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("category")
   @JacksonXmlProperty(localName = "category")
@@ -48,7 +48,7 @@ public class Pet {
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
-  private String name = null;
+  private String name;
 
   @JsonProperty("photoUrls")
   // items.xmlName=
@@ -68,7 +68,7 @@ public class Pet {
   // items.example= items.type=Tag
   @XmlElement(name = "tags")
   @XmlElementWrapper(name = "tag")
-  private List<Tag> tags = null;
+  private List<Tag> tags = new ArrayList<Tag>();
 
   /**
    * pet status in the store
@@ -103,14 +103,14 @@ public class Pet {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("status")
   @JacksonXmlProperty(localName = "status")
   @XmlElement(name = "status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   public Pet id(Long id) {
     this.id = id;
@@ -261,7 +261,6 @@ public class Pet {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pet {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

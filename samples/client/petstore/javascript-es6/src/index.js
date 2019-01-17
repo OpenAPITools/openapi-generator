@@ -15,7 +15,6 @@
 import ApiClient from './ApiClient';
 import AdditionalPropertiesClass from './model/AdditionalPropertiesClass';
 import Animal from './model/Animal';
-import AnimalFarm from './model/AnimalFarm';
 import ApiResponse from './model/ApiResponse';
 import ArrayOfArrayOfNumberOnly from './model/ArrayOfArrayOfNumberOnly';
 import ArrayOfNumberOnly from './model/ArrayOfNumberOnly';
@@ -29,6 +28,8 @@ import Dog from './model/Dog';
 import EnumArrays from './model/EnumArrays';
 import EnumClass from './model/EnumClass';
 import EnumTest from './model/EnumTest';
+import File from './model/File';
+import FileSchemaTestClass from './model/FileSchemaTestClass';
 import FormatTest from './model/FormatTest';
 import HasOnlyReadOnly from './model/HasOnlyReadOnly';
 import List from './model/List';
@@ -103,12 +104,6 @@ export {
      * @property {module:model/Animal}
      */
     Animal,
-
-    /**
-     * The AnimalFarm model constructor.
-     * @property {module:model/AnimalFarm}
-     */
-    AnimalFarm,
 
     /**
      * The ApiResponse model constructor.
@@ -187,6 +182,18 @@ export {
      * @property {module:model/EnumTest}
      */
     EnumTest,
+
+    /**
+     * The File model constructor.
+     * @property {module:model/File}
+     */
+    File,
+
+    /**
+     * The FileSchemaTestClass model constructor.
+     * @property {module:model/FileSchemaTestClass}
+     */
+    FileSchemaTestClass,
 
     /**
      * The FormatTest model constructor.

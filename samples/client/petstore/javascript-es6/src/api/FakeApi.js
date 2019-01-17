@@ -14,6 +14,7 @@
 
 import ApiClient from "../ApiClient";
 import Client from '../model/Client';
+import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import OuterComposite from '../model/OuterComposite';
 import User from '../model/User';
 
@@ -88,13 +89,13 @@ export default class FakeApi {
     /**
      * Test serialization of object with outer number type
      * @param {Object} opts Optional parameters
-     * @param {module:model/OuterComposite} opts.outerComposite Input composite as post body
+     * @param {module:model/OuterComposite} opts.body Input composite as post body
      * @param {module:api/FakeApi~fakeOuterCompositeSerializeCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/OuterComposite}
      */
     fakeOuterCompositeSerialize(opts, callback) {
       opts = opts || {};
-      let postBody = opts['outerComposite'];
+      let postBody = opts['body'];
 
 
       let pathParams = {
@@ -201,6 +202,49 @@ export default class FakeApi {
     }
 
     /**
+     * Callback function to receive the result of the testBodyWithFileSchema operation.
+     * @callback module:api/FakeApi~testBodyWithFileSchemaCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     * @param {module:model/FileSchemaTestClass} body 
+     * @param {module:api/FakeApi~testBodyWithFileSchemaCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    testBodyWithFileSchema(body, callback) {
+      let postBody = body;
+
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testBodyWithFileSchema");
+      }
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.apiClient.callApi(
+        '/fake/body-with-file-schema', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
      * Callback function to receive the result of the testBodyWithQueryParams operation.
      * @callback module:api/FakeApi~testBodyWithQueryParamsCallback
      * @param {String} error Error message, if any.
@@ -210,20 +254,20 @@ export default class FakeApi {
 
     /**
      * @param {String} query 
-     * @param {module:model/User} user 
+     * @param {module:model/User} body 
      * @param {module:api/FakeApi~testBodyWithQueryParamsCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    testBodyWithQueryParams(query, user, callback) {
-      let postBody = user;
+    testBodyWithQueryParams(query, body, callback) {
+      let postBody = body;
 
       // verify the required parameter 'query' is set
       if (query === undefined || query === null) {
         throw new Error("Missing the required parameter 'query' when calling testBodyWithQueryParams");
       }
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling testBodyWithQueryParams");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testBodyWithQueryParams");
       }
 
 
@@ -260,16 +304,16 @@ export default class FakeApi {
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
-     * @param {module:model/Client} client client model
+     * @param {module:model/Client} body client model
      * @param {module:api/FakeApi~testClientModelCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Client}
      */
-    testClientModel(client, callback) {
-      let postBody = client;
+    testClientModel(body, callback) {
+      let postBody = body;
 
-      // verify the required parameter 'client' is set
-      if (client === undefined || client === null) {
-        throw new Error("Missing the required parameter 'client' when calling testClientModel");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testClientModel");
       }
 
 
@@ -439,6 +483,73 @@ export default class FakeApi {
     }
 
     /**
+     * Callback function to receive the result of the testGroupParameters operation.
+     * @callback module:api/FakeApi~testGroupParametersCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Fake endpoint to test group parameters (optional)
+     * Fake endpoint to test group parameters (optional)
+     * @param {Number} requiredStringGroup Required String in group parameters
+     * @param {Boolean} requiredBooleanGroup Required Boolean in group parameters
+     * @param {Number} requiredInt64Group Required Integer in group parameters
+     * @param {Object} opts Optional parameters
+     * @param {Number} opts.stringGroup String in group parameters
+     * @param {Boolean} opts.booleanGroup Boolean in group parameters
+     * @param {Number} opts.int64Group Integer in group parameters
+     * @param {module:api/FakeApi~testGroupParametersCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts, callback) {
+      opts = opts || {};
+      let postBody = null;
+
+      // verify the required parameter 'requiredStringGroup' is set
+      if (requiredStringGroup === undefined || requiredStringGroup === null) {
+        throw new Error("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
+      }
+
+      // verify the required parameter 'requiredBooleanGroup' is set
+      if (requiredBooleanGroup === undefined || requiredBooleanGroup === null) {
+        throw new Error("Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
+      }
+
+      // verify the required parameter 'requiredInt64Group' is set
+      if (requiredInt64Group === undefined || requiredInt64Group === null) {
+        throw new Error("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
+      }
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+        'required_string_group': requiredStringGroup,
+        'required_int64_group': requiredInt64Group,
+        'string_group': opts['stringGroup'],
+        'int64_group': opts['int64Group']
+      };
+      let headerParams = {
+        'required_boolean_group': requiredBooleanGroup,
+        'boolean_group': opts['booleanGroup']
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = [];
+      let returnType = null;
+
+      return this.apiClient.callApi(
+        '/fake', 'DELETE',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
      * Callback function to receive the result of the testInlineAdditionalProperties operation.
      * @callback module:api/FakeApi~testInlineAdditionalPropertiesCallback
      * @param {String} error Error message, if any.
@@ -448,15 +559,15 @@ export default class FakeApi {
 
     /**
      * test inline additionalProperties
-     * @param {Object.<String, {String: String}>} requestBody request body
+     * @param {Object.<String, {String: String}>} param request body
      * @param {module:api/FakeApi~testInlineAdditionalPropertiesCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    testInlineAdditionalProperties(requestBody, callback) {
-      let postBody = requestBody;
+    testInlineAdditionalProperties(param, callback) {
+      let postBody = param;
 
-      // verify the required parameter 'requestBody' is set
-      if (requestBody === undefined || requestBody === null) {
-        throw new Error("Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
+      // verify the required parameter 'param' is set
+      if (param === undefined || param === null) {
+        throw new Error("Missing the required parameter 'param' when calling testInlineAdditionalProperties");
       }
 
 

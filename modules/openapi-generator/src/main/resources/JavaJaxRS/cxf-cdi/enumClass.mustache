@@ -3,7 +3,7 @@
 public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
 
     {{#allowableValues}}
-    {{#enumVars}}@XmlEnumValue({{{value}}}) {{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
+    {{#enumVars}}@XmlEnumValue({{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
     {{/allowableValues}}
 
 
@@ -13,7 +13,7 @@ public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum
         value = v;
     }
 
-    public String value() {
+    public {{dataType}} value() {
         return value;
     }
 
@@ -28,6 +28,6 @@ public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum
                 return b;
             }
         }
-        return null;
+        {{#useNullForUnknownEnumValue}}return null;{{/useNullForUnknownEnumValue}}{{^useNullForUnknownEnumValue}}throw new IllegalArgumentException("Unexpected value '" + v + "'");{{/useNullForUnknownEnumValue}}
     }
 }

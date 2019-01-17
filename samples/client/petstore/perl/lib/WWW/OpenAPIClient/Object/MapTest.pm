@@ -33,7 +33,6 @@ use DateTime;
 
 use base ("Class::Accessor", "Class::Data::Inheritable");
 
-
 #
 #
 #
@@ -65,23 +64,34 @@ __PACKAGE__->mk_classdata('openapi_types' => {});
 __PACKAGE__->mk_classdata('method_documentation' => {}); 
 __PACKAGE__->mk_classdata('class_documentation' => {});
 
-# new object
+# new plain object
 sub new { 
     my ($class, %args) = @_; 
 
-	my $self = bless {}, $class;
-	
-	foreach my $attribute (keys %{$class->attribute_map}) {
-		my $args_key = $class->attribute_map->{$attribute};
-		$self->$attribute( $args{ $args_key } );
-	}
-	
-	return $self;
-}  
+    my $self = bless {}, $class;
+
+    $self->init(%args);
+    
+    return $self;
+}
+
+# initialize the object
+sub init
+{
+    my ($self, %args) = @_;
+
+    foreach my $attribute (keys %{$self->attribute_map}) {
+        my $args_key = $self->attribute_map->{$attribute};
+        $self->$attribute( $args{ $args_key } );
+    }
+}
 
 # return perl hash
 sub to_hash {
-    return decode_json(JSON->new->convert_blessed->encode( shift ));
+    my $self = shift;
+    my $_hash = decode_json(JSON->new->convert_blessed->encode($self));
+
+    return $_hash;
 }
 
 # used by JSON for serialization
@@ -93,6 +103,7 @@ sub TO_JSON {
             $_data->{$self->attribute_map->{$_key}} = $self->{$_key};
         }
     }
+
     return $_data;
 }
 
@@ -102,7 +113,7 @@ sub from_hash {
 
     # loop through attributes and use openapi_types to deserialize the data
     while ( my ($_key, $_type) = each %{$self->openapi_types} ) {
-    	my $_json_attribute = $self->attribute_map->{$_key}; 
+        my $_json_attribute = $self->attribute_map->{$_key}; 
         if ($_type =~ /^array\[/i) { # array
             my $_subclass = substr($_type, 6, -1);
             my @_array = ();
@@ -113,7 +124,7 @@ sub from_hash {
         } elsif (exists $hash->{$_json_attribute}) { #hash(model), primitive, datetime
             $self->{$_key} = $self->_deserialize($_type, $hash->{$_json_attribute});
         } else {
-        	$log->debugf("Warning: %s (%s) does not exist in input hash\n", $_key, $_json_attribute);
+            $log->debugf("Warning: %s (%s) does not exist in input hash\n", $_key, $_json_attribute);
         }
     }
   
@@ -144,29 +155,47 @@ __PACKAGE__->class_documentation({description => '',
 
 __PACKAGE__->method_documentation({
     'map_map_of_string' => {
-    	datatype => 'HASH[string,HASH[string,string]]',
-    	base_name => 'map_map_of_string',
-    	description => '',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'HASH[string,HASH[string,string]]',
+        base_name => 'map_map_of_string',
+        description => '',
+        format => '',
+        read_only => '',
+            },
     'map_of_enum_string' => {
-    	datatype => 'HASH[string,string]',
-    	base_name => 'map_of_enum_string',
-    	description => '',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'HASH[string,string]',
+        base_name => 'map_of_enum_string',
+        description => '',
+        format => '',
+        read_only => '',
+            },
+    'direct_map' => {
+        datatype => 'HASH[string,boolean]',
+        base_name => 'direct_map',
+        description => '',
+        format => '',
+        read_only => '',
+            },
+    'indirect_map' => {
+        datatype => 'HASH[string,boolean]',
+        base_name => 'indirect_map',
+        description => '',
+        format => '',
+        read_only => '',
+            },
 });
 
 __PACKAGE__->openapi_types( {
     'map_map_of_string' => 'HASH[string,HASH[string,string]]',
-    'map_of_enum_string' => 'HASH[string,string]'
+    'map_of_enum_string' => 'HASH[string,string]',
+    'direct_map' => 'HASH[string,boolean]',
+    'indirect_map' => 'HASH[string,boolean]'
 } );
 
 __PACKAGE__->attribute_map( {
     'map_map_of_string' => 'map_map_of_string',
-    'map_of_enum_string' => 'map_of_enum_string'
+    'map_of_enum_string' => 'map_of_enum_string',
+    'direct_map' => 'direct_map',
+    'indirect_map' => 'indirect_map'
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});

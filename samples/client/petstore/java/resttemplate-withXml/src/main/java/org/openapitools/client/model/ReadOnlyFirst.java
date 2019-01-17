@@ -34,12 +34,12 @@ public class ReadOnlyFirst {
   @JsonProperty("bar")
   @JacksonXmlProperty(localName = "bar")
   @XmlElement(name = "bar")
-  private String bar = null;
+  private String bar;
 
   @JsonProperty("baz")
   @JacksonXmlProperty(localName = "baz")
   @XmlElement(name = "baz")
-  private String baz = null;
+  private String baz;
 
    /**
    * Get bar
@@ -92,7 +92,6 @@ public class ReadOnlyFirst {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ReadOnlyFirst {\n");
-    
     sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
     sb.append("    baz: ").append(toIndentedString(baz)).append("\n");
     sb.append("}");

@@ -3,6 +3,7 @@ package org.openapitools.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 
 /**
@@ -18,13 +19,13 @@ import javax.xml.bind.annotation.*;
 
 public class Order   {
   
-  private Long id = null;
+  private Long id;
 
-  private Long petId = null;
+  private Long petId;
 
-  private Integer quantity = null;
+  private Integer quantity;
 
-  private java.util.Date shipDate = null;
+  private java.util.Date shipDate;
 
 
 @XmlType(name="StatusEnum")
@@ -55,11 +56,11 @@ public enum StatusEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   private Boolean complete = false;
 
@@ -165,7 +166,7 @@ public enum StatusEnum {
   
   @ApiModelProperty(value = "")
   @JsonProperty("complete")
-  public Boolean isComplete() {
+  public Boolean getComplete() {
     return complete;
   }
   public void setComplete(Boolean complete) {

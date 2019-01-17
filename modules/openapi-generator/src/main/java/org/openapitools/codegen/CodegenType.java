@@ -21,16 +21,17 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public enum CodegenType {
-    CLIENT, SERVER, DOCUMENTATION, CONFIG, OTHER;
+    CLIENT, SERVER, DOCUMENTATION, SCHEMA, CONFIG, OTHER;
 
     private static Map<String, CodegenType> names = new HashMap<String, CodegenType>();
 
     @JsonCreator
     public static CodegenType forValue(String value) {
-        return names.get(value.toLowerCase());
+        return names.get(value.toLowerCase(Locale.ROOT));
     }
 
     @JsonValue
@@ -48,6 +49,7 @@ public enum CodegenType {
         names.put("client", CLIENT);
         names.put("server", SERVER);
         names.put("documentation", DOCUMENTATION);
+        names.put("schema", SCHEMA);
         names.put("other", OTHER);
     }
 }

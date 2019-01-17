@@ -35,7 +35,7 @@ public class NumberOnly {
   @JsonProperty("JustNumber")
   @JacksonXmlProperty(localName = "JustNumber")
   @XmlElement(name = "JustNumber")
-  private BigDecimal justNumber = null;
+  private BigDecimal justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
@@ -78,7 +78,6 @@ public class NumberOnly {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NumberOnly {\n");
-    
     sb.append("    justNumber: ").append(toIndentedString(justNumber)).append("\n");
     sb.append("}");
     return sb.toString();

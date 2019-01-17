@@ -7,6 +7,7 @@ import javax.ws.rs.core.Response;
 
 import io.swagger.annotations.*;
 
+import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
 import javax.validation.constraints.*;
@@ -24,5 +25,5 @@ public interface FakeClassnameTestApi {
     }, tags={ "fake_classname_tags 123#$%^" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    Client testClassname(@Valid Client client);
+    Client testClassname(@Valid Client body);
 }

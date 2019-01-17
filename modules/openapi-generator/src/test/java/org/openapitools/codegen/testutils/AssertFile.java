@@ -28,6 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import difflib.Delta;
 import difflib.DiffUtils;
@@ -71,7 +72,7 @@ public class AssertFile {
                     Path actualDir = absoluteActual.resolve(relativeExpectedDir);
 
                     if (!Files.exists(actualDir)) {
-                        fail(String.format("Directory '%s' is missing.", actualDir));
+                        fail(String.format(Locale.ROOT,"Directory '%s' is missing.", actualDir));
                     }
 
                     String[] expected = expectedDir.toFile().list();
@@ -86,7 +87,7 @@ public class AssertFile {
 
                     assertEquals(expected,
                             actual,
-                            String.format("Directory content of '%s' and '%s' differ.", expectedDir, actualDir));
+                            String.format(Locale.ROOT, "Directory content of '%s' and '%s' differ.", expectedDir, actualDir));
 
                     return FileVisitResult.CONTINUE;
                 }
@@ -97,7 +98,7 @@ public class AssertFile {
                     Path actualFile = absoluteActual.resolve(relativeExpectedFile);
 
                     if (!Files.exists(actualFile)) {
-                        fail(String.format("File '%s' is missing.", actualFile));
+                        fail(String.format(Locale.ROOT, "File '%s' is missing.", actualFile));
                     }
 
                     assertFilesAreEqual(expectedFile, actualFile);

@@ -2,6 +2,7 @@ package controllers;
 
 import java.math.BigDecimal;
 import apimodels.Client;
+import apimodels.FileSchemaTestClass;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Map;
@@ -25,6 +26,8 @@ public interface FakeApiControllerImpInterface {
     BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws Exception;
 
     String fakeOuterStringSerialize(String body) throws Exception;
+
+    void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws Exception;
 
     void testBodyWithQueryParams( @NotNull String query, User user) throws Exception;
 

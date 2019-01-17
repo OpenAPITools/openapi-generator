@@ -10,8 +10,8 @@
 #endif
 #endif
 
-#import "AnyPromise.h"
 #import "fwd.h"
+#import "AnyPromise.h"
 #import "PromiseKit.h"
 
 FOUNDATION_EXPORT double PromiseKitVersionNumber;

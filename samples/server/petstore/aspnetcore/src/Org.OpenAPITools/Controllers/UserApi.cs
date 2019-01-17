@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
@@ -22,7 +23,7 @@ namespace Org.OpenAPITools.Controllers
     /// <summary>
     /// 
     /// </summary>
-    public class UserApiController : Controller
+    public class UserApiController : ControllerBase
     { 
         /// <summary>
         /// Create user

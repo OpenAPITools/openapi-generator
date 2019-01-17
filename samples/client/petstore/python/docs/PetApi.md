@@ -12,14 +12,17 @@ Method | HTTP request | Description
 [**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 [**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**upload_file**](PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**upload_file_with_required_file**](PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 # **add_pet**
-> add_pet(pet)
+> add_pet(body)
 
 Add a new pet to the store
 
 ### Example
+
+* OAuth Authentication (petstore_auth): 
 ```python
 from __future__ import print_function
 import time
@@ -33,11 +36,11 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
+body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
 try:
     # Add a new pet to the store
-    api_instance.add_pet(pet)
+    api_instance.add_pet(body)
 except ApiException as e:
     print("Exception when calling PetApi->add_pet: %s\n" % e)
 ```
@@ -46,7 +49,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -69,6 +72,8 @@ void (empty response body)
 Deletes a pet
 
 ### Example
+
+* OAuth Authentication (petstore_auth): 
 ```python
 from __future__ import print_function
 import time
@@ -122,6 +127,8 @@ Finds Pets by status
 Multiple status values can be provided with comma separated strings
 
 ### Example
+
+* OAuth Authentication (petstore_auth): 
 ```python
 from __future__ import print_function
 import time
@@ -174,6 +181,8 @@ Finds Pets by tags
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 ### Example
+
+* OAuth Authentication (petstore_auth): 
 ```python
 from __future__ import print_function
 import time
@@ -226,6 +235,8 @@ Find pet by ID
 Returns a single pet
 
 ### Example
+
+* Api Key Authentication (api_key): 
 ```python
 from __future__ import print_function
 import time
@@ -273,11 +284,13 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet**
-> update_pet(pet)
+> update_pet(body)
 
 Update an existing pet
 
 ### Example
+
+* OAuth Authentication (petstore_auth): 
 ```python
 from __future__ import print_function
 import time
@@ -291,11 +304,11 @@ configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
-pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
+body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
 try:
     # Update an existing pet
-    api_instance.update_pet(pet)
+    api_instance.update_pet(body)
 except ApiException as e:
     print("Exception when calling PetApi->update_pet: %s\n" % e)
 ```
@@ -304,7 +317,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -327,6 +340,8 @@ void (empty response body)
 Updates a pet in the store with form data
 
 ### Example
+
+* OAuth Authentication (petstore_auth): 
 ```python
 from __future__ import print_function
 import time
@@ -380,6 +395,8 @@ void (empty response body)
 uploads an image
 
 ### Example
+
+* OAuth Authentication (petstore_auth): 
 ```python
 from __future__ import print_function
 import time
@@ -412,6 +429,62 @@ Name | Type | Description  | Notes
  **pet_id** | **int**| ID of pet to update | 
  **additional_metadata** | **str**| Additional data to pass to server | [optional] 
  **file** | **file**| file to upload | [optional] 
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **upload_file_with_required_file**
+> ApiResponse upload_file_with_required_file(pet_id, required_file, additional_metadata=additional_metadata)
+
+uploads an image (required)
+
+### Example
+
+* OAuth Authentication (petstore_auth): 
+```python
+from __future__ import print_function
+import time
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: petstore_auth
+configuration = petstore_api.Configuration()
+configuration.access_token = 'YOUR_ACCESS_TOKEN'
+
+# create an instance of the API class
+api_instance = petstore_api.PetApi(petstore_api.ApiClient(configuration))
+pet_id = 56 # int | ID of pet to update
+required_file = '/path/to/file' # file | file to upload
+additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
+
+try:
+    # uploads an image (required)
+    api_response = api_instance.upload_file_with_required_file(pet_id, required_file, additional_metadata=additional_metadata)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling PetApi->upload_file_with_required_file: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet_id** | **int**| ID of pet to update | 
+ **required_file** | **file**| file to upload | 
+ **additional_metadata** | **str**| Additional data to pass to server | [optional] 
 
 ### Return type
 

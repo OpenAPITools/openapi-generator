@@ -59,7 +59,8 @@ nlohmann::json Pet::toJson() const
             jsonArray.push_back(ModelBase::toJson(item));
         }
         val["photoUrls"] = jsonArray;
-            }
+        
+    }
     {
         nlohmann::json jsonArray;
         for( auto& item : m_Tags )
@@ -70,7 +71,7 @@ nlohmann::json Pet::toJson() const
         if(jsonArray.size() > 0)
         {
             val["tags"] = jsonArray;
-        }
+        } 
     }
     if(m_StatusIsSet)
     {
@@ -81,7 +82,7 @@ nlohmann::json Pet::toJson() const
     return val;
 }
 
-void Pet::fromJson(nlohmann::json& val)
+void Pet::fromJson(const nlohmann::json& val)
 {
     if(val.find("id") != val.end())
     {
@@ -91,8 +92,8 @@ void Pet::fromJson(nlohmann::json& val)
     {
         if(!val["category"].is_null())
         {
-            std::shared_ptr<Category> newItem(new Category());
-            newItem->fromJson(val["category"]);
+            Category newItem;
+            newItem.fromJson(val["category"]);
             setCategory( newItem );
         }
         
@@ -100,39 +101,36 @@ void Pet::fromJson(nlohmann::json& val)
     setName(val.at("name"));
     {
         m_PhotoUrls.clear();
-        nlohmann::json jsonArray;
-                for( auto& item : val["photoUrls"] )
-        {
-            m_PhotoUrls.push_back(item);
-            
-        }
+                    for( auto& item : val["photoUrls"] )
+            {
+                m_PhotoUrls.push_back(item);
+                
+            }
     }
     {
         m_Tags.clear();
-        nlohmann::json jsonArray;
         if(val.find("tags") != val.end())
         {
-        for( auto& item : val["tags"] )
-        {
-            
-            if(item.is_null())
+            for( auto& item : val["tags"] )
             {
-                m_Tags.push_back( std::shared_ptr<Tag>(nullptr) );
+                
+                if(item.is_null())
+                {
+                    m_Tags.push_back( Tag() );
+                }
+                else
+                {
+                    Tag newItem;
+                    newItem.fromJson(item);
+                    m_Tags.push_back( newItem );
+                }
+                
             }
-            else
-            {
-                std::shared_ptr<Tag> newItem(new Tag());
-                newItem->fromJson(item);
-                m_Tags.push_back( newItem );
-            }
-            
-        }
         }
     }
     if(val.find("status") != val.end())
     {
         setStatus(val.at("status"));
-        
     }
     
 }
@@ -142,7 +140,7 @@ int64_t Pet::getId() const
 {
     return m_Id;
 }
-void Pet::setId(int64_t value)
+void Pet::setId(int64_t const value)
 {
     m_Id = value;
     m_IdIsSet = true;
@@ -155,11 +153,11 @@ void Pet::unsetId()
 {
     m_IdIsSet = false;
 }
-std::shared_ptr<Category> Pet::getCategory() const
+Category Pet::getCategory() const
 {
     return m_Category;
 }
-void Pet::setCategory(std::shared_ptr<Category> value)
+void Pet::setCategory(Category const& value)
 {
     m_Category = value;
     m_CategoryIsSet = true;
@@ -176,7 +174,7 @@ std::string Pet::getName() const
 {
     return m_Name;
 }
-void Pet::setName(std::string value)
+void Pet::setName(std::string const& value)
 {
     m_Name = value;
     
@@ -185,7 +183,7 @@ std::vector<std::string>& Pet::getPhotoUrls()
 {
     return m_PhotoUrls;
 }
-std::vector<std::shared_ptr<Tag>>& Pet::getTags()
+std::vector<Tag>& Pet::getTags()
 {
     return m_Tags;
 }
@@ -201,7 +199,7 @@ std::string Pet::getStatus() const
 {
     return m_Status;
 }
-void Pet::setStatus(std::string value)
+void Pet::setStatus(std::string const& value)
 {
     m_Status = value;
     m_StatusIsSet = true;

@@ -1,0 +1,38 @@
+{{>licenseInfo}}
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QVariantMap>
+#include <QDebug>
+
+#include "{{classname}}Handler.h"
+#include "{{classname}}Request.h"
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+{{classname}}Handler::{{classname}}Handler(){
+
+}
+
+{{classname}}Handler::~{{classname}}Handler(){
+
+}
+
+{{#operations}}{{#operation}}void {{classname}}Handler::{{nickname}}({{#allParams}}{{{dataType}}}{{#isBodyParam}}{{/isBodyParam}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {
+    {{#allParams}}
+    Q_UNUSED({{paramName}});
+    {{/allParams}}
+    auto reqObj = qobject_cast<{{classname}}Request*>(sender());
+    if( reqObj != nullptr ) 
+    { 
+        {{#returnType}}{{{returnType}}} res;{{/returnType}}
+        reqObj->{{nickname}}Response({{#returnType}}res{{/returnType}});
+    }    
+}
+{{/operation}}{{/operations}}
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}

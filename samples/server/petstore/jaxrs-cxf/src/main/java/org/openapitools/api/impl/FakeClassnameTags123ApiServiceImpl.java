@@ -29,7 +29,7 @@ public class FakeClassnameTags123ApiServiceImpl implements FakeClassnameTags123A
      * To test class name in snake case
      *
      */
-    public Client testClassname(Client client) {
+    public Client testClassname(Client body) {
         // TODO: Implement...
         
         return null;

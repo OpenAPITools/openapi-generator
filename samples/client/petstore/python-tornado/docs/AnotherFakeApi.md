@@ -4,15 +4,15 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**test_special_tags**](AnotherFakeApi.md#test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+[**call_123_test_special_tags**](AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 
 
-# **test_special_tags**
-> Client test_special_tags(client)
-
-To test special tags
+# **call_123_test_special_tags**
+> Client call_123_test_special_tags(client)
 
 To test special tags
+
+To test special tags and operation ID starting with number
 
 ### Example
 ```python
@@ -28,10 +28,10 @@ client = petstore_api.Client() # Client | client model
 
 try:
     # To test special tags
-    api_response = api_instance.test_special_tags(client)
+    api_response = api_instance.call_123_test_special_tags(client)
     pprint(api_response)
 except ApiException as e:
-    print("Exception when calling AnotherFakeApi->test_special_tags: %s\n" % e)
+    print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
 ```
 
 ### Parameters

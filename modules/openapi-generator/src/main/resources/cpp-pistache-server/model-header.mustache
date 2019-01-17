@@ -9,7 +9,7 @@
 #define {{classname}}_H_
 
 {{{defaultInclude}}}
-#include "ModelBase.h"
+#include "{{prefix}}ModelBase.h"
 
 {{#imports}}{{{this}}}
 {{/imports}}
@@ -22,19 +22,19 @@ namespace {{this}} {
 /// {{description}}
 /// </summary>
 class {{declspec}} {{classname}}
-    : public ModelBase
+    : public {{prefix}}ModelBase
 {
 public:
     {{classname}}();
     virtual ~{{classname}}();
 
     /////////////////////////////////////////////
-    /// ModelBase overrides
+    /// {{prefix}}ModelBase overrides
 
     void validate() override;
 
     nlohmann::json toJson() const override;
-    void fromJson(nlohmann::json& json) override;
+    void fromJson(const nlohmann::json& json) override;
 
     /////////////////////////////////////////////
     /// {{classname}} members
@@ -43,10 +43,10 @@ public:
     /// <summary>
     /// {{description}}
     /// </summary>
-    {{^isNotContainer}}{{{dataType}}}& {{getter}}();
-    {{/isNotContainer}}{{#isNotContainer}}{{{dataType}}} {{getter}}() const;
-    void {{setter}}({{{dataType}}} value);
-    {{/isNotContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
+    {{#isContainer}}{{{dataType}}}& {{getter}}();
+    {{/isContainer}}{{^isContainer}}{{{dataType}}} {{getter}}() const;
+    void {{setter}}({{{dataType}}} const{{^isPrimitiveType}}&{{/isPrimitiveType}} value);
+    {{/isContainer}}{{^required}}bool {{nameInCamelCase}}IsSet() const;
     void unset{{name}}();
     {{/required}}
     {{/vars}}

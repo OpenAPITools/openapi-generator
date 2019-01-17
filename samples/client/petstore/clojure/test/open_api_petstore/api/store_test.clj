@@ -32,3 +32,11 @@
     (delete-order order-id)
     (comment "it seems that delete-order does not really delete the order"
              (is (thrown? RuntimeException (get-order-by-id order-id))))))
+
+(deftest test-order-spec-conforming
+  (with-api-context {:decode-models true}
+    (let [order (make-random-order)
+          order-id (:id order)
+          _ (place-order {:order order})
+          fetched (get-order-by-id order-id)]
+      (is (= order fetched)))))

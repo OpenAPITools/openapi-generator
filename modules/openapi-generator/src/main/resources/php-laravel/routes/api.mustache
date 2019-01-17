@@ -1,0 +1,19 @@
+<?php
+
+{{>licenseInfo}}
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+/**
+ * {{httpMethod}} {{operationId}}
+ * Summary: {{summary}}
+ * Notes: {{notes}}
+{{#hasProduces}} * Output-Formats: [{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]{{/hasProduces}}
+ */
+Route::{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', '{{classname}}@{{operationId}}');
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+

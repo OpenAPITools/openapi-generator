@@ -101,11 +101,6 @@ instance Arbitrary Animal where
       <$> arbitrary -- animalClassName :: Text
       <*> arbitrary -- animalColor :: Maybe Text
     
-instance Arbitrary AnimalFarm where
-  arbitrary =
-    
-    pure AnimalFarm
-     
 instance Arbitrary ApiResponse where
   arbitrary =
     ApiResponse
@@ -151,7 +146,7 @@ instance Arbitrary Category where
   arbitrary =
     Category
       <$> arbitrary -- categoryId :: Maybe Integer
-      <*> arbitrary -- categoryName :: Maybe Text
+      <*> arbitrary -- categoryName :: Text
     
 instance Arbitrary ClassModel where
   arbitrary =
@@ -185,6 +180,17 @@ instance Arbitrary EnumTest where
       <*> arbitrary -- enumTestEnumNumber :: Maybe Double
       <*> arbitrary -- enumTestOuterEnum :: Maybe OuterEnum
     
+instance Arbitrary File where
+  arbitrary =
+    File
+      <$> arbitrary -- fileSourceUri :: Maybe Text
+    
+instance Arbitrary FileSchemaTestClass where
+  arbitrary =
+    FileSchemaTestClass
+      <$> arbitrary -- fileSchemaTestClassFile :: Maybe File
+      <*> arbitrary -- fileSchemaTestClassFiles :: Maybe [File]
+    
 instance Arbitrary FormatTest where
   arbitrary =
     FormatTest
@@ -213,6 +219,8 @@ instance Arbitrary MapTest where
     MapTest
       <$> arbitrary -- mapTestMapMapOfString :: Maybe (Map.Map String (Map.Map String Text))
       <*> arbitrary -- mapTestMapOfEnumString :: Maybe (Map.Map String Text)
+      <*> arbitrary -- mapTestDirectMap :: Maybe (Map.Map String Bool)
+      <*> arbitrary -- mapTestIndirectMap :: Maybe (Map.Map String Bool)
     
 instance Arbitrary MixedPropertiesAndAdditionalPropertiesClass where
   arbitrary =
@@ -293,6 +301,24 @@ instance Arbitrary Tag where
     Tag
       <$> arbitrary -- tagId :: Maybe Integer
       <*> arbitrary -- tagName :: Maybe Text
+    
+instance Arbitrary TypeHolderDefault where
+  arbitrary =
+    TypeHolderDefault
+      <$> arbitrary -- typeHolderDefaultStringItem :: Text
+      <*> arbitrary -- typeHolderDefaultNumberItem :: Double
+      <*> arbitrary -- typeHolderDefaultIntegerItem :: Int
+      <*> arbitrary -- typeHolderDefaultBoolItem :: Bool
+      <*> arbitrary -- typeHolderDefaultArrayItem :: [Int]
+    
+instance Arbitrary TypeHolderExample where
+  arbitrary =
+    TypeHolderExample
+      <$> arbitrary -- typeHolderExampleStringItem :: Text
+      <*> arbitrary -- typeHolderExampleNumberItem :: Double
+      <*> arbitrary -- typeHolderExampleIntegerItem :: Int
+      <*> arbitrary -- typeHolderExampleBoolItem :: Bool
+      <*> arbitrary -- typeHolderExampleArrayItem :: [Int]
     
 instance Arbitrary User where
   arbitrary =

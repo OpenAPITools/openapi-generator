@@ -5,6 +5,7 @@ import org.openapitools.client.ApiClient;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -129,12 +130,12 @@ public class FakeApi {
   /**
     * Test serialization of object with outer number type
     * <p><b>200</b> - Output composite
-    * @param outerComposite Input composite as post body
+    * @param body Input composite as post body
     * @return OuterComposite
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws IOException {
-        HttpResponse response = fakeOuterCompositeSerializeForHttpResponse(outerComposite);
+    public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws IOException {
+        HttpResponse response = fakeOuterCompositeSerializeForHttpResponse(body);
         TypeReference typeRef = new TypeReference<OuterComposite>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
@@ -146,37 +147,37 @@ public class FakeApi {
     * @return OuterComposite
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite, Map<String, Object> params) throws IOException {
-        HttpResponse response = fakeOuterCompositeSerializeForHttpResponse(outerComposite, params);
+    public OuterComposite fakeOuterCompositeSerialize(OuterComposite body, Map<String, Object> params) throws IOException {
+        HttpResponse response = fakeOuterCompositeSerializeForHttpResponse(body, params);
         TypeReference typeRef = new TypeReference<OuterComposite>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse fakeOuterCompositeSerializeForHttpResponse(OuterComposite outerComposite) throws IOException {
+    public HttpResponse fakeOuterCompositeSerializeForHttpResponse(OuterComposite body) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/composite");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(outerComposite);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
-      public HttpResponse fakeOuterCompositeSerializeForHttpResponse(java.io.InputStream outerComposite, String mediaType) throws IOException {
+      public HttpResponse fakeOuterCompositeSerializeForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
           
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/composite");
 
               String url = uriBuilder.build().toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = outerComposite == null ?
+              HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, outerComposite);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse fakeOuterCompositeSerializeForHttpResponse(OuterComposite outerComposite, Map<String, Object> params) throws IOException {
+    public HttpResponse fakeOuterCompositeSerializeForHttpResponse(OuterComposite body, Map<String, Object> params) throws IOException {
         
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/outer/composite");
 
@@ -201,7 +202,7 @@ public class FakeApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(outerComposite);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
@@ -367,33 +368,117 @@ public class FakeApi {
 
 
   /**
+    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
     * <p><b>200</b> - Success
-    * @param query The query parameter
-    * @param user The user parameter
+    * @param body The body parameter
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testBodyWithQueryParams(String query, User user) throws IOException {
-        testBodyWithQueryParamsForHttpResponse(query, user);
+    public void testBodyWithFileSchema(FileSchemaTestClass body) throws IOException {
+        testBodyWithFileSchemaForHttpResponse(body);
+    }
+
+  /**
+    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+    * <p><b>200</b> - Success
+    * @param body The body parameter
+    * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public void testBodyWithFileSchema(FileSchemaTestClass body, Map<String, Object> params) throws IOException {
+        testBodyWithFileSchemaForHttpResponse(body, params);
+    }
+
+    public HttpResponse testBodyWithFileSchemaForHttpResponse(FileSchemaTestClass body) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling testBodyWithFileSchema");
+        }
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-with-file-schema");
+
+        String url = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+    }
+
+      public HttpResponse testBodyWithFileSchemaForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
+          // verify the required parameter 'body' is set
+              if (body == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'body' when calling testBodyWithFileSchema");
+              }
+              UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-with-file-schema");
+
+              String url = uriBuilder.build().toString();
+              GenericUrl genericUrl = new GenericUrl(url);
+
+              HttpContent content = body == null ?
+                apiClient.new JacksonJsonHttpContent(null) :
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
+              return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+      }
+
+    public HttpResponse testBodyWithFileSchemaForHttpResponse(FileSchemaTestClass body, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling testBodyWithFileSchema");
+        }
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-with-file-schema");
+
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
+
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (key != null && value != null) {
+                if (value instanceof Collection) {
+                    uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+                } else if (value instanceof Object[]) {
+                    uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+                } else {
+                    uriBuilder = uriBuilder.queryParam(key, value);
+                }
+            }
+        }
+
+        String url = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+    }
+
+
+  /**
+    * <p><b>200</b> - Success
+    * @param query The query parameter
+    * @param body The body parameter
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public void testBodyWithQueryParams(String query, User body) throws IOException {
+        testBodyWithQueryParamsForHttpResponse(query, body);
     }
 
   /**
     * <p><b>200</b> - Success
     * @param query The query parameter
-    * @param user The user parameter
+    * @param body The body parameter
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testBodyWithQueryParams(String query, User user, Map<String, Object> params) throws IOException {
-        testBodyWithQueryParamsForHttpResponse(query, user, params);
+    public void testBodyWithQueryParams(String query, User body, Map<String, Object> params) throws IOException {
+        testBodyWithQueryParamsForHttpResponse(query, body, params);
     }
 
-    public HttpResponse testBodyWithQueryParamsForHttpResponse(String query, User user) throws IOException {
+    public HttpResponse testBodyWithQueryParamsForHttpResponse(String query, User body) throws IOException {
         // verify the required parameter 'query' is set
         if (query == null) {
             throw new IllegalArgumentException("Missing the required parameter 'query' when calling testBodyWithQueryParams");
-        }// verify the required parameter 'user' is set
-        if (user == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'user' when calling testBodyWithQueryParams");
+        }// verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling testBodyWithQueryParams");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-with-query-params");
         if (query != null) {
@@ -411,17 +496,17 @@ public class FakeApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(user);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
     }
 
-      public HttpResponse testBodyWithQueryParamsForHttpResponse(String query, java.io.InputStream user, String mediaType) throws IOException {
+      public HttpResponse testBodyWithQueryParamsForHttpResponse(String query, java.io.InputStream body, String mediaType) throws IOException {
           // verify the required parameter 'query' is set
               if (query == null) {
               throw new IllegalArgumentException("Missing the required parameter 'query' when calling testBodyWithQueryParams");
-              }// verify the required parameter 'user' is set
-              if (user == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'user' when calling testBodyWithQueryParams");
+              }// verify the required parameter 'body' is set
+              if (body == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'body' when calling testBodyWithQueryParams");
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-with-query-params");
               if (query != null) {
@@ -439,19 +524,19 @@ public class FakeApi {
               String url = uriBuilder.build().toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = user == null ?
+              HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, user);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
       }
 
-    public HttpResponse testBodyWithQueryParamsForHttpResponse(String query, User user, Map<String, Object> params) throws IOException {
+    public HttpResponse testBodyWithQueryParamsForHttpResponse(String query, User body, Map<String, Object> params) throws IOException {
         // verify the required parameter 'query' is set
         if (query == null) {
             throw new IllegalArgumentException("Missing the required parameter 'query' when calling testBodyWithQueryParams");
-        }// verify the required parameter 'user' is set
-        if (user == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'user' when calling testBodyWithQueryParams");
+        }// verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling testBodyWithQueryParams");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/body-with-query-params");
 
@@ -478,7 +563,7 @@ public class FakeApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(user);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
     }
 
@@ -487,12 +572,12 @@ public class FakeApi {
     * To test \&quot;client\&quot; model
     * To test \&quot;client\&quot; model
     * <p><b>200</b> - successful operation
-    * @param client client model
+    * @param body client model
     * @return Client
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Client testClientModel(Client client) throws IOException {
-        HttpResponse response = testClientModelForHttpResponse(client);
+    public Client testClientModel(Client body) throws IOException {
+        HttpResponse response = testClientModelForHttpResponse(body);
         TypeReference typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
@@ -501,51 +586,51 @@ public class FakeApi {
     * To test \&quot;client\&quot; model
     * To test \&quot;client\&quot; model
     * <p><b>200</b> - successful operation
-    * @param client client model
+    * @param body client model
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @return Client
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public Client testClientModel(Client client, Map<String, Object> params) throws IOException {
-        HttpResponse response = testClientModelForHttpResponse(client, params);
+    public Client testClientModel(Client body, Map<String, Object> params) throws IOException {
+        HttpResponse response = testClientModelForHttpResponse(body, params);
         TypeReference typeRef = new TypeReference<Client>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse testClientModelForHttpResponse(Client client) throws IOException {
-        // verify the required parameter 'client' is set
-        if (client == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'client' when calling testClientModel");
+    public HttpResponse testClientModelForHttpResponse(Client body) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling testClientModel");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(client);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
     }
 
-      public HttpResponse testClientModelForHttpResponse(java.io.InputStream client, String mediaType) throws IOException {
-          // verify the required parameter 'client' is set
-              if (client == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'client' when calling testClientModel");
+      public HttpResponse testClientModelForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
+          // verify the required parameter 'body' is set
+              if (body == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'body' when calling testClientModel");
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
 
               String url = uriBuilder.build().toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = client == null ?
+              HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, client);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
       }
 
-    public HttpResponse testClientModelForHttpResponse(Client client, Map<String, Object> params) throws IOException {
-        // verify the required parameter 'client' is set
-        if (client == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'client' when calling testClientModel");
+    public HttpResponse testClientModelForHttpResponse(Client body, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling testClientModel");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
 
@@ -570,7 +655,7 @@ public class FakeApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(client);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PATCH, genericUrl, content).execute();
     }
 
@@ -795,60 +880,194 @@ public class FakeApi {
 
 
   /**
-    * test inline additionalProperties
-    * <p><b>200</b> - successful operation
-    * @param requestBody request body
+    * Fake endpoint to test group parameters (optional)
+    * Fake endpoint to test group parameters (optional)
+    * <p><b>400</b> - Someting wrong
+    * @param requiredStringGroup Required String in group parameters
+    * @param requiredBooleanGroup Required Boolean in group parameters
+    * @param requiredInt64Group Required Integer in group parameters
+    * @param stringGroup String in group parameters
+    * @param booleanGroup Boolean in group parameters
+    * @param int64Group Integer in group parameters
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testInlineAdditionalProperties(Map<String, String> requestBody) throws IOException {
-        testInlineAdditionalPropertiesForHttpResponse(requestBody);
+    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws IOException {
+        testGroupParametersForHttpResponse(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+    }
+
+  /**
+    * Fake endpoint to test group parameters (optional)
+    * Fake endpoint to test group parameters (optional)
+    * <p><b>400</b> - Someting wrong
+    * @param requiredStringGroup Required String in group parameters
+    * @param requiredBooleanGroup Required Boolean in group parameters
+    * @param requiredInt64Group Required Integer in group parameters
+    * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Map<String, Object> params) throws IOException {
+        testGroupParametersForHttpResponse(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, params);
+    }
+
+    public HttpResponse testGroupParametersForHttpResponse(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws IOException {
+        // verify the required parameter 'requiredStringGroup' is set
+        if (requiredStringGroup == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
+        }// verify the required parameter 'requiredBooleanGroup' is set
+        if (requiredBooleanGroup == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
+        }// verify the required parameter 'requiredInt64Group' is set
+        if (requiredInt64Group == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
+        }
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
+        if (requiredStringGroup != null) {
+            String key = "required_string_group";
+            Object value = requiredStringGroup;
+            if (value instanceof Collection) {
+                uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+            } else if (value instanceof Object[]) {
+                uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+            } else {
+                uriBuilder = uriBuilder.queryParam(key, value);
+            }
+        }        if (requiredInt64Group != null) {
+            String key = "required_int64_group";
+            Object value = requiredInt64Group;
+            if (value instanceof Collection) {
+                uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+            } else if (value instanceof Object[]) {
+                uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+            } else {
+                uriBuilder = uriBuilder.queryParam(key, value);
+            }
+        }        if (stringGroup != null) {
+            String key = "string_group";
+            Object value = stringGroup;
+            if (value instanceof Collection) {
+                uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+            } else if (value instanceof Object[]) {
+                uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+            } else {
+                uriBuilder = uriBuilder.queryParam(key, value);
+            }
+        }        if (int64Group != null) {
+            String key = "int64_group";
+            Object value = int64Group;
+            if (value instanceof Collection) {
+                uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+            } else if (value instanceof Object[]) {
+                uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+            } else {
+                uriBuilder = uriBuilder.queryParam(key, value);
+            }
+        }
+
+        String url = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = null;
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+    }
+
+    public HttpResponse testGroupParametersForHttpResponse(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'requiredStringGroup' is set
+        if (requiredStringGroup == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
+        }// verify the required parameter 'requiredBooleanGroup' is set
+        if (requiredBooleanGroup == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
+        }// verify the required parameter 'requiredInt64Group' is set
+        if (requiredInt64Group == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
+        }
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake");
+
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
+        // Add the required query param 'requiredStringGroup' to the map of query params
+        allParams.put("requiredStringGroup", requiredStringGroup);
+        // Add the required query param 'requiredInt64Group' to the map of query params
+        allParams.put("requiredInt64Group", requiredInt64Group);
+
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (key != null && value != null) {
+                if (value instanceof Collection) {
+                    uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+                } else if (value instanceof Object[]) {
+                    uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+                } else {
+                    uriBuilder = uriBuilder.queryParam(key, value);
+                }
+            }
+        }
+
+        String url = uriBuilder.build().toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = null;
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.DELETE, genericUrl, content).execute();
+    }
+
+
+  /**
+    * test inline additionalProperties
+    * <p><b>200</b> - successful operation
+    * @param param request body
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public void testInlineAdditionalProperties(Map<String, String> param) throws IOException {
+        testInlineAdditionalPropertiesForHttpResponse(param);
     }
 
   /**
     * test inline additionalProperties
     * <p><b>200</b> - successful operation
-    * @param requestBody request body
+    * @param param request body
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testInlineAdditionalProperties(Map<String, String> requestBody, Map<String, Object> params) throws IOException {
-        testInlineAdditionalPropertiesForHttpResponse(requestBody, params);
+    public void testInlineAdditionalProperties(Map<String, String> param, Map<String, Object> params) throws IOException {
+        testInlineAdditionalPropertiesForHttpResponse(param, params);
     }
 
-    public HttpResponse testInlineAdditionalPropertiesForHttpResponse(Map<String, String> requestBody) throws IOException {
-        // verify the required parameter 'requestBody' is set
-        if (requestBody == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
+    public HttpResponse testInlineAdditionalPropertiesForHttpResponse(Map<String, String> param) throws IOException {
+        // verify the required parameter 'param' is set
+        if (param == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'param' when calling testInlineAdditionalProperties");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/inline-additionalProperties");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(requestBody);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(param);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
-      public HttpResponse testInlineAdditionalPropertiesForHttpResponse(java.io.InputStream requestBody, String mediaType) throws IOException {
-          // verify the required parameter 'requestBody' is set
-              if (requestBody == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
+      public HttpResponse testInlineAdditionalPropertiesForHttpResponse(java.io.InputStream param, String mediaType) throws IOException {
+          // verify the required parameter 'param' is set
+              if (param == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'param' when calling testInlineAdditionalProperties");
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/inline-additionalProperties");
 
               String url = uriBuilder.build().toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = requestBody == null ?
+              HttpContent content = param == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, requestBody);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, param);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse testInlineAdditionalPropertiesForHttpResponse(Map<String, String> requestBody, Map<String, Object> params) throws IOException {
-        // verify the required parameter 'requestBody' is set
-        if (requestBody == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
+    public HttpResponse testInlineAdditionalPropertiesForHttpResponse(Map<String, String> param, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'param' is set
+        if (param == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'param' when calling testInlineAdditionalProperties");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/inline-additionalProperties");
 
@@ -873,7 +1092,7 @@ public class FakeApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(requestBody);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(param);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 

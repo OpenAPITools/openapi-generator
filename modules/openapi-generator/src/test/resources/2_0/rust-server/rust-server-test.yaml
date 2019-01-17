@@ -1,0 +1,131 @@
+swagger: '2.0'
+info:
+  description: "This spec is for testing rust-server-specific things"
+  version: 2.3.4
+  title: rust-server-test
+schemes:
+  - http
+paths:
+  /dummy:
+    get:
+      summary: A dummy endpoint to make the spec valid.
+      responses:
+        '200':
+          description: Success
+    put:
+      parameters:
+        - $ref: '#/parameters/nested_response'
+      responses:
+        '200':
+          description: Success
+  /html:
+    post:
+      summary: Test HTML handling
+      consumes: [text/html]
+      produces: [text/html]
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            type: string
+  /file_response:
+    get:
+      summary: Get a file
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Success
+          schema:
+            type: file
+  /raw_json:
+    get:
+      summary: Get an arbitrary JSON blob.
+      responses:
+        200:
+          description: Success
+          schema:
+            type: object
+    # Requests with arbitrary JSON currently fail.
+    # post:
+    #   summary: Send an arbitrary JSON blob
+    #   consumes:
+    #     - application/json
+    #   parameters:
+    #   - in: body
+    #     name: body
+    #     required: true
+    #     schema:
+    #       type: object
+    #   responses:
+    #     200:
+    #       description: Success
+    #       schema:
+    #         type: string
+
+parameters:
+  nested_response:
+    name: nested_response
+    in: body
+    required: true
+    schema:
+      # Erroneously ends up as `Option<models::InlineObject>`
+      properties:
+        id:
+          type: string
+        password:
+          type: string
+      required:
+        - id
+definitions:
+  additionalPropertiesObject:
+    description: An additionalPropertiesObject
+    type: object
+    additionalProperties:
+      type: string
+    example: "foo"
+  aNullableContainer:
+    type: object
+    properties:
+      NullableThing:
+        type: string
+        x-nullable: true
+      RequiredNullableThing:
+        type: string
+        x-nullable: true
+    required:
+      - RequiredNullableThing
+  ObjectOfObjects:
+    description: An object of objects
+    type: object
+    properties:
+      inner:
+        type: object
+        required:
+          - required_thing
+        properties:
+          required_thing:
+            type: string
+          optional_thing:
+            type: integer
+  # Currently broken - see https://github.com/OpenAPITools/openapi-generator/issues/8
+  # ArrayOfObjects:
+  #   description: An array of objects
+  #   type: array
+  #   items:
+  #     properties:
+  #       filename:
+  #         description: A non-required property
+  #         type: string
+  #       contents:
+  #         description: A required property
+  #         type: string
+  #     required:
+  #     - contents
+  #     type: object

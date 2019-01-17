@@ -1,0 +1,266 @@
+// @flow
+/* eslint-disable no-use-before-define */
+{{>licenseInfo}}
+
+import * as url from "url";
+import * as portableFetch from "portable-fetch";
+import { Configuration } from "./configuration";
+
+const BASE_PATH: string = "{{{basePath}}}".replace(/\/+$/, "");
+
+/**
+ *
+ * @export
+ */
+export const COLLECTION_FORMATS = {
+    csv: ",",
+    ssv: " ",
+    tsv: "\t",
+    pipes: "|",
+};
+
+/**
+ *
+ * @export
+ */
+export type FetchAPI = {
+    (url: string, init?: any): Promise<Response>;
+}
+
+/**
+ *
+ * @export
+ */
+export type FetchArgs = {
+    url: string;
+    options: {};
+}
+
+
+/**
+ *
+ * @export
+ */
+export type RequestOptions = {
+    headers?: {};
+    query?: {};
+    body?: string | FormData;
+}
+
+/**
+ * * @export
+ * @class RequiredError
+ * @extends {Error}
+ */
+export class RequiredError extends Error {
+    name:string = "RequiredError"
+    constructor(field: string, msg?: string) {
+        super(msg);
+    }
+}
+
+{{#models}}
+{{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}{{/model}}
+{{/models}}
+
+{{#apiInfo}}{{#apis}}{{#operations}}
+/**
+ * {{classname}} - fetch parameter creator{{#description}}
+ * {{&description}}{{/description}}
+ * @export
+ */
+export const {{classname}}FetchParamCreator = function (configuration?: Configuration) {
+    return {
+    {{#operation}}
+        /**
+         * {{&notes}}
+         {{#summary}}
+         * @summary {{&summary}}
+         {{/summary}}
+         * @throws {RequiredError}
+         */
+        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: RequestOptions): FetchArgs {
+    {{#allParams}}
+    {{#required}}
+            // verify required parameter '{{paramName}}' is not null or undefined
+            if ({{paramName}} === null || {{paramName}} === undefined) {
+                throw new RequiredError('{{paramName}}','Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+            }
+    {{/required}}
+    {{/allParams}}
+            const localVarPath = `{{{path}}}`{{#pathParams}}
+                .replace(`{${"{{baseName}}"}}`, encodeURIComponent(String({{paramName}}))){{/pathParams}};
+            const localVarUrlObj = url.parse(localVarPath, true);
+            const localVarRequestOptions: RequestOptions = Object.assign({}, { method: '{{httpMethod}}' }, options);
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+    {{#hasFormParams}}
+            const localVarFormParams = new FormData();
+    {{/hasFormParams}}
+
+    {{#authMethods}}
+            // authentication {{name}} required
+            {{#isApiKey}}
+            {{#isKeyInHeader}}
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+					? configuration.apiKey("{{keyParamName}}")
+					: configuration.apiKey;
+                localVarHeaderParameter["{{keyParamName}}"] = localVarApiKeyValue;
+            }
+            {{/isKeyInHeader}}
+            {{#isKeyInQuery}}
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+					? configuration.apiKey("{{keyParamName}}")
+					: configuration.apiKey;
+                localVarQueryParameter["{{keyParamName}}"] = localVarApiKeyValue;
+            }
+            {{/isKeyInQuery}}
+            {{/isApiKey}}
+            {{#isBasic}}
+            // http basic authentication required
+            if (configuration && (configuration.username || configuration.password)) {
+                localVarHeaderParameter["Authorization"] = "Basic " + btoa(configuration.username + ":" + configuration.password);
+            }
+            {{/isBasic}}
+            {{#isOAuth}}
+            // oauth required
+            if (configuration && configuration.accessToken) {
+				const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+					? configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}])
+					: configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
+            {{/isOAuth}}
+
+    {{/authMethods}}
+    {{#queryParams}}
+            {{#isListContainer}}
+            if ({{paramName}}) {
+            {{#isCollectionFormatMulti}}
+                localVarQueryParameter['{{baseName}}'] = {{paramName}};
+            {{/isCollectionFormatMulti}}
+            {{^isCollectionFormatMulti}}
+                localVarQueryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+            {{/isCollectionFormatMulti}}
+            }
+            {{/isListContainer}}
+            {{^isListContainer}}
+            if ({{paramName}} !== undefined) {
+                {{#isDateTime}}
+                localVarQueryParameter['{{baseName}}'] = (({{paramName}}:any):Date).toISOString();
+                {{/isDateTime}}
+                {{^isDateTime}}
+                {{#isDate}}
+                localVarQueryParameter['{{baseName}}'] = (({{paramName}}:any):Date).toISOString();
+                {{/isDate}}
+                {{^isDate}}
+                localVarQueryParameter['{{baseName}}'] = (({{paramName}}:any):string);
+                {{/isDate}}
+                {{/isDateTime}}
+            }
+            {{/isListContainer}}
+
+    {{/queryParams}}
+    {{#headerParams}}
+            {{#isListContainer}}
+            if ({{paramName}}) {
+                localVarHeaderParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+            }
+            {{/isListContainer}}
+            {{^isListContainer}}
+            if ({{paramName}} !== undefined && {{paramName}} !== null) {
+                localVarHeaderParameter['{{baseName}}'] = (({{paramName}}:any):string);
+            }
+            {{/isListContainer}}
+
+    {{/headerParams}}
+    {{#formParams}}
+            {{#isListContainer}}
+            if ({{paramName}}) {
+            {{#isCollectionFormatMulti}}
+                {{paramName}}.forEach((element) => {
+                    localVarFormParams.append('{{baseName}}', element);
+                })
+            {{/isCollectionFormatMulti}}
+            {{^isCollectionFormatMulti}}
+                    localVarFormParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+            {{/isCollectionFormatMulti}}
+            }
+            {{/isListContainer}}
+            {{^isListContainer}}
+            if ({{paramName}} !== undefined) {
+                localVarFormParams.set('{{baseName}}', (({{paramName}}:any):string));
+            }
+            {{/isListContainer}}
+
+    {{/formParams}}
+    {{#bodyParam}}
+            {{^consumes}}
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+            {{/consumes}}
+            {{#consumes.0}}
+            localVarHeaderParameter['Content-Type'] = '{{{mediaType}}}';
+            {{/consumes.0}}
+
+    {{/bodyParam}}
+            localVarUrlObj.query = Object.assign({}, localVarUrlObj.query, localVarQueryParameter, options.query);
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = Object.assign({}, localVarHeaderParameter, options.headers);
+    {{#hasFormParams}}
+            localVarRequestOptions.body = localVarFormParams;
+    {{/hasFormParams}}
+    {{#bodyParam}}
+            const needsSerialization = (typeof {{paramName}} !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify({{paramName}} || {}) : ((({{paramName}}:any):string) || "");
+    {{/bodyParam}}
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    {{/operation}}
+    }
+};
+
+export type {{classname}}Type = { {{#operation}}
+    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: RequestOptions): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response{{/returnType}}>,
+    {{/operation}}
+}
+
+/**
+ * {{classname}} - factory function to inject configuration {{#description}}
+ * {{{description}}}{{/description}}
+ * @export
+ */
+export const {{classname}} = function(configuration?: Configuration, fetch: FetchAPI = portableFetch): {{classname}}Type {
+    const basePath: string = (configuration && configuration.basePath) || BASE_PATH;
+    return {
+    {{#operation}}
+        /**
+         * {{&notes}}
+         {{#summary}}
+         * @summary {{&summary}}
+         {{/summary}}
+         * @throws {RequiredError}
+         */
+        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: RequestOptions = {}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response{{/returnType}}> {
+            const localVarFetchArgs = {{classname}}FetchParamCreator(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
+            return fetch(basePath + localVarFetchArgs.url, localVarFetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response{{#returnType}}.json(){{/returnType}};
+                } else {
+                    throw response;
+                }
+            });
+        },
+    {{/operation}}
+    }
+};
+{{/operations}}{{/apis}}{{/apiInfo}}
+export type ApiTypes = { {{#apiInfo}}{{#apis}}{{#operations}}
+    {{classname}}: {{classname}}Type,
+{{/operations}}{{/apis}}{{/apiInfo}} }

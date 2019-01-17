@@ -40,15 +40,15 @@ public class FakeClassnameTags123ApiImpl implements FakeClassnameTags123Api {
     /**
      * To test class name in snake case
      * To test class name in snake case
-     * @param client client model (required)
+     * @param body client model (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void testClassname(Client client, Handler<AsyncResult<Client>> resultHandler) {
-        Object localVarBody = client;
+    public void testClassname(Client body, Handler<AsyncResult<Client>> resultHandler) {
+        Object localVarBody = body;
         
-        // verify the required parameter 'client' is set
-        if (client == null) {
-            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'client' when calling testClassname"));
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'body' when calling testClassname"));
             return;
         }
         

@@ -133,7 +133,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public {{#parent}}{{^isArrayModel}}override {{/isArrayModel}}{{/parent}}{{^parent}}virtual {{/parent}}string ToJson()
+        public {{#parent}}{{^isArrayModel}}{{^isMapModel}}override {{/isMapModel}}{{/isArrayModel}}{{/parent}}{{^parent}}virtual {{/parent}}string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -158,17 +158,17 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
             if (input == null)
                 return false;
 
-            return {{#vars}}{{#parent}}base.Equals(input) && {{/parent}}{{#isNotContainer}}
+            return {{#vars}}{{#parent}}base.Equals(input) && {{/parent}}{{^isContainer}}
                 (
                     this.{{name}} == input.{{name}} ||
                     (this.{{name}} != null &&
                     this.{{name}}.Equals(input.{{name}}))
-                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{^isNotContainer}}
+                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{#isContainer}}
                 (
                     this.{{name}} == input.{{name}} ||
                     this.{{name}} != null &&
                     this.{{name}}.SequenceEqual(input.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}};
+                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}};
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
 
 {{/generatePropertyChanged}}
 {{#validatable}}
-{{#discriminator}}
+{{#hasChildren}}
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -235,8 +235,8 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
         /// <returns>Validation Result</returns>
         protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
-{{/discriminator}}
-{{^discriminator}}
+{{/hasChildren}}
+{{^hasChildren}}
         /// <summary>
         /// To validate all properties of the instance
         /// </summary>
@@ -244,10 +244,12 @@ this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-{{/discriminator}}
+{{/hasChildren}}
             {{#parent}}
             {{^isArrayModel}}
-            foreach(var x in BaseValidate(validationContext)) yield return x;
+            {{^isMapModel}}
+            foreach(var x in base.BaseValidate(validationContext)) yield return x;
+            {{/isMapModel}}
             {{/isArrayModel}}
             {{/parent}}
             {{#vars}}

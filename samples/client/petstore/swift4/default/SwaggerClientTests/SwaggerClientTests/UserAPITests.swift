@@ -53,62 +53,7 @@ class UserAPITests: XCTestCase {
         
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
-    
-    func test1CreateUser() {
-        let expectation = self.expectation(description: "testCreateUser")
-        let newUser = User(_id: 1000, username: "test@test.com", firstName: "Test", lastName: "Tester", email: "test@test.com", password: "test!", phone: "867-5309", userStatus: 0)
 
-        UserAPI.createUser(body: newUser) { (response, error) in
-            guard error == nil else {
-                XCTFail("error creating user")
-                return
-            }
-
-            expectation.fulfill()
-        }
-        
-        self.waitForExpectations(timeout: testTimeout, handler: nil)
-    }
-    
-    func test2GetUser() {
-        let expectation = self.expectation(description: "testGetUser")
-        
-        UserAPI.getUserByName(username: "test@test.com") { (user, error) in
-            guard error == nil else {
-                XCTFail("error getting user")
-                return
-            }
-            
-            if let user = user {
-                XCTAssert(user.userStatus == 0, "invalid userStatus")
-                XCTAssert(user.email == "test@test.com", "invalid email")
-                XCTAssert(user.firstName == "Test", "invalid firstName")
-                XCTAssert(user.lastName == "Tester", "invalid lastName")
-                XCTAssert(user.password == "test!", "invalid password")
-                XCTAssert(user.phone == "867-5309", "invalid phone")
-                
-                expectation.fulfill()
-            }
-        }
-        
-        self.waitForExpectations(timeout: testTimeout, handler: nil)
-    }
-    
-    func test3DeleteUser() {
-        let expectation = self.expectation(description: "testDeleteUser")
-        
-        UserAPI.deleteUser(username: "test@test.com") { (response, error) in
-            guard error == nil else {
-                XCTFail("error deleting user")
-                return
-            }
-
-            expectation.fulfill()
-        }
-        
-        self.waitForExpectations(timeout: testTimeout, handler: nil)
-    }
-    
     func testPathParamsAreEscaped() {
         // The path for this operation is /user/{userId}. In order to make a usable path,
         // then we must make sure that {userId} is percent-escaped when it is substituted

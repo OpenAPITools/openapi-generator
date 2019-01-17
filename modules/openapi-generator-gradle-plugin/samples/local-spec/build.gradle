@@ -41,11 +41,34 @@ openApiGenerate {
     configOptions = [
             dateLibrary: "java8"
     ]
+    systemProperties = [
+            modelDocs: "false"
+    ]
+    skipValidateSpec = true
+    logToStderr = true
+    generateAliasAsModel = false
+    // set to true and set environment variable {LANG}_POST_PROCESS_FILE
+    // (e.g. SCALA_POST_PROCESS_FILE) to the linter/formatter to be processed.
+    // This command will be passed one file at a time for most supported post processors.
+    enablePostProcessFile = false
 }
 
 task buildGoSdk(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
     generatorName = "go"
     inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+    additionalProperties = [
+            packageName: "petstore"
+    ]
+    outputDir = "$buildDir/go".toString()
+    configOptions = [
+            dateLibrary: "threetenp"
+    ]
+}
+
+task generateGoWithInvalidSpec(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask){
+    validateSpec = true
+    generatorName = "go"
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
     additionalProperties = [
             packageName: "petstore"
     ]

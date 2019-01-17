@@ -77,7 +77,7 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(property1.baseType, "number");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertFalse(property1.isContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -87,7 +87,7 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(property2.baseType, "string");
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertFalse(property2.isContainer);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -97,17 +97,17 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(property3.defaultValue, "undefined");
         Assert.assertTrue(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
 
         final CodegenProperty property4 = cm.vars.get(3);
         Assert.assertEquals(property4.baseName, "birthDate");
         Assert.assertEquals(property4.complexType, null);
-        Assert.assertEquals(property4.dataType, "string");
+        Assert.assertEquals(property4.dataType, "Date");
         Assert.assertEquals(property4.name, "birthDate");
         Assert.assertEquals(property4.defaultValue, "undefined");
         Assert.assertFalse(property4.hasMore);
         Assert.assertFalse(property4.required);
-        Assert.assertTrue(property4.isNotContainer);
+        Assert.assertFalse(property4.isContainer);
     }
 
     @Test(description = "convert a model with list property")
@@ -133,7 +133,7 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(property1.baseType, "number");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertFalse(property1.isContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
@@ -234,12 +234,14 @@ public class TypeScriptFetchModelTest {
         Assert.assertTrue(prope.isEnum);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList("fish", "crab"));
 
-        HashMap<String, String> fish = new HashMap<String, String>();
+        HashMap<String, Object> fish = new HashMap<String, Object>();
         fish.put("name", "Fish");
         fish.put("value", "'fish'");
-        HashMap<String, String> crab = new HashMap<String, String>();
+        fish.put("isString", false);
+        HashMap<String, Object> crab = new HashMap<String, Object>();
         crab.put("name", "Crab");
         crab.put("value", "'crab'");
+        crab.put("isString", false);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
         // assert inner items
@@ -270,12 +272,14 @@ public class TypeScriptFetchModelTest {
         Assert.assertNull(prope.items);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));
 
-        HashMap<String, String> one = new HashMap<String, String>();
+        HashMap<String, Object> one = new HashMap<String, Object>();
         one.put("name", "NUMBER_1");
         one.put("value", "1");
-        HashMap<String, String> minusOne = new HashMap<String, String>();
+        one.put("isString", false);
+        HashMap<String, Object> minusOne = new HashMap<String, Object>();
         minusOne.put("name", "NUMBER_MINUS_1");
         minusOne.put("value", "-1");
+        minusOne.put("isString", false);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(one, minusOne));
 
         //IMPORTANT: these are not final enum values, which may be further updated

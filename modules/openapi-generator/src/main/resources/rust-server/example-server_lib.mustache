@@ -1,4 +1,4 @@
-//! Main library entry point for {{externCrateName}} implementation.
+//! Main library entry point for {{{externCrateName}}} implementation.
 
 mod server;
 
@@ -11,7 +11,7 @@ use std::io;
 use std::clone::Clone;
 use std::marker::PhantomData;
 use hyper;
-use {{externCrateName}};
+use {{{externCrateName}}};
 use swagger::{Has, XSpanIdString};
 use swagger::auth::Authorization;
 
@@ -29,10 +29,10 @@ impl<C> hyper::server::NewService for NewService<C> where C: Has<XSpanIdString> 
     type Request = (hyper::Request, C);
     type Response = hyper::Response;
     type Error = hyper::Error;
-    type Instance = {{externCrateName}}::server::Service<server::Server<C>, C>;
+    type Instance = {{{externCrateName}}}::server::Service<server::Server<C>, C>;
 
     /// Instantiate a new server.
     fn new_service(&self) -> io::Result<Self::Instance> {
-        Ok({{externCrateName}}::server::Service::new(server::Server::new()))
+        Ok({{{externCrateName}}}::server::Service::new(server::Server::new()))
     }
 }

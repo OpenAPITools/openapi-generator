@@ -21,9 +21,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-
 import io.swagger.v3.oas.models.media.Schema;
-
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -40,7 +38,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings({"hiding"})
@@ -57,7 +60,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
     private static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
 
-    protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase() + "}";
+    protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Org.OpenAPITools.Client";
     protected String localVariablePrefix = "";
     protected String apiDocPath = "docs/";
@@ -79,6 +82,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
+
+    // use KellermanSoftware.CompareNetObjects for deep recursive object comparision
+    protected boolean useCompareNetObjects = Boolean.FALSE;
 
     public CSharpClientCodegen() {
         super();
@@ -192,6 +198,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.VALIDATABLE,
                 CodegenConstants.VALIDATABLE_DESC,
                 this.validatable);
+
+        addSwitch(CodegenConstants.USE_COMPARE_NET_OBJECTS,
+                CodegenConstants.USE_COMPARE_NET_OBJECTS_DESC,
+                this.useCompareNetObjects);
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IgnoreCase");
@@ -481,8 +491,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        super.postProcessOperations(objs);
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        super.postProcessOperationsWithModels(objs, allModels);
         if (objs != null) {
             Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
             if (operations != null) {
@@ -603,11 +613,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     /*
-    * The pattern spec follows the Perl convention and style of modifiers. .NET
-    * does not support this syntax directly so we need to convert the pattern to a .NET compatible
-    * format and apply modifiers in a compatible way.
-    * See https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx for .NET options.
-    */
+     * The pattern spec follows the Perl convention and style of modifiers. .NET
+     * does not support this syntax directly so we need to convert the pattern to a .NET compatible
+     * format and apply modifiers in a compatible way.
+     * See https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx for .NET options.
+     */
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
             int i = pattern.lastIndexOf('/');
@@ -707,7 +717,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         // number
-        if(datatype.startsWith("int") || datatype.startsWith("long") ||
+        if (datatype.startsWith("int") || datatype.startsWith("long") ||
                 datatype.startsWith("double") || datatype.startsWith("float")) {
             String varName = "NUMBER_" + value;
             varName = varName.replaceAll("-", "MINUS_");
@@ -751,16 +761,20 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public String getNameUsingModelPropertyNaming(String name) {
         switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
-            case original:    return name;
-            case camelCase:   return camelize(name, true);
-            case PascalCase:  return camelize(name);
-            case snake_case:  return underscore(name);
-            default:          throw new IllegalArgumentException("Invalid model property naming '" +
-                    name + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            default:
+                throw new IllegalArgumentException("Invalid model property naming '" +
+                        name + "'. Must be 'original', 'camelCase', " +
+                        "'PascalCase' or 'snake_case'");
         }
     }
-
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
@@ -788,6 +802,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setGeneratePropertyChanged(final Boolean generatePropertyChanged) {
         this.generatePropertyChanged = generatePropertyChanged;
+    }
+
+    public void setUseCompareNetObjects(final Boolean useCompareNetObjects) {
+        this.useCompareNetObjects = useCompareNetObjects;
     }
 
     public boolean isNonPublicApi() {

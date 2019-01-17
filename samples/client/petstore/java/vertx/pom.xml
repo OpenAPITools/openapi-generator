@@ -114,8 +114,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/main/java</source>
+                                <source>src/main/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -127,8 +126,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/test/java</source>
+                                <source>src/test/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -200,7 +198,7 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>${swagger-core-version}</version>
+            <version>${swagger-annotations-version}</version>
         </dependency>
 
         <!-- Vertx -->
@@ -260,7 +258,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vertx-version>3.4.2</vertx-version>
-        <swagger-core-version>1.5.18</swagger-core-version>
+        <swagger-annotations-version>1.5.21</swagger-annotations-version>
         <jackson-version>2.6.4</jackson-version>
         <junit-version>4.12</junit-version>
     </properties>

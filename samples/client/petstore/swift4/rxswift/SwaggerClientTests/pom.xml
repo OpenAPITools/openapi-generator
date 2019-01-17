@@ -1,10 +1,10 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.swagger</groupId>
-    <artifactId>Swift3RxSwiftPetstoreClientTests</artifactId>
+    <artifactId>Swift4RxSwiftPetstoreClientTests</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>Swift3 RxSwift Swagger Petstore Client</name>
+    <name>Swift4 RxSwift Swagger Petstore Client</name>
     <build>
         <plugins>
             <plugin>

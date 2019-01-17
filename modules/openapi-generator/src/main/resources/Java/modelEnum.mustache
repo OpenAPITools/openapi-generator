@@ -18,6 +18,11 @@ import com.google.gson.stream.JsonWriter;
 {{/gson}}
 public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
   {{#allowableValues}}{{#enumVars}}
+    {{#enumDescription}}
+  /**
+   * {{enumDescription}}
+   */
+     {{/enumDescription}}
   {{{name}}}({{{value}}}){{^-last}},
   {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}{{/allowableValues}}
 
@@ -48,7 +53,7 @@ public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum
         return b;
       }
     }
-    return null;
+    {{#useNullForUnknownEnumValue}}return null;{{/useNullForUnknownEnumValue}}{{^useNullForUnknownEnumValue}}throw new IllegalArgumentException("Unexpected value '" + text + "'");{{/useNullForUnknownEnumValue}}
   }
 {{#gson}}
 

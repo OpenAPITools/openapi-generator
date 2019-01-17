@@ -31,9 +31,9 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ModelClient</returns>
-        ModelClient TestClassname (ModelClient modelClient);
+        ModelClient TestClassname (ModelClient body);
 
         /// <summary>
         /// To test class name in snake case
@@ -42,9 +42,9 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> TestClassnameWithHttpInfo (ModelClient modelClient);
+        ApiResponse<ModelClient> TestClassnameWithHttpInfo (ModelClient body);
         #endregion Synchronous Operations
     }
 
@@ -62,6 +62,17 @@ namespace Org.OpenAPITools.Api
         public FakeClassnameTags123Api(String basePath)
         {
             this.Configuration = new Org.OpenAPITools.Client.Configuration { BasePath = basePath };
+
+            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class
+        /// </summary>
+        /// <returns></returns>
+        public FakeClassnameTags123Api()
+        {
+            this.Configuration = Org.OpenAPITools.Client.Configuration.Default;
 
             ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
@@ -149,11 +160,11 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case To test class name in snake case
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ModelClient</returns>
-        public ModelClient TestClassname (ModelClient modelClient)
+        public ModelClient TestClassname (ModelClient body)
         {
-             ApiResponse<ModelClient> localVarResponse = TestClassnameWithHttpInfo(modelClient);
+             ApiResponse<ModelClient> localVarResponse = TestClassnameWithHttpInfo(body);
              return localVarResponse.Data;
         }
 
@@ -161,13 +172,13 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case To test class name in snake case
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        public ApiResponse< ModelClient > TestClassnameWithHttpInfo (ModelClient modelClient)
+        public ApiResponse< ModelClient > TestClassnameWithHttpInfo (ModelClient body)
         {
-            // verify the required parameter 'modelClient' is set
-            if (modelClient == null)
-                throw new ApiException(400, "Missing required parameter 'modelClient' when calling FakeClassnameTags123Api->TestClassname");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new ApiException(400, "Missing required parameter 'body' when calling FakeClassnameTags123Api->TestClassname");
 
             var localVarPath = "/fake_classname_test";
             var localVarPathParams = new Dictionary<String, String>();
@@ -191,13 +202,13 @@ namespace Org.OpenAPITools.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (modelClient != null && modelClient.GetType() != typeof(byte[]))
+            if (body != null && body.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(modelClient); // http body (model) parameter
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
             else
             {
-                localVarPostBody = modelClient; // byte array
+                localVarPostBody = body; // byte array
             }
 
             // authentication (api_key_query) required

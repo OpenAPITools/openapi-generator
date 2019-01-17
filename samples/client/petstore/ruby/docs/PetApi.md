@@ -12,10 +12,11 @@ Method | HTTP request | Description
 [**update_pet**](PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 [**update_pet_with_form**](PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**upload_file**](PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**upload_file_with_required_file**](PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 # **add_pet**
-> add_pet(pet)
+> add_pet(body)
 
 Add a new pet to the store
 
@@ -30,11 +31,11 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
+body = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
 
 begin
   #Add a new pet to the store
-  api_instance.add_pet(pet)
+  api_instance.add_pet(body)
 rescue Petstore::ApiError => e
   puts "Exception when calling PetApi->add_pet: #{e}"
 end
@@ -44,7 +45,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -265,7 +266,7 @@ Name | Type | Description  | Notes
 
 
 # **update_pet**
-> update_pet(pet)
+> update_pet(body)
 
 Update an existing pet
 
@@ -280,11 +281,11 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::PetApi.new
-pet = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
+body = Petstore::Pet.new # Pet | Pet object that needs to be added to the store
 
 begin
   #Update an existing pet
-  api_instance.update_pet(pet)
+  api_instance.update_pet(body)
 rescue Petstore::ApiError => e
   puts "Exception when calling PetApi->update_pet: #{e}"
 end
@@ -294,7 +295,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -402,6 +403,60 @@ Name | Type | Description  | Notes
  **pet_id** | **Integer**| ID of pet to update | 
  **additional_metadata** | **String**| Additional data to pass to server | [optional] 
  **file** | **File**| file to upload | [optional] 
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+
+
+# **upload_file_with_required_file**
+> ApiResponse upload_file_with_required_file(pet_id, required_file, opts)
+
+uploads an image (required)
+
+### Example
+```ruby
+# load the gem
+require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure OAuth2 access token for authorization: petstore_auth
+  config.access_token = 'YOUR ACCESS TOKEN'
+end
+
+api_instance = Petstore::PetApi.new
+pet_id = 56 # Integer | ID of pet to update
+required_file = File.new('/path/to/file') # File | file to upload
+opts = {
+  additional_metadata: 'additional_metadata_example' # String | Additional data to pass to server
+}
+
+begin
+  #uploads an image (required)
+  result = api_instance.upload_file_with_required_file(pet_id, required_file, opts)
+  p result
+rescue Petstore::ApiError => e
+  puts "Exception when calling PetApi->upload_file_with_required_file: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet_id** | **Integer**| ID of pet to update | 
+ **required_file** | **File**| file to upload | 
+ **additional_metadata** | **String**| Additional data to pass to server | [optional] 
 
 ### Return type
 

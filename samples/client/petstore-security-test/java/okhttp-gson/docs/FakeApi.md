@@ -1,6 +1,6 @@
 # FakeApi
 
-All URIs are relative to *petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
+All URIs are relative to *http://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -13,6 +13,8 @@ Method | HTTP request | Description
 
 To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
+To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+
 ### Example
 ```java
 // Import classes:
@@ -21,7 +23,7 @@ To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
 
 FakeApi apiInstance = new FakeApi();
-Object UNKNOWN_BASE_TYPE = new UNKNOWN_BASE_TYPE(); // Object | 
+UNKNOWN_BASE_TYPE UNKNOWN_BASE_TYPE = new UNKNOWN_BASE_TYPE(); // UNKNOWN_BASE_TYPE | 
 try {
     apiInstance.testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE);
 } catch (ApiException e) {
@@ -34,7 +36,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_BASE_TYPE** | [**Object**](UNKNOWN_BASE_TYPE.md)|  | [optional]
+ **UNKNOWN_BASE_TYPE** | [**UNKNOWN_BASE_TYPE**](UNKNOWN_BASE_TYPE.md)|  | [optional]
 
 ### Return type
 

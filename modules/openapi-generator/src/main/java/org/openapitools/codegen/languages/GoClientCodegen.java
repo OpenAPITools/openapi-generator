@@ -17,19 +17,25 @@
 
 package org.openapitools.codegen.languages;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
 
 public class GoClientCodegen extends AbstractGoCodegen {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
+
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    public static final String WITH_GO_CODEGEN_COMMENT = "withGoCodegenComment";
     public static final String WITH_XML = "withXml";
 
     public GoClientCodegen() {
@@ -49,7 +55,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Go package version.")
                 .defaultValue("1.0.0"));
+        cliOptions.add(CliOption.newBoolean(WITH_GO_CODEGEN_COMMENT, "whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs"));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
+
 
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(
@@ -92,6 +100,13 @@ public class GoClientCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("client.mustache", "", "client.go"));
         supportingFiles.add(new SupportingFile("response.mustache", "", "response.go"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
+
+        if (additionalProperties.containsKey(WITH_GO_CODEGEN_COMMENT)) {
+            setWithGoCodegenComment(Boolean.parseBoolean(additionalProperties.get(WITH_GO_CODEGEN_COMMENT).toString()));
+            if (withGoCodegenComment) {
+                additionalProperties.put(WITH_GO_CODEGEN_COMMENT, "true");
+            }
+        }
 
         if (additionalProperties.containsKey(WITH_XML)) {
             setWithXml(Boolean.parseBoolean(additionalProperties.get(WITH_XML).toString()));

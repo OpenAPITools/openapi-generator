@@ -35,12 +35,13 @@ export class PetService {
     public configuration = new Configuration();
 
     constructor(protected http: Http, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-        if (basePath) {
-            this.basePath = basePath;
-        }
+
         if (configuration) {
             this.configuration = configuration;
-            this.basePath = basePath || configuration.basePath || this.basePath;
+            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
+
+        } else {
+            this.configuration.basePath = basePath || this.basePath;
         }
     }
 
@@ -61,10 +62,10 @@ export class PetService {
     /**
      * 
      * @summary Add a new pet to the store
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      */
-    public addPet(pet: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
-        return this.addPetWithHttpInfo(pet, extraHttpRequestParams)
+    public addPet(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
+        return this.addPetWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -142,10 +143,10 @@ export class PetService {
     /**
      * 
      * @summary Update an existing pet
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      */
-    public updatePet(pet: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
-        return this.updatePetWithHttpInfo(pet, extraHttpRequestParams)
+    public updatePet(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<{}> {
+        return this.updatePetWithHttpInfo(body, extraHttpRequestParams)
             .map((response: Response) => {
                 if (response.status === 204) {
                     return undefined;
@@ -195,12 +196,12 @@ export class PetService {
     /**
      * Add a new pet to the store
      * 
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      
      */
-    public addPetWithHttpInfo(pet: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
-        if (pet === null || pet === undefined) {
-            throw new Error('Required parameter pet was null or undefined when calling addPet.');
+    public addPetWithHttpInfo(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling addPet.');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -214,7 +215,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected !== undefined) {
@@ -234,7 +235,7 @@ export class PetService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Post,
             headers: headers,
-            body: pet == null ? '' : JSON.stringify(pet), // https://github.com/angular/angular/issues/10612
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -242,7 +243,7 @@ export class PetService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet`, requestOptions);
     }
 
     /**
@@ -271,7 +272,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected !== undefined) {
@@ -292,7 +293,7 @@ export class PetService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
     }
 
     /**
@@ -322,7 +323,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
             'application/xml',
             'application/json'
         ];
@@ -346,7 +347,7 @@ export class PetService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/findByStatus`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet/findByStatus`, requestOptions);
     }
 
     /**
@@ -376,7 +377,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
             'application/xml',
             'application/json'
         ];
@@ -400,7 +401,7 @@ export class PetService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/findByTags`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet/findByTags`, requestOptions);
     }
 
     /**
@@ -417,12 +418,12 @@ export class PetService {
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
 
         // authentication (api_key) required
-        if (this.configuration.apiKeys["api_key"]) {
+        if (this.configuration.apiKeys && this.configuration.apiKeys["api_key"]) {
             headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
             'application/xml',
             'application/json'
         ];
@@ -445,18 +446,18 @@ export class PetService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
     }
 
     /**
      * Update an existing pet
      * 
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      
      */
-    public updatePetWithHttpInfo(pet: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
-        if (pet === null || pet === undefined) {
-            throw new Error('Required parameter pet was null or undefined when calling updatePet.');
+    public updatePetWithHttpInfo(body: Pet, extraHttpRequestParams?: RequestOptionsArgs): Observable<Response> {
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling updatePet.');
         }
 
         let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
@@ -470,7 +471,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected !== undefined) {
@@ -490,7 +491,7 @@ export class PetService {
         let requestOptions: RequestOptionsArgs = new RequestOptions({
             method: RequestMethod.Put,
             headers: headers,
-            body: pet == null ? '' : JSON.stringify(pet), // https://github.com/angular/angular/issues/10612
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
             withCredentials:this.configuration.withCredentials
         });
         // issues#4037
@@ -498,7 +499,7 @@ export class PetService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet`, requestOptions);
     }
 
     /**
@@ -525,7 +526,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected !== undefined) {
@@ -539,7 +540,7 @@ export class PetService {
 
         const canConsumeForm = this.canConsumeForm(consumes);
 
-        let formParams: { append(param: string, value: any): void; };
+        let formParams: { append(param: string, value: any): any; };
         let useForm = false;
         let convertFormParamsToString = false;
         if (useForm) {
@@ -570,7 +571,7 @@ export class PetService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`, requestOptions);
     }
 
     /**
@@ -597,7 +598,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -612,7 +613,7 @@ export class PetService {
 
         const canConsumeForm = this.canConsumeForm(consumes);
 
-        let formParams: { append(param: string, value: any): void; };
+        let formParams: { append(param: string, value: any): any; };
         let useForm = false;
         let convertFormParamsToString = false;
         // use FormData to transmit files using content-type "multipart/form-data"
@@ -646,7 +647,7 @@ export class PetService {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`, requestOptions);
     }
 
 }

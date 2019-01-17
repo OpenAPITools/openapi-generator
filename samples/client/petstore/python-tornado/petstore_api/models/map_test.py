@@ -32,25 +32,35 @@ class MapTest(object):
     """
     openapi_types = {
         'map_map_of_string': 'dict(str, dict(str, str))',
-        'map_of_enum_string': 'dict(str, str)'
+        'map_of_enum_string': 'dict(str, str)',
+        'direct_map': 'dict(str, bool)',
+        'indirect_map': 'dict(str, bool)'
     }
 
     attribute_map = {
         'map_map_of_string': 'map_map_of_string',
-        'map_of_enum_string': 'map_of_enum_string'
+        'map_of_enum_string': 'map_of_enum_string',
+        'direct_map': 'direct_map',
+        'indirect_map': 'indirect_map'
     }
 
-    def __init__(self, map_map_of_string=None, map_of_enum_string=None):  # noqa: E501
+    def __init__(self, map_map_of_string=None, map_of_enum_string=None, direct_map=None, indirect_map=None):  # noqa: E501
         """MapTest - a model defined in OpenAPI"""  # noqa: E501
 
         self._map_map_of_string = None
         self._map_of_enum_string = None
+        self._direct_map = None
+        self._indirect_map = None
         self.discriminator = None
 
         if map_map_of_string is not None:
             self.map_map_of_string = map_map_of_string
         if map_of_enum_string is not None:
             self.map_of_enum_string = map_of_enum_string
+        if direct_map is not None:
+            self.direct_map = direct_map
+        if indirect_map is not None:
+            self.indirect_map = indirect_map
 
     @property
     def map_map_of_string(self):
@@ -100,6 +110,48 @@ class MapTest(object):
             )
 
         self._map_of_enum_string = map_of_enum_string
+
+    @property
+    def direct_map(self):
+        """Gets the direct_map of this MapTest.  # noqa: E501
+
+
+        :return: The direct_map of this MapTest.  # noqa: E501
+        :rtype: dict(str, bool)
+        """
+        return self._direct_map
+
+    @direct_map.setter
+    def direct_map(self, direct_map):
+        """Sets the direct_map of this MapTest.
+
+
+        :param direct_map: The direct_map of this MapTest.  # noqa: E501
+        :type: dict(str, bool)
+        """
+
+        self._direct_map = direct_map
+
+    @property
+    def indirect_map(self):
+        """Gets the indirect_map of this MapTest.  # noqa: E501
+
+
+        :return: The indirect_map of this MapTest.  # noqa: E501
+        :rtype: dict(str, bool)
+        """
+        return self._indirect_map
+
+    @indirect_map.setter
+    def indirect_map(self, indirect_map):
+        """Sets the indirect_map of this MapTest.
+
+
+        :param indirect_map: The indirect_map of this MapTest.  # noqa: E501
+        :type: dict(str, bool)
+        """
+
+        self._indirect_map = indirect_map
 
     def to_dict(self):
         """Returns the model properties as a dict"""

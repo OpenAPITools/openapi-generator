@@ -55,14 +55,14 @@ Please follow the [installation](#installation) procedure and then run the follo
 require 'petstore'
 
 api_instance = Petstore::AnotherFakeApi.new
-client = Petstore::Client.new # Client | client model
+body = Petstore::Client.new # Client | client model
 
 begin
   #To test special tags
-  result = api_instance.test_special_tags(client)
+  result = api_instance.call_123_test_special_tags(body)
   p result
 rescue Petstore::ApiError => e
-  puts "Exception when calling AnotherFakeApi->test_special_tags: #{e}"
+  puts "Exception when calling AnotherFakeApi->call_123_test_special_tags: #{e}"
 end
 
 ```
@@ -73,15 +73,17 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*Petstore::AnotherFakeApi* | [**test_special_tags**](docs/AnotherFakeApi.md#test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+*Petstore::AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 *Petstore::FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *Petstore::FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *Petstore::FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *Petstore::FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+*Petstore::FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *Petstore::FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *Petstore::FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \"client\" model
 *Petstore::FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *Petstore::FakeApi* | [**test_enum_parameters**](docs/FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
+*Petstore::FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *Petstore::FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *Petstore::FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *Petstore::FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -93,6 +95,7 @@ Class | Method | HTTP request | Description
 *Petstore::PetApi* | [**update_pet**](docs/PetApi.md#update_pet) | **PUT** /pet | Update an existing pet
 *Petstore::PetApi* | [**update_pet_with_form**](docs/PetApi.md#update_pet_with_form) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *Petstore::PetApi* | [**upload_file**](docs/PetApi.md#upload_file) | **POST** /pet/{petId}/uploadImage | uploads an image
+*Petstore::PetApi* | [**upload_file_with_required_file**](docs/PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 *Petstore::StoreApi* | [**delete_order**](docs/StoreApi.md#delete_order) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 *Petstore::StoreApi* | [**get_inventory**](docs/StoreApi.md#get_inventory) | **GET** /store/inventory | Returns pet inventories by status
 *Petstore::StoreApi* | [**get_order_by_id**](docs/StoreApi.md#get_order_by_id) | **GET** /store/order/{order_id} | Find purchase order by ID
@@ -111,7 +114,6 @@ Class | Method | HTTP request | Description
 
  - [Petstore::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Petstore::Animal](docs/Animal.md)
- - [Petstore::AnimalFarm](docs/AnimalFarm.md)
  - [Petstore::ApiResponse](docs/ApiResponse.md)
  - [Petstore::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [Petstore::ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -125,6 +127,8 @@ Class | Method | HTTP request | Description
  - [Petstore::EnumArrays](docs/EnumArrays.md)
  - [Petstore::EnumClass](docs/EnumClass.md)
  - [Petstore::EnumTest](docs/EnumTest.md)
+ - [Petstore::File](docs/File.md)
+ - [Petstore::FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Petstore::FormatTest](docs/FormatTest.md)
  - [Petstore::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Petstore::List](docs/List.md)
@@ -141,6 +145,8 @@ Class | Method | HTTP request | Description
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
  - [Petstore::Tag](docs/Tag.md)
+ - [Petstore::TypeHolderDefault](docs/TypeHolderDefault.md)
+ - [Petstore::TypeHolderExample](docs/TypeHolderExample.md)
  - [Petstore::User](docs/User.md)
 
 

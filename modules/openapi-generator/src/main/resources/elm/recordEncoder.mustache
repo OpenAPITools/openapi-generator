@@ -1,0 +1,7 @@
+encode : {{#vendorExtensions.discriminatorName}}String -> {{/vendorExtensions.discriminatorName}}{{classname}} -> Encode.Value
+encode {{#vendorExtensions.discriminatorName}}tag {{/vendorExtensions.discriminatorName}}model =
+    Encode.object
+{{#allVars}}
+        {{#-first}}[{{/-first}}{{^-first}},{{/-first}} {{>recordFieldEncoder}}
+{{/allVars}}{{#vendorExtensions.discriminatorName}}        , ( "{{{vendorExtensions.discriminatorName}}}", Encode.string tag ){{/vendorExtensions.discriminatorName}}
+        ]

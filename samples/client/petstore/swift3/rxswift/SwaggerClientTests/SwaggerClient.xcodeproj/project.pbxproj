@@ -146,7 +146,6 @@
 				EAEC0BBB1D4E30CE00C908A3 /* Frameworks */,
 				EAEC0BBC1D4E30CE00C908A3 /* Resources */,
 				8A7961360961F06AADAF17C9 /* [CP] Embed Pods Frameworks */,
-				E008DDC7FA2126F111F972F5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -165,8 +164,6 @@
 				EAEC0BCE1D4E30CE00C908A3 /* Sources */,
 				EAEC0BCF1D4E30CE00C908A3 /* Frameworks */,
 				EAEC0BD01D4E30CE00C908A3 /* Resources */,
-				3920D9C143B997879E5A5B9C /* [CP] Embed Pods Frameworks */,
-				60E7B02FBDEB028CCE7CCCC5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -239,36 +236,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3920D9C143B997879E5A5B9C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		60E7B02FBDEB028CCE7CCCC5 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClientTests/Pods-SwaggerClientTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		82CB35D52E274C6177DAC0DD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -325,21 +292,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E008DDC7FA2126F111F972F5 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwaggerClient/Pods-SwaggerClient-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

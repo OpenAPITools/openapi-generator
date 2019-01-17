@@ -11,45 +11,34 @@
 */
 
 #include "StoreApi.h"
+#include "Helpers.h"
 
 namespace org {
 namespace openapitools {
 namespace server {
 namespace api {
 
+using namespace org::openapitools::server::helpers;
 using namespace org::openapitools::server::model;
 
-StoreApi::StoreApi(Pistache::Address addr)
-    : httpEndpoint(std::make_shared<Pistache::Http::Endpoint>(addr))
-{ };
+StoreApi::StoreApi(std::shared_ptr<Pistache::Rest::Router> rtr) { 
+    router = rtr;
+};
 
-void StoreApi::init(size_t thr = 2) {
-    auto opts = Pistache::Http::Endpoint::options()
-        .threads(thr)
-        .flags(Pistache::Tcp::Options::InstallSignalHandler);
-    httpEndpoint->init(opts);
+void StoreApi::init() {
     setupRoutes();
-}
-
-void StoreApi::start() {
-    httpEndpoint->setHandler(router.handler());
-    httpEndpoint->serve();
-}
-
-void StoreApi::shutdown() {
-    httpEndpoint->shutdown();
 }
 
 void StoreApi::setupRoutes() {
     using namespace Pistache::Rest;
 
-    Routes::Delete(router, base + "/store/order/:orderId", Routes::bind(&StoreApi::delete_order_handler, this));
-    Routes::Get(router, base + "/store/inventory", Routes::bind(&StoreApi::get_inventory_handler, this));
-    Routes::Get(router, base + "/store/order/:orderId", Routes::bind(&StoreApi::get_order_by_id_handler, this));
-    Routes::Post(router, base + "/store/order", Routes::bind(&StoreApi::place_order_handler, this));
+    Routes::Delete(*router, base + "/store/order/:orderId", Routes::bind(&StoreApi::delete_order_handler, this));
+    Routes::Get(*router, base + "/store/inventory", Routes::bind(&StoreApi::get_inventory_handler, this));
+    Routes::Get(*router, base + "/store/order/:orderId", Routes::bind(&StoreApi::get_order_by_id_handler, this));
+    Routes::Post(*router, base + "/store/order", Routes::bind(&StoreApi::place_order_handler, this));
 
     // Default handler, called when a route is not found
-    router.addCustomHandler(Routes::bind(&StoreApi::store_api_default_handler, this));
+    router->addCustomHandler(Routes::bind(&StoreApi::store_api_default_handler, this));
 }
 
 void StoreApi::delete_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
@@ -92,11 +81,14 @@ void StoreApi::get_order_by_id_handler(const Pistache::Rest::Request &request, P
 void StoreApi::place_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response) {
 
     // Getting the body param
+    
     Order order;
     
     try {
       nlohmann::json request_body = nlohmann::json::parse(request.body());
+    
       order.fromJson(request_body);
+    
       this->place_order(order, response);
     } catch (std::runtime_error & e) {
       //send a 400 error

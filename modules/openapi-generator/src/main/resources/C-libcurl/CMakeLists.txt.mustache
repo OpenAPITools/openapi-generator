@@ -1,0 +1,91 @@
+cmake_minimum_required (VERSION 2.6)
+project (CGenerator)
+
+cmake_policy(SET CMP0063 NEW)
+
+set(CMAKE_C_VISIBILITY_PRESET default)
+set(CMAKE_CXX_VISIBILITY_PRESET default)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN OFF)
+set(CMAKE_BUILD_TYPE Debug)
+
+set(pkgName "{{projectName}}")
+
+find_program(VALGRIND valgrind)
+if(VALGRIND)
+	set(CMAKE_MEMORYCHECK_COMMAND valgrind)
+	set(CMAKE_MEMORYCHECK_COMMAND_OPTIONS "--leak-check=full --track-origins=yes --read-var-info=yes --show-leak-kinds=all --error-exitcode=1")
+	set(VALGRIND_LIST "")
+endif()
+
+find_package(CURL 7.58.0 REQUIRED)
+if(CURL_FOUND)
+	include_directories(${CURL_INCLUDE_DIR})
+	set(PLATFORM_LIBRARIES ${PLATFORM_LIBRARIES} ${CURL_LIBRARIES} )
+else(CURL_FOUND)
+	message(FATAL_ERROR "Could not find the CURL library and development files.")
+endif()
+
+set(SRCS
+    src/list.c
+    src/apiKey.c
+    src/apiClient.c
+    external/cJSON.c
+{{#models}}
+{{#model}}
+    model/{{classname}}.c
+{{/model}}
+{{/models}}
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+    api/{{classname}}.c
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+)
+
+set(HDRS
+    include/apiClient.h
+    include/list.h
+    include/keyValuePair.h
+    external/cJSON.h
+{{#models}}
+{{#model}}
+    model/{{classname}}.h
+{{/model}}
+{{/models}}
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+    api/{{classname}}.h
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+)
+
+add_library(${pkgName} SHARED ${SRCS} ${HDRS})
+target_link_libraries(${pkgName} ${CURL_LIBRARIES} )
+install(TARGETS ${pkgName} DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+#For common coding standard (code beautifier/pretty printing)
+find_program(UNCRUSTIFY uncrustify)
+if(UNCRUSTIFY)
+	add_custom_target(
+		uncrustify
+	)
+
+	foreach(ELEMENT ${ALL_SRC_LIST})
+		string(REGEX REPLACE "/" "_" ELEMENT_NAME ${ELEMENT})
+		set(DEP_NAME "uncrustify-${ELEMENT_NAME}")
+		add_custom_target(
+			${DEP_NAME}
+			uncrustify -c uncrustify-rules.cfg --no-backup ${ELEMENT}
+			DEPENDS ${ELEMENT}
+			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+			VERBATIM
+		)
+		add_dependencies(uncrustify ${DEP_NAME})
+	endforeach()
+endif()

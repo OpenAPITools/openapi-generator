@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response;
 
 import io.swagger.annotations.*;
 
+import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
 import javax.validation.constraints.*;
@@ -52,5 +53,5 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
-    Order placeOrder(@Valid Order order);
+    Order placeOrder(@Valid Order body);
 }

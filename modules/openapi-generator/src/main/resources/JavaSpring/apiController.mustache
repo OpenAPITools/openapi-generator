@@ -69,6 +69,8 @@ public class {{classname}}Controller implements {{classname}} {
 {{^isDelegate}}
     {{^reactive}}
 
+    {{^jdk8}}
+    {{/jdk8}}
     private final NativeWebRequest request;
 
     @org.springframework.beans.factory.annotation.Autowired

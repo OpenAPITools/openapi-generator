@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response;
 
 import io.swagger.annotations.*;
 
+import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
 import javax.validation.constraints.*;
@@ -22,7 +23,7 @@ public class UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUser(@Valid User user) {
+    public Response createUser(@Valid User body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -32,7 +33,7 @@ public class UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUsersWithArrayInput(@Valid List<User> user) {
+    public Response createUsersWithArrayInput(@Valid List<User> body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -42,7 +43,7 @@ public class UserApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createUsersWithListInput(@Valid List<User> user) {
+    public Response createUsersWithListInput(@Valid List<User> body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -99,7 +100,7 @@ public class UserApi {
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class)
     })
-    public Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,@Valid User user) {
+    public Response updateUser(@PathParam("username") @ApiParam("name that need to be deleted") String username,@Valid User body) {
         return Response.ok().entity("magic!").build();
     }
 }

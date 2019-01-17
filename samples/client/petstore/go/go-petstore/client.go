@@ -153,6 +153,8 @@ func parameterToString(obj interface{}, collectionFormat string) string {
 
 	if reflect.TypeOf(obj).Kind() == reflect.Slice {
 		return strings.Trim(strings.Replace(fmt.Sprint(obj), " ", delimiter, -1), "[]")
+	} else if t, ok := obj.(time.Time); ok {
+		return t.Format(time.RFC3339)
 	}
 
 	return fmt.Sprintf("%v", obj)
@@ -176,6 +178,7 @@ func (c *APIClient) prepareRequest(
 	headerParams map[string]string,
 	queryParams url.Values,
 	formParams url.Values,
+	formFileName string,
 	fileName string,
 	fileBytes []byte) (localVarRequest *http.Request, err error) {
 
@@ -196,7 +199,7 @@ func (c *APIClient) prepareRequest(
 	}
 
 	// add form parameters and file if available.
-	if len(formParams) > 0 || (len(fileBytes) > 0 && fileName != "") {
+	if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") && len(formParams) > 0 || (len(fileBytes) > 0 && fileName != "") {
 		if body != nil {
 			return nil, errors.New("Cannot specify postBody and multipart form at the same time.")
 		}
@@ -218,7 +221,7 @@ func (c *APIClient) prepareRequest(
 		if len(fileBytes) > 0 && fileName != "" {
 			w.Boundary()
 			//_, fileNm := filepath.Split(fileName)
-			part, err := w.CreateFormFile("file", filepath.Base(fileName))
+			part, err := w.CreateFormFile(formFileName, filepath.Base(fileName))
 			if err != nil {
 				return nil, err
 			}
@@ -233,6 +236,16 @@ func (c *APIClient) prepareRequest(
 		// Set Content-Length
 		headerParams["Content-Length"] = fmt.Sprintf("%d", body.Len())
 		w.Close()
+	}
+
+	if strings.HasPrefix(headerParams["Content-Type"], "application/x-www-form-urlencoded") && len(formParams) > 0 {
+		if body != nil {
+			return nil, errors.New("Cannot specify postBody and x-www-form-urlencoded form at the same time.")
+		}
+		body = &bytes.Buffer{}
+		body.WriteString(formParams.Encode())
+		// Set Content-Length
+		headerParams["Content-Length"] = fmt.Sprintf("%d", body.Len())
 	}
 
 	// Setup path and query parameters
@@ -438,8 +451,9 @@ func CacheExpires(r *http.Response) time.Time {
 		lifetime, err := time.ParseDuration(maxAge + "s")
 		if err != nil {
 			expires = now
+		} else {
+			expires = now.Add(lifetime)
 		}
-		expires = now.Add(lifetime)
 	} else {
 		expiresHeader := r.Header.Get("Expires")
 		if expiresHeader != "" {

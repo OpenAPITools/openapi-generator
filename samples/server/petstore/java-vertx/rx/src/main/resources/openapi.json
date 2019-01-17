@@ -112,13 +112,14 @@
           "in" : "query",
           "description" : "Status values that need to be considered for filter",
           "required" : true,
+          "style" : "form",
           "explode" : false,
           "schema" : {
             "type" : "array",
             "items" : {
               "type" : "string",
-              "default" : "available",
-              "enum" : [ "available", "pending", "sold" ]
+              "enum" : [ "available", "pending", "sold" ],
+              "default" : "available"
             }
           }
         } ],
@@ -168,6 +169,7 @@
           "in" : "query",
           "description" : "Tags to filter by",
           "required" : true,
+          "style" : "form",
           "explode" : false,
           "schema" : {
             "type" : "array",

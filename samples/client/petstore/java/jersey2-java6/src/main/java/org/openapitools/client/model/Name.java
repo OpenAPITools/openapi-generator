@@ -27,16 +27,16 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class Name {
   @JsonProperty("name")
-  private Integer name = null;
+  private Integer name;
 
   @JsonProperty("snake_case")
-  private Integer snakeCase = null;
+  private Integer snakeCase;
 
   @JsonProperty("property")
-  private String property = null;
+  private String property;
 
   @JsonProperty("123Number")
-  private Integer _123number = null;
+  private Integer _123number;
 
   public Name name(Integer name) {
     this.name = name;
@@ -118,7 +118,6 @@ public class Name {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Name {\n");
-    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    snakeCase: ").append(toIndentedString(snakeCase)).append("\n");
     sb.append("    property: ").append(toIndentedString(property)).append("\n");

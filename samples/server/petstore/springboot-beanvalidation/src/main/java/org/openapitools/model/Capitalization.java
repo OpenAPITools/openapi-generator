@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -14,22 +15,22 @@ import javax.validation.constraints.*;
 
 public class Capitalization   {
   @JsonProperty("smallCamel")
-  private String smallCamel = null;
+  private String smallCamel;
 
   @JsonProperty("CapitalCamel")
-  private String capitalCamel = null;
+  private String capitalCamel;
 
   @JsonProperty("small_Snake")
-  private String smallSnake = null;
+  private String smallSnake;
 
   @JsonProperty("Capital_Snake")
-  private String capitalSnake = null;
+  private String capitalSnake;
 
   @JsonProperty("SCA_ETH_Flow_Points")
-  private String scAETHFlowPoints = null;
+  private String scAETHFlowPoints;
 
   @JsonProperty("ATT_NAME")
-  private String ATT_NAME = null;
+  private String ATT_NAME;
 
   public Capitalization smallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
@@ -39,7 +40,7 @@ public class Capitalization   {
   /**
    * Get smallCamel
    * @return smallCamel
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -59,7 +60,7 @@ public class Capitalization   {
   /**
    * Get capitalCamel
    * @return capitalCamel
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -79,7 +80,7 @@ public class Capitalization   {
   /**
    * Get smallSnake
    * @return smallSnake
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -99,7 +100,7 @@ public class Capitalization   {
   /**
    * Get capitalSnake
    * @return capitalSnake
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -119,7 +120,7 @@ public class Capitalization   {
   /**
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -139,7 +140,7 @@ public class Capitalization   {
   /**
    * Name of the pet 
    * @return ATT_NAME
-  **/
+  */
   @ApiModelProperty(value = "Name of the pet ")
 
 

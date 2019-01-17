@@ -25,7 +25,9 @@ import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 {{/threetenbp}}
 
+{{#models.0}}
 import {{modelPackage}}.*;
+{{/models.0}}
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -39,6 +41,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 {{/java8}}
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -57,21 +60,20 @@ public class JSON {
 
     public static GsonBuilder createGson() {
         GsonFireBuilder fireBuilder = new GsonFireBuilder()
-        {{#parent}}
-          .registerTypeSelector({{classname}}.class, new TypeSelector() {
+        {{#models}}{{#model}}{{#discriminator}}  .registerTypeSelector({{classname}}.class, new TypeSelector() {
             @Override
             public Class getClassForElement(JsonElement readElement) {
                 Map classByDiscriminatorValue = new HashMap();
-                {{#children}}
-                classByDiscriminatorValue.put("{{name}}".toUpperCase(), {{classname}}.class);
-                {{/children}}
-                classByDiscriminatorValue.put("{{classname}}".toUpperCase(), {{classname}}.class);
+                {{#mappedModels}}
+                classByDiscriminatorValue.put("{{mappingName}}".toUpperCase(Locale.ROOT), {{modelName}}.class);
+                {{/mappedModels}}
+                classByDiscriminatorValue.put("{{classname}}".toUpperCase(Locale.ROOT), {{classname}}.class);
                 return getClassByDiscriminator(
                             classByDiscriminatorValue,
-                            getDiscriminatorValue(readElement, "{{{discriminatorName}}}"));
+                            getDiscriminatorValue(readElement, "{{{propertyName}}}"));
             }
           })
-        {{/parent}}
+        {{/discriminator}}{{/model}}{{/models}}
         ;
         return fireBuilder.createGsonBuilder();
     }
@@ -85,7 +87,7 @@ public class JSON {
     }
 
     private static Class getClassByDiscriminator(Map classByDiscriminatorValue, String discriminatorValue) {
-        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue.toUpperCase());
+        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue.toUpperCase(Locale.ROOT));
         if(null == clazz) {
             throw new IllegalArgumentException("cannot determine model class of name: <" + discriminatorValue + ">");
         }

@@ -65,6 +65,8 @@ Returns pet inventories by status
 Returns a map of status codes to quantities
 
 ### Example
+
+* Api Key Authentication (api_key): 
 ```python
 from __future__ import print_function
 import time

@@ -19,10 +19,11 @@
 #define StoreApi_H_
 
 
-#include <pistache/endpoint.h>
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
+#include <pistache/optional.h>
+
 
 #include "Order.h"
 #include <map>
@@ -37,11 +38,9 @@ using namespace org::openapitools::server::model;
 
 class  StoreApi {
 public:
-    StoreApi(Pistache::Address addr);
-    virtual ~StoreApi() {};
-    void init(size_t thr);
-    void start();
-    void shutdown();
+    StoreApi(std::shared_ptr<Pistache::Rest::Router>);
+    virtual ~StoreApi() {}
+    void init();
 
     const std::string base = "/v2";
 
@@ -54,9 +53,7 @@ private:
     void place_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void store_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    std::shared_ptr<Pistache::Http::Endpoint> httpEndpoint;
-    Pistache::Rest::Router router;
-
+    std::shared_ptr<Pistache::Rest::Router> router;
 
     /// <summary>
     /// Delete purchase order by ID
@@ -91,7 +88,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="order">order placed for purchasing the pet</param>
-    virtual void place_order(const std::shared_ptr<Order> &order, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void place_order(const Order &order, Pistache::Http::ResponseWriter &response) = 0;
 
 };
 

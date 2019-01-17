@@ -7,6 +7,7 @@ import org.openapitools.client.model.User;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,15 +50,15 @@ public class UserApi {
      * Create user
      * This can only be done by the logged in user.
      * <p><b>0</b> - successful operation
-     * @param user Created user object
+     * @param body Created user object
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUser(User user) throws RestClientException {
-        Object postBody = user;
+    public void createUser(User body) throws RestClientException {
+        Object postBody = body;
         
-        // verify the required parameter 'user' is set
-        if (user == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'user' when calling createUser");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling createUser");
         }
         
         String path = UriComponentsBuilder.fromPath("/user").build().toUriString();
@@ -80,15 +81,15 @@ public class UserApi {
      * Creates list of users with given input array
      * 
      * <p><b>0</b> - successful operation
-     * @param user List of user object
+     * @param body List of user object
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUsersWithArrayInput(List<User> user) throws RestClientException {
-        Object postBody = user;
+    public void createUsersWithArrayInput(List<User> body) throws RestClientException {
+        Object postBody = body;
         
-        // verify the required parameter 'user' is set
-        if (user == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'user' when calling createUsersWithArrayInput");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
         }
         
         String path = UriComponentsBuilder.fromPath("/user/createWithArray").build().toUriString();
@@ -111,15 +112,15 @@ public class UserApi {
      * Creates list of users with given input array
      * 
      * <p><b>0</b> - successful operation
-     * @param user List of user object
+     * @param body List of user object
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUsersWithListInput(List<User> user) throws RestClientException {
-        Object postBody = user;
+    public void createUsersWithListInput(List<User> body) throws RestClientException {
+        Object postBody = body;
         
-        // verify the required parameter 'user' is set
-        if (user == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'user' when calling createUsersWithListInput");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling createUsersWithListInput");
         }
         
         String path = UriComponentsBuilder.fromPath("/user/createWithList").build().toUriString();
@@ -147,7 +148,7 @@ public class UserApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void deleteUser(String username) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -184,7 +185,7 @@ public class UserApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public User getUserByName(String username) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -223,7 +224,7 @@ public class UserApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public String loginUser(String username, String password) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -263,7 +264,7 @@ public class UserApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void logoutUser() throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         String path = UriComponentsBuilder.fromPath("/user/logout").build().toUriString();
         
@@ -287,20 +288,20 @@ public class UserApi {
      * <p><b>400</b> - Invalid user supplied
      * <p><b>404</b> - User not found
      * @param username name that need to be deleted
-     * @param user Updated user object
+     * @param body Updated user object
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void updateUser(String username, User user) throws RestClientException {
-        Object postBody = user;
+    public void updateUser(String username, User body) throws RestClientException {
+        Object postBody = body;
         
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'username' when calling updateUser");
         }
         
-        // verify the required parameter 'user' is set
-        if (user == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'user' when calling updateUser");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling updateUser");
         }
         
         // create path and map variables

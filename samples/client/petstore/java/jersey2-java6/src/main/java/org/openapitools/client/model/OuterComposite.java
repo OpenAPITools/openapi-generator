@@ -27,13 +27,13 @@ import java.math.BigDecimal;
 
 public class OuterComposite {
   @JsonProperty("my_number")
-  private BigDecimal myNumber = null;
+  private BigDecimal myNumber;
 
   @JsonProperty("my_string")
-  private String myString = null;
+  private String myString;
 
   @JsonProperty("my_boolean")
-  private Boolean myBoolean = null;
+  private Boolean myBoolean;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
@@ -81,7 +81,7 @@ public class OuterComposite {
    * @return myBoolean
   **/
   @ApiModelProperty(value = "")
-  public Boolean getMyBoolean() {
+  public Boolean isMyBoolean() {
     return myBoolean;
   }
 
@@ -114,7 +114,6 @@ public class OuterComposite {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class OuterComposite {\n");
-    
     sb.append("    myNumber: ").append(toIndentedString(myNumber)).append("\n");
     sb.append("    myString: ").append(toIndentedString(myString)).append("\n");
     sb.append("    myBoolean: ").append(toIndentedString(myBoolean)).append("\n");

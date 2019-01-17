@@ -1,0 +1,34 @@
+/**
+ * {{{description}}}
+{{#vars}}
+ * @param {{name}} {{{description}}}
+{{/vars}}
+ */{{#discriminator}}
+{{>typeInfoAnnotation}}{{/discriminator}}
+{{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}data class {{classname}} (
+{{#requiredVars}}
+{{>dataClassReqVar}}{{^-last}},
+{{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
+{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>dataClassOptVar}}{{^-last}},
+{{/-last}}{{/optionalVars}}
+) {{/discriminator}}{{#parent}}: {{{parent}}}{{/parent}}{
+{{#discriminator}}
+    {{#requiredVars}}
+        {{>interfaceReqVar}}
+    {{/requiredVars}}
+    {{#optionalVars}}
+        {{>interfaceOptVar}}
+    {{/optionalVars}}
+{{/discriminator}}
+{{#hasEnums}}{{#vars}}{{#isEnum}}
+    /**
+    * {{{description}}}
+    * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+    */
+    enum class {{nameInCamelCase}}(val value: {{{dataType}}}) {
+    {{#allowableValues}}{{#enumVars}}
+        @JsonProperty({{{value}}}) {{{name}}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{/enumVars}}{{/allowableValues}}
+    }
+{{/isEnum}}{{/vars}}{{/hasEnums}}
+}

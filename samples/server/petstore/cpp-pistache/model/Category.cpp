@@ -53,7 +53,7 @@ nlohmann::json Category::toJson() const
     return val;
 }
 
-void Category::fromJson(nlohmann::json& val)
+void Category::fromJson(const nlohmann::json& val)
 {
     if(val.find("id") != val.end())
     {
@@ -62,7 +62,6 @@ void Category::fromJson(nlohmann::json& val)
     if(val.find("name") != val.end())
     {
         setName(val.at("name"));
-        
     }
     
 }
@@ -72,7 +71,7 @@ int64_t Category::getId() const
 {
     return m_Id;
 }
-void Category::setId(int64_t value)
+void Category::setId(int64_t const value)
 {
     m_Id = value;
     m_IdIsSet = true;
@@ -89,7 +88,7 @@ std::string Category::getName() const
 {
     return m_Name;
 }
-void Category::setName(std::string value)
+void Category::setName(std::string const& value)
 {
     m_Name = value;
     m_NameIsSet = true;

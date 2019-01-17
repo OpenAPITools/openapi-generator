@@ -66,8 +66,8 @@ Deletes a pet
 //import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
-Long petId = 56L; // Long | Pet id to delete
-String apiKey = "apiKey_example"; // String | 
+Long petId = null; // Long | Pet id to delete
+String apiKey = null; // String | 
 try {
     apiInstance.deletePet(petId, apiKey);
 } catch (ApiException e) {
@@ -80,8 +80,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Long**| Pet id to delete |
- **apiKey** | **String**|  | [optional]
+ **petId** | **Long**| Pet id to delete | [default to null]
+ **apiKey** | **String**|  | [optional] [default to null]
 
 ### Return type
 
@@ -110,7 +110,7 @@ Multiple status values can be provided with comma separated strings
 //import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
-List<String> status = Arrays.asList("status_example"); // List<String> | Status values that need to be considered for filter
+List<String> status = null; // List<String> | Status values that need to be considered for filter
 try {
     List<Pet> result = apiInstance.findPetsByStatus(status);
     System.out.println(result);
@@ -124,7 +124,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+ **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [default to null] [enum: available, pending, sold]
 
 ### Return type
 
@@ -153,7 +153,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 //import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
-List<String> tags = Arrays.asList("tags_example"); // List<String> | Tags to filter by
+List<String> tags = null; // List<String> | Tags to filter by
 try {
     List<Pet> result = apiInstance.findPetsByTags(tags);
     System.out.println(result);
@@ -167,7 +167,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by |
+ **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to null]
 
 ### Return type
 
@@ -196,7 +196,7 @@ Returns a single pet
 //import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
-Long petId = 56L; // Long | ID of pet to return
+Long petId = null; // Long | ID of pet to return
 try {
     Pet result = apiInstance.getPetById(petId);
     System.out.println(result);
@@ -210,7 +210,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet to return |
+ **petId** | **Long**| ID of pet to return | [default to null]
 
 ### Return type
 
@@ -277,9 +277,9 @@ Updates a pet in the store with form data
 //import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
-Long petId = 56L; // Long | ID of pet that needs to be updated
-String name = "null"; // String | Updated name of the pet
-String status = "null"; // String | Updated status of the pet
+Long petId = null; // Long | ID of pet that needs to be updated
+String name = null; // String | Updated name of the pet
+String status = null; // String | Updated status of the pet
 try {
     apiInstance.updatePetWithForm(petId, name, status);
 } catch (ApiException e) {
@@ -292,7 +292,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet that needs to be updated |
+ **petId** | **Long**| ID of pet that needs to be updated | [default to null]
  **name** | **String**| Updated name of the pet | [optional] [default to null]
  **status** | **String**| Updated status of the pet | [optional] [default to null]
 
@@ -321,9 +321,9 @@ uploads an image
 //import org.openapitools.client.api.PetApi;
 
 PetApi apiInstance = new PetApi();
-Long petId = 56L; // Long | ID of pet to update
-String additionalMetadata = "null"; // String | Additional data to pass to server
-File file = new File("null"); // File | file to upload
+Long petId = null; // Long | ID of pet to update
+String additionalMetadata = null; // String | Additional data to pass to server
+File file = null; // File | file to upload
 try {
     ApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
     System.out.println(result);
@@ -337,7 +337,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Long**| ID of pet to update |
+ **petId** | **Long**| ID of pet to update | [default to null]
  **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
  **file** | **File**| file to upload | [optional] [default to null]
 

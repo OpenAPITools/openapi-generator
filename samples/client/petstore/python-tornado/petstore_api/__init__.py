@@ -14,6 +14,8 @@
 
 from __future__ import absolute_import
 
+__version__ = "1.0.0"
+
 # import apis into sdk package
 from petstore_api.api.another_fake_api import AnotherFakeApi
 from petstore_api.api.fake_api import FakeApi
@@ -28,7 +30,6 @@ from petstore_api.configuration import Configuration
 # import models into sdk package
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
 from petstore_api.models.animal import Animal
-from petstore_api.models.animal_farm import AnimalFarm
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
@@ -42,6 +43,8 @@ from petstore_api.models.dog import Dog
 from petstore_api.models.enum_arrays import EnumArrays
 from petstore_api.models.enum_class import EnumClass
 from petstore_api.models.enum_test import EnumTest
+from petstore_api.models.file import File
+from petstore_api.models.file_schema_test_class import FileSchemaTestClass
 from petstore_api.models.format_test import FormatTest
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
 from petstore_api.models.list import List

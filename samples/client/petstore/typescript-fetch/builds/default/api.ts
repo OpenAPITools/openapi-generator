@@ -13,70 +13,7 @@
  */
 
 
-import * as url from "url";
-import * as portableFetch from "portable-fetch";
-import { Configuration } from "./configuration";
-
-const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
-
-/**
- *
- * @export
- */
-export const COLLECTION_FORMATS = {
-    csv: ",",
-    ssv: " ",
-    tsv: "\t",
-    pipes: "|",
-};
-
-/**
- *
- * @export
- * @interface FetchAPI
- */
-export interface FetchAPI {
-    (url: string, init?: any): Promise<Response>;
-}
-
-/**
- *  
- * @export
- * @interface FetchArgs
- */
-export interface FetchArgs {
-    url: string;
-    options: any;
-}
-
-/**
- * 
- * @export
- * @class BaseAPI
- */
-export class BaseAPI {
-    protected configuration: Configuration;
-
-    constructor(configuration?: Configuration, protected basePath: string = BASE_PATH, protected fetch: FetchAPI = portableFetch) {
-        if (configuration) {
-            this.configuration = configuration;
-            this.basePath = configuration.basePath || this.basePath;
-        }
-    }
-};
-
-/**
- * 
- * @export
- * @class RequiredError
- * @extends {Error}
- */
-export class RequiredError extends Error {
-    name: "RequiredError"
-    constructor(public field: string, msg?: string) {
-        super(msg);
-    }
-}
+export const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
 
 /**
  * Describes the result of uploading an image resource
@@ -178,9 +115,9 @@ export namespace Order {
      * @enum {string}
      */
     export enum StatusEnum {
-        Placed = <any> 'placed',
-        Approved = <any> 'approved',
-        Delivered = <any> 'delivered'
+        Placed = 'placed',
+        Approved = 'approved',
+        Delivered = 'delivered'
     }
 }
 
@@ -238,9 +175,9 @@ export namespace Pet {
      * @enum {string}
      */
     export enum StatusEnum {
-        Available = <any> 'available',
-        Pending = <any> 'pending',
-        Sold = <any> 'sold'
+        Available = 'available',
+        Pending = 'pending',
+        Sold = 'sold'
     }
 }
 

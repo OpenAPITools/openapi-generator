@@ -1,15 +1,19 @@
 package org.openapitools.client.infrastructure
 
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.ToJson
 import okhttp3.*
 import java.io.File
+import java.util.*
 
 open class ApiClient(val baseUrl: String) {
     companion object {
-        protected val ContentType = "Content-Type"
-        protected val Accept = "Accept"
-        protected val JsonMediaType = "application/json"
-        protected val FormDataMediaType = "multipart/form-data"
-        protected val XmlMediaType = "application/xml"
+        protected const val ContentType = "Content-Type"
+        protected const val Accept = "Accept"
+        protected const val JsonMediaType = "application/json"
+        protected const val FormDataMediaType = "multipart/form-data"
+        protected const val XmlMediaType = "application/xml"
 
         @JvmStatic
         val client by lazy {
@@ -26,40 +30,42 @@ open class ApiClient(val baseUrl: String) {
         val jsonHeaders: Map<String, String> = mapOf(ContentType to JsonMediaType, Accept to JsonMediaType)
     }
 
-    inline protected fun <reified T> requestBody(content: T, mediaType: String = JsonMediaType): RequestBody {
-        if(content is File) {
-            return RequestBody.create(
-                    MediaType.parse(mediaType), content
-            )
-        } else if(mediaType == FormDataMediaType) {
-            var builder = FormBody.Builder()
-            // content's type *must* be Map<String, Any>
-            @Suppress("UNCHECKED_CAST")
-            (content as Map<String,String>).forEach { key, value ->
-                builder = builder.add(key, value)
-            }
-            return builder.build()
-        }  else if(mediaType == JsonMediaType) {
-            return RequestBody.create(
-                    MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
-            )
-        } else if (mediaType == XmlMediaType) {
-            TODO("xml not currently supported.")
-        }
+    protected inline fun <reified T> requestBody(content: T, mediaType: String = JsonMediaType): RequestBody =
+         when {
+             content is File -> RequestBody.create(
+                 MediaType.parse(mediaType), content
+             )
+             mediaType == FormDataMediaType -> {
+                 var builder = FormBody.Builder()
+                 // content's type *must* be Map<String, Any>
+                 @Suppress("UNCHECKED_CAST")
+                 (content as Map<String,String>).forEach { key, value ->
+                     builder = builder.add(key, value)
+                 }
+                 builder.build()
+             }
+             mediaType == JsonMediaType -> RequestBody.create(
+                 MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
+             )
+             mediaType == XmlMediaType -> TODO("xml not currently supported.")
+             // TODO: this should be extended with other serializers
+             else -> TODO("requestBody currently only supports JSON body and File body.")
+         }
 
-        // TODO: this should be extended with other serializers
-        TODO("requestBody currently only supports JSON body and File body.")
-    }
-
-    inline protected fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String = JsonMediaType): T? {
+    protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String = JsonMediaType): T? {
         if(body == null) return null
         return when(mediaType) {
-            JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(body.source())
+            JsonMediaType -> Moshi.Builder().add(object {
+                    @ToJson
+                    fun toJson(uuid: UUID) = uuid.toString()
+                    @FromJson
+                    fun fromJson(s: String) = UUID.fromString(s)
+                }).build().adapter(T::class.java).fromJson(body.source())
             else -> TODO()
         }
     }
 
-    inline protected fun <reified T: Any?> request(requestConfig: RequestConfig, body : Any? = null): ApiInfrastructureResponse<T?> {
+    protected inline fun <reified T: Any?> request(requestConfig: RequestConfig, body : Any? = null): ApiInfrastructureResponse<T?> {
         val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
 
         var urlBuilder = httpUrl.newBuilder()

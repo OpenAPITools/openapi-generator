@@ -1,0 +1,136 @@
+openapi: 3.0.1
+info:
+  description: This spec is for testing rust-server-specific things
+  title: rust-server-test
+  version: 2.3.4
+servers:
+- url: /
+paths:
+  /dummy:
+    get:
+      responses:
+        200:
+          content: {}
+          description: Success
+      summary: A dummy endpoint to make the spec valid.
+    put:
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object'
+        content:
+          '*/*':
+            schema:
+              properties:
+                id:
+                  type: string
+                password:
+                  type: string
+              required:
+              - id
+              type: object
+        required: true
+      responses:
+        200:
+          content: {}
+          description: Success
+      x-codegen-request-body-name: nested_response
+  /html:
+    post:
+      requestBody:
+        content:
+          text/html:
+            schema:
+              type: string
+        required: true
+      responses:
+        200:
+          content:
+            text/html:
+              schema:
+                type: string
+          description: Success
+      summary: Test HTML handling
+      x-codegen-request-body-name: body
+  /file_response:
+    get:
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                format: binary
+                type: string
+          description: Success
+      summary: Get a file
+  /raw_json:
+    get:
+      responses:
+        200:
+          content:
+            '*/*':
+              schema:
+                type: object
+          description: Success
+      summary: Get an arbitrary JSON blob.
+components:
+  requestBodies:
+    nested_response:
+      content:
+        '*/*':
+          schema:
+            properties:
+              id:
+                type: string
+              password:
+                type: string
+            required:
+            - id
+            type: object
+      required: true
+    inline_object:
+      content:
+        '*/*':
+          schema:
+            $ref: '#/components/schemas/inline_object'
+      required: true
+  schemas:
+    additionalPropertiesObject:
+      additionalProperties:
+        type: string
+      description: An additionalPropertiesObject
+      example: foo
+      type: object
+    aNullableContainer:
+      properties:
+        NullableThing:
+          nullable: true
+          type: string
+        RequiredNullableThing:
+          nullable: true
+          type: string
+      required:
+      - RequiredNullableThing
+      type: object
+    ObjectOfObjects:
+      description: An object of objects
+      properties:
+        inner:
+          $ref: '#/components/schemas/ObjectOfObjects_inner'
+      type: object
+    inline_object:
+      properties:
+        id:
+          type: string
+        password:
+          type: string
+      required:
+      - id
+      type: object
+    ObjectOfObjects_inner:
+      properties:
+        optional_thing:
+          type: integer
+        required_thing:
+          type: string
+      required:
+      - required_thing
+

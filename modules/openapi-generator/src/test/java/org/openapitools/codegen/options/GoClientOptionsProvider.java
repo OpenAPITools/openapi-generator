@@ -28,6 +28,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
 
     public static final String PACKAGE_VERSION_VALUE = "1.0.0";
     public static final String PACKAGE_NAME_VALUE = "Go";
+    public static final boolean WITH_GO_CODEGEN_COMMENT_VALUE = true;
     public static final boolean WITH_XML_VALUE = true;
     public static final Boolean PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = true;
 
@@ -43,6 +44,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.PACKAGE_VERSION, PACKAGE_VERSION_VALUE)
                 .put(CodegenConstants.PACKAGE_NAME, PACKAGE_NAME_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
+                .put(CodegenConstants.WITH_GO_CODEGEN_COMMENT, "true")
                 .put(CodegenConstants.WITH_XML, "true")
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, "true")
                 .build();

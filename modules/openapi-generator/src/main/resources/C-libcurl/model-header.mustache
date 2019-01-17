@@ -1,0 +1,140 @@
+{{#models}}{{#model}}/*
+ * {{classname}}.h
+ *
+ * {{description}}
+ */
+
+#ifndef _{{classname}}_H_
+#define _{{classname}}_H_
+
+#include <string.h>
+#include "../external/cJSON.h"
+#include "../include/list.h"
+#include "../include/keyValuePair.h"
+{{#imports}}
+#include "{{{.}}}.h"
+{{/imports}}
+
+{{#vars}}
+{{#isBoolean}}
+typedef int bool;
+#define true 1
+#define false 0
+{{/isBoolean}}
+{{/vars}}
+
+{{#vars}}
+{{#isEnum}}
+{{#allowableValues}}
+typedef enum  { {{#enumVars}} {{{value}}}{{^-last}},{{/-last}}{{/enumVars}} } {{baseName}}_e;
+{{/allowableValues}}
+{{/isEnum}}
+{{/vars}}
+
+{{#vars}}
+{{#isEnum}}
+char* {{baseName}}{{classname}}_ToString({{baseName}}_e {{baseName}});
+
+{{baseName}}_e {{baseName}}{{classname}}_FromString(char* {{baseName}});
+{{/isEnum}}
+{{/vars}}
+
+typedef struct {{classname}}_t {
+        {{#vars}}
+        {{^isContainer}}
+        {{^isPrimitiveType}}
+        {{datatype}}_t *{{baseName}}; //nonprimitive
+        {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+        {{#isNumeric}}
+        {{datatype}} {{baseName}}; //numeric
+        {{/isNumeric}}
+        {{#isBoolean}}
+        bool {{baseName}}; //boolean
+        {{/isBoolean}}
+        {{#isEnum}}
+        {{#isString}}
+        {{baseName}}_e {{baseName}}; //enum string
+        {{/isString}}
+        {{/isEnum}}
+        {{^isEnum}}
+        {{#isString}}
+        {{datatype}} *{{baseName}}; //no enum string
+        {{/isString}}
+        {{/isEnum}}
+        {{#isDateTime}}
+        {{datatype}} *{{baseName}}; //date time string
+        {{/isDateTime}}
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isContainer}}
+        {{#isListContainer}}
+        {{#isPrimitiveType}}
+        {{datatype}}_t *{{baseName}}; //primitive container
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{datatype}}_t *{{baseName}}; //nonprimitive container
+        {{/isPrimitiveType}}
+        {{/isListContainer}}
+        {{#isMapContainer}}
+        {{datatype}} {{baseName}};
+        // TODO map/hash not supported at the moment
+        {{/isMapContainer}}
+        {{/isContainer}}
+        {{/vars}}
+
+} {{classname}}_t;
+
+{{classname}}_t *{{classname}}_create(
+        {{#vars}}
+        {{^isContainer}}
+        {{^isPrimitiveType}}
+        {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
+        {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+        {{#isNumeric}}
+        {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+        {{/isNumeric}}
+        {{#isBoolean}}
+        bool {{baseName}}{{#hasMore}},{{/hasMore}}
+        {{/isBoolean}}
+        {{#isEnum}}
+        {{#isString}}
+        {{baseName}}_e {{baseName}}{{#hasMore}},{{/hasMore}}
+        {{/isString}}
+        {{/isEnum}}
+        {{^isEnum}}
+        {{#isString}}
+        {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+        {{/isString}}
+        {{/isEnum}}
+        {{#isDateTime}}
+        {{datatype}} *{{baseName}}{{#hasMore}},{{/hasMore}}
+        {{/isDateTime}}
+        {{/isPrimitiveType}}
+        {{/isContainer}}
+        {{#isContainer}}
+        {{#isListContainer}}
+        {{#isPrimitiveType}}
+        {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{datatype}}_t *{{baseName}}{{#hasMore}},{{/hasMore}}
+        {{/isPrimitiveType}}
+        {{/isListContainer}}
+        {{#isMapContainer}}
+        {{datatype}} {{baseName}}{{#hasMore}},{{/hasMore}}
+        // TODO map/hash not supported at the moment
+        {{/isMapContainer}}
+        {{/isContainer}}
+        {{/vars}}
+);
+
+void {{classname}}_free({{classname}}_t *{{classname}});
+
+{{classname}}_t *{{classname}}_parseFromJSON(char *jsonString);
+
+cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}});
+
+#endif /* _{{classname}}_H_ */
+{{/model}}{{/models}}

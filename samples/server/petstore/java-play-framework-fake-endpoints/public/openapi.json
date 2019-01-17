@@ -108,13 +108,14 @@
           "in" : "query",
           "description" : "Status values that need to be considered for filter",
           "required" : true,
+          "style" : "form",
           "explode" : false,
           "schema" : {
             "type" : "array",
             "items" : {
               "type" : "string",
-              "default" : "available",
-              "enum" : [ "available", "pending", "sold" ]
+              "enum" : [ "available", "pending", "sold" ],
+              "default" : "available"
             }
           }
         } ],
@@ -162,6 +163,7 @@
           "in" : "query",
           "description" : "Tags to filter by",
           "required" : true,
+          "style" : "form",
           "explode" : false,
           "schema" : {
             "type" : "array",
@@ -833,12 +835,14 @@
           "name" : "enum_header_string_array",
           "in" : "header",
           "description" : "Header parameter enum test (string array)",
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "type" : "array",
             "items" : {
               "type" : "string",
-              "default" : "$",
-              "enum" : [ ">", "$" ]
+              "enum" : [ ">", "$" ],
+              "default" : "$"
             }
           }
         }, {
@@ -847,20 +851,21 @@
           "description" : "Header parameter enum test (string)",
           "schema" : {
             "type" : "string",
-            "default" : "-efg",
-            "enum" : [ "_abc", "-efg", "(xyz)" ]
+            "enum" : [ "_abc", "-efg", "(xyz)" ],
+            "default" : "-efg"
           }
         }, {
           "name" : "enum_query_string_array",
           "in" : "query",
           "description" : "Query parameter enum test (string array)",
+          "style" : "form",
           "explode" : false,
           "schema" : {
             "type" : "array",
             "items" : {
               "type" : "string",
-              "default" : "$",
-              "enum" : [ ">", "$" ]
+              "enum" : [ ">", "$" ],
+              "default" : "$"
             }
           }
         }, {
@@ -869,8 +874,8 @@
           "description" : "Query parameter enum test (string)",
           "schema" : {
             "type" : "string",
-            "default" : "-efg",
-            "enum" : [ "_abc", "-efg", "(xyz)" ]
+            "enum" : [ "_abc", "-efg", "(xyz)" ],
+            "default" : "-efg"
           }
         }, {
           "name" : "enum_query_integer",
@@ -901,15 +906,15 @@
                     "description" : "Form parameter enum test (string array)",
                     "items" : {
                       "type" : "string",
-                      "default" : "$",
-                      "enum" : [ ">", "$" ]
+                      "enum" : [ ">", "$" ],
+                      "default" : "$"
                     }
                   },
                   "enum_form_string" : {
                     "type" : "string",
                     "description" : "Form parameter enum test (string)",
-                    "default" : "-efg",
-                    "enum" : [ "_abc", "-efg", "(xyz)" ]
+                    "enum" : [ "_abc", "-efg", "(xyz)" ],
+                    "default" : "-efg"
                   }
                 }
               }
@@ -1328,6 +1333,86 @@
         "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
+    },
+    "/fake/body-with-file-schema" : {
+      "put" : {
+        "tags" : [ "fake" ],
+        "description" : "For this test, the body for this request much reference a schema named `File`.",
+        "operationId" : "testBodyWithFileSchema",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/FileSchemaTestClass"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : { }
+          }
+        },
+        "x-contentType" : "application/json",
+        "x-accepts" : "application/json"
+      }
+    },
+    "/fake/{petId}/uploadImageWithRequiredFile" : {
+      "post" : {
+        "tags" : [ "pet" ],
+        "summary" : "uploads an image (required)",
+        "operationId" : "uploadFileWithRequiredFile",
+        "parameters" : [ {
+          "name" : "petId",
+          "in" : "path",
+          "description" : "ID of pet to update",
+          "required" : true,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "required" : [ "file" ],
+                "properties" : {
+                  "additionalMetadata" : {
+                    "type" : "string",
+                    "description" : "Additional data to pass to server"
+                  },
+                  "file" : {
+                    "type" : "string",
+                    "description" : "file to upload",
+                    "format" : "binary"
+                  }
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "petstore_auth" : [ "write:pets", "read:pets" ]
+        } ],
+        "x-contentType" : "multipart/form-data",
+        "x-accepts" : "application/json"
+      }
     }
   },
   "components" : {
@@ -1502,8 +1587,8 @@
       },
       "EnumClass" : {
         "type" : "string",
-        "default" : "-efg",
-        "enum" : [ "_abc", "-efg", "(xyz)" ]
+        "enum" : [ "_abc", "-efg", "(xyz)" ],
+        "default" : "-efg"
       },
       "List" : {
         "type" : "object",
@@ -1740,16 +1825,21 @@
         "type" : "object",
         "properties" : {
           "my_number" : {
-            "$ref" : "#/components/schemas/OuterNumber"
+            "type" : "number"
           },
           "my_string" : {
-            "$ref" : "#/components/schemas/OuterString"
+            "type" : "string"
           },
           "my_boolean" : {
-            "$ref" : "#/components/schemas/OuterBoolean"
+            "type" : "boolean",
+            "x-codegen-body-parameter-name" : "boolean_post_body"
           }
         },
-        "example" : { }
+        "example" : {
+          "my_string" : "my_string",
+          "my_number" : 0.80082819046101150206595775671303272247314453125,
+          "my_boolean" : true
+        }
       },
       "format_test" : {
         "required" : [ "byte", "date", "number", "password" ],
@@ -1852,6 +1942,30 @@
         "type" : "boolean",
         "x-codegen-body-parameter-name" : "boolean_post_body"
       },
+      "FileSchemaTestClass" : {
+        "type" : "object",
+        "properties" : {
+          "file" : {
+            "$ref" : "#/components/schemas/File"
+          },
+          "files" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/File"
+            }
+          }
+        },
+        "example" : {
+          "file" : {
+            "sourceURI" : "sourceURI"
+          },
+          "files" : [ {
+            "sourceURI" : "sourceURI"
+          }, {
+            "sourceURI" : "sourceURI"
+          } ]
+        }
+      },
       "Animal" : {
         "required" : [ "className" ],
         "type" : "object",
@@ -1866,6 +1980,12 @@
         },
         "discriminator" : {
           "propertyName" : "className"
+        }
+      },
+      "StringBooleanMap" : {
+        "type" : "object",
+        "additionalProperties" : {
+          "type" : "boolean"
         }
       },
       "Cat" : {
@@ -1898,6 +2018,15 @@
               "type" : "string",
               "enum" : [ "UPPER", "lower" ]
             }
+          },
+          "direct_map" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "boolean"
+            }
+          },
+          "indirect_map" : {
+            "$ref" : "#/components/schemas/StringBooleanMap"
           }
         }
       },
@@ -1924,6 +2053,18 @@
         "type" : "array",
         "items" : {
           "$ref" : "#/components/schemas/Animal"
+        }
+      },
+      "File" : {
+        "type" : "object",
+        "properties" : {
+          "sourceURI" : {
+            "type" : "string",
+            "description" : "Test capitalization"
+          }
+        },
+        "example" : {
+          "sourceURI" : "sourceURI"
         }
       },
       "Pet" : {

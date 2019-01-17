@@ -1,0 +1,117 @@
+part of {{pubName}}.api;
+
+{{#operations}}
+
+
+class {{classname}} {
+  final ApiClient apiClient;
+
+  {{classname}}([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+
+  {{#operation}}
+  /// {{summary}}
+  ///
+  /// {{notes}}
+  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+    Object postBody{{#bodyParam}} = {{paramName}}{{/bodyParam}};
+
+    // verify required params are set
+    {{#allParams}}
+      {{#required}}
+    if({{paramName}} == null) {
+     throw new ApiException(400, "Missing required param: {{paramName}}");
+    }
+      {{/required}}
+    {{/allParams}}
+
+    // create path and map variables
+    String path = "{{{path}}}".replaceAll("{format}","json"){{#pathParams}}.replaceAll("{" + "{{baseName}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
+
+    // query params
+    List<QueryParam> queryParams = [];
+    Map<String, String> headerParams = {};
+    Map<String, String> formParams = {};
+    {{#queryParams}}
+    {{^required}}
+    if({{paramName}} != null) {
+    {{/required}}
+      queryParams.addAll(_convertParametersForCollectionFormat("{{collectionFormat}}", "{{baseName}}", {{paramName}}));
+    {{^required}}
+    }
+    {{/required}}
+    {{/queryParams}}
+    {{#headerParams}}
+    headerParams["{{baseName}}"] = {{paramName}};
+    {{/headerParams}}
+
+    List<String> contentTypes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}];
+
+    String contentType = contentTypes.length > 0 ? contentTypes[0] : "application/json";
+    List<String> authNames = [{{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
+
+    if(contentType.startsWith("multipart/form-data")) {
+      bool hasFields = false;
+      MultipartRequest mp = new MultipartRequest(null, null);
+      {{#formParams}}
+      {{^isFile}}
+      if ({{paramName}} != null) {
+        hasFields = true;
+        mp.fields['{{baseName}}'] = parameterToString({{paramName}});
+      }
+      {{/isFile}}
+      {{#isFile}}
+      if ({{paramName}} != null) {
+        hasFields = true;
+        mp.fields['{{baseName}}'] = {{paramName}}.field;
+        mp.files.add({{paramName}});
+      }
+      {{/isFile}}
+      {{/formParams}}
+      if(hasFields)
+        postBody = mp;
+    }
+    else {
+      {{#formParams}}
+      {{^isFile}}
+      if ({{paramName}} != null)
+        formParams['{{baseName}}'] = parameterToString({{paramName}});
+      {{/isFile}}
+      {{/formParams}}
+    }
+
+    var response = await apiClient.invokeAPI(path,
+                                             '{{httpMethod}}',
+                                             queryParams,
+                                             postBody,
+                                             headerParams,
+                                             formParams,
+                                             contentType,
+                                             authNames);
+
+    if(response.statusCode >= 400) {
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
+    } else if(response.body != null) {
+      {{#isListContainer}}
+        {{#returnType}}
+      return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List).map((item) => item as {{returnBaseType}}).toList();
+        {{/returnType}}
+      {{/isListContainer}}
+      {{^isListContainer}}
+        {{#isMapContainer}}
+          {{#returnType}}
+      return new {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
+          {{/returnType}};
+        {{/isMapContainer}}
+        {{^isMapContainer}}
+          {{#returnType}}
+      return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
+          {{/returnType}}
+        {{/isMapContainer}}
+      {{/isListContainer}}
+    } else {
+      return{{#returnType}} null{{/returnType}};
+    }
+  }
+  {{/operation}}
+}
+{{/operations}}

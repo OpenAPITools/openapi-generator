@@ -53,7 +53,7 @@ public class PhpLumenServerOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setInvokerPackage(PhpLumenServerOptionsProvider.INVOKER_PACKAGE_VALUE);
             times = 1;
-            clientCodegen.setPackagePath(PhpLumenServerOptionsProvider.PACKAGE_PATH_VALUE);
+            clientCodegen.setPackageName(PhpLumenServerOptionsProvider.PACKAGE_NAME_VALUE);
             times = 1;
             clientCodegen.setSrcBasePath(PhpLumenServerOptionsProvider.SRC_BASE_PATH_VALUE);
             times = 1;

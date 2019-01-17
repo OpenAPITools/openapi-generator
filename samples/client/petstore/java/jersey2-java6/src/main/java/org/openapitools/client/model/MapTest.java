@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class MapTest {
   @JsonProperty("map_map_of_string")
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  private Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
 
   /**
    * Gets or Sets inner
@@ -67,7 +67,13 @@ public class MapTest {
   }
 
   @JsonProperty("map_of_enum_string")
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<String, InnerEnum>();
+
+  @JsonProperty("direct_map")
+  private Map<String, Boolean> directMap = new HashMap<String, Boolean>();
+
+  @JsonProperty("indirect_map")
+  private Map<String, Boolean> indirectMap = new HashMap<String, Boolean>();
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -121,6 +127,58 @@ public class MapTest {
     this.mapOfEnumString = mapOfEnumString;
   }
 
+  public MapTest directMap(Map<String, Boolean> directMap) {
+    this.directMap = directMap;
+    return this;
+  }
+
+  public MapTest putDirectMapItem(String key, Boolean directMapItem) {
+    if (this.directMap == null) {
+      this.directMap = new HashMap<String, Boolean>();
+    }
+    this.directMap.put(key, directMapItem);
+    return this;
+  }
+
+   /**
+   * Get directMap
+   * @return directMap
+  **/
+  @ApiModelProperty(value = "")
+  public Map<String, Boolean> getDirectMap() {
+    return directMap;
+  }
+
+  public void setDirectMap(Map<String, Boolean> directMap) {
+    this.directMap = directMap;
+  }
+
+  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
+    this.indirectMap = indirectMap;
+    return this;
+  }
+
+  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
+    if (this.indirectMap == null) {
+      this.indirectMap = new HashMap<String, Boolean>();
+    }
+    this.indirectMap.put(key, indirectMapItem);
+    return this;
+  }
+
+   /**
+   * Get indirectMap
+   * @return indirectMap
+  **/
+  @ApiModelProperty(value = "")
+  public Map<String, Boolean> getIndirectMap() {
+    return indirectMap;
+  }
+
+  public void setIndirectMap(Map<String, Boolean> indirectMap) {
+    this.indirectMap = indirectMap;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -132,12 +190,14 @@ public class MapTest {
   }
     MapTest mapTest = (MapTest) o;
     return ObjectUtils.equals(this.mapMapOfString, mapTest.mapMapOfString) &&
-    ObjectUtils.equals(this.mapOfEnumString, mapTest.mapOfEnumString);
+    ObjectUtils.equals(this.mapOfEnumString, mapTest.mapOfEnumString) &&
+    ObjectUtils.equals(this.directMap, mapTest.directMap) &&
+    ObjectUtils.equals(this.indirectMap, mapTest.indirectMap);
   }
 
   @Override
   public int hashCode() {
-    return ObjectUtils.hashCodeMulti(mapMapOfString, mapOfEnumString);
+    return ObjectUtils.hashCodeMulti(mapMapOfString, mapOfEnumString, directMap, indirectMap);
   }
 
 
@@ -145,9 +205,10 @@ public class MapTest {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class MapTest {\n");
-    
     sb.append("    mapMapOfString: ").append(toIndentedString(mapMapOfString)).append("\n");
     sb.append("    mapOfEnumString: ").append(toIndentedString(mapOfEnumString)).append("\n");
+    sb.append("    directMap: ").append(toIndentedString(directMap)).append("\n");
+    sb.append("    indirectMap: ").append(toIndentedString(indirectMap)).append("\n");
     sb.append("}");
     return sb.toString();
   }

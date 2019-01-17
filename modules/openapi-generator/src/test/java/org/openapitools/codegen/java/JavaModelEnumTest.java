@@ -17,11 +17,9 @@
 
 package org.openapitools.codegen.java;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
@@ -51,7 +49,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.dataType, "String");
         Assert.assertEquals(enumVar.datatypeWithEnum, "NameEnum");
         Assert.assertEquals(enumVar.name, "name");
-        Assert.assertEquals(enumVar.defaultValue, "null");
+        Assert.assertEquals(enumVar.defaultValue, null);
         Assert.assertEquals(enumVar.baseType, "String");
         Assert.assertTrue(enumVar.isEnum);
     }
@@ -59,7 +57,7 @@ public class JavaModelEnumTest {
     @Test(description = "convert a java model with an enum inside a list")
     public void converterInArrayTest() {
         final ArraySchema enumSchema = new ArraySchema().items(
-                        new StringSchema().addEnumItem("Aaaa").addEnumItem("Bbbb"));
+                new StringSchema().addEnumItem("Aaaa").addEnumItem("Bbbb"));
         final Schema model = new Schema().type("object").addProperties("name", enumSchema);
 
         final DefaultCodegen codegen = new JavaClientCodegen();
@@ -80,7 +78,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.mostInnerItems.dataType, "String");
         Assert.assertEquals(enumVar.mostInnerItems.datatypeWithEnum, "NameEnum");
         Assert.assertEquals(enumVar.mostInnerItems.name, "name");
-        Assert.assertEquals(enumVar.mostInnerItems.defaultValue, "null");
+        Assert.assertEquals(enumVar.mostInnerItems.defaultValue, null);
         Assert.assertEquals(enumVar.mostInnerItems.baseType, "String");
 
         Assert.assertEquals(enumVar.mostInnerItems.baseType, enumVar.items.baseType);
@@ -111,7 +109,7 @@ public class JavaModelEnumTest {
         Assert.assertEquals(enumVar.mostInnerItems.dataType, "String");
         Assert.assertEquals(enumVar.mostInnerItems.datatypeWithEnum, "NameEnum");
         Assert.assertEquals(enumVar.mostInnerItems.name, "name");
-        Assert.assertEquals(enumVar.mostInnerItems.defaultValue, "null");
+        Assert.assertEquals(enumVar.mostInnerItems.defaultValue, null);
         Assert.assertEquals(enumVar.mostInnerItems.baseType, "String");
 
         Assert.assertEquals(enumVar.mostInnerItems.baseType, enumVar.items.items.baseType);
@@ -136,6 +134,10 @@ public class JavaModelEnumTest {
         final Schema parentModel = new Schema();
         parentModel.setProperties(parentProperties);
         parentModel.name("parentModel");
+
+        Discriminator discriminator = new Discriminator().mapping("name", StringUtils.EMPTY);
+        discriminator.setPropertyName("model_type");
+        parentModel.setDiscriminator(discriminator);
 
         final ComposedSchema composedSchema = new ComposedSchema()
                 .addAllOfItem(new Schema().$ref(parentModel.getName()));

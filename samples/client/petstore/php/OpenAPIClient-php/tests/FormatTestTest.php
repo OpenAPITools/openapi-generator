@@ -1,8 +1,9 @@
 <?php
 
 use OpenAPI\Client\Model\FormatTest;
+use PHPUnit\Framework\TestCase;
 
-class FormatTestTest extends \PHPUnit_Framework_TestCase
+class FormatTestTest extends TestCase
 {
     public function testCountTheLengthOfMultiByteStringsCorrectly()
     {

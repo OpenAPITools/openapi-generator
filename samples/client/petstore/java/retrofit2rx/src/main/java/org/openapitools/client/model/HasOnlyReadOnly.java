@@ -31,11 +31,11 @@ import java.io.IOException;
 public class HasOnlyReadOnly {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
-  private String bar = null;
+  private String bar;
 
   public static final String SERIALIZED_NAME_FOO = "foo";
   @SerializedName(SERIALIZED_NAME_FOO)
-  private String foo = null;
+  private String foo;
 
    /**
    * Get bar
@@ -79,7 +79,6 @@ public class HasOnlyReadOnly {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class HasOnlyReadOnly {\n");
-    
     sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
     sb.append("    foo: ").append(toIndentedString(foo)).append("\n");
     sb.append("}");

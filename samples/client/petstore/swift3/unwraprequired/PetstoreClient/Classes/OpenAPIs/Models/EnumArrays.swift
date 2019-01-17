@@ -15,8 +15,8 @@ open class EnumArrays: JSONEncodable {
         case dollar = "$"
     }
     public enum ArrayEnum: String { 
-        case fish = "fish"
-        case crab = "crab"
+        case fish = ""fish""
+        case crab = ""crab""
     }
     public var justSymbol: JustSymbol?
     public var arrayEnum: [ArrayEnum]?

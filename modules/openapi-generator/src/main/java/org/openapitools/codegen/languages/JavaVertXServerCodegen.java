@@ -22,7 +22,6 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.media.Schema;
-
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
@@ -34,6 +33,7 @@ import org.openapitools.codegen.utils.URLPathUtils;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -169,13 +169,13 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        Map<String, Object> newObjs = super.postProcessOperations(objs);
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        Map<String, Object> newObjs = super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> operations = (Map<String, Object>) newObjs.get("operations");
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
-                operation.httpMethod = operation.httpMethod.toLowerCase();
+                operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
 
                 if ("Void".equalsIgnoreCase(operation.returnType)) {
                     operation.returnType = null;
@@ -251,7 +251,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
                 serviceIdTemp = computeServiceId(pathname, entry);
                 entry.getValue().addExtension("x-serviceid", serviceIdTemp);
                 entry.getValue().addExtension("x-serviceid-varname",
-                        serviceIdTemp.toUpperCase() + "_SERVICE_ID");
+                        serviceIdTemp.toUpperCase(Locale.ROOT) + "_SERVICE_ID");
             }
         }
     }
@@ -284,7 +284,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         pattern = Pattern.compile("(_)(.)");
         matcher = pattern.matcher(word);
         while (matcher.find()) {
-            word = matcher.replaceFirst(matcher.group(2).toUpperCase());
+            word = matcher.replaceFirst(matcher.group(2).toUpperCase(Locale.ROOT));
             matcher = pattern.matcher(word);
         }
         return word;

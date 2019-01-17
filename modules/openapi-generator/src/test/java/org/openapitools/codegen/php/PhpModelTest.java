@@ -73,7 +73,7 @@ public class PhpModelTest {
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertFalse(property1.isContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -84,7 +84,7 @@ public class PhpModelTest {
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertFalse(property2.isContainer);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -95,7 +95,7 @@ public class PhpModelTest {
         Assert.assertEquals(property3.baseType, "\\DateTime");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
     }
 
     @Test(description = "convert a model with list property")
@@ -123,7 +123,7 @@ public class PhpModelTest {
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertFalse(property1.isContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "urls");
@@ -182,7 +182,7 @@ public class PhpModelTest {
         Assert.assertEquals(property1.name, "children");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertFalse(property1.isContainer);
     }
 
     @Test(description = "convert a model with complex list property")
@@ -234,7 +234,6 @@ public class PhpModelTest {
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
-        Assert.assertFalse(property1.isNotContainer);
     }
 
     @Test(description = "convert an array model")
@@ -310,12 +309,14 @@ public class PhpModelTest {
         Assert.assertTrue(prope.isEnum);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList("fish", "crab"));
 
-        HashMap<String, String> fish= new HashMap<String, String>();
+        HashMap<String, Object> fish= new HashMap<String, Object>();
         fish.put("name", "FISH");
         fish.put("value", "\'fish\'");
-        HashMap<String, String> crab= new HashMap<String, String>();
+        fish.put("isString", false);
+        HashMap<String, Object> crab= new HashMap<String, Object>();
         crab.put("name", "CRAB");
         crab.put("value", "\'crab\'");
+        crab.put("isString", false);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(fish, crab));
 
         // assert inner items
@@ -343,12 +344,14 @@ public class PhpModelTest {
         Assert.assertNull(prope.items);
         Assert.assertEquals(prope.allowableValues.get("values"), Arrays.asList(1, -1));
 
-        HashMap<String, String> one = new HashMap<String, String>();
+        HashMap<String, Object> one = new HashMap<String, Object>();
         one.put("name", "1");
         one.put("value", "1");
-        HashMap<String, String> minusOne = new HashMap<String, String>();
+        one.put("isString", false);
+        HashMap<String, Object> minusOne = new HashMap<String, Object>();
         minusOne.put("name", "MINUS_1");
         minusOne.put("value", "-1");
+        minusOne.put("isString", false);
         Assert.assertEquals(prope.allowableValues.get("enumVars"), Arrays.asList(one, minusOne));
     }
 

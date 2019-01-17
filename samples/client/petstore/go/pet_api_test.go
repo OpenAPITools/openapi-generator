@@ -1,15 +1,15 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"testing"
 
-	sw "./go-petstore"
-	"golang.org/x/net/context"
-
 	"github.com/antihax/optional"
 	"github.com/stretchr/testify/assert"
+
+	sw "./go-petstore"
 )
 
 var client *sw.APIClient
@@ -87,6 +87,9 @@ func TestUpdatePetWithForm(t *testing.T) {
 	if r.StatusCode != 200 {
 		t.Log(r)
 	}
+
+    // get the pet with id 12830 from server to verify the update
+    isPetCorrect(t, 12830, "golang", "available")
 }
 
 func TestFindPetsByTag(t *testing.T) {
@@ -104,7 +107,7 @@ func TestFindPetsByTag(t *testing.T) {
 			assert := assert.New(t)
 			for i := 0; i < len(resp); i++ {
 				if resp[i].Id == 12830 {
-					assert.Equal(resp[i].Status, "pending", "Pet status should be `pending`")
+					assert.Equal(resp[i].Status, "available", "Pet status should be `pending`")
 					found = true
 				}
 			}
@@ -149,6 +152,26 @@ func TestUploadFile(t *testing.T) {
 		AdditionalMetadata: optional.NewString("golang"),
 		File:               optional.NewInterface(file),
 	})
+
+	if err != nil {
+		t.Errorf("Error while uploading file")
+		t.Log(err)
+	}
+
+	if r.StatusCode != 200 {
+		t.Log(r)
+	}
+}
+
+func TestUploadFileRequired(t *testing.T) {
+	return // remove when server supports this endpoint
+	file, _ := os.Open("../python/testfiles/foo.png")
+
+	_, r, err := client.PetApi.UploadFileWithRequiredFile(context.Background(), 12830,
+		file,
+		&sw.UploadFileWithRequiredFileOpts{
+			AdditionalMetadata: optional.NewString("golang"),
+		})
 
 	if err != nil {
 		t.Errorf("Error while uploading file")
@@ -281,3 +304,4 @@ func isPetCorrect(t *testing.T, id int64, name string, status string) {
 		t.Log(r)
 	}
 }
+

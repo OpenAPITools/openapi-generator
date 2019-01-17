@@ -141,8 +141,8 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        return super.postProcessOperations(objs);
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        return super.postProcessOperationsWithModels(objs, allModels);
     }
 
     @Override

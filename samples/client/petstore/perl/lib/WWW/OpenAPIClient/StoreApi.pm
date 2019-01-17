@@ -63,7 +63,7 @@ sub new {
     },
     };
     __PACKAGE__->method_documentation->{ 'delete_order' } = { 
-    	summary => 'Delete purchase order by ID',
+        summary => 'Delete purchase order by ID',
         params => $params,
         returns => undef,
         };
@@ -120,7 +120,7 @@ sub delete_order {
     my $params = {
     };
     __PACKAGE__->method_documentation->{ 'get_inventory' } = { 
-    	summary => 'Returns pet inventories by status',
+        summary => 'Returns pet inventories by status',
         params => $params,
         returns => 'HASH[string,int]',
         };
@@ -175,7 +175,7 @@ sub get_inventory {
     },
     };
     __PACKAGE__->method_documentation->{ 'get_order_by_id' } = { 
-    	summary => 'Find purchase order by ID',
+        summary => 'Find purchase order by ID',
         params => $params,
         returns => 'Order',
         };
@@ -232,17 +232,17 @@ sub get_order_by_id {
 #
 # Place an order for a pet
 # 
-# @param Order $order order placed for purchasing the pet (required)
+# @param Order $body order placed for purchasing the pet (required)
 {
     my $params = {
-    'order' => {
+    'body' => {
         data_type => 'Order',
         description => 'order placed for purchasing the pet',
         required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ 'place_order' } = { 
-    	summary => 'Place an order for a pet',
+        summary => 'Place an order for a pet',
         params => $params,
         returns => 'Order',
         };
@@ -252,9 +252,9 @@ sub get_order_by_id {
 sub place_order {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'order' is set
-    unless (exists $args{'order'}) {
-      croak("Missing the required parameter 'order' when calling place_order");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling place_order");
     }
 
     # parse inputs
@@ -274,8 +274,8 @@ sub place_order {
 
     my $_body_data;
     # body params
-    if ( exists $args{'order'}) {
-        $_body_data = $args{'order'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any

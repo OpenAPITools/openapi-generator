@@ -32,8 +32,7 @@ use DateTime;
 
 use WWW::OpenAPIClient::Object::Animal;
 
-use base ("Class::Accessor", "Class::Data::Inheritable");
-
+use base ("Class::Accessor", "Class::Data::Inheritable", "WWW::OpenAPIClient::Object::Animal");
 
 #
 #
@@ -66,23 +65,40 @@ __PACKAGE__->mk_classdata('openapi_types' => {});
 __PACKAGE__->mk_classdata('method_documentation' => {}); 
 __PACKAGE__->mk_classdata('class_documentation' => {});
 
-# new object
+# new plain object
 sub new { 
     my ($class, %args) = @_; 
 
-	my $self = bless {}, $class;
-	
-	foreach my $attribute (keys %{$class->attribute_map}) {
-		my $args_key = $class->attribute_map->{$attribute};
-		$self->$attribute( $args{ $args_key } );
-	}
-	
-	return $self;
-}  
+    my $self = bless {}, $class;
+
+    $self->init(%args);
+    
+    return $self;
+}
+
+# initialize the object
+sub init
+{
+    my ($self, %args) = @_;
+
+    foreach my $attribute (keys %{$self->attribute_map}) {
+        my $args_key = $self->attribute_map->{$attribute};
+        $self->$attribute( $args{ $args_key } );
+    }
+
+    # initialize parent object Animal
+    $self->WWW::OpenAPIClient::Object::Animal::init(%args);
+}
 
 # return perl hash
 sub to_hash {
-    return decode_json(JSON->new->convert_blessed->encode( shift ));
+    my $self = shift;
+    my $_hash = decode_json(JSON->new->convert_blessed->encode($self));
+
+    # call Animal to_hash and then combine hash
+    $_hash = { %$_hash, %$self->WWW::OpenAPIClient::Object::Animal::to_hash };
+
+    return $_hash;
 }
 
 # used by JSON for serialization
@@ -94,6 +110,10 @@ sub TO_JSON {
             $_data->{$self->attribute_map->{$_key}} = $self->{$_key};
         }
     }
+
+    # combine parent (Animal) TO_JSON
+    $_data = { %$_data, %$self->WWW::OpenAPIClient::Object::Animal::TO_JSON };
+
     return $_data;
 }
 
@@ -103,7 +123,7 @@ sub from_hash {
 
     # loop through attributes and use openapi_types to deserialize the data
     while ( my ($_key, $_type) = each %{$self->openapi_types} ) {
-    	my $_json_attribute = $self->attribute_map->{$_key}; 
+        my $_json_attribute = $self->attribute_map->{$_key}; 
         if ($_type =~ /^array\[/i) { # array
             my $_subclass = substr($_type, 6, -1);
             my @_array = ();
@@ -114,9 +134,12 @@ sub from_hash {
         } elsif (exists $hash->{$_json_attribute}) { #hash(model), primitive, datetime
             $self->{$_key} = $self->_deserialize($_type, $hash->{$_json_attribute});
         } else {
-        	$log->debugf("Warning: %s (%s) does not exist in input hash\n", $_key, $_json_attribute);
+            $log->debugf("Warning: %s (%s) does not exist in input hash\n", $_key, $_json_attribute);
         }
     }
+
+    # call parent (Animal) from_hash
+    $self->WWW::OpenAPIClient::Object::Animal::from_hash($hash);
   
     return $self;
 }
@@ -144,38 +167,20 @@ __PACKAGE__->class_documentation({description => '',
 }                                 );
 
 __PACKAGE__->method_documentation({
-    'class_name' => {
-    	datatype => 'string',
-    	base_name => 'className',
-    	description => '',
-    	format => '',
-    	read_only => '',
-    		},
-    'color' => {
-    	datatype => 'string',
-    	base_name => 'color',
-    	description => '',
-    	format => '',
-    	read_only => '',
-    		},
     'breed' => {
-    	datatype => 'string',
-    	base_name => 'breed',
-    	description => '',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'string',
+        base_name => 'breed',
+        description => '',
+        format => '',
+        read_only => '',
+            },
 });
 
 __PACKAGE__->openapi_types( {
-    'class_name' => 'string',
-    'color' => 'string',
     'breed' => 'string'
 } );
 
 __PACKAGE__->attribute_map( {
-    'class_name' => 'className',
-    'color' => 'color',
     'breed' => 'breed'
 } );
 

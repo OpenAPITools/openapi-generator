@@ -34,6 +34,9 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 /**
  * Swift (2.x) generator is no longer actively maintained. Please use
  * 'swift3' or 'swift4' generator instead.
@@ -79,7 +82,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getHelp() {
-        return "Generates a Swift (2.x) client library. IMPORTANT NOTE: this generator (swfit 2.x)  is no longer actively maintained so please use 'swift3' or 'swift4' generator instead.";
+        return "Generates a Swift (2.x) client library. IMPORTANT NOTE: this generator (swfit 2.x)  is no longer actively maintained so please use 'swift4' generator instead.";
     }
 
     public SwiftClientCodegen() {
@@ -270,7 +273,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "[String:" + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -359,7 +362,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema) p.getAdditionalProperties());
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "[String:" + inner + "]";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -448,6 +451,12 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
             String newOperationId = camelize(("call_" + operationId), true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            operationId = camelize(sanitizeName("call_" + operationId), true);
         }
 
         return operationId;
@@ -577,7 +586,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
         }
 
         // string
-        String enumName = sanitizeName(underscore(name).toUpperCase());
+        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 

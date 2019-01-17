@@ -44,7 +44,7 @@ public:
     void validate() override;
 
     nlohmann::json toJson() const override;
-    void fromJson(nlohmann::json& json) override;
+    void fromJson(const nlohmann::json& json) override;
 
     /////////////////////////////////////////////
     /// Tag members
@@ -53,14 +53,14 @@ public:
     /// 
     /// </summary>
     int64_t getId() const;
-    void setId(int64_t value);
+    void setId(int64_t const value);
     bool idIsSet() const;
     void unsetId();
     /// <summary>
     /// 
     /// </summary>
     std::string getName() const;
-    void setName(std::string value);
+    void setName(std::string const& value);
     bool nameIsSet() const;
     void unsetName();
 

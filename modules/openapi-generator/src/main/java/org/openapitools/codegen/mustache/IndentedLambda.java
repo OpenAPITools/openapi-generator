@@ -43,13 +43,14 @@ import java.io.Writer;
  */
 public class IndentedLambda implements Mustache.Lambda {
     private final int prefixSpaceCount;
+    private final String prefix;
     private int spaceCode;
 
     /**
      * Constructs a new instance of {@link IndentedLambda}, with an indent count of 4 spaces
      */
     public IndentedLambda() {
-        this(4, " ");
+        this(4, " ", null);
     }
 
     /**
@@ -59,15 +60,38 @@ public class IndentedLambda implements Mustache.Lambda {
      * @param indentionCharacter String representation of the character used in the indent (e.g. " ", "\t", ".").
      */
     public IndentedLambda(int prefixSpaceCount, String indentionCharacter) {
-        this(prefixSpaceCount, Character.codePointAt(indentionCharacter, 0));
+        this(prefixSpaceCount, Character.codePointAt(indentionCharacter, 0), null);
+    }
+
+    /**
+     * Constructs a new instance of {@link IndentedLambda}, with customized indent count and intention character
+     *
+     * @param prefixSpaceCount   The number of indented characters to apply as a prefix to a fragment.
+     * @param indentionCharacter String representation of the character used in the indent (e.g. " ", "\t", ".").
+     * @param prefix             An optional prefix to prepend before the line (useful for multi-line comments).
+     */
+    public IndentedLambda(int prefixSpaceCount, String indentionCharacter, String prefix) {
+        this(prefixSpaceCount, Character.codePointAt(indentionCharacter, 0), prefix);
     }
 
     /**
      * Constructs a new instance of {@link IndentedLambda}
      *
      * @param prefixSpaceCount The number of indented characters to apply as a prefix to a fragment.
+     * @param indentionCodePoint Code point of the single character used for indentation.
      */
     private IndentedLambda(int prefixSpaceCount, int indentionCodePoint) {
+        this(prefixSpaceCount, indentionCodePoint, null);
+    }
+
+    /**
+     * Constructs a new instance of {@link IndentedLambda}
+     *
+     * @param prefixSpaceCount The number of indented characters to apply as a prefix to a fragment.
+     * @param indentionCodePoint Code point of the single character used for indentation.
+     * @param prefix             An optional prefix to prepend before the line (useful for multi-line comments).
+     */
+    private IndentedLambda(int prefixSpaceCount, int indentionCodePoint, String prefix) {
         if (prefixSpaceCount <= 0) {
             throw new IllegalArgumentException("prefixSpaceCount must be greater than 0");
         }
@@ -78,6 +102,7 @@ public class IndentedLambda implements Mustache.Lambda {
 
         this.prefixSpaceCount = prefixSpaceCount;
         this.spaceCode = indentionCodePoint;
+        this.prefix = prefix;
     }
 
     @Override
@@ -96,6 +121,7 @@ public class IndentedLambda implements Mustache.Lambda {
             // So, we want to skip the first line.
             if (i > 0) {
                 sb.append(prefixedIndention);
+                if (prefix != null) sb.append(prefix);
             }
 
             sb.append(line);

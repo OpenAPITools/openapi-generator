@@ -19,6 +19,7 @@
 
 namespace {{controllerPackage}};
 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use {{servicePackage}}\SerializerInterface;
@@ -32,7 +33,7 @@ use {{servicePackage}}\ValidatorInterface;
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
  */
-class Controller
+class Controller extends BaseController
 {
     protected $validator;
     protected $serializer;

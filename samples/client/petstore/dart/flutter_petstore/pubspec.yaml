@@ -2,6 +2,7 @@ name: flutter_petstore
 description: OpenAPI petstore sample flutter
 
 dependencies:
+  http:
   flutter:
     sdk: flutter
   openapi:

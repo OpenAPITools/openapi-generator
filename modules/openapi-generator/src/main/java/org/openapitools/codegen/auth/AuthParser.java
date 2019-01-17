@@ -21,6 +21,7 @@ import io.swagger.v3.parser.core.models.AuthorizationValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -39,8 +40,11 @@ public class AuthParser {
             for (String part : parts) {
                 String[] kvPair = part.split(":");
                 if (kvPair.length == 2) {
-                    // FIXME replace the deprecated method by decode(string, encoding). Which encoding is used ? Default UTF-8 ?
-                    auths.add(new AuthorizationValue(URLDecoder.decode(kvPair[0]), URLDecoder.decode(kvPair[1]), "header"));
+                    try {
+                        auths.add(new AuthorizationValue(URLDecoder.decode(kvPair[0], "UTF-8"), URLDecoder.decode(kvPair[1], "UTF-8"), "header"));
+                    } catch (UnsupportedEncodingException e) {
+                        LOGGER.warn(e.getMessage());
+                    }
                 }
             }
         }

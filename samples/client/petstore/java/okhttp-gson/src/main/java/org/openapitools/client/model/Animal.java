@@ -32,7 +32,7 @@ import java.io.IOException;
 public class Animal {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
-  private String className = null;
+  private String className;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
@@ -101,7 +101,6 @@ public class Animal {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Animal {\n");
-    
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
     sb.append("    color: ").append(toIndentedString(color)).append("\n");
     sb.append("}");

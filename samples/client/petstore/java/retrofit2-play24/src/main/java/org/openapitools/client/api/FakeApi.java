@@ -14,6 +14,7 @@ import okhttp3.MultipartBody;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -42,12 +43,12 @@ public interface FakeApi {
   /**
    * 
    * Test serialization of object with outer number type
-   * @param outerComposite Input composite as post body (optional)
+   * @param body Input composite as post body (optional)
    * @return Call&lt;OuterComposite&gt;
    */
   @POST("fake/outer/composite")
   F.Promise<Response<OuterComposite>> fakeOuterCompositeSerialize(
-    @retrofit2.http.Body OuterComposite outerComposite
+    @retrofit2.http.Body OuterComposite body
   );
 
   /**
@@ -74,9 +75,23 @@ public interface FakeApi {
 
   /**
    * 
+   * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+   * @param body  (required)
+   * @return Call&lt;Void&gt;
+   */
+  @Headers({
+    "Content-Type:application/json"
+  })
+  @PUT("fake/body-with-file-schema")
+  F.Promise<Response<Void>> testBodyWithFileSchema(
+    @retrofit2.http.Body FileSchemaTestClass body
+  );
+
+  /**
+   * 
    * 
    * @param query  (required)
-   * @param user  (required)
+   * @param body  (required)
    * @return Call&lt;Void&gt;
    */
   @Headers({
@@ -84,13 +99,13 @@ public interface FakeApi {
   })
   @PUT("fake/body-with-query-params")
   F.Promise<Response<Void>> testBodyWithQueryParams(
-    @retrofit2.http.Query("query") String query, @retrofit2.http.Body User user
+    @retrofit2.http.Query("query") String query, @retrofit2.http.Body User body
   );
 
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
-   * @param client client model (required)
+   * @param body client model (required)
    * @return Call&lt;Client&gt;
    */
   @Headers({
@@ -98,7 +113,7 @@ public interface FakeApi {
   })
   @PATCH("fake")
   F.Promise<Response<Client>> testClientModel(
-    @retrofit2.http.Body Client client
+    @retrofit2.http.Body Client body
   );
 
   /**
@@ -108,16 +123,16 @@ public interface FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional, default to null)
-   * @param int32 None (optional, default to null)
-   * @param int64 None (optional, default to null)
-   * @param _float None (optional, default to null)
-   * @param string None (optional, default to null)
-   * @param binary None (optional, default to null)
-   * @param date None (optional, default to null)
-   * @param dateTime None (optional, default to null)
-   * @param password None (optional, default to null)
-   * @param paramCallback None (optional, default to null)
+   * @param integer None (optional)
+   * @param int32 None (optional)
+   * @param int64 None (optional)
+   * @param _float None (optional)
+   * @param string None (optional)
+   * @param binary None (optional)
+   * @param date None (optional)
+   * @param dateTime None (optional)
+   * @param password None (optional)
+   * @param paramCallback None (optional)
    * @return Call&lt;Void&gt;
    */
   @retrofit2.http.FormUrlEncoded
@@ -129,9 +144,9 @@ public interface FakeApi {
   /**
    * To test enum parameters
    * To test enum parameters
-   * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-   * @param enumQueryStringArray Query parameter enum test (string array) (optional)
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
@@ -146,9 +161,25 @@ public interface FakeApi {
   );
 
   /**
+   * Fake endpoint to test group parameters (optional)
+   * Fake endpoint to test group parameters (optional)
+   * @param requiredStringGroup Required String in group parameters (required)
+   * @param requiredBooleanGroup Required Boolean in group parameters (required)
+   * @param requiredInt64Group Required Integer in group parameters (required)
+   * @param stringGroup String in group parameters (optional)
+   * @param booleanGroup Boolean in group parameters (optional)
+   * @param int64Group Integer in group parameters (optional)
+   * @return Call&lt;Void&gt;
+   */
+  @DELETE("fake")
+  F.Promise<Response<Void>> testGroupParameters(
+    @retrofit2.http.Query("required_string_group") Integer requiredStringGroup, @retrofit2.http.Header("required_boolean_group") Boolean requiredBooleanGroup, @retrofit2.http.Query("required_int64_group") Long requiredInt64Group, @retrofit2.http.Query("string_group") Integer stringGroup, @retrofit2.http.Header("boolean_group") Boolean booleanGroup, @retrofit2.http.Query("int64_group") Long int64Group
+  );
+
+  /**
    * test inline additionalProperties
    * 
-   * @param requestBody request body (required)
+   * @param param request body (required)
    * @return Call&lt;Void&gt;
    */
   @Headers({
@@ -156,7 +187,7 @@ public interface FakeApi {
   })
   @POST("fake/inline-additionalProperties")
   F.Promise<Response<Void>> testInlineAdditionalProperties(
-    @retrofit2.http.Body Map<String, String> requestBody
+    @retrofit2.http.Body Map<String, String> param
   );
 
   /**

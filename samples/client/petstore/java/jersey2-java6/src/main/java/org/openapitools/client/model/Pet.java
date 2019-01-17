@@ -30,19 +30,19 @@ import org.openapitools.client.model.Tag;
 
 public class Pet {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("category")
   private Category category = null;
 
   @JsonProperty("name")
-  private String name = null;
+  private String name;
 
   @JsonProperty("photoUrls")
   private List<String> photoUrls = new ArrayList<String>();
 
   @JsonProperty("tags")
-  private List<Tag> tags = null;
+  private List<Tag> tags = new ArrayList<Tag>();
 
   /**
    * pet status in the store
@@ -82,7 +82,7 @@ public class Pet {
   }
 
   @JsonProperty("status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   public Pet id(Long id) {
     this.id = id;
@@ -233,7 +233,6 @@ public class Pet {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pet {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

@@ -579,6 +579,51 @@ extension PrimitiveSequence {
         -> PrimitiveSequence<Trait, Element> {
             return PrimitiveSequence(raw: source.debug(identifier, trimOutput: trimOutput, file: file, line: line, function: function))
     }
+    
+    /**
+     Constructs an observable sequence that depends on a resource object, whose lifetime is tied to the resulting observable sequence's lifetime.
+     
+     - seealso: [using operator on reactivex.io](http://reactivex.io/documentation/operators/using.html)
+     
+     - parameter resourceFactory: Factory function to obtain a resource object.
+     - parameter primitiveSequenceFactory: Factory function to obtain an observable sequence that depends on the obtained resource.
+     - returns: An observable sequence whose lifetime controls the lifetime of the dependent resource object.
+     */
+    public static func using<Resource: Disposable>(_ resourceFactory: @escaping () throws -> Resource, primitiveSequenceFactory: @escaping (Resource) throws -> PrimitiveSequence<Trait, Element>)
+        -> PrimitiveSequence<Trait, Element> {
+            return PrimitiveSequence(raw: Observable.using(resourceFactory, observableFactory: { (resource: Resource) throws -> Observable<E> in
+                return try primitiveSequenceFactory(resource).asObservable()
+            }))
+    }
+
+    /**
+     Applies a timeout policy for each element in the observable sequence. If the next element isn't received within the specified timeout duration starting from its predecessor, a TimeoutError is propagated to the observer.
+
+     - seealso: [timeout operator on reactivex.io](http://reactivex.io/documentation/operators/timeout.html)
+
+     - parameter dueTime: Maximum duration between values before a timeout occurs.
+     - parameter scheduler: Scheduler to run the timeout timer on.
+     - returns: An observable sequence with a `RxError.timeout` in case of a timeout.
+     */
+    public func timeout(_ dueTime: RxTimeInterval, scheduler: SchedulerType)
+        -> PrimitiveSequence<Trait, Element> {
+        return PrimitiveSequence(raw: source.timeout(dueTime, scheduler: scheduler))
+    }
+
+    /**
+     Applies a timeout policy for each element in the observable sequence, using the specified scheduler to run timeout timers. If the next element isn't received within the specified timeout duration starting from its predecessor, the other observable sequence is used to produce future messages from that point on.
+
+     - seealso: [timeout operator on reactivex.io](http://reactivex.io/documentation/operators/timeout.html)
+
+     - parameter dueTime: Maximum duration between values before a timeout occurs.
+     - parameter other: Sequence to return in case of a timeout.
+     - parameter scheduler: Scheduler to run the timeout timer on.
+     - returns: The source sequence switching to the other sequence in case of a timeout.
+     */
+    public func timeout(_ dueTime: RxTimeInterval, other: PrimitiveSequence<Trait, Element>, scheduler: SchedulerType)
+        -> PrimitiveSequence<Trait, Element> {
+        return PrimitiveSequence(raw: source.timeout(dueTime, other: other.source, scheduler: scheduler))
+    }
 }
 
 extension PrimitiveSequenceType where ElementType: SignedInteger
@@ -621,6 +666,96 @@ extension PrimitiveSequenceType where TraitType == CompletableTrait, ElementType
      */
     public static func empty() -> PrimitiveSequence<CompletableTrait, Never> {
         return PrimitiveSequence(raw: Observable.empty())
+    }
+    
+    /**
+     Concatenates the second observable sequence to `self` upon successful termination of `self`.
+     
+     - seealso: [concat operator on reactivex.io](http://reactivex.io/documentation/operators/concat.html)
+     
+     - parameter second: Second observable sequence.
+     - returns: An observable sequence that contains the elements of `self`, followed by those of the second sequence.
+     */
+    public func concat(_ second: PrimitiveSequence<CompletableTrait, Never>) -> PrimitiveSequence<CompletableTrait, Never> {
+        return Completable.concat(primitiveSequence, second)
+    }
+    
+    /**
+     Concatenates all observable sequences in the given sequence, as long as the previous observable sequence terminated successfully.
+     
+     - seealso: [concat operator on reactivex.io](http://reactivex.io/documentation/operators/concat.html)
+     
+     - returns: An observable sequence that contains the elements of each given sequence, in sequential order.
+     */
+    public static func concat<S: Sequence>(_ sequence: S) -> PrimitiveSequence<CompletableTrait, Never>
+        where S.Iterator.Element == PrimitiveSequence<CompletableTrait, Never> {
+            let source = Observable.concat(sequence.lazy.map { $0.asObservable() })
+            return PrimitiveSequence<CompletableTrait, Never>(raw: source)
+    }
+    
+    /**
+     Concatenates all observable sequences in the given sequence, as long as the previous observable sequence terminated successfully.
+     
+     - seealso: [concat operator on reactivex.io](http://reactivex.io/documentation/operators/concat.html)
+     
+     - returns: An observable sequence that contains the elements of each given sequence, in sequential order.
+     */
+    public static func concat<C: Collection>(_ collection: C) -> PrimitiveSequence<CompletableTrait, Never>
+        where C.Iterator.Element == PrimitiveSequence<CompletableTrait, Never> {
+            let source = Observable.concat(collection.map { $0.asObservable() })
+            return PrimitiveSequence<CompletableTrait, Never>(raw: source)
+    }
+    
+    /**
+     Concatenates all observable sequences in the given sequence, as long as the previous observable sequence terminated successfully.
+     
+     - seealso: [concat operator on reactivex.io](http://reactivex.io/documentation/operators/concat.html)
+     
+     - returns: An observable sequence that contains the elements of each given sequence, in sequential order.
+     */
+    public static func concat(_ sources: PrimitiveSequence<CompletableTrait, Never> ...) -> PrimitiveSequence<CompletableTrait, Never> {
+        let source = Observable.concat(sources.map { $0.asObservable() })
+        return PrimitiveSequence<CompletableTrait, Never>(raw: source)
+    }
+    
+    /**
+     Merges elements from all observable sequences from collection into a single observable sequence.
+     
+     - seealso: [merge operator on reactivex.io](http://reactivex.io/documentation/operators/merge.html)
+     
+     - parameter sources: Collection of observable sequences to merge.
+     - returns: The observable sequence that merges the elements of the observable sequences.
+     */
+    public static func merge<C: Collection>(_ sources: C) -> PrimitiveSequence<CompletableTrait, Never>
+        where C.Iterator.Element == PrimitiveSequence<CompletableTrait, Never> {
+            let source = Observable.merge(sources.map { $0.asObservable() })
+            return PrimitiveSequence<CompletableTrait, Never>(raw: source)
+    }
+    
+    /**
+     Merges elements from all observable sequences from array into a single observable sequence.
+     
+     - seealso: [merge operator on reactivex.io](http://reactivex.io/documentation/operators/merge.html)
+     
+     - parameter sources: Array of observable sequences to merge.
+     - returns: The observable sequence that merges the elements of the observable sequences.
+     */
+    public static func merge(_ sources: [PrimitiveSequence<CompletableTrait, Never>]) -> PrimitiveSequence<CompletableTrait, Never> {
+        let source = Observable.merge(sources.map { $0.asObservable() })
+        return PrimitiveSequence<CompletableTrait, Never>(raw: source)
+    }
+    
+    /**
+     Merges elements from all observable sequences into a single observable sequence.
+     
+     - seealso: [merge operator on reactivex.io](http://reactivex.io/documentation/operators/merge.html)
+     
+     - parameter sources: Collection of observable sequences to merge.
+     - returns: The observable sequence that merges the elements of the observable sequences.
+     */
+    public static func merge(_ sources: PrimitiveSequence<CompletableTrait, Never>...) -> PrimitiveSequence<CompletableTrait, Never> {
+        let source = Observable.merge(sources.map { $0.asObservable() })
+        return PrimitiveSequence<CompletableTrait, Never>(raw: source)
     }
 }
 

@@ -61,12 +61,13 @@ export class {{classname}} {
     public configuration = new Configuration();
 
     constructor(protected {{#useHttpClient}}httpClient: HttpClient{{/useHttpClient}}{{^useHttpClient}}http: Http{{/useHttpClient}}, @Optional()@Inject(BASE_PATH) basePath: string, @Optional() configuration: Configuration) {
-        if (basePath) {
-            this.basePath = basePath;
-        }
+
         if (configuration) {
             this.configuration = configuration;
-            this.basePath = basePath || configuration.basePath || this.basePath;
+            this.configuration.basePath = configuration.basePath || basePath || this.basePath;
+
+        } else {
+            this.configuration.basePath = basePath || this.basePath;
         }
     }
 
@@ -191,13 +192,13 @@ export class {{classname}} {
         // authentication ({{name}}) required
 {{#isApiKey}}
 {{#isKeyInHeader}}
-        if (this.configuration.apiKeys["{{keyParamName}}"]) {
+        if (this.configuration.apiKeys && this.configuration.apiKeys["{{keyParamName}}"]) {
             {{#useHttpClient}}headers = {{/useHttpClient}}headers.set('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
         }
 
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
-        if (this.configuration.apiKeys["{{keyParamName}}"]) {
+        if (this.configuration.apiKeys && this.configuration.apiKeys["{{keyParamName}}"]) {
             {{#useHttpClient}}queryParameters = {{/useHttpClient}}queryParameters.set('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
         }
 
@@ -220,7 +221,7 @@ export class {{classname}} {
 {{/isOAuth}}
 {{/authMethods}}
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
             {{#produces}}
             '{{{mediaType}}}'{{#hasMore}},{{/hasMore}}
             {{/produces}}
@@ -256,7 +257,7 @@ export class {{classname}} {
 {{#hasFormParams}}
         const canConsumeForm = this.canConsumeForm(consumes);
 
-        let formParams: { append(param: string, value: any): void; };
+        let formParams: { append(param: string, value: any): any; };
         let useForm = false;
         let convertFormParamsToString = false;
 {{#formParams}}
@@ -303,7 +304,7 @@ export class {{classname}} {
 
 {{/hasFormParams}}
 {{#useHttpClient}}
-        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
+        return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.configuration.basePath}{{{path}}}`,{{#isBodyAllowed}}
             {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
             {
 {{#hasQueryParams}}
@@ -342,7 +343,7 @@ export class {{classname}} {
             requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
         }
 
-        return this.http.request(`${this.basePath}{{{path}}}`, requestOptions);
+        return this.http.request(`${this.configuration.basePath}{{{path}}}`, requestOptions);
 {{/useHttpClient}}
     }
 

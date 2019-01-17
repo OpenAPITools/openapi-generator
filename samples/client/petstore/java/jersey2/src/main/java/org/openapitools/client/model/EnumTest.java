@@ -65,7 +65,7 @@ public class EnumTest {
   }
 
   @JsonProperty("enum_string")
-  private EnumStringEnum enumString = null;
+  private EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -105,7 +105,7 @@ public class EnumTest {
   }
 
   @JsonProperty("enum_string_required")
-  private EnumStringRequiredEnum enumStringRequired = null;
+  private EnumStringRequiredEnum enumStringRequired;
 
   /**
    * Gets or Sets enumInteger
@@ -143,7 +143,7 @@ public class EnumTest {
   }
 
   @JsonProperty("enum_integer")
-  private EnumIntegerEnum enumInteger = null;
+  private EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -181,7 +181,7 @@ public class EnumTest {
   }
 
   @JsonProperty("enum_number")
-  private EnumNumberEnum enumNumber = null;
+  private EnumNumberEnum enumNumber;
 
   @JsonProperty("outerEnum")
   private OuterEnum outerEnum = null;
@@ -303,7 +303,6 @@ public class EnumTest {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EnumTest {\n");
-    
     sb.append("    enumString: ").append(toIndentedString(enumString)).append("\n");
     sb.append("    enumStringRequired: ").append(toIndentedString(enumStringRequired)).append("\n");
     sb.append("    enumInteger: ").append(toIndentedString(enumInteger)).append("\n");

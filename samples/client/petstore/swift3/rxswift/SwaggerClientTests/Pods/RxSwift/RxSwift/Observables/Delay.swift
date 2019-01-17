@@ -57,7 +57,7 @@ final fileprivate class DelaySink<O: ObserverType>
     }
 
     // All of these complications in this method are caused by the fact that 
-    // error should be propagated immediatelly. Error can bepotentially received on different
+    // error should be propagated immediately. Error can be potentially received on different
     // scheduler so this process needs to be synchronized somehow.
     //
     // Another complication is that scheduler is potentially concurrent so internal queue is used.

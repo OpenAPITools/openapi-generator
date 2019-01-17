@@ -1,0 +1,29 @@
+dist: trusty
+sudo: required
+language: java
+addons:
+  apt:
+    packages:
+      - openjdk-6-jdk
+jdk: openjdk6
+
+cache:
+  directories:
+  - $HOME/.m2
+  - $HOME/.ivy2
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+
+install:
+   - jdk_switcher use openjdk6 
+   - java -version
+   - curl -s "https://get.sdkman.io" | bash
+   - source "$HOME/.sdkman/bin/sdkman-init.sh"
+   - sdk version
+   - sdk install gradle 2.9
+   - sdk list gradle
+   - sdk version
+   - gradle --version
+
+script:
+  - cd samples/client/petstore/java/jersey2-java6 && gradle test

@@ -41,7 +41,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **kotlin.String**| ID of the order that needs to be deleted |
+ **orderId** | **kotlin.String**| ID of the order that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -131,7 +131,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **kotlin.Long**| ID of pet that needs to be fetched |
+ **orderId** | **kotlin.Long**| ID of pet that needs to be fetched | [default to null]
 
 ### Return type
 
@@ -148,7 +148,7 @@ No authorization required
 
 <a name="placeOrder"></a>
 # **placeOrder**
-> Order placeOrder(order)
+> Order placeOrder(body)
 
 Place an order for a pet
 
@@ -159,9 +159,9 @@ Place an order for a pet
 //import org.openapitools.client.models.*
 
 val apiInstance = StoreApi()
-val order : Order =  // Order | order placed for purchasing the pet
+val body : Order =  // Order | order placed for purchasing the pet
 try {
-    val result : Order = apiInstance.placeOrder(order)
+    val result : Order = apiInstance.placeOrder(body)
     println(result)
 } catch (e: ClientException) {
     println("4xx response calling StoreApi#placeOrder")
@@ -176,7 +176,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md)| order placed for purchasing the pet |
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet |
 
 ### Return type
 

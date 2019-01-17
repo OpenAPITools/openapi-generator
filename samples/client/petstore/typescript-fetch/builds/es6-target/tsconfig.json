@@ -3,7 +3,7 @@
     "declaration": true,
     "target": "es6",
     "module": "commonjs",
-    "noImplicitAny": true,
+    "moduleResolution": "node",
     "outDir": "dist",
     "rootDir": "."  },
   "exclude": [

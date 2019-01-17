@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="testClassname"></a>
 # **testClassname**
-> Client testClassname(client)
+> Client testClassname(body)
 
 To test class name in snake case
 
@@ -27,14 +27,14 @@ FakeClassnameTags123Api api = ApiClient.api(ApiClient.Config.apiConfig().withReq
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeClassnameTags123();
 
 api.testClassname()
-    .body(client).execute(r -> r.prettyPeek());
+    .body(body).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model |
+ **body** | [**Client**](Client.md)| client model |
 
 ### Return type
 

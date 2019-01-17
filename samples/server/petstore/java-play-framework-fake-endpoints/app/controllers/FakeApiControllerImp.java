@@ -2,6 +2,7 @@ package controllers;
 
 import java.math.BigDecimal;
 import apimodels.Client;
+import apimodels.FileSchemaTestClass;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Map;
@@ -39,6 +40,11 @@ public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     public String fakeOuterStringSerialize(String body) throws Exception {
         //Do your magic!!!
         return new String();
+    }
+
+    @Override
+    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws Exception {
+        //Do your magic!!!
     }
 
     @Override

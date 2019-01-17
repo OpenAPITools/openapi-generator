@@ -35,17 +35,17 @@ public class OuterComposite {
   @JsonProperty("my_number")
   @JacksonXmlProperty(localName = "my_number")
   @XmlElement(name = "my_number")
-  private BigDecimal myNumber = null;
+  private BigDecimal myNumber;
 
   @JsonProperty("my_string")
   @JacksonXmlProperty(localName = "my_string")
   @XmlElement(name = "my_string")
-  private String myString = null;
+  private String myString;
 
   @JsonProperty("my_boolean")
   @JacksonXmlProperty(localName = "my_boolean")
   @XmlElement(name = "my_boolean")
-  private Boolean myBoolean = null;
+  private Boolean myBoolean;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
@@ -126,7 +126,6 @@ public class OuterComposite {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class OuterComposite {\n");
-    
     sb.append("    myNumber: ").append(toIndentedString(myNumber)).append("\n");
     sb.append("    myString: ").append(toIndentedString(myString)).append("\n");
     sb.append("    myBoolean: ").append(toIndentedString(myBoolean)).append("\n");

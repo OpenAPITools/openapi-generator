@@ -97,11 +97,11 @@ public class JavaModelTest {
         Assert.assertEquals(property1.setter, "setId");
         Assert.assertEquals(property1.dataType, "Long");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertEquals(property1.defaultValue, null);
         Assert.assertEquals(property1.baseType, "Long");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertFalse(property1.isContainer);
 
         final CodegenProperty property2 = vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -111,12 +111,12 @@ public class JavaModelTest {
         Assert.assertEquals(property2.setter, "setName");
         Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
-        Assert.assertEquals(property2.defaultValue, "null");
+        Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertEquals(property2.example, "Tony");
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertFalse(property2.isContainer);
 
         final CodegenProperty property3 = vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -126,11 +126,11 @@ public class JavaModelTest {
         Assert.assertEquals(property3.setter, "setCreatedAt");
         Assert.assertEquals(property3.dataType, "Date");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, "null");
+        Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "Date");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
     }
 
     @Test(description = "convert a model with list property")
@@ -242,6 +242,31 @@ public class JavaModelTest {
         Assert.assertTrue(property.isContainer);
     }
 
+    @Test(description = "convert a model with restriced characters")
+    public void restrictedCharactersPropertiesTest() {
+        final Schema schema = new Schema()
+                .description("a sample model")
+                .addProperties("@Some:restricted%characters#to!handle+", new BooleanSchema());
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.description, "a sample model");
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "@Some:restricted%characters#to!handle+");
+        Assert.assertEquals(property.getter, "getAtSomeColonRestrictedPercentCharactersHashToExclamationHandlePlus");
+        Assert.assertEquals(property.setter, "setAtSomeColonRestrictedPercentCharactersHashToExclamationHandlePlus");
+        Assert.assertEquals(property.dataType, "Boolean");
+        Assert.assertEquals(property.name, "atSomeColonRestrictedPercentCharactersHashToExclamationHandlePlus");
+        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertEquals(property.baseType, "Boolean");
+        Assert.assertFalse(property.required);
+        Assert.assertFalse(property.isContainer);
+    }
+
     @Test(description = "convert a model with complex properties")
     public void complexPropertiesTest() {
         final Schema schema = new Schema()
@@ -261,10 +286,11 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setChildren");
         Assert.assertEquals(property.dataType, "Children");
         Assert.assertEquals(property.name, "children");
+        // "null" as default value for model
         Assert.assertEquals(property.defaultValue, "null");
         Assert.assertEquals(property.baseType, "Children");
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(property.isContainer);
     }
 
     @Test(description = "convert a model with complex list property")
@@ -322,8 +348,6 @@ public class JavaModelTest {
         Assert.assertEquals(property.containerType, "map");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
-        Assert.assertFalse(property.isNotContainer);
-
     }
 
     @Test(description = "convert a model with an array property with item name")
@@ -359,7 +383,6 @@ public class JavaModelTest {
         Assert.assertEquals(property.containerType, "array");
         Assert.assertFalse(property.required);
         Assert.assertTrue(property.isContainer);
-        Assert.assertFalse(property.isNotContainer);
 
         final CodegenProperty itemsProperty = property.items;
         Assert.assertEquals(itemsProperty.baseName,"child");
@@ -420,11 +443,11 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setNAME");
         Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "NAME");
-        Assert.assertEquals(property.defaultValue, "null");
+        Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
         Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(property.isContainer);
     }
 
     @Test(description = "convert a model with a 2nd char upper-case property names")
@@ -446,11 +469,11 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setPId");
         Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "pId");
-        Assert.assertEquals(property.defaultValue, "null");
+        Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
         Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(property.isContainer);
     }
 
     @Test(description = "convert a model starting with two upper-case letter property names")
@@ -472,11 +495,11 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setAtTName");
         Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "atTName");
-        Assert.assertEquals(property.defaultValue, "null");
+        Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
         Assert.assertFalse(property.hasMore);
         Assert.assertTrue(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(property.isContainer);
     }
 
     @Test(description = "convert hyphens per issue 503")
@@ -534,11 +557,11 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setInputBinaryData");
         Assert.assertEquals(property.dataType, "byte[]");
         Assert.assertEquals(property.name, "inputBinaryData");
-        Assert.assertEquals(property.defaultValue, "null");
+        Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "byte[]");
         Assert.assertFalse(property.hasMore);
         Assert.assertFalse(property.required);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(property.isContainer);
     }
 
     @Test(description = "translate an invalid param name")
@@ -559,10 +582,10 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setU");
         Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "u");
-        Assert.assertEquals(property.defaultValue, "null");
+        Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
         Assert.assertFalse(property.hasMore);
-        Assert.assertTrue(property.isNotContainer);
+        Assert.assertFalse(property.isContainer);
     }
 
     @Test(description = "convert a parameter")
@@ -688,12 +711,12 @@ public class JavaModelTest {
         Assert.assertEquals(property2.setter, "setName");
         Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
-        Assert.assertEquals(property2.defaultValue, "null");
+        Assert.assertEquals(property2.defaultValue, null);
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertEquals(property2.example, "Tony");
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertFalse(property2.isContainer);
         Assert.assertTrue(property2.isXmlAttribute);
         Assert.assertEquals(property2.xmlName, "myName");
         Assert.assertNull(property2.xmlNamespace);
@@ -704,11 +727,11 @@ public class JavaModelTest {
         Assert.assertEquals(property3.setter, "setCreatedAt");
         Assert.assertEquals(property3.dataType, "Date");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, "null");
+        Assert.assertEquals(property3.defaultValue, null);
         Assert.assertEquals(property3.baseType, "Date");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
         Assert.assertFalse(property3.isXmlAttribute);
         Assert.assertEquals(property3.xmlName, "myCreatedAt");
         Assert.assertEquals(property3.xmlNamespace, "myNamespace");
@@ -768,14 +791,15 @@ public class JavaModelTest {
     @Test(description = "convert a boolean parameter")
     public void booleanPropertyTest() {
         final BooleanSchema property = new BooleanSchema();
-        final DefaultCodegen codegen = new JavaClientCodegen();
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setBooleanGetterPrefix("is");
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
         Assert.assertEquals(cp.baseName, "property");
         Assert.assertEquals(cp.dataType, "Boolean");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "Boolean");
-        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isContainer);
         Assert.assertTrue(cp.isBoolean);
         Assert.assertEquals(cp.getter, "isProperty");
     }
@@ -790,7 +814,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.dataType, "Integer");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "Integer");
-        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isContainer);
         Assert.assertTrue(cp.isInteger);
         Assert.assertFalse(cp.isLong);
         Assert.assertEquals(cp.getter, "getProperty");
@@ -808,7 +832,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.dataType, "Long");
         Assert.assertEquals(cp.name, "property");
         Assert.assertEquals(cp.baseType, "Long");
-        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isContainer);
         Assert.assertTrue(cp.isLong);
         Assert.assertFalse(cp.isInteger);
         Assert.assertEquals(cp.getter, "getProperty");
@@ -885,7 +909,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.dataType, "String");
         Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.baseType, "String");
-        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isContainer);
         Assert.assertFalse(cp.isLong);
         Assert.assertFalse(cp.isInteger);
         Assert.assertTrue(cp.isString);
@@ -911,7 +935,7 @@ public class JavaModelTest {
         Assert.assertEquals(cp.dataType, "String");
         Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.baseType, "String");
-        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isContainer);
         Assert.assertFalse(cp.isLong);
         Assert.assertFalse(cp.isInteger);
         Assert.assertTrue(cp.isString);
@@ -940,14 +964,14 @@ public class JavaModelTest {
         Assert.assertEquals(cp.dataType, "String");
         Assert.assertEquals(cp.name, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.baseType, "String");
-        Assert.assertTrue(cp.isNotContainer);
+        Assert.assertFalse(cp.isContainer);
         Assert.assertFalse(cp.isLong);
         Assert.assertFalse(cp.isInteger);
-        // Assert.assertTrue(cp.isString); //TODO: issue swagger-api/swagger-codegen#8001
+        Assert.assertTrue(cp.isString);
         Assert.assertEquals(cp.getter, "getSomePropertyWithMinMaxAndPattern");
-        // Assert.assertEquals(cp.minLength, Integer.valueOf(3)); //TODO: issue swagger-api/swagger-codegen#8001
-        // Assert.assertEquals(cp.maxLength, Integer.valueOf(10)); //TODO: issue swagger-api/swagger-codegen#8001
-        // Assert.assertEquals(cp.pattern, "^[A-Z]+$"); //TODO: issue swagger-api/swagger-codegen#8001
+        Assert.assertEquals(cp.minLength, Integer.valueOf(3));
+        Assert.assertEquals(cp.maxLength, Integer.valueOf(10));
+        Assert.assertEquals(cp.pattern, "^[A-Z]+$");
     }
 
     @Test(description = "convert an array schema")

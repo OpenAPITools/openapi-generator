@@ -40,7 +40,7 @@ class Category(object):
         'name': 'name'
     }
 
-    def __init__(self, id=None, name=None):  # noqa: E501
+    def __init__(self, id=None, name='default-name'):  # noqa: E501
         """Category - a model defined in OpenAPI"""  # noqa: E501
 
         self._id = None
@@ -49,8 +49,7 @@ class Category(object):
 
         if id is not None:
             self.id = id
-        if name is not None:
-            self.name = name
+        self.name = name
 
     @property
     def id(self):
@@ -91,6 +90,8 @@ class Category(object):
         :param name: The name of this Category.  # noqa: E501
         :type: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 

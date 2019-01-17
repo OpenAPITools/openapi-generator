@@ -35,6 +35,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     protected String mainPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
@@ -63,7 +65,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         outputFolder = "generated-code/scala-akka";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
-        embeddedTemplateDir = templateDir = "akka-scala";
+        embeddedTemplateDir = templateDir = "scala-akka-client";
         apiPackage = mainPackage + ".api";
         modelPackage = mainPackage + ".model";
         invokerPackage = mainPackage + ".core";
@@ -175,7 +177,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         if (registerNonStandardStatusCodes) {
             try {
                 @SuppressWarnings("unchecked")
@@ -203,7 +205,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
                 LOGGER.error("Unable to find operations List", e);
             }
         }
-        return super.postProcessOperations(objs);
+        return super.postProcessOperationsWithModels(objs, allModels);
     }
 
     @Override
@@ -276,7 +278,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         } else if (ModelUtils.isIntegerSchema(p)) {
             return null;
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema) p.getAdditionalProperties());
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "Map[String, " + inner + "].empty ";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

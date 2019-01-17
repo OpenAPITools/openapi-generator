@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
@@ -27,11 +31,6 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,12 +39,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
-
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
@@ -159,11 +158,13 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.SOURCECODEONLY_GENERATION, CodegenConstants.SOURCECODEONLY_GENERATION_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "Asyncio-based client (python 3.5+)");
         supportedLibraries.put("tornado", "tornado-based client");
-        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use: asyncio, tornado, urllib3");
         libraryOption.setDefault(DEFAULT_LIBRARY);
         cliOptions.add(libraryOption);
         setLibrary(DEFAULT_LIBRARY);
@@ -172,6 +173,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
         Boolean excludeTests = false;
 
         if (additionalProperties.containsKey(CodegenConstants.EXCLUDE_TESTS)) {
@@ -198,10 +205,22 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             setPackageVersion("1.0.0");
         }
 
+        Boolean generateSourceCodeOnly = false;
+        if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
+            generateSourceCodeOnly = true;
+        }
+
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
+        if (generateSourceCodeOnly) {
+            // tests in <package>/test
+            testFolder = packageName + File.separatorChar + testFolder;
+            // api/model docs in <package>/docs
+            apiDocPath = packageName + File.separatorChar + apiDocPath;
+            modelDocPath = packageName + File.separatorChar + modelDocPath;
+        }
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -210,12 +229,24 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             setPackageUrl((String) additionalProperties.get(PACKAGE_URL));
         }
 
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        String readmePath = "README.md";
+        String readmeTemplate = "README.mustache";
+        if (generateSourceCodeOnly) {
+            readmePath = packageName + "_" + readmePath;
+            readmeTemplate = "README_onlypackage.mustache";
+        }
+        supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
 
-        supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
-        supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
-        supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
+        if (!generateSourceCodeOnly) {
+            supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
+            supportingFiles.add(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
+            supportingFiles.add(new SupportingFile("requirements.mustache", "", "requirements.txt"));
 
+            supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+            supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+            supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+            supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
+        }
         supportingFiles.add(new SupportingFile("configuration.mustache", packageName, "configuration.py"));
         supportingFiles.add(new SupportingFile("__init__package.mustache", packageName, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", packageName + File.separatorChar + modelPackage, "__init__.py"));
@@ -224,10 +255,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
         }
-        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
-        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
+
         supportingFiles.add(new SupportingFile("api_client.mustache", packageName, "api_client.py"));
 
         if ("asyncio".equals(getLibrary())) {
@@ -353,6 +381,19 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return toApiName(name);
     }
 
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        if (StringUtils.isEmpty(pattern)) {
+            return pattern;
+        }
+
+        if (!pattern.matches("^/.*")) {
+            // Perform a negative lookbehind on each `/` to ensure that it is escaped.
+            return "/" + pattern.replaceAll("(?<!\\\\)\\/", "\\\\/") + "/";
+        }
+
+        return pattern;
+    }
 
     @Override
     public String apiFileFolder() {
@@ -381,7 +422,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
 
             return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
         }
@@ -413,7 +454,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
-            name = name.toLowerCase();
+            name = name.toLowerCase(Locale.ROOT);
         }
 
         // underscore the variable name
@@ -529,6 +570,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             operationId = "call_" + operationId;
         }
 
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
         return underscore(sanitizeName(operationId));
     }
 
@@ -572,7 +619,15 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                if (p.getDefault().toString().equalsIgnoreCase("false"))
+                if (Boolean.valueOf(p.getDefault().toString()) == false)
+                    return "False";
+                else
+                    return "True";
+            }
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                if (Boolean.valueOf(p.getExample().toString()) == false)
                     return "False";
                 else
                     return "True";
@@ -585,9 +640,23 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
+            // default numbers are not yet returned by v2 spec openAPI results
+            // https://github.com/swagger-api/swagger-parser/issues/971
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                return p.getExample().toString();
+            }
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
+            }
+            // default integers are not yet returned by v2 spec openAPI results
+            // https://github.com/swagger-api/swagger-parser/issues/971
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                return p.getExample().toString();
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
@@ -596,9 +665,31 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 else
                     return "'" + p.getDefault() + "'";
             }
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getExample()).find())
+                    return "'''" + p.getExample() + "'''";
+                else
+                    return "'" + p.getExample() + "'";
+            }
+        } else if (ModelUtils.isArraySchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                return p.getExample().toString();
+            }
         }
 
         return null;
+    }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        return addRegularExpressionDelimiter(pattern);
     }
 
     @Override
@@ -684,4 +775,30 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return input.replace("'''", "'_'_'");
     }
 
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+        String pythonPostProcessFile = System.getenv("PYTHON_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(pythonPostProcessFile)) {
+            return; // skip if PYTHON_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with py extension
+        if ("py".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = pythonPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
+    }
 }

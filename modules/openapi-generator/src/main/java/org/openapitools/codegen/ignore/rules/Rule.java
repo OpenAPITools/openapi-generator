@@ -183,7 +183,6 @@ public abstract class Rule {
 
             }
         } catch (ParserException e) {
-            e.printStackTrace();
             return new InvalidRule(null, definition, e.getMessage());
         }
 

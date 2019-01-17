@@ -10,17 +10,13 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
-use std::borrow::Cow;
-use std::collections::HashMap;
 
 use hyper;
 use serde_json;
-use futures;
-use futures::{Future, Stream};
-
-use hyper::header::UserAgent;
+use futures::Future;
 
 use super::{Error, configuration};
+use super::request as __internal_request;
 
 pub struct UserApiClient<C: hyper::client::Connect> {
     configuration: Rc<configuration::Configuration<C>>,
@@ -48,403 +44,58 @@ pub trait UserApi {
 
 impl<C: hyper::client::Connect>UserApi for UserApiClient<C> {
     fn create_user(&self, user: ::models::User) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            query.finish()
-        };
-        let uri_str = format!("{}/user?{}", configuration.base_path, query_string);
-
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut uri: hyper::Uri = uri_str.parse().unwrap();
-
-        let mut req = hyper::Request::new(method, uri);
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
-        }
-
-
-
-        let serialized = serde_json::to_string(&user).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut().set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-        configuration.client.request(req)
-            .map_err(|e| Error::from(e))
-            .and_then(|resp| {
-                let status = resp.status();
-                resp.body().concat2()
-                    .and_then(move |body| Ok((status, body)))
-                    .map_err(|e| Error::from(e))
-            })
-            .and_then(|(status, body)| {
-                if status.is_success() {
-                    Ok(body)
-                } else {
-                    Err(Error::from((status, &*body)))
-                }
-            })
-            .and_then(|_| futures::future::ok(()))
-        )
+        __internal_request::Request::new(hyper::Method::Post, "/user".to_string())
+            .with_body_param(user)
+            .returns_nothing()
+            .execute(self.configuration.borrow())
     }
 
     fn create_users_with_array_input(&self, user: Vec<::models::User>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            query.finish()
-        };
-        let uri_str = format!("{}/user/createWithArray?{}", configuration.base_path, query_string);
-
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut uri: hyper::Uri = uri_str.parse().unwrap();
-
-        let mut req = hyper::Request::new(method, uri);
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
-        }
-
-
-
-        let serialized = serde_json::to_string(&user).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut().set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-        configuration.client.request(req)
-            .map_err(|e| Error::from(e))
-            .and_then(|resp| {
-                let status = resp.status();
-                resp.body().concat2()
-                    .and_then(move |body| Ok((status, body)))
-                    .map_err(|e| Error::from(e))
-            })
-            .and_then(|(status, body)| {
-                if status.is_success() {
-                    Ok(body)
-                } else {
-                    Err(Error::from((status, &*body)))
-                }
-            })
-            .and_then(|_| futures::future::ok(()))
-        )
+        __internal_request::Request::new(hyper::Method::Post, "/user/createWithArray".to_string())
+            .with_body_param(user)
+            .returns_nothing()
+            .execute(self.configuration.borrow())
     }
 
     fn create_users_with_list_input(&self, user: Vec<::models::User>) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Post;
-
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            query.finish()
-        };
-        let uri_str = format!("{}/user/createWithList?{}", configuration.base_path, query_string);
-
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut uri: hyper::Uri = uri_str.parse().unwrap();
-
-        let mut req = hyper::Request::new(method, uri);
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
-        }
-
-
-
-        let serialized = serde_json::to_string(&user).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut().set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-        configuration.client.request(req)
-            .map_err(|e| Error::from(e))
-            .and_then(|resp| {
-                let status = resp.status();
-                resp.body().concat2()
-                    .and_then(move |body| Ok((status, body)))
-                    .map_err(|e| Error::from(e))
-            })
-            .and_then(|(status, body)| {
-                if status.is_success() {
-                    Ok(body)
-                } else {
-                    Err(Error::from((status, &*body)))
-                }
-            })
-            .and_then(|_| futures::future::ok(()))
-        )
+        __internal_request::Request::new(hyper::Method::Post, "/user/createWithList".to_string())
+            .with_body_param(user)
+            .returns_nothing()
+            .execute(self.configuration.borrow())
     }
 
     fn delete_user(&self, username: &str) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Delete;
-
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            query.finish()
-        };
-        let uri_str = format!("{}/user/{username}?{}", configuration.base_path, query_string, username=username);
-
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut uri: hyper::Uri = uri_str.parse().unwrap();
-
-        let mut req = hyper::Request::new(method, uri);
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
-        }
-
-
-
-
-        // send request
-        Box::new(
-        configuration.client.request(req)
-            .map_err(|e| Error::from(e))
-            .and_then(|resp| {
-                let status = resp.status();
-                resp.body().concat2()
-                    .and_then(move |body| Ok((status, body)))
-                    .map_err(|e| Error::from(e))
-            })
-            .and_then(|(status, body)| {
-                if status.is_success() {
-                    Ok(body)
-                } else {
-                    Err(Error::from((status, &*body)))
-                }
-            })
-            .and_then(|_| futures::future::ok(()))
-        )
+        __internal_request::Request::new(hyper::Method::Delete, "/user/{username}".to_string())
+            .with_path_param("username".to_string(), username.to_string())
+            .returns_nothing()
+            .execute(self.configuration.borrow())
     }
 
     fn get_user_by_name(&self, username: &str) -> Box<Future<Item = ::models::User, Error = Error<serde_json::Value>>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            query.finish()
-        };
-        let uri_str = format!("{}/user/{username}?{}", configuration.base_path, query_string, username=username);
-
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut uri: hyper::Uri = uri_str.parse().unwrap();
-
-        let mut req = hyper::Request::new(method, uri);
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
-        }
-
-
-
-
-        // send request
-        Box::new(
-        configuration.client.request(req)
-            .map_err(|e| Error::from(e))
-            .and_then(|resp| {
-                let status = resp.status();
-                resp.body().concat2()
-                    .and_then(move |body| Ok((status, body)))
-                    .map_err(|e| Error::from(e))
-            })
-            .and_then(|(status, body)| {
-                if status.is_success() {
-                    Ok(body)
-                } else {
-                    Err(Error::from((status, &*body)))
-                }
-            })
-            .and_then(|body| {
-                let parsed: Result<::models::User, _> = serde_json::from_slice(&body);
-                parsed.map_err(|e| Error::from(e))
-            })
-        )
+        __internal_request::Request::new(hyper::Method::Get, "/user/{username}".to_string())
+            .with_path_param("username".to_string(), username.to_string())
+            .execute(self.configuration.borrow())
     }
 
     fn login_user(&self, username: &str, password: &str) -> Box<Future<Item = String, Error = Error<serde_json::Value>>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            query.append_pair("username", &username.to_string());
-            query.append_pair("password", &password.to_string());
-            query.finish()
-        };
-        let uri_str = format!("{}/user/login?{}", configuration.base_path, query_string);
-
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut uri: hyper::Uri = uri_str.parse().unwrap();
-
-        let mut req = hyper::Request::new(method, uri);
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
-        }
-
-
-
-
-        // send request
-        Box::new(
-        configuration.client.request(req)
-            .map_err(|e| Error::from(e))
-            .and_then(|resp| {
-                let status = resp.status();
-                resp.body().concat2()
-                    .and_then(move |body| Ok((status, body)))
-                    .map_err(|e| Error::from(e))
-            })
-            .and_then(|(status, body)| {
-                if status.is_success() {
-                    Ok(body)
-                } else {
-                    Err(Error::from((status, &*body)))
-                }
-            })
-            .and_then(|body| {
-                let parsed: Result<String, _> = serde_json::from_slice(&body);
-                parsed.map_err(|e| Error::from(e))
-            })
-        )
+        __internal_request::Request::new(hyper::Method::Get, "/user/login".to_string())
+            .with_query_param("username".to_string(), username.to_string())
+            .with_query_param("password".to_string(), password.to_string())
+            .execute(self.configuration.borrow())
     }
 
     fn logout_user(&self, ) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Get;
-
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            query.finish()
-        };
-        let uri_str = format!("{}/user/logout?{}", configuration.base_path, query_string);
-
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut uri: hyper::Uri = uri_str.parse().unwrap();
-
-        let mut req = hyper::Request::new(method, uri);
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
-        }
-
-
-
-
-        // send request
-        Box::new(
-        configuration.client.request(req)
-            .map_err(|e| Error::from(e))
-            .and_then(|resp| {
-                let status = resp.status();
-                resp.body().concat2()
-                    .and_then(move |body| Ok((status, body)))
-                    .map_err(|e| Error::from(e))
-            })
-            .and_then(|(status, body)| {
-                if status.is_success() {
-                    Ok(body)
-                } else {
-                    Err(Error::from((status, &*body)))
-                }
-            })
-            .and_then(|_| futures::future::ok(()))
-        )
+        __internal_request::Request::new(hyper::Method::Get, "/user/logout".to_string())
+            .returns_nothing()
+            .execute(self.configuration.borrow())
     }
 
     fn update_user(&self, username: &str, user: ::models::User) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
-        let configuration: &configuration::Configuration<C> = self.configuration.borrow();
-
-        let method = hyper::Method::Put;
-
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-            query.finish()
-        };
-        let uri_str = format!("{}/user/{username}?{}", configuration.base_path, query_string, username=username);
-
-        // TODO(farcaller): handle error
-        // if let Err(e) = uri {
-        //     return Box::new(futures::future::err(e));
-        // }
-        let mut uri: hyper::Uri = uri_str.parse().unwrap();
-
-        let mut req = hyper::Request::new(method, uri);
-
-        if let Some(ref user_agent) = configuration.user_agent {
-            req.headers_mut().set(UserAgent::new(Cow::Owned(user_agent.clone())));
-        }
-
-
-
-        let serialized = serde_json::to_string(&user).unwrap();
-        req.headers_mut().set(hyper::header::ContentType::json());
-        req.headers_mut().set(hyper::header::ContentLength(serialized.len() as u64));
-        req.set_body(serialized);
-
-        // send request
-        Box::new(
-        configuration.client.request(req)
-            .map_err(|e| Error::from(e))
-            .and_then(|resp| {
-                let status = resp.status();
-                resp.body().concat2()
-                    .and_then(move |body| Ok((status, body)))
-                    .map_err(|e| Error::from(e))
-            })
-            .and_then(|(status, body)| {
-                if status.is_success() {
-                    Ok(body)
-                } else {
-                    Err(Error::from((status, &*body)))
-                }
-            })
-            .and_then(|_| futures::future::ok(()))
-        )
+        __internal_request::Request::new(hyper::Method::Put, "/user/{username}".to_string())
+            .with_path_param("username".to_string(), username.to_string())
+            .with_body_param(user)
+            .returns_nothing()
+            .execute(self.configuration.borrow())
     }
 
 }

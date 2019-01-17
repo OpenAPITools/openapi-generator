@@ -556,7 +556,7 @@ paths:
       tags:
         - "fake_classname_tags 123#$%^"
       summary: To test class name in snake case
-      descriptions: To test class name in snake case
+      description: To test class name in snake case
       operationId: testClassname
       consumes:
         - application/json

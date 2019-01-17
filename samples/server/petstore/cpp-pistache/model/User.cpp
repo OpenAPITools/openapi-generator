@@ -89,7 +89,7 @@ nlohmann::json User::toJson() const
     return val;
 }
 
-void User::fromJson(nlohmann::json& val)
+void User::fromJson(const nlohmann::json& val)
 {
     if(val.find("id") != val.end())
     {
@@ -98,32 +98,26 @@ void User::fromJson(nlohmann::json& val)
     if(val.find("username") != val.end())
     {
         setUsername(val.at("username"));
-        
     }
     if(val.find("firstName") != val.end())
     {
         setFirstName(val.at("firstName"));
-        
     }
     if(val.find("lastName") != val.end())
     {
         setLastName(val.at("lastName"));
-        
     }
     if(val.find("email") != val.end())
     {
         setEmail(val.at("email"));
-        
     }
     if(val.find("password") != val.end())
     {
         setPassword(val.at("password"));
-        
     }
     if(val.find("phone") != val.end())
     {
         setPhone(val.at("phone"));
-        
     }
     if(val.find("userStatus") != val.end())
     {
@@ -137,7 +131,7 @@ int64_t User::getId() const
 {
     return m_Id;
 }
-void User::setId(int64_t value)
+void User::setId(int64_t const value)
 {
     m_Id = value;
     m_IdIsSet = true;
@@ -154,7 +148,7 @@ std::string User::getUsername() const
 {
     return m_Username;
 }
-void User::setUsername(std::string value)
+void User::setUsername(std::string const& value)
 {
     m_Username = value;
     m_UsernameIsSet = true;
@@ -171,7 +165,7 @@ std::string User::getFirstName() const
 {
     return m_FirstName;
 }
-void User::setFirstName(std::string value)
+void User::setFirstName(std::string const& value)
 {
     m_FirstName = value;
     m_FirstNameIsSet = true;
@@ -188,7 +182,7 @@ std::string User::getLastName() const
 {
     return m_LastName;
 }
-void User::setLastName(std::string value)
+void User::setLastName(std::string const& value)
 {
     m_LastName = value;
     m_LastNameIsSet = true;
@@ -205,7 +199,7 @@ std::string User::getEmail() const
 {
     return m_Email;
 }
-void User::setEmail(std::string value)
+void User::setEmail(std::string const& value)
 {
     m_Email = value;
     m_EmailIsSet = true;
@@ -222,7 +216,7 @@ std::string User::getPassword() const
 {
     return m_Password;
 }
-void User::setPassword(std::string value)
+void User::setPassword(std::string const& value)
 {
     m_Password = value;
     m_PasswordIsSet = true;
@@ -239,7 +233,7 @@ std::string User::getPhone() const
 {
     return m_Phone;
 }
-void User::setPhone(std::string value)
+void User::setPhone(std::string const& value)
 {
     m_Phone = value;
     m_PhoneIsSet = true;
@@ -256,7 +250,7 @@ int32_t User::getUserStatus() const
 {
     return m_UserStatus;
 }
-void User::setUserStatus(int32_t value)
+void User::setUserStatus(int32_t const value)
 {
     m_UserStatus = value;
     m_UserStatusIsSet = true;

@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
@@ -28,6 +27,7 @@ import org.openapitools.codegen.SupportingFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Locale;
 
 public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfig {
 
@@ -76,7 +76,7 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
             // e.g. petstore.api (package name) => petstore_api (project name)
             projectName = packageName.replaceAll("\\.", "_");
         }
-        String configBaseName = modelPackage.toLowerCase();
+        String configBaseName = modelPackage.toLowerCase(Locale.ROOT);
         supportingFiles.add(new SupportingFile("gnat-project.mustache", "", toFilename(projectName) + ".gpr"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("config.gpr", "", "config.gpr"));
@@ -123,11 +123,11 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/model/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + "model" + File.separator + modelPackage().replace('.', File.separatorChar);
     }
 }

@@ -14,7 +14,9 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
+import org.openapitools.model.FileSchemaTestClass;
 import java.util.Map;
+import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 
@@ -51,6 +53,12 @@ public class FakeController  {
   */
 
   /*
+    public ResponseContext testBodyWithFileSchema(RequestContext request , FileSchemaTestClass fileSchemaTestClass) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
     public ResponseContext testBodyWithQueryParams(RequestContext request , String query, User user) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
@@ -82,6 +90,12 @@ public class FakeController  {
 
   /*
     public ResponseContext testJsonFormData(RequestContext request , String param, String param2) {
+        return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
+    }
+  */
+
+  /*
+    public ResponseContext uploadFileWithRequiredFile(RequestContext request , Long petId, FormDataContentDisposition fileDetail, String additionalMetadata) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */

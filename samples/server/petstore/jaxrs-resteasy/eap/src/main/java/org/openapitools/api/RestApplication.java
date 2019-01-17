@@ -10,7 +10,7 @@ import org.openapitools.api.impl.PetApiServiceImpl;
 import org.openapitools.api.impl.StoreApiServiceImpl;
 import org.openapitools.api.impl.UserApiServiceImpl;
 
-@ApplicationPath("/")
+@ApplicationPath("/v2")
 public class RestApplication extends Application {
 
 

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+SCRIPT="$0"
+
+if [[ "$1" != "" ]]; then
+    NAME="$1"
+    echo "# START SCRIPT: ${SCRIPT} ${NAME}"
+else
+    echo "Missing argument to ${SCRIPT}."
+    echo "    Usage: ${SCRIPT} generator-name"
+    echo "    Example: ${SCRIPT} groovy"
+    exit 1;
+fi
+
+executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
+
+java -jar ${executable} config-help -g ${NAME} --named-header -o docs/generators/${NAME}.md
+
+echo "Back to the [generators list](README.md)" >> docs/generators/${NAME}.md

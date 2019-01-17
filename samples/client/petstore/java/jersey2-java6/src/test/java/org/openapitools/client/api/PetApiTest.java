@@ -167,4 +167,22 @@ public class PetApiTest {
         // TODO: test validations
     }
     
+    /**
+     * uploads an image (required)
+     *
+     * 
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void uploadFileWithRequiredFileTest() throws ApiException {
+        Long petId = null;
+        File requiredFile = null;
+        String additionalMetadata = null;
+        ModelApiResponse response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+
+        // TODO: test validations
+    }
+    
 }

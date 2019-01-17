@@ -17,25 +17,20 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.*;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.mustache.*;
-
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.parameters.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Locale;
 
-import org.apache.commons.lang3.StringUtils;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(FlashClientCodegen.class);
@@ -136,7 +131,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         //modelPackage = invokerPackage + File.separatorChar + "client" + File.separatorChar + "model";
         //apiPackage = invokerPackage + File.separatorChar + "client" + File.separatorChar + "api";
 
-        final String invokerFolder = (sourceFolder + File.separator + "src/" + invokerPackage + File.separator).replace(".", File.separator).replace('.', File.separatorChar);
+        final String invokerFolder = (sourceFolder + File.separator + "src" + File.separator + invokerPackage + File.separator).replace(".", File.separator).replace('.', File.separatorChar);
 
         supportingFiles.add(new SupportingFile("ApiInvoker.as", invokerFolder + "common", "ApiInvoker.as"));
         supportingFiles.add(new SupportingFile("ApiUrlHelper.as", invokerFolder + "common", "ApiUrlHelper.as"));
@@ -198,13 +193,13 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String apiFileFolder() {
-        return (outputFolder + File.separatorChar + sourceFolder + File.separatorChar + "src/"
+        return outputFolder + File.separatorChar + sourceFolder + File.separatorChar + ("src/"
                 + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return (outputFolder + File.separatorChar + sourceFolder + File.separatorChar + "src/"
+        return outputFolder + File.separatorChar + sourceFolder + File.separatorChar + ("src/"
                 + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
     }
 
@@ -267,7 +262,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         // if it's all uppper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
-            name = name.toLowerCase();
+            name = name.toLowerCase(Locale.ROOT);
         }
 
         // underscore the variable name

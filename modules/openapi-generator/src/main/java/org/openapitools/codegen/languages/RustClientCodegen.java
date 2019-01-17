@@ -17,24 +17,29 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import org.apache.commons.lang3.StringUtils;
+import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
+
+    public static final String HYPER_LIBRARY = "hyper";
+    public static final String REQWEST_LIBRARY = "reqwest";
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -59,7 +64,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         super();
         outputFolder = "generated-code/rust";
         modelTemplateFiles.put("model.mustache", ".rs");
-        apiTemplateFiles.put("api.mustache", ".rs");
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -132,6 +136,15 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
 
+        supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
+        supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
+
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
+        libraryOption.setEnum(supportedLibraries);
+        // set hyper as the default
+        libraryOption.setDefault(HYPER_LIBRARY);
+        cliOptions.add(libraryOption);
+        setLibrary(HYPER_LIBRARY);
     }
 
     @Override
@@ -156,20 +169,34 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
+        if ( HYPER_LIBRARY.equals(getLibrary())){
+            additionalProperties.put(HYPER_LIBRARY, "true");
+        } else if (REQWEST_LIBRARY.equals(getLibrary())) {
+            additionalProperties.put(REQWEST_LIBRARY, "true");
+        } else {
+            LOGGER.error("Unknown library option (-l/--library): {}", getLibrary());
+        }
+
+        apiTemplateFiles.put(getLibrary() + "/api.mustache", ".rs");
+
         modelPackage = packageName;
         apiPackage = packageName;
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
-        supportingFiles.add(new SupportingFile("configuration.mustache", apiFolder, "configuration.rs"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
-
-        supportingFiles.add(new SupportingFile("client.mustache", apiFolder, "client.rs"));
-        supportingFiles.add(new SupportingFile("api_mod.mustache", apiFolder, "mod.rs"));
         supportingFiles.add(new SupportingFile("model_mod.mustache", modelFolder, "mod.rs"));
-        supportingFiles.add(new SupportingFile("lib.rs", "src", "lib.rs"));
+        supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
+
+        if (HYPER_LIBRARY.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
+        }
+
+        supportingFiles.add(new SupportingFile(getLibrary() + "/configuration.mustache", apiFolder, "configuration.rs"));
+        supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
+        supportingFiles.add(new SupportingFile(getLibrary() + "/api_mod.mustache", apiFolder, "mod.rs"));
     }
 
     @Override
@@ -226,11 +253,12 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelFilename(String name) {
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
+
+        if (!Strings.isNullOrEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
 
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
+        if (!Strings.isNullOrEmpty(modelNameSuffix)) {
             name = name + "_" + modelNameSuffix;
         }
 
@@ -285,9 +313,17 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
+            if (inner == null) {
+                LOGGER.warn(ap.getName() + "(array property) does not have a proper inner type defined.Default to string");
+                inner = new StringSchema().description("TODO default missing array inner type to string");
+            }
             return "Vec<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
+            if (inner == null) {
+                LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
+                inner = new StringSchema().description("TODO default missing map inner type to string");
+            }
             return "::std::collections::HashMap<String, " + getTypeDeclaration(inner) + ">";
         }
 
@@ -330,22 +366,28 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + StringUtils.underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return underscore(sanitizedOperationId);
+        return StringUtils.underscore(sanitizedOperationId);
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         @SuppressWarnings("unchecked")
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+        Set<String> headerKeys = new HashSet<>();
         for (CodegenOperation operation : operations) {
-            // http method verb conversion (e.g. PUT => Put)
-            operation.httpMethod = camelize(operation.httpMethod.toLowerCase());
+            // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
+            if (HYPER_LIBRARY.equals(getLibrary())) {
+                operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
+            } else if (REQWEST_LIBRARY.equals(getLibrary())) {
+                operation.httpMethod = operation.httpMethod.toLowerCase(Locale.ROOT);
+            }
+
             // update return type to conform to rust standard
             /*
             if (operation.returnType != null) {
@@ -396,6 +438,9 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 }
             }*/
         }
+
+        additionalProperties.put("headerKeys", headerKeys);
+        additionalProperties.putIfAbsent("authHeaderKey", "api-key");
 
         return objs;
     }
@@ -457,11 +502,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return getSymbolName(name).toUpperCase();
+            return getSymbolName(name).toUpperCase(Locale.ROOT);
         }
 
         // string
-        String enumName = sanitizeName(underscore(name).toUpperCase());
+        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -474,7 +519,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = underscore(toModelName(property.name)).toUpperCase();
+        String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");

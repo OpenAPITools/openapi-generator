@@ -698,12 +698,12 @@ public class ApiClient {
       Map<String, List<String>> responseHeaders = buildResponseHeaders(response);
 
       if (response.getStatus() == Status.NO_CONTENT.getStatusCode()) {
-        return new ApiResponse<>(statusCode, responseHeaders);
+        return new ApiResponse<T>(statusCode, responseHeaders);
       } else if (response.getStatusInfo().getFamily() == Status.Family.SUCCESSFUL) {
         if (returnType == null)
-          return new ApiResponse<>(statusCode, responseHeaders);
+          return new ApiResponse<T>(statusCode, responseHeaders);
         else
-          return new ApiResponse<>(statusCode, responseHeaders, deserialize(response, returnType));
+          return new ApiResponse<T>(statusCode, responseHeaders, deserialize(response, returnType));
       } else {
         String message = "error";
         String respBody = null;

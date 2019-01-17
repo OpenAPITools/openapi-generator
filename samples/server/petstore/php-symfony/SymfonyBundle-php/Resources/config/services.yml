@@ -14,10 +14,10 @@ services:
         class: OpenAPI\Server\Model\ModelSerializer
 
     open_apiserver.service.serializer:
-        class: %open_apiserver.serializer%
+        class: '%open_apiserver.serializer%'
 
     open_apiserver.service.validator:
-        class: %open_apiserver.validator%
+        class: '%open_apiserver.validator%'
 
     open_apiserver.controller.pet:
         class: OpenAPI\Server\Controller\PetController

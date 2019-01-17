@@ -44,7 +44,7 @@ public:
     void validate() override;
 
     nlohmann::json toJson() const override;
-    void fromJson(nlohmann::json& json) override;
+    void fromJson(const nlohmann::json& json) override;
 
     /////////////////////////////////////////////
     /// ApiResponse members
@@ -53,21 +53,21 @@ public:
     /// 
     /// </summary>
     int32_t getCode() const;
-    void setCode(int32_t value);
+    void setCode(int32_t const value);
     bool codeIsSet() const;
     void unsetCode();
     /// <summary>
     /// 
     /// </summary>
     std::string getType() const;
-    void setType(std::string value);
+    void setType(std::string const& value);
     bool typeIsSet() const;
     void unsetType();
     /// <summary>
     /// 
     /// </summary>
     std::string getMessage() const;
-    void setMessage(std::string value);
+    void setMessage(std::string const& value);
     bool messageIsSet() const;
     void unsetMessage();
 

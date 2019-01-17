@@ -29,7 +29,7 @@ public class PetApiServiceImpl implements PetApi {
      * Add a new pet to the store
      *
      */
-    public void addPet(Pet pet) {
+    public void addPet(Pet body) {
         // TODO: Implement...
         
         
@@ -85,7 +85,7 @@ public class PetApiServiceImpl implements PetApi {
      * Update an existing pet
      *
      */
-    public void updatePet(Pet pet) {
+    public void updatePet(Pet body) {
         // TODO: Implement...
         
         
@@ -106,6 +106,16 @@ public class PetApiServiceImpl implements PetApi {
      *
      */
     public ModelApiResponse uploadFile(Long petId, String additionalMetadata,  Attachment fileDetail) {
+        // TODO: Implement...
+        
+        return null;
+    }
+    
+    /**
+     * uploads an image (required)
+     *
+     */
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId,  Attachment requiredFileDetail, String additionalMetadata) {
         // TODO: Implement...
         
         return null;

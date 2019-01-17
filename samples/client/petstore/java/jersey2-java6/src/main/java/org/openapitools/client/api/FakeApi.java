@@ -11,6 +11,7 @@ import javax.ws.rs.core.GenericType;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -91,23 +92,23 @@ public class FakeApi {
   /**
    * 
    * Test serialization of object with outer number type
-   * @param outerComposite Input composite as post body (optional)
+   * @param body Input composite as post body (optional)
    * @return OuterComposite
    * @throws ApiException if fails to make API call
    */
-  public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws ApiException {
-    return fakeOuterCompositeSerializeWithHttpInfo(outerComposite).getData();
+  public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws ApiException {
+    return fakeOuterCompositeSerializeWithHttpInfo(body).getData();
       }
 
   /**
    * 
    * Test serialization of object with outer number type
-   * @param outerComposite Input composite as post body (optional)
+   * @param body Input composite as post body (optional)
    * @return ApiResponse&lt;OuterComposite&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite) throws ApiException {
-    Object localVarPostBody = outerComposite;
+  public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite body) throws ApiException {
+    Object localVarPostBody = body;
     
     // create path and map variables
     String localVarPath = "/fake/outer/composite";
@@ -231,34 +232,85 @@ public class FakeApi {
       }
   /**
    * 
-   * 
-   * @param query  (required)
-   * @param user  (required)
+   * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+   * @param body  (required)
    * @throws ApiException if fails to make API call
    */
-  public void testBodyWithQueryParams(String query, User user) throws ApiException {
+  public void testBodyWithFileSchema(FileSchemaTestClass body) throws ApiException {
 
-    testBodyWithQueryParamsWithHttpInfo(query, user);
+    testBodyWithFileSchemaWithHttpInfo(body);
+  }
+
+  /**
+   * 
+   * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+   * @param body  (required)
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass body) throws ApiException {
+    Object localVarPostBody = body;
+    
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithFileSchema");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake/body-with-file-schema";
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+    
+    
+    final String[] localVarAccepts = {
+      
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+
+    return apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+  }
+  /**
+   * 
+   * 
+   * @param query  (required)
+   * @param body  (required)
+   * @throws ApiException if fails to make API call
+   */
+  public void testBodyWithQueryParams(String query, User body) throws ApiException {
+
+    testBodyWithQueryParamsWithHttpInfo(query, body);
   }
 
   /**
    * 
    * 
    * @param query  (required)
-   * @param user  (required)
+   * @param body  (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(String query, User user) throws ApiException {
-    Object localVarPostBody = user;
+  public ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(String query, User body) throws ApiException {
+    Object localVarPostBody = body;
     
     // verify the required parameter 'query' is set
     if (query == null) {
       throw new ApiException(400, "Missing the required parameter 'query' when calling testBodyWithQueryParams");
     }
     
-    // verify the required parameter 'user' is set
-    if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling testBodyWithQueryParams");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithQueryParams");
     }
     
     // create path and map variables
@@ -291,27 +343,27 @@ public class FakeApi {
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
-   * @param client client model (required)
+   * @param body client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client testClientModel(Client client) throws ApiException {
-    return testClientModelWithHttpInfo(client).getData();
+  public Client testClientModel(Client body) throws ApiException {
+    return testClientModelWithHttpInfo(body).getData();
       }
 
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
-   * @param client client model (required)
+   * @param body client model (required)
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Client> testClientModelWithHttpInfo(Client client) throws ApiException {
-    Object localVarPostBody = client;
+  public ApiResponse<Client> testClientModelWithHttpInfo(Client body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'client' is set
-    if (client == null) {
-      throw new ApiException(400, "Missing the required parameter 'client' when calling testClientModel");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling testClientModel");
     }
     
     // create path and map variables
@@ -347,16 +399,16 @@ public class FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional, default to null)
-   * @param int32 None (optional, default to null)
-   * @param int64 None (optional, default to null)
-   * @param _float None (optional, default to null)
-   * @param string None (optional, default to null)
-   * @param binary None (optional, default to null)
-   * @param date None (optional, default to null)
-   * @param dateTime None (optional, default to null)
-   * @param password None (optional, default to null)
-   * @param paramCallback None (optional, default to null)
+   * @param integer None (optional)
+   * @param int32 None (optional)
+   * @param int64 None (optional)
+   * @param _float None (optional)
+   * @param string None (optional)
+   * @param binary None (optional)
+   * @param date None (optional)
+   * @param dateTime None (optional)
+   * @param password None (optional)
+   * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
    */
   public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
@@ -371,16 +423,16 @@ public class FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional, default to null)
-   * @param int32 None (optional, default to null)
-   * @param int64 None (optional, default to null)
-   * @param _float None (optional, default to null)
-   * @param string None (optional, default to null)
-   * @param binary None (optional, default to null)
-   * @param date None (optional, default to null)
-   * @param dateTime None (optional, default to null)
-   * @param password None (optional, default to null)
-   * @param paramCallback None (optional, default to null)
+   * @param integer None (optional)
+   * @param int32 None (optional)
+   * @param int64 None (optional)
+   * @param _float None (optional)
+   * @param string None (optional)
+   * @param binary None (optional)
+   * @param date None (optional)
+   * @param dateTime None (optional)
+   * @param password None (optional)
+   * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
@@ -463,9 +515,9 @@ if (paramCallback != null)
   /**
    * To test enum parameters
    * To test enum parameters
-   * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-   * @param enumQueryStringArray Query parameter enum test (string array) (optional)
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
@@ -481,9 +533,9 @@ if (paramCallback != null)
   /**
    * To test enum parameters
    * To test enum parameters
-   * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-   * @param enumQueryStringArray Query parameter enum test (string array) (optional)
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
@@ -533,28 +585,107 @@ if (enumFormString != null)
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
-   * test inline additionalProperties
-   * 
-   * @param requestBody request body (required)
+   * Fake endpoint to test group parameters (optional)
+   * Fake endpoint to test group parameters (optional)
+   * @param requiredStringGroup Required String in group parameters (required)
+   * @param requiredBooleanGroup Required Boolean in group parameters (required)
+   * @param requiredInt64Group Required Integer in group parameters (required)
+   * @param stringGroup String in group parameters (optional)
+   * @param booleanGroup Boolean in group parameters (optional)
+   * @param int64Group Integer in group parameters (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testInlineAdditionalProperties(Map<String, String> requestBody) throws ApiException {
+  public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
 
-    testInlineAdditionalPropertiesWithHttpInfo(requestBody);
+    testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+  }
+
+  /**
+   * Fake endpoint to test group parameters (optional)
+   * Fake endpoint to test group parameters (optional)
+   * @param requiredStringGroup Required String in group parameters (required)
+   * @param requiredBooleanGroup Required Boolean in group parameters (required)
+   * @param requiredInt64Group Required Integer in group parameters (required)
+   * @param stringGroup String in group parameters (optional)
+   * @param booleanGroup Boolean in group parameters (optional)
+   * @param int64Group Integer in group parameters (optional)
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
+    Object localVarPostBody = new Object();
+    
+    // verify the required parameter 'requiredStringGroup' is set
+    if (requiredStringGroup == null) {
+      throw new ApiException(400, "Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
+    }
+    
+    // verify the required parameter 'requiredBooleanGroup' is set
+    if (requiredBooleanGroup == null) {
+      throw new ApiException(400, "Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
+    }
+    
+    // verify the required parameter 'requiredInt64Group' is set
+    if (requiredInt64Group == null) {
+      throw new ApiException(400, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake";
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "required_string_group", requiredStringGroup));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "required_int64_group", requiredInt64Group));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "string_group", stringGroup));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "int64_group", int64Group));
+
+    if (requiredBooleanGroup != null)
+      localVarHeaderParams.put("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
+if (booleanGroup != null)
+      localVarHeaderParams.put("boolean_group", apiClient.parameterToString(booleanGroup));
+
+    
+    final String[] localVarAccepts = {
+      
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+
+    return apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+  }
+  /**
+   * test inline additionalProperties
+   * 
+   * @param param request body (required)
+   * @throws ApiException if fails to make API call
+   */
+  public void testInlineAdditionalProperties(Map<String, String> param) throws ApiException {
+
+    testInlineAdditionalPropertiesWithHttpInfo(param);
   }
 
   /**
    * test inline additionalProperties
    * 
-   * @param requestBody request body (required)
+   * @param param request body (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody) throws ApiException {
-    Object localVarPostBody = requestBody;
+  public ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> param) throws ApiException {
+    Object localVarPostBody = param;
     
-    // verify the required parameter 'requestBody' is set
-    if (requestBody == null) {
-      throw new ApiException(400, "Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
+    // verify the required parameter 'param' is set
+    if (param == null) {
+      throw new ApiException(400, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
     }
     
     // create path and map variables

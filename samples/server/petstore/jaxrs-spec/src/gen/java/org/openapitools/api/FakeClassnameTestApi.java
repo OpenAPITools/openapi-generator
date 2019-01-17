@@ -7,6 +7,7 @@ import javax.ws.rs.core.Response;
 
 import io.swagger.annotations.*;
 
+import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
 import javax.validation.constraints.*;
@@ -25,7 +26,7 @@ public class FakeClassnameTestApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    public Response testClassname(@Valid Client client) {
+    public Response testClassname(@Valid Client body) {
         return Response.ok().entity("magic!").build();
     }
 }

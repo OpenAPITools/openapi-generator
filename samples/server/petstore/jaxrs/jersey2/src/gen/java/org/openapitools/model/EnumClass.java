@@ -16,8 +16,10 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonValue;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Gets or Sets EnumClass
@@ -36,6 +38,11 @@ public enum EnumClass {
     this.value = value;
   }
 
+  @JsonValue
+  public String getValue() {
+    return value;
+  }
+
   @Override
   public String toString() {
     return String.valueOf(value);
@@ -48,7 +55,7 @@ public enum EnumClass {
         return b;
       }
     }
-    return null;
+    throw new IllegalArgumentException("Unexpected value '" + text + "'");
   }
 }
 

@@ -40,7 +40,6 @@ open class FakeAPI: APIBase {
     /**
      - POST /fake/outer/boolean
      - Test serialization of outer boolean types
-     - examples: [{contentType=*/*, example=null}]
      - parameter body: (body) Input boolean as post body (optional)
      - returns: RequestBuilder<Bool> 
      */
@@ -85,7 +84,6 @@ open class FakeAPI: APIBase {
     /**
      - POST /fake/outer/composite
      - Test serialization of object with outer number type
-     - examples: [{contentType=*/*, example={ }}]
      - parameter outerComposite: (body) Input composite as post body (optional)
      - returns: RequestBuilder<OuterComposite> 
      */
@@ -130,7 +128,6 @@ open class FakeAPI: APIBase {
     /**
      - POST /fake/outer/number
      - Test serialization of outer number types
-     - examples: [{contentType=*/*, example=null}]
      - parameter body: (body) Input number as post body (optional)
      - returns: RequestBuilder<Double> 
      */
@@ -175,7 +172,6 @@ open class FakeAPI: APIBase {
     /**
      - POST /fake/outer/string
      - Test serialization of outer string types
-     - examples: [{contentType=*/*, example=null}]
      - parameter body: (body) Input string as post body (optional)
      - returns: RequestBuilder<String> 
      */
@@ -223,9 +219,6 @@ open class FakeAPI: APIBase {
      To test \"client\" model
      - PATCH /fake
      - To test \"client\" model
-     - examples: [{contentType=application/json, example={
-  "client" : "client"
-}}]
      - parameter client: (body) client model 
      - returns: RequestBuilder<Client> 
      */
@@ -352,8 +345,8 @@ open class FakeAPI: APIBase {
      * enum for parameter enumHeaderStringArray
      */
     public enum EnumHeaderStringArray_testEnumParameters: String { 
-        case greaterThan = ">"
-        case dollar = "$"
+        case greaterThan = "">""
+        case dollar = ""$""
     }
 
     /**
@@ -369,8 +362,8 @@ open class FakeAPI: APIBase {
      * enum for parameter enumQueryStringArray
      */
     public enum EnumQueryStringArray_testEnumParameters: String { 
-        case greaterThan = ">"
-        case dollar = "$"
+        case greaterThan = "">""
+        case dollar = ""$""
     }
 
     /**

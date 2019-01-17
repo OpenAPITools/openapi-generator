@@ -92,9 +92,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        Order PlaceOrder (Order order);
+        Order PlaceOrder (Order body);
 
         /// <summary>
         /// Place an order for a pet
@@ -103,9 +103,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>ApiResponse of Order</returns>
-        ApiResponse<Order> PlaceOrderWithHttpInfo (Order order);
+        ApiResponse<Order> PlaceOrderWithHttpInfo (Order body);
         #endregion Synchronous Operations
     }
 
@@ -123,6 +123,17 @@ namespace Org.OpenAPITools.Api
         public StoreApi(String basePath)
         {
             this.Configuration = new Org.OpenAPITools.Client.Configuration { BasePath = basePath };
+
+            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StoreApi"/> class
+        /// </summary>
+        /// <returns></returns>
+        public StoreApi()
+        {
+            this.Configuration = Org.OpenAPITools.Client.Configuration.Default;
 
             ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
@@ -406,11 +417,11 @@ namespace Org.OpenAPITools.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        public Order PlaceOrder (Order order)
+        public Order PlaceOrder (Order body)
         {
-             ApiResponse<Order> localVarResponse = PlaceOrderWithHttpInfo(order);
+             ApiResponse<Order> localVarResponse = PlaceOrderWithHttpInfo(body);
              return localVarResponse.Data;
         }
 
@@ -418,13 +429,13 @@ namespace Org.OpenAPITools.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>ApiResponse of Order</returns>
-        public ApiResponse< Order > PlaceOrderWithHttpInfo (Order order)
+        public ApiResponse< Order > PlaceOrderWithHttpInfo (Order body)
         {
-            // verify the required parameter 'order' is set
-            if (order == null)
-                throw new ApiException(400, "Missing required parameter 'order' when calling StoreApi->PlaceOrder");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new ApiException(400, "Missing required parameter 'body' when calling StoreApi->PlaceOrder");
 
             var localVarPath = "/store/order";
             var localVarPathParams = new Dictionary<String, String>();
@@ -448,13 +459,13 @@ namespace Org.OpenAPITools.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (order != null && order.GetType() != typeof(byte[]))
+            if (body != null && body.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(order); // http body (model) parameter
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
             else
             {
-                localVarPostBody = order; // byte array
+                localVarPostBody = body; // byte array
             }
 
 

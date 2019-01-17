@@ -31,11 +31,11 @@ import java.io.IOException;
 public class ReadOnlyFirst {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
-  private String bar = null;
+  private String bar;
 
   public static final String SERIALIZED_NAME_BAZ = "baz";
   @SerializedName(SERIALIZED_NAME_BAZ)
-  private String baz = null;
+  private String baz;
 
    /**
    * Get bar
@@ -88,7 +88,6 @@ public class ReadOnlyFirst {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ReadOnlyFirst {\n");
-    
     sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
     sb.append("    baz: ").append(toIndentedString(baz)).append("\n");
     sb.append("}");

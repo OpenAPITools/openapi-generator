@@ -68,7 +68,7 @@ public class {{classname}}Verticle extends AbstractVerticle {
                 {{{dataType}}} {{paramName}} = {{paramName}}Param;
                 {{/required}}
                 {{^required}}
-                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : {{paramName}}Param;
+                {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{#isEnum}}"{{/isEnum}}{{{defaultValue}}}{{#isEnum}}"{{/isEnum}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : {{paramName}}Param;
                 {{/required}}
                                 {{/isString}}
                                 {{^isString}}

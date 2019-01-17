@@ -1,0 +1,33 @@
+{{>licenseInfo}}
+#ifndef {{prefix}}_{{classname}}Handler_H
+#define {{prefix}}_{{classname}}Handler_H
+
+#include <QObject>
+
+{{#imports}}{{{import}}}
+{{/imports}}
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+class {{classname}}Handler : public QObject
+{
+    Q_OBJECT
+    
+public:
+    {{classname}}Handler();
+    virtual ~{{classname}}Handler();
+
+
+public slots:
+    {{#operations}}{{#operation}}virtual void {{nickname}}({{#allParams}}{{{dataType}}}{{#isBodyParam}}{{/isBodyParam}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{/operation}}{{/operations}}
+
+};
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}
+
+#endif // {{prefix}}_{{classname}}Handler_H

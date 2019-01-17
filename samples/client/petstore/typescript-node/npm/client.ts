@@ -51,7 +51,7 @@ var exitCode = 0;
 // Test Object Serializer
 var rewire = require("rewire");
 var rewiredApi = rewire("./api");
-var objectSerializer = rewiredApi.__get__("ObjectSerializer");
+var objectSerializer = rewiredApi.ObjectSerializer;
 console.log("Checking deserialization.");
 var serializedPet = {
                         "id": pet.id,

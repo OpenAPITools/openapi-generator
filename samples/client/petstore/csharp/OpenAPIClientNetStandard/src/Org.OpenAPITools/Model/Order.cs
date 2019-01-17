@@ -35,24 +35,24 @@ namespace Org.OpenAPITools.Model
         [JsonConverter(typeof(StringEnumConverter))]
         public enum StatusEnum
         {
-            
             /// <summary>
             /// Enum Placed for value: placed
             /// </summary>
             [EnumMember(Value = "placed")]
             Placed = 1,
-            
+
             /// <summary>
             /// Enum Approved for value: approved
             /// </summary>
             [EnumMember(Value = "approved")]
             Approved = 2,
-            
+
             /// <summary>
             /// Enum Delivered for value: delivered
             /// </summary>
             [EnumMember(Value = "delivered")]
             Delivered = 3
+
         }
 
         /// <summary>

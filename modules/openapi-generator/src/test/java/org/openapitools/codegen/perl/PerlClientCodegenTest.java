@@ -17,11 +17,17 @@
 
 package org.openapitools.codegen.perl;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.languages.PerlClientCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class PerlClientCodegenTest {
 
@@ -52,6 +58,16 @@ public class PerlClientCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+    }
+
+    @Test
+    public void testIssue677() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/issue677.yaml", null, new ParseOptions()).getOpenAPI();
+        final PerlClientCodegen codegen = new PerlClientCodegen();
+
+        Operation operation = openAPI.getPaths().get("/issue677").getPost();
+        CodegenOperation co = codegen.fromOperation("/issue677", "POST", operation, ModelUtils.getSchemas(openAPI), openAPI);
+        Assert.assertNotNull(co);
     }
 
 }

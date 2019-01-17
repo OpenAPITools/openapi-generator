@@ -39,7 +39,7 @@ public class ArrayOfNumberOnly {
   // items.name=arrayNumber items.baseName=arrayNumber items.xmlName= items.xmlNamespace=
   // items.example= items.type=BigDecimal
   @XmlElement(name = "arrayNumber")
-  private List<BigDecimal> arrayNumber = null;
+  private List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
@@ -90,7 +90,6 @@ public class ArrayOfNumberOnly {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ArrayOfNumberOnly {\n");
-    
     sb.append("    arrayNumber: ").append(toIndentedString(arrayNumber)).append("\n");
     sb.append("}");
     return sb.toString();

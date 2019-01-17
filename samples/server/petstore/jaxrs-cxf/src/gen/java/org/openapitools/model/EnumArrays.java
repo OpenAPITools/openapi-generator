@@ -45,12 +45,12 @@ public enum JustSymbolEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
   @ApiModelProperty(value = "")
-  private JustSymbolEnum justSymbol = null;
+  private JustSymbolEnum justSymbol;
 
 @XmlType(name="ArrayEnumEnum")
 @XmlEnum(String.class)
@@ -80,7 +80,7 @@ public enum ArrayEnumEnum {
                 return b;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 

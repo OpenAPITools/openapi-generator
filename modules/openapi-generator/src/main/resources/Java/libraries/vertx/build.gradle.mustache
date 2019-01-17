@@ -5,6 +5,7 @@ group = '{{groupId}}'
 version = '{{artifactVersion}}'
 
 repositories {
+    mavenCentral()
     jcenter()
 }
 
@@ -26,7 +27,7 @@ task execute(type:JavaExec) {
 }
 
 ext {
-    swagger_annotations_version = "1.5.17"
+    swagger_annotations_version = "1.5.21"
     jackson_version = "{{^threetenbp}}2.8.9{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}"
     vertx_version = "3.4.2"
     junit_version = "4.12"

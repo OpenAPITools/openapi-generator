@@ -45,58 +45,58 @@ public class PetApi {
   /**
     * Add a new pet to the store
     * <p><b>405</b> - Invalid input
-    * @param pet Pet object that needs to be added to the store
+    * @param body Pet object that needs to be added to the store
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void addPet(Pet pet) throws IOException {
-        addPetForHttpResponse(pet);
+    public void addPet(Pet body) throws IOException {
+        addPetForHttpResponse(body);
     }
 
   /**
     * Add a new pet to the store
     * <p><b>405</b> - Invalid input
-    * @param pet Pet object that needs to be added to the store
+    * @param body Pet object that needs to be added to the store
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void addPet(Pet pet, Map<String, Object> params) throws IOException {
-        addPetForHttpResponse(pet, params);
+    public void addPet(Pet body, Map<String, Object> params) throws IOException {
+        addPetForHttpResponse(body, params);
     }
 
-    public HttpResponse addPetForHttpResponse(Pet pet) throws IOException {
-        // verify the required parameter 'pet' is set
-        if (pet == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'pet' when calling addPet");
+    public HttpResponse addPetForHttpResponse(Pet body) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling addPet");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(pet);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
-      public HttpResponse addPetForHttpResponse(java.io.InputStream pet, String mediaType) throws IOException {
-          // verify the required parameter 'pet' is set
-              if (pet == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'pet' when calling addPet");
+      public HttpResponse addPetForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
+          // verify the required parameter 'body' is set
+              if (body == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'body' when calling addPet");
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
               String url = uriBuilder.build().toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = pet == null ?
+              HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, pet);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse addPetForHttpResponse(Pet pet, Map<String, Object> params) throws IOException {
-        // verify the required parameter 'pet' is set
-        if (pet == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'pet' when calling addPet");
+    public HttpResponse addPetForHttpResponse(Pet body, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling addPet");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
@@ -121,7 +121,7 @@ public class PetApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(pet);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
@@ -474,11 +474,11 @@ public class PetApi {
     * <p><b>400</b> - Invalid ID supplied
     * <p><b>404</b> - Pet not found
     * <p><b>405</b> - Validation exception
-    * @param pet Pet object that needs to be added to the store
+    * @param body Pet object that needs to be added to the store
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void updatePet(Pet pet) throws IOException {
-        updatePetForHttpResponse(pet);
+    public void updatePet(Pet body) throws IOException {
+        updatePetForHttpResponse(body);
     }
 
   /**
@@ -486,48 +486,48 @@ public class PetApi {
     * <p><b>400</b> - Invalid ID supplied
     * <p><b>404</b> - Pet not found
     * <p><b>405</b> - Validation exception
-    * @param pet Pet object that needs to be added to the store
+    * @param body Pet object that needs to be added to the store
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void updatePet(Pet pet, Map<String, Object> params) throws IOException {
-        updatePetForHttpResponse(pet, params);
+    public void updatePet(Pet body, Map<String, Object> params) throws IOException {
+        updatePetForHttpResponse(body, params);
     }
 
-    public HttpResponse updatePetForHttpResponse(Pet pet) throws IOException {
-        // verify the required parameter 'pet' is set
-        if (pet == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'pet' when calling updatePet");
+    public HttpResponse updatePetForHttpResponse(Pet body) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling updatePet");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(pet);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
     }
 
-      public HttpResponse updatePetForHttpResponse(java.io.InputStream pet, String mediaType) throws IOException {
-          // verify the required parameter 'pet' is set
-              if (pet == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'pet' when calling updatePet");
+      public HttpResponse updatePetForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
+          // verify the required parameter 'body' is set
+              if (body == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'body' when calling updatePet");
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
               String url = uriBuilder.build().toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = pet == null ?
+              HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, pet);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
       }
 
-    public HttpResponse updatePetForHttpResponse(Pet pet, Map<String, Object> params) throws IOException {
-        // verify the required parameter 'pet' is set
-        if (pet == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'pet' when calling updatePet");
+    public HttpResponse updatePetForHttpResponse(Pet body, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling updatePet");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet");
 
@@ -552,7 +552,7 @@ public class PetApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(pet);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
     }
 
@@ -688,6 +688,95 @@ public class PetApi {
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
         uriVariables.put("petId", petId);
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/pet/{petId}/uploadImage");
+
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
+
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (key != null && value != null) {
+                if (value instanceof Collection) {
+                    uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+                } else if (value instanceof Object[]) {
+                    uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+                } else {
+                    uriBuilder = uriBuilder.queryParam(key, value);
+                }
+            }
+        }
+
+        String url = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = apiClient.new JacksonJsonHttpContent(null);
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+    }
+
+
+  /**
+    * uploads an image (required)
+    * <p><b>200</b> - successful operation
+    * @param petId ID of pet to update
+    * @param requiredFile file to upload
+    * @param additionalMetadata Additional data to pass to server
+    * @return ModelApiResponse
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws IOException {
+        HttpResponse response = uploadFileWithRequiredFileForHttpResponse(petId, requiredFile, additionalMetadata);
+        TypeReference typeRef = new TypeReference<ModelApiResponse>() {};
+        return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
+    }
+
+  /**
+    * uploads an image (required)
+    * <p><b>200</b> - successful operation
+    * @param petId ID of pet to update
+    * @param requiredFile file to upload
+    * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
+    * @return ModelApiResponse
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, Map<String, Object> params) throws IOException {
+        HttpResponse response = uploadFileWithRequiredFileForHttpResponse(petId, requiredFile, params);
+        TypeReference typeRef = new TypeReference<ModelApiResponse>() {};
+        return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
+    }
+
+    public HttpResponse uploadFileWithRequiredFileForHttpResponse(Long petId, File requiredFile, String additionalMetadata) throws IOException {
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
+        }// verify the required parameter 'requiredFile' is set
+        if (requiredFile == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
+        }
+        // create a map of path variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("petId", petId);
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/{petId}/uploadImageWithRequiredFile");
+
+        String url = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = apiClient.new JacksonJsonHttpContent(null);
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
+    }
+
+    public HttpResponse uploadFileWithRequiredFileForHttpResponse(Long petId, File requiredFile, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
+        }// verify the required parameter 'requiredFile' is set
+        if (requiredFile == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
+        }
+        // create a map of path variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("petId", petId);
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/{petId}/uploadImageWithRequiredFile");
 
         // Copy the params argument if present, to allow passing in immutable maps
         Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);

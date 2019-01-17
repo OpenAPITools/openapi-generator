@@ -20,15 +20,15 @@ var (
 type {{classname}}Service service
 {{#operation}}
 
-/* 
-{{{classname}}}Service{{#summary}} {{.}}{{/summary}}
+/*
+{{{classname}}}Service{{#summary}} {{{.}}}{{/summary}}
 {{#notes}}
 {{notes}}
 {{/notes}}
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 {{#allParams}}
 {{#required}}
- * @param {{paramName}}{{#description}} {{.}}{{/description}}
+ * @param {{paramName}}{{#description}} {{{.}}}{{/description}}
 {{/required}}
 {{/allParams}}
 {{#hasOptionalParams}}
@@ -50,14 +50,14 @@ type {{{nickname}}}Opts struct {
 {{^required}}
 {{#isPrimitiveType}}
 {{^isBinary}}
-    {{vendorExtensions.x-exportParamName}} optional.{{vendorExtensions.x-optionalDataType}}
+	{{vendorExtensions.x-exportParamName}} optional.{{vendorExtensions.x-optionalDataType}}
 {{/isBinary}}
 {{#isBinary}}
-    {{vendorExtensions.x-exportParamName}} optional.Interface
+	{{vendorExtensions.x-exportParamName}} optional.Interface
 {{/isBinary}}
 {{/isPrimitiveType}}
 {{^isPrimitiveType}}
-    {{vendorExtensions.x-exportParamName}} optional.Interface
+	{{vendorExtensions.x-exportParamName}} optional.Interface
 {{/isPrimitiveType}}
 {{/required}}
 {{/allParams}}
@@ -66,12 +66,13 @@ type {{{nickname}}}Opts struct {
 {{/hasOptionalParams}}
 func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}}, {{/hasParams}}{{#allParams}}{{#required}}{{paramName}} {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}localVarOptionals *{{{nickname}}}Opts{{/hasOptionalParams}}) ({{#returnType}}{{{returnType}}}, {{/returnType}}*http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("{{httpMethod}}")
-		localVarPostBody   interface{}
-		localVarFileName   string
-		localVarFileBytes  []byte
+		localVarHttpMethod   = strings.ToUpper("{{httpMethod}}")
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 		{{#returnType}}
-		localVarReturnValue {{{returnType}}}
+		localVarReturnValue  {{{returnType}}}
 		{{/returnType}}
 	)
 
@@ -177,6 +178,10 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 {{#hasFormParams}}
 {{#formParams}}
 {{#isFile}}
+	localVarFormFileName = "{{baseName}}"
+{{#required}}
+	localVarFile := {{paramName}}
+{{/required}}
 {{^required}}
 	var localVarFile {{dataType}}
 	if localVarOptionals != nil && localVarOptionals.{{vendorExtensions.x-exportParamName}}.IsSet() {
@@ -240,14 +245,18 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 			} else {
 				key = auth.Key
 			}
-			{{#isKeyInHeader}}localVarHeaderParams["{{keyParamName}}"] = key{{/isKeyInHeader}}
-			{{#isKeyInQuery}}localVarQueryParams.Add("{{keyParamName}}", key){{/isKeyInQuery}}
+			{{#isKeyInHeader}}
+			localVarHeaderParams["{{keyParamName}}"] = key
+			{{/isKeyInHeader}}
+			{{#isKeyInQuery}}
+			localVarQueryParams.Add("{{keyParamName}}", key)
+			{{/isKeyInQuery}}
 		}
 	}
 
 {{/isApiKey}}
 {{/authMethods}}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, err
 	}
@@ -263,38 +272,39 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx context.Context{{#hasParams}
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, err
 	}
 
-	{{#returnType}}
-	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-		if err == nil { 
-			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, err
-		}
-	}
-
-	{{/returnType}}
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
-			body: localVarBody,
+			body:  localVarBody,
 			error: localVarHttpResponse.Status,
 		}
 		{{#responses}}
 		{{#dataType}}
 		if localVarHttpResponse.StatusCode == {{{code}}} {
 			var v {{{dataType}}}
-			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"));
-				if err != nil {
-					newErr.error = err.Error()
-					return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, newErr
-				}
-				newErr.model = v
+			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
 				return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, newErr
+			}
+			newErr.model = v
+			return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, newErr
 		}
 		{{/dataType}}
 		{{/responses}}
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, newErr
 	}
 
+	{{#returnType}}
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, newErr
+	}
+
+	{{/returnType}}
 	return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHttpResponse, nil
 }
 {{/operation}}

@@ -53,17 +53,17 @@ sub new {
 #
 # Add a new pet to the store
 # 
-# @param Pet $pet Pet object that needs to be added to the store (required)
+# @param Pet $body Pet object that needs to be added to the store (required)
 {
     my $params = {
-    'pet' => {
+    'body' => {
         data_type => 'Pet',
         description => 'Pet object that needs to be added to the store',
         required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ 'add_pet' } = { 
-    	summary => 'Add a new pet to the store',
+        summary => 'Add a new pet to the store',
         params => $params,
         returns => undef,
         };
@@ -73,9 +73,9 @@ sub new {
 sub add_pet {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'pet' is set
-    unless (exists $args{'pet'}) {
-      croak("Missing the required parameter 'pet' when calling add_pet");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling add_pet");
     }
 
     # parse inputs
@@ -95,8 +95,8 @@ sub add_pet {
 
     my $_body_data;
     # body params
-    if ( exists $args{'pet'}) {
-        $_body_data = $args{'pet'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -130,7 +130,7 @@ sub add_pet {
     },
     };
     __PACKAGE__->method_documentation->{ 'delete_pet' } = { 
-    	summary => 'Deletes a pet',
+        summary => 'Deletes a pet',
         params => $params,
         returns => undef,
         };
@@ -198,7 +198,7 @@ sub delete_pet {
     },
     };
     __PACKAGE__->method_documentation->{ 'find_pets_by_status' } = { 
-    	summary => 'Finds Pets by status',
+        summary => 'Finds Pets by status',
         params => $params,
         returns => 'ARRAY[Pet]',
         };
@@ -263,7 +263,7 @@ sub find_pets_by_status {
     },
     };
     __PACKAGE__->method_documentation->{ 'find_pets_by_tags' } = { 
-    	summary => 'Finds Pets by tags',
+        summary => 'Finds Pets by tags',
         params => $params,
         returns => 'ARRAY[Pet]',
         };
@@ -328,7 +328,7 @@ sub find_pets_by_tags {
     },
     };
     __PACKAGE__->method_documentation->{ 'get_pet_by_id' } = { 
-    	summary => 'Find pet by ID',
+        summary => 'Find pet by ID',
         params => $params,
         returns => 'Pet',
         };
@@ -385,17 +385,17 @@ sub get_pet_by_id {
 #
 # Update an existing pet
 # 
-# @param Pet $pet Pet object that needs to be added to the store (required)
+# @param Pet $body Pet object that needs to be added to the store (required)
 {
     my $params = {
-    'pet' => {
+    'body' => {
         data_type => 'Pet',
         description => 'Pet object that needs to be added to the store',
         required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ 'update_pet' } = { 
-    	summary => 'Update an existing pet',
+        summary => 'Update an existing pet',
         params => $params,
         returns => undef,
         };
@@ -405,9 +405,9 @@ sub get_pet_by_id {
 sub update_pet {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'pet' is set
-    unless (exists $args{'pet'}) {
-      croak("Missing the required parameter 'pet' when calling update_pet");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling update_pet");
     }
 
     # parse inputs
@@ -427,8 +427,8 @@ sub update_pet {
 
     my $_body_data;
     # body params
-    if ( exists $args{'pet'}) {
-        $_body_data = $args{'pet'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -468,7 +468,7 @@ sub update_pet {
     },
     };
     __PACKAGE__->method_documentation->{ 'update_pet_with_form' } = { 
-    	summary => 'Updates a pet in the store with form data',
+        summary => 'Updates a pet in the store with form data',
         params => $params,
         returns => undef,
         };
@@ -553,7 +553,7 @@ sub update_pet_with_form {
     },
     };
     __PACKAGE__->method_documentation->{ 'upload_file' } = { 
-    	summary => 'uploads an image',
+        summary => 'uploads an image',
         params => $params,
         returns => 'ApiResponse',
         };
@@ -599,6 +599,101 @@ sub upload_file {
     if ( exists $args{'file'} ) {
         $form_params->{'file'} = [] unless defined $form_params->{'file'};
         push @{$form_params->{'file'}}, $args{'file'};
+            }
+    
+    my $_body_data;
+    # authentication setting, if any
+    my $auth_settings = [qw(petstore_auth )];
+
+    # make the API Call
+    my $response = $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    if (!$response) {
+        return;
+    }
+    my $_response_object = $self->{api_client}->deserialize('ApiResponse', $response);
+    return $_response_object;
+}
+
+#
+# upload_file_with_required_file
+#
+# uploads an image (required)
+# 
+# @param int $pet_id ID of pet to update (required)
+# @param string $required_file file to upload (required)
+# @param string $additional_metadata Additional data to pass to server (optional)
+{
+    my $params = {
+    'pet_id' => {
+        data_type => 'int',
+        description => 'ID of pet to update',
+        required => '1',
+    },
+    'required_file' => {
+        data_type => 'string',
+        description => 'file to upload',
+        required => '1',
+    },
+    'additional_metadata' => {
+        data_type => 'string',
+        description => 'Additional data to pass to server',
+        required => '0',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'upload_file_with_required_file' } = { 
+        summary => 'uploads an image (required)',
+        params => $params,
+        returns => 'ApiResponse',
+        };
+}
+# @return ApiResponse
+#
+sub upload_file_with_required_file {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'pet_id' is set
+    unless (exists $args{'pet_id'}) {
+      croak("Missing the required parameter 'pet_id' when calling upload_file_with_required_file");
+    }
+
+    # verify the required parameter 'required_file' is set
+    unless (exists $args{'required_file'}) {
+      croak("Missing the required parameter 'required_file' when calling upload_file_with_required_file");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/{petId}/uploadImageWithRequiredFile';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept('application/json');
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('multipart/form-data');
+
+    # path params
+    if ( exists $args{'pet_id'}) {
+        my $_base_variable = "{" . "petId" . "}";
+        my $_base_value = $self->{api_client}->to_path_value($args{'pet_id'});
+        $_resource_path =~ s/$_base_variable/$_base_value/g;
+    }
+
+    # form params
+    if ( exists $args{'additional_metadata'} ) {
+                $form_params->{'additionalMetadata'} = $self->{api_client}->to_form_value($args{'additional_metadata'});
+    }
+    
+    # form params
+    if ( exists $args{'required_file'} ) {
+        $form_params->{'requiredFile'} = [] unless defined $form_params->{'requiredFile'};
+        push @{$form_params->{'requiredFile'}}, $args{'required_file'};
             }
     
     my $_body_data;

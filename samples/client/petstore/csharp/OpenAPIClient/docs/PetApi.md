@@ -12,11 +12,12 @@ Method | HTTP request | Description
 [**UpdatePet**](PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
 [**UpdatePetWithForm**](PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**UploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**UploadFileWithRequiredFile**](PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 <a name="addpet"></a>
 # **AddPet**
-> void AddPet (Pet pet)
+> void AddPet (Pet body)
 
 Add a new pet to the store
 
@@ -38,12 +39,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+            var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Add a new pet to the store
-                apiInstance.AddPet(pet);
+                apiInstance.AddPet(body);
             }
             catch (Exception e)
             {
@@ -58,7 +59,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -334,7 +335,7 @@ Name | Type | Description  | Notes
 
 <a name="updatepet"></a>
 # **UpdatePet**
-> void UpdatePet (Pet pet)
+> void UpdatePet (Pet body)
 
 Update an existing pet
 
@@ -356,12 +357,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+            var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Update an existing pet
-                apiInstance.UpdatePet(pet);
+                apiInstance.UpdatePet(body);
             }
             catch (Exception e)
             {
@@ -376,7 +377,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -508,6 +509,72 @@ Name | Type | Description  | Notes
  **petId** | **long?**| ID of pet to update | 
  **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
  **file** | **System.IO.Stream**| file to upload | [optional] 
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="uploadfilewithrequiredfile"></a>
+# **UploadFileWithRequiredFile**
+> ApiResponse UploadFileWithRequiredFile (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+
+uploads an image (required)
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class UploadFileWithRequiredFileExample
+    {
+        public void main()
+        {
+            // Configure OAuth2 access token for authorization: petstore_auth
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+
+            var apiInstance = new PetApi();
+            var petId = 789;  // long? | ID of pet to update
+            var requiredFile = BINARY_DATA_HERE;  // System.IO.Stream | file to upload
+            var additionalMetadata = additionalMetadata_example;  // string | Additional data to pass to server (optional) 
+
+            try
+            {
+                // uploads an image (required)
+                ApiResponse result = apiInstance.UploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling PetApi.UploadFileWithRequiredFile: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **petId** | **long?**| ID of pet to update | 
+ **requiredFile** | **System.IO.Stream**| file to upload | 
+ **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
 
 ### Return type
 

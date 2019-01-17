@@ -4,16 +4,16 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**TestSpecialTags**](AnotherFakeApi.md#testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+[**Call123TestSpecialTags**](AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 
 
-<a name="testspecialtags"></a>
-# **TestSpecialTags**
-> ModelClient TestSpecialTags (ModelClient modelClient)
-
-To test special tags
+<a name="call123testspecialtags"></a>
+# **Call123TestSpecialTags**
+> ModelClient Call123TestSpecialTags (ModelClient body)
 
 To test special tags
+
+To test special tags and operation ID starting with number
 
 ### Example
 ```csharp
@@ -25,22 +25,22 @@ using Org.OpenAPITools.Model;
 
 namespace Example
 {
-    public class TestSpecialTagsExample
+    public class Call123TestSpecialTagsExample
     {
         public void main()
         {
             var apiInstance = new AnotherFakeApi();
-            var modelClient = new ModelClient(); // ModelClient | client model
+            var body = new ModelClient(); // ModelClient | client model
 
             try
             {
                 // To test special tags
-                ModelClient result = apiInstance.TestSpecialTags(modelClient);
+                ModelClient result = apiInstance.Call123TestSpecialTags(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
             {
-                Debug.Print("Exception when calling AnotherFakeApi.TestSpecialTags: " + e.Message );
+                Debug.Print("Exception when calling AnotherFakeApi.Call123TestSpecialTags: " + e.Message );
             }
         }
     }
@@ -51,7 +51,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
+ **body** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 

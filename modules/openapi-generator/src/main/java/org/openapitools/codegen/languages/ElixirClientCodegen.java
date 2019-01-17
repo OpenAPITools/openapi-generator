@@ -30,13 +30,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.jws.WebParam;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ElixirClientCodegen.class);
@@ -169,7 +171,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("map", "Map");
         typeMapping.put("array", "List");
         typeMapping.put("list", "List");
-        // typeMapping.put("object", "Map");
+        typeMapping.put("object", "Map");
         typeMapping.put("binary", "String");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("UUID", "String");
@@ -265,8 +267,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        Map<String, Object> operations = (Map<String, Object>) super.postProcessOperations(objs).get("operations");
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        Map<String, Object> operations = (Map<String, Object>) super.postProcessOperationsWithModels(objs, allModels).get("operations");
         List<CodegenOperation> os = (List<CodegenOperation>) operations.get("operation");
         List<ExtendedCodegenOperation> newOs = new ArrayList<ExtendedCodegenOperation>();
         Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}([^\\{]*)");
@@ -431,7 +433,19 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
-        return camelize(sanitizeName(operationId));
+        // method name cannot use reserved keyword, e.g. return
+        if (isReservedWord(operationId)) {
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            return underscore(sanitizeName("call_" + operationId));
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
+        }
+
+        return underscore(sanitizeName(operationId));
     }
 
     /**
@@ -447,7 +461,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "%{optional(String.t) => " + getTypeDeclaration(inner) + "}";
         } else if (ModelUtils.isPasswordSchema(p)) {
             return "String.t";
@@ -642,6 +656,9 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 sb.append(param.dataType);
             } else if (param.isFile || param.isBinary) {
                 sb.append("String.t");
+            } else if ("String.t".equals(param.dataType)) {
+                // uuid, password, etc
+                sb.append(param.dataType);
             } else {
                 // <module>.Model.<type>.t
                 sb.append(moduleName);
@@ -681,6 +698,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             // Primitive return type, don't even try to decode
             if (returnBaseType == null || (returnSimpleType && returnTypeIsPrimitive)) {
                 return "false";
+            } else if (isListContainer && languageSpecificPrimitives().contains(returnBaseType)) {
+                return "[]";
             }
             StringBuilder sb = new StringBuilder();
             if (isListContainer) {

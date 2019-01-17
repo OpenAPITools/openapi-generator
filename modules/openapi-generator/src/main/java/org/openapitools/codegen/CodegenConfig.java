@@ -23,7 +23,11 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.servers.ServerVariable;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -75,6 +79,10 @@ public interface CodegenConfig {
 
     String escapeText(String text);
 
+    String escapeTextWhileAllowingNewLines(String text);
+
+    String encodePath(String text);
+
     String escapeUnsafeCharacters(String input);
 
     String escapeReservedWord(String name);
@@ -111,6 +119,10 @@ public interface CodegenConfig {
 
     List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemas);
 
+    List<CodegenServer> fromServers(List<Server> servers);
+  
+    List<CodegenServerVariable> fromServerVariables(Map<String, ServerVariable> variables);
+    
     Set<String> defaultIncludes();
 
     Map<String, String> typeMapping();
@@ -161,10 +173,18 @@ public interface CodegenConfig {
 
     void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
 
+    Map<String, Object> updateAllModels(Map<String, Object> objs);
+
     Map<String, Object> postProcessAllModels(Map<String, Object> objs);
 
     Map<String, Object> postProcessModels(Map<String, Object> objs);
 
+    /**
+     * @deprecated use {@link #postProcessOperationsWithModels(Map, List)} instead. This method will be removed
+     * @param objs the objects map that will be passed to the templating engine
+     * @return the the objects map instance.
+     */
+    @Deprecated
     Map<String, Object> postProcessOperations(Map<String, Object> objs);
 
     Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels);
@@ -222,6 +242,10 @@ public interface CodegenConfig {
 
     String getHttpUserAgent();
 
+    void setDocExtension(String docExtension);
+
+    String getDocExtension();
+
     String getCommonTemplateDir();
 
     void setIgnoreFilePathOverride(String ignoreFileOverride);
@@ -235,5 +259,16 @@ public interface CodegenConfig {
     String toGetter(String name);
 
     String sanitizeName(String name);
+
+    void postProcessFile(File file, String fileType);
+
+    boolean isEnablePostProcessFile();
+
+    void setEnablePostProcessFile(boolean isEnablePostProcessFile);
+
+    // set OpenAPI and schemas
+    void setGlobalOpenAPI(OpenAPI openAPI);
+
+    void setGlobalSchemas(OpenAPI openAPI);
 
 }

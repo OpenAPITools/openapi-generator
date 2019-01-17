@@ -24,16 +24,16 @@ import retrofit2.Response;
 public interface AnotherFakeApi {
   /**
    * To test special tags
-   * To test special tags
-   * @param client client model (required)
+   * To test special tags and operation ID starting with number
+   * @param body client model (required)
    * @return Call&lt;Client&gt;
    */
   @Headers({
     "Content-Type:application/json"
   })
   @PATCH("another-fake/dummy")
-  F.Promise<Response<Client>> testSpecialTags(
-    @retrofit2.http.Body Client client
+  F.Promise<Response<Client>> call123testSpecialTags(
+    @retrofit2.http.Body Client body
   );
 
 }

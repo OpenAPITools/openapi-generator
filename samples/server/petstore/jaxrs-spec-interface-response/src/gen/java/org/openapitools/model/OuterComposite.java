@@ -1,21 +1,25 @@
 package org.openapitools.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-
 import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 
 
 public class OuterComposite  implements Serializable {
   
-  private @Valid BigDecimal myNumber = null;
-  private @Valid String myString = null;
-  private @Valid Boolean myBoolean = null;
+  private @Valid BigDecimal myNumber;
+  private @Valid String myString;
+  private @Valid Boolean myBoolean;
 
   /**
    **/

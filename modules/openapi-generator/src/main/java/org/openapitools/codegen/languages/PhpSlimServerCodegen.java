@@ -17,32 +17,39 @@
 
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.media.*;
+import org.openapitools.codegen.CodegenSecurity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.regex.Matcher;
+import java.util.List;
+import java.util.Map;
+import java.net.URLEncoder;
+import org.apache.commons.lang3.StringEscapeUtils;
+import java.io.UnsupportedEncodingException;
 
-public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfig {
-    protected String invokerPackage;
-    protected String srcBasePath = "lib";
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
+
+public class PhpSlimServerCodegen extends AbstractPhpCodegen {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
+
+    public static final String USER_CLASSNAME_KEY = "userClassname";
+
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-server";
-    protected String artifactVersion = "1.0.0";
-    protected String packagePath = ""; // empty packagePath (top folder)
-
-
-    private String variableNamingConvention = "camelCase";
+    protected String authDirName = "Auth";
+    protected String authPackage = "";
 
     public PhpSlimServerCodegen() {
         super();
@@ -51,67 +58,32 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
         // at the moment
         importMapping.clear();
 
-        invokerPackage = camelize("OpenAPIServer");
-        modelPackage = packagePath + "\\Models";
-        apiPackage = packagePath;
+        variableNamingConvention = "camelCase";
+        artifactVersion = "1.0.0";
+        setInvokerPackage("OpenAPIServer");
+        apiPackage = invokerPackage + "\\" + apiDirName;
+        modelPackage = invokerPackage + "\\" + modelDirName;
+        authPackage = invokerPackage + "\\" + authDirName;
         outputFolder = "generated-code" + File.separator + "slim";
-        modelTemplateFiles.put("model.mustache", ".php");
 
-        // no api files
-        apiTemplateFiles.clear();
+        modelTestTemplateFiles.put("model_test.mustache", ".php");
+        // no doc files
+        modelDocTemplateFiles.clear();
+        apiDocTemplateFiles.clear();
 
-        embeddedTemplateDir = templateDir = "slim";
+        embeddedTemplateDir = templateDir = "php-slim-server";
 
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
-        );
-
-        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
-        // ref: http://php.net/manual/en/language.types.intro.php
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "boolean",
-                        "int",
-                        "integer",
-                        "double",
-                        "float",
-                        "string",
-                        "object",
-                        "DateTime",
-                        "mixed",
-                        "number")
-        );
-
-        instantiationTypes.put("array", "array");
-        instantiationTypes.put("map", "map");
-
-        // ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types
-        typeMapping = new HashMap<String, String>();
-        typeMapping.put("integer", "int");
-        typeMapping.put("long", "int");
-        typeMapping.put("float", "float");
-        typeMapping.put("double", "double");
-        typeMapping.put("string", "string");
-        typeMapping.put("byte", "int");
-        typeMapping.put("boolean", "bool");
-        typeMapping.put("date", "\\DateTime");
-        typeMapping.put("datetime", "\\DateTime");
-        typeMapping.put("file", "\\SplFileObject");
-        typeMapping.put("map", "map");
-        typeMapping.put("array", "array");
-        typeMapping.put("list", "array");
-        typeMapping.put("object", "object");
-        typeMapping.put("binary", "\\SplFileObject");
-
-        supportingFiles.add(new SupportingFile("README.mustache", packagePath.replace('/', File.separatorChar), "README.md"));
-        supportingFiles.add(new SupportingFile("composer.json", packagePath.replace('/', File.separatorChar), "composer.json"));
-        supportingFiles.add(new SupportingFile("index.mustache", packagePath.replace('/', File.separatorChar), "index.php"));
-        supportingFiles.add(new SupportingFile(".htaccess", packagePath.replace('/', File.separatorChar), ".htaccess"));
+        // override cliOptions from AbstractPhpCodegen
+        for (CliOption co : cliOptions) {
+            if (co.getOpt().equals(AbstractPhpCodegen.VARIABLE_NAMING_CONVENTION)) {
+                co.setDescription("naming convention of variable name, e.g. camelCase.");
+                co.setDefault("camelCase");
+                break;
+            }
+        }
     }
 
     @Override
@@ -130,166 +102,164 @@ public class PhpSlimServerCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public String escapeReservedWord(String name) {
-        if (this.reservedWordsMappings().containsKey(name)) {
-            return this.reservedWordsMappings().get(name);
-        }
-        return "_" + name;
-    }
-
-    @Override
     public String apiFileFolder() {
-        return (outputFolder + File.separator + toPackagePath(apiPackage, srcBasePath));
+        if (apiPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
+            // need to strip out invokerPackage from path
+            return (outputFolder + File.separator + toSrcPath(apiPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
+        }
+        return (outputFolder + File.separator + toSrcPath(apiPackage, srcBasePath));
     }
 
     @Override
     public String modelFileFolder() {
-        return (outputFolder + File.separator + toPackagePath(modelPackage, srcBasePath));
+        if (modelPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
+            // need to strip out invokerPackage from path
+            return (outputFolder + File.separator + toSrcPath(modelPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
+        }
+        return (outputFolder + File.separator + toSrcPath(modelPackage, srcBasePath));
     }
 
     @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            return getTypeDeclaration(inner) + "[]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
-            return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
-        } else if (!StringUtils.isEmpty(p.get$ref())) {
-            String type = super.getTypeDeclaration(p);
-            return (!languageSpecificPrimitives.contains(type))
-                    ? "\\" + modelPackage + "\\" + type : type;
+    public void processOpts() {
+        super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            // Update the invokerPackage for the default authPackage
+            authPackage = invokerPackage + "\\" + authDirName;
         }
-        return super.getTypeDeclaration(p);
+
+        // make auth src path available in mustache template
+        additionalProperties.put("authPackage", authPackage);
+        additionalProperties.put("authSrcPath", "./" + toSrcPath(authPackage, srcBasePath));
+
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
+        supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
+        supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
+        supportingFiles.add(new SupportingFile("SlimRouter.mustache", toSrcPath(invokerPackage, srcBasePath), "SlimRouter.php"));
+        supportingFiles.add(new SupportingFile("phpunit.xml.mustache", "", "phpunit.xml.dist"));
+        supportingFiles.add(new SupportingFile("phpcs.xml.mustache", "", "phpcs.xml.dist"));
     }
 
     @Override
-    public String getSchemaType(Schema p) {
-        String openAPIType = super.getSchemaType(p);
-        String type = null;
-        if (typeMapping.containsKey(openAPIType)) {
-            type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return type;
-            } else if (instantiationTypes.containsKey(type)) {
-                return type;
-            }
-        } else {
-            type = openAPIType;
-        }
-        if (type == null) {
-            return null;
-        }
-        return toModelName(type);
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+        addUserClassnameToOperations(operations);
+        escapeMediaType(operationList);
+        return objs;
     }
 
     @Override
-    public String getTypeDeclaration(String name) {
-        if (!languageSpecificPrimitives.contains(name)) {
-            return "\\" + modelPackage + "\\" + name;
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
+        List<HashMap<String, Object>> apiList = (List<HashMap<String, Object>>) apiInfo.get("apis");
+        for (HashMap<String, Object> api : apiList) {
+            HashMap<String, Object> operations = (HashMap<String, Object>) api.get("operations");
+            List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
+
+            // Sort operations to avoid static routes shadowing
+            // ref: https://github.com/nikic/FastRoute/blob/master/src/DataGenerator/RegexBasedAbstract.php#L92-L101
+            Collections.sort(operationList, new Comparator<CodegenOperation>() {
+                @Override
+                public int compare(CodegenOperation one, CodegenOperation another) {
+                    if (one.getHasPathParams() && !another.getHasPathParams()) return 1;
+                    if (!one.getHasPathParams() && another.getHasPathParams()) return -1;
+                    return 0;
+                }
+            });
         }
-        return super.getTypeDeclaration(name);
+        return objs;
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
-        return "null";
-    }
-
-    public void setParameterNamingConvention(String variableNamingConvention) {
-        this.variableNamingConvention = variableNamingConvention;
+    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
+        List<CodegenSecurity> codegenSecurities = super.fromSecurity(securitySchemeMap);
+        if (Boolean.FALSE.equals(codegenSecurities.isEmpty())) {
+            supportingFiles.add(new SupportingFile("abstract_authenticator.mustache", toSrcPath(authPackage, srcBasePath), toAbstractName("Authenticator") + ".php"));
+        }
+        return codegenSecurities;
     }
 
     @Override
-    public String toVarName(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        if ("camelCase".equals(variableNamingConvention)) {
-            // return the name in camelCase style
-            // phone_number => phoneNumber
-            name = camelize(name, true);
-        } else { // default to snake case
-            // return the name in underscore style
-            // PhoneNumber => phone_number
-            name = underscore(name);
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return toAbstractName("DefaultApi");
         }
-
-        // parameter name starting with number won't compile
-        // need to escape it by appending _ at the beginning
-        if (name.matches("^\\d.*")) {
-            name = "_" + name;
-        }
-
-        return name;
+        return toAbstractName(initialCaps(name) + "Api");
     }
 
     @Override
-    public String toParamName(String name) {
-        // should be the same as variable name
-        return toVarName(name);
+    public String toApiTestFilename(String name) {
+        if (name.length() == 0) {
+            return "DefaultApiTest";
+        }
+        return initialCaps(name) + "ApiTest";
+    }
+
+    /**
+     * Strips out abstract prefix and suffix from classname and puts it in "userClassname" property of operations object.
+     *
+     * @param operations codegen object with operations
+     */
+    private void addUserClassnameToOperations(Map<String, Object> operations) {
+        String classname = (String) operations.get("classname");
+        classname = classname.replaceAll("^" + abstractNamePrefix, "");
+        classname = classname.replaceAll(abstractNameSuffix + "$", "");
+        operations.put(USER_CLASSNAME_KEY, classname);
     }
 
     @Override
-    public String toModelName(String name) {
-        // model name cannot use reserved keyword
-        if (isReservedWord(name)) {
-            escapeReservedWord(name); // e.g. return => _return
+    public String encodePath(String input) {
+        if (input == null) {
+            return input;
         }
 
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(name);
+        // from DefaultCodegen.java
+        // remove \t, \n, \r
+        // replace \ with \\
+        // replace " with \"
+        // outter unescape to retain the original multi-byte characters
+        // finally escalate characters avoiding code injection
+        input = super.escapeUnsafeCharacters(
+                StringEscapeUtils.unescapeJava(
+                        StringEscapeUtils.escapeJava(input)
+                                .replace("\\/", "/"))
+                        .replaceAll("[\\t\\n\\r]", " ")
+                        .replace("\\", "\\\\"));
+                        // .replace("\"", "\\\""));
+
+        // from AbstractPhpCodegen.java
+        // Trim the string to avoid leading and trailing spaces.
+        input = input.trim();
+        try {
+
+            input = URLEncoder.encode(input, "UTF-8")
+                    .replaceAll("\\+", "%20")
+                    .replaceAll("\\%2F", "/")
+                    .replaceAll("\\%7B", "{") // keep { part of complex placeholders
+                    .replaceAll("\\%7D", "}") // } part
+                    .replaceAll("\\%5B", "[") // [ part
+                    .replaceAll("\\%5D", "]") // ] part
+                    .replaceAll("\\%3A", ":") // : part
+                    .replaceAll("\\%2B", "+") // + part
+                    .replaceAll("\\%5C\\%5Cd", "\\\\d"); // \d part
+        } catch (UnsupportedEncodingException e) {
+            // continue
+            LOGGER.error(e.getMessage(), e);
+        }
+        return input;
     }
 
     @Override
-    public String toModelFilename(String name) {
-        // should be the same as the model name
-        return toModelName(name);
-    }
-
-    public String toPackagePath(String packageName, String basePath) {
-        packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        if (basePath != null && basePath.length() > 0) {
-            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separatorChar; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        }
-
-        String regFirstPathSeparator;
-        if ("/".equals(File.separator)) { // for mac, linux
-            regFirstPathSeparator = "^/";
-        } else { // for windows
-            regFirstPathSeparator = "^\\\\";
-        }
-
-        String regLastPathSeparator;
-        if ("/".equals(File.separator)) { // for mac, linux
-            regLastPathSeparator = "/$";
-        } else { // for windows
-            regLastPathSeparator = "\\\\$";
-        }
-
-        return (getPackagePath() + File.separatorChar + basePath
-                // Replace period, backslash, forward slash with file separator in package name
-                + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement(File.separator))
-                // Trim prefix file separators from package path
-                .replaceAll(regFirstPathSeparator, ""))
-                // Trim trailing file separators from the overall path
-                .replaceAll(regLastPathSeparator + "$", "");
-    }
-
-    public String getPackagePath() {
-        return packagePath;
-    }
-
-    @Override
-    public String escapeQuotationMark(String input) {
-        // remove ' to avoid code injection
-        return input.replace("'", "");
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "");
+    public CodegenOperation fromOperation(String path,
+                                          String httpMethod,
+                                          Operation operation,
+                                          Map<String, Schema> schemas,
+                                          OpenAPI openAPI) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, schemas, openAPI);
+        op.path = encodePath(path);
+        return op;
     }
 
 }

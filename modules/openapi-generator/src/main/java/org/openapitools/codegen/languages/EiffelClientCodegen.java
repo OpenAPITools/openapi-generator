@@ -17,13 +17,16 @@
 
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.util.UUID;
-
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.openapitools.codegen.*;
+import java.io.File;
+import java.util.Locale;
+import java.util.UUID;
 
 public class EiffelClientCodegen extends AbstractEiffelCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(EiffelClientCodegen.class);
@@ -168,7 +171,7 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return sanitizeName(property.name).toUpperCase() + "_ENUM";
+        return sanitizeName(property.name).toUpperCase(Locale.ROOT) + "_ENUM";
     }
 
     @Override
@@ -179,7 +182,7 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
 
         // for symbol, e.g. $, #
         if (getSymbolName(value) != null) {
-            return getSymbolName(value).toUpperCase();
+            return getSymbolName(value).toUpperCase(Locale.ROOT);
         }
 
         // number
@@ -193,7 +196,7 @@ public class EiffelClientCodegen extends AbstractEiffelCodegen {
         }
 
         // string
-        String var = value.replaceAll("\\W+", "_").toLowerCase();
+        String var = value.replaceAll("\\W+", "_").toLowerCase(Locale.ROOT);
         if (var.matches("\\d.*")) {
             return "val_" + var;
         } else if (var.startsWith("_")) {

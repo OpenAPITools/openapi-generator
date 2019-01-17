@@ -17,25 +17,25 @@ public interface AnotherFakeApi {
   /**
    * To test special tags
    * Sync method
-   * To test special tags
-   * @param client client model (required)
+   * To test special tags and operation ID starting with number
+   * @param body client model (required)
    * @return Client
    */
   
   @PATCH("/another-fake/dummy")
-  Client testSpecialTags(
-    @retrofit.http.Body Client client
+  Client call123testSpecialTags(
+    @retrofit.http.Body Client body
   );
 
   /**
    * To test special tags
    * Async method
-   * @param client client model (required)
+   * @param body client model (required)
    * @param cb callback method
    */
   
   @PATCH("/another-fake/dummy")
-  void testSpecialTags(
-    @retrofit.http.Body Client client, Callback<Client> cb
+  void call123testSpecialTags(
+    @retrofit.http.Body Client body, Callback<Client> cb
   );
 }

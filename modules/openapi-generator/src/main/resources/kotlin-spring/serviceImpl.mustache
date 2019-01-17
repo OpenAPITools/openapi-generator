@@ -1,0 +1,17 @@
+package {{package}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+import org.springframework.stereotype.Service
+
+@Service
+{{#operations}}
+class {{classname}}ServiceImpl : {{classname}}Service {
+{{#operation}}
+
+    override fun {{operationId}}({{#allParams}}{{paramName}}: {{^isFile}}{{>optionalDataType}}{{/isFile}}{{#isFile}}org.springframework.web.multipart.MultipartFile{{/isFile}}{{#hasMore}},{{/hasMore}}{{/allParams}}): {{>returnTypes}} {
+        TODO("Implement me")
+    }
+{{/operation}}
+}
+{{/operations}}

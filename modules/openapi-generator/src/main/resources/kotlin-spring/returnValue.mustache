@@ -1,0 +1,1 @@
+{{#serviceInterface}}ResponseEntity(service.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}), HttpStatus.OK){{/serviceInterface}}{{^serviceInterface}}ResponseEntity(HttpStatus.NOT_IMPLEMENTED){{/serviceInterface}}

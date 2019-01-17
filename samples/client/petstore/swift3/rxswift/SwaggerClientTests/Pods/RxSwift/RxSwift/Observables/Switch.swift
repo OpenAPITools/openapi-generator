@@ -45,9 +45,7 @@ extension ObservableType where E : ObservableConvertibleType {
 
 fileprivate class SwitchSink<SourceType, S: ObservableConvertibleType, O: ObserverType>
     : Sink<O>
-    , ObserverType
-    , LockOwnerType
-    , SynchronizedOnType where S.E == O.E {
+    , ObserverType where S.E == O.E {
     typealias E = SourceType
 
     fileprivate let _subscriptions: SingleAssignmentDisposable = SingleAssignmentDisposable()
@@ -69,24 +67,33 @@ fileprivate class SwitchSink<SourceType, S: ObservableConvertibleType, O: Observ
         _subscriptions.setDisposable(subscription)
         return Disposables.create(_subscriptions, _innerSubscription)
     }
-    
-    func on(_ event: Event<E>) {
-        synchronizedOn(event)
-    }
 
     func performMap(_ element: SourceType) throws -> S {
         rxAbstractMethod()
     }
 
-    func _synchronized_on(_ event: Event<E>) {
-        switch event {
-        case .next(let element):
+    @inline(__always)
+    final private func nextElementArrived(element: E) -> (Int, Observable<S.E>)? {
+        _lock.lock(); defer { _lock.unlock() } // {
             do {
                 let observable = try performMap(element).asObservable()
                 _hasLatest = true
                 _latest = _latest &+ 1
-                let latest = _latest
+                return (_latest, observable)
+            }
+            catch let error {
+                forwardOn(.error(error))
+                dispose()
+            }
 
+            return nil
+        // }
+    }
+
+    func on(_ event: Event<E>) {
+        switch event {
+        case .next(let element):
+            if let (latest, observable) = nextElementArrived(element: element) {
                 let d = SingleAssignmentDisposable()
                 _innerSubscription.disposable = d
                    
@@ -94,14 +101,12 @@ fileprivate class SwitchSink<SourceType, S: ObservableConvertibleType, O: Observ
                 let disposable = observable.subscribe(observer)
                 d.setDisposable(disposable)
             }
-            catch let error {
-                forwardOn(.error(error))
-                dispose()
-            }
         case .error(let error):
+            _lock.lock(); defer { _lock.unlock() }
             forwardOn(.error(error))
             dispose()
         case .completed:
+            _lock.lock(); defer { _lock.unlock() }
             _stopped = true
             
             _subscriptions.dispose()

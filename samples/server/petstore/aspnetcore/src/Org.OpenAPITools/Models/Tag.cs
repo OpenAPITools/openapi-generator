@@ -66,7 +66,7 @@ namespace Org.OpenAPITools.Models
         /// <returns>Boolean</returns>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((Tag)obj);
         }
@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Models
         /// <returns>Boolean</returns>
         public bool Equals(Tag other)
         {
-            if (ReferenceEquals(null, other)) return false;
+            if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 

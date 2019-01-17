@@ -32,19 +32,19 @@ import org.threeten.bp.OffsetDateTime;
 public class Order {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  private Long id = null;
+  private Long id;
 
   public static final String SERIALIZED_NAME_PET_ID = "petId";
   @SerializedName(SERIALIZED_NAME_PET_ID)
-  private Long petId = null;
+  private Long petId;
 
   public static final String SERIALIZED_NAME_QUANTITY = "quantity";
   @SerializedName(SERIALIZED_NAME_QUANTITY)
-  private Integer quantity = null;
+  private Integer quantity;
 
   public static final String SERIALIZED_NAME_SHIP_DATE = "shipDate";
   @SerializedName(SERIALIZED_NAME_SHIP_DATE)
-  private OffsetDateTime shipDate = null;
+  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -78,7 +78,7 @@ public class Order {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
 
     public static class Adapter extends TypeAdapter<StatusEnum> {
@@ -97,7 +97,7 @@ public class Order {
 
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   public static final String SERIALIZED_NAME_COMPLETE = "complete";
   @SerializedName(SERIALIZED_NAME_COMPLETE)
@@ -239,7 +239,6 @@ public class Order {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Order {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");

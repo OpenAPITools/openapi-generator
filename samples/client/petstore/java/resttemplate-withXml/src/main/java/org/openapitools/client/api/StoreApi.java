@@ -7,6 +7,7 @@ import org.openapitools.client.model.Order;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +55,7 @@ public class StoreApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public void deleteOrder(String orderId) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
@@ -88,7 +89,7 @@ public class StoreApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Map<String, Integer> getInventory() throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         String path = UriComponentsBuilder.fromPath("/store/inventory").build().toUriString();
         
@@ -119,7 +120,7 @@ public class StoreApi {
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     public Order getOrderById(Long orderId) throws RestClientException {
-        Object postBody = new Object();
+        Object postBody = null;
         
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
@@ -152,16 +153,16 @@ public class StoreApi {
      * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid Order
-     * @param order order placed for purchasing the pet
+     * @param body order placed for purchasing the pet
      * @return Order
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Order placeOrder(Order order) throws RestClientException {
-        Object postBody = order;
+    public Order placeOrder(Order body) throws RestClientException {
+        Object postBody = body;
         
-        // verify the required parameter 'order' is set
-        if (order == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'order' when calling placeOrder");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling placeOrder");
         }
         
         String path = UriComponentsBuilder.fromPath("/store/order").build().toUriString();

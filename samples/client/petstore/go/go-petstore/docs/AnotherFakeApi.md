@@ -4,21 +4,21 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**TestSpecialTags**](AnotherFakeApi.md#TestSpecialTags) | **Patch** /another-fake/dummy | To test special tags
+[**Call123TestSpecialTags**](AnotherFakeApi.md#Call123TestSpecialTags) | **Patch** /another-fake/dummy | To test special tags
 
 
-# **TestSpecialTags**
-> Client TestSpecialTags(ctx, client)
+# **Call123TestSpecialTags**
+> Client Call123TestSpecialTags(ctx, body)
 To test special tags
 
-To test special tags
+To test special tags and operation ID starting with number
 
 ### Required Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **client** | [**Client**](Client.md)| client model | 
+  **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

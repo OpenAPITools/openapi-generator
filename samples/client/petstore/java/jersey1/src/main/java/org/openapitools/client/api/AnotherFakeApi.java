@@ -50,17 +50,17 @@ public class AnotherFakeApi {
 
   /**
    * To test special tags
-   * To test special tags
-   * @param client client model (required)
+   * To test special tags and operation ID starting with number
+   * @param body client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client testSpecialTags(Client client) throws ApiException {
-    Object localVarPostBody = client;
+  public Client call123testSpecialTags(Client body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'client' is set
-    if (client == null) {
-      throw new ApiException(400, "Missing the required parameter 'client' when calling testSpecialTags");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling call123testSpecialTags");
     }
     
     // create path and map variables

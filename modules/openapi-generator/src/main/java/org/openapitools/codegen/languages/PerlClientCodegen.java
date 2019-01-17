@@ -32,6 +32,10 @@ import java.util.HashSet;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FilenameUtils;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(PerlClientCodegen.class);
@@ -48,6 +52,9 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public PerlClientCodegen() {
         super();
+
+        // add multiple inheritance support (beta)
+        supportsMultipleInheritance = true;
 
         // clear import mapping (from default generator) as perl does not use it
         // at the moment
@@ -131,6 +138,11 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("PERL_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable PERL_POST_PROCESS_FILE not defined so the Perl code may not be properly formatted. To define it, try 'export PERL_POST_PROCESS_FILE=/usr/local/bin/perltidy -b -bext=\"/\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
 
         if (additionalProperties.containsKey(MODULE_VERSION)) {
             setModuleVersion((String) additionalProperties.get(MODULE_VERSION));
@@ -220,7 +232,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -377,8 +389,14 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
-            return underscore("call_" + operationId);
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            return underscore(sanitizeName("call_" + operationId));
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
+            operationId = "call_" + operationId;
         }
 
         //return underscore(operationId).replaceAll("[^A-Za-z0-9_]", "");
@@ -552,5 +570,35 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String escapeUnsafeCharacters(String input) {
         // remove =end, =cut to avoid code injection
         return input.replace("=begin", "=_begin").replace("=end", "=_end").replace("=cut", "=_cut").replace("=pod", "=_pod");
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String perlTidyPath = System.getenv("PERL_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(perlTidyPath)) {
+            return; // skip if PERL_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with .t, .pm extension
+        if ("t".equals(FilenameUtils.getExtension(file.toString())) ||
+                "pm".equals(FilenameUtils.getExtension(file.toString())) ||
+                "pl".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = perlTidyPath + " -b -bext='/' " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 }

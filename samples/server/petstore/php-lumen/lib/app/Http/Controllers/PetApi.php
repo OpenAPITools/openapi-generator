@@ -27,6 +27,26 @@ class PetApi extends Controller
     }
 
     /**
+     * Operation uploadFileWithRequiredFile
+     *
+     * uploads an image (required).
+     *
+     * @param int $pet_id ID of pet to update (required)
+     *
+     * @return Http response
+     */
+    public function uploadFileWithRequiredFile($pet_id)
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing uploadFileWithRequiredFile as a post method ?');
+    }
+    /**
      * Operation addPet
      *
      * Add a new pet to the store.
@@ -42,10 +62,10 @@ class PetApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['pet'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $pet when calling addPet');
+        if (!isset($input['body'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $body when calling addPet');
         }
-        $pet = $input['pet'];
+        $body = $input['body'];
 
 
         return response('How about implementing addPet as a post method ?');
@@ -66,10 +86,10 @@ class PetApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['pet'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $pet when calling updatePet');
+        if (!isset($input['body'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $body when calling updatePet');
         }
-        $pet = $input['pet'];
+        $body = $input['body'];
 
 
         return response('How about implementing updatePet as a put method ?');

@@ -23,12 +23,15 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.config.GeneratorProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 
 public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
 
@@ -53,17 +56,17 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
 
-        if(System.getProperty("swagger.codegen.undertow.apipackage") != null && System.getProperty("openapi.codegen.undertow.apipackage") == null) {
+        if(GeneratorProperties.getProperty("swagger.codegen.undertow.apipackage") != null && GeneratorProperties.getProperty("openapi.codegen.undertow.apipackage") == null) {
             LOGGER.warn("System property 'swagger.codegen.undertow.apipackage' was renamed to 'swagger.codegen.undertow.apipackage'");
-            apiPackage = System.getProperty("swagger.codegen.undertow.apipackage", "org.openapitools.handler");
+            apiPackage = GeneratorProperties.getProperty("swagger.codegen.undertow.apipackage", "org.openapitools.handler");
         } else {
-            apiPackage = System.getProperty("openapi.codegen.undertow.apipackage", "org.openapitools.handler");
+            apiPackage = GeneratorProperties.getProperty("openapi.codegen.undertow.apipackage", "org.openapitools.handler");
         }
-        if(System.getProperty("swagger.codegen.undertow.modelpackage") != null && System.getProperty("openapi.codegen.undertow.modelpackage") == null) {
+        if(GeneratorProperties.getProperty("swagger.codegen.undertow.modelpackage") != null && GeneratorProperties.getProperty("openapi.codegen.undertow.modelpackage") == null) {
             LOGGER.warn("System property 'swagger.codegen.undertow.modelpackage' was renamed to 'openapi.codegen.undertow.modelpackage'");
-            modelPackage = System.getProperty("swagger.codegen.undertow.modelpackage", "org.openapitools.model");
+            modelPackage = GeneratorProperties.getProperty("swagger.codegen.undertow.modelpackage", "org.openapitools.model");
         } else {
-            modelPackage = System.getProperty("openapi.codegen.undertow.modelpackage", "org.openapitools.model");
+            modelPackage = GeneratorProperties.getProperty("openapi.codegen.undertow.modelpackage", "org.openapitools.model");
         }
 
         additionalProperties.put("title", title);
@@ -106,7 +109,7 @@ public class JavaUndertowServerCodegen extends AbstractJavaCodegen {
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");

@@ -4,6 +4,7 @@ import org.openapitools.client.ApiClient;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -50,8 +51,8 @@ public class FakeApiTest {
      */
     @Test
     public void fakeOuterCompositeSerializeTest() {
-        OuterComposite outerComposite = null;
-        // OuterComposite response = api.fakeOuterCompositeSerialize(outerComposite);
+        OuterComposite body = null;
+        // OuterComposite response = api.fakeOuterCompositeSerialize(body);
 
         // TODO: test validations
     }
@@ -88,13 +89,27 @@ public class FakeApiTest {
     /**
      * 
      *
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     */
+    @Test
+    public void testBodyWithFileSchemaTest() {
+        FileSchemaTestClass body = null;
+        // api.testBodyWithFileSchema(body);
+
+        // TODO: test validations
+    }
+
+    
+    /**
+     * 
+     *
      * 
      */
     @Test
     public void testBodyWithQueryParamsTest() {
         String query = null;
-        User user = null;
-        // api.testBodyWithQueryParams(query, user);
+        User body = null;
+        // api.testBodyWithQueryParams(query, body);
 
         // TODO: test validations
     }
@@ -109,10 +124,10 @@ public class FakeApiTest {
      */
     @Test
     public void testBodyWithQueryParamsTestQueryMap() {
-        User user = null;
+        User body = null;
         FakeApi.TestBodyWithQueryParamsQueryParams queryParams = new FakeApi.TestBodyWithQueryParamsQueryParams()
             .query(null);
-        // api.testBodyWithQueryParams(user, queryParams);
+        // api.testBodyWithQueryParams(body, queryParams);
 
     // TODO: test validations
     }
@@ -124,8 +139,8 @@ public class FakeApiTest {
      */
     @Test
     public void testClientModelTest() {
-        Client client = null;
-        // Client response = api.testClientModel(client);
+        Client body = null;
+        // Client response = api.testClientModel(body);
 
         // TODO: test validations
     }
@@ -203,14 +218,54 @@ public class FakeApiTest {
     }
     
     /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     */
+    @Test
+    public void testGroupParametersTest() {
+        Integer requiredStringGroup = null;
+        Boolean requiredBooleanGroup = null;
+        Long requiredInt64Group = null;
+        Integer stringGroup = null;
+        Boolean booleanGroup = null;
+        Long int64Group = null;
+        // api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+
+        // TODO: test validations
+    }
+
+    /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     *
+     * This tests the overload of the method that uses a Map for query parameters instead of
+     * listing them out individually.
+     */
+    @Test
+    public void testGroupParametersTestQueryMap() {
+        Boolean requiredBooleanGroup = null;
+        Boolean booleanGroup = null;
+        FakeApi.TestGroupParametersQueryParams queryParams = new FakeApi.TestGroupParametersQueryParams()
+            .requiredStringGroup(null)
+            .requiredInt64Group(null)
+            .stringGroup(null)
+            .int64Group(null);
+        // api.testGroupParameters(requiredBooleanGroup, booleanGroup, queryParams);
+
+    // TODO: test validations
+    }
+    
+    /**
      * test inline additionalProperties
      *
      * 
      */
     @Test
     public void testInlineAdditionalPropertiesTest() {
-        Map<String, String> requestBody = null;
-        // api.testInlineAdditionalProperties(requestBody);
+        Map<String, String> param = null;
+        // api.testInlineAdditionalProperties(param);
 
         // TODO: test validations
     }

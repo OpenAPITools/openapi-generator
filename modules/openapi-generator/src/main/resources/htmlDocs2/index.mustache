@@ -103,20 +103,31 @@
     });
   </script>
   <style type="text/css">
-  {{>css_bootstrap}}
-  {{>css_prettify}}
-  {{>styles}}
+    {{>fonts}}
+
+    {{>css_bootstrap}}
+    {{>css_prettify}}
+
+    {{>styles}}
   </style>
 </head>
 <body>
   <script>
     // Script section to load models into a JS Var
     var defs = {}
-        {{#models}}
-        {{#model}}
-            defs.{{name}} = {{{modelJson}}};
-        {{/model}}
+    {{#models}}
+    {{#model}}
+    defs["{{name}}"] = {{{modelJson}}};
+    {{/model}}
     {{/models}}
+
+    var errs = {};
+    {{#swagger.vendorExtensions.x-shared-errors}}
+    {
+      let err = {{{.}}};
+      errs[err.errorID] = err;
+    }
+    {{/swagger.vendorExtensions.x-shared-errors}}
   </script>
 
   <div class="container-fluid">
@@ -162,7 +173,9 @@
               <div class="app-desc">Version: {{{version}}}</div>
             {{/version}}
             <hr>
-            <div>{{{appDescription}}}</div>
+            <div id="app-description" class="app-desc">
+                {{{appDescription}}}
+            </div>
           </div>
         </div>
         <div id="sections">
@@ -200,6 +213,7 @@
                           <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-php">PHP</a></li>
                           <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-perl">Perl</a></li>
                           <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-python">Python</a></li>
+                          <li class=""><a href="#examples-{{baseName}}-{{nickname}}-0-rust">Rust</a></li>
                         </ul>
 
                         <div class="tab-content">
@@ -243,7 +257,21 @@
                             <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-python">
                               <pre class="prettyprint"><code class="language-python">{{>sample_python}}</code></pre>
                             </div>
+
+                            <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-rust">
+                              <pre class="prettyprint"><code class="language-rust">{{>sample_rust}}</code></pre>
+                            </div>
                           </div>
+
+                          <h2>Scopes</h2>
+                          <table>
+                            {{#authMethods}}{{#scopes}}
+                              <tr>
+                                <td>{{scope}}</td>
+                                <td>{{description}}</td>
+                              </tr>
+                            {{/scopes}}{{/authMethods}}
+                          </table>
 
                           <h2>Parameters</h2>
 
@@ -314,31 +342,77 @@
 
                           <h2>Responses</h2>
                           {{#responses}}
-                            <h3> Status: {{code}} - {{message}} </h3>
+                            <h3 id="examples-{{baseName}}-{{nickname}}-title-{{code}}"></h3>
+                            <p id="examples-{{baseName}}-{{nickname}}-description-{{code}}" class="marked"></p>
+                            <script>
+                              var response{{baseName}}{{code}}_description = `{{{message}}}`;
+                              var response{{baseName}}{{code}}_description_break = response{{baseName}}{{code}}_description.indexOf('\n');
+                              if (response{{baseName}}{{code}}_description_break == -1) {
+                                $("#examples-{{baseName}}-{{nickname}}-title-{{code}}").text("Status: {{code}} - " + response{{baseName}}{{code}}_description);
+                              } else {
+                                $("#examples-{{baseName}}-{{nickname}}-title-{{code}}").text("Status: {{code}} - " + response{{baseName}}{{code}}_description.substring(0, response{{baseName}}{{code}}_description_break));
+                                $("#examples-{{baseName}}-{{nickname}}-description-{{code}}").html(response{{baseName}}{{code}}_description.substring(response{{baseName}}{{code}}_description_break));
+                              }
+                            </script>
 
-                            <ul class="nav nav-tabs nav-tabs-examples" >
+
+                            <ul id="responses-detail-{{baseName}}-{{nickname}}-{{code}}" class="nav nav-tabs nav-tabs-examples" >
                               {{#schema}}
                                 <li class="active">
-                                  <a data-toggle="tab" href="#responses-{{nickname}}-{{code}}-schema">Schema</a>
+                                  <a data-toggle="tab" href="#responses-{{baseName}}-{{nickname}}-{{code}}-schema">Schema</a>
                                 </li>
 
                                 {{#examples}}
                                   <li class="">
-                                    <a data-toggle="tab" href="#responses-{{nickname}}-{{code}}-example">Response Example</a>
+                                    <a data-toggle="tab" href="#responses-{{baseName}}-{{nickname}}-{{code}}-example">Response Example</a>
                                   </li>
                                 {{/examples}}
+
                               {{/schema}}
+
                               {{#hasHeaders}}
                                 <li class="">
                                   <a data-toggle="tab" href="#responses-{{nickname}}-{{code}}-headers">Headers</a>
                                 </li>
                               {{/hasHeaders}}
+
+                              {{#vendorExtensions}}
+                                {{#x-shared-errors}}
+                                  <script>
+                                    $(document).ready(function()
+                                    {
+                                      var errRef = "{{{$ref}}}";
+                                      var errorID = errRef.substring(errRef.lastIndexOf("/") + 1);
+                                      var errorDef = errs[errorID];
+                                      var tabID = 'responses-detail-{{baseName}}-{{nickname}}-{{code}}-' + errorID;
+                                      var contentID = tabID + "-content";
+
+                                      $('#responses-detail-{{baseName}}-{{nickname}}-{{code}}').append("<li><a href='#" + tabID + "' data-toggle='tab'>" + errorID + "</a></li>");
+                                      var contentWrapper = $('#responses-{{baseName}}-{{nickname}}-{{code}}-wrapper');
+                                      contentWrapper.append('<div class="tab-pane" id="' + tabID + '"><div id="' + contentID + '" class="exampleStyle"></div></div>');
+                                      var contentPane = $('#' + contentID);
+
+                                      contentPane.append('<p>' + errorDef.message + '</p>');
+                                      if (errorDef.variables)
+                                      {
+                                        contentPane.append('<h4>Variables</h4>');
+                                        var lVars = $('<ol></ol>').appendTo(contentPane);
+                                        for (lii = 0; lii < errorDef.variables.length; lii++)
+                                        {
+                                          $("<li></li>").appendTo(lVars).text(errorDef.variables[lii]);
+                                        }
+                                      }
+                                    });
+                                  </script>
+                                {{/x-shared-errors}}
+                              {{/vendorExtensions}}
                             </ul>
 
-                            <div class="tab-content" style='margin-bottom: 10px;'>
+
+                            <div class="tab-content" id="responses-{{baseName}}-{{nickname}}-{{code}}-wrapper" style='margin-bottom: 10px;'>
                               {{#schema}}
-                                <div class="tab-pane active" id="responses-{{nickname}}-{{code}}-schema">
-                                  <div id='responses-{{nickname}}-{{code}}-schema-{{code}}' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                <div class="tab-pane active" id="responses-{{baseName}}-{{nickname}}-{{code}}-schema">
+                                  <div id="responses-{{baseName}}-{{nickname}}-schema-{{code}}" class="exampleStyle">
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {{{jsonSchema}}};
@@ -352,45 +426,43 @@
                                           });
                                         }
 
-                                        //console.log(JSON.stringify(schema));
                                         var view = new JSONSchemaView(schema, 3);
-                                        $('#responses-{{nickname}}-{{code}}-schema-data').val(stringify(schema));
-                                        var result = $('#responses-{{nickname}}-{{code}}-schema-{{code}}');
+                                        $('#responses-{{baseName}}-{{nickname}}-{{code}}-schema-data').val(JSON.stringify(schema));
+                                        var result = $('#responses-{{baseName}}-{{nickname}}-schema-{{code}}');
                                         result.empty();
                                         result.append(view.render());
                                       });
                                     </script>
                                   </div>
-                                  <input id='responses-{{nickname}}-{{code}}-schema-data' type='hidden' value=''></input>
+                                  <input id='responses-{{baseName}}-{{nickname}}-{{code}}-schema-data' type='hidden' value=''></input>
                                 </div>
                                 {{#examples}}
-                                  <div class="tab-pane" id="responses-{{nickname}}-{{code}}-example">
-                                      <pre class="prettyprint"><code class="json">{{example}}</code></pre>
-                                </div>
+                                  <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-{{code}}-example">
+                                    <pre class="prettyprint"><code class="json">{{example}}</code></pre>
+                                  </div>
                                 {{/examples}}
                               {{/schema}}
                               {{#hasHeaders}}
-                                <div class="tab-pane" id="responses-{{nickname}}-{{code}}-headers">
-                                    <table>
-                                        <tr>
-                                            <th width="150px">Name</th>
-                                            <th width="100px">Type</th>
-                                            <th width="100px">Format</th>
-                                            <th>Description</th>
-                                        </tr>
-                                        {{#headers}}
-                                        <tr>
-                                            <td>{{#name}}{{name}}{{/name}}</td>
-                                            <td>{{#datatype}}{{dataType}}{{/datatype}}</td>
-                                            <td>{{#dataFormat}}{{dataFormat}}{{/dataFormat}}</td>
-                                            <td>{{#description}}{{description}}{{/description}}</td>
-                                        </tr>
-                                        {{/headers}}
-                                    </table>
-                                </div>
+                                  <div class="tab-pane" id="responses-{{nickname}}-{{code}}-headers">
+                                      <table>
+                                          <tr>
+                                              <th width="150px">Name</th>
+                                              <th width="100px">Type</th>
+                                              <th width="100px">Format</th>
+                                              <th>Description</th>
+                                          </tr>
+                                          {{#headers}}
+                                              <tr>
+                                                  <td>{{#name}}{{name}}{{/name}}</td>
+                                                  <td>{{#datatype}}{{dataType}}{{/datatype}}</td>
+                                                  <td>{{#dataFormat}}{{dataFormat}}{{/dataFormat}}</td>
+                                                  <td>{{#description}}{{description}}{{/description}}</td>
+                                              </tr>
+                                          {{/headers}}
+                                      </table>
+                                  </div>
                               {{/hasHeaders}}
                             </div>
-
                           {{/responses}}
                         </article>
                       </div>

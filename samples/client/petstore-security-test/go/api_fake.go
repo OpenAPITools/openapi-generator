@@ -16,6 +16,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"github.com/antihax/optional"
 )
 
 // Linger please
@@ -25,23 +26,25 @@ var (
 
 type FakeApiService service
 
-/* 
-FakeApiService To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+/*
+FakeApiService To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
+To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *TestCodeInjectEndRnNROpts - Optional Parameters:
- * @param "UNKNOWNBASETYPE" (optional.Interface of interface{}) - 
+ * @param "UNKNOWNBASETYPE" (optional.Interface of UNKNOWN_BASE_TYPE) - 
 */
 
 type TestCodeInjectEndRnNROpts struct {
-    UNKNOWNBASETYPE optional.Interface
+	UNKNOWNBASETYPE optional.Interface
 }
 
 func (a *FakeApiService) TestCodeInjectEndRnNR(ctx context.Context, localVarOptionals *TestCodeInjectEndRnNROpts) (*http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("Put")
-		localVarPostBody   interface{}
-		localVarFileName   string
-		localVarFileBytes  []byte
+		localVarHttpMethod   = strings.ToUpper("Put")
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 	)
 
 	// create path and map variables
@@ -70,14 +73,14 @@ func (a *FakeApiService) TestCodeInjectEndRnNR(ctx context.Context, localVarOpti
 	}
 	// body params
 	if localVarOptionals != nil && localVarOptionals.UNKNOWNBASETYPE.IsSet() {
-		localVarOptionalUNKNOWNBASETYPE, localVarOptionalUNKNOWNBASETYPEok := localVarOptionals.UNKNOWNBASETYPE.Value().(interface{})
+		localVarOptionalUNKNOWNBASETYPE, localVarOptionalUNKNOWNBASETYPEok := localVarOptionals.UNKNOWNBASETYPE.Value().(UNKNOWN_BASE_TYPE)
 		if !localVarOptionalUNKNOWNBASETYPEok {
-			return nil, reportError("uNKNOWNBASETYPE should be interface{}")
+			return nil, reportError("uNKNOWNBASETYPE should be UNKNOWN_BASE_TYPE")
 		}
 		localVarPostBody = &localVarOptionalUNKNOWNBASETYPE
 	}
 
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
 	}
@@ -95,7 +98,7 @@ func (a *FakeApiService) TestCodeInjectEndRnNR(ctx context.Context, localVarOpti
 
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
-			body: localVarBody,
+			body:  localVarBody,
 			error: localVarHttpResponse.Status,
 		}
 		return localVarHttpResponse, newErr

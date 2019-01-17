@@ -42,6 +42,7 @@ public class ExampleGenerator {
     private static final String NONE = "none";
     private static final String URL = "url";
     private static final String URI = "uri";
+    private static final String STATUS_CODE = "statusCode";
 
     protected Map<String, Schema> examples;
     private OpenAPI openAPI;
@@ -54,15 +55,27 @@ public class ExampleGenerator {
         this.random = new Random("ExampleGenerator".hashCode());
     }
 
-    public List<Map<String, String>> generateFromResponseSchema(Schema responseSchema, Set<String> producesInfo) {
+    public List<Map<String, String>> generateFromResponseSchema(String statusCode, Schema responseSchema, Set<String> producesInfo) {
+        List<Map<String, String>> examples = generateFromResponseSchema(responseSchema, producesInfo);
+        if (examples == null) {
+            return null;
+        }
+
+        for (Map<String, String> example : examples) {
+            example.put(STATUS_CODE, statusCode);
+        }
+
+        return examples;
+    }
+
+    private List<Map<String, String>> generateFromResponseSchema(Schema responseSchema, Set<String> producesInfo) {
         if (responseSchema.getExample() == null && StringUtils.isEmpty(responseSchema.get$ref()) && !ModelUtils.isArraySchema(responseSchema)) {
             // no example provided
             return null;
         }
 
         if (responseSchema.getExample() != null && !(responseSchema.getExample() instanceof Map)) {
-            LOGGER.warn("example value (array/primitive) not handled at the moment: " + responseSchema.getExample());
-            return null;
+            return generate(responseSchema.getExample(), new ArrayList<>(producesInfo));
         }
 
         if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
@@ -176,6 +189,34 @@ public class ExampleGenerator {
         return output;
     }
 
+    private List<Map<String, String>> generate(Object example, List<String> mediaTypes) {
+        List<Map<String, String>> output = new ArrayList<>();
+        if (examples != null) {
+            if (mediaTypes == null) {
+                // assume application/json for this
+                mediaTypes = Collections.singletonList(MIME_TYPE_JSON);
+            }
+            for (String mediaType : mediaTypes) {
+                Map<String, String> kv = new HashMap<>();
+                kv.put(CONTENT_TYPE, mediaType);
+                if ((mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
+                    kv.put(EXAMPLE, Json.pretty(example));
+                    output.add(kv);
+                } else if (mediaType.startsWith(MIME_TYPE_XML)) {
+                    // TODO
+                    LOGGER.warn("XML example value of (array/primitive) is not handled at the moment: " + example);
+                }
+            }
+        }
+
+        if (output.size() == 0) {
+            Map<String, String> kv = new HashMap<>();
+            kv.put(OUTPUT, NONE);
+            output.add(kv);
+        }
+        return output;
+    }
+
     private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels) {
         LOGGER.debug("Resolving example for property {}...", property);
         if (property.getExample() != null) {
@@ -191,7 +232,13 @@ public class ExampleGenerator {
             Schema innerType = ((ArraySchema) property).getItems();
             if (innerType != null) {
                 int arrayLength = null == ((ArraySchema) property).getMaxItems() ? 2 : ((ArraySchema) property).getMaxItems();
-                if (arrayLength > 1024) {
+                if (arrayLength == Integer.MAX_VALUE) {
+                    // swagger-jersey2-jaxrs generated spec may contain maxItem = 2147483647
+                    // semantically this means there is no upper limit
+                    // treating this as if the property was not present at all
+                    LOGGER.warn("The max items allowed in property {} of {} equals Integer.MAX_VALUE. Treating this as if no max items has been specified.", property, arrayLength);
+                    arrayLength = 2;
+                } else if (arrayLength > 1024) {
                     LOGGER.warn("The max items allowed in property {} is too large ({} items), restricting it to 1024 items", property, arrayLength);
                     arrayLength = 1024;
                 }
@@ -230,10 +277,10 @@ public class ExampleGenerator {
             Map<String, Object> mp = new HashMap<String, Object>();
             if (property.getName() != null) {
                 mp.put(property.getName(),
-                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(property), processedModels));
             } else {
                 mp.put("key",
-                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, ModelUtils.getAdditionalProperties(property), processedModels));
             }
             return mp;
         } else if (ModelUtils.isUUIDSchema(property)) {

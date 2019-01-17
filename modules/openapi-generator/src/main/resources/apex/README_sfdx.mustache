@@ -67,7 +67,7 @@ try {
   {{#returnType}}
     System.debug(result);
   {{/returnType}}
-} catch (Swagger.ApiException e) {
+} catch (OAS.ApiException e) {
     // ...handle your exceptions
 }{{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
 ```
@@ -100,7 +100,7 @@ Class | Method | HTTP request | Description
 {{/isBasic}}
 {{#isOAuth}}- **Type**: OAuth
 - **Flow**: {{flow}}
-- **Authorizatoin URL**: {{authorizationUrl}}
+- **Authorization URL**: {{authorizationUrl}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}
 {{#scopes}}  - {{scope}}: {{description}}
 {{/scopes}}

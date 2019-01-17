@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Animal
@@ -29,7 +30,7 @@ import javax.validation.constraints.*;
 
 public class Animal  implements Serializable {
   @JsonProperty("className")
-  private String className = null;
+  private String className;
 
   @JsonProperty("color")
   private String color = "red";
@@ -45,7 +46,8 @@ public class Animal  implements Serializable {
    **/
   @JsonProperty("className")
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+    @NotNull
+
   public String getClassName() {
     return className;
   }
@@ -65,6 +67,7 @@ public class Animal  implements Serializable {
    **/
   @JsonProperty("color")
   @ApiModelProperty(value = "")
+  
   public String getColor() {
     return color;
   }

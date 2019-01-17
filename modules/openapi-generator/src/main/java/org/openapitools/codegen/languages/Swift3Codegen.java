@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -31,6 +32,8 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(Swift3Codegen.class);
@@ -219,18 +222,18 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getName() {
-        return "swift3";
+        return "swift3-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Swift 3.x client library.";
+        return "Generates a Swift 3.x client library. IMPORTANT NOTE: this generator (swfit 3.x)  is no longer actively maintained so please use 'swift4' generator instead.";
     }
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
 
-        final Schema additionalProperties = (Schema) schema.getAdditionalProperties();
+        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
@@ -240,6 +243,11 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("SWIFT_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable SWIFT_POST_PROCESS_FILE not defined so the Swift code may not be properly formatted. To define it, try 'export SWIFT_POST_PROCESS_FILE=/usr/local/bin/swiftformat' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
 
         // Setup project name
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -333,7 +341,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = (Schema) p.getAdditionalProperties();
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "[String:" + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -422,7 +430,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            return getSchemaType((Schema) p.getAdditionalProperties());
+            return getSchemaType(ModelUtils.getAdditionalProperties(p));
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
@@ -452,6 +460,12 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
             String newOperationId = camelize(("call_" + operationId), true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
+        }
+
+        // operationId starts with a number
+        if (operationId.matches("^\\d.*")) {
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            operationId = camelize(sanitizeName("call_" + operationId), true);
         }
 
         return operationId;
@@ -578,7 +592,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase()), true);
+            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
         }
 
         // Camelize only when we have a structure defined below
@@ -673,5 +687,32 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+        String swiftPostProcessFile = System.getenv("SWIFT_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(swiftPostProcessFile)) {
+            return; // skip if SWIFT_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with swift extension
+        if ("swift".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = swiftPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 }

@@ -27,6 +27,8 @@
 
 #include <StoreApi.h>
 
+#include <pistache/optional.h>
+
 #include "Order.h"
 #include <map>
 #include <string>
@@ -40,13 +42,13 @@ using namespace org::openapitools::server::model;
 
 class StoreApiImpl : public org::openapitools::server::api::StoreApi {
 public:
-    StoreApiImpl(Pistache::Address addr);
-    ~StoreApiImpl() { };
+    StoreApiImpl(std::shared_ptr<Pistache::Rest::Router>);
+    ~StoreApiImpl() {}
 
     void delete_order(const std::string &orderId, Pistache::Http::ResponseWriter &response);
     void get_inventory(Pistache::Http::ResponseWriter &response);
     void get_order_by_id(const int64_t &orderId, Pistache::Http::ResponseWriter &response);
-    void place_order(const std::shared_ptr<Order> &order, Pistache::Http::ResponseWriter &response);
+    void place_order(const Order &order, Pistache::Http::ResponseWriter &response);
 
 };
 

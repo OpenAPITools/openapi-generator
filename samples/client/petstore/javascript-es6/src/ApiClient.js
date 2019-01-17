@@ -89,6 +89,11 @@ class ApiClient {
          */
          this.requestAgent = null;
 
+        /*
+         * Allow user to add superagent plugins
+         */
+        this.plugins = null;
+
     }
 
     /**
@@ -354,6 +359,14 @@ class ApiClient {
         var url = this.buildUrl(path, pathParams);
         var request = superagent(httpMethod, url);
 
+        if (this.plugins !== null) {
+            for (var index in this.plugins) {
+                if (this.plugins.hasOwnProperty(index)) {
+                    request.use(this.plugins[index])
+                }
+            }
+        }
+
         // apply authentications
         this.applyAuthToRequest(request, authNames);
 
@@ -399,7 +412,7 @@ class ApiClient {
                     }
                 }
             }
-        } else if (bodyParam) {
+        } else if (bodyParam !== null && bodyParam !== undefined) {
             request.send(bodyParam);
         }
 
@@ -417,7 +430,7 @@ class ApiClient {
         // Attach previously saved cookies, if enabled
         if (this.enableCookies){
             if (typeof window === 'undefined') {
-                this.agent.attachCookies(request);
+                this.agent._attachCookies(request);
             }
             else {
                 request.withCredentials();
@@ -433,7 +446,7 @@ class ApiClient {
                     try {
                         data = this.deserialize(response, returnType);
                         if (this.enableCookies && typeof window === 'undefined'){
-                            this.agent.saveCookies(response);
+                            this.agent._saveCookies(response);
                         }
                     } catch (err) {
                         error = err;
@@ -486,8 +499,8 @@ class ApiClient {
                 if (type === Object) {
                     // generic object, return directly
                     return data;
-                } else if (typeof type === 'function') {
-                    // for model type like: User
+                } else if (typeof type.constructFromObject === 'function') {
+                    // for model type like User and enum class
                     return type.constructFromObject(data);
                 } else if (Array.isArray(type)) {
                     // for array type like: ['String']

@@ -10,7 +10,7 @@ npm run build
 
 ### publishing
 
-First build the package than run ```npm publish```
+First build the package then run ```npm publish```
 
 ### consuming
 

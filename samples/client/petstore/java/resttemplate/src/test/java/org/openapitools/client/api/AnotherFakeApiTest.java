@@ -34,15 +34,15 @@ public class AnotherFakeApiTest {
     /**
      * To test special tags
      *
-     * To test special tags
+     * To test special tags and operation ID starting with number
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void testSpecialTagsTest() {
+    public void call123testSpecialTagsTest() {
         Client client = null;
-        Client response = api.testSpecialTags(client);
+        Client response = api.call123testSpecialTags(client);
 
         // TODO: test validations
     }

@@ -20,6 +20,8 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.*;
 
 import java.io.File;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 
 public class GroovyClientCodegen extends AbstractJavaCodegen {
     public static final String CONFIG_PACKAGE = "configPackage";

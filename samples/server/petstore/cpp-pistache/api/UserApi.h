@@ -19,10 +19,11 @@
 #define UserApi_H_
 
 
-#include <pistache/endpoint.h>
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
+#include <pistache/optional.h>
+
 
 #include "User.h"
 #include <string>
@@ -37,11 +38,9 @@ using namespace org::openapitools::server::model;
 
 class  UserApi {
 public:
-    UserApi(Pistache::Address addr);
-    virtual ~UserApi() {};
-    void init(size_t thr);
-    void start();
-    void shutdown();
+    UserApi(std::shared_ptr<Pistache::Rest::Router>);
+    virtual ~UserApi() {}
+    void init();
 
     const std::string base = "/v2";
 
@@ -58,9 +57,7 @@ private:
     void update_user_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void user_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
 
-    std::shared_ptr<Pistache::Http::Endpoint> httpEndpoint;
-    Pistache::Rest::Router router;
-
+    std::shared_ptr<Pistache::Rest::Router> router;
 
     /// <summary>
     /// Create user
@@ -69,7 +66,7 @@ private:
     /// This can only be done by the logged in user.
     /// </remarks>
     /// <param name="user">Created user object</param>
-    virtual void create_user(const std::shared_ptr<User> &user, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_user(const User &user, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Creates list of users with given input array
@@ -78,7 +75,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="user">List of user object</param>
-    virtual void create_users_with_array_input(const std::vector<std::shared_ptr<User>> &user, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_array_input(const std::vector<User> &user, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Creates list of users with given input array
@@ -87,7 +84,7 @@ private:
     /// 
     /// </remarks>
     /// <param name="user">List of user object</param>
-    virtual void create_users_with_list_input(const std::vector<std::shared_ptr<User>> &user, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void create_users_with_list_input(const std::vector<User> &user, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Delete user
@@ -115,7 +112,7 @@ private:
     /// </remarks>
     /// <param name="username">The user name for login</param>
     /// <param name="password">The password for login in clear text</param>
-    virtual void login_user(const Optional<std::string> &username, const Optional<std::string> &password, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void login_user(const Pistache::Optional<std::string> &username, const Pistache::Optional<std::string> &password, Pistache::Http::ResponseWriter &response) = 0;
 
     /// <summary>
     /// Logs out current logged in user session
@@ -133,7 +130,7 @@ private:
     /// </remarks>
     /// <param name="username">name that need to be deleted</param>
     /// <param name="user">Updated user object</param>
-    virtual void update_user(const std::string &username, const std::shared_ptr<User> &user, Pistache::Http::ResponseWriter &response) = 0;
+    virtual void update_user(const std::string &username, const User &user, Pistache::Http::ResponseWriter &response) = 0;
 
 };
 

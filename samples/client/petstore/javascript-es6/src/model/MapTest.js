@@ -53,6 +53,12 @@ class MapTest {
             if (data.hasOwnProperty('map_of_enum_string')) {
                 obj['map_of_enum_string'] = ApiClient.convertToType(data['map_of_enum_string'], {'String': 'String'});
             }
+            if (data.hasOwnProperty('direct_map')) {
+                obj['direct_map'] = ApiClient.convertToType(data['direct_map'], {'String': 'Boolean'});
+            }
+            if (data.hasOwnProperty('indirect_map')) {
+                obj['indirect_map'] = ApiClient.convertToType(data['indirect_map'], {'String': 'Boolean'});
+            }
         }
         return obj;
     }
@@ -69,6 +75,16 @@ MapTest.prototype['map_map_of_string'] = undefined;
  * @member {Object.<String, module:model/MapTest.InnerEnum>} map_of_enum_string
  */
 MapTest.prototype['map_of_enum_string'] = undefined;
+
+/**
+ * @member {Object.<String, Boolean>} direct_map
+ */
+MapTest.prototype['direct_map'] = undefined;
+
+/**
+ * @member {Object.<String, Boolean>} indirect_map
+ */
+MapTest.prototype['indirect_map'] = undefined;
 
 
 

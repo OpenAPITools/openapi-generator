@@ -10,14 +10,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL) 
 public class User   {
   
-  private Long id = null;
-  private String username = null;
-  private String firstName = null;
-  private String lastName = null;
-  private String email = null;
-  private String password = null;
-  private String phone = null;
-  private Integer userStatus = null;
+  private Long id;
+  private String username;
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String password;
+  private String phone;
+  private Integer userStatus;
 
   public User () {
 

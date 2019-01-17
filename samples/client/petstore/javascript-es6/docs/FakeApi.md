@@ -8,10 +8,12 @@ Method | HTTP request | Description
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
+[**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 
@@ -74,7 +76,7 @@ import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
 let opts = {
-  'outerComposite': new OpenApiPetstore.OuterComposite() // OuterComposite | Input composite as post body
+  'body': new OpenApiPetstore.OuterComposite() // OuterComposite | Input composite as post body
 };
 apiInstance.fakeOuterCompositeSerialize(opts, (error, data, response) => {
   if (error) {
@@ -89,7 +91,7 @@ apiInstance.fakeOuterCompositeSerialize(opts, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
 
 ### Return type
 
@@ -192,9 +194,51 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: */*
 
+<a name="testBodyWithFileSchema"></a>
+# **testBodyWithFileSchema**
+> testBodyWithFileSchema(body)
+
+
+
+For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+
+### Example
+```javascript
+import OpenApiPetstore from 'open_api_petstore';
+
+let apiInstance = new OpenApiPetstore.FakeApi();
+let body = new OpenApiPetstore.FileSchemaTestClass(); // FileSchemaTestClass | 
+apiInstance.testBodyWithFileSchema(body, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+});
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
 <a name="testBodyWithQueryParams"></a>
 # **testBodyWithQueryParams**
-> testBodyWithQueryParams(query, user)
+> testBodyWithQueryParams(query, body)
 
 
 
@@ -204,8 +248,8 @@ import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
 let query = "query_example"; // String | 
-let user = new OpenApiPetstore.User(); // User | 
-apiInstance.testBodyWithQueryParams(query, user, (error, data, response) => {
+let body = new OpenApiPetstore.User(); // User | 
+apiInstance.testBodyWithQueryParams(query, body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -219,7 +263,7 @@ apiInstance.testBodyWithQueryParams(query, user, (error, data, response) => {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **String**|  | 
- **user** | [**User**](User.md)|  | 
+ **body** | [**User**](User.md)|  | 
 
 ### Return type
 
@@ -236,7 +280,7 @@ No authorization required
 
 <a name="testClientModel"></a>
 # **testClientModel**
-> Client testClientModel(client)
+> Client testClientModel(body)
 
 To test \&quot;client\&quot; model
 
@@ -247,8 +291,8 @@ To test \&quot;client\&quot; model
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
-let client = new OpenApiPetstore.Client(); // Client | client model
-apiInstance.testClientModel(client, (error, data, response) => {
+let body = new OpenApiPetstore.Client(); // Client | client model
+apiInstance.testClientModel(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -261,7 +305,7 @@ apiInstance.testClientModel(client, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
@@ -410,19 +454,28 @@ No authorization required
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
-<a name="testInlineAdditionalProperties"></a>
-# **testInlineAdditionalProperties**
-> testInlineAdditionalProperties(requestBody)
+<a name="testGroupParameters"></a>
+# **testGroupParameters**
+> testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts)
 
-test inline additionalProperties
+Fake endpoint to test group parameters (optional)
+
+Fake endpoint to test group parameters (optional)
 
 ### Example
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.FakeApi();
-let requestBody = {key: "inner_example"}; // {String: String} | request body
-apiInstance.testInlineAdditionalProperties(requestBody, (error, data, response) => {
+let requiredStringGroup = 56; // Number | Required String in group parameters
+let requiredBooleanGroup = true; // Boolean | Required Boolean in group parameters
+let requiredInt64Group = 789; // Number | Required Integer in group parameters
+let opts = {
+  'stringGroup': 56, // Number | String in group parameters
+  'booleanGroup': true, // Boolean | Boolean in group parameters
+  'int64Group': 789 // Number | Integer in group parameters
+};
+apiInstance.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -435,7 +488,52 @@ apiInstance.testInlineAdditionalProperties(requestBody, (error, data, response) 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**{String: String}**](String.md)| request body | 
+ **requiredStringGroup** | **Number**| Required String in group parameters | 
+ **requiredBooleanGroup** | **Boolean**| Required Boolean in group parameters | 
+ **requiredInt64Group** | **Number**| Required Integer in group parameters | 
+ **stringGroup** | **Number**| String in group parameters | [optional] 
+ **booleanGroup** | **Boolean**| Boolean in group parameters | [optional] 
+ **int64Group** | **Number**| Integer in group parameters | [optional] 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a name="testInlineAdditionalProperties"></a>
+# **testInlineAdditionalProperties**
+> testInlineAdditionalProperties(param)
+
+test inline additionalProperties
+
+### Example
+```javascript
+import OpenApiPetstore from 'open_api_petstore';
+
+let apiInstance = new OpenApiPetstore.FakeApi();
+let param = {key: "null"}; // {String: String} | request body
+apiInstance.testInlineAdditionalProperties(param, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+});
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **param** | [**{String: String}**](String.md)| request body | 
 
 ### Return type
 

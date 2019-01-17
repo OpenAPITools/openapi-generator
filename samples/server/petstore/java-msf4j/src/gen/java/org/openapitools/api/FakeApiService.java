@@ -10,7 +10,9 @@ import java.math.BigDecimal;
 import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
+import org.openapitools.model.FileSchemaTestClass;
 import java.util.Map;
+import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 
@@ -24,13 +26,15 @@ import javax.ws.rs.core.SecurityContext;
 
 
 public abstract class FakeApiService {
-    public abstract Response fakeOuterBooleanSerialize(Boolean booleanPostBody
+    public abstract Response fakeOuterBooleanSerialize(Boolean body
  ) throws NotFoundException;
     public abstract Response fakeOuterCompositeSerialize(OuterComposite outerComposite
  ) throws NotFoundException;
     public abstract Response fakeOuterNumberSerialize(BigDecimal body
  ) throws NotFoundException;
     public abstract Response fakeOuterStringSerialize(String body
+ ) throws NotFoundException;
+    public abstract Response testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass
  ) throws NotFoundException;
     public abstract Response testBodyWithQueryParams(String query
  ,User user
@@ -61,9 +65,13 @@ public abstract class FakeApiService {
  ,List<String> enumFormStringArray
  ,String enumFormString
  ) throws NotFoundException;
-    public abstract Response testInlineAdditionalProperties(String requestBody
+    public abstract Response testInlineAdditionalProperties(Map<String, String> requestBody
  ) throws NotFoundException;
     public abstract Response testJsonFormData(String param
  ,String param2
+ ) throws NotFoundException;
+    public abstract Response uploadFileWithRequiredFile(Long petId
+ ,InputStream requiredFileInputStream, FileInfo requiredFileDetail
+ ,String additionalMetadata
  ) throws NotFoundException;
 }

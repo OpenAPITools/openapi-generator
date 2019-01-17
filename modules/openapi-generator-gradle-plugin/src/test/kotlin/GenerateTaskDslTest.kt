@@ -31,7 +31,7 @@ class GenerateTaskDslTest : TestBase()  {
     fun `openApiGenerate should create an expected file structure from DSL config`() {
         // Arrange
         val projectFiles = mapOf(
-                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid.yaml")
+                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
         )
         withProject(defaultBuildGradle, projectFiles)
 
@@ -48,14 +48,12 @@ class GenerateTaskDslTest : TestBase()  {
         listOf(
             "build/kotlin/.openapi-generator-ignore",
             "build/kotlin/docs/PetsApi.md",
-            "build/kotlin/docs/Pets.md",
             "build/kotlin/docs/Error.md",
             "build/kotlin/docs/Pet.md",
             "build/kotlin/README.md",
             "build/kotlin/build.gradle",
             "build/kotlin/.openapi-generator/VERSION",
             "build/kotlin/settings.gradle",
-            "build/kotlin/src/main/kotlin/org/openapitools/example/model/Pets.kt",
             "build/kotlin/src/main/kotlin/org/openapitools/example/model/Pet.kt",
             "build/kotlin/src/main/kotlin/org/openapitools/example/model/Error.kt",
             "build/kotlin/src/main/kotlin/org/openapitools/example/api/PetsApi.kt",

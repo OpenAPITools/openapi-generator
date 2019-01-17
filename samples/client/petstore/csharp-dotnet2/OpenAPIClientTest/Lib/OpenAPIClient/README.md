@@ -53,12 +53,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+            var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Add a new pet to the store
-                apiInstance.AddPet(pet);
+                apiInstance.AddPet(body);
             }
             catch (Exception e)
             {
