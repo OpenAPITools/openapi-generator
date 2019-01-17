@@ -7,9 +7,9 @@
     <name>{{artifactId}}</name>
     <version>{{artifactVersion}}</version>
     <scm>
-        <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
-        <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>
-        <url>https://openapi-generator.tech</url>
+        <connection>{{scmConnection}}</connection>
+        <developerConnection>{{scmDeveloperConnection}}</developerConnection>
+        <url>{{scmUrl}}</url>
     </scm>
 {{#parentOverridden}}
     <parent>
@@ -18,6 +18,23 @@
         <version>{{{parentVersion}}}</version>
     </parent>
 {{/parentOverridden}}
+
+    <licenses>
+        <license>
+            <name>{{licenseName}}</name>
+            <url>{{licenseUrl}}</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>{{developerName}}</name>
+            <email>{{developerEmail}}</email>
+            <organization>{{developerOrganization}}</organization>
+            <organizationUrl>{{developerOrganizationUrl}}</organizationUrl>
+        </developer>
+    </developers>
 
     <build>
         <plugins>
