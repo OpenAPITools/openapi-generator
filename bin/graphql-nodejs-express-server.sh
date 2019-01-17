@@ -26,7 +26,7 @@ then
 fi
 
 # if you've executed sbt assembly previously it will use that instead.
-export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g typescript-node -c bin/typescript-node-petstore-npm.json -o samples/client/petstore/typescript-node/npm $@"
+export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties $@"
+ags="generate -t modules/openapi-generator/src/main/resources/graphql-nodejs-express-server -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g graphql-nodejs-express-server -o samples/server/petstore/graphql-nodejs-express-server -DpackageName=petstore $@"
 
 java $JAVA_OPTS -jar $executable $ags

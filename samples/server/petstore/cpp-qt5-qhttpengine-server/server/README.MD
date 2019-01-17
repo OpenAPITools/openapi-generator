@@ -46,7 +46,7 @@ make
 To run the server
 
 ```shell
-./build/src/cpp-qt5-server &
+./build/src/cpp-qt5-qhttpengine-server &
 ```
 
 #### Invoke an API
@@ -65,13 +65,13 @@ If you dont have docker install [here](https://docs.docker.com/install)
 Add yourself to the docker group
 
 ```shell
-docker build --network=host -t cpp-qt5-server .
+docker build --network=host -t cpp-qt5-qhttpengine-server .
 ```
 
 Running with docker
 
 ```shell
-docker run --rm -it --name=server-container cpp-qt5-server
+docker run --rm -it --name=server-container cpp-qt5-qhttpengine-server
 ```
 
 #### Invoking an API
