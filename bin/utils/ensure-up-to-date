@@ -37,6 +37,9 @@ declare -a scripts=("./bin/openapi3/ruby-client-petstore.sh"
 "./bin/csharp-petstore.sh"
 "./bin/meta-codegen.sh"
 "./bin/utils/export_docs_generators.sh"
+"./bin/utils/export_generators_docusaurus_index.sh"
+"./bin/utils/copy-to-website.sh"
+"./bin/utils/export_generators_readme.sh"
 "./bin/go-petstore.sh"
 "./bin/go-gin-petstore-server.sh")
 
