@@ -1,8 +1,12 @@
+---
+id: integrations
+title: Workflow Integrations
+---
 ## Workflow Integration (Maven, Github, CI/CD)
 
 ### Gradle Integration
 
-See the [openapi-generator-gradle-plugin README](../modules/openapi-generator-gradle-plugin/README.adoc) for details related to configuring and using the Gradle Plugin.
+See the [openapi-generator-gradle-plugin README](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-gradle-plugin/README.adoc) for details related to configuring and using the Gradle Plugin.
 
 Supported tasks include:
 
@@ -13,7 +17,7 @@ Supported tasks include:
 
 ### Maven Integration
 
-See the [openapi-generator-maven-plugin README](../modules/openapi-generator-maven-plugin/README.md) for details related to configuring and using the Maven Plugin.
+See the [openapi-generator-maven-plugin README](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-maven-plugin/README.md) for details related to configuring and using the Maven Plugin.
 
 ### GitHub Integration
 
@@ -40,5 +44,3 @@ cd /var/tmp/perl/petstore
 Some generators also generate CI/CD configuration files (.travis.yml) so that the output will be ready to be tested by the CI (e.g. Travis)
 
 If you're looking for the configuration files of a particular CI that is not yet supported, please open an [issue](https://github.com/openapitools/openapi-generator/issues/new) to let us know.
-
-[Back to OpenAPI-Generator's README page](../README.md)
