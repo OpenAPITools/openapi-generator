@@ -1,0 +1,653 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Using Templates · OpenAPI Generator</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;p&gt;It&#x27;s easy to work with templates for codegen!&lt;/p&gt;
+"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Using Templates · OpenAPI Generator"/><meta property="og:type" content="website"/><meta property="og:url" content="https://OpenAPITools.github.io/openapi-generator/index.html"/><meta property="og:description" content="&lt;p&gt;It&#x27;s easy to work with templates for codegen!&lt;/p&gt;
+"/><meta property="og:image" content="https://OpenAPITools.github.io/openapi-generator/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://OpenAPITools.github.io/openapi-generator/img/icons/twitter.svg"/><link rel="shortcut icon" href="/openapi-generator/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://OpenAPITools.github.io/openapi-generator/blog/atom.xml" title="OpenAPI Generator Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://OpenAPITools.github.io/openapi-generator/blog/feed.xml" title="OpenAPI Generator Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/openapi-generator/js/code-block-buttons.js"></script><link rel="stylesheet" href="/openapi-generator/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/openapi-generator/"><img class="logo" src="/openapi-generator/img/mono-logo.svg" alt="OpenAPI Generator"/><h2 class="headerTitleWithLogo">OpenAPI Generator</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/openapi-generator/docs/installation" target="_self">Get Started</a></li><li class="siteNavGroupActive"><a href="/openapi-generator/docs/generators" target="_self">Generators</a></li><li class="siteNavGroupActive"><a href="/openapi-generator/docs/roadmap" target="_self">Roadmap</a></li><li class=""><a href="/openapi-generator/team" target="_self">Team</a></li><li class=""><a href="/openapi-generator/docs/faq" target="_self">FAQ</a></li><li class=""><a href="/openapi-generator/blog/" target="_self">Blog</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Extending</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Getting Started</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/installation">CLI Installation</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/plugins">Plugins</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/online">Online</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/usage">Usage</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Extending</h3><ul><li class="navListItem navListItemActive"><a class="navItem" href="/openapi-generator/docs/templating">Using Templates</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/customization">Customization</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/debugging">Debugging</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/integrations">Workflow Integrations</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Contributing</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/contributing">Guidelines</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/code-of-conduct">Code of Conduct</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/contribute-building">Building the code</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/new-generator">Create a New Generator</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">About</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/roadmap">Roadmap</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/swagger-codegen-migration">Migrating from Swagger Codegen</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/fork-qna">Swagger Codegen Fork: Q&amp;A</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Releases</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/release-summary">Release Summary</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/release-3-0-0">Release Notes: 3.0.0</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">API</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/generators">Generators List</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Using Templates</h1></header><article><div><span><p>It's easy to work with templates for codegen!</p>
+<p>The generator workflow has <a href="https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages">transforming logic</a> as well as templates for each generation of code.</p>
+<p>Each generator will create a data structure from the OpenAPI document; OpenAPI 2.0 and OpenAPI 3.x documents are normalized into the same API model within the generator. This model is then applied to the templates.  While generators do not need to perform transformations, it's often necessary in order to add more advanced support for your language or framework. You may need to refer to the generator implementation to understand some of the logic while creating or customizing templates (see <a href="https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/FinchServerCodegen.java">FinchServerCodegen.java</a> for an advanced example).</p>
+<p>The transform logic needs to implement <a href="https://github.com/openapitools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/CodegenConfig.java">CodegenConfig.java</a> and is most easily done by extending <a href="https://github.com/openapitools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java">DefaultCodegen.java</a>.  Take a look at the various implementations as a guideline while the instructions get more complete.</p>
+<h2><a class="anchor" aria-hidden="true" id="modifying-templates"></a><a href="#modifying-templates" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Modifying Templates</h2>
+<blockquote>
+<p>OpenAPI Generator applies user-defined templates via options:</p>
+<ul>
+<li>CLI: <code>-t/--template</code> CLI options</li>
+<li>Maven Plugin: <code>templateDirectory</code></li>
+<li>Gradle Plugin: <code>templateDir</code></li>
+</ul>
+</blockquote>
+<p>Built-in templates are written in Mustache and processed by <a href="https://github.com/samskivert/jmustache">jmustache</a>. We plan to eventually support Handlebars and user-defined template engines via plugins.</p>
+<p>OpenAPI Generator supports user-defined templates. This approach is often the easiest when creating a custom template. Our generators implement a combination of language and framework features, and it's fully possible to use an existing generator to implement a custom template for a different framework. Suppose you have internal utilities which you'd like to incorporate into generated code (e.g. logging, monitoring, fault-handling)... this is easy to add via custom templates.</p>
+<blockquote>
+<p><strong>Note:</strong> You cannot use this approach to create new templates, only override existing ones. If you'd like to create a new generator to contribute back to the project, see <code>new.sh</code> in the repository root. If you'd like to create a private generator for more templating control, see the <a href="/openapi-generator/docs/customization">customization</a> docs.</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="custom-logic"></a><a href="#custom-logic" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Logic</h3>
+<p>For this example, let's modify a Java client to use AOP via <a href="https://github.com/jcabi/jcabi-aspects">jcabi/jcabi-aspects</a>. We'll log API method execution at the <code>INFO</code> level. The jcabi-aspects project could also be used to implement method retries on failures; this would be a great exercise to further play around with templating.</p>
+<p>The Java generator supports a <code>library</code> option. This option works by defining base templates, then applying library-specific template overrides. This allows for template reuse for libraries sharing the same programming language. Templates defined as a library need only modify or extend the templates concerning the library, and generation falls back to the root templates (the &quot;defaults&quot;) when not extended by the library. Generators which support the <code>library</code> option will only support the libraries known by the generator at compile time, and will throw a runtime error if you try to provide a custom library name.</p>
+<p>To get started, we will need to copy our target generator's directory in full. The directory will be located under <code>modules/opeanpi-generator/src/main/resources/{generator}</code>. In general, the generator directory matches the generator name (what you would pass to the <code>generator</code> option), but this is not a requirement-- if you are having a hard time finding the template directory, look at the <code>embeddedTemplateDir</code> option in your target generator's implementation.</p>
+<p>If you've already cloned openapi-generator, find and copy the <code>modules/opeanpi-generator/src/main/resources/Java</code> directory. If you have the <a href="https://github.com/sindresorhus/refined-github">Refined GitHub</a> Chrome or Firefox Extension, you can navigate to this directory on GitHub and click the &quot;Download&quot; button. Or, to pull the directory from latest master:</p>
+<pre><code class="hljs css language-bash">mkdir -p ~/.openapi-generator/templates/ &amp;&amp; <span class="hljs-built_in">cd</span> <span class="hljs-variable">$_</span>
+curl -L https://api.github.com/repos/OpenAPITools/openapi-generator/tarball | tar xz
+mv `ls`/modules/openapi-generator/src/main/resources/Java ./Java
+\rm -rf OpenAPITools-openapi-generator-*
+<span class="hljs-built_in">cd</span> Java
+</code></pre>
+<p><strong>Optional</strong>: Before modifying your templates, you may want to <code>git init &amp;&amp; git add . &amp;&amp; git commit -am 'initial'</code> so you can easily revert to the base templates.</p>
+<p>At this point, you have <em>every</em> Java library's template locally. Let's delete all libraries except the <code>resteasy</code> library we'll be extending:</p>
+<pre><code class="hljs css language-bash">ls -d libraries/* | grep -v resteasy | xargs rm -rf
+</code></pre>
+<p>Execute <code>tree</code> in this Java directory and inspect the mustache files and directory structure. You'll notice there are quite a few templates in the directory root, but extending this root to support resteasy only requires modifying a handful of files:</p>
+<pre><code class="hljs css language-bash">tree libraries/resteasy/
+libraries/resteasy/
+├── ApiClient.mustache
+├── JSON.mustache
+├── api.mustache
+├── build.gradle.mustache
+├── build.sbt.mustache
+└── pom.mustache
+
+0 directories, 6 files
+</code></pre>
+<blockquote>
+<p>NOTE: Some generators may be sensitive to <em>which</em> files exist. If you're concerned with redundant files like <code>pom.mustache</code> and <code>build.sbt.mustache</code>, you can try deleting them. If the generator you're customizing fails at runtime, just <code>touch</code> these files to create an empty file.</p>
+</blockquote>
+<p>First, let's add our new dependency to <code>libraries/resteasy/build.gradle.mustache</code>:</p>
+<pre><code class="hljs css language-diff">diff --git a/libraries/resteasy/build.gradle.mustache b/libraries/resteasy/build.gradle.mustache
+index 3b40702..a6d12e0 100644
+<span class="hljs-comment">--- a/libraries/resteasy/build.gradle.mustache</span>
+<span class="hljs-comment">+++ b/libraries/resteasy/build.gradle.mustache</span>
+@@ -134,6 +134,7 @@ ext {
+ }
+ 
+ dependencies {
+<span class="hljs-addition">+    compile "com.jcabi:jcabi-aspects:0.22.6"</span>
+     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+     compile "org.jboss.resteasy:resteasy-client:$resteasy_version"
+     compile "org.jboss.resteasy:resteasy-multipart-provider:$resteasy_version"
+
+</code></pre>
+<p>Then, we'll add the necessary import to <code>api.mustache</code>. This file is the template which becomes the API invoking class (e.g. <code>PetApi</code> or <code>StoreApi</code>).</p>
+<pre><code class="hljs css language-diff">diff --git a/libraries/resteasy/api.mustache b/libraries/resteasy/api.mustache
+index a4d0f9f..49b17c7 100644
+<span class="hljs-comment">--- a/libraries/resteasy/api.mustache</span>
+<span class="hljs-comment">+++ b/libraries/resteasy/api.mustache</span>
+<span class="hljs-meta">@@ -1,5 +1,6 @@</span>
+ package {{package}};
+ 
+<span class="hljs-addition">+import com.jcabi.aspects.Loggable;</span>
+ import {{invokerPackage}}.ApiException;
+ import {{invokerPackage}}.ApiClient;
+ import {{invokerPackage}}.Configuration;
+
+</code></pre>
+<p>Next, we'll find the code which generates API methods. You'll see <code>{{#operations}}{{#operation}}</code> which is a mustache &quot;loop&quot; which executes the template logic if the model applied to the template has an <code>operations</code> array, and a non-null <code>operation</code> instance in that array. You can pass <code>-DdebugOpenAPI</code> when generating via CLI to inspect the full object model.</p>
+<p>Further down in <code>api.mustache</code>, find implementation of the method call, and add the <code>@Loggable</code> annotation. This template is easy because it has a single method implementation.</p>
+<pre><code class="hljs css language-diff">diff --git a/libraries/resteasy/api.mustache b/libraries/resteasy/api.mustache
+index 49b17c7..16ee191 100644
+<span class="hljs-comment">--- a/libraries/resteasy/api.mustache</span>
+<span class="hljs-comment">+++ b/libraries/resteasy/api.mustache</span>
+@@ -57,6 +57,7 @@ public class {{classname}} {
+   {{#isDeprecated}}
+   @Deprecated
+   {{/isDeprecated}}
+<span class="hljs-addition">+  @Loggable(Loggable.INFO)</span>
+   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+     Object {{localVariablePrefix}}localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}new Object(){{/bodyParam}};
+     {{#allParams}}{{#required}}
+
+</code></pre>
+<p>Finally, because our new dependency relies on AspectJ and code weaving, let's modify the <code>build.gradle.mustache</code> again to set this up.</p>
+<pre><code class="hljs css language-diff">diff --git a/build.gradle.mustache b/build.gradle.mustache
+index 04a9d55..7a93c50 100644
+<span class="hljs-comment">--- a/build.gradle.mustache</span>
+<span class="hljs-comment">+++ b/build.gradle.mustache</span>
+<span class="hljs-meta">@@ -1,5 +1,6 @@</span>
+ apply plugin: 'idea'
+ apply plugin: 'eclipse'
+<span class="hljs-addition">+apply plugin: 'aspectj'</span>
+ 
+ group = '{{groupId}}'
+ version = '{{artifactVersion}}'
+@@ -12,6 +13,7 @@ buildscript {
+     dependencies {
+         classpath 'com.android.tools.build:gradle:2.3.+'
+         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+<span class="hljs-addition">+        classpath "net.uberfoo.gradle:gradle-aspectj:2.2"</span>
+     }
+ }
+ 
+@@ -140,9 +142,18 @@ ext {
+     jersey_version = "1.19.4"
+     jodatime_version = "2.9.9"
+     junit_version = "4.12"
+<span class="hljs-addition">+    aspectjVersion = '1.9.0'</span>
+ }
+ 
+<span class="hljs-addition">+sourceCompatibility = '1.8'</span>
+<span class="hljs-addition">+targetCompatibility = '1.8'</span>
+<span class="hljs-addition">+</span>
+ dependencies {
+<span class="hljs-addition">+    compile "com.jcabi:jcabi-aspects:0.22.6"</span>
+<span class="hljs-addition">+    aspectpath "com.jcabi:jcabi-aspects:0.22.6"</span>
+<span class="hljs-addition">+    // usually, client code leaves logging implementation to the consumer code</span>
+<span class="hljs-addition">+    compile "org.apache.logging.log4j:log4j-slf4j-impl:2.8.2"</span>
+<span class="hljs-addition">+    compile "org.apache.logging.log4j:log4j-core:2.8.2"</span>
+     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+     compile "com.sun.jersey:jersey-client:$jersey_version"
+     compile "com.sun.jersey.contribs:jersey-multipart:$jersey_version"
+
+</code></pre>
+<blockquote>
+<p>NOTE: This example includes log4j-slf4j-impl to demonstrate that our new code is working. Generally you'll want to leave logging implementations up to your consumers.</p>
+</blockquote>
+<p>And because the java client generates with an outdated Gradle 2.6, let's update the gradle version in the default template (<code>Java/gradle-wrapper.properties.mustache</code>):</p>
+<pre><code class="hljs css language-diff">diff --git a/gradle-wrapper.properties.mustache b/gradle-wrapper.properties.mustache
+index b7a3647..3d9d088 100644
+<span class="hljs-comment">--- a/gradle-wrapper.properties.mustache</span>
+<span class="hljs-comment">+++ b/gradle-wrapper.properties.mustache</span>
+@@ -3,4 +3,4 @@ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+ zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+<span class="hljs-deletion">-distributionUrl=https\://services.gradle.org/distributions/gradle-2.6-bin.zip</span>
+<span class="hljs-addition">+distributionUrl=https\://services.gradle.org/distributions/gradle-4.8-bin.zip</span>
+
+</code></pre>
+<p>Now we're ready to generate the client with our simple changes. When we pass the template directory option to our toolset, we <em>must</em> pass the generator's root directory and <em>not</em> the library-only directory.</p>
+<pre><code class="hljs css language-bash">openapi-generator generate -g java --library resteasy \
+    -t ~/.openapi-generator/templates/Java \
+    -o ~/.openapi-generator/example \
+    -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/<span class="hljs-built_in">test</span>/resources/2_0/petstore.yaml
+</code></pre>
+<p>Make sure your custom template compiles:</p>
+<pre><code class="hljs css language-bash"><span class="hljs-built_in">cd</span> ~/.openapi-generator/example
+gradle assemble
+<span class="hljs-comment"># or, regenerate the wrapper </span>
+gradle wrapper --gradle-version 4.8 --distribution-type all
+./gradlew assemble
+</code></pre>
+<p>You should see a log message showing our added dependency being downloaded:</p>
+<pre><code class="hljs css language-text">…
+Download https://jcenter.bintray.com/com/jcabi/jcabi-aspects/0.22.6/jcabi-aspects-0.22.6.pom
+…
+</code></pre>
+<p>And for the sake of verifying our AOP modifications work, let's create a <code>src/main/resources/log4j2.properties</code> file in our new client code:</p>
+<pre><code class="hljs css language-properties"><span class="hljs-attr">status</span> = <span class="hljs-string">error</span>
+<span class="hljs-attr">dest</span> = <span class="hljs-string">err</span>
+<span class="hljs-attr">name</span> = <span class="hljs-string">PropertiesConfig</span>
+
+<span class="hljs-meta">property.filename</span> = <span class="hljs-string">target/rolling/rollingtest.log</span>
+
+<span class="hljs-meta">filter.threshold.type</span> = <span class="hljs-string">ThresholdFilter</span>
+<span class="hljs-meta">filter.threshold.level</span> = <span class="hljs-string">debug</span>
+
+<span class="hljs-meta">appender.console.type</span> = <span class="hljs-string">Console</span>
+<span class="hljs-meta">appender.console.name</span> = <span class="hljs-string">STDOUT</span>
+<span class="hljs-meta">appender.console.layout.type</span> = <span class="hljs-string">PatternLayout</span>
+<span class="hljs-meta">appender.console.layout.pattern</span> = <span class="hljs-string">%m%n</span>
+<span class="hljs-meta">appender.console.filter.threshold.type</span> = <span class="hljs-string">ThresholdFilter</span>
+<span class="hljs-meta">appender.console.filter.threshold.level</span> = <span class="hljs-string">error</span>
+
+<span class="hljs-meta">appender.rolling.type</span> = <span class="hljs-string">RollingFile</span>
+<span class="hljs-meta">appender.rolling.name</span> = <span class="hljs-string">RollingFile</span>
+<span class="hljs-meta">appender.rolling.fileName</span> = <span class="hljs-string">${filename}</span>
+<span class="hljs-meta">appender.rolling.filePattern</span> = <span class="hljs-string">target/rolling2/test1-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz</span>
+<span class="hljs-meta">appender.rolling.layout.type</span> = <span class="hljs-string">PatternLayout</span>
+<span class="hljs-meta">appender.rolling.layout.pattern</span> = <span class="hljs-string">%d %p %C{1.} [%t] %m%n</span>
+<span class="hljs-meta">appender.rolling.policies.type</span> = <span class="hljs-string">Policies</span>
+<span class="hljs-meta">appender.rolling.policies.time.type</span> = <span class="hljs-string">TimeBasedTriggeringPolicy</span>
+<span class="hljs-meta">appender.rolling.policies.time.interval</span> = <span class="hljs-string">2</span>
+<span class="hljs-meta">appender.rolling.policies.time.modulate</span> = <span class="hljs-string">true</span>
+<span class="hljs-meta">appender.rolling.policies.size.type</span> = <span class="hljs-string">SizeBasedTriggeringPolicy</span>
+<span class="hljs-meta">appender.rolling.policies.size.size</span>=<span class="hljs-string">100MB</span>
+<span class="hljs-meta">appender.rolling.strategy.type</span> = <span class="hljs-string">DefaultRolloverStrategy</span>
+<span class="hljs-meta">appender.rolling.strategy.max</span> = <span class="hljs-string">5</span>
+
+<span class="hljs-meta">logger.rolling.name</span> = <span class="hljs-string">org.openapitools.client.api.PetApi</span>
+<span class="hljs-meta">logger.rolling.level</span> = <span class="hljs-string">debug</span>
+<span class="hljs-meta">logger.rolling.additivity</span> = <span class="hljs-string">false</span>
+<span class="hljs-meta">logger.rolling.appenderRef.rolling.ref</span> = <span class="hljs-string">RollingFile</span>
+
+<span class="hljs-meta">rootLogger.level</span> = <span class="hljs-string">info</span>
+<span class="hljs-meta">rootLogger.appenderRef.stdout.ref</span> = <span class="hljs-string">STDOUT</span>
+</code></pre>
+<p>Execute <code>./gradlew build</code> and then <code>cat target/rolling/rollingtest.log</code>. You should see messages logged for every call in PetApi with a stubbed unit test.</p>
+<p>Congratulations! You've now modified one of the built-in templates to meet your client code's needs.</p>
+<p>Adding/modifying template logic simply requires a little bit of <a href="https://mustache.github.io/">mustache</a>, for which you can use existing templates as a guide.</p>
+<h2><a class="anchor" aria-hidden="true" id="structures"></a><a href="#structures" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Structures</h2>
+<p>Aside from transforming an API document, the implementing class gets to decide how to apply the data structure to templates. We can decide which data structure to apply to which template files. You have the following structures at your disposal.</p>
+<p>Examples for the following structures will be presented using the following spec document:</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">  swagger:</span> <span class="hljs-string">"2.0"</span>
+<span class="hljs-attr">  info:</span> 
+<span class="hljs-attr">    version:</span> <span class="hljs-string">"1.0.0"</span>
+<span class="hljs-attr">    title:</span> <span class="hljs-string">"Swagger Petstore"</span>
+<span class="hljs-attr">    description:</span> <span class="hljs-string">"A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification"</span>
+<span class="hljs-attr">    termsOfService:</span> <span class="hljs-string">"http://swagger.io/terms/"</span>
+<span class="hljs-attr">    contact:</span> 
+<span class="hljs-attr">      name:</span> <span class="hljs-string">"Swagger API Team"</span>
+<span class="hljs-attr">    license:</span> 
+<span class="hljs-attr">      name:</span> <span class="hljs-string">"MIT"</span>
+<span class="hljs-attr">  host:</span> <span class="hljs-string">"petstore.swagger.io"</span>
+<span class="hljs-attr">  basePath:</span> <span class="hljs-string">"/api"</span>
+<span class="hljs-attr">  schemes:</span> 
+<span class="hljs-bullet">    -</span> <span class="hljs-string">"http"</span>
+<span class="hljs-attr">  consumes:</span> 
+<span class="hljs-bullet">    -</span> <span class="hljs-string">"application/json"</span>
+<span class="hljs-attr">  produces:</span> 
+<span class="hljs-bullet">    -</span> <span class="hljs-string">"application/json"</span>
+<span class="hljs-attr">  paths:</span> 
+    <span class="hljs-string">/pets:</span> 
+<span class="hljs-attr">      get:</span> 
+<span class="hljs-attr">        description:</span> <span class="hljs-string">"Returns all pets from the system that the user has access to"</span>
+<span class="hljs-attr">        produces:</span> 
+<span class="hljs-bullet">          -</span> <span class="hljs-string">"application/json"</span>
+<span class="hljs-attr">        responses:</span> 
+          <span class="hljs-string">"200"</span><span class="hljs-string">:</span>
+<span class="hljs-attr">            description:</span> <span class="hljs-string">"A list of pets."</span>
+<span class="hljs-attr">            schema:</span> 
+<span class="hljs-attr">              type:</span> <span class="hljs-string">"array"</span>
+<span class="hljs-attr">              items:</span> 
+                <span class="hljs-string">$ref:</span> <span class="hljs-string">"#/definitions/Pet"</span>
+<span class="hljs-attr">  definitions:</span> 
+<span class="hljs-attr">    Pet:</span> 
+<span class="hljs-attr">      type:</span> <span class="hljs-string">"object"</span>
+<span class="hljs-attr">      required:</span> 
+<span class="hljs-bullet">        -</span> <span class="hljs-string">"id"</span>
+<span class="hljs-bullet">        -</span> <span class="hljs-string">"name"</span>
+<span class="hljs-attr">      properties:</span> 
+<span class="hljs-attr">        id:</span> 
+<span class="hljs-attr">          type:</span> <span class="hljs-string">"integer"</span>
+<span class="hljs-attr">          format:</span> <span class="hljs-string">"int64"</span>
+<span class="hljs-attr">        name:</span> 
+<span class="hljs-attr">          type:</span> <span class="hljs-string">"string"</span>
+<span class="hljs-attr">        tag:</span> 
+<span class="hljs-attr">          type:</span> <span class="hljs-string">"string"</span>
+
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="operations"></a><a href="#operations" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Operations</h3>
+<blockquote>
+<p>Inspect operation structures passed to templates with system property <code>-DdebugOpenAPI</code></p>
+<p>Example:</p>
+<pre><code class="hljs css language-bash">openapi-generator generate -g go \
+    -o out \
+    -i petstore-minimal.yaml \
+    -DdebugOpenAPI
+</code></pre>
+</blockquote>
+<p>There is a data structure which represents all the operations that are defined in the OpenAPI specification.  A single API file is created for each <code>OperationGroup</code>, which is essentially a grouping of different operations.  See the <code>addOperationToGroup</code> in <code>DefaultCodegen.java</code> for details on this operation.</p>
+<p>You can have many files created for each <code>OperationGroup</code> by processing multiple templates and assigning a different file naming pattern to them.  So for a single file per operation:</p>
+<pre><code class="hljs css language-java"><span class="hljs-comment">// process the `api.mustache` template and output a single file with suffix `.java`:</span>
+apiTemplateFiles.put(<span class="hljs-string">"api.mustache"</span>, <span class="hljs-string">".java"</span>);
+</code></pre>
+<p>For C-like languages which also require header files, you may create two files per operation.</p>
+<pre><code class="hljs css language-objc"><span class="hljs-comment">// create a header and implementation for each operation group:</span>
+apiTemplateFiles.put(<span class="hljs-string">"api-header.mustache"</span>, <span class="hljs-string">".h"</span>);
+apiTemplateFiles.put(<span class="hljs-string">"api-body.mustache"</span>, <span class="hljs-string">".m"</span>);
+</code></pre>
+<p>Here, an Operation with tag <code>Pet</code> will generate two files: <code>SWGPetApi.h</code> and <code>SWGPetApi.m</code>. The <code>SWG</code> prefix and <code>Api</code> suffix are options specific to the Objective-C geneator.</p>
+<h3><a class="anchor" aria-hidden="true" id="models"></a><a href="#models" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Models</h3>
+<blockquote>
+<p>Inspect models passed to templates with system property <code>-DdebugModels</code></p>
+<p>Execute:</p>
+<pre><code class="hljs css language-bash">openapi-generator generate -g go \
+    -o out \
+    -i petstore-minimal.yaml \
+    -DdebugModels
+</code></pre>
+</blockquote>
+<p>Each model identified inside the generator will be passed into the <code>Models</code> data structure and will generate a new model file (or files) for each model.</p>
+<p>A <code>Pet</code> model with three properties will provide a <em>lot</em> of information about the type and properties. The output from <code>-DdebugModels</code> is presented in truncated format here.</p>
+<pre><code class="hljs css language-json">[ {
+  <span class="hljs-attr">"importPath"</span> : <span class="hljs-string">"openapi.Pet"</span>,
+  <span class="hljs-attr">"model"</span> : {
+    <span class="hljs-attr">"name"</span> : <span class="hljs-string">"Pet"</span>,
+    <span class="hljs-attr">"classname"</span> : <span class="hljs-string">"Pet"</span>,
+    <span class="hljs-attr">"classVarName"</span> : <span class="hljs-string">"Pet"</span>,
+    <span class="hljs-attr">"modelJson"</span> : <span class="hljs-string">"{\n  \"required\" : [ \"id\", \"name\" ],\n  \"type\" : \"object\",\n  \"properties\" : {\n    \"id\" : {\n      \"type\" : \"integer\",\n      \"format\" : \"int64\"\n    },\n    \"name\" : {\n      \"type\" : \"string\"\n    },\n    \"tag\" : {\n      \"type\" : \"string\"\n    }\n  }\n}"</span>,
+    <span class="hljs-attr">"dataType"</span> : <span class="hljs-string">"map[string]interface{}"</span>,
+    <span class="hljs-attr">"classFilename"</span> : <span class="hljs-string">"model_pet"</span>,
+    <span class="hljs-attr">"isAlias"</span> : <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"isString"</span> : <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"isInteger"</span> : <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"vars"</span> : [ {
+      <span class="hljs-attr">"baseName"</span> : <span class="hljs-string">"id"</span>,
+      <span class="hljs-attr">"getter"</span> : <span class="hljs-string">"getId"</span>,
+      <span class="hljs-attr">"setter"</span> : <span class="hljs-string">"setId"</span>,
+      <span class="hljs-attr">"dataType"</span> : <span class="hljs-string">"int64"</span>,
+      <span class="hljs-attr">"datatypeWithEnum"</span> : <span class="hljs-string">"int64"</span>,
+      <span class="hljs-attr">"dataFormat"</span> : <span class="hljs-string">"int64"</span>,
+      <span class="hljs-attr">"name"</span> : <span class="hljs-string">"Id"</span>,
+      <span class="hljs-attr">"defaultValueWithParam"</span> : <span class="hljs-string">" = data.id;"</span>,
+      <span class="hljs-attr">"baseType"</span> : <span class="hljs-string">"int64"</span>,
+      <span class="hljs-attr">"example"</span> : <span class="hljs-string">"null"</span>,
+      <span class="hljs-attr">"jsonSchema"</span> : <span class="hljs-string">"{\n  \"type\" : \"integer\",\n  \"format\" : \"int64\"\n}"</span>,
+      <span class="hljs-attr">"exclusiveMinimum"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"exclusiveMaximum"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"hasMore"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"required"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"secondaryParam"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"hasMoreNonReadOnly"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"isPrimitiveType"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"isModel"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isContainer"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isNotContainer"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"isString"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isNumeric"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"isInteger"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isLong"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"isNumber"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isFloat"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isDouble"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isByteArray"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isBinary"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isFile"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isBoolean"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isDate"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isDateTime"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isUuid"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isEmail"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isFreeFormObject"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isListContainer"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isMapContainer"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isEnum"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isReadOnly"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isWriteOnly"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isNullable"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"vendorExtensions"</span> : { },
+      <span class="hljs-attr">"hasValidation"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isInherited"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"nameInCamelCase"</span> : <span class="hljs-string">"Id"</span>,
+      <span class="hljs-attr">"nameInSnakeCase"</span> : <span class="hljs-string">"ID"</span>,
+      <span class="hljs-attr">"isXmlAttribute"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isXmlWrapped"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"datatype"</span> : <span class="hljs-string">"int64"</span>,
+      <span class="hljs-attr">"iexclusiveMaximum"</span> : <span class="hljs-literal">false</span>
+    }, {
+      <span class="hljs-attr">"baseName"</span> : <span class="hljs-string">"name"</span>,
+      <span class="hljs-attr">"getter"</span> : <span class="hljs-string">"getName"</span>,
+      <span class="hljs-attr">"setter"</span> : <span class="hljs-string">"setName"</span>,
+      <span class="hljs-attr">"dataType"</span> : <span class="hljs-string">"string"</span>,
+      <span class="hljs-attr">"datatypeWithEnum"</span> : <span class="hljs-string">"string"</span>,
+      <span class="hljs-attr">"name"</span> : <span class="hljs-string">"Name"</span>,
+      <span class="hljs-attr">"defaultValueWithParam"</span> : <span class="hljs-string">" = data.name;"</span>,
+      <span class="hljs-attr">"baseType"</span> : <span class="hljs-string">"string"</span>,
+      <span class="hljs-attr">"example"</span> : <span class="hljs-string">"null"</span>,
+      <span class="hljs-attr">"jsonSchema"</span> : <span class="hljs-string">"{\n  \"type\" : \"string\"\n}"</span>,
+      <span class="hljs-attr">"exclusiveMinimum"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"exclusiveMaximum"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"hasMore"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"required"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"secondaryParam"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"hasMoreNonReadOnly"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"isPrimitiveType"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"isModel"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isContainer"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isNotContainer"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"isString"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"isNumeric"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isInteger"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isLong"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isNumber"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isFloat"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isDouble"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isByteArray"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isBinary"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isFile"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isBoolean"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isDate"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isDateTime"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isUuid"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isEmail"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isFreeFormObject"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isListContainer"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isMapContainer"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isEnum"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isReadOnly"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isWriteOnly"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isNullable"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"vendorExtensions"</span> : { },
+      <span class="hljs-attr">"hasValidation"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isInherited"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"nameInCamelCase"</span> : <span class="hljs-string">"Name"</span>,
+      <span class="hljs-attr">"nameInSnakeCase"</span> : <span class="hljs-string">"NAME"</span>,
+      <span class="hljs-attr">"isXmlAttribute"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isXmlWrapped"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"datatype"</span> : <span class="hljs-string">"string"</span>,
+      <span class="hljs-attr">"iexclusiveMaximum"</span> : <span class="hljs-literal">false</span>
+    }, {
+      <span class="hljs-attr">"baseName"</span> : <span class="hljs-string">"tag"</span>,
+      <span class="hljs-attr">"getter"</span> : <span class="hljs-string">"getTag"</span>,
+      <span class="hljs-attr">"setter"</span> : <span class="hljs-string">"setTag"</span>,
+      <span class="hljs-attr">"dataType"</span> : <span class="hljs-string">"string"</span>,
+      <span class="hljs-attr">"datatypeWithEnum"</span> : <span class="hljs-string">"string"</span>,
+      <span class="hljs-attr">"name"</span> : <span class="hljs-string">"Tag"</span>,
+      <span class="hljs-attr">"defaultValueWithParam"</span> : <span class="hljs-string">" = data.tag;"</span>,
+      <span class="hljs-attr">"baseType"</span> : <span class="hljs-string">"string"</span>,
+      <span class="hljs-attr">"example"</span> : <span class="hljs-string">"null"</span>,
+      <span class="hljs-attr">"jsonSchema"</span> : <span class="hljs-string">"{\n  \"type\" : \"string\"\n}"</span>,
+      <span class="hljs-attr">"exclusiveMinimum"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"exclusiveMaximum"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"hasMore"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"required"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"secondaryParam"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"hasMoreNonReadOnly"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isPrimitiveType"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"isModel"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isContainer"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isNotContainer"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"isString"</span> : <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">"isNumeric"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isInteger"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isLong"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isNumber"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isFloat"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isDouble"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isByteArray"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isBinary"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isFile"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isBoolean"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isDate"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isDateTime"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isUuid"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isEmail"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isFreeFormObject"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isListContainer"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isMapContainer"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isEnum"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isReadOnly"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isWriteOnly"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isNullable"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"vendorExtensions"</span> : { },
+      <span class="hljs-attr">"hasValidation"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isInherited"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"nameInCamelCase"</span> : <span class="hljs-string">"Tag"</span>,
+      <span class="hljs-attr">"nameInSnakeCase"</span> : <span class="hljs-string">"TAG"</span>,
+      <span class="hljs-attr">"isXmlAttribute"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"isXmlWrapped"</span> : <span class="hljs-literal">false</span>,
+      <span class="hljs-attr">"datatype"</span> : <span class="hljs-string">"string"</span>,
+      <span class="hljs-attr">"iexclusiveMaximum"</span> : <span class="hljs-literal">false</span>
+    } ],
+    <span class="hljs-attr">"requiredVars"</span> : [ /* id, name */ ],
+    <span class="hljs-attr">"optionalVars"</span> : [ /* tag */ ],
+    <span class="hljs-attr">"readOnlyVars"</span> : [ ],
+    <span class="hljs-attr">"readWriteVars"</span> : [ /* lists metadata for all three properties */ ],
+    <span class="hljs-attr">"allVars"</span> : [ /* lists all properties */],
+    <span class="hljs-attr">"parentVars"</span> : [ ],
+    <span class="hljs-attr">"mandatory"</span> : [ <span class="hljs-string">"id"</span>, <span class="hljs-string">"name"</span> ],
+    <span class="hljs-attr">"allMandatory"</span> : [ <span class="hljs-string">"id"</span>, <span class="hljs-string">"name"</span> ],
+    <span class="hljs-attr">"imports"</span> : [ ],
+    <span class="hljs-attr">"hasVars"</span> : <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"emptyVars"</span> : <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"hasMoreModels"</span> : <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"hasEnums"</span> : <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"isEnum"</span> : <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"hasRequired"</span> : <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"hasOptional"</span> : <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"isArrayModel"</span> : <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"hasChildren"</span> : <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"isMapModel"</span> : <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"hasOnlyReadOnly"</span> : <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"vendorExtensions"</span> : { }
+  }
+} ]
+</code></pre>
+<p>Templates are passed redundant properties, depending on the semantics of the array. For example:</p>
+<ul>
+<li><code>vars</code> lists all defined model properties</li>
+<li><code>requiredVars</code> lists all model properties marked with <code>required</code> in the spec document</li>
+<li><code>optionalVars</code> lists all model properties <em>not</em> marked with <code>required</code> in the spec document</li>
+<li><code>readWriteVars</code> lists all model properties <em>not</em> marked with <code>readonly</code> in the spec document</li>
+<li><code>readOnlyVars</code> lists all model properties marked with <code>readonly</code> in the spec document</li>
+<li><code>allVars</code> lists all model properties. This may include the same set as <code>vars</code>, but may also include generator-defined properties</li>
+</ul>
+<p>We expose the same properties in multiple sets because this allows us to conditionally iterate over properties based on some condition (&quot;is it required&quot; or &quot;is it readonly&quot;). This is driven by the use of the logic-less Mustache templates. It is possible that models passed to the templating engine may be cleaned up as we support more template engines, but such an effort will go through a deprecation phase and would be communicated at runtime through log messages.</p>
+<h3><a class="anchor" aria-hidden="true" id="supportingfiles"></a><a href="#supportingfiles" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>supportingFiles</h3>
+<blockquote>
+<p>Inspect supportingFiles passed to templates with system property <code>-DdebugSupportingFiles</code></p>
+<p>Execute:</p>
+<pre><code class="hljs css language-bash">openapi-generator generate -g go \
+    -o out \
+    -i petstore-minimal.yaml \
+    -DdebugSupportingFiles
+</code></pre>
+</blockquote>
+<p>This is a &quot;catch-all&quot; which gives you the entire structure--operations, model, etc--so you can create &quot;single-file&quot; code from them.</p>
+<p>Supporting files can either be processed through the templating engine or copied as-is. When creating your own templates, you're limited to the files and extensions expected by the generator implementation. For more control over the supporting files produced by a generator, see our <a href="/openapi-generator/docs/customization">customization</a> documentation.</p>
+<h2><a class="anchor" aria-hidden="true" id="variables"></a><a href="#variables" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Variables</h2>
+<blockquote>
+<p>This is a very limited list of variable name explanations. Feel free to <a href="https://github.com/OpenAPITools/openapi-generator/pull/new/master">open a pull request</a> to add to this documentation!</p>
+</blockquote>
+<ul>
+<li><strong>complexType</strong>: stores the name of the model (e.g. Pet)</li>
+<li><strong>isContainer</strong>: true if the parameter or property is an array or a map.</li>
+<li><strong>isPrimitiveType</strong>: true if the parameter or property type is a primitive type (e.g. string, integer, etc) as defined in the spec.</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="extensions"></a><a href="#extensions" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Extensions</h2>
+<p>OpenAPI supports a concept called &quot;Extensions&quot;. These are called &quot;Specification Extensions&quot; <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#specificationExtensions">in 3.x</a> and &quot;Vendor Extensions&quot; <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#vendorExtensions">in 2.0</a>.
+You'll see them referred to as &quot;Vendor Extensions&quot; in most places in this project.</p>
+<p>Vendor extensions allow you to provide vendor-specific configurations to your specification document.</p>
+<p>For example, suppose you use your specification document for code generation with a (hypothetical) C# OpenAPI generator supporting a desired operationId prefix where the extension is <code>x-csharp-operationid</code>, you can define this property alongside the object you'd like to extend (which would be a Path Object in this case). You could then apply additional extensions alongside this property, whether they're for another language or other tooling.</p>
+<blockquote>
+<p>Well-defined vendor extensions don't cause conflicts with other tooling.</p>
+</blockquote>
+<!-- TODO: Auto-generate this list using generator metadata -->
+<p>The following are vendor extensions supported by OpenAPI Generator. The list may not be up-to-date, the best way is to look for &quot;x-&quot; in the built-in mustache templates.</p>
+<h3><a class="anchor" aria-hidden="true" id="objc"></a><a href="#objc" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ObjC</h3>
+<h4><a class="anchor" aria-hidden="true" id="x-objc-operationid"></a><a href="#x-objc-operationid" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>x-objc-operationId</h4>
+<p>To customize the method name, you can provide a different name in x-objc-operationId, e.g.</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">summary:</span> <span class="hljs-string">Add</span> <span class="hljs-string">a</span> <span class="hljs-string">new</span> <span class="hljs-string">pet</span> <span class="hljs-string">to</span> <span class="hljs-string">the</span> <span class="hljs-string">store</span>
+<span class="hljs-attr">description:</span> <span class="hljs-string">''</span>
+<span class="hljs-attr">operationId:</span> <span class="hljs-string">addPet</span>
+<span class="hljs-attr">x-objc-operationId:</span> <span class="hljs-string">CreateNewPet</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="java-feign"></a><a href="#java-feign" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Java (Feign)</h3>
+<h4><a class="anchor" aria-hidden="true" id="x-accepts"></a><a href="#x-accepts" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>x-accepts</h4>
+<p>A single <code>Accepts</code> value as the Feign API client needs a single value for <code>Accepts</code> header, e.g.</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">consumes:</span>
+<span class="hljs-bullet">  -</span> <span class="hljs-string">application/json</span>
+<span class="hljs-bullet">  -</span> <span class="hljs-string">application/xml</span>
+<span class="hljs-attr">x-accepts:</span> <span class="hljs-string">application/json</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="x-content-type"></a><a href="#x-content-type" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>x-content-type</h3>
+<p>A single &quot;Content-Type&quot; value as the Feign API client needs a single value for <code>Content-Type</code> header, e.g.</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">produces:</span>
+<span class="hljs-bullet">  -</span> <span class="hljs-string">application/xml</span>
+<span class="hljs-bullet">  -</span> <span class="hljs-string">application/json</span>
+<span class="hljs-attr">x-content-type:</span> <span class="hljs-string">application/json</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="rust-server"></a><a href="#rust-server" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Rust-server</h3>
+<h4><a class="anchor" aria-hidden="true" id="x-responseid"></a><a href="#x-responseid" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>x-responseId</h4>
+<p>Each response may specify a unique <code>x-responseId</code>. <code>rust-server</code> will use this to name the corresponding enum variant in the code. e.g.</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">paths:</span>
+  <span class="hljs-string">/ping:</span>
+<span class="hljs-attr">    get:</span>
+<span class="hljs-attr">      responses:</span>
+        <span class="hljs-number">200</span><span class="hljs-string">:</span>
+<span class="hljs-attr">          description:</span> <span class="hljs-string">OK</span>
+<span class="hljs-attr">          x-responseId:</span> <span class="hljs-string">Pong</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="mysql-schema"></a><a href="#mysql-schema" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>MySQL Schema</h3>
+<h4><a class="anchor" aria-hidden="true" id="x-mysqlschema"></a><a href="#x-mysqlschema" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>x-mysqlSchema</h4>
+<p>MySQL schema generator creates vendor extensions based on openapi <code>dataType</code> and <code>dataFormat</code>. When user defined extensions with same key already exists codegen accepts those as is. It means it won't validate properties or correct it for you. Every model in <code>definitions</code> can contain table related and column related extensions like in example below:</p>
+<pre><code class="hljs css language-yaml"><span class="hljs-attr">definitions:</span>
+<span class="hljs-attr">  Order:</span>
+<span class="hljs-attr">    description:</span> <span class="hljs-string">This</span> <span class="hljs-string">should</span> <span class="hljs-string">be</span> <span class="hljs-string">most</span> <span class="hljs-string">common</span> <span class="hljs-string">InnoDB</span> <span class="hljs-string">table</span>
+<span class="hljs-attr">    type:</span> <span class="hljs-string">object</span>
+<span class="hljs-attr">    properties:</span>
+<span class="hljs-attr">      id:</span>
+<span class="hljs-attr">        description:</span> <span class="hljs-string">&gt;-</span>
+          <span class="hljs-string">This</span> <span class="hljs-string">column</span> <span class="hljs-string">should</span> <span class="hljs-string">be</span> <span class="hljs-string">unsigned</span> <span class="hljs-string">BIGINT</span> <span class="hljs-string">with</span> <span class="hljs-string">AUTO_INCREMENT</span>
+<span class="hljs-attr">        type:</span> <span class="hljs-string">integer</span>
+<span class="hljs-attr">        format:</span> <span class="hljs-string">int64</span>
+<span class="hljs-attr">        x-mysqlSchema:</span>
+<span class="hljs-attr">          columnDefinition:</span>
+<span class="hljs-attr">            colName:</span> <span class="hljs-string">id</span>
+<span class="hljs-attr">            colDataType:</span> <span class="hljs-string">DECIMAL</span>
+<span class="hljs-attr">            colDataTypeArguments:</span>
+<span class="hljs-attr">              - argumentValue:</span> <span class="hljs-number">16</span>
+<span class="hljs-attr">                isString:</span> <span class="hljs-literal">false</span>
+<span class="hljs-attr">                hasMore:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">              - argumentValue:</span> <span class="hljs-number">4</span>
+<span class="hljs-attr">                isString:</span> <span class="hljs-literal">false</span>
+<span class="hljs-attr">                hasMore:</span> <span class="hljs-literal">false</span>
+<span class="hljs-attr">            colUnsigned:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">            colNotNull:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">            colDefault:</span>
+<span class="hljs-attr">              defaultValue:</span> <span class="hljs-string">AUTO_INCREMENT</span>
+<span class="hljs-attr">              isString:</span> <span class="hljs-literal">false</span>
+<span class="hljs-attr">              isNumeric:</span> <span class="hljs-literal">false</span>
+<span class="hljs-attr">              isKeyword:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">            colComment:</span> <span class="hljs-string">&gt;-</span>
+              <span class="hljs-string">Column</span> <span class="hljs-string">comment.</span> <span class="hljs-string">This</span> <span class="hljs-string">column</span> <span class="hljs-string">should</span> <span class="hljs-string">be</span> <span class="hljs-string">unsigned</span> <span class="hljs-string">BIGINT</span> <span class="hljs-string">with</span> <span class="hljs-string">AUTO_INCREMENT</span>
+<span class="hljs-attr">    x-mysqlSchema:</span>
+<span class="hljs-attr">      tableDefinition:</span>
+<span class="hljs-attr">        tblName:</span> <span class="hljs-string">orders</span>
+<span class="hljs-attr">        tblStorageEngine:</span> <span class="hljs-string">InnoDB</span>
+<span class="hljs-attr">        tblComment:</span> <span class="hljs-string">&gt;-</span>
+          <span class="hljs-string">Table</span> <span class="hljs-string">comment.</span> <span class="hljs-string">This</span> <span class="hljs-string">should</span> <span class="hljs-string">be</span> <span class="hljs-string">most</span> <span class="hljs-string">common</span> <span class="hljs-string">InnoDB</span> <span class="hljs-string">table</span>
+</code></pre>
+<blockquote>
+<p>There are properties that are not implemented by now(<code>tblStorageEngine</code>), but you can see how generator can be enhanced in future.</p>
+</blockquote>
+<h2><a class="anchor" aria-hidden="true" id="mustache-tips"></a><a href="#mustache-tips" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Mustache Tips</h2>
+<p>Here are a few tips we've found useful for new template authors.
+For more details on Mustache see <a href="https://mustache.github.io/mustache.5.html">mustache.5</a>. See also <a href="https://github.com/samskivert/jmustache">samskivert/jmustache</a> for implementation-specific details.</p>
+<h3><a class="anchor" aria-hidden="true" id="first-last"></a><a href="#first-last" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>First/Last</h3>
+<p>To access the first or last element in a list using Mustache:</p>
+<pre><code class="hljs css language-mustache">{{#vars}}{{#-first}} this is the first <span class="hljs-literal">element</span> {{.}} {{/-first}}{{/vars}}
+{{#vars}}{{#-last}} this is the last <span class="hljs-literal">element</span> {{.}} {{/-last}}{{/vars}}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="this"></a><a href="#this" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>This</h3>
+<p>Mustache evaluates template variables contextually. If the variable isn't found in the immediate object, mustache will search the parent. This is similar to JavaScript's prototype object (if you're familiar with the concept).</p>
+<p>You can inspect this entire context by outputting <code>{{this}}</code>. For example:</p>
+<pre><code class="hljs css language-mustache">{{#operations}}{{this}}{{/operations}}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="index"></a><a href="#index" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Index</h3>
+<p>If you'd like a 1-based index in your array traversal, you can use <code>{{-index}}</code>:</p>
+<pre><code class="hljs css language-mustache">{{#enums}}{{-index}} {{enum}}{{/enums}}
+</code></pre>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-1-18</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/openapi-generator/docs/general-faq"><span class="arrow-prev">← </span><span>Previous</span></a><a class="docs-next button" href="/openapi-generator/docs/customization"><span>Customization</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#modifying-templates">Modifying Templates</a><ul class="toc-headings"><li><a href="#custom-logic">Custom Logic</a></li></ul></li><li><a href="#structures">Structures</a><ul class="toc-headings"><li><a href="#operations">Operations</a></li><li><a href="#models">Models</a></li><li><a href="#supportingfiles">supportingFiles</a></li></ul></li><li><a href="#variables">Variables</a></li><li><a href="#extensions">Extensions</a><ul class="toc-headings"><li><a href="#objc">ObjC</a></li><li><a href="#java-feign">Java (Feign)</a></li><li><a href="#x-content-type">x-content-type</a></li><li><a href="#rust-server">Rust-server</a></li><li><a href="#mysql-schema">MySQL Schema</a></li></ul></li><li><a href="#mustache-tips">Mustache Tips</a><ul class="toc-headings"><li><a href="#first-last">First/Last</a></li><li><a href="#this">This</a></li><li><a href="#index">Index</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/openapi-generator/" class="nav-home"><img src="/openapi-generator/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/openapi-generator/docs/en/customization.html">Customizing Generators</a><a href="/openapi-generator/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/openapi-generator/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://gitter.im/OpenAPITools/openapi-generator">Project Chat</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/openapi-generator/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="attribution"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/openapi-generator/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><a href="https://fontawesome.com/license/free" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/openapi-generator/img/fa-logo.svg" alt="Fontawesome (Free)" width="170" height="45"/></a></section><section class="copyright">Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech)</section></footer></div></body></html>

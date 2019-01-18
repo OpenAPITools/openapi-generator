@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://OpenAPITools.github.io/openapi-generator/blog</id>
+    <title>OpenAPI Generator Blog</title>
+    <updated>2018-12-24T06:00:00Z</updated>
+    <generator>Feed for Node.js</generator>
+    <link rel="alternate" href="https://OpenAPITools.github.io/openapi-generator/blog"/>
+    <subtitle>The best place to stay up-to-date with the latest OpenAPI Generator news and events.</subtitle>
+    <logo>https://OpenAPITools.github.io/openapi-generator/img/mono-logo.svg</logo>
+    <rights>Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech)</rights>
+    <entry>
+        <title type="html"><![CDATA[New Website]]></title>
+        <id>https://OpenAPITools.github.io/openapi-generator/blog/2018/12/24/new-website.html</id>
+        <link href="https://OpenAPITools.github.io/openapi-generator/blog/2018/12/24/new-website.html">
+        </link>
+        <updated>2018-12-24T06:00:00Z</updated>
+        <summary type="html"><![CDATA[<p>Every great open source project has great documentation.</p>
+<p>That's why we're proud to announce that we've adopted a new website and design for our official documentation.</p>
+]]></summary>
+        <author>
+            <name>Jim Schubert</name>
+            <uri>http://twitter.com/jimschubert</uri>
+        </author>
+    </entry>
+</feed>

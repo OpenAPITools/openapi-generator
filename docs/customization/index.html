@@ -1,0 +1,248 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Customization · OpenAPI Generator</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;h2&gt;&lt;a class=&quot;anchor&quot; aria-hidden=&quot;true&quot; id=&quot;creating-a-new-template&quot;&gt;&lt;/a&gt;&lt;a href=&quot;#creating-a-new-template&quot; aria-hidden=&quot;true&quot; class=&quot;hash-link&quot;&gt;&lt;svg class=&quot;hash-link-icon&quot; aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Creating a new template&lt;/h2&gt;
+"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Customization · OpenAPI Generator"/><meta property="og:type" content="website"/><meta property="og:url" content="https://OpenAPITools.github.io/openapi-generator/index.html"/><meta property="og:description" content="&lt;h2&gt;&lt;a class=&quot;anchor&quot; aria-hidden=&quot;true&quot; id=&quot;creating-a-new-template&quot;&gt;&lt;/a&gt;&lt;a href=&quot;#creating-a-new-template&quot; aria-hidden=&quot;true&quot; class=&quot;hash-link&quot;&gt;&lt;svg class=&quot;hash-link-icon&quot; aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;Creating a new template&lt;/h2&gt;
+"/><meta property="og:image" content="https://OpenAPITools.github.io/openapi-generator/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://OpenAPITools.github.io/openapi-generator/img/icons/twitter.svg"/><link rel="shortcut icon" href="/openapi-generator/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://OpenAPITools.github.io/openapi-generator/blog/atom.xml" title="OpenAPI Generator Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://OpenAPITools.github.io/openapi-generator/blog/feed.xml" title="OpenAPI Generator Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/openapi-generator/js/code-block-buttons.js"></script><link rel="stylesheet" href="/openapi-generator/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/openapi-generator/"><img class="logo" src="/openapi-generator/img/mono-logo.svg" alt="OpenAPI Generator"/><h2 class="headerTitleWithLogo">OpenAPI Generator</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/openapi-generator/docs/installation" target="_self">Get Started</a></li><li class="siteNavGroupActive"><a href="/openapi-generator/docs/generators" target="_self">Generators</a></li><li class="siteNavGroupActive"><a href="/openapi-generator/docs/roadmap" target="_self">Roadmap</a></li><li class=""><a href="/openapi-generator/team" target="_self">Team</a></li><li class=""><a href="/openapi-generator/docs/faq" target="_self">FAQ</a></li><li class=""><a href="/openapi-generator/blog/" target="_self">Blog</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Extending</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Getting Started</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/installation">CLI Installation</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/plugins">Plugins</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/online">Online</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/usage">Usage</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Extending</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/templating">Using Templates</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/openapi-generator/docs/customization">Customization</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/debugging">Debugging</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/integrations">Workflow Integrations</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Contributing</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/contributing">Guidelines</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/code-of-conduct">Code of Conduct</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/contribute-building">Building the code</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/new-generator">Create a New Generator</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">About</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/roadmap">Roadmap</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/swagger-codegen-migration">Migrating from Swagger Codegen</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/fork-qna">Swagger Codegen Fork: Q&amp;A</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Releases</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/release-summary">Release Summary</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/release-3-0-0">Release Notes: 3.0.0</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">API</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/generators">Generators List</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Customization</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="creating-a-new-template"></a><a href="#creating-a-new-template" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Creating a new template</h2>
+<p>If none of the templates suit your needs, you can create a brand new template. OpenAPI Generator can help with this, using the <code>meta</code> command:</p>
+<pre><code class="hljs css language-sh">java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar meta \
+  -o out/generators/my-codegen -n my-codegen -p com.my.company.codegen
+</code></pre>
+<p>This will create a new directory <code>out/generators/my-codegen</code>, with all the files you need to get started - including a <code>README.md</code>. Once modified and compiled, you can use your new codegen just like any other, with your own custom-rolled logic.</p>
+<p>These names can be anything you like. If you are building a client for the whitespace language, maybe  you'd use the options <code>-o out/generators/whitespace -n whitespace</code>. They can be the same, or different, it doesn't matter. The <code>-n</code> value will be become the template name.</p>
+<p><strong>NOTE</strong> Convention is to use kebab casing for names passed to <code>-n</code>. Example, <code>scala-finatra</code> would become <code>ScalaFinatraGenerator</code>.</p>
+<h3><a class="anchor" aria-hidden="true" id="use-your-new-generator-with-the-cli"></a><a href="#use-your-new-generator-with-the-cli" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Use your new generator with the CLI</h3>
+<p>To compile your library, enter the <code>out/generators/my-codegen</code> directory, run <code>mvn package</code> and execute the generator:</p>
+<pre><code class="hljs css language-sh">java -cp out/generators/my-codegen/target/my-codegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
+</code></pre>
+<p>For Windows users, you will need to use <code>;</code> instead of <code>:</code> in the classpath, e.g.</p>
+<pre><code class="hljs">java -cp <span class="hljs-keyword">out</span>/generators/my-codegen/target/my-codegen-openapi-generator<span class="hljs-number">-1.0</span><span class="hljs-number">.0</span>.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
+</code></pre>
+<p>Note the <code>my-codegen</code> is an option for <code>-g</code> now, and you can use the usual arguments for generating your code:</p>
+<pre><code class="hljs css language-sh">java -cp out/codegens/customCodegen/target/my-codegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
+  org.openapitools.codegen.OpenAPIGenerator generate -g my-codegen \
+  -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/<span class="hljs-built_in">test</span>/resources/2_0/petstore.yaml \
+  -o ./out/myClient
+</code></pre>
+<p>For Windows users:</p>
+<pre><code class="hljs">java -cp out<span class="hljs-regexp">/codegens/</span>customCodegen<span class="hljs-regexp">/target/</span>my-codegen-openapi-generator<span class="hljs-number">-1.0</span><span class="hljs-number">.0</span>.jar;modules<span class="hljs-regexp">/openapi-generator-cli/</span>target/openapi-generator-cli.jar \
+  org.openapitools.codegen.OpenAPIGenerator generate -g my-codegen \
+  -i <span class="hljs-string">https:</span><span class="hljs-comment">//raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \</span>
+  -o .<span class="hljs-regexp">/out/</span>myClient
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="use-your-new-generator-with-the-maven-plugin"></a><a href="#use-your-new-generator-with-the-maven-plugin" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Use your new generator with the maven plugin</h3>
+<p>Install your library to your local maven repository by running:</p>
+<pre><code class="hljs">mvn clean <span class="hljs-keyword">install</span> -f <span class="hljs-keyword">out</span>/generators/my-codegen
+</code></pre>
+<p>This will install <code>org.openapitools:my-codegen-openapi-generator:1.0.0</code> to your local maven repository.</p>
+<p>You can use this as additional dependency of the <code>openapi-generator-maven-plugin</code> plugin and use <code>my-codegen</code> as <code>generatorName</code> value:</p>
+<pre><code class="hljs css language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.openapitools<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>openapi-generator-maven-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>${openapi-generator-version}<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">executions</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">execution</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">id</span>&gt;</span>generate-client-code<span class="hljs-tag">&lt;/<span class="hljs-name">id</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">goals</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">goal</span>&gt;</span>generate<span class="hljs-tag">&lt;/<span class="hljs-name">goal</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">goals</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">generatorName</span>&gt;</span>my-codegen<span class="hljs-tag">&lt;/<span class="hljs-name">generatorName</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- other configuration ... --&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">execution</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">executions</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.openapitools<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>my-codegen-openapi-generator<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
+</code></pre>
+<p>If you publish your artifact to a distant maven repository, do not forget to add this repository as <code>pluginRepository</code> for your project.</p>
+<h2><a class="anchor" aria-hidden="true" id="selective-generation"></a><a href="#selective-generation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Selective generation</h2>
+<p>You may not want to generate <em>all</em> models in your project.  Likewise you may want just one or two apis to be written.  If that's the case, you can use system properties to control the output:</p>
+<p>The default is generate <em>everything</em> supported by the specific library.  Once you enable a feature, it will restrict the contents generated:</p>
+<pre><code class="hljs css language-sh"><span class="hljs-comment"># generate only models</span>
+java -Dmodels {opts}
+
+<span class="hljs-comment"># generate only apis</span>
+java -Dapis {opts}
+
+<span class="hljs-comment"># generate only supporting files</span>
+java -DsupportingFiles
+
+<span class="hljs-comment"># generate models and supporting files</span>
+java -Dmodels -DsupportingFiles
+</code></pre>
+<p>To control the specific files being generated, you can pass a CSV list of what you want:</p>
+<pre><code class="hljs css language-sh"><span class="hljs-comment"># generate the User and Pet models only</span>
+-Dmodels=User,Pet
+
+<span class="hljs-comment"># generate the User model and the supportingFile `StringUtil.java`:</span>
+-Dmodels=User -DsupportingFiles=StringUtil.java
+</code></pre>
+<p>To control generation of docs and tests for api and models, pass false to the option. For api, these options are  <code>-DapiTests=false</code> and <code>-DapiDocs=false</code>. For models, <code>-DmodelTests=false</code> and <code>-DmodelDocs=false</code>.
+These options default to true and don't limit the generation of the feature options listed above (like <code>-Dapi</code>):</p>
+<pre><code class="hljs css language-sh"><span class="hljs-comment"># generate only models (with tests and documentation)</span>
+java -Dmodels {opts}
+
+<span class="hljs-comment"># generate only models (with tests but no documentation)</span>
+java -Dmodels -DmodelDocs=<span class="hljs-literal">false</span> {opts}
+
+<span class="hljs-comment"># generate only User and Pet models (no tests and no documentation)</span>
+java -Dmodels=User,Pet -DmodelTests=<span class="hljs-literal">false</span> {opts}
+
+<span class="hljs-comment"># generate only apis (without tests)</span>
+java -Dapis -DapiTests=<span class="hljs-literal">false</span> {opts}
+
+<span class="hljs-comment"># generate only apis (modelTests option is ignored)</span>
+java -Dapis -DmodelTests=<span class="hljs-literal">false</span> {opts}
+</code></pre>
+<p>When using selective generation, <em>only</em> the templates needed for the specific generation will be used.</p>
+<p>To skip models defined as the form parameters in &quot;requestBody&quot;, please use <code>skipFormModel</code> (default to false) (this option is introduced at v3.2.2)</p>
+<pre><code class="hljs css language-sh">java -DskipFormModel=<span class="hljs-literal">true</span>
+</code></pre>
+<p>This option will be helpful to skip model generation due to the form parameter, which is defined differently in OAS3 as there's no form parameter in OAS3</p>
+<h2><a class="anchor" aria-hidden="true" id="ignore-file-format"></a><a href="#ignore-file-format" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Ignore file format</h2>
+<p>OpenAPI Generator supports a <code>.openapi-generator-ignore</code> file, similar to <code>.gitignore</code> or <code>.dockerignore</code> you're probably already familiar with.</p>
+<p>The ignore file allows for better control over overwriting existing files than the <code>--skip-overwrite</code> flag. With the ignore file, you can specify individual files or directories can be ignored. This can be useful, for example if you only want a subset of the generated code.</p>
+<p>Examples:</p>
+<pre><code class="hljs css language-sh"><span class="hljs-comment"># OpenAPI Generator Ignore</span>
+<span class="hljs-comment"># Lines beginning with a # are comments</span>
+
+<span class="hljs-comment"># This should match build.sh located anywhere.</span>
+build.sh
+
+<span class="hljs-comment"># Matches build.sh in the root</span>
+/build.sh
+
+<span class="hljs-comment"># Exclude all recursively</span>
+docs/**
+
+<span class="hljs-comment"># Explicitly allow files excluded by other rules</span>
+!docs/UserApi.md
+
+<span class="hljs-comment"># Recursively exclude directories named Api</span>
+<span class="hljs-comment"># You can't negate files below this directory.</span>
+src/**/Api/
+
+<span class="hljs-comment"># When this file is nested under /Api (excluded above),</span>
+<span class="hljs-comment"># this rule is ignored because parent directory is excluded by previous rule.</span>
+!src/**/PetApiTests.cs
+
+<span class="hljs-comment"># Exclude a single, nested file explicitly</span>
+src/Org.OpenAPITools.Test/Model/AnimalFarmTests.cs
+</code></pre>
+<p>The <code>.openapi-generator-ignore</code> file must exist in the root of the output directory.</p>
+<p>Upon first code generation, you may also pass the CLI option <code>--ignore-file-override=/path/to/ignore_file</code> for greater control over generated outputs. Note that this is a complete override, and will override the <code>.openapi-generator-ignore</code> file in an output directory when regenerating code.</p>
+<p>Editor support for <code>.openapi-generator-ignore</code> files is available in IntelliJ via the <a href="https://plugins.jetbrains.com/plugin/7495--ignore">.ignore plugin</a>.</p>
+<h2><a class="anchor" aria-hidden="true" id="customizing-the-generator"></a><a href="#customizing-the-generator" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Customizing the generator</h2>
+<p>There are different aspects of customizing the code generator beyond just creating or modifying templates.  Each language has a supporting configuration file to handle different type mappings, etc:</p>
+<pre><code class="hljs css language-sh">$ ls -1 modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/
+AbstractJavaJAXRSServerCodegen.java
+AbstractTypeScriptClientCodegen.java
+... (results omitted)
+TypeScriptAngularClientCodegen.java
+TypeScriptNodeClientCodegen.java
+</code></pre>
+<p>Each of these files creates reasonable defaults so you can get running quickly.  But if you want to configure package names, prefixes, model folders, etc. you can use a json config file to pass the values.</p>
+<pre><code class="hljs css language-sh">java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
+  -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/<span class="hljs-built_in">test</span>/resources/2_0/petstore.yaml \
+  -g java \
+  -o samples/client/petstore/java \
+  -c path/to/config.json
+</code></pre>
+<p>and <code>config.json</code> contains the following as an example:</p>
+<pre><code class="hljs css language-json">{
+  <span class="hljs-attr">"apiPackage"</span> : <span class="hljs-string">"petstore"</span>
+}
+</code></pre>
+<p>Supported config options can be different per language. Running <code>config-help -g {lang}</code> will show available options.
+<strong>These options are applied via configuration file (e.g. config.json) or by passing them with <code>-D{optionName}={optionValue}</code></strong>. (If <code>-D{optionName}</code> does not work, please open a <a href="https://github.com/openapitools/openapi-generator/issues/new">ticket</a> and we'll look into it)</p>
+<pre><code class="hljs css language-sh">java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar config-help -g java
+</code></pre>
+<p>Output</p>
+<pre><code class="hljs">CONFIG OPTIONS
+    modelPackage
+        package <span class="hljs-keyword">for</span> generated models
+
+    apiPackage
+        package <span class="hljs-keyword">for</span> generated api classes
+...... (results omitted)
+    library
+        library template (sub-template) to use:
+        jersey1 - HTTP client: Jersey client <span class="hljs-number">1.18</span>. JSON processing: Jackson <span class="hljs-number">2.4</span><span class="hljs-number">.2</span>
+        jersey2 - HTTP client: Jersey client <span class="hljs-number">2.6</span>
+        feign - HTTP client: Netflix Feign <span class="hljs-number">8.1</span><span class="hljs-number">.1</span>.  JSON processing: Jackson <span class="hljs-number">2.6</span><span class="hljs-number">.3</span>
+        okhttp-gson (<span class="hljs-keyword">default</span>) - HTTP client: OkHttp <span class="hljs-number">2.4</span><span class="hljs-number">.0</span>. JSON processing: Gson <span class="hljs-number">2.3</span><span class="hljs-number">.1</span>
+        retrofit - HTTP client: OkHttp <span class="hljs-number">2.4</span><span class="hljs-number">.0</span>. JSON processing: Gson <span class="hljs-number">2.3</span><span class="hljs-number">.1</span> (Retrofit <span class="hljs-number">1.9</span><span class="hljs-number">.0</span>)
+        retrofit2 - HTTP client: OkHttp <span class="hljs-number">2.5</span><span class="hljs-number">.0</span>. JSON processing: Gson <span class="hljs-number">2.4</span> (Retrofit <span class="hljs-number">2.0</span><span class="hljs-number">.0</span>-beta2)
+        google-api-client - HTTP client: google-api-client <span class="hljs-number">1.23</span><span class="hljs-number">.0</span>. JSON processing: Jackson <span class="hljs-number">2.8</span><span class="hljs-number">.9</span>
+        rest-assured - HTTP client: rest-assured : <span class="hljs-number">3.1</span><span class="hljs-number">.0</span>. JSON processing: Gson <span class="hljs-number">2.6</span><span class="hljs-number">.1</span>. Only <span class="hljs-keyword">for</span> Java8
+</code></pre>
+<p>Your config file for Java can look like</p>
+<pre><code class="hljs css language-json">{
+  <span class="hljs-attr">"groupId"</span>:<span class="hljs-string">"com.my.company"</span>,
+  <span class="hljs-attr">"artifactId"</span>:<span class="hljs-string">"MyClient"</span>,
+  <span class="hljs-attr">"artifactVersion"</span>:<span class="hljs-string">"1.2.0"</span>,
+  <span class="hljs-attr">"library"</span>:<span class="hljs-string">"feign"</span>
+}
+</code></pre>
+<p>For all the unspecified options default values will be used.</p>
+<p>Another way to override default options is to extend the config class for the specific language.
+To change, for example, the prefix for the Objective-C generated files, simply subclass the <code>ObjcClientCodegen.java</code>:</p>
+<pre><code class="hljs css language-java"><span class="hljs-keyword">package</span> com.mycompany.openapitools.codegen;
+
+<span class="hljs-keyword">import</span> org.openapitools.codegen.languages.*;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyObjcCodegen</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ObjcClientCodegen</span> </span>{
+    <span class="hljs-keyword">static</span> {
+        PREFIX = <span class="hljs-string">"HELO"</span>;
+    }
+}
+</code></pre>
+<p>and specify the <code>classname</code> when running the generator:</p>
+<pre><code class="hljs">-g com<span class="hljs-selector-class">.mycompany</span><span class="hljs-selector-class">.openapitools</span><span class="hljs-selector-class">.codegen</span><span class="hljs-selector-class">.MyObjcCodegen</span>
+</code></pre>
+<p>Your subclass will now be loaded and overrides the <code>PREFIX</code> value in the superclass.</p>
+<h2><a class="anchor" aria-hidden="true" id="bringing-your-own-models"></a><a href="#bringing-your-own-models" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Bringing your own models</h2>
+<p>Sometimes you don't want a model generated.  In this case, you can simply specify an import mapping to tell
+the codegen what <em>not</em> to create.  When doing this, every location that references a specific model will
+refer back to your classes.  Note, this may not apply to all languages...</p>
+<p>To specify an import mapping, use the <code>--import-mappings</code> argument and specify the model-to-import logic as such:</p>
+<pre><code class="hljs">--import-mappings Pet=my<span class="hljs-selector-class">.models</span><span class="hljs-selector-class">.MyPet</span>
+</code></pre>
+<p>Or for multiple mappings:</p>
+<pre><code class="hljs">--import-mappings Pet=my<span class="hljs-selector-class">.models</span><span class="hljs-selector-class">.MyPet</span>,Order=my<span class="hljs-selector-class">.models</span><span class="hljs-selector-class">.MyOrder</span>
+</code></pre>
+<p>or</p>
+<pre><code class="hljs">--import-mappings Pet=my<span class="hljs-selector-class">.models</span><span class="hljs-selector-class">.MyPet</span> --import-mappings Order=my<span class="hljs-selector-class">.models</span><span class="hljs-selector-class">.MyOrder</span>
+</code></pre>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-1-18</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/openapi-generator/docs/templating"><span class="arrow-prev">← </span><span>Using Templates</span></a><a class="docs-next button" href="/openapi-generator/docs/debugging"><span>Debugging</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#creating-a-new-template">Creating a new template</a><ul class="toc-headings"><li><a href="#use-your-new-generator-with-the-cli">Use your new generator with the CLI</a></li><li><a href="#use-your-new-generator-with-the-maven-plugin">Use your new generator with the maven plugin</a></li></ul></li><li><a href="#selective-generation">Selective generation</a></li><li><a href="#ignore-file-format">Ignore file format</a></li><li><a href="#customizing-the-generator">Customizing the generator</a></li><li><a href="#bringing-your-own-models">Bringing your own models</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/openapi-generator/" class="nav-home"><img src="/openapi-generator/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/openapi-generator/docs/en/customization.html">Customizing Generators</a><a href="/openapi-generator/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/openapi-generator/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://gitter.im/OpenAPITools/openapi-generator">Project Chat</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/openapi-generator/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="attribution"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/openapi-generator/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><a href="https://fontawesome.com/license/free" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/openapi-generator/img/fa-logo.svg" alt="Fontawesome (Free)" width="170" height="45"/></a></section><section class="copyright">Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech)</section></footer></div></body></html>

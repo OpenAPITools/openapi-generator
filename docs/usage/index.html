@@ -1,0 +1,434 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Usage · OpenAPI Generator</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;p&gt;Options for OpenAPI Generator are the same whether you&#x27;re using the CLI, Maven/Gradle Plugins, or Online generation options.&lt;/p&gt;
+"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Usage · OpenAPI Generator"/><meta property="og:type" content="website"/><meta property="og:url" content="https://OpenAPITools.github.io/openapi-generator/index.html"/><meta property="og:description" content="&lt;p&gt;Options for OpenAPI Generator are the same whether you&#x27;re using the CLI, Maven/Gradle Plugins, or Online generation options.&lt;/p&gt;
+"/><meta property="og:image" content="https://OpenAPITools.github.io/openapi-generator/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://OpenAPITools.github.io/openapi-generator/img/icons/twitter.svg"/><link rel="shortcut icon" href="/openapi-generator/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="alternate" type="application/atom+xml" href="https://OpenAPITools.github.io/openapi-generator/blog/atom.xml" title="OpenAPI Generator Blog ATOM Feed"/><link rel="alternate" type="application/rss+xml" href="https://OpenAPITools.github.io/openapi-generator/blog/feed.xml" title="OpenAPI Generator Blog RSS Feed"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script><script type="text/javascript" src="/openapi-generator/js/code-block-buttons.js"></script><link rel="stylesheet" href="/openapi-generator/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/openapi-generator/"><img class="logo" src="/openapi-generator/img/mono-logo.svg" alt="OpenAPI Generator"/><h2 class="headerTitleWithLogo">OpenAPI Generator</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/openapi-generator/docs/installation" target="_self">Get Started</a></li><li class="siteNavGroupActive"><a href="/openapi-generator/docs/generators" target="_self">Generators</a></li><li class="siteNavGroupActive"><a href="/openapi-generator/docs/roadmap" target="_self">Roadmap</a></li><li class=""><a href="/openapi-generator/team" target="_self">Team</a></li><li class=""><a href="/openapi-generator/docs/faq" target="_self">FAQ</a></li><li class=""><a href="/openapi-generator/blog/" target="_self">Blog</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Getting Started</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Getting Started</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/installation">CLI Installation</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/plugins">Plugins</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/online">Online</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/openapi-generator/docs/usage">Usage</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Extending</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/templating">Using Templates</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/customization">Customization</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/debugging">Debugging</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/integrations">Workflow Integrations</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Contributing</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/contributing">Guidelines</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/code-of-conduct">Code of Conduct</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/contribute-building">Building the code</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/new-generator">Create a New Generator</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">About</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/roadmap">Roadmap</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/swagger-codegen-migration">Migrating from Swagger Codegen</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/fork-qna">Swagger Codegen Fork: Q&amp;A</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Releases</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/release-summary">Release Summary</a></li><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/release-3-0-0">Release Notes: 3.0.0</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">API</h3><ul><li class="navListItem"><a class="navItem" href="/openapi-generator/docs/generators">Generators List</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Usage</h1></header><article><div><span><p>Options for OpenAPI Generator are the same whether you're using the CLI, Maven/Gradle Plugins, or Online generation options.
+This page demonstrates navigating the options via CLI. Commands are presented here in a logical progression as a tutorial, but you're welcome to skip directly to the <a href="#generate">generate</a> command.</p>
+<h2><a class="anchor" aria-hidden="true" id="help"></a><a href="#help" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>help</h2>
+<p>The <code>help</code> option lists all commands available to the CLI.</p>
+<pre><code class="hljs css language-bash">openapi-generator <span class="hljs-built_in">help</span>
+usage: openapi-generator-cli &lt;<span class="hljs-built_in">command</span>&gt; [&lt;args&gt;]
+
+The most commonly used openapi-generator-cli commands are:
+    config-help   Config <span class="hljs-built_in">help</span> <span class="hljs-keyword">for</span> chosen lang
+    generate      Generate code with the specified generator.
+    <span class="hljs-built_in">help</span>          Display <span class="hljs-built_in">help</span> information
+    list          Lists the available generators
+    meta          MetaGenerator. Generator <span class="hljs-keyword">for</span> creating a new template <span class="hljs-built_in">set</span> and configuration <span class="hljs-keyword">for</span> Codegen.  The output will be based on the language you specify, and includes default templates to include.
+    validate      Validate specification
+    version       Show version information
+
+See <span class="hljs-string">'openapi-generator-cli help &lt;command&gt;'</span> <span class="hljs-keyword">for</span> more information on a specific
+<span class="hljs-built_in">command</span>.
+
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="list"></a><a href="#list" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>list</h2>
+<p>The <code>list</code> command outputs a formatted list of every available generator. Pass the <code>-s/--short</code> option if you would like a CSV output for easy parsing.</p>
+<pre><code class="hljs css language-bash">openapi-generator <span class="hljs-built_in">help</span> list
+NAME
+        openapi-generator-cli list - Lists the available generators
+
+SYNOPSIS
+        openapi-generator-cli list [(-s | --short)]
+
+OPTIONS
+        -s, --short
+            shortened output (suitable <span class="hljs-keyword">for</span> scripting)
+
+</code></pre>
+<p>Example:</p>
+<pre><code class="hljs css language-bash">openapi-generator list -s | tr <span class="hljs-string">','</span> <span class="hljs-string">'\n'</span>
+</code></pre>
+<p>For the full list of generators, refer to the <a href="/openapi-generator/docs/generators">Generators List</a>.</p>
+<h2><a class="anchor" aria-hidden="true" id="config-help"></a><a href="#config-help" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>config-help</h2>
+<p>The <code>config-help</code> option provides details about</p>
+<pre><code class="hljs css language-bash">openapi-generator <span class="hljs-built_in">help</span> config-help
+NAME
+        openapi-generator-cli config-help - Config <span class="hljs-built_in">help</span> <span class="hljs-keyword">for</span> chosen lang
+
+SYNOPSIS
+        openapi-generator-cli config-help
+                [(-f &lt;output format&gt; | --format &lt;output format&gt;)]
+                [(-g &lt;generator name&gt; | --generator-name &lt;generator name&gt;)]
+                [--markdown-header] [--named-header]
+                [(-o &lt;output location&gt; | --output &lt;output location&gt;)]
+
+OPTIONS
+        -f &lt;output format&gt;, --format &lt;output format&gt;
+            Write output files <span class="hljs-keyword">in</span> the desired format. Options are <span class="hljs-string">'text'</span> and
+            <span class="hljs-string">'markdown'</span>. Default is <span class="hljs-string">'text'</span>.
+
+        -g &lt;generator name&gt;, --generator-name &lt;generator name&gt;
+            generator to get config <span class="hljs-built_in">help</span> <span class="hljs-keyword">for</span>
+
+        --markdown-header
+            When format=markdown, include this option to write out markdown
+            headers (e.g. <span class="hljs-keyword">for</span> docusaurus).
+
+        --named-header
+            Header includes the generator name, <span class="hljs-keyword">for</span> clarity <span class="hljs-keyword">in</span> output
+
+        -o &lt;output location&gt;, --output &lt;output location&gt;
+            Optionally write <span class="hljs-built_in">help</span> to this location, otherwise default is
+            standard output
+
+</code></pre>
+<p>The option of note is <code>-g/--generator-name</code> (other options are exposed for tooling).</p>
+<p>You may pass any generator name (see <a href="#list">list</a> command) to <code>-g</code>, and options specific to that generator will be displayed. Some generators have <em>many</em> options, while others may have only a few.</p>
+<p>Example:</p>
+<pre><code class="hljs css language-bash">openapi-generator config-help -g go
+</code></pre>
+<p>Outputs:</p>
+<pre><code class="hljs css language-text">CONFIG OPTIONS
+    packageName
+        Go package name (convention: lowercase). (Default: openapi)
+
+    hideGenerationTimestamp
+        Hides the generation timestamp when files are generated. (Default: true)
+
+    packageVersion
+        Go package version. (Default: 1.0.0)
+
+    withGoCodegenComment
+        whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs (Default: false)
+
+    withXml
+        whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML) (Default: false)
+
+    prependFormOrBodyParameters
+        Add form or body parameters to the beginning of the parameter list. (Default: false)
+</code></pre>
+<p>To pass these go client generator-specific options to the <code>generate</code> command for a go client, use the <code>--additional-properties</code> option. See the <a href="#generate">generate</a> command section for an example.</p>
+<h2><a class="anchor" aria-hidden="true" id="meta"></a><a href="#meta" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>meta</h2>
+<p>The <code>meta</code> command creates a new Java class and template files, used for creating your own custom templates.</p>
+<pre><code class="hljs css language-bash">openapi-generator <span class="hljs-built_in">help</span> meta
+NAME
+        openapi-generator-cli meta - MetaGenerator. Generator <span class="hljs-keyword">for</span> creating a new
+        template <span class="hljs-built_in">set</span> and configuration <span class="hljs-keyword">for</span> Codegen. The output will be based on
+        the language you specify, and includes default templates to include.
+
+SYNOPSIS
+        openapi-generator-cli meta [(-n &lt;name&gt; | --name &lt;name&gt;)]
+                [(-o &lt;output directory&gt; | --output &lt;output directory&gt;)]
+                [(-p &lt;package&gt; | --package &lt;package&gt;)] [(-t &lt;<span class="hljs-built_in">type</span>&gt; | --<span class="hljs-built_in">type</span> &lt;<span class="hljs-built_in">type</span>&gt;)]
+
+OPTIONS
+        -n &lt;name&gt;, --name &lt;name&gt;
+            the human-readable name of the generator
+
+        -o &lt;output directory&gt;, --output &lt;output directory&gt;
+            <span class="hljs-built_in">where</span> to write the generated files (current dir by default)
+
+        -p &lt;package&gt;, --package &lt;package&gt;
+            the package to put the main class into (defaults to
+            org.openapitools.codegen)
+
+        -t &lt;<span class="hljs-built_in">type</span>&gt;, --<span class="hljs-built_in">type</span> &lt;<span class="hljs-built_in">type</span>&gt;
+            the <span class="hljs-built_in">type</span> of generator that is created
+</code></pre>
+<p>For an in-depth example of using the <code>meta</code> command, see <a href="/openapi-generator/docs/customization">Customization</a>.</p>
+<h2><a class="anchor" aria-hidden="true" id="validate"></a><a href="#validate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>validate</h2>
+<p>The <code>validate</code> command allows you to validate an input specification, optionally providing recommendations for error fixes or other improvements (if available).</p>
+<pre><code class="hljs css language-bash">openapi-generator <span class="hljs-built_in">help</span> validate
+NAME
+        openapi-generator-cli validate - Validate specification
+
+SYNOPSIS
+        openapi-generator-cli validate
+                (-i &lt;spec file&gt; | --input-spec &lt;spec file&gt;) [--recommend]
+
+OPTIONS
+        -i &lt;spec file&gt;, --input-spec &lt;spec file&gt;
+            location of the OpenAPI spec, as URL or file (required)
+
+        --recommend
+
+</code></pre>
+<p>Valid Spec Example (using <a href="https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator-gradle-plugin/samples/local-spec/petstore-v3.0.yaml">petstore-v3.0.yaml</a>)</p>
+<pre><code class="hljs css language-bash">openapi-generator validate -i petstore-v3.0.yaml
+</code></pre>
+<pre><code class="hljs css language-text">Validating spec (petstore-v3.0.yaml)
+No validation issues detected.
+</code></pre>
+<p>Invalid Spec Example (using <a href="https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator-gradle-plugin/samples/local-spec/petstore-v3.0-invalid.yaml">petstore-v3.0-invalid.yaml</a>):</p>
+<pre><code class="hljs css language-bash">openapi-generator validate -i petstore-v3.0-invalid.yaml
+</code></pre>
+<pre><code class="hljs css language-text">Validating spec (petstore-v3.0-invalid.yaml)
+Errors:
+    -attribute info is missing
+
+[error] Spec has 1 errors.
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="completion"></a><a href="#completion" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>completion</h2>
+<p>Although not documented in the <code>help</code> output, the CLI offers a <code>completion</code> command, which can be used for auto-completion.</p>
+<p>This command takes one or more parameters representing the args list you would otherwise pass to <code>openapi-generator</code>. For example:</p>
+<pre><code class="hljs css language-bash">openapi-generator completion config-help
+--named-header
+-o
+--output
+-g
+--generator-name
+-l
+--lang
+</code></pre>
+<p>An example bash completion script can be found in the repo at <a href="https://github.com/OpenAPITools/openapi-generator/blob/master/scripts/openapi-generator-cli-completion.bash">scripts/openapi-generator-cli-completion.bash</a>.</p>
+<h2><a class="anchor" aria-hidden="true" id="generate"></a><a href="#generate" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>generate</h2>
+<p>The <code>generate</code> command is the workhorse of the generator toolset. As such, it has <em>many</em> more options and the previous commands. The options are abbreviated below, but you may expand the full descriptions.</p>
+<pre><code class="hljs css language-bash">openapi-generator <span class="hljs-built_in">help</span> generate
+NAME
+        openapi-generator-cli generate - Generate code with the specified
+        generator.
+
+SYNOPSIS
+        openapi-generator-cli generate
+                [(-a &lt;authorization&gt; | --auth &lt;authorization&gt;)]
+                [--additional-properties &lt;additional properties&gt;...]
+                [--api-package &lt;api package&gt;] [--artifact-id &lt;artifact id&gt;]
+                [--artifact-version &lt;artifact version&gt;]
+                [(-c &lt;configuration file&gt; | --config &lt;configuration file&gt;)]
+                [-D &lt;system properties&gt;...] [--<span class="hljs-built_in">enable</span>-post-process-file]
+                [(-g &lt;generator name&gt; | --generator-name &lt;generator name&gt;)]
+                [--git-repo-id &lt;git repo id&gt;] [--git-user-id &lt;git user id&gt;]
+                [--group-id &lt;group id&gt;] [--http-user-agent &lt;http user agent&gt;]
+                (-i &lt;spec file&gt; | --input-spec &lt;spec file&gt;)
+                [--ignore-file-override &lt;ignore file override location&gt;]
+                [--import-mappings &lt;import mappings&gt;...]
+                [--instantiation-types &lt;instantiation types&gt;...]
+                [--invoker-package &lt;invoker package&gt;]
+                [--language-specific-primitives &lt;language specific primitives&gt;...]
+                [--library &lt;library&gt;] [--<span class="hljs-built_in">log</span>-to-stderr]
+                [--model-name-prefix &lt;model name prefix&gt;]
+                [--model-name-suffix &lt;model name suffix&gt;]
+                [--model-package &lt;model package&gt;]
+                [(-o &lt;output directory&gt; | --output &lt;output directory&gt;)]
+                [--release-note &lt;release note&gt;] [--remove-operation-id-prefix]
+                [--reserved-words-mappings &lt;reserved word mappings&gt;...]
+                [(-s | --skip-overwrite)] [--skip-validate-spec]
+                [(-t &lt;template directory&gt; | --template-dir &lt;template directory&gt;)]
+                [--<span class="hljs-built_in">type</span>-mappings &lt;<span class="hljs-built_in">type</span> mappings&gt;...] [(-v | --verbose)]
+
+</code></pre>
+<p><details>
+<summary>generate OPTIONS</summary></p>
+<pre><code class="hljs css language-bash">OPTIONS
+        -a &lt;authorization&gt;, --auth &lt;authorization&gt;
+            adds authorization headers when fetching the OpenAPI definitions
+            remotely. Pass <span class="hljs-keyword">in</span> a URL-encoded string of name:header with a comma
+            separating multiple values
+
+        --additional-properties &lt;additional properties&gt;
+            sets additional properties that can be referenced by the mustache
+            templates <span class="hljs-keyword">in</span> the format of name=value,name=value. You can also have
+            multiple occurrences of this option.
+
+        --api-package &lt;api package&gt;
+            package <span class="hljs-keyword">for</span> generated api classes
+
+        --artifact-id &lt;artifact id&gt;
+            artifactId <span class="hljs-keyword">in</span> generated pom.xml
+
+        --artifact-version &lt;artifact version&gt;
+            artifact version <span class="hljs-keyword">in</span> generated pom.xml
+
+        -c &lt;configuration file&gt;, --config &lt;configuration file&gt;
+            Path to json configuration file. File content should be <span class="hljs-keyword">in</span> a json
+            format {<span class="hljs-string">"optionKey"</span>:<span class="hljs-string">"optionValue"</span>, <span class="hljs-string">"optionKey1"</span>:<span class="hljs-string">"optionValue1"</span>...}
+            Supported options can be different <span class="hljs-keyword">for</span> each language. Run
+            config-help -g {generator name} <span class="hljs-built_in">command</span> <span class="hljs-keyword">for</span> language specific config
+            options.
+
+        -D &lt;system properties&gt;
+            sets specified system properties <span class="hljs-keyword">in</span> the format of
+            name=value,name=value (or multiple options, each with name=value)
+
+        --<span class="hljs-built_in">enable</span>-post-process-file
+            enablePostProcessFile
+
+        -g &lt;generator name&gt;, --generator-name &lt;generator name&gt;
+            generator to use (see langs <span class="hljs-built_in">command</span> <span class="hljs-keyword">for</span> list)
+
+        --git-repo-id &lt;git repo id&gt;
+            Git repo ID, e.g. openapi-generator.
+
+        --git-user-id &lt;git user id&gt;
+            Git user ID, e.g. openapitools.
+
+        --group-id &lt;group id&gt;
+            groupId <span class="hljs-keyword">in</span> generated pom.xml
+
+        --http-user-agent &lt;http user agent&gt;
+            HTTP user agent, e.g. codegen_csharp_api_client, default to
+            <span class="hljs-string">'OpenAPI-Generator/{packageVersion}}/{language}'</span>
+
+        -i &lt;spec file&gt;, --input-spec &lt;spec file&gt;
+            location of the OpenAPI spec, as URL or file (required)
+
+        --ignore-file-override &lt;ignore file override location&gt;
+            Specifies an override location <span class="hljs-keyword">for</span> the .openapi-generator-ignore
+            file. Most useful on initial generation.
+
+        --import-mappings &lt;import mappings&gt;
+            specifies mappings between a given class and the import that should
+            be used <span class="hljs-keyword">for</span> that class <span class="hljs-keyword">in</span> the format of <span class="hljs-built_in">type</span>=import,<span class="hljs-built_in">type</span>=import. You
+            can also have multiple occurrences of this option.
+
+        --instantiation-types &lt;instantiation types&gt;
+            sets instantiation <span class="hljs-built_in">type</span> mappings <span class="hljs-keyword">in</span> the format of
+            <span class="hljs-built_in">type</span>=instantiatedType,<span class="hljs-built_in">type</span>=instantiatedType.For example (<span class="hljs-keyword">in</span> Java):
+            array=ArrayList,map=HashMap. In other words array types will get
+            instantiated as ArrayList <span class="hljs-keyword">in</span> generated code. You can also have
+            multiple occurrences of this option.
+
+        --invoker-package &lt;invoker package&gt;
+            root package <span class="hljs-keyword">for</span> generated code
+
+        --language-specific-primitives &lt;language specific primitives&gt;
+            specifies additional language specific primitive types <span class="hljs-keyword">in</span> the format
+            of type1,type2,type3,type3. For example:
+            String,boolean,Boolean,Double. You can also have multiple
+            occurrences of this option.
+
+        --library &lt;library&gt;
+            library template (sub-template)
+
+        --<span class="hljs-built_in">log</span>-to-stderr
+            write all <span class="hljs-built_in">log</span> messages (not just errors) to STDOUT. Useful <span class="hljs-keyword">for</span>
+            piping the JSON output of debug options (e.g. `-DdebugOperations`)
+            to an external parser directly <span class="hljs-keyword">while</span> testing a generator.
+
+        --model-name-prefix &lt;model name prefix&gt;
+            Prefix that will be prepended to all model names. Default is the
+            empty string.
+
+        --model-name-suffix &lt;model name suffix&gt;
+            Suffix that will be appended to all model names. Default is the
+            empty string.
+
+        --model-package &lt;model package&gt;
+            package <span class="hljs-keyword">for</span> generated models
+
+        -o &lt;output directory&gt;, --output &lt;output directory&gt;
+            <span class="hljs-built_in">where</span> to write the generated files (current dir by default)
+
+        --release-note &lt;release note&gt;
+            Release note, default to <span class="hljs-string">'Minor update'</span>.
+
+        --remove-operation-id-prefix
+            Remove prefix of operationId, e.g. config_getId =&gt; getId
+
+        --reserved-words-mappings &lt;reserved word mappings&gt;
+            specifies how a reserved name should be escaped to. Otherwise, the
+            default _&lt;name&gt; is used. For example id=identifier. You can also
+            have multiple occurrences of this option.
+
+        -s, --skip-overwrite
+            specifies <span class="hljs-keyword">if</span> the existing files should be overwritten during the
+            generation.
+
+        --skip-validate-spec
+            Skips the default behavior of validating an input specification.
+
+        -t &lt;template directory&gt;, --template-dir &lt;template directory&gt;
+            folder containing the template files
+
+        --<span class="hljs-built_in">type</span>-mappings &lt;<span class="hljs-built_in">type</span> mappings&gt;
+            sets mappings between OpenAPI spec types and generated code types <span class="hljs-keyword">in</span>
+            the format of OpenaAPIType=generatedType,OpenAPIType=generatedType.
+            For example: array=List,map=Map,string=String. You can also have
+            multiple occurrences of this option.
+
+        -v, --verbose
+            verbose mode
+
+</code></pre>
+<p></details></p>
+<p>At a minimum, <code>generate</code> requires:</p>
+<ul>
+<li><code>-g</code> to specify the generator</li>
+<li><code>-o</code> to specify a meaningful output directory (defaults to the current directory!)</li>
+<li><code>-i</code> to specify the input OpenAPI document</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="examples"></a><a href="#examples" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h3>
+<p>The following examples use <a href="https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml">petstore.yaml</a>.</p>
+<h4><a class="anchor" aria-hidden="true" id="additional-properties"></a><a href="#additional-properties" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Additional Properties</h4>
+<p>Generator-specific options should be passed as <code>--additional-properties</code>:</p>
+<pre><code class="hljs css language-bash">openapi-generator generate -g go --additional-properties=prependFormOrBodyParameters=<span class="hljs-literal">true</span> \
+    -o out -i petstore.yaml
+</code></pre>
+<p>To pass more than one generator property, these can be combined via comma:</p>
+<pre><code class="hljs css language-bash">--additional-properties=key1=value1,key2=value2
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="type-mappings-and-import-mappings"></a><a href="#type-mappings-and-import-mappings" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Type Mappings and Import Mappings</h4>
+<p>Most generators allow for types bound to the OpenAPI Specification's types to be remapped to a user's desired types. Not <em>all</em> type mappings can be reassigned, as some generators define mappings which are tightly coupled to the built-in templates.</p>
+<p>If you're not using your own templates with star/glob package imports, you will most likely need to combine <code>--type-mappings</code> and <code>--import-mappings</code> together.</p>
+<ul>
+<li><code>--type-mappings</code> Defines the user's target type</li>
+<li><code>--import-mappings</code> Informs the template of the type to be imported</li>
+</ul>
+<p>Here's how one might change the <code>kotlin-spring</code> server generator's default of <code>OffsetDateTime</code> to <code>LocalDateTime</code>:</p>
+<pre><code class="hljs css language-bash">openapi-generator generate \
+    -i petstore.yaml \
+    -g kotlin-spring \
+    -o out \
+    --additional-properties=library=spring-boot,beanValidations=<span class="hljs-literal">true</span>,swaggerAnnotations=<span class="hljs-literal">true</span>,serviceImplementation=<span class="hljs-literal">true</span> \
+    --import-mappings=DateTime=java.time.LocalDateTime \
+    --<span class="hljs-built_in">type</span>-mappings=DateTime=java.time.LocalDateTime
+</code></pre>
+<!-- TODO: Document all primitive types here -->
+<blockquote>
+<p>NOTE: mappings are applied to <code>DateTime</code>, as this is the representation of the primitive type. See <a href="https://github.com/OpenAPITools/openapi-generator/blob/7cee999543fcc00b7c1eb9f70f0456b707c7f9e2/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java#L1431">DefaultCodegen</a>.</p>
+</blockquote>
+<h3><a class="anchor" aria-hidden="true" id="target-external-models"></a><a href="#target-external-models" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Target External Models</h3>
+<p>Sometimes you don't want the codegen to make a model for you--you might want to just include one that already exists in your codebase.  Say you already have a <code>User</code> object and want to reuse that, which has a different model package from the other generated files:</p>
+<p>First, indicate that the class is already included by default. This will keep the codegen from trying to generate the class.</p>
+<pre><code class="hljs css language-bash">--language-specific-primitives=Pet
+</code></pre>
+<p>This command line option will tell the generator to consider <code>Pet</code> a &quot;primitive&quot; type.</p>
+<p>Next, if the <code>Pet</code> class is a different package, add an <code>--import-mapping</code> to tell the generator to include that import wherever <code>Pet</code> is used:</p>
+<pre><code class="hljs css language-bash">--import-mappings=Pet=com.yourpackage.models.Pet
+</code></pre>
+<p>Now the codegen will know what to import from that specific package.</p>
+<p>NOTE: <code>import-mappings</code> is assigned a key-value pair in this example, but multiple values can be comma-separate. For instance:</p>
+<pre><code class="hljs css language-bash">--import-mappings=Pet=com.yourpackage.models.Pet,User=com.yourpackage.models.User
+</code></pre>
+<h4><a class="anchor" aria-hidden="true" id="configuration-file"></a><a href="#configuration-file" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration File</h4>
+<p>Rather than passing generator options in a CSV of <code>--additional-properties</code>, you may also provide the settings via JSON file.</p>
+<p>For example, one of our typescript samples has the following configuration file:</p>
+<pre><code class="hljs css language-json">{
+  <span class="hljs-attr">"npmName"</span>: <span class="hljs-string">"@swagger/typescript-fetch-petstore"</span>,
+  <span class="hljs-attr">"npmVersion"</span>: <span class="hljs-string">"1.0.0"</span>,
+  <span class="hljs-attr">"npmRepository"</span> : <span class="hljs-string">"https://skimdb.npmjs.com/registry"</span>,
+  <span class="hljs-attr">"snapshot"</span> : <span class="hljs-literal">false</span>,
+  <span class="hljs-attr">"supportsES6"</span>: <span class="hljs-literal">true</span>
+}
+</code></pre>
+<p>These settings can be passed via <code>-c filename</code>. Here, we've saved the above as <code>config.json</code>:</p>
+<pre><code class="hljs css language-bash">openapi-generator generate -i petstore.yaml -g typescript-fetch -o out \
+    -c config.json
+</code></pre>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-1-18</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/openapi-generator/docs/online"><span class="arrow-prev">← </span><span>Online</span></a><a class="docs-next button" href="/openapi-generator/docs/general-faq"><span>Next</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#help">help</a></li><li><a href="#list">list</a></li><li><a href="#config-help">config-help</a></li><li><a href="#meta">meta</a></li><li><a href="#validate">validate</a></li><li><a href="#completion">completion</a></li><li><a href="#generate">generate</a><ul class="toc-headings"><li><a href="#examples">Examples</a></li><li><a href="#target-external-models">Target External Models</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/openapi-generator/" class="nav-home"><img src="/openapi-generator/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/openapi-generator/docs/en/customization.html">Customizing Generators</a><a href="/openapi-generator/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/openapi-generator/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://gitter.im/OpenAPITools/openapi-generator">Project Chat</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/openapi-generator/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="attribution"><a href="https://code.facebook.com/projects/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/openapi-generator/img/oss_logo.png" alt="Facebook Open Source" width="170" height="45"/></a><a href="https://fontawesome.com/license/free" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/openapi-generator/img/fa-logo.svg" alt="Fontawesome (Free)" width="170" height="45"/></a></section><section class="copyright">Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech)</section></footer></div></body></html>
