@@ -613,14 +613,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     }
 
     @Override
-    public boolean shouldOverwrite(String filename) {
-        // skip spec file as the file might have been updated with new test cases
-        return !(skipOverwrite && new File(filename).exists());
-        //
-        //return super.shouldOverwrite(filename) && !filename.endsWith("_spec.rb");
-    }
-
-    @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 

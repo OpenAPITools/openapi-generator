@@ -502,14 +502,17 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Angular.Schule](https://angular.schule/)
 - [ASKUL](https://www.askul.co.jp)
 - [b<>com](https://b-com.com/en)
+- [BIMData.io](https://bimdata.io)
 - [Bithost GmbH](https://www.bithost.ch)
 - [Boxever](https://www.boxever.com/)
+- [FormAPI](https://formapi.io/)
 - [GenFlow](https://github.com/RepreZen/GenFlow)
 - [GMO Pepabo](https://pepabo.com/en/)
 - [JustStar](https://www.juststarinfo.com)
 - [Klarna](https://www.klarna.com/)
 - [Metaswitch](https://www.metaswitch.com/)
 - [Myworkout](https://myworkout.com)
+- [Prometheus/Alertmanager](https://github.com/prometheus/alertmanager)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
 - [RepreZen API Studio](https://www.reprezen.com/swagger-openapi-code-generation-api-first-microservices-enterprise-development)
 - [REST United](https://restunited.com)
@@ -536,6 +539,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2018/11/19 - [OpenAPIs are everywhere](https://youtu.be/-lDot4Yn7Dg) by [Jeremie Bresson (Unblu)](https://github.com/jmini) at [EclipseCon Europe 2018](https://www.eclipsecon.org/europe2018)
 - 2018/12/09 - [openapi-generator をカスタマイズする方法](https://qiita.com/watiko/items/0961287c02eac9211572) by [@watiko](https://qiita.com/watiko)
 - 2019/01/03 - [Calling a Swagger service from Apex using openapi-generator](https://lekkimworld.com/2019/01/03/calling-a-swagger-service-from-apex-using-openapi-generator/) by [Mikkel Flindt Heisterberg](https://lekkimworld.com)
+- 2019/01/13 - [OpenAPI GeneratorでRESTful APIの定義書から色々自動生成する](https://ky-yk-d.hatenablog.com/entry/2019/01/13/234108) by [@ky_yk_d](https://twitter.com/ky_yk_d)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -544,13 +548,15 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 OpenAPI Generator core team members are contributors who have been making significant contributions (review issues, fix bugs, make enhancements, etc) to the project on a regular basis.
 
 #### Core Team Members
-* [@wing328](https://github.com/wing328) (2015/07)
-* [@jimschubert](https://github.com/jimschubert) (2016/05)
+* [@wing328](https://github.com/wing328) (2015/07) [:heart:](https://www.patreon.com/wing328)
+* [@jimschubert](https://github.com/jimschubert) (2016/05) [:heart:](https://www.patreon.com/jimschubert)
 * [@cbornet](https://github.com/cbornet) (2016/05)
 * [@jaz-ah](https://github.com/jaz-ah) (2016/05)
-* [@ackintosh](https://github.com/ackintosh) (2018/02)
+* [@ackintosh](https://github.com/ackintosh) (2018/02) [:heart:](https://www.patreon.com/ackintosh/overview)
 * [@JFCote](https://github.com/JFCote) (2018/03)
 * [@jmini](https://github.com/jmini) (2018/04)
+
+:heart: = Link to support the contributor directly 
 
 #### Template Creator
 Here is a list of template creators:
@@ -559,11 +565,11 @@ Here is a list of template creators:
    * Akka-Scala: @cchafer
    * Apex: @asnelling
    * Bash: @bkryza
-   * C: @PowerOfCreation @zhemant
+   * C: @PowerOfCreation @zhemant [:heart:](https://www.patreon.com/zhemant)
    * C++ REST: @Danielku15
    * C# (.NET 2.0): @who
    * C# (.NET Standard 1.3 ): @Gronsak
-   * C# (.NET 4.5 refactored): @jimschubert
+   * C# (.NET 4.5 refactored): @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * Clojure: @xhh
    * Dart: @yissachar
    * Dart (refactor): @joernahrens
@@ -575,7 +581,7 @@ Here is a list of template creators:
    * Erlang: @tsloughter
    * Erlang (PropEr): @jfacorro @robertoaloi
    * Groovy: @victorgit
-   * Go: @wing328
+   * Go: @wing328 [:heart:](https://www.patreon.com/wing328)
    * Go (rewritten in 2.3.0): @antihax
    * Haskell (http-client): @jonschoning
    * Java (Feign): @davidkiss
@@ -593,9 +599,9 @@ Here is a list of template creators:
    * Javascript (Closure-annotated Angular) @achew22
    * Javascript (Flow types) @jaypea
    * JMeter: @davidkiss
-   * Kotlin: @jimschubert
+   * Kotlin: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * Lua: @daurnimator
-   * Perl: @wing328
+   * Perl: @wing328 [:heart:](https://www.patreon.com/wing328)
    * PHP (Guzzle): @baartosz
    * PowerShell: @beatcracker
    * R: @ramnov
@@ -615,7 +621,7 @@ Here is a list of template creators:
    * TypeScript (Node):  @mhardorf
  * Server Stubs
    * Ada: @stcarrez
-   * C# ASP.NET5: @jimschubert
+   * C# ASP.NET5: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * C# NancyFX: @mstefaniuk
    * C++ (Qt5 QHttpEngine): @etherealjoy
    * C++ Pistache: @sebymiano
@@ -634,16 +640,17 @@ Here is a list of template creators:
    * JAX-RS CXF: @hiveship
    * JAX-RS CXF (CDI): @nickcmaynard
    * JAX-RS RestEasy (JBoss EAP): @jfiala
-   * Kotlin: @jimschubert
+   * Kotlin: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * Kotlin (Spring Boot): @dr4ke616
    * PHP Laravel: @renepardon
    * PHP Lumen: @abcsun
    * PHP Slim: @jfastnacht
    * PHP Symfony: @ksm2
    * PHP Zend Expressive (with Path Handler): @Articus
+   * Python AIOHTTP: @Jyhess
    * Ruby on Rails 5: @zlx
    * Rust (rust-server): @metaswitch
-   * Scala Finch: @jimschubert
+   * Scala Finch: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
    * Scala Lagom: @gmkumar2005
  * Documentation
    * HTML Doc 2: @jhitchcock
@@ -651,8 +658,10 @@ Here is a list of template creators:
  * Configuration
    * Apache2: @stkrwork
  * Schema
-   * GraphQL: @wing328
+   * GraphQL: @wing328 [:heart:](https://www.patreon.com/wing328)
    * MySQL: @ybelenko
+
+:heart: = Link to support the contributor directly
 
 #### How to join the core team
 
@@ -692,7 +701,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Bash      | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09) |
 | C         | @zhemant (2018/11) |
 | C++       | @ravinikam (2017/07) @stkrwork (2017/07) @fvarose (2017/11) @etherealjoy (2018/02) @martindelille (2018/03) |
-| C#        | @mandrean (2017/08) @jimschubert (2017/09) |
+| C#        | @mandrean (2017/08), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert) |
 | Clojure   |  |
 | Dart      | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) |
 | Eiffel    | @jvelilla (2017/09) |
@@ -704,20 +713,22 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Groovy    |  |
 | Haskell   |  |
 | Java      | @bbdouglas (2017/07) @JFCote (2017/08) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) |
-| Kotlin    | @jimschubert (2017/09) @dr4ke616 (2018/08) |
+| Kotlin    | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) |
 | Lua       | @daurnimator (2017/08) |
 | NodeJS/Javascript | @CodeNinjai (2017/07) @frol (2017/07) @cliffano (2017/07) |
 | ObjC      |  |
-| Perl      | @wing328 (2017/07) |
-| PHP       | @jebentier (2017/07) @dkarlovi (2017/07) @mandrean (2017/08) @jfastnacht (2017/09) @ackintosh (2017/09) @ybelenko (2018/07) @renepardon (2018/12) |
+| Perl      | @wing328 (2017/07) [:heart:](https://www.patreon.com/wing328) |
+| PHP       | @jebentier (2017/07), @dkarlovi (2017/07), @mandrean (2017/08), @jfastnacht (2017/09), @ackintosh (2017/09) [:heart:](https://www.patreon.com/ackintosh/overview), @ybelenko (2018/07), @renepardon (2018/12) |
 | PowerShell | |
-| Python    | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) |
+| Python    | @taxpon (2017/07) @frol (2017/07) @mbohlool (2017/07) @cbornet (2017/09) @kenjones-cisco (2017/11) @tomplus (2018/10) @Jyhess (2019/01) |
 | R         |  |
 | Ruby      | @cliffano (2017/07) @zlx (2017/09) |
 | Rust      | @frol (2017/07) @farcaller (2017/08) @bjgill (2017/12) |
-| Scala     | @clasnake (2017/07) @jimschubert (2017/09) @shijinkui  (2018/01) @ramzimaalej (2018/03) |
+| Scala     | @clasnake (2017/07), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @shijinkui  (2018/01), @ramzimaalej (2018/03) |
 | Swift     | @jgavris (2017/07) @ehyche (2017/08) @Edubits (2017/09) @jaz-ah (2017/09) @d-date  (2018/03) |
 | TypeScript | @TiFu (2017/07) @taxpon (2017/07) @sebastianhaas (2017/07) @kenisteward (2017/07) @Vrolijkx (2017/09) @macjohnny (2018/01) @nicokoenig (2018/09) @topce (2018/10) |
+
+:heart: = Link to support the contributor directly
 
 ### [6.3 - History of OpenAPI Generator](#table-of-contents)
 
@@ -766,7 +777,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [Vlad Frolov](https://github.com/frol)
 - [Vladimir Pouzanov](https://github.com/farcaller)
 - [William Cheng](https://github.com/wing328)
-- [Xin Meng](https://github.com/xmeng1)
+- [Xin Meng](https://github.com/xmeng1) [:heart:](https://www.patreon.com/user/overview?u=16435385)
 - [Xu Hui Hui](https://github.com/xhh)
 - [antihax](https://github.com/antihax)
 - [beatcracker](https://github.com/beatcracker)
@@ -775,6 +786,7 @@ OpenAPI Generator is a fork of [Swagger Codegen](https://github.com/swagger-api/
 - [jfiala](https://github.com/jfiala)
 - [lukoyanov](https://github.com/lukoyanov)
 
+:heart: = Link to support the contributor directly
 
 ## [7 - License](#table-of-contents)
 -------

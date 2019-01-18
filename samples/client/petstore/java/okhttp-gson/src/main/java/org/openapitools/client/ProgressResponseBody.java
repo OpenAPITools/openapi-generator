@@ -13,8 +13,8 @@
 
 package org.openapitools.client;
 
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.ResponseBody;
+import okhttp3.MediaType;
+import okhttp3.ResponseBody;
 
 import java.io.IOException;
 
@@ -45,12 +45,12 @@ public class ProgressResponseBody extends ResponseBody {
     }
 
     @Override
-    public long contentLength() throws IOException {
+    public long contentLength() {
         return responseBody.contentLength();
     }
 
     @Override
-    public BufferedSource source() throws IOException {
+    public BufferedSource source() {
         if (bufferedSource == null) {
             bufferedSource = Okio.buffer(source(responseBody.source()));
         }

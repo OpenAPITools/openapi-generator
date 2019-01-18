@@ -328,6 +328,9 @@ public class InlineModelResolverTest {
 
         RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body_with_required").getPost().getRequestBody();
         assertTrue(requestBodyReference.getRequired());
+
+        RequestBody referencedRequestBody = ModelUtils.getReferencedRequestBody(openAPI, requestBodyReference);
+        assertTrue(referencedRequestBody.getRequired());
     }
 
     @Test

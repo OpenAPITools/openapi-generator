@@ -1508,7 +1508,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param name string to be capitalized
      * @return capitalized string
-     * @deprecated
+     * @deprecated use {@link org.openapitools.codegen.utils.StringUtils#camelize(String)} instead
      */
     @SuppressWarnings("static-method")
     public String initialCaps(String name) {
@@ -3230,6 +3230,8 @@ public class DefaultCodegen implements CodegenConfig {
             cs.name = key;
             cs.type = securityScheme.getType().toString();
             cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = false;
+            cs.isBasicBasic = cs.isBasicBearer = false;
+            cs.scheme = securityScheme.getScheme();
 
             if (SecurityScheme.Type.APIKEY.equals(securityScheme.getType())) {
                 cs.isBasic = cs.isOAuth = false;
@@ -3241,6 +3243,12 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (SecurityScheme.Type.HTTP.equals(securityScheme.getType())) {
                 cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = false;
                 cs.isBasic = true;
+                if ("basic".equals(securityScheme.getScheme())) {
+                    cs.isBasicBasic = true;
+                }
+                else if ("bearer".equals(securityScheme.getScheme())) {
+                    cs.isBasicBearer = true;
+                }
             } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
                 cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
                 cs.isOAuth = true;
@@ -4572,6 +4580,10 @@ public class DefaultCodegen implements CodegenConfig {
         String name = null;
         LOGGER.debug("Request body = " + body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
+        if (schema == null) {
+            throw new RuntimeException("Request body cannot be null. Possible cause: missing schema in body parameter (OAS v2): " + body);
+        }
+
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
             schema = schemas.get(name);

@@ -10,6 +10,7 @@ assignees: ''
 #### Bug Report Checklist
 
 - [ ] Have you provided a full/minimal spec to reproduce the issue?
+- [ ] Have you validated the input using an OpenAPI validator ([example](https://apidevtools.org/swagger-parser/online/))?
 - [ ] What's the version of OpenAPI Generator used?
 - [ ] Have you search for related issues/PRs?
 - [ ] What's the actual output vs expected output?

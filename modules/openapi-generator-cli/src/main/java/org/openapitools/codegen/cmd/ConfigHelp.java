@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.nio.file.Paths;
 
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
@@ -81,7 +82,7 @@ public class ConfigHelp implements Runnable {
             }
 
             if (!isEmpty(outputFile)) {
-                File out = new File(outputFile);
+                File out = Paths.get(outputFile).toFile();
                 //noinspection ResultOfMethodCallIgnored
                 out.getParentFile().mkdirs();
 
