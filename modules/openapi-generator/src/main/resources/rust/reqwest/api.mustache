@@ -49,15 +49,12 @@ impl {{{classname}}} for {{{classname}}}Client {
             req_builder = req_builder.query(&[("{{{keyParamName}}}", val)]);
         }
         {{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}
-
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
         {{#hasHeaderParams}}{{#headerParams}}
         req_builder = req_builder.header("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
         {{/headerParams}}{{/hasHeaderParams}}
-
         {{#hasAuthMethods}}{{#authMethods}}
         {{#isApiKey}}{{#isKeyInHeader}}
         if let Some(ref apikey) = configuration.api_key {
@@ -80,7 +77,6 @@ impl {{{classname}}} for {{{classname}}}Client {
         };
         {{/isOAuth}}
         {{/authMethods}}{{/hasAuthMethods}}
-
         {{#isMultipart}}{{#hasFormParams}}
         let form = reqwest::multipart::Form::new()
         {{#formParams}}
@@ -93,20 +89,18 @@ impl {{{classname}}} for {{{classname}}}Client {
         {{/formParams}}
         req_builder = req_builder.multipart(form);
         {{/hasFormParams}}{{/isMultipart}}
-
         {{^isMultipart}}{{#hasFormParams}}
         let mut form_params = std::collections::HashMap::new();
         {{#formParams}}
         {{#isFile}}
-        form_params.insert("{{{baseName}}}".to_string(), unimplemented!("File form param not supported with x-www-form-urlencoded content"));
+        form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
         {{/isFile}}
         {{^isFile}}
-        form_params.insert("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        form_params.insert("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
         {{/isFile}}
         {{/formParams}}
         req_builder = req_builder.form(&form_params);
         {{/hasFormParams}}{{/isMultipart}}
-
         {{#hasBodyParam}}{{#bodyParams}}
         req_builder = req_builder.json(&{{{paramName}}});
         {{/bodyParams}}{{/hasBodyParam}}

@@ -47,19 +47,13 @@ impl UserApi for UserApiClient {
         let mut req_builder = client.post(uri_str.as_str());
 
         
-
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
         
-
         
-
         
-
         
-
         
         req_builder = req_builder.json(&body);
         
@@ -79,19 +73,13 @@ impl UserApi for UserApiClient {
         let mut req_builder = client.post(uri_str.as_str());
 
         
-
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
         
-
         
-
         
-
         
-
         
         req_builder = req_builder.json(&body);
         
@@ -111,19 +99,13 @@ impl UserApi for UserApiClient {
         let mut req_builder = client.post(uri_str.as_str());
 
         
-
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
         
-
         
-
         
-
         
-
         
         req_builder = req_builder.json(&body);
         
@@ -143,19 +125,13 @@ impl UserApi for UserApiClient {
         let mut req_builder = client.delete(uri_str.as_str());
 
         
-
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
         
-
         
-
         
-
         
-
         
 
         // send request
@@ -173,19 +149,13 @@ impl UserApi for UserApiClient {
         let mut req_builder = client.get(uri_str.as_str());
 
         
-
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
         
-
         
-
         
-
         
-
         
 
         // send request
@@ -204,19 +174,13 @@ impl UserApi for UserApiClient {
         req_builder = req_builder.query(&[("username", &username.to_string())]);
         req_builder = req_builder.query(&[("password", &password.to_string())]);
         
-
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
         
-
         
-
         
-
         
-
         
 
         // send request
@@ -233,19 +197,13 @@ impl UserApi for UserApiClient {
         let mut req_builder = client.get(uri_str.as_str());
 
         
-
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
         
-
         
-
         
-
         
-
         
 
         // send request
@@ -263,19 +221,13 @@ impl UserApi for UserApiClient {
         let mut req_builder = client.put(uri_str.as_str());
 
         
-
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
         
-
         
-
         
-
         
-
         
         req_builder = req_builder.json(&body);
         

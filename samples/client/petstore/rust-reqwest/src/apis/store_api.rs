@@ -43,19 +43,13 @@ impl StoreApi for StoreApiClient {
         let mut req_builder = client.delete(uri_str.as_str());
 
         
-
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
         
-
         
-
         
-
         
-
         
 
         // send request
@@ -73,13 +67,10 @@ impl StoreApi for StoreApiClient {
         let mut req_builder = client.get(uri_str.as_str());
 
         
-
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
         
-
         
         
         if let Some(ref apikey) = configuration.api_key {
@@ -92,11 +83,8 @@ impl StoreApi for StoreApiClient {
         };
         
         
-
         
-
         
-
         
 
         // send request
@@ -113,19 +101,13 @@ impl StoreApi for StoreApiClient {
         let mut req_builder = client.get(uri_str.as_str());
 
         
-
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
         
-
         
-
         
-
         
-
         
 
         // send request
@@ -142,19 +124,13 @@ impl StoreApi for StoreApiClient {
         let mut req_builder = client.post(uri_str.as_str());
 
         
-
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
         
-
         
-
         
-
         
-
         
         req_builder = req_builder.json(&body);
         
