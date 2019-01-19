@@ -240,7 +240,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **i64**| ID of pet to update | 
  **additional_metadata** | **String**| Additional data to pass to server | 
- **file** | **::models::File**| file to upload | 
+ **file** | **&std::path::Path**| file to upload | 
 
 ### Return type
 

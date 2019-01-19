@@ -10,7 +10,6 @@
 
 use std::rc::Rc;
 use std::borrow::Borrow;
-use std::collections::HashMap;
 
 use reqwest;
 
@@ -47,16 +46,23 @@ impl UserApi for UserApiClient {
         let uri_str = format!("{}/user", configuration.base_path);
         let mut req_builder = client.post(uri_str.as_str());
 
-
+        
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
 
+        
 
+        
 
+        
 
+        
+
+        
         req_builder = req_builder.json(&body);
+        
 
         // send request
         let req = req_builder.build()?;
@@ -72,16 +78,23 @@ impl UserApi for UserApiClient {
         let uri_str = format!("{}/user/createWithArray", configuration.base_path);
         let mut req_builder = client.post(uri_str.as_str());
 
-
+        
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
 
+        
 
+        
 
+        
 
+        
+
+        
         req_builder = req_builder.json(&body);
+        
 
         // send request
         let req = req_builder.build()?;
@@ -97,16 +110,23 @@ impl UserApi for UserApiClient {
         let uri_str = format!("{}/user/createWithList", configuration.base_path);
         let mut req_builder = client.post(uri_str.as_str());
 
-
+        
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
 
+        
 
+        
 
+        
 
+        
+
+        
         req_builder = req_builder.json(&body);
+        
 
         // send request
         let req = req_builder.build()?;
@@ -122,15 +142,21 @@ impl UserApi for UserApiClient {
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=urlencode(username));
         let mut req_builder = client.delete(uri_str.as_str());
 
-
+        
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
 
+        
 
+        
 
+        
 
+        
+
+        
 
         // send request
         let req = req_builder.build()?;
@@ -146,15 +172,21 @@ impl UserApi for UserApiClient {
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=urlencode(username));
         let mut req_builder = client.get(uri_str.as_str());
 
-
+        
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
 
+        
 
+        
 
+        
 
+        
+
+        
 
         // send request
         let req = req_builder.build()?;
@@ -171,15 +203,21 @@ impl UserApi for UserApiClient {
 
         req_builder = req_builder.query(&[("username", &username.to_string())]);
         req_builder = req_builder.query(&[("password", &password.to_string())]);
-
+        
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
 
+        
 
+        
 
+        
 
+        
+
+        
 
         // send request
         let req = req_builder.build()?;
@@ -194,15 +232,21 @@ impl UserApi for UserApiClient {
         let uri_str = format!("{}/user/logout", configuration.base_path);
         let mut req_builder = client.get(uri_str.as_str());
 
-
+        
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
 
+        
 
+        
 
+        
 
+        
+
+        
 
         // send request
         let req = req_builder.build()?;
@@ -218,16 +262,23 @@ impl UserApi for UserApiClient {
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=urlencode(username));
         let mut req_builder = client.put(uri_str.as_str());
 
-
+        
 
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
 
+        
 
+        
 
+        
 
+        
+
+        
         req_builder = req_builder.json(&body);
+        
 
         // send request
         let req = req_builder.build()?;
