@@ -60,17 +60,17 @@ class Capitalization(object):
         self.discriminator = None
 
         if small_camel is not None:
-            self.small_camel = small_camel  # noqa: E501
+            self.small_camel = small_camel
         if capital_camel is not None:
-            self.capital_camel = capital_camel  # noqa: E501
+            self.capital_camel = capital_camel
         if small_snake is not None:
-            self.small_snake = small_snake  # noqa: E501
+            self.small_snake = small_snake
         if capital_snake is not None:
-            self.capital_snake = capital_snake  # noqa: E501
+            self.capital_snake = capital_snake
         if sca_eth_flow_points is not None:
-            self.sca_eth_flow_points = sca_eth_flow_points  # noqa: E501
+            self.sca_eth_flow_points = sca_eth_flow_points
         if att_name is not None:
-            self.att_name = att_name  # noqa: E501
+            self.att_name = att_name
 
     @property
     def small_camel(self):

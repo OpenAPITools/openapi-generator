@@ -48,7 +48,7 @@ class Category(object):
         self.discriminator = None
 
         if id is not None:
-            self.id = id  # noqa: E501
+            self.id = id
         self.name = name
 
     @property

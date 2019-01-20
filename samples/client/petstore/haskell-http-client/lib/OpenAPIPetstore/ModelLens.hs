@@ -832,34 +832,34 @@ xmlItemNamespaceWrappedArrayL :: Lens_' XmlItem (Maybe [Int])
 xmlItemNamespaceWrappedArrayL f XmlItem{..} = (\xmlItemNamespaceWrappedArray -> XmlItem { xmlItemNamespaceWrappedArray, ..} ) <$> f xmlItemNamespaceWrappedArray
 {-# INLINE xmlItemNamespaceWrappedArrayL #-}
 
--- | 'xmlItemPrefixNamespaceString' Lens
-xmlItemPrefixNamespaceStringL :: Lens_' XmlItem (Maybe Text)
-xmlItemPrefixNamespaceStringL f XmlItem{..} = (\xmlItemPrefixNamespaceString -> XmlItem { xmlItemPrefixNamespaceString, ..} ) <$> f xmlItemPrefixNamespaceString
-{-# INLINE xmlItemPrefixNamespaceStringL #-}
+-- | 'xmlItemPrefixNsString' Lens
+xmlItemPrefixNsStringL :: Lens_' XmlItem (Maybe Text)
+xmlItemPrefixNsStringL f XmlItem{..} = (\xmlItemPrefixNsString -> XmlItem { xmlItemPrefixNsString, ..} ) <$> f xmlItemPrefixNsString
+{-# INLINE xmlItemPrefixNsStringL #-}
 
--- | 'xmlItemPrefixNamespaceNumber' Lens
-xmlItemPrefixNamespaceNumberL :: Lens_' XmlItem (Maybe Double)
-xmlItemPrefixNamespaceNumberL f XmlItem{..} = (\xmlItemPrefixNamespaceNumber -> XmlItem { xmlItemPrefixNamespaceNumber, ..} ) <$> f xmlItemPrefixNamespaceNumber
-{-# INLINE xmlItemPrefixNamespaceNumberL #-}
+-- | 'xmlItemPrefixNsNumber' Lens
+xmlItemPrefixNsNumberL :: Lens_' XmlItem (Maybe Double)
+xmlItemPrefixNsNumberL f XmlItem{..} = (\xmlItemPrefixNsNumber -> XmlItem { xmlItemPrefixNsNumber, ..} ) <$> f xmlItemPrefixNsNumber
+{-# INLINE xmlItemPrefixNsNumberL #-}
 
--- | 'xmlItemPrefixNamespaceInteger' Lens
-xmlItemPrefixNamespaceIntegerL :: Lens_' XmlItem (Maybe Int)
-xmlItemPrefixNamespaceIntegerL f XmlItem{..} = (\xmlItemPrefixNamespaceInteger -> XmlItem { xmlItemPrefixNamespaceInteger, ..} ) <$> f xmlItemPrefixNamespaceInteger
-{-# INLINE xmlItemPrefixNamespaceIntegerL #-}
+-- | 'xmlItemPrefixNsInteger' Lens
+xmlItemPrefixNsIntegerL :: Lens_' XmlItem (Maybe Int)
+xmlItemPrefixNsIntegerL f XmlItem{..} = (\xmlItemPrefixNsInteger -> XmlItem { xmlItemPrefixNsInteger, ..} ) <$> f xmlItemPrefixNsInteger
+{-# INLINE xmlItemPrefixNsIntegerL #-}
 
--- | 'xmlItemPrefixNamespaceBoolean' Lens
-xmlItemPrefixNamespaceBooleanL :: Lens_' XmlItem (Maybe Bool)
-xmlItemPrefixNamespaceBooleanL f XmlItem{..} = (\xmlItemPrefixNamespaceBoolean -> XmlItem { xmlItemPrefixNamespaceBoolean, ..} ) <$> f xmlItemPrefixNamespaceBoolean
-{-# INLINE xmlItemPrefixNamespaceBooleanL #-}
+-- | 'xmlItemPrefixNsBoolean' Lens
+xmlItemPrefixNsBooleanL :: Lens_' XmlItem (Maybe Bool)
+xmlItemPrefixNsBooleanL f XmlItem{..} = (\xmlItemPrefixNsBoolean -> XmlItem { xmlItemPrefixNsBoolean, ..} ) <$> f xmlItemPrefixNsBoolean
+{-# INLINE xmlItemPrefixNsBooleanL #-}
 
--- | 'xmlItemPrefixNamespaceArray' Lens
-xmlItemPrefixNamespaceArrayL :: Lens_' XmlItem (Maybe [Int])
-xmlItemPrefixNamespaceArrayL f XmlItem{..} = (\xmlItemPrefixNamespaceArray -> XmlItem { xmlItemPrefixNamespaceArray, ..} ) <$> f xmlItemPrefixNamespaceArray
-{-# INLINE xmlItemPrefixNamespaceArrayL #-}
+-- | 'xmlItemPrefixNsArray' Lens
+xmlItemPrefixNsArrayL :: Lens_' XmlItem (Maybe [Int])
+xmlItemPrefixNsArrayL f XmlItem{..} = (\xmlItemPrefixNsArray -> XmlItem { xmlItemPrefixNsArray, ..} ) <$> f xmlItemPrefixNsArray
+{-# INLINE xmlItemPrefixNsArrayL #-}
 
--- | 'xmlItemPrefixNamespaceWrappedArray' Lens
-xmlItemPrefixNamespaceWrappedArrayL :: Lens_' XmlItem (Maybe [Int])
-xmlItemPrefixNamespaceWrappedArrayL f XmlItem{..} = (\xmlItemPrefixNamespaceWrappedArray -> XmlItem { xmlItemPrefixNamespaceWrappedArray, ..} ) <$> f xmlItemPrefixNamespaceWrappedArray
-{-# INLINE xmlItemPrefixNamespaceWrappedArrayL #-}
+-- | 'xmlItemPrefixNsWrappedArray' Lens
+xmlItemPrefixNsWrappedArrayL :: Lens_' XmlItem (Maybe [Int])
+xmlItemPrefixNsWrappedArrayL f XmlItem{..} = (\xmlItemPrefixNsWrappedArray -> XmlItem { xmlItemPrefixNsWrappedArray, ..} ) <$> f xmlItemPrefixNsWrappedArray
+{-# INLINE xmlItemPrefixNsWrappedArrayL #-}
 
 

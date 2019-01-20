@@ -26,12 +26,12 @@ Name | Type | Description | Notes
 **namespace_boolean** | **bool** |  | [optional] [default to True]
 **namespace_array** | **list[int]** |  | [optional] 
 **namespace_wrapped_array** | **list[int]** |  | [optional] 
-**prefix_namespace_string** | **str** |  | [optional] [default to 'string']
-**prefix_namespace_number** | **float** |  | [optional] [default to 1.234]
-**prefix_namespace_integer** | **int** |  | [optional] [default to -2]
-**prefix_namespace_boolean** | **bool** |  | [optional] [default to True]
-**prefix_namespace_array** | **list[int]** |  | [optional] 
-**prefix_namespace_wrapped_array** | **list[int]** |  | [optional] 
+**prefix_ns_string** | **str** |  | [optional] [default to 'string']
+**prefix_ns_number** | **float** |  | [optional] [default to 1.234]
+**prefix_ns_integer** | **int** |  | [optional] [default to -2]
+**prefix_ns_boolean** | **bool** |  | [optional] [default to True]
+**prefix_ns_array** | **list[int]** |  | [optional] 
+**prefix_ns_wrapped_array** | **list[int]** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

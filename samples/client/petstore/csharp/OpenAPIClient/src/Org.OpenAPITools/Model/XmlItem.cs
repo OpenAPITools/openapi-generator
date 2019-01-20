@@ -56,13 +56,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="namespaceBoolean">namespaceBoolean.</param>
         /// <param name="namespaceArray">namespaceArray.</param>
         /// <param name="namespaceWrappedArray">namespaceWrappedArray.</param>
-        /// <param name="prefixNamespaceString">prefixNamespaceString.</param>
-        /// <param name="prefixNamespaceNumber">prefixNamespaceNumber.</param>
-        /// <param name="prefixNamespaceInteger">prefixNamespaceInteger.</param>
-        /// <param name="prefixNamespaceBoolean">prefixNamespaceBoolean.</param>
-        /// <param name="prefixNamespaceArray">prefixNamespaceArray.</param>
-        /// <param name="prefixNamespaceWrappedArray">prefixNamespaceWrappedArray.</param>
-        public XmlItem(string attributeString = default(string), decimal? attributeNumber = default(decimal?), int? attributeInteger = default(int?), bool? attributeBoolean = default(bool?), List<int?> wrappedArray = default(List<int?>), string nameString = default(string), decimal? nameNumber = default(decimal?), int? nameInteger = default(int?), bool? nameBoolean = default(bool?), List<int?> nameArray = default(List<int?>), List<int?> nameWrappedArray = default(List<int?>), string prefixString = default(string), decimal? prefixNumber = default(decimal?), int? prefixInteger = default(int?), bool? prefixBoolean = default(bool?), List<int?> prefixArray = default(List<int?>), List<int?> prefixWrappedArray = default(List<int?>), string namespaceString = default(string), decimal? namespaceNumber = default(decimal?), int? namespaceInteger = default(int?), bool? namespaceBoolean = default(bool?), List<int?> namespaceArray = default(List<int?>), List<int?> namespaceWrappedArray = default(List<int?>), string prefixNamespaceString = default(string), decimal? prefixNamespaceNumber = default(decimal?), int? prefixNamespaceInteger = default(int?), bool? prefixNamespaceBoolean = default(bool?), List<int?> prefixNamespaceArray = default(List<int?>), List<int?> prefixNamespaceWrappedArray = default(List<int?>))
+        /// <param name="prefixNsString">prefixNsString.</param>
+        /// <param name="prefixNsNumber">prefixNsNumber.</param>
+        /// <param name="prefixNsInteger">prefixNsInteger.</param>
+        /// <param name="prefixNsBoolean">prefixNsBoolean.</param>
+        /// <param name="prefixNsArray">prefixNsArray.</param>
+        /// <param name="prefixNsWrappedArray">prefixNsWrappedArray.</param>
+        public XmlItem(string attributeString = default(string), decimal? attributeNumber = default(decimal?), int? attributeInteger = default(int?), bool? attributeBoolean = default(bool?), List<int?> wrappedArray = default(List<int?>), string nameString = default(string), decimal? nameNumber = default(decimal?), int? nameInteger = default(int?), bool? nameBoolean = default(bool?), List<int?> nameArray = default(List<int?>), List<int?> nameWrappedArray = default(List<int?>), string prefixString = default(string), decimal? prefixNumber = default(decimal?), int? prefixInteger = default(int?), bool? prefixBoolean = default(bool?), List<int?> prefixArray = default(List<int?>), List<int?> prefixWrappedArray = default(List<int?>), string namespaceString = default(string), decimal? namespaceNumber = default(decimal?), int? namespaceInteger = default(int?), bool? namespaceBoolean = default(bool?), List<int?> namespaceArray = default(List<int?>), List<int?> namespaceWrappedArray = default(List<int?>), string prefixNsString = default(string), decimal? prefixNsNumber = default(decimal?), int? prefixNsInteger = default(int?), bool? prefixNsBoolean = default(bool?), List<int?> prefixNsArray = default(List<int?>), List<int?> prefixNsWrappedArray = default(List<int?>))
         {
             this.AttributeString = attributeString;
             this.AttributeNumber = attributeNumber;
@@ -87,12 +87,12 @@ namespace Org.OpenAPITools.Model
             this.NamespaceBoolean = namespaceBoolean;
             this.NamespaceArray = namespaceArray;
             this.NamespaceWrappedArray = namespaceWrappedArray;
-            this.PrefixNamespaceString = prefixNamespaceString;
-            this.PrefixNamespaceNumber = prefixNamespaceNumber;
-            this.PrefixNamespaceInteger = prefixNamespaceInteger;
-            this.PrefixNamespaceBoolean = prefixNamespaceBoolean;
-            this.PrefixNamespaceArray = prefixNamespaceArray;
-            this.PrefixNamespaceWrappedArray = prefixNamespaceWrappedArray;
+            this.PrefixNsString = prefixNsString;
+            this.PrefixNsNumber = prefixNsNumber;
+            this.PrefixNsInteger = prefixNsInteger;
+            this.PrefixNsBoolean = prefixNsBoolean;
+            this.PrefixNsArray = prefixNsArray;
+            this.PrefixNsWrappedArray = prefixNsWrappedArray;
         }
         
         /// <summary>
@@ -234,40 +234,40 @@ namespace Org.OpenAPITools.Model
         public List<int?> NamespaceWrappedArray { get; set; }
 
         /// <summary>
-        /// Gets or Sets PrefixNamespaceString
+        /// Gets or Sets PrefixNsString
         /// </summary>
-        [DataMember(Name="prefix_namespace_string", EmitDefaultValue=false)]
-        public string PrefixNamespaceString { get; set; }
+        [DataMember(Name="prefix_ns_string", EmitDefaultValue=false)]
+        public string PrefixNsString { get; set; }
 
         /// <summary>
-        /// Gets or Sets PrefixNamespaceNumber
+        /// Gets or Sets PrefixNsNumber
         /// </summary>
-        [DataMember(Name="prefix_namespace_number", EmitDefaultValue=false)]
-        public decimal? PrefixNamespaceNumber { get; set; }
+        [DataMember(Name="prefix_ns_number", EmitDefaultValue=false)]
+        public decimal? PrefixNsNumber { get; set; }
 
         /// <summary>
-        /// Gets or Sets PrefixNamespaceInteger
+        /// Gets or Sets PrefixNsInteger
         /// </summary>
-        [DataMember(Name="prefix_namespace_integer", EmitDefaultValue=false)]
-        public int? PrefixNamespaceInteger { get; set; }
+        [DataMember(Name="prefix_ns_integer", EmitDefaultValue=false)]
+        public int? PrefixNsInteger { get; set; }
 
         /// <summary>
-        /// Gets or Sets PrefixNamespaceBoolean
+        /// Gets or Sets PrefixNsBoolean
         /// </summary>
-        [DataMember(Name="prefix_namespace_boolean", EmitDefaultValue=false)]
-        public bool? PrefixNamespaceBoolean { get; set; }
+        [DataMember(Name="prefix_ns_boolean", EmitDefaultValue=false)]
+        public bool? PrefixNsBoolean { get; set; }
 
         /// <summary>
-        /// Gets or Sets PrefixNamespaceArray
+        /// Gets or Sets PrefixNsArray
         /// </summary>
-        [DataMember(Name="prefix_namespace_array", EmitDefaultValue=false)]
-        public List<int?> PrefixNamespaceArray { get; set; }
+        [DataMember(Name="prefix_ns_array", EmitDefaultValue=false)]
+        public List<int?> PrefixNsArray { get; set; }
 
         /// <summary>
-        /// Gets or Sets PrefixNamespaceWrappedArray
+        /// Gets or Sets PrefixNsWrappedArray
         /// </summary>
-        [DataMember(Name="prefix_namespace_wrapped_array", EmitDefaultValue=false)]
-        public List<int?> PrefixNamespaceWrappedArray { get; set; }
+        [DataMember(Name="prefix_ns_wrapped_array", EmitDefaultValue=false)]
+        public List<int?> PrefixNsWrappedArray { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -300,12 +300,12 @@ namespace Org.OpenAPITools.Model
             sb.Append("  NamespaceBoolean: ").Append(NamespaceBoolean).Append("\n");
             sb.Append("  NamespaceArray: ").Append(NamespaceArray).Append("\n");
             sb.Append("  NamespaceWrappedArray: ").Append(NamespaceWrappedArray).Append("\n");
-            sb.Append("  PrefixNamespaceString: ").Append(PrefixNamespaceString).Append("\n");
-            sb.Append("  PrefixNamespaceNumber: ").Append(PrefixNamespaceNumber).Append("\n");
-            sb.Append("  PrefixNamespaceInteger: ").Append(PrefixNamespaceInteger).Append("\n");
-            sb.Append("  PrefixNamespaceBoolean: ").Append(PrefixNamespaceBoolean).Append("\n");
-            sb.Append("  PrefixNamespaceArray: ").Append(PrefixNamespaceArray).Append("\n");
-            sb.Append("  PrefixNamespaceWrappedArray: ").Append(PrefixNamespaceWrappedArray).Append("\n");
+            sb.Append("  PrefixNsString: ").Append(PrefixNsString).Append("\n");
+            sb.Append("  PrefixNsNumber: ").Append(PrefixNsNumber).Append("\n");
+            sb.Append("  PrefixNsInteger: ").Append(PrefixNsInteger).Append("\n");
+            sb.Append("  PrefixNsBoolean: ").Append(PrefixNsBoolean).Append("\n");
+            sb.Append("  PrefixNsArray: ").Append(PrefixNsArray).Append("\n");
+            sb.Append("  PrefixNsWrappedArray: ").Append(PrefixNsWrappedArray).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -456,34 +456,34 @@ namespace Org.OpenAPITools.Model
                     this.NamespaceWrappedArray.SequenceEqual(input.NamespaceWrappedArray)
                 ) && 
                 (
-                    this.PrefixNamespaceString == input.PrefixNamespaceString ||
-                    (this.PrefixNamespaceString != null &&
-                    this.PrefixNamespaceString.Equals(input.PrefixNamespaceString))
+                    this.PrefixNsString == input.PrefixNsString ||
+                    (this.PrefixNsString != null &&
+                    this.PrefixNsString.Equals(input.PrefixNsString))
                 ) && 
                 (
-                    this.PrefixNamespaceNumber == input.PrefixNamespaceNumber ||
-                    (this.PrefixNamespaceNumber != null &&
-                    this.PrefixNamespaceNumber.Equals(input.PrefixNamespaceNumber))
+                    this.PrefixNsNumber == input.PrefixNsNumber ||
+                    (this.PrefixNsNumber != null &&
+                    this.PrefixNsNumber.Equals(input.PrefixNsNumber))
                 ) && 
                 (
-                    this.PrefixNamespaceInteger == input.PrefixNamespaceInteger ||
-                    (this.PrefixNamespaceInteger != null &&
-                    this.PrefixNamespaceInteger.Equals(input.PrefixNamespaceInteger))
+                    this.PrefixNsInteger == input.PrefixNsInteger ||
+                    (this.PrefixNsInteger != null &&
+                    this.PrefixNsInteger.Equals(input.PrefixNsInteger))
                 ) && 
                 (
-                    this.PrefixNamespaceBoolean == input.PrefixNamespaceBoolean ||
-                    (this.PrefixNamespaceBoolean != null &&
-                    this.PrefixNamespaceBoolean.Equals(input.PrefixNamespaceBoolean))
+                    this.PrefixNsBoolean == input.PrefixNsBoolean ||
+                    (this.PrefixNsBoolean != null &&
+                    this.PrefixNsBoolean.Equals(input.PrefixNsBoolean))
                 ) && 
                 (
-                    this.PrefixNamespaceArray == input.PrefixNamespaceArray ||
-                    this.PrefixNamespaceArray != null &&
-                    this.PrefixNamespaceArray.SequenceEqual(input.PrefixNamespaceArray)
+                    this.PrefixNsArray == input.PrefixNsArray ||
+                    this.PrefixNsArray != null &&
+                    this.PrefixNsArray.SequenceEqual(input.PrefixNsArray)
                 ) && 
                 (
-                    this.PrefixNamespaceWrappedArray == input.PrefixNamespaceWrappedArray ||
-                    this.PrefixNamespaceWrappedArray != null &&
-                    this.PrefixNamespaceWrappedArray.SequenceEqual(input.PrefixNamespaceWrappedArray)
+                    this.PrefixNsWrappedArray == input.PrefixNsWrappedArray ||
+                    this.PrefixNsWrappedArray != null &&
+                    this.PrefixNsWrappedArray.SequenceEqual(input.PrefixNsWrappedArray)
                 );
         }
 
@@ -542,18 +542,18 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.NamespaceArray.GetHashCode();
                 if (this.NamespaceWrappedArray != null)
                     hashCode = hashCode * 59 + this.NamespaceWrappedArray.GetHashCode();
-                if (this.PrefixNamespaceString != null)
-                    hashCode = hashCode * 59 + this.PrefixNamespaceString.GetHashCode();
-                if (this.PrefixNamespaceNumber != null)
-                    hashCode = hashCode * 59 + this.PrefixNamespaceNumber.GetHashCode();
-                if (this.PrefixNamespaceInteger != null)
-                    hashCode = hashCode * 59 + this.PrefixNamespaceInteger.GetHashCode();
-                if (this.PrefixNamespaceBoolean != null)
-                    hashCode = hashCode * 59 + this.PrefixNamespaceBoolean.GetHashCode();
-                if (this.PrefixNamespaceArray != null)
-                    hashCode = hashCode * 59 + this.PrefixNamespaceArray.GetHashCode();
-                if (this.PrefixNamespaceWrappedArray != null)
-                    hashCode = hashCode * 59 + this.PrefixNamespaceWrappedArray.GetHashCode();
+                if (this.PrefixNsString != null)
+                    hashCode = hashCode * 59 + this.PrefixNsString.GetHashCode();
+                if (this.PrefixNsNumber != null)
+                    hashCode = hashCode * 59 + this.PrefixNsNumber.GetHashCode();
+                if (this.PrefixNsInteger != null)
+                    hashCode = hashCode * 59 + this.PrefixNsInteger.GetHashCode();
+                if (this.PrefixNsBoolean != null)
+                    hashCode = hashCode * 59 + this.PrefixNsBoolean.GetHashCode();
+                if (this.PrefixNsArray != null)
+                    hashCode = hashCode * 59 + this.PrefixNsArray.GetHashCode();
+                if (this.PrefixNsWrappedArray != null)
+                    hashCode = hashCode * 59 + this.PrefixNsWrappedArray.GetHashCode();
                 return hashCode;
             }
         }

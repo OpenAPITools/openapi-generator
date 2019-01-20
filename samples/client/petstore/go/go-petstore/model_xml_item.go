@@ -33,10 +33,10 @@ type XmlItem struct {
 	NamespaceBoolean bool `json:"namespace_boolean,omitempty"`
 	NamespaceArray []int32 `json:"namespace_array,omitempty"`
 	NamespaceWrappedArray []int32 `json:"namespace_wrapped_array,omitempty"`
-	PrefixNamespaceString string `json:"prefix_namespace_string,omitempty"`
-	PrefixNamespaceNumber float32 `json:"prefix_namespace_number,omitempty"`
-	PrefixNamespaceInteger int32 `json:"prefix_namespace_integer,omitempty"`
-	PrefixNamespaceBoolean bool `json:"prefix_namespace_boolean,omitempty"`
-	PrefixNamespaceArray []int32 `json:"prefix_namespace_array,omitempty"`
-	PrefixNamespaceWrappedArray []int32 `json:"prefix_namespace_wrapped_array,omitempty"`
+	PrefixNsString string `json:"prefix_ns_string,omitempty"`
+	PrefixNsNumber float32 `json:"prefix_ns_number,omitempty"`
+	PrefixNsInteger int32 `json:"prefix_ns_integer,omitempty"`
+	PrefixNsBoolean bool `json:"prefix_ns_boolean,omitempty"`
+	PrefixNsArray []int32 `json:"prefix_ns_array,omitempty"`
+	PrefixNsWrappedArray []int32 `json:"prefix_ns_wrapped_array,omitempty"`
 }

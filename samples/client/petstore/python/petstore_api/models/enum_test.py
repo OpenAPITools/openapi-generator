@@ -57,14 +57,14 @@ class EnumTest(object):
         self.discriminator = None
 
         if enum_string is not None:
-            self.enum_string = enum_string  # noqa: E501
+            self.enum_string = enum_string
         self.enum_string_required = enum_string_required
         if enum_integer is not None:
-            self.enum_integer = enum_integer  # noqa: E501
+            self.enum_integer = enum_integer
         if enum_number is not None:
-            self.enum_number = enum_number  # noqa: E501
+            self.enum_number = enum_number
         if outer_enum is not None:
-            self.outer_enum = outer_enum  # noqa: E501
+            self.outer_enum = outer_enum
 
     @property
     def enum_string(self):

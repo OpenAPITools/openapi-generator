@@ -48,9 +48,9 @@ class Model200Response(object):
         self.discriminator = None
 
         if name is not None:
-            self.name = name  # noqa: E501
+            self.name = name
         if _class is not None:
-            self._class = _class  # noqa: E501
+            self._class = _class
 
     @property
     def name(self):

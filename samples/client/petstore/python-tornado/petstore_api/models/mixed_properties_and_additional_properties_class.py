@@ -51,11 +51,11 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         self.discriminator = None
 
         if uuid is not None:
-            self.uuid = uuid  # noqa: E501
+            self.uuid = uuid
         if date_time is not None:
-            self.date_time = date_time  # noqa: E501
+            self.date_time = date_time
         if map is not None:
-            self.map = map  # noqa: E501
+            self.map = map
 
     @property
     def uuid(self):

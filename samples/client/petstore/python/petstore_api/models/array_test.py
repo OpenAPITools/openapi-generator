@@ -51,11 +51,11 @@ class ArrayTest(object):
         self.discriminator = None
 
         if array_of_string is not None:
-            self.array_of_string = array_of_string  # noqa: E501
+            self.array_of_string = array_of_string
         if array_array_of_integer is not None:
-            self.array_array_of_integer = array_array_of_integer  # noqa: E501
+            self.array_array_of_integer = array_array_of_integer
         if array_array_of_model is not None:
-            self.array_array_of_model = array_array_of_model  # noqa: E501
+            self.array_array_of_model = array_array_of_model
 
     @property
     def array_of_string(self):

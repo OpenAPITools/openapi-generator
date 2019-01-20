@@ -240,44 +240,44 @@ class XmlItemTest extends TestCase
     }
 
     /**
-     * Test attribute "prefix_namespace_string"
+     * Test attribute "prefix_ns_string"
      */
-    public function testPropertyPrefixNamespaceString()
+    public function testPropertyPrefixNsString()
     {
     }
 
     /**
-     * Test attribute "prefix_namespace_number"
+     * Test attribute "prefix_ns_number"
      */
-    public function testPropertyPrefixNamespaceNumber()
+    public function testPropertyPrefixNsNumber()
     {
     }
 
     /**
-     * Test attribute "prefix_namespace_integer"
+     * Test attribute "prefix_ns_integer"
      */
-    public function testPropertyPrefixNamespaceInteger()
+    public function testPropertyPrefixNsInteger()
     {
     }
 
     /**
-     * Test attribute "prefix_namespace_boolean"
+     * Test attribute "prefix_ns_boolean"
      */
-    public function testPropertyPrefixNamespaceBoolean()
+    public function testPropertyPrefixNsBoolean()
     {
     }
 
     /**
-     * Test attribute "prefix_namespace_array"
+     * Test attribute "prefix_ns_array"
      */
-    public function testPropertyPrefixNamespaceArray()
+    public function testPropertyPrefixNsArray()
     {
     }
 
     /**
-     * Test attribute "prefix_namespace_wrapped_array"
+     * Test attribute "prefix_ns_wrapped_array"
      */
-    public function testPropertyPrefixNamespaceWrappedArray()
+    public function testPropertyPrefixNsWrappedArray()
     {
     }
 }

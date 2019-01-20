@@ -60,17 +60,17 @@ class Order(object):
         self.discriminator = None
 
         if id is not None:
-            self.id = id  # noqa: E501
+            self.id = id
         if pet_id is not None:
-            self.pet_id = pet_id  # noqa: E501
+            self.pet_id = pet_id
         if quantity is not None:
-            self.quantity = quantity  # noqa: E501
+            self.quantity = quantity
         if ship_date is not None:
-            self.ship_date = ship_date  # noqa: E501
+            self.ship_date = ship_date
         if status is not None:
-            self.status = status  # noqa: E501
+            self.status = status
         if complete is not None:
-            self.complete = complete  # noqa: E501
+            self.complete = complete
 
     @property
     def id(self):

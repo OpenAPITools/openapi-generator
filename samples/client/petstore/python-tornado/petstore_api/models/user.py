@@ -66,21 +66,21 @@ class User(object):
         self.discriminator = None
 
         if id is not None:
-            self.id = id  # noqa: E501
+            self.id = id
         if username is not None:
-            self.username = username  # noqa: E501
+            self.username = username
         if first_name is not None:
-            self.first_name = first_name  # noqa: E501
+            self.first_name = first_name
         if last_name is not None:
-            self.last_name = last_name  # noqa: E501
+            self.last_name = last_name
         if email is not None:
-            self.email = email  # noqa: E501
+            self.email = email
         if password is not None:
-            self.password = password  # noqa: E501
+            self.password = password
         if phone is not None:
-            self.phone = phone  # noqa: E501
+            self.phone = phone
         if user_status is not None:
-            self.user_status = user_status  # noqa: E501
+            self.user_status = user_status
 
     @property
     def id(self):

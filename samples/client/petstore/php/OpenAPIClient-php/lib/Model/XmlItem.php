@@ -80,12 +80,12 @@ class XmlItem implements ModelInterface, ArrayAccess
         'namespace_boolean' => 'bool',
         'namespace_array' => 'int[]',
         'namespace_wrapped_array' => 'int[]',
-        'prefix_namespace_string' => 'string',
-        'prefix_namespace_number' => 'float',
-        'prefix_namespace_integer' => 'int',
-        'prefix_namespace_boolean' => 'bool',
-        'prefix_namespace_array' => 'int[]',
-        'prefix_namespace_wrapped_array' => 'int[]'
+        'prefix_ns_string' => 'string',
+        'prefix_ns_number' => 'float',
+        'prefix_ns_integer' => 'int',
+        'prefix_ns_boolean' => 'bool',
+        'prefix_ns_array' => 'int[]',
+        'prefix_ns_wrapped_array' => 'int[]'
     ];
 
     /**
@@ -117,12 +117,12 @@ class XmlItem implements ModelInterface, ArrayAccess
         'namespace_boolean' => null,
         'namespace_array' => null,
         'namespace_wrapped_array' => null,
-        'prefix_namespace_string' => null,
-        'prefix_namespace_number' => null,
-        'prefix_namespace_integer' => null,
-        'prefix_namespace_boolean' => null,
-        'prefix_namespace_array' => null,
-        'prefix_namespace_wrapped_array' => null
+        'prefix_ns_string' => null,
+        'prefix_ns_number' => null,
+        'prefix_ns_integer' => null,
+        'prefix_ns_boolean' => null,
+        'prefix_ns_array' => null,
+        'prefix_ns_wrapped_array' => null
     ];
 
     /**
@@ -175,12 +175,12 @@ class XmlItem implements ModelInterface, ArrayAccess
         'namespace_boolean' => 'namespace_boolean',
         'namespace_array' => 'namespace_array',
         'namespace_wrapped_array' => 'namespace_wrapped_array',
-        'prefix_namespace_string' => 'prefix_namespace_string',
-        'prefix_namespace_number' => 'prefix_namespace_number',
-        'prefix_namespace_integer' => 'prefix_namespace_integer',
-        'prefix_namespace_boolean' => 'prefix_namespace_boolean',
-        'prefix_namespace_array' => 'prefix_namespace_array',
-        'prefix_namespace_wrapped_array' => 'prefix_namespace_wrapped_array'
+        'prefix_ns_string' => 'prefix_ns_string',
+        'prefix_ns_number' => 'prefix_ns_number',
+        'prefix_ns_integer' => 'prefix_ns_integer',
+        'prefix_ns_boolean' => 'prefix_ns_boolean',
+        'prefix_ns_array' => 'prefix_ns_array',
+        'prefix_ns_wrapped_array' => 'prefix_ns_wrapped_array'
     ];
 
     /**
@@ -212,12 +212,12 @@ class XmlItem implements ModelInterface, ArrayAccess
         'namespace_boolean' => 'setNamespaceBoolean',
         'namespace_array' => 'setNamespaceArray',
         'namespace_wrapped_array' => 'setNamespaceWrappedArray',
-        'prefix_namespace_string' => 'setPrefixNamespaceString',
-        'prefix_namespace_number' => 'setPrefixNamespaceNumber',
-        'prefix_namespace_integer' => 'setPrefixNamespaceInteger',
-        'prefix_namespace_boolean' => 'setPrefixNamespaceBoolean',
-        'prefix_namespace_array' => 'setPrefixNamespaceArray',
-        'prefix_namespace_wrapped_array' => 'setPrefixNamespaceWrappedArray'
+        'prefix_ns_string' => 'setPrefixNsString',
+        'prefix_ns_number' => 'setPrefixNsNumber',
+        'prefix_ns_integer' => 'setPrefixNsInteger',
+        'prefix_ns_boolean' => 'setPrefixNsBoolean',
+        'prefix_ns_array' => 'setPrefixNsArray',
+        'prefix_ns_wrapped_array' => 'setPrefixNsWrappedArray'
     ];
 
     /**
@@ -249,12 +249,12 @@ class XmlItem implements ModelInterface, ArrayAccess
         'namespace_boolean' => 'getNamespaceBoolean',
         'namespace_array' => 'getNamespaceArray',
         'namespace_wrapped_array' => 'getNamespaceWrappedArray',
-        'prefix_namespace_string' => 'getPrefixNamespaceString',
-        'prefix_namespace_number' => 'getPrefixNamespaceNumber',
-        'prefix_namespace_integer' => 'getPrefixNamespaceInteger',
-        'prefix_namespace_boolean' => 'getPrefixNamespaceBoolean',
-        'prefix_namespace_array' => 'getPrefixNamespaceArray',
-        'prefix_namespace_wrapped_array' => 'getPrefixNamespaceWrappedArray'
+        'prefix_ns_string' => 'getPrefixNsString',
+        'prefix_ns_number' => 'getPrefixNsNumber',
+        'prefix_ns_integer' => 'getPrefixNsInteger',
+        'prefix_ns_boolean' => 'getPrefixNsBoolean',
+        'prefix_ns_array' => 'getPrefixNsArray',
+        'prefix_ns_wrapped_array' => 'getPrefixNsWrappedArray'
     ];
 
     /**
@@ -340,12 +340,12 @@ class XmlItem implements ModelInterface, ArrayAccess
         $this->container['namespace_boolean'] = isset($data['namespace_boolean']) ? $data['namespace_boolean'] : null;
         $this->container['namespace_array'] = isset($data['namespace_array']) ? $data['namespace_array'] : null;
         $this->container['namespace_wrapped_array'] = isset($data['namespace_wrapped_array']) ? $data['namespace_wrapped_array'] : null;
-        $this->container['prefix_namespace_string'] = isset($data['prefix_namespace_string']) ? $data['prefix_namespace_string'] : null;
-        $this->container['prefix_namespace_number'] = isset($data['prefix_namespace_number']) ? $data['prefix_namespace_number'] : null;
-        $this->container['prefix_namespace_integer'] = isset($data['prefix_namespace_integer']) ? $data['prefix_namespace_integer'] : null;
-        $this->container['prefix_namespace_boolean'] = isset($data['prefix_namespace_boolean']) ? $data['prefix_namespace_boolean'] : null;
-        $this->container['prefix_namespace_array'] = isset($data['prefix_namespace_array']) ? $data['prefix_namespace_array'] : null;
-        $this->container['prefix_namespace_wrapped_array'] = isset($data['prefix_namespace_wrapped_array']) ? $data['prefix_namespace_wrapped_array'] : null;
+        $this->container['prefix_ns_string'] = isset($data['prefix_ns_string']) ? $data['prefix_ns_string'] : null;
+        $this->container['prefix_ns_number'] = isset($data['prefix_ns_number']) ? $data['prefix_ns_number'] : null;
+        $this->container['prefix_ns_integer'] = isset($data['prefix_ns_integer']) ? $data['prefix_ns_integer'] : null;
+        $this->container['prefix_ns_boolean'] = isset($data['prefix_ns_boolean']) ? $data['prefix_ns_boolean'] : null;
+        $this->container['prefix_ns_array'] = isset($data['prefix_ns_array']) ? $data['prefix_ns_array'] : null;
+        $this->container['prefix_ns_wrapped_array'] = isset($data['prefix_ns_wrapped_array']) ? $data['prefix_ns_wrapped_array'] : null;
     }
 
     /**
@@ -925,145 +925,145 @@ class XmlItem implements ModelInterface, ArrayAccess
     }
 
     /**
-     * Gets prefix_namespace_string
+     * Gets prefix_ns_string
      *
      * @return string|null
      */
-    public function getPrefixNamespaceString()
+    public function getPrefixNsString()
     {
-        return $this->container['prefix_namespace_string'];
+        return $this->container['prefix_ns_string'];
     }
 
     /**
-     * Sets prefix_namespace_string
+     * Sets prefix_ns_string
      *
-     * @param string|null $prefix_namespace_string prefix_namespace_string
+     * @param string|null $prefix_ns_string prefix_ns_string
      *
      * @return $this
      */
-    public function setPrefixNamespaceString($prefix_namespace_string)
+    public function setPrefixNsString($prefix_ns_string)
     {
-        $this->container['prefix_namespace_string'] = $prefix_namespace_string;
+        $this->container['prefix_ns_string'] = $prefix_ns_string;
 
         return $this;
     }
 
     /**
-     * Gets prefix_namespace_number
+     * Gets prefix_ns_number
      *
      * @return float|null
      */
-    public function getPrefixNamespaceNumber()
+    public function getPrefixNsNumber()
     {
-        return $this->container['prefix_namespace_number'];
+        return $this->container['prefix_ns_number'];
     }
 
     /**
-     * Sets prefix_namespace_number
+     * Sets prefix_ns_number
      *
-     * @param float|null $prefix_namespace_number prefix_namespace_number
+     * @param float|null $prefix_ns_number prefix_ns_number
      *
      * @return $this
      */
-    public function setPrefixNamespaceNumber($prefix_namespace_number)
+    public function setPrefixNsNumber($prefix_ns_number)
     {
-        $this->container['prefix_namespace_number'] = $prefix_namespace_number;
+        $this->container['prefix_ns_number'] = $prefix_ns_number;
 
         return $this;
     }
 
     /**
-     * Gets prefix_namespace_integer
+     * Gets prefix_ns_integer
      *
      * @return int|null
      */
-    public function getPrefixNamespaceInteger()
+    public function getPrefixNsInteger()
     {
-        return $this->container['prefix_namespace_integer'];
+        return $this->container['prefix_ns_integer'];
     }
 
     /**
-     * Sets prefix_namespace_integer
+     * Sets prefix_ns_integer
      *
-     * @param int|null $prefix_namespace_integer prefix_namespace_integer
+     * @param int|null $prefix_ns_integer prefix_ns_integer
      *
      * @return $this
      */
-    public function setPrefixNamespaceInteger($prefix_namespace_integer)
+    public function setPrefixNsInteger($prefix_ns_integer)
     {
-        $this->container['prefix_namespace_integer'] = $prefix_namespace_integer;
+        $this->container['prefix_ns_integer'] = $prefix_ns_integer;
 
         return $this;
     }
 
     /**
-     * Gets prefix_namespace_boolean
+     * Gets prefix_ns_boolean
      *
      * @return bool|null
      */
-    public function getPrefixNamespaceBoolean()
+    public function getPrefixNsBoolean()
     {
-        return $this->container['prefix_namespace_boolean'];
+        return $this->container['prefix_ns_boolean'];
     }
 
     /**
-     * Sets prefix_namespace_boolean
+     * Sets prefix_ns_boolean
      *
-     * @param bool|null $prefix_namespace_boolean prefix_namespace_boolean
+     * @param bool|null $prefix_ns_boolean prefix_ns_boolean
      *
      * @return $this
      */
-    public function setPrefixNamespaceBoolean($prefix_namespace_boolean)
+    public function setPrefixNsBoolean($prefix_ns_boolean)
     {
-        $this->container['prefix_namespace_boolean'] = $prefix_namespace_boolean;
+        $this->container['prefix_ns_boolean'] = $prefix_ns_boolean;
 
         return $this;
     }
 
     /**
-     * Gets prefix_namespace_array
+     * Gets prefix_ns_array
      *
      * @return int[]|null
      */
-    public function getPrefixNamespaceArray()
+    public function getPrefixNsArray()
     {
-        return $this->container['prefix_namespace_array'];
+        return $this->container['prefix_ns_array'];
     }
 
     /**
-     * Sets prefix_namespace_array
+     * Sets prefix_ns_array
      *
-     * @param int[]|null $prefix_namespace_array prefix_namespace_array
+     * @param int[]|null $prefix_ns_array prefix_ns_array
      *
      * @return $this
      */
-    public function setPrefixNamespaceArray($prefix_namespace_array)
+    public function setPrefixNsArray($prefix_ns_array)
     {
-        $this->container['prefix_namespace_array'] = $prefix_namespace_array;
+        $this->container['prefix_ns_array'] = $prefix_ns_array;
 
         return $this;
     }
 
     /**
-     * Gets prefix_namespace_wrapped_array
+     * Gets prefix_ns_wrapped_array
      *
      * @return int[]|null
      */
-    public function getPrefixNamespaceWrappedArray()
+    public function getPrefixNsWrappedArray()
     {
-        return $this->container['prefix_namespace_wrapped_array'];
+        return $this->container['prefix_ns_wrapped_array'];
     }
 
     /**
-     * Sets prefix_namespace_wrapped_array
+     * Sets prefix_ns_wrapped_array
      *
-     * @param int[]|null $prefix_namespace_wrapped_array prefix_namespace_wrapped_array
+     * @param int[]|null $prefix_ns_wrapped_array prefix_ns_wrapped_array
      *
      * @return $this
      */
-    public function setPrefixNamespaceWrappedArray($prefix_namespace_wrapped_array)
+    public function setPrefixNsWrappedArray($prefix_ns_wrapped_array)
     {
-        $this->container['prefix_namespace_wrapped_array'] = $prefix_namespace_wrapped_array;
+        $this->container['prefix_ns_wrapped_array'] = $prefix_ns_wrapped_array;
 
         return $this;
     }

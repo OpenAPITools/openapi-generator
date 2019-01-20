@@ -1802,38 +1802,38 @@ definitions:
           type: integer
           xml:
             namespace: http://g.com/schema
-      prefix_namespace_string:
+      prefix_ns_string:
         type: string
         example: string
         xml:
           namespace: http://a.com/schema
           prefix: a
-      prefix_namespace_number:
+      prefix_ns_number:
         type: number
         example: 1.234
         xml:
           namespace: http://b.com/schema
           prefix: b
-      prefix_namespace_integer:
+      prefix_ns_integer:
         type: integer
         example: -2
         xml:
           namespace: http://c.com/schema
           prefix: c
-      prefix_namespace_boolean:
+      prefix_ns_boolean:
         type: boolean
         example: true
         xml:
           namespace: http://d.com/schema
           prefix: d
-      prefix_namespace_array:
+      prefix_ns_array:
         type: array
         items:
           type: integer
           xml:
             namespace: http://e.com/schema
             prefix: e
-      prefix_namespace_wrapped_array:
+      prefix_ns_wrapped_array:
         type: array
         xml:
           wrapped: true

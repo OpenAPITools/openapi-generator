@@ -48,9 +48,9 @@ class EnumArrays(object):
         self.discriminator = None
 
         if just_symbol is not None:
-            self.just_symbol = just_symbol  # noqa: E501
+            self.just_symbol = just_symbol
         if array_enum is not None:
-            self.array_enum = array_enum  # noqa: E501
+            self.array_enum = array_enum
 
     @property
     def just_symbol(self):

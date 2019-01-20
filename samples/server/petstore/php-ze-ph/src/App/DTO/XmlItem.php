@@ -168,45 +168,45 @@ class XmlItem
      */
     public $namespace_wrapped_array;
     /**
-     * @DTA\Data(field="prefix_namespace_string", nullable=true)
+     * @DTA\Data(field="prefix_ns_string", nullable=true)
      * @DTA\Validator(name="Type", options={"type":"string"})
      * @var string
      */
-    public $prefix_namespace_string;
+    public $prefix_ns_string;
     /**
-     * @DTA\Data(field="prefix_namespace_number", nullable=true)
+     * @DTA\Data(field="prefix_ns_number", nullable=true)
      * @DTA\Validator(name="Type", options={"type":"float"})
      * @var float
      */
-    public $prefix_namespace_number;
+    public $prefix_ns_number;
     /**
-     * @DTA\Data(field="prefix_namespace_integer", nullable=true)
+     * @DTA\Data(field="prefix_ns_integer", nullable=true)
      * @DTA\Validator(name="Type", options={"type":"int"})
      * @var int
      */
-    public $prefix_namespace_integer;
+    public $prefix_ns_integer;
     /**
-     * @DTA\Data(field="prefix_namespace_boolean", nullable=true)
+     * @DTA\Data(field="prefix_ns_boolean", nullable=true)
      * @DTA\Validator(name="Type", options={"type":"bool"})
      * @var bool
      */
-    public $prefix_namespace_boolean;
+    public $prefix_ns_boolean;
     /**
-     * @DTA\Data(field="prefix_namespace_array", nullable=true)
+     * @DTA\Data(field="prefix_ns_array", nullable=true)
      * TODO check validator and strategy are correct and can handle container item type
      * @DTA\Validator(name="Collection", options={"validators":{
      *     {"name":"Type", "options":{"type":"int"}}
      * }})
      * @var int[]
      */
-    public $prefix_namespace_array;
+    public $prefix_ns_array;
     /**
-     * @DTA\Data(field="prefix_namespace_wrapped_array", nullable=true)
+     * @DTA\Data(field="prefix_ns_wrapped_array", nullable=true)
      * TODO check validator and strategy are correct and can handle container item type
      * @DTA\Validator(name="Collection", options={"validators":{
      *     {"name":"Type", "options":{"type":"int"}}
      * }})
      * @var int[]
      */
-    public $prefix_namespace_wrapped_array;
+    public $prefix_ns_wrapped_array;
 }

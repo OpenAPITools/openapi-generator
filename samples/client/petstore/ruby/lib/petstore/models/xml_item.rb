@@ -60,17 +60,17 @@ module Petstore
 
     attr_accessor :namespace_wrapped_array
 
-    attr_accessor :prefix_namespace_string
+    attr_accessor :prefix_ns_string
 
-    attr_accessor :prefix_namespace_number
+    attr_accessor :prefix_ns_number
 
-    attr_accessor :prefix_namespace_integer
+    attr_accessor :prefix_ns_integer
 
-    attr_accessor :prefix_namespace_boolean
+    attr_accessor :prefix_ns_boolean
 
-    attr_accessor :prefix_namespace_array
+    attr_accessor :prefix_ns_array
 
-    attr_accessor :prefix_namespace_wrapped_array
+    attr_accessor :prefix_ns_wrapped_array
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
@@ -98,12 +98,12 @@ module Petstore
         :'namespace_boolean' => :'namespace_boolean',
         :'namespace_array' => :'namespace_array',
         :'namespace_wrapped_array' => :'namespace_wrapped_array',
-        :'prefix_namespace_string' => :'prefix_namespace_string',
-        :'prefix_namespace_number' => :'prefix_namespace_number',
-        :'prefix_namespace_integer' => :'prefix_namespace_integer',
-        :'prefix_namespace_boolean' => :'prefix_namespace_boolean',
-        :'prefix_namespace_array' => :'prefix_namespace_array',
-        :'prefix_namespace_wrapped_array' => :'prefix_namespace_wrapped_array'
+        :'prefix_ns_string' => :'prefix_ns_string',
+        :'prefix_ns_number' => :'prefix_ns_number',
+        :'prefix_ns_integer' => :'prefix_ns_integer',
+        :'prefix_ns_boolean' => :'prefix_ns_boolean',
+        :'prefix_ns_array' => :'prefix_ns_array',
+        :'prefix_ns_wrapped_array' => :'prefix_ns_wrapped_array'
       }
     end
 
@@ -133,12 +133,12 @@ module Petstore
         :'namespace_boolean' => :'BOOLEAN',
         :'namespace_array' => :'Array<Integer>',
         :'namespace_wrapped_array' => :'Array<Integer>',
-        :'prefix_namespace_string' => :'String',
-        :'prefix_namespace_number' => :'Float',
-        :'prefix_namespace_integer' => :'Integer',
-        :'prefix_namespace_boolean' => :'BOOLEAN',
-        :'prefix_namespace_array' => :'Array<Integer>',
-        :'prefix_namespace_wrapped_array' => :'Array<Integer>'
+        :'prefix_ns_string' => :'String',
+        :'prefix_ns_number' => :'Float',
+        :'prefix_ns_integer' => :'Integer',
+        :'prefix_ns_boolean' => :'BOOLEAN',
+        :'prefix_ns_array' => :'Array<Integer>',
+        :'prefix_ns_wrapped_array' => :'Array<Integer>'
       }
     end
 
@@ -256,31 +256,31 @@ module Petstore
         end
       end
 
-      if attributes.has_key?(:'prefix_namespace_string')
-        self.prefix_namespace_string = attributes[:'prefix_namespace_string']
+      if attributes.has_key?(:'prefix_ns_string')
+        self.prefix_ns_string = attributes[:'prefix_ns_string']
       end
 
-      if attributes.has_key?(:'prefix_namespace_number')
-        self.prefix_namespace_number = attributes[:'prefix_namespace_number']
+      if attributes.has_key?(:'prefix_ns_number')
+        self.prefix_ns_number = attributes[:'prefix_ns_number']
       end
 
-      if attributes.has_key?(:'prefix_namespace_integer')
-        self.prefix_namespace_integer = attributes[:'prefix_namespace_integer']
+      if attributes.has_key?(:'prefix_ns_integer')
+        self.prefix_ns_integer = attributes[:'prefix_ns_integer']
       end
 
-      if attributes.has_key?(:'prefix_namespace_boolean')
-        self.prefix_namespace_boolean = attributes[:'prefix_namespace_boolean']
+      if attributes.has_key?(:'prefix_ns_boolean')
+        self.prefix_ns_boolean = attributes[:'prefix_ns_boolean']
       end
 
-      if attributes.has_key?(:'prefix_namespace_array')
-        if (value = attributes[:'prefix_namespace_array']).is_a?(Array)
-          self.prefix_namespace_array = value
+      if attributes.has_key?(:'prefix_ns_array')
+        if (value = attributes[:'prefix_ns_array']).is_a?(Array)
+          self.prefix_ns_array = value
         end
       end
 
-      if attributes.has_key?(:'prefix_namespace_wrapped_array')
-        if (value = attributes[:'prefix_namespace_wrapped_array']).is_a?(Array)
-          self.prefix_namespace_wrapped_array = value
+      if attributes.has_key?(:'prefix_ns_wrapped_array')
+        if (value = attributes[:'prefix_ns_wrapped_array']).is_a?(Array)
+          self.prefix_ns_wrapped_array = value
         end
       end
     end
@@ -326,12 +326,12 @@ module Petstore
           namespace_boolean == o.namespace_boolean &&
           namespace_array == o.namespace_array &&
           namespace_wrapped_array == o.namespace_wrapped_array &&
-          prefix_namespace_string == o.prefix_namespace_string &&
-          prefix_namespace_number == o.prefix_namespace_number &&
-          prefix_namespace_integer == o.prefix_namespace_integer &&
-          prefix_namespace_boolean == o.prefix_namespace_boolean &&
-          prefix_namespace_array == o.prefix_namespace_array &&
-          prefix_namespace_wrapped_array == o.prefix_namespace_wrapped_array
+          prefix_ns_string == o.prefix_ns_string &&
+          prefix_ns_number == o.prefix_ns_number &&
+          prefix_ns_integer == o.prefix_ns_integer &&
+          prefix_ns_boolean == o.prefix_ns_boolean &&
+          prefix_ns_array == o.prefix_ns_array &&
+          prefix_ns_wrapped_array == o.prefix_ns_wrapped_array
     end
 
     # @see the `==` method
@@ -343,7 +343,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [attribute_string, attribute_number, attribute_integer, attribute_boolean, wrapped_array, name_string, name_number, name_integer, name_boolean, name_array, name_wrapped_array, prefix_string, prefix_number, prefix_integer, prefix_boolean, prefix_array, prefix_wrapped_array, namespace_string, namespace_number, namespace_integer, namespace_boolean, namespace_array, namespace_wrapped_array, prefix_namespace_string, prefix_namespace_number, prefix_namespace_integer, prefix_namespace_boolean, prefix_namespace_array, prefix_namespace_wrapped_array].hash
+      [attribute_string, attribute_number, attribute_integer, attribute_boolean, wrapped_array, name_string, name_number, name_integer, name_boolean, name_array, name_wrapped_array, prefix_string, prefix_number, prefix_integer, prefix_boolean, prefix_array, prefix_wrapped_array, namespace_string, namespace_number, namespace_integer, namespace_boolean, namespace_array, namespace_wrapped_array, prefix_ns_string, prefix_ns_number, prefix_ns_integer, prefix_ns_boolean, prefix_ns_array, prefix_ns_wrapped_array].hash
     end
 
     # Builds the object from hash

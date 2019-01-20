@@ -94,21 +94,21 @@ class XmlItem
     /** @var int[] $namespaceWrappedArray */
     private $namespaceWrappedArray;
     
-    /** @var string $prefixNamespaceString */
-    private $prefixNamespaceString;
+    /** @var string $prefixNsString */
+    private $prefixNsString;
     
-    /** @var float $prefixNamespaceNumber */
-    private $prefixNamespaceNumber;
+    /** @var float $prefixNsNumber */
+    private $prefixNsNumber;
     
-    /** @var int $prefixNamespaceInteger */
-    private $prefixNamespaceInteger;
+    /** @var int $prefixNsInteger */
+    private $prefixNsInteger;
     
-    /** @var bool $prefixNamespaceBoolean */
-    private $prefixNamespaceBoolean;
+    /** @var bool $prefixNsBoolean */
+    private $prefixNsBoolean;
     
-    /** @var int[] $prefixNamespaceArray */
-    private $prefixNamespaceArray;
+    /** @var int[] $prefixNsArray */
+    private $prefixNsArray;
     
-    /** @var int[] $prefixNamespaceWrappedArray */
-    private $prefixNamespaceWrappedArray;
+    /** @var int[] $prefixNsWrappedArray */
+    private $prefixNsWrappedArray;
 }

@@ -358,12 +358,12 @@ instance Arbitrary XmlItem where
       <*> arbitrary -- xmlItemNamespaceBoolean :: Maybe Bool
       <*> arbitrary -- xmlItemNamespaceArray :: Maybe [Int]
       <*> arbitrary -- xmlItemNamespaceWrappedArray :: Maybe [Int]
-      <*> arbitrary -- xmlItemPrefixNamespaceString :: Maybe Text
-      <*> arbitrary -- xmlItemPrefixNamespaceNumber :: Maybe Double
-      <*> arbitrary -- xmlItemPrefixNamespaceInteger :: Maybe Int
-      <*> arbitrary -- xmlItemPrefixNamespaceBoolean :: Maybe Bool
-      <*> arbitrary -- xmlItemPrefixNamespaceArray :: Maybe [Int]
-      <*> arbitrary -- xmlItemPrefixNamespaceWrappedArray :: Maybe [Int]
+      <*> arbitrary -- xmlItemPrefixNsString :: Maybe Text
+      <*> arbitrary -- xmlItemPrefixNsNumber :: Maybe Double
+      <*> arbitrary -- xmlItemPrefixNsInteger :: Maybe Int
+      <*> arbitrary -- xmlItemPrefixNsBoolean :: Maybe Bool
+      <*> arbitrary -- xmlItemPrefixNsArray :: Maybe [Int]
+      <*> arbitrary -- xmlItemPrefixNsWrappedArray :: Maybe [Int]
     
 
 

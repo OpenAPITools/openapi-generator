@@ -45,7 +45,7 @@ class Dog(object):
         self.discriminator = None
 
         if breed is not None:
-            self.breed = breed  # noqa: E501
+            self.breed = breed
 
     @property
     def breed(self):

@@ -26,11 +26,11 @@ Name | Type | Description | Notes
 **namespace_boolean** | **BOOLEAN** |  | [optional] 
 **namespace_array** | **Array&lt;Integer&gt;** |  | [optional] 
 **namespace_wrapped_array** | **Array&lt;Integer&gt;** |  | [optional] 
-**prefix_namespace_string** | **String** |  | [optional] 
-**prefix_namespace_number** | **Float** |  | [optional] 
-**prefix_namespace_integer** | **Integer** |  | [optional] 
-**prefix_namespace_boolean** | **BOOLEAN** |  | [optional] 
-**prefix_namespace_array** | **Array&lt;Integer&gt;** |  | [optional] 
-**prefix_namespace_wrapped_array** | **Array&lt;Integer&gt;** |  | [optional] 
+**prefix_ns_string** | **String** |  | [optional] 
+**prefix_ns_number** | **Float** |  | [optional] 
+**prefix_ns_integer** | **Integer** |  | [optional] 
+**prefix_ns_boolean** | **BOOLEAN** |  | [optional] 
+**prefix_ns_array** | **Array&lt;Integer&gt;** |  | [optional] 
+**prefix_ns_wrapped_array** | **Array&lt;Integer&gt;** |  | [optional] 
 
 

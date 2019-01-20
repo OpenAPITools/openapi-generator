@@ -45,7 +45,7 @@ class NumberOnly(object):
         self.discriminator = None
 
         if just_number is not None:
-            self.just_number = just_number  # noqa: E501
+            self.just_number = just_number
 
     @property
     def just_number(self):

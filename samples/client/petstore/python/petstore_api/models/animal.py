@@ -54,7 +54,7 @@ class Animal(object):
 
         self.class_name = class_name
         if color is not None:
-            self.color = color  # noqa: E501
+            self.color = color
 
     @property
     def class_name(self):

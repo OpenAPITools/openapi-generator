@@ -45,7 +45,7 @@ class ClassModel(object):
         self.discriminator = None
 
         if _class is not None:
-            self._class = _class  # noqa: E501
+            self._class = _class
 
     @property
     def _class(self):

@@ -54,13 +54,13 @@ class MapTest(object):
         self.discriminator = None
 
         if map_map_of_string is not None:
-            self.map_map_of_string = map_map_of_string  # noqa: E501
+            self.map_map_of_string = map_map_of_string
         if map_of_enum_string is not None:
-            self.map_of_enum_string = map_of_enum_string  # noqa: E501
+            self.map_of_enum_string = map_of_enum_string
         if direct_map is not None:
-            self.direct_map = direct_map  # noqa: E501
+            self.direct_map = direct_map
         if indirect_map is not None:
-            self.indirect_map = indirect_map  # noqa: E501
+            self.indirect_map = indirect_map
 
     @property
     def map_map_of_string(self):

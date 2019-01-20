@@ -1866,38 +1866,38 @@ components:
           xml:
             namespace: http://f.com/schema
             wrapped: true
-        prefix_namespace_string:
+        prefix_ns_string:
           example: string
           type: string
           xml:
             namespace: http://a.com/schema
             prefix: a
-        prefix_namespace_number:
+        prefix_ns_number:
           example: 1.234
           type: number
           xml:
             namespace: http://b.com/schema
             prefix: b
-        prefix_namespace_integer:
+        prefix_ns_integer:
           example: -2
           type: integer
           xml:
             namespace: http://c.com/schema
             prefix: c
-        prefix_namespace_boolean:
+        prefix_ns_boolean:
           example: true
           type: boolean
           xml:
             namespace: http://d.com/schema
             prefix: d
-        prefix_namespace_array:
+        prefix_ns_array:
           items:
             type: integer
             xml:
               namespace: http://e.com/schema
               prefix: e
           type: array
-        prefix_namespace_wrapped_array:
+        prefix_ns_wrapped_array:
           items:
             type: integer
             xml:

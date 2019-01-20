@@ -26,12 +26,12 @@ Name | Type | Description | Notes
 **NamespaceBoolean** | **bool?** |  | [optional] 
 **NamespaceArray** | **List&lt;int?&gt;** |  | [optional] 
 **NamespaceWrappedArray** | **List&lt;int?&gt;** |  | [optional] 
-**PrefixNamespaceString** | **string** |  | [optional] 
-**PrefixNamespaceNumber** | **decimal?** |  | [optional] 
-**PrefixNamespaceInteger** | **int?** |  | [optional] 
-**PrefixNamespaceBoolean** | **bool?** |  | [optional] 
-**PrefixNamespaceArray** | **List&lt;int?&gt;** |  | [optional] 
-**PrefixNamespaceWrappedArray** | **List&lt;int?&gt;** |  | [optional] 
+**PrefixNsString** | **string** |  | [optional] 
+**PrefixNsNumber** | **decimal?** |  | [optional] 
+**PrefixNsInteger** | **int?** |  | [optional] 
+**PrefixNsBoolean** | **bool?** |  | [optional] 
+**PrefixNsArray** | **List&lt;int?&gt;** |  | [optional] 
+**PrefixNsWrappedArray** | **List&lt;int?&gt;** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -42,12 +42,12 @@ public class XmlItem  implements Serializable {
   private @Valid Boolean namespaceBoolean;
   private @Valid List<Integer> namespaceArray = new ArrayList<Integer>();
   private @Valid List<Integer> namespaceWrappedArray = new ArrayList<Integer>();
-  private @Valid String prefixNamespaceString;
-  private @Valid BigDecimal prefixNamespaceNumber;
-  private @Valid Integer prefixNamespaceInteger;
-  private @Valid Boolean prefixNamespaceBoolean;
-  private @Valid List<Integer> prefixNamespaceArray = new ArrayList<Integer>();
-  private @Valid List<Integer> prefixNamespaceWrappedArray = new ArrayList<Integer>();
+  private @Valid String prefixNsString;
+  private @Valid BigDecimal prefixNsNumber;
+  private @Valid Integer prefixNsInteger;
+  private @Valid Boolean prefixNsBoolean;
+  private @Valid List<Integer> prefixNsArray = new ArrayList<Integer>();
+  private @Valid List<Integer> prefixNsWrappedArray = new ArrayList<Integer>();
 
   /**
    **/
@@ -442,104 +442,104 @@ public class XmlItem  implements Serializable {
 
   /**
    **/
-  public XmlItem prefixNamespaceString(String prefixNamespaceString) {
-    this.prefixNamespaceString = prefixNamespaceString;
+  public XmlItem prefixNsString(String prefixNsString) {
+    this.prefixNsString = prefixNsString;
     return this;
   }
 
   
   @ApiModelProperty(example = "string", value = "")
-  @JsonProperty("prefix_namespace_string")
-  public String getPrefixNamespaceString() {
-    return prefixNamespaceString;
+  @JsonProperty("prefix_ns_string")
+  public String getPrefixNsString() {
+    return prefixNsString;
   }
-  public void setPrefixNamespaceString(String prefixNamespaceString) {
-    this.prefixNamespaceString = prefixNamespaceString;
+  public void setPrefixNsString(String prefixNsString) {
+    this.prefixNsString = prefixNsString;
   }
 
   /**
    **/
-  public XmlItem prefixNamespaceNumber(BigDecimal prefixNamespaceNumber) {
-    this.prefixNamespaceNumber = prefixNamespaceNumber;
+  public XmlItem prefixNsNumber(BigDecimal prefixNsNumber) {
+    this.prefixNsNumber = prefixNsNumber;
     return this;
   }
 
   
   @ApiModelProperty(example = "1.234", value = "")
-  @JsonProperty("prefix_namespace_number")
-  public BigDecimal getPrefixNamespaceNumber() {
-    return prefixNamespaceNumber;
+  @JsonProperty("prefix_ns_number")
+  public BigDecimal getPrefixNsNumber() {
+    return prefixNsNumber;
   }
-  public void setPrefixNamespaceNumber(BigDecimal prefixNamespaceNumber) {
-    this.prefixNamespaceNumber = prefixNamespaceNumber;
+  public void setPrefixNsNumber(BigDecimal prefixNsNumber) {
+    this.prefixNsNumber = prefixNsNumber;
   }
 
   /**
    **/
-  public XmlItem prefixNamespaceInteger(Integer prefixNamespaceInteger) {
-    this.prefixNamespaceInteger = prefixNamespaceInteger;
+  public XmlItem prefixNsInteger(Integer prefixNsInteger) {
+    this.prefixNsInteger = prefixNsInteger;
     return this;
   }
 
   
   @ApiModelProperty(example = "-2", value = "")
-  @JsonProperty("prefix_namespace_integer")
-  public Integer getPrefixNamespaceInteger() {
-    return prefixNamespaceInteger;
+  @JsonProperty("prefix_ns_integer")
+  public Integer getPrefixNsInteger() {
+    return prefixNsInteger;
   }
-  public void setPrefixNamespaceInteger(Integer prefixNamespaceInteger) {
-    this.prefixNamespaceInteger = prefixNamespaceInteger;
+  public void setPrefixNsInteger(Integer prefixNsInteger) {
+    this.prefixNsInteger = prefixNsInteger;
   }
 
   /**
    **/
-  public XmlItem prefixNamespaceBoolean(Boolean prefixNamespaceBoolean) {
-    this.prefixNamespaceBoolean = prefixNamespaceBoolean;
+  public XmlItem prefixNsBoolean(Boolean prefixNsBoolean) {
+    this.prefixNsBoolean = prefixNsBoolean;
     return this;
   }
 
   
   @ApiModelProperty(example = "true", value = "")
-  @JsonProperty("prefix_namespace_boolean")
-  public Boolean getPrefixNamespaceBoolean() {
-    return prefixNamespaceBoolean;
+  @JsonProperty("prefix_ns_boolean")
+  public Boolean getPrefixNsBoolean() {
+    return prefixNsBoolean;
   }
-  public void setPrefixNamespaceBoolean(Boolean prefixNamespaceBoolean) {
-    this.prefixNamespaceBoolean = prefixNamespaceBoolean;
+  public void setPrefixNsBoolean(Boolean prefixNsBoolean) {
+    this.prefixNsBoolean = prefixNsBoolean;
   }
 
   /**
    **/
-  public XmlItem prefixNamespaceArray(List<Integer> prefixNamespaceArray) {
-    this.prefixNamespaceArray = prefixNamespaceArray;
+  public XmlItem prefixNsArray(List<Integer> prefixNsArray) {
+    this.prefixNsArray = prefixNsArray;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
-  @JsonProperty("prefix_namespace_array")
-  public List<Integer> getPrefixNamespaceArray() {
-    return prefixNamespaceArray;
+  @JsonProperty("prefix_ns_array")
+  public List<Integer> getPrefixNsArray() {
+    return prefixNsArray;
   }
-  public void setPrefixNamespaceArray(List<Integer> prefixNamespaceArray) {
-    this.prefixNamespaceArray = prefixNamespaceArray;
+  public void setPrefixNsArray(List<Integer> prefixNsArray) {
+    this.prefixNsArray = prefixNsArray;
   }
 
   /**
    **/
-  public XmlItem prefixNamespaceWrappedArray(List<Integer> prefixNamespaceWrappedArray) {
-    this.prefixNamespaceWrappedArray = prefixNamespaceWrappedArray;
+  public XmlItem prefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
+    this.prefixNsWrappedArray = prefixNsWrappedArray;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
-  @JsonProperty("prefix_namespace_wrapped_array")
-  public List<Integer> getPrefixNamespaceWrappedArray() {
-    return prefixNamespaceWrappedArray;
+  @JsonProperty("prefix_ns_wrapped_array")
+  public List<Integer> getPrefixNsWrappedArray() {
+    return prefixNsWrappedArray;
   }
-  public void setPrefixNamespaceWrappedArray(List<Integer> prefixNamespaceWrappedArray) {
-    this.prefixNamespaceWrappedArray = prefixNamespaceWrappedArray;
+  public void setPrefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
+    this.prefixNsWrappedArray = prefixNsWrappedArray;
   }
 
 
@@ -575,17 +575,17 @@ public class XmlItem  implements Serializable {
         Objects.equals(namespaceBoolean, xmlItem.namespaceBoolean) &&
         Objects.equals(namespaceArray, xmlItem.namespaceArray) &&
         Objects.equals(namespaceWrappedArray, xmlItem.namespaceWrappedArray) &&
-        Objects.equals(prefixNamespaceString, xmlItem.prefixNamespaceString) &&
-        Objects.equals(prefixNamespaceNumber, xmlItem.prefixNamespaceNumber) &&
-        Objects.equals(prefixNamespaceInteger, xmlItem.prefixNamespaceInteger) &&
-        Objects.equals(prefixNamespaceBoolean, xmlItem.prefixNamespaceBoolean) &&
-        Objects.equals(prefixNamespaceArray, xmlItem.prefixNamespaceArray) &&
-        Objects.equals(prefixNamespaceWrappedArray, xmlItem.prefixNamespaceWrappedArray);
+        Objects.equals(prefixNsString, xmlItem.prefixNsString) &&
+        Objects.equals(prefixNsNumber, xmlItem.prefixNsNumber) &&
+        Objects.equals(prefixNsInteger, xmlItem.prefixNsInteger) &&
+        Objects.equals(prefixNsBoolean, xmlItem.prefixNsBoolean) &&
+        Objects.equals(prefixNsArray, xmlItem.prefixNsArray) &&
+        Objects.equals(prefixNsWrappedArray, xmlItem.prefixNsWrappedArray);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(attributeString, attributeNumber, attributeInteger, attributeBoolean, wrappedArray, nameString, nameNumber, nameInteger, nameBoolean, nameArray, nameWrappedArray, prefixString, prefixNumber, prefixInteger, prefixBoolean, prefixArray, prefixWrappedArray, namespaceString, namespaceNumber, namespaceInteger, namespaceBoolean, namespaceArray, namespaceWrappedArray, prefixNamespaceString, prefixNamespaceNumber, prefixNamespaceInteger, prefixNamespaceBoolean, prefixNamespaceArray, prefixNamespaceWrappedArray);
+    return Objects.hash(attributeString, attributeNumber, attributeInteger, attributeBoolean, wrappedArray, nameString, nameNumber, nameInteger, nameBoolean, nameArray, nameWrappedArray, prefixString, prefixNumber, prefixInteger, prefixBoolean, prefixArray, prefixWrappedArray, namespaceString, namespaceNumber, namespaceInteger, namespaceBoolean, namespaceArray, namespaceWrappedArray, prefixNsString, prefixNsNumber, prefixNsInteger, prefixNsBoolean, prefixNsArray, prefixNsWrappedArray);
   }
 
   @Override
@@ -616,12 +616,12 @@ public class XmlItem  implements Serializable {
     sb.append("    namespaceBoolean: ").append(toIndentedString(namespaceBoolean)).append("\n");
     sb.append("    namespaceArray: ").append(toIndentedString(namespaceArray)).append("\n");
     sb.append("    namespaceWrappedArray: ").append(toIndentedString(namespaceWrappedArray)).append("\n");
-    sb.append("    prefixNamespaceString: ").append(toIndentedString(prefixNamespaceString)).append("\n");
-    sb.append("    prefixNamespaceNumber: ").append(toIndentedString(prefixNamespaceNumber)).append("\n");
-    sb.append("    prefixNamespaceInteger: ").append(toIndentedString(prefixNamespaceInteger)).append("\n");
-    sb.append("    prefixNamespaceBoolean: ").append(toIndentedString(prefixNamespaceBoolean)).append("\n");
-    sb.append("    prefixNamespaceArray: ").append(toIndentedString(prefixNamespaceArray)).append("\n");
-    sb.append("    prefixNamespaceWrappedArray: ").append(toIndentedString(prefixNamespaceWrappedArray)).append("\n");
+    sb.append("    prefixNsString: ").append(toIndentedString(prefixNsString)).append("\n");
+    sb.append("    prefixNsNumber: ").append(toIndentedString(prefixNsNumber)).append("\n");
+    sb.append("    prefixNsInteger: ").append(toIndentedString(prefixNsInteger)).append("\n");
+    sb.append("    prefixNsBoolean: ").append(toIndentedString(prefixNsBoolean)).append("\n");
+    sb.append("    prefixNsArray: ").append(toIndentedString(prefixNsArray)).append("\n");
+    sb.append("    prefixNsWrappedArray: ").append(toIndentedString(prefixNsWrappedArray)).append("\n");
     sb.append("}");
     return sb.toString();
   }

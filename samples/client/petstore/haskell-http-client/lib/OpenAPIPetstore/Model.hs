@@ -1510,12 +1510,12 @@ data XmlItem = XmlItem
   , xmlItemNamespaceBoolean :: !(Maybe Bool) -- ^ "namespace_boolean"
   , xmlItemNamespaceArray :: !(Maybe [Int]) -- ^ "namespace_array"
   , xmlItemNamespaceWrappedArray :: !(Maybe [Int]) -- ^ "namespace_wrapped_array"
-  , xmlItemPrefixNamespaceString :: !(Maybe Text) -- ^ "prefix_namespace_string"
-  , xmlItemPrefixNamespaceNumber :: !(Maybe Double) -- ^ "prefix_namespace_number"
-  , xmlItemPrefixNamespaceInteger :: !(Maybe Int) -- ^ "prefix_namespace_integer"
-  , xmlItemPrefixNamespaceBoolean :: !(Maybe Bool) -- ^ "prefix_namespace_boolean"
-  , xmlItemPrefixNamespaceArray :: !(Maybe [Int]) -- ^ "prefix_namespace_array"
-  , xmlItemPrefixNamespaceWrappedArray :: !(Maybe [Int]) -- ^ "prefix_namespace_wrapped_array"
+  , xmlItemPrefixNsString :: !(Maybe Text) -- ^ "prefix_ns_string"
+  , xmlItemPrefixNsNumber :: !(Maybe Double) -- ^ "prefix_ns_number"
+  , xmlItemPrefixNsInteger :: !(Maybe Int) -- ^ "prefix_ns_integer"
+  , xmlItemPrefixNsBoolean :: !(Maybe Bool) -- ^ "prefix_ns_boolean"
+  , xmlItemPrefixNsArray :: !(Maybe [Int]) -- ^ "prefix_ns_array"
+  , xmlItemPrefixNsWrappedArray :: !(Maybe [Int]) -- ^ "prefix_ns_wrapped_array"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON XmlItem
@@ -1545,12 +1545,12 @@ instance A.FromJSON XmlItem where
       <*> (o .:? "namespace_boolean")
       <*> (o .:? "namespace_array")
       <*> (o .:? "namespace_wrapped_array")
-      <*> (o .:? "prefix_namespace_string")
-      <*> (o .:? "prefix_namespace_number")
-      <*> (o .:? "prefix_namespace_integer")
-      <*> (o .:? "prefix_namespace_boolean")
-      <*> (o .:? "prefix_namespace_array")
-      <*> (o .:? "prefix_namespace_wrapped_array")
+      <*> (o .:? "prefix_ns_string")
+      <*> (o .:? "prefix_ns_number")
+      <*> (o .:? "prefix_ns_integer")
+      <*> (o .:? "prefix_ns_boolean")
+      <*> (o .:? "prefix_ns_array")
+      <*> (o .:? "prefix_ns_wrapped_array")
 
 -- | ToJSON XmlItem
 instance A.ToJSON XmlItem where
@@ -1579,12 +1579,12 @@ instance A.ToJSON XmlItem where
       , "namespace_boolean" .= xmlItemNamespaceBoolean
       , "namespace_array" .= xmlItemNamespaceArray
       , "namespace_wrapped_array" .= xmlItemNamespaceWrappedArray
-      , "prefix_namespace_string" .= xmlItemPrefixNamespaceString
-      , "prefix_namespace_number" .= xmlItemPrefixNamespaceNumber
-      , "prefix_namespace_integer" .= xmlItemPrefixNamespaceInteger
-      , "prefix_namespace_boolean" .= xmlItemPrefixNamespaceBoolean
-      , "prefix_namespace_array" .= xmlItemPrefixNamespaceArray
-      , "prefix_namespace_wrapped_array" .= xmlItemPrefixNamespaceWrappedArray
+      , "prefix_ns_string" .= xmlItemPrefixNsString
+      , "prefix_ns_number" .= xmlItemPrefixNsNumber
+      , "prefix_ns_integer" .= xmlItemPrefixNsInteger
+      , "prefix_ns_boolean" .= xmlItemPrefixNsBoolean
+      , "prefix_ns_array" .= xmlItemPrefixNsArray
+      , "prefix_ns_wrapped_array" .= xmlItemPrefixNsWrappedArray
       ]
 
 
@@ -1616,12 +1616,12 @@ mkXmlItem =
   , xmlItemNamespaceBoolean = Nothing
   , xmlItemNamespaceArray = Nothing
   , xmlItemNamespaceWrappedArray = Nothing
-  , xmlItemPrefixNamespaceString = Nothing
-  , xmlItemPrefixNamespaceNumber = Nothing
-  , xmlItemPrefixNamespaceInteger = Nothing
-  , xmlItemPrefixNamespaceBoolean = Nothing
-  , xmlItemPrefixNamespaceArray = Nothing
-  , xmlItemPrefixNamespaceWrappedArray = Nothing
+  , xmlItemPrefixNsString = Nothing
+  , xmlItemPrefixNsNumber = Nothing
+  , xmlItemPrefixNsInteger = Nothing
+  , xmlItemPrefixNsBoolean = Nothing
+  , xmlItemPrefixNsArray = Nothing
+  , xmlItemPrefixNsWrappedArray = Nothing
   }
 
 

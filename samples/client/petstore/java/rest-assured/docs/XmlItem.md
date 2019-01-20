@@ -27,12 +27,12 @@ Name | Type | Description | Notes
 **namespaceBoolean** | **Boolean** |  |  [optional]
 **namespaceArray** | **List&lt;Integer&gt;** |  |  [optional]
 **namespaceWrappedArray** | **List&lt;Integer&gt;** |  |  [optional]
-**prefixNamespaceString** | **String** |  |  [optional]
-**prefixNamespaceNumber** | [**BigDecimal**](BigDecimal.md) |  |  [optional]
-**prefixNamespaceInteger** | **Integer** |  |  [optional]
-**prefixNamespaceBoolean** | **Boolean** |  |  [optional]
-**prefixNamespaceArray** | **List&lt;Integer&gt;** |  |  [optional]
-**prefixNamespaceWrappedArray** | **List&lt;Integer&gt;** |  |  [optional]
+**prefixNsString** | **String** |  |  [optional]
+**prefixNsNumber** | [**BigDecimal**](BigDecimal.md) |  |  [optional]
+**prefixNsInteger** | **Integer** |  |  [optional]
+**prefixNsBoolean** | **Boolean** |  |  [optional]
+**prefixNsArray** | **List&lt;Integer&gt;** |  |  [optional]
+**prefixNsWrappedArray** | **List&lt;Integer&gt;** |  |  [optional]
 
 
 

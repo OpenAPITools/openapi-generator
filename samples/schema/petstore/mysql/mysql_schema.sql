@@ -383,11 +383,11 @@ CREATE TABLE IF NOT EXISTS `XmlItem` (
   `namespace_boolean` TINYINT(1) DEFAULT NULL,
   `namespace_array` JSON DEFAULT NULL,
   `namespace_wrapped_array` JSON DEFAULT NULL,
-  `prefix_namespace_string` TEXT DEFAULT NULL,
-  `prefix_namespace_number` DECIMAL(20, 9) DEFAULT NULL,
-  `prefix_namespace_integer` INT DEFAULT NULL,
-  `prefix_namespace_boolean` TINYINT(1) DEFAULT NULL,
-  `prefix_namespace_array` JSON DEFAULT NULL,
-  `prefix_namespace_wrapped_array` JSON DEFAULT NULL
+  `prefix_ns_string` TEXT DEFAULT NULL,
+  `prefix_ns_number` DECIMAL(20, 9) DEFAULT NULL,
+  `prefix_ns_integer` INT DEFAULT NULL,
+  `prefix_ns_boolean` TINYINT(1) DEFAULT NULL,
+  `prefix_ns_array` JSON DEFAULT NULL,
+  `prefix_ns_wrapped_array` JSON DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
