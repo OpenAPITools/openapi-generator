@@ -194,7 +194,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         Info info = openAPI.getInfo();
         info.setDescription(toHtml(info.getDescription()));
         info.setTitle(toHtml(info.getTitle()));
-        Map<String, Schema> models = openAPI.getComponents().getSchemas();
+        Map<String, Schema> models = ModelUtils.getSchemas(openAPI);
         for (Schema model : models.values()) {
             model.setDescription(toHtml(model.getDescription()));
             model.setTitle(toHtml(model.getTitle()));
