@@ -55,7 +55,7 @@ class Footer extends React.Component {
               rel="noreferrer noopener">
               Stack Overflow
             </a>
-            <a href="https://gitter.im/OpenAPITools/openapi-generator">Project Chat</a>
+            <a href="https://gitter.im/OpenAPITools/openapi-generator">Chat Room</a>
             <a
               href="https://twitter.com/oas_generator"
               target="_blank"
@@ -78,33 +78,6 @@ class Footer extends React.Component {
               Star
             </a>
           </div>
-        </section>
-
-        <section className="attribution">
-          <a
-            href="https://code.facebook.com/projects/"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="fbOpenSource">
-            <img
-              src={`${this.props.config.baseUrl}img/oss_logo.png`}
-              alt="Facebook Open Source"
-              width="170"
-              height="45"
-            />
-          </a>
-          <a
-            href="https://fontawesome.com/license/free"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="fbOpenSource">
-            <img
-                src={`${this.props.config.baseUrl}img/fa-logo.svg`}
-                alt="Fontawesome (Free)"
-                width="170"
-                height="45"
-            />
-          </a>
         </section>
         <section className="copyright">{this.props.config.copyright}</section>
       </footer>
