@@ -2537,7 +2537,7 @@ public class DefaultCodegen implements CodegenConfig {
             if ("application/x-www-form-urlencoded".equalsIgnoreCase(getContentType(requestBody)) ||
                     "multipart/form-data".equalsIgnoreCase(getContentType(requestBody))) {
                 // process form parameters
-                formParams = fromRequestBodyToFormParameters(requestBody, schemas, imports, openAPI);
+                formParams = fromRequestBodyToFormParameters(requestBody, imports, openAPI);
                 for (CodegenParameter cp : formParams) {
                     postProcessParameter(cp);
                 }
@@ -2555,7 +2555,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
                     bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
                 }
-                bodyParam = fromRequestBody(requestBody, schemas, imports, bodyParameterName, openAPI);
+                bodyParam = fromRequestBody(requestBody, imports, bodyParameterName, openAPI);
                 bodyParam.description = escapeText(requestBody.getDescription());
                 postProcessParameter(bodyParam);
 
@@ -4395,13 +4395,11 @@ public class DefaultCodegen implements CodegenConfig {
         return null;
     }
 
-    public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Map<String, Schema> schemas, Set<String> imports, OpenAPI openAPI) {
+    public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Set<String> imports, OpenAPI openAPI) {
         List<CodegenParameter> parameters = new ArrayList<CodegenParameter>();
         LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
-        if (StringUtils.isNotBlank(schema.get$ref())) {
-            schema = schemas.get(ModelUtils.getSimpleRef(schema.get$ref()));
-        }
+        schema = ModelUtils.getReferencedSchema(openAPI, schema);
         if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             Map<String, Schema> properties = schema.getProperties();
             for (Map.Entry<String, Schema> entry : properties.entrySet()) {
@@ -4551,7 +4549,7 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
-    public CodegenParameter fromRequestBody(RequestBody body, Map<String, Schema> schemas, Set<String> imports, String bodyParameterName, OpenAPI openAPI) {
+    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName, OpenAPI openAPI) {
         if (body == null) {
             LOGGER.error("body in fromRequestBody cannot be null!");
         }
@@ -4571,8 +4569,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
-            schema = schemas.get(name);
         }
+        schema = ModelUtils.getReferencedSchema(openAPI, schema);
 
         if (ModelUtils.isMapSchema(schema)) {
             Schema inner = ModelUtils.getAdditionalProperties(schema);
