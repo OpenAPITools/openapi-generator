@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -336,7 +335,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public String toDefaultValue(Schema p, OpenAPI openAPI) {
+    public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             return "false";
         } else if (ModelUtils.isDateSchema(p)) {

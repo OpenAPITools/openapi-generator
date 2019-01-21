@@ -16,7 +16,6 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -570,11 +569,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     /**
      * Return the default value of the property
      * @param p Swagger property object
-     *
      * @return string presentation of the default value of the property
      */
     @Override
-    public String toDefaultValue(Schema p, OpenAPI openAPI) {
+    public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();

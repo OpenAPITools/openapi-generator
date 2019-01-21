@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
@@ -613,11 +612,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     /**
      * Return the default value of the property
      * @param p OpenAPI property object
-     *
      * @return string presentation of the default value of the property
      */
     @Override
-    public String toDefaultValue(Schema p, OpenAPI openAPI) {
+    public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 if (Boolean.valueOf(p.getDefault().toString()) == false)

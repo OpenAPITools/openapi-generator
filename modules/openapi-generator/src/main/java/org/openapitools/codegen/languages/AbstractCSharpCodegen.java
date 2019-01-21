@@ -760,11 +760,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     /**
      * Return the default value of the property
      * @param p OpenAPI property object
-     *
      * @return string presentation of the default value of the property
      */
     @Override
-    public String toDefaultValue(Schema p, OpenAPI openAPI) {
+    public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();

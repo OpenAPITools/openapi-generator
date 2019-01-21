@@ -1329,11 +1329,10 @@ public class DefaultCodegen implements CodegenConfig {
      * Return the default value of the property
      *
      * @param schema Property schema
-     * @param openAPI TODO
      * @return string presentation of the default value of the property
      */
     @SuppressWarnings("static-method")
-    public String toDefaultValue(Schema schema, OpenAPI openAPI) {
+    public String toDefaultValue(Schema schema) {
         if (schema.getDefault() != null) {
             return schema.getDefault().toString();
         }
@@ -1663,7 +1662,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isArraySchema(schema)) {
             m.isArrayModel = true;
             m.arrayModelType = fromProperty(name, schema).complexType;
-            addParentContainer(m, name, schema, globalOpenAPI);
+            addParentContainer(m, name, schema);
         } else if (schema instanceof ComposedSchema) {
             final ComposedSchema composed = (ComposedSchema) schema;
             Map<String, Schema> properties = new LinkedHashMap<String, Schema>();
@@ -1776,7 +1775,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            addVars(m, unaliasPropertySchema(allDefinitions, properties), required, unaliasPropertySchema(allDefinitions, allProperties), allRequired, globalOpenAPI);
+            addVars(m, unaliasPropertySchema(allDefinitions, properties), required, unaliasPropertySchema(allDefinitions, allProperties), allRequired);
 
             // end of code block for composed schema
         } else {
@@ -1788,7 +1787,7 @@ public class DefaultCodegen implements CodegenConfig {
                 m.allowableValues.put("values", schema.getEnum());
             }
             if (ModelUtils.isMapSchema(schema)) {
-                addAdditionPropertiesToCodeGenModel(m, schema, globalOpenAPI);
+                addAdditionPropertiesToCodeGenModel(m, schema);
                 m.isMapModel = true;
             }
             if (ModelUtils.isIntegerSchema(schema)) { // integer type
@@ -1801,7 +1800,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // passing null to allProperties and allRequired as there's no parent
-            addVars(m, unaliasPropertySchema(allDefinitions, schema.getProperties()), schema.getRequired(), null, null, globalOpenAPI);
+            addVars(m, unaliasPropertySchema(allDefinitions, schema.getProperties()), schema.getRequired(), null, null);
         }
 
         // remove duplicated properties
@@ -1849,8 +1848,8 @@ public class DefaultCodegen implements CodegenConfig {
         return discriminator;
     }
 
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema, OpenAPI openAPI) {
-        addParentContainer(codegenModel, codegenModel.name, schema, openAPI);
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        addParentContainer(codegenModel, codegenModel.name, schema);
     }
 
     /**
@@ -1938,7 +1937,7 @@ public class DefaultCodegen implements CodegenConfig {
         property.getter = toGetter(name);
         property.setter = toSetter(name);
         property.example = toExampleValue(p);
-        property.defaultValue = toDefaultValue(p, globalOpenAPI);
+        property.defaultValue = toDefaultValue(p);
         property.defaultValueWithParam = toDefaultValueWithParam(name, p);
         property.jsonSchema = Json.pretty(p);
         if (p.getReadOnly() != null) {
@@ -2476,7 +2475,7 @@ public class DefaultCodegen implements CodegenConfig {
                         }
                     }
                     op.examples = new ExampleGenerator(schemas, globalOpenAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(globalOpenAPI, operation));
-                    op.defaultResponse = toDefaultValue(responseSchema, globalOpenAPI);
+                    op.defaultResponse = toDefaultValue(responseSchema);
                     op.returnType = cm.dataType;
                     op.hasReference = schemas.containsKey(op.returnBaseType);
 
@@ -2509,7 +2508,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (operation.getCallbacks() != null && !operation.getCallbacks().isEmpty()) {
             operation.getCallbacks().forEach((name, callback) -> {
-                CodegenCallback c = fromCallback(name, callback, globalOpenAPI);
+                CodegenCallback c = fromCallback(name, callback);
                 c.hasMore = true;
                 op.callbacks.add(c);
             });
@@ -2533,7 +2532,7 @@ public class DefaultCodegen implements CodegenConfig {
             if ("application/x-www-form-urlencoded".equalsIgnoreCase(getContentType(requestBody)) ||
                     "multipart/form-data".equalsIgnoreCase(getContentType(requestBody))) {
                 // process form parameters
-                formParams = fromRequestBodyToFormParameters(requestBody, imports, globalOpenAPI);
+                formParams = fromRequestBodyToFormParameters(requestBody, imports);
                 for (CodegenParameter cp : formParams) {
                     postProcessParameter(cp);
                 }
@@ -2551,7 +2550,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
                     bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
                 }
-                bodyParam = fromRequestBody(requestBody, imports, bodyParameterName, globalOpenAPI);
+                bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
                 bodyParam.description = escapeText(requestBody.getDescription());
                 postProcessParameter(bodyParam);
 
@@ -2808,10 +2807,9 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param name     callback name
      * @param callback OAS Callback object
-     * @param openAPI  a OAS object representing the spec
      * @return Codegen Response object
      */
-    public CodegenCallback fromCallback(String name, Callback callback, OpenAPI openAPI) {
+    public CodegenCallback fromCallback(String name, Callback callback) {
         CodegenCallback c = new CodegenCallback();
         c.name = name;
 
@@ -2913,7 +2911,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // set default value
-            codegenParameter.defaultValue = toDefaultValue(parameterSchema, globalOpenAPI);
+            codegenParameter.defaultValue = toDefaultValue(parameterSchema);
 
             // TDOO revise collectionFormat
             String collectionFormat = null;
@@ -3423,7 +3421,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
 
-    private void addParentContainer(CodegenModel model, String name, Schema schema, OpenAPI openAPI) {
+    private void addParentContainer(CodegenModel model, String name, Schema schema) {
         final CodegenProperty property = fromProperty(name, schema);
         addImport(model, property.complexType);
         model.parent = toInstantiationType(schema);
@@ -3487,7 +3485,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void addVars(CodegenModel m, Map<String, Schema> properties, List<String> required,
-                         Map<String, Schema> allProperties, List<String> allRequired, OpenAPI openAPI) {
+                         Map<String, Schema> allProperties, List<String> allRequired) {
 
         m.hasRequired = false;
         if (properties != null && !properties.isEmpty()) {
@@ -3498,7 +3496,7 @@ public class DefaultCodegen implements CodegenConfig {
                     : new TreeSet<String>(required);
 
             // update "vars" without parent's properties (all, required)
-            addVars(m, m.vars, properties, mandatory, openAPI);
+            addVars(m, m.vars, properties, mandatory);
             m.allMandatory = m.mandatory = mandatory;
         } else {
             m.emptyVars = true;
@@ -3510,7 +3508,7 @@ public class DefaultCodegen implements CodegenConfig {
             Set<String> allMandatory = allRequired == null ? Collections.<String>emptySet()
                     : new TreeSet<String>(allRequired);
             // update "vars" with parent's properties (all, required)
-            addVars(m, m.allVars, allProperties, allMandatory, openAPI);
+            addVars(m, m.allVars, allProperties, allMandatory);
             m.allMandatory = allMandatory;
         } else { // without parent, allVars and vars are the same
             m.allVars = m.vars;
@@ -3540,9 +3538,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @param vars       list of codegen properties (e.g. vars, allVars) to be updated with the new properties
      * @param properties a map of properties (schema)
      * @param mandatory  a set of required properties' name
-     * @param openAPI TODO
      */
-    private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory, OpenAPI openAPI) {
+    private void addVars(CodegenModel m, List<CodegenProperty> vars, Map<String, Schema> properties, Set<String> mandatory) {
         for (Map.Entry<String, Schema> entry : properties.entrySet()) {
 
             final String key = entry.getKey();
@@ -4388,11 +4385,11 @@ public class DefaultCodegen implements CodegenConfig {
         return null;
     }
 
-    public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Set<String> imports, OpenAPI openAPI) {
+    public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Set<String> imports) {
         List<CodegenParameter> parameters = new ArrayList<CodegenParameter>();
         LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
-        schema = ModelUtils.getReferencedSchema(openAPI, schema);
+        schema = ModelUtils.getReferencedSchema(globalOpenAPI, schema);
         if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             Map<String, Schema> properties = schema.getProperties();
             for (Map.Entry<String, Schema> entry : properties.entrySet()) {
@@ -4411,7 +4408,7 @@ public class DefaultCodegen implements CodegenConfig {
                         arraySchema.setItems(inner);
                     }
 
-                    codegenParameter = fromFormProperty(entry.getKey(), inner, imports, openAPI);
+                    codegenParameter = fromFormProperty(entry.getKey(), inner, imports);
                     CodegenProperty codegenProperty = fromProperty("inner", inner);
                     codegenParameter.items = codegenProperty;
                     codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
@@ -4444,7 +4441,7 @@ public class DefaultCodegen implements CodegenConfig {
                     LOGGER.error("Map of form parameters not supported. Please report the issue to https://github.com/openapitools/openapi-generator if you need help.");
                     continue;
                 } else {
-                    codegenParameter = fromFormProperty(entry.getKey(), entry.getValue(), imports, openAPI);
+                    codegenParameter = fromFormProperty(entry.getKey(), entry.getValue(), imports);
                 }
 
                 // Set 'required' flag defined in the schema element
@@ -4459,7 +4456,7 @@ public class DefaultCodegen implements CodegenConfig {
         return parameters;
     }
 
-    public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports, OpenAPI openAPI) {
+    public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
 
         LOGGER.debug("Debugging fromFormProperty {}: {}", name, propertySchema);
@@ -4542,7 +4539,7 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenParameter;
     }
 
-    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName, OpenAPI openAPI) {
+    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
         if (body == null) {
             LOGGER.error("body in fromRequestBody cannot be null!");
         }
@@ -4563,7 +4560,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
         }
-        schema = ModelUtils.getReferencedSchema(openAPI, schema);
+        schema = ModelUtils.getReferencedSchema(globalOpenAPI, schema);
 
         if (ModelUtils.isMapSchema(schema)) {
             Schema inner = ModelUtils.getAdditionalProperties(schema);

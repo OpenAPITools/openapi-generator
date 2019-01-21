@@ -745,7 +745,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String toDefaultValue(Schema p, OpenAPI openAPI) {
+    public String toDefaultValue(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             final ArraySchema ap = (ArraySchema) p;
             final String pattern;
@@ -824,7 +824,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             return null;
         }
-        return super.toDefaultValue(p, openAPI);
+        return super.toDefaultValue(p);
     }
 
     @Override
@@ -1450,8 +1450,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema, OpenAPI openAPI) {
-        super.addAdditionPropertiesToCodeGenModel(codegenModel, schema, openAPI);
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
 
         // See https://github.com/OpenAPITools/openapi-generator/pull/1729#issuecomment-449937728
         codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));

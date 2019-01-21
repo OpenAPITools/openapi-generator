@@ -30,7 +30,6 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.slf4j.Logger;
@@ -219,7 +218,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String toDefaultValue(Schema p, OpenAPI openAPI) {
+    public String toDefaultValue(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             final ArraySchema ap = (ArraySchema) p;
             final String pattern = "new ArrayList<%s>()";
@@ -273,7 +272,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
             return "null";
         }
-        return super.toDefaultValue(p, openAPI);
+        return super.toDefaultValue(p);
     }
 
     @Override

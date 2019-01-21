@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 
@@ -302,7 +301,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
-                                                       Schema schema, OpenAPI openAPI) {
+                                                       Schema schema) {
 
         final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 
@@ -533,7 +532,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toDefaultValue(Schema p, OpenAPI openAPI) {
+    public String toDefaultValue(Schema p) {
         if (p.getEnum() != null && !p.getEnum().isEmpty()) {
             if (p.getDefault() != null) {
                 return "." + escapeText((String) p.getDefault());

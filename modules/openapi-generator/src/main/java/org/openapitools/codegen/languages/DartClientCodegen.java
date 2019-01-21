@@ -27,7 +27,6 @@ import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -310,7 +309,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toDefaultValue(Schema schema, OpenAPI openAPI) {
+    public String toDefaultValue(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
             return "{}";
         } else if (ModelUtils.isArraySchema(schema)) {

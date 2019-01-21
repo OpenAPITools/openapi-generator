@@ -23,7 +23,6 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 
 import org.apache.commons.lang3.StringUtils;
@@ -70,13 +69,13 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     }
 
     @Override
-    public String toDefaultValue(Schema p, OpenAPI openAPI) {
+    public String toDefaultValue(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
             return "const {}";
         } else if (ModelUtils.isArraySchema(p)) {
             return "const []";
         }
-        return super.toDefaultValue(p, openAPI);
+        return super.toDefaultValue(p);
     }
 
     @Override

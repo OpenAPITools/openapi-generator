@@ -24,7 +24,6 @@ import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
@@ -209,7 +208,7 @@ public class CppTizenClientCodegen extends AbstractCppCodegen implements Codegen
 
     //Might not be needed
     @Override
-    public String toDefaultValue(Schema p, OpenAPI openAPI) {
+    public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             return "bool(false)";
         } else if (ModelUtils.isNumberSchema(p)) {
