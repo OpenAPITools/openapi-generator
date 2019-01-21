@@ -2513,7 +2513,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (operation.getCallbacks() != null && !operation.getCallbacks().isEmpty()) {
             operation.getCallbacks().forEach((name, callback) -> {
-                CodegenCallback c = fromCallback(name, callback, schemas, openAPI);
+                CodegenCallback c = fromCallback(name, callback, openAPI);
                 c.hasMore = true;
                 op.callbacks.add(c);
             });
@@ -2812,12 +2812,10 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param name     callback name
      * @param callback OAS Callback object
-     * @param schemas  a map of OAS models
      * @param openAPI  a OAS object representing the spec
      * @return Codegen Response object
      */
-    public CodegenCallback fromCallback(String name, Callback callback, Map<String, Schema> schemas, OpenAPI
-            openAPI) {
+    public CodegenCallback fromCallback(String name, Callback callback, OpenAPI openAPI) {
         CodegenCallback c = new CodegenCallback();
         c.name = name;
 
