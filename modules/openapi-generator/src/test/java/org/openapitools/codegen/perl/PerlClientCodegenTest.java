@@ -63,9 +63,10 @@ public class PerlClientCodegenTest {
     public void testIssue677() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/issue677.yaml", null, new ParseOptions()).getOpenAPI();
         final PerlClientCodegen codegen = new PerlClientCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
 
         Operation operation = openAPI.getPaths().get("/issue677").getPost();
-        CodegenOperation co = codegen.fromOperation("/issue677", "POST", operation, openAPI);
+        CodegenOperation co = codegen.fromOperation("/issue677", "POST", operation);
         Assert.assertNotNull(co);
     }
 

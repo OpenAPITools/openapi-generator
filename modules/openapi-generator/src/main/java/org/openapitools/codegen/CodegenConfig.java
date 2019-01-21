@@ -112,7 +112,7 @@ public interface CodegenConfig {
 
     CodegenModel fromModel(String name, Schema schema);
 
-    CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, OpenAPI openAPI);
+    CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation);
 
     List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemas);
 

@@ -200,8 +200,8 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, openAPI);
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation);
         if (op.returnType != null) {
             op.returnType = normalizeType(op.returnType);
         }

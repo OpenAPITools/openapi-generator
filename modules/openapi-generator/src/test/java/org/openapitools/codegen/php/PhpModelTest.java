@@ -389,10 +389,11 @@ public class PhpModelTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/datePropertyTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setModelNamePrefix("foo");
+        codegen.setGlobalOpenAPI(openAPI);
 
         final String path = "/tests/dateResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p);
 
         Assert.assertEquals(op.returnType, "\\DateTime");
         Assert.assertEquals(op.bodyParam.dataType, "\\DateTime");

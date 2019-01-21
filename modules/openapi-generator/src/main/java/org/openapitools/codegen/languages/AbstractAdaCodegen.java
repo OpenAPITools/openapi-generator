@@ -17,8 +17,11 @@
 
 package org.openapitools.codegen.languages;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
@@ -26,6 +29,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -45,8 +49,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
@@ -403,14 +405,13 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
-                                          OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, openAPI);
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
             if (methodResponse != null && ModelUtils.getSchemaFromResponse(methodResponse) != null) {
-                CodegenProperty cm = fromProperty("response", ModelUtils.getSchemaFromResponse(methodResponse), openAPI);
+                CodegenProperty cm = fromProperty("response", ModelUtils.getSchemaFromResponse(methodResponse), globalOpenAPI);
                 op.vendorExtensions.put("x-codegen-response", cm);
                 if ("HttpContent".equals(cm.dataType)) {
                     op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
@@ -424,8 +425,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         // the scopes required by the operation.
         final List<SecurityRequirement> securities = operation.getSecurity();
         if (securities != null && securities.size() > 0) {
-            final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
-            final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
+            final Map<String, SecurityScheme> securitySchemes = globalOpenAPI.getComponents() != null ? globalOpenAPI.getComponents().getSecuritySchemes() : null;
+            final List<SecurityRequirement> globalSecurities = globalOpenAPI.getSecurity();
 
             Map<String, List<String>> scopes = getAuthScopes(securities, securitySchemes);
             if (scopes.isEmpty() && globalSecurities != null) {

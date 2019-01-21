@@ -64,9 +64,10 @@ public class GoClientCodegenTest {
     public void bodyParameterTest() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final GoClientCodegen codegen = new GoClientCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
         final String path = "/fake";
         final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p);
         Assert.assertEquals(op.formParams.size(), 2);
         CodegenParameter bp = op.formParams.get(0);
         Assert.assertFalse(bp.isPrimitiveType);

@@ -578,11 +578,9 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod,
-                                          Operation operation,
-                                          OpenAPI openAPI) {
-        Map<String, Schema> definitions = ModelUtils.getSchemas(openAPI);
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation,
-                openAPI);
+                                          Operation operation) {
+        Map<String, Schema> definitions = ModelUtils.getSchemas(globalOpenAPI);
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation);
 
         /**
          * Check if the operation has a Bash codegen specific description
@@ -625,8 +623,8 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                  * If the operation produces Json and has nonempty example
                  * try to reformat it.
                  */
-                if (getConsumesInfo(openAPI, operation) != null
-                        && getConsumesInfo(openAPI, operation).contains("application/json")
+                if (getConsumesInfo(globalOpenAPI, operation) != null
+                        && getConsumesInfo(globalOpenAPI, operation).contains("application/json")
                         && definitions.get(p.dataType).getExample() != null) {
 
                     ObjectMapper mapper = new ObjectMapper();

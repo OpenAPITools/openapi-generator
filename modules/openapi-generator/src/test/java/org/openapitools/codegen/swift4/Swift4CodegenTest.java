@@ -96,9 +96,10 @@ public class Swift4CodegenTest {
 
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/binaryDataTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new Swift4Codegen();
+        codegen.setGlobalOpenAPI(openAPI);
         final String path = "/tests/binaryResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p);
 
         Assert.assertEquals(op.returnType, "URL");
         Assert.assertEquals(op.bodyParam.dataType, "URL");
@@ -110,9 +111,10 @@ public class Swift4CodegenTest {
     public void dateTest() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/datePropertyTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new Swift4Codegen();
+        codegen.setGlobalOpenAPI(openAPI);
         final String path = "/tests/dateResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p);
 
         Assert.assertEquals(op.returnType, "Date");
         Assert.assertEquals(op.bodyParam.dataType, "Date");

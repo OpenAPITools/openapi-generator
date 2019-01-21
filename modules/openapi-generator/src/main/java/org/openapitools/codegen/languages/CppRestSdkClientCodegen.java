@@ -17,13 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -42,8 +46,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
-import static com.google.common.base.Strings.isNullOrEmpty;
 
 public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
@@ -241,18 +243,17 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
-                                          OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, openAPI);
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
 
             if (methodResponse != null) {
                 Schema response = ModelUtils.getSchemaFromResponse(methodResponse);
-                response = ModelUtils.unaliasSchema(openAPI.getComponents().getSchemas(), response);
+                response = ModelUtils.unaliasSchema(globalOpenAPI.getComponents().getSchemas(), response);
                 if (response != null) {
-                    CodegenProperty cm = fromProperty("response", response, openAPI);
+                    CodegenProperty cm = fromProperty("response", response, globalOpenAPI);
                     op.vendorExtensions.put("x-codegen-response", cm);
                     if ("HttpContent".equals(cm.dataType)) {
                         op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);

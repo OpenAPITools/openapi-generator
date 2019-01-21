@@ -47,6 +47,7 @@ public class PythonTest {
     public void modelTest() {
         final OpenAPI openAPI= new OpenAPIParser().readLocation("src/test/resources/2_0/v1beta3.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new PythonClientCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
 
         codegen.setGlobalOpenAPI(openAPI);
         final CodegenModel simpleName = codegen.fromModel("v1beta3.Binding", openAPI.getComponents().getSchemas().get("v1beta3.Binding"));
@@ -62,7 +63,7 @@ public class PythonTest {
 
         final String path = "/api/v1beta3/namespaces/{namespaces}/bindings";
         final Operation operation = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation codegenOperation = codegen.fromOperation(path, "get", operation, openAPI);
+        final CodegenOperation codegenOperation = codegen.fromOperation(path, "get", operation);
         Assert.assertEquals(codegenOperation.returnType, "V1beta3Binding");
         Assert.assertEquals(codegenOperation.returnBaseType, "V1beta3Binding");
     }

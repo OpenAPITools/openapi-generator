@@ -17,16 +17,15 @@
 
 package org.openapitools.codegen.bash;
 
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.languages.BashClientCodegen;
-
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.languages.BashClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -40,6 +39,7 @@ public class BashTest {
             = new OpenAPIParser()
                 .readLocation("src/test/resources/2_0/petstore-bash.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new BashClientCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
         final Operation findPetsByStatusOperation
             = openAPI.getPaths().get("/pet/findByStatus").getGet();
 
@@ -47,8 +47,7 @@ public class BashTest {
             = codegen.fromOperation(
                 "/pet/findByStatus",
                 "GET",
-                findPetsByStatusOperation,
-                openAPI);
+                findPetsByStatusOperation);
 
         Assert.assertTrue(
             op.vendorExtensions.containsKey("x-code-samples"));
@@ -69,6 +68,7 @@ public class BashTest {
             = new OpenAPIParser()
                 .readLocation("src/test/resources/2_0/petstore-bash.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new BashClientCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
         final Operation addPetOperation
             = openAPI.getPaths().get("/pet").getPost();
 
@@ -76,8 +76,7 @@ public class BashTest {
             = codegen.fromOperation(
                 "/pet",
                 "POST",
-                addPetOperation,
-                openAPI);
+                addPetOperation);
 
         Assert.assertEquals(op.bodyParams.size(), 1);
 

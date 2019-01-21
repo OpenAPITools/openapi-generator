@@ -37,7 +37,6 @@ import java.net.URLEncoder;
 import org.apache.commons.lang3.StringEscapeUtils;
 import java.io.UnsupportedEncodingException;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 
 public class PhpSlimServerCodegen extends AbstractPhpCodegen {
@@ -253,9 +252,8 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     @Override
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
-                                          Operation operation,
-                                          OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, openAPI);
+                                          Operation operation) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation);
         op.path = encodePath(path);
         return op;
     }

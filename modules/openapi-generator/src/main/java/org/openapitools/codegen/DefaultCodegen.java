@@ -2375,20 +2375,17 @@ public class DefaultCodegen implements CodegenConfig {
      * Convert OAS Operation object to Codegen Operation object
      * @param httpMethod HTTP method
      * @param operation  OAS operation object
-     * @param openAPI    a OAS object representing the spec
      * @param path       the path of the operation
-     *
      * @return Codegen Operation object
      */
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
-                                          Operation operation,
-                                          OpenAPI openAPI) {
+                                          Operation operation) {
         LOGGER.debug("fromOperation => operation: " + operation);
         if (operation == null)
             throw new RuntimeException("operation cannot be null in fromOperation");
 
-        Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
+        Map<String, Schema> schemas = ModelUtils.getSchemas(globalOpenAPI);
         CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
         Set<String> imports = new HashSet<String>();
         if (operation.getExtensions() != null && !operation.getExtensions().isEmpty()) {
@@ -2426,14 +2423,14 @@ public class DefaultCodegen implements CodegenConfig {
             op.isDeprecated = operation.getDeprecated();
         }
 
-        addConsumesInfo(openAPI, operation, op);
+        addConsumesInfo(globalOpenAPI, operation, op);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
             for (String key : operation.getResponses().keySet()) {
                 ApiResponse response = operation.getResponses().get(key);
-                addProducesInfo(openAPI, response, op);
-                CodegenResponse r = fromResponse(openAPI, key, response);
+                addProducesInfo(globalOpenAPI, response, op);
+                CodegenResponse r = fromResponse(globalOpenAPI, key, response);
                 r.hasMore = true;
                 if (r.baseType != null &&
                         !defaultIncludes.contains(r.baseType) &&
@@ -2455,14 +2452,14 @@ public class DefaultCodegen implements CodegenConfig {
                 Schema responseSchema = ModelUtils.unaliasSchema(globalSchemas, ModelUtils.getSchemaFromResponse(methodResponse));
 
                 if (responseSchema != null) {
-                    CodegenProperty cm = fromProperty("response", responseSchema, openAPI);
+                    CodegenProperty cm = fromProperty("response", responseSchema, globalOpenAPI);
 
                     if (ModelUtils.isArraySchema(responseSchema)) {
                         ArraySchema as = (ArraySchema) responseSchema;
-                        CodegenProperty innerProperty = fromProperty("response", as.getItems(), openAPI);
+                        CodegenProperty innerProperty = fromProperty("response", as.getItems(), globalOpenAPI);
                         op.returnBaseType = innerProperty.baseType;
                     } else if (ModelUtils.isMapSchema(responseSchema)) {
-                        CodegenProperty innerProperty = fromProperty("response", ModelUtils.getAdditionalProperties(responseSchema), openAPI);
+                        CodegenProperty innerProperty = fromProperty("response", ModelUtils.getAdditionalProperties(responseSchema), globalOpenAPI);
                         op.returnBaseType = innerProperty.baseType;
                     } else {
                         if (cm.complexType != null) {
@@ -2479,8 +2476,8 @@ public class DefaultCodegen implements CodegenConfig {
                             exampleStatusCode = key;
                         }
                     }
-                    op.examples = new ExampleGenerator(schemas, openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(openAPI, operation));
-                    op.defaultResponse = toDefaultValue(responseSchema, openAPI);
+                    op.examples = new ExampleGenerator(schemas, globalOpenAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(globalOpenAPI, operation));
+                    op.defaultResponse = toDefaultValue(responseSchema, globalOpenAPI);
                     op.returnType = cm.dataType;
                     op.hasReference = schemas.containsKey(op.returnBaseType);
 
@@ -2507,13 +2504,13 @@ public class DefaultCodegen implements CodegenConfig {
                         op.returnTypeIsPrimitive = true;
                     }
                 }
-                addHeaders(openAPI, methodResponse, op.responseHeaders);
+                addHeaders(globalOpenAPI, methodResponse, op.responseHeaders);
             }
         }
 
         if (operation.getCallbacks() != null && !operation.getCallbacks().isEmpty()) {
             operation.getCallbacks().forEach((name, callback) -> {
-                CodegenCallback c = fromCallback(name, callback, openAPI);
+                CodegenCallback c = fromCallback(name, callback, globalOpenAPI);
                 c.hasMore = true;
                 op.callbacks.add(c);
             });
@@ -2537,7 +2534,7 @@ public class DefaultCodegen implements CodegenConfig {
             if ("application/x-www-form-urlencoded".equalsIgnoreCase(getContentType(requestBody)) ||
                     "multipart/form-data".equalsIgnoreCase(getContentType(requestBody))) {
                 // process form parameters
-                formParams = fromRequestBodyToFormParameters(requestBody, imports, openAPI);
+                formParams = fromRequestBodyToFormParameters(requestBody, imports, globalOpenAPI);
                 for (CodegenParameter cp : formParams) {
                     postProcessParameter(cp);
                 }
@@ -2549,13 +2546,13 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             } else {
                 // process body parameter
-                requestBody = ModelUtils.getReferencedRequestBody(openAPI, requestBody);
+                requestBody = ModelUtils.getReferencedRequestBody(globalOpenAPI, requestBody);
 
                 String bodyParameterName = "";
                 if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
                     bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
                 }
-                bodyParam = fromRequestBody(requestBody, imports, bodyParameterName, openAPI);
+                bodyParam = fromRequestBody(requestBody, imports, bodyParameterName, globalOpenAPI);
                 bodyParam.description = escapeText(requestBody.getDescription());
                 postProcessParameter(bodyParam);
 
@@ -2567,7 +2564,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                 // add example
                 if (schemas != null) {
-                    op.requestBodyExamples = new ExampleGenerator(schemas, openAPI).generate(null, new ArrayList<String>(getConsumesInfo(openAPI, operation)), bodyParam.baseType);
+                    op.requestBodyExamples = new ExampleGenerator(schemas, globalOpenAPI).generate(null, new ArrayList<String>(getConsumesInfo(globalOpenAPI, operation)), bodyParam.baseType);
                 }
             }
         }
@@ -2575,10 +2572,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (parameters != null) {
             for (Parameter param : parameters) {
                 if (StringUtils.isNotBlank(param.get$ref())) {
-                    param = getParameterFromRef(param.get$ref(), openAPI);
+                    param = getParameterFromRef(param.get$ref(), globalOpenAPI);
                 }
 
-                CodegenParameter p = fromParameter(param, imports, openAPI);
+                CodegenParameter p = fromParameter(param, imports, globalOpenAPI);
 
                 // ensure unique params
                 if (ensureUniqueParams) {
@@ -2857,7 +2854,7 @@ public class DefaultCodegen implements CodegenConfig {
                         // distinguish between normal operations and callback requests
                         op.getExtensions().put("x-callback-request", true);
 
-                        CodegenOperation co = fromOperation(expression, method, op, openAPI);
+                        CodegenOperation co = fromOperation(expression, method, op);
                         if (genId) {
                             co.operationIdOriginal = null;
                             // legacy (see `fromOperation()`)

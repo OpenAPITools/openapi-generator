@@ -64,9 +64,10 @@ public class PythonClientCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser()
                 .readLocation("src/test/resources/3_0/issue_1517.yaml", null, new ParseOptions()).getOpenAPI();
         final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
         final String path = "/ping";
         final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "get", p, openAPI);
+        final CodegenOperation op = codegen.fromOperation(path, "get", p);
         // pattern_no_forward_slashes '^pattern$'
         Assert.assertEquals(op.allParams.get(0).pattern, "/^pattern$/");
         // pattern_two_slashes '/^pattern$/'

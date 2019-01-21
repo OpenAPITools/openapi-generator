@@ -221,7 +221,7 @@ public class JavaClientCodegenTest {
         final JavaClientCodegen codegen = new JavaClientCodegen();
 
         Operation operation = openAPI.getPaths().get("/ping").getPost();
-        CodegenOperation co = codegen.fromOperation("/ping", "POST", operation, openAPI);
+        CodegenOperation co = codegen.fromOperation("/ping", "POST", operation);
         Assert.assertEquals(co.allParams.size(), 1);
         Assert.assertEquals(co.allParams.get(0).baseType, "MessageEventCoreWithTimeListEntries");
     }

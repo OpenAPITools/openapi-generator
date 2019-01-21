@@ -77,7 +77,6 @@ public class DefaultCodegenTest {
 
     @Test
     public void testGetConsumesInfoAndGetProducesInfo() throws Exception {
-        final DefaultCodegen codegen = new DefaultCodegen();
         final Schema refSchema = new Schema<>().$ref("#/components/schemas/Pet");
         OpenAPI openAPI = new OpenAPI();
         openAPI.setComponents(new Components());
@@ -105,7 +104,9 @@ public class DefaultCodegenTest {
         Assert.assertTrue(createConsumesInfo.contains("application/xml"), "contains 'application/xml'");
         Set<String> createProducesInfo = DefaultCodegen.getProducesInfo(openAPI, createOperation);
         Assert.assertEquals(createProducesInfo.size(), 0);
-        CodegenOperation coCreate = codegen.fromOperation("somepath", "post", createOperation, openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
+        CodegenOperation coCreate = codegen.fromOperation("somepath", "post", createOperation);
         Assert.assertTrue(coCreate.hasConsumes);
         Assert.assertEquals(coCreate.consumes.size(), 2);
         Assert.assertFalse(coCreate.hasProduces);
@@ -120,7 +121,7 @@ public class DefaultCodegenTest {
         Assert.assertEquals(updateProducesInfo.size(), 1);
         Assert.assertTrue(updateProducesInfo.contains("application/xml"), "contains 'application/xml'");
 
-        CodegenOperation coUpdate = codegen.fromOperation("somepath", "post", updateOperationWithRef, openAPI);
+        CodegenOperation coUpdate = codegen.fromOperation("somepath", "post", updateOperationWithRef);
         Assert.assertTrue(coUpdate.hasConsumes);
         Assert.assertEquals(coUpdate.consumes.size(), 1);
         Assert.assertEquals(coUpdate.consumes.get(0).get("mediaType"), "application/json");
@@ -133,21 +134,22 @@ public class DefaultCodegenTest {
     public void testGetProducesInfo() throws Exception {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/produces.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
 
         Operation textOperation = openAPI.getPaths().get("/ping/text").getGet();
-        CodegenOperation coText = codegen.fromOperation("/ping/text", "get", textOperation, openAPI);
+        CodegenOperation coText = codegen.fromOperation("/ping/text", "get", textOperation);
         Assert.assertTrue(coText.hasProduces);
         Assert.assertEquals(coText.produces.size(), 1);
         Assert.assertEquals(coText.produces.get(0).get("mediaType"), "text/plain");
 
         Operation jsonOperation = openAPI.getPaths().get("/ping/json").getGet();
-        CodegenOperation coJson = codegen.fromOperation("/ping/json", "get", jsonOperation, openAPI);
+        CodegenOperation coJson = codegen.fromOperation("/ping/json", "get", jsonOperation);
         Assert.assertTrue(coJson.hasProduces);
         Assert.assertEquals(coJson.produces.size(), 1);
         Assert.assertEquals(coJson.produces.get(0).get("mediaType"), "application/json");
 
         Operation issue443Operation = openAPI.getPaths().get("/other/issue443").getGet();
-        CodegenOperation coIssue443 = codegen.fromOperation("/other/issue443", "get", issue443Operation, openAPI);
+        CodegenOperation coIssue443 = codegen.fromOperation("/other/issue443", "get", issue443Operation);
         Assert.assertTrue(coIssue443.hasProduces);
         Assert.assertEquals(coIssue443.produces.size(), 2);
         Assert.assertEquals(coIssue443.produces.get(0).get("mediaType"), "application/json");
@@ -214,9 +216,10 @@ public class DefaultCodegenTest {
     public void testEnsureNoDuplicateProduces() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/two-responses.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
 
         Operation operation = openAPI.getPaths().get("/test").getGet();
-        CodegenOperation co = codegen.fromOperation("/test", "get", operation, openAPI);
+        CodegenOperation co = codegen.fromOperation("/test", "get", operation);
 
         Assert.assertEquals(co.produces.size(), 1);
         Assert.assertEquals(co.produces.get(0).get("mediaType"), "application/json");
@@ -232,7 +235,8 @@ public class DefaultCodegenTest {
                 .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
 
         DefaultCodegen codegen = new DefaultCodegen();
-        CodegenOperation co = codegen.fromOperation("/some/path", "get", operation, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        CodegenOperation co = codegen.fromOperation("/some/path", "get", operation);
         Assert.assertEquals(co.path, "/some/path");
         Assert.assertEquals(co.allParams.size(), 2);
         List<String> allParamsNames = co.allParams.stream().map(p -> p.paramName).collect(Collectors.toList());
@@ -447,10 +451,11 @@ public class DefaultCodegenTest {
     public void testDiscriminatorWithCustomMapping() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/allOf.yaml", null, new ParseOptions()).getOpenAPI();
         DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
 
         String path = "/person/display/{personId}";
         Operation operation = openAPI.getPaths().get(path).getGet();
-        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", operation, openAPI);
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", operation);
         verifyPersonDiscriminator(codegenOperation.discriminator);
 
         Schema person = openAPI.getComponents().getSchemas().get("Person");
@@ -474,10 +479,11 @@ public class DefaultCodegenTest {
     public void testCallbacks() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/callbacks.yaml", null, new ParseOptions()).getOpenAPI();
         final CodegenConfig codegen = new DefaultCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
 
         final String path = "/streams";
         Operation subscriptionOperation = openAPI.getPaths().get("/streams").getPost();
-        CodegenOperation op = codegen.fromOperation(path, "post", subscriptionOperation, openAPI);
+        CodegenOperation op = codegen.fromOperation(path, "post", subscriptionOperation);
 
         Assert.assertFalse(op.isCallbackRequest);
         Assert.assertNotNull(op.operationId);
@@ -532,10 +538,11 @@ public class DefaultCodegenTest {
         Operation operation2 = new Operation().operationId("op2").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")));
         openAPI.path("some/path", new PathItem().get(operation2));
         final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
 
-        CodegenOperation co1 = codegen.fromOperation("/here", "get", operation2, openAPI);
+        CodegenOperation co1 = codegen.fromOperation("/here", "get", operation2);
         Assert.assertEquals(co1.path, "/here");
-        CodegenOperation co2 = codegen.fromOperation("some/path", "get", operation2, openAPI);
+        CodegenOperation co2 = codegen.fromOperation("some/path", "get", operation2);
         Assert.assertEquals(co2.path, "/some/path");
     }
 
