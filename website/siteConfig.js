@@ -9,7 +9,7 @@ const loadYaml = relativePath => parseYaml(fs.readFileSync(path.join(__dirname, 
 
 const team = loadYaml("dynamic/team.yml");
 const users = loadYaml("dynamic/users.yml");
-const baseUrl = '/openapi-generator/';
+const baseUrl = '/';
 const siteConfig = {
   title: 'OpenAPI Generator', // Title for your website.
   tagline: 'Generate clients, servers, and documentation from OpenAPI 2.0/3.x documents',
