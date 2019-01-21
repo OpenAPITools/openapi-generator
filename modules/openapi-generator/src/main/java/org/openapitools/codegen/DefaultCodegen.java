@@ -2569,9 +2569,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (parameters != null) {
             for (Parameter param : parameters) {
-                if (StringUtils.isNotBlank(param.get$ref())) {
-                    param = getParameterFromRef(param.get$ref(), globalOpenAPI);
-                }
+                param = ModelUtils.getReferencedParameter(globalOpenAPI, param);
 
                 CodegenParameter p = fromParameter(param, imports);
 
@@ -4182,15 +4180,6 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
         return new ArrayList<>(requestBody.getContent().keySet()).get(0);
-    }
-
-    protected Parameter getParameterFromRef(String ref, OpenAPI openAPI) {
-        String parameterName = ref.substring(ref.lastIndexOf('/') + 1);
-        Map<String, Parameter> parameterMap = openAPI.getComponents().getParameters();
-        if (parameterMap == null ) { // can't find the ref
-            throw new RuntimeException(ref + " not defined in the spec.");
-        }
-        return parameterMap.get(parameterName);
     }
 
     private void setOauth2Info(CodegenSecurity codegenSecurity, OAuthFlow flow) {
