@@ -22,9 +22,9 @@ class Users extends React.Component {
       return null;
     }
 
-    const editUrl = `${repoUrl}/edit/master/website/dynamic/team.yml`;
+    const editUrl = `${repoUrl}/edit/master/website/dynamic/users.yml`;
     const showcase = siteConfig.users.map(user => {
-          let imgUrl = `${baseUrl}${user.infoLink.startsWith("/") ? user.image : "/" + user.image}`;
+          let imgUrl = `${baseUrl}${user.image.startsWith("/") ? user.image : "/" + user.image}`;
           return (
               <a href={user.infoLink} key={user.infoLink}>
                 <img src={imgUrl} alt={user.caption} title={user.caption}/>
@@ -38,7 +38,7 @@ class Users extends React.Component {
         <EditThisPage title="Who is Using This?" url={editUrl} />
         <div className="showcaseSection">
           <div className="prose">
-            <p>This project is used by many folks</p>
+            <p>Here are some of the users. To add yours to the list below, please click on "Edit this page"</p>
           </div>
           <div className="logos">{showcase}</div>
         </div>
