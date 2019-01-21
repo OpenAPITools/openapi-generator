@@ -40,8 +40,6 @@ import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
-
 @SuppressWarnings("static-method")
 public class PythonTest {
 
@@ -62,7 +60,7 @@ public class PythonTest {
 
         final String path = "/api/v1beta3/namespaces/{namespaces}/bindings";
         final Operation operation = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation codegenOperation = codegen.fromOperation(path, "get", operation, openAPI.getComponents().getSchemas());
+        final CodegenOperation codegenOperation = codegen.fromOperation(path, "get", operation, openAPI.getComponents().getSchemas(), openAPI);
         Assert.assertEquals(codegenOperation.returnType, "V1beta3Binding");
         Assert.assertEquals(codegenOperation.returnBaseType, "V1beta3Binding");
     }

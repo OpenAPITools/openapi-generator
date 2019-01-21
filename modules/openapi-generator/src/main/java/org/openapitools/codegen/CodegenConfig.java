@@ -27,7 +27,6 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -114,8 +113,6 @@ public interface CodegenConfig {
     CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions, OpenAPI openAPI);
 
     CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI);
-
-    CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> definitions);
 
     List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemas);
 

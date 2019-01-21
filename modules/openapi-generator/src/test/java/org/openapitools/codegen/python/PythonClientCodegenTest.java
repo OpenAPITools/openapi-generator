@@ -21,12 +21,12 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.CodegenOperation;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class PythonClientCodegenTest {
 
@@ -66,7 +66,7 @@ public class PythonClientCodegenTest {
         final PythonClientCodegen codegen = new PythonClientCodegen();
         final String path = "/ping";
         final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "get", p, openAPI.getComponents().getSchemas());
+        final CodegenOperation op = codegen.fromOperation(path, "get", p, openAPI.getComponents().getSchemas(), openAPI);
         // pattern_no_forward_slashes '^pattern$'
         Assert.assertEquals(op.allParams.get(0).pattern, "/^pattern$/");
         // pattern_two_slashes '/^pattern$/'

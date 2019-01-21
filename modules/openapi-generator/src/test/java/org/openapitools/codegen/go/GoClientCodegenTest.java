@@ -21,11 +21,11 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.parser.core.models.ParseOptions;
+
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.languages.GoClientCodegen;
-import org.openapitools.codegen.languages.RubyClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -66,7 +66,7 @@ public class GoClientCodegenTest {
         final GoClientCodegen codegen = new GoClientCodegen();
         final String path = "/fake";
         final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas());
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas(), openAPI);
         Assert.assertEquals(op.formParams.size(), 2);
         CodegenParameter bp = op.formParams.get(0);
         Assert.assertFalse(bp.isPrimitiveType);

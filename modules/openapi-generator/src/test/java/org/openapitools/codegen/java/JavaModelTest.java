@@ -63,9 +63,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class JavaModelTest {
     private TemporaryFolder folder = new TemporaryFolder();
@@ -1044,9 +1042,9 @@ public class JavaModelTest {
                 .responses(
                         new ApiResponses().addApiResponse("204", new ApiResponse()
                                 .description("Ok response")));
-        final Map<String, Schema> allDefinitions = Collections.<String, Schema> singletonMap("Pet", new ObjectSchema());
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, allDefinitions);
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(co.bodyParams.size(), 1);
         CodegenParameter cp1 = co.bodyParams.get(0);
@@ -1074,9 +1072,9 @@ public class JavaModelTest {
                         .description("Ok response")
                         .content(new Content().addMediaType("application/json", 
                                 new MediaType().schema(testSchema)))));
-        final Map<String, Schema> allDefinitions = Collections.<String, Schema> singletonMap("Pet", new ObjectSchema());
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, allDefinitions);
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(co.responses.size(), 1);
         CodegenResponse cr = co.responses.get(0);
@@ -1121,9 +1119,9 @@ public class JavaModelTest {
                 .responses(
                         new ApiResponses().addApiResponse("204", new ApiResponse()
                                 .description("Ok response")));
-        final Map<String, Schema> allDefinitions = Collections.<String, Schema> singletonMap("Pet", new ObjectSchema());
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, allDefinitions);
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(co.bodyParams.size(), 1);
         CodegenParameter cp1 = co.bodyParams.get(0);
@@ -1155,9 +1153,9 @@ public class JavaModelTest {
                         .description("Ok response")
                         .content(new Content().addMediaType("application/json", 
                                 new MediaType().schema(testSchema)))));
-        final Map<String, Schema> allDefinitions = Collections.<String, Schema> singletonMap("Pet", new ObjectSchema());
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, allDefinitions);
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(co.responses.size(), 1);
         CodegenResponse cr = co.responses.get(0);

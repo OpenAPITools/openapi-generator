@@ -377,13 +377,13 @@ public class PhpModelTest {
     // datetime (or primitive type) not yet supported in HTTP request body
     @Test(description = "returns DateTime when using `--model-name-prefix`")
     public void dateTest() {
-        final OpenAPI model = new OpenAPIParser().readLocation("src/test/resources/2_0/datePropertyTest.json", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/datePropertyTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setModelNamePrefix("foo");
 
         final String path = "/tests/dateResponse";
-        final Operation p = model.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, model.getComponents().getSchemas());
+        final Operation p = openAPI.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(op.returnType, "\\DateTime");
         Assert.assertEquals(op.bodyParam.dataType, "\\DateTime");

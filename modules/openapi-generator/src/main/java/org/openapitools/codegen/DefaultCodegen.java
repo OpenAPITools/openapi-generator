@@ -2372,20 +2372,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Convert OAS Operation object to Codegen Operation object (without providing a OAS object)
-     *
-     * @param path       the path of the operation
-     * @param httpMethod HTTP method
-     * @param operation  OAS operation object
-     * @param schemas    a map of OAS models
-     * @return Codegen Operation object
-     */
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation
-            operation, Map<String, Schema> schemas) {
-        return fromOperation(path, httpMethod, operation, schemas, null);
-    }
-
-    /**
      * Convert OAS Operation object to Codegen Operation object
      *
      * @param path       the path of the operation

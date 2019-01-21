@@ -224,6 +224,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testConsistentParameterNameAfterUniquenessRename() throws Exception {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
         Operation operation = new Operation()
                 .operationId("opId")
                 .addParametersItem(new QueryParameter().name("myparam").schema(new StringSchema()))
@@ -231,7 +232,7 @@ public class DefaultCodegenTest {
                 .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
 
         DefaultCodegen codegen = new DefaultCodegen();
-        CodegenOperation co = codegen.fromOperation("/some/path", "get", operation, Collections.emptyMap());
+        CodegenOperation co = codegen.fromOperation("/some/path", "get", operation, openAPI.getComponents().getSchemas(), openAPI);
         Assert.assertEquals(co.path, "/some/path");
         Assert.assertEquals(co.allParams.size(), 2);
         List<String> allParamsNames = co.allParams.stream().map(p -> p.paramName).collect(Collectors.toList());
@@ -448,7 +449,7 @@ public class DefaultCodegenTest {
 
         String path = "/person/display/{personId}";
         Operation operation = openAPI.getPaths().get(path).getGet();
-        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", operation, openAPI.getComponents().getSchemas());
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", operation, openAPI.getComponents().getSchemas(), openAPI);
         verifyPersonDiscriminator(codegenOperation.discriminator);
 
         Schema person = openAPI.getComponents().getSchemas().get("Person");

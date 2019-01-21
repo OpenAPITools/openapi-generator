@@ -41,7 +41,6 @@ import org.openapitools.codegen.languages.ObjcClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
 import java.util.Map;
 
 @SuppressWarnings("static-method")
@@ -344,11 +343,11 @@ public class ObjcModelTest {
 
     @Test(description = "test binary data")
     public void binaryDataModelTest() {
-        final OpenAPI model =  new OpenAPIParser().readLocation("src/test/resources/2_0/binaryDataTest.json", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI =  new OpenAPIParser().readLocation("src/test/resources/2_0/binaryDataTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final String path = "/tests/binaryResponse";
-        final Operation p = model.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, model.getComponents().getSchemas());
+        final Operation p = openAPI.getPaths().get(path).getPost();
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertTrue(op.bodyParam.isBinary);
         Assert.assertTrue(op.responses.get(0).isBinary);
@@ -358,23 +357,23 @@ public class ObjcModelTest {
 
     @Test(description = "create proper imports per #316")
     public void issue316Test() {
-        final OpenAPI model = new OpenAPIParser().readLocation("src/test/resources/2_0/postBodyTest.json", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/postBodyTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
 
-        final Map<String, PathItem> animalPaths = model.getPaths();
+        final Map<String, PathItem> animalPaths = openAPI.getPaths();
 
         final PathItem animalOps = animalPaths.get("/animals");
         Assert.assertNotNull(animalOps.getPost());
 
-        final CodegenOperation animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost(), model.getComponents().getSchemas());
+        final CodegenOperation animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost(), openAPI.getComponents().getSchemas(), openAPI);
         Assert.assertEquals(animalCo.imports.size(), 1);
         Assert.assertTrue(animalCo.imports.contains("OAIAnimal"));
 
-        final Map<String, PathItem> insectPaths = model.getPaths();
+        final Map<String, PathItem> insectPaths = openAPI.getPaths();
         final PathItem insectOps = insectPaths.get("/insects");
         Assert.assertNotNull(insectOps.getPost());
 
-        final CodegenOperation insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost(), model.getComponents().getSchemas());
+        final CodegenOperation insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost(), openAPI.getComponents().getSchemas(), openAPI);
         Assert.assertEquals(insectCo.imports.size(), 1);
         Assert.assertTrue(insectCo.imports.contains("OAIInsect"));
     }
