@@ -1044,7 +1044,7 @@ public class JavaModelTest {
                                 .description("Ok response")));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, openAPI);
 
         Assert.assertEquals(co.bodyParams.size(), 1);
         CodegenParameter cp1 = co.bodyParams.get(0);
@@ -1074,7 +1074,7 @@ public class JavaModelTest {
                                 new MediaType().schema(testSchema)))));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, openAPI);
 
         Assert.assertEquals(co.responses.size(), 1);
         CodegenResponse cr = co.responses.get(0);
@@ -1121,7 +1121,7 @@ public class JavaModelTest {
                                 .description("Ok response")));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, openAPI);
 
         Assert.assertEquals(co.bodyParams.size(), 1);
         CodegenParameter cp1 = co.bodyParams.get(0);
@@ -1155,7 +1155,7 @@ public class JavaModelTest {
                                 new MediaType().schema(testSchema)))));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, openAPI);
 
         Assert.assertEquals(co.responses.size(), 1);
         CodegenResponse cr = co.responses.get(0);

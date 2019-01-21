@@ -1016,7 +1016,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
         for (Tag tag : tags) {
             try {
-                CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, schemas, openAPI);
+                CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, openAPI);
                 codegenOperation.tags = new ArrayList<>(tags);
                 config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
 

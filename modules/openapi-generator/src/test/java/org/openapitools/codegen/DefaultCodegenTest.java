@@ -105,7 +105,7 @@ public class DefaultCodegenTest {
         Assert.assertTrue(createConsumesInfo.contains("application/xml"), "contains 'application/xml'");
         Set<String> createProducesInfo = DefaultCodegen.getProducesInfo(openAPI, createOperation);
         Assert.assertEquals(createProducesInfo.size(), 0);
-        CodegenOperation coCreate = codegen.fromOperation("somepath", "post", createOperation, openAPI.getComponents().getSchemas(), openAPI);
+        CodegenOperation coCreate = codegen.fromOperation("somepath", "post", createOperation, openAPI);
         Assert.assertTrue(coCreate.hasConsumes);
         Assert.assertEquals(coCreate.consumes.size(), 2);
         Assert.assertFalse(coCreate.hasProduces);
@@ -120,7 +120,7 @@ public class DefaultCodegenTest {
         Assert.assertEquals(updateProducesInfo.size(), 1);
         Assert.assertTrue(updateProducesInfo.contains("application/xml"), "contains 'application/xml'");
 
-        CodegenOperation coUpdate = codegen.fromOperation("somepath", "post", updateOperationWithRef, openAPI.getComponents().getSchemas(), openAPI);
+        CodegenOperation coUpdate = codegen.fromOperation("somepath", "post", updateOperationWithRef, openAPI);
         Assert.assertTrue(coUpdate.hasConsumes);
         Assert.assertEquals(coUpdate.consumes.size(), 1);
         Assert.assertEquals(coUpdate.consumes.get(0).get("mediaType"), "application/json");
@@ -135,19 +135,19 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation textOperation = openAPI.getPaths().get("/ping/text").getGet();
-        CodegenOperation coText = codegen.fromOperation("/ping/text", "get", textOperation, ModelUtils.getSchemas(openAPI), openAPI);
+        CodegenOperation coText = codegen.fromOperation("/ping/text", "get", textOperation, openAPI);
         Assert.assertTrue(coText.hasProduces);
         Assert.assertEquals(coText.produces.size(), 1);
         Assert.assertEquals(coText.produces.get(0).get("mediaType"), "text/plain");
 
         Operation jsonOperation = openAPI.getPaths().get("/ping/json").getGet();
-        CodegenOperation coJson = codegen.fromOperation("/ping/json", "get", jsonOperation, ModelUtils.getSchemas(openAPI), openAPI);
+        CodegenOperation coJson = codegen.fromOperation("/ping/json", "get", jsonOperation, openAPI);
         Assert.assertTrue(coJson.hasProduces);
         Assert.assertEquals(coJson.produces.size(), 1);
         Assert.assertEquals(coJson.produces.get(0).get("mediaType"), "application/json");
 
         Operation issue443Operation = openAPI.getPaths().get("/other/issue443").getGet();
-        CodegenOperation coIssue443 = codegen.fromOperation("/other/issue443", "get", issue443Operation, ModelUtils.getSchemas(openAPI), openAPI);
+        CodegenOperation coIssue443 = codegen.fromOperation("/other/issue443", "get", issue443Operation, openAPI);
         Assert.assertTrue(coIssue443.hasProduces);
         Assert.assertEquals(coIssue443.produces.size(), 2);
         Assert.assertEquals(coIssue443.produces.get(0).get("mediaType"), "application/json");
@@ -216,7 +216,7 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/test").getGet();
-        CodegenOperation co = codegen.fromOperation("/test", "get", operation, ModelUtils.getSchemas(openAPI), openAPI);
+        CodegenOperation co = codegen.fromOperation("/test", "get", operation, openAPI);
 
         Assert.assertEquals(co.produces.size(), 1);
         Assert.assertEquals(co.produces.get(0).get("mediaType"), "application/json");
@@ -232,7 +232,7 @@ public class DefaultCodegenTest {
                 .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
 
         DefaultCodegen codegen = new DefaultCodegen();
-        CodegenOperation co = codegen.fromOperation("/some/path", "get", operation, openAPI.getComponents().getSchemas(), openAPI);
+        CodegenOperation co = codegen.fromOperation("/some/path", "get", operation, openAPI);
         Assert.assertEquals(co.path, "/some/path");
         Assert.assertEquals(co.allParams.size(), 2);
         List<String> allParamsNames = co.allParams.stream().map(p -> p.paramName).collect(Collectors.toList());
@@ -449,7 +449,7 @@ public class DefaultCodegenTest {
 
         String path = "/person/display/{personId}";
         Operation operation = openAPI.getPaths().get(path).getGet();
-        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", operation, openAPI.getComponents().getSchemas(), openAPI);
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", operation, openAPI);
         verifyPersonDiscriminator(codegenOperation.discriminator);
 
         Schema person = openAPI.getComponents().getSchemas().get("Person");
@@ -474,7 +474,7 @@ public class DefaultCodegenTest {
 
         final String path = "/streams";
         Operation subscriptionOperation = openAPI.getPaths().get("/streams").getPost();
-        CodegenOperation op = codegen.fromOperation(path, "post", subscriptionOperation, openAPI.getComponents().getSchemas(), openAPI);
+        CodegenOperation op = codegen.fromOperation(path, "post", subscriptionOperation, openAPI);
 
         Assert.assertFalse(op.isCallbackRequest);
         Assert.assertNotNull(op.operationId);
@@ -530,9 +530,9 @@ public class DefaultCodegenTest {
         openAPI.path("some/path", new PathItem().get(operation2));
         final DefaultCodegen codegen = new DefaultCodegen();
 
-        CodegenOperation co1 = codegen.fromOperation("/here", "get", operation2, ModelUtils.getSchemas(openAPI), openAPI);
+        CodegenOperation co1 = codegen.fromOperation("/here", "get", operation2, openAPI);
         Assert.assertEquals(co1.path, "/here");
-        CodegenOperation co2 = codegen.fromOperation("some/path", "get", operation2, ModelUtils.getSchemas(openAPI), openAPI);
+        CodegenOperation co2 = codegen.fromOperation("some/path", "get", operation2, openAPI);
         Assert.assertEquals(co2.path, "/some/path");
     }
 

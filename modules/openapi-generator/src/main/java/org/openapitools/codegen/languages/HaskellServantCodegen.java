@@ -473,8 +473,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
 
     @Override
-    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, definitions, openAPI);
+    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, OpenAPI openAPI) {
+        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, openAPI);
 
         List<String> path = pathToServantRoute(op.path, op.pathParams);
         List<String> type = pathToClientType(op.path, op.pathParams);

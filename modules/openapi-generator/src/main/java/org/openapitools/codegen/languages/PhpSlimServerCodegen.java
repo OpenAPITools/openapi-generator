@@ -39,7 +39,6 @@ import java.io.UnsupportedEncodingException;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.Schema;
 
 public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
@@ -255,9 +254,8 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
                                           Operation operation,
-                                          Map<String, Schema> schemas,
                                           OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, schemas, openAPI);
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, openAPI);
         op.path = encodePath(path);
         return op;
     }

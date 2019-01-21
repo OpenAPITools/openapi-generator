@@ -2373,23 +2373,22 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Convert OAS Operation object to Codegen Operation object
-     *
-     * @param path       the path of the operation
      * @param httpMethod HTTP method
      * @param operation  OAS operation object
-     * @param schemas    a map of OAS models
      * @param openAPI    a OAS object representing the spec
+     * @param path       the path of the operation
+     *
      * @return Codegen Operation object
      */
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
                                           Operation operation,
-                                          Map<String, Schema> schemas,
                                           OpenAPI openAPI) {
         LOGGER.debug("fromOperation => operation: " + operation);
         if (operation == null)
             throw new RuntimeException("operation cannot be null in fromOperation");
 
+        Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
         CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
         Set<String> imports = new HashSet<String>();
         if (operation.getExtensions() != null && !operation.getExtensions().isEmpty()) {
@@ -2483,15 +2482,13 @@ public class DefaultCodegen implements CodegenConfig {
                     op.examples = new ExampleGenerator(schemas, openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(openAPI, operation));
                     op.defaultResponse = toDefaultValue(responseSchema, openAPI);
                     op.returnType = cm.dataType;
-                    op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
+                    op.hasReference = schemas.containsKey(op.returnBaseType);
 
                     // lookup discriminator
-                    if (schemas != null) {
-                        Schema schema = schemas.get(op.returnBaseType);
-                        if (schema != null) {
-                            CodegenModel cmod = fromModel(op.returnBaseType, schema, openAPI);
-                            op.discriminator = cmod.discriminator;
-                        }
+                    Schema schema = schemas.get(op.returnBaseType);
+                    if (schema != null) {
+                        CodegenModel cmod = fromModel(op.returnBaseType, schema, openAPI);
+                        op.discriminator = cmod.discriminator;
                     }
 
                     if (cm.isContainer) {
@@ -2862,7 +2859,7 @@ public class DefaultCodegen implements CodegenConfig {
                         // distinguish between normal operations and callback requests
                         op.getExtensions().put("x-callback-request", true);
 
-                        CodegenOperation co = fromOperation(expression, method, op, schemas, openAPI);
+                        CodegenOperation co = fromOperation(expression, method, op, openAPI);
                         if (genId) {
                             co.operationIdOriginal = null;
                             // legacy (see `fromOperation()`)

@@ -98,7 +98,7 @@ public class Swift4CodegenTest {
         final DefaultCodegen codegen = new Swift4Codegen();
         final String path = "/tests/binaryResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI);
 
         Assert.assertEquals(op.returnType, "URL");
         Assert.assertEquals(op.bodyParam.dataType, "URL");
@@ -112,7 +112,7 @@ public class Swift4CodegenTest {
         final DefaultCodegen codegen = new Swift4Codegen();
         final String path = "/tests/dateResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI);
 
         Assert.assertEquals(op.returnType, "Date");
         Assert.assertEquals(op.bodyParam.dataType, "Date");

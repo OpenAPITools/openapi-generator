@@ -25,7 +25,6 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.languages.PerlClientCodegen;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -66,7 +65,7 @@ public class PerlClientCodegenTest {
         final PerlClientCodegen codegen = new PerlClientCodegen();
 
         Operation operation = openAPI.getPaths().get("/issue677").getPost();
-        CodegenOperation co = codegen.fromOperation("/issue677", "POST", operation, ModelUtils.getSchemas(openAPI), openAPI);
+        CodegenOperation co = codegen.fromOperation("/issue677", "POST", operation, openAPI);
         Assert.assertNotNull(co);
     }
 

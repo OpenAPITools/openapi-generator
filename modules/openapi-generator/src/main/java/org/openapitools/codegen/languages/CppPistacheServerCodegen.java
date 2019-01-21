@@ -186,8 +186,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
-                                          Map<String, Schema> definitions, OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, openAPI);
+                                          OpenAPI openAPI) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, openAPI);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse apiResponse = findMethodResponse(operation.getResponses());

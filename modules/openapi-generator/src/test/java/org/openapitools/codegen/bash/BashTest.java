@@ -48,7 +48,6 @@ public class BashTest {
                 "/pet/findByStatus",
                 "GET",
                 findPetsByStatusOperation,
-                openAPI.getComponents().getSchemas(),
                 openAPI);
 
         Assert.assertTrue(
@@ -78,7 +77,6 @@ public class BashTest {
                 "/pet",
                 "POST",
                 addPetOperation,
-                openAPI.getComponents().getSchemas(),
                 openAPI);
 
         Assert.assertEquals(op.bodyParams.size(), 1);

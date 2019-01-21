@@ -242,8 +242,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
-                                          Map<String, Schema> schema, OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, schema, openAPI);
+                                          OpenAPI openAPI) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, openAPI);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());

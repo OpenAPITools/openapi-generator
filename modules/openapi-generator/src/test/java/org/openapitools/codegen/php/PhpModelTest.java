@@ -383,7 +383,7 @@ public class PhpModelTest {
 
         final String path = "/tests/dateResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI);
 
         Assert.assertEquals(op.returnType, "\\DateTime");
         Assert.assertEquals(op.bodyParam.dataType, "\\DateTime");

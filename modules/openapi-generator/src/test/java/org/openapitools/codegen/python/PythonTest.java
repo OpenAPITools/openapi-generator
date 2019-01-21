@@ -60,7 +60,7 @@ public class PythonTest {
 
         final String path = "/api/v1beta3/namespaces/{namespaces}/bindings";
         final Operation operation = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation codegenOperation = codegen.fromOperation(path, "get", operation, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenOperation codegenOperation = codegen.fromOperation(path, "get", operation, openAPI);
         Assert.assertEquals(codegenOperation.returnType, "V1beta3Binding");
         Assert.assertEquals(codegenOperation.returnBaseType, "V1beta3Binding");
     }

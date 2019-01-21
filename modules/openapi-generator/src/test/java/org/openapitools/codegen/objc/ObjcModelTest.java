@@ -347,7 +347,7 @@ public class ObjcModelTest {
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final String path = "/tests/binaryResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI);
 
         Assert.assertTrue(op.bodyParam.isBinary);
         Assert.assertTrue(op.responses.get(0).isBinary);
@@ -365,7 +365,7 @@ public class ObjcModelTest {
         final PathItem animalOps = animalPaths.get("/animals");
         Assert.assertNotNull(animalOps.getPost());
 
-        final CodegenOperation animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost(), openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenOperation animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost(), openAPI);
         Assert.assertEquals(animalCo.imports.size(), 1);
         Assert.assertTrue(animalCo.imports.contains("OAIAnimal"));
 
@@ -373,7 +373,7 @@ public class ObjcModelTest {
         final PathItem insectOps = insectPaths.get("/insects");
         Assert.assertNotNull(insectOps.getPost());
 
-        final CodegenOperation insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost(), openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenOperation insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost(), openAPI);
         Assert.assertEquals(insectCo.imports.size(), 1);
         Assert.assertTrue(insectCo.imports.contains("OAIInsect"));
     }

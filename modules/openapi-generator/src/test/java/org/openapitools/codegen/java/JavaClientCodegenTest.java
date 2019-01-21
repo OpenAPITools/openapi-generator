@@ -47,7 +47,6 @@ import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.JavaClientCodegen;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -222,7 +221,7 @@ public class JavaClientCodegenTest {
         final JavaClientCodegen codegen = new JavaClientCodegen();
 
         Operation operation = openAPI.getPaths().get("/ping").getPost();
-        CodegenOperation co = codegen.fromOperation("/ping", "POST", operation, ModelUtils.getSchemas(openAPI), openAPI);
+        CodegenOperation co = codegen.fromOperation("/ping", "POST", operation, openAPI);
         Assert.assertEquals(co.allParams.size(), 1);
         Assert.assertEquals(co.allParams.get(0).baseType, "MessageEventCoreWithTimeListEntries");
     }

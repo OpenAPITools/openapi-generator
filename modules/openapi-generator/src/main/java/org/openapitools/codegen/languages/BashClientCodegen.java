@@ -579,11 +579,10 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod,
                                           Operation operation,
-                                          Map<String, Schema> definitions,
                                           OpenAPI openAPI) {
-
+        Map<String, Schema> definitions = ModelUtils.getSchemas(openAPI);
         CodegenOperation op = super.fromOperation(path, httpMethod, operation,
-                definitions, openAPI);
+                openAPI);
 
         /**
          * Check if the operation has a Bash codegen specific description

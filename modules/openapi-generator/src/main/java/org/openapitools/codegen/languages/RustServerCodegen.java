@@ -486,8 +486,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, openAPI);
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, OpenAPI openAPI) {
+        Map<String, Schema> definitions = ModelUtils.getSchemas(openAPI);
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, openAPI);
 
         // The Rust code will need to contain a series of regular expressions.
         // For performance, we'll construct these at start-of-day and re-use
