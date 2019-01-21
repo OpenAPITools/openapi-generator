@@ -36,7 +36,7 @@ ApiClient  <- R6::R6Class(
         self$`userAgent` <- '{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{packageVersion}}}/r{{/httpUserAgent}}'
     },
     callApi = function(url, method, queryParams, headerParams, body, ...){
-        headers <- httr::add_headers(headerParams)
+        headers <- httr::add_headers(c(headerParams, self$defaultHeaders))
 
         if (method == "GET") {
             httr::GET(url, queryParams, headers, ...)
