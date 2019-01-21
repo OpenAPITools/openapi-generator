@@ -2,21 +2,21 @@
 <rss version="2.0">
     <channel>
         <title>OpenAPI Generator Blog</title>
-        <link>https://OpenAPITools.github.io/openapi-generator/blog</link>
+        <link>https://OpenAPITools.github.io/blog</link>
         <description>The best place to stay up-to-date with the latest OpenAPI Generator news and events.</description>
         <lastBuildDate>Mon, 24 Dec 2018 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>Feed for Node.js</generator>
         <image>
             <title>OpenAPI Generator Blog</title>
-            <url>https://OpenAPITools.github.io/openapi-generator/img/mono-logo.svg</url>
-            <link>https://OpenAPITools.github.io/openapi-generator/blog</link>
+            <url>https://OpenAPITools.github.io/img/mono-logo.svg</url>
+            <link>https://OpenAPITools.github.io/blog</link>
         </image>
         <copyright>Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech)</copyright>
         <item>
             <title><![CDATA[New Website]]></title>
-            <link>https://OpenAPITools.github.io/openapi-generator/blog/2018/12/24/new-website.html</link>
-            <guid>https://OpenAPITools.github.io/openapi-generator/blog/2018/12/24/new-website.html</guid>
+            <link>https://OpenAPITools.github.io/blog/2018/12/24/new-website.html</link>
+            <guid>https://OpenAPITools.github.io/blog/2018/12/24/new-website.html</guid>
             <pubDate>Mon, 24 Dec 2018 06:00:00 GMT</pubDate>
             <description><![CDATA[<p>Every great open source project has great documentation.</p>
 <p>That's why we're proud to announce that we've adopted a new website and design for our official documentation.</p>
