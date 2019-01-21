@@ -1,16 +1,18 @@
 package org.openapitools.codegen.java.jaxrs;
 
-import io.swagger.util.Json;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
+
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaResteasyEapServerCodegen;
 import org.testng.annotations.Test;
 
 import java.util.Collections;
-
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class JavaResteasyEapServerCodegenModelTest {
 
@@ -21,7 +23,8 @@ public class JavaResteasyEapServerCodegenModelTest {
                 .addProperties("map", new MapSchema());
 
         final JavaResteasyEapServerCodegen codegen = new JavaResteasyEapServerCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
 
         assertEquals(cm.vars.get(0).baseType, "Map");
         assertTrue(cm.imports.contains("HashMap"));

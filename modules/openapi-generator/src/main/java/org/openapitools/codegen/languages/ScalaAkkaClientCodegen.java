@@ -20,6 +20,8 @@ package org.openapitools.codegen.languages;
 import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
@@ -262,7 +264,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
+    public String toDefaultValue(Schema p, OpenAPI openAPI) {
         if (p.getRequired() != null && p.getRequired().contains(p.getName())) {
             return "None";
         }

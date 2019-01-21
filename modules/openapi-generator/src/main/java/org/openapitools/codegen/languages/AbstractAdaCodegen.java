@@ -262,8 +262,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty property = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, OpenAPI openAPI) {
+        CodegenProperty property = super.fromProperty(name, p, openAPI);
         if (property != null) {
             String nameInCamelCase = property.nameInCamelCase;
             nameInCamelCase = sanitizeName(nameInCamelCase);
@@ -410,7 +410,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
             if (methodResponse != null && ModelUtils.getSchemaFromResponse(methodResponse) != null) {
-                CodegenProperty cm = fromProperty("response", ModelUtils.getSchemaFromResponse(methodResponse));
+                CodegenProperty cm = fromProperty("response", ModelUtils.getSchemaFromResponse(methodResponse), openAPI);
                 op.vendorExtensions.put("x-codegen-response", cm);
                 if ("HttpContent".equals(cm.dataType)) {
                     op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);

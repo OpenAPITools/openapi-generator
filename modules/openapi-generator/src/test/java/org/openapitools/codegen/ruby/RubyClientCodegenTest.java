@@ -179,7 +179,7 @@ public class RubyClientCodegenTest {
         final String path = "/pet";
 
         final Schema schema = openAPI.getComponents().getSchemas().get("NullablePet");
-        CodegenModel nullablePet = codegen.fromModel("NullablePet", schema, openAPI.getComponents().getSchemas());
+        CodegenModel nullablePet = codegen.fromModel("NullablePet", schema, openAPI.getComponents().getSchemas(), openAPI);
         CodegenProperty cp0 = nullablePet.getVars().get(0);
         Assert.assertTrue(cp0.isNullable);
 
@@ -207,7 +207,7 @@ public class RubyClientCodegenTest {
         final String path = "/pet";
 
         final Schema schema = openAPI.getComponents().getSchemas().get("Pet");
-        CodegenModel nullablePet = codegen.fromModel("Pet", schema, openAPI.getComponents().getSchemas());
+        CodegenModel nullablePet = codegen.fromModel("Pet", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertNotNull(nullablePet);
         Assert.assertEquals(nullablePet.getVars().size(), 6);
@@ -335,7 +335,7 @@ public class RubyClientCodegenTest {
         codegen.setModuleName("OnlinePetstore");
 
         final Schema schema = openAPI.getComponents().getSchemas().get("fruit");
-        CodegenModel fruit = codegen.fromModel("Fruit", schema, openAPI.getComponents().getSchemas());
+        CodegenModel fruit = codegen.fromModel("Fruit", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Set<String> anyOf = new TreeSet<String>();
         anyOf.add("Apple");
@@ -350,7 +350,7 @@ public class RubyClientCodegenTest {
         codegen.setModuleName("OnlinePetstore");
 
         final Schema schema = openAPI.getComponents().getSchemas().get("fruit");
-        CodegenModel fruit = codegen.fromModel("Fruit", schema, openAPI.getComponents().getSchemas());
+        CodegenModel fruit = codegen.fromModel("Fruit", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Set<String> oneOf = new TreeSet<String>();
         oneOf.add("Apple");
@@ -365,7 +365,7 @@ public class RubyClientCodegenTest {
         codegen.setModuleName("OnlinePetstore");
 
         final Schema schema = openAPI.getComponents().getSchemas().get("Person");
-        CodegenModel person = codegen.fromModel("Person", schema, openAPI.getComponents().getSchemas());
+        CodegenModel person = codegen.fromModel("Person", schema, openAPI.getComponents().getSchemas(), openAPI);
         Assert.assertNotNull(person);
 
         CodegenDiscriminator codegenDiscriminator = person.getDiscriminator();
@@ -384,7 +384,7 @@ public class RubyClientCodegenTest {
         codegen.setModuleName("OnlinePetstore");
 
         final Schema schema = openAPI.getComponents().getSchemas().get("ModelC");
-        CodegenModel modelC = codegen.fromModel("ModelC", schema, openAPI.getComponents().getSchemas());
+        CodegenModel modelC = codegen.fromModel("ModelC", schema, openAPI.getComponents().getSchemas(), openAPI);
         Assert.assertNotNull(modelC);
         Assert.assertEquals(modelC.getVars().size(), 5);
 
@@ -412,7 +412,7 @@ public class RubyClientCodegenTest {
         codegen.setModuleName("OnlinePetstore");
 
         final Schema schema = openAPI.getComponents().getSchemas().get("Child");
-        CodegenModel child = codegen.fromModel("Child", schema, openAPI.getComponents().getSchemas());
+        CodegenModel child = codegen.fromModel("Child", schema, openAPI.getComponents().getSchemas(), openAPI);
         Assert.assertNotNull(child);
 
         // to test allVars (without parent's properties)
@@ -466,7 +466,7 @@ public class RubyClientCodegenTest {
         codegen.setModuleName("OnlinePetstore");
 
         final Schema schema = openAPI.getComponents().getSchemas().get("Adult");
-        CodegenModel adult = codegen.fromModel("Adult", schema, openAPI.getComponents().getSchemas());
+        CodegenModel adult = codegen.fromModel("Adult", schema, openAPI.getComponents().getSchemas(), openAPI);
         Assert.assertNotNull(adult);
 
         // to test allVars (without parent's properties)

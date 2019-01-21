@@ -169,8 +169,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
+        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions, openAPI);
 
         Set<String> oldImports = codegenModel.imports;
         codegenModel.imports = new HashSet<>();
@@ -195,7 +195,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             if (apiResponse != null) {
                 Schema response = ModelUtils.getSchemaFromResponse(apiResponse);
                 if (response != null) {
-                    CodegenProperty cm = fromProperty("response", response);
+                    CodegenProperty cm = fromProperty("response", response, openAPI);
                     op.vendorExtensions.put("x-codegen-response", cm);
                     if ("HttpContent".equals(cm.dataType)) {
                         op.vendorExtensions.put("x-codegen-response-ishttpcontent", true);
@@ -337,7 +337,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
+    public String toDefaultValue(Schema p, OpenAPI openAPI) {
         if (ModelUtils.isBooleanSchema(p)) {
             return "false";
         } else if (ModelUtils.isDateSchema(p)) {

@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
@@ -231,7 +232,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema, OpenAPI openAPI) {
 
         final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 
@@ -422,7 +423,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
+    public String toDefaultValue(Schema p, OpenAPI openAPI) {
         // nil
         return null;
     }
@@ -519,8 +520,8 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, schema, allDefinitions);
+    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
+        CodegenModel codegenModel = super.fromModel(name, schema, allDefinitions, openAPI);
         if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
         }
@@ -530,7 +531,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
             // multilevel inheritance: reconcile properties of all the parents
             while (parentSchema != null) {
                 final Schema parentModel = allDefinitions.get(parentSchema);
-                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
+                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions, openAPI);
                 codegenModel = Swift3Codegen.reconcileProperties(codegenModel, parentCodegenModel);
 
                 // get the next parent

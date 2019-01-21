@@ -17,18 +17,24 @@
 
 package org.openapitools.codegen.java;
 
-import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.Discriminator;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +46,8 @@ public class JavaModelEnumTest {
         final Schema model = new Schema().type("object").addProperties("name", enumSchema);
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.vars.size(), 1);
 
@@ -61,7 +68,8 @@ public class JavaModelEnumTest {
         final Schema model = new Schema().type("object").addProperties("name", enumSchema);
 
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.vars.size(), 1);
 
@@ -92,7 +100,8 @@ public class JavaModelEnumTest {
         final Schema model = new Schema().type("object").addProperties("name", enumSchema);
 
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.vars.size(), 1);
 
@@ -143,11 +152,13 @@ public class JavaModelEnumTest {
                 .addAllOfItem(new Schema().$ref(parentModel.getName()));
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
-        final Map<String, Schema> allModels = new HashMap<String, Schema>();
-        allModels.put(parentModel.getName(), parentModel);
-        allModels.put(composedSchema.getName(), composedSchema);
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.setComponents(new Components()
+                .addSchemas(parentModel.getName(), parentModel)
+                .addSchemas(composedSchema.getName(), composedSchema)
+        );
 
-        final CodegenModel cm = codegen.fromModel("sample", composedSchema, allModels);
+        final CodegenModel cm = codegen.fromModel("sample", composedSchema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

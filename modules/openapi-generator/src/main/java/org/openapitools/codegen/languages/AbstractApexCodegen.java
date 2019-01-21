@@ -219,7 +219,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
+    public String toDefaultValue(Schema p, OpenAPI openAPI) {
         if (ModelUtils.isArraySchema(p)) {
             final ArraySchema ap = (ArraySchema) p;
             final String pattern = "new ArrayList<%s>()";
@@ -273,7 +273,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
             return "null";
         }
-        return super.toDefaultValue(p);
+        return super.toDefaultValue(p, openAPI);
     }
 
     @Override
@@ -437,8 +437,8 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel cm = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
+        CodegenModel cm = super.fromModel(name, model, allDefinitions, openAPI);
 
         // TODO Check enum model handling
         if (cm.interfaces == null) {

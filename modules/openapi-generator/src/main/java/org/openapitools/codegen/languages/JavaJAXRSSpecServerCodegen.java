@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 
@@ -190,8 +191,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
+        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions, openAPI);
         if (!useSwaggerAnnotations) {
             codegenModel.imports.remove("ApiModelProperty");
             codegenModel.imports.remove("ApiModel");

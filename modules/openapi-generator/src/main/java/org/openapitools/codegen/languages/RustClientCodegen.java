@@ -18,6 +18,8 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.base.Strings;
+
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -532,7 +534,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
+    public String toDefaultValue(Schema p, OpenAPI openAPI) {
         if (p.getDefault() != null) {
             return p.getDefault().toString();
         } else {

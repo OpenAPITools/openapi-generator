@@ -19,6 +19,7 @@ package org.openapitools.codegen.csharp;
 
 import com.google.common.collect.Sets;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.DateTimeSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
@@ -30,6 +31,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -44,7 +46,8 @@ public class CSharpModelTest {
         final Schema schema = getArrayTestSchema();
 
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel generated = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel generated = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.classname, "Sample");
@@ -71,7 +74,8 @@ public class CSharpModelTest {
         final CSharpClientCodegen codegen = new CSharpClientCodegen();
         codegen.setUseCollection(true);
 
-        final CodegenModel generated = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel generated = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.vars.size(), 2);
@@ -95,7 +99,8 @@ public class CSharpModelTest {
         codegen.setUseCollection(true);
         codegen.setReturnICollection(true);
 
-        final CodegenModel generated = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel generated = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.vars.size(), 2);
@@ -131,7 +136,8 @@ public class CSharpModelTest {
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -177,7 +183,8 @@ public class CSharpModelTest {
                         .items(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -215,7 +222,8 @@ public class CSharpModelTest {
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -239,7 +247,8 @@ public class CSharpModelTest {
                 .description("a sample model")
                 .addProperties("children", new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -256,12 +265,13 @@ public class CSharpModelTest {
 
     @Test(description = "convert a model with complex list property")
     public void complexListPropertyTest() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema schema = new Schema()
                 .description("a sample model")
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -286,7 +296,8 @@ public class CSharpModelTest {
                 .addProperties("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -311,7 +322,8 @@ public class CSharpModelTest {
                 .items(new Schema().$ref("#/components/schemas/Children"))
                 .description("an array model");
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -328,7 +340,8 @@ public class CSharpModelTest {
                 .description("a map model")
                 .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new CSharpClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

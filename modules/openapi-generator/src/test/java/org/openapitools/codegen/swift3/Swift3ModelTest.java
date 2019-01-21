@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.swift3;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.BinarySchema;
 import io.swagger.v3.oas.models.media.ByteArraySchema;
 import io.swagger.v3.oas.models.media.DateSchema;
@@ -31,6 +32,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.Swift3Codegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -56,7 +58,8 @@ public class Swift3ModelTest {
                 .discriminator(new Discriminator().propertyName("test"));
 
         final DefaultCodegen codegen = new Swift3Codegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

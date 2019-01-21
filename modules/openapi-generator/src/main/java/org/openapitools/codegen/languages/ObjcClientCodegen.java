@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
@@ -662,12 +663,12 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     /**
      * Return the default value of the schema
-     *
      * @param p OpenAPI schema object
+     *
      * @return string presentation of the default value of the schema
      */
     @Override
-    public String toDefaultValue(Schema p) {
+    public String toDefaultValue(Schema p, OpenAPI openAPI) {
         if (ModelUtils.isDateSchema(p)) {
             // TODO
         } else if (ModelUtils.isDateTimeSchema(p)) {

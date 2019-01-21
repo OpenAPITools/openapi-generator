@@ -33,6 +33,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -62,7 +63,8 @@ public class TypeScriptFetchModelTest {
                 .addRequiredItem("name");
 
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -118,7 +120,8 @@ public class TypeScriptFetchModelTest {
                 .addProperties("urls", new ArraySchema().items(new StringSchema()))
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -150,7 +153,8 @@ public class TypeScriptFetchModelTest {
                 .description("a sample model")
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -173,7 +177,8 @@ public class TypeScriptFetchModelTest {
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -195,7 +200,8 @@ public class TypeScriptFetchModelTest {
                 .items(new Schema().$ref("#/definitions/Children"))
                 .description("an array model");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -209,7 +215,8 @@ public class TypeScriptFetchModelTest {
                 .description("a map model")
                 .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -227,7 +234,7 @@ public class TypeScriptFetchModelTest {
         final Schema schema = openAPI.getComponents().getSchemas().get("EnumArrays");
 
         Schema property = (Schema) schema.getProperties().get("array_enum");
-        CodegenProperty prope = codegen.fromProperty("array_enum", property);
+        CodegenProperty prope = codegen.fromProperty("array_enum", property, openAPI);
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "Array<ArrayEnumEnum>");
         Assert.assertEquals(prope.enumName, "ArrayEnumEnum");
@@ -263,7 +270,7 @@ public class TypeScriptFetchModelTest {
         final Schema schema = openAPI.getComponents().getSchemas().get("Enum_Test");
 
         Schema property = (Schema) schema.getProperties().get("enum_integer");
-        CodegenProperty prope = codegen.fromProperty("enum_integer", property);
+        CodegenProperty prope = codegen.fromProperty("enum_integer", property, openAPI);
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "EnumIntegerEnum");
         Assert.assertEquals(prope.enumName, "EnumIntegerEnum");

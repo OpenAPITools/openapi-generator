@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 
 import org.apache.commons.io.FilenameUtils;
@@ -220,8 +221,8 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty property = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, OpenAPI openAPI) {
+        CodegenProperty property = super.fromProperty(name, p, openAPI);
         String nameInCamelCase = property.nameInCamelCase;
         if (nameInCamelCase.length() > 1) {
             nameInCamelCase = sanitizeName(Character.toLowerCase(nameInCamelCase.charAt(0)) + nameInCamelCase.substring(1));

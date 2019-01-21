@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.kotlin;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.DateTimeSchema;
 import io.swagger.v3.oas.models.media.IntegerSchema;
@@ -28,6 +29,7 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.KotlinClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -74,7 +76,8 @@ public class KotlinClientCodegenModelTest {
         final Schema schema = getSimpleSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
 
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -121,7 +124,8 @@ public class KotlinClientCodegenModelTest {
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.THREETENBP.value);
         codegen.processOpts();
 
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -141,7 +145,8 @@ public class KotlinClientCodegenModelTest {
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.STRING.value);
         codegen.processOpts();
 
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -161,7 +166,8 @@ public class KotlinClientCodegenModelTest {
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.JAVA8.value);
         codegen.processOpts();
 
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -179,7 +185,8 @@ public class KotlinClientCodegenModelTest {
         final Schema model = getArrayTestSchema();
 
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final CodegenModel generated = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        final CodegenModel generated = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.classname, "Sample");
@@ -206,7 +213,8 @@ public class KotlinClientCodegenModelTest {
         final KotlinClientCodegen codegen = new KotlinClientCodegen();
         codegen.setCollectionType(KotlinClientCodegen.CollectionType.LIST.value);
         codegen.processOpts();
-        final CodegenModel generated = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        final CodegenModel generated = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.classname, "Sample");
@@ -230,7 +238,8 @@ public class KotlinClientCodegenModelTest {
     public void mapPropertyTest() {
         final Schema schema = getMapSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -252,7 +261,8 @@ public class KotlinClientCodegenModelTest {
     public void complexPropertyTest() {
         final Schema schema = getComplexSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -283,7 +293,8 @@ public class KotlinClientCodegenModelTest {
     public void sanitizeModelNames(final String name, final ModelNameTest testCase) {
         final Schema schema = getComplexSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final CodegenModel cm = codegen.fromModel(name, schema, Collections.singletonMap(name, schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema(name, schema);
+        final CodegenModel cm = codegen.fromModel(name, schema, openAPI.getComponents().getSchemas(), openAPI);
 
         Assert.assertEquals(cm.name, testCase.expectedName);
         Assert.assertEquals(cm.classname, testCase.expectedClassName);

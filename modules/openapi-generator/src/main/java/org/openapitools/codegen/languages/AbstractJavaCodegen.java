@@ -736,7 +736,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
+    public String toDefaultValue(Schema p, OpenAPI openAPI) {
         if (ModelUtils.isArraySchema(p)) {
             final ArraySchema ap = (ArraySchema) p;
             final String pattern;
@@ -815,7 +815,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             return null;
         }
-        return super.toDefaultValue(p);
+        return super.toDefaultValue(p, openAPI);
     }
 
     @Override
@@ -943,8 +943,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
+        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions, openAPI);
         if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
         }
@@ -954,7 +954,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
-            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
+            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions, openAPI);
             codegenModel = AbstractJavaCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
         return codegenModel;
@@ -1440,8 +1440,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema, OpenAPI openAPI) {
+        super.addAdditionPropertiesToCodeGenModel(codegenModel, schema, openAPI);
 
         // See https://github.com/OpenAPITools/openapi-generator/pull/1729#issuecomment-449937728
         codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));

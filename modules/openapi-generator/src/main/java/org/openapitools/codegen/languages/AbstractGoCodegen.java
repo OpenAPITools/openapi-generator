@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
@@ -612,7 +613,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
-    public String toDefaultValue(Schema schema) {
+    public String toDefaultValue(Schema schema, OpenAPI openAPI) {
         if (schema.getDefault() != null) {
             return schema.getDefault().toString();
         } else {

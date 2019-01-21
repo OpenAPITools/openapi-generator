@@ -215,7 +215,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
+    public String toDefaultValue(Schema p, OpenAPI openAPI) {
         String out = null;
         if (ModelUtils.isArraySchema(p)) {
             Schema inner = ((ArraySchema) p).getItems();
@@ -242,7 +242,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
                 }
             }
         } else {
-            out = super.toDefaultValue(p);
+            out = super.toDefaultValue(p, openAPI);
         }
 
         // we'll skip over null defaults in the model template to avoid redundant initialization

@@ -205,7 +205,7 @@ public class DefaultCodegenTest {
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Schema requestBodySchema = ModelUtils.getSchemaFromRequestBody(openAPI.getPaths().get("/fake").getGet().getRequestBody());
-        CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
+        CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>(), openAPI);
 
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
     }
@@ -432,7 +432,7 @@ public class DefaultCodegenTest {
         DefaultCodegen codegen = new DefaultCodegen();
 
         Schema animal = openAPI.getComponents().getSchemas().get("Animal");
-        CodegenModel animalModel = codegen.fromModel("Animal", animal, openAPI.getComponents().getSchemas());
+        CodegenModel animalModel = codegen.fromModel("Animal", animal, openAPI.getComponents().getSchemas(), openAPI);
         CodegenDiscriminator discriminator = animalModel.getDiscriminator();
         CodegenDiscriminator test = new CodegenDiscriminator();
         test.setPropertyName("className");
@@ -452,7 +452,7 @@ public class DefaultCodegenTest {
         verifyPersonDiscriminator(codegenOperation.discriminator);
 
         Schema person = openAPI.getComponents().getSchemas().get("Person");
-        CodegenModel personModel = codegen.fromModel("Person", person, openAPI.getComponents().getSchemas());
+        CodegenModel personModel = codegen.fromModel("Person", person, openAPI.getComponents().getSchemas(), openAPI);
         verifyPersonDiscriminator(personModel.discriminator);
     }
 
@@ -462,7 +462,7 @@ public class DefaultCodegenTest {
         DefaultCodegen codegen = new DefaultCodegen();
 
         Schema child = openAPI.getComponents().getSchemas().get("Child");
-        CodegenModel childModel = codegen.fromModel("Child", child, openAPI.getComponents().getSchemas());
+        CodegenModel childModel = codegen.fromModel("Child", child, openAPI.getComponents().getSchemas(), openAPI);
         Assert.assertEquals(childModel.parentSchema, "Person");
     }
 

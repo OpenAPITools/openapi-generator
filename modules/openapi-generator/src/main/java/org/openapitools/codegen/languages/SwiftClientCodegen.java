@@ -354,7 +354,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
+    public String toDefaultValue(Schema p, OpenAPI openAPI) {
         // nil
         return null;
     }
@@ -373,8 +373,8 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p) {
-        CodegenProperty codegenProperty = super.fromProperty(name, p);
+    public CodegenProperty fromProperty(String name, Schema p, OpenAPI openAPI) {
+        CodegenProperty codegenProperty = super.fromProperty(name, p, openAPI);
         // TODO skip array/map of enum for the time being,
         // we need to add logic here to handle array/map of enum for any
         // dimensions

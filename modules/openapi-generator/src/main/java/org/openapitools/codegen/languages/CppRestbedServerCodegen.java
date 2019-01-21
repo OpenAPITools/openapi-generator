@@ -32,6 +32,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.LoggerFactory;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
@@ -180,8 +181,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
+        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions, openAPI);
 
         Set<String> oldImports = codegenModel.imports;
         codegenModel.imports = new HashSet<String>();
@@ -289,7 +290,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
+    public String toDefaultValue(Schema p, OpenAPI openAPI) {
         if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
                 return "\"" + p.getDefault().toString() + "\"";

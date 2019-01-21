@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
@@ -286,7 +287,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
-                                                       Schema schema) {
+                                                       Schema schema, OpenAPI openAPI) {
 
         final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 
@@ -517,7 +518,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
+    public String toDefaultValue(Schema p, OpenAPI openAPI) {
         if (p.getEnum() != null && !p.getEnum().isEmpty()) {
             if (p.getDefault() != null) {
                 return "." + escapeText((String) p.getDefault());
@@ -631,8 +632,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
+        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions, openAPI);
         if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
         }
@@ -644,7 +645,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 final Schema parentModel = allDefinitions.get(parentSchema);
                 final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent,
                         parentModel,
-                        allDefinitions);
+                        allDefinitions, openAPI);
                 codegenModel = Swift4Codegen.reconcileProperties(codegenModel, parentCodegenModel);
 
                 // get the next parent
