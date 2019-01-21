@@ -755,8 +755,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema mod, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
-        CodegenModel model = super.fromModel(name, mod, allDefinitions, openAPI);
+    public CodegenModel fromModel(String name, Schema mod, OpenAPI openAPI) {
+        CodegenModel model = super.fromModel(name, mod, openAPI);
 
 //        while (typeNames.contains(model.classname)) {
 //            model.classname = generateNextName(model.classname);

@@ -47,7 +47,7 @@ public class JavaModelEnumTest {
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
 
         Assert.assertEquals(cm.vars.size(), 1);
 
@@ -69,7 +69,7 @@ public class JavaModelEnumTest {
 
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
 
         Assert.assertEquals(cm.vars.size(), 1);
 
@@ -101,7 +101,7 @@ public class JavaModelEnumTest {
 
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
 
         Assert.assertEquals(cm.vars.size(), 1);
 
@@ -158,7 +158,7 @@ public class JavaModelEnumTest {
                 .addSchemas(composedSchema.getName(), composedSchema)
         );
 
-        final CodegenModel cm = codegen.fromModel("sample", composedSchema, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", composedSchema, openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

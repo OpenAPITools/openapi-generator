@@ -49,7 +49,7 @@ public class JavaInheritanceTest {
         );
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -70,7 +70,7 @@ public class JavaInheritanceTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Base", base);
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

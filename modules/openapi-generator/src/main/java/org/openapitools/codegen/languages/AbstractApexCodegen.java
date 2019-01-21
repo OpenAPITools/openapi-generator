@@ -437,8 +437,8 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
-        CodegenModel cm = super.fromModel(name, model, allDefinitions, openAPI);
+    public CodegenModel fromModel(String name, Schema model, OpenAPI openAPI) {
+        CodegenModel cm = super.fromModel(name, model, openAPI);
 
         // TODO Check enum model handling
         if (cm.interfaces == null) {

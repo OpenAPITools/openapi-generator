@@ -229,8 +229,8 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions, openAPI);
+    public CodegenModel fromModel(String name, Schema model, OpenAPI openAPI) {
+        CodegenModel codegenModel = super.fromModel(name, model, openAPI);
         if (codegenModel.description != null) {
             codegenModel.imports.remove("ApiModel");
         }

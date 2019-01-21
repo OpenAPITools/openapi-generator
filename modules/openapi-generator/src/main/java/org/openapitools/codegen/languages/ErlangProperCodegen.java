@@ -110,8 +110,8 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
-        CodegenModel cm = super.fromModel(name, model, allDefinitions, openAPI);
+    public CodegenModel fromModel(String name, Schema model, OpenAPI openAPI) {
+        CodegenModel cm = super.fromModel(name, model, openAPI);
         if(ModelUtils.isArraySchema(model)) {
             return new CodegenArrayModel(cm, (ArraySchema) model);
         } else {

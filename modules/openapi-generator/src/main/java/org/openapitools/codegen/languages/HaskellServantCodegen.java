@@ -599,8 +599,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
     // Override fromModel to create the appropriate model namings
     @Override
-    public CodegenModel fromModel(String name, Schema mod, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
-        CodegenModel model = super.fromModel(name, mod, allDefinitions, openAPI);
+    public CodegenModel fromModel(String name, Schema mod, OpenAPI openAPI) {
+        CodegenModel model = super.fromModel(name, mod, openAPI);
 
         setGenerateToSchema(model);
 

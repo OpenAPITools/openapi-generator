@@ -1617,10 +1617,10 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param name           the name of the model
      * @param schema         OAS Model object
-     * @param allDefinitions a map of all OAS models from the spec
      * @return Codegen Model object
      */
-    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
+    public CodegenModel fromModel(String name, Schema schema, OpenAPI openAPI) {
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(openAPI);
         if (typeAliases == null) {
             // Only do this once during first call
             typeAliases = getAllAliases(allDefinitions);
@@ -2489,7 +2489,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (schemas != null) {
                         Schema schema = schemas.get(op.returnBaseType);
                         if (schema != null) {
-                            CodegenModel cmod = fromModel(op.returnBaseType, schema, schemas, openAPI);
+                            CodegenModel cmod = fromModel(op.returnBaseType, schema, openAPI);
                             op.discriminator = cmod.discriminator;
                         }
                     }
@@ -4674,7 +4674,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenModel codegenModel = null;
             if (StringUtils.isNotBlank(name)) {
                 schema.setName(name);
-                codegenModel = fromModel(name, schema, schemas, openAPI);
+                codegenModel = fromModel(name, schema, openAPI);
             }
             if (codegenModel != null) {
                 codegenParameter.isModel = true;

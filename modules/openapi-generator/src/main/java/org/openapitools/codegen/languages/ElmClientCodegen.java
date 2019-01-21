@@ -323,8 +323,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
-        CodegenModel m = super.fromModel(name, schema, allDefinitions, openAPI);
+    public CodegenModel fromModel(String name, Schema schema, OpenAPI openAPI) {
+        CodegenModel m = super.fromModel(name, schema, openAPI);
 
         if (ModelUtils.isArraySchema(schema)) {
             ArraySchema am = (ArraySchema) schema;

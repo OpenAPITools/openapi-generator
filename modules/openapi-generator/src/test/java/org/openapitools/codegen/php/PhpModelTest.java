@@ -56,7 +56,7 @@ public class PhpModelTest {
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -109,7 +109,7 @@ public class PhpModelTest {
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -148,7 +148,7 @@ public class PhpModelTest {
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -173,7 +173,7 @@ public class PhpModelTest {
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -197,7 +197,7 @@ public class PhpModelTest {
                         .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -222,7 +222,7 @@ public class PhpModelTest {
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -249,7 +249,7 @@ public class PhpModelTest {
                 .description("an array model");
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
 
         Assert.assertEquals(model.getDescription(), "an array model");
 
@@ -268,7 +268,7 @@ public class PhpModelTest {
                 .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -297,7 +297,7 @@ public class PhpModelTest {
         final Schema model = new Schema();
         final DefaultCodegen codegen = new PhpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema(name, model);
-        final CodegenModel cm = codegen.fromModel(name, model, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel(name, model, openAPI);
 
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);

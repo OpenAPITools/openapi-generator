@@ -56,7 +56,7 @@ public class Swift4ModelTest {
                 .discriminator(new Discriminator().propertyName("test"));
         final DefaultCodegen codegen = new Swift4Codegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

@@ -42,7 +42,7 @@ public class Swift4ModelEnumTest {
 
         final DefaultCodegen codegen = new Swift4Codegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI.getComponents().getSchemas(), openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
 
         Assert.assertEquals(cm.vars.size(), 1);
 

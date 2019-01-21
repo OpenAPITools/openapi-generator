@@ -225,8 +225,8 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions, OpenAPI openAPI) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions, openAPI);
+    public CodegenModel fromModel(String name, Schema model, OpenAPI openAPI) {
+        CodegenModel codegenModel = super.fromModel(name, model, openAPI);
 
         Set<String> oldImports = codegenModel.imports;
         codegenModel.imports = new HashSet<String>();
