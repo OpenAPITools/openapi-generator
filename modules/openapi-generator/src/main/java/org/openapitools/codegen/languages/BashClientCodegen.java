@@ -419,15 +419,15 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     /**
      * Convert OpenAPI Parameter object to Codegen Parameter object
-     *
-     * @param param   OpenAPI parameter object
      * @param imports set of imports for library/package/module
+     * @param param   OpenAPI parameter object
+     *
      * @return Codegen Parameter object
      */
     @Override
-    public CodegenParameter fromParameter(Parameter param, Set<String> imports, OpenAPI openAPI) {
+    public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
 
-        CodegenParameter p = super.fromParameter(param, imports, openAPI);
+        CodegenParameter p = super.fromParameter(param, imports);
 
         if (p.isContainer) { // array or map
             /**

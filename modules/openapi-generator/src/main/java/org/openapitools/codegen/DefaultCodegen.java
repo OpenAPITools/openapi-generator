@@ -2574,7 +2574,7 @@ public class DefaultCodegen implements CodegenConfig {
                     param = getParameterFromRef(param.get$ref(), globalOpenAPI);
                 }
 
-                CodegenParameter p = fromParameter(param, imports, globalOpenAPI);
+                CodegenParameter p = fromParameter(param, imports);
 
                 // ensure unique params
                 if (ensureUniqueParams) {
@@ -2880,10 +2880,9 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param parameter OAS parameter object
      * @param imports   set of imports for library/package/module
-     * @param openAPI   current OpenAPI instance
      * @return Codegen Parameter object
      */
-    public CodegenParameter fromParameter(Parameter parameter, Set<String> imports, OpenAPI openAPI) {
+    public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegenParameter.baseName = parameter.getName();
         codegenParameter.description = escapeText(parameter.getDescription());
@@ -2914,7 +2913,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // set default value
-            codegenParameter.defaultValue = toDefaultValue(parameterSchema, openAPI);
+            codegenParameter.defaultValue = toDefaultValue(parameterSchema, globalOpenAPI);
 
             // TDOO revise collectionFormat
             String collectionFormat = null;

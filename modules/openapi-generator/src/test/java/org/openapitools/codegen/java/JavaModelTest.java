@@ -635,7 +635,8 @@ public class JavaModelTest {
                 .name("limit")
                 .required(true);
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenParameter cm = codegen.fromParameter(parameter, null, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenParameter cm = codegen.fromParameter(parameter, null);
 
         Assert.assertNull(cm.allowableValues);
         Assert.assertEquals(cm.description, "this is a description");
