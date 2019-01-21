@@ -52,7 +52,8 @@ public class DartModelTest {
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -105,7 +106,8 @@ public class DartModelTest {
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -144,7 +146,8 @@ public class DartModelTest {
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -169,7 +172,8 @@ public class DartModelTest {
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -193,7 +197,8 @@ public class DartModelTest {
                         .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -218,7 +223,8 @@ public class DartModelTest {
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -245,7 +251,8 @@ public class DartModelTest {
                 .description("an array model");
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(model.getDescription(), "an array model");
 
@@ -264,7 +271,8 @@ public class DartModelTest {
                 .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -293,7 +301,8 @@ public class DartModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema model = new Schema();
         final DefaultCodegen codegen = new DartClientCodegen();
-        final CodegenModel cm = codegen.fromModel(name, model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel(name, model);
 
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);

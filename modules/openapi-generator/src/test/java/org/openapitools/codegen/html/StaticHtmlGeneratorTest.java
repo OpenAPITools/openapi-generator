@@ -42,7 +42,8 @@ public class StaticHtmlGeneratorTest {
                 .additionalProperties(false)
                 .addProperties("id", new IntegerSchema())
                 .addProperties("name", new StringSchema());
-        CodegenModel cm = codegen.fromModel("test", schema, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        CodegenModel cm = codegen.fromModel("test", schema);
         Assert.assertNotNull(cm);
     }
 

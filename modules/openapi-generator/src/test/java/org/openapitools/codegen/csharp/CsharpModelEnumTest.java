@@ -17,14 +17,11 @@
 
 package org.openapitools.codegen.csharp;
 
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.languages.CSharpClientCodegen;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-import org.testng.Assert;
+
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
@@ -73,7 +70,8 @@ public class CsharpModelEnumTest {
         allModels.put("SubModel", subModel);
 
         /*
-        final CodegenModel cm = codegen.fromModel("sample", model, allModels);
+        codegen.setGlobalOpenAPI(allModels);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

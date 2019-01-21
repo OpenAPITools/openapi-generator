@@ -24,7 +24,8 @@ public class JavaResteasyEapServerCodegenModelTest {
 
         final JavaResteasyEapServerCodegen codegen = new JavaResteasyEapServerCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         assertEquals(cm.vars.get(0).baseType, "Map");
         assertTrue(cm.imports.contains("HashMap"));

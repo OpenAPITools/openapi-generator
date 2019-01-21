@@ -306,8 +306,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, OpenAPI openAPI) {
-        CodegenModel cm = super.fromModel(name, model, openAPI);
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel cm = super.fromModel(name, model);
         return new ExtendedCodegenModel(cm);
     }
 

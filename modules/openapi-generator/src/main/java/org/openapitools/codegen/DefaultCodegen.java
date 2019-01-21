@@ -1619,8 +1619,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @param schema         OAS Model object
      * @return Codegen Model object
      */
-    public CodegenModel fromModel(String name, Schema schema, OpenAPI openAPI) {
-        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(openAPI);
+    public CodegenModel fromModel(String name, Schema schema) {
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(globalOpenAPI);
         if (typeAliases == null) {
             // Only do this once during first call
             typeAliases = getAllAliases(allDefinitions);
@@ -1662,8 +1662,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (ModelUtils.isArraySchema(schema)) {
             m.isArrayModel = true;
-            m.arrayModelType = fromProperty(name, schema, openAPI).complexType;
-            addParentContainer(m, name, schema, openAPI);
+            m.arrayModelType = fromProperty(name, schema, globalOpenAPI).complexType;
+            addParentContainer(m, name, schema, globalOpenAPI);
         } else if (schema instanceof ComposedSchema) {
             final ComposedSchema composed = (ComposedSchema) schema;
             Map<String, Schema> properties = new LinkedHashMap<String, Schema>();
@@ -1776,7 +1776,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            addVars(m, unaliasPropertySchema(allDefinitions, properties), required, unaliasPropertySchema(allDefinitions, allProperties), allRequired, openAPI);
+            addVars(m, unaliasPropertySchema(allDefinitions, properties), required, unaliasPropertySchema(allDefinitions, allProperties), allRequired, globalOpenAPI);
 
             // end of code block for composed schema
         } else {
@@ -1788,7 +1788,7 @@ public class DefaultCodegen implements CodegenConfig {
                 m.allowableValues.put("values", schema.getEnum());
             }
             if (ModelUtils.isMapSchema(schema)) {
-                addAdditionPropertiesToCodeGenModel(m, schema, openAPI);
+                addAdditionPropertiesToCodeGenModel(m, schema, globalOpenAPI);
                 m.isMapModel = true;
             }
             if (ModelUtils.isIntegerSchema(schema)) { // integer type
@@ -1801,7 +1801,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // passing null to allProperties and allRequired as there's no parent
-            addVars(m, unaliasPropertySchema(allDefinitions, schema.getProperties()), schema.getRequired(), null, null, openAPI);
+            addVars(m, unaliasPropertySchema(allDefinitions, schema.getProperties()), schema.getRequired(), null, null, globalOpenAPI);
         }
 
         // remove duplicated properties
@@ -2487,7 +2487,7 @@ public class DefaultCodegen implements CodegenConfig {
                     // lookup discriminator
                     Schema schema = schemas.get(op.returnBaseType);
                     if (schema != null) {
-                        CodegenModel cmod = fromModel(op.returnBaseType, schema, openAPI);
+                        CodegenModel cmod = fromModel(op.returnBaseType, schema);
                         op.discriminator = cmod.discriminator;
                     }
 
@@ -4667,7 +4667,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenModel codegenModel = null;
             if (StringUtils.isNotBlank(name)) {
                 schema.setName(name);
-                codegenModel = fromModel(name, schema, openAPI);
+                codegenModel = fromModel(name, schema);
             }
             if (codegenModel != null) {
                 codegenParameter.isModel = true;

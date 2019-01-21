@@ -821,9 +821,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, OpenAPI openAPI) {
-        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(openAPI);
-        CodegenModel mdl = super.fromModel(name, model, openAPI);
+    public CodegenModel fromModel(String name, Schema model) {
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(globalOpenAPI);
+        CodegenModel mdl = super.fromModel(name, model);
         mdl.vendorExtensions.put("upperCaseName", name.toUpperCase(Locale.ROOT));
         if (!StringUtils.isEmpty(model.get$ref())) {
             Schema schema = allDefinitions.get(ModelUtils.getSimpleRef(model.get$ref()));

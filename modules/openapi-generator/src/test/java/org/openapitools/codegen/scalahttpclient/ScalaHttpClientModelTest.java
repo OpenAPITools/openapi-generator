@@ -52,7 +52,8 @@ public class ScalaHttpClientModelTest {
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -106,7 +107,8 @@ public class ScalaHttpClientModelTest {
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -135,7 +137,8 @@ public class ScalaHttpClientModelTest {
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -162,7 +165,8 @@ public class ScalaHttpClientModelTest {
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -189,7 +193,8 @@ public class ScalaHttpClientModelTest {
                         .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -218,7 +223,8 @@ public class ScalaHttpClientModelTest {
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -247,7 +253,8 @@ public class ScalaHttpClientModelTest {
                 .description("an array model");
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        final CodegenModel cm = codegen.fromModel("sample", schema, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -265,7 +272,8 @@ public class ScalaHttpClientModelTest {
                 .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new ScalaHttpClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        final CodegenModel cm = codegen.fromModel("sample", model, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

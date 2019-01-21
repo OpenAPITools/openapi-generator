@@ -171,8 +171,8 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema mod, OpenAPI openAPI) {
-        CodegenModel model = super.fromModel(name, mod, openAPI);
+    public CodegenModel fromModel(String name, Schema mod) {
+        CodegenModel model = super.fromModel(name, mod);
 
         // If a var is a base spec we won't need to import it
         for (CodegenProperty var : model.vars) {

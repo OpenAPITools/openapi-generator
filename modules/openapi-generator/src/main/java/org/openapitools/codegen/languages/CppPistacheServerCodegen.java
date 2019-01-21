@@ -169,8 +169,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     
     @Override
-    public CodegenModel fromModel(String name, Schema model, OpenAPI openAPI) {
-        CodegenModel codegenModel = super.fromModel(name, model, openAPI);
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
 
         Set<String> oldImports = codegenModel.imports;
         codegenModel.imports = new HashSet<>();

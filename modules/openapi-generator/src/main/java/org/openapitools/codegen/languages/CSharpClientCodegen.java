@@ -24,7 +24,6 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 
 import org.openapitools.codegen.CliOption;
@@ -539,13 +538,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, OpenAPI openAPI) {
-        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(openAPI);
-        CodegenModel codegenModel = super.fromModel(name, model, openAPI);
+    public CodegenModel fromModel(String name, Schema model) {
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(globalOpenAPI);
+        CodegenModel codegenModel = super.fromModel(name, model);
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
             final Schema parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             if (parentModel != null) {
-                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, openAPI);
+                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
                 if (codegenModel.hasEnums) {
                     codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
                 }

@@ -110,7 +110,7 @@ public interface CodegenConfig {
 
     void setOutputDir(String dir);
 
-    CodegenModel fromModel(String name, Schema schema, OpenAPI openAPI);
+    CodegenModel fromModel(String name, Schema schema);
 
     CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, OpenAPI openAPI);
 

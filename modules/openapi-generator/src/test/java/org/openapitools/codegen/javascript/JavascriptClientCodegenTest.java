@@ -71,7 +71,8 @@ public class JavascriptClientCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
         final JavascriptClientCodegen codegen = new JavascriptClientCodegen();
         final Schema pet = openAPI.getComponents().getSchemas().get("Pet");
-        final CodegenModel cm = codegen.fromModel("Pet", pet, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("Pet", pet);
 
         Assert.assertEquals(cm.name, "Pet");
         Assert.assertEquals(cm.classname, "Pet");

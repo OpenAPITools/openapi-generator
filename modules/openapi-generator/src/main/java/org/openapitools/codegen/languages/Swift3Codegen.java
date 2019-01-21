@@ -535,9 +535,9 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema schema, OpenAPI openAPI) {
-        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(openAPI);
-        CodegenModel codegenModel = super.fromModel(name, schema, openAPI);
+    public CodegenModel fromModel(String name, Schema schema) {
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(globalOpenAPI);
+        CodegenModel codegenModel = super.fromModel(name, schema);
         if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
         }
@@ -547,7 +547,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
             // multilevel inheritance: reconcile properties of all the parents
             while (parentSchema != null) {
                 final Schema parentModel = allDefinitions.get(parentSchema);
-                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, openAPI);
+                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
                 codegenModel = Swift3Codegen.reconcileProperties(codegenModel, parentCodegenModel);
 
                 // get the next parent

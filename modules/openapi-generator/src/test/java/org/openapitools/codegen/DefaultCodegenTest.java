@@ -433,7 +433,8 @@ public class DefaultCodegenTest {
         DefaultCodegen codegen = new DefaultCodegen();
 
         Schema animal = openAPI.getComponents().getSchemas().get("Animal");
-        CodegenModel animalModel = codegen.fromModel("Animal", animal, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        CodegenModel animalModel = codegen.fromModel("Animal", animal);
         CodegenDiscriminator discriminator = animalModel.getDiscriminator();
         CodegenDiscriminator test = new CodegenDiscriminator();
         test.setPropertyName("className");
@@ -453,7 +454,8 @@ public class DefaultCodegenTest {
         verifyPersonDiscriminator(codegenOperation.discriminator);
 
         Schema person = openAPI.getComponents().getSchemas().get("Person");
-        CodegenModel personModel = codegen.fromModel("Person", person, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        CodegenModel personModel = codegen.fromModel("Person", person);
         verifyPersonDiscriminator(personModel.discriminator);
     }
 
@@ -463,7 +465,8 @@ public class DefaultCodegenTest {
         DefaultCodegen codegen = new DefaultCodegen();
 
         Schema child = openAPI.getComponents().getSchemas().get("Child");
-        CodegenModel childModel = codegen.fromModel("Child", child, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        CodegenModel childModel = codegen.fromModel("Child", child);
         Assert.assertEquals(childModel.parentSchema, "Person");
     }
 

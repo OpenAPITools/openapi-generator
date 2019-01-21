@@ -647,9 +647,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, OpenAPI openAPI) {
-        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(openAPI);
-        CodegenModel codegenModel = super.fromModel(name, model, openAPI);
+    public CodegenModel fromModel(String name, Schema model) {
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(globalOpenAPI);
+        CodegenModel codegenModel = super.fromModel(name, model);
         if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
         }
@@ -660,8 +660,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             while (parentSchema != null) {
                 final Schema parentModel = allDefinitions.get(parentSchema);
                 final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent,
-                        parentModel,
-                        openAPI);
+                        parentModel);
                 codegenModel = Swift4Codegen.reconcileProperties(codegenModel, parentCodegenModel);
 
                 // get the next parent
