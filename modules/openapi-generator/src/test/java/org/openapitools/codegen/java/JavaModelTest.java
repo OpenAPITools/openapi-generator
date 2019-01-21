@@ -847,8 +847,9 @@ public class JavaModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final BooleanSchema property = new BooleanSchema();
         final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
         codegen.setBooleanGetterPrefix("is");
-        final CodegenProperty cp = codegen.fromProperty("property", property, openAPI);
+        final CodegenProperty cp = codegen.fromProperty("property", property);
 
         Assert.assertEquals(cp.baseName, "property");
         Assert.assertEquals(cp.dataType, "Boolean");
@@ -864,7 +865,8 @@ public class JavaModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final IntegerSchema property = new IntegerSchema();
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenProperty cp = codegen.fromProperty("property", property, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenProperty cp = codegen.fromProperty("property", property);
 
         Assert.assertEquals(cp.baseName, "property");
         Assert.assertEquals(cp.dataType, "Integer");
@@ -881,7 +883,8 @@ public class JavaModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final IntegerSchema property = new IntegerSchema().format("int64");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenProperty cp = codegen.fromProperty("property", property, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenProperty cp = codegen.fromProperty("property", property);
 
         Assert.assertEquals(cp.baseName, "property");
         Assert.assertEquals(cp.nameInCamelCase, "Property");
@@ -960,7 +963,8 @@ public class JavaModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema property = new StringSchema().maxLength(10).minLength(3).pattern("^[A-Z]+$");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        final CodegenProperty cp = codegen.fromProperty("somePropertyWithMinMaxAndPattern", property, openAPI);
+        codegen.setGlobalOpenAPI(openAPI);
+        final CodegenProperty cp = codegen.fromProperty("somePropertyWithMinMaxAndPattern", property);
 
         Assert.assertEquals(cp.baseName, "somePropertyWithMinMaxAndPattern");
         Assert.assertEquals(cp.nameInCamelCase, "SomePropertyWithMinMaxAndPattern");

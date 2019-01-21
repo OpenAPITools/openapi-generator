@@ -317,13 +317,14 @@ public class ObjcModelTest {
     public void udidAndPasswordDataModelTest() {
         final OpenAPI openAPI =  new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("format_test");
 
         Schema property = ((Map<String, Schema>) definition.getProperties()).get("uuid");
-        CodegenProperty prope = codegen.fromProperty("uuid", property, openAPI);
+        CodegenProperty prope = codegen.fromProperty("uuid", property);
         Assert.assertEquals(prope.baseType, "NSString");
 
-        prope = codegen.fromProperty("password", property, openAPI);
+        prope = codegen.fromProperty("password", property);
         Assert.assertEquals(prope.baseType, "NSString");
     }
 
@@ -331,10 +332,11 @@ public class ObjcModelTest {
     public void mixedPropertiesDataModelTest() {
         final OpenAPI openAPI =  new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("MixedPropertiesAndAdditionalPropertiesClass");
 
         Schema property = ((Map<String, Schema>)definition.getProperties()).get("map");
-        CodegenProperty prope = codegen.fromProperty("map", property, openAPI);
+        CodegenProperty prope = codegen.fromProperty("map", property);
         Assert.assertEquals(prope.baseType, "NSDictionary");
     }
 

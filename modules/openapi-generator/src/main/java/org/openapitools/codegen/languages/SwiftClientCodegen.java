@@ -373,8 +373,8 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p, OpenAPI openAPI) {
-        CodegenProperty codegenProperty = super.fromProperty(name, p, openAPI);
+    public CodegenProperty fromProperty(String name, Schema p) {
+        CodegenProperty codegenProperty = super.fromProperty(name, p);
         // TODO skip array/map of enum for the time being,
         // we need to add logic here to handle array/map of enum for any
         // dimensions

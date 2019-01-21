@@ -316,11 +316,12 @@ public class PhpModelTest {
     public void enumArrayModelTest() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new PhpClientCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
         final Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
         final Schema definition = schemas.get("EnumArrays");
 
         Schema property =  (Schema) definition.getProperties().get("array_enum");
-        CodegenProperty prope = codegen.fromProperty("array_enum", property, openAPI);
+        CodegenProperty prope = codegen.fromProperty("array_enum", property);
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "ARRAY_ENUM[]");
         Assert.assertEquals(prope.enumName, "ARRAY_ENUM");
@@ -350,10 +351,11 @@ public class PhpModelTest {
     public void enumMdoelValueTest() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new PhpClientCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("Enum_Test");
 
         Schema property =  (Schema) definition.getProperties().get("enum_integer");
-        CodegenProperty prope = codegen.fromProperty("enum_integer", property, openAPI);
+        CodegenProperty prope = codegen.fromProperty("enum_integer", property);
         codegen.updateCodegenPropertyEnum(prope);
         Assert.assertEquals(prope.datatypeWithEnum, "ENUM_INTEGER");
         Assert.assertEquals(prope.enumName, "ENUM_INTEGER");

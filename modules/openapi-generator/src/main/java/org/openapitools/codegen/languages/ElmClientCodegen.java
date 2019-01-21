@@ -327,7 +327,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (ModelUtils.isArraySchema(schema)) {
             ArraySchema am = (ArraySchema) schema;
-            CodegenProperty codegenProperty = fromProperty(name, (Schema) am.getItems(), globalOpenAPI);
+            CodegenProperty codegenProperty = fromProperty(name, (Schema) am.getItems());
             m.vendorExtensions.putAll(codegenProperty.vendorExtensions);
         }
 
@@ -644,8 +644,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenProperty fromProperty(String name, Schema p, OpenAPI openAPI) {
-        final CodegenProperty property = super.fromProperty(name, p, openAPI);
+    public CodegenProperty fromProperty(String name, Schema p) {
+        final CodegenProperty property = super.fromProperty(name, p);
 
         if (property.isEnum) {
             addEncoderAndDecoder(property.vendorExtensions, property.baseName, DataTypeExposure.INTERNAL);
