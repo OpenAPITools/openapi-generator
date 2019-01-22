@@ -329,9 +329,10 @@ public class JavaClientCodegenTest {
     public void testReferencedHeader() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/issue855.yaml", null, new ParseOptions()).getOpenAPI();
         JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setGlobalOpenAPI(openAPI);
 
         ApiResponse ok_200 = openAPI.getComponents().getResponses().get("OK_200");
-        CodegenResponse response = codegen.fromResponse(openAPI, "200", ok_200);
+        CodegenResponse response = codegen.fromResponse("200", ok_200);
 
         Assert.assertEquals(1, response.headers.size());
         CodegenProperty header = response.headers.get(0);

@@ -2426,7 +2426,7 @@ public class DefaultCodegen implements CodegenConfig {
             for (String key : operation.getResponses().keySet()) {
                 ApiResponse response = operation.getResponses().get(key);
                 addProducesInfo(globalOpenAPI, response, op);
-                CodegenResponse r = fromResponse(globalOpenAPI, key, response);
+                CodegenResponse r = fromResponse(key, response);
                 r.hasMore = true;
                 if (r.baseType != null &&
                         !defaultIncludes.contains(r.baseType) &&
@@ -2683,13 +2683,12 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Convert OAS Response object to Codegen Response object
-     *
-     * @param openAPI      a OAS object representing the spec
      * @param responseCode HTTP response code
      * @param response     OAS Response object
+     *
      * @return Codegen Response object
      */
-    public CodegenResponse fromResponse(OpenAPI openAPI, String responseCode, ApiResponse response) {
+    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
         CodegenResponse r = CodegenModelFactory.newInstance(CodegenModelType.RESPONSE);
         if ("default".equals(responseCode)) {
             r.code = "0";
@@ -2697,8 +2696,8 @@ public class DefaultCodegen implements CodegenConfig {
             r.code = responseCode;
         }
         Schema responseSchema;
-        if (openAPI != null && openAPI.getComponents() != null) {
-            responseSchema = ModelUtils.unaliasSchema(openAPI.getComponents().getSchemas(), ModelUtils.getSchemaFromResponse(response));
+        if (globalOpenAPI != null && globalOpenAPI.getComponents() != null) {
+            responseSchema = ModelUtils.unaliasSchema(globalOpenAPI.getComponents().getSchemas(), ModelUtils.getSchemaFromResponse(response));
         } else { // no model/alias defined
             responseSchema = ModelUtils.getSchemaFromResponse(response);
         }
@@ -2711,7 +2710,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (response.getExtensions() != null && !response.getExtensions().isEmpty()) {
             r.vendorExtensions.putAll(response.getExtensions());
         }
-        addHeaders(openAPI, response, r.headers);
+        addHeaders(globalOpenAPI, response, r.headers);
         r.hasHeaders = !r.headers.isEmpty();
 
         if (r.schema != null) {

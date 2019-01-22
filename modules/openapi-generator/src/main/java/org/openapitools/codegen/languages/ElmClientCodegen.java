@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -659,8 +658,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenResponse fromResponse(OpenAPI openAPI, String responseCode, ApiResponse resp) {
-        final CodegenResponse response = super.fromResponse(openAPI, responseCode, resp);
+    public CodegenResponse fromResponse(String responseCode, ApiResponse resp) {
+        final CodegenResponse response = super.fromResponse(responseCode, resp);
         if (response.dataType != null) {
             final boolean isPrimitiveType = response.isMapContainer ? isPrimitiveDataType(response.dataType) : response.primitiveType;
             addEncoderAndDecoder(response.vendorExtensions, response.dataType, isPrimitiveType ? DataTypeExposure.PRIMITIVE : DataTypeExposure.EXTERNAL);
