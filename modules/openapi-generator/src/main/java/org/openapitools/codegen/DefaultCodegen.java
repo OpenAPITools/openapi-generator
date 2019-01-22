@@ -1880,8 +1880,6 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
 
-        Schema unaliasSchema = ModelUtils.unaliasSchema(globalSchemas, schema);
-
         if (StringUtils.isNotBlank(schema.get$ref())) {
             Schema interfaceSchema = allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref()));
             addProperties(properties, required, interfaceSchema, allSchemas);
