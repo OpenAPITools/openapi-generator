@@ -21,7 +21,7 @@ This guide explains the major differences in order to help you with the migratio
   - [New default values for the generated code](#new-default-values-for-the-generated-code)
   - [New fully qualified name for the classes](#new-fully-qualified-name-for-the-classes)
   - [Body parameter name](#body-parameter-name)
-  - [Generators not yet fully migrated](#generators-not-yet-fully-migrated)
+  - [Default basePath](#default-basepath)
 
 ## New docker images
 
@@ -244,3 +244,7 @@ paths:
             - 'read:pets'
 ```
 If your API client is using named parameters in the function call (e.g. Perl required & optional parameters, Ruby optional parameters), you will need to add `x-codegen-request-body-name` to the spec to restore the original body parameter name.
+
+## Default basePath
+
+The default `basePath` has been changed from `https://localhost` to `http://locallhost` (http without s)
