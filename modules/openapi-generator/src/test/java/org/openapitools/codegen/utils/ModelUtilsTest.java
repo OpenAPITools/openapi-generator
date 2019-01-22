@@ -195,11 +195,9 @@ public class ModelUtilsTest {
         ));
         Schema refToComposedSchema = new Schema().$ref("#/components/schemas/SomeComposedSchema");
 
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("SomeComposedSchema", composedSchema);
 
-        Map<String, Schema> allSchemas = new HashMap<>();
-        allSchemas.put("SomeComposedSchema", composedSchema);
-
-        Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(allSchemas, refToComposedSchema));
+        Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(openAPI, refToComposedSchema));
     }
 
     /**

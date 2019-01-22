@@ -266,6 +266,4 @@ public interface CodegenConfig {
     // set OpenAPI and schemas
     void setGlobalOpenAPI(OpenAPI openAPI);
 
-    void setGlobalSchemas(OpenAPI openAPI);
-
 }

@@ -139,9 +139,8 @@ public class DefaultCodegen implements CodegenConfig {
     // flag to indicate whether to use environment variable to post process file
     protected boolean enablePostProcessFile = false;
 
-    // make openapi and schemas available to all methods
+    // make openapi available to all methods
     protected OpenAPI globalOpenAPI;
-    protected Map<String, Schema> globalSchemas;
 
     public List<CliOption> cliOptions() {
         return cliOptions;
@@ -455,21 +454,6 @@ public class DefaultCodegen implements CodegenConfig {
         this.globalOpenAPI = openAPI;
     }
 
-
-    /**
-     * Set global schema based on OpenAPI object
-     *
-     * @param openAPI OpenAPI object
-     */
-    public void setGlobalSchemas(OpenAPI openAPI) {
-        if (openAPI != null && openAPI.getComponents() != null) {
-            this.globalSchemas = openAPI.getComponents().getSchemas();
-        }
-
-        if (this.globalSchemas == null) { // initalize with empty map if it's null
-            this.globalSchemas = new HashMap<String, Schema>();
-        }
-    }
 
     // override with any special post-processing
     @SuppressWarnings("static-method")
@@ -1415,7 +1399,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private String getSingleSchemaType(Schema schema) {
-        Schema unaliasSchema = ModelUtils.unaliasSchema(globalSchemas, schema);
+        Schema unaliasSchema = ModelUtils.unaliasSchema(globalOpenAPI, schema);
 
         if (StringUtils.isNotBlank(unaliasSchema.get$ref())) { // reference to another definition/schema
             // get the schema/model name from $ref
@@ -1626,7 +1610,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // unalias schema
-        schema = ModelUtils.unaliasSchema(allDefinitions, schema);
+        schema = ModelUtils.unaliasSchema(globalOpenAPI, schema);
         if (schema == null) {
             LOGGER.warn("Schema {} not found", name);
             return null;
@@ -1922,7 +1906,7 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging fromProperty for " + name + " : " + p);
 
         // unalias schema
-        p = ModelUtils.unaliasSchema(globalSchemas, p);
+        p = ModelUtils.unaliasSchema(globalOpenAPI, p);
 
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
         property.name = toVarName(name);
@@ -2154,7 +2138,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (itemName == null) {
                 itemName = property.name;
             }
-            Schema innerSchema = ModelUtils.unaliasSchema(globalSchemas, ((ArraySchema) p).getItems());
+            Schema innerSchema = ModelUtils.unaliasSchema(globalOpenAPI, ((ArraySchema) p).getItems());
             CodegenProperty cp = fromProperty(itemName, innerSchema);
             updatePropertyForArray(property, cp);
         } else if (ModelUtils.isMapSchema(p)) {
@@ -2166,7 +2150,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.maxItems = p.getMaxProperties();
 
             // handle inner property
-            Schema innerSchema = ModelUtils.unaliasSchema(globalSchemas, ModelUtils.getAdditionalProperties(p));
+            Schema innerSchema = ModelUtils.unaliasSchema(globalOpenAPI, ModelUtils.getAdditionalProperties(p));
             CodegenProperty cp = fromProperty("inner", innerSchema);
             updatePropertyForMap(property, cp);
         } else if (ModelUtils.isFreeFormObject(p)) {
@@ -2445,7 +2429,7 @@ public class DefaultCodegen implements CodegenConfig {
             op.responses.get(op.responses.size() - 1).hasMore = false;
 
             if (methodResponse != null) {
-                Schema responseSchema = ModelUtils.unaliasSchema(globalSchemas, ModelUtils.getSchemaFromResponse(methodResponse));
+                Schema responseSchema = ModelUtils.unaliasSchema(globalOpenAPI, ModelUtils.getSchemaFromResponse(methodResponse));
 
                 if (responseSchema != null) {
                     CodegenProperty cm = fromProperty("response", responseSchema);
@@ -2697,7 +2681,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         Schema responseSchema;
         if (globalOpenAPI != null && globalOpenAPI.getComponents() != null) {
-            responseSchema = ModelUtils.unaliasSchema(globalOpenAPI.getComponents().getSchemas(), ModelUtils.getSchemaFromResponse(response));
+            responseSchema = ModelUtils.unaliasSchema(globalOpenAPI, ModelUtils.getSchemaFromResponse(response));
         } else { // no model/alias defined
             responseSchema = ModelUtils.getSchemaFromResponse(response);
         }
@@ -2895,7 +2879,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (parameter.getSchema() != null) {
-            Schema parameterSchema = ModelUtils.unaliasSchema(globalSchemas, parameter.getSchema());
+            Schema parameterSchema = ModelUtils.unaliasSchema(globalOpenAPI, parameter.getSchema());
             if (parameterSchema == null) {
                 LOGGER.warn("warning!  Schema not found for parameter \"" + parameter.getName() + "\", using String");
                 parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
@@ -3466,11 +3450,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @param properties model properties (schemas)
      * @return model properties with direct reference to schemas
      */
-    private Map<String, Schema> unaliasPropertySchema
-    (Map<String, Schema> allSchemas, Map<String, Schema> properties) {
+    private Map<String, Schema> unaliasPropertySchema(Map<String, Schema> allSchemas, Map<String, Schema> properties) {
         if (properties != null) {
             for (String key : properties.keySet()) {
-                properties.put(key, ModelUtils.unaliasSchema(allSchemas, properties.get(key)));
+                properties.put(key, ModelUtils.unaliasSchema(globalOpenAPI, properties.get(key)));
 
             }
         }

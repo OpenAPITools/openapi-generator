@@ -1051,7 +1051,6 @@ public class JavaModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setGlobalOpenAPI(openAPI);
-        codegen.setGlobalSchemas(openAPI);
         final CodegenModel cm = codegen.fromModel("test", testSchema);
 
         Assert.assertEquals(cm.vars.size(), 1);
