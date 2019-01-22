@@ -2419,13 +2419,13 @@ public class DefaultCodegen implements CodegenConfig {
             op.isDeprecated = operation.getDeprecated();
         }
 
-        addConsumesInfo(globalOpenAPI, operation, op);
+        addConsumesInfo(operation, op);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
             for (String key : operation.getResponses().keySet()) {
                 ApiResponse response = operation.getResponses().get(key);
-                addProducesInfo(globalOpenAPI, response, op);
+                addProducesInfo(response, op);
                 CodegenResponse r = fromResponse(key, response);
                 r.hasMore = true;
                 if (r.baseType != null &&
@@ -4203,8 +4203,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    private void addConsumesInfo(OpenAPI openAPI, Operation operation, CodegenOperation codegenOperation) {
-        RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
+    private void addConsumesInfo(Operation operation, CodegenOperation codegenOperation) {
+        RequestBody requestBody = ModelUtils.getReferencedRequestBody(globalOpenAPI, operation.getRequestBody());
         if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
             return;
         }
@@ -4272,8 +4272,8 @@ public class DefaultCodegen implements CodegenConfig {
         return ModelUtils.getReferencedSchema(openAPI, schema) != null;
     }
 
-    private void addProducesInfo(OpenAPI openAPI, ApiResponse inputResponse, CodegenOperation codegenOperation) {
-        ApiResponse response = ModelUtils.getReferencedApiResponse(openAPI, inputResponse);
+    private void addProducesInfo(ApiResponse inputResponse, CodegenOperation codegenOperation) {
+        ApiResponse response = ModelUtils.getReferencedApiResponse(globalOpenAPI, inputResponse);
         if (response == null || response.getContent() == null || response.getContent().isEmpty()) {
             return;
         }
