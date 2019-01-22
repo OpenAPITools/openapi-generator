@@ -21,7 +21,7 @@ This guide explains the major differences in order to help you with the migratio
   - [New default values for the generated code](#new-default-values-for-the-generated-code)
   - [New fully qualified name for the classes](#new-fully-qualified-name-for-the-classes)
   - [Body parameter name](#body-parameter-name)
-  - [Generators not yet fully migrated](#generators-not-yet-fully-migrated)
+  - [Default basePath](#default-basepath)
 
 ## New docker images
 
@@ -187,6 +187,8 @@ Example: `org.openapitools.codegen.DefaultGenerator`
 
 ## Body parameter name
 
+:bangbang: Since 4.0.0-beta, the body parameter name in OAS v2 is automatically preserved in the vendor extension `x-codegen-request-body-name`
+
 In OpenAPI spec v3, there's no body parameter, which is replaced by [Request Body Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#request-body-object). The parameter name for Request Body is named automatically based on the model name (e.g. User). To control how the "Request Body" parameter is named, please add the vendor extension `x-codegen-request-body-name` to the operation:
 
 OpenAPI Spec v3:
@@ -244,3 +246,7 @@ paths:
             - 'read:pets'
 ```
 If your API client is using named parameters in the function call (e.g. Perl required & optional parameters, Ruby optional parameters), you will need to add `x-codegen-request-body-name` to the spec to restore the original body parameter name.
+
+## Default basePath
+
+The default `basePath` has been changed from `https://localhost` to `http://locallhost` (http without s)
