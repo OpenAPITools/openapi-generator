@@ -187,6 +187,8 @@ Example: `org.openapitools.codegen.DefaultGenerator`
 
 ## Body parameter name
 
+:bangbang: Since 4.0.0-beta, the body parameter name in OAS v2 is automatically preserved in the vendor extension `x-codegen-request-body-name`
+
 In OpenAPI spec v3, there's no body parameter, which is replaced by [Request Body Object](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#request-body-object). The parameter name for Request Body is named automatically based on the model name (e.g. User). To control how the "Request Body" parameter is named, please add the vendor extension `x-codegen-request-body-name` to the operation:
 
 OpenAPI Spec v3:
