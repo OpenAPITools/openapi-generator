@@ -1048,9 +1048,10 @@ public class JavaModelTest {
         final Schema testSchema = new ObjectSchema()
                 .addProperties("pets", new ArraySchema()
                         .items(new Schema<>().$ref("#/components/schemas/Pet")));
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setGlobalOpenAPI(openAPI);
+        codegen.setGlobalSchemas(openAPI);
         final CodegenModel cm = codegen.fromModel("test", testSchema);
 
         Assert.assertEquals(cm.vars.size(), 1);
@@ -1080,7 +1081,7 @@ public class JavaModelTest {
                 .responses(
                         new ApiResponses().addApiResponse("204", new ApiResponse()
                                 .description("Ok response")));
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setGlobalOpenAPI(openAPI);
         final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation);
@@ -1111,7 +1112,7 @@ public class JavaModelTest {
                         .description("Ok response")
                         .content(new Content().addMediaType("application/json", 
                                 new MediaType().schema(testSchema)))));
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setGlobalOpenAPI(openAPI);
         final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation);
@@ -1131,7 +1132,7 @@ public class JavaModelTest {
                 .addProperties("pets", new ArraySchema()
                         .items(new ArraySchema()
                                 .items(new Schema<>().$ref("#/components/schemas/Pet"))));
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setGlobalOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("test", testSchema);
@@ -1160,7 +1161,7 @@ public class JavaModelTest {
                 .responses(
                         new ApiResponses().addApiResponse("204", new ApiResponse()
                                 .description("Ok response")));
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setGlobalOpenAPI(openAPI);
         final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation);
@@ -1195,7 +1196,7 @@ public class JavaModelTest {
                         .description("Ok response")
                         .content(new Content().addMediaType("application/json", 
                                 new MediaType().schema(testSchema)))));
-        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setGlobalOpenAPI(openAPI);
         final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation);
