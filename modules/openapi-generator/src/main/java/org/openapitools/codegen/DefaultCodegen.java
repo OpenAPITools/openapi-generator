@@ -2500,7 +2500,7 @@ public class DefaultCodegen implements CodegenConfig {
                         op.returnTypeIsPrimitive = true;
                     }
                 }
-                addHeaders(globalOpenAPI, methodResponse, op.responseHeaders);
+                addHeaders(methodResponse, op.responseHeaders);
             }
         }
 
@@ -2710,7 +2710,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (response.getExtensions() != null && !response.getExtensions().isEmpty()) {
             r.vendorExtensions.putAll(response.getExtensions());
         }
-        addHeaders(globalOpenAPI, response, r.headers);
+        addHeaders(response, r.headers);
         r.hasHeaders = !r.headers.isEmpty();
 
         if (r.schema != null) {
@@ -3345,16 +3345,15 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Add headers to codegen property
-     *
      * @param response   API response
      * @param properties list of codegen property
      */
-    private void addHeaders(OpenAPI openAPI, ApiResponse response, List<CodegenProperty> properties) {
+    private void addHeaders(ApiResponse response, List<CodegenProperty> properties) {
         if (response.getHeaders() != null) {
             for (Map.Entry<String, Header> headers : response.getHeaders().entrySet()) {
                 String description = headers.getValue().getDescription();
                 // follow the $ref
-                Header header = ModelUtils.getReferencedHeader(openAPI, headers.getValue());
+                Header header = ModelUtils.getReferencedHeader(globalOpenAPI, headers.getValue());
 
                 CodegenProperty cp = fromProperty(headers.getKey(), header.getSchema());
                 cp.setDescription(escapeText(description));
