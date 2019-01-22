@@ -505,6 +505,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [BIMData.io](https://bimdata.io)
 - [Bithost GmbH](https://www.bithost.ch)
 - [Boxever](https://www.boxever.com/)
+- [Cupix](https://www.cupix.com/)
 - [FormAPI](https://formapi.io/)
 - [GenFlow](https://github.com/RepreZen/GenFlow)
 - [GMO Pepabo](https://pepabo.com/en/)
