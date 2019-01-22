@@ -13,7 +13,7 @@ const baseUrl = '/';
 const siteConfig = {
   title: 'OpenAPI Generator', // Title for your website.
   tagline: 'Generate clients, servers, and documentation from OpenAPI 2.0/3.x documents',
-  url: 'https://OpenAPITools.github.io', // Your website URL
+  url: 'https://openapi-generator.tech', // Your website URL
   baseUrl: baseUrl, // Base URL for your project */
   // For github.io type URLs, you would set the url and baseUrl like:
   //   url: 'https://facebook.github.io',
