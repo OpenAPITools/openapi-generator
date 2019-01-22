@@ -485,7 +485,7 @@ The server is sponsored by [Linode](https://www.linode.com/) [![Linode Logo](htt
 
 (These services are beta and do not have any guarantee on service level)
 
-Please refer to [online-openapi-generator.md](docs/online-openapi-generator.md) on how to run and use the `openapi-generator-online` - a web service for `openapi-generator`.
+Please refer to [online.md](docs/online.md) on how to run and use the `openapi-generator-online` - a web service for `openapi-generator`.
 
 ### [3.4 - License information on Generated Code](#table-of-contents)
 
