@@ -454,13 +454,6 @@ public class DefaultCodegen implements CodegenConfig {
         this.globalOpenAPI = openAPI;
     }
 
-
-    // override with any special post-processing
-    @SuppressWarnings("static-method")
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        return objs;
-    }
-
     // override with any special post-processing
     @SuppressWarnings("static-method")
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
