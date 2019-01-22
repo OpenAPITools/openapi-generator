@@ -24,7 +24,9 @@ class Users extends React.Component {
 
     const editUrl = `${repoUrl}/edit/master/website/dynamic/users.yml`;
     const showcase = siteConfig.users.map(user => {
-          let imgUrl = `${baseUrl}${user.image.startsWith("/") ? user.image : "/" + user.image}`;
+          // avoid joining base/ with /img/path as double-slash breaks image load.
+          let trimmedImg = user.image.startsWith("/") ? user.image.slice(1,user.image.length) : user.image;
+          let imgUrl = `${baseUrl}${trimmedImg}`;
           return (
               <a href={user.infoLink} key={user.infoLink}>
                 <img src={imgUrl} alt={user.caption} title={user.caption}/>
