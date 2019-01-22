@@ -45,7 +45,7 @@ public class UserApi {
         this.reqSpec = reqSpec;
     }
 
-    public static UserApi userApi(RequestSpecBuilder reqSpec) {
+    public static UserApi user(RequestSpecBuilder reqSpec) {
         return new UserApi(reqSpec);
     }
 

@@ -36,23 +36,23 @@ public class ApiClient {
         return new ApiClient(config);
     }
 
-    public AnotherFakeApi anotherFakeApi() {
-        return AnotherFakeApi.anotherFakeApi(config.baseReqSpec.get());
+    public AnotherFakeApi anotherFake() {
+        return AnotherFakeApi.anotherFake(config.baseReqSpec.get());
     }
-    public FakeApi fakeApi() {
-        return FakeApi.fakeApi(config.baseReqSpec.get());
+    public FakeApi fake() {
+        return FakeApi.fake(config.baseReqSpec.get());
     }
-    public FakeClassnameTags123Api fakeClassnameTags123Api() {
-        return FakeClassnameTags123Api.fakeClassnameTags123Api(config.baseReqSpec.get());
+    public FakeClassnameTags123Api fakeClassnameTags123() {
+        return FakeClassnameTags123Api.fakeClassnameTags123(config.baseReqSpec.get());
     }
-    public PetApi petApi() {
-        return PetApi.petApi(config.baseReqSpec.get());
+    public PetApi pet() {
+        return PetApi.pet(config.baseReqSpec.get());
     }
-    public StoreApi storeApi() {
-        return StoreApi.storeApi(config.baseReqSpec.get());
+    public StoreApi store() {
+        return StoreApi.store(config.baseReqSpec.get());
     }
-    public UserApi userApi() {
-        return UserApi.userApi(config.baseReqSpec.get());
+    public UserApi user() {
+        return UserApi.user(config.baseReqSpec.get());
     }
 
     public static class Config {

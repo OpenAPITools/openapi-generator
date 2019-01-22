@@ -27,7 +27,7 @@ Method | HTTP request | Description
 
 {{classname}} api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("{{basePath}}"))).{{classVarName}}Api();
+                        .setBaseUri("{{basePath}}"))).{{classVarName}}();
 
 api.{{operationId}}(){{#allParams}}{{#required}}{{#isPathParam}}
     .{{paramName}}Path({{paramName}}){{/isPathParam}}{{#isQueryParam}}

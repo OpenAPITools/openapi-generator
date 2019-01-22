@@ -31,7 +31,7 @@ This can only be done by the logged in user.
 
 UserApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).userApi();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).user();
 
 api.createUser()
     .body(body).execute(r -> r.prettyPeek());
@@ -71,7 +71,7 @@ Creates list of users with given input array
 
 UserApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).userApi();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).user();
 
 api.createUsersWithArrayInput()
     .body(body).execute(r -> r.prettyPeek());
@@ -111,7 +111,7 @@ Creates list of users with given input array
 
 UserApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).userApi();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).user();
 
 api.createUsersWithListInput()
     .body(body).execute(r -> r.prettyPeek());
@@ -153,7 +153,7 @@ This can only be done by the logged in user.
 
 UserApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).userApi();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).user();
 
 api.deleteUser()
     .usernamePath(username).execute(r -> r.prettyPeek());
@@ -193,7 +193,7 @@ Get user by user name
 
 UserApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).userApi();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).user();
 
 api.getUserByName()
     .usernamePath(username).execute(r -> r.prettyPeek());
@@ -233,7 +233,7 @@ Logs user into the system
 
 UserApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).userApi();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).user();
 
 api.loginUser()
     .usernameQuery(username)
@@ -275,7 +275,7 @@ Logs out current logged in user session
 
 UserApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).userApi();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).user();
 
 api.logoutUser().execute(r -> r.prettyPeek());
 ```
@@ -313,7 +313,7 @@ This can only be done by the logged in user.
 
 UserApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                 () -> new RequestSpecBuilder()
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).userApi();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).user();
 
 api.updateUser()
     .usernamePath(username)
