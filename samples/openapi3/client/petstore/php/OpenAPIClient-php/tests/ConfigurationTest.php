@@ -42,11 +42,11 @@ class ConfigurationTest extends TestCase
     }
 
     /**
-     * Test server settings with invalid vaues
+     * Test host settings with invalid vaues
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage The variable `port` in the server URL has invalid value 8. Must be 80,8080
+     * @expectedExceptionMessage The variable `port` in the host URL has invalid value 8. Must be 80,8080
      */
-    public function testServerUrlWithInvalidValues()
+    public function testHostUrlWithInvalidValues()
     {
         // using 2 variables with invalid values
         $config = new Configuration();

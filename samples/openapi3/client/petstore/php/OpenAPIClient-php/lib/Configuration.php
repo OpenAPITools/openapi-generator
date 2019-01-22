@@ -428,9 +428,9 @@ class Configuration
     }
 
     /**
-     * Returns an array of host setting
+     * Returns an array of host settings
      *
-     * @return an array of host setting
+     * @return an array of host settings
      */
     public function getHostSettings()
     {
@@ -476,7 +476,7 @@ class Configuration
     }
 
     /**
-     * Returns URL based on index and variables
+     * Returns URL based on the index and variables
      *
      * @param index array index of the host settings
      * @param variables hash of variable and the corresponding value
@@ -492,7 +492,7 @@ class Configuration
 
         // check array index out of bound
         if ($index < 0 || $index > sizeof($hosts)) {
-            throw new \InvalidArgumentException("Invalid index $index when selecting the server. Must be less than ".sizeof(servers));
+            throw new \InvalidArgumentException("Invalid index $index when selecting the host. Must be less than ".sizeof($hosts));
         }
 
         $host = $hosts[$index];
@@ -504,7 +504,7 @@ class Configuration
                 if (in_array($variables[$name], $variable["enum_values"])) { // check to see if the value is in the enum
                     $url = str_replace("{".$name."}", $variables[$name], $url);
                 } else {
-                    throw new \InvalidArgumentException("The variable `$name` in the server URL has invalid value ".$variables[$name].". Must be ".join(',', $variable["enum_values"]).".");
+                    throw new \InvalidArgumentException("The variable `$name` in the host URL has invalid value ".$variables[$name].". Must be ".join(',', $variable["enum_values"]).".");
                 }
             } else {
                 // use default value
