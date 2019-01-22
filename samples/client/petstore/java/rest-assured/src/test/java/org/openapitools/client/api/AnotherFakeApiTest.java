@@ -43,7 +43,7 @@ public class AnotherFakeApiTest {
         api = ApiClient.api(ApiClient.Config.apiConfig().reqSpecSupplier(
                 () -> new RequestSpecBuilder().setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())))
                         .addFilter(new ErrorLoggingFilter())
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).anotherFakeApi();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).anotherFake();
     }
 
     /**
@@ -51,9 +51,9 @@ public class AnotherFakeApiTest {
      */
     @Test
     public void shouldSee200AfterCall123testSpecialTags() {
-        Client body = null;
+        Client client = null;
         api.call123testSpecialTags()
-                .body(body).execute(r -> r.prettyPeek());
+                .body(client).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 

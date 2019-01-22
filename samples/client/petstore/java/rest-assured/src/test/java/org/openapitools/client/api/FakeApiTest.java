@@ -21,7 +21,6 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
-import org.openapitools.client.model.XmlItem;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.api.FakeApi;
 import io.restassured.builder.RequestSpecBuilder;
@@ -51,20 +50,8 @@ public class FakeApiTest {
         api = ApiClient.api(ApiClient.Config.apiConfig().reqSpecSupplier(
                 () -> new RequestSpecBuilder().setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())))
                         .addFilter(new ErrorLoggingFilter())
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fakeApi();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
     }
-
-    /**
-     * successful operation
-     */
-    @Test
-    public void shouldSee200AfterCreateXmlItem() {
-        XmlItem xmlItem = null;
-        api.createXmlItem()
-                .body(xmlItem).execute(r -> r.prettyPeek());
-        // TODO: test validations
-    }
-
 
     /**
      * Output boolean
@@ -82,7 +69,7 @@ public class FakeApiTest {
      */
     @Test
     public void shouldSee200AfterFakeOuterCompositeSerialize() {
-        OuterComposite body = null;
+        OuterComposite outerComposite = null;
         api.fakeOuterCompositeSerialize().execute(r -> r.prettyPeek());
         // TODO: test validations
     }
@@ -115,9 +102,9 @@ public class FakeApiTest {
      */
     @Test
     public void shouldSee200AfterTestBodyWithFileSchema() {
-        FileSchemaTestClass body = null;
+        FileSchemaTestClass fileSchemaTestClass = null;
         api.testBodyWithFileSchema()
-                .body(body).execute(r -> r.prettyPeek());
+                .body(fileSchemaTestClass).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -128,10 +115,10 @@ public class FakeApiTest {
     @Test
     public void shouldSee200AfterTestBodyWithQueryParams() {
         String query = null;
-        User body = null;
+        User user = null;
         api.testBodyWithQueryParams()
                 .queryQuery(query)
-                .body(body).execute(r -> r.prettyPeek());
+                .body(user).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -141,9 +128,9 @@ public class FakeApiTest {
      */
     @Test
     public void shouldSee200AfterTestClientModel() {
-        Client body = null;
+        Client client = null;
         api.testClientModel()
-                .body(body).execute(r -> r.prettyPeek());
+                .body(client).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -262,9 +249,9 @@ public class FakeApiTest {
      */
     @Test
     public void shouldSee200AfterTestInlineAdditionalProperties() {
-        Map<String, String> param = null;
+        Map<String, String> requestBody = null;
         api.testInlineAdditionalProperties()
-                .body(param).execute(r -> r.prettyPeek());
+                .body(requestBody).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 

@@ -43,7 +43,7 @@ public class StoreApiTest {
         api = ApiClient.api(ApiClient.Config.apiConfig().reqSpecSupplier(
                 () -> new RequestSpecBuilder().setConfig(config().objectMapperConfig(objectMapperConfig().defaultObjectMapper(gson())))
                         .addFilter(new ErrorLoggingFilter())
-                        .setBaseUri("http://petstore.swagger.io:80/v2"))).storeApi();
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).store();
     }
 
     /**
@@ -118,9 +118,9 @@ public class StoreApiTest {
      */
     @Test
     public void shouldSee200AfterPlaceOrder() {
-        Order body = null;
+        Order order = null;
         api.placeOrder()
-                .body(body).execute(r -> r.prettyPeek());
+                .body(order).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
@@ -129,9 +129,9 @@ public class StoreApiTest {
      */
     @Test
     public void shouldSee400AfterPlaceOrder() {
-        Order body = null;
+        Order order = null;
         api.placeOrder()
-                .body(body).execute(r -> r.prettyPeek());
+                .body(order).execute(r -> r.prettyPeek());
         // TODO: test validations
     }
 
