@@ -305,9 +305,9 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                 if variables[variable_name] in server['variables'][variable_name]['enum_values']:
                     url = url.replace("{" + variable_name + "}", variables[variable_name])
                 else:
-                    raise ValueError("The variable `{}` in the host URL has invalid value {}. Must be {}.".format(variable_name, variables[variable_name], server['variables'][variable_name]['enum_values'])) # noqa: E501
+                    raise ValueError("The variable `{}` in the host URL has invalid value {}. Must be {}.".format(variable_name, variables[variable_name], server['variables'][variable_name]['enum_values']))  # noqa: E501
             else:
                 # use default value
-                url = url.replace("{" + variable_name + "}", server['variables'][variable_name]['default_value']) # noqa: E501
+                url = url.replace("{" + variable_name + "}", server['variables'][variable_name]['default_value'])  # noqa: E501
 
         return url
