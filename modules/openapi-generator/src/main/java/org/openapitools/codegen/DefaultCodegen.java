@@ -1752,7 +1752,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            addVars(m, unaliasPropertySchema(allDefinitions, properties), required, unaliasPropertySchema(allDefinitions, allProperties), allRequired);
+            addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
 
             // end of code block for composed schema
         } else {
@@ -1777,7 +1777,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
 
             // passing null to allProperties and allRequired as there's no parent
-            addVars(m, unaliasPropertySchema(allDefinitions, schema.getProperties()), schema.getRequired(), null, null);
+            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
         }
 
         // remove duplicated properties
@@ -3433,12 +3433,11 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Loop through propertiies and unalias the reference if $ref (reference) is defined
-     *
-     * @param allSchemas all schemas defined in the spec
      * @param properties model properties (schemas)
+     *
      * @return model properties with direct reference to schemas
      */
-    private Map<String, Schema> unaliasPropertySchema(Map<String, Schema> allSchemas, Map<String, Schema> properties) {
+    private Map<String, Schema> unaliasPropertySchema(Map<String, Schema> properties) {
         if (properties != null) {
             for (String key : properties.keySet()) {
                 properties.put(key, ModelUtils.unaliasSchema(globalOpenAPI, properties.get(key)));
