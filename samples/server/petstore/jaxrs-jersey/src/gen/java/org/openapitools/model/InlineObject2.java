@@ -59,7 +59,7 @@ public class InlineObject2   {
       throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
- 
+
   @JsonProperty("enum_form_string_array")
   private List<EnumFormStringArrayEnum> enumFormStringArray = null;
 
