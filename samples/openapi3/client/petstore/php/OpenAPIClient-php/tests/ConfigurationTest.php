@@ -29,7 +29,7 @@ class ConfigurationTest extends TestCase
     {
         $config = new Configuration();
         // default value
-        $url = $config->getHostFromSettings(0, null);
+        $url = $config->getHostFromSettings(0);
         $this->assertSame("http://petstore.swagger.io:80/v2", $url);
 
         // using a variable
