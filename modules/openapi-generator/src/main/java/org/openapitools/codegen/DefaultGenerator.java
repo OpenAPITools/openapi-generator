@@ -480,10 +480,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 }
 
-                if (config.getTag() == CodegenType.SERVER) {
-                    removeReadOnly(modelTemplate);
-                }
-
                 allModels.add(modelTemplate);
 
                 // to generate model files
@@ -506,18 +502,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             Json.prettyPrint(allModels);
         }
 
-    }
-
-    private void removeReadOnly(Map<String, Object> modelTemplate) {
-        if (modelTemplate != null
-                && modelTemplate.containsKey("model")
-                && modelTemplate.get("model") instanceof CodegenModel) {
-            CodegenModel model = (CodegenModel) modelTemplate.get("model");
-
-            if (model != null && model.vars != null) {
-                model.vars.forEach((var) -> var.isReadOnly = false);
-            }
-        }
     }
 
     private void generateApis(List<File> files, List<Object> allOperations, List<Object> allModels) {
