@@ -23,9 +23,8 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure API key authorization: api_key_query
 configuration = petstore_api.Configuration()
+# Configure API key authorization: api_key_query
 configuration.api_key['api_key_query'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key_query'] = 'Bearer'
