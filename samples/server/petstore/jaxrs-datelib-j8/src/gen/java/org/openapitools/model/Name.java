@@ -61,6 +61,11 @@ public class Name  implements Serializable {
     this.name = name;
   }
 
+  public Name snakeCase(Integer snakeCase) {
+    this.snakeCase = snakeCase;
+    return this;
+  }
+
   /**
    * Get snakeCase
    * @return snakeCase
@@ -70,6 +75,10 @@ public class Name  implements Serializable {
   
   public Integer getSnakeCase() {
     return snakeCase;
+  }
+
+  public void setSnakeCase(Integer snakeCase) {
+    this.snakeCase = snakeCase;
   }
 
   public Name property(String property) {
@@ -92,6 +101,11 @@ public class Name  implements Serializable {
     this.property = property;
   }
 
+  public Name _123number(Integer _123number) {
+    this._123number = _123number;
+    return this;
+  }
+
   /**
    * Get _123number
    * @return _123number
@@ -101,6 +115,10 @@ public class Name  implements Serializable {
   
   public Integer get123number() {
     return _123number;
+  }
+
+  public void set123number(Integer _123number) {
+    this._123number = _123number;
   }
 
 
