@@ -1628,7 +1628,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.getVendorExtensions().putAll(schema.getExtensions());
         }
         m.isAlias = typeAliases.containsKey(name);
-        m.discriminator = createDiscriminator(name, schema, allDefinitions);
+        m.discriminator = createDiscriminator(name, schema);
 
         if (schema.getXml() != null) {
             m.xmlPrefix = schema.getXml().getPrefix();
@@ -1661,7 +1661,7 @@ public class DefaultCodegen implements CodegenConfig {
                     for (Schema innerSchema : composed.getAllOf()) { // TOOD need to work with anyOf, oneOf as well
                         if (m.discriminator == null) {
                             LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", name);
-                            m.discriminator = createDiscriminator(name, schema, allDefinitions);
+                            m.discriminator = createDiscriminator(name, schema);
                         }
 
                         if (innerSchema.getXml() != null) {
@@ -1793,8 +1793,7 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
-    private CodegenDiscriminator createDiscriminator(String schemaName, Schema
-            schema, Map<String, Schema> allDefinitions) {
+    private CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
         if (schema.getDiscriminator() == null) {
             return null;
         }
@@ -1804,12 +1803,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
             for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
                 String name = toModelName(ModelUtils.getSimpleRef(e.getValue())); // e.g e.getValue => #/components/schemas/Dog
-                if (allDefinitions.get(name) == null) {
-                    LOGGER.warn("Discriminator's mapping: model {} (mapped to {}) couldn't be found", name, e.getKey());
-                }
                 discriminator.getMappedModels().add(new MappedModel(e.getKey(), name));
             }
         } else {
+            Map<String, Schema> allDefinitions = ModelUtils.getSchemas(globalOpenAPI);
             allDefinitions.forEach((childName, child) -> {
                 if (child instanceof ComposedSchema && ((ComposedSchema) child).getAllOf() != null) {
                     Set<String> parentSchemas = ((ComposedSchema) child).getAllOf().stream()
