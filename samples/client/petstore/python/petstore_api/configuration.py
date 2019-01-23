@@ -278,7 +278,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         :return: URL based on host settings
         """
 
-        servers = get_host_settings
+        servers = self.get_host_settings()
 
         # check array index out of bound
         if index < 0 or index > len(servers):
@@ -289,14 +289,13 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
 
         # go through variable and assign a value
         for variable_name in server['variables']:
-            if name in variables[varible_name]:
+            if variable_name in variables:
                 if variables[variable_name] in variables[variable_name]['enum_values']:
                     url = url.replace("{" + variable_name + "}", variables[variable_name])
                 else:
-                    raise ValueError("The variable `%s` in the host URL has invalid value %s. Must be %s." % variable_name % variables[variable_name] % variables[variable_name]['enum_values'])
+                    raise ValueError("The variable `%s` in the host URL has invalid value %s. Must be %s." % variable_name % variables[variable_name] % variables[variable_name]['enum_values']) # noqa: E501
             else:
                 # use default value
-                url = url.replace("{" + variable_name + "}", variables[variable_name]['default_value'])
-        end
+                url = url.replace("{" + variable_name + "}", variables[variable_name]['default_value']) # noqa: E501
 
         return url
