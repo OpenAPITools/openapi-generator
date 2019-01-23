@@ -30,7 +30,7 @@ local function new_store_api(host, basePath, schemes)
 		schemes_map[v] = v
 	end
 	local default_scheme = schemes_map.https or schemes_map.http
-	local port = http_util.split_authority(host, default_scheme)
+	local host, port = http_util.split_authority(host, default_scheme)
 	return setmetatable({
 		host = host;
 		port = port;
@@ -222,4 +222,3 @@ end
 return {
 	new = new_store_api;
 }
-
