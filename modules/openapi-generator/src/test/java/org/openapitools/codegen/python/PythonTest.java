@@ -47,15 +47,15 @@ public class PythonTest {
     public void modelTest() {
         final OpenAPI openAPI= new OpenAPIParser().readLocation("src/test/resources/2_0/v1beta3.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new PythonClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
 
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel simpleName = codegen.fromModel("v1beta3.Binding", openAPI.getComponents().getSchemas().get("v1beta3.Binding"));
         Assert.assertEquals(simpleName.name, "v1beta3.Binding");
         Assert.assertEquals(simpleName.classname, "V1beta3Binding");
         Assert.assertEquals(simpleName.classVarName, "v1beta3_binding");
 
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel compoundName = codegen.fromModel("v1beta3.ComponentStatus", openAPI.getComponents().getSchemas().get("v1beta3.ComponentStatus"));
         Assert.assertEquals(compoundName.name, "v1beta3.ComponentStatus");
         Assert.assertEquals(compoundName.classname, "V1beta3ComponentStatus");
@@ -79,7 +79,7 @@ public class PythonTest {
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new PythonClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -127,7 +127,7 @@ public class PythonTest {
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new PythonClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -167,7 +167,7 @@ public class PythonTest {
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new PythonClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -193,7 +193,7 @@ public class PythonTest {
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new PythonClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -218,7 +218,7 @@ public class PythonTest {
                         .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new PythonClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -245,7 +245,7 @@ public class PythonTest {
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new PythonClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -275,7 +275,7 @@ public class PythonTest {
                 .description("an array model");
         final DefaultCodegen codegen = new PythonClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -295,7 +295,7 @@ public class PythonTest {
                 .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new PythonClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");

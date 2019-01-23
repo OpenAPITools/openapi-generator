@@ -80,7 +80,7 @@ public class JavaModelTest {
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -144,7 +144,7 @@ public class JavaModelTest {
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -174,7 +174,7 @@ public class JavaModelTest {
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -204,7 +204,7 @@ public class JavaModelTest {
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -233,7 +233,7 @@ public class JavaModelTest {
                         new ArraySchema().items(new Schema().$ref("Pet"))));
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.vars.size(), 1);
@@ -258,7 +258,7 @@ public class JavaModelTest {
                 .addProperties("@Some:restricted%characters#to!handle+", new BooleanSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -285,7 +285,7 @@ public class JavaModelTest {
                 .addProperties("children", new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -314,7 +314,7 @@ public class JavaModelTest {
                         .items(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -344,7 +344,7 @@ public class JavaModelTest {
                         .additionalProperties(new Schema().$ref("#/components/schemas/Children")));
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -381,7 +381,7 @@ public class JavaModelTest {
 
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -416,7 +416,7 @@ public class JavaModelTest {
                 .description("an array model");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -435,7 +435,7 @@ public class JavaModelTest {
                 .additionalProperties(new Schema().$ref("#/components/schemas/Children"));
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -455,7 +455,7 @@ public class JavaModelTest {
                 .addRequiredItem("NAME");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -483,7 +483,7 @@ public class JavaModelTest {
                 .addRequiredItem("pId");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -511,7 +511,7 @@ public class JavaModelTest {
                 .addRequiredItem("ATTName");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -538,7 +538,7 @@ public class JavaModelTest {
                 .addProperties("created-at", new DateTimeSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property = cm.vars.get(0);
@@ -555,7 +555,7 @@ public class JavaModelTest {
                 .addProperties("query[password]", new StringSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property = cm.vars.get(0);
@@ -572,7 +572,7 @@ public class JavaModelTest {
                 .addProperties("created-at", new DateTimeSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("with.dots", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("with.dots", schema);
 
         Assert.assertEquals(cm.classname, "WithDots");
@@ -585,7 +585,7 @@ public class JavaModelTest {
                 .addProperties("inputBinaryData", new ByteArraySchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property = cm.vars.get(0);
@@ -608,7 +608,7 @@ public class JavaModelTest {
                 .addProperties("_", new StringSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -635,7 +635,7 @@ public class JavaModelTest {
                 .name("limit")
                 .required(true);
         final DefaultCodegen codegen = new JavaClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenParameter cm = codegen.fromParameter(parameter, null);
 
         Assert.assertNull(cm.allowableValues);
@@ -650,7 +650,7 @@ public class JavaModelTest {
                         .additionalProperties(new ArraySchema().items(new NumberSchema())));
         OpenAPI openAPI1 = TestUtils.createOpenAPIWithOneSchema("sample", schema1);
         JavaClientCodegen codegen1 = new JavaClientCodegen();
-        codegen1.setGlobalOpenAPI(openAPI1);
+        codegen1.setOpenAPI(openAPI1);
         final CodegenModel cm1 = codegen1.fromModel("sample", schema1);
         Assert.assertEquals(cm1.vars.get(0).dataType, "Map<String, List<BigDecimal>>");
         Assert.assertTrue(cm1.imports.contains("BigDecimal"));
@@ -662,7 +662,7 @@ public class JavaModelTest {
                                 .additionalProperties(new ArraySchema().items(new NumberSchema()))));
         OpenAPI openAPI2 = TestUtils.createOpenAPIWithOneSchema("sample", schema2);
         JavaClientCodegen codegen2 = new JavaClientCodegen();
-        codegen2.setGlobalOpenAPI(openAPI2);
+        codegen2.setOpenAPI(openAPI2);
         final CodegenModel cm2 = codegen2.fromModel("sample", schema2);
         Assert.assertEquals(cm2.vars.get(0).dataType, "Map<String, Map<String, List<BigDecimal>>>");
         Assert.assertTrue(cm2.imports.contains("BigDecimal"));
@@ -687,7 +687,7 @@ public class JavaModelTest {
         final Schema schema = new Schema();
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema(name, schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel(name, schema);
 
         Assert.assertEquals(cm.name, name);
@@ -710,7 +710,7 @@ public class JavaModelTest {
                 .addProperties(baseName, new StringSchema());
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property = cm.vars.get(0);
@@ -745,7 +745,7 @@ public class JavaModelTest {
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -812,7 +812,7 @@ public class JavaModelTest {
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -848,7 +848,7 @@ public class JavaModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final BooleanSchema property = new BooleanSchema();
         final JavaClientCodegen codegen = new JavaClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         codegen.setBooleanGetterPrefix("is");
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
@@ -866,7 +866,7 @@ public class JavaModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final IntegerSchema property = new IntegerSchema();
         final DefaultCodegen codegen = new JavaClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
         Assert.assertEquals(cp.baseName, "property");
@@ -884,7 +884,7 @@ public class JavaModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final IntegerSchema property = new IntegerSchema().format("int64");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenProperty cp = codegen.fromProperty("property", property);
 
         Assert.assertEquals(cp.baseName, "property");
@@ -907,7 +907,7 @@ public class JavaModelTest {
                 .addProperties("Integer2", new IntegerSchema().format("int32"));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("IntegerProperty", longProperty);
         final DefaultCodegen codegen = new JavaClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("test", testSchema);
 
         Assert.assertEquals(cm.vars.size(), 2);
@@ -939,7 +939,7 @@ public class JavaModelTest {
                 .addProperties("Long2", new IntegerSchema().format("int64"));
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("LongProperty", longProperty);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("test", TestSchema);
 
         Assert.assertEquals(cm.vars.size(), 2);
@@ -964,7 +964,7 @@ public class JavaModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPI();
         final Schema property = new StringSchema().maxLength(10).minLength(3).pattern("^[A-Z]+$");
         final DefaultCodegen codegen = new JavaClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenProperty cp = codegen.fromProperty("somePropertyWithMinMaxAndPattern", property);
 
         Assert.assertEquals(cp.baseName, "somePropertyWithMinMaxAndPattern");
@@ -990,7 +990,7 @@ public class JavaModelTest {
 
         final DefaultCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("myObject", myObject);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         CodegenModel cm = codegen.fromModel("myObject", myObject);
 
         Assert.assertEquals(cm.getVars().size(), 1);
@@ -1022,7 +1022,7 @@ public class JavaModelTest {
                 .addSchemas("myObject", myObject)
                 .addSchemas("refObj", property)
         );
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         CodegenModel cm = codegen.fromModel("myObject", myObject);
 
         Assert.assertEquals(cm.getVars().size(), 1);
@@ -1050,7 +1050,7 @@ public class JavaModelTest {
                         .items(new Schema<>().$ref("#/components/schemas/Pet")));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("test", testSchema);
 
         Assert.assertEquals(cm.vars.size(), 1);
@@ -1082,7 +1082,7 @@ public class JavaModelTest {
                                 .description("Ok response")));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation);
 
         Assert.assertEquals(co.bodyParams.size(), 1);
@@ -1113,7 +1113,7 @@ public class JavaModelTest {
                                 new MediaType().schema(testSchema)))));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation);
 
         Assert.assertEquals(co.responses.size(), 1);
@@ -1133,7 +1133,7 @@ public class JavaModelTest {
                                 .items(new Schema<>().$ref("#/components/schemas/Pet"))));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("test", testSchema);
 
         Assert.assertEquals(cm.vars.size(), 1);
@@ -1162,7 +1162,7 @@ public class JavaModelTest {
                                 .description("Ok response")));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation);
 
         Assert.assertEquals(co.bodyParams.size(), 1);
@@ -1197,7 +1197,7 @@ public class JavaModelTest {
                                 new MediaType().schema(testSchema)))));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation);
 
         Assert.assertEquals(co.responses.size(), 1);

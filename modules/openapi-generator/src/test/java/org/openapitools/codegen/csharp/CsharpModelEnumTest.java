@@ -70,7 +70,7 @@ public class CsharpModelEnumTest {
         allModels.put("SubModel", subModel);
 
         /*
-        codegen.setGlobalOpenAPI(allModels);
+        codegen.setOpenAPI(allModels);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");

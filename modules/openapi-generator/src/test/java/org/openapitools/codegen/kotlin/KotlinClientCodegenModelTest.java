@@ -77,7 +77,7 @@ public class KotlinClientCodegenModelTest {
         final DefaultCodegen codegen = new KotlinClientCodegen();
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -126,7 +126,7 @@ public class KotlinClientCodegenModelTest {
         codegen.processOpts();
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property3 = cm.vars.get(2);
@@ -148,7 +148,7 @@ public class KotlinClientCodegenModelTest {
         codegen.processOpts();
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property3 = cm.vars.get(2);
@@ -170,7 +170,7 @@ public class KotlinClientCodegenModelTest {
         codegen.processOpts();
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property3 = cm.vars.get(2);
@@ -190,7 +190,7 @@ public class KotlinClientCodegenModelTest {
 
         final DefaultCodegen codegen = new KotlinClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel generated = codegen.fromModel("sample", model);
 
         Assert.assertEquals(generated.name, "sample");
@@ -219,7 +219,7 @@ public class KotlinClientCodegenModelTest {
         codegen.setCollectionType(KotlinClientCodegen.CollectionType.LIST.value);
         codegen.processOpts();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel generated = codegen.fromModel("sample", model);
 
         Assert.assertEquals(generated.name, "sample");
@@ -245,7 +245,7 @@ public class KotlinClientCodegenModelTest {
         final Schema schema = getMapSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -269,7 +269,7 @@ public class KotlinClientCodegenModelTest {
         final Schema schema = getComplexSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
@@ -302,7 +302,7 @@ public class KotlinClientCodegenModelTest {
         final Schema schema = getComplexSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema(name, schema);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel(name, schema);
 
         Assert.assertEquals(cm.name, testCase.expectedName);

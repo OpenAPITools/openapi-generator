@@ -55,7 +55,7 @@ public class ObjcModelTest {
         .addRequiredItem("id");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
         
         Assert.assertEquals(cm.name, "sample");
@@ -84,7 +84,7 @@ public class ObjcModelTest {
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -135,7 +135,7 @@ public class ObjcModelTest {
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -176,7 +176,7 @@ public class ObjcModelTest {
                 .addRequiredItem("id");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -203,7 +203,7 @@ public class ObjcModelTest {
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new ObjcClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -228,7 +228,7 @@ public class ObjcModelTest {
                         .items(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new ObjcClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -255,7 +255,7 @@ public class ObjcModelTest {
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
         final DefaultCodegen codegen = new ObjcClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -282,7 +282,7 @@ public class ObjcModelTest {
                 .description("an array model");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         Assert.assertEquals(cm.name, "sample");
@@ -301,7 +301,7 @@ public class ObjcModelTest {
                 .additionalProperties(new Schema().$ref("#/definitions/Children"));
         final DefaultCodegen codegen = new ObjcClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("map_model", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("map_model", model);
 
         Assert.assertEquals(cm.name, "map_model");
@@ -317,7 +317,7 @@ public class ObjcModelTest {
     public void udidAndPasswordDataModelTest() {
         final OpenAPI openAPI =  new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("format_test");
 
         Schema property = ((Map<String, Schema>) definition.getProperties()).get("uuid");
@@ -332,7 +332,7 @@ public class ObjcModelTest {
     public void mixedPropertiesDataModelTest() {
         final OpenAPI openAPI =  new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("MixedPropertiesAndAdditionalPropertiesClass");
 
         Schema property = ((Map<String, Schema>)definition.getProperties()).get("map");
@@ -345,7 +345,7 @@ public class ObjcModelTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final Schema definition = openAPI.getComponents().getSchemas().get("AnimalFarm");
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel codegenModel = codegen.fromModel("AnimalFarm", definition);
 
         Assert.assertEquals(codegenModel.isArrayModel, true);
@@ -359,7 +359,7 @@ public class ObjcModelTest {
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final String path = "/tests/binaryResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenOperation op = codegen.fromOperation(path, "post", p);
 
         Assert.assertTrue(op.bodyParam.isBinary);
@@ -372,7 +372,7 @@ public class ObjcModelTest {
     public void issue316Test() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/postBodyTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
 
         final Map<String, PathItem> animalPaths = openAPI.getPaths();
 

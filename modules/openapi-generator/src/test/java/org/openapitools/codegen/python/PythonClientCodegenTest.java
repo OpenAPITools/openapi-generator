@@ -64,7 +64,7 @@ public class PythonClientCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser()
                 .readLocation("src/test/resources/3_0/issue_1517.yaml", null, new ParseOptions()).getOpenAPI();
         final PythonClientCodegen codegen = new PythonClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final String path = "/ping";
         final Operation p = openAPI.getPaths().get(path).getGet();
         final CodegenOperation op = codegen.fromOperation(path, "get", p);

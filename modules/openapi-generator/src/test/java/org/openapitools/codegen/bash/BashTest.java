@@ -39,7 +39,7 @@ public class BashTest {
             = new OpenAPIParser()
                 .readLocation("src/test/resources/2_0/petstore-bash.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new BashClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final Operation findPetsByStatusOperation
             = openAPI.getPaths().get("/pet/findByStatus").getGet();
 
@@ -68,7 +68,7 @@ public class BashTest {
             = new OpenAPIParser()
                 .readLocation("src/test/resources/2_0/petstore-bash.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new BashClientCodegen();
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final Operation addPetOperation
             = openAPI.getPaths().get("/pet").getPost();
 

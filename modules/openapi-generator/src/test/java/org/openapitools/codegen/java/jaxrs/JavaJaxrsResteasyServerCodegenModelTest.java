@@ -24,7 +24,7 @@ public class JavaJaxrsResteasyServerCodegenModelTest {
 
         final JavaResteasyServerCodegen codegen = new JavaResteasyServerCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
-        codegen.setGlobalOpenAPI(openAPI);
+        codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
 
         assertEquals(cm.vars.get(0).baseType, "Map");

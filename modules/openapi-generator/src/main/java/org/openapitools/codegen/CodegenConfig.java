@@ -255,7 +255,10 @@ public interface CodegenConfig {
 
     void setEnablePostProcessFile(boolean isEnablePostProcessFile);
 
-    // set OpenAPI and schemas
-    void setGlobalOpenAPI(OpenAPI openAPI);
+    /**
+     * Set the OpenAPI instance. This method needs to be called right after the instantiation of the Codegen class.
+     * @param openAPI specification being generated
+     */
+    void setOpenAPI(OpenAPI openAPI);
 
 }

@@ -424,8 +424,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         // the scopes required by the operation.
         final List<SecurityRequirement> securities = operation.getSecurity();
         if (securities != null && securities.size() > 0) {
-            final Map<String, SecurityScheme> securitySchemes = globalOpenAPI.getComponents() != null ? globalOpenAPI.getComponents().getSecuritySchemes() : null;
-            final List<SecurityRequirement> globalSecurities = globalOpenAPI.getSecurity();
+            final Map<String, SecurityScheme> securitySchemes = this.openAPI.getComponents() != null ? this.openAPI.getComponents().getSecuritySchemes() : null;
+            final List<SecurityRequirement> globalSecurities = this.openAPI.getSecurity();
 
             Map<String, List<String>> scopes = getAuthScopes(securities, securitySchemes);
             if (scopes.isEmpty() && globalSecurities != null) {
