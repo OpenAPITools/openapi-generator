@@ -142,6 +142,9 @@
       "generators/go": {
         "title": "generators/go"
       },
+      "generators/graphql-nodejs-express-server": {
+        "title": "generators/graphql-nodejs-express-server"
+      },
       "generators/graphql-schema": {
         "title": "generators/graphql-schema"
       },
@@ -271,6 +274,9 @@
       "generators/powershell": {
         "title": "generators/powershell"
       },
+      "generators/python-aiohttp": {
+        "title": "generators/python-aiohttp"
+      },
       "generators/python-flask": {
         "title": "generators/python-flask"
       },
@@ -354,6 +360,9 @@
       },
       "generators/typescript-node": {
         "title": "generators/typescript-node"
+      },
+      "generators/typescript-rxjs": {
+        "title": "generators/typescript-rxjs"
       },
       "installation": {
         "title": "CLI Installation"
