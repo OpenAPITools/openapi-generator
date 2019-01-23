@@ -169,6 +169,8 @@ Class | Method | HTTP request | Description
  - [Model.Return](docs/Return.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)
+ - [Model.TypeHolderDefault](docs/TypeHolderDefault.md)
+ - [Model.TypeHolderExample](docs/TypeHolderExample.md)
  - [Model.User](docs/User.md)
 
 

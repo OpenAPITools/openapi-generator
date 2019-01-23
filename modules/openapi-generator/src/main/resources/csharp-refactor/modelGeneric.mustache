@@ -3,8 +3,13 @@
     /// </summary>
     [DataContract]
     {{#discriminator}}
-    [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]{{#children}}
-    [JsonSubtypes.KnownSubType(typeof({{classname}}), "{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}")]{{/children}}
+    [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]
+    {{#children}}
+    [JsonSubtypes.KnownSubType(typeof({{classname}}), "{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}")]
+    {{/children}}
+    {{#mappedModels}}
+    [JsonSubtypes.KnownSubType(typeof({{{modelName}}}), "{{{mappingName}}}")]
+    {{/mappedModels}}
     {{/discriminator}}
     {{#generatePropertyChanged}}
     [ImplementPropertyChanged]
