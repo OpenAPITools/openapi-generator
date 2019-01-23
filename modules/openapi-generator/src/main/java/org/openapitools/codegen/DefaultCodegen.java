@@ -1700,13 +1700,13 @@ public class DefaultCodegen implements CodegenConfig {
                     if (allDefinitions != null && refSchema != null) {
                         if (allParents.contains(modelName) && supportsMultipleInheritance) {
                             // multiple inheritance
-                            addProperties(allProperties, allRequired, refSchema, allDefinitions);
+                            addProperties(allProperties, allRequired, refSchema);
                         } else if (parentName != null && parentName.equals(modelName) && supportsInheritance) {
                             // single inheritance
-                            addProperties(allProperties, allRequired, refSchema, allDefinitions);
+                            addProperties(allProperties, allRequired, refSchema);
                         } else {
                             // composition
-                            addProperties(properties, required, refSchema, allDefinitions);
+                            addProperties(properties, required, refSchema);
                         }
                     }
 
@@ -1743,10 +1743,10 @@ public class DefaultCodegen implements CodegenConfig {
                 if (component.get$ref() == null) {
                     if (component != null) {
                         // component is the child schema
-                        addProperties(properties, required, component, allDefinitions);
+                        addProperties(properties, required, component);
 
                         // includes child's properties (all, required) in allProperties, allRequired
-                        addProperties(allProperties, allRequired, component, allDefinitions);
+                        addProperties(allProperties, allRequired, component);
                     }
                     break; // at most one child only
                 }
@@ -1835,15 +1835,13 @@ public class DefaultCodegen implements CodegenConfig {
      * @param properties all properties
      * @param required   required property only
      * @param schema     schema in which the properties will be added to the lists
-     * @param allSchemas all schemas
      */
-    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema
-            schema, Map<String, Schema> allSchemas) {
+    protected void addProperties(Map<String, Schema> properties, List<String> required, Schema schema) {
         if (schema instanceof ComposedSchema) {
             ComposedSchema composedSchema = (ComposedSchema) schema;
 
             for (Schema component : composedSchema.getAllOf()) {
-                addProperties(properties, required, component, allSchemas);
+                addProperties(properties, required, component);
             }
 
             if (composedSchema.getOneOf() != null) {
@@ -1858,8 +1856,8 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
-            Schema interfaceSchema = allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref()));
-            addProperties(properties, required, interfaceSchema, allSchemas);
+            Schema interfaceSchema = ModelUtils.getReferencedSchema(globalOpenAPI, schema);
+            addProperties(properties, required, interfaceSchema);
             return;
         }
         if (schema.getProperties() != null) {
