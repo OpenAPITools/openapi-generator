@@ -315,7 +315,9 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
 
         # check array index out of bound
         if index < 0 or index > len(servers):
-            raise ValueError("Invalid index {} when selecting the host settings. Must be less than {}".format(index, len(servers)))  # noqa: E501
+            raise ValueError(
+                "Invalid index {} when selecting the host settings. Must be less than {}"
+                .format(index, len(servers)))
 
         server = servers[index]
         url = server['url']
@@ -323,12 +325,21 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         # go through variable and assign a value
         for variable_name in server['variables']:
             if variable_name in variables:
-                if variables[variable_name] in server['variables'][variable_name]['enum_values']:
-                    url = url.replace("{" + variable_name + "}", variables[variable_name])
+                if variables[variable_name] in server['variables'][
+                        variable_name]['enum_values']:
+                    url = url.replace("{" + variable_name + "}",
+                        variables[variable_name])
                 else:
-                    raise ValueError("The variable `{}` in the host URL has invalid value {}. Must be {}.".format(variable_name, variables[variable_name], server['variables'][variable_name]['enum_values']))  # noqa: E501
+                    raise ValueError(
+                        "The variable `{}` in the host URL has invalid value {}. Must be {}."
+                        .format(
+                            variable_name, variables[variable_name],
+                            server['variables'][variable_name]
+                            ['enum_values']))
             else:
                 # use default value
-                url = url.replace("{" + variable_name + "}", server['variables'][variable_name]['default_value'])  # noqa: E501
+                url = url.replace("{" + variable_name + "}",
+                                  server['variables'][variable_name]
+                                  ['default_value'])
 
         return url
