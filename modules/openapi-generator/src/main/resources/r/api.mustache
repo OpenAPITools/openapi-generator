@@ -102,10 +102,10 @@
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}
                 jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
-           {{/isPrimitiveType}}
+          {{/isPrimitiveType}}
          {{/returnType}}
         {{^returnType}}
-        # void response, no need to return anything
+            # void response, no need to return anything
         {{/returnType}}
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         Response$new("API client error", resp)
