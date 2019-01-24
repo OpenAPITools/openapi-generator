@@ -307,18 +307,17 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                 if variables[variable_name] in server['variables'][
                         variable_name]['enum_values']:
                     url = url.replace("{" + variable_name + "}",
-                        variables[variable_name])
+                                      variables[variable_name])
                 else:
                     raise ValueError(
                         "The variable `{}` in the host URL has invalid value {}. Must be {}."
                         .format(
                             variable_name, variables[variable_name],
-                            server['variables'][variable_name]
-                            ['enum_values']))
+                            server['variables'][variable_name]['enum_values']))
             else:
                 # use default value
-                url = url.replace("{" + variable_name + "}",
-                                  server['variables'][variable_name]
-                                  ['default_value'])
+                url = url.replace(
+                    "{" + variable_name + "}",
+                    server['variables'][variable_name]['default_value'])
 
         return url
