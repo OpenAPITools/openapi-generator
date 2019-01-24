@@ -30,8 +30,16 @@ import EnumClass from './model/EnumClass';
 import EnumTest from './model/EnumTest';
 import File from './model/File';
 import FileSchemaTestClass from './model/FileSchemaTestClass';
+import Foo from './model/Foo';
 import FormatTest from './model/FormatTest';
 import HasOnlyReadOnly from './model/HasOnlyReadOnly';
+import InlineObject from './model/InlineObject';
+import InlineObject1 from './model/InlineObject1';
+import InlineObject2 from './model/InlineObject2';
+import InlineObject3 from './model/InlineObject3';
+import InlineObject4 from './model/InlineObject4';
+import InlineObject5 from './model/InlineObject5';
+import InlineResponseDefault from './model/InlineResponseDefault';
 import List from './model/List';
 import MapTest from './model/MapTest';
 import MixedPropertiesAndAdditionalPropertiesClass from './model/MixedPropertiesAndAdditionalPropertiesClass';
@@ -46,10 +54,9 @@ import Pet from './model/Pet';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
 import SpecialModelName from './model/SpecialModelName';
 import Tag from './model/Tag';
-import TypeHolderDefault from './model/TypeHolderDefault';
-import TypeHolderExample from './model/TypeHolderExample';
 import User from './model/User';
 import AnotherFakeApi from './api/AnotherFakeApi';
+import DefaultApi from './api/DefaultApi';
 import FakeApi from './api/FakeApi';
 import FakeClassnameTags123Api from './api/FakeClassnameTags123Api';
 import PetApi from './api/PetApi';
@@ -198,6 +205,12 @@ export {
     FileSchemaTestClass,
 
     /**
+     * The Foo model constructor.
+     * @property {module:model/Foo}
+     */
+    Foo,
+
+    /**
      * The FormatTest model constructor.
      * @property {module:model/FormatTest}
      */
@@ -208,6 +221,48 @@ export {
      * @property {module:model/HasOnlyReadOnly}
      */
     HasOnlyReadOnly,
+
+    /**
+     * The InlineObject model constructor.
+     * @property {module:model/InlineObject}
+     */
+    InlineObject,
+
+    /**
+     * The InlineObject1 model constructor.
+     * @property {module:model/InlineObject1}
+     */
+    InlineObject1,
+
+    /**
+     * The InlineObject2 model constructor.
+     * @property {module:model/InlineObject2}
+     */
+    InlineObject2,
+
+    /**
+     * The InlineObject3 model constructor.
+     * @property {module:model/InlineObject3}
+     */
+    InlineObject3,
+
+    /**
+     * The InlineObject4 model constructor.
+     * @property {module:model/InlineObject4}
+     */
+    InlineObject4,
+
+    /**
+     * The InlineObject5 model constructor.
+     * @property {module:model/InlineObject5}
+     */
+    InlineObject5,
+
+    /**
+     * The InlineResponseDefault model constructor.
+     * @property {module:model/InlineResponseDefault}
+     */
+    InlineResponseDefault,
 
     /**
      * The List model constructor.
@@ -294,18 +349,6 @@ export {
     Tag,
 
     /**
-     * The TypeHolderDefault model constructor.
-     * @property {module:model/TypeHolderDefault}
-     */
-    TypeHolderDefault,
-
-    /**
-     * The TypeHolderExample model constructor.
-     * @property {module:model/TypeHolderExample}
-     */
-    TypeHolderExample,
-
-    /**
      * The User model constructor.
      * @property {module:model/User}
      */
@@ -316,6 +359,12 @@ export {
     * @property {module:api/AnotherFakeApi}
     */
     AnotherFakeApi,
+
+    /**
+    * The DefaultApi service constructor.
+    * @property {module:api/DefaultApi}
+    */
+    DefaultApi,
 
     /**
     * The FakeApi service constructor.

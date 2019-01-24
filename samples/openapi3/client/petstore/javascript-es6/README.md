@@ -72,7 +72,7 @@ var OpenApiPetstore = require('open_api_petstore');
 
 
 var api = new OpenApiPetstore.AnotherFakeApi()
-var body = new OpenApiPetstore.Client(); // {Client} client model
+var client = new OpenApiPetstore.Client(); // {Client} client model
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -80,7 +80,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.call123testSpecialTags(body, callback);
+api.call123testSpecialTags(client, callback);
 
 ```
 
@@ -91,6 +91,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *OpenApiPetstore.AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+*OpenApiPetstore.DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -146,8 +147,16 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.EnumTest](docs/EnumTest.md)
  - [OpenApiPetstore.File](docs/File.md)
  - [OpenApiPetstore.FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [OpenApiPetstore.Foo](docs/Foo.md)
  - [OpenApiPetstore.FormatTest](docs/FormatTest.md)
  - [OpenApiPetstore.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [OpenApiPetstore.InlineObject](docs/InlineObject.md)
+ - [OpenApiPetstore.InlineObject1](docs/InlineObject1.md)
+ - [OpenApiPetstore.InlineObject2](docs/InlineObject2.md)
+ - [OpenApiPetstore.InlineObject3](docs/InlineObject3.md)
+ - [OpenApiPetstore.InlineObject4](docs/InlineObject4.md)
+ - [OpenApiPetstore.InlineObject5](docs/InlineObject5.md)
+ - [OpenApiPetstore.InlineResponseDefault](docs/InlineResponseDefault.md)
  - [OpenApiPetstore.List](docs/List.md)
  - [OpenApiPetstore.MapTest](docs/MapTest.md)
  - [OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
@@ -162,8 +171,6 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
- - [OpenApiPetstore.TypeHolderDefault](docs/TypeHolderDefault.md)
- - [OpenApiPetstore.TypeHolderExample](docs/TypeHolderExample.md)
  - [OpenApiPetstore.User](docs/User.md)
 
 

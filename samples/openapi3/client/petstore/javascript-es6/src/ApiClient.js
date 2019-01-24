@@ -544,14 +544,47 @@ class ApiClient {
     hostSettings() {
         return [
             {
-              'url': "http://petstore.swagger.io:80/v2",
-              'description': "No description provided",
+              'url': "http://{server}.swagger.io:{port}/v2",
+              'description': "petstore server",
+              'variables': {
+                server: {
+                    'description': "No description provided",
+                    'default_value': "petstore",
+                    'enum_values': [
+                      "petstore",
+                      "qa-petstore",
+                      "dev-petstore"
+                    ]
+                  },
+                port: {
+                    'description': "No description provided",
+                    'default_value': "80",
+                    'enum_values': [
+                      "80",
+                      "8080"
+                    ]
+                  }
+                }
+            },
+            {
+              'url': "https://localhost:8080/{version}",
+              'description': "The local server",
+              'variables': {
+                version: {
+                    'description': "No description provided",
+                    'default_value': "v2",
+                    'enum_values': [
+                      "v1",
+                      "v2"
+                    ]
+                  }
+                }
             }
       ];
     }
 
     getBasePathFromSettings(index, variables={}) {
-        var servers = this.get_host_settings();
+        var servers = this.hostSettings();
 
         // check array index out of bound
         if (index < 0 || index > servers.length) {
