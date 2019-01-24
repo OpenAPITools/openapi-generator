@@ -24,13 +24,13 @@ local user_api_mt = {
 	__index = user_api;
 }
 
-local function new_user_api(host, basePath, schemes)
+local function new_user_api(authority, basePath, schemes)
 	local schemes_map = {}
 	for _,v in ipairs(schemes) do
 		schemes_map[v] = v
 	end
 	local default_scheme = schemes_map.https or schemes_map.http
-	local host, port = http_util.split_authority(host, default_scheme)
+	local host, port = http_util.split_authority(authority, default_scheme)
 	return setmetatable({
 		host = host;
 		port = port;
