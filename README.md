@@ -499,6 +499,7 @@ When code is generated from this project, it shall be considered **AS IS** and o
 ## [4 - Companies/Projects using OpenAPI Generator](#table-of-contents)
 Here are some companies/projects (alphabetical order) using OpenAPI Generator in production. To add your company/project to the list, please visit [README.md](README.md) and click on the icon to edit the page.
 
+- [Adaptant Solutions AG](https://www.adaptant.io/)
 - [Angular.Schule](https://angular.schule/)
 - [ASKUL](https://www.askul.co.jp)
 - [b<>com](https://b-com.com/en)
