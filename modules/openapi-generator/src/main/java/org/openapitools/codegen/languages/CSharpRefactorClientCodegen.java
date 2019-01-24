@@ -591,7 +591,7 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
                         parentVar.isInherited = true;
                         parentVar.hasMore = true;
                         last = parentVar;
-                        LOGGER.info("adding parent variable {}", property.name);
+                        LOGGER.debug("adding parent variable {}", property.name);
                         codegenModel.parentVars.add(parentVar);
                     }
                 }
