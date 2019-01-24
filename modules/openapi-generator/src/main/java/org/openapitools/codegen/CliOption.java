@@ -18,7 +18,6 @@
 package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import java.util.LinkedHashMap;

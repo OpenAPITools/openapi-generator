@@ -1,18 +1,15 @@
 package org.openapitools.codegen.java.jaxrs;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
-
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaResteasyServerCodegen;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class JavaJaxrsResteasyServerCodegenModelTest {
 

@@ -17,27 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.CodegenSecurity;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.openapitools.codegen.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.net.URLEncoder;
-import org.apache.commons.lang3.StringEscapeUtils;
 import java.io.UnsupportedEncodingException;
-
-import io.swagger.v3.oas.models.Operation;
+import java.net.URLEncoder;
+import java.util.*;
 
 public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);

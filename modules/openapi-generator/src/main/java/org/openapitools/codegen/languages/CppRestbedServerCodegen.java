@@ -17,22 +17,15 @@
 
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Logger;
-
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.LoggerFactory;
 
-import io.swagger.v3.oas.models.media.*;
+import java.io.File;
+import java.util.*;
 
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
 

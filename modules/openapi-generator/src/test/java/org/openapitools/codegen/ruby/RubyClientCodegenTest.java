@@ -17,28 +17,14 @@
 
 package org.openapitools.codegen.ruby;
 
-import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
-
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.apache.commons.io.FileUtils;
 import org.junit.rules.TemporaryFolder;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenDiscriminator;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.RubyClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -51,6 +37,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 /**
  * Tests for RubyClientCodegen-generated templates

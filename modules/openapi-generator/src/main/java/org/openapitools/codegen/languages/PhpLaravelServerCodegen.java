@@ -17,18 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
     protected String apiVersion = "1.0.0";

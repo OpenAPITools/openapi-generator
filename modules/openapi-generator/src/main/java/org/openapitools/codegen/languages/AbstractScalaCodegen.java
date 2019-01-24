@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
-
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;

@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.typescript.typescriptangularjs;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptAngularJsClientCodegen;
 import org.openapitools.codegen.options.TypeScriptAngularJsClientOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class TypeScriptAngularJsClientOptionsTest extends AbstractOptionsTest {
 

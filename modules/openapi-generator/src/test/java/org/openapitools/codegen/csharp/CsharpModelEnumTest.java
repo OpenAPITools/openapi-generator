@@ -19,7 +19,6 @@ package org.openapitools.codegen.csharp;
 
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
-
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.testng.annotations.Test;
