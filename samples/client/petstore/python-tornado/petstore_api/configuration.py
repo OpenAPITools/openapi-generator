@@ -283,7 +283,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         # check array index out of bound
         if index < 0 or index > len(servers):
             raise ValueError(
-                "Invalid index {} when selecting the host settings. Must be less than {}"
+                "Invalid index {} when selecting the host settings. Must be less than {}"  # noqa: E501
                 .format(index, len(servers)))
 
         server = servers[index]
@@ -298,7 +298,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                                       variables[variable_name])
                 else:
                     raise ValueError(
-                        "The variable `{}` in the host URL has invalid value {}. Must be {}."
+                        "The variable `{}` in the host URL has invalid value {}. Must be {}."  # noqa: E501
                         .format(
                             variable_name, variables[variable_name],
                             server['variables'][variable_name]['enum_values']))
