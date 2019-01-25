@@ -577,16 +577,16 @@
     * Gets an array of host settings
     * @returns An array of host settings
     */
-    hostSettings() {
+    exports.hostSettings = function() {
         return [
             {
               'url': "http://petstore.swagger.io:80/v2",
               'description': "No description provided",
             }
       ];
-    }
+    };
 
-    getBasePathFromSettings(index, variables={}) {
+    exports.getBasePathFromSettings = function(index, variables={}) {
         var servers = this.hostSettings();
 
         // check array index out of bound
@@ -611,7 +611,7 @@
             }
         }
         return url;
-    }
+    };
 
   /**
    * Constructs a new map or array model from REST data.

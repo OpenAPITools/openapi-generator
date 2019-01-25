@@ -600,7 +600,7 @@
     * @returns An array of host settings
     */
     {{/emitJSDoc}}
-    hostSettings() {
+    exports.hostSettings = function() {
         return [
             {{#servers}}
             {
@@ -630,9 +630,9 @@
             }{{^-last}},{{/-last}}
             {{/servers}}
       ];
-    }
+    };
 
-    getBasePathFromSettings(index, variables={}) {
+    exports.getBasePathFromSettings = function(index, variables={}) {
         var servers = this.hostSettings();
 
         // check array index out of bound
@@ -657,7 +657,7 @@
             }
         }
         return url;
-    }
+    };
 
 {{#emitJSDoc}}  /**
    * Constructs a new map or array model from REST data.
