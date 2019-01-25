@@ -78,12 +78,12 @@ All URIs are relative to *http://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*FakeApi* | [**testCodeInjectEndRnNR**](docs\Api/FakeApi.md#testcodeinjectendrnnr) | **PUT** /fake | To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
+*FakeApi* | [**testCodeInjectEndRnNR**](docs/Api/FakeApi.md#testcodeinjectendrnnr) | **PUT** /fake | To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
 
 ## Documentation For Models
 
- - [ModelReturn](docs\Model/ModelReturn.md)
+ - [ModelReturn](docs/Model/ModelReturn.md)
 
 
 ## Documentation For Authorization
