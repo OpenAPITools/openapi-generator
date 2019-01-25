@@ -349,6 +349,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
+        additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
 
         if (additionalProperties.containsKey(CodegenConstants.LOCAL_VARIABLE_PREFIX)) {
             this.setLocalVariablePrefix((String) additionalProperties.get(CodegenConstants.LOCAL_VARIABLE_PREFIX));
