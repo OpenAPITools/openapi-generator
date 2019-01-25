@@ -1,5 +1,6 @@
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'java'
 
 group = 'org.openapitools'
 version = '1.0.0'
@@ -18,7 +19,9 @@ buildscript {
 repositories {
     jcenter()
 }
-
+sourceSets {
+    main.java.srcDirs = ['src/main/java']
+}
 
 if(hasProperty('target') && target == 'android') {
 
