@@ -551,7 +551,7 @@ class ApiClient {
     }
 
     getBasePathFromSettings(index, variables={}) {
-        var servers = this.get_host_settings();
+        var servers = this.hostSettings();
 
         // check array index out of bound
         if (index < 0 || index > servers.length) {

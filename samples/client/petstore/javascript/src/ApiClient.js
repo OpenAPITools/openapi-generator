@@ -585,6 +585,46 @@
   };
 
   /**
+    * Gets an array of host settings
+    * @returns An array of host settings
+    */
+    hostSettings() {
+        return [
+            {
+              'url': "http://petstore.swagger.io:80/v2",
+              'description': "No description provided",
+            }
+      ];
+    }
+
+    getBasePathFromSettings(index, variables={}) {
+        var servers = this.hostSettings();
+
+        // check array index out of bound
+        if (index < 0 || index > servers.length) {
+            throw new Error("Invalid index " + index + " when selecting the host settings. Must be less than " + servers.length);
+        }
+
+        var server = servers[index];
+        var url = server['url'];
+
+        // go through variable and assign a value
+        for (var variable_name in server['variables']) {
+            if (variable_name in variables) {
+                if (server['variables'][variable_name]['enum_values'].includes(variables[variable_name])) {
+                    url = url.replace("{" + variable_name + "}", variables[variable_name]);
+                } else {
+                    throw new Error("The variable `" + variable_name + "` in the host URL has invalid value " + variables[variable_name] + ". Must be " + server['variables'][variable_name]['enum_values'] + ".");
+                }
+            } else {
+                // use default value
+                url = url.replace("{" + variable_name + "}", server['variables'][variable_name]['default_value'])
+            }
+        }
+        return url;
+    }
+
+  /**
    * Constructs a new map or array model from REST data.
    * @param data {Object|Array} The REST data.
    * @param obj {Object|Array} The target object or array.
