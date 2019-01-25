@@ -22,12 +22,12 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
@@ -124,6 +124,18 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         } else {
             return super.getTypeDeclaration(p);
         }
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        objs = super.postProcessOperations(objs);
+        Map<String, Object> vals = (Map<String, Object>)objs.get("operations");
+        List<CodegenOperation> operations = (List<CodegenOperation>)vals.get("operation");
+        operations.stream()
+                .filter(op -> op.hasConsumes)
+                .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
+                .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
+        return objs;
     }
 
     @Override
