@@ -26,7 +26,7 @@ class Pet {
     if (json['id'] == null) {
       id = null;
     } else {
-      id = json['id'];
+          id = json['id'];
     }
     if (json['category'] == null) {
       category = null;
@@ -36,12 +36,12 @@ class Pet {
     if (json['name'] == null) {
       name = null;
     } else {
-      name = json['name'];
+          name = json['name'];
     }
     if (json['photoUrls'] == null) {
       photoUrls = null;
     } else {
-      photoUrls = ((json['photoUrls'] ?? []) as List).map((item) => item as String).toList();
+      photoUrls = (json['photoUrls'] as List).cast<String>();
     }
     if (json['tags'] == null) {
       tags = null;
@@ -51,7 +51,7 @@ class Pet {
     if (json['status'] == null) {
       status = null;
     } else {
-      status = json['status'];
+          status = json['status'];
     }
   }
 
