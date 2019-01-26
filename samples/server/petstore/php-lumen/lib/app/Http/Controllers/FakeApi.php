@@ -277,6 +277,30 @@ class FakeApi extends Controller
         return response('How about implementing testBodyWithQueryParams as a put method ?');
     }
     /**
+     * Operation createXmlItem
+     *
+     * creates an XmlItem.
+     *
+     *
+     * @return Http response
+     */
+    public function createXmlItem()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['xml_item'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $xml_item when calling createXmlItem');
+        }
+        $xml_item = $input['xml_item'];
+
+
+        return response('How about implementing createXmlItem as a post method ?');
+    }
+    /**
      * Operation testInlineAdditionalProperties
      *
      * test inline additionalProperties.

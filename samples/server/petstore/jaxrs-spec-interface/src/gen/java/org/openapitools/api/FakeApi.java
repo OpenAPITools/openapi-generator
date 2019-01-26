@@ -10,6 +10,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -25,6 +26,14 @@ import javax.validation.Valid;
 @Path("/fake")
 @Api(description = "the fake API")
 public interface FakeApi {
+
+    @POST
+    @Path("/create_xml_item")
+    @Consumes({ "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" })
+    @ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
+    void createXmlItem(@Valid XmlItem xmlItem);
 
     @POST
     @Path("/outer/boolean")
