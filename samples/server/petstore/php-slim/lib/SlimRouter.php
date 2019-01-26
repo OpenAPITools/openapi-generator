@@ -62,6 +62,17 @@ class SlimRouter
         [
             'httpMethod' => 'POST',
             'basePathWithoutHost' => '/v2',
+            'path' => '/fake/create_xml_item',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractFakeApi',
+            'userClassname' => 'FakeApi',
+            'operationId' => 'createXmlItem',
+            'authMethods' => [
+            ],
+        ],
+        [
+            'httpMethod' => 'POST',
+            'basePathWithoutHost' => '/v2',
             'path' => '/fake/outer/boolean',
             'apiPackage' => 'OpenAPIServer\Api',
             'classname' => 'AbstractFakeApi',
