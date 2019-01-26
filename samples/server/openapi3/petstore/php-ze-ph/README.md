@@ -12,7 +12,7 @@ This server stub aims to provide light, yet comprehensive structure for your API
 ## How to use
 All you have to do to start development is:
 
-- install dependencies via [Composer](https://getcomposer.org/)
+- install dependencies via [Composer](https://getcomposer.org/) (small note: [ext-yaml](https://pecl.php.net/package/yaml) is used only for configuration parsing, so if you want to drop this dependency, simply adjust `./application/container.php`)
 - create cache folder: `mkdir -p ./data/cache/ZendCache` (you will need it later for configuration and metadata caches - check comments in `./application/config.yml`)
 - start PHP development server: `php -S 0.0.0.0:8080 -t ./public` (or any other SAPI you prefer, just make sure that you configure webroot to `./public` and rewrites to `./public/index.php`)
 
