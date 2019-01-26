@@ -1,0 +1,23 @@
+dependencies:
+  invokables:
+    Zend\HttpHandlerRunner\Emitter\EmitterInterface: Zend\HttpHandlerRunner\Emitter\SapiStreamEmitter
+  factories:
+    Zend\Expressive\Application: App\Factory
+    Zend\Expressive\MiddlewareContainer: Zend\Expressive\Container\MiddlewareContainerFactory
+    Zend\Expressive\MiddlewareFactory: Zend\Expressive\Container\MiddlewareFactoryFactory
+    Zend\Expressive\Router\RouteCollector: Zend\Expressive\Router\RouteCollectorFactory
+    Zend\Expressive\Router\RouterInterface: Articus\PathHandler\RouteInjection\Factory
+
+    Psr\Http\Message\ServerRequestInterface: Zend\Expressive\Container\ServerRequestFactoryFactory
+    Psr\Http\Message\StreamInterface: Zend\Expressive\Container\StreamFactoryFactory
+    Psr\Http\Message\ResponseInterface: Zend\Expressive\Container\ResponseFactoryFactory
+
+    Zend\Expressive\Router\Middleware\RouteMiddleware: Zend\Expressive\Router\Middleware\RouteMiddlewareFactory
+    Zend\Expressive\Router\Middleware\DispatchMiddleware: Zend\Expressive\Router\Middleware\DispatchMiddlewareFactory
+    Zend\Expressive\Router\Middleware\MethodNotAllowedMiddleware: Zend\Expressive\Router\Middleware\MethodNotAllowedMiddlewareFactory
+    Zend\Expressive\Handler\NotFoundHandler: Zend\Expressive\Container\NotFoundHandlerFactory
+    App\Middleware\InternalServerError: Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory
+
+Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
+  App\Middleware\InternalServerError:
+  - Psr\Http\Message\ResponseInterface

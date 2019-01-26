@@ -25,7 +25,7 @@ class Fake
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json")
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
      *
      * @return \App\DTO\Client
      */
@@ -41,7 +41,7 @@ class Fake
      * @PHA\Post()
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
      */
     public function testEndpointParameters(ServerRequestInterface $request)
     {
@@ -53,7 +53,7 @@ class Fake
      * @PHA\Get()
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
      */
     public function testEnumParameters(ServerRequestInterface $request)
     {
@@ -65,7 +65,7 @@ class Fake
      * @PHA\Delete()
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
      */
     public function testGroupParameters(ServerRequestInterface $request)
     {

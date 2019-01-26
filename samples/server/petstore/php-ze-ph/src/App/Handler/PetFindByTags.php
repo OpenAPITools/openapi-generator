@@ -24,11 +24,12 @@ class PetFindByTags
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json")
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
      *
+     * TODO check if generated return container type is valid
      * @return \App\DTO\Pet[]
      */
-    public function findPetsByTags(ServerRequestInterface $request): \App\DTO\Pet[]
+    public function findPetsByTags(ServerRequestInterface $request): array
     {
         //TODO implement method
         throw new PHException\HttpCode(501, "Not implemented");

@@ -315,6 +315,12 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
                     httpMethodDeclaration = "HttpMethod(\"" + op.httpMethod + "\")";
             }
             op.httpMethod = httpMethodDeclaration;
+            //Producing content with media type "*/*" is not supported
+            if (op.produces != null) {
+                for (Map<String, String> p: op.produces) {
+                    p.replace("mediaType", "*/*", "n/a");
+                }
+            }
             //All operations have same path because of custom operation grouping, so path pattern can be calculated only once
             if (pathPattern == null) {
                 pathPattern = generatePathPattern(op);

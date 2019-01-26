@@ -20,7 +20,7 @@ class UserUsername
      * @PHA\Delete()
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
      */
     public function deleteUser(ServerRequestInterface $request)
     {
@@ -36,7 +36,7 @@ class UserUsername
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json")
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
      *
      * @return \App\DTO\User
      */
@@ -51,7 +51,7 @@ class UserUsername
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\User::class,"objectAttr":"bodyData"})
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
      */
     public function updateUser(ServerRequestInterface $request)
     {

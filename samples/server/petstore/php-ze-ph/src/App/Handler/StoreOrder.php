@@ -25,7 +25,7 @@ class StoreOrder
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json")
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
      *
      * @return \App\DTO\Order
      */

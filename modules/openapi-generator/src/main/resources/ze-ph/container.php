@@ -29,20 +29,15 @@ if (is_readable(CONFIG_CACHE_PATH)) {
     ]);
 
     //Cache full configuration
-    if (isset($config['cache_configuration']) && $config['cache_configuration']) {
+    if ($config['cache_configuration'] ?? false) {
         if (!ConfigFactory::toFile(CONFIG_CACHE_PATH, $config)) {
             throw new \RuntimeException('Failed to cache configuration');
         }
     }
 }
-//Get configuration for container
-$dependencies = [];
-if (isset($config['dependencies'])) {
-    $dependencies = $config['dependencies'];
-}
 
 //Create container
-$container = new \Zend\ServiceManager\ServiceManager($dependencies);
+$container = new \Zend\ServiceManager\ServiceManager($config['dependencies'] ?? []);
 
 //Register full configuration as a service
 $container->setService('config', $config);

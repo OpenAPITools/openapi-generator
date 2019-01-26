@@ -1,0 +1,33 @@
+dependencies:
+  factories:
+    Articus\DataTransfer\Service: Articus\DataTransfer\ServiceFactory
+
+Articus\DataTransfer\Service:
+  metadata_cache:
+    adapter:
+      name: blackhole
+  strategies:
+    invokables:
+      App\Strategy\Date: App\Strategy\Date
+      App\Strategy\DateTime: App\Strategy\DateTime
+      App\Strategy\QueryParameter: App\Strategy\QueryParameter
+      App\Strategy\QueryParameterArray: App\Strategy\QueryParameterArray
+    aliases:
+      Date: App\Strategy\Date
+      DateTime: App\Strategy\DateTime
+      QueryParameter: App\Strategy\QueryParameter
+      QueryParameterArray: App\Strategy\QueryParameterArray
+  validators:
+    invokables:
+      App\Validator\Type: App\Validator\Type
+      App\Validator\QueryParameterType: App\Validator\QueryParameterType
+      App\Validator\QueryParameterArrayType: App\Validator\QueryParameterArrayType
+    factories:
+      Articus\DataTransfer\Validator\Dictionary: Articus\DataTransfer\Validator\Factory
+      Articus\DataTransfer\Validator\Collection: Articus\DataTransfer\Validator\Factory
+    aliases:
+      Dictionary: Articus\DataTransfer\Validator\Dictionary
+      Collection: Articus\DataTransfer\Validator\Collection
+      Type: App\Validator\Type
+      QueryParameterType: App\Validator\QueryParameterType
+      QueryParameterArrayType: App\Validator\QueryParameterArrayType
