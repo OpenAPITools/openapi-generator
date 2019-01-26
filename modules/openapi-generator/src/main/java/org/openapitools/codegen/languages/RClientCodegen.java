@@ -74,37 +74,29 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList(
-                        "map",
-                        "array")
-        );
-
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "Integer",
-                        "Numeric",
-                        "Character")
-        );
-
-        instantiationTypes.clear();
+        languageSpecificPrimitives.clear();
+        languageSpecificPrimitives.add("integer");
+        languageSpecificPrimitives.add("numeric");
+        languageSpecificPrimitives.add("character");
+        languageSpecificPrimitives.add("data.frame");
+        languageSpecificPrimitives.add("object");
 
         typeMapping.clear();
-        typeMapping.put("integer", "Integer");
-        typeMapping.put("long", "Integer");
-        typeMapping.put("number", "Numeric");
-        typeMapping.put("float", "Numeric");
-        typeMapping.put("double", "Numeric");
-        typeMapping.put("boolean", "Character");
-        typeMapping.put("string", "Character");
-        typeMapping.put("UUID", "Character");
-        typeMapping.put("date", "Character");
-        typeMapping.put("DateTime", "Character");
-        typeMapping.put("password", "Character");
+        typeMapping.put("integer", "integer");
+        typeMapping.put("long", "integer");
+        typeMapping.put("number", "numeric");
+        typeMapping.put("float", "numeric");
+        typeMapping.put("double", "numeric");
+        typeMapping.put("boolean", "character");
+        typeMapping.put("string", "character");
+        typeMapping.put("UUID", "character");
+        typeMapping.put("date", "character");
+        typeMapping.put("DateTime", "character");
+        typeMapping.put("password", "character");
         typeMapping.put("file", "data.frame");
         typeMapping.put("binary", "data.frame");
-        typeMapping.put("ByteArray", "Character");
-        typeMapping.put("object", "object");
+        typeMapping.put("ByteArray", "character");
+        typeMapping.put("map", "object");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "R package name (convention: lowercase).")
@@ -370,8 +362,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     protected boolean needToImport(String type) {
-        return !defaultIncludes.contains(type)
-                && !languageSpecificPrimitives.contains(type);
+        return !languageSpecificPrimitives.contains(type);
     }
 
     public void setPackageName(String packageName) {
