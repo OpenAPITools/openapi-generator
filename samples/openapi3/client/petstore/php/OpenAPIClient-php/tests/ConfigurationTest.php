@@ -42,6 +42,17 @@ class ConfigurationTest extends TestCase
     }
 
     /**
+     * Test invalid index
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Invalid index 2 when selecting the host. Must be less than 2
+     */
+    public function testInvalidIndex()
+    {
+        $config = new Configuration();
+        $url = $config->getHostFromSettings(2);
+    }
+
+    /**
      * Test host settings with invalid vaues
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage The variable `port` in the host URL has invalid value 8. Must be 80,8080
