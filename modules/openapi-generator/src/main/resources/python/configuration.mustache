@@ -293,7 +293,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         servers = self.get_host_settings()
 
         # check array index out of bound
-        if index < 0 or index > len(servers):
+        if index < 0 or index >= len(servers):
             raise ValueError(
                 "Invalid index {} when selecting the host settings. Must be less than {}"  # noqa: E501
                 .format(index, len(servers)))
