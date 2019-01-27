@@ -28,13 +28,13 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Add a new pet to the store
         /// </summary>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <response code="405">Invalid input</response>
         [HttpPost]
         [Route("/v2/pet")]
         [ValidateModelState]
         [SwaggerOperation("AddPet")]
-        public virtual IActionResult AddPet([FromBody]Pet pet)
+        public virtual IActionResult AddPet([FromBody]Pet body)
         { 
             //TODO: Uncomment the next line to return response 405 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(405);
@@ -162,7 +162,7 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Update an existing pet
         /// </summary>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Pet not found</response>
         /// <response code="405">Validation exception</response>
@@ -170,7 +170,7 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/pet")]
         [ValidateModelState]
         [SwaggerOperation("UpdatePet")]
-        public virtual IActionResult UpdatePet([FromBody]Pet pet)
+        public virtual IActionResult UpdatePet([FromBody]Pet body)
         { 
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
