@@ -205,10 +205,19 @@ export class {{classname}} {
 {{/isKeyInQuery}}
 {{/isApiKey}}
 {{#isBasic}}
+    {{^isBasicBearer}}
         if (this.configuration.username || this.configuration.password) {
             {{#useHttpClient}}headers = {{/useHttpClient}}headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
         }
-
+    {{/isBasicBearer}}
+    {{#isBasicBearer}}
+        if (this.configuration.accessToken) {
+            const accessToken = typeof this.configuration.accessToken === 'function'
+                ? this.configuration.accessToken()
+                : this.configuration.accessToken;
+            {{#useHttpClient}}headers = {{/useHttpClient}}headers.set('Authorization', 'Bearer ' + accessToken);
+        }
+    {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
         if (this.configuration.accessToken) {
