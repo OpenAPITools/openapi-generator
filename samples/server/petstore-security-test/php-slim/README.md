@@ -1,6 +1,7 @@
 # php-base - PHP Slim Server library for OpenAPI Petstore *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
-[Slim Framework Documentation](https://www.slimframework.com/docs/)
+* [OpenAPI Generator](https://openapi-generator.tech)
+* [Slim Framework Documentation](https://www.slimframework.com/docs/)
 
 ## Requirements
 
