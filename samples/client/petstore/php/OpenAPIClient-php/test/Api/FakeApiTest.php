@@ -73,6 +73,16 @@ class FakeApiTest extends TestCase
     }
 
     /**
+     * Test case for createXmlItem
+     *
+     * creates an XmlItem.
+     *
+     */
+    public function testCreateXmlItem()
+    {
+    }
+
+    /**
      * Test case for fakeOuterBooleanSerialize
      *
      * .

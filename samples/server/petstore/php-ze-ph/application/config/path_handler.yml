@@ -28,6 +28,7 @@ Articus\PathHandler\Router\FastRouteAnnotation:
     - App\Handler\Fake
     - App\Handler\FakeBodyWithFileSchema
     - App\Handler\FakeBodyWithQueryParams
+    - App\Handler\FakeCreateXmlItem
     - App\Handler\FakeInlineAdditionalProperties
     - App\Handler\FakeJsonFormData
     - App\Handler\FakeOuterBoolean
@@ -56,6 +57,7 @@ Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
   App\Handler\Fake: []
   App\Handler\FakeBodyWithFileSchema: []
   App\Handler\FakeBodyWithQueryParams: []
+  App\Handler\FakeCreateXmlItem: []
   App\Handler\FakeInlineAdditionalProperties: []
   App\Handler\FakeJsonFormData: []
   App\Handler\FakeOuterBoolean: []

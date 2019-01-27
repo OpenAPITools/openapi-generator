@@ -75,9 +75,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String artifactVersion = "1.0.0";
     protected String artifactUrl = "https://github.com/openapitools/openapi-generator";
     protected String artifactDescription = "OpenAPI Java";
-    protected String developerName = "OpenAPI";
+    protected String developerName = "OpenAPI-Generator Contributors";
     protected String developerEmail = "team@openapitools.org";
-    protected String developerOrganization = "OpenAPI";
+    protected String developerOrganization = "OpenAPITools.org";
     protected String developerOrganizationUrl = "http://openapitools.org";
     protected String scmConnection = "scm:git:git@github.com:openapitools/openapi-generator.git";
     protected String scmDeveloperConnection = "scm:git:git@github.com:openapitools/openapi-generator.git";
@@ -349,6 +349,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
+        additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
 
         if (additionalProperties.containsKey(CodegenConstants.LOCAL_VARIABLE_PREFIX)) {
             this.setLocalVariablePrefix((String) additionalProperties.get(CodegenConstants.LOCAL_VARIABLE_PREFIX));

@@ -355,3 +355,39 @@ CREATE TABLE IF NOT EXISTS `User` (
   `userStatus` INT DEFAULT NULL COMMENT 'User Status'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Table structure for table `XmlItem` generated from model 'XmlItem'
+--
+
+CREATE TABLE IF NOT EXISTS `XmlItem` (
+  `attribute_string` TEXT DEFAULT NULL,
+  `attribute_number` DECIMAL(20, 9) DEFAULT NULL,
+  `attribute_integer` INT DEFAULT NULL,
+  `attribute_boolean` TINYINT(1) DEFAULT NULL,
+  `wrapped_array` JSON DEFAULT NULL,
+  `name_string` TEXT DEFAULT NULL,
+  `name_number` DECIMAL(20, 9) DEFAULT NULL,
+  `name_integer` INT DEFAULT NULL,
+  `name_boolean` TINYINT(1) DEFAULT NULL,
+  `name_array` JSON DEFAULT NULL,
+  `name_wrapped_array` JSON DEFAULT NULL,
+  `prefix_string` TEXT DEFAULT NULL,
+  `prefix_number` DECIMAL(20, 9) DEFAULT NULL,
+  `prefix_integer` INT DEFAULT NULL,
+  `prefix_boolean` TINYINT(1) DEFAULT NULL,
+  `prefix_array` JSON DEFAULT NULL,
+  `prefix_wrapped_array` JSON DEFAULT NULL,
+  `namespace_string` TEXT DEFAULT NULL,
+  `namespace_number` DECIMAL(20, 9) DEFAULT NULL,
+  `namespace_integer` INT DEFAULT NULL,
+  `namespace_boolean` TINYINT(1) DEFAULT NULL,
+  `namespace_array` JSON DEFAULT NULL,
+  `namespace_wrapped_array` JSON DEFAULT NULL,
+  `prefix_ns_string` TEXT DEFAULT NULL,
+  `prefix_ns_number` DECIMAL(20, 9) DEFAULT NULL,
+  `prefix_ns_integer` INT DEFAULT NULL,
+  `prefix_ns_boolean` TINYINT(1) DEFAULT NULL,
+  `prefix_ns_array` JSON DEFAULT NULL,
+  `prefix_ns_wrapped_array` JSON DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+

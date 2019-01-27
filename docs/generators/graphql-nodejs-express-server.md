@@ -1,13 +1,12 @@
 
-CONFIG OPTIONS for graphql-nodejs-express-server
+---
+id: generator-opts-server-graphql-nodejs-express-server
+title: Config Options for graphql-nodejs-express-server
+sidebar_label: graphql-nodejs-express-server
+---
 
-	packageName
-	    GraphQL Node.js Express server package name (convention: lowercase). (Default: openapi3graphql-server)
-
-	packageVersion
-	    GraphQL Node.js Express server package version. (Default: 1.0.0)
-
-	hideGenerationTimestamp
-	    Hides the generation timestamp when files are generated. (Default: true)
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|packageName|GraphQL Node.js Express server package name (convention: lowercase).| |openapi3graphql-server|
+|packageVersion|GraphQL Node.js Express server package version.| |1.0.0|
+|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|

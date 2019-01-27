@@ -74,6 +74,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *Petstore::AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+*Petstore::FakeApi* | [**create_xml_item**](docs/FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
 *Petstore::FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *Petstore::FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *Petstore::FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -148,6 +149,7 @@ Class | Method | HTTP request | Description
  - [Petstore::TypeHolderDefault](docs/TypeHolderDefault.md)
  - [Petstore::TypeHolderExample](docs/TypeHolderExample.md)
  - [Petstore::User](docs/User.md)
+ - [Petstore::XmlItem](docs/XmlItem.md)
 
 
 ## Documentation for Authorization

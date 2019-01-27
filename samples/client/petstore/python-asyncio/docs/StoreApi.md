@@ -158,7 +158,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **place_order**
-> Order place_order(order)
+> Order place_order(body)
 
 Place an order for a pet
 
@@ -172,11 +172,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.StoreApi()
-order = petstore_api.Order() # Order | order placed for purchasing the pet
+body = petstore_api.Order() # Order | order placed for purchasing the pet
 
 try:
     # Place an order for a pet
-    api_response = api_instance.place_order(order)
+    api_response = api_instance.place_order(body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling StoreApi->place_order: %s\n" % e)
@@ -186,7 +186,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
