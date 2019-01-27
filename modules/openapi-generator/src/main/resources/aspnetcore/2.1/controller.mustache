@@ -26,7 +26,7 @@ namespace {{packageName}}.Controllers
         /// <response code="{{code}}">{{message}}</response>{{/responses}}
         [{{httpMethod}}]
         [Route("{{{basePathWithoutHost}}}{{{path}}}")]{{#hasAuthMethods}}
-{{#authMethods}}{{#isBasicBearer}}        [Authorize{{#scopes}}(Roles = "{{scope}}{{#hasMore}},{{/hasMore}}"{{/scopes}}]{{/isBasicBearer}}{{/authMethods}}
+{{#authMethods}}{{#isBasicBearer}}        [Authorize{{#scopes}}(Roles = "{{scope}}{{#hasMore}},{{/hasMore}}"){{/scopes}}]{{/isBasicBearer}}{{/authMethods}}
 {{/hasAuthMethods}}
         [ValidateModelState]{{#useSwashbuckle}}
         [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
