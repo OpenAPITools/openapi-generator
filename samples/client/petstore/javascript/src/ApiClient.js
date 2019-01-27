@@ -601,7 +601,7 @@
         var servers = this.hostSettings();
 
         // check array index out of bound
-        if (index < 0 || index > servers.length) {
+        if (index < 0 || index >= servers.length) {
             throw new Error("Invalid index " + index + " when selecting the host settings. Must be less than " + servers.length);
         }
 

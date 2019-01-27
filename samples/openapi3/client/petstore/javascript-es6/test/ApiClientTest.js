@@ -131,21 +131,7 @@ describe('ApiClient', function() {
     });
   });
 
-  describe('#applyAuthToRequest', function() {
-    var req, newClient;
-
-    beforeEach(function() {
-      req = {
-        auth: function() {},
-        set: function() {},
-        query: function() {}
-      };
-      sinon.stub(req, 'auth');
-      sinon.stub(req, 'set');
-      sinon.stub(req, 'query');
-      newClient = new OpenAPIPetstore.ApiClient();
-    });
-
+  describe('multipleServers', function() {
     describe('host settings', function() {
       var hosts = apiClient.hostSettings();
       it('should have proper 1st URL', function() {
@@ -171,6 +157,22 @@ describe('ApiClient', function() {
       it('should have correct URL with port 8080 and dev-petstore', function() {
         expect(apiClient.getBasePathFromSettings(0, {'server': 'dev-petstore', 'port': '8080'})).to.be('http://dev-petstore.swagger.io:8080/v2');
       });
+    });
+  });
+
+  describe('#applyAuthToRequest', function() {
+    var req, newClient;
+
+    beforeEach(function() {
+      req = {
+        auth: function() {},
+        set: function() {},
+        query: function() {}
+      };
+      sinon.stub(req, 'auth');
+      sinon.stub(req, 'set');
+      sinon.stub(req, 'query');
+      newClient = new OpenAPIPetstore.ApiClient();
     });
 
     describe('basic', function() {
