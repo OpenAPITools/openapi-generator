@@ -26,11 +26,14 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
 public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodegen {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PhpZendExpressivePathHandlerServerCodegen.class);
 
     public static final String VEN_FROM_QUERY = "internal.ze-ph.fromQuery";
     public static final String VEN_COLLECTION_FORMAT = "internal.ze-ph.collectionFormat";
@@ -318,7 +321,9 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
             //Producing content with media type "*/*" is not supported
             if (op.produces != null) {
                 for (Map<String, String> p: op.produces) {
-                    p.replace("mediaType", "*/*", "n/a");
+                    if (p.replace("mediaType", "*/*", "n/a")) {
+                        LOGGER.warn("Media type range '*/*' is not supported, using 'n/a' for code generation instead");
+                    }
                 }
             }
             //All operations have same path because of custom operation grouping, so path pattern can be calculated only once
