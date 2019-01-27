@@ -1,6 +1,7 @@
 # php-base - PHP Slim Server library for OpenAPI Petstore *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
-[Slim Framework Documentation](https://www.slimframework.com/docs/)
+* [OpenAPI Generator](https://openapi-generator.tech)
+* [Slim Framework Documentation](https://www.slimframework.com/docs/)
 
 ## Requirements
 
@@ -79,10 +80,15 @@ $ composer phplint
 
 ## Show errors
 
-Change line in `./index.php`:
+Switch on option in `./index.php`:
 ```diff
---- $router = new SlimRouter();
-+++ $router = new SlimRouter(['settings' => ['displayErrorDetails' => true]]);
+    /**
+     * When true, additional information about exceptions are displayed by the default
+     * error handler.
+     * Default: false
+     */
+--- // 'displayErrorDetails' => false,
++++ 'displayErrorDetails' => true,
 ```
 
 ## API Endpoints
