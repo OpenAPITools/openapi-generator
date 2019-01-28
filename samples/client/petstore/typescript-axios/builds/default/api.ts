@@ -321,14 +321,14 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
         /**
          * 
          * @summary Add a new pet to the store
-         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {Pet} pet Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(body: Pet, options: any = {}): RequestArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling addPet.');
+        addPet(pet: Pet, options: any = {}): RequestArgs {
+            // verify required parameter 'pet' is not null or undefined
+            if (pet === null || pet === undefined) {
+                throw new RequiredError('pet','Required parameter pet was null or undefined when calling addPet.');
             }
             const localVarPath = `/pet`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -357,7 +357,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
             const needsSerialization = (<any>"Pet" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(pet || {}) : (pet || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -444,7 +444,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             }
 
             if (status) {
-                localVarQueryParameter['status'] = status.join(COLLECTION_FORMATS["csv"]);
+                localVarQueryParameter['status'] = status.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -490,7 +490,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             }
 
             if (tags) {
-                localVarQueryParameter['tags'] = tags.join(COLLECTION_FORMATS["csv"]);
+                localVarQueryParameter['tags'] = tags.join(COLLECTION_FORMATS.csv);
             }
 
 
@@ -549,14 +549,14 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
         /**
          * 
          * @summary Update an existing pet
-         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {Pet} pet Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(body: Pet, options: any = {}): RequestArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling updatePet.');
+        updatePet(pet: Pet, options: any = {}): RequestArgs {
+            // verify required parameter 'pet' is not null or undefined
+            if (pet === null || pet === undefined) {
+                throw new RequiredError('pet','Required parameter pet was null or undefined when calling updatePet.');
             }
             const localVarPath = `/pet`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -585,7 +585,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
             const needsSerialization = (<any>"Pet" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(pet || {}) : (pet || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -716,12 +716,12 @@ export const PetApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Add a new pet to the store
-         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {Pet} pet Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(body: Pet, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
-            const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).addPet(body, options);
+        addPet(pet: Pet, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
+            const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).addPet(pet, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);                
@@ -787,12 +787,12 @@ export const PetApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Update an existing pet
-         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {Pet} pet Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(body: Pet, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
-            const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).updatePet(body, options);
+        updatePet(pet: Pet, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
+            const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).updatePet(pet, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);                
@@ -842,12 +842,12 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
         /**
          * 
          * @summary Add a new pet to the store
-         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {Pet} pet Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(body: Pet, options?: any) {
-            return PetApiFp(configuration).addPet(body, options)(axios, basePath);
+        addPet(pet: Pet, options?: any) {
+            return PetApiFp(configuration).addPet(pet, options)(axios, basePath);
         },
         /**
          * 
@@ -893,12 +893,12 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
         /**
          * 
          * @summary Update an existing pet
-         * @param {Pet} body Pet object that needs to be added to the store
+         * @param {Pet} pet Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(body: Pet, options?: any) {
-            return PetApiFp(configuration).updatePet(body, options)(axios, basePath);
+        updatePet(pet: Pet, options?: any) {
+            return PetApiFp(configuration).updatePet(pet, options)(axios, basePath);
         },
         /**
          * 
@@ -937,13 +937,13 @@ export class PetApi extends BaseAPI {
     /**
      * 
      * @summary Add a new pet to the store
-     * @param {Pet} body Pet object that needs to be added to the store
+     * @param {Pet} pet Pet object that needs to be added to the store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public addPet(body: Pet, options?: any) {
-        return PetApiFp(this.configuration).addPet(body, options)(this.axios, this.basePath);
+    public addPet(pet: Pet, options?: any) {
+        return PetApiFp(this.configuration).addPet(pet, options)(this.axios, this.basePath);
     }
 
     /**
@@ -998,13 +998,13 @@ export class PetApi extends BaseAPI {
     /**
      * 
      * @summary Update an existing pet
-     * @param {Pet} body Pet object that needs to be added to the store
+     * @param {Pet} pet Pet object that needs to be added to the store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public updatePet(body: Pet, options?: any) {
-        return PetApiFp(this.configuration).updatePet(body, options)(this.axios, this.basePath);
+    public updatePet(pet: Pet, options?: any) {
+        return PetApiFp(this.configuration).updatePet(pet, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1150,14 +1150,14 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} body order placed for purchasing the pet
+         * @param {Order} order order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(body: Order, options: any = {}): RequestArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling placeOrder.');
+        placeOrder(order: Order, options: any = {}): RequestArgs {
+            // verify required parameter 'order' is not null or undefined
+            if (order === null || order === undefined) {
+                throw new RequiredError('order','Required parameter order was null or undefined when calling placeOrder.');
             }
             const localVarPath = `/store/order`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -1177,7 +1177,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
             const needsSerialization = (<any>"Order" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(order || {}) : (order || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -1237,12 +1237,12 @@ export const StoreApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} body order placed for purchasing the pet
+         * @param {Order} order order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(body: Order, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order> {
-            const localVarAxiosArgs = StoreApiAxiosParamCreator(configuration).placeOrder(body, options);
+        placeOrder(order: Order, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order> {
+            const localVarAxiosArgs = StoreApiAxiosParamCreator(configuration).placeOrder(order, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);                
@@ -1289,12 +1289,12 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} body order placed for purchasing the pet
+         * @param {Order} order order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(body: Order, options?: any) {
-            return StoreApiFp(configuration).placeOrder(body, options)(axios, basePath);
+        placeOrder(order: Order, options?: any) {
+            return StoreApiFp(configuration).placeOrder(order, options)(axios, basePath);
         },
     };
 };
@@ -1344,13 +1344,13 @@ export class StoreApi extends BaseAPI {
     /**
      * 
      * @summary Place an order for a pet
-     * @param {Order} body order placed for purchasing the pet
+     * @param {Order} order order placed for purchasing the pet
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public placeOrder(body: Order, options?: any) {
-        return StoreApiFp(this.configuration).placeOrder(body, options)(this.axios, this.basePath);
+    public placeOrder(order: Order, options?: any) {
+        return StoreApiFp(this.configuration).placeOrder(order, options)(this.axios, this.basePath);
     }
 
 }
@@ -1364,14 +1364,14 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * This can only be done by the logged in user.
          * @summary Create user
-         * @param {User} body Created user object
+         * @param {User} user Created user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser(body: User, options: any = {}): RequestArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createUser.');
+        createUser(user: User, options: any = {}): RequestArgs {
+            // verify required parameter 'user' is not null or undefined
+            if (user === null || user === undefined) {
+                throw new RequiredError('user','Required parameter user was null or undefined when calling createUser.');
             }
             const localVarPath = `/user`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -1391,7 +1391,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
             const needsSerialization = (<any>"User" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(user || {}) : (user || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -1401,14 +1401,14 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * 
          * @summary Creates list of users with given input array
-         * @param {Array<User>} body List of user object
+         * @param {Array<User>} user List of user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithArrayInput(body: Array<User>, options: any = {}): RequestArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createUsersWithArrayInput.');
+        createUsersWithArrayInput(user: Array<User>, options: any = {}): RequestArgs {
+            // verify required parameter 'user' is not null or undefined
+            if (user === null || user === undefined) {
+                throw new RequiredError('user','Required parameter user was null or undefined when calling createUsersWithArrayInput.');
             }
             const localVarPath = `/user/createWithArray`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -1428,7 +1428,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
             const needsSerialization = (<any>"Array&lt;User&gt;" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(user || {}) : (user || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -1438,14 +1438,14 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
         /**
          * 
          * @summary Creates list of users with given input array
-         * @param {Array<User>} body List of user object
+         * @param {Array<User>} user List of user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithListInput(body: Array<User>, options: any = {}): RequestArgs {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling createUsersWithListInput.');
+        createUsersWithListInput(user: Array<User>, options: any = {}): RequestArgs {
+            // verify required parameter 'user' is not null or undefined
+            if (user === null || user === undefined) {
+                throw new RequiredError('user','Required parameter user was null or undefined when calling createUsersWithListInput.');
             }
             const localVarPath = `/user/createWithList`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -1465,7 +1465,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
             const needsSerialization = (<any>"Array&lt;User&gt;" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(user || {}) : (user || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -1618,18 +1618,18 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * This can only be done by the logged in user.
          * @summary Updated user
          * @param {string} username name that need to be deleted
-         * @param {User} body Updated user object
+         * @param {User} user Updated user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(username: string, body: User, options: any = {}): RequestArgs {
+        updateUser(username: string, user: User, options: any = {}): RequestArgs {
             // verify required parameter 'username' is not null or undefined
             if (username === null || username === undefined) {
                 throw new RequiredError('username','Required parameter username was null or undefined when calling updateUser.');
             }
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling updateUser.');
+            // verify required parameter 'user' is not null or undefined
+            if (user === null || user === undefined) {
+                throw new RequiredError('user','Required parameter user was null or undefined when calling updateUser.');
             }
             const localVarPath = `/user/{username}`
                 .replace(`{${"username"}}`, encodeURIComponent(String(username)));
@@ -1650,7 +1650,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
             const needsSerialization = (<any>"User" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(user || {}) : (user || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -1669,12 +1669,12 @@ export const UserApiFp = function(configuration?: Configuration) {
         /**
          * This can only be done by the logged in user.
          * @summary Create user
-         * @param {User} body Created user object
+         * @param {User} user Created user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser(body: User, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
-            const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).createUser(body, options);
+        createUser(user: User, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
+            const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).createUser(user, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);                
@@ -1683,12 +1683,12 @@ export const UserApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Creates list of users with given input array
-         * @param {Array<User>} body List of user object
+         * @param {Array<User>} user List of user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithArrayInput(body: Array<User>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
-            const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).createUsersWithArrayInput(body, options);
+        createUsersWithArrayInput(user: Array<User>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
+            const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).createUsersWithArrayInput(user, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);                
@@ -1697,12 +1697,12 @@ export const UserApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Creates list of users with given input array
-         * @param {Array<User>} body List of user object
+         * @param {Array<User>} user List of user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithListInput(body: Array<User>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
-            const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).createUsersWithListInput(body, options);
+        createUsersWithListInput(user: Array<User>, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
+            const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).createUsersWithListInput(user, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);                
@@ -1768,12 +1768,12 @@ export const UserApiFp = function(configuration?: Configuration) {
          * This can only be done by the logged in user.
          * @summary Updated user
          * @param {string} username name that need to be deleted
-         * @param {User} body Updated user object
+         * @param {User} user Updated user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(username: string, body: User, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
-            const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).updateUser(username, body, options);
+        updateUser(username: string, user: User, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
+            const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).updateUser(username, user, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);                
@@ -1791,32 +1791,32 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
         /**
          * This can only be done by the logged in user.
          * @summary Create user
-         * @param {User} body Created user object
+         * @param {User} user Created user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser(body: User, options?: any) {
-            return UserApiFp(configuration).createUser(body, options)(axios, basePath);
+        createUser(user: User, options?: any) {
+            return UserApiFp(configuration).createUser(user, options)(axios, basePath);
         },
         /**
          * 
          * @summary Creates list of users with given input array
-         * @param {Array<User>} body List of user object
+         * @param {Array<User>} user List of user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithArrayInput(body: Array<User>, options?: any) {
-            return UserApiFp(configuration).createUsersWithArrayInput(body, options)(axios, basePath);
+        createUsersWithArrayInput(user: Array<User>, options?: any) {
+            return UserApiFp(configuration).createUsersWithArrayInput(user, options)(axios, basePath);
         },
         /**
          * 
          * @summary Creates list of users with given input array
-         * @param {Array<User>} body List of user object
+         * @param {Array<User>} user List of user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithListInput(body: Array<User>, options?: any) {
-            return UserApiFp(configuration).createUsersWithListInput(body, options)(axios, basePath);
+        createUsersWithListInput(user: Array<User>, options?: any) {
+            return UserApiFp(configuration).createUsersWithListInput(user, options)(axios, basePath);
         },
         /**
          * This can only be done by the logged in user.
@@ -1862,12 +1862,12 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * This can only be done by the logged in user.
          * @summary Updated user
          * @param {string} username name that need to be deleted
-         * @param {User} body Updated user object
+         * @param {User} user Updated user object
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser(username: string, body: User, options?: any) {
-            return UserApiFp(configuration).updateUser(username, body, options)(axios, basePath);
+        updateUser(username: string, user: User, options?: any) {
+            return UserApiFp(configuration).updateUser(username, user, options)(axios, basePath);
         },
     };
 };
@@ -1882,37 +1882,37 @@ export class UserApi extends BaseAPI {
     /**
      * This can only be done by the logged in user.
      * @summary Create user
-     * @param {User} body Created user object
+     * @param {User} user Created user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public createUser(body: User, options?: any) {
-        return UserApiFp(this.configuration).createUser(body, options)(this.axios, this.basePath);
+    public createUser(user: User, options?: any) {
+        return UserApiFp(this.configuration).createUser(user, options)(this.axios, this.basePath);
     }
 
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param {Array<User>} body List of user object
+     * @param {Array<User>} user List of user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public createUsersWithArrayInput(body: Array<User>, options?: any) {
-        return UserApiFp(this.configuration).createUsersWithArrayInput(body, options)(this.axios, this.basePath);
+    public createUsersWithArrayInput(user: Array<User>, options?: any) {
+        return UserApiFp(this.configuration).createUsersWithArrayInput(user, options)(this.axios, this.basePath);
     }
 
     /**
      * 
      * @summary Creates list of users with given input array
-     * @param {Array<User>} body List of user object
+     * @param {Array<User>} user List of user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public createUsersWithListInput(body: Array<User>, options?: any) {
-        return UserApiFp(this.configuration).createUsersWithListInput(body, options)(this.axios, this.basePath);
+    public createUsersWithListInput(user: Array<User>, options?: any) {
+        return UserApiFp(this.configuration).createUsersWithListInput(user, options)(this.axios, this.basePath);
     }
 
     /**
@@ -1967,13 +1967,13 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * @summary Updated user
      * @param {string} username name that need to be deleted
-     * @param {User} body Updated user object
+     * @param {User} user Updated user object
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public updateUser(username: string, body: User, options?: any) {
-        return UserApiFp(this.configuration).updateUser(username, body, options)(this.axios, this.basePath);
+    public updateUser(username: string, user: User, options?: any) {
+        return UserApiFp(this.configuration).updateUser(username, user, options)(this.axios, this.basePath);
     }
 
 }
