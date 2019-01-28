@@ -51,6 +51,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.AnotherFakeApi(petstore_api.ApiClient(configuration))
 body = petstore_api.Client() # Client | client model

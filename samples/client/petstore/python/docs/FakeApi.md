@@ -34,6 +34,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
 xml_item = petstore_api.XmlItem() # XmlItem | XmlItem Body
@@ -80,6 +81,7 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -128,6 +130,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
 body = petstore_api.OuterComposite() # OuterComposite | Input composite as post body (optional)
@@ -174,6 +177,7 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -222,6 +226,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
 body = 'body_example' # str | Input string as post body (optional)
@@ -269,6 +274,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
 body = petstore_api.FileSchemaTestClass() # FileSchemaTestClass | 
@@ -312,6 +318,7 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -360,6 +367,7 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -411,8 +419,8 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Configure HTTP basic authorization: http_basic_test
 configuration = petstore_api.Configuration()
+# Configure HTTP basic authorization: http_basic_test
 configuration.username = 'YOUR_USERNAME'
 configuration.password = 'YOUR_PASSWORD'
 
@@ -489,6 +497,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
 enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
@@ -550,6 +559,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
 required_string_group = 56 # int | Required String in group parameters
@@ -605,6 +615,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
 param = {'key': 'param_example'} # dict(str, str) | request body
@@ -649,6 +660,7 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()

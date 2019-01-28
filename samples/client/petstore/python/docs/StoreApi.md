@@ -25,6 +25,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.StoreApi()
 order_id = 'order_id_example' # str | ID of the order that needs to be deleted
@@ -74,8 +75,8 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
-# Configure API key authorization: api_key
 configuration = petstore_api.Configuration()
+# Configure API key authorization: api_key
 configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
@@ -124,6 +125,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.StoreApi()
 order_id = 56 # int | ID of pet that needs to be fetched
@@ -169,6 +171,7 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 
 # create an instance of the API class
 api_instance = petstore_api.StoreApi()

@@ -29,6 +29,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
 body = petstore_api.User() # User | Created user object
@@ -74,6 +75,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
 body = NULL # list[User] | List of user object
@@ -118,6 +120,7 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
@@ -166,6 +169,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
 username = 'username_example' # str | The name that needs to be deleted
@@ -210,6 +214,7 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
@@ -256,6 +261,7 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
@@ -305,6 +311,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
 
@@ -347,6 +354,7 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
