@@ -37,10 +37,13 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String SNAPSHOT = "snapshot";
     public static final String WITH_INTERFACES = "withInterfaces";
+    public static final String SEPARATE_MODELS_AND_API = "withSeparateModelsAndApi";
 
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
     protected String npmRepository = null;
+
+    private String tsModelPackage = "";
 
     public TypeScriptAxiosClientCodegen() {
         super();
@@ -57,6 +60,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(SEPARATE_MODELS_AND_API, "Put the model and api in separate folders and in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -93,15 +97,46 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.npmRepository = npmRepository;
     }
 
+    private static String getRelativeToRoot(String path) {
+        StringBuilder sb = new StringBuilder();
+        int slashCount = path.split("/").length;
+        if (slashCount == 0) {
+            sb.append("./");
+        } else {
+            for (int i = 0; i < slashCount; ++i) {
+                sb.append("../");
+            }
+        }
+        return sb.toString();
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
+        tsModelPackage = modelPackage.replaceAll("\\.", "/");
+        String tsApiPackage = apiPackage.replaceAll("\\.", "/");
+
+        String modelRelativeToRoot = getRelativeToRoot(tsModelPackage);
+        String apiRelativeToRoot = getRelativeToRoot(tsApiPackage);
+
+        additionalProperties.put("tsModelPackage", tsModelPackage);
+        additionalProperties.put("tsApiPackage", tsApiPackage);
+        additionalProperties.put("apiRelativeToRoot", apiRelativeToRoot);
+        additionalProperties.put("modelRelativeToRoot", modelRelativeToRoot);
+
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.ts"));
+        supportingFiles.add(new SupportingFile("baseApi.mustache", "", "base.ts"));
         supportingFiles.add(new SupportingFile("api.mustache", "", "api.ts"));
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
         supportingFiles.add(new SupportingFile("custom.d.mustache", "", "custom.d.ts"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
+
+        if (additionalProperties.get(SEPARATE_MODELS_AND_API) != null && (boolean)additionalProperties.get(SEPARATE_MODELS_AND_API)) {
+            modelTemplateFiles.put("model.mustache", ".ts");
+            apiTemplateFiles.put("apiInner.mustache", ".ts");
+            supportingFiles.add(new SupportingFile("modelIndex.mustache", tsModelPackage, "index.ts"));
+        }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
@@ -127,21 +162,45 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        objs = super.postProcessOperations(objs);
-        Map<String, Object> vals = (Map<String, Object>)objs.get("operations");
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
+        addImport(codegenModel, codegenModel.additionalPropertiesType);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        Map<String, Object> ret = super.postProcessModels(objs);
+        List<Map<String, Object>> models = (List<Map<String, Object>>) ret.get("models");
+        for (Map<String, Object> m : models) {
+            CodegenModel model = (CodegenModel) m.get("model");
+            model.classFilename = model.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
+        }
+        for (Map<String, String> m : (List<Map<String, String>>) ret.get("imports")) {
+            String javaImport = m.get("import").substring(modelPackage.length() + 1);
+            String tsImport = tsModelPackage + "/" + javaImport;
+            m.put("tsImport", tsImport);
+            m.put("class", javaImport);
+            m.put("filename", javaImport.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT));
+        }
+        Map<String, Object> vals = (Map<String, Object>)ret.get("operations");
         List<CodegenOperation> operations = (List<CodegenOperation>)vals.get("operation");
         operations.stream()
                 .filter(op -> op.hasConsumes)
                 .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
                 .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
-        return objs;
+
+        return ret;
     }
 
     @Override
-    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
-        addImport(codegenModel, codegenModel.additionalPropertiesType);
+    public String toModelFilename(String name) {
+        return super.toModelFilename(name).replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
+    }
+
+    @Override
+    public String toApiFilename(String name) {
+        return super.toApiFilename(name).replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
     }
 
     private void addNpmPackageGeneration() {
@@ -167,5 +226,4 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
     }
-
 }
