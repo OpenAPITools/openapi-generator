@@ -20,16 +20,21 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
+    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAxiosClientCodegen.class);
+
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
 
     public static final String NPM_NAME = "npmName";
@@ -132,7 +137,9 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 
-        if (additionalProperties.get(SEPARATE_MODELS_AND_API) != null && (boolean)additionalProperties.get(SEPARATE_MODELS_AND_API)) {
+        boolean separateModelsAndApi = (boolean)additionalProperties.getOrDefault(SEPARATE_MODELS_AND_API, false);
+
+        if (separateModelsAndApi) {
             modelTemplateFiles.put("model.mustache", ".ts");
             apiTemplateFiles.put("apiInner.mustache", ".ts");
             supportingFiles.add(new SupportingFile("modelIndex.mustache", tsModelPackage, "index.ts"));
@@ -140,6 +147,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
+        }
+
+        boolean emptyModelOrApi = separateModelsAndApi && StringUtils.isAnyBlank(modelPackage, apiPackage);
+        if (emptyModelOrApi) {
+            throw new RuntimeException("apiPackage and modelPackage must be defined");
         }
     }
 
