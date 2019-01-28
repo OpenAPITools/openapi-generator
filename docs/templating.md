@@ -615,6 +615,33 @@ For example, suppose you use your specification document for code generation wit
 
 The following are vendor extensions supported by OpenAPI Generator. The list may not be up-to-date, the best way is to look for "x-" in the built-in mustache templates.
 
+### All generators (core)
+
+#### Enum
+
+`x-enum-varnames` can be used to have an other enum name for the corresponding value. 
+`x-enum-descriptions` can be used to provide an individual description for each value.
+
+Example:
+
+```yaml
+WeatherType:
+  type: integer
+  format: int32
+  enum:
+    - 1
+    - 2
+    - 3
+  x-enum-descriptions:
+    - 'Blue sky'
+    - 'Slightly overcast'
+    - 'Take an umbrella with you'
+  x-enum-varnames:
+    - Sunny
+    - Cloudy
+    - Rainy
+```
+
 ### ObjC
 #### x-objc-operationId
 
