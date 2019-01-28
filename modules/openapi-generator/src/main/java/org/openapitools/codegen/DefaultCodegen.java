@@ -2013,7 +2013,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
         //Referenced enum case:
-        Schema r = ModelUtils.getReferencedSchema(globalOpenAPI, p);
+        Schema r = ModelUtils.getReferencedSchema(this.openAPI, p);
         if (r.getEnum() != null && !r.getEnum().isEmpty()) {
             List<Object> _enum = r.getEnum();
 
