@@ -261,27 +261,13 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             basePath = basePath.replaceAll("[\\\\/]?$", "") + '/'; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         }
 
-        String regFirstPathSeparator;
-        if ("/".equals(File.separator)) { // for mac, linux
-            regFirstPathSeparator = "^/";
-        } else { // for windows
-            regFirstPathSeparator = "^\\\\";
-        }
-
-        String regLastPathSeparator;
-        if ("/".equals(File.separator)) { // for mac, linux
-            regLastPathSeparator = "/$";
-        } else { // for windows
-            regLastPathSeparator = "\\\\$";
-        }
-
         return (basePath
                 // Replace period, backslash, forward slash with file separator in package name
                 + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/"))
                 // Trim prefix file separators from package path
-                .replaceAll(regFirstPathSeparator, ""))
+                .replaceAll("^/", ""))
                 // Trim trailing file separators from the overall path
-                .replaceAll(regLastPathSeparator + "$", "");
+                .replaceAll("/$", "");
     }
 
     @Override
