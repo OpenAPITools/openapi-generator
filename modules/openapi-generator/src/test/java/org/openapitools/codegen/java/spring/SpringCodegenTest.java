@@ -20,7 +20,6 @@ package org.openapitools.codegen.java.spring;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
-
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.testng.Assert;

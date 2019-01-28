@@ -18,18 +18,17 @@
 package org.openapitools.codegen.java;
 
 import com.google.common.collect.Sets;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class JavaInheritanceTest {
 
@@ -41,12 +40,15 @@ public class JavaInheritanceTest {
                 .addAllOfItem(new Schema().$ref("Base"))
                 .name("composed");
 
-        final Map<String, Schema> allSchemas = new HashMap<>();
-        allSchemas.put(allOfModel.getName(), allOfModel);
-        allSchemas.put(schema.getName(), schema);
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.setComponents(new Components()
+                .addSchemas(allOfModel.getName(), allOfModel)
+                .addSchemas(schema.getName(), schema)
+        );
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, allSchemas);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -64,11 +66,11 @@ public class JavaInheritanceTest {
         final Schema schema = new ComposedSchema()
                 .addAllOfItem(new Schema().$ref("Base"));
 
-        final Map<String, Schema> allDefinitions = new HashMap<String, Schema>();
-        allDefinitions.put("Base", base);
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Base", base);
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, allDefinitions);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");

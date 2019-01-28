@@ -4,14 +4,8 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.MockDefaultGenerator;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
-import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;

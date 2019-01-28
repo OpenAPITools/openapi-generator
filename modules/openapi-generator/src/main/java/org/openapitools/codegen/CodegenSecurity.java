@@ -17,8 +17,6 @@
 
 package org.openapitools.codegen;
 
-import io.swagger.v3.oas.models.security.Scopes;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;

@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.lumen;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PhpLumenServerCodegen;
 import org.openapitools.codegen.options.PhpLumenServerOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class PhpLumenServerOptionsTest extends AbstractOptionsTest {
 
