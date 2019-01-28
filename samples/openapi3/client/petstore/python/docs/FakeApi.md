@@ -26,6 +26,7 @@ Method | HTTP request | Description
 Test serialization of outer boolean types
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -73,6 +74,7 @@ No authorization required
 Test serialization of object with outer number type
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -120,6 +122,7 @@ No authorization required
 Test serialization of outer number types
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -167,6 +170,7 @@ No authorization required
 Test serialization of outer string types
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -214,6 +218,7 @@ No authorization required
 For this test, the body for this request much reference a schema named `File`.
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -258,6 +263,7 @@ No authorization required
 
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -306,6 +312,7 @@ To test \"client\" model
 To test \"client\" model
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -355,7 +362,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 ### Example
 
-* Basic Authentication (http_basic_test): 
+* Basic Authentication (http_basic_test):
 ```python
 from __future__ import print_function
 import time
@@ -433,6 +440,7 @@ To test enum parameters
 To test enum parameters
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -494,15 +502,20 @@ Fake endpoint to test group parameters (optional)
 Fake endpoint to test group parameters (optional)
 
 ### Example
+
+* Bearer Authentication (bearer_test):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
+configuration = petstore_api.Configuration()
+# Configure Bearer authorization: bearer_test
+configuration.access_token = 'YOUR_BEARER_TOKEN'
 
 # create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = petstore_api.FakeApi(petstore_api.ApiClient(configuration))
 required_string_group = 56 # int | Required String in group parameters
 required_boolean_group = True # bool | Required Boolean in group parameters
 required_int64_group = 56 # int | Required Integer in group parameters
@@ -534,7 +547,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearer_test](../README.md#bearer_test)
 
 ### HTTP request headers
 
@@ -549,6 +562,7 @@ No authorization required
 test inline additionalProperties
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -594,6 +608,7 @@ No authorization required
 test json serialization of form data
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
