@@ -180,23 +180,10 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        Map<String, Object> ret = super.postProcessModels(objs);
-        List<Map<String, Object>> models = (List<Map<String, Object>>) ret.get("models");
-        for (Map<String, Object> m : models) {
-            CodegenModel model = (CodegenModel) m.get("model");
-            model.classFilename = model.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
-        }
-        for (Map<String, String> m : (List<Map<String, String>>) ret.get("imports")) {
-            String javaImport = m.get("import").substring(modelPackage.length() + 1);
-            String tsImport = tsModelPackage + "/" + javaImport;
-            m.put("tsImport", tsImport);
-            m.put("class", javaImport);
-            m.put("filename", javaImport.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT));
-        }
-        Map<String, Object> vals = (Map<String, Object>)ret.get("operations");
-        List<CodegenOperation> operations = (List<CodegenOperation>)vals.get("operation");
+    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+        Map<String, Object> ret = super.postProcessOperations(objs);
+        Map<String, Object> vals = (Map<String, Object>)ret.getOrDefault("operations", new HashMap<>());
+        List<CodegenOperation> operations = (List<CodegenOperation>)vals.getOrDefault("operation", new ArrayList<>());
         /*
             Filter all the operations that are multipart/form-data operations and set the vendor extension flag
             'multipartFormData' for the template to work with.
@@ -205,7 +192,27 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
                 .filter(op -> op.hasConsumes)
                 .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
                 .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
+        return ret;
+    }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        Map<String, Object> ret = super.postProcessModels(objs);
+        // Deduce the model file name in kebab case
+        List<Map<String, Object>> models = (List<Map<String, Object>>) ret.get("models");
+        for (Map<String, Object> m : models) {
+            CodegenModel model = (CodegenModel) m.get("model");
+            model.classFilename = model.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
+        }
+        // Apply the model file name to the imports as well
+        for (Map<String, String> m : (List<Map<String, String>>) ret.get("imports")) {
+            String javaImport = m.get("import").substring(modelPackage.length() + 1);
+            String tsImport = tsModelPackage + "/" + javaImport;
+            m.put("tsImport", tsImport);
+            m.put("class", javaImport);
+            m.put("filename", javaImport.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT));
+        }
         return ret;
     }
 
