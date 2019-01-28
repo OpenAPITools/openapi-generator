@@ -410,9 +410,8 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure HTTP basic authorization: http_basic_test
 configuration = petstore_api.Configuration()
+# Configure HTTP basic authorization: http_basic_test
 configuration.username = 'YOUR_USERNAME'
 configuration.password = 'YOUR_PASSWORD'
 

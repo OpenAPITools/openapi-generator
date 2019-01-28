@@ -29,9 +29,8 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -80,9 +79,8 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -135,9 +133,8 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -189,9 +186,8 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -243,9 +239,8 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure API key authorization: api_key
 configuration = petstore_api.Configuration()
+# Configure API key authorization: api_key
 configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
@@ -297,9 +292,8 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -348,9 +342,8 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -403,9 +396,8 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
@@ -459,9 +451,8 @@ import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure OAuth2 access token for authorization: petstore_auth
 configuration = petstore_api.Configuration()
+# Configure OAuth2 access token for authorization: petstore_auth
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
