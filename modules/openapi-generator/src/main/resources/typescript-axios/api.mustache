@@ -146,7 +146,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 localVarQueryParameter['{{baseName}}'] = {{paramName}};
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-                localVarQueryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]);
+                localVarQueryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}});
             {{/isCollectionFormatMulti}}
             }
             {{/isListContainer}}
