@@ -13,61 +13,10 @@
  */
 
 
-import * as url from "url";
-import { Configuration } from "./configuration";
+import * as url from 'url';
+import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
-
-const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
-
-/**
- *
- * @export
- */
-export const COLLECTION_FORMATS = {
-    csv: ",",
-    ssv: " ",
-    tsv: "\t",
-    pipes: "|",
-};
-
-/**
- *  
- * @export
- * @interface RequestArgs
- */
-export interface RequestArgs {
-    url: string;
-    options: any;
-}
-
-/**
- * 
- * @export
- * @class BaseAPI
- */
-export class BaseAPI {
-    protected configuration: Configuration | undefined;
-
-    constructor(configuration?: Configuration, protected basePath: string = BASE_PATH, protected axios: AxiosInstance = globalAxios) {
-        if (configuration) {
-            this.configuration = configuration;
-            this.basePath = configuration.basePath || this.basePath;
-        }
-    }
-};
-
-/**
- * 
- * @export
- * @class RequiredError
- * @extends {Error}
- */
-export class RequiredError extends Error {
-    name: "RequiredError" = "RequiredError";
-    constructor(public field: string, msg?: string) {
-        super(msg);
-    }
-}
+import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
  * Describes the result of uploading an image resource
@@ -724,7 +673,7 @@ export const PetApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).addPet(pet, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -739,7 +688,7 @@ export const PetApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).deletePet(petId, apiKey, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -753,7 +702,7 @@ export const PetApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).findPetsByStatus(status, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -767,7 +716,7 @@ export const PetApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).findPetsByTags(tags, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -781,7 +730,7 @@ export const PetApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).getPetById(petId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -795,7 +744,7 @@ export const PetApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).updatePet(pet, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -811,7 +760,7 @@ export const PetApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).updatePetWithForm(petId, name, status, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -827,7 +776,7 @@ export const PetApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).uploadFile(petId, additionalMetadata, file, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
     }
@@ -1037,6 +986,7 @@ export class PetApi extends BaseAPI {
 
 }
 
+
 /**
  * StoreApi - axios parameter creator
  * @export
@@ -1204,7 +1154,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = StoreApiAxiosParamCreator(configuration).deleteOrder(orderId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -1217,7 +1167,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = StoreApiAxiosParamCreator(configuration).getInventory(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -1231,7 +1181,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = StoreApiAxiosParamCreator(configuration).getOrderById(orderId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -1245,7 +1195,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = StoreApiAxiosParamCreator(configuration).placeOrder(order, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
     }
@@ -1354,6 +1304,7 @@ export class StoreApi extends BaseAPI {
     }
 
 }
+
 
 /**
  * UserApi - axios parameter creator
@@ -1677,7 +1628,7 @@ export const UserApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).createUser(user, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -1691,7 +1642,7 @@ export const UserApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).createUsersWithArrayInput(user, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -1705,7 +1656,7 @@ export const UserApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).createUsersWithListInput(user, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -1719,7 +1670,7 @@ export const UserApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).deleteUser(username, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -1733,7 +1684,7 @@ export const UserApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).getUserByName(username, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -1748,7 +1699,7 @@ export const UserApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).loginUser(username, password, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -1761,7 +1712,7 @@ export const UserApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).logoutUser(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
         /**
@@ -1776,7 +1727,7 @@ export const UserApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = UserApiAxiosParamCreator(configuration).updateUser(username, user, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);                
+                return axios.request(axiosRequestArgs);
             };
         },
     }
@@ -1977,4 +1928,5 @@ export class UserApi extends BaseAPI {
     }
 
 }
+
 
