@@ -16,14 +16,13 @@ To test class name in snake case
 
 ### Example
 
-* Api Key Authentication (api_key_query): 
+* Api Key Authentication (api_key_query):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 configuration = petstore_api.Configuration()
 # Configure API key authorization: api_key_query
 configuration.api_key['api_key_query'] = 'YOUR_API_KEY'

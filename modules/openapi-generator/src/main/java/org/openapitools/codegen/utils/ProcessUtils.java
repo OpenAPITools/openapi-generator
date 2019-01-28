@@ -60,4 +60,28 @@ public class ProcessUtils {
         return false;
     }
 
+    /**
+     * Returns true if at least one operation has Bearer security schema defined
+     *
+     * @param objs Map of operations
+     * @return True if at least one operation has Bearer security schema defined
+     */
+    public static boolean hasBearerMethods(Map<String, Object> objs) {
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if (operations != null) {
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation operation : ops) {
+                if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
+                    for (CodegenSecurity cs : operation.authMethods) {
+                        if (cs.isBasicBearer) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
 }

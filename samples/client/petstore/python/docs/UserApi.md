@@ -22,13 +22,13 @@ Create user
 This can only be done by the logged in user.
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
@@ -68,13 +68,13 @@ No authorization required
 Creates list of users with given input array
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
@@ -114,13 +114,13 @@ No authorization required
 Creates list of users with given input array
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
@@ -162,13 +162,13 @@ Delete user
 This can only be done by the logged in user.
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
@@ -208,13 +208,13 @@ No authorization required
 Get user by user name
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
@@ -255,13 +255,13 @@ No authorization required
 Logs user into the system
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
@@ -304,13 +304,13 @@ No authorization required
 Logs out current logged in user session
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
@@ -348,13 +348,13 @@ Updated user
 This can only be done by the logged in user.
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()

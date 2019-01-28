@@ -27,13 +27,13 @@ creates an XmlItem
 this route creates an XmlItem
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -75,13 +75,13 @@ No authorization required
 Test serialization of outer boolean types
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -123,13 +123,13 @@ No authorization required
 Test serialization of object with outer number type
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -171,13 +171,13 @@ No authorization required
 Test serialization of outer number types
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -219,13 +219,13 @@ No authorization required
 Test serialization of outer string types
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -267,13 +267,13 @@ No authorization required
 For this test, the body for this request much reference a schema named `File`.
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -312,13 +312,13 @@ No authorization required
 
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -361,13 +361,13 @@ To test \"client\" model
 To test \"client\" model
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -411,14 +411,13 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 ### Example
 
-* Basic Authentication (http_basic_test): 
+* Basic Authentication (http_basic_test):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 configuration = petstore_api.Configuration()
 # Configure HTTP basic authorization: http_basic_test
 configuration.username = 'YOUR_USERNAME'
@@ -490,13 +489,13 @@ To test enum parameters
 To test enum parameters
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -552,13 +551,13 @@ Fake endpoint to test group parameters (optional)
 Fake endpoint to test group parameters (optional)
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -608,13 +607,13 @@ No authorization required
 test inline additionalProperties
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
@@ -654,13 +653,13 @@ No authorization required
 test json serialization of form data
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
