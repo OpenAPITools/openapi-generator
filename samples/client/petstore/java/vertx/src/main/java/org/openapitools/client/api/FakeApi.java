@@ -8,6 +8,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
@@ -15,6 +16,8 @@ import io.vertx.core.json.JsonObject;
 import java.util.*;
 
 public interface FakeApi {
+
+    void createXmlItem(XmlItem xmlItem, Handler<AsyncResult<Void>> handler);
 
     void fakeOuterBooleanSerialize(Boolean body, Handler<AsyncResult<Boolean>> handler);
 

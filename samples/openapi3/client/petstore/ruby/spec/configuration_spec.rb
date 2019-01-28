@@ -51,5 +51,9 @@ describe Petstore::Configuration do
     it 'should raise error due to invalid enum value' do
       expect{config.server_url(1, version: "v6")}.to raise_error(ArgumentError)
     end
+
+    it 'should raise error due to invalid index' do
+      expect{config.server_url(2)}.to raise_error(ArgumentError)
+    end
   end
 end
