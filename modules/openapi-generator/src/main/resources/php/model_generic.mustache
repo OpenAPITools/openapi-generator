@@ -170,6 +170,22 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
         {{/discriminator}}
     }
 
+    public static additionalPropertiesType() {
+        return {{#additionalPropertiesType}}{{additionalPropertiesType}}{{/additionalPropertiesType}}{{^additionalPropertiesType}}null{{/additionalPropertiesType}};
+    }
+
+    public function additionalPropertiesSetter($key, $value) {
+        $this->container[$key] = $value;
+    }
+
+    public function additionalPropertiesGetter($key) {
+        return $this->container[$key];
+    }
+
+    public static function oneOf() {
+        return [{{#oneOfTypes}}'{{.}}'{{^-last}}, {{/-last}}{{/oneOfTypes}}];
+    }
+
     /**
      * Show all the invalid properties with reasons.
      *

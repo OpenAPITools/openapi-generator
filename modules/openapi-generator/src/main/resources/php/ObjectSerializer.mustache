@@ -244,10 +244,34 @@ class ObjectSerializer
             $data = is_string($data) ? json_decode($data) : $data;
             $subClass = substr($class, 0, -2);
             $values = [];
+            if (!is_array($data)) {
+                throw new \InvalidArgumentException('expected array');
+            }
             foreach ($data as $key => $value) {
                 $values[] = self::deserialize($value, $subClass, null);
             }
             return $values;
+        } elseif (substr($class, 0, strlen('oneOf[')) === 'oneOf[') {
+          $inner = substr($class, strlen('oneOf['), -1);
+          $options = explode(',', $inner);
+          $deserialized = [];
+          $errors = [];
+          foreach ($options as $option) {
+            try {
+              $deserialized[] = ['option' => trim($option), 'value' => self::deserialize($data, trim($option), $httpHeaders)];
+            } catch (\InvalidArgumentException $e) {
+              $errors[] = $e->getMessage();
+            }
+          }
+          if (count($deserialized) > 1) {
+            throw new \InvalidArgumentException(
+              'too many matching options for oneOf: '. implode(', ', array_map(function($option) { return $option['option']; }, $deserialized))
+            );
+          }
+          if (count($deserialized) < 1) {
+            throw new \InvalidArgumentException('no values matched oneOf:\n    '. implode('\n    ', $errors));
+          }
+          return $deserialized[0]['value'];
         } elseif ($class === 'object') {
             settype($data, 'array');
             return $data;
@@ -301,17 +325,26 @@ class ObjectSerializer
                 }
             }
             $instance = new $class();
-            foreach ($instance::openAPITypes() as $property => $type) {
-                $propertySetter = $instance::setters()[$property];
-
-                if (!isset($propertySetter) || !isset($data->{$instance::attributeMap()[$property]})) {
-                    continue;
+            $reverseAttributes = array_flip($instance::attributeMap());
+            if (!is_object($data)) {
+                return null;
+            }
+            if (!empty($instance::oneOf())) {
+                return self::deserialize($data, "oneOf[". implode(', ', $instance->onefOf())  ."]", $httpHeaders);
+            }
+            foreach(get_object_vars($data) as $key => $propertyValue) {
+              $modelField = $reverseAttributes[$key];
+              $propertySetter = $instance::setters()[$modelField];
+              if (!isset($propertySetter)) {
+                if ($instance->additionalPropertiesType()) {
+                  $instance->additionalPropertySetter($key, self::deserialize($propertyValue, $instance->additionalPropertiesType(), $httpHeaders));
+                } else {
+                  throw new \InvalidArgumentException("No additional properties allowed: " . $key);
                 }
+              }
 
-                $propertyValue = $data->{$instance::attributeMap()[$property]};
-                if (isset($propertyValue)) {
-                    $instance->$propertySetter(self::deserialize($propertyValue, $type, null));
-                }
+              $type = $instance::openAPITypes()[$modelField];
+              $instance->$propertySetter(self::deserialize($propertyValue, $type, $httpHeaders));
             }
             return $instance;
         }

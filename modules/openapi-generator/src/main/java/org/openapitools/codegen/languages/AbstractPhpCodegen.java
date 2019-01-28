@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.apache.commons.io.FilenameUtils;
@@ -333,6 +334,20 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
+    protected void getComposite(String name, ComposedSchema composed, Map<String, Schema> allDefinitions, CodegenModel m) {
+        super.getComposite(name, composed, allDefinitions, m);
+        if (composed.getOneOf() != null) {
+            for (Schema option: composed.getOneOf()) {
+                if (ModelUtils.isArraySchema(ModelUtils.unaliasSchema(this.openAPI, option))) {
+                    m.oneOfTypes.add(getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, option)));
+                } else {
+                    m.oneOfTypes.add(getTypeDeclaration(option));
+                }
+            }
+        }
+    }
+
+    @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -353,8 +368,23 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             String type = super.getTypeDeclaration(p);
             return (!languageSpecificPrimitives.contains(type))
                     ? "\\" + modelPackage + "\\" + type : type;
+        } else if (p instanceof ComposedSchema && !((ComposedSchema) p).getOneOf().isEmpty()) {
+            List<String> inners = new ArrayList<>();
+            for (Schema one: ((ComposedSchema) p).getOneOf()) {
+                inners.add(getTypeDeclaration(one));
+            }
+            return "oneOf[" + String.join(", ", inners) + "]";
         }
         return super.getTypeDeclaration(p);
+    }
+
+    @Override
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+
+        if (additionalProperties != null) {
+            codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
+        }
     }
 
     @Override
