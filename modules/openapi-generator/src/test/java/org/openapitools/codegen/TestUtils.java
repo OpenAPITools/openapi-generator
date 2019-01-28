@@ -3,8 +3,8 @@ package org.openapitools.codegen;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
-
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.testng.Assert;
 
@@ -27,6 +27,13 @@ public class TestUtils {
         final Server server = new Server();
         server.setUrl("https://localhost:9999/root");
         openAPI.setServers(Collections.singletonList(server));
+        return openAPI;
+    }
+
+    public static OpenAPI createOpenAPIWithOneSchema(String name, Schema schema) {
+        OpenAPI openAPI = createOpenAPI();
+        openAPI.setComponents(new Components());
+        openAPI.getComponents().addSchemas(name, schema);
         return openAPI;
     }
 

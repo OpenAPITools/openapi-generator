@@ -19,7 +19,6 @@ package org.openapitools.codegen;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -33,7 +32,6 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.tags.Tag;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -46,9 +44,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.util.*;
-import java.net.*;
+import java.net.URL;
 import java.time.ZonedDateTime;
+import java.util.*;
 
 public class DefaultGenerator extends AbstractGenerator implements Generator {
     protected final Logger LOGGER = LoggerFactory.getLogger(DefaultGenerator.class);
@@ -182,9 +180,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         config.processOpts();
         config.preprocessOpenAPI(openAPI);
 
-        // set OpenAPI and schemas to make these available to all methods
-        config.setGlobalOpenAPI(openAPI);
-        config.setGlobalSchemas(openAPI);
+        // set OpenAPI to make these available to all methods
+        config.setOpenAPI(openAPI);
 
         config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
         config.additionalProperties().put("generatedDate", ZonedDateTime.now().toString());
@@ -449,7 +446,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 Map<String, Schema> schemaMap = new HashMap<>();
                 schemaMap.put(name, schema);
-                Map<String, Object> models = processModels(config, schemaMap, schemas);
+                Map<String, Object> models = processModels(config, schemaMap);
                 models.put("classname", config.toModelName(name));
                 models.putAll(config.additionalProperties());
                 allProcessedModels.put(name, models);
@@ -1016,7 +1013,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
         for (Tag tag : tags) {
             try {
-                CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, schemas, openAPI);
+                CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation);
                 codegenOperation.tags = new ArrayList<>(tags);
                 config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
 
@@ -1112,7 +1109,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             operations.put("hasImport", true);
         }
 
-        config.postProcessOperations(operations);
         config.postProcessOperationsWithModels(operations, allModels);
         if (objs.size() > 0) {
             List<CodegenOperation> os = (List<CodegenOperation>) objs.get("operation");
@@ -1126,7 +1122,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
 
-    private Map<String, Object> processModels(CodegenConfig config, Map<String, Schema> definitions, Map<String, Schema> allDefinitions) {
+    private Map<String, Object> processModels(CodegenConfig config, Map<String, Schema> definitions) {
         Map<String, Object> objs = new HashMap<String, Object>();
         objs.put("package", config.modelPackage());
         List<Object> models = new ArrayList<Object>();
@@ -1135,7 +1131,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             Schema schema = definitions.get(key);
             if (schema == null)
                 throw new RuntimeException("schema cannot be null in processMoels");
-            CodegenModel cm = config.fromModel(key, schema, allDefinitions);
+            CodegenModel cm = config.fromModel(key, schema);
             Map<String, Object> mo = new HashMap<String, Object>();
             mo.put("model", cm);
             mo.put("importPath", config.toModelImport(cm.classname));

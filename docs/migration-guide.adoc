@@ -22,6 +22,24 @@ The option is replaced with `-g` (`--generator-name`).
 * `-g` allows the same values as `-l`
 * See `list` command for the list of generator name
 
+==== Access OpenAPI instance as member and not as parameter
+
+If you are creating or extending a generator (programmatically), you might have use one of the following parameters: `OpenAPI openAPI` or `Map<String, Schema> allDefinitions` or `Map<String, Schema> allSchemas`. Example methods:
+
+* `CodegenConfig#fromOperation(String, String, Operation, Map<String, Schema>, OpenAPI)`
+* `CodegenConfig#fromModel(String, Schema, Map<String, Schema>)`
+* `DefaultCodegen#fromResponse(OpenAPI, String, ApiResponse)`
+* `DefaultCodegen#DefaultCodegen.fromRequestBody(RequestBody, Map<String, Schema>, Set<String>, String)`
+* `DefaultCodegen#createDiscriminator(String, Schema, Map<String, Schema>)`
+* ...
+
+The parameters (`openAPI`, `allDefinitions`, `allSchemas` ...) are now removed from the methods.
+
+To access the current OpenAPI instance, if you are extending `DefaultCodegen` you can use the protected `openAPI` member.
+
+If you are creating your own generator by implementing `CodegenConfig`, then the setter `CodegenConfig.setOpenAPI(OpenAPI)` will be called.
+You can keep a reference on the `OpenAPI` instance.
+
 === From 3.1.x to 3.2.0
 
 Version `3.2.0` is a minor version of OpenAPI-Generator, in comparison to `3.1.x` it contains some breaking changes, but with the possibility to fallback to the old behavior.

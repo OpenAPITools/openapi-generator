@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.php;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PhpClientCodegen;
 import org.openapitools.codegen.options.PhpClientOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class PhpClientOptionsTest extends AbstractOptionsTest {
 

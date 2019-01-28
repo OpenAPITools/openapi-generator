@@ -21,7 +21,6 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
@@ -71,7 +70,8 @@ public class JavascriptClientCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
         final JavascriptClientCodegen codegen = new JavascriptClientCodegen();
         final Schema pet = openAPI.getComponents().getSchemas().get("Pet");
-        final CodegenModel cm = codegen.fromModel("Pet", pet, openAPI.getComponents().getSchemas());
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("Pet", pet);
 
         Assert.assertEquals(cm.name, "Pet");
         Assert.assertEquals(cm.classname, "Pet");

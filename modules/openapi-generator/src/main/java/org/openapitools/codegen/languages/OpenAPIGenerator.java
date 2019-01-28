@@ -17,15 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.OpenAPI;
 import org.apache.commons.io.FileUtils;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.openapitools.codegen.*;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.core.util.Json;
+import java.io.File;
 
 public class OpenAPIGenerator extends DefaultCodegen implements CodegenConfig {
 

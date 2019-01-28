@@ -1,12 +1,6 @@
 package org.openapitools.codegen.serializer;
 
-import static org.testng.Assert.assertEquals;
-
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.ExternalDocumentation;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -15,11 +9,12 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
-
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+
+import static org.testng.Assert.assertEquals;
 
 public class SerializerUtilsTest {
 

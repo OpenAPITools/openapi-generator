@@ -17,17 +17,15 @@
 
 package org.openapitools.codegen.ruby;
 
-import io.swagger.v3.oas.models.Operation;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.RubyClientCodegen;
-
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.apache.commons.io.FileUtils;
 import org.junit.rules.TemporaryFolder;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.RubyClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -35,9 +33,13 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 /**
  * Tests for RubyClientCodegen-generated templates
@@ -147,9 +149,10 @@ public class RubyClientCodegenTest {
     public void enumParameterTest() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new RubyClientCodegen();
+        codegen.setOpenAPI(openAPI);
         final String path = "/fake";
         final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "get", p, openAPI.getComponents().getSchemas());
+        final CodegenOperation op = codegen.fromOperation(path, "get", p);
         Assert.assertEquals(op.formParams.size(), 2);
         CodegenParameter fp = op.formParams.get(0);
         Assert.assertEquals(fp.dataType, "Array<String>");
@@ -162,9 +165,10 @@ public class RubyClientCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
+        codegen.setOpenAPI(openAPI);
         final String path = "/pet";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas());
+        final CodegenOperation op = codegen.fromOperation(path, "post", p);
         Assert.assertEquals(op.bodyParams.size(), 1);
         CodegenParameter bp = op.bodyParams.get(0);
         Assert.assertEquals(bp.example, "OnlinePetstore::Pet.new");
@@ -179,7 +183,8 @@ public class RubyClientCodegenTest {
         final String path = "/pet";
 
         final Schema schema = openAPI.getComponents().getSchemas().get("NullablePet");
-        CodegenModel nullablePet = codegen.fromModel("NullablePet", schema, openAPI.getComponents().getSchemas());
+        codegen.setOpenAPI(openAPI);
+        CodegenModel nullablePet = codegen.fromModel("NullablePet", schema);
         CodegenProperty cp0 = nullablePet.getVars().get(0);
         Assert.assertTrue(cp0.isNullable);
 
@@ -207,7 +212,8 @@ public class RubyClientCodegenTest {
         final String path = "/pet";
 
         final Schema schema = openAPI.getComponents().getSchemas().get("Pet");
-        CodegenModel nullablePet = codegen.fromModel("Pet", schema, openAPI.getComponents().getSchemas());
+        codegen.setOpenAPI(openAPI);
+        CodegenModel nullablePet = codegen.fromModel("Pet", schema);
 
         Assert.assertNotNull(nullablePet);
         Assert.assertEquals(nullablePet.getVars().size(), 6);
@@ -289,10 +295,11 @@ public class RubyClientCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/petstore_oas3_test.yaml", null, new ParseOptions()).getOpenAPI();
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
+        codegen.setOpenAPI(openAPI);
         final String path = "/pet/{petId}";
 
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas());
+        final CodegenOperation op = codegen.fromOperation(path, "post", p);
 
         Assert.assertEquals(op.pathParams.size(), 1);
         CodegenParameter pp = op.pathParams.get(0);
@@ -310,10 +317,11 @@ public class RubyClientCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-nullable.yaml", null, new ParseOptions()).getOpenAPI();
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
+        codegen.setOpenAPI(openAPI);
         final String path = "/pet/{petId}";
 
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas());
+        final CodegenOperation op = codegen.fromOperation(path, "post", p);
 
         // path parameter x-nullable test
         Assert.assertEquals(op.pathParams.size(), 1);
@@ -335,7 +343,8 @@ public class RubyClientCodegenTest {
         codegen.setModuleName("OnlinePetstore");
 
         final Schema schema = openAPI.getComponents().getSchemas().get("fruit");
-        CodegenModel fruit = codegen.fromModel("Fruit", schema, openAPI.getComponents().getSchemas());
+        codegen.setOpenAPI(openAPI);
+        CodegenModel fruit = codegen.fromModel("Fruit", schema);
 
         Set<String> anyOf = new TreeSet<String>();
         anyOf.add("Apple");
@@ -350,7 +359,8 @@ public class RubyClientCodegenTest {
         codegen.setModuleName("OnlinePetstore");
 
         final Schema schema = openAPI.getComponents().getSchemas().get("fruit");
-        CodegenModel fruit = codegen.fromModel("Fruit", schema, openAPI.getComponents().getSchemas());
+        codegen.setOpenAPI(openAPI);
+        CodegenModel fruit = codegen.fromModel("Fruit", schema);
 
         Set<String> oneOf = new TreeSet<String>();
         oneOf.add("Apple");
@@ -365,7 +375,8 @@ public class RubyClientCodegenTest {
         codegen.setModuleName("OnlinePetstore");
 
         final Schema schema = openAPI.getComponents().getSchemas().get("Person");
-        CodegenModel person = codegen.fromModel("Person", schema, openAPI.getComponents().getSchemas());
+        codegen.setOpenAPI(openAPI);
+        CodegenModel person = codegen.fromModel("Person", schema);
         Assert.assertNotNull(person);
 
         CodegenDiscriminator codegenDiscriminator = person.getDiscriminator();
@@ -384,7 +395,8 @@ public class RubyClientCodegenTest {
         codegen.setModuleName("OnlinePetstore");
 
         final Schema schema = openAPI.getComponents().getSchemas().get("ModelC");
-        CodegenModel modelC = codegen.fromModel("ModelC", schema, openAPI.getComponents().getSchemas());
+        codegen.setOpenAPI(openAPI);
+        CodegenModel modelC = codegen.fromModel("ModelC", schema);
         Assert.assertNotNull(modelC);
         Assert.assertEquals(modelC.getVars().size(), 5);
 
@@ -412,7 +424,8 @@ public class RubyClientCodegenTest {
         codegen.setModuleName("OnlinePetstore");
 
         final Schema schema = openAPI.getComponents().getSchemas().get("Child");
-        CodegenModel child = codegen.fromModel("Child", schema, openAPI.getComponents().getSchemas());
+        codegen.setOpenAPI(openAPI);
+        CodegenModel child = codegen.fromModel("Child", schema);
         Assert.assertNotNull(child);
 
         // to test allVars (without parent's properties)
@@ -466,7 +479,8 @@ public class RubyClientCodegenTest {
         codegen.setModuleName("OnlinePetstore");
 
         final Schema schema = openAPI.getComponents().getSchemas().get("Adult");
-        CodegenModel adult = codegen.fromModel("Adult", schema, openAPI.getComponents().getSchemas());
+        codegen.setOpenAPI(openAPI);
+        CodegenModel adult = codegen.fromModel("Adult", schema);
         Assert.assertNotNull(adult);
 
         // to test allVars (without parent's properties)
@@ -523,10 +537,11 @@ public class RubyClientCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-nullable.yaml", null, new ParseOptions()).getOpenAPI();
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
+        codegen.setOpenAPI(openAPI);
         final String path = "/store/order/{orderId}";
 
         final Operation p = openAPI.getPaths().get(path).getDelete();
-        final CodegenOperation op = codegen.fromOperation(path, "delete", p, openAPI.getComponents().getSchemas());
+        final CodegenOperation op = codegen.fromOperation(path, "delete", p);
 
         CodegenParameter pp = op.pathParams.get(0);
         Assert.assertEquals(pp.example, "'orderid123'");
@@ -538,10 +553,11 @@ public class RubyClientCodegenTest {
                 .readLocation("src/test/resources/3_0/petstore_oas3_test.yaml", null, new ParseOptions()).getOpenAPI();
         final RubyClientCodegen codegen = new RubyClientCodegen();
         codegen.setModuleName("OnlinePetstore");
+        codegen.setOpenAPI(openAPI);
         final String path = "/store/order/{orderId}";
 
         final Operation p = openAPI.getPaths().get(path).getDelete();
-        final CodegenOperation op = codegen.fromOperation(path, "delete", p, openAPI.getComponents().getSchemas());
+        final CodegenOperation op = codegen.fromOperation(path, "delete", p);
 
         CodegenParameter pp = op.pathParams.get(0);
         Assert.assertEquals(pp.example, "'orderid123'");
@@ -558,9 +574,10 @@ public class RubyClientCodegenTest {
         final OpenAPI openAPI = new OpenAPIParser()
                 .readLocation("src/test/resources/3_0/test_regex.yaml", null, new ParseOptions()).getOpenAPI();
         final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setOpenAPI(openAPI);
         final String path = "/ping";
         final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "get", p, openAPI.getComponents().getSchemas());
+        final CodegenOperation op = codegen.fromOperation(path, "get", p);
         // pattern_no_forward_slashes '^pattern$'
         Assert.assertEquals(op.allParams.get(0).pattern, "/^pattern$/");
         // pattern_two_slashes '/^pattern$/i'

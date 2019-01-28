@@ -21,7 +21,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.oas.models.servers.ServerVariables;
-
 import org.openapitools.codegen.CodegenConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
