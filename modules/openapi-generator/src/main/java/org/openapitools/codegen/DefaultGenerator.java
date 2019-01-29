@@ -1057,6 +1057,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                                 }
                                 
                             }
+                            security.hasScopes = scopes.size() > 0;
                             security.scopes = scopes;
                         }
                     }
