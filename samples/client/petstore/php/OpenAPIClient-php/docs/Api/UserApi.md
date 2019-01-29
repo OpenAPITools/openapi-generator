@@ -26,6 +26,7 @@ This can only be done by the logged in user.
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -72,6 +73,7 @@ Creates list of users with given input array
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -117,6 +119,7 @@ Creates list of users with given input array
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 $apiInstance = new OpenAPI\Client\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -166,6 +169,7 @@ This can only be done by the logged in user.
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -211,6 +215,7 @@ Get user by user name
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 $apiInstance = new OpenAPI\Client\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -258,6 +263,7 @@ Logs user into the system
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 $apiInstance = new OpenAPI\Client\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -308,6 +314,7 @@ Logs out current logged in user session
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -351,6 +358,7 @@ This can only be done by the logged in user.
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 $apiInstance = new OpenAPI\Client\Api\UserApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.

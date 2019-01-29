@@ -506,10 +506,18 @@ use {{invokerPackage}}\ObjectSerializer;
         }
         {{/isApiKey}}
         {{#isBasic}}
+        {{^isBasicBearer}}
         // this endpoint requires HTTP basic authentication
         if ($this->config->getUsername() !== null || $this->config->getPassword() !== null) {
             $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
         }
+        {{/isBasicBearer}}
+        {{#isBasicBearer}}
+        // this endpoint requires Bearer authentication (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+        {{/isBasicBearer}}
         {{/isBasic}}
         {{#isOAuth}}
         // this endpoint requires OAuth (access token)
