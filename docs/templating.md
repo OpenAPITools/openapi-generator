@@ -619,8 +619,14 @@ The following are vendor extensions supported by OpenAPI Generator. The list may
 
 #### Enum
 
-`x-enum-varnames` can be used to have an other enum name for the corresponding value. 
+`x-enum-varnames` can be used to have an other enum name for the corresponding value.
+This is used to define names of the enum items.
+
 `x-enum-descriptions` can be used to provide an individual description for each value.
+This is used for comments in the code (like javadoc if the target language is java).
+
+`x-enum-descriptions` and `x-enum-varnames` are each expected to be list of items containing the same number of items as `enum`.
+The order of the items in the list matters: their position is used to group them together.
 
 Example:
 
@@ -629,9 +635,9 @@ WeatherType:
   type: integer
   format: int32
   enum:
-    - 1
-    - 2
-    - 3
+    - 42
+    - 18
+    - 56
   x-enum-descriptions:
     - 'Blue sky'
     - 'Slightly overcast'
@@ -641,6 +647,8 @@ WeatherType:
     - Cloudy
     - Rainy
 ```
+
+In the example for the integer value `42`, the description will be `Blue sky` and the name of the enum item will be `Sunny` (some generators changes it to `SUNNY` to respect some coding convention).
 
 ### ObjC
 #### x-objc-operationId
