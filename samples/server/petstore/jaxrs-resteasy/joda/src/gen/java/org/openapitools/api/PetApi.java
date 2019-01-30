@@ -5,6 +5,7 @@ import org.openapitools.api.PetApiService;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
+import io.swagger.jaxrs.PATCH;
 
 import java.io.File;
 import org.openapitools.model.ModelApiResponse;

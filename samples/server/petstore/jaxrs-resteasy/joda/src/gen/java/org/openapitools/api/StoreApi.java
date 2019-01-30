@@ -5,6 +5,7 @@ import org.openapitools.api.StoreApiService;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
+import io.swagger.jaxrs.PATCH;
 
 import java.util.Map;
 import org.openapitools.model.Order;
