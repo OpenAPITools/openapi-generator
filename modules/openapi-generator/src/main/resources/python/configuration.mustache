@@ -51,10 +51,16 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         self.username = ""
         # Password for HTTP basic authentication
         self.password = ""
-{{#authMethods}}{{#isOAuth}}
-        # access token for OAuth
+{{#hasOAuthMethods}}
+        # access token for OAuth/Bearer
         self.access_token = ""
-{{/isOAuth}}{{/authMethods}}
+{{/hasOAuthMethods}}
+{{^hasOAuthMethods}}
+{{#hasBearerMethods}}
+        # access token for OAuth/Bearer
+        self.access_token = ""
+{{/hasBearerMethods}}
+{{/hasOAuthMethods}}
         # Logging Settings
         self.logger = {}
         self.logger["package_logger"] = logging.getLogger("{{packageName}}")
@@ -218,6 +224,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                 },
 {{/isApiKey}}
 {{#isBasic}}
+  {{^isBasicBearer}}
             '{{name}}':
                 {
                     'type': 'basic',
@@ -225,7 +232,21 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                     'key': 'Authorization',
                     'value': self.get_basic_auth_token()
                 },
-{{/isBasic}}{{#isOAuth}}
+  {{/isBasicBearer}}
+  {{#isBasicBearer}}
+            '{{name}}':
+                {
+                    'type': 'bearer',
+                    'in': 'header',
+                    {{#bearerFormat}}
+                    'format': '{{{.}}}',
+                    {{/bearerFormat}}
+                    'key': 'Authorization',
+                    'value': 'Bearer ' + self.access_token
+                },
+  {{/isBasicBearer}}
+{{/isBasic}}
+{{#isOAuth}}
             '{{name}}':
                 {
                     'type': 'oauth2',
@@ -233,7 +254,8 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                     'key': 'Authorization',
                     'value': 'Bearer ' + self.access_token
                 },
-{{/isOAuth}}{{/authMethods}}
+{{/isOAuth}}
+{{/authMethods}}
         }
 
     def to_debug_report(self):

@@ -59,10 +59,8 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         self.username = ""
         # Password for HTTP basic authentication
         self.password = ""
-
-        # access token for OAuth
+        # access token for OAuth/Bearer
         self.access_token = ""
-
         # Logging Settings
         self.logger = {}
         self.logger["package_logger"] = logging.getLogger("petstore_api")
@@ -236,7 +234,6 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                     'key': 'Authorization',
                     'value': self.get_basic_auth_token()
                 },
-
             'petstore_auth':
                 {
                     'type': 'oauth2',
@@ -244,7 +241,6 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                     'key': 'Authorization',
                     'value': 'Bearer ' + self.access_token
                 },
-
         }
 
     def to_debug_report(self):

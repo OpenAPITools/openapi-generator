@@ -1927,57 +1927,17 @@ public class DefaultCodegen implements CodegenConfig {
             if (property.minimum != null || property.maximum != null)
                 property.hasValidation = true;
 
-            // legacy support
-            Map<String, Object> allowableValues = new HashMap<String, Object>();
-
-            if (p.getEnum() != null) {
-                List<Object> _enum = p.getEnum();
-                property._enum = new ArrayList<String>();
-                for (Object i : _enum) {
-                    property._enum.add(String.valueOf(i));
-                }
-                property.isEnum = true;
-                allowableValues.put("values", _enum);
-            }
-
-            if (allowableValues.size() > 0) {
-                property.allowableValues = allowableValues;
-            }
         } else if (ModelUtils.isBooleanSchema(p)) { // boolean type
             property.isBoolean = true;
             property.getter = toBooleanGetter(name);
         } else if (ModelUtils.isDateSchema(p)) { // date format
             property.isString = false; // for backward compatibility with 2.x
             property.isDate = true;
-            if (p.getEnum() != null) {
-                List<String> _enum = p.getEnum();
-                property._enum = new ArrayList<String>();
-                for (String i : _enum) {
-                    property._enum.add(i);
-                }
-                property.isEnum = true;
 
-                // legacy support
-                Map<String, Object> allowableValues = new HashMap<String, Object>();
-                allowableValues.put("values", _enum);
-                property.allowableValues = allowableValues;
-            }
         } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
             property.isString = false; // for backward compatibility with 2.x
             property.isDateTime = true;
-            if (p.getEnum() != null) {
-                List<String> _enum = p.getEnum();
-                property._enum = new ArrayList<String>();
-                for (String i : _enum) {
-                    property._enum.add(i);
-                }
-                property.isEnum = true;
 
-                // legacy support
-                Map<String, Object> allowableValues = new HashMap<String, Object>();
-                allowableValues.put("values", _enum);
-                property.allowableValues = allowableValues;
-            }
         } else if (ModelUtils.isStringSchema(p)) {
             if (ModelUtils.isByteArraySchema(p)) {
                 property.isByteArray = true;
@@ -2005,16 +1965,6 @@ public class DefaultCodegen implements CodegenConfig {
             if (property.pattern != null || property.minLength != null || property.maxLength != null)
                 property.hasValidation = true;
 
-            if (p.getEnum() != null) {
-                List<String> _enum = p.getEnum();
-                property._enum = _enum;
-                property.isEnum = true;
-
-                // legacy support
-                Map<String, Object> allowableValues = new HashMap<String, Object>();
-                allowableValues.put("values", _enum);
-                property.allowableValues = allowableValues;
-            }
         } else if (ModelUtils.isNumberSchema(p)) {
             property.isNumeric = Boolean.TRUE;
             if (ModelUtils.isFloatSchema(p)) { // float
@@ -2043,21 +1993,35 @@ public class DefaultCodegen implements CodegenConfig {
             if (property.minimum != null || property.maximum != null)
                 property.hasValidation = true;
 
-            if (p.getEnum() != null && !p.getEnum().isEmpty()) {
-                List<Object> _enum = p.getEnum();
-                property._enum = new ArrayList<String>();
-                for (Object i : _enum) {
-                    property._enum.add(String.valueOf(i));
-                }
-                property.isEnum = true;
-
-                // legacy support
-                Map<String, Object> allowableValues = new HashMap<String, Object>();
-                allowableValues.put("values", _enum);
-                property.allowableValues = allowableValues;
-            }
         } else if (ModelUtils.isFreeFormObject(p)){
             property.isFreeFormObject = true;
+        }
+
+        //Inline enum case:
+        if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+            List<Object> _enum = p.getEnum();
+            property._enum = new ArrayList<String>();
+            for (Object i : _enum) {
+                property._enum.add(String.valueOf(i));
+            }
+            property.isEnum = true;
+            
+            Map<String, Object> allowableValues = new HashMap<String, Object>();
+            allowableValues.put("values", _enum);
+            if (allowableValues.size() > 0) {
+                property.allowableValues = allowableValues;
+            }
+        }
+        //Referenced enum case:
+        Schema r = ModelUtils.getReferencedSchema(this.openAPI, p);
+        if (r.getEnum() != null && !r.getEnum().isEmpty()) {
+            List<Object> _enum = r.getEnum();
+
+            Map<String, Object> allowableValues = new HashMap<String, Object>();
+            allowableValues.put("values", _enum);
+            if (allowableValues.size() > 0) {
+                property.allowableValues = allowableValues;
+            }
         }
 
         property.dataType = getTypeDeclaration(p);
@@ -3160,6 +3124,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 else if ("bearer".equals(securityScheme.getScheme())) {
                     cs.isBasicBearer = true;
+                    cs.bearerFormat = securityScheme.getBearerFormat();
                 }
             } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
                 cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;

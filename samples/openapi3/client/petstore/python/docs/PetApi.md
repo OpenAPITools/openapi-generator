@@ -22,7 +22,7 @@ Add a new pet to the store
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
@@ -72,7 +72,7 @@ Deletes a pet
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
@@ -126,7 +126,7 @@ Multiple status values can be provided with comma separated strings
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
@@ -179,7 +179,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
@@ -232,7 +232,7 @@ Returns a single pet
 
 ### Example
 
-* Api Key Authentication (api_key): 
+* Api Key Authentication (api_key):
 ```python
 from __future__ import print_function
 import time
@@ -285,7 +285,7 @@ Update an existing pet
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
@@ -335,7 +335,7 @@ Updates a pet in the store with form data
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
@@ -389,7 +389,7 @@ uploads an image
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
@@ -444,7 +444,7 @@ uploads an image (required)
 
 ### Example
 
-* OAuth Authentication (petstore_auth): 
+* OAuth Authentication (petstore_auth):
 ```python
 from __future__ import print_function
 import time
