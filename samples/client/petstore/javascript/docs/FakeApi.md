@@ -383,7 +383,6 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
-
 // Configure HTTP basic authorization: http_basic_test
 var http_basic_test = defaultClient.authentications['http_basic_test'];
 http_basic_test.username = 'YOUR USERNAME';

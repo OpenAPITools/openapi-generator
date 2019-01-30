@@ -191,6 +191,11 @@ Class | Method | HTTP request | Description
 - **Location**: URL query string
 
 
+### bearer_test
+
+- **Type**: Bearer authentication (JWT)
+
+
 ### http_basic_test
 
 - **Type**: HTTP basic authentication

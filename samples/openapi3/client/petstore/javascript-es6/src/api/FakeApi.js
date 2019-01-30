@@ -537,7 +537,7 @@ export default class FakeApi {
       let formParams = {
       };
 
-      let authNames = [];
+      let authNames = ['bearer_test'];
       let contentTypes = [];
       let accepts = [];
       let returnType = null;

@@ -332,7 +332,6 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
-
 // Configure HTTP basic authorization: http_basic_test
 let http_basic_test = defaultClient.authentications['http_basic_test'];
 http_basic_test.username = 'YOUR USERNAME';
@@ -465,6 +464,10 @@ Fake endpoint to test group parameters (optional)
 ### Example
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
+let defaultClient = OpenApiPetstore.ApiClient.instance;
+// Configure Bearer (JWT) access token for authorization: bearer_test
+let bearer_test = defaultClient.authentications['bearer_test'];
+bearer_test.accessToken = "YOUR ACCESS TOKEN"
 
 let apiInstance = new OpenApiPetstore.FakeApi();
 let requiredStringGroup = 56; // Number | Required String in group parameters
@@ -501,7 +504,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearer_test](../README.md#bearer_test)
 
 ### HTTP request headers
 

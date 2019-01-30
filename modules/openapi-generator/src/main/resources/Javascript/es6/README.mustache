@@ -89,7 +89,7 @@ var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.password = 'YOUR PASSWORD'
 {{/isBasicBearer}}
 {{#isBasicBearer}}
-// Configure Bearer access token for authorization: {{{name}}}
+// Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.accessToken = "YOUR ACCESS TOKEN"
 {{/isBasicBearer}}
@@ -178,7 +178,7 @@ All endpoints do not require authorization.
 - **Type**: HTTP basic authentication
 {{/isBasicBearer}}
 {{#isBasicBearer}}
-- **Type**: Bearer authentication
+- **Type**: Bearer authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}- **Type**: OAuth
