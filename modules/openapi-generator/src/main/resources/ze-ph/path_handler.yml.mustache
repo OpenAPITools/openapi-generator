@@ -1,14 +1,16 @@
-dependencies:
-  factories:
-    Zend\Expressive\Router\RouterInterface: Articus\PathHandler\Router\Factory\FastRouteAnnotation
-
-Articus\PathHandler\Middleware:
-  metadata_cache:
-    adapter:
-      name: blackhole
+Articus\PathHandler\RouteInjection\Factory:
+  paths:
+    '{{basePathWithoutHost}}':
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+    - {{package}}\{{classname}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
   handlers:
     abstract_factories:
-      - Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory
+    - Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory
 #  consumers:
 #    factories:
 #    invokables:
@@ -18,19 +20,6 @@ Articus\PathHandler\Middleware:
 #  producers:
 #    factories:
 #    invokables:
-
-Articus\PathHandler\Router\FastRouteAnnotation:
-  metadata_cache:
-    adapter:
-      name: blackhole
-  handlers:
-{{#apiInfo}}
-{{#apis}}
-{{#operations}}
-    - {{package}}\{{classname}}
-{{/operations}}
-{{/apis}}
-{{/apiInfo}}
 
 Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
 {{#apiInfo}}

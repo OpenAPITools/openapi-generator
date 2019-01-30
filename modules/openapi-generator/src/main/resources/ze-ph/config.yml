@@ -4,38 +4,36 @@
 #Enable configuration cache
 #cache_configuration: true
 
-#Enable routing cache for handlers
-#Articus\PathHandler\Router\FastRouteAnnotation:
-#  metadata_cache:
-#    adapter:
-#      name: filesystem
+#Articus\PathHandler\RouteInjection\Factory:
+#  #Enable routing table cache
+#  router:
+#    cache:
+#      adapter: filesystem
 #      options:
 #        cache_dir: data/cache/ZendCache
-#        namespace: fast-route
-#    plugins:
-#      serializer:
-#        serializer: phpserialize
-
-#Enable consumer, attribute and producer cache for handlers
-#Articus\PathHandler\Middleware:
-#  metadata_cache:
-#    adapter:
-#      name: filesystem
+#        namespace: ph-router
+#      plugins:
+#        serializer:
+#          serializer: phpserialize
+#  #Enable handler metadata cache
+#  metadata:
+#    cache:
+#      adapter: filesystem
 #      options:
 #        cache_dir: data/cache/ZendCache
-#        namespace: path-handler
-#    plugins:
-#      serializer:
-#        serializer: phpserialize
+#        namespace: ph-metadata
+#      plugins:
+#        serializer:
+#          serializer: phpserialize
 
 #Enable data transfer metadata cache for DTOs
-#data_transfer:
+#Articus\DataTransfer\Service:
 #  metadata_cache:
 #    adapter:
 #      name: filesystem
 #      options:
 #        cache_dir: data/cache/ZendCache
-#        namespace: data-transfer
+#        namespace: dt
 #    plugins:
 #      serializer:
 #        serializer: phpserialize
