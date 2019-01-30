@@ -273,6 +273,12 @@ class ApiClient {
                     }
 
                     break;
+                case 'bearer':
+                    if (auth.accessToken) {
+                        request.set({'Authorization': 'Bearer ' + auth.accessToken});
+                    }
+
+                    break;
                 case 'apiKey':
                     if (auth.apiKey) {
                         var data = {};
