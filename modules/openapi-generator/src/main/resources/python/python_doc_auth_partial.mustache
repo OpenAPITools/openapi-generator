@@ -8,7 +8,7 @@ configuration.username = 'YOUR_USERNAME'
 configuration.password = 'YOUR_PASSWORD'
 {{/isBasicBearer}}
 {{#isBasicBearer}}
-# Configure Bearer authorization: {{{name}}}
+# Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
 configuration.access_token = 'YOUR_BEARER_TOKEN'
 {{/isBasicBearer}}
 {{/isBasic}}

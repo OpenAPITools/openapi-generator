@@ -231,6 +231,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                 {
                     'type': 'bearer',
                     'in': 'header',
+                    'format': 'JWT',
                     'key': 'Authorization',
                     'value': 'Bearer ' + self.access_token
                 },

@@ -26,7 +26,7 @@ Method | HTTP request | Description
 * Basic Authentication ({{name}}):
 {{/isBasicBearer}}
 {{#isBasicBearer}}
-* Bearer Authentication ({{name}}):
+* Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} Authentication ({{name}}):
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isApiKey}}
