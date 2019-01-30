@@ -5,6 +5,7 @@ import org.openapitools.api.UserApiService;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
+import io.swagger.jaxrs.PATCH;
 
 import java.util.List;
 import org.openapitools.model.User;
