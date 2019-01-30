@@ -204,7 +204,9 @@ public class FakeApi  {
     
     
     
-    @io.swagger.annotations.ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "bearer_test")
+    }, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 400, message = "Someting wrong", response = Void.class) })
     public Response testGroupParameters(@ApiParam(value = "Required String in group parameters",required=true) @QueryParam("required_string_group") Integer requiredStringGroup

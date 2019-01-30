@@ -22,6 +22,7 @@ Create user
 This can only be done by the logged in user.
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -67,6 +68,7 @@ No authorization required
 Creates list of users with given input array
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -112,6 +114,7 @@ No authorization required
 Creates list of users with given input array
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -159,6 +162,7 @@ Delete user
 This can only be done by the logged in user.
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -204,6 +208,7 @@ No authorization required
 Get user by user name
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -250,6 +255,7 @@ No authorization required
 Logs user into the system
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -298,6 +304,7 @@ No authorization required
 Logs out current logged in user session
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -341,6 +348,7 @@ Updated user
 This can only be done by the logged in user.
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time

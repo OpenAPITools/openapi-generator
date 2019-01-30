@@ -3124,6 +3124,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 else if ("bearer".equals(securityScheme.getScheme())) {
                     cs.isBasicBearer = true;
+                    cs.bearerFormat = securityScheme.getBearerFormat();
                 }
             } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
                 cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
