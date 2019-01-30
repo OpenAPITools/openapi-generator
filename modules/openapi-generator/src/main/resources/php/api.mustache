@@ -513,7 +513,7 @@ use {{invokerPackage}}\ObjectSerializer;
         }
         {{/isBasicBearer}}
         {{#isBasicBearer}}
-        // this endpoint requires Bearer authentication (access token)
+        // this endpoint requires Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} authentication (access token)
         if ($this->config->getAccessToken() !== null) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }

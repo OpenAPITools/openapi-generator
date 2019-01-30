@@ -121,7 +121,7 @@ All endpoints do not require authorization.
 - **Type**: HTTP basic authentication
 {{/isBasicBearer}}
 {{#isBasicBearer}}
-- **Type**: Bearer authentication
+- **Type**: Bearer authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}

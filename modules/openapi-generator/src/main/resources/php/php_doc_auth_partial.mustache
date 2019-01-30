@@ -8,7 +8,7 @@ $config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()
               ->setPassword('YOUR_PASSWORD');
 {{/isBasicBearer}}
 {{#isBasicBearer}}
-// Configure Bearer authorization: {{{name}}}
+// Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} authorization: {{{name}}}
 $config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 {{/isBasicBearer}}
 {{/isBasic}}
