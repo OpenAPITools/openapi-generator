@@ -242,7 +242,7 @@ public class EnumTest implements Parcelable {
 
   public static final String SERIALIZED_NAME_OUTER_ENUM = "outerEnum";
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
-  private OuterEnum outerEnum = null;
+  private OuterEnum outerEnum;
 
   public EnumTest() {
   }

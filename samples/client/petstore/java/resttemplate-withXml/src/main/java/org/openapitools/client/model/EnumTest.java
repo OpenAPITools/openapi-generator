@@ -199,7 +199,7 @@ public class EnumTest {
   @JsonProperty("outerEnum")
   @JacksonXmlProperty(localName = "outerEnum")
   @XmlElement(name = "outerEnum")
-  private OuterEnum outerEnum = null;
+  private OuterEnum outerEnum;
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;

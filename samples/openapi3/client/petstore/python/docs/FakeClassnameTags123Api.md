@@ -16,7 +16,7 @@ To test class name in snake case
 
 ### Example
 
-* Api Key Authentication (api_key_query): 
+* Api Key Authentication (api_key_query):
 ```python
 from __future__ import print_function
 import time
