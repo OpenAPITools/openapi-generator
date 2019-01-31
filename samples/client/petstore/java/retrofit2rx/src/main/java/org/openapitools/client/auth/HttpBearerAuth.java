@@ -24,14 +24,10 @@ public class HttpBearerAuth implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        if(bearerToken == null) {
-            return;
-        }
-
         Request request = chain.request();
 
         // If the request already have an authorization (eg. Basic auth), do nothing
-        if (request.header("Authorization") == null) {
+        if (request.header("Authorization") == null && bearerToken != null) {
             request = request.newBuilder()
                     .addHeader("Authorization", (scheme != null ? upperCaseBearer(scheme) + " " : "") + bearerToken)
                     .build();
