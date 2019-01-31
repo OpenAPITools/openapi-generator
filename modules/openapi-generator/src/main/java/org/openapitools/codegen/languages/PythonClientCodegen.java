@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -90,6 +91,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         languageSpecificPrimitives.add("object");
         // TODO file and binary is mapped as `file`
         languageSpecificPrimitives.add("file");
+
+        instantiationTypes.put("map", "dict");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -412,8 +415,17 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ModelUtils.getAdditionalProperties(p);
 
             return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
+
         }
         return super.getTypeDeclaration(p);
+    }
+
+    @Override
+    public String toInstantiationType(Schema property) {
+        if (property instanceof ArraySchema || property instanceof MapSchema || property.getAdditionalProperties() != null) {
+            return getSchemaType(property);
+        }
+        return super.toInstantiationType(property);
     }
 
     @Override
