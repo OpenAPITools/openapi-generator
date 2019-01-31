@@ -17,7 +17,7 @@ class StoreOrder
 {
     /**
      * Place an order for a pet
-     * @PHA\handlePost
+     * @PHA\Post()
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\Order::class,"objectAttr":"bodyData"})
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml")

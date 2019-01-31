@@ -17,7 +17,7 @@ class User
 {
     /**
      * Create user
-     * @PHA\handlePost
+     * @PHA\Post()
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\User::class,"objectAttr":"bodyData"})
      * @param ServerRequestInterface $request
      *
