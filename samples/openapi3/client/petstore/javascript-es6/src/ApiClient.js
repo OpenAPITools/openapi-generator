@@ -43,6 +43,7 @@ class ApiClient {
         this.authentications = {
             'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'},
             'api_key_query': {type: 'apiKey', 'in': 'query', name: 'api_key_query'},
+            'bearer_test': {type: 'bearer'}, // JWT
             'http_basic_test': {type: 'basic'},
             'petstore_auth': {type: 'oauth2'}
         }
@@ -270,6 +271,12 @@ class ApiClient {
                 case 'basic':
                     if (auth.username || auth.password) {
                         request.auth(auth.username || '', auth.password || '');
+                    }
+
+                    break;
+                case 'bearer':
+                    if (auth.accessToken) {
+                        request.set({'Authorization': 'Bearer ' + auth.accessToken});
                     }
 
                     break;

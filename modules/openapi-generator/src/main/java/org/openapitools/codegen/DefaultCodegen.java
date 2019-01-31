@@ -1559,8 +1559,8 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Convert OAS Model object to Codegen Model object
      *
-     * @param name           the name of the model
-     * @param schema         OAS Model object
+     * @param name   the name of the model
+     * @param schema OAS Model object
      * @return Codegen Model object
      */
     public CodegenModel fromModel(String name, Schema schema) {
@@ -1993,7 +1993,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (property.minimum != null || property.maximum != null)
                 property.hasValidation = true;
 
-        } else if (ModelUtils.isFreeFormObject(p)){
+        } else if (ModelUtils.isFreeFormObject(p)) {
             property.isFreeFormObject = true;
         }
 
@@ -2005,7 +2005,7 @@ public class DefaultCodegen implements CodegenConfig {
                 property._enum.add(String.valueOf(i));
             }
             property.isEnum = true;
-            
+
             Map<String, Object> allowableValues = new HashMap<String, Object>();
             allowableValues.put("values", _enum);
             if (allowableValues.size() > 0) {
@@ -2273,6 +2273,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Convert OAS Operation object to Codegen Operation object
+     *
      * @param httpMethod HTTP method
      * @param operation  OAS operation object
      * @param path       the path of the operation
@@ -2587,9 +2588,9 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Convert OAS Response object to Codegen Response object
+     *
      * @param responseCode HTTP response code
      * @param response     OAS Response object
-     *
      * @return Codegen Response object
      */
     public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
@@ -3121,8 +3122,7 @@ public class DefaultCodegen implements CodegenConfig {
                 cs.isBasic = true;
                 if ("basic".equals(securityScheme.getScheme())) {
                     cs.isBasicBasic = true;
-                }
-                else if ("bearer".equals(securityScheme.getScheme())) {
+                } else if ("bearer".equals(securityScheme.getScheme())) {
                     cs.isBasicBearer = true;
                     cs.bearerFormat = securityScheme.getBearerFormat();
                 }
@@ -3250,6 +3250,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Add headers to codegen property
+     *
      * @param response   API response
      * @param properties list of codegen property
      */
@@ -3366,8 +3367,8 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Loop through propertiies and unalias the reference if $ref (reference) is defined
-     * @param properties model properties (schemas)
      *
+     * @param properties model properties (schemas)
      * @return model properties with direct reference to schemas
      */
     private Map<String, Schema> unaliasPropertySchema(Map<String, Schema> properties) {

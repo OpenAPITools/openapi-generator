@@ -49,6 +49,7 @@ import Tag from './model/Tag';
 import TypeHolderDefault from './model/TypeHolderDefault';
 import TypeHolderExample from './model/TypeHolderExample';
 import User from './model/User';
+import XmlItem from './model/XmlItem';
 import AnotherFakeApi from './api/AnotherFakeApi';
 import FakeApi from './api/FakeApi';
 import FakeClassnameTags123Api from './api/FakeClassnameTags123Api';
@@ -310,6 +311,12 @@ export {
      * @property {module:model/User}
      */
     User,
+
+    /**
+     * The XmlItem model constructor.
+     * @property {module:model/XmlItem}
+     */
+    XmlItem,
 
     /**
     * The AnotherFakeApi service constructor.
