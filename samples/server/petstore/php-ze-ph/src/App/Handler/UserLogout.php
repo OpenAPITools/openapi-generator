@@ -17,7 +17,7 @@ class UserLogout
 {
     /**
      * Logs out current logged in user session
-     * @PHA\Get()
+     * @PHA\handleGet
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 501 if the method is not implemented

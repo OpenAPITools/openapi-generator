@@ -17,7 +17,7 @@ class PetPetId
 {
     /**
      * Deletes a pet
-     * @PHA\Delete()
+     * @PHA\handleDelete
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 501 if the method is not implemented
@@ -29,7 +29,7 @@ class PetPetId
     }
     /**
      * Find pet by ID
-     * @PHA\Get()
+     * @PHA\handleGet
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml")
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
@@ -47,7 +47,7 @@ class PetPetId
     }
     /**
      * Updates a pet in the store with form data
-     * @PHA\Post()
+     * @PHA\handlePost
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 501 if the method is not implemented

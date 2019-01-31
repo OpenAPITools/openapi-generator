@@ -17,7 +17,7 @@ class PetFindByTags
 {
     /**
      * Finds Pets by tags
-     * @PHA\Get()
+     * @PHA\handleGet
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml")
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
