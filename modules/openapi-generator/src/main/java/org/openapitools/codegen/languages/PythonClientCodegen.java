@@ -415,7 +415,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ModelUtils.getAdditionalProperties(p);
 
             return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
-
         }
         return super.getTypeDeclaration(p);
     }

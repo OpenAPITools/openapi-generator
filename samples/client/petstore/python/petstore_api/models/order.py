@@ -227,6 +227,9 @@ class Order(object):
                 ))
             else:
                 result[attr] = value
+        if issubclass(Order, dict):
+            for key, value in self.items():
+                result[key] = value
 
         return result
 

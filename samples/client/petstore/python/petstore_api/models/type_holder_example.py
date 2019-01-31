@@ -198,6 +198,9 @@ class TypeHolderExample(object):
                 ))
             else:
                 result[attr] = value
+        if issubclass(TypeHolderExample, dict):
+            for key, value in self.items():
+                result[key] = value
 
         return result
 

@@ -115,6 +115,9 @@ class HasOnlyReadOnly(object):
                 ))
             else:
                 result[attr] = value
+        if issubclass(HasOnlyReadOnly, dict):
+            for key, value in self.items():
+                result[key] = value
 
         return result
 

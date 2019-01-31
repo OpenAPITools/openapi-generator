@@ -209,7 +209,11 @@ class ApiClient(object):
             return obj.isoformat()
 
         if isinstance(obj, dict):
-            obj_dict = obj
+            to_dict_attr = getattr(obj, 'to_dict', None)
+            if to_dict_attr is not None and callable(to_dict_attr):
+                obj_dict = obj.to_dict()
+            else:
+                obj_dict = obj
         else:
             # Convert model obj to dict except
             # attributes `openapi_types`, `attribute_map`
@@ -627,6 +631,12 @@ class ApiClient(object):
 
         instance = klass(**kwargs)
 
+        if (isinstance(instance, dict) and
+                klass.openapi_types is not None and
+                isinstance(data, dict)):
+            for key, value in data.items():
+                if key not in klass.openapi_types:
+                    instance[key] = value
         if hasattr(instance, 'get_real_child_model'):
             klass_name = instance.get_real_child_model(data)
             if klass_name:

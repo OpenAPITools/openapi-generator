@@ -89,6 +89,9 @@ class Client(object):
                 ))
             else:
                 result[attr] = value
+        if issubclass(Client, dict):
+            for key, value in self.items():
+                result[key] = value
 
         return result
 

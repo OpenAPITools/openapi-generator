@@ -89,6 +89,9 @@ class NumberOnly(object):
                 ))
             else:
                 result[attr] = value
+        if issubclass(NumberOnly, dict):
+            for key, value in self.items():
+                result[key] = value
 
         return result
 

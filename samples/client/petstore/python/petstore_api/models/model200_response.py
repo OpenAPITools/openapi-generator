@@ -115,6 +115,9 @@ class Model200Response(object):
                 ))
             else:
                 result[attr] = value
+        if issubclass(Model200Response, dict):
+            for key, value in self.items():
+                result[key] = value
 
         return result
 

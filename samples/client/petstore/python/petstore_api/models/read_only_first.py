@@ -115,6 +115,9 @@ class ReadOnlyFirst(object):
                 ))
             else:
                 result[attr] = value
+        if issubclass(ReadOnlyFirst, dict):
+            for key, value in self.items():
+                result[key] = value
 
         return result
 

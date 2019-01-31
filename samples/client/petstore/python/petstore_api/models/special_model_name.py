@@ -89,6 +89,9 @@ class SpecialModelName(object):
                 ))
             else:
                 result[attr] = value
+        if issubclass(SpecialModelName, dict):
+            for key, value in self.items():
+                result[key] = value
 
         return result
 

@@ -68,6 +68,9 @@ class OuterEnum(object):
                 ))
             else:
                 result[attr] = value
+        if issubclass(OuterEnum, dict):
+            for key, value in self.items():
+                result[key] = value
 
         return result
 
