@@ -16,10 +16,9 @@
 
 package org.openapitools.codegen.slim;
 
+import org.openapitools.codegen.languages.PhpSlimServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import org.openapitools.codegen.languages.PhpSlimServerCodegen;
 
 public class PhpSlimServerCodegenTest {
 

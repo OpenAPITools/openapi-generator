@@ -101,6 +101,11 @@
      * Allow user to override superagent agent
      */
     this.requestAgent = null;
+
+    /*
+     * Allow user to add superagent plugins
+     */
+    this.plugins = null;
   };
 
   /**
@@ -304,6 +309,11 @@
             request.auth(auth.username || '', auth.password || '');
           }
           break;
+        case 'bearer':
+          if (auth.accessToken) {
+            request.set({'Authorization': 'Bearer ' + auth.accessToken});
+          }
+          break;
         case 'apiKey':
           if (auth.apiKey) {
             var data = {};
@@ -377,6 +387,14 @@
     var _this = this;
     var url = this.buildUrl(path, pathParams);
     var request = superagent(httpMethod, url);
+
+    if (this.plugins !== null) {
+        for (var index in this.plugins) {
+            if (this.plugins.hasOwnProperty(index)) {
+                request.use(this.plugins[index])
+            }
+        }
+    }
 
     // apply authentications
     this.applyAuthToRequest(request, authNames);
@@ -559,6 +577,46 @@
         }
     }
   };
+
+  /**
+    * Gets an array of host settings
+    * @returns An array of host settings
+    */
+    exports.hostSettings = function() {
+        return [
+            {
+              'url': "http://petstore.swagger.io:80/v2",
+              'description': "No description provided",
+            }
+      ];
+    };
+
+    exports.getBasePathFromSettings = function(index, variables={}) {
+        var servers = this.hostSettings();
+
+        // check array index out of bound
+        if (index < 0 || index >= servers.length) {
+            throw new Error("Invalid index " + index + " when selecting the host settings. Must be less than " + servers.length);
+        }
+
+        var server = servers[index];
+        var url = server['url'];
+
+        // go through variable and assign a value
+        for (var variable_name in server['variables']) {
+            if (variable_name in variables) {
+                if (server['variables'][variable_name]['enum_values'].includes(variables[variable_name])) {
+                    url = url.replace("{" + variable_name + "}", variables[variable_name]);
+                } else {
+                    throw new Error("The variable `" + variable_name + "` in the host URL has invalid value " + variables[variable_name] + ". Must be " + server['variables'][variable_name]['enum_values'] + ".");
+                }
+            } else {
+                // use default value
+                url = url.replace("{" + variable_name + "}", server['variables'][variable_name]['default_value'])
+            }
+        }
+        return url;
+    };
 
   /**
    * Constructs a new map or array model from REST data.

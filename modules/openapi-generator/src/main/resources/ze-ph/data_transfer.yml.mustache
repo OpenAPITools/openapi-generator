@@ -2,7 +2,7 @@ dependencies:
   factories:
     Articus\DataTransfer\Service: Articus\DataTransfer\ServiceFactory
 
-data_transfer:
+Articus\DataTransfer\Service:
   metadata_cache:
     adapter:
       name: blackhole
@@ -12,7 +12,6 @@ data_transfer:
       {{invokerPackage}}\Strategy\DateTime: {{invokerPackage}}\Strategy\DateTime
       {{invokerPackage}}\Strategy\QueryParameter: {{invokerPackage}}\Strategy\QueryParameter
       {{invokerPackage}}\Strategy\QueryParameterArray: {{invokerPackage}}\Strategy\QueryParameterArray
-#    factories:
     aliases:
       Date: {{invokerPackage}}\Strategy\Date
       DateTime: {{invokerPackage}}\Strategy\DateTime

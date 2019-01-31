@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.slim;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PhpSlimServerCodegen;
 import org.openapitools.codegen.options.PhpSlimServerOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class PhpSlimServerOptionsTest extends AbstractOptionsTest {
 

@@ -17,6 +17,7 @@ import Client from '../model/Client';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import OuterComposite from '../model/OuterComposite';
 import User from '../model/User';
+import XmlItem from '../model/XmlItem';
 
 /**
 * Fake service.
@@ -36,6 +37,56 @@ export default class FakeApi {
         this.apiClient = apiClient || ApiClient.instance;
     }
 
+
+
+    /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     * @param {module:model/XmlItem} xmlItem XmlItem Body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    createXmlItemWithHttpInfo(xmlItem) {
+      let postBody = xmlItem;
+
+      // verify the required parameter 'xmlItem' is set
+      if (xmlItem === undefined || xmlItem === null) {
+        throw new Error("Missing the required parameter 'xmlItem' when calling createXmlItem");
+      }
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/xml', 'application/xml; charset=utf-8', 'application/xml; charset=utf-16', 'text/xml', 'text/xml; charset=utf-8', 'text/xml; charset=utf-16'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.apiClient.callApi(
+        '/fake/create_xml_item', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     * @param {module:model/XmlItem} xmlItem XmlItem Body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    createXmlItem(xmlItem) {
+      return this.createXmlItemWithHttpInfo(xmlItem)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
 
 
     /**

@@ -53,7 +53,9 @@ import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.HttpBearerAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
+{{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
+{{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
 public class ApiClient {
@@ -263,6 +265,7 @@ public class ApiClient {
     throw new RuntimeException("No API key authentication configured!");
   }
 
+  {{#hasOAuthMethods}}
   /**
    * Helper method to set access token for the first OAuth2 authentication.
    * @param accessToken Access token
@@ -277,6 +280,7 @@ public class ApiClient {
     throw new RuntimeException("No OAuth2 authentication configured!");
   }
 
+  {{/hasOAuthMethods}}
   /**
    * Helper method to set access token for the first Bearer authentication.
    * @param bearerToken Bearer token

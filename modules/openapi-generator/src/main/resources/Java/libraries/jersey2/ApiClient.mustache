@@ -55,7 +55,9 @@ import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.HttpBearerAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
+{{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
+{{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
 public class ApiClient {
@@ -192,6 +194,7 @@ public class ApiClient {
     throw new RuntimeException("No API key authentication configured!");
   }
 
+  {{#hasOAuthMethods}}
   /**
    * Helper method to set bearer token for the first Bearer authentication.
    * @param bearerToken Bearer token
@@ -220,6 +223,7 @@ public class ApiClient {
     throw new RuntimeException("No OAuth2 authentication configured!");
   }
 
+  {{/hasOAuthMethods}}
   /**
    * Set the User-Agent header's value (by adding to the default header map).
    * @param userAgent Http user agent

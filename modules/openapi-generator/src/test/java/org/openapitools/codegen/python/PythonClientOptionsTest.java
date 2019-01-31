@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.python;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.options.PythonClientOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class PythonClientOptionsTest extends AbstractOptionsTest {
 

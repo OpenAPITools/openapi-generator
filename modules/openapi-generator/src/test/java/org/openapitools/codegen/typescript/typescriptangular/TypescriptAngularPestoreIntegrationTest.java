@@ -17,13 +17,13 @@
 
 package org.openapitools.codegen.typescript.typescriptangular;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.openapitools.codegen.AbstractIntegrationTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
 import org.openapitools.codegen.testutils.IntegrationTestPathsConfig;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TypescriptAngularPestoreIntegrationTest extends AbstractIntegrationTest {
 

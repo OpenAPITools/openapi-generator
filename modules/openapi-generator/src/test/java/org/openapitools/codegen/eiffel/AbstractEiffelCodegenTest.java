@@ -17,12 +17,11 @@
 
 package org.openapitools.codegen.eiffel;
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractEiffelCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class AbstractEiffelCodegenTest {
 

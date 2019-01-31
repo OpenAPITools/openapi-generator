@@ -24,25 +24,25 @@ import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.StaticHtmlGenerator;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.Collections;
 
 public class StaticHtmlGeneratorTest {
 
     @Test
     public void testAdditionalPropertiesFalse() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
         final StaticHtmlGenerator codegen = new StaticHtmlGenerator();
 
         Schema schema = new ObjectSchema()
                 .additionalProperties(false)
                 .addProperties("id", new IntegerSchema())
                 .addProperties("name", new StringSchema());
-        CodegenModel cm = codegen.fromModel("test", schema, Collections.emptyMap());
+        codegen.setOpenAPI(openAPI);
+        CodegenModel cm = codegen.fromModel("test", schema);
         Assert.assertNotNull(cm);
     }
 

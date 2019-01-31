@@ -17,12 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.info.*;
-
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
@@ -171,8 +173,8 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema mod, Map<String, Schema> allDefinitions) {
-        CodegenModel model = super.fromModel(name, mod, allDefinitions);
+    public CodegenModel fromModel(String name, Schema mod) {
+        CodegenModel model = super.fromModel(name, mod);
 
         // If a var is a base spec we won't need to import it
         for (CodegenProperty var : model.vars) {
