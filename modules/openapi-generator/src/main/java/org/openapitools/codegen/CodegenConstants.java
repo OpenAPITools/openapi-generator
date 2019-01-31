@@ -285,5 +285,5 @@ public class CodegenConstants {
     public static final String OPEN_API_SPEC_NAME = "openAPISpecName";
 
     public static final String SNAPSHOT_VERSION = "snapshotVersion";
-    public static final String SNAPSHOT_VERSION_DESC = "Uses a SNAPSHOST version.";
+    public static final String SNAPSHOT_VERSION_DESC = "Uses a SNAPSHOT version.";
 }
