@@ -22,6 +22,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\StoreApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -75,6 +76,7 @@ $config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setApiKey('ap
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 // $config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key', 'Bearer');
 
+
 $apiInstance = new OpenAPI\Client\Api\StoreApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -120,6 +122,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 $apiInstance = new OpenAPI\Client\Api\StoreApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -167,6 +170,7 @@ Place an order for a pet
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 $apiInstance = new OpenAPI\Client\Api\StoreApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
