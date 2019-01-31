@@ -63,7 +63,6 @@ Returns a map of status codes to quantities
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
-
 // Configure API key authorization: api_key
 let api_key = defaultClient.authentications['api_key'];
 api_key.apiKey = 'YOUR API KEY';

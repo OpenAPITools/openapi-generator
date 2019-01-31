@@ -23,19 +23,32 @@ Method | HTTP request | Description
 import {{{moduleName}}} from '{{{projectName}}}';
 {{#hasAuthMethods}}
 let defaultClient = {{{moduleName}}}.ApiClient.instance;
-{{#authMethods}}{{#isBasic}}
+{{#authMethods}}
+{{#isBasic}}
+{{^isBasicBearer}}
 // Configure HTTP basic authorization: {{{name}}}
 let {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.username = 'YOUR USERNAME';
-{{{name}}}.password = 'YOUR PASSWORD';{{/isBasic}}{{#isApiKey}}
+{{{name}}}.password = 'YOUR PASSWORD';
+{{/isBasicBearer}}
+{{#isBasicBearer}}
+// Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
+let {{{name}}} = defaultClient.authentications['{{{name}}}'];
+{{{name}}}.accessToken = "YOUR ACCESS TOKEN"
+{{/isBasicBearer}}
+{{/isBasic}}
+{{#isApiKey}}
 // Configure API key authorization: {{{name}}}
 let {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.apiKey = 'YOUR API KEY';
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//{{{name}}}.apiKeyPrefix = 'Token';{{/isApiKey}}{{#isOAuth}}
+//{{{name}}}.apiKeyPrefix = 'Token';
+{{/isApiKey}}
+{{#isOAuth}}
 // Configure OAuth2 access token for authorization: {{{name}}}
 let {{{name}}} = defaultClient.authentications['{{{name}}}'];
-{{{name}}}.accessToken = 'YOUR ACCESS TOKEN';{{/isOAuth}}
+{{{name}}}.accessToken = 'YOUR ACCESS TOKEN';
+{{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}
 
