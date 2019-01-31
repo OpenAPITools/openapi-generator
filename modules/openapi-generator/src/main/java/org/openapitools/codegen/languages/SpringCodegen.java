@@ -317,7 +317,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebApplication.java"));
                 supportingFiles.add(new SupportingFile("webMvcConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "WebMvcConfiguration.java"));
-                supportingFiles.add(new SupportingFile("openapiUiConfiguration.mustache",
+                supportingFiles.add(new SupportingFile("ope44napiUiConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "OpenAPIUiConfiguration.java"));
                 supportingFiles.add(new SupportingFile("RFC3339DateFormat.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "RFC3339DateFormat.java"));

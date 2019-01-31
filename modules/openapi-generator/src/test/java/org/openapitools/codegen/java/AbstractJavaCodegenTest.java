@@ -23,6 +23,7 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -156,6 +157,53 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.toEnumValue("3.14", "Float"), "3.14f");
     }
 
+    @Test(description = "tests if API version specification is used if no version is provided in additional properties")
+    public void openApiversionTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        codegen.setGlobalOpenAPI(api);
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.getArtifactVersion(), "1.0.7");
+    }
+
+    @Test(description = "tests if artifactVersion additional property is used")
+    public void additionalPropertyArtifactVersionTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        codegen.additionalProperties().put("artifactVersion", "1.1.1");
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        codegen.setGlobalOpenAPI(api);
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.getArtifactVersion(), "1.1.1");
+    }
+
+    @Test(description = "tests if default version is used when neither OpenAPI version nor artifactVersion additional property has been provided")
+    public void defautlVersionTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.getArtifactVersion(), "1.0.0");
+    }
+
+    @Test(description = "tests if default version is used when neither OpenAPI version nor artifactVersion additional property has been provided")
+    public void snapshotVersionTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        codegen.additionalProperties().put("snapshotVersion", "true");
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.getArtifactVersion(), "1.0.0-SNAPSHOT");
+    }
+
+
     private static class P_AbstractJavaCodegen extends AbstractJavaCodegen {
         @Override
         public CodegenType getTag() {
@@ -171,5 +219,11 @@ public class AbstractJavaCodegenTest {
         public String getHelp() {
             return null;
         }
+
+        /**
+         * Gets artifact version.
+         * Only for testing purposes.
+         */
+        public String getArtifactVersion () { return this.artifactVersion; }
     }
 }
