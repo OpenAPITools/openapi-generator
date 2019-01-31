@@ -16,10 +16,10 @@ use Psr\Http\Message\ServerRequestInterface;
 class FakeOuterComposite
 {
     /**
-     * @PHA\handlePost
+     * @PHA\Post()
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\OuterComposite::class,"objectAttr":"bodyData"})
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
-     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="*/*")
+     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="n/a")
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 501 if the method is not implemented

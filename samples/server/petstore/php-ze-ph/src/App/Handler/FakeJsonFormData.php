@@ -17,7 +17,7 @@ class FakeJsonFormData
 {
     /**
      * test json serialization of form data
-     * @PHA\handleGet
+     * @PHA\Get()
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 501 if the method is not implemented

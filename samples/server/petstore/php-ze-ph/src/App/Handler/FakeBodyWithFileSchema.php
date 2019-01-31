@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class FakeBodyWithFileSchema
 {
     /**
-     * @PHA\handlePut
+     * @PHA\Put()
      * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Consumer(name=PHConsumer\Json::class, mediaType="application/json")
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\FileSchemaTestClass::class,"objectAttr":"bodyData"})
