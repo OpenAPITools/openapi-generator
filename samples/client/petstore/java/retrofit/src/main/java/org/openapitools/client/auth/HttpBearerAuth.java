@@ -8,30 +8,26 @@ import com.squareup.okhttp.Response;
 
 public class HttpBearerAuth implements Interceptor {
     private final String scheme;
-    private String accessToken;
+    private String bearerToken;
 
     public HttpBearerAuth(String scheme) {
         this.scheme = scheme;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getBearerToken() {
+        return bearerToken;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setBearerToken(String bearerToken) {
+        this.bearerToken = bearerToken;
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        if(bearerToken == null) {
-            return;
-        }
-
         Request request = chain.request();
 
         // If the request already have an authorization (eg. Basic auth), do nothing
-        if (request.header("Authorization") == null) {
+        if (request.header("Authorization") == null && bearerToken != null) {
             request = request.newBuilder()
                     .addHeader("Authorization", (scheme != null ? upperCaseBearer(scheme) + " " : "") + bearerToken)
                     .build();

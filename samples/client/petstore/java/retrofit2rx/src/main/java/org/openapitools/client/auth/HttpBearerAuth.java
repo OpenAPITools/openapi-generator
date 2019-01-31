@@ -8,18 +8,18 @@ import okhttp3.Response;
 
 public class HttpBearerAuth implements Interceptor {
     private final String scheme;
-    private String accessToken;
+    private String bearerToken;
 
     public HttpBearerAuth(String scheme) {
         this.scheme = scheme;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getBearerToken() {
+        return bearerToken;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setBearerToken(String bearerToken) {
+        this.bearerToken = bearerToken;
     }
 
     @Override
