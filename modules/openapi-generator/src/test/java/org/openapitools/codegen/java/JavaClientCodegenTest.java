@@ -255,7 +255,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 38);
+        Assert.assertEquals(generatedFiles.size(), 34);
         ensureContainsFile(generatedFiles, output, ".gitignore");
         ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
         ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
