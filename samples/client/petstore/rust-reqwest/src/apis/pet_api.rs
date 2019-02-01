@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -46,22 +46,13 @@ impl PetApi for PetApiClient {
         let uri_str = format!("{}/pet", configuration.base_path);
         let mut req_builder = client.post(uri_str.as_str());
 
-        
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-        
-        
-        
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
-        
-        
-        
-        
         req_builder = req_builder.json(&body);
-        
 
         // send request
         let req = req_builder.build()?;
@@ -77,22 +68,13 @@ impl PetApi for PetApiClient {
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
         let mut req_builder = client.delete(uri_str.as_str());
 
-        
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-        
         req_builder = req_builder.header("api_key", api_key.to_string());
-        
-        
-        
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
-        
-        
-        
-        
 
         // send request
         let req = req_builder.build()?;
@@ -109,20 +91,12 @@ impl PetApi for PetApiClient {
         let mut req_builder = client.get(uri_str.as_str());
 
         req_builder = req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
-        
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-        
-        
-        
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
-        
-        
-        
-        
 
         // send request
         let req = req_builder.build()?;
@@ -138,20 +112,12 @@ impl PetApi for PetApiClient {
         let mut req_builder = client.get(uri_str.as_str());
 
         req_builder = req_builder.query(&[("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]);
-        
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-        
-        
-        
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
-        
-        
-        
-        
 
         // send request
         let req = req_builder.build()?;
@@ -166,13 +132,9 @@ impl PetApi for PetApiClient {
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
         let mut req_builder = client.get(uri_str.as_str());
 
-        
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-        
-        
-        
         if let Some(ref apikey) = configuration.api_key {
             let key = apikey.key.clone();
             let val = match apikey.prefix {
@@ -181,11 +143,6 @@ impl PetApi for PetApiClient {
             };
             req_builder = req_builder.header("api_key", val);
         };
-        
-        
-        
-        
-        
 
         // send request
         let req = req_builder.build()?;
@@ -200,22 +157,13 @@ impl PetApi for PetApiClient {
         let uri_str = format!("{}/pet", configuration.base_path);
         let mut req_builder = client.put(uri_str.as_str());
 
-        
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-        
-        
-        
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
-        
-        
-        
-        
         req_builder = req_builder.json(&body);
-        
 
         // send request
         let req = req_builder.build()?;
@@ -231,25 +179,16 @@ impl PetApi for PetApiClient {
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
         let mut req_builder = client.post(uri_str.as_str());
 
-        
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-        
-        
-        
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
-        
-        
-        
         let mut form_params = std::collections::HashMap::new();
         form_params.insert("name", name.to_string());
         form_params.insert("status", status.to_string());
         req_builder = req_builder.form(&form_params);
-        
-        
 
         // send request
         let req = req_builder.build()?;
@@ -265,25 +204,16 @@ impl PetApi for PetApiClient {
         let uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=pet_id);
         let mut req_builder = client.post(uri_str.as_str());
 
-        
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-        
-        
-        
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
-        
-        
-        
         let mut form_params = std::collections::HashMap::new();
         form_params.insert("additionalMetadata", additional_metadata.to_string());
         form_params.insert("file", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
         req_builder = req_builder.form(&form_params);
-        
-        
 
         // send request
         let req = req_builder.build()?;
