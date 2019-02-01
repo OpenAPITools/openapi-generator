@@ -13,6 +13,8 @@ import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
+import javax.validation.Valid;
+
 
 @ApiModel(description="A pet for sale in the pet store")
 
@@ -53,6 +55,7 @@ public class Pet   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
+  
   public Long getId() {
     return id;
   }
@@ -65,6 +68,7 @@ public class Pet   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("category")
+  @Valid
   public Category getCategory() {
     return category;
   }
@@ -77,7 +81,8 @@ public class Pet   {
   
   @ApiModelProperty(example = "doggie", required = true, value = "")
   @JsonProperty("name")
-  @NotNull
+    @NotNull
+
   public String getName() {
     return name;
   }
@@ -90,7 +95,8 @@ public class Pet   {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
-  @NotNull
+    @NotNull
+
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -103,6 +109,7 @@ public class Pet   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
+  @Valid
   public List<Tag> getTags() {
     return tags;
   }
@@ -116,6 +123,7 @@ public class Pet   {
   
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
+  
   public StatusEnum getStatus() {
     return status;
   }

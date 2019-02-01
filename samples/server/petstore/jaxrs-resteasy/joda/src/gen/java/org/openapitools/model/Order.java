@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
+import javax.validation.Valid;
+
 
 @ApiModel(description="An order for a pets from the pet store")
 
@@ -50,6 +52,7 @@ public class Order   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
+  
   public Long getId() {
     return id;
   }
@@ -62,6 +65,7 @@ public class Order   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("petId")
+  
   public Long getPetId() {
     return petId;
   }
@@ -74,6 +78,7 @@ public class Order   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("quantity")
+  
   public Integer getQuantity() {
     return quantity;
   }
@@ -86,6 +91,7 @@ public class Order   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
+  
   public DateTime getShipDate() {
     return shipDate;
   }
@@ -99,6 +105,7 @@ public class Order   {
   
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
+  
   public StatusEnum getStatus() {
     return status;
   }
@@ -111,6 +118,7 @@ public class Order   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("complete")
+  
   public Boolean getComplete() {
     return complete;
   }
