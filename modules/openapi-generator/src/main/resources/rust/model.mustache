@@ -15,7 +15,7 @@ pub struct {{{classname}}} {
     /// {{{description}}}
     {{/description}}
     #[serde(rename = "{{{baseName}}}")]
-    pub {{{name}}}: {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}}{{#hasMore}},{{/hasMore}}
+    pub {{{name}}}: {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}},
 {{/vars}}
 }
 
@@ -26,7 +26,7 @@ impl {{{classname}}} {
     pub fn new({{#requiredVars}}{{{name}}}: {{{dataType}}}{{^-last}}, {{/-last}}{{/requiredVars}}) -> {{{classname}}} {
         {{{classname}}} {
             {{#vars}}
-            {{{name}}}: {{#required}}{{{name}}}{{/required}}{{^required}}{{#isListContainer}}None{{/isListContainer}}{{#isMapContainer}}None{{/isMapContainer}}{{^isContainer}}None{{/isContainer}}{{/required}}{{#hasMore}},{{/hasMore}}
+            {{{name}}}: {{#required}}{{{name}}}{{/required}}{{^required}}{{#isListContainer}}None{{/isListContainer}}{{#isMapContainer}}None{{/isMapContainer}}{{^isContainer}}None{{/isContainer}}{{/required}},
             {{/vars}}
         }
     }
