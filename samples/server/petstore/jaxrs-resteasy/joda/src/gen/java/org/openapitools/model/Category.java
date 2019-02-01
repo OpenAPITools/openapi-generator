@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
+import javax.validation.Valid;
+
 
 @ApiModel(description="A category for a pet")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen")
 public class Category   {
@@ -20,6 +22,7 @@ public class Category   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
+  
   public Long getId() {
     return id;
   }
@@ -32,6 +35,7 @@ public class Category   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
+  
   public String getName() {
     return name;
   }
