@@ -15,7 +15,7 @@ pub struct {{{classname}}} {
     /// {{{description}}}
     {{/description}}
     #[serde(rename = "{{{baseName}}}")]
-    {{{name}}}: {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}}{{#hasMore}},{{/hasMore}}
+    pub {{{name}}}: {{^required}}Option<{{/required}}{{{dataType}}}{{^required}}>{{/required}}{{#hasMore}},{{/hasMore}}
 {{/vars}}
 }
 
@@ -30,27 +30,6 @@ impl {{{classname}}} {
             {{/vars}}
         }
     }
-
-    {{#vars}}
-    pub fn set_{{{name}}}(&mut self, {{{name}}}: {{{dataType}}}) {
-        self.{{{name}}} = {{^required}}Some({{{name}}}){{/required}}{{#required}}{{{name}}}{{/required}};
-    }
-
-    pub fn with_{{{name}}}(mut self, {{{name}}}: {{{dataType}}}) -> {{{classname}}} {
-        self.{{{name}}} = {{^required}}Some({{{name}}}){{/required}}{{#required}}{{{name}}}{{/required}};
-        self
-    }
-
-    pub fn {{{name}}}(&self) -> {{^required}}Option<{{/required}}&{{{dataType}}}{{^required}}>{{/required}} {
-        {{#required}}&{{/required}}self.{{{name}}}{{^required}}.as_ref(){{/required}}
-    }
-
-    {{^required}}
-    pub fn reset_{{{name}}}(&mut self) {
-        self.{{{name}}} = None;
-    }
-    {{/required}}
-    {{/vars}}
 }
 {{#isEnum}}
 // TODO enum
