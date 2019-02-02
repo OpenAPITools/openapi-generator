@@ -534,6 +534,14 @@ public class ModelUtils {
             return false;
         }
 
+        // not free-form if allOf, anyOf, oneOf is not empty
+        if (schema instanceof ComposedSchema) {
+            ComposedSchema cs = (ComposedSchema) schema;
+            if (getInterfaces(cs) != null && !getInterfaces(cs).isEmpty()) {
+                return false;
+            }
+        }
+
         // has at least one property
         if ("object".equals(schema.getType())) {
             // no properties
