@@ -44,22 +44,22 @@ import java.util.List;
 import java.util.Map;
 
 public class FakeApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public FakeApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public FakeApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
@@ -83,7 +83,7 @@ public class FakeApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -91,11 +91,11 @@ public class FakeApi {
         final String[] localVarContentTypes = {
             "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -107,7 +107,7 @@ public class FakeApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
@@ -119,8 +119,8 @@ public class FakeApi {
         }
         
 
-        okhttp3.Call call = createXmlItemCall(xmlItem, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = createXmlItemCall(xmlItem, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -142,42 +142,42 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> createXmlItemWithHttpInfo(XmlItem xmlItem) throws ApiException {
-        okhttp3.Call call = createXmlItemValidateBeforeCall(xmlItem, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = createXmlItemValidateBeforeCall(xmlItem, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * creates an XmlItem (asynchronously)
      * this route creates an XmlItem
      * @param xmlItem XmlItem Body (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call createXmlItemAsync(XmlItem xmlItem, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call createXmlItemAsync(XmlItem xmlItem, final ApiCallback<Void> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = createXmlItemValidateBeforeCall(xmlItem, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = createXmlItemValidateBeforeCall(xmlItem, progressListener, progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, localVarCallback);
+        return localVarCall;
     }
     /**
      * Build call for fakeOuterBooleanSerialize
@@ -200,7 +200,7 @@ public class FakeApi {
         final String[] localVarAccepts = {
             "*/*"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -208,11 +208,11 @@ public class FakeApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -224,15 +224,15 @@ public class FakeApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeOuterBooleanSerializeValidateBeforeCall(Boolean body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
 
-        okhttp3.Call call = fakeOuterBooleanSerializeCall(body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = fakeOuterBooleanSerializeCall(body, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -244,8 +244,8 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public Boolean fakeOuterBooleanSerialize(Boolean body) throws ApiException {
-        ApiResponse<Boolean> resp = fakeOuterBooleanSerializeWithHttpInfo(body);
-        return resp.getData();
+        ApiResponse<Boolean> localVarResp = fakeOuterBooleanSerializeWithHttpInfo(body);
+        return localVarResp.getData();
     }
 
     /**
@@ -256,44 +256,44 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body) throws ApiException {
-        okhttp3.Call call = fakeOuterBooleanSerializeValidateBeforeCall(body, null, null);
+        okhttp3.Call localVarCall = fakeOuterBooleanSerializeValidateBeforeCall(body, null, null);
         Type localVarReturnType = new TypeToken<Boolean>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      *  (asynchronously)
      * Test serialization of outer boolean types
      * @param body Input boolean as post body (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call fakeOuterBooleanSerializeAsync(Boolean body, final ApiCallback<Boolean> callback) throws ApiException {
+    public okhttp3.Call fakeOuterBooleanSerializeAsync(Boolean body, final ApiCallback<Boolean> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = fakeOuterBooleanSerializeValidateBeforeCall(body, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = fakeOuterBooleanSerializeValidateBeforeCall(body, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Boolean>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, localVarCallback);
+        return localVarCall;
     }
     /**
      * Build call for fakeOuterCompositeSerialize
@@ -316,7 +316,7 @@ public class FakeApi {
         final String[] localVarAccepts = {
             "*/*"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -324,11 +324,11 @@ public class FakeApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -340,15 +340,15 @@ public class FakeApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeOuterCompositeSerializeValidateBeforeCall(OuterComposite body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
 
-        okhttp3.Call call = fakeOuterCompositeSerializeCall(body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = fakeOuterCompositeSerializeCall(body, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -360,8 +360,8 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws ApiException {
-        ApiResponse<OuterComposite> resp = fakeOuterCompositeSerializeWithHttpInfo(body);
-        return resp.getData();
+        ApiResponse<OuterComposite> localVarResp = fakeOuterCompositeSerializeWithHttpInfo(body);
+        return localVarResp.getData();
     }
 
     /**
@@ -372,44 +372,44 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite body) throws ApiException {
-        okhttp3.Call call = fakeOuterCompositeSerializeValidateBeforeCall(body, null, null);
+        okhttp3.Call localVarCall = fakeOuterCompositeSerializeValidateBeforeCall(body, null, null);
         Type localVarReturnType = new TypeToken<OuterComposite>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      *  (asynchronously)
      * Test serialization of object with outer number type
      * @param body Input composite as post body (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call fakeOuterCompositeSerializeAsync(OuterComposite body, final ApiCallback<OuterComposite> callback) throws ApiException {
+    public okhttp3.Call fakeOuterCompositeSerializeAsync(OuterComposite body, final ApiCallback<OuterComposite> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = fakeOuterCompositeSerializeValidateBeforeCall(body, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = fakeOuterCompositeSerializeValidateBeforeCall(body, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<OuterComposite>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, localVarCallback);
+        return localVarCall;
     }
     /**
      * Build call for fakeOuterNumberSerialize
@@ -432,7 +432,7 @@ public class FakeApi {
         final String[] localVarAccepts = {
             "*/*"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -440,11 +440,11 @@ public class FakeApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -456,15 +456,15 @@ public class FakeApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeOuterNumberSerializeValidateBeforeCall(BigDecimal body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
 
-        okhttp3.Call call = fakeOuterNumberSerializeCall(body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = fakeOuterNumberSerializeCall(body, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -476,8 +476,8 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
-        ApiResponse<BigDecimal> resp = fakeOuterNumberSerializeWithHttpInfo(body);
-        return resp.getData();
+        ApiResponse<BigDecimal> localVarResp = fakeOuterNumberSerializeWithHttpInfo(body);
+        return localVarResp.getData();
     }
 
     /**
@@ -488,44 +488,44 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws ApiException {
-        okhttp3.Call call = fakeOuterNumberSerializeValidateBeforeCall(body, null, null);
+        okhttp3.Call localVarCall = fakeOuterNumberSerializeValidateBeforeCall(body, null, null);
         Type localVarReturnType = new TypeToken<BigDecimal>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      *  (asynchronously)
      * Test serialization of outer number types
      * @param body Input number as post body (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call fakeOuterNumberSerializeAsync(BigDecimal body, final ApiCallback<BigDecimal> callback) throws ApiException {
+    public okhttp3.Call fakeOuterNumberSerializeAsync(BigDecimal body, final ApiCallback<BigDecimal> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = fakeOuterNumberSerializeValidateBeforeCall(body, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = fakeOuterNumberSerializeValidateBeforeCall(body, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<BigDecimal>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, localVarCallback);
+        return localVarCall;
     }
     /**
      * Build call for fakeOuterStringSerialize
@@ -548,7 +548,7 @@ public class FakeApi {
         final String[] localVarAccepts = {
             "*/*"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -556,11 +556,11 @@ public class FakeApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -572,15 +572,15 @@ public class FakeApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeOuterStringSerializeValidateBeforeCall(String body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
 
-        okhttp3.Call call = fakeOuterStringSerializeCall(body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = fakeOuterStringSerializeCall(body, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -592,8 +592,8 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public String fakeOuterStringSerialize(String body) throws ApiException {
-        ApiResponse<String> resp = fakeOuterStringSerializeWithHttpInfo(body);
-        return resp.getData();
+        ApiResponse<String> localVarResp = fakeOuterStringSerializeWithHttpInfo(body);
+        return localVarResp.getData();
     }
 
     /**
@@ -604,44 +604,44 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(String body) throws ApiException {
-        okhttp3.Call call = fakeOuterStringSerializeValidateBeforeCall(body, null, null);
+        okhttp3.Call localVarCall = fakeOuterStringSerializeValidateBeforeCall(body, null, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      *  (asynchronously)
      * Test serialization of outer string types
      * @param body Input string as post body (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call fakeOuterStringSerializeAsync(String body, final ApiCallback<String> callback) throws ApiException {
+    public okhttp3.Call fakeOuterStringSerializeAsync(String body, final ApiCallback<String> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = fakeOuterStringSerializeValidateBeforeCall(body, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = fakeOuterStringSerializeValidateBeforeCall(body, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, localVarCallback);
+        return localVarCall;
     }
     /**
      * Build call for testBodyWithFileSchema
@@ -664,7 +664,7 @@ public class FakeApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -672,11 +672,11 @@ public class FakeApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -688,7 +688,7 @@ public class FakeApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
@@ -700,8 +700,8 @@ public class FakeApi {
         }
         
 
-        okhttp3.Call call = testBodyWithFileSchemaCall(body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = testBodyWithFileSchemaCall(body, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -723,42 +723,42 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass body) throws ApiException {
-        okhttp3.Call call = testBodyWithFileSchemaValidateBeforeCall(body, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = testBodyWithFileSchemaValidateBeforeCall(body, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
      *  (asynchronously)
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      * @param body  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call testBodyWithFileSchemaAsync(FileSchemaTestClass body, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call testBodyWithFileSchemaAsync(FileSchemaTestClass body, final ApiCallback<Void> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = testBodyWithFileSchemaValidateBeforeCall(body, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = testBodyWithFileSchemaValidateBeforeCall(body, progressListener, progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, localVarCallback);
+        return localVarCall;
     }
     /**
      * Build call for testBodyWithQueryParams
@@ -778,7 +778,7 @@ public class FakeApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (query != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("query", query));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("query", query));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -786,7 +786,7 @@ public class FakeApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -794,11 +794,11 @@ public class FakeApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -810,7 +810,7 @@ public class FakeApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
@@ -827,8 +827,8 @@ public class FakeApi {
         }
         
 
-        okhttp3.Call call = testBodyWithQueryParamsCall(query, body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = testBodyWithQueryParamsCall(query, body, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -852,8 +852,8 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(String query, User body) throws ApiException {
-        okhttp3.Call call = testBodyWithQueryParamsValidateBeforeCall(query, body, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = testBodyWithQueryParamsValidateBeforeCall(query, body, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
@@ -861,34 +861,34 @@ public class FakeApi {
      * 
      * @param query  (required)
      * @param body  (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call testBodyWithQueryParamsAsync(String query, User body, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call testBodyWithQueryParamsAsync(String query, User body, final ApiCallback<Void> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = testBodyWithQueryParamsValidateBeforeCall(query, body, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = testBodyWithQueryParamsValidateBeforeCall(query, body, progressListener, progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, localVarCallback);
+        return localVarCall;
     }
     /**
      * Build call for testClientModel
@@ -911,7 +911,7 @@ public class FakeApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -919,11 +919,11 @@ public class FakeApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -935,7 +935,7 @@ public class FakeApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
@@ -947,8 +947,8 @@ public class FakeApi {
         }
         
 
-        okhttp3.Call call = testClientModelCall(body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = testClientModelCall(body, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -960,8 +960,8 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public Client testClientModel(Client body) throws ApiException {
-        ApiResponse<Client> resp = testClientModelWithHttpInfo(body);
-        return resp.getData();
+        ApiResponse<Client> localVarResp = testClientModelWithHttpInfo(body);
+        return localVarResp.getData();
     }
 
     /**
@@ -972,44 +972,44 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Client> testClientModelWithHttpInfo(Client body) throws ApiException {
-        okhttp3.Call call = testClientModelValidateBeforeCall(body, null, null);
+        okhttp3.Call localVarCall = testClientModelValidateBeforeCall(body, null, null);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * To test \&quot;client\&quot; model (asynchronously)
      * To test \&quot;client\&quot; model
      * @param body client model (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call testClientModelAsync(Client body, final ApiCallback<Client> callback) throws ApiException {
+    public okhttp3.Call testClientModelAsync(Client body, final ApiCallback<Client> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = testClientModelValidateBeforeCall(body, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = testClientModelValidateBeforeCall(body, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, localVarCallback);
+        return localVarCall;
     }
     /**
      * Build call for testEndpointParameters
@@ -1101,7 +1101,7 @@ public class FakeApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -1109,11 +1109,11 @@ public class FakeApi {
         final String[] localVarContentTypes = {
             "application/x-www-form-urlencoded"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -1125,7 +1125,7 @@ public class FakeApi {
         }
 
         String[] localVarAuthNames = new String[] { "http_basic_test" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
@@ -1152,8 +1152,8 @@ public class FakeApi {
         }
         
 
-        okhttp3.Call call = testEndpointParametersCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = testEndpointParametersCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -1201,8 +1201,8 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
-        okhttp3.Call call = testEndpointParametersValidateBeforeCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = testEndpointParametersValidateBeforeCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
@@ -1222,34 +1222,34 @@ public class FakeApi {
      * @param dateTime None (optional)
      * @param password None (optional)
      * @param paramCallback None (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call testEndpointParametersAsync(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call testEndpointParametersAsync(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback<Void> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = testEndpointParametersValidateBeforeCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = testEndpointParametersValidateBeforeCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, progressListener, progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, localVarCallback);
+        return localVarCall;
     }
     /**
      * Build call for testEnumParameters
@@ -1275,28 +1275,28 @@ public class FakeApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (enumQueryStringArray != null) {
-            localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "enum_query_string_array", enumQueryStringArray));
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("csv", "enum_query_string_array", enumQueryStringArray));
         }
 
         if (enumQueryString != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("enum_query_string", enumQueryString));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("enum_query_string", enumQueryString));
         }
 
         if (enumQueryInteger != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("enum_query_integer", enumQueryInteger));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("enum_query_integer", enumQueryInteger));
         }
 
         if (enumQueryDouble != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("enum_query_double", enumQueryDouble));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("enum_query_double", enumQueryDouble));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         if (enumHeaderStringArray != null) {
-            localVarHeaderParams.put("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
+            localVarHeaderParams.put("enum_header_string_array", localVarApiClient.parameterToString(enumHeaderStringArray));
         }
 
         if (enumHeaderString != null) {
-            localVarHeaderParams.put("enum_header_string", apiClient.parameterToString(enumHeaderString));
+            localVarHeaderParams.put("enum_header_string", localVarApiClient.parameterToString(enumHeaderString));
         }
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
@@ -1311,7 +1311,7 @@ public class FakeApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -1319,11 +1319,11 @@ public class FakeApi {
         final String[] localVarContentTypes = {
             "application/x-www-form-urlencoded"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -1335,15 +1335,15 @@ public class FakeApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testEnumParametersValidateBeforeCall(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
 
-        okhttp3.Call call = testEnumParametersCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = testEnumParametersCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -1379,8 +1379,8 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
-        okhttp3.Call call = testEnumParametersValidateBeforeCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = testEnumParametersValidateBeforeCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
@@ -1394,34 +1394,34 @@ public class FakeApi {
      * @param enumQueryDouble Query parameter enum test (double) (optional)
      * @param enumFormStringArray Form parameter enum test (string array) (optional)
      * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call testEnumParametersAsync(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call testEnumParametersAsync(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, final ApiCallback<Void> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = testEnumParametersValidateBeforeCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = testEnumParametersValidateBeforeCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, progressListener, progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, localVarCallback);
+        return localVarCall;
     }
     private okhttp3.Call testGroupParametersCall(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
@@ -1432,35 +1432,35 @@ public class FakeApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (requiredStringGroup != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("required_string_group", requiredStringGroup));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("required_string_group", requiredStringGroup));
         }
 
         if (requiredInt64Group != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("required_int64_group", requiredInt64Group));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("required_int64_group", requiredInt64Group));
         }
 
         if (stringGroup != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("string_group", stringGroup));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("string_group", stringGroup));
         }
 
         if (int64Group != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("int64_group", int64Group));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("int64_group", int64Group));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         if (requiredBooleanGroup != null) {
-            localVarHeaderParams.put("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
+            localVarHeaderParams.put("required_boolean_group", localVarApiClient.parameterToString(requiredBooleanGroup));
         }
 
         if (booleanGroup != null) {
-            localVarHeaderParams.put("boolean_group", apiClient.parameterToString(booleanGroup));
+            localVarHeaderParams.put("boolean_group", localVarApiClient.parameterToString(booleanGroup));
         }
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -1468,11 +1468,11 @@ public class FakeApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -1484,7 +1484,7 @@ public class FakeApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
@@ -1506,41 +1506,41 @@ public class FakeApi {
         }
         
 
-        okhttp3.Call call = testGroupParametersCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = testGroupParametersCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
 
     private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
-        okhttp3.Call call = testGroupParametersValidateBeforeCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = testGroupParametersValidateBeforeCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
-    private okhttp3.Call testGroupParametersAsync(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, final ApiCallback<Void> callback) throws ApiException {
+    private okhttp3.Call testGroupParametersAsync(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, final ApiCallback<Void> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = testGroupParametersValidateBeforeCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = testGroupParametersValidateBeforeCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, progressListener, progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, localVarCallback);
+        return localVarCall;
     }
 
     public class APItestGroupParametersRequest {
@@ -1658,7 +1658,7 @@ public class FakeApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -1666,11 +1666,11 @@ public class FakeApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -1682,7 +1682,7 @@ public class FakeApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
@@ -1694,8 +1694,8 @@ public class FakeApi {
         }
         
 
-        okhttp3.Call call = testInlineAdditionalPropertiesCall(param, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = testInlineAdditionalPropertiesCall(param, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -1717,42 +1717,42 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> param) throws ApiException {
-        okhttp3.Call call = testInlineAdditionalPropertiesValidateBeforeCall(param, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = testInlineAdditionalPropertiesValidateBeforeCall(param, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * test inline additionalProperties (asynchronously)
      * 
      * @param param request body (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call testInlineAdditionalPropertiesAsync(Map<String, String> param, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call testInlineAdditionalPropertiesAsync(Map<String, String> param, final ApiCallback<Void> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = testInlineAdditionalPropertiesValidateBeforeCall(param, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = testInlineAdditionalPropertiesValidateBeforeCall(param, progressListener, progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, localVarCallback);
+        return localVarCall;
     }
     /**
      * Build call for testJsonFormData
@@ -1784,7 +1784,7 @@ public class FakeApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -1792,11 +1792,11 @@ public class FakeApi {
         final String[] localVarContentTypes = {
             "application/x-www-form-urlencoded"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -1808,7 +1808,7 @@ public class FakeApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
@@ -1825,8 +1825,8 @@ public class FakeApi {
         }
         
 
-        okhttp3.Call call = testJsonFormDataCall(param, param2, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = testJsonFormDataCall(param, param2, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -1850,8 +1850,8 @@ public class FakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> testJsonFormDataWithHttpInfo(String param, String param2) throws ApiException {
-        okhttp3.Call call = testJsonFormDataValidateBeforeCall(param, param2, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = testJsonFormDataValidateBeforeCall(param, param2, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
@@ -1859,33 +1859,33 @@ public class FakeApi {
      * 
      * @param param field1 (required)
      * @param param2 field2 (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call testJsonFormDataAsync(String param, String param2, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call testJsonFormDataAsync(String param, String param2, final ApiCallback<Void> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = testJsonFormDataValidateBeforeCall(param, param2, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = testJsonFormDataValidateBeforeCall(param, param2, progressListener, progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, localVarCallback);
+        return localVarCall;
     }
 }

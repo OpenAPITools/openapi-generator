@@ -36,22 +36,22 @@ import java.util.List;
 import java.util.Map;
 
 public class StoreApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public StoreApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public StoreApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
@@ -67,7 +67,7 @@ public class StoreApi {
 
         // create path and map variables
         String localVarPath = "/store/order/{order_id}"
-            .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
+            .replaceAll("\\{" + "order_id" + "\\}", localVarApiClient.escapeString(orderId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -76,7 +76,7 @@ public class StoreApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -84,11 +84,11 @@ public class StoreApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -100,7 +100,7 @@ public class StoreApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
@@ -112,8 +112,8 @@ public class StoreApi {
         }
         
 
-        okhttp3.Call call = deleteOrderCall(orderId, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = deleteOrderCall(orderId, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -135,42 +135,42 @@ public class StoreApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> deleteOrderWithHttpInfo(String orderId) throws ApiException {
-        okhttp3.Call call = deleteOrderValidateBeforeCall(orderId, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = deleteOrderValidateBeforeCall(orderId, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Delete purchase order by ID (asynchronously)
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call deleteOrderAsync(String orderId, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call deleteOrderAsync(String orderId, final ApiCallback<Void> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = deleteOrderValidateBeforeCall(orderId, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = deleteOrderValidateBeforeCall(orderId, progressListener, progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, localVarCallback);
+        return localVarCall;
     }
     /**
      * Build call for getInventory
@@ -192,7 +192,7 @@ public class StoreApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -200,11 +200,11 @@ public class StoreApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -216,15 +216,15 @@ public class StoreApi {
         }
 
         String[] localVarAuthNames = new String[] { "api_key" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call getInventoryValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
 
-        okhttp3.Call call = getInventoryCall(progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getInventoryCall(progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -235,8 +235,8 @@ public class StoreApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public Map<String, Integer> getInventory() throws ApiException {
-        ApiResponse<Map<String, Integer>> resp = getInventoryWithHttpInfo();
-        return resp.getData();
+        ApiResponse<Map<String, Integer>> localVarResp = getInventoryWithHttpInfo();
+        return localVarResp.getData();
     }
 
     /**
@@ -246,43 +246,43 @@ public class StoreApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Map<String, Integer>> getInventoryWithHttpInfo() throws ApiException {
-        okhttp3.Call call = getInventoryValidateBeforeCall(null, null);
+        okhttp3.Call localVarCall = getInventoryValidateBeforeCall(null, null);
         Type localVarReturnType = new TypeToken<Map<String, Integer>>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Returns pet inventories by status (asynchronously)
      * Returns a map of status codes to quantities
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getInventoryAsync(final ApiCallback<Map<String, Integer>> callback) throws ApiException {
+    public okhttp3.Call getInventoryAsync(final ApiCallback<Map<String, Integer>> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = getInventoryValidateBeforeCall(progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getInventoryValidateBeforeCall(progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Map<String, Integer>>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, localVarCallback);
+        return localVarCall;
     }
     /**
      * Build call for getOrderById
@@ -297,7 +297,7 @@ public class StoreApi {
 
         // create path and map variables
         String localVarPath = "/store/order/{order_id}"
-            .replaceAll("\\{" + "order_id" + "\\}", apiClient.escapeString(orderId.toString()));
+            .replaceAll("\\{" + "order_id" + "\\}", localVarApiClient.escapeString(orderId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -306,7 +306,7 @@ public class StoreApi {
         final String[] localVarAccepts = {
             "application/xml", "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -314,11 +314,11 @@ public class StoreApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -330,7 +330,7 @@ public class StoreApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
@@ -342,8 +342,8 @@ public class StoreApi {
         }
         
 
-        okhttp3.Call call = getOrderByIdCall(orderId, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getOrderByIdCall(orderId, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -355,8 +355,8 @@ public class StoreApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public Order getOrderById(Long orderId) throws ApiException {
-        ApiResponse<Order> resp = getOrderByIdWithHttpInfo(orderId);
-        return resp.getData();
+        ApiResponse<Order> localVarResp = getOrderByIdWithHttpInfo(orderId);
+        return localVarResp.getData();
     }
 
     /**
@@ -367,44 +367,44 @@ public class StoreApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Order> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
-        okhttp3.Call call = getOrderByIdValidateBeforeCall(orderId, null, null);
+        okhttp3.Call localVarCall = getOrderByIdValidateBeforeCall(orderId, null, null);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Find purchase order by ID (asynchronously)
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getOrderByIdAsync(Long orderId, final ApiCallback<Order> callback) throws ApiException {
+    public okhttp3.Call getOrderByIdAsync(Long orderId, final ApiCallback<Order> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = getOrderByIdValidateBeforeCall(orderId, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getOrderByIdValidateBeforeCall(orderId, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, localVarCallback);
+        return localVarCall;
     }
     /**
      * Build call for placeOrder
@@ -427,7 +427,7 @@ public class StoreApi {
         final String[] localVarAccepts = {
             "application/xml", "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -435,11 +435,11 @@ public class StoreApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -451,7 +451,7 @@ public class StoreApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
@@ -463,8 +463,8 @@ public class StoreApi {
         }
         
 
-        okhttp3.Call call = placeOrderCall(body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = placeOrderCall(body, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -476,8 +476,8 @@ public class StoreApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public Order placeOrder(Order body) throws ApiException {
-        ApiResponse<Order> resp = placeOrderWithHttpInfo(body);
-        return resp.getData();
+        ApiResponse<Order> localVarResp = placeOrderWithHttpInfo(body);
+        return localVarResp.getData();
     }
 
     /**
@@ -488,43 +488,43 @@ public class StoreApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Order> placeOrderWithHttpInfo(Order body) throws ApiException {
-        okhttp3.Call call = placeOrderValidateBeforeCall(body, null, null);
+        okhttp3.Call localVarCall = placeOrderValidateBeforeCall(body, null, null);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Place an order for a pet (asynchronously)
      * 
      * @param body order placed for purchasing the pet (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call placeOrderAsync(Order body, final ApiCallback<Order> callback) throws ApiException {
+    public okhttp3.Call placeOrderAsync(Order body, final ApiCallback<Order> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = placeOrderValidateBeforeCall(body, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = placeOrderValidateBeforeCall(body, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Order>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, localVarCallback);
+        return localVarCall;
     }
 }

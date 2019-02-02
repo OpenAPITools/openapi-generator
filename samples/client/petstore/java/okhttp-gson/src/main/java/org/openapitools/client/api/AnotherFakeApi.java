@@ -36,22 +36,22 @@ import java.util.List;
 import java.util.Map;
 
 public class AnotherFakeApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public AnotherFakeApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public AnotherFakeApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
@@ -75,7 +75,7 @@ public class AnotherFakeApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -83,11 +83,11 @@ public class AnotherFakeApi {
         final String[] localVarContentTypes = {
             "application/json"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
         if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
@@ -99,7 +99,7 @@ public class AnotherFakeApi {
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
@@ -111,8 +111,8 @@ public class AnotherFakeApi {
         }
         
 
-        okhttp3.Call call = call123testSpecialTagsCall(body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = call123testSpecialTagsCall(body, progressListener, progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -124,8 +124,8 @@ public class AnotherFakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public Client call123testSpecialTags(Client body) throws ApiException {
-        ApiResponse<Client> resp = call123testSpecialTagsWithHttpInfo(body);
-        return resp.getData();
+        ApiResponse<Client> localVarResp = call123testSpecialTagsWithHttpInfo(body);
+        return localVarResp.getData();
     }
 
     /**
@@ -136,43 +136,43 @@ public class AnotherFakeApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client body) throws ApiException {
-        okhttp3.Call call = call123testSpecialTagsValidateBeforeCall(body, null, null);
+        okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(body, null, null);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * To test special tags (asynchronously)
      * To test special tags and operation ID starting with number
      * @param body client model (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param localVarCallback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call call123testSpecialTagsAsync(Client body, final ApiCallback<Client> callback) throws ApiException {
+    public okhttp3.Call call123testSpecialTagsAsync(Client body, final ApiCallback<Client> localVarCallback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
 
-        if (callback != null) {
+        if (localVarCallback != null) {
             progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
             progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = call123testSpecialTagsValidateBeforeCall(body, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = call123testSpecialTagsValidateBeforeCall(body, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, localVarCallback);
+        return localVarCall;
     }
 }
