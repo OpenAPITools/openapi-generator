@@ -57,12 +57,12 @@ public class FakeClassnameTags123Api {
     /**
      * Build call for testClassname
      * @param body client model (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call testClassnameCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call testClassnameCall(Client body, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -86,24 +86,24 @@ public class FakeClassnameTags123Api {
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
+        if (_progressListener != null) {
             localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] { "api_key_query" };
-        return localVarApiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testClassnameValidateBeforeCall(Client body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call testClassnameValidateBeforeCall(Client body, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -111,7 +111,7 @@ public class FakeClassnameTags123Api {
         }
         
 
-        okhttp3.Call localVarCall = testClassnameCall(body, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = testClassnameCall(body, _progressListener, _progressRequestListener);
         return localVarCall;
 
     }
@@ -145,34 +145,34 @@ public class FakeClassnameTags123Api {
      * To test class name in snake case (asynchronously)
      * To test class name in snake case
      * @param body client model (required)
-     * @param localVarCallback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call testClassnameAsync(Client body, final ApiCallback<Client> localVarCallback) throws ApiException {
+    public okhttp3.Call testClassnameAsync(Client body, final ApiCallback<Client> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (localVarCallback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    localVarCallback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    localVarCallback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call localVarCall = testClassnameValidateBeforeCall(body, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = testClassnameValidateBeforeCall(body, _progressListener, _progressRequestListener);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, localVarCallback);
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
 }
