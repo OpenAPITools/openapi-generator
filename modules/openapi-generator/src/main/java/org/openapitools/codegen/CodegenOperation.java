@@ -34,6 +34,7 @@ public class CodegenOperation {
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse; 
     public CodegenDiscriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
+    public List<CodegenServer> servers = new ArrayList<CodegenServer>();
     public CodegenParameter bodyParam;
     public List<CodegenParameter> allParams = new ArrayList<CodegenParameter>();
     public List<CodegenParameter> bodyParams = new ArrayList<CodegenParameter>();
@@ -317,6 +318,8 @@ public class CodegenOperation {
             return false;
         if (produces != null ? !produces.equals(that.produces) : that.produces != null)
             return false;
+        if (servers != null ? !servers.equals(that.servers) : that.servers != null)
+            return false;
         if (bodyParam != null ? !bodyParam.equals(that.bodyParam) : that.bodyParam != null)
             return false;
         if (allParams != null ? !allParams.equals(that.allParams) : that.allParams != null)
@@ -399,6 +402,7 @@ public class CodegenOperation {
         result = 31 * result + (discriminator != null ? discriminator.hashCode() : 0);
         result = 31 * result + (consumes != null ? consumes.hashCode() : 0);
         result = 31 * result + (produces != null ? produces.hashCode() : 0);
+        result = 31 * result + (servers != null ? servers.hashCode() : 0);
         result = 31 * result + (bodyParam != null ? bodyParam.hashCode() : 0);
         result = 31 * result + (allParams != null ? allParams.hashCode() : 0);
         result = 31 * result + (bodyParams != null ? bodyParams.hashCode() : 0);

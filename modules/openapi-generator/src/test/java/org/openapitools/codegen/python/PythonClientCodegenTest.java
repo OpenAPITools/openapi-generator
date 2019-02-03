@@ -66,7 +66,7 @@ public class PythonClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final String path = "/ping";
         final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "get", p);
+        final CodegenOperation op = codegen.fromOperation(path, "get", p, null);
         // pattern_no_forward_slashes '^pattern$'
         Assert.assertEquals(op.allParams.get(0).pattern, "/^pattern$/");
         // pattern_two_slashes '/^pattern$/'

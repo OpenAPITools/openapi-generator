@@ -66,7 +66,7 @@ public class GoClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final String path = "/fake";
         final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
         Assert.assertEquals(op.formParams.size(), 2);
         CodegenParameter bp = op.formParams.get(0);
         Assert.assertFalse(bp.isPrimitiveType);

@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -566,9 +567,9 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod,
-                                          Operation operation) {
+                                          Operation operation, List<Server> servers) {
         Map<String, Schema> definitions = ModelUtils.getSchemas(this.openAPI);
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation);
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         /**
          * Check if the operation has a Bash codegen specific description
