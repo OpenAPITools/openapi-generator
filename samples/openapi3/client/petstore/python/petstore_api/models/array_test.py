@@ -42,7 +42,16 @@ class ArrayTest(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """ArrayTest - a model defined in OpenAPI"""  # noqa: E501
+        """ArrayTest - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            array_of_string (list[str]): [optional]
+            array_array_of_integer (list[list[int]]): [optional]
+            array_array_of_model (list[list[ReadOnlyFirst]]): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

@@ -52,7 +52,18 @@ class EnumTest(object):
     }
 
     def __init__(self, enum_string_required, **kwargs):  # noqa: E501
-        """EnumTest - a model defined in OpenAPI"""  # noqa: E501
+        """EnumTest - a model defined in OpenAPI
+
+        Args:
+            enum_string_required (str):
+
+        Keyword Args:
+            enum_string (str): [optional]
+            enum_integer (int): [optional]
+            enum_number (float): [optional]
+            outer_enum (OuterEnum): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

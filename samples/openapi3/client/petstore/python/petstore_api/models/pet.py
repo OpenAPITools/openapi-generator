@@ -48,7 +48,19 @@ class Pet(object):
     }
 
     def __init__(self, photo_urls, name='doggie', **kwargs):  # noqa: E501
-        """Pet - a model defined in OpenAPI"""  # noqa: E501
+        """Pet - a model defined in OpenAPI
+
+        Args:
+            photo_urls (list[str]):
+            name (str): defaults to 'doggie', must be one of ['doggie']
+
+        Keyword Args:
+            id (int): [optional]
+            category (Category): [optional]
+            tags (list[Tag]): [optional]
+            status (str): pet status in the store. [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

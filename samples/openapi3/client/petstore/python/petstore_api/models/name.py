@@ -44,7 +44,17 @@ class Name(object):
     }
 
     def __init__(self, name, **kwargs):  # noqa: E501
-        """Name - a model defined in OpenAPI"""  # noqa: E501
+        """Name - a model defined in OpenAPI
+
+        Args:
+            name (int):
+
+        Keyword Args:
+            snake_case (int): [optional]
+            _property (str): [optional]
+            _123_number (int): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

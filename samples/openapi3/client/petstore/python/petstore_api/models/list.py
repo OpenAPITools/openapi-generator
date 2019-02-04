@@ -38,7 +38,14 @@ class List(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """List - a model defined in OpenAPI"""  # noqa: E501
+        """List - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            _123_list (str): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

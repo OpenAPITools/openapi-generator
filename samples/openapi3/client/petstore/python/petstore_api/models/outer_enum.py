@@ -43,7 +43,13 @@ class OuterEnum(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """OuterEnum - a model defined in OpenAPI"""  # noqa: E501
+        """OuterEnum - a model defined in OpenAPI
+
+
+
+
+
+        """  # noqa: E501
 
         self._data_store = {}
 

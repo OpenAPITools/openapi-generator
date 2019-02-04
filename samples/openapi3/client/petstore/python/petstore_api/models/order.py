@@ -48,7 +48,19 @@ class Order(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """Order - a model defined in OpenAPI"""  # noqa: E501
+        """Order - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            id (int): [optional]
+            pet_id (int): [optional]
+            quantity (int): [optional]
+            ship_date (datetime): [optional]
+            status (str): Order Status. [optional]
+            complete (bool): [optional] if omitted the server will use the default value of False
+
+        """  # noqa: E501
 
         self._data_store = {}
 

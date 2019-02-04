@@ -42,7 +42,16 @@ class ApiResponse(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """ApiResponse - a model defined in OpenAPI"""  # noqa: E501
+        """ApiResponse - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            code (int): [optional]
+            type (str): [optional]
+            message (str): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

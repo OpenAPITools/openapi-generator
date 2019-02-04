@@ -38,7 +38,14 @@ class Client(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """Client - a model defined in OpenAPI"""  # noqa: E501
+        """Client - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            client (str): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

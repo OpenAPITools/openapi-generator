@@ -42,7 +42,16 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """MixedPropertiesAndAdditionalPropertiesClass - a model defined in OpenAPI"""  # noqa: E501
+        """MixedPropertiesAndAdditionalPropertiesClass - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            uuid (str): [optional]
+            date_time (datetime): [optional]
+            map (dict(str, Animal)): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

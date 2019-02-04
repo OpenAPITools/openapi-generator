@@ -40,7 +40,15 @@ class Category(object):
     }
 
     def __init__(self, name='default-name', **kwargs):  # noqa: E501
-        """Category - a model defined in OpenAPI"""  # noqa: E501
+        """Category - a model defined in OpenAPI
+
+        Args:
+            name (str): defaults to 'default-name', must be one of ['default-name']
+
+        Keyword Args:
+            id (int): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

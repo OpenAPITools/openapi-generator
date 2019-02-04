@@ -40,7 +40,15 @@ class InlineObject4(object):
     }
 
     def __init__(self, param, param2, **kwargs):  # noqa: E501
-        """InlineObject4 - a model defined in OpenAPI"""  # noqa: E501
+        """InlineObject4 - a model defined in OpenAPI
+
+        Args:
+            param (str): field1
+            param2 (str): field2
+
+
+
+        """  # noqa: E501
 
         self._data_store = {}
 

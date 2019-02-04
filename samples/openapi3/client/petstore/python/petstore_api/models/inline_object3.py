@@ -64,7 +64,27 @@ class InlineObject3(object):
     }
 
     def __init__(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
-        """InlineObject3 - a model defined in OpenAPI"""  # noqa: E501
+        """InlineObject3 - a model defined in OpenAPI
+
+        Args:
+            number (float): None
+            double (float): None
+            pattern_without_delimiter (str): None
+            byte (str): None
+
+        Keyword Args:
+            integer (int): None. [optional]
+            int32 (int): None. [optional]
+            int64 (int): None. [optional]
+            float (float): None. [optional]
+            string (str): None. [optional]
+            binary (file): None. [optional]
+            date (date): None. [optional]
+            date_time (datetime): None. [optional]
+            password (str): None. [optional]
+            callback (str): None. [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

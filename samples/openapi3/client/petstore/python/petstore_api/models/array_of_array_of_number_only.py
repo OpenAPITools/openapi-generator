@@ -38,7 +38,14 @@ class ArrayOfArrayOfNumberOnly(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """ArrayOfArrayOfNumberOnly - a model defined in OpenAPI"""  # noqa: E501
+        """ArrayOfArrayOfNumberOnly - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            array_array_number (list[list[float]]): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

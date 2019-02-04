@@ -44,7 +44,15 @@ class Animal(object):
     }
 
     def __init__(self, class_name, **kwargs):  # noqa: E501
-        """Animal - a model defined in OpenAPI"""  # noqa: E501
+        """Animal - a model defined in OpenAPI
+
+        Args:
+            class_name (str):
+
+        Keyword Args:
+            color (str): [optional] if omitted the server will use the default value of 'red'
+
+        """  # noqa: E501
 
         self._data_store = {}
 

@@ -40,7 +40,15 @@ class InlineObject(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """InlineObject - a model defined in OpenAPI"""  # noqa: E501
+        """InlineObject - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            name (str): Updated name of the pet. [optional]
+            status (str): Updated status of the pet. [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 
