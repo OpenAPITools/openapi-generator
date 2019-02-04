@@ -73,6 +73,16 @@ class FakeApiTest extends TestCase
     }
 
     /**
+     * Test case for fakeHealthGet
+     *
+     * Health check endpoint.
+     *
+     */
+    public function testFakeHealthGet()
+    {
+    }
+
+    /**
      * Test case for fakeOuterBooleanSerialize
      *
      * .
