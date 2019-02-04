@@ -109,7 +109,7 @@ class StoreController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -179,7 +179,7 @@ class StoreController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -260,7 +260,7 @@ class StoreController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -345,7 +345,7 @@ class StoreController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,

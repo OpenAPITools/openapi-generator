@@ -1,6 +1,7 @@
 # php-base - PHP Slim Server library for OpenAPI Petstore
 
-[Slim Framework Documentation](https://www.slimframework.com/docs/)
+* [OpenAPI Generator](https://openapi-generator.tech)
+* [Slim Framework Documentation](https://www.slimframework.com/docs/)
 
 ## Requirements
 
@@ -79,10 +80,15 @@ $ composer phplint
 
 ## Show errors
 
-Change line in `./index.php`:
+Switch on option in `./index.php`:
 ```diff
---- $router = new SlimRouter();
-+++ $router = new SlimRouter(['settings' => ['displayErrorDetails' => true]]);
+    /**
+     * When true, additional information about exceptions are displayed by the default
+     * error handler.
+     * Default: false
+     */
+--- // 'displayErrorDetails' => false,
++++ 'displayErrorDetails' => true,
 ```
 
 ## API Endpoints
@@ -114,6 +120,7 @@ For instance, when abstract class located at `./lib/Api/AbstractPetApi.php` you 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AbstractAnotherFakeApi* | **call123TestSpecialTags** | **PATCH** /another-fake/dummy | To test special tags
+*AbstractFakeApi* | **createXmlItem** | **POST** /fake/create_xml_item | creates an XmlItem
 *AbstractFakeApi* | **fakeOuterBooleanSerialize** | **POST** /fake/outer/boolean | 
 *AbstractFakeApi* | **fakeOuterCompositeSerialize** | **POST** /fake/outer/composite | 
 *AbstractFakeApi* | **fakeOuterNumberSerialize** | **POST** /fake/outer/number | 
@@ -188,6 +195,7 @@ Class | Method | HTTP request | Description
 * OpenAPIServer\Model\TypeHolderDefault
 * OpenAPIServer\Model\TypeHolderExample
 * OpenAPIServer\Model\User
+* OpenAPIServer\Model\XmlItem
 
 
 ## Authentication

@@ -19,6 +19,58 @@ module Petstore
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
+    # creates an XmlItem
+    # this route creates an XmlItem
+    # @param xml_item XmlItem Body
+    # @param [Hash] opts the optional parameters
+    # @return [nil]
+    def create_xml_item(xml_item, opts = {})
+      create_xml_item_with_http_info(xml_item, opts)
+      nil
+    end
+
+    # creates an XmlItem
+    # this route creates an XmlItem
+    # @param xml_item XmlItem Body
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    def create_xml_item_with_http_info(xml_item, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: FakeApi.create_xml_item ...'
+      end
+      # verify the required parameter 'xml_item' is set
+      if @api_client.config.client_side_validation && xml_item.nil?
+        fail ArgumentError, "Missing the required parameter 'xml_item' when calling FakeApi.create_xml_item"
+      end
+      # resource path
+      local_var_path = '/fake/create_xml_item'
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/xml', 'application/xml; charset=utf-8', 'application/xml; charset=utf-16', 'text/xml', 'text/xml; charset=utf-8', 'text/xml; charset=utf-16'])
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = @api_client.object_to_http_body(xml_item)
+      auth_names = []
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FakeApi#create_xml_item\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Test serialization of outer boolean types
     # @param [Hash] opts the optional parameters
     # @option opts [BOOLEAN] :body Input boolean as post body

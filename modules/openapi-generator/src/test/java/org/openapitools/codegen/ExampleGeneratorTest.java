@@ -8,7 +8,8 @@ import org.testng.annotations.Test;
 
 import java.util.*;
 
-import static org.testng.AssertJUnit.*;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNull;
 
 public class ExampleGeneratorTest {
     @Test

@@ -16,15 +16,14 @@
 
 package org.openapitools.codegen.mysql;
 
+import org.openapitools.codegen.languages.MysqlSchemaCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import org.openapitools.codegen.languages.MysqlSchemaCodegen;
+import java.util.HashMap;
+import java.util.Set;
 
 public class MysqlSchemaCodegenTest {
 

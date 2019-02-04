@@ -24,9 +24,9 @@
 
     <developers>
         <developer>
-            <name>OpenAPI</name>
+            <name>OpenAPI-Generator Contributors</name>
             <email>team@openapitools.org</email>
-            <organization>OpenAPI</organization>
+            <organization>OpenAPITools.org</organization>
             <organizationUrl>http://openapitools.org</organizationUrl>
         </developer>
     </developers>
@@ -114,8 +114,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/main/java</source>
+                                <source>src/main/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -127,8 +126,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/test/java</source>
+                                <source>src/test/java</source>
                             </sources>
                         </configuration>
                     </execution>

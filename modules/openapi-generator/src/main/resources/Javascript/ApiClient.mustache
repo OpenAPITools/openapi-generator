@@ -43,7 +43,12 @@
 {{/emitJSDoc}}{{=< >=}}    this.authentications = {
 <#authMethods>
 <#isBasic>
+<^isBasicBearer>
       '<name>': {type: 'basic'}<^-last>,</-last>
+</isBasicBearer>
+<#isBasicBearer>
+      '<name>': {type: 'bearer'}<^-last>,</-last><#bearerFormat> // <&.></bearerFormat>
+</isBasicBearer>
 </isBasic>
 <#isApiKey>
       '<name>': {type: 'apiKey', 'in': <#isKeyInHeader>'header'</isKeyInHeader><^isKeyInHeader>'query'</isKeyInHeader>, name: '<keyParamName>'}<^-last>,</-last>
@@ -301,6 +306,11 @@
         case 'basic':
           if (auth.username || auth.password) {
             request.auth(auth.username || '', auth.password || '');
+          }
+          break;
+        case 'bearer':
+          if (auth.accessToken) {
+            request.set({'Authorization': 'Bearer ' + auth.accessToken});
           }
           break;
         case 'apiKey':
@@ -593,6 +603,71 @@
         }
     }
   };
+
+    {{#emitJSDoc}}
+  /**
+    * Gets an array of host settings
+    * @returns An array of host settings
+    */
+    {{/emitJSDoc}}
+    exports.hostSettings = function() {
+        return [
+            {{#servers}}
+            {
+              'url': "{{{url}}}",
+              'description': "{{{description}}}{{^description}}No description provided{{/description}}",
+              {{#variables}}
+              {{#-first}}
+              'variables': {
+              {{/-first}}
+                {{{name}}}: {
+                    'description': "{{{description}}}{{^description}}No description provided{{/description}}",
+                    'default_value': "{{{defaultValue}}}",
+                    {{#enumValues}}
+                    {{#-first}}
+                    'enum_values': [
+                    {{/-first}}
+                      "{{{.}}}"{{^-last}},{{/-last}}
+                    {{#-last}}
+                    ]
+                    {{/-last}}
+                    {{/enumValues}}
+                  }{{^-last}},{{/-last}}
+                {{#-last}}
+                }
+                {{/-last}}
+              {{/variables}}
+            }{{^-last}},{{/-last}}
+            {{/servers}}
+      ];
+    };
+
+    exports.getBasePathFromSettings = function(index, variables={}) {
+        var servers = this.hostSettings();
+
+        // check array index out of bound
+        if (index < 0 || index >= servers.length) {
+            throw new Error("Invalid index " + index + " when selecting the host settings. Must be less than " + servers.length);
+        }
+
+        var server = servers[index];
+        var url = server['url'];
+
+        // go through variable and assign a value
+        for (var variable_name in server['variables']) {
+            if (variable_name in variables) {
+                if (server['variables'][variable_name]['enum_values'].includes(variables[variable_name])) {
+                    url = url.replace("{" + variable_name + "}", variables[variable_name]);
+                } else {
+                    throw new Error("The variable `" + variable_name + "` in the host URL has invalid value " + variables[variable_name] + ". Must be " + server['variables'][variable_name]['enum_values'] + ".");
+                }
+            } else {
+                // use default value
+                url = url.replace("{" + variable_name + "}", server['variables'][variable_name]['default_value'])
+            }
+        }
+        return url;
+    };
 
 {{#emitJSDoc}}  /**
    * Constructs a new map or array model from REST data.

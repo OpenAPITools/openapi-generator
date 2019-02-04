@@ -25,7 +25,6 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.languages.GoClientCodegen;
-import org.openapitools.codegen.languages.RubyClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -64,9 +63,10 @@ public class GoClientCodegenTest {
     public void bodyParameterTest() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final GoClientCodegen codegen = new GoClientCodegen();
+        codegen.setOpenAPI(openAPI);
         final String path = "/fake";
         final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas());
+        final CodegenOperation op = codegen.fromOperation(path, "post", p);
         Assert.assertEquals(op.formParams.size(), 2);
         CodegenParameter bp = op.formParams.get(0);
         Assert.assertFalse(bp.isPrimitiveType);

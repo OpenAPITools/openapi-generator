@@ -5,7 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **int** |  | [optional] 
 **category** | [**Category**](Category.md) |  | [optional] 
-**name** | **str** |  | 
+**name** | **str** |  | [default to 'doggie']
 **photo_urls** | **list[str]** |  | 
 **tags** | [**list[Tag]**](Tag.md) |  | [optional] 
 **status** | **str** | pet status in the store | [optional] 

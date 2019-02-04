@@ -43,19 +43,19 @@ ApiClient  <- R6::R6Class(
         self$`userAgent` <- 'OpenAPI-Generator/1.0.0/r'
     },
     callApi = function(url, method, queryParams, headerParams, body, ...){
-        headers <- httr::add_headers(headerParams)
+        headers <- httr::add_headers(c(headerParams, self$defaultHeaders))
 
         if (method == "GET") {
             httr::GET(url, queryParams, headers, ...)
         }
         else if (method == "POST") {
-            httr::POST(url, queryParams, headers, body = body, ...)
+            httr::POST(url, queryParams, headers, body = body, content_type("application/json"), ...)
         }
         else if (method == "PUT") {
-            httr::PUT(url, queryParams, headers, body = body, ...)
+            httr::PUT(url, queryParams, headers, body = body, content_type("application/json"), ...)
         }
         else if (method == "PATCH") {
-            httr::PATCH(url, queryParams, headers, body = body, ...)
+            httr::PATCH(url, queryParams, headers, body = body, content_type("application/json"), ...)
         }
         else if (method == "HEAD") {
             httr::HEAD(url, queryParams, headers, ...)

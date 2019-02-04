@@ -1,0 +1,12 @@
+// tslint:disable
+{{>licenseInfo}}
+{{#models}}
+{{#model}}
+{{#isEnum}}
+{{>modelEnum}}
+{{/isEnum}}
+{{^isEnum}}
+{{>modelGeneric}}
+{{/isEnum}}
+{{/model}}
+{{/models}}

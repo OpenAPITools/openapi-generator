@@ -482,6 +482,12 @@ Fake endpoint to test group parameters (optional)
 ```ruby
 # load the gem
 require 'petstore'
+# setup authorization
+Petstore.configure do |config|
+  # Configure HTTP basic authorization: bearer_test
+  config.username = 'YOUR USERNAME'
+  config.password = 'YOUR PASSWORD'
+end
 
 api_instance = Petstore::FakeApi.new
 required_string_group = 56 # Integer | Required String in group parameters
@@ -518,7 +524,7 @@ nil (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearer_test](../README.md#bearer_test)
 
 ### HTTP request headers
 

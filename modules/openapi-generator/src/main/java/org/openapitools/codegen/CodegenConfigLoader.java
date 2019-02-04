@@ -17,11 +17,11 @@
 
 package org.openapitools.codegen;
 
-import static java.util.ServiceLoader.load;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
+
+import static java.util.ServiceLoader.load;
 
 public class CodegenConfigLoader {
     /**
