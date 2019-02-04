@@ -89,7 +89,7 @@ class InlineObject1(object):
 
         passed_type = self.recursive_type(value)
         if type(name) != str:
-            raise ValueError('Variable name must be type string and %s was not' % name)
+            raise TypeError('Variable name must be type string and %s was not' % name)
         elif passed_type != required_type and check_type:
             raise ValueError('Variable value must be type %s but you passed in %s' %
                              (required_type, passed_type))
