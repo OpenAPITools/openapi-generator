@@ -34,6 +34,7 @@ from petstore_api.models.file_schema_test_class import FileSchemaTestClass
 from petstore_api.models.foo import Foo
 from petstore_api.models.format_test import FormatTest
 from petstore_api.models.has_only_read_only import HasOnlyReadOnly
+from petstore_api.models.health_check_result import HealthCheckResult
 from petstore_api.models.inline_object import InlineObject
 from petstore_api.models.inline_object1 import InlineObject1
 from petstore_api.models.inline_object2 import InlineObject2
