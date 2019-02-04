@@ -69,6 +69,8 @@ public class CodegenModel {
 
     //The type of the value from additional properties. Used in map like objects.
     public String additionalPropertiesType;
+    //The CodegenProperty to store additional properties. Used in map like objects.
+    public CodegenProperty additionalProperties;
 
     @Override
     public String toString() {
@@ -122,6 +124,7 @@ public class CodegenModel {
                 .append("externalDocumentation", externalDocumentation)
                 .append("vendorExtensions", vendorExtensions)
                 .append("additionalPropertiesType", additionalPropertiesType)
+                .append("additionalProperties", additionalProperties)
                 .toString();
     }
 
@@ -551,6 +554,14 @@ public class CodegenModel {
 
     public void setAdditionalPropertiesType(String additionalPropertiesType) {
         this.additionalPropertiesType = additionalPropertiesType;
+    }
+
+    public void setAdditionalProperties(CodegenProperty cp) {
+        this.additionalProperties = cp;
+    }
+
+    public CodegenProperty getAdditionalProperties() {
+        return additionalProperties;
     }
 
     /**

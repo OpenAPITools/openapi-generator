@@ -40,7 +40,6 @@ class User(object):
         'phone': 'str',
         'user_status': 'int'
     }
-
     attribute_map = {
         'id': 'id',
         'username': 'username',
@@ -52,35 +51,65 @@ class User(object):
         'user_status': 'userStatus'
     }
 
-    def __init__(self, id=None, username=None, first_name=None, last_name=None, email=None, password=None, phone=None, user_status=None):  # noqa: E501
+    def __init__(self, **kwargs):  # noqa: E501
         """User - a model defined in OpenAPI"""  # noqa: E501
 
-        self._id = None
-        self._username = None
-        self._first_name = None
-        self._last_name = None
-        self._email = None
-        self._password = None
-        self._phone = None
-        self._user_status = None
+        self._data_store = {}
+
         self.discriminator = None
 
-        if id is not None:
-            self.id = id
-        if username is not None:
-            self.username = username
-        if first_name is not None:
-            self.first_name = first_name
-        if last_name is not None:
-            self.last_name = last_name
-        if email is not None:
-            self.email = email
-        if password is not None:
-            self.password = password
-        if phone is not None:
-            self.phone = phone
-        if user_status is not None:
-            self.user_status = user_status
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__setitem__(var_name, var_value)
+
+    def recursive_type(self, item):
+        """Gets a string describing the full the recursive type of a value"""
+        item_type = type(item)
+        if item_type == dict:
+            child_key_types = set()
+            child_value_types = set()
+            for child_key, child_value in six.iteritems(item):
+                child_key_types.add(self.recursive_type(child_key))
+                child_value_types.add(self.recursive_type(child_value))
+            if child_key_types != set(['str']):
+                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "dict(str, {0})".format(child_value_types)
+        elif item_type == list:
+            child_value_types = set()
+            for child_item in item:
+                child_value_types.add(self.recursive_type(child_item))
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "list[{0}]".format(child_value_types)
+        else:
+            return type(item).__name__
+
+    def __setitem__(self, name, value):
+        check_type = False
+        if name in self.openapi_types:
+            required_type = self.openapi_types[name]
+        else:
+            raise KeyError("{0} has no key '{1}'".format(
+                type(self).__name__, name))
+
+        passed_type = self.recursive_type(value)
+        if type(name) != str:
+            raise ValueError('Variable name must be type string and %s was not' % name)
+        elif passed_type != required_type and check_type:
+            raise ValueError('Variable value must be type %s but you passed in %s' %
+                             (required_type, passed_type))
+
+        if name in self.openapi_types:
+            setattr(self, name, value)
+        else:
+            self._data_store[name] = value
+
+    def __getitem__(self, name):
+        if name in self.openapi_types:
+            return self._data_store.get(name)
+        if name in self._data_store:
+            return self._data_store[name]
+        raise KeyError("{0} has no key {1}".format(
+            type(self).__name__, name))
 
     @property
     def id(self):
@@ -90,7 +119,7 @@ class User(object):
         :return: The id of this User.  # noqa: E501
         :rtype: int
         """
-        return self._id
+        return self._data_store.get('id')
 
     @id.setter
     def id(self, id):
@@ -101,7 +130,7 @@ class User(object):
         :type: int
         """
 
-        self._id = id
+        self._data_store['id'] = id
 
     @property
     def username(self):
@@ -111,7 +140,7 @@ class User(object):
         :return: The username of this User.  # noqa: E501
         :rtype: str
         """
-        return self._username
+        return self._data_store.get('username')
 
     @username.setter
     def username(self, username):
@@ -122,7 +151,7 @@ class User(object):
         :type: str
         """
 
-        self._username = username
+        self._data_store['username'] = username
 
     @property
     def first_name(self):
@@ -132,7 +161,7 @@ class User(object):
         :return: The first_name of this User.  # noqa: E501
         :rtype: str
         """
-        return self._first_name
+        return self._data_store.get('first_name')
 
     @first_name.setter
     def first_name(self, first_name):
@@ -143,7 +172,7 @@ class User(object):
         :type: str
         """
 
-        self._first_name = first_name
+        self._data_store['first_name'] = first_name
 
     @property
     def last_name(self):
@@ -153,7 +182,7 @@ class User(object):
         :return: The last_name of this User.  # noqa: E501
         :rtype: str
         """
-        return self._last_name
+        return self._data_store.get('last_name')
 
     @last_name.setter
     def last_name(self, last_name):
@@ -164,7 +193,7 @@ class User(object):
         :type: str
         """
 
-        self._last_name = last_name
+        self._data_store['last_name'] = last_name
 
     @property
     def email(self):
@@ -174,7 +203,7 @@ class User(object):
         :return: The email of this User.  # noqa: E501
         :rtype: str
         """
-        return self._email
+        return self._data_store.get('email')
 
     @email.setter
     def email(self, email):
@@ -185,7 +214,7 @@ class User(object):
         :type: str
         """
 
-        self._email = email
+        self._data_store['email'] = email
 
     @property
     def password(self):
@@ -195,7 +224,7 @@ class User(object):
         :return: The password of this User.  # noqa: E501
         :rtype: str
         """
-        return self._password
+        return self._data_store.get('password')
 
     @password.setter
     def password(self, password):
@@ -206,7 +235,7 @@ class User(object):
         :type: str
         """
 
-        self._password = password
+        self._data_store['password'] = password
 
     @property
     def phone(self):
@@ -216,7 +245,7 @@ class User(object):
         :return: The phone of this User.  # noqa: E501
         :rtype: str
         """
-        return self._phone
+        return self._data_store.get('phone')
 
     @phone.setter
     def phone(self, phone):
@@ -227,7 +256,7 @@ class User(object):
         :type: str
         """
 
-        self._phone = phone
+        self._data_store['phone'] = phone
 
     @property
     def user_status(self):
@@ -238,7 +267,7 @@ class User(object):
         :return: The user_status of this User.  # noqa: E501
         :rtype: int
         """
-        return self._user_status
+        return self._data_store.get('user_status')
 
     @user_status.setter
     def user_status(self, user_status):
@@ -250,14 +279,13 @@ class User(object):
         :type: int
         """
 
-        self._user_status = user_status
+        self._data_store['user_status'] = user_status
 
     def to_dict(self):
         """Returns the model properties as a dict"""
         result = {}
 
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
+        for attr, value in six.iteritems(self._data_store):
             if isinstance(value, list):
                 result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,

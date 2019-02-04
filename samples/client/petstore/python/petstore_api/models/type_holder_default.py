@@ -37,7 +37,6 @@ class TypeHolderDefault(object):
         'bool_item': 'bool',
         'array_item': 'list[int]'
     }
-
     attribute_map = {
         'string_item': 'string_item',
         'number_item': 'number_item',
@@ -46,21 +45,70 @@ class TypeHolderDefault(object):
         'array_item': 'array_item'
     }
 
-    def __init__(self, string_item='what', number_item=None, integer_item=None, bool_item=True, array_item=None):  # noqa: E501
+    def __init__(self, number_item, integer_item, array_item, string_item='what', bool_item=True, **kwargs):  # noqa: E501
         """TypeHolderDefault - a model defined in OpenAPI"""  # noqa: E501
 
-        self._string_item = None
-        self._number_item = None
-        self._integer_item = None
-        self._bool_item = None
-        self._array_item = None
-        self.discriminator = None
+        self._data_store = {}
 
-        self.string_item = string_item
-        self.number_item = number_item
-        self.integer_item = integer_item
-        self.bool_item = bool_item
-        self.array_item = array_item
+        self.discriminator = None
+        self.__setitem__('string_item', string_item)
+        self.__setitem__('number_item', number_item)
+        self.__setitem__('integer_item', integer_item)
+        self.__setitem__('bool_item', bool_item)
+        self.__setitem__('array_item', array_item)
+
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__setitem__(var_name, var_value)
+
+    def recursive_type(self, item):
+        """Gets a string describing the full the recursive type of a value"""
+        item_type = type(item)
+        if item_type == dict:
+            child_key_types = set()
+            child_value_types = set()
+            for child_key, child_value in six.iteritems(item):
+                child_key_types.add(self.recursive_type(child_key))
+                child_value_types.add(self.recursive_type(child_value))
+            if child_key_types != set(['str']):
+                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "dict(str, {0})".format(child_value_types)
+        elif item_type == list:
+            child_value_types = set()
+            for child_item in item:
+                child_value_types.add(self.recursive_type(child_item))
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "list[{0}]".format(child_value_types)
+        else:
+            return type(item).__name__
+
+    def __setitem__(self, name, value):
+        check_type = False
+        if name in self.openapi_types:
+            required_type = self.openapi_types[name]
+        else:
+            raise KeyError("{0} has no key '{1}'".format(
+                type(self).__name__, name))
+
+        passed_type = self.recursive_type(value)
+        if type(name) != str:
+            raise ValueError('Variable name must be type string and %s was not' % name)
+        elif passed_type != required_type and check_type:
+            raise ValueError('Variable value must be type %s but you passed in %s' %
+                             (required_type, passed_type))
+
+        if name in self.openapi_types:
+            setattr(self, name, value)
+        else:
+            self._data_store[name] = value
+
+    def __getitem__(self, name):
+        if name in self.openapi_types:
+            return self._data_store.get(name)
+        if name in self._data_store:
+            return self._data_store[name]
+        raise KeyError("{0} has no key {1}".format(
+            type(self).__name__, name))
 
     @property
     def string_item(self):
@@ -70,7 +118,7 @@ class TypeHolderDefault(object):
         :return: The string_item of this TypeHolderDefault.  # noqa: E501
         :rtype: str
         """
-        return self._string_item
+        return self._data_store.get('string_item')
 
     @string_item.setter
     def string_item(self, string_item):
@@ -83,7 +131,7 @@ class TypeHolderDefault(object):
         if string_item is None:
             raise ValueError("Invalid value for `string_item`, must not be `None`")  # noqa: E501
 
-        self._string_item = string_item
+        self._data_store['string_item'] = string_item
 
     @property
     def number_item(self):
@@ -93,7 +141,7 @@ class TypeHolderDefault(object):
         :return: The number_item of this TypeHolderDefault.  # noqa: E501
         :rtype: float
         """
-        return self._number_item
+        return self._data_store.get('number_item')
 
     @number_item.setter
     def number_item(self, number_item):
@@ -106,7 +154,7 @@ class TypeHolderDefault(object):
         if number_item is None:
             raise ValueError("Invalid value for `number_item`, must not be `None`")  # noqa: E501
 
-        self._number_item = number_item
+        self._data_store['number_item'] = number_item
 
     @property
     def integer_item(self):
@@ -116,7 +164,7 @@ class TypeHolderDefault(object):
         :return: The integer_item of this TypeHolderDefault.  # noqa: E501
         :rtype: int
         """
-        return self._integer_item
+        return self._data_store.get('integer_item')
 
     @integer_item.setter
     def integer_item(self, integer_item):
@@ -129,7 +177,7 @@ class TypeHolderDefault(object):
         if integer_item is None:
             raise ValueError("Invalid value for `integer_item`, must not be `None`")  # noqa: E501
 
-        self._integer_item = integer_item
+        self._data_store['integer_item'] = integer_item
 
     @property
     def bool_item(self):
@@ -139,7 +187,7 @@ class TypeHolderDefault(object):
         :return: The bool_item of this TypeHolderDefault.  # noqa: E501
         :rtype: bool
         """
-        return self._bool_item
+        return self._data_store.get('bool_item')
 
     @bool_item.setter
     def bool_item(self, bool_item):
@@ -152,7 +200,7 @@ class TypeHolderDefault(object):
         if bool_item is None:
             raise ValueError("Invalid value for `bool_item`, must not be `None`")  # noqa: E501
 
-        self._bool_item = bool_item
+        self._data_store['bool_item'] = bool_item
 
     @property
     def array_item(self):
@@ -162,7 +210,7 @@ class TypeHolderDefault(object):
         :return: The array_item of this TypeHolderDefault.  # noqa: E501
         :rtype: list[int]
         """
-        return self._array_item
+        return self._data_store.get('array_item')
 
     @array_item.setter
     def array_item(self, array_item):
@@ -175,14 +223,13 @@ class TypeHolderDefault(object):
         if array_item is None:
             raise ValueError("Invalid value for `array_item`, must not be `None`")  # noqa: E501
 
-        self._array_item = array_item
+        self._data_store['array_item'] = array_item
 
     def to_dict(self):
         """Returns the model properties as a dict"""
         result = {}
 
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
+        for attr, value in six.iteritems(self._data_store):
             if isinstance(value, list):
                 result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,

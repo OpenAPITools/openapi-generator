@@ -28,12 +28,42 @@ class TestAdditionalPropertiesClass(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testAdditionalPropertiesClass(self):
-        """Test AdditionalPropertiesClass"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.models.additional_properties_class.AdditionalPropertiesClass()  # noqa: E501
-        pass
+    def test_empty_instance(self):
+        a = AdditionalPropertiesClass()
+        self.assertEqual(a.to_dict(), {})
 
+    def test_set_get_additional_property(self):
+        a = AdditionalPropertiesClass(var_1='value_1')
+        self.assertEqual(a.to_dict(), {'var_1': 'value_1'})
+        self.assertEqual(a['var_1'], 'value_1')
+
+    def test_set_change_get_additional_property(self):
+        a = AdditionalPropertiesClass(var_1='value_1')
+        a['var_1'] = 'new value'
+        self.assertEqual(a['var_1'], 'new value')
+
+    def test_access_both_props_with_brackets(self):
+        var_1_val = 'value_1'
+        map_property_val = {'a': 'b'}
+        a = AdditionalPropertiesClass(var_1=var_1_val, map_property=map_property_val)
+        self.assertEqual(a['var_1'], var_1_val)
+        self.assertEqual(a['map_property'], map_property_val)
+
+    def test_errors_thrown_on_wrong_addl_props_input(self):
+        with self.assertRaises(ValueError):
+            AdditionalPropertiesClass(var_1=7)
+
+        with self.assertRaises(ValueError):
+            a = AdditionalPropertiesClass()
+            a['var_1'] = 7
+
+        with self.assertRaises(ValueError):
+            a = AdditionalPropertiesClass()
+            a['var_1'] = True
+
+        with self.assertRaises(TypeError):
+            a = AdditionalPropertiesClass()
+            a[2] = 'what'
 
 if __name__ == '__main__':
     unittest.main()

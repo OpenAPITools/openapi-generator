@@ -37,7 +37,6 @@ class EnumTest(object):
         'enum_number': 'float',
         'outer_enum': 'OuterEnum'
     }
-
     attribute_map = {
         'enum_string': 'enum_string',
         'enum_string_required': 'enum_string_required',
@@ -46,25 +45,66 @@ class EnumTest(object):
         'outer_enum': 'outerEnum'
     }
 
-    def __init__(self, enum_string=None, enum_string_required=None, enum_integer=None, enum_number=None, outer_enum=None):  # noqa: E501
+    def __init__(self, enum_string_required, **kwargs):  # noqa: E501
         """EnumTest - a model defined in OpenAPI"""  # noqa: E501
 
-        self._enum_string = None
-        self._enum_string_required = None
-        self._enum_integer = None
-        self._enum_number = None
-        self._outer_enum = None
-        self.discriminator = None
+        self._data_store = {}
 
-        if enum_string is not None:
-            self.enum_string = enum_string
-        self.enum_string_required = enum_string_required
-        if enum_integer is not None:
-            self.enum_integer = enum_integer
-        if enum_number is not None:
-            self.enum_number = enum_number
-        if outer_enum is not None:
-            self.outer_enum = outer_enum
+        self.discriminator = None
+        self.__setitem__('enum_string_required', enum_string_required)
+
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__setitem__(var_name, var_value)
+
+    def recursive_type(self, item):
+        """Gets a string describing the full the recursive type of a value"""
+        item_type = type(item)
+        if item_type == dict:
+            child_key_types = set()
+            child_value_types = set()
+            for child_key, child_value in six.iteritems(item):
+                child_key_types.add(self.recursive_type(child_key))
+                child_value_types.add(self.recursive_type(child_value))
+            if child_key_types != set(['str']):
+                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "dict(str, {0})".format(child_value_types)
+        elif item_type == list:
+            child_value_types = set()
+            for child_item in item:
+                child_value_types.add(self.recursive_type(child_item))
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "list[{0}]".format(child_value_types)
+        else:
+            return type(item).__name__
+
+    def __setitem__(self, name, value):
+        check_type = False
+        if name in self.openapi_types:
+            required_type = self.openapi_types[name]
+        else:
+            raise KeyError("{0} has no key '{1}'".format(
+                type(self).__name__, name))
+
+        passed_type = self.recursive_type(value)
+        if type(name) != str:
+            raise ValueError('Variable name must be type string and %s was not' % name)
+        elif passed_type != required_type and check_type:
+            raise ValueError('Variable value must be type %s but you passed in %s' %
+                             (required_type, passed_type))
+
+        if name in self.openapi_types:
+            setattr(self, name, value)
+        else:
+            self._data_store[name] = value
+
+    def __getitem__(self, name):
+        if name in self.openapi_types:
+            return self._data_store.get(name)
+        if name in self._data_store:
+            return self._data_store[name]
+        raise KeyError("{0} has no key {1}".format(
+            type(self).__name__, name))
 
     @property
     def enum_string(self):
@@ -74,7 +114,7 @@ class EnumTest(object):
         :return: The enum_string of this EnumTest.  # noqa: E501
         :rtype: str
         """
-        return self._enum_string
+        return self._data_store.get('enum_string')
 
     @enum_string.setter
     def enum_string(self, enum_string):
@@ -91,7 +131,7 @@ class EnumTest(object):
                 .format(enum_string, allowed_values)
             )
 
-        self._enum_string = enum_string
+        self._data_store['enum_string'] = enum_string
 
     @property
     def enum_string_required(self):
@@ -101,7 +141,7 @@ class EnumTest(object):
         :return: The enum_string_required of this EnumTest.  # noqa: E501
         :rtype: str
         """
-        return self._enum_string_required
+        return self._data_store.get('enum_string_required')
 
     @enum_string_required.setter
     def enum_string_required(self, enum_string_required):
@@ -120,7 +160,7 @@ class EnumTest(object):
                 .format(enum_string_required, allowed_values)
             )
 
-        self._enum_string_required = enum_string_required
+        self._data_store['enum_string_required'] = enum_string_required
 
     @property
     def enum_integer(self):
@@ -130,7 +170,7 @@ class EnumTest(object):
         :return: The enum_integer of this EnumTest.  # noqa: E501
         :rtype: int
         """
-        return self._enum_integer
+        return self._data_store.get('enum_integer')
 
     @enum_integer.setter
     def enum_integer(self, enum_integer):
@@ -147,7 +187,7 @@ class EnumTest(object):
                 .format(enum_integer, allowed_values)
             )
 
-        self._enum_integer = enum_integer
+        self._data_store['enum_integer'] = enum_integer
 
     @property
     def enum_number(self):
@@ -157,7 +197,7 @@ class EnumTest(object):
         :return: The enum_number of this EnumTest.  # noqa: E501
         :rtype: float
         """
-        return self._enum_number
+        return self._data_store.get('enum_number')
 
     @enum_number.setter
     def enum_number(self, enum_number):
@@ -174,7 +214,7 @@ class EnumTest(object):
                 .format(enum_number, allowed_values)
             )
 
-        self._enum_number = enum_number
+        self._data_store['enum_number'] = enum_number
 
     @property
     def outer_enum(self):
@@ -184,7 +224,7 @@ class EnumTest(object):
         :return: The outer_enum of this EnumTest.  # noqa: E501
         :rtype: OuterEnum
         """
-        return self._outer_enum
+        return self._data_store.get('outer_enum')
 
     @outer_enum.setter
     def outer_enum(self, outer_enum):
@@ -195,14 +235,13 @@ class EnumTest(object):
         :type: OuterEnum
         """
 
-        self._outer_enum = outer_enum
+        self._data_store['outer_enum'] = outer_enum
 
     def to_dict(self):
         """Returns the model properties as a dict"""
         result = {}
 
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
+        for attr, value in six.iteritems(self._data_store):
             if isinstance(value, list):
                 result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,

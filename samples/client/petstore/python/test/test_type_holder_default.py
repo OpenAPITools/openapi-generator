@@ -36,7 +36,7 @@ class TestTypeHolderDefault(unittest.TestCase):
         sample_values = [5.67, 4, [-5, 2, -6]]
         assigned_variables = {}
         for index, required_var in enumerate(required_vars):
-            with self.assertRaises(ValueError):
+            with self.assertRaises(TypeError):
                 model = TypeHolderDefault(**assigned_variables)
             assigned_variables[required_var] = sample_values[index]
         # assigned_variables is fully set, all required variables passed in

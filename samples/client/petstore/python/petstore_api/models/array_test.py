@@ -35,27 +35,71 @@ class ArrayTest(object):
         'array_array_of_integer': 'list[list[int]]',
         'array_array_of_model': 'list[list[ReadOnlyFirst]]'
     }
-
     attribute_map = {
         'array_of_string': 'array_of_string',
         'array_array_of_integer': 'array_array_of_integer',
         'array_array_of_model': 'array_array_of_model'
     }
 
-    def __init__(self, array_of_string=None, array_array_of_integer=None, array_array_of_model=None):  # noqa: E501
+    def __init__(self, **kwargs):  # noqa: E501
         """ArrayTest - a model defined in OpenAPI"""  # noqa: E501
 
-        self._array_of_string = None
-        self._array_array_of_integer = None
-        self._array_array_of_model = None
+        self._data_store = {}
+
         self.discriminator = None
 
-        if array_of_string is not None:
-            self.array_of_string = array_of_string
-        if array_array_of_integer is not None:
-            self.array_array_of_integer = array_array_of_integer
-        if array_array_of_model is not None:
-            self.array_array_of_model = array_array_of_model
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__setitem__(var_name, var_value)
+
+    def recursive_type(self, item):
+        """Gets a string describing the full the recursive type of a value"""
+        item_type = type(item)
+        if item_type == dict:
+            child_key_types = set()
+            child_value_types = set()
+            for child_key, child_value in six.iteritems(item):
+                child_key_types.add(self.recursive_type(child_key))
+                child_value_types.add(self.recursive_type(child_value))
+            if child_key_types != set(['str']):
+                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "dict(str, {0})".format(child_value_types)
+        elif item_type == list:
+            child_value_types = set()
+            for child_item in item:
+                child_value_types.add(self.recursive_type(child_item))
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "list[{0}]".format(child_value_types)
+        else:
+            return type(item).__name__
+
+    def __setitem__(self, name, value):
+        check_type = False
+        if name in self.openapi_types:
+            required_type = self.openapi_types[name]
+        else:
+            raise KeyError("{0} has no key '{1}'".format(
+                type(self).__name__, name))
+
+        passed_type = self.recursive_type(value)
+        if type(name) != str:
+            raise ValueError('Variable name must be type string and %s was not' % name)
+        elif passed_type != required_type and check_type:
+            raise ValueError('Variable value must be type %s but you passed in %s' %
+                             (required_type, passed_type))
+
+        if name in self.openapi_types:
+            setattr(self, name, value)
+        else:
+            self._data_store[name] = value
+
+    def __getitem__(self, name):
+        if name in self.openapi_types:
+            return self._data_store.get(name)
+        if name in self._data_store:
+            return self._data_store[name]
+        raise KeyError("{0} has no key {1}".format(
+            type(self).__name__, name))
 
     @property
     def array_of_string(self):
@@ -65,7 +109,7 @@ class ArrayTest(object):
         :return: The array_of_string of this ArrayTest.  # noqa: E501
         :rtype: list[str]
         """
-        return self._array_of_string
+        return self._data_store.get('array_of_string')
 
     @array_of_string.setter
     def array_of_string(self, array_of_string):
@@ -76,7 +120,7 @@ class ArrayTest(object):
         :type: list[str]
         """
 
-        self._array_of_string = array_of_string
+        self._data_store['array_of_string'] = array_of_string
 
     @property
     def array_array_of_integer(self):
@@ -86,7 +130,7 @@ class ArrayTest(object):
         :return: The array_array_of_integer of this ArrayTest.  # noqa: E501
         :rtype: list[list[int]]
         """
-        return self._array_array_of_integer
+        return self._data_store.get('array_array_of_integer')
 
     @array_array_of_integer.setter
     def array_array_of_integer(self, array_array_of_integer):
@@ -97,7 +141,7 @@ class ArrayTest(object):
         :type: list[list[int]]
         """
 
-        self._array_array_of_integer = array_array_of_integer
+        self._data_store['array_array_of_integer'] = array_array_of_integer
 
     @property
     def array_array_of_model(self):
@@ -107,7 +151,7 @@ class ArrayTest(object):
         :return: The array_array_of_model of this ArrayTest.  # noqa: E501
         :rtype: list[list[ReadOnlyFirst]]
         """
-        return self._array_array_of_model
+        return self._data_store.get('array_array_of_model')
 
     @array_array_of_model.setter
     def array_array_of_model(self, array_array_of_model):
@@ -118,14 +162,13 @@ class ArrayTest(object):
         :type: list[list[ReadOnlyFirst]]
         """
 
-        self._array_array_of_model = array_array_of_model
+        self._data_store['array_array_of_model'] = array_array_of_model
 
     def to_dict(self):
         """Returns the model properties as a dict"""
         result = {}
 
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
+        for attr, value in six.iteritems(self._data_store):
             if isinstance(value, list):
                 result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,

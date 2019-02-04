@@ -35,27 +35,71 @@ class OuterComposite(object):
         'my_string': 'str',
         'my_boolean': 'bool'
     }
-
     attribute_map = {
         'my_number': 'my_number',
         'my_string': 'my_string',
         'my_boolean': 'my_boolean'
     }
 
-    def __init__(self, my_number=None, my_string=None, my_boolean=None):  # noqa: E501
+    def __init__(self, **kwargs):  # noqa: E501
         """OuterComposite - a model defined in OpenAPI"""  # noqa: E501
 
-        self._my_number = None
-        self._my_string = None
-        self._my_boolean = None
+        self._data_store = {}
+
         self.discriminator = None
 
-        if my_number is not None:
-            self.my_number = my_number
-        if my_string is not None:
-            self.my_string = my_string
-        if my_boolean is not None:
-            self.my_boolean = my_boolean
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__setitem__(var_name, var_value)
+
+    def recursive_type(self, item):
+        """Gets a string describing the full the recursive type of a value"""
+        item_type = type(item)
+        if item_type == dict:
+            child_key_types = set()
+            child_value_types = set()
+            for child_key, child_value in six.iteritems(item):
+                child_key_types.add(self.recursive_type(child_key))
+                child_value_types.add(self.recursive_type(child_value))
+            if child_key_types != set(['str']):
+                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "dict(str, {0})".format(child_value_types)
+        elif item_type == list:
+            child_value_types = set()
+            for child_item in item:
+                child_value_types.add(self.recursive_type(child_item))
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "list[{0}]".format(child_value_types)
+        else:
+            return type(item).__name__
+
+    def __setitem__(self, name, value):
+        check_type = False
+        if name in self.openapi_types:
+            required_type = self.openapi_types[name]
+        else:
+            raise KeyError("{0} has no key '{1}'".format(
+                type(self).__name__, name))
+
+        passed_type = self.recursive_type(value)
+        if type(name) != str:
+            raise ValueError('Variable name must be type string and %s was not' % name)
+        elif passed_type != required_type and check_type:
+            raise ValueError('Variable value must be type %s but you passed in %s' %
+                             (required_type, passed_type))
+
+        if name in self.openapi_types:
+            setattr(self, name, value)
+        else:
+            self._data_store[name] = value
+
+    def __getitem__(self, name):
+        if name in self.openapi_types:
+            return self._data_store.get(name)
+        if name in self._data_store:
+            return self._data_store[name]
+        raise KeyError("{0} has no key {1}".format(
+            type(self).__name__, name))
 
     @property
     def my_number(self):
@@ -65,7 +109,7 @@ class OuterComposite(object):
         :return: The my_number of this OuterComposite.  # noqa: E501
         :rtype: float
         """
-        return self._my_number
+        return self._data_store.get('my_number')
 
     @my_number.setter
     def my_number(self, my_number):
@@ -76,7 +120,7 @@ class OuterComposite(object):
         :type: float
         """
 
-        self._my_number = my_number
+        self._data_store['my_number'] = my_number
 
     @property
     def my_string(self):
@@ -86,7 +130,7 @@ class OuterComposite(object):
         :return: The my_string of this OuterComposite.  # noqa: E501
         :rtype: str
         """
-        return self._my_string
+        return self._data_store.get('my_string')
 
     @my_string.setter
     def my_string(self, my_string):
@@ -97,7 +141,7 @@ class OuterComposite(object):
         :type: str
         """
 
-        self._my_string = my_string
+        self._data_store['my_string'] = my_string
 
     @property
     def my_boolean(self):
@@ -107,7 +151,7 @@ class OuterComposite(object):
         :return: The my_boolean of this OuterComposite.  # noqa: E501
         :rtype: bool
         """
-        return self._my_boolean
+        return self._data_store.get('my_boolean')
 
     @my_boolean.setter
     def my_boolean(self, my_boolean):
@@ -118,14 +162,13 @@ class OuterComposite(object):
         :type: bool
         """
 
-        self._my_boolean = my_boolean
+        self._data_store['my_boolean'] = my_boolean
 
     def to_dict(self):
         """Returns the model properties as a dict"""
         result = {}
 
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
+        for attr, value in six.iteritems(self._data_store):
             if isinstance(value, list):
                 result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,

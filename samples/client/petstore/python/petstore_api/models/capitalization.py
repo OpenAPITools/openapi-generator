@@ -38,7 +38,6 @@ class Capitalization(object):
         'sca_eth_flow_points': 'str',
         'att_name': 'str'
     }
-
     attribute_map = {
         'small_camel': 'smallCamel',
         'capital_camel': 'CapitalCamel',
@@ -48,29 +47,65 @@ class Capitalization(object):
         'att_name': 'ATT_NAME'
     }
 
-    def __init__(self, small_camel=None, capital_camel=None, small_snake=None, capital_snake=None, sca_eth_flow_points=None, att_name=None):  # noqa: E501
+    def __init__(self, **kwargs):  # noqa: E501
         """Capitalization - a model defined in OpenAPI"""  # noqa: E501
 
-        self._small_camel = None
-        self._capital_camel = None
-        self._small_snake = None
-        self._capital_snake = None
-        self._sca_eth_flow_points = None
-        self._att_name = None
+        self._data_store = {}
+
         self.discriminator = None
 
-        if small_camel is not None:
-            self.small_camel = small_camel
-        if capital_camel is not None:
-            self.capital_camel = capital_camel
-        if small_snake is not None:
-            self.small_snake = small_snake
-        if capital_snake is not None:
-            self.capital_snake = capital_snake
-        if sca_eth_flow_points is not None:
-            self.sca_eth_flow_points = sca_eth_flow_points
-        if att_name is not None:
-            self.att_name = att_name
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__setitem__(var_name, var_value)
+
+    def recursive_type(self, item):
+        """Gets a string describing the full the recursive type of a value"""
+        item_type = type(item)
+        if item_type == dict:
+            child_key_types = set()
+            child_value_types = set()
+            for child_key, child_value in six.iteritems(item):
+                child_key_types.add(self.recursive_type(child_key))
+                child_value_types.add(self.recursive_type(child_value))
+            if child_key_types != set(['str']):
+                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "dict(str, {0})".format(child_value_types)
+        elif item_type == list:
+            child_value_types = set()
+            for child_item in item:
+                child_value_types.add(self.recursive_type(child_item))
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "list[{0}]".format(child_value_types)
+        else:
+            return type(item).__name__
+
+    def __setitem__(self, name, value):
+        check_type = False
+        if name in self.openapi_types:
+            required_type = self.openapi_types[name]
+        else:
+            raise KeyError("{0} has no key '{1}'".format(
+                type(self).__name__, name))
+
+        passed_type = self.recursive_type(value)
+        if type(name) != str:
+            raise ValueError('Variable name must be type string and %s was not' % name)
+        elif passed_type != required_type and check_type:
+            raise ValueError('Variable value must be type %s but you passed in %s' %
+                             (required_type, passed_type))
+
+        if name in self.openapi_types:
+            setattr(self, name, value)
+        else:
+            self._data_store[name] = value
+
+    def __getitem__(self, name):
+        if name in self.openapi_types:
+            return self._data_store.get(name)
+        if name in self._data_store:
+            return self._data_store[name]
+        raise KeyError("{0} has no key {1}".format(
+            type(self).__name__, name))
 
     @property
     def small_camel(self):
@@ -80,7 +115,7 @@ class Capitalization(object):
         :return: The small_camel of this Capitalization.  # noqa: E501
         :rtype: str
         """
-        return self._small_camel
+        return self._data_store.get('small_camel')
 
     @small_camel.setter
     def small_camel(self, small_camel):
@@ -91,7 +126,7 @@ class Capitalization(object):
         :type: str
         """
 
-        self._small_camel = small_camel
+        self._data_store['small_camel'] = small_camel
 
     @property
     def capital_camel(self):
@@ -101,7 +136,7 @@ class Capitalization(object):
         :return: The capital_camel of this Capitalization.  # noqa: E501
         :rtype: str
         """
-        return self._capital_camel
+        return self._data_store.get('capital_camel')
 
     @capital_camel.setter
     def capital_camel(self, capital_camel):
@@ -112,7 +147,7 @@ class Capitalization(object):
         :type: str
         """
 
-        self._capital_camel = capital_camel
+        self._data_store['capital_camel'] = capital_camel
 
     @property
     def small_snake(self):
@@ -122,7 +157,7 @@ class Capitalization(object):
         :return: The small_snake of this Capitalization.  # noqa: E501
         :rtype: str
         """
-        return self._small_snake
+        return self._data_store.get('small_snake')
 
     @small_snake.setter
     def small_snake(self, small_snake):
@@ -133,7 +168,7 @@ class Capitalization(object):
         :type: str
         """
 
-        self._small_snake = small_snake
+        self._data_store['small_snake'] = small_snake
 
     @property
     def capital_snake(self):
@@ -143,7 +178,7 @@ class Capitalization(object):
         :return: The capital_snake of this Capitalization.  # noqa: E501
         :rtype: str
         """
-        return self._capital_snake
+        return self._data_store.get('capital_snake')
 
     @capital_snake.setter
     def capital_snake(self, capital_snake):
@@ -154,7 +189,7 @@ class Capitalization(object):
         :type: str
         """
 
-        self._capital_snake = capital_snake
+        self._data_store['capital_snake'] = capital_snake
 
     @property
     def sca_eth_flow_points(self):
@@ -164,7 +199,7 @@ class Capitalization(object):
         :return: The sca_eth_flow_points of this Capitalization.  # noqa: E501
         :rtype: str
         """
-        return self._sca_eth_flow_points
+        return self._data_store.get('sca_eth_flow_points')
 
     @sca_eth_flow_points.setter
     def sca_eth_flow_points(self, sca_eth_flow_points):
@@ -175,7 +210,7 @@ class Capitalization(object):
         :type: str
         """
 
-        self._sca_eth_flow_points = sca_eth_flow_points
+        self._data_store['sca_eth_flow_points'] = sca_eth_flow_points
 
     @property
     def att_name(self):
@@ -186,7 +221,7 @@ class Capitalization(object):
         :return: The att_name of this Capitalization.  # noqa: E501
         :rtype: str
         """
-        return self._att_name
+        return self._data_store.get('att_name')
 
     @att_name.setter
     def att_name(self, att_name):
@@ -198,14 +233,13 @@ class Capitalization(object):
         :type: str
         """
 
-        self._att_name = att_name
+        self._data_store['att_name'] = att_name
 
     def to_dict(self):
         """Returns the model properties as a dict"""
         result = {}
 
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
+        for attr, value in six.iteritems(self._data_store):
             if isinstance(value, list):
                 result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
