@@ -1325,38 +1325,67 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema instanceof ComposedSchema) { // composed schema
             ComposedSchema cs = (ComposedSchema) schema;
             List<Schema> schemas = ModelUtils.getInterfaces(cs);
-            if (cs.getAllOf() != null) {
-                List<String> names = new ArrayList<>();
-                for (Schema s : schemas) {
-                    names.add(getSingleSchemaType(s));
-                }
 
-                if (names.size() == 0) {
-                    LOGGER.error("allOf has no member defined: {}. Default to ERROR_ALLOF_SCHEMA", cs);
-                    return "ERROR_ALLOF_SCHEMA";
-                } else if (names.size() == 1) {
-                    return names.get(0);
-                } else {
-                    LOGGER.warn("allOf with multiple schemas defined. Using only the first one: {}. To fully utilize allOf, please use $ref instead of inline schema definition", names.get(0));
-                    return names.get(0);
-                }
+            List<String> names = new ArrayList<>();
+            for (Schema s : schemas) {
+                names.add(getSingleSchemaType(s));
+            }
+
+            if (cs.getAllOf() != null) {
+                return toAllOfName(names, cs);
             } else if (cs.getAnyOf() != null) { // anyOf
-                List<String> names = new ArrayList<>();
-                for (Schema s : schemas) {
-                    names.add(getSingleSchemaType(s));
-                }
-                return "anyOf<" + String.join(",", names) + ">";
+                return toAnyOfName(names, cs);
             } else if (cs.getOneOf() != null) { // oneOf
-                List<String> names = new ArrayList<>();
-                for (Schema s : schemas) {
-                    names.add(getSingleSchemaType(s));
-                }
-                return "oneOf<" + String.join(",", names) + ">";
+                return toOneOfName(names, cs);
             }
         }
 
         return getSingleSchemaType(schema);
 
+    }
+
+    /**
+     * Return the name of the allOf schema
+     *
+     * @param names          List of names
+     * @param composedSchema composed schema
+     * @return name of the allOf schema
+     */
+    @SuppressWarnings("static-method")
+    public String toAllOfName(List<String> names, ComposedSchema composedSchema) {
+        if (names.size() == 0) {
+            LOGGER.error("allOf has no member defined: {}. Default to ERROR_ALLOF_SCHEMA", composedSchema);
+            return "ERROR_ALLOF_SCHEMA";
+        } else if (names.size() == 1) {
+            return names.get(0);
+        } else {
+            LOGGER.warn("allOf with multiple schemas defined. Using only the first one: {}. To fully utilize allOf, please use $ref instead of inline schema definition", names.get(0));
+            return names.get(0);
+        }
+    }
+
+    /**
+     * Return the name of the anyOf schema
+     *
+     * @param names          List of names
+     * @param composedSchema composed schema
+     * @return name of the anyOf schema
+     */
+    @SuppressWarnings("static-method")
+    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+        return "anyOf<" + String.join(",", names) + ">";
+    }
+
+    /**
+     * Return the name of the oneOf schema
+     *
+     * @param names          List of names
+     * @param composedSchema composed schema
+     * @return name of the oneOf schema
+     */
+    @SuppressWarnings("static-method")
+    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+        return "oneOf<" + String.join(",", names) + ">";
     }
 
     private String getSingleSchemaType(Schema schema) {
