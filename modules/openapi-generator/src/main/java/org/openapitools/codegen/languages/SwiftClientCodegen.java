@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -510,10 +509,10 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation) {
         path = normalizePath(path); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // issue 3914 - removed logic designed to remove any parameter of type HeaderParameter
-        return super.fromOperation(path, httpMethod, operation, definitions, openAPI);
+        return super.fromOperation(path, httpMethod, operation);
     }
 
     private static String normalizePath(String path) {

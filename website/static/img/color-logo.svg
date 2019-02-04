@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1749 1749" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <g transform="matrix(1,0,0,1,-592.458,-258.668)">
+        <g id="Final">
+            <g id="Wrench-Final" serif:id="Wrench Final" transform="matrix(0.707107,-0.707107,0.707107,0.707107,-388.478,1362.13)">
+                <path d="M2050,1267.5L2050,1350L1650,1750C1521.29,1750 1378.71,1750 1250,1750L885,1385L472.253,1385L472.253,915L885,915L1250,550L1650,550L2050,950L2050,1032.5L1779.76,1032.5C1731.43,897.052 1601.96,800 1450,800C1256.83,800 1100,956.83 1100,1150C1100,1343.17 1256.83,1500 1450,1500C1601.96,1500 1731.43,1402.95 1779.76,1267.5L2050,1267.5Z" style="fill:rgb(159,197,84);"/>
+            </g>
+            <g id="Interface-Final" serif:id="Interface Final" transform="matrix(0.707107,-0.707107,0.707107,0.707107,-388.478,1362.13)">
+                <path d="M2236.92,1090C2262.43,1008.89 2338.26,950 2427.75,950C2538.13,950 2627.75,1039.62 2627.75,1150C2627.75,1260.38 2538.13,1350 2427.75,1350C2338.26,1350 2262.43,1291.11 2236.92,1210L1640.83,1210C1615.32,1291.11 1539.48,1350 1450,1350C1339.62,1350 1250,1260.38 1250,1150C1250,1039.62 1339.62,950 1450,950C1539.48,950 1615.32,1008.89 1640.83,1090L2236.92,1090Z" style="fill:rgb(66,65,67);"/>
+            </g>
+        </g>
+    </g>
+</svg>

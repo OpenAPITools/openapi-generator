@@ -17,16 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-
-import io.swagger.v3.oas.models.media.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;

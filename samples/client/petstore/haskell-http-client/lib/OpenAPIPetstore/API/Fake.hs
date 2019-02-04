@@ -57,6 +57,44 @@ import qualified Prelude as P
 
 -- ** Fake
 
+-- *** createXmlItem
+
+-- | @POST \/fake\/create_xml_item@
+-- 
+-- creates an XmlItem
+-- 
+-- this route creates an XmlItem
+-- 
+createXmlItem 
+  :: (Consumes CreateXmlItem contentType, MimeRender contentType XmlItem)
+  => ContentType contentType -- ^ request content-type ('MimeType')
+  -> XmlItem -- ^ "xmlItem" -  XmlItem Body
+  -> OpenAPIPetstoreRequest CreateXmlItem contentType NoContent MimeNoContent
+createXmlItem _ xmlItem =
+  _mkRequest "POST" ["/fake/create_xml_item"]
+    `setBodyParam` xmlItem
+
+data CreateXmlItem 
+
+-- | /Body Param/ "XmlItem" - XmlItem Body
+instance HasBodyParam CreateXmlItem XmlItem 
+
+-- | @application/xml@
+instance Consumes CreateXmlItem MimeXML
+-- | @text/xml@
+instance Consumes CreateXmlItem MimeTextxml
+-- | @text/xml; charset=utf-8@
+instance Consumes CreateXmlItem MimeTextxmlCharsetutf8
+-- | @text/xml; charset=utf-16@
+instance Consumes CreateXmlItem MimeTextxmlCharsetutf16
+-- | @application/xml; charset=utf-8@
+instance Consumes CreateXmlItem MimeXmlCharsetutf8
+-- | @application/xml; charset=utf-16@
+instance Consumes CreateXmlItem MimeXmlCharsetutf16
+
+instance Produces CreateXmlItem MimeNoContent
+
+
 -- *** fakeOuterBooleanSerialize
 
 -- | @POST \/fake\/outer\/boolean@

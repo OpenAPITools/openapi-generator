@@ -17,12 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.*;
+import org.openapitools.codegen.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
+
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 

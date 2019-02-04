@@ -1,13 +1,12 @@
 
-CONFIG OPTIONS for r
+---
+id: generator-opts-client-r
+title: Config Options for r
+sidebar_label: r
+---
 
-	packageName
-	    R package name (convention: lowercase). (Default: openapi)
-
-	packageVersion
-	    R package version. (Default: 1.0.0)
-
-	hideGenerationTimestamp
-	    Hides the generation timestamp when files are generated. (Default: true)
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|packageName|R package name (convention: lowercase).| |openapi|
+|packageVersion|R package version.| |1.0.0|
+|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|

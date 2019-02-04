@@ -23,25 +23,11 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.Markdown;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "org.openapitools.client";
@@ -194,7 +180,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         Info info = openAPI.getInfo();
         info.setDescription(toHtml(info.getDescription()));
         info.setTitle(toHtml(info.getTitle()));
-        Map<String, Schema> models = openAPI.getComponents().getSchemas();
+        Map<String, Schema> models = ModelUtils.getSchemas(openAPI);
         for (Schema model : models.values()) {
             model.setDescription(toHtml(model.getDescription()));
             model.setTitle(toHtml(model.getTitle()));

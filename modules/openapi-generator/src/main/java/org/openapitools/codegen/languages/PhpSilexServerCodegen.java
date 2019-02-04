@@ -17,24 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.media.*;
-
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
+import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;

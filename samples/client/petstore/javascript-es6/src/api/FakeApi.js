@@ -17,6 +17,7 @@ import Client from '../model/Client';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import OuterComposite from '../model/OuterComposite';
 import User from '../model/User';
+import XmlItem from '../model/XmlItem';
 
 /**
 * Fake service.
@@ -36,6 +37,50 @@ export default class FakeApi {
         this.apiClient = apiClient || ApiClient.instance;
     }
 
+
+    /**
+     * Callback function to receive the result of the createXmlItem operation.
+     * @callback module:api/FakeApi~createXmlItemCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     * @param {module:model/XmlItem} xmlItem XmlItem Body
+     * @param {module:api/FakeApi~createXmlItemCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    createXmlItem(xmlItem, callback) {
+      let postBody = xmlItem;
+
+      // verify the required parameter 'xmlItem' is set
+      if (xmlItem === undefined || xmlItem === null) {
+        throw new Error("Missing the required parameter 'xmlItem' when calling createXmlItem");
+      }
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/xml', 'application/xml; charset=utf-8', 'application/xml; charset=utf-16', 'text/xml', 'text/xml; charset=utf-8', 'text/xml; charset=utf-16'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.apiClient.callApi(
+        '/fake/create_xml_item', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
 
     /**
      * Callback function to receive the result of the fakeOuterBooleanSerialize operation.

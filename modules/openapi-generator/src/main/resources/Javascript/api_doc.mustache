@@ -23,11 +23,19 @@ Method | HTTP request | Description
 var {{{moduleName}}} = require('{{{projectName}}}');
 {{#hasAuthMethods}}
 var defaultClient = {{{moduleName}}}.ApiClient.instance;
-{{#authMethods}}{{#isBasic}}
+{{#authMethods}}
+{{#isBasic}}
+{{^isBasicBearer}}
 // Configure HTTP basic authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.username = 'YOUR USERNAME';
 {{{name}}}.password = 'YOUR PASSWORD';
+{{/isBasicBearer}}
+{{#isBasicBearer}}
+// Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
+var {{{name}}} = defaultClient.authentications['{{{name}}}'];
+{{{name}}}.accessToken = 'YOUR ACCESS TOKEN';
+{{/isBasicBearer}}
 {{/isBasic}}
 {{#isApiKey}}
 // Configure API key authorization: {{{name}}}

@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
@@ -26,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
 
 public class GoClientCodegen extends AbstractGoCodegen {
 

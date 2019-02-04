@@ -64,3 +64,4 @@ from petstore_api.models.tag import Tag
 from petstore_api.models.type_holder_default import TypeHolderDefault
 from petstore_api.models.type_holder_example import TypeHolderExample
 from petstore_api.models.user import User
+from petstore_api.models.xml_item import XmlItem

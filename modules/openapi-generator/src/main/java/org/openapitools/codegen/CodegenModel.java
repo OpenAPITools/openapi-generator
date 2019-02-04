@@ -17,12 +17,11 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.models.ExternalDocumentation;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel {

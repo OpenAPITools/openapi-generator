@@ -19,16 +19,11 @@ package org.openapitools.codegen.utils;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -195,11 +190,9 @@ public class ModelUtilsTest {
         ));
         Schema refToComposedSchema = new Schema().$ref("#/components/schemas/SomeComposedSchema");
 
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("SomeComposedSchema", composedSchema);
 
-        Map<String, Schema> allSchemas = new HashMap<>();
-        allSchemas.put("SomeComposedSchema", composedSchema);
-
-        Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(allSchemas, refToComposedSchema));
+        Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(openAPI, refToComposedSchema));
     }
 
     /**

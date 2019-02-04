@@ -245,8 +245,8 @@ module Petstore
       servers = server_settings
 
       # check array index out of bound
-      if (index < 0 || index > servers.size)
-        fail ArgumentError "Invalid index #{index} when selecting the server. Must be less than #{servers.size}"
+      if (index < 0 || index >= servers.size)
+        fail ArgumentError, "Invalid index #{index} when selecting the server. Must be less than #{servers.size}"
       end
 
       server = servers[index]

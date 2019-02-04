@@ -15,6 +15,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.virtualan.model.OuterComposite;
 import org.springframework.core.io.Resource;
 import org.openapitools.virtualan.model.User;
+import org.openapitools.virtualan.model.XmlItem;
 import io.swagger.annotations.*;
 import io.virtualan.annotation.ApiVirtual;
 import io.virtualan.annotation.VirtualService;
@@ -46,6 +47,19 @@ public interface FakeApi {
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
+
+    @ApiVirtual
+    @ApiOperation(value = "creates an XmlItem", nickname = "createXmlItem", notes = "this route creates an XmlItem", tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation") })
+    @RequestMapping(value = "/fake/create_xml_item",
+        consumes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" },
+        method = RequestMethod.POST)
+    default ResponseEntity<Void> createXmlItem(@ApiParam(value = "XmlItem Body" ,required=true )  @Valid @RequestBody XmlItem xmlItem) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
 
     @ApiVirtual
     @ApiOperation(value = "", nickname = "fakeOuterBooleanSerialize", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })

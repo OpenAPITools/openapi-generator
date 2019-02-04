@@ -57,13 +57,13 @@ UserApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    create_user = function(user, ...){
+    create_user = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
-      if (!missing(`user`)) {
-        body <- `user`$toJSONString()
+      if (!missing(`body`)) {
+        body <- `body`$toJSONString()
       } else {
         body <- NULL
       }
@@ -85,13 +85,13 @@ UserApi <- R6::R6Class(
       }
 
     },
-    create_users_with_array_input = function(user, ...){
+    create_users_with_array_input = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
-      if (!missing(`user`)) {
-        body <- `user`$toJSONString()
+      if (!missing(`body`)) {
+        body <- `body`$toJSONString()
       } else {
         body <- NULL
       }
@@ -113,13 +113,13 @@ UserApi <- R6::R6Class(
       }
 
     },
-    create_users_with_list_input = function(user, ...){
+    create_users_with_list_input = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
-      if (!missing(`user`)) {
-        body <- `user`$toJSONString()
+      if (!missing(`body`)) {
+        body <- `body`$toJSONString()
       } else {
         body <- NULL
       }
@@ -185,9 +185,7 @@ UserApi <- R6::R6Class(
                                  ...)
       
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        returnObject <- User$new()
-        result <- returnObject$fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
-        Response$new(returnObject, resp)
+                jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         Response$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -217,9 +215,7 @@ UserApi <- R6::R6Class(
                                  ...)
       
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        returnObject <- Character$new()
-        result <- returnObject$fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
-        Response$new(returnObject, resp)
+                jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         Response$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -249,13 +245,13 @@ UserApi <- R6::R6Class(
       }
 
     },
-    update_user = function(username, user, ...){
+    update_user = function(username, body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
-      if (!missing(`user`)) {
-        body <- `user`$toJSONString()
+      if (!missing(`body`)) {
+        body <- `body`$toJSONString()
       } else {
         body <- NULL
       }

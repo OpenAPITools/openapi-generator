@@ -17,8 +17,6 @@
 
 package org.openapitools.codegen;
 
-import io.swagger.v3.oas.models.security.Scopes;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -31,6 +29,7 @@ public class CodegenSecurity {
     public Boolean hasMore, isBasic, isOAuth, isApiKey;
     // is Basic is true for all http authentication type. Those are to differentiate basic and bearer authentication
     public Boolean isBasicBasic, isBasicBearer;
+    public String bearerFormat;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     // ApiKey specific
     public String keyParamName;
@@ -59,6 +58,12 @@ public class CodegenSecurity {
         if (hasMore != null ? !hasMore.equals(that.hasMore) : that.hasMore != null)
             return false;
         if (isBasic != null ? !isBasic.equals(that.isBasic) : that.isBasic != null)
+            return false;
+        if (isBasicBasic != null ? !isBasicBasic.equals(that.isBasicBasic) : that.isBasicBasic != null)
+            return false;
+        if (isBasicBearer != null ? !isBasicBearer.equals(that.isBasicBearer) : that.isBasicBearer != null)
+            return false;
+        if (bearerFormat != null ? !bearerFormat.equals(that.bearerFormat) : that.bearerFormat != null)
             return false;
         if (isOAuth != null ? !isOAuth.equals(that.isOAuth) : that.isOAuth != null)
             return false;
@@ -96,6 +101,9 @@ public class CodegenSecurity {
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (hasMore != null ? hasMore.hashCode() : 0);
         result = 31 * result + (isBasic != null ? isBasic.hashCode() : 0);
+        result = 31 * result + (isBasicBasic != null ? isBasicBasic.hashCode() : 0);
+        result = 31 * result + (isBasicBearer != null ? isBasicBearer.hashCode() : 0);
+        result = 31 * result + (bearerFormat != null ? bearerFormat.hashCode() : 0);
         result = 31 * result + (isOAuth != null ? isOAuth.hashCode() : 0);
         result = 31 * result + (isApiKey != null ? isApiKey.hashCode() : 0);
         result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);

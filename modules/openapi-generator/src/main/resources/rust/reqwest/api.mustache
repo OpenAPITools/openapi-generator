@@ -4,7 +4,7 @@ use std::borrow::Borrow;
 
 use reqwest;
 
-use super::{Error, configuration};
+use super::{Error, configuration, urlencode};
 
 pub struct {{{classname}}}Client {
     configuration: Rc<configuration::Configuration>,
@@ -26,7 +26,6 @@ pub trait {{{classname}}} {
 {{/operations}}
 }
 
-
 impl {{{classname}}} for {{{classname}}}Client {
 {{#operations}}
 {{#operation}}
@@ -34,39 +33,29 @@ impl {{{classname}}} for {{{classname}}}Client {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
-        let query_string = {
-            let mut query = ::url::form_urlencoded::Serializer::new(String::new());
-{{#queryParams}}
-            query.append_pair("{{{baseName}}}", &{{{paramName}}}{{#isListContainer}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string());
-{{/queryParams}}
-{{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
-            if let Some(ref apikey) = configuration.api_key {
-                let key = apikey.key.clone();
-                let val = match apikey.prefix {
-                    Some(ref prefix) => format!("{} {}", prefix, key),
-                    None => key,
-                };
-                query.append_pair("{{{keyParamName}}}".to_owned(), val);
-            }
-{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}
-            query.finish()
-        };
-        let uri_str = format!("{}{{{path}}}?{}", configuration.base_path, query_string{{#pathParams}}, {{{baseName}}}={{{paramName}}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}}{{/pathParams}});
-
+        let uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}urlencode({{/isString}}{{{paramName}}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}}{{#isString}}){{/isString}}{{/pathParams}});
         let mut req_builder = client.{{{httpMethod}}}(uri_str.as_str());
 
+        {{#queryParams}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}{{#isListContainer}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string())]);
+        {{/queryParams}}
+        {{#hasAuthMethods}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}
+        if let Some(ref apikey) = configuration.api_key {
+            let key = apikey.key.clone();
+            let val = match apikey.prefix {
+                Some(ref prefix) => format!("{} {}", prefix, key),
+                None => key,
+            };
+            req_builder = req_builder.query(&[("{{{keyParamName}}}", val)]);
+        }
+        {{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}{{/hasAuthMethods}}
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-
-        {{#hasHeaderParams}}
-        {{#headerParams}}
+        {{#hasHeaderParams}}{{#headerParams}}
         req_builder = req_builder.header("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
-        {{/headerParams}}
-        {{/hasHeaderParams}}
-
-        {{#hasAuthMethods}}
-        {{#authMethods}}
+        {{/headerParams}}{{/hasHeaderParams}}
+        {{#hasAuthMethods}}{{#authMethods}}
         {{#isApiKey}}{{#isKeyInHeader}}
         if let Some(ref apikey) = configuration.api_key {
             let key = apikey.key.clone();
@@ -87,14 +76,34 @@ impl {{{classname}}} for {{{classname}}}Client {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
         {{/isOAuth}}
-        {{/authMethods}}
-        {{/hasAuthMethods}}
-
-        {{#hasBodyParam}}
-        {{#bodyParams}}
+        {{/authMethods}}{{/hasAuthMethods}}
+        {{#isMultipart}}{{#hasFormParams}}
+        let form = reqwest::multipart::Form::new()
+        {{#formParams}}
+        {{#isFile}}
+            .file("{{{baseName}}}", {{{paramName}}})?{{#-last}};{{/-last}}
+        {{/isFile}}
+        {{^isFile}}
+            .text("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string()){{#-last}};{{/-last}}
+        {{/isFile}}
+        {{/formParams}}
+        req_builder = req_builder.multipart(form);
+        {{/hasFormParams}}{{/isMultipart}}
+        {{^isMultipart}}{{#hasFormParams}}
+        let mut form_params = std::collections::HashMap::new();
+        {{#formParams}}
+        {{#isFile}}
+        form_params.insert("{{{baseName}}}", unimplemented!("File form param not supported with x-www-form-urlencoded content"));
+        {{/isFile}}
+        {{^isFile}}
+        form_params.insert("{{{baseName}}}", {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/isFile}}
+        {{/formParams}}
+        req_builder = req_builder.form(&form_params);
+        {{/hasFormParams}}{{/isMultipart}}
+        {{#hasBodyParam}}{{#bodyParams}}
         req_builder = req_builder.json(&{{{paramName}}});
-        {{/bodyParams}}
-        {{/hasBodyParam}}
+        {{/bodyParams}}{{/hasBodyParam}}
 
         // send request
         let req = req_builder.build()?;
