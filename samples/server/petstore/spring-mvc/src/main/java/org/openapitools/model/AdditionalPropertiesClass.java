@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  * AdditionalPropertiesClass
  */
 
-public class AdditionalPropertiesClass   {
+public class AdditionalPropertiesClass extends HashMap<String, String>  {
   @JsonProperty("map_property")
   @Valid
   private Map<String, String> mapProperty = null;
@@ -93,19 +93,20 @@ public class AdditionalPropertiesClass   {
     }
     AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
     return Objects.equals(this.mapProperty, additionalPropertiesClass.mapProperty) &&
-        Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty);
+        Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(mapProperty, mapOfMapProperty);
+    return Objects.hash(mapProperty, mapOfMapProperty, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesClass {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    mapProperty: ").append(toIndentedString(mapProperty)).append("\n");
     sb.append("    mapOfMapProperty: ").append(toIndentedString(mapOfMapProperty)).append("\n");
     sb.append("}");

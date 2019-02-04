@@ -33,19 +33,69 @@ class InlineResponseDefault(object):
     openapi_types = {
         'string': 'Foo'
     }
-
     attribute_map = {
         'string': 'string'
     }
 
-    def __init__(self, string=None):  # noqa: E501
+    def __init__(self, **kwargs):  # noqa: E501
         """InlineResponseDefault - a model defined in OpenAPI"""  # noqa: E501
 
-        self._string = None
+        self._data_store = {}
+
         self.discriminator = None
 
-        if string is not None:
-            self.string = string
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__setitem__(var_name, var_value)
+
+    def recursive_type(self, item):
+        """Gets a string describing the full the recursive type of a value"""
+        item_type = type(item)
+        if item_type == dict:
+            child_key_types = set()
+            child_value_types = set()
+            for child_key, child_value in six.iteritems(item):
+                child_key_types.add(self.recursive_type(child_key))
+                child_value_types.add(self.recursive_type(child_value))
+            if child_key_types != set(['str']):
+                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "dict(str, {0})".format(child_value_types)
+        elif item_type == list:
+            child_value_types = set()
+            for child_item in item:
+                child_value_types.add(self.recursive_type(child_item))
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "list[{0}]".format(child_value_types)
+        else:
+            return type(item).__name__
+
+    def __setitem__(self, name, value):
+        check_type = False
+        if name in self.openapi_types:
+            required_type = self.openapi_types[name]
+        else:
+            raise KeyError("{0} has no key '{1}'".format(
+                type(self).__name__, name))
+
+        passed_type = self.recursive_type(value)
+        if type(name) != str:
+            raise ValueError('Variable name must be type string and %s was not' % name)
+        elif passed_type != required_type and check_type:
+            raise ValueError('Variable value must be type %s but you passed in %s' %
+                             (required_type, passed_type))
+
+        if name in self.openapi_types:
+            setattr(self, name, value)
+        else:
+            self._data_store[name] = value
+
+    def __getitem__(self, name):
+        if name in self.openapi_types:
+            return self._data_store.get(name)
+        if name in self._data_store:
+            return self._data_store[name]
+        raise KeyError("{0} has no key {1}".format(
+            type(self).__name__, name))
 
     @property
     def string(self):
@@ -55,7 +105,7 @@ class InlineResponseDefault(object):
         :return: The string of this InlineResponseDefault.  # noqa: E501
         :rtype: Foo
         """
-        return self._string
+        return self._data_store.get('string')
 
     @string.setter
     def string(self, string):
@@ -66,14 +116,13 @@ class InlineResponseDefault(object):
         :type: Foo
         """
 
-        self._string = string
+        self._data_store['string'] = string
 
     def to_dict(self):
         """Returns the model properties as a dict"""
         result = {}
 
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
+        for attr, value in six.iteritems(self._data_store):
             if isinstance(value, list):
                 result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,

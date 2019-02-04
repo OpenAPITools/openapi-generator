@@ -38,7 +38,6 @@ class Pet(object):
         'tags': 'list[Tag]',
         'status': 'str'
     }
-
     attribute_map = {
         'id': 'id',
         'category': 'category',
@@ -48,27 +47,67 @@ class Pet(object):
         'status': 'status'
     }
 
-    def __init__(self, id=None, category=None, name=None, photo_urls=None, tags=None, status=None):  # noqa: E501
+    def __init__(self, photo_urls, name='doggie', **kwargs):  # noqa: E501
         """Pet - a model defined in OpenAPI"""  # noqa: E501
 
-        self._id = None
-        self._category = None
-        self._name = None
-        self._photo_urls = None
-        self._tags = None
-        self._status = None
-        self.discriminator = None
+        self._data_store = {}
 
-        if id is not None:
-            self.id = id
-        if category is not None:
-            self.category = category
-        self.name = name
-        self.photo_urls = photo_urls
-        if tags is not None:
-            self.tags = tags
-        if status is not None:
-            self.status = status
+        self.discriminator = None
+        self.__setitem__('name', name)
+        self.__setitem__('photo_urls', photo_urls)
+
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__setitem__(var_name, var_value)
+
+    def recursive_type(self, item):
+        """Gets a string describing the full the recursive type of a value"""
+        item_type = type(item)
+        if item_type == dict:
+            child_key_types = set()
+            child_value_types = set()
+            for child_key, child_value in six.iteritems(item):
+                child_key_types.add(self.recursive_type(child_key))
+                child_value_types.add(self.recursive_type(child_value))
+            if child_key_types != set(['str']):
+                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "dict(str, {0})".format(child_value_types)
+        elif item_type == list:
+            child_value_types = set()
+            for child_item in item:
+                child_value_types.add(self.recursive_type(child_item))
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "list[{0}]".format(child_value_types)
+        else:
+            return type(item).__name__
+
+    def __setitem__(self, name, value):
+        check_type = False
+        if name in self.openapi_types:
+            required_type = self.openapi_types[name]
+        else:
+            raise KeyError("{0} has no key '{1}'".format(
+                type(self).__name__, name))
+
+        passed_type = self.recursive_type(value)
+        if type(name) != str:
+            raise ValueError('Variable name must be type string and %s was not' % name)
+        elif passed_type != required_type and check_type:
+            raise ValueError('Variable value must be type %s but you passed in %s' %
+                             (required_type, passed_type))
+
+        if name in self.openapi_types:
+            setattr(self, name, value)
+        else:
+            self._data_store[name] = value
+
+    def __getitem__(self, name):
+        if name in self.openapi_types:
+            return self._data_store.get(name)
+        if name in self._data_store:
+            return self._data_store[name]
+        raise KeyError("{0} has no key {1}".format(
+            type(self).__name__, name))
 
     @property
     def id(self):
@@ -78,7 +117,7 @@ class Pet(object):
         :return: The id of this Pet.  # noqa: E501
         :rtype: int
         """
-        return self._id
+        return self._data_store.get('id')
 
     @id.setter
     def id(self, id):
@@ -89,7 +128,7 @@ class Pet(object):
         :type: int
         """
 
-        self._id = id
+        self._data_store['id'] = id
 
     @property
     def category(self):
@@ -99,7 +138,7 @@ class Pet(object):
         :return: The category of this Pet.  # noqa: E501
         :rtype: Category
         """
-        return self._category
+        return self._data_store.get('category')
 
     @category.setter
     def category(self, category):
@@ -110,7 +149,7 @@ class Pet(object):
         :type: Category
         """
 
-        self._category = category
+        self._data_store['category'] = category
 
     @property
     def name(self):
@@ -120,7 +159,7 @@ class Pet(object):
         :return: The name of this Pet.  # noqa: E501
         :rtype: str
         """
-        return self._name
+        return self._data_store.get('name')
 
     @name.setter
     def name(self, name):
@@ -133,7 +172,7 @@ class Pet(object):
         if name is None:
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._name = name
+        self._data_store['name'] = name
 
     @property
     def photo_urls(self):
@@ -143,7 +182,7 @@ class Pet(object):
         :return: The photo_urls of this Pet.  # noqa: E501
         :rtype: list[str]
         """
-        return self._photo_urls
+        return self._data_store.get('photo_urls')
 
     @photo_urls.setter
     def photo_urls(self, photo_urls):
@@ -156,7 +195,7 @@ class Pet(object):
         if photo_urls is None:
             raise ValueError("Invalid value for `photo_urls`, must not be `None`")  # noqa: E501
 
-        self._photo_urls = photo_urls
+        self._data_store['photo_urls'] = photo_urls
 
     @property
     def tags(self):
@@ -166,7 +205,7 @@ class Pet(object):
         :return: The tags of this Pet.  # noqa: E501
         :rtype: list[Tag]
         """
-        return self._tags
+        return self._data_store.get('tags')
 
     @tags.setter
     def tags(self, tags):
@@ -177,7 +216,7 @@ class Pet(object):
         :type: list[Tag]
         """
 
-        self._tags = tags
+        self._data_store['tags'] = tags
 
     @property
     def status(self):
@@ -188,7 +227,7 @@ class Pet(object):
         :return: The status of this Pet.  # noqa: E501
         :rtype: str
         """
-        return self._status
+        return self._data_store.get('status')
 
     @status.setter
     def status(self, status):
@@ -206,14 +245,13 @@ class Pet(object):
                 .format(status, allowed_values)
             )
 
-        self._status = status
+        self._data_store['status'] = status
 
     def to_dict(self):
         """Returns the model properties as a dict"""
         result = {}
 
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
+        for attr, value in six.iteritems(self._data_store):
             if isinstance(value, list):
                 result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,

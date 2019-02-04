@@ -27,7 +27,7 @@ import java.util.Map;
  * AdditionalPropertiesClass
  */
 
-public class AdditionalPropertiesClass {
+public class AdditionalPropertiesClass extends HashMap<String, String> {
   @JsonProperty("map_property")
   private Map<String, String> mapProperty = new HashMap<String, String>();
 
@@ -97,12 +97,13 @@ public class AdditionalPropertiesClass {
   }
     AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
     return ObjectUtils.equals(this.mapProperty, additionalPropertiesClass.mapProperty) &&
-    ObjectUtils.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty);
+    ObjectUtils.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty) &&
+    super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return ObjectUtils.hashCodeMulti(mapProperty, mapOfMapProperty);
+    return ObjectUtils.hashCodeMulti(mapProperty, mapOfMapProperty, super.hashCode());
   }
 
 
@@ -110,6 +111,7 @@ public class AdditionalPropertiesClass {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesClass {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    mapProperty: ").append(toIndentedString(mapProperty)).append("\n");
     sb.append("    mapOfMapProperty: ").append(toIndentedString(mapOfMapProperty)).append("\n");
     sb.append("}");

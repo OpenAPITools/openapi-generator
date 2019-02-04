@@ -46,7 +46,6 @@ class InlineObject3(object):
         'password': 'str',
         'callback': 'str'
     }
-
     attribute_map = {
         'integer': 'integer',
         'int32': 'int32',
@@ -64,49 +63,69 @@ class InlineObject3(object):
         'callback': 'callback'
     }
 
-    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, pattern_without_delimiter=None, byte=None, binary=None, date=None, date_time=None, password=None, callback=None):  # noqa: E501
+    def __init__(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
         """InlineObject3 - a model defined in OpenAPI"""  # noqa: E501
 
-        self._integer = None
-        self._int32 = None
-        self._int64 = None
-        self._number = None
-        self._float = None
-        self._double = None
-        self._string = None
-        self._pattern_without_delimiter = None
-        self._byte = None
-        self._binary = None
-        self._date = None
-        self._date_time = None
-        self._password = None
-        self._callback = None
-        self.discriminator = None
+        self._data_store = {}
 
-        if integer is not None:
-            self.integer = integer
-        if int32 is not None:
-            self.int32 = int32
-        if int64 is not None:
-            self.int64 = int64
-        self.number = number
-        if float is not None:
-            self.float = float
-        self.double = double
-        if string is not None:
-            self.string = string
-        self.pattern_without_delimiter = pattern_without_delimiter
-        self.byte = byte
-        if binary is not None:
-            self.binary = binary
-        if date is not None:
-            self.date = date
-        if date_time is not None:
-            self.date_time = date_time
-        if password is not None:
-            self.password = password
-        if callback is not None:
-            self.callback = callback
+        self.discriminator = None
+        self.__setitem__('number', number)
+        self.__setitem__('double', double)
+        self.__setitem__('pattern_without_delimiter', pattern_without_delimiter)
+        self.__setitem__('byte', byte)
+
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__setitem__(var_name, var_value)
+
+    def recursive_type(self, item):
+        """Gets a string describing the full the recursive type of a value"""
+        item_type = type(item)
+        if item_type == dict:
+            child_key_types = set()
+            child_value_types = set()
+            for child_key, child_value in six.iteritems(item):
+                child_key_types.add(self.recursive_type(child_key))
+                child_value_types.add(self.recursive_type(child_value))
+            if child_key_types != set(['str']):
+                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "dict(str, {0})".format(child_value_types)
+        elif item_type == list:
+            child_value_types = set()
+            for child_item in item:
+                child_value_types.add(self.recursive_type(child_item))
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "list[{0}]".format(child_value_types)
+        else:
+            return type(item).__name__
+
+    def __setitem__(self, name, value):
+        check_type = False
+        if name in self.openapi_types:
+            required_type = self.openapi_types[name]
+        else:
+            raise KeyError("{0} has no key '{1}'".format(
+                type(self).__name__, name))
+
+        passed_type = self.recursive_type(value)
+        if type(name) != str:
+            raise ValueError('Variable name must be type string and %s was not' % name)
+        elif passed_type != required_type and check_type:
+            raise ValueError('Variable value must be type %s but you passed in %s' %
+                             (required_type, passed_type))
+
+        if name in self.openapi_types:
+            setattr(self, name, value)
+        else:
+            self._data_store[name] = value
+
+    def __getitem__(self, name):
+        if name in self.openapi_types:
+            return self._data_store.get(name)
+        if name in self._data_store:
+            return self._data_store[name]
+        raise KeyError("{0} has no key {1}".format(
+            type(self).__name__, name))
 
     @property
     def integer(self):
@@ -117,7 +136,7 @@ class InlineObject3(object):
         :return: The integer of this InlineObject3.  # noqa: E501
         :rtype: int
         """
-        return self._integer
+        return self._data_store.get('integer')
 
     @integer.setter
     def integer(self, integer):
@@ -133,7 +152,7 @@ class InlineObject3(object):
         if integer is not None and integer < 10:  # noqa: E501
             raise ValueError("Invalid value for `integer`, must be a value greater than or equal to `10`")  # noqa: E501
 
-        self._integer = integer
+        self._data_store['integer'] = integer
 
     @property
     def int32(self):
@@ -144,7 +163,7 @@ class InlineObject3(object):
         :return: The int32 of this InlineObject3.  # noqa: E501
         :rtype: int
         """
-        return self._int32
+        return self._data_store.get('int32')
 
     @int32.setter
     def int32(self, int32):
@@ -160,7 +179,7 @@ class InlineObject3(object):
         if int32 is not None and int32 < 20:  # noqa: E501
             raise ValueError("Invalid value for `int32`, must be a value greater than or equal to `20`")  # noqa: E501
 
-        self._int32 = int32
+        self._data_store['int32'] = int32
 
     @property
     def int64(self):
@@ -171,7 +190,7 @@ class InlineObject3(object):
         :return: The int64 of this InlineObject3.  # noqa: E501
         :rtype: int
         """
-        return self._int64
+        return self._data_store.get('int64')
 
     @int64.setter
     def int64(self, int64):
@@ -183,7 +202,7 @@ class InlineObject3(object):
         :type: int
         """
 
-        self._int64 = int64
+        self._data_store['int64'] = int64
 
     @property
     def number(self):
@@ -194,7 +213,7 @@ class InlineObject3(object):
         :return: The number of this InlineObject3.  # noqa: E501
         :rtype: float
         """
-        return self._number
+        return self._data_store.get('number')
 
     @number.setter
     def number(self, number):
@@ -212,7 +231,7 @@ class InlineObject3(object):
         if number is not None and number < 32.1:  # noqa: E501
             raise ValueError("Invalid value for `number`, must be a value greater than or equal to `32.1`")  # noqa: E501
 
-        self._number = number
+        self._data_store['number'] = number
 
     @property
     def float(self):
@@ -223,7 +242,7 @@ class InlineObject3(object):
         :return: The float of this InlineObject3.  # noqa: E501
         :rtype: float
         """
-        return self._float
+        return self._data_store.get('float')
 
     @float.setter
     def float(self, float):
@@ -237,7 +256,7 @@ class InlineObject3(object):
         if float is not None and float > 987.6:  # noqa: E501
             raise ValueError("Invalid value for `float`, must be a value less than or equal to `987.6`")  # noqa: E501
 
-        self._float = float
+        self._data_store['float'] = float
 
     @property
     def double(self):
@@ -248,7 +267,7 @@ class InlineObject3(object):
         :return: The double of this InlineObject3.  # noqa: E501
         :rtype: float
         """
-        return self._double
+        return self._data_store.get('double')
 
     @double.setter
     def double(self, double):
@@ -266,7 +285,7 @@ class InlineObject3(object):
         if double is not None and double < 67.8:  # noqa: E501
             raise ValueError("Invalid value for `double`, must be a value greater than or equal to `67.8`")  # noqa: E501
 
-        self._double = double
+        self._data_store['double'] = double
 
     @property
     def string(self):
@@ -277,7 +296,7 @@ class InlineObject3(object):
         :return: The string of this InlineObject3.  # noqa: E501
         :rtype: str
         """
-        return self._string
+        return self._data_store.get('string')
 
     @string.setter
     def string(self, string):
@@ -288,10 +307,10 @@ class InlineObject3(object):
         :param string: The string of this InlineObject3.  # noqa: E501
         :type: str
         """
-        if string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE):  # noqa: E501
+        if string is not None and not re.search(r'', string):  # noqa: E501
             raise ValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
 
-        self._string = string
+        self._data_store['string'] = string
 
     @property
     def pattern_without_delimiter(self):
@@ -302,7 +321,7 @@ class InlineObject3(object):
         :return: The pattern_without_delimiter of this InlineObject3.  # noqa: E501
         :rtype: str
         """
-        return self._pattern_without_delimiter
+        return self._data_store.get('pattern_without_delimiter')
 
     @pattern_without_delimiter.setter
     def pattern_without_delimiter(self, pattern_without_delimiter):
@@ -315,10 +334,10 @@ class InlineObject3(object):
         """
         if pattern_without_delimiter is None:
             raise ValueError("Invalid value for `pattern_without_delimiter`, must not be `None`")  # noqa: E501
-        if pattern_without_delimiter is not None and not re.search(r'^[A-Z].*', pattern_without_delimiter):  # noqa: E501
+        if pattern_without_delimiter is not None and not re.search(r'', pattern_without_delimiter):  # noqa: E501
             raise ValueError(r"Invalid value for `pattern_without_delimiter`, must be a follow pattern or equal to `/^[A-Z].*/`")  # noqa: E501
 
-        self._pattern_without_delimiter = pattern_without_delimiter
+        self._data_store['pattern_without_delimiter'] = pattern_without_delimiter
 
     @property
     def byte(self):
@@ -329,7 +348,7 @@ class InlineObject3(object):
         :return: The byte of this InlineObject3.  # noqa: E501
         :rtype: str
         """
-        return self._byte
+        return self._data_store.get('byte')
 
     @byte.setter
     def byte(self, byte):
@@ -343,7 +362,7 @@ class InlineObject3(object):
         if byte is None:
             raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
 
-        self._byte = byte
+        self._data_store['byte'] = byte
 
     @property
     def binary(self):
@@ -354,7 +373,7 @@ class InlineObject3(object):
         :return: The binary of this InlineObject3.  # noqa: E501
         :rtype: file
         """
-        return self._binary
+        return self._data_store.get('binary')
 
     @binary.setter
     def binary(self, binary):
@@ -366,7 +385,7 @@ class InlineObject3(object):
         :type: file
         """
 
-        self._binary = binary
+        self._data_store['binary'] = binary
 
     @property
     def date(self):
@@ -377,7 +396,7 @@ class InlineObject3(object):
         :return: The date of this InlineObject3.  # noqa: E501
         :rtype: date
         """
-        return self._date
+        return self._data_store.get('date')
 
     @date.setter
     def date(self, date):
@@ -389,7 +408,7 @@ class InlineObject3(object):
         :type: date
         """
 
-        self._date = date
+        self._data_store['date'] = date
 
     @property
     def date_time(self):
@@ -400,7 +419,7 @@ class InlineObject3(object):
         :return: The date_time of this InlineObject3.  # noqa: E501
         :rtype: datetime
         """
-        return self._date_time
+        return self._data_store.get('date_time')
 
     @date_time.setter
     def date_time(self, date_time):
@@ -412,7 +431,7 @@ class InlineObject3(object):
         :type: datetime
         """
 
-        self._date_time = date_time
+        self._data_store['date_time'] = date_time
 
     @property
     def password(self):
@@ -423,7 +442,7 @@ class InlineObject3(object):
         :return: The password of this InlineObject3.  # noqa: E501
         :rtype: str
         """
-        return self._password
+        return self._data_store.get('password')
 
     @password.setter
     def password(self, password):
@@ -439,7 +458,7 @@ class InlineObject3(object):
         if password is not None and len(password) < 10:
             raise ValueError("Invalid value for `password`, length must be greater than or equal to `10`")  # noqa: E501
 
-        self._password = password
+        self._data_store['password'] = password
 
     @property
     def callback(self):
@@ -450,7 +469,7 @@ class InlineObject3(object):
         :return: The callback of this InlineObject3.  # noqa: E501
         :rtype: str
         """
-        return self._callback
+        return self._data_store.get('callback')
 
     @callback.setter
     def callback(self, callback):
@@ -462,14 +481,13 @@ class InlineObject3(object):
         :type: str
         """
 
-        self._callback = callback
+        self._data_store['callback'] = callback
 
     def to_dict(self):
         """Returns the model properties as a dict"""
         result = {}
 
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
+        for attr, value in six.iteritems(self._data_store):
             if isinstance(value, list):
                 result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,

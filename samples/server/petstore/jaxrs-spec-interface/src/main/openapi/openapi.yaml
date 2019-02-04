@@ -1547,6 +1547,8 @@ components:
       - enum_string_required
       type: object
     AdditionalPropertiesClass:
+      additionalProperties:
+        type: string
       properties:
         map_property:
           additionalProperties:

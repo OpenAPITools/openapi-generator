@@ -28,14 +28,14 @@ namespace Org.OpenAPITools.Model
     /// AdditionalPropertiesClass
     /// </summary>
     [DataContract]
-    public partial class AdditionalPropertiesClass :  IEquatable<AdditionalPropertiesClass>, IValidatableObject
+    public partial class AdditionalPropertiesClass : Dictionary<String, string>,  IEquatable<AdditionalPropertiesClass>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AdditionalPropertiesClass" /> class.
         /// </summary>
         /// <param name="mapProperty">mapProperty.</param>
         /// <param name="mapOfMapProperty">mapOfMapProperty.</param>
-        public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>))
+        public AdditionalPropertiesClass(Dictionary<string, string> mapProperty = default(Dictionary<string, string>), Dictionary<string, Dictionary<string, string>> mapOfMapProperty = default(Dictionary<string, Dictionary<string, string>>)) : base()
         {
             this.MapProperty = mapProperty;
             this.MapOfMapProperty = mapOfMapProperty;
@@ -61,6 +61,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class AdditionalPropertiesClass {\n");
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  MapProperty: ").Append(MapProperty).Append("\n");
             sb.Append("  MapOfMapProperty: ").Append(MapOfMapProperty).Append("\n");
             sb.Append("}\n");
@@ -71,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public string ToJson()
         {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
@@ -96,12 +97,12 @@ namespace Org.OpenAPITools.Model
             if (input == null)
                 return false;
 
-            return 
+            return base.Equals(input) && 
                 (
                     this.MapProperty == input.MapProperty ||
                     this.MapProperty != null &&
                     this.MapProperty.SequenceEqual(input.MapProperty)
-                ) && 
+                ) && base.Equals(input) && 
                 (
                     this.MapOfMapProperty == input.MapOfMapProperty ||
                     this.MapOfMapProperty != null &&
@@ -117,7 +118,7 @@ namespace Org.OpenAPITools.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
+                int hashCode = base.GetHashCode();
                 if (this.MapProperty != null)
                     hashCode = hashCode * 59 + this.MapProperty.GetHashCode();
                 if (this.MapOfMapProperty != null)

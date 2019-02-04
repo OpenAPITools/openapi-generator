@@ -38,7 +38,6 @@ class Order(object):
         'status': 'str',
         'complete': 'bool'
     }
-
     attribute_map = {
         'id': 'id',
         'pet_id': 'petId',
@@ -48,29 +47,65 @@ class Order(object):
         'complete': 'complete'
     }
 
-    def __init__(self, id=None, pet_id=None, quantity=None, ship_date=None, status=None, complete=False):  # noqa: E501
+    def __init__(self, **kwargs):  # noqa: E501
         """Order - a model defined in OpenAPI"""  # noqa: E501
 
-        self._id = None
-        self._pet_id = None
-        self._quantity = None
-        self._ship_date = None
-        self._status = None
-        self._complete = None
+        self._data_store = {}
+
         self.discriminator = None
 
-        if id is not None:
-            self.id = id
-        if pet_id is not None:
-            self.pet_id = pet_id
-        if quantity is not None:
-            self.quantity = quantity
-        if ship_date is not None:
-            self.ship_date = ship_date
-        if status is not None:
-            self.status = status
-        if complete is not None:
-            self.complete = complete
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__setitem__(var_name, var_value)
+
+    def recursive_type(self, item):
+        """Gets a string describing the full the recursive type of a value"""
+        item_type = type(item)
+        if item_type == dict:
+            child_key_types = set()
+            child_value_types = set()
+            for child_key, child_value in six.iteritems(item):
+                child_key_types.add(self.recursive_type(child_key))
+                child_value_types.add(self.recursive_type(child_value))
+            if child_key_types != set(['str']):
+                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "dict(str, {0})".format(child_value_types)
+        elif item_type == list:
+            child_value_types = set()
+            for child_item in item:
+                child_value_types.add(self.recursive_type(child_item))
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "list[{0}]".format(child_value_types)
+        else:
+            return type(item).__name__
+
+    def __setitem__(self, name, value):
+        check_type = False
+        if name in self.openapi_types:
+            required_type = self.openapi_types[name]
+        else:
+            raise KeyError("{0} has no key '{1}'".format(
+                type(self).__name__, name))
+
+        passed_type = self.recursive_type(value)
+        if type(name) != str:
+            raise ValueError('Variable name must be type string and %s was not' % name)
+        elif passed_type != required_type and check_type:
+            raise ValueError('Variable value must be type %s but you passed in %s' %
+                             (required_type, passed_type))
+
+        if name in self.openapi_types:
+            setattr(self, name, value)
+        else:
+            self._data_store[name] = value
+
+    def __getitem__(self, name):
+        if name in self.openapi_types:
+            return self._data_store.get(name)
+        if name in self._data_store:
+            return self._data_store[name]
+        raise KeyError("{0} has no key {1}".format(
+            type(self).__name__, name))
 
     @property
     def id(self):
@@ -80,7 +115,7 @@ class Order(object):
         :return: The id of this Order.  # noqa: E501
         :rtype: int
         """
-        return self._id
+        return self._data_store.get('id')
 
     @id.setter
     def id(self, id):
@@ -91,7 +126,7 @@ class Order(object):
         :type: int
         """
 
-        self._id = id
+        self._data_store['id'] = id
 
     @property
     def pet_id(self):
@@ -101,7 +136,7 @@ class Order(object):
         :return: The pet_id of this Order.  # noqa: E501
         :rtype: int
         """
-        return self._pet_id
+        return self._data_store.get('pet_id')
 
     @pet_id.setter
     def pet_id(self, pet_id):
@@ -112,7 +147,7 @@ class Order(object):
         :type: int
         """
 
-        self._pet_id = pet_id
+        self._data_store['pet_id'] = pet_id
 
     @property
     def quantity(self):
@@ -122,7 +157,7 @@ class Order(object):
         :return: The quantity of this Order.  # noqa: E501
         :rtype: int
         """
-        return self._quantity
+        return self._data_store.get('quantity')
 
     @quantity.setter
     def quantity(self, quantity):
@@ -133,7 +168,7 @@ class Order(object):
         :type: int
         """
 
-        self._quantity = quantity
+        self._data_store['quantity'] = quantity
 
     @property
     def ship_date(self):
@@ -143,7 +178,7 @@ class Order(object):
         :return: The ship_date of this Order.  # noqa: E501
         :rtype: datetime
         """
-        return self._ship_date
+        return self._data_store.get('ship_date')
 
     @ship_date.setter
     def ship_date(self, ship_date):
@@ -154,7 +189,7 @@ class Order(object):
         :type: datetime
         """
 
-        self._ship_date = ship_date
+        self._data_store['ship_date'] = ship_date
 
     @property
     def status(self):
@@ -165,7 +200,7 @@ class Order(object):
         :return: The status of this Order.  # noqa: E501
         :rtype: str
         """
-        return self._status
+        return self._data_store.get('status')
 
     @status.setter
     def status(self, status):
@@ -183,7 +218,7 @@ class Order(object):
                 .format(status, allowed_values)
             )
 
-        self._status = status
+        self._data_store['status'] = status
 
     @property
     def complete(self):
@@ -193,7 +228,7 @@ class Order(object):
         :return: The complete of this Order.  # noqa: E501
         :rtype: bool
         """
-        return self._complete
+        return self._data_store.get('complete')
 
     @complete.setter
     def complete(self, complete):
@@ -204,14 +239,13 @@ class Order(object):
         :type: bool
         """
 
-        self._complete = complete
+        self._data_store['complete'] = complete
 
     def to_dict(self):
         """Returns the model properties as a dict"""
         result = {}
 
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
+        for attr, value in six.iteritems(self._data_store):
             if isinstance(value, list):
                 result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,

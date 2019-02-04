@@ -36,7 +36,6 @@ class Name(object):
         '_property': 'str',
         '_123_number': 'int'
     }
-
     attribute_map = {
         'name': 'name',
         'snake_case': 'snake_case',
@@ -44,22 +43,66 @@ class Name(object):
         '_123_number': '123Number'
     }
 
-    def __init__(self, name=None, snake_case=None, _property=None, _123_number=None):  # noqa: E501
+    def __init__(self, name, **kwargs):  # noqa: E501
         """Name - a model defined in OpenAPI"""  # noqa: E501
 
-        self._name = None
-        self._snake_case = None
-        self.__property = None
-        self.__123_number = None
-        self.discriminator = None
+        self._data_store = {}
 
-        self.name = name
-        if snake_case is not None:
-            self.snake_case = snake_case
-        if _property is not None:
-            self._property = _property
-        if _123_number is not None:
-            self._123_number = _123_number
+        self.discriminator = None
+        self.__setitem__('name', name)
+
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__setitem__(var_name, var_value)
+
+    def recursive_type(self, item):
+        """Gets a string describing the full the recursive type of a value"""
+        item_type = type(item)
+        if item_type == dict:
+            child_key_types = set()
+            child_value_types = set()
+            for child_key, child_value in six.iteritems(item):
+                child_key_types.add(self.recursive_type(child_key))
+                child_value_types.add(self.recursive_type(child_value))
+            if child_key_types != set(['str']):
+                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "dict(str, {0})".format(child_value_types)
+        elif item_type == list:
+            child_value_types = set()
+            for child_item in item:
+                child_value_types.add(self.recursive_type(child_item))
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "list[{0}]".format(child_value_types)
+        else:
+            return type(item).__name__
+
+    def __setitem__(self, name, value):
+        check_type = False
+        if name in self.openapi_types:
+            required_type = self.openapi_types[name]
+        else:
+            raise KeyError("{0} has no key '{1}'".format(
+                type(self).__name__, name))
+
+        passed_type = self.recursive_type(value)
+        if type(name) != str:
+            raise ValueError('Variable name must be type string and %s was not' % name)
+        elif passed_type != required_type and check_type:
+            raise ValueError('Variable value must be type %s but you passed in %s' %
+                             (required_type, passed_type))
+
+        if name in self.openapi_types:
+            setattr(self, name, value)
+        else:
+            self._data_store[name] = value
+
+    def __getitem__(self, name):
+        if name in self.openapi_types:
+            return self._data_store.get(name)
+        if name in self._data_store:
+            return self._data_store[name]
+        raise KeyError("{0} has no key {1}".format(
+            type(self).__name__, name))
 
     @property
     def name(self):
@@ -69,7 +112,7 @@ class Name(object):
         :return: The name of this Name.  # noqa: E501
         :rtype: int
         """
-        return self._name
+        return self._data_store.get('name')
 
     @name.setter
     def name(self, name):
@@ -82,7 +125,7 @@ class Name(object):
         if name is None:
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._name = name
+        self._data_store['name'] = name
 
     @property
     def snake_case(self):
@@ -92,7 +135,7 @@ class Name(object):
         :return: The snake_case of this Name.  # noqa: E501
         :rtype: int
         """
-        return self._snake_case
+        return self._data_store.get('snake_case')
 
     @snake_case.setter
     def snake_case(self, snake_case):
@@ -103,7 +146,7 @@ class Name(object):
         :type: int
         """
 
-        self._snake_case = snake_case
+        self._data_store['snake_case'] = snake_case
 
     @property
     def _property(self):
@@ -113,7 +156,7 @@ class Name(object):
         :return: The _property of this Name.  # noqa: E501
         :rtype: str
         """
-        return self.__property
+        return self._data_store.get('_property')
 
     @_property.setter
     def _property(self, _property):
@@ -124,7 +167,7 @@ class Name(object):
         :type: str
         """
 
-        self.__property = _property
+        self._data_store['_property'] = _property
 
     @property
     def _123_number(self):
@@ -134,7 +177,7 @@ class Name(object):
         :return: The _123_number of this Name.  # noqa: E501
         :rtype: int
         """
-        return self.__123_number
+        return self._data_store.get('_123_number')
 
     @_123_number.setter
     def _123_number(self, _123_number):
@@ -145,14 +188,13 @@ class Name(object):
         :type: int
         """
 
-        self.__123_number = _123_number
+        self._data_store['_123_number'] = _123_number
 
     def to_dict(self):
         """Returns the model properties as a dict"""
         result = {}
 
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
+        for attr, value in six.iteritems(self._data_store):
             if isinstance(value, list):
                 result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,

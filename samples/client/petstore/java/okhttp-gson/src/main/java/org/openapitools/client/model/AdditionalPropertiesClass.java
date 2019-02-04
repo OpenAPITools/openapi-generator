@@ -31,7 +31,7 @@ import java.util.Map;
  * AdditionalPropertiesClass
  */
 
-public class AdditionalPropertiesClass {
+public class AdditionalPropertiesClass extends HashMap<String, String> {
   public static final String SERIALIZED_NAME_MAP_PROPERTY = "map_property";
   @SerializedName(SERIALIZED_NAME_MAP_PROPERTY)
   private Map<String, String> mapProperty = new HashMap<String, String>();
@@ -103,12 +103,13 @@ public class AdditionalPropertiesClass {
     }
     AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
     return Objects.equals(this.mapProperty, additionalPropertiesClass.mapProperty) &&
-        Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty);
+        Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(mapProperty, mapOfMapProperty);
+    return Objects.hash(mapProperty, mapOfMapProperty, super.hashCode());
   }
 
 
@@ -116,6 +117,7 @@ public class AdditionalPropertiesClass {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesClass {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    mapProperty: ").append(toIndentedString(mapProperty)).append("\n");
     sb.append("    mapOfMapProperty: ").append(toIndentedString(mapOfMapProperty)).append("\n");
     sb.append("}");

@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class AdditionalPropertiesClass  implements Serializable {
+public class AdditionalPropertiesClass extends HashMap<String, String> implements Serializable {
   
   private @Valid Map<String, String> mapProperty = new HashMap<String, String>();
   private @Valid Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
@@ -79,7 +79,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesClass {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    mapProperty: ").append(toIndentedString(mapProperty)).append("\n");
     sb.append("    mapOfMapProperty: ").append(toIndentedString(mapOfMapProperty)).append("\n");
     sb.append("}");

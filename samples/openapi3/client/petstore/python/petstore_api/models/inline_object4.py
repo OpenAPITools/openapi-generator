@@ -34,21 +34,72 @@ class InlineObject4(object):
         'param': 'str',
         'param2': 'str'
     }
-
     attribute_map = {
         'param': 'param',
         'param2': 'param2'
     }
 
-    def __init__(self, param=None, param2=None):  # noqa: E501
+    def __init__(self, param, param2, **kwargs):  # noqa: E501
         """InlineObject4 - a model defined in OpenAPI"""  # noqa: E501
 
-        self._param = None
-        self._param2 = None
-        self.discriminator = None
+        self._data_store = {}
 
-        self.param = param
-        self.param2 = param2
+        self.discriminator = None
+        self.__setitem__('param', param)
+        self.__setitem__('param2', param2)
+
+        for var_name, var_value in six.iteritems(kwargs):
+            self.__setitem__(var_name, var_value)
+
+    def recursive_type(self, item):
+        """Gets a string describing the full the recursive type of a value"""
+        item_type = type(item)
+        if item_type == dict:
+            child_key_types = set()
+            child_value_types = set()
+            for child_key, child_value in six.iteritems(item):
+                child_key_types.add(self.recursive_type(child_key))
+                child_value_types.add(self.recursive_type(child_value))
+            if child_key_types != set(['str']):
+                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "dict(str, {0})".format(child_value_types)
+        elif item_type == list:
+            child_value_types = set()
+            for child_item in item:
+                child_value_types.add(self.recursive_type(child_item))
+            child_value_types = '|'.join(sorted(list(child_value_types)))
+            return "list[{0}]".format(child_value_types)
+        else:
+            return type(item).__name__
+
+    def __setitem__(self, name, value):
+        check_type = False
+        if name in self.openapi_types:
+            required_type = self.openapi_types[name]
+        else:
+            raise KeyError("{0} has no key '{1}'".format(
+                type(self).__name__, name))
+
+        passed_type = self.recursive_type(value)
+        if type(name) != str:
+            raise ValueError('Variable name must be type string and %s was not' % name)
+        elif passed_type != required_type and check_type:
+            raise ValueError('Variable value must be type %s but you passed in %s' %
+                             (required_type, passed_type))
+
+        if name in self.openapi_types:
+            setattr(self, name, value)
+        else:
+            self._data_store[name] = value
+
+    def __getitem__(self, name):
+        if name in self.openapi_types:
+            return self._data_store.get(name)
+        if name in self._data_store:
+            return self._data_store[name]
+        raise KeyError("{0} has no key {1}".format(
+            type(self).__name__, name))
 
     @property
     def param(self):
@@ -59,7 +110,7 @@ class InlineObject4(object):
         :return: The param of this InlineObject4.  # noqa: E501
         :rtype: str
         """
-        return self._param
+        return self._data_store.get('param')
 
     @param.setter
     def param(self, param):
@@ -73,7 +124,7 @@ class InlineObject4(object):
         if param is None:
             raise ValueError("Invalid value for `param`, must not be `None`")  # noqa: E501
 
-        self._param = param
+        self._data_store['param'] = param
 
     @property
     def param2(self):
@@ -84,7 +135,7 @@ class InlineObject4(object):
         :return: The param2 of this InlineObject4.  # noqa: E501
         :rtype: str
         """
-        return self._param2
+        return self._data_store.get('param2')
 
     @param2.setter
     def param2(self, param2):
@@ -98,14 +149,13 @@ class InlineObject4(object):
         if param2 is None:
             raise ValueError("Invalid value for `param2`, must not be `None`")  # noqa: E501
 
-        self._param2 = param2
+        self._data_store['param2'] = param2
 
     def to_dict(self):
         """Returns the model properties as a dict"""
         result = {}
 
-        for attr, _ in six.iteritems(self.openapi_types):
-            value = getattr(self, attr)
+        for attr, value in six.iteritems(self._data_store):
             if isinstance(value, list):
                 result[attr] = list(map(
                     lambda x: x.to_dict() if hasattr(x, "to_dict") else x,

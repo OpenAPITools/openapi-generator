@@ -33,7 +33,7 @@ import android.os.Parcel;
  * AdditionalPropertiesClass
  */
 
-public class AdditionalPropertiesClass implements Parcelable {
+public class AdditionalPropertiesClass extends HashMap<String, String> implements Parcelable {
   public static final String SERIALIZED_NAME_MAP_PROPERTY = "map_property";
   @SerializedName(SERIALIZED_NAME_MAP_PROPERTY)
   private Map<String, String> mapProperty = new HashMap<String, String>();
@@ -43,6 +43,7 @@ public class AdditionalPropertiesClass implements Parcelable {
   private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
 
   public AdditionalPropertiesClass() {
+    super();
   }
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
@@ -107,12 +108,13 @@ public class AdditionalPropertiesClass implements Parcelable {
     }
     AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
     return Objects.equals(this.mapProperty, additionalPropertiesClass.mapProperty) &&
-        Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty);
+        Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(mapProperty, mapOfMapProperty);
+    return Objects.hash(mapProperty, mapOfMapProperty, super.hashCode());
   }
 
 
@@ -120,6 +122,7 @@ public class AdditionalPropertiesClass implements Parcelable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesClass {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    mapProperty: ").append(toIndentedString(mapProperty)).append("\n");
     sb.append("    mapOfMapProperty: ").append(toIndentedString(mapOfMapProperty)).append("\n");
     sb.append("}");
@@ -139,11 +142,13 @@ public class AdditionalPropertiesClass implements Parcelable {
 
 
   public void writeToParcel(Parcel out, int flags) {
+    super.writeToParcel(out, flags);
     out.writeValue(mapProperty);
     out.writeValue(mapOfMapProperty);
   }
 
   AdditionalPropertiesClass(Parcel in) {
+    super(in);
     mapProperty = (Map<String, String>)in.readValue(null);
     mapOfMapProperty = (Map<String, Map<String, String>>)in.readValue(Map.class.getClassLoader());
   }

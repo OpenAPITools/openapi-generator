@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name = "AdditionalPropertiesClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AdditionalPropertiesClass")
-public class AdditionalPropertiesClass {
+public class AdditionalPropertiesClass extends HashMap<String, String> {
   @JsonProperty("map_property")
   // Is a container wrapped=false
   // items.name=inner items.baseName=inner items.xmlName= items.xmlNamespace=
@@ -111,12 +111,13 @@ public class AdditionalPropertiesClass {
     }
     AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
     return Objects.equals(this.mapProperty, additionalPropertiesClass.mapProperty) &&
-        Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty);
+        Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(mapProperty, mapOfMapProperty);
+    return Objects.hash(mapProperty, mapOfMapProperty, super.hashCode());
   }
 
 
@@ -124,6 +125,7 @@ public class AdditionalPropertiesClass {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesClass {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    mapProperty: ").append(toIndentedString(mapProperty)).append("\n");
     sb.append("    mapOfMapProperty: ").append(toIndentedString(mapOfMapProperty)).append("\n");
     sb.append("}");

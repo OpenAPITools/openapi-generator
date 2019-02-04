@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AdditionalPropertiesClass  {
+public class AdditionalPropertiesClass extends HashMap<String, String> {
   
   @ApiModelProperty(value = "")
   private Map<String, String> mapProperty = null;
@@ -75,7 +75,7 @@ public class AdditionalPropertiesClass  {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesClass {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    mapProperty: ").append(toIndentedString(mapProperty)).append("\n");
     sb.append("    mapOfMapProperty: ").append(toIndentedString(mapOfMapProperty)).append("\n");
     sb.append("}");
