@@ -27,12 +27,12 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
@@ -631,8 +631,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        CodegenModel codegenModel = super.fromModel(name, model);
         if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
         }
@@ -643,8 +644,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             while (parentSchema != null) {
                 final Schema parentModel = allDefinitions.get(parentSchema);
                 final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent,
-                        parentModel,
-                        allDefinitions);
+                        parentModel);
                 codegenModel = Swift4Codegen.reconcileProperties(codegenModel, parentCodegenModel);
 
                 // get the next parent

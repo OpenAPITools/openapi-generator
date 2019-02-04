@@ -312,37 +312,37 @@ class StoreApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def place_order(self, order, **kwargs):  # noqa: E501
+    def place_order(self, body, **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.place_order(order, async_req=True)
+        >>> thread = api.place_order(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Order order: order placed for purchasing the pet (required)
+        :param Order body: order placed for purchasing the pet (required)
         :return: Order
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.place_order_with_http_info(order, **kwargs)  # noqa: E501
+            return self.place_order_with_http_info(body, **kwargs)  # noqa: E501
         else:
-            (data) = self.place_order_with_http_info(order, **kwargs)  # noqa: E501
+            (data) = self.place_order_with_http_info(body, **kwargs)  # noqa: E501
             return data
 
-    def place_order_with_http_info(self, order, **kwargs):  # noqa: E501
+    def place_order_with_http_info(self, body, **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.place_order_with_http_info(order, async_req=True)
+        >>> thread = api.place_order_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Order order: order placed for purchasing the pet (required)
+        :param Order body: order placed for purchasing the pet (required)
         :return: Order
                  If the method is called asynchronously,
                  returns the request thread.
@@ -350,7 +350,7 @@ class StoreApi(object):
 
         local_var_params = locals()
 
-        all_params = ['order']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -364,10 +364,10 @@ class StoreApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'order' is set
-        if ('order' not in local_var_params or
-                local_var_params['order'] is None):
-            raise ValueError("Missing the required parameter `order` when calling `place_order`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ValueError("Missing the required parameter `body` when calling `place_order`")  # noqa: E501
 
         collection_formats = {}
 
@@ -381,8 +381,8 @@ class StoreApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'order' in local_var_params:
-            body_params = local_var_params['order']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/xml', 'application/json'])  # noqa: E501

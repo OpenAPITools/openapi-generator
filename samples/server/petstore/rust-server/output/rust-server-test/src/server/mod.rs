@@ -202,12 +202,15 @@ where
                                             unused_elements.push(path.to_string());
                                     }) {
                                         Ok(param_nested_response) => param_nested_response,
-
-                                        Err(_) => None,
+                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter nested_response - doesn't match schema: {}", e)))),
                                     }
 
                                 } else {
                                     None
+                                };
+                                let param_nested_response = match param_nested_response {
+                                    Some(param_nested_response) => param_nested_response,
+                                    None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter nested_response"))),
                                 };
 
 

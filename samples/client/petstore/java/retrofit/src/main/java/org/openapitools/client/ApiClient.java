@@ -38,7 +38,6 @@ import org.openapitools.client.auth.OAuth;
 import org.openapitools.client.auth.OAuth.AccessTokenListener;
 import org.openapitools.client.auth.OAuthFlow;
 
-
 public class ApiClient {
 
     private Map<String, Interceptor> apiAuthorizations;
@@ -116,21 +115,21 @@ public class ApiClient {
                 .setUsername(username)
                 .setPassword(password);
     }
-    
-   public void createDefaultAdapter() {
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-                .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
-                .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
-                .create();
 
-        okClient = new OkHttpClient();
+    public void createDefaultAdapter() {
+         Gson gson = new GsonBuilder()
+                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+                 .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter())
+                 .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
+                 .create();
 
-        adapterBuilder = new RestAdapter
-                .Builder()
-                .setEndpoint("http://petstore.swagger.io:80/v2")
-                .setClient(new OkClient(okClient))
-                .setConverter(new GsonConverterWrapper(gson));
+         okClient = new OkHttpClient();
+
+         adapterBuilder = new RestAdapter
+                 .Builder()
+                 .setEndpoint("http://petstore.swagger.io:80/v2")
+                 .setClient(new OkClient(okClient))
+                 .setConverter(new GsonConverterWrapper(gson));
     }
 
     public <S> S createService(Class<S> serviceClass) {

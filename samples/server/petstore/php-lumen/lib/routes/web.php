@@ -64,6 +64,12 @@ $router->put('/v2/fake/body-with-file-schema', 'FakeApi@testBodyWithFileSchema')
  */
 $router->put('/v2/fake/body-with-query-params', 'FakeApi@testBodyWithQueryParams');
 /**
+ * post createXmlItem
+ * Summary: creates an XmlItem
+ * Notes: this route creates an XmlItem
+ */
+$router->post('/v2/fake/create_xml_item', 'FakeApi@createXmlItem');
+/**
  * post testInlineAdditionalProperties
  * Summary: test inline additionalProperties
  * Notes: 

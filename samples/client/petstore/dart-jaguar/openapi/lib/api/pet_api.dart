@@ -24,12 +24,12 @@ class PetApi extends _$PetApiClient implements ApiClient {
     @PostReq(path: "/pet", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<void> addPet(
             
-              @AsJson() Pet pet
+              @AsJson() Pet body
         ) {
         return super.addPet(
 
         
-        pet
+        body
         ).timeout(timeout);
     }
 
@@ -99,12 +99,12 @@ class PetApi extends _$PetApiClient implements ApiClient {
     @PutReq(path: "/pet", metadata: {"auth": [ {"type": "oauth2", "name": "petstore_auth" }]})
     Future<void> updatePet(
             
-              @AsJson() Pet pet
+              @AsJson() Pet body
         ) {
         return super.updatePet(
 
         
-        pet
+        body
         ).timeout(timeout);
     }
 

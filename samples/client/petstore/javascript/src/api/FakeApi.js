@@ -16,18 +16,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/Client', 'model/FileSchemaTestClass', 'model/OuterComposite', 'model/User'], factory);
+    define(['ApiClient', 'model/Client', 'model/FileSchemaTestClass', 'model/OuterComposite', 'model/User', 'model/XmlItem'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('../model/Client'), require('../model/FileSchemaTestClass'), require('../model/OuterComposite'), require('../model/User'));
+    module.exports = factory(require('../ApiClient'), require('../model/Client'), require('../model/FileSchemaTestClass'), require('../model/OuterComposite'), require('../model/User'), require('../model/XmlItem'));
   } else {
     // Browser globals (root is window)
     if (!root.OpenApiPetstore) {
       root.OpenApiPetstore = {};
     }
-    root.OpenApiPetstore.FakeApi = factory(root.OpenApiPetstore.ApiClient, root.OpenApiPetstore.Client, root.OpenApiPetstore.FileSchemaTestClass, root.OpenApiPetstore.OuterComposite, root.OpenApiPetstore.User);
+    root.OpenApiPetstore.FakeApi = factory(root.OpenApiPetstore.ApiClient, root.OpenApiPetstore.Client, root.OpenApiPetstore.FileSchemaTestClass, root.OpenApiPetstore.OuterComposite, root.OpenApiPetstore.User, root.OpenApiPetstore.XmlItem);
   }
-}(this, function(ApiClient, Client, FileSchemaTestClass, OuterComposite, User) {
+}(this, function(ApiClient, Client, FileSchemaTestClass, OuterComposite, User, XmlItem) {
   'use strict';
 
   /**
@@ -46,6 +46,52 @@
   var exports = function(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
 
+
+    /**
+     * Callback function to receive the result of the createXmlItem operation.
+     * @callback module:api/FakeApi~createXmlItemCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     * @param {module:model/XmlItem} xmlItem XmlItem Body
+     * @param {module:api/FakeApi~createXmlItemCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    this.createXmlItem = function(xmlItem, callback) {
+      var postBody = xmlItem;
+
+      // verify the required parameter 'xmlItem' is set
+      if (xmlItem === undefined || xmlItem === null) {
+        throw new Error("Missing the required parameter 'xmlItem' when calling createXmlItem");
+      }
+
+
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = [];
+      var contentTypes = ['application/xml', 'application/xml; charset=utf-8', 'application/xml; charset=utf-16', 'text/xml', 'text/xml; charset=utf-8', 'text/xml; charset=utf-16'];
+      var accepts = [];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/fake/create_xml_item', 'POST',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
 
     /**
      * Callback function to receive the result of the fakeOuterBooleanSerialize operation.

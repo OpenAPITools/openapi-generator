@@ -22,21 +22,23 @@ Tag <- R6::R6Class(
     `name` = NULL,
     initialize = function(`id`, `name`){
       if (!missing(`id`)) {
-        stopifnot(is.numeric(`id`), length(`id`) == 1)
+                stopifnot(is.numeric(`id`), length(`id`) == 1)
         self$`id` <- `id`
       }
       if (!missing(`name`)) {
-        stopifnot(is.character(`name`), length(`name`) == 1)
+                stopifnot(is.character(`name`), length(`name`) == 1)
         self$`name` <- `name`
       }
     },
     toJSON = function() {
       TagObject <- list()
       if (!is.null(self$`id`)) {
-        TagObject[['id']] <- self$`id`
+        TagObject[['id']] <-
+                self$`id`
       }
       if (!is.null(self$`name`)) {
-        TagObject[['name']] <- self$`name`
+        TagObject[['name']] <-
+                self$`name`
       }
 
       TagObject
@@ -44,26 +46,35 @@ Tag <- R6::R6Class(
     fromJSON = function(TagJson) {
       TagObject <- jsonlite::fromJSON(TagJson)
       if (!is.null(TagObject$`id`)) {
-        self$`id` <- TagObject$`id`
+                self$`id` <- TagObject$`id`
       }
       if (!is.null(TagObject$`name`)) {
-        self$`name` <- TagObject$`name`
+                self$`name` <- TagObject$`name`
       }
     },
     toJSONString = function() {
-       sprintf(
+       outstring <- sprintf(
         '{
-           "id": %d,
-           "name": %s
+           "id":
+                      %d
+                      
+                  
+              ,
+           "name":
+                      
+                      "%s"
+                  
+              
         }',
-        self$`id`,
-        self$`name`
+                self$`id`,
+                self$`name`
       )
+      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(TagJson) {
       TagObject <- jsonlite::fromJSON(TagJson)
-      self$`id` <- TagObject$`id`
-      self$`name` <- TagObject$`name`
+              self$`id` <- TagObject$`id`
+              self$`name` <- TagObject$`name`
     }
   )
 )

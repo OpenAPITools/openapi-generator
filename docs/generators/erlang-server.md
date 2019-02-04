@@ -1,10 +1,11 @@
 
-CONFIG OPTIONS for erlang-server
+---
+id: generator-opts-server-erlang-server
+title: Config Options for erlang-server
+sidebar_label: erlang-server
+---
 
-	packageName
-	    Erlang package name (convention: lowercase). (Default: openapi)
-
-	openAPISpecName
-	    Openapi Spec Name. (Default: openapi)
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|packageName|Erlang package name (convention: lowercase).| |openapi|
+|openAPISpecName|Openapi Spec Name.| |openapi|

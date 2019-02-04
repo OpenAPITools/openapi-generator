@@ -210,6 +210,13 @@ module Petstore
             key: 'api_key_query',
             value: api_key_with_prefix('api_key_query')
           },
+        'bearer_test' =>
+          {
+            type: 'basic',
+            in: 'header',
+            key: 'Authorization',
+            value: basic_auth_token
+          },
         'http_basic_test' =>
           {
             type: 'basic',
@@ -278,8 +285,8 @@ module Petstore
       servers = server_settings
 
       # check array index out of bound
-      if (index < 0 || index > servers.size)
-        fail ArgumentError "Invalid index #{index} when selecting the server. Must be less than #{servers.size}"
+      if (index < 0 || index >= servers.size)
+        fail ArgumentError, "Invalid index #{index} when selecting the server. Must be less than #{servers.size}"
       end
 
       server = servers[index]

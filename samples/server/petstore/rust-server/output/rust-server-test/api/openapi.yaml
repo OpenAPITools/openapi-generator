@@ -91,6 +91,7 @@ components:
         '*/*':
           schema:
             $ref: '#/components/schemas/inline_object'
+      required: true
   schemas:
     additionalPropertiesObject:
       additionalProperties:

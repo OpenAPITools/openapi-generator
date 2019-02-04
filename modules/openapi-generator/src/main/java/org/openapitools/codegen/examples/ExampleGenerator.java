@@ -75,8 +75,7 @@ public class ExampleGenerator {
         }
 
         if (responseSchema.getExample() != null && !(responseSchema.getExample() instanceof Map)) {
-            LOGGER.warn("example value (array/primitive) not handled at the moment: " + responseSchema.getExample());
-            return null;
+            return generate(responseSchema.getExample(), new ArrayList<>(producesInfo));
         }
 
         if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
@@ -179,6 +178,34 @@ public class ExampleGenerator {
                 kv.put(CONTENT_TYPE, entry.getKey());
                 kv.put(EXAMPLE, Json.pretty(entry.getValue()));
                 output.add(kv);
+            }
+        }
+
+        if (output.size() == 0) {
+            Map<String, String> kv = new HashMap<>();
+            kv.put(OUTPUT, NONE);
+            output.add(kv);
+        }
+        return output;
+    }
+
+    private List<Map<String, String>> generate(Object example, List<String> mediaTypes) {
+        List<Map<String, String>> output = new ArrayList<>();
+        if (examples != null) {
+            if (mediaTypes == null) {
+                // assume application/json for this
+                mediaTypes = Collections.singletonList(MIME_TYPE_JSON);
+            }
+            for (String mediaType : mediaTypes) {
+                Map<String, String> kv = new HashMap<>();
+                kv.put(CONTENT_TYPE, mediaType);
+                if ((mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
+                    kv.put(EXAMPLE, Json.pretty(example));
+                    output.add(kv);
+                } else if (mediaType.startsWith(MIME_TYPE_XML)) {
+                    // TODO
+                    LOGGER.warn("XML example value of (array/primitive) is not handled at the moment: " + example);
+                }
             }
         }
 

@@ -1,5 +1,8 @@
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+{{#sourceFolder}}
+apply plugin: 'java'
+{{/sourceFolder}}
 
 group = '{{groupId}}'
 version = '{{artifactVersion}}'
@@ -18,8 +21,12 @@ buildscript {
 repositories {
     jcenter()
 }
+{{#sourceFolder}}
+sourceSets {
+    main.java.srcDirs = ['{{sourceFolder}}']
+}
 
-
+{{/sourceFolder}}
 if(hasProperty('target') && target == 'android') {
 
     apply plugin: 'com.android.library'
@@ -120,8 +127,8 @@ if(hasProperty('target') && target == 'android') {
 
 dependencies {
     compile 'io.swagger:swagger-annotations:1.5.21'
-    compile 'com.squareup.okhttp:okhttp:2.7.5'
-    compile 'com.squareup.okhttp:logging-interceptor:2.7.5'
+    compile 'com.squareup.okhttp3:okhttp:3.12.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     compile 'com.google.code.gson:gson:2.8.5'
     compile 'io.gsonfire:gson-fire:1.8.0'
     {{#hasOAuthMethods}}

@@ -153,12 +153,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }
 
     @Override

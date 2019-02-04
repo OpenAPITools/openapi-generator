@@ -17,22 +17,14 @@
 
 package org.openapitools.codegen;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.Scanner;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.nio.file.Paths;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public abstract class AbstractGenerator {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGenerator.class);
@@ -40,7 +32,9 @@ public abstract class AbstractGenerator {
     @SuppressWarnings("static-method")
     public File writeToFile(String filename, String contents) throws IOException {
         LOGGER.info("writing file " + filename);
-        File output = new File(filename);
+
+        // Use Paths.get here to normalize path (for Windows file separator, space escaping on Linux/Mac, etc)
+        File output = Paths.get(filename).toFile();
 
         if (output.getParent() != null && !new File(output.getParent()).exists()) {
             File parent = new File(output.getParent());

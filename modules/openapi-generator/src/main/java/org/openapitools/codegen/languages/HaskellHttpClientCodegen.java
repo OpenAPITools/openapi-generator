@@ -22,9 +22,9 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -755,8 +755,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema mod, Map<String, Schema> allDefinitions) {
-        CodegenModel model = super.fromModel(name, mod, allDefinitions);
+    public CodegenModel fromModel(String name, Schema mod) {
+        CodegenModel model = super.fromModel(name, mod);
 
 //        while (typeNames.contains(model.classname)) {
 //            model.classname = generateNextName(model.classname);

@@ -1484,6 +1484,146 @@ mkUser =
   , userUserStatus = Nothing
   }
 
+-- ** XmlItem
+-- | XmlItem
+data XmlItem = XmlItem
+  { xmlItemAttributeString :: !(Maybe Text) -- ^ "attribute_string"
+  , xmlItemAttributeNumber :: !(Maybe Double) -- ^ "attribute_number"
+  , xmlItemAttributeInteger :: !(Maybe Int) -- ^ "attribute_integer"
+  , xmlItemAttributeBoolean :: !(Maybe Bool) -- ^ "attribute_boolean"
+  , xmlItemWrappedArray :: !(Maybe [Int]) -- ^ "wrapped_array"
+  , xmlItemNameString :: !(Maybe Text) -- ^ "name_string"
+  , xmlItemNameNumber :: !(Maybe Double) -- ^ "name_number"
+  , xmlItemNameInteger :: !(Maybe Int) -- ^ "name_integer"
+  , xmlItemNameBoolean :: !(Maybe Bool) -- ^ "name_boolean"
+  , xmlItemNameArray :: !(Maybe [Int]) -- ^ "name_array"
+  , xmlItemNameWrappedArray :: !(Maybe [Int]) -- ^ "name_wrapped_array"
+  , xmlItemPrefixString :: !(Maybe Text) -- ^ "prefix_string"
+  , xmlItemPrefixNumber :: !(Maybe Double) -- ^ "prefix_number"
+  , xmlItemPrefixInteger :: !(Maybe Int) -- ^ "prefix_integer"
+  , xmlItemPrefixBoolean :: !(Maybe Bool) -- ^ "prefix_boolean"
+  , xmlItemPrefixArray :: !(Maybe [Int]) -- ^ "prefix_array"
+  , xmlItemPrefixWrappedArray :: !(Maybe [Int]) -- ^ "prefix_wrapped_array"
+  , xmlItemNamespaceString :: !(Maybe Text) -- ^ "namespace_string"
+  , xmlItemNamespaceNumber :: !(Maybe Double) -- ^ "namespace_number"
+  , xmlItemNamespaceInteger :: !(Maybe Int) -- ^ "namespace_integer"
+  , xmlItemNamespaceBoolean :: !(Maybe Bool) -- ^ "namespace_boolean"
+  , xmlItemNamespaceArray :: !(Maybe [Int]) -- ^ "namespace_array"
+  , xmlItemNamespaceWrappedArray :: !(Maybe [Int]) -- ^ "namespace_wrapped_array"
+  , xmlItemPrefixNsString :: !(Maybe Text) -- ^ "prefix_ns_string"
+  , xmlItemPrefixNsNumber :: !(Maybe Double) -- ^ "prefix_ns_number"
+  , xmlItemPrefixNsInteger :: !(Maybe Int) -- ^ "prefix_ns_integer"
+  , xmlItemPrefixNsBoolean :: !(Maybe Bool) -- ^ "prefix_ns_boolean"
+  , xmlItemPrefixNsArray :: !(Maybe [Int]) -- ^ "prefix_ns_array"
+  , xmlItemPrefixNsWrappedArray :: !(Maybe [Int]) -- ^ "prefix_ns_wrapped_array"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON XmlItem
+instance A.FromJSON XmlItem where
+  parseJSON = A.withObject "XmlItem" $ \o ->
+    XmlItem
+      <$> (o .:? "attribute_string")
+      <*> (o .:? "attribute_number")
+      <*> (o .:? "attribute_integer")
+      <*> (o .:? "attribute_boolean")
+      <*> (o .:? "wrapped_array")
+      <*> (o .:? "name_string")
+      <*> (o .:? "name_number")
+      <*> (o .:? "name_integer")
+      <*> (o .:? "name_boolean")
+      <*> (o .:? "name_array")
+      <*> (o .:? "name_wrapped_array")
+      <*> (o .:? "prefix_string")
+      <*> (o .:? "prefix_number")
+      <*> (o .:? "prefix_integer")
+      <*> (o .:? "prefix_boolean")
+      <*> (o .:? "prefix_array")
+      <*> (o .:? "prefix_wrapped_array")
+      <*> (o .:? "namespace_string")
+      <*> (o .:? "namespace_number")
+      <*> (o .:? "namespace_integer")
+      <*> (o .:? "namespace_boolean")
+      <*> (o .:? "namespace_array")
+      <*> (o .:? "namespace_wrapped_array")
+      <*> (o .:? "prefix_ns_string")
+      <*> (o .:? "prefix_ns_number")
+      <*> (o .:? "prefix_ns_integer")
+      <*> (o .:? "prefix_ns_boolean")
+      <*> (o .:? "prefix_ns_array")
+      <*> (o .:? "prefix_ns_wrapped_array")
+
+-- | ToJSON XmlItem
+instance A.ToJSON XmlItem where
+  toJSON XmlItem {..} =
+   _omitNulls
+      [ "attribute_string" .= xmlItemAttributeString
+      , "attribute_number" .= xmlItemAttributeNumber
+      , "attribute_integer" .= xmlItemAttributeInteger
+      , "attribute_boolean" .= xmlItemAttributeBoolean
+      , "wrapped_array" .= xmlItemWrappedArray
+      , "name_string" .= xmlItemNameString
+      , "name_number" .= xmlItemNameNumber
+      , "name_integer" .= xmlItemNameInteger
+      , "name_boolean" .= xmlItemNameBoolean
+      , "name_array" .= xmlItemNameArray
+      , "name_wrapped_array" .= xmlItemNameWrappedArray
+      , "prefix_string" .= xmlItemPrefixString
+      , "prefix_number" .= xmlItemPrefixNumber
+      , "prefix_integer" .= xmlItemPrefixInteger
+      , "prefix_boolean" .= xmlItemPrefixBoolean
+      , "prefix_array" .= xmlItemPrefixArray
+      , "prefix_wrapped_array" .= xmlItemPrefixWrappedArray
+      , "namespace_string" .= xmlItemNamespaceString
+      , "namespace_number" .= xmlItemNamespaceNumber
+      , "namespace_integer" .= xmlItemNamespaceInteger
+      , "namespace_boolean" .= xmlItemNamespaceBoolean
+      , "namespace_array" .= xmlItemNamespaceArray
+      , "namespace_wrapped_array" .= xmlItemNamespaceWrappedArray
+      , "prefix_ns_string" .= xmlItemPrefixNsString
+      , "prefix_ns_number" .= xmlItemPrefixNsNumber
+      , "prefix_ns_integer" .= xmlItemPrefixNsInteger
+      , "prefix_ns_boolean" .= xmlItemPrefixNsBoolean
+      , "prefix_ns_array" .= xmlItemPrefixNsArray
+      , "prefix_ns_wrapped_array" .= xmlItemPrefixNsWrappedArray
+      ]
+
+
+-- | Construct a value of type 'XmlItem' (by applying it's required fields, if any)
+mkXmlItem
+  :: XmlItem
+mkXmlItem =
+  XmlItem
+  { xmlItemAttributeString = Nothing
+  , xmlItemAttributeNumber = Nothing
+  , xmlItemAttributeInteger = Nothing
+  , xmlItemAttributeBoolean = Nothing
+  , xmlItemWrappedArray = Nothing
+  , xmlItemNameString = Nothing
+  , xmlItemNameNumber = Nothing
+  , xmlItemNameInteger = Nothing
+  , xmlItemNameBoolean = Nothing
+  , xmlItemNameArray = Nothing
+  , xmlItemNameWrappedArray = Nothing
+  , xmlItemPrefixString = Nothing
+  , xmlItemPrefixNumber = Nothing
+  , xmlItemPrefixInteger = Nothing
+  , xmlItemPrefixBoolean = Nothing
+  , xmlItemPrefixArray = Nothing
+  , xmlItemPrefixWrappedArray = Nothing
+  , xmlItemNamespaceString = Nothing
+  , xmlItemNamespaceNumber = Nothing
+  , xmlItemNamespaceInteger = Nothing
+  , xmlItemNamespaceBoolean = Nothing
+  , xmlItemNamespaceArray = Nothing
+  , xmlItemNamespaceWrappedArray = Nothing
+  , xmlItemPrefixNsString = Nothing
+  , xmlItemPrefixNsNumber = Nothing
+  , xmlItemPrefixNsInteger = Nothing
+  , xmlItemPrefixNsBoolean = Nothing
+  , xmlItemPrefixNsArray = Nothing
+  , xmlItemPrefixNsWrappedArray = Nothing
+  }
+
 
 -- * Enums
 

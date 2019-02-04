@@ -119,8 +119,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "String");
         typeMapping.put("password", "String");
-        // TODO(farcaller): map file
-        typeMapping.put("file", "::models::File");
+        // TODO(bcourtine): review file mapping.
+        // I tried to map as "std::io::File", but Reqwest multipart file requires a "AsRef<Path>" param.
+        // Getting a file from a Path is simple, but the opposite is difficult. So I map as "std::path::Path".
+        // Reference is required here because Path does not implement the "Sized" trait.
+        typeMapping.put("file", "&std::path::Path");
         typeMapping.put("binary", "::models::File");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("object", "Value");
@@ -379,7 +382,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
-        Set<String> headerKeys = new HashSet<>();
         for (CodegenOperation operation : operations) {
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             if (HYPER_LIBRARY.equals(getLibrary())) {
@@ -438,9 +440,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 }
             }*/
         }
-
-        additionalProperties.put("headerKeys", headerKeys);
-        additionalProperties.putIfAbsent("authHeaderKey", "api-key");
 
         return objs;
     }

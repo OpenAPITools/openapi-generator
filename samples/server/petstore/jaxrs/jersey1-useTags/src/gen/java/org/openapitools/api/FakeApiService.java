@@ -13,6 +13,7 @@ import org.openapitools.model.FileSchemaTestClass;
 import java.util.Map;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;
@@ -27,6 +28,8 @@ import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
 
 public abstract class FakeApiService {
+      public abstract Response createXmlItem(XmlItem xmlItem,SecurityContext securityContext)
+      throws NotFoundException;
       public abstract Response fakeOuterBooleanSerialize(Boolean body,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response fakeOuterCompositeSerialize(OuterComposite body,SecurityContext securityContext)

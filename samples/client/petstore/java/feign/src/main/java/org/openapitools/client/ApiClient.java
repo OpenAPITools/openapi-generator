@@ -95,14 +95,14 @@ public class ApiClient {
    * @param username
    * @param password
    */
-   public ApiClient(String authName, String clientId, String secret, String username, String password) {
-     this(authName);
-     this.getTokenEndPoint()
-            .setClientId(clientId)
-            .setClientSecret(secret)
-            .setUsername(username)
-            .setPassword(password);
-   }
+  public ApiClient(String authName, String clientId, String secret, String username, String password) {
+    this(authName);
+    this.getTokenEndPoint()
+           .setClientId(clientId)
+           .setClientSecret(secret)
+           .setUsername(username)
+           .setPassword(password);
+  }
 
   public String getBasePath() {
     return basePath;

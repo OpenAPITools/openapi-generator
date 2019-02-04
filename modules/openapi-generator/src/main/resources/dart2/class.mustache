@@ -42,10 +42,15 @@ class {{classname}} {
     {{/complexType}}
     {{^complexType}}
       {{#isListContainer}}
-      {{name}} = (json['{{baseName}}'] as List).map((item) => item as {{items.datatype}}).toList();
+      {{name}} = (json['{{baseName}}'] as List).cast<{{items.datatype}}>();
       {{/isListContainer}}
       {{^isListContainer}}
-      {{name}} = json['{{baseName}}'];
+        {{#isMapContainer}}
+          {{name}} = (json['{{baseName}}'] as Map).cast<String, {{items.datatype}}>();
+        {{/isMapContainer}}
+        {{^isMapContainer}}
+          {{name}} = json['{{baseName}}'];
+        {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
   {{/isDate}}
