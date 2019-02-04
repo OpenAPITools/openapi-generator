@@ -265,41 +265,40 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
-    public String toModelName(final String name) {
-        String sanName = removeReferenceKeysFromName(name);
-        sanName = sanitizeName(sanName);
+    public String toModelName(String name) {
+        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
-            sanName = modelNamePrefix + "_" + sanName;
+            name = modelNamePrefix + "_" + name;
         }
 
         if (!StringUtils.isEmpty(modelNameSuffix)) {
-            sanName = sanName + "_" + modelNameSuffix;
+            name = name + "_" + modelNameSuffix;
         }
 
         // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(sanName)) {
-            String modelName = camelize("model_" + sanName);
-            LOGGER.warn(sanName + " (reserved word) cannot be used as model name. Renamed to " + modelName);
+        if (isReservedWord(name)) {
+            String modelName = camelize("model_" + name);
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            String modelName = camelize("model_" + sanName); // e.g. 200Response => Model200Response (after camelize)
-            LOGGER.warn(sanName + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
+            String modelName = camelize("model_" + name); // e.g. 200Response => Model200Response (after camelize)
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + modelName);
             return modelName;
         }
 
-        if (languageSpecificPrimitives.contains(sanName)) {
-            String modelName = camelize("model_" + sanName);
-            LOGGER.warn(sanName + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
+        if (languageSpecificPrimitives.contains(name)) {
+            String modelName = camelize("model_" + name);
+            LOGGER.warn(name + " (model name matches existing language type) cannot be used as a model name. Renamed to " + modelName);
             return modelName;
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return camelize(sanName);
+        return camelize(name);
     }
 
     @Override
@@ -696,22 +695,5 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
-    }
-
-    /**
-     * Checks whether spec reference keys are found in the name and sanitizes them.
-     * @param name string to be sanitized
-     */
-    private String removeReferenceKeysFromName(String name) {
-        final String replaceRegex = "^(anyOf|oneOf){1}";
-        final String matcherRegex = replaceRegex + "<{1}";
-        Pattern matcherPattern = Pattern.compile(matcherRegex);
-        
-        if (matcherPattern.matcher(name).find()) {
-            Pattern replacePattern = Pattern.compile(replaceRegex);
-            return replacePattern.matcher(name).replaceAll("");
-        }
-
-        return name;
     }
 }
