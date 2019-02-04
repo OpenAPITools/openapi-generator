@@ -1828,7 +1828,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         addParentContainer(codegenModel, codegenModel.name, schema);
         Schema additionalPropertiesSchema = ModelUtils.getAdditionalProperties(schema);
-        CodegenProperty additionalProperties = fromProperty("", additionalPropertiesSchema);
+        CodegenProperty additionalProperties = fromProperty("additionalPropertiesValue", additionalPropertiesSchema);
         codegenModel.setAdditionalProperties(additionalProperties);
         codegenModel.setAdditionalPropertiesType(additionalProperties.dataType);
     }
