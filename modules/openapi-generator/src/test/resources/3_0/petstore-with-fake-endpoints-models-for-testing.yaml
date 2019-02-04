@@ -768,6 +768,8 @@ paths:
     delete:
       tags:
         - fake
+      security:
+        - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)
       description: Fake endpoint to test group parameters (optional)
       operationId: testGroupParameters
@@ -1096,6 +1098,10 @@ components:
     http_basic_test:
       type: http
       scheme: basic
+    bearer_test:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     Foo:
       type: object

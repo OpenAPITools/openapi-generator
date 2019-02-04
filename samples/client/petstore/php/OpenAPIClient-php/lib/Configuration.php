@@ -56,7 +56,7 @@ class Configuration
     protected $apiKeyPrefixes = [];
 
     /**
-     * Access token for OAuth
+     * Access token for OAuth/Bearer authentication
      *
      * @var string
      */

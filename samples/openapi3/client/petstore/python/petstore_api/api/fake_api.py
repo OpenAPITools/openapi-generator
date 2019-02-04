@@ -1127,7 +1127,7 @@ class FakeApi(object):
 
         body_params = None
         # Authentication setting
-        auth_settings = []  # noqa: E501
+        auth_settings = ['bearer_test']  # noqa: E501
 
         return self.api_client.call_api(
             '/fake', 'DELETE',
