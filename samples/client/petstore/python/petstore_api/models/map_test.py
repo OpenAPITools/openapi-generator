@@ -44,7 +44,17 @@ class MapTest(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """MapTest - a model defined in OpenAPI"""  # noqa: E501
+        """MapTest - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            map_map_of_string (dict(str, dict(str, str))): [optional]
+            map_of_enum_string (dict(str, str)): [optional]
+            direct_map (dict(str, bool)): [optional]
+            indirect_map (dict(str, bool)): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

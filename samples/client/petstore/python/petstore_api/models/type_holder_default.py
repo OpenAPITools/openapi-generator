@@ -46,7 +46,18 @@ class TypeHolderDefault(object):
     }
 
     def __init__(self, number_item, integer_item, array_item, string_item='what', bool_item=True, **kwargs):  # noqa: E501
-        """TypeHolderDefault - a model defined in OpenAPI"""  # noqa: E501
+        """TypeHolderDefault - a model defined in OpenAPI
+
+        Args:
+            number_item (float):
+            integer_item (int):
+            array_item (list[int]):
+            string_item (str): defaults to 'what', must be one of ['what']
+            bool_item (bool): defaults to True, must be one of [True]
+
+
+
+        """  # noqa: E501
 
         self._data_store = {}
 

@@ -39,7 +39,14 @@ class ModelReturn(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """ModelReturn - a model defined in OpenAPI"""  # noqa: E501
+        """ModelReturn - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            _return (int): property description  */ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r. [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

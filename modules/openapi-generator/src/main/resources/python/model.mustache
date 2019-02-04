@@ -53,7 +53,16 @@ class {{classname}}(object):
 {{/discriminator}}
 
     def __init__(self{{#requiredVars}}{{^defaultValue}}, {{name}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{#defaultValue}}, {{name}}={{{defaultValue}}}{{/defaultValue}}{{/requiredVars}}, **kwargs):  # noqa: E501
-        """{{classname}} - a model defined in OpenAPI"""  # noqa: E501
+        """{{classname}} - a model defined in OpenAPI
+
+{{#requiredVars}}{{^hasMore}}        Args:{{/hasMore}}{{/requiredVars}}{{#requiredVars}}{{^defaultValue}}
+            {{name}} ({{dataType}}):{{#description}} {{description}}{{/description}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{#defaultValue}}
+            {{name}} ({{dataType}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]{{/defaultValue}}{{/requiredVars}}
+
+{{#optionalVars}}{{^hasMore}}        Keyword Args:{{/hasMore}}{{/optionalVars}}{{#optionalVars}}
+            {{name}} ({{dataType}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}{{/optionalVars}}
+
+        """  # noqa: E501
 
         self._data_store = {}
 

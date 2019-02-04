@@ -40,7 +40,15 @@ class HasOnlyReadOnly(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """HasOnlyReadOnly - a model defined in OpenAPI"""  # noqa: E501
+        """HasOnlyReadOnly - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            bar (str): [optional]
+            foo (str): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

@@ -62,7 +62,26 @@ class FormatTest(object):
     }
 
     def __init__(self, number, byte, date, password, **kwargs):  # noqa: E501
-        """FormatTest - a model defined in OpenAPI"""  # noqa: E501
+        """FormatTest - a model defined in OpenAPI
+
+        Args:
+            number (float):
+            byte (str):
+            date (date):
+            password (str):
+
+        Keyword Args:
+            integer (int): [optional]
+            int32 (int): [optional]
+            int64 (int): [optional]
+            float (float): [optional]
+            double (float): [optional]
+            string (str): [optional]
+            binary (file): [optional]
+            date_time (datetime): [optional]
+            uuid (str): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

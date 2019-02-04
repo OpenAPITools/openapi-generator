@@ -40,7 +40,15 @@ class Model200Response(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """Model200Response - a model defined in OpenAPI"""  # noqa: E501
+        """Model200Response - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            name (int): [optional]
+            _class (str): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

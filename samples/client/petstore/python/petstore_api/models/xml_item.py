@@ -94,7 +94,42 @@ class XmlItem(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """XmlItem - a model defined in OpenAPI"""  # noqa: E501
+        """XmlItem - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            attribute_string (str): [optional] if omitted the server will use the default value of 'string'
+            attribute_number (float): [optional] if omitted the server will use the default value of 1.234
+            attribute_integer (int): [optional] if omitted the server will use the default value of -2
+            attribute_boolean (bool): [optional] if omitted the server will use the default value of True
+            wrapped_array (list[int]): [optional]
+            name_string (str): [optional] if omitted the server will use the default value of 'string'
+            name_number (float): [optional] if omitted the server will use the default value of 1.234
+            name_integer (int): [optional] if omitted the server will use the default value of -2
+            name_boolean (bool): [optional] if omitted the server will use the default value of True
+            name_array (list[int]): [optional]
+            name_wrapped_array (list[int]): [optional]
+            prefix_string (str): [optional] if omitted the server will use the default value of 'string'
+            prefix_number (float): [optional] if omitted the server will use the default value of 1.234
+            prefix_integer (int): [optional] if omitted the server will use the default value of -2
+            prefix_boolean (bool): [optional] if omitted the server will use the default value of True
+            prefix_array (list[int]): [optional]
+            prefix_wrapped_array (list[int]): [optional]
+            namespace_string (str): [optional] if omitted the server will use the default value of 'string'
+            namespace_number (float): [optional] if omitted the server will use the default value of 1.234
+            namespace_integer (int): [optional] if omitted the server will use the default value of -2
+            namespace_boolean (bool): [optional] if omitted the server will use the default value of True
+            namespace_array (list[int]): [optional]
+            namespace_wrapped_array (list[int]): [optional]
+            prefix_ns_string (str): [optional] if omitted the server will use the default value of 'string'
+            prefix_ns_number (float): [optional] if omitted the server will use the default value of 1.234
+            prefix_ns_integer (int): [optional] if omitted the server will use the default value of -2
+            prefix_ns_boolean (bool): [optional] if omitted the server will use the default value of True
+            prefix_ns_array (list[int]): [optional]
+            prefix_ns_wrapped_array (list[int]): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

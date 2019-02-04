@@ -43,7 +43,13 @@ class EnumClass(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """EnumClass - a model defined in OpenAPI"""  # noqa: E501
+        """EnumClass - a model defined in OpenAPI
+
+
+
+
+
+        """  # noqa: E501
 
         self._data_store = {}
 

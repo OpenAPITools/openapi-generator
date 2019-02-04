@@ -38,7 +38,14 @@ class NumberOnly(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """NumberOnly - a model defined in OpenAPI"""  # noqa: E501
+        """NumberOnly - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            just_number (float): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

@@ -46,7 +46,18 @@ class TypeHolderExample(object):
     }
 
     def __init__(self, string_item='what', number_item=1.234, integer_item=-2, bool_item=True, array_item=[0, 1, 2, 3], **kwargs):  # noqa: E501
-        """TypeHolderExample - a model defined in OpenAPI"""  # noqa: E501
+        """TypeHolderExample - a model defined in OpenAPI
+
+        Args:
+            string_item (str): defaults to 'what', must be one of ['what']
+            number_item (float): defaults to 1.234, must be one of [1.234]
+            integer_item (int): defaults to -2, must be one of [-2]
+            bool_item (bool): defaults to True, must be one of [True]
+            array_item (list[int]): defaults to [0, 1, 2, 3], must be one of [[0, 1, 2, 3]]
+
+
+
+        """  # noqa: E501
 
         self._data_store = {}
 

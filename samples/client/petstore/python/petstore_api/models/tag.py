@@ -40,7 +40,15 @@ class Tag(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """Tag - a model defined in OpenAPI"""  # noqa: E501
+        """Tag - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            id (int): [optional]
+            name (str): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

@@ -48,7 +48,19 @@ class Capitalization(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """Capitalization - a model defined in OpenAPI"""  # noqa: E501
+        """Capitalization - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            small_camel (str): [optional]
+            capital_camel (str): [optional]
+            small_snake (str): [optional]
+            capital_snake (str): [optional]
+            sca_eth_flow_points (str): [optional]
+            att_name (str): Name of the pet . [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

@@ -42,7 +42,16 @@ class OuterComposite(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """OuterComposite - a model defined in OpenAPI"""  # noqa: E501
+        """OuterComposite - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            my_number (float): [optional]
+            my_string (str): [optional]
+            my_boolean (bool): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

@@ -40,7 +40,15 @@ class FileSchemaTestClass(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """FileSchemaTestClass - a model defined in OpenAPI"""  # noqa: E501
+        """FileSchemaTestClass - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            file (File): [optional]
+            files (list[File]): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

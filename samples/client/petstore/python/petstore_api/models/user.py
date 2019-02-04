@@ -52,7 +52,21 @@ class User(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """User - a model defined in OpenAPI"""  # noqa: E501
+        """User - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            id (int): [optional]
+            username (str): [optional]
+            first_name (str): [optional]
+            last_name (str): [optional]
+            email (str): [optional]
+            password (str): [optional]
+            phone (str): [optional]
+            user_status (int): User Status. [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

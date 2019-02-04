@@ -40,7 +40,15 @@ class EnumArrays(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """EnumArrays - a model defined in OpenAPI"""  # noqa: E501
+        """EnumArrays - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            just_symbol (str): [optional]
+            array_enum (list[str]): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 

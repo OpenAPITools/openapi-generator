@@ -40,7 +40,15 @@ class ReadOnlyFirst(object):
     }
 
     def __init__(self, **kwargs):  # noqa: E501
-        """ReadOnlyFirst - a model defined in OpenAPI"""  # noqa: E501
+        """ReadOnlyFirst - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            bar (str): [optional]
+            baz (str): [optional]
+
+        """  # noqa: E501
 
         self._data_store = {}
 
