@@ -46,7 +46,8 @@ public class BashTest {
             = codegen.fromOperation(
                 "/pet/findByStatus",
                 "GET",
-                findPetsByStatusOperation);
+                findPetsByStatusOperation,
+                null);
 
         Assert.assertTrue(
             op.vendorExtensions.containsKey("x-code-samples"));
@@ -75,7 +76,8 @@ public class BashTest {
             = codegen.fromOperation(
                 "/pet",
                 "POST",
-                addPetOperation);
+                addPetOperation,
+                null);
 
         Assert.assertEquals(op.bodyParams.size(), 1);
 

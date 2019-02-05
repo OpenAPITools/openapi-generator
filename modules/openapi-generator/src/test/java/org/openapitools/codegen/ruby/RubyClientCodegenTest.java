@@ -152,7 +152,7 @@ public class RubyClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final String path = "/fake";
         final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "get", p);
+        final CodegenOperation op = codegen.fromOperation(path, "get", p, null);
         Assert.assertEquals(op.formParams.size(), 2);
         CodegenParameter fp = op.formParams.get(0);
         Assert.assertEquals(fp.dataType, "Array<String>");
@@ -168,7 +168,7 @@ public class RubyClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final String path = "/pet";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
         Assert.assertEquals(op.bodyParams.size(), 1);
         CodegenParameter bp = op.bodyParams.get(0);
         Assert.assertEquals(bp.example, "OnlinePetstore::Pet.new");
@@ -299,7 +299,7 @@ public class RubyClientCodegenTest {
         final String path = "/pet/{petId}";
 
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
         Assert.assertEquals(op.pathParams.size(), 1);
         CodegenParameter pp = op.pathParams.get(0);
@@ -321,7 +321,7 @@ public class RubyClientCodegenTest {
         final String path = "/pet/{petId}";
 
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
         // path parameter x-nullable test
         Assert.assertEquals(op.pathParams.size(), 1);
@@ -541,7 +541,7 @@ public class RubyClientCodegenTest {
         final String path = "/store/order/{orderId}";
 
         final Operation p = openAPI.getPaths().get(path).getDelete();
-        final CodegenOperation op = codegen.fromOperation(path, "delete", p);
+        final CodegenOperation op = codegen.fromOperation(path, "delete", p, null);
 
         CodegenParameter pp = op.pathParams.get(0);
         Assert.assertEquals(pp.example, "'orderid123'");
@@ -557,7 +557,7 @@ public class RubyClientCodegenTest {
         final String path = "/store/order/{orderId}";
 
         final Operation p = openAPI.getPaths().get(path).getDelete();
-        final CodegenOperation op = codegen.fromOperation(path, "delete", p);
+        final CodegenOperation op = codegen.fromOperation(path, "delete", p, null);
 
         CodegenParameter pp = op.pathParams.get(0);
         Assert.assertEquals(pp.example, "'orderid123'");
@@ -577,7 +577,7 @@ public class RubyClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         final String path = "/ping";
         final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "get", p);
+        final CodegenOperation op = codegen.fromOperation(path, "get", p, null);
         // pattern_no_forward_slashes '^pattern$'
         Assert.assertEquals(op.allParams.get(0).pattern, "/^pattern$/");
         // pattern_two_slashes '/^pattern$/i'
