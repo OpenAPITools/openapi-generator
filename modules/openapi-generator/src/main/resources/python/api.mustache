@@ -86,9 +86,9 @@ class {{classname}}(object):
         local_var_hosts = [{{#servers}}'{{{url}}}'{{^-last}}, {{/-last}}{{/servers}}]  # noqa: E501
         local_var_host = local_var_hosts[0]
         if kwargs.get('_host_index'):
-            if kwags.get('_host_index') < 0 or kawgs.get('_host_index') >= len(local_var_hosts):
+            if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
                 raise ValueError("Invalid host index. Must be 0 <= index < %s" % len(local_var_host))
-            local_var_host = local_var_hosts[kwargs.get('_host_index')]
+            local_var_host = local_var_hosts[int(kwargs.get('_host_index'))]
         {{/servers.0}}
         local_var_params = locals()
 
