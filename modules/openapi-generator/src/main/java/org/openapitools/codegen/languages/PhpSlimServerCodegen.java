@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.slf4j.Logger;
@@ -242,8 +243,9 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     @Override
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
-                                          Operation operation) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation);
+                                          Operation operation,
+                                          List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         op.path = encodePath(path);
         return op;
     }

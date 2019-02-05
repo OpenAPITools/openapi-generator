@@ -2306,11 +2306,13 @@ public class DefaultCodegen implements CodegenConfig {
      * @param httpMethod HTTP method
      * @param operation  OAS operation object
      * @param path       the path of the operation
+     * @param servers    list of servers
      * @return Codegen Operation object
      */
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
-                                          Operation operation) {
+                                          Operation operation,
+                                          List<Server> servers) {
         LOGGER.debug("fromOperation => operation: " + operation);
         if (operation == null)
             throw new RuntimeException("operation cannot be null in fromOperation");
@@ -2323,6 +2325,15 @@ public class DefaultCodegen implements CodegenConfig {
 
             Object isCallbackRequest = op.vendorExtensions.remove("x-callback-request");
             op.isCallbackRequest = Boolean.TRUE.equals(isCallbackRequest);
+        }
+
+        // servers setting
+        if (operation.getServers() != null && !operation.getServers().isEmpty()) {
+            // use operation-level servers first if defined
+            op.servers = fromServers(operation.getServers());
+        } else if (servers != null && !servers.isEmpty()) {
+            // use path-level servers
+            op.servers = fromServers(servers);
         }
 
         // store the original operationId for plug-in
@@ -2440,7 +2451,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (operation.getCallbacks() != null && !operation.getCallbacks().isEmpty()) {
             operation.getCallbacks().forEach((name, callback) -> {
-                CodegenCallback c = fromCallback(name, callback);
+                CodegenCallback c = fromCallback(name, callback, servers);
                 c.hasMore = true;
                 op.callbacks.add(c);
             });
@@ -2736,9 +2747,10 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param name     callback name
      * @param callback OAS Callback object
+     * @param servers  list of servers
      * @return Codegen Response object
      */
-    public CodegenCallback fromCallback(String name, Callback callback) {
+    public CodegenCallback fromCallback(String name, Callback callback, List<Server> servers) {
         CodegenCallback c = new CodegenCallback();
         c.name = name;
 
@@ -2780,7 +2792,7 @@ public class DefaultCodegen implements CodegenConfig {
                         // distinguish between normal operations and callback requests
                         op.getExtensions().put("x-callback-request", true);
 
-                        CodegenOperation co = fromOperation(expression, method, op);
+                        CodegenOperation co = fromOperation(expression, method, op, servers);
                         if (genId) {
                             co.operationIdOriginal = null;
                             // legacy (see `fromOperation()`)

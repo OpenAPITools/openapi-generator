@@ -95,7 +95,7 @@ public class Swift3CodegenTest {
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/binaryResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
         Assert.assertEquals(op.returnType, "Data");
         Assert.assertEquals(op.bodyParam.dataType, "Data");
@@ -110,7 +110,7 @@ public class Swift3CodegenTest {
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/dateResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
         Assert.assertEquals(op.returnType, "ISOFullDate");
         Assert.assertEquals(op.bodyParam.dataType, "ISOFullDate");

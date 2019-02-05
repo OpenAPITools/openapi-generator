@@ -48,7 +48,7 @@ public class JavaCXFClientCodegenTest {
                         .addApiResponse("400", new ApiResponse().description("Error")));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
         final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
-        final CodegenOperation co = codegen.fromOperation("getAllPets", "GET", operation);
+        final CodegenOperation co = codegen.fromOperation("getAllPets", "GET", operation, null);
 
         Map<String, Object> objs = new HashMap<>();
         objs.put("operations", Collections.singletonMap("operation", Collections.singletonList(co)));
