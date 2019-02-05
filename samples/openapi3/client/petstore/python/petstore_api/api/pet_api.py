@@ -68,12 +68,12 @@ class PetApi(object):
                  returns the request thread.
         """
 
-        local_var_hosts = ['http://operation-server-test.petstore.swagger.io/v2']  # noqa: E501
+        local_var_hosts = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2']  # noqa: E501
         local_var_host = local_var_hosts[0]
         if kwargs.get('_host_index'):
-            if kwags.get('_host_index') < 0 or kawgs.get('_host_index') >= len(local_var_hosts):
+            if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
                 raise ValueError("Invalid host index. Must be 0 <= index < %s" % len(local_var_host))
-            local_var_host = local_var_hosts[kwargs.get('_host_index')]
+            local_var_host = local_var_hosts[int(kwargs.get('_host_index'))]
         local_var_params = locals()
 
         all_params = ['pet']  # noqa: E501
@@ -556,9 +556,9 @@ class PetApi(object):
         local_var_hosts = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2']  # noqa: E501
         local_var_host = local_var_hosts[0]
         if kwargs.get('_host_index'):
-            if kwags.get('_host_index') < 0 or kawgs.get('_host_index') >= len(local_var_hosts):
+            if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
                 raise ValueError("Invalid host index. Must be 0 <= index < %s" % len(local_var_host))
-            local_var_host = local_var_hosts[kwargs.get('_host_index')]
+            local_var_host = local_var_hosts[int(kwargs.get('_host_index'))]
         local_var_params = locals()
 
         all_params = ['pet']  # noqa: E501

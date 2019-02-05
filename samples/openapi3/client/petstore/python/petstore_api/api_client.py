@@ -345,7 +345,9 @@ class ApiClient(object):
                                            response_type, auth_settings,
                                            _return_http_data_only,
                                            collection_formats,
-                                           _preload_content, _request_timeout, _host))
+                                           _preload_content,
+                                           _request_timeout,
+                                           _host))
         return thread
 
     def request(self, method, url, query_params=None, headers=None,
