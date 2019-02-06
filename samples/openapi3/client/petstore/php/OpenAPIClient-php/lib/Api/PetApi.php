@@ -65,18 +65,46 @@ class PetApi
     protected $headerSelector;
 
     /**
+     * @var Host index
+     */
+    protected $hostIndex;
+
+    /**
      * @param ClientInterface $client
      * @param Configuration   $config
      * @param HeaderSelector  $selector
+     * @param int             $host_index
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
-        HeaderSelector $selector = null
+        HeaderSelector $selector = null,
+        $host_index = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
         $this->headerSelector = $selector ?: new HeaderSelector();
+        $this->hostIndex = $host_index;
+    }
+
+    /**
+     * Set the host index
+     *
+     * @param  int Host index (required)
+     */
+    public function setHostIndex($host_index)
+    {
+        $this->hostIndex = $host_index;
+    }
+
+    /**
+     * Get the host index
+     *
+     * @return Host index
+     */
+    public function getHostIndex()
+    {
+        return $this->hostIndex;
     }
 
     /**
@@ -301,10 +329,16 @@ class PetApi
             $headers
         );
 
+        $operationHosts = ["http://petstore.swagger.io/v2", "http://localhost:8080/v2"];
+        if ($this->hostIndex < 0 || $this->hostIndex >= sizeof($operationHosts)) {
+            throw new \InvalidArgumentException("Invalid index {$this->hostIndex} when selecting the host. Must be less than ".sizeof($operationHosts));
+        }
+        $operationHost = $operationHosts[$this->hostIndex];
+
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1588,10 +1622,16 @@ class PetApi
             $headers
         );
 
+        $operationHosts = ["http://petstore.swagger.io/v2", "http://localhost:8080/v2"];
+        if ($this->hostIndex < 0 || $this->hostIndex >= sizeof($operationHosts)) {
+            throw new \InvalidArgumentException("Invalid index {$this->hostIndex} when selecting the host. Must be less than ".sizeof($operationHosts));
+        }
+        $operationHost = $operationHosts[$this->hostIndex];
+
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'PUT',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
