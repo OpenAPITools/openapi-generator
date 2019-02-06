@@ -95,7 +95,7 @@ module Petstore
     def just_symbol=(just_symbol)
       validator = EnumAttributeValidator.new('String', ['>=', '$'])
       unless validator.valid?(just_symbol)
-        fail ArgumentError, 'invalid value for "just_symbol", must be one of #{validator.allowable_values}.'
+        fail ArgumentError, "invalid value for \"just_symbol\", must be one of #{validator.allowable_values}."
       end
       @just_symbol = just_symbol
     end
