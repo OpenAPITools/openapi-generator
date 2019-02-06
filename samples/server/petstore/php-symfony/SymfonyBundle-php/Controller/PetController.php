@@ -30,6 +30,7 @@
 namespace OpenAPI\Server\Controller;
 
 use \Exception;
+use JMS\Serializer\Exception\RuntimeException as SerializerRuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -87,7 +88,11 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $body = $this->deserialize($body, 'OpenAPI\Server\Model\Pet', $inputFormat);
+        try {
+            $body = $this->deserialize($body, 'OpenAPI\Server\Model\Pet', $inputFormat);
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -166,8 +171,12 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $petId = $this->deserialize($petId, 'int', 'string');
-        $apiKey = $this->deserialize($apiKey, 'string', 'string');
+        try {
+            $petId = $this->deserialize($petId, 'int', 'string');
+            $apiKey = $this->deserialize($apiKey, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -252,7 +261,11 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $status = $this->deserialize($status, 'array<csv,string>', 'string');
+        try {
+            $status = $this->deserialize($status, 'array<csv,string>', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -339,7 +352,11 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $tags = $this->deserialize($tags, 'array<csv,string>', 'string');
+        try {
+            $tags = $this->deserialize($tags, 'array<csv,string>', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -422,7 +439,11 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $petId = $this->deserialize($petId, 'int', 'string');
+        try {
+            $petId = $this->deserialize($petId, 'int', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -515,7 +536,11 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $body = $this->deserialize($body, 'OpenAPI\Server\Model\Pet', $inputFormat);
+        try {
+            $body = $this->deserialize($body, 'OpenAPI\Server\Model\Pet', $inputFormat);
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -601,9 +626,13 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $petId = $this->deserialize($petId, 'int', 'string');
-        $name = $this->deserialize($name, 'string', 'string');
-        $status = $this->deserialize($status, 'string', 'string');
+        try {
+            $petId = $this->deserialize($petId, 'int', 'string');
+            $name = $this->deserialize($name, 'string', 'string');
+            $status = $this->deserialize($status, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -695,8 +724,12 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $petId = $this->deserialize($petId, 'int', 'string');
-        $additionalMetadata = $this->deserialize($additionalMetadata, 'string', 'string');
+        try {
+            $petId = $this->deserialize($petId, 'int', 'string');
+            $additionalMetadata = $this->deserialize($additionalMetadata, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
