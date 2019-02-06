@@ -329,16 +329,10 @@ class PetApi
             $headers
         );
 
-        $operationHosts = ["http://petstore.swagger.io/v2", "http://localhost:8080/v2"];
-        if ($this->hostIndex < 0 || $this->hostIndex >= sizeof($operationHosts)) {
-            throw new \InvalidArgumentException("Invalid index {$this->hostIndex} when selecting the host. Must be less than ".sizeof($operationHosts));
-        }
-        $operationHost = $operationHosts[$this->hostIndex];
-
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
-            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1622,16 +1616,10 @@ class PetApi
             $headers
         );
 
-        $operationHosts = ["http://petstore.swagger.io/v2", "http://localhost:8080/v2"];
-        if ($this->hostIndex < 0 || $this->hostIndex >= sizeof($operationHosts)) {
-            throw new \InvalidArgumentException("Invalid index {$this->hostIndex} when selecting the host. Must be less than ".sizeof($operationHosts));
-        }
-        $operationHost = $operationHosts[$this->hostIndex];
-
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'PUT',
-            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
