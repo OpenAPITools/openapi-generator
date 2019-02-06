@@ -282,7 +282,7 @@
     def {{{name}}}=({{{name}}})
       validator = EnumAttributeValidator.new('{{{dataType}}}', [{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
       unless validator.valid?({{{name}}})
-        fail ArgumentError, 'invalid value for "{{{name}}}", must be one of #{validator.allowable_values}.'
+        fail ArgumentError, "invalid value for \"{{{name}}}\", must be one of #{validator.allowable_values}."
       end
       @{{{name}}} = {{{name}}}
     end
