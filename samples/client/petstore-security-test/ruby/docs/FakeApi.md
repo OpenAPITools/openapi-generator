@@ -12,6 +12,8 @@ Method | HTTP request | Description
 
 To test code injection */ ' \" =_end -- \\r\\n \\n \\r
 
+To test code injection */ ' \" =_end -- \\r\\n \\n \\r
+
 ### Example
 ```ruby
 # load the gem
@@ -19,7 +21,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  unknown_base_type: Petstore::UNKNOWN_BASE_TYPE.new # Object | 
+  test_code_inject____end____rn_n_r: 'test_code_inject____end____rn_n_r_example' # String | To test code injection */ ' \\\" =_end -- \\\\r\\\\n \\\\n \\\\r
 }
 
 begin
@@ -34,7 +36,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **unknown_base_type** | [**Object**](UNKNOWN_BASE_TYPE.md)|  | [optional] 
+ **test_code_inject____end____rn_n_r** | **String**| To test code injection */ &#39; \\\&quot; &#x3D;_end -- \\\\r\\\\n \\\\n \\\\r | [optional] 
 
 ### Return type
 
@@ -46,7 +48,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, */  \" =_end --       
+ - **Content-Type**: application/x-www-form-urlencoded, */  \" =_end --       
  - **Accept**: Not defined
 
 

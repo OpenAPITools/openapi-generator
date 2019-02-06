@@ -128,7 +128,7 @@ module Petstore
     def enum_string=(enum_string)
       validator = EnumAttributeValidator.new('String', ['UPPER', 'lower', ''])
       unless validator.valid?(enum_string)
-        fail ArgumentError, 'invalid value for "enum_string", must be one of #{validator.allowable_values}.'
+        fail ArgumentError, "invalid value for \"enum_string\", must be one of #{validator.allowable_values}."
       end
       @enum_string = enum_string
     end
@@ -138,7 +138,7 @@ module Petstore
     def enum_string_required=(enum_string_required)
       validator = EnumAttributeValidator.new('String', ['UPPER', 'lower', ''])
       unless validator.valid?(enum_string_required)
-        fail ArgumentError, 'invalid value for "enum_string_required", must be one of #{validator.allowable_values}.'
+        fail ArgumentError, "invalid value for \"enum_string_required\", must be one of #{validator.allowable_values}."
       end
       @enum_string_required = enum_string_required
     end
@@ -148,7 +148,7 @@ module Petstore
     def enum_integer=(enum_integer)
       validator = EnumAttributeValidator.new('Integer', ['1', '-1'])
       unless validator.valid?(enum_integer)
-        fail ArgumentError, 'invalid value for "enum_integer", must be one of #{validator.allowable_values}.'
+        fail ArgumentError, "invalid value for \"enum_integer\", must be one of #{validator.allowable_values}."
       end
       @enum_integer = enum_integer
     end
@@ -158,7 +158,7 @@ module Petstore
     def enum_number=(enum_number)
       validator = EnumAttributeValidator.new('Float', ['1.1', '-1.2'])
       unless validator.valid?(enum_number)
-        fail ArgumentError, 'invalid value for "enum_number", must be one of #{validator.allowable_values}.'
+        fail ArgumentError, "invalid value for \"enum_number\", must be one of #{validator.allowable_values}."
       end
       @enum_number = enum_number
     end
