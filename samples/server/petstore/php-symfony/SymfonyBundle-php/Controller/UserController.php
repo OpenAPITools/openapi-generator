@@ -66,15 +66,6 @@ class UserController extends Controller
             return new Response('', 415);
         }
 
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
 
         // Read out all input parameter values into variables
@@ -115,12 +106,11 @@ class UserController extends Controller
             }
 
             return new Response(
-                $result !== null ?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -146,15 +136,6 @@ class UserController extends Controller
         if (!in_array($inputFormat, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
-        }
-
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
         }
 
         // Handle authentication
@@ -199,12 +180,11 @@ class UserController extends Controller
             }
 
             return new Response(
-                $result !== null ?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -230,15 +210,6 @@ class UserController extends Controller
         if (!in_array($inputFormat, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
-        }
-
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
         }
 
         // Handle authentication
@@ -283,12 +254,11 @@ class UserController extends Controller
             }
 
             return new Response(
-                $result !== null ?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -308,15 +278,6 @@ class UserController extends Controller
      */
     public function deleteUserAction(Request $request, $username)
     {
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
 
         // Read out all input parameter values into variables
@@ -359,12 +320,11 @@ class UserController extends Controller
             }
 
             return new Response(
-                $result !== null ?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -549,15 +509,6 @@ class UserController extends Controller
      */
     public function logoutUserAction(Request $request)
     {
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
 
         // Read out all input parameter values into variables
@@ -589,12 +540,11 @@ class UserController extends Controller
             }
 
             return new Response(
-                $result !== null ?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -620,15 +570,6 @@ class UserController extends Controller
         if (!in_array($inputFormat, $consumes)) {
             // We can't consume the content that the client is sending us
             return new Response('', 415);
-        }
-
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
         }
 
         // Handle authentication
@@ -682,12 +623,11 @@ class UserController extends Controller
             }
 
             return new Response(
-                $result !== null ?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
