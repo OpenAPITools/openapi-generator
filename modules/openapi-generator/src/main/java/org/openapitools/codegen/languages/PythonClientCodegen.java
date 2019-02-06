@@ -194,7 +194,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
-            generateSourceCodeOnly = true;
+            generateSourceCodeOnly = Boolean.valueOf(additionalProperties.get(CodegenConstants.SOURCECODEONLY_GENERATION).toString());
         }
 
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
