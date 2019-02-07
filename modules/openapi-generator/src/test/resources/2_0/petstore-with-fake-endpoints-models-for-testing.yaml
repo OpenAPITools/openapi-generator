@@ -1391,52 +1391,46 @@ definitions:
   AdditionalPropertiesClass:
     type: object
     properties:
-      string_property:
+      map_string:
         type: object
         additionalProperties:
           type: string
-      number_property:
+      map_number:
         type: object
         additionalProperties:
           type: number
-      integer_property:
+      map_integer:
         type: object
         additionalProperties:
           type: integer
-      boolean_property:
+      map_boolean:
         type: object
         additionalProperties:
           type: boolean
-      array_integers_property:
+      map_array_integer:
         type: object
         additionalProperties:
           type: array
           items:
             type: integer
-      array_anytype_property:
+      map_array_anytype:
         type: object
         additionalProperties:
           type: array
           items:
             type: object
-      map_string_property:
+      map_map_string:
         type: object
         additionalProperties:
           type: object
           additionalProperties:
             type: string
-      map_anytype_property:
+      map_anytype:
         type: object
         additionalProperties:
           type: object
           additionalProperties:
             type: object
-      map_of_map_property:
-        type: object
-        additionalProperties:
-          type: object
-          additionalProperties:
-            type: string
       property_anytype_1:
         type: object
       property_anytype_2: {}
@@ -1444,13 +1438,13 @@ definitions:
         type: object
         properties: {}
     additionalProperties:
-      type: string
-  AdditionalPropertiesAnyType:
+      type: object
+  AdditionalPropertiesString:
     properties:
       name:
         type: string
     additionalProperties:
-      type: object
+      type: string
   MixedPropertiesAndAdditionalPropertiesClass:
     type: object
     properties:

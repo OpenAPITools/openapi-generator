@@ -296,14 +296,36 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
-        // TODO: move this to post processing all model params
-        property.dataType = getCodegenPropertyDataType(property);
+    }
+
+    // override with any special post-processing for all models
+    @SuppressWarnings({"static-method", "unchecked"})
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        // loop through properties of each model to fix dataType
+        for (Map.Entry<String, Object> entry : objs.entrySet()) {
+            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
+            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
+            for (Map<String, Object> mo : models) {
+                CodegenModel cm = (CodegenModel) mo.get("model");
+                cm.additionalProperties.dataType = getCodegenPropertyDataType(cm.additionalProperties);
+                for (CodegenProperty cp : cm.allVars) {
+                    cp.dataType = getCodegenPropertyDataType(cp);
+                }
+                for (CodegenProperty cp : cm.requiredVars) {
+                    cp.dataType = getCodegenPropertyDataType(cp);
+                }
+                for (CodegenProperty cp : cm.optionalVars) {
+                    cp.dataType = getCodegenPropertyDataType(cp);
+                }
+            }
+        }
+
+        return objs;
     }
 
     public String getCodegenPropertyDataType(CodegenProperty cp) {
         if (cp.jsonSchema.equals("{\n  \"type\" : \"object\",\n  \"properties\" : { }\n}") ||
                 cp.jsonSchema.equals("{\n  \"type\" : \"object\"\n}")) {
-
             return "str|float|int|bool|list|dict";
         } else if (cp.isMapContainer && cp.items != null) {
             return "dict(str, " + getCodegenPropertyDataType(cp.items) + ")";
