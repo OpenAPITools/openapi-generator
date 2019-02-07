@@ -157,11 +157,11 @@ public class Capitalization implements Parcelable {
    * @return ATT_NAME
   **/
   @ApiModelProperty(value = "Name of the pet ")
-  public String getATTNAME() {
+  public String getATT_NAME() {
     return ATT_NAME;
   }
 
-  public void setATTNAME(String ATT_NAME) {
+  public void setATT_NAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
 
