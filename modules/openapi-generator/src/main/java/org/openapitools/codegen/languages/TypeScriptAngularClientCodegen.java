@@ -206,6 +206,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         if (additionalProperties.containsKey(NPM_VERSION)) {
             this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
+        } else if (this.getVersionFromApi() != null) {
+            this.setNpmVersion(this.getVersionFromApi());
         }
 
         if (additionalProperties.containsKey(SNAPSHOT)
@@ -649,5 +651,18 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             name = camelize(name, true);
         }
         return name;
+    }
+
+    /**
+     * Returns version from OpenAPI info.
+     *
+     * @return
+     */
+    private String getVersionFromApi() {
+        if (this.openAPI != null && this.openAPI.getInfo() != null) {
+            return this.openAPI.getInfo().getVersion();
+        } else {
+            return null;
+        }
     }
 }
