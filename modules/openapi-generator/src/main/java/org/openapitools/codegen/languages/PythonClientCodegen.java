@@ -296,6 +296,22 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
+        // TODO: move this to post processing all model params
+        property.dataType = getCodegenPropertyDataType(property);
+    }
+
+    public String getCodegenPropertyDataType(CodegenProperty cp) {
+        if (cp.jsonSchema.equals("{\n  \"type\" : \"object\",\n  \"properties\" : { }\n}") ||
+                cp.jsonSchema.equals("{\n  \"type\" : \"object\"\n}")) {
+
+            return "str|float|int|bool|list|dict";
+        } else if (cp.isMapContainer && cp.items != null) {
+            return "dict(str, " + getCodegenPropertyDataType(cp.items) + ")";
+        } else if (cp.isListContainer && cp.items != null) {
+            return "list[" + getCodegenPropertyDataType(cp.items) + "]";
+        } else {
+            return cp.baseType;
+        }
     }
 
     /*
@@ -413,9 +429,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-
             return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
         }
+        // TODO: debug here, detect wildcard object and return all types
         return super.getTypeDeclaration(p);
     }
 

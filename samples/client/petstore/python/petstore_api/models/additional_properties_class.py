@@ -32,11 +32,19 @@ class AdditionalPropertiesClass(object):
     """
     openapi_types = {
         'map_property': 'dict(str, str)',
-        'map_of_map_property': 'dict(str, dict(str, str))'
+        'map_of_map_property': 'dict(str, dict(str, str))',
+        'any_values_1': 'object',
+        'any_values_2': 'object',
+        'any_values_3': 'object',
+        'map_with_any_values': 'object'
     }
     attribute_map = {
         'map_property': 'map_property',
-        'map_of_map_property': 'map_of_map_property'
+        'map_of_map_property': 'map_of_map_property',
+        'any_values_1': 'any_values_1',
+        'any_values_2': 'any_values_2',
+        'any_values_3': 'any_values_3',
+        'map_with_any_values': 'map_with_any_values'
     }
     additional_properties_type = 'str'
 
@@ -48,6 +56,10 @@ class AdditionalPropertiesClass(object):
         Keyword Args:
             map_property (dict(str, str)): [optional]
             map_of_map_property (dict(str, dict(str, str))): [optional]
+            any_values_1 (object): [optional]
+            any_values_2 (object): [optional]
+            any_values_3 (object): [optional]
+            map_with_any_values (object): [optional]
 
         """  # noqa: E501
 
@@ -149,6 +161,90 @@ class AdditionalPropertiesClass(object):
         """
 
         self._data_store['map_of_map_property'] = map_of_map_property
+
+    @property
+    def any_values_1(self):
+        """Gets the any_values_1 of this AdditionalPropertiesClass.  # noqa: E501
+
+
+        :return: The any_values_1 of this AdditionalPropertiesClass.  # noqa: E501
+        :rtype: object
+        """
+        return self._data_store.get('any_values_1')
+
+    @any_values_1.setter
+    def any_values_1(self, any_values_1):
+        """Sets the any_values_1 of this AdditionalPropertiesClass.
+
+
+        :param any_values_1: The any_values_1 of this AdditionalPropertiesClass.  # noqa: E501
+        :type: object
+        """
+
+        self._data_store['any_values_1'] = any_values_1
+
+    @property
+    def any_values_2(self):
+        """Gets the any_values_2 of this AdditionalPropertiesClass.  # noqa: E501
+
+
+        :return: The any_values_2 of this AdditionalPropertiesClass.  # noqa: E501
+        :rtype: object
+        """
+        return self._data_store.get('any_values_2')
+
+    @any_values_2.setter
+    def any_values_2(self, any_values_2):
+        """Sets the any_values_2 of this AdditionalPropertiesClass.
+
+
+        :param any_values_2: The any_values_2 of this AdditionalPropertiesClass.  # noqa: E501
+        :type: object
+        """
+
+        self._data_store['any_values_2'] = any_values_2
+
+    @property
+    def any_values_3(self):
+        """Gets the any_values_3 of this AdditionalPropertiesClass.  # noqa: E501
+
+
+        :return: The any_values_3 of this AdditionalPropertiesClass.  # noqa: E501
+        :rtype: object
+        """
+        return self._data_store.get('any_values_3')
+
+    @any_values_3.setter
+    def any_values_3(self, any_values_3):
+        """Sets the any_values_3 of this AdditionalPropertiesClass.
+
+
+        :param any_values_3: The any_values_3 of this AdditionalPropertiesClass.  # noqa: E501
+        :type: object
+        """
+
+        self._data_store['any_values_3'] = any_values_3
+
+    @property
+    def map_with_any_values(self):
+        """Gets the map_with_any_values of this AdditionalPropertiesClass.  # noqa: E501
+
+
+        :return: The map_with_any_values of this AdditionalPropertiesClass.  # noqa: E501
+        :rtype: object
+        """
+        return self._data_store.get('map_with_any_values')
+
+    @map_with_any_values.setter
+    def map_with_any_values(self, map_with_any_values):
+        """Sets the map_with_any_values of this AdditionalPropertiesClass.
+
+
+        :param map_with_any_values: The map_with_any_values of this AdditionalPropertiesClass.  # noqa: E501
+        :type: object
+        """
+
+        self._data_store['map_with_any_values'] = map_with_any_values
 
     def to_dict(self):
         """Returns the model properties as a dict"""
