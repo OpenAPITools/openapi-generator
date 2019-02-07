@@ -119,10 +119,10 @@ public class Capitalization  implements Serializable {
   
   @ApiModelProperty(value = "Name of the pet ")
   @JsonProperty("ATT_NAME")
-  public String getATTNAME() {
+  public String getATT_NAME() {
     return ATT_NAME;
   }
-  public void setATTNAME(String ATT_NAME) {
+  public void setATT_NAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
 
