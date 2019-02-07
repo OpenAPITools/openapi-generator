@@ -20,7 +20,7 @@ import javax.validation.constraints.*;
 
 public class PetApiServiceImpl extends PetApiService {
     @Override
-    public Response addPet(Pet pet, SecurityContext securityContext) throws NotFoundException {
+    public Response addPet(Pet body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
@@ -45,7 +45,7 @@ public class PetApiServiceImpl extends PetApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response updatePet(Pet pet, SecurityContext securityContext) throws NotFoundException {
+    public Response updatePet(Pet body, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

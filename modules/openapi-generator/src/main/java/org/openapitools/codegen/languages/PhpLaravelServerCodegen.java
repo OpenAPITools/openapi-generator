@@ -17,11 +17,14 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
     protected String apiVersion = "1.0.0";
@@ -198,7 +201,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
 
     // override with any special post-processing
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         @SuppressWarnings("unchecked")
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
@@ -241,7 +244,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             return "DefaultController";
         }
 
-        return org.openapitools.codegen.utils.StringUtils.camelize(name, false) + "Controller";
+        return camelize(name, false) + "Controller";
     }
 
     protected String controllerFileFolder() {
@@ -263,6 +266,6 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
             return "DefaultController";
         }
 
-        return org.openapitools.codegen.utils.StringUtils.camelize(name, false) + "Controller";
+        return camelize(name, false) + "Controller";
     }
 }

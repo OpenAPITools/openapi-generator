@@ -89,22 +89,22 @@ class {{classname}} {
                                              authNames);
 
     if(response.statusCode >= 400) {
-      throw new ApiException(response.statusCode, response.body);
+      throw new ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
       {{#isListContainer}}
         {{#returnType}}
-      return (apiClient.deserialize(response.body, '{{{returnType}}}') as List).map((item) => item as {{returnBaseType}}).toList();
+      return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List).map((item) => item as {{returnBaseType}}).toList();
         {{/returnType}}
       {{/isListContainer}}
       {{^isListContainer}}
         {{#isMapContainer}}
           {{#returnType}}
-      return new {{{returnType}}}.from(apiClient.deserialize(response.body, '{{{returnType}}}'));
+      return new {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
           {{/returnType}};
         {{/isMapContainer}}
         {{^isMapContainer}}
           {{#returnType}}
-      return apiClient.deserialize(response.body, '{{{returnType}}}') as {{{returnType}}};
+      return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
           {{/returnType}}
         {{/isMapContainer}}
       {{/isListContainer}}

@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="ArrayOfArrayOfNumberOnly" /> class.
         /// </summary>
         /// <param name="arrayArrayNumber">arrayArrayNumber.</param>
-        public ArrayOfArrayOfNumberOnly(List<List<decimal?>> arrayArrayNumber = default(List<List<decimal?>>))
+        public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber = default(List<List<decimal>>))
         {
             this.ArrayArrayNumber = arrayArrayNumber;
         }
@@ -44,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayNumber
         /// </summary>
         [DataMember(Name="ArrayArrayNumber", EmitDefaultValue=false)]
-        public List<List<decimal?>> ArrayArrayNumber { get; set; }
+        public List<List<decimal>> ArrayArrayNumber { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -75,7 +76,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as ArrayOfArrayOfNumberOnly);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as ArrayOfArrayOfNumberOnly).AreEqual;
         }
 
         /// <summary>
@@ -85,15 +86,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(ArrayOfArrayOfNumberOnly input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.ArrayArrayNumber == input.ArrayArrayNumber ||
-                    this.ArrayArrayNumber != null &&
-                    this.ArrayArrayNumber.SequenceEqual(input.ArrayArrayNumber)
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

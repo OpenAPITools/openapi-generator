@@ -21,26 +21,14 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.tags.Tag;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.URLPathUtils;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
  * Created by prokarma on 04/09/17.
@@ -546,7 +534,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                     title = title.substring(0, title.length() - 3);
                 }
 
-                this.title = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(title), true);
+                this.title = camelize(sanitizeName(title), true);
             }
             additionalProperties.put(TITLE, this.title);
         }
@@ -595,7 +583,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             return "DefaultApi";
         }
         name = sanitizeName(name);
-        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
+        return camelize(name) + "Api";
     }
 
     @Override

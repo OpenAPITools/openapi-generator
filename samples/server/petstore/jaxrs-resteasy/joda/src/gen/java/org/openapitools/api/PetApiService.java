@@ -19,7 +19,7 @@ import javax.ws.rs.core.SecurityContext;
 
 
 public interface PetApiService {
-      Response addPet(Pet pet,SecurityContext securityContext)
+      Response addPet(Pet body,SecurityContext securityContext)
       throws NotFoundException;
       Response deletePet(Long petId,String apiKey,SecurityContext securityContext)
       throws NotFoundException;
@@ -29,7 +29,7 @@ public interface PetApiService {
       throws NotFoundException;
       Response getPetById(Long petId,SecurityContext securityContext)
       throws NotFoundException;
-      Response updatePet(Pet pet,SecurityContext securityContext)
+      Response updatePet(Pet body,SecurityContext securityContext)
       throws NotFoundException;
       Response updatePetWithForm(Long petId,String name,String status,SecurityContext securityContext)
       throws NotFoundException;

@@ -49,12 +49,8 @@ public class Generate implements Runnable {
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;
 
-    @Option(name = {"-l", "--lang"}, title = "language",
-            description = "client language to generate (maybe class name in classpath, required)")
-    private String lang;
-
     @Option(name = {"-g", "--generator-name"}, title = "generator name",
-            description = "generator to use (see langs command for list)")
+            description = "generator to use (see list command for list)")
     private String generatorName;
 
     @Option(name = {"-o", "--output"}, title = "output directory",
@@ -212,6 +208,9 @@ public class Generate implements Runnable {
     @Option(name = {"--enable-post-process-file"}, title = "enable post-process file", description = CodegenConstants.ENABLE_POST_PROCESS_FILE)
     private Boolean enablePostProcessFile;
 
+    @Option(name = {"--generate-alias-as-model"}, title = "generate alias (array, map) as model", description = CodegenConstants.GENERATE_ALIAS_AS_MODEL_DESC)
+    private Boolean generateAliasAsModel;
+
     @Override
     public void run() {
         if (logToStderr != null) {
@@ -255,12 +254,8 @@ public class Generate implements Runnable {
             configurator.setInputSpec(spec);
         }
 
-        // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
         if (isNotEmpty(generatorName)) {
             configurator.setGeneratorName(generatorName);
-        } else if (isNotEmpty(lang)) {
-            LOGGER.warn("The '--lang' and '-l' are deprecated and may reference language names only in the next major release (4.0). Please use --generator-name /-g instead.");
-            configurator.setGeneratorName(lang);
         } else {
             System.err.println("[error] A generator name (--generator-name / -g) is required.");
             System.exit(1);
@@ -340,6 +335,10 @@ public class Generate implements Runnable {
 
         if (enablePostProcessFile != null) {
             configurator.setEnablePostProcessFile(enablePostProcessFile);
+        }
+
+        if (generateAliasAsModel != null) {
+            configurator.setGenerateAliasAsModel(generateAliasAsModel);
         }
 
         applySystemPropertiesKvpList(systemProperties, configurator);

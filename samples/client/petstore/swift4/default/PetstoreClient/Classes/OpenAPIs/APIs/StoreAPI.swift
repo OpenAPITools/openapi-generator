@@ -27,7 +27,6 @@ open class StoreAPI {
         }
     }
 
-
     /**
      Delete purchase order by ID
      - DELETE /store/order/{order_id}
@@ -60,7 +59,6 @@ open class StoreAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      Returns pet inventories by status
@@ -95,7 +93,6 @@ open class StoreAPI {
         }
     }
 
-
     /**
      Find purchase order by ID
      - GET /store/order/{order_id}
@@ -129,7 +126,6 @@ open class StoreAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      Place an order for a pet

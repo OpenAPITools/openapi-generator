@@ -42,10 +42,10 @@ class AnotherFakeApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['client'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $client when calling call123TestSpecialTags');
+        if (!isset($input['body'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $body when calling call123TestSpecialTags');
         }
-        $client = $input['client'];
+        $body = $input['body'];
 
 
         return response('How about implementing call123TestSpecialTags as a patch method ?');

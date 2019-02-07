@@ -77,7 +77,7 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     {{^isMapContainer}}
     {{#isPrimitiveType}}
     {{{dataType}}} {{paramName}};
-    ::{{cppNamespace}}::fromStringValue((QString(socket->readAll()), {{paramName}});
+    ::{{cppNamespace}}::fromStringValue(QString(socket->readAll()), {{paramName}});
     {{/isPrimitiveType}}
     {{/isMapContainer}}
     {{#isMapContainer}}

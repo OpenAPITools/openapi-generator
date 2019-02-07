@@ -18,24 +18,24 @@ public interface FakeClassnameTags123Api {
    * To test class name in snake case
    * Sync method
    * To test class name in snake case
-   * @param client client model (required)
+   * @param body client model (required)
    * @return Client
    */
   
   @PATCH("/fake_classname_test")
   Client testClassname(
-    @retrofit.http.Body Client client
+    @retrofit.http.Body Client body
   );
 
   /**
    * To test class name in snake case
    * Async method
-   * @param client client model (required)
+   * @param body client model (required)
    * @param cb callback method
    */
   
   @PATCH("/fake_classname_test")
   void testClassname(
-    @retrofit.http.Body Client client, Callback<Client> cb
+    @retrofit.http.Body Client body, Callback<Client> cb
   );
 }

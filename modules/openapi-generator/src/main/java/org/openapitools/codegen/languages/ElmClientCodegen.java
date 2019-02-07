@@ -17,43 +17,22 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.NumberSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.utils.ModelUtils;
-
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.io.FilenameUtils;
-
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ElmClientCodegen.class);
@@ -64,6 +43,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final String ELM_VERSION = "elmVersion";
     private static final String ELM_PREFIX_CUSTOM_TYPE_VARIANTS = "elmPrefixCustomTypeVariants";
     private static final String ELM_ENABLE_CUSTOM_BASE_PATHS = "elmEnableCustomBasePaths";
+    private static final String ELM_ENABLE_HTTP_REQUEST_TRACKERS = "elmEnableHttpRequestTrackers";
     private static final String ENCODER = "elmEncoder";
     private static final String DECODER = "elmDecoder";
     private static final String DISCRIMINATOR_NAME = "discriminatorName";
@@ -171,6 +151,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(elmPrefixCustomTypeVariants);
         final CliOption elmEnableCustomBasePaths = CliOption.newBoolean(ELM_ENABLE_CUSTOM_BASE_PATHS, "Enable setting the base path for each request");
         cliOptions.add(elmEnableCustomBasePaths);
+        final CliOption elmEnableHttpRequestTrackers = CliOption.newBoolean(ELM_ENABLE_HTTP_REQUEST_TRACKERS, "Enable adding a tracker to each http request");
+        cliOptions.add(elmEnableHttpRequestTrackers);
     }
 
     @Override
@@ -193,6 +175,11 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(ELM_ENABLE_CUSTOM_BASE_PATHS)) {
             final boolean enable = Boolean.TRUE.equals(Boolean.valueOf(additionalProperties.get(ELM_ENABLE_CUSTOM_BASE_PATHS).toString()));
             additionalProperties.put("enableCustomBasePaths", enable);
+        }
+
+        if (additionalProperties.containsKey(ELM_ENABLE_HTTP_REQUEST_TRACKERS)) {
+            final boolean enable = Boolean.TRUE.equals(Boolean.valueOf(additionalProperties.get(ELM_ENABLE_HTTP_REQUEST_TRACKERS).toString()));
+            additionalProperties.put("enableHttpRequestTrackers", enable);
         }
 
         if (StringUtils.isEmpty(System.getenv("ELM_POST_PROCESS_FILE"))) {
@@ -252,7 +239,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelName(String name) {
-        final String modelName = org.openapitools.codegen.utils.StringUtils.camelize(name);
+        final String modelName = camelize(name);
         return defaultIncludes.contains(modelName) ? modelName + "_" : modelName;
     }
 
@@ -268,13 +255,13 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
-        final String varName = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
+        final String varName = camelize(name, true);
         return isReservedWord(varName) ? escapeReservedWord(name) : varName;
     }
 
     @Override
     public String toEnumVarName(String value, String datatype) {
-        String camelized = org.openapitools.codegen.utils.StringUtils.camelize(value.replace(" ", "_").replace("(", "_").replace(")", "")); // TODO FIXME escape properly
+        String camelized = camelize(value.replace(" ", "_").replace("(", "_").replace(")", "")); // TODO FIXME escape properly
 
         if (camelized.length() == 0) {
             LOGGER.error("Unable to determine enum variable name (name: {}, datatype: {}) from empty string. Default to UnknownEnumVariableName", value, datatype);
@@ -305,17 +292,17 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/src/Request/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + ("/src/Request/" + apiPackage().replace('.', File.separatorChar)).replace("/", File.separator);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/src/Data/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + ("/src/Data/" + modelPackage().replace('.', File.separatorChar)).replace("/", File.separator);
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions) {
-        CodegenModel m = super.fromModel(name, schema, allDefinitions);
+    public CodegenModel fromModel(String name, Schema schema) {
+        CodegenModel m = super.fromModel(name, schema);
 
         if (ModelUtils.isArraySchema(schema)) {
             ArraySchema am = (ArraySchema) schema;
@@ -438,7 +425,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (ElmVersion.ELM_018.equals(elmVersion)) {
                 String path = op.path;
                 for (CodegenParameter param : op.pathParams) {
-                    final String var = paramToString(param, false, null);
+                    final String var = paramToString("params", param, false, null);
                     path = path.replace("{" + param.paramName + "}", "\" ++ " + var + " ++ \"");
                     hasDateTime = hasDateTime || param.isDateTime;
                     hasDate = hasDate || param.isDate;
@@ -448,7 +435,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 final List<String> paths = Arrays.asList(op.path.substring(1).split("/"));
                 String path = paths.stream().map(str -> str.charAt(0) == '{' ? str : "\"" + str + "\"").collect(Collectors.joining(", "));
                 for (CodegenParameter param : op.pathParams) {
-                    String str = paramToString(param, false, null);
+                    String str = paramToString("params", param, false, null);
                     path = path.replace("{" + param.paramName + "}", str);
                     hasDateTime = hasDateTime || param.isDateTime;
                     hasDate = hasDate || param.isDate;
@@ -456,10 +443,15 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 op.path = path;
 
                 final String query = op.queryParams.stream()
-                    .map(param -> paramToString(param, true, "Url.string \"" + param.paramName + "\""))
+                    .map(param -> paramToString("params", param, true, "Url.string \"" + param.baseName + "\""))
                     .collect(Collectors.joining(", "));
                 op.vendorExtensions.put("query", query);
-                // TODO headers
+
+                final String headers = op.headerParams.stream()
+                    .map(param -> paramToString("headers", param, true, "Http.header \"" + param.baseName + "\""))
+                    .collect(Collectors.joining(", "));
+                op.vendorExtensions.put("headers", headers);
+                // TODO cookies
                 // TODO forms
             }
 
@@ -554,8 +546,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         return "(Just " + value + ")";
     }
 
-    private String paramToString(final CodegenParameter param, final boolean useMaybe, final String maybeMapResult) {
-        final String paramName = (ElmVersion.ELM_018.equals(elmVersion) ? "" : "params.") + param.paramName;
+    private String paramToString(final String prefix, final CodegenParameter param, final boolean useMaybe, final String maybeMapResult) {
+        final String paramName = (ElmVersion.ELM_018.equals(elmVersion) ? "" : prefix + ".") + param.paramName;
         if (!useMaybe) {
             param.required = true;
         }
@@ -584,7 +576,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (mapFn == null) {
             throw new RuntimeException("Parameter '" + param.paramName + "' cannot be converted to a string. Please report the issue.");
         }
-        
+
         if (param.isListContainer) {
             if (!param.required) {
                 mapFn = "(" + mapFn + ")";
@@ -592,11 +584,15 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         String mapResult = "";
         if (maybeMapResult != null) {
-            mapResult = maybeMapResult + (param.required ? " <|" : " <<");
+            if (mapFn == "") {
+                mapResult = maybeMapResult;
+            } else {
+                mapResult = maybeMapResult + (param.required ? " <|" : " <<");
+            }
         }
         final String just = useMaybe ? "Just (" : "";
         final String justEnd = useMaybe ? ")" : "";
-        return (param.required ? just : "Maybe.map") + mapResult + " " + mapFn + " " + paramName + (param.required ? justEnd : "");
+        return (param.required ? just : "Maybe.map (") + mapResult + " " + mapFn + (param.required ? " " : ") ") + paramName + (param.required ? justEnd : "");
     }
 
     @Override
@@ -642,8 +638,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenResponse fromResponse(OpenAPI openAPI, String responseCode, ApiResponse resp) {
-        final CodegenResponse response = super.fromResponse(openAPI, responseCode, resp);
+    public CodegenResponse fromResponse(String responseCode, ApiResponse resp) {
+        final CodegenResponse response = super.fromResponse(responseCode, resp);
         if (response.dataType != null) {
             final boolean isPrimitiveType = response.isMapContainer ? isPrimitiveDataType(response.dataType) : response.primitiveType;
             addEncoderAndDecoder(response.vendorExtensions, response.dataType, isPrimitiveType ? DataTypeExposure.PRIMITIVE : DataTypeExposure.EXTERNAL);

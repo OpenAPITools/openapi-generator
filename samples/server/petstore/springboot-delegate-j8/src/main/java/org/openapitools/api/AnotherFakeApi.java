@@ -38,8 +38,8 @@ public interface AnotherFakeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PATCH)
-    default ResponseEntity<Client> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client client) {
-        return getDelegate().call123testSpecialTags(client);
+    default ResponseEntity<Client> call123testSpecialTags(@ApiParam(value = "client model" ,required=true )  @Valid @RequestBody Client body) {
+        return getDelegate().call123testSpecialTags(body);
     }
 
 }

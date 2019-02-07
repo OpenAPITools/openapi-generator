@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace {{invokerPackage}}\Strategy;
 
@@ -28,8 +29,8 @@ class QueryParameterArray extends QueryParameter
         parent::__construct($options);
         if (empty($options['format'])) {
             throw new \InvalidArgumentException('Option "format" is required.');
-        } elseif (!array_key_exists($options['format'], self::DELIMITER_MAP)) {
-            throw new \InvalidArgumentException(sprintf('Unknown format "%s".', $options['format']));
+        } elseif (!\array_key_exists($options['format'], self::DELIMITER_MAP)) {
+            throw new \InvalidArgumentException(\sprintf('Unknown format "%s".', $options['format']));
         }
         $this->delimiter = self::DELIMITER_MAP[$options['format']];
     }
@@ -40,11 +41,11 @@ class QueryParameterArray extends QueryParameter
     public function extract($objectValue, $object = null)
     {
         $result = null;
-        if (is_array($objectValue)) {
+        if (\is_array($objectValue)) {
             if ($this->delimiter === null) {
                 $result = $objectValue;
             } else {
-                $result = implode($this->delimiter, $objectValue);
+                $result = \implode($this->delimiter, $objectValue);
             }
         }
         return $result;
@@ -59,9 +60,9 @@ class QueryParameterArray extends QueryParameter
         if ($arrayValue !== null) {
             $list = null;
             if ($this->delimiter === null) {
-                $list = (is_array($arrayValue))? $arrayValue : [$arrayValue];
+                $list = (\is_array($arrayValue))? $arrayValue : [$arrayValue];
             } else {
-                $list = explode($this->delimiter, $arrayValue);
+                $list = \explode($this->delimiter, $arrayValue);
             }
             $result = [];
             foreach ($list as $item) {

@@ -19,16 +19,11 @@ package org.openapitools.codegen.utils;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -44,7 +39,7 @@ public class ModelUtilsTest {
     public void testGetAllUsedSchemas() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/unusedSchemas.yaml", null, new ParseOptions()).getOpenAPI();
         List<String> allUsedSchemas = ModelUtils.getAllUsedSchemas(openAPI);
-        Assert.assertEquals(allUsedSchemas.size(), 30);
+        Assert.assertEquals(allUsedSchemas.size(), 32);
 
         Assert.assertTrue(allUsedSchemas.contains("SomeObjShared"), "contains 'SomeObjShared'");
         Assert.assertTrue(allUsedSchemas.contains("SomeObj1"), "contains 'UnusedObj1'");
@@ -76,6 +71,8 @@ public class ModelUtilsTest {
         Assert.assertTrue(allUsedSchemas.contains("OtherObj20"), "contains 'OtherObj20'");
         Assert.assertTrue(allUsedSchemas.contains("PingDataInput21"), "contains 'PingDataInput21'");
         Assert.assertTrue(allUsedSchemas.contains("PingDataOutput21"), "contains 'PingDataOutput21'");
+        Assert.assertTrue(allUsedSchemas.contains("SInput22"), "contains 'SInput22'");
+        Assert.assertTrue(allUsedSchemas.contains("SOutput22"), "contains 'SInput22'");
     }
 
     @Test
@@ -193,10 +190,36 @@ public class ModelUtilsTest {
         ));
         Schema refToComposedSchema = new Schema().$ref("#/components/schemas/SomeComposedSchema");
 
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("SomeComposedSchema", composedSchema);
 
-        Map<String, Schema> allSchemas = new HashMap<>();
-        allSchemas.put("SomeComposedSchema", composedSchema);
+        Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(openAPI, refToComposedSchema));
+    }
 
-        Assert.assertEquals(refToComposedSchema, ModelUtils.unaliasSchema(allSchemas, refToComposedSchema));
+    /**
+     * Issue https://github.com/OpenAPITools/openapi-generator/issues/1624.
+     * ModelUtils.isFreeFormObject() should not throw an NPE when passed an empty
+     * object schema that has additionalProperties defined as an empty object schema.
+     */
+    @Test
+    public void testIsFreeFormObject() {
+        // Create initial "empty" object schema.
+        ObjectSchema objSchema = new ObjectSchema();
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
+
+        // Set additionalProperties to an empty ObjectSchema.
+        objSchema.setAdditionalProperties(new ObjectSchema());
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
+
+        // Add a single property to the schema (no longer a free-form object).
+        Map<String, Schema> props = new HashMap<>();
+        props.put("prop1", new StringSchema());
+        objSchema.setProperties(props);
+        Assert.assertFalse(ModelUtils.isFreeFormObject(objSchema));
+
+        // Test a non-object schema
+        Assert.assertFalse(ModelUtils.isFreeFormObject(new StringSchema()));
+
+        // Test a null schema
+        Assert.assertFalse(ModelUtils.isFreeFormObject(null));
     }
 }

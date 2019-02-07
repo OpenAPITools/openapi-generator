@@ -44,59 +44,59 @@ public class UserApi {
     * Create user
     * This can only be done by the logged in user.
     * <p><b>0</b> - successful operation
-    * @param user Created user object
+    * @param body Created user object
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void createUser(User user) throws IOException {
-        createUserForHttpResponse(user);
+    public void createUser(User body) throws IOException {
+        createUserForHttpResponse(body);
     }
 
   /**
     * Create user
     * This can only be done by the logged in user.
     * <p><b>0</b> - successful operation
-    * @param user Created user object
+    * @param body Created user object
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void createUser(User user, Map<String, Object> params) throws IOException {
-        createUserForHttpResponse(user, params);
+    public void createUser(User body, Map<String, Object> params) throws IOException {
+        createUserForHttpResponse(body, params);
     }
 
-    public HttpResponse createUserForHttpResponse(User user) throws IOException {
-        // verify the required parameter 'user' is set
-        if (user == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'user' when calling createUser");
+    public HttpResponse createUserForHttpResponse(User body) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUser");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/user");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(user);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
-      public HttpResponse createUserForHttpResponse(java.io.InputStream user, String mediaType) throws IOException {
-          // verify the required parameter 'user' is set
-              if (user == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'user' when calling createUser");
+      public HttpResponse createUserForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
+          // verify the required parameter 'body' is set
+              if (body == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUser");
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/user");
 
               String url = uriBuilder.build().toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = user == null ?
+              HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, user);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse createUserForHttpResponse(User user, Map<String, Object> params) throws IOException {
-        // verify the required parameter 'user' is set
-        if (user == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'user' when calling createUser");
+    public HttpResponse createUserForHttpResponse(User body, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUser");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/user");
 
@@ -121,7 +121,7 @@ public class UserApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(user);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
@@ -129,58 +129,58 @@ public class UserApi {
   /**
     * Creates list of users with given input array
     * <p><b>0</b> - successful operation
-    * @param user List of user object
+    * @param body List of user object
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void createUsersWithArrayInput(List<User> user) throws IOException {
-        createUsersWithArrayInputForHttpResponse(user);
+    public void createUsersWithArrayInput(List<User> body) throws IOException {
+        createUsersWithArrayInputForHttpResponse(body);
     }
 
   /**
     * Creates list of users with given input array
     * <p><b>0</b> - successful operation
-    * @param user List of user object
+    * @param body List of user object
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void createUsersWithArrayInput(List<User> user, Map<String, Object> params) throws IOException {
-        createUsersWithArrayInputForHttpResponse(user, params);
+    public void createUsersWithArrayInput(List<User> body, Map<String, Object> params) throws IOException {
+        createUsersWithArrayInputForHttpResponse(body, params);
     }
 
-    public HttpResponse createUsersWithArrayInputForHttpResponse(List<User> user) throws IOException {
-        // verify the required parameter 'user' is set
-        if (user == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'user' when calling createUsersWithArrayInput");
+    public HttpResponse createUsersWithArrayInputForHttpResponse(List<User> body) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUsersWithArrayInput");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/user/createWithArray");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(user);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
-      public HttpResponse createUsersWithArrayInputForHttpResponse(java.io.InputStream user, String mediaType) throws IOException {
-          // verify the required parameter 'user' is set
-              if (user == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'user' when calling createUsersWithArrayInput");
+      public HttpResponse createUsersWithArrayInputForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
+          // verify the required parameter 'body' is set
+              if (body == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUsersWithArrayInput");
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/user/createWithArray");
 
               String url = uriBuilder.build().toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = user == null ?
+              HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, user);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse createUsersWithArrayInputForHttpResponse(List<User> user, Map<String, Object> params) throws IOException {
-        // verify the required parameter 'user' is set
-        if (user == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'user' when calling createUsersWithArrayInput");
+    public HttpResponse createUsersWithArrayInputForHttpResponse(List<User> body, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUsersWithArrayInput");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/user/createWithArray");
 
@@ -205,7 +205,7 @@ public class UserApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(user);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
@@ -213,58 +213,58 @@ public class UserApi {
   /**
     * Creates list of users with given input array
     * <p><b>0</b> - successful operation
-    * @param user List of user object
+    * @param body List of user object
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void createUsersWithListInput(List<User> user) throws IOException {
-        createUsersWithListInputForHttpResponse(user);
+    public void createUsersWithListInput(List<User> body) throws IOException {
+        createUsersWithListInputForHttpResponse(body);
     }
 
   /**
     * Creates list of users with given input array
     * <p><b>0</b> - successful operation
-    * @param user List of user object
+    * @param body List of user object
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void createUsersWithListInput(List<User> user, Map<String, Object> params) throws IOException {
-        createUsersWithListInputForHttpResponse(user, params);
+    public void createUsersWithListInput(List<User> body, Map<String, Object> params) throws IOException {
+        createUsersWithListInputForHttpResponse(body, params);
     }
 
-    public HttpResponse createUsersWithListInputForHttpResponse(List<User> user) throws IOException {
-        // verify the required parameter 'user' is set
-        if (user == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'user' when calling createUsersWithListInput");
+    public HttpResponse createUsersWithListInputForHttpResponse(List<User> body) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUsersWithListInput");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/user/createWithList");
 
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(user);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
-      public HttpResponse createUsersWithListInputForHttpResponse(java.io.InputStream user, String mediaType) throws IOException {
-          // verify the required parameter 'user' is set
-              if (user == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'user' when calling createUsersWithListInput");
+      public HttpResponse createUsersWithListInputForHttpResponse(java.io.InputStream body, String mediaType) throws IOException {
+          // verify the required parameter 'body' is set
+              if (body == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUsersWithListInput");
               }
               UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/user/createWithList");
 
               String url = uriBuilder.build().toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = user == null ?
+              HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, user);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
       }
 
-    public HttpResponse createUsersWithListInputForHttpResponse(List<User> user, Map<String, Object> params) throws IOException {
-        // verify the required parameter 'user' is set
-        if (user == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'user' when calling createUsersWithListInput");
+    public HttpResponse createUsersWithListInputForHttpResponse(List<User> body, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling createUsersWithListInput");
         }
         UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/user/createWithList");
 
@@ -289,7 +289,7 @@ public class UserApi {
         String url = uriBuilder.build().toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(user);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
@@ -631,11 +631,11 @@ public class UserApi {
     * <p><b>400</b> - Invalid user supplied
     * <p><b>404</b> - User not found
     * @param username name that need to be deleted
-    * @param user Updated user object
+    * @param body Updated user object
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void updateUser(String username, User user) throws IOException {
-        updateUserForHttpResponse(username, user);
+    public void updateUser(String username, User body) throws IOException {
+        updateUserForHttpResponse(username, body);
     }
 
   /**
@@ -644,21 +644,21 @@ public class UserApi {
     * <p><b>400</b> - Invalid user supplied
     * <p><b>404</b> - User not found
     * @param username name that need to be deleted
-    * @param user Updated user object
+    * @param body Updated user object
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void updateUser(String username, User user, Map<String, Object> params) throws IOException {
-        updateUserForHttpResponse(username, user, params);
+    public void updateUser(String username, User body, Map<String, Object> params) throws IOException {
+        updateUserForHttpResponse(username, body, params);
     }
 
-    public HttpResponse updateUserForHttpResponse(String username, User user) throws IOException {
+    public HttpResponse updateUserForHttpResponse(String username, User body) throws IOException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new IllegalArgumentException("Missing the required parameter 'username' when calling updateUser");
-        }// verify the required parameter 'user' is set
-        if (user == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'user' when calling updateUser");
+        }// verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling updateUser");
         }
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
@@ -668,17 +668,17 @@ public class UserApi {
         String url = uriBuilder.buildFromMap(uriVariables).toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(user);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
     }
 
-      public HttpResponse updateUserForHttpResponse(String username, java.io.InputStream user, String mediaType) throws IOException {
+      public HttpResponse updateUserForHttpResponse(String username, java.io.InputStream body, String mediaType) throws IOException {
           // verify the required parameter 'username' is set
               if (username == null) {
               throw new IllegalArgumentException("Missing the required parameter 'username' when calling updateUser");
-              }// verify the required parameter 'user' is set
-              if (user == null) {
-              throw new IllegalArgumentException("Missing the required parameter 'user' when calling updateUser");
+              }// verify the required parameter 'body' is set
+              if (body == null) {
+              throw new IllegalArgumentException("Missing the required parameter 'body' when calling updateUser");
               }
                   // create a map of path variables
                   final Map<String, Object> uriVariables = new HashMap<String, Object>();
@@ -688,19 +688,19 @@ public class UserApi {
               String url = uriBuilder.buildFromMap(uriVariables).toString();
               GenericUrl genericUrl = new GenericUrl(url);
 
-              HttpContent content = user == null ?
+              HttpContent content = body == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
-                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, user);
+                new InputStreamContent(mediaType == null ? Json.MEDIA_TYPE : mediaType, body);
               return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
       }
 
-    public HttpResponse updateUserForHttpResponse(String username, User user, Map<String, Object> params) throws IOException {
+    public HttpResponse updateUserForHttpResponse(String username, User body, Map<String, Object> params) throws IOException {
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new IllegalArgumentException("Missing the required parameter 'username' when calling updateUser");
-        }// verify the required parameter 'user' is set
-        if (user == null) {
-            throw new IllegalArgumentException("Missing the required parameter 'user' when calling updateUser");
+        }// verify the required parameter 'body' is set
+        if (body == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'body' when calling updateUser");
         }
         // create a map of path variables
         final Map<String, Object> uriVariables = new HashMap<String, Object>();
@@ -728,7 +728,7 @@ public class UserApi {
         String url = uriBuilder.buildFromMap(uriVariables).toString();
         GenericUrl genericUrl = new GenericUrl(url);
 
-        HttpContent content = apiClient.new JacksonJsonHttpContent(user);
+        HttpContent content = apiClient.new JacksonJsonHttpContent(body);
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
     }
 

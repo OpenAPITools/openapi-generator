@@ -16,37 +16,46 @@ class {{classname}} {
   {{classname}}.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
   {{#vars}}
+    if (json['{{baseName}}'] == null) {
+      {{name}} = null;
+    } else {
   {{#isDateTime}}
-    {{name}} = json['{{baseName}}'] == null ? null : DateTime.parse(json['{{baseName}}']);
+      {{name}} = DateTime.parse(json['{{baseName}}']);
   {{/isDateTime}}
   {{#isDate}}
-    {{name}} = json['{{baseName}}'] == null ? null : DateTime.parse(json['{{baseName}}']);
+      {{name}} = DateTime.parse(json['{{baseName}}']);
   {{/isDate}}
   {{^isDateTime}}
   {{^isDate}}
     {{#complexType}}
       {{#isListContainer}}
-    {{name}} = {{complexType}}.listFromJson(json['{{baseName}}']);
+      {{name}} = {{complexType}}.listFromJson(json['{{baseName}}']);
       {{/isListContainer}}
       {{^isListContainer}}
       {{#isMapContainer}}
-    {{name}} = {{complexType}}.mapFromJson(json['{{baseName}}']);
+      {{name}} = {{complexType}}.mapFromJson(json['{{baseName}}']);
       {{/isMapContainer}}
       {{^isMapContainer}}
-    {{name}} = new {{complexType}}.fromJson(json['{{baseName}}']);
+      {{name}} = new {{complexType}}.fromJson(json['{{baseName}}']);
       {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
     {{^complexType}}
       {{#isListContainer}}
-    {{name}} = ((json['{{baseName}}'] ?? []) as List).map((item) => item as {{items.datatype}}).toList();
+      {{name}} = (json['{{baseName}}'] as List).cast<{{items.datatype}}>();
       {{/isListContainer}}
       {{^isListContainer}}
-    {{name}} = json['{{baseName}}'];
+        {{#isMapContainer}}
+          {{name}} = (json['{{baseName}}'] as Map).cast<String, {{items.datatype}}>();
+        {{/isMapContainer}}
+        {{^isMapContainer}}
+          {{name}} = json['{{baseName}}'];
+        {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
   {{/isDate}}
   {{/isDateTime}}
+    }
   {{/vars}}
   }
 

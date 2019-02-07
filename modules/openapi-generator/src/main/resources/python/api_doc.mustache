@@ -18,8 +18,23 @@ Method | HTTP request | Description
 {{{notes}}}{{/notes}}
 
 ### Example
-{{#hasAuthMethods}}{{#authMethods}}
-{{#isBasic}}* Basic Authentication ({{name}}): {{/isBasic }}{{#isApiKey}}* Api Key Authentication ({{name}}): {{/isApiKey }}{{#isOAuth}}* OAuth Authentication ({{name}}): {{/isOAuth }}
+
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{#isBasic}}
+{{^isBasicBearer}}
+* Basic Authentication ({{name}}):
+{{/isBasicBearer}}
+{{#isBasicBearer}}
+* Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} Authentication ({{name}}):
+{{/isBasicBearer}}
+{{/isBasic}}
+{{#isApiKey}}
+* Api Key Authentication ({{name}}):
+{{/isApiKey }}
+{{#isOAuth}}
+* OAuth Authentication ({{name}}):
+{{/isOAuth }}
 {{> api_doc_example }}
 {{/authMethods}}
 {{/hasAuthMethods}}

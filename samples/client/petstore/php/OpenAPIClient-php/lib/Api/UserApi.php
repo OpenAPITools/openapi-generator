@@ -92,15 +92,15 @@ class UserApi
      *
      * Create user
      *
-     * @param  \OpenAPI\Client\Model\User $user Created user object (required)
+     * @param  \OpenAPI\Client\Model\User $body Created user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function createUser($user)
+    public function createUser($body)
     {
-        $this->createUserWithHttpInfo($user);
+        $this->createUserWithHttpInfo($body);
     }
 
     /**
@@ -108,15 +108,15 @@ class UserApi
      *
      * Create user
      *
-     * @param  \OpenAPI\Client\Model\User $user Created user object (required)
+     * @param  \OpenAPI\Client\Model\User $body Created user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createUserWithHttpInfo($user)
+    public function createUserWithHttpInfo($body)
     {
-        $request = $this->createUserRequest($user);
+        $request = $this->createUserRequest($body);
 
         try {
             $options = $this->createHttpClientOption();
@@ -160,14 +160,14 @@ class UserApi
      *
      * Create user
      *
-     * @param  \OpenAPI\Client\Model\User $user Created user object (required)
+     * @param  \OpenAPI\Client\Model\User $body Created user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createUserAsync($user)
+    public function createUserAsync($body)
     {
-        return $this->createUserAsyncWithHttpInfo($user)
+        return $this->createUserAsyncWithHttpInfo($body)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -180,15 +180,15 @@ class UserApi
      *
      * Create user
      *
-     * @param  \OpenAPI\Client\Model\User $user Created user object (required)
+     * @param  \OpenAPI\Client\Model\User $body Created user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createUserAsyncWithHttpInfo($user)
+    public function createUserAsyncWithHttpInfo($body)
     {
         $returnType = '';
-        $request = $this->createUserRequest($user);
+        $request = $this->createUserRequest($body);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -216,17 +216,17 @@ class UserApi
     /**
      * Create request for operation 'createUser'
      *
-     * @param  \OpenAPI\Client\Model\User $user Created user object (required)
+     * @param  \OpenAPI\Client\Model\User $body Created user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createUserRequest($user)
+    protected function createUserRequest($body)
     {
-        // verify the required parameter 'user' is set
-        if ($user === null || (is_array($user) && count($user) === 0)) {
+        // verify the required parameter 'body' is set
+        if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $user when calling createUser'
+                'Missing the required parameter $body when calling createUser'
             );
         }
 
@@ -241,8 +241,8 @@ class UserApi
 
         // body params
         $_tempBody = null;
-        if (isset($user)) {
-            $_tempBody = $user;
+        if (isset($body)) {
+            $_tempBody = $body;
         }
 
         if ($multipart) {
@@ -311,15 +311,15 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function createUsersWithArrayInput($user)
+    public function createUsersWithArrayInput($body)
     {
-        $this->createUsersWithArrayInputWithHttpInfo($user);
+        $this->createUsersWithArrayInputWithHttpInfo($body);
     }
 
     /**
@@ -327,15 +327,15 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createUsersWithArrayInputWithHttpInfo($user)
+    public function createUsersWithArrayInputWithHttpInfo($body)
     {
-        $request = $this->createUsersWithArrayInputRequest($user);
+        $request = $this->createUsersWithArrayInputRequest($body);
 
         try {
             $options = $this->createHttpClientOption();
@@ -379,14 +379,14 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createUsersWithArrayInputAsync($user)
+    public function createUsersWithArrayInputAsync($body)
     {
-        return $this->createUsersWithArrayInputAsyncWithHttpInfo($user)
+        return $this->createUsersWithArrayInputAsyncWithHttpInfo($body)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -399,15 +399,15 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createUsersWithArrayInputAsyncWithHttpInfo($user)
+    public function createUsersWithArrayInputAsyncWithHttpInfo($body)
     {
         $returnType = '';
-        $request = $this->createUsersWithArrayInputRequest($user);
+        $request = $this->createUsersWithArrayInputRequest($body);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -435,17 +435,17 @@ class UserApi
     /**
      * Create request for operation 'createUsersWithArrayInput'
      *
-     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createUsersWithArrayInputRequest($user)
+    protected function createUsersWithArrayInputRequest($body)
     {
-        // verify the required parameter 'user' is set
-        if ($user === null || (is_array($user) && count($user) === 0)) {
+        // verify the required parameter 'body' is set
+        if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $user when calling createUsersWithArrayInput'
+                'Missing the required parameter $body when calling createUsersWithArrayInput'
             );
         }
 
@@ -460,8 +460,8 @@ class UserApi
 
         // body params
         $_tempBody = null;
-        if (isset($user)) {
-            $_tempBody = $user;
+        if (isset($body)) {
+            $_tempBody = $body;
         }
 
         if ($multipart) {
@@ -530,15 +530,15 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function createUsersWithListInput($user)
+    public function createUsersWithListInput($body)
     {
-        $this->createUsersWithListInputWithHttpInfo($user);
+        $this->createUsersWithListInputWithHttpInfo($body);
     }
 
     /**
@@ -546,15 +546,15 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createUsersWithListInputWithHttpInfo($user)
+    public function createUsersWithListInputWithHttpInfo($body)
     {
-        $request = $this->createUsersWithListInputRequest($user);
+        $request = $this->createUsersWithListInputRequest($body);
 
         try {
             $options = $this->createHttpClientOption();
@@ -598,14 +598,14 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createUsersWithListInputAsync($user)
+    public function createUsersWithListInputAsync($body)
     {
-        return $this->createUsersWithListInputAsyncWithHttpInfo($user)
+        return $this->createUsersWithListInputAsyncWithHttpInfo($body)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -618,15 +618,15 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createUsersWithListInputAsyncWithHttpInfo($user)
+    public function createUsersWithListInputAsyncWithHttpInfo($body)
     {
         $returnType = '';
-        $request = $this->createUsersWithListInputRequest($user);
+        $request = $this->createUsersWithListInputRequest($body);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -654,17 +654,17 @@ class UserApi
     /**
      * Create request for operation 'createUsersWithListInput'
      *
-     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createUsersWithListInputRequest($user)
+    protected function createUsersWithListInputRequest($body)
     {
-        // verify the required parameter 'user' is set
-        if ($user === null || (is_array($user) && count($user) === 0)) {
+        // verify the required parameter 'body' is set
+        if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $user when calling createUsersWithListInput'
+                'Missing the required parameter $body when calling createUsersWithListInput'
             );
         }
 
@@ -679,8 +679,8 @@ class UserApi
 
         // body params
         $_tempBody = null;
-        if (isset($user)) {
-            $_tempBody = $user;
+        if (isset($body)) {
+            $_tempBody = $body;
         }
 
         if ($multipart) {
@@ -1734,15 +1734,15 @@ class UserApi
      * Updated user
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
+     * @param  \OpenAPI\Client\Model\User $body Updated user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function updateUser($username, $user)
+    public function updateUser($username, $body)
     {
-        $this->updateUserWithHttpInfo($username, $user);
+        $this->updateUserWithHttpInfo($username, $body);
     }
 
     /**
@@ -1751,15 +1751,15 @@ class UserApi
      * Updated user
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
+     * @param  \OpenAPI\Client\Model\User $body Updated user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateUserWithHttpInfo($username, $user)
+    public function updateUserWithHttpInfo($username, $body)
     {
-        $request = $this->updateUserRequest($username, $user);
+        $request = $this->updateUserRequest($username, $body);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1804,14 +1804,14 @@ class UserApi
      * Updated user
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
+     * @param  \OpenAPI\Client\Model\User $body Updated user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateUserAsync($username, $user)
+    public function updateUserAsync($username, $body)
     {
-        return $this->updateUserAsyncWithHttpInfo($username, $user)
+        return $this->updateUserAsyncWithHttpInfo($username, $body)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1825,15 +1825,15 @@ class UserApi
      * Updated user
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
+     * @param  \OpenAPI\Client\Model\User $body Updated user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateUserAsyncWithHttpInfo($username, $user)
+    public function updateUserAsyncWithHttpInfo($username, $body)
     {
         $returnType = '';
-        $request = $this->updateUserRequest($username, $user);
+        $request = $this->updateUserRequest($username, $body);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1862,12 +1862,12 @@ class UserApi
      * Create request for operation 'updateUser'
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
+     * @param  \OpenAPI\Client\Model\User $body Updated user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function updateUserRequest($username, $user)
+    protected function updateUserRequest($username, $body)
     {
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
@@ -1875,10 +1875,10 @@ class UserApi
                 'Missing the required parameter $username when calling updateUser'
             );
         }
-        // verify the required parameter 'user' is set
-        if ($user === null || (is_array($user) && count($user) === 0)) {
+        // verify the required parameter 'body' is set
+        if ($body === null || (is_array($body) && count($body) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $user when calling updateUser'
+                'Missing the required parameter $body when calling updateUser'
             );
         }
 
@@ -1901,8 +1901,8 @@ class UserApi
 
         // body params
         $_tempBody = null;
-        if (isset($user)) {
-            $_tempBody = $user;
+        if (isset($body)) {
+            $_tempBody = $body;
         }
 
         if ($multipart) {

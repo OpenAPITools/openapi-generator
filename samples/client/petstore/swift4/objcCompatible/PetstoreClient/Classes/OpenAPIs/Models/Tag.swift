@@ -12,11 +12,6 @@ import Foundation
 public struct Tag: Codable {
 
     public var _id: Int64?
-    public var _idNum: NSNumber? {
-        get {
-            return _id.map({ return NSNumber(value: $0) })
-        }
-    }
     public var name: String?
 
     public init(_id: Int64?, name: String?) {

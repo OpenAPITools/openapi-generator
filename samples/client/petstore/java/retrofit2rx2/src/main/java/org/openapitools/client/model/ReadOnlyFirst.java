@@ -88,7 +88,6 @@ public class ReadOnlyFirst {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ReadOnlyFirst {\n");
-    
     sb.append("    bar: ").append(toIndentedString(bar)).append("\n");
     sb.append("    baz: ").append(toIndentedString(baz)).append("\n");
     sb.append("}");

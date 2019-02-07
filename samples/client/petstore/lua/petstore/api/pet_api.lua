@@ -25,14 +25,16 @@ local pet_api_mt = {
 	__index = pet_api;
 }
 
-local function new_pet_api(host, basePath, schemes)
+local function new_pet_api(authority, basePath, schemes)
 	local schemes_map = {}
 	for _,v in ipairs(schemes) do
 		schemes_map[v] = v
 	end
 	local default_scheme = schemes_map.https or schemes_map.http
+	local host, port = http_util.split_authority(authority, default_scheme)
 	return setmetatable({
 		host = host;
+		port = port;
 		basePath = basePath or "http://petstore.swagger.io/v2";
 		schemes = schemes_map;
 		default_scheme = default_scheme;
@@ -47,6 +49,7 @@ function pet_api:add_pet(pet)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet",
 			self.basePath);
 	})
@@ -87,6 +90,7 @@ function pet_api:delete_pet(pet_id, api_key)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet/%s",
 			self.basePath, pet_id);
 	})
@@ -124,6 +128,7 @@ function pet_api:find_pets_by_status(status)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet/findByStatus?status=%s",
 			self.basePath, http_util.encodeURIComponent(status));
 	})
@@ -176,6 +181,7 @@ function pet_api:find_pets_by_tags(tags)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet/findByTags?tags=%s",
 			self.basePath, http_util.encodeURIComponent(tags));
 	})
@@ -228,6 +234,7 @@ function pet_api:get_pet_by_id(pet_id)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet/%s",
 			self.basePath, pet_id);
 	})
@@ -277,6 +284,7 @@ function pet_api:update_pet(pet)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet",
 			self.basePath);
 	})
@@ -317,6 +325,7 @@ function pet_api:update_pet_with_form(pet_id, name, status)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet/%s",
 			self.basePath, pet_id);
 	})
@@ -359,6 +368,7 @@ function pet_api:upload_file(pet_id, additional_metadata, file)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet/%s/uploadImage",
 			self.basePath, pet_id);
 	})
@@ -415,4 +425,3 @@ end
 return {
 	new = new_pet_api;
 }
-

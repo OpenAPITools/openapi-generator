@@ -33,7 +33,6 @@ public:
     OAIApiResponse();
     OAIApiResponse(QString json);
     ~OAIApiResponse() override;
-    void init();
 
     QString asJson () const override;
     QJsonObject asJsonObject() const override;
@@ -53,6 +52,7 @@ public:
     virtual bool isValid() const override;
 
 private:
+    void init();
     qint32 code;
     bool m_code_isSet;
     bool m_code_isValid;

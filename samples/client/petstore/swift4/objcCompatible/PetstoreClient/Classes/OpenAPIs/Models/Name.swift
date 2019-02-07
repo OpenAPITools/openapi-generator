@@ -13,24 +13,9 @@ import Foundation
 public struct Name: Codable {
 
     public var name: Int
-    public var nameNum: NSNumber? {
-        get {
-            return name.map({ return NSNumber(value: $0) })
-        }
-    }
     public var snakeCase: Int?
-    public var snakeCaseNum: NSNumber? {
-        get {
-            return snakeCase.map({ return NSNumber(value: $0) })
-        }
-    }
     public var property: String?
     public var _123number: Int?
-    public var _123numberNum: NSNumber? {
-        get {
-            return _123number.map({ return NSNumber(value: $0) })
-        }
-    }
 
     public init(name: Int, snakeCase: Int?, property: String?, _123number: Int?) {
         self.name = name

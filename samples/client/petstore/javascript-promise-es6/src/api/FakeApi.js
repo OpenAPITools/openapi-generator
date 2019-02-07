@@ -17,6 +17,7 @@ import Client from '../model/Client';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
 import OuterComposite from '../model/OuterComposite';
 import User from '../model/User';
+import XmlItem from '../model/XmlItem';
 
 /**
 * Fake service.
@@ -36,6 +37,56 @@ export default class FakeApi {
         this.apiClient = apiClient || ApiClient.instance;
     }
 
+
+
+    /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     * @param {module:model/XmlItem} xmlItem XmlItem Body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    createXmlItemWithHttpInfo(xmlItem) {
+      let postBody = xmlItem;
+
+      // verify the required parameter 'xmlItem' is set
+      if (xmlItem === undefined || xmlItem === null) {
+        throw new Error("Missing the required parameter 'xmlItem' when calling createXmlItem");
+      }
+
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/xml', 'application/xml; charset=utf-8', 'application/xml; charset=utf-16', 'text/xml', 'text/xml; charset=utf-8', 'text/xml; charset=utf-16'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.apiClient.callApi(
+        '/fake/create_xml_item', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType
+      );
+    }
+
+    /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     * @param {module:model/XmlItem} xmlItem XmlItem Body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    createXmlItem(xmlItem) {
+      return this.createXmlItemWithHttpInfo(xmlItem)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
 
 
     /**
@@ -87,12 +138,12 @@ export default class FakeApi {
     /**
      * Test serialization of object with outer number type
      * @param {Object} opts Optional parameters
-     * @param {module:model/OuterComposite} opts.outerComposite Input composite as post body
+     * @param {module:model/OuterComposite} opts.body Input composite as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/OuterComposite} and HTTP response
      */
     fakeOuterCompositeSerializeWithHttpInfo(opts) {
       opts = opts || {};
-      let postBody = opts['outerComposite'];
+      let postBody = opts['body'];
 
 
       let pathParams = {
@@ -119,7 +170,7 @@ export default class FakeApi {
     /**
      * Test serialization of object with outer number type
      * @param {Object} opts Optional parameters
-     * @param {module:model/OuterComposite} opts.outerComposite Input composite as post body
+     * @param {module:model/OuterComposite} opts.body Input composite as post body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/OuterComposite}
      */
     fakeOuterCompositeSerialize(opts) {
@@ -224,15 +275,15 @@ export default class FakeApi {
 
     /**
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
+     * @param {module:model/FileSchemaTestClass} body 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass) {
-      let postBody = fileSchemaTestClass;
+    testBodyWithFileSchemaWithHttpInfo(body) {
+      let postBody = body;
 
-      // verify the required parameter 'fileSchemaTestClass' is set
-      if (fileSchemaTestClass === undefined || fileSchemaTestClass === null) {
-        throw new Error("Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testBodyWithFileSchema");
       }
 
 
@@ -259,11 +310,11 @@ export default class FakeApi {
 
     /**
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param {module:model/FileSchemaTestClass} fileSchemaTestClass 
+     * @param {module:model/FileSchemaTestClass} body 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    testBodyWithFileSchema(fileSchemaTestClass) {
-      return this.testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass)
+    testBodyWithFileSchema(body) {
+      return this.testBodyWithFileSchemaWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -272,20 +323,20 @@ export default class FakeApi {
 
     /**
      * @param {String} query 
-     * @param {module:model/User} user 
+     * @param {module:model/User} body 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    testBodyWithQueryParamsWithHttpInfo(query, user) {
-      let postBody = user;
+    testBodyWithQueryParamsWithHttpInfo(query, body) {
+      let postBody = body;
 
       // verify the required parameter 'query' is set
       if (query === undefined || query === null) {
         throw new Error("Missing the required parameter 'query' when calling testBodyWithQueryParams");
       }
 
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling testBodyWithQueryParams");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testBodyWithQueryParams");
       }
 
 
@@ -313,11 +364,11 @@ export default class FakeApi {
 
     /**
      * @param {String} query 
-     * @param {module:model/User} user 
+     * @param {module:model/User} body 
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    testBodyWithQueryParams(query, user) {
-      return this.testBodyWithQueryParamsWithHttpInfo(query, user)
+    testBodyWithQueryParams(query, body) {
+      return this.testBodyWithQueryParamsWithHttpInfo(query, body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -327,15 +378,15 @@ export default class FakeApi {
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
-     * @param {module:model/Client} client client model
+     * @param {module:model/Client} body client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Client} and HTTP response
      */
-    testClientModelWithHttpInfo(client) {
-      let postBody = client;
+    testClientModelWithHttpInfo(body) {
+      let postBody = body;
 
-      // verify the required parameter 'client' is set
-      if (client === undefined || client === null) {
-        throw new Error("Missing the required parameter 'client' when calling testClientModel");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling testClientModel");
       }
 
 
@@ -363,11 +414,11 @@ export default class FakeApi {
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
-     * @param {module:model/Client} client client model
+     * @param {module:model/Client} body client model
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Client}
      */
-    testClientModel(client) {
-      return this.testClientModelWithHttpInfo(client)
+    testClientModel(body) {
+      return this.testClientModelWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -633,15 +684,15 @@ export default class FakeApi {
 
     /**
      * test inline additionalProperties
-     * @param {Object.<String, {String: String}>} requestBody request body
+     * @param {Object.<String, {String: String}>} param request body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    testInlineAdditionalPropertiesWithHttpInfo(requestBody) {
-      let postBody = requestBody;
+    testInlineAdditionalPropertiesWithHttpInfo(param) {
+      let postBody = param;
 
-      // verify the required parameter 'requestBody' is set
-      if (requestBody === undefined || requestBody === null) {
-        throw new Error("Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties");
+      // verify the required parameter 'param' is set
+      if (param === undefined || param === null) {
+        throw new Error("Missing the required parameter 'param' when calling testInlineAdditionalProperties");
       }
 
 
@@ -668,11 +719,11 @@ export default class FakeApi {
 
     /**
      * test inline additionalProperties
-     * @param {Object.<String, {String: String}>} requestBody request body
+     * @param {Object.<String, {String: String}>} param request body
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    testInlineAdditionalProperties(requestBody) {
-      return this.testInlineAdditionalPropertiesWithHttpInfo(requestBody)
+    testInlineAdditionalProperties(param) {
+      return this.testInlineAdditionalPropertiesWithHttpInfo(param)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

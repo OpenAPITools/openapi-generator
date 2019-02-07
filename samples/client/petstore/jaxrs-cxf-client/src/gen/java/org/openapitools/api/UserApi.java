@@ -101,7 +101,7 @@ public interface UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = String.class),
         @ApiResponse(code = 400, message = "Invalid username/password supplied") })
-    public String loginUser(@QueryParam("username")String username, @QueryParam("password")String password);
+    public String loginUser(@QueryParam("username") String username, @QueryParam("password") String password);
 
     /**
      * Logs out current logged in user session

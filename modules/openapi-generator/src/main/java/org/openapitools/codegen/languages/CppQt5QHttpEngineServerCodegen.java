@@ -20,8 +20,8 @@ package org.openapitools.codegen.languages;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import java.io.File;
 
+import java.io.File;
 
 public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implements CodegenConfig {
 

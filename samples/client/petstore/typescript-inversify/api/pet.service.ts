@@ -40,14 +40,14 @@ export class PetService {
     /**
      * Add a new pet to the store
      * 
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      
      */
-    public addPet(pet: Pet, observe?: 'body', headers?: Headers): Observable<any>;
-    public addPet(pet: Pet, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
-    public addPet(pet: Pet, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!pet){
-            throw new Error('Required parameter pet was null or undefined when calling addPet.');
+    public addPet(body: Pet, observe?: 'body', headers?: Headers): Observable<any>;
+    public addPet(body: Pet, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
+    public addPet(body: Pet, observe: any = 'body', headers: Headers = {}): Observable<any> {
+        if (!body){
+            throw new Error('Required parameter body was null or undefined when calling addPet.');
         }
 
         // authentication (petstore_auth) required
@@ -60,7 +60,7 @@ export class PetService {
         headers['Accept'] = 'application/json';
         headers['Content-Type'] = 'application/json';
 
-        const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/pet`, pet , headers);
+        const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/pet`, body , headers);
         if (observe == 'body') {
                return response.map(httpResponse => <any>(httpResponse.response));
         }
@@ -187,7 +187,7 @@ export class PetService {
         }
 
         // authentication (api_key) required
-        if (this.APIConfiguration.apiKeys["api_key"]) {
+        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys["api_key"]) {
             headers['api_key'] = this.APIConfiguration.apiKeys["api_key"];
         }
         headers['Accept'] = 'application/xml';
@@ -203,14 +203,14 @@ export class PetService {
     /**
      * Update an existing pet
      * 
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      
      */
-    public updatePet(pet: Pet, observe?: 'body', headers?: Headers): Observable<any>;
-    public updatePet(pet: Pet, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
-    public updatePet(pet: Pet, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!pet){
-            throw new Error('Required parameter pet was null or undefined when calling updatePet.');
+    public updatePet(body: Pet, observe?: 'body', headers?: Headers): Observable<any>;
+    public updatePet(body: Pet, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
+    public updatePet(body: Pet, observe: any = 'body', headers: Headers = {}): Observable<any> {
+        if (!body){
+            throw new Error('Required parameter body was null or undefined when calling updatePet.');
         }
 
         // authentication (petstore_auth) required
@@ -223,7 +223,7 @@ export class PetService {
         headers['Accept'] = 'application/json';
         headers['Content-Type'] = 'application/json';
 
-        const response: Observable<HttpResponse<any>> = this.httpClient.put(`${this.basePath}/pet`, pet , headers);
+        const response: Observable<HttpResponse<any>> = this.httpClient.put(`${this.basePath}/pet`, body , headers);
         if (observe == 'body') {
                return response.map(httpResponse => <any>(httpResponse.response));
         }

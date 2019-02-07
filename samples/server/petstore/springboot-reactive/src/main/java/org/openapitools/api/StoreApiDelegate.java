@@ -72,7 +72,7 @@ public interface StoreApiDelegate {
     /**
      * @see StoreApi#placeOrder
      */
-    default Mono<ResponseEntity<Order>> placeOrder(Mono<Order> order,
+    default Mono<ResponseEntity<Order>> placeOrder(Mono<Order> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

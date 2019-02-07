@@ -44,10 +44,10 @@ public:
     ApiClient( std::shared_ptr<ApiConfiguration> configuration = nullptr );
     virtual ~ApiClient();
 
-    typedef std::function<void(const web::http::http_headers&)> ResponseHeadersHandlerType;
+    typedef std::function<void(web::http::status_code, const web::http::http_headers&)> ResponseHandlerType;
 
-    const ResponseHeadersHandlerType& getResponseHeadersHandler() const;
-    void setResponseHeadersHandler(const ResponseHeadersHandlerType& responseHeadersHandler);
+    const ResponseHandlerType& getResponseHandler() const;
+    void setResponseHandler(const ResponseHandlerType& responseHandler);
 
     std::shared_ptr<ApiConfiguration> getConfiguration() const;
     void setConfiguration(std::shared_ptr<ApiConfiguration> configuration);
@@ -60,6 +60,8 @@ public:
     static utility::string_t parameterToString(const utility::datetime &value);
     template<class T>
     static utility::string_t parameterToString(const std::vector<T>& value);
+    template<class T>
+    static utility::string_t parameterToString(const std::shared_ptr<T>& value);
 
     pplx::task<web::http::http_response> callApi(
         const utility::string_t& path,
@@ -74,7 +76,7 @@ public:
 
 protected:
 
-    ResponseHeadersHandlerType m_ResponseHeadersHandler;
+    ResponseHandlerType m_ResponseHandler;
     std::shared_ptr<ApiConfiguration> m_Configuration;
 };
 
@@ -91,6 +93,13 @@ utility::string_t ApiClient::parameterToString(const std::vector<T>& value)
 
     return ss.str();
 }
+
+template<class T>
+utility::string_t ApiClient::parameterToString(const std::shared_ptr<T>& value)
+{
+    return parameterToString(*value.get());
+}
+
 
 }
 }

@@ -26,26 +26,9 @@ import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.apache.commons.lang3.Validate;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConfigLoader;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.SpecValidationException;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.auth.AuthParser;
-import org.openapitools.codegen.languages.CSharpNancyFXServerCodegen;
-import org.openapitools.codegen.languages.CppQt5ClientCodegen;
-import org.openapitools.codegen.languages.CppRestSdkClientCodegen;
-import org.openapitools.codegen.languages.CppTizenClientCodegen;
-import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
-import org.openapitools.codegen.languages.PhpLumenServerCodegen;
-import org.openapitools.codegen.languages.PhpSlimServerCodegen;
-import org.openapitools.codegen.languages.PhpZendExpressivePathHandlerServerCodegen;
-import org.openapitools.codegen.languages.RubySinatraServerCodegen;
-import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
-import org.openapitools.codegen.languages.ScalaHttpClientCodegen;
-import org.openapitools.codegen.languages.SwiftClientCodegen;
+import org.openapitools.codegen.languages.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,12 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -95,6 +73,7 @@ public class CodegenConfigurator implements Serializable {
     private boolean verbose;
     private boolean skipOverwrite;
     private boolean removeOperationIdPrefix;
+    private boolean logToStderr;
     private boolean validateSpec;
     private boolean enablePostProcessFile;
     private String templateDir;
@@ -217,6 +196,24 @@ public class CodegenConfigurator implements Serializable {
 
     public CodegenConfigurator setEnablePostProcessFile(boolean enablePostProcessFile) {
         this.enablePostProcessFile = enablePostProcessFile;
+        return this;
+    }
+
+    public boolean getLogToStderr() {
+        return logToStderr;
+    }
+
+    public CodegenConfigurator setLogToStderr(boolean logToStderrte) {
+        this.logToStderr = logToStderr;
+        return this;
+    }
+
+    public boolean isGenerateAliasAsModel() {
+        return ModelUtils.isGenerateAliasAsModel();
+    }
+
+    public CodegenConfigurator setGenerateAliasAsModel(boolean generateAliasAsModel) {
+        ModelUtils.setGenerateAliasAsModel(generateAliasAsModel);
         return this;
     }
 
@@ -629,15 +626,15 @@ public class CodegenConfigurator implements Serializable {
                 "\n - [debugOperations] prints operations passed to the template engine" +
                 "\n - [debugSupportingFiles] prints additional data passed to the template engine");
 
-        System.setProperty("debugOpenAPI", "");
-        System.setProperty("debugModels", "");
-        System.setProperty("debugOperations", "");
-        System.setProperty("debugSupportingFiles", "");
+        GeneratorProperties.setProperty("debugOpenAPI", "");
+        GeneratorProperties.setProperty("debugModels", "");
+        GeneratorProperties.setProperty("debugOperations", "");
+        GeneratorProperties.setProperty("debugSupportingFiles", "");
     }
 
     private void setSystemProperties() {
         for (Map.Entry<String, String> entry : systemProperties.entrySet()) {
-            System.setProperty(entry.getKey(), entry.getValue());
+            GeneratorProperties.setProperty(entry.getKey(), entry.getValue());
         }
     }
 

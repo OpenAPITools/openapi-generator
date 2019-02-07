@@ -35,6 +35,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         implements BeanValidationFeatures {
@@ -99,6 +100,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         typeMapping.put("map", "Map");
         typeMapping.put("object", "Any");
         typeMapping.put("binary", "Array<kotlin.Byte>");
+
+        typeMapping.put("date", "java.time.LocalDate");
+        typeMapping.put("date-time", "java.time.OffsetDateTime");
+        typeMapping.put("Date", "java.time.LocalDate");
+        typeMapping.put("DateTime", "java.time.OffsetDateTime");
+
+        importMapping.put("Date", "java.time.LocalDate");
+        importMapping.put("DateTime", "java.time.OffsetDateTime");
 
         languageSpecificPrimitives.addAll(Arrays.asList(
                 "Any",
@@ -241,14 +250,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public void processOpts() {
         super.processOpts();
-
-        typeMapping.put("date", "java.time.LocalDate");
-        typeMapping.put("date-time", "java.time.OffsetDateTime");
-        typeMapping.put("Date", "java.time.LocalDate");
-        typeMapping.put("DateTime", "java.time.OffsetDateTime");
-
-        importMapping.put("Date", "java.time.LocalDate");
-        importMapping.put("DateTime", "java.time.OffsetDateTime");
 
         // optional jackson mappings for BigDecimal support
         importMapping.put("ToStringSerializer", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer");
@@ -553,8 +554,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     // Can't figure out the logic in DefaultCodegen but optional vars are getting duplicated when there's
     // inheritance involved. Also, isInherited doesn't seem to be getting set properly ¯\_(ツ)_/¯
     @Override
-    public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions) {
-        CodegenModel m = super.fromModel(name, schema, allDefinitions);
+    public CodegenModel fromModel(String name, Schema schema) {
+        CodegenModel m = super.fromModel(name, schema);
 
         m.optionalVars = m.optionalVars.stream().distinct().collect(Collectors.toList());
         m.allVars.stream().filter(p -> !m.vars.contains(p)).forEach(p -> p.isInherited = true);

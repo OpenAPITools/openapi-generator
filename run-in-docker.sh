@@ -13,6 +13,6 @@ docker run --rm -it \
         -e MAVEN_CONFIG=/var/maven/.m2 \
         -u "$(id -u):$(id -g)" \
         -v "${PWD}:/gen" \
-        -v "${maven_cache_repo}:/var/maven/.m2/repository" \
+        -v "$HOME/.m2":/root/.m2 \
         --entrypoint /gen/docker-entrypoint.sh \
         maven:3-jdk-8 "$@"

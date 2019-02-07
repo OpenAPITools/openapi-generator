@@ -22,6 +22,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +57,16 @@ public class FakeApi {
         return new FakeApi(reqSpec);
     }
 
+
+    @ApiOperation(value = "creates an XmlItem",
+            notes = "this route creates an XmlItem",
+            nickname = "createXmlItem",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation")  })
+    public CreateXmlItemOper createXmlItem() {
+        return new CreateXmlItemOper(reqSpec);
+    }
 
     @ApiOperation(value = "",
             notes = "Test serialization of outer boolean types",
@@ -190,6 +201,66 @@ public class FakeApi {
     }
 
     /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     *
+     * @see #body XmlItem Body (required)
+     */
+    public static class CreateXmlItemOper {
+
+        public static final Method REQ_METHOD = POST;
+        public static final String REQ_URI = "/fake/create_xml_item";
+
+        private RequestSpecBuilder reqSpec;
+        private ResponseSpecBuilder respSpec;
+
+        public CreateXmlItemOper(RequestSpecBuilder reqSpec) {
+            this.reqSpec = reqSpec;
+            reqSpec.setContentType("application/xml");
+            reqSpec.setAccept("application/json");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        /**
+         * POST /fake/create_xml_item
+         * @param handler handler
+         * @param <T> type
+         * @return type
+         */
+        public <T> T execute(Function<Response, T> handler) {
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
+        }
+
+         /**
+         * @param xmlItem (XmlItem) XmlItem Body (required)
+         * @return operation
+         */
+        public CreateXmlItemOper body(XmlItem xmlItem) {
+            reqSpec.setBody(xmlItem);
+            return this;
+        }
+
+        /**
+         * Customise request specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public CreateXmlItemOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
+            consumer.accept(reqSpec);
+            return this;
+        }
+
+        /**
+         * Customise response specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public CreateXmlItemOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
+            consumer.accept(respSpec);
+            return this;
+        }
+    }
+    /**
      * 
      * Test serialization of outer boolean types
      *
@@ -303,11 +374,11 @@ public class FakeApi {
         }
 
          /**
-         * @param outerComposite (OuterComposite) Input composite as post body (optional)
+         * @param body (OuterComposite) Input composite as post body (optional)
          * @return operation
          */
-        public FakeOuterCompositeSerializeOper body(OuterComposite outerComposite) {
-            reqSpec.setBody(outerComposite);
+        public FakeOuterCompositeSerializeOper body(OuterComposite body) {
+            reqSpec.setBody(body);
             return this;
         }
 
@@ -505,11 +576,11 @@ public class FakeApi {
         }
 
          /**
-         * @param fileSchemaTestClass (FileSchemaTestClass)  (required)
+         * @param body (FileSchemaTestClass)  (required)
          * @return operation
          */
-        public TestBodyWithFileSchemaOper body(FileSchemaTestClass fileSchemaTestClass) {
-            reqSpec.setBody(fileSchemaTestClass);
+        public TestBodyWithFileSchemaOper body(FileSchemaTestClass body) {
+            reqSpec.setBody(body);
             return this;
         }
 
@@ -566,11 +637,11 @@ public class FakeApi {
         }
 
          /**
-         * @param user (User)  (required)
+         * @param body (User)  (required)
          * @return operation
          */
-        public TestBodyWithQueryParamsOper body(User user) {
-            reqSpec.setBody(user);
+        public TestBodyWithQueryParamsOper body(User body) {
+            reqSpec.setBody(body);
             return this;
         }
 
@@ -648,11 +719,11 @@ public class FakeApi {
         }
 
          /**
-         * @param client (Client) client model (required)
+         * @param body (Client) client model (required)
          * @return operation
          */
-        public TestClientModelOper body(Client client) {
-            reqSpec.setBody(client);
+        public TestClientModelOper body(Client body) {
+            reqSpec.setBody(body);
             return this;
         }
 
@@ -1193,11 +1264,11 @@ public class FakeApi {
         }
 
          /**
-         * @param requestBody (Map&lt;String, String&gt;) request body (required)
+         * @param param (Map&lt;String, String&gt;) request body (required)
          * @return operation
          */
-        public TestInlineAdditionalPropertiesOper body(Map<String, String> requestBody) {
-            reqSpec.setBody(requestBody);
+        public TestInlineAdditionalPropertiesOper body(Map<String, String> param) {
+            reqSpec.setBody(param);
             return this;
         }
 

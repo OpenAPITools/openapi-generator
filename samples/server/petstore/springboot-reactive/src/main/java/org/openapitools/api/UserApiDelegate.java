@@ -30,7 +30,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUser
      */
-    default Mono<ResponseEntity<Void>> createUser(Mono<User> user,
+    default Mono<ResponseEntity<Void>> createUser(Mono<User> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -41,7 +41,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithArrayInput
      */
-    default Mono<ResponseEntity<Void>> createUsersWithArrayInput(Flux<List> user,
+    default Mono<ResponseEntity<Void>> createUsersWithArrayInput(Flux<List> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -52,7 +52,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithListInput
      */
-    default Mono<ResponseEntity<Void>> createUsersWithListInput(Flux<List> user,
+    default Mono<ResponseEntity<Void>> createUsersWithListInput(Flux<List> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -118,7 +118,7 @@ public interface UserApiDelegate {
      * @see UserApi#updateUser
      */
     default Mono<ResponseEntity<Void>> updateUser(String username,
-        Mono<User> user,
+        Mono<User> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

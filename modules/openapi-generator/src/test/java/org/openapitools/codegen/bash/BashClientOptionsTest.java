@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.bash;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.BashClientCodegen;
 import org.openapitools.codegen.options.BashClientOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class BashClientOptionsTest extends AbstractOptionsTest {
 

@@ -1,8 +1,10 @@
 package org.openapitools.client;
 
 import okhttp3.*;
+import okio.AsyncTimeout;
 import okio.Buffer;
 import okio.BufferedSource;
+import okio.Timeout;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSRequest;
 import play.libs.ws.WSResponse;
@@ -96,16 +98,23 @@ public class Play25CallFactory implements okhttp3.Call.Factory {
         private List<WSRequestFilter> filters;
 
         private final Request request;
+        private final AsyncTimeout timeout;
 
         public PlayWSCall(WSClient wsClient, List<WSRequestFilter> filters, Request request) {
             this.wsClient = wsClient;
             this.request = request;
             this.filters = filters;
+            this.timeout = new AsyncTimeout();
         }
 
         @Override
         public Request request() {
             return request;
+        }
+
+        @Override
+        public Timeout timeout() {
+            return timeout;
         }
 
         @Override

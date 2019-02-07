@@ -153,7 +153,7 @@ public enum EnumNumberEnum {
 }
 
   private @Valid EnumNumberEnum enumNumber;
-  private @Valid OuterEnum outerEnum = null;
+  private @Valid OuterEnum outerEnum;
 
   /**
    **/

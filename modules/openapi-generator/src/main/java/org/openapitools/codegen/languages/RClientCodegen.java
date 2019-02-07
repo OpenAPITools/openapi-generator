@@ -28,6 +28,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(RClientCodegen.class);
@@ -72,37 +74,29 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 )
         );
 
-        defaultIncludes = new HashSet<String>(
-                Arrays.asList(
-                        "map",
-                        "array")
-        );
-
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "Integer",
-                        "Numeric",
-                        "Character")
-        );
-
-        instantiationTypes.clear();
+        languageSpecificPrimitives.clear();
+        languageSpecificPrimitives.add("integer");
+        languageSpecificPrimitives.add("numeric");
+        languageSpecificPrimitives.add("character");
+        languageSpecificPrimitives.add("data.frame");
+        languageSpecificPrimitives.add("object");
 
         typeMapping.clear();
-        typeMapping.put("integer", "Integer");
-        typeMapping.put("long", "Integer");
-        typeMapping.put("number", "Numeric");
-        typeMapping.put("float", "Numeric");
-        typeMapping.put("double", "Numeric");
-        typeMapping.put("boolean", "Character");
-        typeMapping.put("string", "Character");
-        typeMapping.put("UUID", "Character");
-        typeMapping.put("date", "Character");
-        typeMapping.put("DateTime", "Character");
-        typeMapping.put("password", "Character");
+        typeMapping.put("integer", "integer");
+        typeMapping.put("long", "integer");
+        typeMapping.put("number", "numeric");
+        typeMapping.put("float", "numeric");
+        typeMapping.put("double", "numeric");
+        typeMapping.put("boolean", "character");
+        typeMapping.put("string", "character");
+        typeMapping.put("UUID", "character");
+        typeMapping.put("date", "character");
+        typeMapping.put("DateTime", "character");
+        typeMapping.put("password", "character");
         typeMapping.put("file", "data.frame");
         typeMapping.put("binary", "data.frame");
-        typeMapping.put("ByteArray", "Character");
-        typeMapping.put("object", "object");
+        typeMapping.put("ByteArray", "character");
+        typeMapping.put("map", "object");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "R package name (convention: lowercase).")
@@ -173,7 +167,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return org.openapitools.codegen.utils.StringUtils.camelize(name) + '_';
+        return camelize(name) + '_';
     }
 
     @Override
@@ -196,7 +190,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // convert variable name to snake case
         // PetId => pet_id
-        name = org.openapitools.codegen.utils.StringUtils.underscore(name);
+        name = underscore(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name))
@@ -233,17 +227,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        return org.openapitools.codegen.utils.StringUtils.camelize(name);
+        return camelize(name);
     }
 
     @Override
@@ -252,7 +246,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PetApi.r => pet_api.r
-        return org.openapitools.codegen.utils.StringUtils.camelize(name + "_api");
+        return camelize(name + "_api");
     }
 
     @Override
@@ -277,7 +271,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toApiName(String name) {
-        return org.openapitools.codegen.utils.StringUtils.camelize(super.toApiName(name));
+        return camelize(super.toApiName(name));
     }
 
     @Override
@@ -329,11 +323,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(sanitizedOperationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore("call_" + operationId));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore("call_" + operationId));
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return org.openapitools.codegen.utils.StringUtils.underscore(sanitizedOperationId);
+        return underscore(sanitizedOperationId);
     }
 
     @Override
@@ -368,8 +362,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     protected boolean needToImport(String type) {
-        return !defaultIncludes.contains(type)
-                && !languageSpecificPrimitives.contains(type);
+        return !languageSpecificPrimitives.contains(type);
     }
 
     public void setPackageName(String packageName) {
@@ -433,7 +426,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // string
-        String enumName = sanitizeName(org.openapitools.codegen.utils.StringUtils.underscore(name).toUpperCase(Locale.ROOT));
+        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -446,7 +439,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = org.openapitools.codegen.utils.StringUtils.underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
+        String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");

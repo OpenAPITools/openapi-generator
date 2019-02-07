@@ -5,6 +5,7 @@ group = 'org.openapitools'
 version = '1.0.0'
 
 repositories {
+    mavenCentral()
     jcenter()
 }
 
