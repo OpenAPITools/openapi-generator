@@ -206,7 +206,7 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
         OpenAPI api = TestUtils.createOpenAPI();
-        codegen.setGlobalOpenAPI(api);
+        codegen.setOpenAPI(api);
 
         codegen.processOpts();
 
@@ -220,7 +220,7 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put("artifactVersion", "1.1.1");
 
         OpenAPI api = TestUtils.createOpenAPI();
-        codegen.setGlobalOpenAPI(api);
+        codegen.setOpenAPI(api);
 
         codegen.processOpts();
 

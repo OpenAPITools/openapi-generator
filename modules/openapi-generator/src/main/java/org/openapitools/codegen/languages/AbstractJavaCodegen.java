@@ -1362,8 +1362,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * @return API version
      */
     private String getVersionFromSpecification () {
-        if (this.globalOpenAPI != null && this.globalOpenAPI.getInfo() != null) {
-            return this.globalOpenAPI.getInfo().getVersion();
+        if (this.openAPI != null && this.openAPI.getInfo() != null) {
+            return this.openAPI.getInfo().getVersion();
         } else {
             return null;
         }
