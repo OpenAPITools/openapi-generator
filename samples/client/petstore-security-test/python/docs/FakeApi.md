@@ -1,6 +1,6 @@
 # petstore_api.FakeApi
 
-All URIs are relative to *https://petstore.swagger.io */ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 */ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
+All URIs are relative to *http://petstore.swagger.io */ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 */ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -9,6 +9,8 @@ Method | HTTP request | Description
 
 # **test_code_inject____end__rn_n_r**
 > test_code_inject____end__rn_n_r(test_code_inject____end____rn_n_r=test_code_inject____end____rn_n_r)
+
+To test code injection */ ' \" =end -- \\r\\n \\n \\r
 
 To test code injection */ ' \" =end -- \\r\\n \\n \\r
 
@@ -22,7 +24,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
-test_code_inject____end____rn_n_r = 'test_code_inject____end____rn_n_r_example' # str | To test code injection */ ' \" =end -- \\r\\n \\n \\r (optional)
+test_code_inject____end____rn_n_r = 'test_code_inject____end____rn_n_r_example' # str | To test code injection */ ' \\\" =end -- \\\\r\\\\n \\\\n \\\\r (optional)
 
 try:
     # To test code injection */ ' \" =end -- \\r\\n \\n \\r
@@ -35,7 +37,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **test_code_inject____end____rn_n_r** | **str**| To test code injection */ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r | [optional] 
+ **test_code_inject____end____rn_n_r** | **str**| To test code injection */ &#39; \\\&quot; &#x3D;end -- \\\\r\\\\n \\\\n \\\\r | [optional] 
 
 ### Return type
 
@@ -47,8 +49,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, */  \" =end --       
- - **Accept**: application/json, */  \" =end --       
+ - **Content-Type**: application/x-www-form-urlencoded, */  \" =end --       
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

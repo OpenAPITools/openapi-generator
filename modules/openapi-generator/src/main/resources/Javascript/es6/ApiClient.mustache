@@ -31,7 +31,12 @@ class ApiClient {
         this.authentications = {
 <#authMethods>
 <#isBasic>
+<^isBasicBearer>
             '<name>': {type: 'basic'}<^-last>,</-last>
+</isBasicBearer>
+<#isBasicBearer>
+            '<name>': {type: 'bearer'}<^-last>,</-last><#bearerFormat> // <&.></bearerFormat>
+</isBasicBearer>
 </isBasic>
 <#isApiKey>
             '<name>': {type: 'apiKey', 'in': <#isKeyInHeader>'header'</isKeyInHeader><^isKeyInHeader>'query'</isKeyInHeader>, name: '<keyParamName>'}<^-last>,</-last>
@@ -83,6 +88,11 @@ class ApiClient {
          * Allow user to override superagent agent
          */
          this.requestAgent = null;
+
+        /*
+         * Allow user to add superagent plugins
+         */
+        this.plugins = null;
 
     }
 
@@ -264,6 +274,12 @@ class ApiClient {
                     }
 
                     break;
+                case 'bearer':
+                    if (auth.accessToken) {
+                        request.set({'Authorization': 'Bearer ' + auth.accessToken});
+                    }
+
+                    break;
                 case 'apiKey':
                     if (auth.apiKey) {
                         var data = {};
@@ -352,6 +368,14 @@ class ApiClient {
         var url = this.buildUrl(path, pathParams);
         var request = superagent(httpMethod, url);
 
+        if (this.plugins !== null) {
+            for (var index in this.plugins) {
+                if (this.plugins.hasOwnProperty(index)) {
+                    request.use(this.plugins[index])
+                }
+            }
+        }
+
         // apply authentications
         this.applyAuthToRequest(request, authNames);
 
@@ -425,7 +449,14 @@ class ApiClient {
         {{#usePromises}}return new Promise((resolve, reject) => {
             request.end((error, response) => {
                 if (error) {
-                    reject(error);
+                    var err = {};
+                    err.status = response.status;
+                    err.statusText = response.statusText;
+                    err.body = response.body;
+                    err.response = response;
+                    err.error = error;
+
+                    reject(err);
                 } else {
                     try {
                         var data = this.deserialize(response, returnType);
@@ -538,6 +569,71 @@ class ApiClient {
                     return data;
                 }
         }
+    }
+
+    {{#emitJSDoc}}
+  /**
+    * Gets an array of host settings
+    * @returns An array of host settings
+    */
+    {{/emitJSDoc}}
+    hostSettings() {
+        return [
+            {{#servers}}
+            {
+              'url': "{{{url}}}",
+              'description': "{{{description}}}{{^description}}No description provided{{/description}}",
+              {{#variables}}
+              {{#-first}}
+              'variables': {
+              {{/-first}}
+                {{{name}}}: {
+                    'description': "{{{description}}}{{^description}}No description provided{{/description}}",
+                    'default_value': "{{{defaultValue}}}",
+                    {{#enumValues}}
+                    {{#-first}}
+                    'enum_values': [
+                    {{/-first}}
+                      "{{{.}}}"{{^-last}},{{/-last}}
+                    {{#-last}}
+                    ]
+                    {{/-last}}
+                    {{/enumValues}}
+                  }{{^-last}},{{/-last}}
+                {{#-last}}
+                }
+                {{/-last}}
+              {{/variables}}
+            }{{^-last}},{{/-last}}
+            {{/servers}}
+      ];
+    }
+
+    getBasePathFromSettings(index, variables={}) {
+        var servers = this.hostSettings();
+
+        // check array index out of bound
+        if (index < 0 || index >= servers.length) {
+            throw new Error("Invalid index " + index + " when selecting the host settings. Must be less than " + servers.length);
+        }
+
+        var server = servers[index];
+        var url = server['url'];
+
+        // go through variable and assign a value
+        for (var variable_name in server['variables']) {
+            if (variable_name in variables) {
+                if (server['variables'][variable_name]['enum_values'].includes(variables[variable_name])) {
+                    url = url.replace("{" + variable_name + "}", variables[variable_name]);
+                } else {
+                    throw new Error("The variable `" + variable_name + "` in the host URL has invalid value " + variables[variable_name] + ". Must be " + server['variables'][variable_name]['enum_values'] + ".");
+                }
+            } else {
+                // use default value
+                url = url.replace("{" + variable_name + "}", server['variables'][variable_name]['default_value'])
+            }
+        }
+        return url;
     }
 
     {{#emitJSDoc}}/**

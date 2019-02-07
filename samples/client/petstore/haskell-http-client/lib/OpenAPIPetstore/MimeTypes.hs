@@ -201,3 +201,55 @@ instance MimeUnrender MimeOctetStream String where mimeUnrender _ = P.Right . BC
 instance MimeUnrender MimeNoContent NoContent where mimeUnrender _ = P.Right . P.const NoContent
 
 
+-- * Custom Mime Types
+
+-- ** MimeXmlCharsetutf16
+
+data MimeXmlCharsetutf16 = MimeXmlCharsetutf16 deriving (P.Typeable)
+
+-- | @application/xml; charset=utf-16@
+instance MimeType MimeXmlCharsetutf16 where
+  mimeType _ = Just $ P.fromString "application/xml; charset=utf-16"
+-- instance MimeRender MimeXmlCharsetutf16 T.Text where mimeRender _ = undefined
+-- instance MimeUnrender MimeXmlCharsetutf16 T.Text where mimeUnrender _ = undefined
+
+-- ** MimeXmlCharsetutf8
+
+data MimeXmlCharsetutf8 = MimeXmlCharsetutf8 deriving (P.Typeable)
+
+-- | @application/xml; charset=utf-8@
+instance MimeType MimeXmlCharsetutf8 where
+  mimeType _ = Just $ P.fromString "application/xml; charset=utf-8"
+-- instance MimeRender MimeXmlCharsetutf8 T.Text where mimeRender _ = undefined
+-- instance MimeUnrender MimeXmlCharsetutf8 T.Text where mimeUnrender _ = undefined
+
+-- ** MimeTextxml
+
+data MimeTextxml = MimeTextxml deriving (P.Typeable)
+
+-- | @text/xml@
+instance MimeType MimeTextxml where
+  mimeType _ = Just $ P.fromString "text/xml"
+-- instance MimeRender MimeTextxml T.Text where mimeRender _ = undefined
+-- instance MimeUnrender MimeTextxml T.Text where mimeUnrender _ = undefined
+
+-- ** MimeTextxmlCharsetutf16
+
+data MimeTextxmlCharsetutf16 = MimeTextxmlCharsetutf16 deriving (P.Typeable)
+
+-- | @text/xml; charset=utf-16@
+instance MimeType MimeTextxmlCharsetutf16 where
+  mimeType _ = Just $ P.fromString "text/xml; charset=utf-16"
+-- instance MimeRender MimeTextxmlCharsetutf16 T.Text where mimeRender _ = undefined
+-- instance MimeUnrender MimeTextxmlCharsetutf16 T.Text where mimeUnrender _ = undefined
+
+-- ** MimeTextxmlCharsetutf8
+
+data MimeTextxmlCharsetutf8 = MimeTextxmlCharsetutf8 deriving (P.Typeable)
+
+-- | @text/xml; charset=utf-8@
+instance MimeType MimeTextxmlCharsetutf8 where
+  mimeType _ = Just $ P.fromString "text/xml; charset=utf-8"
+-- instance MimeRender MimeTextxmlCharsetutf8 T.Text where mimeRender _ = undefined
+-- instance MimeUnrender MimeTextxmlCharsetutf8 T.Text where mimeUnrender _ = undefined
+

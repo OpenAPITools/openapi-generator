@@ -27,7 +27,6 @@ open class PetAPI {
         }
     }
 
-
     /**
      Add a new pet to the store
      - POST /pet
@@ -65,7 +64,6 @@ open class PetAPI {
             }
         }
     }
-
 
     /**
      Deletes a pet
@@ -117,7 +115,6 @@ open class PetAPI {
         }
     }
 
-
     /**
      Finds Pets by status
      - GET /pet/findByStatus
@@ -155,7 +152,6 @@ open class PetAPI {
         }
     }
 
-
     /**
      Finds Pets by tags
      - GET /pet/findByTags
@@ -192,7 +188,6 @@ open class PetAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      Find pet by ID
@@ -235,7 +230,6 @@ open class PetAPI {
         }
     }
 
-
     /**
      Update an existing pet
      - PUT /pet
@@ -274,7 +268,6 @@ open class PetAPI {
             }
         }
     }
-
 
     /**
      Updates a pet in the store with form data
@@ -322,7 +315,6 @@ open class PetAPI {
         }
     }
 
-
     /**
      uploads an image
      - POST /pet/{petId}/uploadImage
@@ -368,7 +360,6 @@ open class PetAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      uploads an image (required)

@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **CreateUser**
-> CreateUser(ctx, user)
+> CreateUser(ctx, body)
 Create user
 
 This can only be done by the logged in user.
@@ -25,7 +25,7 @@ This can only be done by the logged in user.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **user** | [**User**](User.md)| Created user object | 
+  **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -43,7 +43,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **CreateUsersWithArrayInput**
-> CreateUsersWithArrayInput(ctx, user)
+> CreateUsersWithArrayInput(ctx, body)
 Creates list of users with given input array
 
 ### Required Parameters
@@ -51,7 +51,7 @@ Creates list of users with given input array
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **user** | [**[]User**](array.md)| List of user object | 
+  **body** | [**[]User**](array.md)| List of user object | 
 
 ### Return type
 
@@ -69,7 +69,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **CreateUsersWithListInput**
-> CreateUsersWithListInput(ctx, user)
+> CreateUsersWithListInput(ctx, body)
 Creates list of users with given input array
 
 ### Required Parameters
@@ -77,7 +77,7 @@ Creates list of users with given input array
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **user** | [**[]User**](array.md)| List of user object | 
+  **body** | [**[]User**](array.md)| List of user object | 
 
 ### Return type
 
@@ -198,7 +198,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UpdateUser**
-> UpdateUser(ctx, username, user)
+> UpdateUser(ctx, username, body)
 Updated user
 
 This can only be done by the logged in user.
@@ -209,7 +209,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
   **username** | **string**| name that need to be deleted | 
-  **user** | [**User**](User.md)| Updated user object | 
+  **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 

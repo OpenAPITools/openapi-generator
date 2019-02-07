@@ -17,10 +17,10 @@
 
 package org.openapitools.codegen;
 
+import org.openapitools.codegen.auth.AuthMethod;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.openapitools.codegen.auth.AuthMethod;
 
 public class ClientOpts {
     protected String uri;

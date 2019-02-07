@@ -50,7 +50,10 @@ require 'petstore/models/pet'
 require 'petstore/models/read_only_first'
 require 'petstore/models/special_model_name'
 require 'petstore/models/tag'
+require 'petstore/models/type_holder_default'
+require 'petstore/models/type_holder_example'
 require 'petstore/models/user'
+require 'petstore/models/xml_item'
 
 # APIs
 require 'petstore/api/another_fake_api'

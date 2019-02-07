@@ -15,13 +15,14 @@ Method | HTTP request | Description
 
 
 # **create_user**
-> create_user(user)
+> create_user(body)
 
 Create user
 
 This can only be done by the logged in user.
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -31,11 +32,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
-user = petstore_api.User() # User | Created user object
+body = petstore_api.User() # User | Created user object
 
 try:
     # Create user
-    api_instance.create_user(user)
+    api_instance.create_user(body)
 except ApiException as e:
     print("Exception when calling UserApi->create_user: %s\n" % e)
 ```
@@ -44,7 +45,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -62,11 +63,12 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_array_input**
-> create_users_with_array_input(user)
+> create_users_with_array_input(body)
 
 Creates list of users with given input array
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -76,11 +78,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
-user = NULL # list[User] | List of user object
+body = NULL # list[User] | List of user object
 
 try:
     # Creates list of users with given input array
-    api_instance.create_users_with_array_input(user)
+    api_instance.create_users_with_array_input(body)
 except ApiException as e:
     print("Exception when calling UserApi->create_users_with_array_input: %s\n" % e)
 ```
@@ -89,7 +91,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**list[User]**](list.md)| List of user object | 
+ **body** | [**list[User]**](list.md)| List of user object | 
 
 ### Return type
 
@@ -107,11 +109,12 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_list_input**
-> create_users_with_list_input(user)
+> create_users_with_list_input(body)
 
 Creates list of users with given input array
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -121,11 +124,11 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
-user = NULL # list[User] | List of user object
+body = NULL # list[User] | List of user object
 
 try:
     # Creates list of users with given input array
-    api_instance.create_users_with_list_input(user)
+    api_instance.create_users_with_list_input(body)
 except ApiException as e:
     print("Exception when calling UserApi->create_users_with_list_input: %s\n" % e)
 ```
@@ -134,7 +137,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**list[User]**](list.md)| List of user object | 
+ **body** | [**list[User]**](list.md)| List of user object | 
 
 ### Return type
 
@@ -159,6 +162,7 @@ Delete user
 This can only be done by the logged in user.
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -204,6 +208,7 @@ No authorization required
 Get user by user name
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -250,6 +255,7 @@ No authorization required
 Logs user into the system
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -298,6 +304,7 @@ No authorization required
 Logs out current logged in user session
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -334,13 +341,14 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_user**
-> update_user(username, user)
+> update_user(username, body)
 
 Updated user
 
 This can only be done by the logged in user.
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -351,11 +359,11 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
 username = 'username_example' # str | name that need to be deleted
-user = petstore_api.User() # User | Updated user object
+body = petstore_api.User() # User | Updated user object
 
 try:
     # Updated user
-    api_instance.update_user(username, user)
+    api_instance.update_user(username, body)
 except ApiException as e:
     print("Exception when calling UserApi->update_user: %s\n" % e)
 ```
@@ -365,7 +373,7 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **str**| name that need to be deleted | 
- **user** | [**User**](User.md)| Updated user object | 
+ **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 

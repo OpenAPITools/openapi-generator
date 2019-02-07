@@ -10,6 +10,7 @@ import org.threeten.bp.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +26,11 @@ import java.util.Map;
 public interface FakeApiDelegate {
 
     /**
+     * @see FakeApi#createXmlItem
+     */
+    ResponseEntity<Void> createXmlItem(XmlItem xmlItem);
+
+    /**
      * @see FakeApi#fakeOuterBooleanSerialize
      */
     ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body);
@@ -32,7 +38,7 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#fakeOuterCompositeSerialize
      */
-    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite outerComposite);
+    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body);
 
     /**
      * @see FakeApi#fakeOuterNumberSerialize
@@ -47,18 +53,18 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testBodyWithFileSchema
      */
-    ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass);
+    ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass body);
 
     /**
      * @see FakeApi#testBodyWithQueryParams
      */
     ResponseEntity<Void> testBodyWithQueryParams(String query,
-        User user);
+        User body);
 
     /**
      * @see FakeApi#testClientModel
      */
-    ResponseEntity<Client> testClientModel(Client client);
+    ResponseEntity<Client> testClientModel(Client body);
 
     /**
      * @see FakeApi#testEndpointParameters
@@ -103,7 +109,7 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testInlineAdditionalProperties
      */
-    ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> requestBody);
+    ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> param);
 
     /**
      * @see FakeApi#testJsonFormData

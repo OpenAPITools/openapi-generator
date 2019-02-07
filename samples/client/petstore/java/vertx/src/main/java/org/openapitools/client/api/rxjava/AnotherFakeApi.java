@@ -24,22 +24,22 @@ public class AnotherFakeApi {
     /**
      * To test special tags
      * To test special tags and operation ID starting with number
-     * @param client client model (required)
+     * @param body client model (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void call123testSpecialTags(Client client, Handler<AsyncResult<Client>> resultHandler) {
-        delegate.call123testSpecialTags(client, resultHandler);
+    public void call123testSpecialTags(Client body, Handler<AsyncResult<Client>> resultHandler) {
+        delegate.call123testSpecialTags(body, resultHandler);
     }
 
     /**
      * To test special tags
      * To test special tags and operation ID starting with number
-     * @param client client model (required)
+     * @param body client model (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Client> rxCall123testSpecialTags(Client client) {
+    public Single<Client> rxCall123testSpecialTags(Client body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.call123testSpecialTags(client, fut);
+            delegate.call123testSpecialTags(body, fut);
         }));
     }
 

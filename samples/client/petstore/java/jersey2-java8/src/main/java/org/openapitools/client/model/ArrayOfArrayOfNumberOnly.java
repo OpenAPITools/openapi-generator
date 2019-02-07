@@ -30,7 +30,7 @@ import java.util.List;
 
 public class ArrayOfArrayOfNumberOnly {
   @JsonProperty("ArrayArrayNumber")
-  private List<List<BigDecimal>> arrayArrayNumber = null;
+  private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
@@ -81,7 +81,6 @@ public class ArrayOfArrayOfNumberOnly {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ArrayOfArrayOfNumberOnly {\n");
-    
     sb.append("    arrayArrayNumber: ").append(toIndentedString(arrayArrayNumber)).append("\n");
     sb.append("}");
     return sb.toString();

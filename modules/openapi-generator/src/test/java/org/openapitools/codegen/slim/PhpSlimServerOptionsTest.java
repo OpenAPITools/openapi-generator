@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.slim;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PhpSlimServerCodegen;
 import org.openapitools.codegen.options.PhpSlimServerOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class PhpSlimServerOptionsTest extends AbstractOptionsTest {
 
@@ -62,8 +61,6 @@ public class PhpSlimServerOptionsTest extends AbstractOptionsTest {
             clientCodegen.setArtifactVersion(PhpSlimServerOptionsProvider.ARTIFACT_VERSION_VALUE);
             times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(PhpSlimServerOptionsProvider.SORT_PARAMS_VALUE));
-            times = 1;
-            clientCodegen.setPhpcsStandard(PhpSlimServerOptionsProvider.PHPCS_STANDARD_VALUE);
             times = 1;
         }};
     }

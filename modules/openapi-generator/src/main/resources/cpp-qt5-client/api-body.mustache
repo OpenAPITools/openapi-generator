@@ -172,6 +172,7 @@ void
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit {{nickname}}Signal({{#returnType}}output{{/returnType}});
+        emit {{nickname}}SignalFull(worker{{#returnType}}, output{{/returnType}});
     } else {
         emit {{nickname}}SignalE({{#returnType}}output, {{/returnType}}error_type, error_str);
         emit {{nickname}}SignalEFull(worker, error_type, error_str);

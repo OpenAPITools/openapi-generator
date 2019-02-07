@@ -32,21 +32,16 @@ describe 'Cat' do
       expect(@instance).to be_instance_of(Petstore::Cat)
     end
   end
-  describe 'test attribute "class_name"' do
+
+  describe 'test attribute_map' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      expect(Petstore::Cat.attribute_map).to eq({:'declawed' => :'declawed'});
     end
   end
 
-  describe 'test attribute "color"' do
+  describe 'test parent "animal"' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
-    end
-  end
-
-  describe 'test attribute "declawed"' do
-    it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      expect(Petstore::Cat.superclass.name).to eq("Petstore::Animal");
     end
   end
 

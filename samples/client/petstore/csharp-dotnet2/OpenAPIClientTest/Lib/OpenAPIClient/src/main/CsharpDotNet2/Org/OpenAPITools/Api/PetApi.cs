@@ -14,9 +14,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Add a new pet to the store 
         /// </summary>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        void AddPet (Pet pet);
+        void AddPet (Pet body);
         /// <summary>
         /// Deletes a pet 
         /// </summary>
@@ -45,9 +45,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Update an existing pet 
         /// </summary>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        void UpdatePet (Pet pet);
+        void UpdatePet (Pet body);
         /// <summary>
         /// Updates a pet in the store with form data 
         /// </summary>
@@ -122,13 +122,13 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Add a new pet to the store 
         /// </summary>
-        /// <param name="pet">Pet object that needs to be added to the store</param> 
+        /// <param name="body">Pet object that needs to be added to the store</param> 
         /// <returns></returns>            
-        public void AddPet (Pet pet)
+        public void AddPet (Pet body)
         {
             
-            // verify the required parameter 'pet' is set
-            if (pet == null) throw new ApiException(400, "Missing required parameter 'pet' when calling AddPet");
+            // verify the required parameter 'body' is set
+            if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling AddPet");
             
     
             var path = "/pet";
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-                                                postBody = ApiClient.Serialize(pet); // http body (model) parameter
+                                                postBody = ApiClient.Serialize(body); // http body (model) parameter
     
             // authentication setting, if any
             String[] authSettings = new String[] { "petstore_auth" };
@@ -309,13 +309,13 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Update an existing pet 
         /// </summary>
-        /// <param name="pet">Pet object that needs to be added to the store</param> 
+        /// <param name="body">Pet object that needs to be added to the store</param> 
         /// <returns></returns>            
-        public void UpdatePet (Pet pet)
+        public void UpdatePet (Pet body)
         {
             
-            // verify the required parameter 'pet' is set
-            if (pet == null) throw new ApiException(400, "Missing required parameter 'pet' when calling UpdatePet");
+            // verify the required parameter 'body' is set
+            if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling UpdatePet");
             
     
             var path = "/pet";
@@ -327,7 +327,7 @@ namespace Org.OpenAPITools.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-                                                postBody = ApiClient.Serialize(pet); // http body (model) parameter
+                                                postBody = ApiClient.Serialize(body); // http body (model) parameter
     
             // authentication setting, if any
             String[] authSettings = new String[] { "petstore_auth" };

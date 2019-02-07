@@ -38,15 +38,15 @@ export default class PetApi {
 
     /**
      * Add a new pet to the store
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    addPetWithHttpInfo(pet) {
-      let postBody = pet;
+    addPetWithHttpInfo(body) {
+      let postBody = body;
 
-      // verify the required parameter 'pet' is set
-      if (pet === undefined || pet === null) {
-        throw new Error("Missing the required parameter 'pet' when calling addPet");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling addPet");
       }
 
 
@@ -73,11 +73,11 @@ export default class PetApi {
 
     /**
      * Add a new pet to the store
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    addPet(pet) {
-      return this.addPetWithHttpInfo(pet)
+    addPet(body) {
+      return this.addPetWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -294,15 +294,15 @@ export default class PetApi {
 
     /**
      * Update an existing pet
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    updatePetWithHttpInfo(pet) {
-      let postBody = pet;
+    updatePetWithHttpInfo(body) {
+      let postBody = body;
 
-      // verify the required parameter 'pet' is set
-      if (pet === undefined || pet === null) {
-        throw new Error("Missing the required parameter 'pet' when calling updatePet");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling updatePet");
       }
 
 
@@ -329,11 +329,11 @@ export default class PetApi {
 
     /**
      * Update an existing pet
-     * @param {module:model/Pet} pet Pet object that needs to be added to the store
+     * @param {module:model/Pet} body Pet object that needs to be added to the store
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    updatePet(pet) {
-      return this.updatePetWithHttpInfo(pet)
+    updatePet(body) {
+      return this.updatePetWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

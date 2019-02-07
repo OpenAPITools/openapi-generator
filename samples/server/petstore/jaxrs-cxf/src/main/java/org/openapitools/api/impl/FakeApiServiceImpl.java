@@ -10,6 +10,7 @@ import org.joda.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -31,13 +32,25 @@ import io.swagger.annotations.Api;
  *
  */
 public class FakeApiServiceImpl implements FakeApi {
+    /**
+     * creates an XmlItem
+     *
+     * this route creates an XmlItem
+     *
+     */
+    public void createXmlItem(XmlItem xmlItem) {
+        // TODO: Implement...
+        
+        
+    }
+    
     public Boolean fakeOuterBooleanSerialize(Boolean body) {
         // TODO: Implement...
         
         return null;
     }
     
-    public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) {
+    public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) {
         // TODO: Implement...
         
         return null;
@@ -55,13 +68,13 @@ public class FakeApiServiceImpl implements FakeApi {
         return null;
     }
     
-    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) {
+    public void testBodyWithFileSchema(FileSchemaTestClass body) {
         // TODO: Implement...
         
         
     }
     
-    public void testBodyWithQueryParams(String query, User user) {
+    public void testBodyWithQueryParams(String query, User body) {
         // TODO: Implement...
         
         
@@ -73,7 +86,7 @@ public class FakeApiServiceImpl implements FakeApi {
      * To test \&quot;client\&quot; model
      *
      */
-    public Client testClientModel(Client client) {
+    public Client testClientModel(Client body) {
         // TODO: Implement...
         
         return null;
@@ -119,7 +132,7 @@ public class FakeApiServiceImpl implements FakeApi {
      * test inline additionalProperties
      *
      */
-    public void testInlineAdditionalProperties(Map<String, String> requestBody) {
+    public void testInlineAdditionalProperties(Map<String, String> param) {
         // TODO: Implement...
         
         

@@ -41,7 +41,7 @@ public interface PetApi  {
     @ApiOperation(value = "Add a new pet to the store", tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
-    public void addPet(@Valid Pet pet);
+    public void addPet(@Valid Pet body);
 
     /**
      * Deletes a pet
@@ -52,7 +52,7 @@ public interface PetApi  {
     @ApiOperation(value = "Deletes a pet", tags={ "pet",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid pet value") })
-    public void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key") String apiKey);
+    public void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key")   String apiKey);
 
     /**
      * Finds Pets by status
@@ -67,7 +67,7 @@ public interface PetApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value") })
-    public List<Pet> findPetsByStatus(@QueryParam("status") @NotNull @DefaultValue("new ArrayList<String>()") List<String> status);
+    public List<Pet> findPetsByStatus(@QueryParam("status") @NotNull  List<String> status);
 
     /**
      * Finds Pets by tags
@@ -82,7 +82,7 @@ public interface PetApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid tag value") })
-    public List<Pet> findPetsByTags(@QueryParam("tags") @NotNull @DefaultValue("new ArrayList<String>()") List<String> tags);
+    public List<Pet> findPetsByTags(@QueryParam("tags") @NotNull  List<String> tags);
 
     /**
      * Find pet by ID
@@ -112,7 +112,7 @@ public interface PetApi  {
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found"),
         @ApiResponse(code = 405, message = "Validation exception") })
-    public void updatePet(@Valid Pet pet);
+    public void updatePet(@Valid Pet body);
 
     /**
      * Updates a pet in the store with form data

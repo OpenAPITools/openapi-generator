@@ -30,6 +30,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
@@ -117,8 +119,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "String");
         typeMapping.put("password", "String");
-        // TODO(farcaller): map file
-        typeMapping.put("file", "::models::File");
+        // TODO(bcourtine): review file mapping.
+        // I tried to map as "std::io::File", but Reqwest multipart file requires a "AsRef<Path>" param.
+        // Getting a file from a Path is simple, but the opposite is difficult. So I map as "std::path::Path".
+        // Reference is required here because Path does not implement the "Sized" trait.
+        typeMapping.put("file", "&std::path::Path");
         typeMapping.put("binary", "::models::File");
         typeMapping.put("ByteArray", "String");
         typeMapping.put("object", "Value");
@@ -224,7 +229,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             return name;
 
         // snake_case, e.g. PetId => pet_id
-        name = StringUtils.underscore(name);
+        name = underscore(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name))
@@ -246,7 +251,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelName(String name) {
         // camelize the model name
         // phone_number => PhoneNumber
-        return StringUtils.camelize(toModelFilename(name));
+        return camelize(toModelFilename(name));
     }
 
     @Override
@@ -274,7 +279,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
-        return StringUtils.underscore(name);
+        return underscore(name);
     }
 
     @Override
@@ -283,7 +288,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PetApi.rs => pet_api.rs
-        return StringUtils.underscore(name) + "_api";
+        return underscore(name) + "_api";
     }
 
     @Override
@@ -377,7 +382,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
-        Set<String> headerKeys = new HashSet<>();
         for (CodegenOperation operation : operations) {
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             if (HYPER_LIBRARY.equals(getLibrary())) {
@@ -436,9 +440,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 }
             }*/
         }
-
-        additionalProperties.put("headerKeys", headerKeys);
-        additionalProperties.putIfAbsent("authHeaderKey", "api-key");
 
         return objs;
     }
@@ -504,7 +505,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // string
-        String enumName = sanitizeName(org.openapitools.codegen.utils.StringUtils.underscore(name).toUpperCase(Locale.ROOT));
+        String enumName = sanitizeName(underscore(name).toUpperCase(Locale.ROOT));
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
@@ -517,7 +518,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String enumName = org.openapitools.codegen.utils.StringUtils.underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
+        String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
 
         // remove [] for array or map of enum
         enumName = enumName.replace("[]", "");

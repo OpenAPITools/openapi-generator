@@ -11,7 +11,7 @@ import java.util.*;
 
 public interface PetApi {
 
-    void addPet(Pet pet, Handler<AsyncResult<Void>> handler);
+    void addPet(Pet body, Handler<AsyncResult<Void>> handler);
 
     void deletePet(Long petId, String apiKey, Handler<AsyncResult<Void>> handler);
 
@@ -21,7 +21,7 @@ public interface PetApi {
 
     void getPetById(Long petId, Handler<AsyncResult<Pet>> handler);
 
-    void updatePet(Pet pet, Handler<AsyncResult<Void>> handler);
+    void updatePet(Pet body, Handler<AsyncResult<Void>> handler);
 
     void updatePetWithForm(Long petId, String name, String status, Handler<AsyncResult<Void>> handler);
 

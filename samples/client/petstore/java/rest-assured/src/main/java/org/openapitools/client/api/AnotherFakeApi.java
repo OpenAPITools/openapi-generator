@@ -113,11 +113,11 @@ public class AnotherFakeApi {
         }
 
          /**
-         * @param client (Client) client model (required)
+         * @param body (Client) client model (required)
          * @return operation
          */
-        public Call123testSpecialTagsOper body(Client client) {
-            reqSpec.setBody(client);
+        public Call123testSpecialTagsOper body(Client body) {
+            reqSpec.setBody(body);
             return this;
         }
 

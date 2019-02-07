@@ -190,7 +190,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **placeOrder**
-> OpenAPI\Server\Model\Order placeOrder($order)
+> OpenAPI\Server\Model\Order placeOrder($body)
 
 Place an order for a pet
 
@@ -211,7 +211,7 @@ class StoreApi implements StoreApiInterface
     /**
      * Implementation of StoreApiInterface#placeOrder
      */
-    public function placeOrder(Order $order)
+    public function placeOrder(Order $body)
     {
         // Implement the operation ...
     }
@@ -224,7 +224,7 @@ class StoreApi implements StoreApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**OpenAPI\Server\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
+ **body** | [**OpenAPI\Server\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
 
 ### Return type
 

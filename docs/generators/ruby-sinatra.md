@@ -1,4 +1,9 @@
 
-CONFIG OPTIONS for ruby-sinatra
+---
+id: generator-opts-server-ruby-sinatra
+title: Config Options for ruby-sinatra
+sidebar_label: ruby-sinatra
+---
 
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |

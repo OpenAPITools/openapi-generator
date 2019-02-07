@@ -125,7 +125,6 @@ public class OuterComposite implements Parcelable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class OuterComposite {\n");
-    
     sb.append("    myNumber: ").append(toIndentedString(myNumber)).append("\n");
     sb.append("    myString: ").append(toIndentedString(myString)).append("\n");
     sb.append("    myBoolean: ").append(toIndentedString(myBoolean)).append("\n");

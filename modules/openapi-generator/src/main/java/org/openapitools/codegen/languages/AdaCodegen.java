@@ -121,11 +121,11 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
     @Override
     public String modelFileFolder() {
-        return outputFolder + "/model/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + "model" + File.separator + modelPackage().replace('.', File.separatorChar);
     }
 }

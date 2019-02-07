@@ -17,14 +17,13 @@
 
 package org.openapitools.codegen.swift4;
 
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.languages.Swift4Codegen;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.parser.OpenAPIParser;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -96,9 +95,10 @@ public class Swift4CodegenTest {
 
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/binaryDataTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new Swift4Codegen();
+        codegen.setOpenAPI(openAPI);
         final String path = "/tests/binaryResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas());
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
         Assert.assertEquals(op.returnType, "URL");
         Assert.assertEquals(op.bodyParam.dataType, "URL");
@@ -110,9 +110,10 @@ public class Swift4CodegenTest {
     public void dateTest() {
         final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/datePropertyTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new Swift4Codegen();
+        codegen.setOpenAPI(openAPI);
         final String path = "/tests/dateResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p, openAPI.getComponents().getSchemas());
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
         Assert.assertEquals(op.returnType, "Date");
         Assert.assertEquals(op.bodyParam.dataType, "Date");

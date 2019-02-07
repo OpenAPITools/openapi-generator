@@ -17,30 +17,19 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CppPistacheServerCodegen extends AbstractCppCodegen {
     protected String implFolder = "impl";
@@ -168,8 +157,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
 
         Set<String> oldImports = codegenModel.imports;
         codegenModel.imports = new HashSet<>();
@@ -184,9 +173,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
-                                          Map<String, Schema> definitions, OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, openAPI);
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse apiResponse = findMethodResponse(operation.getResponses());
@@ -214,8 +202,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         String classname = (String) operations.get("classname");
-        operations.put("classnameSnakeUpperCase", org.openapitools.codegen.utils.StringUtils.underscore(classname).toUpperCase(Locale.ROOT));
-        operations.put("classnameSnakeLowerCase", org.openapitools.codegen.utils.StringUtils.underscore(classname).toLowerCase(Locale.ROOT));
+        operations.put("classnameSnakeUpperCase", underscore(classname).toUpperCase(Locale.ROOT));
+        operations.put("classnameSnakeLowerCase", underscore(classname).toLowerCase(Locale.ROOT));
 
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
