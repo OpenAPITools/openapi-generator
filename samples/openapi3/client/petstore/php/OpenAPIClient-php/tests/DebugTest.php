@@ -1,7 +1,9 @@
 <?php
 namespace OpenAPI\Client;
 
-class DebugTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DebugTest extends TestCase
 {
 
     public static function setUpBeforeClass()

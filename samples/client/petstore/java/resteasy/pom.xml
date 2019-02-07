@@ -9,8 +9,25 @@
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
         <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>
-        <url>https://openapi-generator.tech</url>
+        <url>https://github.com/openapitools/openapi-generator</url>
     </scm>
+
+    <licenses>
+        <license>
+            <name>Unlicense</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>OpenAPI-Generator Contributors</name>
+            <email>team@openapitools.org</email>
+            <organization>OpenAPITools.org</organization>
+            <organizationUrl>http://openapitools.org</organizationUrl>
+        </developer>
+    </developers>
 
     <build>
         <plugins>
@@ -216,7 +233,7 @@
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
         <resteasy-version>3.1.3.Final</resteasy-version>
         <jackson-version>2.8.11</jackson-version>
-        <jackson-databind-version>2.8.11</jackson-databind-version>
+        <jackson-databind-version>2.8.11.3</jackson-databind-version>
         <threetenbp-version>2.6.4</threetenbp-version>
         <jodatime-version>2.9.9</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>

@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -42,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="password">password.</param>
         /// <param name="phone">phone.</param>
         /// <param name="userStatus">User Status.</param>
-        public User(long? id = default(long?), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int? userStatus = default(int?))
+        public User(long id = default(long), string username = default(string), string firstName = default(string), string lastName = default(string), string email = default(string), string password = default(string), string phone = default(string), int userStatus = default(int))
         {
             this.Id = id;
             this.Username = username;
@@ -58,7 +59,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Username
@@ -101,7 +102,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>User Status</value>
         [DataMember(Name="userStatus", EmitDefaultValue=false)]
-        public int? UserStatus { get; set; }
+        public int UserStatus { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -139,7 +140,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as User);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as User).AreEqual;
         }
 
         /// <summary>
@@ -149,50 +150,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(User input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
-                ) && 
-                (
-                    this.Username == input.Username ||
-                    (this.Username != null &&
-                    this.Username.Equals(input.Username))
-                ) && 
-                (
-                    this.FirstName == input.FirstName ||
-                    (this.FirstName != null &&
-                    this.FirstName.Equals(input.FirstName))
-                ) && 
-                (
-                    this.LastName == input.LastName ||
-                    (this.LastName != null &&
-                    this.LastName.Equals(input.LastName))
-                ) && 
-                (
-                    this.Email == input.Email ||
-                    (this.Email != null &&
-                    this.Email.Equals(input.Email))
-                ) && 
-                (
-                    this.Password == input.Password ||
-                    (this.Password != null &&
-                    this.Password.Equals(input.Password))
-                ) && 
-                (
-                    this.Phone == input.Phone ||
-                    (this.Phone != null &&
-                    this.Phone.Equals(input.Phone))
-                ) && 
-                (
-                    this.UserStatus == input.UserStatus ||
-                    (this.UserStatus != null &&
-                    this.UserStatus.Equals(input.UserStatus))
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

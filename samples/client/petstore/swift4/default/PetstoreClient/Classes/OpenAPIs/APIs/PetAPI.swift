@@ -14,11 +14,11 @@ open class PetAPI {
     /**
      Add a new pet to the store
      
-     - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter body: (body) Pet object that needs to be added to the store 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addPet(pet: Pet, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        addPetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
+    open class func addPet(body: Pet, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        addPetWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -27,20 +27,19 @@ open class PetAPI {
         }
     }
 
-
     /**
      Add a new pet to the store
      - POST /pet
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter body: (body) Pet object that needs to be added to the store 
      - returns: RequestBuilder<Void> 
      */
-    open class func addPetWithRequestBuilder(pet: Pet) -> RequestBuilder<Void> {
+    open class func addPetWithRequestBuilder(body: Pet) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: pet)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -65,7 +64,6 @@ open class PetAPI {
             }
         }
     }
-
 
     /**
      Deletes a pet
@@ -117,7 +115,6 @@ open class PetAPI {
         }
     }
 
-
     /**
      Finds Pets by status
      - GET /pet/findByStatus
@@ -154,7 +151,6 @@ open class PetAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      Finds Pets by tags
@@ -193,7 +189,6 @@ open class PetAPI {
         }
     }
 
-
     /**
      Find pet by ID
      - GET /pet/{petId}
@@ -222,11 +217,11 @@ open class PetAPI {
     /**
      Update an existing pet
      
-     - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter body: (body) Pet object that needs to be added to the store 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func updatePet(pet: Pet, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        updatePetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
+    open class func updatePet(body: Pet, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        updatePetWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if error == nil {
                 completion((), error)
             } else {
@@ -235,20 +230,19 @@ open class PetAPI {
         }
     }
 
-
     /**
      Update an existing pet
      - PUT /pet
      - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - parameter pet: (body) Pet object that needs to be added to the store 
+     - parameter body: (body) Pet object that needs to be added to the store 
      - returns: RequestBuilder<Void> 
      */
-    open class func updatePetWithRequestBuilder(pet: Pet) -> RequestBuilder<Void> {
+    open class func updatePetWithRequestBuilder(body: Pet) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: pet)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -274,7 +268,6 @@ open class PetAPI {
             }
         }
     }
-
 
     /**
      Updates a pet in the store with form data
@@ -322,7 +315,6 @@ open class PetAPI {
         }
     }
 
-
     /**
      uploads an image
      - POST /pet/{petId}/uploadImage
@@ -368,7 +360,6 @@ open class PetAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      uploads an image (required)

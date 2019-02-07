@@ -23,7 +23,6 @@ open class Swift4TestAPI {
         }
     }
 
-
     /**
      Get all of the models
      - GET /allModels

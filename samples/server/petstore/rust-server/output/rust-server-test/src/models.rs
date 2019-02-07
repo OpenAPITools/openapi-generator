@@ -32,18 +32,6 @@ impl ANullableContainer {
     }
 }
 
-/// An additionalPropertiesObject
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct AdditionalPropertiesObject {
-}
-
-impl AdditionalPropertiesObject {
-    pub fn new() -> AdditionalPropertiesObject {
-        AdditionalPropertiesObject {
-        }
-    }
-}
-
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct InlineObject {
     #[serde(rename = "id")]

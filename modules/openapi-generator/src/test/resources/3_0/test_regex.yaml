@@ -25,21 +25,6 @@ paths:
           schema:
             type: string
             pattern: '/^pattern$/i'
-        - name: pattern_one_slash_start
-          in: header
-          schema:
-            type: string
-            pattern: '/^pattern$'
-        - name: pattern_one_slash_end
-          in: header
-          schema:
-            type: string
-            pattern: '^pattern$/'
-        - name: pattern_one_slash_near_end
-          in: header
-          schema:
-            type: string
-            pattern: '^pattern$/im'
         - name: pattern_dont_escape_backslash
           in: header
           schema:

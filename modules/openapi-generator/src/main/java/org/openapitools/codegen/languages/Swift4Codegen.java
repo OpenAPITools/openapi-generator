@@ -27,12 +27,13 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
 public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
@@ -480,7 +481,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize the model name
         // phone_number => PhoneNumber
-        name = org.openapitools.codegen.utils.StringUtils.camelize(name);
+        name = camelize(name);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
@@ -556,7 +557,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toOperationId(String operationId) {
-        operationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), true);
 
         // Throw exception if method name is empty.
         // This should not happen but keep the check just in case
@@ -566,7 +567,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize(("call_" + operationId), true);
+            String newOperationId = camelize(("call_" + operationId), true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name."
                     + " Renamed to " + newOperationId);
             return newOperationId;
@@ -574,8 +575,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId), true));
-            operationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId), true);
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId), true));
+            operationId = camelize(sanitizeName("call_" + operationId), true);
         }
 
 
@@ -594,7 +595,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize the variable name
         // pet_id => petId
-        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
+        name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -617,9 +618,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             return name;
         }
 
-        // org.openapitools.codegen.utils.StringUtils.camelize(lower) the variable name
+        // camelize(lower) the variable name
         // pet_id => petId
-        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
+        name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -630,8 +631,9 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        CodegenModel codegenModel = super.fromModel(name, model);
         if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
         }
@@ -642,8 +644,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             while (parentSchema != null) {
                 final Schema parentModel = allDefinitions.get(parentSchema);
                 final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent,
-                        parentModel,
-                        allDefinitions);
+                        parentModel);
                 codegenModel = Swift4Codegen.reconcileProperties(codegenModel, parentCodegenModel);
 
                 // get the next parent
@@ -705,18 +706,18 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             String startingNumbers = startWithNumberMatcher.group(0);
             String nameWithoutStartingNumbers = name.substring(startingNumbers.length());
 
-            return "_" + startingNumbers + org.openapitools.codegen.utils.StringUtils.camelize(nameWithoutStartingNumbers, true);
+            return "_" + startingNumbers + camelize(nameWithoutStartingNumbers, true);
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return org.openapitools.codegen.utils.StringUtils.camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
+            return camelize(WordUtils.capitalizeFully(getSymbolName(name).toUpperCase(Locale.ROOT)), true);
         }
 
         // Camelize only when we have a structure defined below
         Boolean camelized = false;
         if (name.matches("[A-Z][a-z0-9]+[a-zA-Z0-9]*")) {
-            name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
+            name = camelize(name, true);
             camelized = true;
         }
 
@@ -729,7 +730,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         // Check for numerical conversions
         if ("Int".equals(datatype) || "Int32".equals(datatype) || "Int64".equals(datatype)
                 || "Float".equals(datatype) || "Double".equals(datatype)) {
-            String varName = "number" + org.openapitools.codegen.utils.StringUtils.camelize(name);
+            String varName = "number" + camelize(name);
             varName = varName.replaceAll("-", "minus");
             varName = varName.replaceAll("\\+", "plus");
             varName = varName.replaceAll("\\.", "dot");
@@ -743,7 +744,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
         }
 
         char[] separators = {'-', '_', ' ', ':', '(', ')'};
-        return org.openapitools.codegen.utils.StringUtils.camelize(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
+        return camelize(WordUtils.capitalizeFully(StringUtils.lowerCase(name), separators)
                         .replaceAll("[-_ :\\(\\)]", ""),
                 true);
     }

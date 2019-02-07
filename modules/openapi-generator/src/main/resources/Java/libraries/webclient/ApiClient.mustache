@@ -2,6 +2,7 @@ package {{invokerPackage}};
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.ParameterizedTypeReference;
@@ -59,7 +60,9 @@ import java.util.TimeZone;
 import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
+{{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
+{{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
 public class ApiClient {
@@ -88,16 +91,21 @@ public class ApiClient {
 
     public ApiClient() {
         this.dateFormat = createDefaultDateFormat();
-        this.webClient = buildWebClient(new ObjectMapper(), dateFormat);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(dateFormat);
+        mapper.registerModule(new JavaTimeModule());
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        this.webClient = buildWebClient(mapper);
         this.init();
     }
 
     public ApiClient(ObjectMapper mapper, DateFormat format) {
-        this(buildWebClient(mapper.copy(), format), format);
+        this(buildWebClient(mapper.copy()), format);
     }
 
     public ApiClient(WebClient webClient, ObjectMapper mapper, DateFormat format) {
-        this(Optional.ofNullable(webClient).orElseGet(() ->buildWebClient(mapper.copy(), format)), format);
+        this(Optional.ofNullable(webClient).orElseGet(() ->buildWebClient(mapper.copy())), format);
     }
 
     private ApiClient(WebClient webClient, DateFormat format) {
@@ -126,9 +134,7 @@ public class ApiClient {
     * Build the RestTemplate used to make HTTP requests.
     * @return RestTemplate
     */
-    public static WebClient buildWebClient(ObjectMapper mapper, DateFormat dateFormat) {
-        mapper.setDateFormat(dateFormat);
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    public static WebClient buildWebClient(ObjectMapper mapper) {
         ExchangeStrategies strategies = ExchangeStrategies
             .builder()
             .codecs(clientDefaultCodecsConfigurer -> {
@@ -232,6 +238,7 @@ public class ApiClient {
         throw new RuntimeException("No API key authentication configured!");
     }
 
+    {{#hasOAuthMethods}}
     /**
      * Helper method to set access token for the first OAuth2 authentication.
      * @param accessToken the access token
@@ -246,6 +253,7 @@ public class ApiClient {
         throw new RuntimeException("No OAuth2 authentication configured!");
     }
 
+    {{/hasOAuthMethods}}
     /**
      * Set the User-Agent header's value (by adding to the default header map).
      * @param userAgent the user agent string

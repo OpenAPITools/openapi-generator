@@ -89,6 +89,11 @@ class ApiClient {
          */
          this.requestAgent = null;
 
+        /*
+         * Allow user to add superagent plugins
+         */
+        this.plugins = null;
+
     }
 
     /**
@@ -268,6 +273,12 @@ class ApiClient {
                     }
 
                     break;
+                case 'bearer':
+                    if (auth.accessToken) {
+                        request.set({'Authorization': 'Bearer ' + auth.accessToken});
+                    }
+
+                    break;
                 case 'apiKey':
                     if (auth.apiKey) {
                         var data = {};
@@ -347,6 +358,14 @@ class ApiClient {
         var url = this.buildUrl(path, pathParams);
         var request = superagent(httpMethod, url);
 
+        if (this.plugins !== null) {
+            for (var index in this.plugins) {
+                if (this.plugins.hasOwnProperty(index)) {
+                    request.use(this.plugins[index])
+                }
+            }
+        }
+
         // apply authentications
         this.applyAuthToRequest(request, authNames);
 
@@ -392,7 +411,7 @@ class ApiClient {
                     }
                 }
             }
-        } else if (bodyParam) {
+        } else if (bodyParam !== null && bodyParam !== undefined) {
             request.send(bodyParam);
         }
 
@@ -420,7 +439,14 @@ class ApiClient {
         return new Promise((resolve, reject) => {
             request.end((error, response) => {
                 if (error) {
-                    reject(error);
+                    var err = {};
+                    err.status = response.status;
+                    err.statusText = response.statusText;
+                    err.body = response.body;
+                    err.response = response;
+                    err.error = error;
+
+                    reject(err);
                 } else {
                     try {
                         var data = this.deserialize(response, returnType);
@@ -478,8 +504,8 @@ class ApiClient {
                 if (type === Object) {
                     // generic object, return directly
                     return data;
-                } else if (typeof type === 'function') {
-                    // for model type like: User
+                } else if (typeof type.constructFromObject === 'function') {
+                    // for model type like User and enum class
                     return type.constructFromObject(data);
                 } else if (Array.isArray(type)) {
                     // for array type like: ['String']
@@ -514,6 +540,46 @@ class ApiClient {
                     return data;
                 }
         }
+    }
+
+  /**
+    * Gets an array of host settings
+    * @returns An array of host settings
+    */
+    hostSettings() {
+        return [
+            {
+              'url': "http://petstore.swagger.io:80/v2",
+              'description': "No description provided",
+            }
+      ];
+    }
+
+    getBasePathFromSettings(index, variables={}) {
+        var servers = this.hostSettings();
+
+        // check array index out of bound
+        if (index < 0 || index >= servers.length) {
+            throw new Error("Invalid index " + index + " when selecting the host settings. Must be less than " + servers.length);
+        }
+
+        var server = servers[index];
+        var url = server['url'];
+
+        // go through variable and assign a value
+        for (var variable_name in server['variables']) {
+            if (variable_name in variables) {
+                if (server['variables'][variable_name]['enum_values'].includes(variables[variable_name])) {
+                    url = url.replace("{" + variable_name + "}", variables[variable_name]);
+                } else {
+                    throw new Error("The variable `" + variable_name + "` in the host URL has invalid value " + variables[variable_name] + ". Must be " + server['variables'][variable_name]['enum_values'] + ".");
+                }
+            } else {
+                // use default value
+                url = url.replace("{" + variable_name + "}", server['variables'][variable_name]['default_value'])
+            }
+        }
+        return url;
     }
 
     /**

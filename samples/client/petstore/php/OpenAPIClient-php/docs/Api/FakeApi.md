@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**createXmlItem**](FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -18,6 +19,55 @@ Method | HTTP request | Description
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 
 
+# **createXmlItem**
+> createXmlItem($xml_item)
+
+creates an XmlItem
+
+this route creates an XmlItem
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$xml_item = new \OpenAPI\Client\Model\XmlItem(); // \OpenAPI\Client\Model\XmlItem | XmlItem Body
+
+try {
+    $apiInstance->createXmlItem($xml_item);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->createXmlItem: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **xml_item** | [**\OpenAPI\Client\Model\XmlItem**](../Model/XmlItem.md)| XmlItem Body |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
 # **fakeOuterBooleanSerialize**
 > bool fakeOuterBooleanSerialize($body)
 
@@ -29,6 +79,7 @@ Test serialization of outer boolean types
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -68,7 +119,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **fakeOuterCompositeSerialize**
-> \OpenAPI\Client\Model\OuterComposite fakeOuterCompositeSerialize($outer_composite)
+> \OpenAPI\Client\Model\OuterComposite fakeOuterCompositeSerialize($body)
 
 
 
@@ -79,15 +130,16 @@ Test serialization of object with outer number type
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$outer_composite = new \OpenAPI\Client\Model\OuterComposite(); // \OpenAPI\Client\Model\OuterComposite | Input composite as post body
+$body = new \OpenAPI\Client\Model\OuterComposite(); // \OpenAPI\Client\Model\OuterComposite | Input composite as post body
 
 try {
-    $result = $apiInstance->fakeOuterCompositeSerialize($outer_composite);
+    $result = $apiInstance->fakeOuterCompositeSerialize($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeOuterCompositeSerialize: ', $e->getMessage(), PHP_EOL;
@@ -99,7 +151,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outer_composite** | [**\OpenAPI\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
+ **body** | [**\OpenAPI\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
 
 ### Return type
 
@@ -127,6 +179,7 @@ Test serialization of outer number types
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -177,6 +230,7 @@ Test serialization of outer string types
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -215,7 +269,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testBodyWithFileSchema**
-> testBodyWithFileSchema($file_schema_test_class)
+> testBodyWithFileSchema($body)
 
 
 
@@ -226,15 +280,16 @@ For this test, the body for this request much reference a schema named `File`.
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$file_schema_test_class = new \OpenAPI\Client\Model\FileSchemaTestClass(); // \OpenAPI\Client\Model\FileSchemaTestClass | 
+$body = new \OpenAPI\Client\Model\FileSchemaTestClass(); // \OpenAPI\Client\Model\FileSchemaTestClass | 
 
 try {
-    $apiInstance->testBodyWithFileSchema($file_schema_test_class);
+    $apiInstance->testBodyWithFileSchema($body);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testBodyWithFileSchema: ', $e->getMessage(), PHP_EOL;
 }
@@ -245,7 +300,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file_schema_test_class** | [**\OpenAPI\Client\Model\FileSchemaTestClass**](../Model/FileSchemaTestClass.md)|  |
+ **body** | [**\OpenAPI\Client\Model\FileSchemaTestClass**](../Model/FileSchemaTestClass.md)|  |
 
 ### Return type
 
@@ -263,7 +318,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testBodyWithQueryParams**
-> testBodyWithQueryParams($query, $user)
+> testBodyWithQueryParams($query, $body)
 
 
 
@@ -272,16 +327,17 @@ No authorization required
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
 $query = 'query_example'; // string | 
-$user = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | 
+$body = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | 
 
 try {
-    $apiInstance->testBodyWithQueryParams($query, $user);
+    $apiInstance->testBodyWithQueryParams($query, $body);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testBodyWithQueryParams: ', $e->getMessage(), PHP_EOL;
 }
@@ -293,7 +349,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **string**|  |
- **user** | [**\OpenAPI\Client\Model\User**](../Model/User.md)|  |
+ **body** | [**\OpenAPI\Client\Model\User**](../Model/User.md)|  |
 
 ### Return type
 
@@ -311,7 +367,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testClientModel**
-> \OpenAPI\Client\Model\Client testClientModel($client)
+> \OpenAPI\Client\Model\Client testClientModel($body)
 
 To test \"client\" model
 
@@ -322,15 +378,16 @@ To test \"client\" model
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$client = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
+$body = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
 
 try {
-    $result = $apiInstance->testClientModel($client);
+    $result = $apiInstance->testClientModel($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testClientModel: ', $e->getMessage(), PHP_EOL;
@@ -342,7 +399,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model |
+ **body** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model |
 
 ### Return type
 
@@ -375,6 +432,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 $config = OpenAPI\Client\Configuration::getDefaultConfiguration()
               ->setUsername('YOUR_USERNAME')
               ->setPassword('YOUR_PASSWORD');
+
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -451,6 +509,7 @@ To test enum parameters
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -513,6 +572,7 @@ Fake endpoint to test group parameters (optional)
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -562,7 +622,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testInlineAdditionalProperties**
-> testInlineAdditionalProperties($request_body)
+> testInlineAdditionalProperties($param)
 
 test inline additionalProperties
 
@@ -571,15 +631,16 @@ test inline additionalProperties
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$request_body = array('key' => 'request_body_example'); // map[string,string] | request body
+$param = array('key' => 'param_example'); // map[string,string] | request body
 
 try {
-    $apiInstance->testInlineAdditionalProperties($request_body);
+    $apiInstance->testInlineAdditionalProperties($param);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testInlineAdditionalProperties: ', $e->getMessage(), PHP_EOL;
 }
@@ -590,7 +651,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**map[string,string]**](../Model/string.md)| request body |
+ **param** | [**map[string,string]**](../Model/string.md)| request body |
 
 ### Return type
 
@@ -616,6 +677,7 @@ test json serialization of form data
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.

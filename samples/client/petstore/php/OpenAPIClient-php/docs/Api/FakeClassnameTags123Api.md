@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **testClassname**
-> \OpenAPI\Client\Model\Client testClassname($client)
+> \OpenAPI\Client\Model\Client testClassname($body)
 
 To test class name in snake case
 
@@ -24,16 +24,17 @@ $config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setApiKey('ap
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 // $config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api_key_query', 'Bearer');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeClassnameTags123Api(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client(),
     $config
 );
-$client = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
+$body = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
 
 try {
-    $result = $apiInstance->testClassname($client);
+    $result = $apiInstance->testClassname($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeClassnameTags123Api->testClassname: ', $e->getMessage(), PHP_EOL;
@@ -45,7 +46,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model |
+ **body** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model |
 
 ### Return type
 

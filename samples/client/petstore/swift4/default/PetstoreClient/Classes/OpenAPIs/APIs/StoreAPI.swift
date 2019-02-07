@@ -27,7 +27,6 @@ open class StoreAPI {
         }
     }
 
-
     /**
      Delete purchase order by ID
      - DELETE /store/order/{order_id}
@@ -60,7 +59,6 @@ open class StoreAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      Returns pet inventories by status
@@ -95,7 +93,6 @@ open class StoreAPI {
         }
     }
 
-
     /**
      Find purchase order by ID
      - GET /store/order/{order_id}
@@ -121,26 +118,25 @@ open class StoreAPI {
     /**
      Place an order for a pet
      
-     - parameter order: (body) order placed for purchasing the pet 
+     - parameter body: (body) order placed for purchasing the pet 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func placeOrder(order: Order, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void)) {
-        placeOrderWithRequestBuilder(order: order).execute { (response, error) -> Void in
+    open class func placeOrder(body: Order, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void)) {
+        placeOrderWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(response?.body, error)
         }
     }
 
-
     /**
      Place an order for a pet
      - POST /store/order
-     - parameter order: (body) order placed for purchasing the pet 
+     - parameter body: (body) order placed for purchasing the pet 
      - returns: RequestBuilder<Order> 
      */
-    open class func placeOrderWithRequestBuilder(order: Order) -> RequestBuilder<Order> {
+    open class func placeOrderWithRequestBuilder(body: Order) -> RequestBuilder<Order> {
         let path = "/store/order"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: order)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 

@@ -18,13 +18,13 @@
     Result :: boolean() | {boolean(), context()}.
 
 
--callback handle_request(OperationID :: openapi_api:operation_id(), Request :: any(), Context :: context()) ->
+-callback handle_request(OperationID :: openapi_api:operation_id(), cowboy_req:req(), Context :: context()) ->
     handler_response().
 
 -spec handle_request(
     Handler :: atom(),
     OperationID :: openapi_api:operation_id(),
-    Request :: any(),
+    Request :: cowboy_req:req(),
     Context :: context()
 ) ->
     handler_response().

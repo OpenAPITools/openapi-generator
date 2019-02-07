@@ -6,6 +6,7 @@ version = '1.0.0'
 
 buildscript {
     repositories {
+        mavenCentral()
         jcenter()
     }
     dependencies {
@@ -116,6 +117,7 @@ dependencies {
     compile "com.squareup.retrofit2:converter-jackson:$retrofit_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
 
     testCompile "junit:junit:$junit_version"

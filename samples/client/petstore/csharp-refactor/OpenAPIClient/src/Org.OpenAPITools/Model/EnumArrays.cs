@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -93,8 +94,6 @@ namespace Org.OpenAPITools.Model
             this.ArrayEnum = arrayEnum;
         }
         
-
-
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -125,7 +124,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as EnumArrays);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as EnumArrays).AreEqual;
         }
 
         /// <summary>
@@ -135,20 +134,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(EnumArrays input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.JustSymbol == input.JustSymbol ||
-                    (this.JustSymbol != null &&
-                    this.JustSymbol.Equals(input.JustSymbol))
-                ) && 
-                (
-                    this.ArrayEnum == input.ArrayEnum ||
-                    this.ArrayEnum != null &&
-                    this.ArrayEnum.SequenceEqual(input.ArrayEnum)
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>
@@ -160,10 +146,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.JustSymbol != null)
-                    hashCode = hashCode * 59 + this.JustSymbol.GetHashCode();
-                if (this.ArrayEnum != null)
-                    hashCode = hashCode * 59 + this.ArrayEnum.GetHashCode();
+                hashCode = hashCode * 59 + this.JustSymbol.GetHashCode();
+                hashCode = hashCode * 59 + this.ArrayEnum.GetHashCode();
                 return hashCode;
             }
         }

@@ -27,7 +27,7 @@ services:
 ```
 
 ## **addPet**
-> addPet($pet)
+> addPet($body)
 
 Add a new pet to the store
 
@@ -56,7 +56,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#addPet
      */
-    public function addPet(Pet $pet)
+    public function addPet(Pet $body)
     {
         // Implement the operation ...
     }
@@ -69,7 +69,7 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**OpenAPI\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**OpenAPI\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -334,7 +334,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 ## **updatePet**
-> updatePet($pet)
+> updatePet($body)
 
 Update an existing pet
 
@@ -363,7 +363,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#updatePet
      */
-    public function updatePet(Pet $pet)
+    public function updatePet(Pet $body)
     {
         // Implement the operation ...
     }
@@ -376,7 +376,7 @@ class PetApi implements PetApiInterface
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**OpenAPI\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**OpenAPI\Server\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 

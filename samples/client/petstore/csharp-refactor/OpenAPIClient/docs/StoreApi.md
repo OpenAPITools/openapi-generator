@@ -72,7 +72,7 @@ No authorization required
 
 <a name="getinventory"></a>
 # **GetInventory**
-> Dictionary<string, int?> GetInventory ()
+> Dictionary<string, int> GetInventory ()
 
 Returns pet inventories by status
 
@@ -102,7 +102,7 @@ namespace Example
             try
             {
                 // Returns pet inventories by status
-                Dictionary&lt;string, int?&gt; result = apiInstance.GetInventory();
+                Dictionary&lt;string, int&gt; result = apiInstance.GetInventory();
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -119,7 +119,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**Dictionary<string, int?>**
+**Dictionary<string, int>**
 
 ### Authorization
 
@@ -134,7 +134,7 @@ This endpoint does not need any parameter.
 
 <a name="getorderbyid"></a>
 # **GetOrderById**
-> Order GetOrderById (long? orderId)
+> Order GetOrderById (long orderId)
 
 Find purchase order by ID
 
@@ -155,7 +155,7 @@ namespace Example
         public void main()
         {
             var apiInstance = new StoreApi();
-            var orderId = 789;  // long? | ID of pet that needs to be fetched
+            var orderId = 789;  // long | ID of pet that needs to be fetched
 
             try
             {
@@ -176,7 +176,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **long?**| ID of pet that needs to be fetched | 
+ **orderId** | **long**| ID of pet that needs to be fetched | 
 
 ### Return type
 
@@ -195,7 +195,7 @@ No authorization required
 
 <a name="placeorder"></a>
 # **PlaceOrder**
-> Order PlaceOrder (Order order)
+> Order PlaceOrder (Order body)
 
 Place an order for a pet
 
@@ -214,12 +214,12 @@ namespace Example
         public void main()
         {
             var apiInstance = new StoreApi();
-            var order = new Order(); // Order | order placed for purchasing the pet
+            var body = new Order(); // Order | order placed for purchasing the pet
 
             try
             {
                 // Place an order for a pet
-                Order result = apiInstance.PlaceOrder(order);
+                Order result = apiInstance.PlaceOrder(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -235,7 +235,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 

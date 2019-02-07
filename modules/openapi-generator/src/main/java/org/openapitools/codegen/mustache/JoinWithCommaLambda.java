@@ -20,7 +20,6 @@ package org.openapitools.codegen.mustache;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.DefaultCodegen;
 
 import java.io.IOException;
 import java.io.Writer;

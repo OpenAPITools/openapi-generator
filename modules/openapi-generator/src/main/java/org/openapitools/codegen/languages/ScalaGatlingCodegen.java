@@ -34,14 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ScalaGatlingCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScalaGatlingCodegen.class);
@@ -214,7 +207,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      * instantiated
      */
     public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
     }
 
     /**
@@ -223,7 +216,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
      */
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
     }
 
     /**

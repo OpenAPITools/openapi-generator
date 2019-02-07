@@ -1,0 +1,21 @@
+# {{classname}}{{#description}}
+    {{description}}{{/description}}
+
+All URIs are relative to *{{basePath}}*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{/operation}}{{/operations}}
+
+{{#operations}}
+    {{#operation}}
+<a name="{{operationId}}"></a>
+# **{{operationId}}**
+> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+
+{{summary}}{{#notes}}
+
+{{notes}}{{/notes}}
+    {{/operation}}
+{{/operations}}

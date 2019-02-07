@@ -19,15 +19,22 @@ library
                      , aeson
                      , text
                      , containers
+                     , exceptions
                      , network-uri
                      , servant
                      , http-api-data
+                     , servant
                      , servant-client
+                     , servant-client-core
                      , servant-server
                      , servant
                      , warp
                      , transformers
                      , mtl
+                     , time
                      , http-client
+                     , http-client-tls
                      , http-types
+                     , swagger2
+                     , uuid
   default-language:    Haskell2010

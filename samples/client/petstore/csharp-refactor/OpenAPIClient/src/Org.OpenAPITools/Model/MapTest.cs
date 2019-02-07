@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -64,7 +65,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapOfEnumString">mapOfEnumString.</param>
         /// <param name="directMap">directMap.</param>
         /// <param name="indirectMap">indirectMap.</param>
-        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool?> directMap = default(Dictionary<string, bool?>), Dictionary<string, bool?> indirectMap = default(Dictionary<string, bool?>))
+        public MapTest(Dictionary<string, Dictionary<string, string>> mapMapOfString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, InnerEnum> mapOfEnumString = default(Dictionary<string, InnerEnum>), Dictionary<string, bool> directMap = default(Dictionary<string, bool>), Dictionary<string, bool> indirectMap = default(Dictionary<string, bool>))
         {
             this.MapMapOfString = mapMapOfString;
             this.MapOfEnumString = mapOfEnumString;
@@ -78,18 +79,17 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name="map_map_of_string", EmitDefaultValue=false)]
         public Dictionary<string, Dictionary<string, string>> MapMapOfString { get; set; }
 
-
         /// <summary>
         /// Gets or Sets DirectMap
         /// </summary>
         [DataMember(Name="direct_map", EmitDefaultValue=false)]
-        public Dictionary<string, bool?> DirectMap { get; set; }
+        public Dictionary<string, bool> DirectMap { get; set; }
 
         /// <summary>
         /// Gets or Sets IndirectMap
         /// </summary>
         [DataMember(Name="indirect_map", EmitDefaultValue=false)]
-        public Dictionary<string, bool?> IndirectMap { get; set; }
+        public Dictionary<string, bool> IndirectMap { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -123,7 +123,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as MapTest);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as MapTest).AreEqual;
         }
 
         /// <summary>
@@ -133,30 +133,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(MapTest input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.MapMapOfString == input.MapMapOfString ||
-                    this.MapMapOfString != null &&
-                    this.MapMapOfString.SequenceEqual(input.MapMapOfString)
-                ) && 
-                (
-                    this.MapOfEnumString == input.MapOfEnumString ||
-                    this.MapOfEnumString != null &&
-                    this.MapOfEnumString.SequenceEqual(input.MapOfEnumString)
-                ) && 
-                (
-                    this.DirectMap == input.DirectMap ||
-                    this.DirectMap != null &&
-                    this.DirectMap.SequenceEqual(input.DirectMap)
-                ) && 
-                (
-                    this.IndirectMap == input.IndirectMap ||
-                    this.IndirectMap != null &&
-                    this.IndirectMap.SequenceEqual(input.IndirectMap)
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>
@@ -170,8 +147,7 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 if (this.MapMapOfString != null)
                     hashCode = hashCode * 59 + this.MapMapOfString.GetHashCode();
-                if (this.MapOfEnumString != null)
-                    hashCode = hashCode * 59 + this.MapOfEnumString.GetHashCode();
+                hashCode = hashCode * 59 + this.MapOfEnumString.GetHashCode();
                 if (this.DirectMap != null)
                     hashCode = hashCode * 59 + this.DirectMap.GetHashCode();
                 if (this.IndirectMap != null)

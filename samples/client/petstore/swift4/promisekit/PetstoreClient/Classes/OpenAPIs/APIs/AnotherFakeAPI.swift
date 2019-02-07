@@ -16,27 +16,17 @@ open class AnotherFakeAPI {
      To test special tags
      
      - parameter client: (body) client model 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func call123testSpecialTags(client: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
-        call123testSpecialTagsWithRequestBuilder(client: client).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     To test special tags
-     
-     - parameter client: (body) client model 
      - returns: Promise<Client>
      */
     open class func call123testSpecialTags( client: Client) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
-        call123testSpecialTags(client: client) { data, error in
+        call123testSpecialTagsWithRequestBuilder(client: client).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
+            } else if let response = response {
+                deferred.fulfill(response.body!)
             } else {
-                deferred.fulfill(data!)
+                fatalError()
             }
         }
         return deferred.promise

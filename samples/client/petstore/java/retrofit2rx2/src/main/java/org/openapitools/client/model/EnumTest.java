@@ -240,7 +240,7 @@ public class EnumTest {
 
   public static final String SERIALIZED_NAME_OUTER_ENUM = "outerEnum";
   @SerializedName(SERIALIZED_NAME_OUTER_ENUM)
-  private OuterEnum outerEnum = null;
+  private OuterEnum outerEnum;
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -359,7 +359,6 @@ public class EnumTest {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EnumTest {\n");
-    
     sb.append("    enumString: ").append(toIndentedString(enumString)).append("\n");
     sb.append("    enumStringRequired: ").append(toIndentedString(enumStringRequired)).append("\n");
     sb.append("    enumInteger: ").append(toIndentedString(enumInteger)).append("\n");

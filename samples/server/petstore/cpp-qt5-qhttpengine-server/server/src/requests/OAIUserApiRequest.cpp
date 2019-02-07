@@ -59,11 +59,11 @@ void OAIUserApiRequest::createUserRequest(){
     QJsonDocument doc;
     socket->readJson(doc);
     QJsonObject obj = doc.object();
-    OAIUser oai_user;
-    ::OpenAPI::fromJsonValue(oai_user, obj);
+    OAIUser body;
+    ::OpenAPI::fromJsonValue(body, obj);
     
 
-    emit createUser(oai_user);
+    emit createUser(body);
 }
 
 
@@ -74,18 +74,18 @@ void OAIUserApiRequest::createUsersWithArrayInputRequest(){
     
  
     QJsonDocument doc;
-    QList<OAIUser> oai_user;
+    QList<OAIUser> body;
     if(socket->readJson(doc)){
         QJsonArray jsonArray = doc.array();
         foreach(QJsonValue obj, jsonArray) {
             OAIUser o;
             ::OpenAPI::fromJsonValue(o, obj);
-            oai_user.append(o);
+            body.append(o);
         }
     }
     
 
-    emit createUsersWithArrayInput(oai_user);
+    emit createUsersWithArrayInput(body);
 }
 
 
@@ -96,18 +96,18 @@ void OAIUserApiRequest::createUsersWithListInputRequest(){
     
  
     QJsonDocument doc;
-    QList<OAIUser> oai_user;
+    QList<OAIUser> body;
     if(socket->readJson(doc)){
         QJsonArray jsonArray = doc.array();
         foreach(QJsonValue obj, jsonArray) {
             OAIUser o;
             ::OpenAPI::fromJsonValue(o, obj);
-            oai_user.append(o);
+            body.append(o);
         }
     }
     
 
-    emit createUsersWithListInput(oai_user);
+    emit createUsersWithListInput(body);
 }
 
 
@@ -180,11 +180,11 @@ void OAIUserApiRequest::updateUserRequest(const QString& usernamestr){
     QJsonDocument doc;
     socket->readJson(doc);
     QJsonObject obj = doc.object();
-    OAIUser oai_user;
-    ::OpenAPI::fromJsonValue(oai_user, obj);
+    OAIUser body;
+    ::OpenAPI::fromJsonValue(body, obj);
     
 
-    emit updateUser(username, oai_user);
+    emit updateUser(username, body);
 }
 
 
@@ -338,13 +338,19 @@ void OAIUserApiRequest::updateUserError(QNetworkReply::NetworkError error_type, 
 
 
 void OAIUserApiRequest::sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type){
-    Q_UNUSED(res);  // TODO
     Q_UNUSED(error_type); // TODO
+    socket->write(res);
+    if(socket->isOpen()){
+        socket->close();
+    }    
 }
 
 void OAIUserApiRequest::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){
-    Q_UNUSED(res);  // TODO
-    Q_UNUSED(error_type); // TODO
+    Q_UNUSED(error_type);  // TODO
+    socket->write(res->readAll());
+    if(socket->isOpen()){
+        socket->close();
+    }
 }
 
 }

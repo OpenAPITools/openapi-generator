@@ -17,23 +17,16 @@
 
 package org.openapitools.codegen.kotlin;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.DateTimeSchema;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.MapSchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
-
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.KotlinClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.util.Collections;
 
 @SuppressWarnings("static-method")
 public class KotlinClientCodegenModelTest {
@@ -74,7 +67,9 @@ public class KotlinClientCodegenModelTest {
         final Schema schema = getSimpleSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
 
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -90,7 +85,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
         Assert.assertTrue(property1.isPrimitiveType);
-        Assert.assertTrue(property1.isNotContainer);
+        Assert.assertFalse(property1.isContainer);
 
         final CodegenProperty property2 = cm.vars.get(1);
         Assert.assertEquals(property2.baseName, "name");
@@ -101,7 +96,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
         Assert.assertTrue(property2.isPrimitiveType);
-        Assert.assertTrue(property2.isNotContainer);
+        Assert.assertFalse(property2.isContainer);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -111,7 +106,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.baseType, "java.time.LocalDateTime");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
     }
 
     @Test(description = "convert a simple model: threetenbp")
@@ -121,7 +116,9 @@ public class KotlinClientCodegenModelTest {
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.THREETENBP.value);
         codegen.processOpts();
 
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -131,7 +128,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.baseType, "org.threeten.bp.LocalDateTime");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
     }
 
     @Test(description = "convert a simple model: date string")
@@ -141,7 +138,9 @@ public class KotlinClientCodegenModelTest {
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.STRING.value);
         codegen.processOpts();
 
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -151,7 +150,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.baseType, "kotlin.String");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
     }
 
     @Test(description = "convert a simple model: date java8")
@@ -161,7 +160,9 @@ public class KotlinClientCodegenModelTest {
         codegen.setDateLibrary(KotlinClientCodegen.DateLibrary.JAVA8.value);
         codegen.processOpts();
 
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
@@ -171,7 +172,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(property3.baseType, "java.time.LocalDateTime");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertTrue(property3.isNotContainer);
+        Assert.assertFalse(property3.isContainer);
     }
 
     @Test(description = "convert a model with array property to default kotlin.Array")
@@ -179,7 +180,9 @@ public class KotlinClientCodegenModelTest {
         final Schema model = getArrayTestSchema();
 
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final CodegenModel generated = codegen.fromModel("sample", model, Collections.singletonMap("sample", model));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel generated = codegen.fromModel("sample", model);
 
         Assert.assertEquals(generated.name, "sample");
         Assert.assertEquals(generated.classname, "Sample");
@@ -199,11 +202,42 @@ public class KotlinClientCodegenModelTest {
         Assert.assertTrue(property.isContainer);
     }
 
+    @Test(description = "convert a model with array property to a kotlin.collections.List")
+    public void listPropertyTest() {
+        final Schema model = getArrayTestSchema();
+
+        final KotlinClientCodegen codegen = new KotlinClientCodegen();
+        codegen.setCollectionType(KotlinClientCodegen.CollectionType.LIST.value);
+        codegen.processOpts();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel generated = codegen.fromModel("sample", model);
+
+        Assert.assertEquals(generated.name, "sample");
+        Assert.assertEquals(generated.classname, "Sample");
+        Assert.assertEquals(generated.description, "a sample model");
+        Assert.assertEquals(generated.vars.size(), 2);
+
+        final CodegenProperty property = generated.vars.get(1);
+        Assert.assertEquals(property.baseName, "examples");
+        Assert.assertEquals(property.getter, "getExamples");
+        Assert.assertEquals(property.setter, "setExamples");
+        Assert.assertEquals(property.dataType, "kotlin.collections.List<kotlin.String>");
+        Assert.assertEquals(property.name, "examples");
+        Assert.assertEquals(property.defaultValue, "null");
+        Assert.assertEquals(property.baseType, "kotlin.collections.List");
+        Assert.assertEquals(property.containerType, "array");
+        Assert.assertFalse(property.required);
+        Assert.assertTrue(property.isContainer);
+    }
+
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
         final Schema schema = getMapSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -225,7 +259,9 @@ public class KotlinClientCodegenModelTest {
     public void complexPropertyTest() {
         final Schema schema = getComplexSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final CodegenModel cm = codegen.fromModel("sample", schema, Collections.singletonMap("sample", schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
 
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
@@ -256,7 +292,9 @@ public class KotlinClientCodegenModelTest {
     public void sanitizeModelNames(final String name, final ModelNameTest testCase) {
         final Schema schema = getComplexSchema();
         final DefaultCodegen codegen = new KotlinClientCodegen();
-        final CodegenModel cm = codegen.fromModel(name, schema, Collections.singletonMap(name, schema));
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema(name, schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel(name, schema);
 
         Assert.assertEquals(cm.name, testCase.expectedName);
         Assert.assertEquals(cm.classname, testCase.expectedClassName);

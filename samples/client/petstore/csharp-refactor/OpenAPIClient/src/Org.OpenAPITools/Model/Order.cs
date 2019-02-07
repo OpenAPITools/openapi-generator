@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -73,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shipDate">shipDate.</param>
         /// <param name="status">Order Status.</param>
         /// <param name="complete">complete (default to false).</param>
-        public Order(long? id = default(long?), long? petId = default(long?), int? quantity = default(int?), DateTime? shipDate = default(DateTime?), StatusEnum? status = default(StatusEnum?), bool? complete = false)
+        public Order(long id = default(long), long petId = default(long), int quantity = default(int), DateTime shipDate = default(DateTime), StatusEnum? status = default(StatusEnum?), bool complete = false)
         {
             this.Id = id;
             this.PetId = petId;
@@ -95,32 +96,31 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
-        public long? Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
         [DataMember(Name="petId", EmitDefaultValue=false)]
-        public long? PetId { get; set; }
+        public long PetId { get; set; }
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
         [DataMember(Name="quantity", EmitDefaultValue=false)]
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
         [DataMember(Name="shipDate", EmitDefaultValue=false)]
-        public DateTime? ShipDate { get; set; }
-
+        public DateTime ShipDate { get; set; }
 
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
         [DataMember(Name="complete", EmitDefaultValue=false)]
-        public bool? Complete { get; set; }
+        public bool Complete { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -156,7 +156,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Order);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Order).AreEqual;
         }
 
         /// <summary>
@@ -166,40 +166,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(Order input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
-                ) && 
-                (
-                    this.PetId == input.PetId ||
-                    (this.PetId != null &&
-                    this.PetId.Equals(input.PetId))
-                ) && 
-                (
-                    this.Quantity == input.Quantity ||
-                    (this.Quantity != null &&
-                    this.Quantity.Equals(input.Quantity))
-                ) && 
-                (
-                    this.ShipDate == input.ShipDate ||
-                    (this.ShipDate != null &&
-                    this.ShipDate.Equals(input.ShipDate))
-                ) && 
-                (
-                    this.Status == input.Status ||
-                    (this.Status != null &&
-                    this.Status.Equals(input.Status))
-                ) && 
-                (
-                    this.Complete == input.Complete ||
-                    (this.Complete != null &&
-                    this.Complete.Equals(input.Complete))
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>
@@ -219,8 +186,7 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Quantity.GetHashCode();
                 if (this.ShipDate != null)
                     hashCode = hashCode * 59 + this.ShipDate.GetHashCode();
-                if (this.Status != null)
-                    hashCode = hashCode * 59 + this.Status.GetHashCode();
+                hashCode = hashCode * 59 + this.Status.GetHashCode();
                 if (this.Complete != null)
                     hashCode = hashCode * 59 + this.Complete.GetHashCode();
                 return hashCode;

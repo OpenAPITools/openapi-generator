@@ -28,7 +28,7 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#addPet
      */
-    default ResponseEntity<Void> addPet(Pet pet) {
+    default ResponseEntity<Void> addPet(Pet body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -105,7 +105,7 @@ public interface PetApiDelegate {
     /**
      * @see PetApi#updatePet
      */
-    default ResponseEntity<Void> updatePet(Pet pet) {
+    default ResponseEntity<Void> updatePet(Pet body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

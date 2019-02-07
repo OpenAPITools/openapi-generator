@@ -17,8 +17,8 @@
 
 package org.openapitools.codegen.config;
 
-import org.openapitools.codegen.utils.OptionUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.openapitools.codegen.utils.OptionUtils;
 
 import java.util.*;
 

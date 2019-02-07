@@ -25,7 +25,7 @@ Data structure that represents a bag of elements typed `T`.
 
 Single element can be stored multiple times.
 
-Time and space complexity of insertion an deletion is O(n). 
+Time and space complexity of insertion and deletion is O(n). 
 
 It is suitable for storing small number of elements.
 */
@@ -83,12 +83,8 @@ struct Bag<T> : CustomDebugStringConvertible {
             _pairs.append((key: key, value: element))
             return key
         }
-
-        if _dictionary == nil {
-            _dictionary = [:]
-        }
-
-        _dictionary![key] = element
+        
+        _dictionary = [key: element]
         
         return key
     }

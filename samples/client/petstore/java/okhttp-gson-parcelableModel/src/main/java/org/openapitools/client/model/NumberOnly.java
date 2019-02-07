@@ -79,7 +79,6 @@ public class NumberOnly implements Parcelable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NumberOnly {\n");
-    
     sb.append("    justNumber: ").append(toIndentedString(justNumber)).append("\n");
     sb.append("}");
     return sb.toString();

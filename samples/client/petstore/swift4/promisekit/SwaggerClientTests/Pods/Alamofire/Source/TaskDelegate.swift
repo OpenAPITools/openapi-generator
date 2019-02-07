@@ -1,7 +1,7 @@
 //
 //  TaskDelegate.swift
 //
-//  Copyright (c) 2014-2016 Alamofire Software Foundation (http://alamofire.org/)
+//  Copyright (c) 2014-2018 Alamofire Software Foundation (http://alamofire.org/)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ open class TaskDelegate: NSObject {
     // MARK: Properties
 
     /// The serial operation queue used to execute all operations after the task completes.
-    open let queue: OperationQueue
+    public let queue: OperationQueue
 
     /// The data returned by the server.
     public var data: Data? { return nil }
@@ -40,17 +40,30 @@ open class TaskDelegate: NSObject {
     public var error: Error?
 
     var task: URLSessionTask? {
-        didSet { reset() }
+        set {
+            taskLock.lock(); defer { taskLock.unlock() }
+            _task = newValue
+        }
+        get {
+            taskLock.lock(); defer { taskLock.unlock() }
+            return _task
+        }
     }
 
     var initialResponseTime: CFAbsoluteTime?
     var credential: URLCredential?
     var metrics: AnyObject? // URLSessionTaskMetrics
 
+    private var _task: URLSessionTask? {
+        didSet { reset() }
+    }
+
+    private let taskLock = NSLock()
+
     // MARK: Lifecycle
 
     init(task: URLSessionTask?) {
-        self.task = task
+        _task = task
 
         self.queue = {
             let operationQueue = OperationQueue()

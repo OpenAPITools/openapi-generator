@@ -19,7 +19,7 @@ To install the bindings via [Composer](http://getcomposer.org/), add the followi
 {
   "repositories": [
     {
-      "type": "git",
+      "type": "vcs",
       "url": "https://github.com/GIT_USER_ID/GIT_REPO_ID.git"
     }
   ],
@@ -56,15 +56,17 @@ Please follow the [installation procedure](#installation--usage) and then run th
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
+
 $apiInstance = new OpenAPI\Client\Api\AnotherFakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$client = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
+$body = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
 
 try {
-    $result = $apiInstance->call123TestSpecialTags($client);
+    $result = $apiInstance->call123TestSpecialTags($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling AnotherFakeApi->call123TestSpecialTags: ', $e->getMessage(), PHP_EOL;
@@ -80,6 +82,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123TestSpecialTags**](docs/Api/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+*FakeApi* | [**createXmlItem**](docs/Api/FakeApi.md#createxmlitem) | **POST** /fake/create_xml_item | creates an XmlItem
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/Api/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/Api/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/Api/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -120,7 +123,6 @@ Class | Method | HTTP request | Description
 
  - [AdditionalPropertiesClass](docs/Model/AdditionalPropertiesClass.md)
  - [Animal](docs/Model/Animal.md)
- - [AnimalFarm](docs/Model/AnimalFarm.md)
  - [ApiResponse](docs/Model/ApiResponse.md)
  - [ArrayOfArrayOfNumberOnly](docs/Model/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/Model/ArrayOfNumberOnly.md)
@@ -151,9 +153,11 @@ Class | Method | HTTP request | Description
  - [Pet](docs/Model/Pet.md)
  - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
  - [SpecialModelName](docs/Model/SpecialModelName.md)
- - [StringBooleanMap](docs/Model/StringBooleanMap.md)
  - [Tag](docs/Model/Tag.md)
+ - [TypeHolderDefault](docs/Model/TypeHolderDefault.md)
+ - [TypeHolderExample](docs/Model/TypeHolderExample.md)
  - [User](docs/Model/User.md)
+ - [XmlItem](docs/Model/XmlItem.md)
 
 
 ## Documentation For Authorization
@@ -165,15 +169,18 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
+
 ## api_key_query
 
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
+
 ## http_basic_test
 
 - **Type**: HTTP basic authentication
+
 
 ## petstore_auth
 
@@ -181,8 +188,8 @@ Class | Method | HTTP request | Description
 - **Flow**: implicit
 - **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
 - **Scopes**: 
- - **write:pets**: modify pets in your account
- - **read:pets**: read your pets
+- **write:pets**: modify pets in your account
+- **read:pets**: read your pets
 
 
 ## Author

@@ -27,9 +27,9 @@ void
 	{{#isContainer}}
 	//{{defaultValue}}{{baseType}}> {{name}};
 	{{/isContainer}}
-	{{#isNotContainer}}
+	{{^isContainer}}
 	//{{name}} = {{defaultValue}};
-	{{/isNotContainer}}
+	{{/isContainer}}
 	{{/vars}}
 }
 

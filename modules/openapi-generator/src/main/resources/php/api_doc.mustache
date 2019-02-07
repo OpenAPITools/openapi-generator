@@ -22,27 +22,7 @@ Method | HTTP request | Description
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
-{{#hasAuthMethods}}
-{{#authMethods}}
-{{#isBasic}}
-// Configure HTTP basic authorization: {{{name}}}
-$config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()
-              ->setUsername('YOUR_USERNAME')
-              ->setPassword('YOUR_PASSWORD');
-{{/isBasic}}
-{{#isApiKey}}
-// Configure API key authorization: {{{name}}}
-$config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiKey('{{{keyParamName}}}', 'YOUR_API_KEY');
-// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// $config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setApiKeyPrefix('{{{keyParamName}}}', 'Bearer');
-{{/isApiKey}}
-{{#isOAuth}}
-// Configure OAuth2 access token for authorization: {{{name}}}
-$config = {{{invokerPackage}}}\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-{{/isOAuth}}
-{{/authMethods}}
-
-{{/hasAuthMethods}}
+{{> php_doc_auth_partial}}
 $apiInstance = new {{invokerPackage}}\Api\{{classname}}(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.

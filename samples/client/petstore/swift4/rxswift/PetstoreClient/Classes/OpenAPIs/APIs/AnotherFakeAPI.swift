@@ -16,29 +16,19 @@ open class AnotherFakeAPI {
      To test special tags
      
      - parameter client: (body) client model 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func call123testSpecialTags(client: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
-        call123testSpecialTagsWithRequestBuilder(client: client).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     To test special tags
-     
-     - parameter client: (body) client model 
      - returns: Observable<Client>
      */
     open class func call123testSpecialTags(client: Client) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            call123testSpecialTags(client: client) { data, error in
+            call123testSpecialTagsWithRequestBuilder(client: client).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
+                } else if let response = response {
+                    observer.onNext(response.body!)
                 } else {
-                    observer.on(.next(data!))
+                    fatalError()
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }

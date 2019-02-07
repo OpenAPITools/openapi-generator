@@ -72,7 +72,7 @@ var OpenApiPetstore = require('open_api_petstore');
 
 
 var api = new OpenApiPetstore.AnotherFakeApi()
-var client = new OpenApiPetstore.Client(); // {Client} client model
+var body = new OpenApiPetstore.Client(); // {Client} client model
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -80,7 +80,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.call123testSpecialTags(client, callback);
+api.call123testSpecialTags(body, callback);
 
 ```
 
@@ -91,6 +91,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *OpenApiPetstore.AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+*OpenApiPetstore.FakeApi* | [**createXmlItem**](docs/FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
 *OpenApiPetstore.FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -100,6 +101,7 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
 *OpenApiPetstore.FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *OpenApiPetstore.FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
+*OpenApiPetstore.FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *OpenApiPetstore.FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *OpenApiPetstore.FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 *OpenApiPetstore.FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -130,7 +132,6 @@ Class | Method | HTTP request | Description
 
  - [OpenApiPetstore.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [OpenApiPetstore.Animal](docs/Animal.md)
- - [OpenApiPetstore.AnimalFarm](docs/AnimalFarm.md)
  - [OpenApiPetstore.ApiResponse](docs/ApiResponse.md)
  - [OpenApiPetstore.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [OpenApiPetstore.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -161,9 +162,11 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.Pet](docs/Pet.md)
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
- - [OpenApiPetstore.StringBooleanMap](docs/StringBooleanMap.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
+ - [OpenApiPetstore.TypeHolderDefault](docs/TypeHolderDefault.md)
+ - [OpenApiPetstore.TypeHolderExample](docs/TypeHolderExample.md)
  - [OpenApiPetstore.User](docs/User.md)
+ - [OpenApiPetstore.XmlItem](docs/XmlItem.md)
 
 
 ## Documentation for Authorization
@@ -175,15 +178,18 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
+
 ### api_key_query
 
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
+
 ### http_basic_test
 
 - **Type**: HTTP basic authentication
+
 
 ### petstore_auth
 

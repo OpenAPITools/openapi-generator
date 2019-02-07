@@ -11,7 +11,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
 <plugin>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
-    <version>3.3.3</version>
+    <version>3.3.4</version>
     <executions>
         <execution>
             <goals>
@@ -54,6 +54,11 @@ mvn clean compile
 - `configOptions` - a map of language-specific parameters. To show a full list of generator-specified parameters (options), please use `configHelp` (explained below)
 - `configHelp` - dumps the configuration help for the specified library (generates no sources)
 - `ignoreFileOverride` - specifies the full path to a `.openapi-generator-ignore` used for pattern based overrides of generated outputs
+- `removeOperationIdPrefix` - remove operationId prefix (e.g. user_getName => getName)
+- `logToStderr` - write all log messages (not just errors) to STDOUT
+- `enablePostProcessFile` - enable file post-processing hook
+- `skipValidateSpec` - skip spec validation
+- `generateAliasAsModel` - generate alias (array, map) as model
 - `generateApis` - generate the apis (`true` by default)
 - `generateApiTests` - generate the api tests (`true` by default. Only available if `generateApis` is `true`)
 - `generateApiDocumentation` - generate the api documentation (`true` by default. Only available if `generateApis` is `true`)

@@ -59,11 +59,11 @@ void OAIPetApiRequest::addPetRequest(){
     QJsonDocument doc;
     socket->readJson(doc);
     QJsonObject obj = doc.object();
-    OAIPet oai_pet;
-    ::OpenAPI::fromJsonValue(oai_pet, obj);
+    OAIPet body;
+    ::OpenAPI::fromJsonValue(body, obj);
     
 
-    emit addPet(oai_pet);
+    emit addPet(body);
 }
 
 
@@ -139,11 +139,11 @@ void OAIPetApiRequest::updatePetRequest(){
     QJsonDocument doc;
     socket->readJson(doc);
     QJsonObject obj = doc.object();
-    OAIPet oai_pet;
-    ::OpenAPI::fromJsonValue(oai_pet, obj);
+    OAIPet body;
+    ::OpenAPI::fromJsonValue(body, obj);
     
 
-    emit updatePet(oai_pet);
+    emit updatePet(body);
 }
 
 
@@ -333,13 +333,19 @@ void OAIPetApiRequest::uploadFileError(const OAIApiResponse& res, QNetworkReply:
 
 
 void OAIPetApiRequest::sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type){
-    Q_UNUSED(res);  // TODO
     Q_UNUSED(error_type); // TODO
+    socket->write(res);
+    if(socket->isOpen()){
+        socket->close();
+    }    
 }
 
 void OAIPetApiRequest::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){
-    Q_UNUSED(res);  // TODO
-    Q_UNUSED(error_type); // TODO
+    Q_UNUSED(error_type);  // TODO
+    socket->write(res->readAll());
+    if(socket->isOpen()){
+        socket->close();
+    }
 }
 
 }

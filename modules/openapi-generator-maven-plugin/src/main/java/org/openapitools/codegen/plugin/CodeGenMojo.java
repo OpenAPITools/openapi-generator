@@ -51,10 +51,15 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.GeneratorProperties;
 import org.sonatype.plexus.build.incremental.BuildContext;
 import org.sonatype.plexus.build.incremental.DefaultBuildContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Charsets;
+import com.google.common.hash.Hashing;
+import com.google.common.io.Files;
 
 /**
  * Goal which generates client/server code from a OpenAPI json/yaml definition.
@@ -141,12 +146,6 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean skipOverwrite;
 
     /**
-     * Specifies if the existing files should be overwritten during the generation.
-     */
-    @Parameter(name = "removeOperationIdPrefix", required = false)
-    private Boolean removeOperationIdPrefix;
-
-    /**
      * The package to use for generated api objects/classes
      */
     @Parameter(name = "apiPackage")
@@ -205,6 +204,36 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "ignoreFileOverride", required = false)
     private String ignoreFileOverride;
+
+    /**
+     * To remove operationId prefix (e.g. user_getName => getName)
+     */
+    @Parameter(name = "removeOperationIdPrefix", required = false)
+    private Boolean removeOperationIdPrefix;
+
+    /**
+     * To write all log messages (not just errors) to STDOUT
+     */
+    @Parameter(name = "logToStderr", required = false)
+    private Boolean logToStderr;
+
+    /**
+     * To file post-processing hook
+     */
+    @Parameter(name = "enablePostProcessFile", required = false)
+    private Boolean enablePostProcessFile;
+
+    /**
+     * To skip spec validation
+     */
+    @Parameter(name = "skipValidateSpec", required = false)
+    private Boolean skipValidateSpec;
+
+    /**
+     * To generate alias (array, map) as model
+     */
+    @Parameter(name = "generateAliasAsModel", required = false)
+    private Boolean generateAliasAsModel;
 
     /**
      * A map of language-specific parameters as passed with the -c option to the command line
@@ -318,6 +347,12 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean skip;
 
     /**
+     * Skip the execution if the source file is older than the output folder.
+     */
+    @Parameter(name = "skipIfSpecIsUnchanged", property = "codegen.skipIfSpecIsUnchanged", required = false, defaultValue = "false")
+    private Boolean skipIfSpecIsUnchanged;
+
+    /**
      * Add the output directory to the project as a source root, so that the generated java types
      * are compiled and included in the project artifact.
      */
@@ -368,6 +403,21 @@ public class CodeGenMojo extends AbstractMojo {
                 }
             }
 
+            if (skipIfSpecIsUnchanged) {
+                if (inputSpecFile.exists()) {
+                    File storedInputSpecHashFile = getHashFile(inputSpecFile);
+                    if(storedInputSpecHashFile.exists()) {
+                        String inputSpecHash = Files.asByteSource(inputSpecFile).hash(Hashing.sha256()).toString();
+                        String storedInputSpecHash = Files.asCharSource(storedInputSpecHashFile, Charsets.UTF_8).read();
+                        if (inputSpecHash.equals(storedInputSpecHash)) {
+                            getLog().info(
+                                    "Code generation is skipped because input was unchanged");
+                            return;
+                        }
+                    }
+                }
+            }
+
             // attempt to read from config file
             CodegenConfigurator configurator = CodegenConfigurator.fromFile(configurationFile);
 
@@ -405,6 +455,22 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (isNotEmpty(ignoreFileOverride)) {
                 configurator.setIgnoreFileOverride(ignoreFileOverride);
+            }
+
+            if (skipValidateSpec != null) {
+                configurator.setSkipOverwrite(skipValidateSpec);
+            }
+
+            if (logToStderr != null) {
+                configurator.setLogToStderr(logToStderr);
+            }
+
+            if (enablePostProcessFile != null) {
+                configurator.setEnablePostProcessFile(enablePostProcessFile);
+            }
+
+            if (generateAliasAsModel  != null) {
+                configurator.setGenerateAliasAsModel(generateAliasAsModel);
             }
 
             // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
@@ -474,28 +540,28 @@ public class CodeGenMojo extends AbstractMojo {
 
             // Set generation options
             if (null != generateApis && generateApis) {
-                System.setProperty(CodegenConstants.APIS, "");
+                GeneratorProperties.setProperty(CodegenConstants.APIS, "");
             } else {
-                System.clearProperty(CodegenConstants.APIS);
+                GeneratorProperties.clearProperty(CodegenConstants.APIS);
             }
 
             if (null != generateModels && generateModels) {
-                System.setProperty(CodegenConstants.MODELS, modelsToGenerate);
+                GeneratorProperties.setProperty(CodegenConstants.MODELS, modelsToGenerate);
             } else {
-                System.clearProperty(CodegenConstants.MODELS);
+                GeneratorProperties.clearProperty(CodegenConstants.MODELS);
             }
 
             if (null != generateSupportingFiles && generateSupportingFiles) {
-                System.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesToGenerate);
+                GeneratorProperties.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesToGenerate);
             } else {
-                System.clearProperty(CodegenConstants.SUPPORTING_FILES);
+                GeneratorProperties.clearProperty(CodegenConstants.SUPPORTING_FILES);
             }
 
-            System.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.toString());
-            System.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.toString());
-            System.setProperty(CodegenConstants.API_TESTS, generateApiTests.toString());
-            System.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.toString());
-            System.setProperty(CodegenConstants.WITH_XML, withXml.toString());
+            GeneratorProperties.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.toString());
+            GeneratorProperties.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.toString());
+            GeneratorProperties.setProperty(CodegenConstants.API_TESTS, generateApiTests.toString());
+            GeneratorProperties.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.toString());
+            GeneratorProperties.setProperty(CodegenConstants.WITH_XML, withXml.toString());
 
             if (configOptions != null) {
                 // Retained for backwards-compataibility with configOptions -> instantiation-types
@@ -568,13 +634,13 @@ public class CodeGenMojo extends AbstractMojo {
             if (environmentVariables != null) {
 
                 for (String key : environmentVariables.keySet()) {
-                    originalEnvironmentVariables.put(key, System.getProperty(key));
+                    originalEnvironmentVariables.put(key, GeneratorProperties.getProperty(key));
                     String value = environmentVariables.get(key);
                     if (value == null) {
                         // don't put null values
                         value = "";
                     }
-                    System.setProperty(key, value);
+                    GeneratorProperties.setProperty(key, value);
                     configurator.addSystemProperty(key, value);
                 }
             }
@@ -606,6 +672,17 @@ public class CodeGenMojo extends AbstractMojo {
             if (buildContext != null) {
                 buildContext.refresh(new File(getCompileSourceRoot()));
             }
+
+            // Store a checksum of the input spec
+            File storedInputSpecHashFile = getHashFile(inputSpecFile);
+            String inputSpecHash = Files.asByteSource(inputSpecFile).hash(Hashing.sha256()).toString();
+
+            if (storedInputSpecHashFile.getParent() != null && !new File(storedInputSpecHashFile.getParent()).exists()) {
+                File parent = new File(storedInputSpecHashFile.getParent());
+                parent.mkdirs();
+            }
+            Files.asCharSink(storedInputSpecHashFile, Charsets.UTF_8).write(inputSpecHash);
+
         } catch (Exception e) {
             // Maven logs exceptions thrown by plugins only if invoked with -e
             // I find it annoying to jump through hoops to get basic diagnostic information,
@@ -618,7 +695,11 @@ public class CodeGenMojo extends AbstractMojo {
                     "Code generation failed. See above for the full exception.");
         }
     }
-    
+
+    private File getHashFile(File inputSpecFile) {
+        return new File(output.getPath() + File.separator + ".openapi-generator" + File.separator + inputSpecFile.getName() + ".sha256");
+    }
+
     private String getCompileSourceRoot() {
         final Object sourceFolderObject =
                 configOptions == null ? null : configOptions
@@ -640,17 +721,17 @@ public class CodeGenMojo extends AbstractMojo {
         // when running the plugin multiple consecutive times with different configurations.
         for (Map.Entry<String, String> entry : originalEnvironmentVariables.entrySet()) {
             if (entry.getValue() == null) {
-                System.clearProperty(entry.getKey());
+                GeneratorProperties.clearProperty(entry.getKey());
             } else {
-                System.setProperty(entry.getKey(), entry.getValue());
+                GeneratorProperties.setProperty(entry.getKey(), entry.getValue());
             }
         }
     }
     /**
-     * This method enables conversion of true/false strings in 
+     * This method enables conversion of true/false strings in
      * config.additionalProperties (configuration/configOptions) to proper booleans.
      * This enables mustache files to handle the properties better.
-     * 
+     *
      * @param config
      */
     private void adjustAdditionalProperties(final CodegenConfig config) {

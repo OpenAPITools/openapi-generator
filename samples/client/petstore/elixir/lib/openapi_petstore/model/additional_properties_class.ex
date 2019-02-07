@@ -14,8 +14,8 @@ defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
   ]
 
   @type t :: %__MODULE__{
-    :"map_property" => %{optional(String.t) => String.t},
-    :"map_of_map_property" => %{optional(String.t) => %{optional(String.t) => String.t}}
+    :"map_property" => %{optional(String.t) => String.t} | nil,
+    :"map_of_map_property" => %{optional(String.t) => %{optional(String.t) => String.t}} | nil
   }
 end
 

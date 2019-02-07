@@ -1,5 +1,6 @@
 {{#jackson}}
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 {{/jackson}}
 
 /**
@@ -22,6 +23,13 @@ public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum
 
   {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}({{{dataType}}} value) {
     this.value = value;
+  }
+
+{{#jackson}}
+  @JsonValue
+{{/jackson}}
+  public {{{dataType}}} getValue() {
+    return value;
   }
 
   @Override

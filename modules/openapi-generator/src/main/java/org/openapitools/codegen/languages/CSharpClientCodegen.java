@@ -17,31 +17,20 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @SuppressWarnings({"hiding"})
@@ -80,6 +69,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
+
+    // use KellermanSoftware.CompareNetObjects for deep recursive object comparision
+    protected boolean useCompareNetObjects = Boolean.FALSE;
 
     public CSharpClientCodegen() {
         super();
@@ -193,6 +185,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.VALIDATABLE,
                 CodegenConstants.VALIDATABLE_DESC,
                 this.validatable);
+
+        addSwitch(CodegenConstants.USE_COMPARE_NET_OBJECTS,
+                CodegenConstants.USE_COMPARE_NET_OBJECTS_DESC,
+                this.useCompareNetObjects);
 
         regexModifiers = new HashMap<Character, String>();
         regexModifiers.put('i', "IgnoreCase");
@@ -528,12 +524,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        CodegenModel codegenModel = super.fromModel(name, model);
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
             final Schema parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             if (parentModel != null) {
-                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
+                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
                 if (codegenModel.hasEnums) {
                     codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
                 }
@@ -704,7 +701,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         // for symbol, e.g. $, #
         if (getSymbolName(value) != null) {
-            return org.openapitools.codegen.utils.StringUtils.camelize(getSymbolName(value));
+            return camelize(getSymbolName(value));
         }
 
         // number
@@ -720,7 +717,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         // string
         String var = value.replaceAll("_", " ");
         //var = WordUtils.capitalizeFully(var);
-        var = org.openapitools.codegen.utils.StringUtils.camelize(var);
+        var = camelize(var);
         var = var.replaceAll("\\W+", "");
 
         if (var.matches("\\d.*")) {
@@ -755,18 +752,17 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             case original:
                 return name;
             case camelCase:
-                return org.openapitools.codegen.utils.StringUtils.camelize(name, true);
+                return camelize(name, true);
             case PascalCase:
-                return org.openapitools.codegen.utils.StringUtils.camelize(name);
+                return camelize(name);
             case snake_case:
-                return org.openapitools.codegen.utils.StringUtils.underscore(name);
+                return underscore(name);
             default:
                 throw new IllegalArgumentException("Invalid model property naming '" +
                         name + "'. Must be 'original', 'camelCase', " +
                         "'PascalCase' or 'snake_case'");
         }
     }
-
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
@@ -794,6 +790,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setGeneratePropertyChanged(final Boolean generatePropertyChanged) {
         this.generatePropertyChanged = generatePropertyChanged;
+    }
+
+    public void setUseCompareNetObjects(final Boolean useCompareNetObjects) {
+        this.useCompareNetObjects = useCompareNetObjects;
     }
 
     public boolean isNonPublicApi() {

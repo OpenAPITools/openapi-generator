@@ -14,6 +14,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,30 @@ import java.util.List;
 import java.util.Map;
 
 public interface FakeApi {
+  /**
+   * creates an XmlItem
+   * Sync method
+   * this route creates an XmlItem
+   * @param xmlItem XmlItem Body (required)
+   * @return Void
+   */
+  
+  @POST("/fake/create_xml_item")
+  Void createXmlItem(
+    @retrofit.http.Body XmlItem xmlItem
+  );
+
+  /**
+   * creates an XmlItem
+   * Async method
+   * @param xmlItem XmlItem Body (required)
+   * @param cb callback method
+   */
+  
+  @POST("/fake/create_xml_item")
+  void createXmlItem(
+    @retrofit.http.Body XmlItem xmlItem, Callback<Void> cb
+  );
   /**
    * 
    * Sync method
@@ -49,25 +74,25 @@ public interface FakeApi {
    * 
    * Sync method
    * Test serialization of object with outer number type
-   * @param outerComposite Input composite as post body (optional)
+   * @param body Input composite as post body (optional)
    * @return OuterComposite
    */
   
   @POST("/fake/outer/composite")
   OuterComposite fakeOuterCompositeSerialize(
-    @retrofit.http.Body OuterComposite outerComposite
+    @retrofit.http.Body OuterComposite body
   );
 
   /**
    * 
    * Async method
-   * @param outerComposite Input composite as post body (optional)
+   * @param body Input composite as post body (optional)
    * @param cb callback method
    */
   
   @POST("/fake/outer/composite")
   void fakeOuterCompositeSerialize(
-    @retrofit.http.Body OuterComposite outerComposite, Callback<OuterComposite> cb
+    @retrofit.http.Body OuterComposite body, Callback<OuterComposite> cb
   );
   /**
    * 
@@ -121,75 +146,75 @@ public interface FakeApi {
    * 
    * Sync method
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-   * @param fileSchemaTestClass  (required)
+   * @param body  (required)
    * @return Void
    */
   
   @PUT("/fake/body-with-file-schema")
   Void testBodyWithFileSchema(
-    @retrofit.http.Body FileSchemaTestClass fileSchemaTestClass
+    @retrofit.http.Body FileSchemaTestClass body
   );
 
   /**
    * 
    * Async method
-   * @param fileSchemaTestClass  (required)
+   * @param body  (required)
    * @param cb callback method
    */
   
   @PUT("/fake/body-with-file-schema")
   void testBodyWithFileSchema(
-    @retrofit.http.Body FileSchemaTestClass fileSchemaTestClass, Callback<Void> cb
+    @retrofit.http.Body FileSchemaTestClass body, Callback<Void> cb
   );
   /**
    * 
    * Sync method
    * 
    * @param query  (required)
-   * @param user  (required)
+   * @param body  (required)
    * @return Void
    */
   
   @PUT("/fake/body-with-query-params")
   Void testBodyWithQueryParams(
-    @retrofit.http.Query("query") String query, @retrofit.http.Body User user
+    @retrofit.http.Query("query") String query, @retrofit.http.Body User body
   );
 
   /**
    * 
    * Async method
    * @param query  (required)
-   * @param user  (required)
+   * @param body  (required)
    * @param cb callback method
    */
   
   @PUT("/fake/body-with-query-params")
   void testBodyWithQueryParams(
-    @retrofit.http.Query("query") String query, @retrofit.http.Body User user, Callback<Void> cb
+    @retrofit.http.Query("query") String query, @retrofit.http.Body User body, Callback<Void> cb
   );
   /**
    * To test \&quot;client\&quot; model
    * Sync method
    * To test \&quot;client\&quot; model
-   * @param client client model (required)
+   * @param body client model (required)
    * @return Client
    */
   
   @PATCH("/fake")
   Client testClientModel(
-    @retrofit.http.Body Client client
+    @retrofit.http.Body Client body
   );
 
   /**
    * To test \&quot;client\&quot; model
    * Async method
-   * @param client client model (required)
+   * @param body client model (required)
    * @param cb callback method
    */
   
   @PATCH("/fake")
   void testClientModel(
-    @retrofit.http.Body Client client, Callback<Client> cb
+    @retrofit.http.Body Client body, Callback<Client> cb
   );
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -321,25 +346,25 @@ public interface FakeApi {
    * test inline additionalProperties
    * Sync method
    * 
-   * @param requestBody request body (required)
+   * @param param request body (required)
    * @return Void
    */
   
   @POST("/fake/inline-additionalProperties")
   Void testInlineAdditionalProperties(
-    @retrofit.http.Body Map<String, String> requestBody
+    @retrofit.http.Body Map<String, String> param
   );
 
   /**
    * test inline additionalProperties
    * Async method
-   * @param requestBody request body (required)
+   * @param param request body (required)
    * @param cb callback method
    */
   
   @POST("/fake/inline-additionalProperties")
   void testInlineAdditionalProperties(
-    @retrofit.http.Body Map<String, String> requestBody, Callback<Void> cb
+    @retrofit.http.Body Map<String, String> param, Callback<Void> cb
   );
   /**
    * test json serialization of form data
