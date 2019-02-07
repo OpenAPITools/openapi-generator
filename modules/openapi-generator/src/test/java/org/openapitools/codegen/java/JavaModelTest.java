@@ -227,7 +227,7 @@ public class JavaModelTest {
         Assert.assertTrue(property.isContainer);
     }
 
-    @Test(description = "convert a model with restriced characters")
+    @Test(description = "convert a model with restricted characters")
     public void restrictedCharactersPropertiesTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -468,8 +468,8 @@ public class JavaModelTest {
 
         final CodegenProperty property = cm.vars.get(0);
         Assert.assertEquals(property.baseName, "pId");
-        Assert.assertEquals(property.getter, "getPId");
-        Assert.assertEquals(property.setter, "setPId");
+        Assert.assertEquals(property.getter, "getpId");
+        Assert.assertEquals(property.setter, "setpId");
         Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "pId");
         Assert.assertEquals(property.defaultValue, null);
