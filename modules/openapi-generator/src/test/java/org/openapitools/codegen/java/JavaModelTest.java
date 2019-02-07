@@ -507,6 +507,34 @@ public class JavaModelTest {
         Assert.assertFalse(property.isContainer);
     }
 
+    @Test(description = "convert a model with an all upper-case letter and one non letter property names")
+    public void allUpperCaseOneNonLetterNamesTest() {
+        final Schema schema = new Schema()
+                .description("a model with a property name starting with two upper-case letters")
+                .addProperties("ATT_NAME", new StringSchema())
+                .addRequiredItem("ATT_NAME");
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "ATT_NAME");
+        Assert.assertEquals(property.getter, "getATT_NAME");
+        Assert.assertEquals(property.setter, "setATT_NAME");
+        Assert.assertEquals(property.dataType, "String");
+        Assert.assertEquals(property.name, "ATT_NAME");
+        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertEquals(property.baseType, "String");
+        Assert.assertFalse(property.hasMore);
+        Assert.assertTrue(property.required);
+        Assert.assertFalse(property.isContainer);
+    }
+
     @Test(description = "convert hyphens per issue 503")
     public void hyphensTest() {
         final Schema schema = new Schema()
