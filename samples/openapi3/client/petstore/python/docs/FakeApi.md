@@ -503,7 +503,7 @@ Fake endpoint to test group parameters (optional)
 
 ### Example
 
-* Bearer (JWT) Authentication (bearer_test):
+* Bearer Authentication (bearer_test):
 ```python
 from __future__ import print_function
 import time
@@ -511,7 +511,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 configuration = petstore_api.Configuration()
-# Configure Bearer authorization (JWT): bearer_test
+# Configure Bearer authorization: bearer_test
 configuration.access_token = 'YOUR_BEARER_TOKEN'
 
 # create an instance of the API class

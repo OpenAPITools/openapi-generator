@@ -158,7 +158,7 @@ public enum EnumNumberEnum {
 
   @ApiModelProperty(value = "")
   @Valid
-  private OuterEnum outerEnum;
+  private OuterEnum outerEnum = null;
  /**
    * Get enumString
    * @return enumString

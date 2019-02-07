@@ -17,7 +17,7 @@ class Pet
 {
     /**
      * Add a new pet to the store
-     * @PHA\Post()
+     * @PHA\handlePost
      * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Consumer(name=PHConsumer\Json::class, mediaType="application/json")
      * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
@@ -36,7 +36,7 @@ class Pet
     }
     /**
      * Update an existing pet
-     * @PHA\Put()
+     * @PHA\handlePut
      * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Consumer(name=PHConsumer\Json::class, mediaType="application/json")
      * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation

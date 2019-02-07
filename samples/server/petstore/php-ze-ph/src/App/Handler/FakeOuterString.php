@@ -16,9 +16,9 @@ use Psr\Http\Message\ServerRequestInterface;
 class FakeOuterString
 {
     /**
-     * @PHA\Post()
+     * @PHA\handlePost
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
-     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="n/a")
+     * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="*/*")
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 501 if the method is not implemented
