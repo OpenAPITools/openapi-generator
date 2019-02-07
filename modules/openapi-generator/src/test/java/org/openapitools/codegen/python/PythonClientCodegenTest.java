@@ -20,12 +20,17 @@ package org.openapitools.codegen.python;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PythonClientCodegenTest {
 
@@ -56,6 +61,18 @@ public class PythonClientCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
+    }
+
+    @Test(description = "test enum null/nullable patterns")
+    public void testEnumNull() {
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_1997.yaml", null, new ParseOptions()).getOpenAPI();
+
+
+        StringSchema prop = (StringSchema) openAPI.getComponents().getSchemas().get("Type").getProperties().get("prop");
+        ArrayList<Object> expected = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        assert prop.getNullable();
+        assert prop.getEnum().equals(expected);
     }
 
     @Test(description = "test regex patterns")
