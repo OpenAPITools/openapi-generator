@@ -225,7 +225,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             // Angular v7 requires typescript ">=3.1.1 <3.2.0"
             additionalProperties.put("tsVersion", ">=3.1.1 <3.2.0");
         } else if (ngVersion.atLeast("6.0.0")) {
-            additionalProperties.put("tsVersion", ">=2.1.5 <2.7.0");
+            additionalProperties.put("tsVersion", ">=2.7.2 and <2.10.0");
         } else if (ngVersion.atLeast("5.0.0")) {
             additionalProperties.put("tsVersion", ">=2.1.5 <2.7.0");
         } else {
@@ -268,8 +268,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put("tsickleVersion", "0.34.0");
         } else if (ngVersion.atLeast("6.0.0")) {
             // compatible versions with typescript version
-            additionalProperties.put("ngPackagrVersion", "2.4.5");
-            additionalProperties.put("tsickleVersion", "0.27.5");
+            additionalProperties.put("ngPackagrVersion", "3.0.6");
+            additionalProperties.put("tsickleVersion", "0.32.1");
         } else if (ngVersion.atLeast("5.0.0")) {
             // compatible versions with typescript version
             additionalProperties.put("ngPackagrVersion", "2.4.5");
