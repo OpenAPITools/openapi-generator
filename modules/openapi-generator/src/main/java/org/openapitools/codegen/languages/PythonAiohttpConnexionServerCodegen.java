@@ -43,6 +43,6 @@ public class PythonAiohttpConnexionServerCodegen extends PythonAbstractConnexion
     protected void addSupportingFiles() {
         supportingFiles.add(new SupportingFile("conftest.mustache", testPackage, "conftest.py"));
         supportingFiles.add(new SupportingFile("__init__test.mustache", testPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__main.mustache", packageName, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__main.mustache", packagePath(), "__init__.py"));
     }
 }
