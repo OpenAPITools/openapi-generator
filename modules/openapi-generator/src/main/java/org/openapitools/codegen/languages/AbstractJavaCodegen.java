@@ -1349,10 +1349,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         this.supportJava6 = value;
     }
 
+    @Override
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
     }
 
+    @Override
     public boolean convertPropertyToBoolean(String propertyKey) {
         boolean booleanValue = false;
         if (additionalProperties.containsKey(propertyKey)) {
@@ -1362,6 +1364,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return booleanValue;
     }
 
+    @Override
     public void writePropertyBack(String propertyKey, boolean value) {
         additionalProperties.put(propertyKey, value);
     }
@@ -1386,6 +1389,33 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         return tag;
     }
+
+    /**
+     * Camelize the method name of the getter and setter
+     *
+     * @param name string to be camelized
+     * @return Camelized string
+     */
+    @Override
+    public String getterAndSetterCapitalize(String name) {
+        boolean lowercaseFirstLetter = false;
+        if (name == null || name.length() == 0) {
+            return name;
+        }
+        name = toVarName(name);
+        //
+        // Let the property name capitalized
+        // except when the first letter of the property name is lowercase and the second letter is uppercase
+        // Refer to section 8.8: Capitalization of inferred names of the JavaBeans API specification
+        // http://download.oracle.com/otn-pub/jcp/7224-javabeans-1.01-fr-spec-oth-JSpec/beans.101.pdf)
+        //
+        if (name.length() > 1 && Character.isLowerCase(name.charAt(0)) && Character.isUpperCase(name.charAt(1))) {
+            lowercaseFirstLetter = true;
+        }
+        return camelize(name, lowercaseFirstLetter);
+    }
+
+
 
     @Override
     public void postProcessFile(File file, String fileType) {
