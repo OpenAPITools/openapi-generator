@@ -215,7 +215,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey(USE_ES6)) {
             setUseES6(convertPropertyToBooleanAndWriteBack(USE_ES6));
         } else {
-            setUseES6(false); // default to ES5
+            setUseES6(true); // default to ES6
         }
         super.processOpts();
 
