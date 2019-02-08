@@ -199,13 +199,13 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             additionalProperties.put(SUPPORT_PYTHON2, Boolean.TRUE);
             typeMapping.put("long", "long");
         }
-        supportingFiles.add(new SupportingFile("__main__.mustache", packageName, "__main__.py"));
-        supportingFiles.add(new SupportingFile("util.mustache", packageName, "util.py"));
-        supportingFiles.add(new SupportingFile("__init__.mustache", packageName + File.separatorChar + controllerPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("security_controller_.mustache", packageName + File.separatorChar + controllerPackage, "security_controller_.py"));
-        supportingFiles.add(new SupportingFile("__init__model.mustache", packageName + File.separatorChar + modelPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("base_model_.mustache", packageName + File.separatorChar + modelPackage, "base_model_.py"));
-        supportingFiles.add(new SupportingFile("openapi.mustache", packageName + File.separatorChar + "openapi", "openapi.yaml"));
+        supportingFiles.add(new SupportingFile("__main__.mustache", packagePath(), "__main__.py"));
+        supportingFiles.add(new SupportingFile("util.mustache", packagePath(), "util.py"));
+        supportingFiles.add(new SupportingFile("__init__.mustache", packagePath() + File.separatorChar + controllerPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("security_controller_.mustache", packagePath() + File.separatorChar + controllerPackage, "security_controller_.py"));
+        supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + modelPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("base_model_.mustache", packagePath() + File.separatorChar + modelPackage, "base_model_.py"));
+        supportingFiles.add(new SupportingFile("openapi.mustache", packagePath() + File.separatorChar + "openapi", "openapi.yaml"));
         addSupportingFiles();
 
         modelPackage = packageName + "." + modelPackage;
@@ -714,6 +714,9 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
         this.packageVersion = packageVersion;
     }
 
+    public String packagePath() {
+        return packageName.replace('.', File.separatorChar);
+    }
 
     @Override
     public String escapeQuotationMark(String input) {
