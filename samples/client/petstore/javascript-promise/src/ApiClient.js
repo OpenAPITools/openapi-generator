@@ -137,7 +137,7 @@
     var url = this.basePath + path;
 
     // use API (operation, path) base path if defined
-    if (apiBasePath !== undefined) {
+    if (apiBasePath !== null && apiBasePath !== undefined) {
         url = apiBasePath + path;
     }
 
