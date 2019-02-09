@@ -174,7 +174,7 @@ Class | Method | HTTP request | Description
 
 ## bearer_test
 
-- **Type**: Bearer authentication
+- **Type**: Bearer authentication (JWT)
 
 
 ## http_basic_test

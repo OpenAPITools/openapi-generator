@@ -17,7 +17,7 @@ class UserCreateWithArray
 {
     /**
      * Creates list of users with given input array
-     * @PHA\handlePost
+     * @PHA\Post()
      * TODO check if attribute is valid and can handle your container type
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":"\App\DTO\User[]","objectAttr":"bodyData"})
      * @param ServerRequestInterface $request

@@ -17,7 +17,7 @@ class UserUsername
 {
     /**
      * Delete user
-     * @PHA\handleDelete
+     * @PHA\Delete()
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 501 if the method is not implemented
@@ -29,7 +29,7 @@ class UserUsername
     }
     /**
      * Get user by user name
-     * @PHA\handleGet
+     * @PHA\Get()
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml")
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
@@ -47,7 +47,7 @@ class UserUsername
     }
     /**
      * Updated user
-     * @PHA\handlePut
+     * @PHA\Put()
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\User::class,"objectAttr":"bodyData"})
      * @param ServerRequestInterface $request
      *

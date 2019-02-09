@@ -2791,7 +2791,7 @@ class FakeApi
             }
         }
 
-        // this endpoint requires Bearer authentication (access token)
+        // this endpoint requires Bearer (JWT) authentication (access token)
         if ($this->config->getAccessToken() !== null) {
             $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
         }

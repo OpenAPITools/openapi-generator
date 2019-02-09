@@ -17,7 +17,7 @@ class Fake
 {
     /**
      * To test \&quot;client\&quot; model
-     * @PHA\handlePatch
+     * @PHA\Patch()
      * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Consumer(name=PHConsumer\Json::class, mediaType="application/json")
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":\App\DTO\Client::class,"objectAttr":"bodyData"})
@@ -38,7 +38,7 @@ class Fake
     }
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
-     * @PHA\handlePost
+     * @PHA\Post()
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 501 if the method is not implemented
@@ -50,7 +50,7 @@ class Fake
     }
     /**
      * To test enum parameters
-     * @PHA\handleGet
+     * @PHA\Get()
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 501 if the method is not implemented
@@ -62,7 +62,7 @@ class Fake
     }
     /**
      * Fake endpoint to test group parameters (optional)
-     * @PHA\handleDelete
+     * @PHA\Delete()
      * @param ServerRequestInterface $request
      *
      * @throws PHException\HttpCode 501 if the method is not implemented

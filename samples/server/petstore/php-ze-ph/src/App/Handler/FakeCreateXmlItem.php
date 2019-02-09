@@ -17,7 +17,7 @@ class FakeCreateXmlItem
 {
     /**
      * creates an XmlItem
-     * @PHA\handlePost
+     * @PHA\Post()
      * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Consumer(name=PHConsumer\Json::class, mediaType="application/xml")
      * TODO check if consumer is valid, if it has correct priority and if it can be moved to class annotation

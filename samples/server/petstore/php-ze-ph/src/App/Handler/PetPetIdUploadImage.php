@@ -17,7 +17,7 @@ class PetPetIdUploadImage
 {
     /**
      * uploads an image
-     * @PHA\handlePost
+     * @PHA\Post()
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/json")
      * @param ServerRequestInterface $request
