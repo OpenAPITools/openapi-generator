@@ -71,6 +71,10 @@ class FormatTest(object):
             password (str):
 
         Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wront type is input.
+                                Defaults to False
             integer (int): [optional]
             int32 (int): [optional]
             int64 (int): [optional]
@@ -80,12 +84,11 @@ class FormatTest(object):
             binary (file): [optional]
             date_time (datetime): [optional]
             uuid (str): [optional]
-
-        """  # noqa: E501
+        """
 
         self._data_store = {}
-
         self.discriminator = None
+        self._check_type = kwargs.get('_check_type') or False
         self.__setitem__('number', number)
         self.__setitem__('byte', byte)
         self.__setitem__('date', date)
@@ -103,8 +106,9 @@ class FormatTest(object):
             for child_key, child_value in six.iteritems(item):
                 child_key_types.add(self.recursive_type(child_key))
                 child_value_types.add(self.recursive_type(child_value))
-            if child_key_types != set(['str']):
-                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            # only allow empty dicts or dicts with str keys
+            if child_key_types not in [set(['str']), set()]:
+                raise TypeError('Invalid dict key type. All Openapi dict keys must be strings')
             child_value_types = '|'.join(sorted(list(child_value_types)))
             return "dict(str, {0})".format(child_value_types)
         elif item_type == list:
@@ -116,9 +120,35 @@ class FormatTest(object):
         else:
             return type(item).__name__
 
+    def valid_type(self, passed_type_str, required_type_str):
+        """Returns a boolean, True if passed_type is required_type"""
+        if passed_type_str == required_type_str:
+            return True
+        req_types, req_remainder = self.get_types_remainder(required_type_str)
+        passed_types, passed_remainder = self.get_types_remainder(passed_type_str)
+        if not passed_types.issubset(req_types):
+            return False
+        # passed_types is in req_types
+        if req_remainder == '':
+            return True
+        if (passed_types == set(['list']) and passed_remainder == '' and
+                all(char not in req_remainder for char in '([')):
+            # we have an empty list, and the inner required types are
+            # primitives like str, int etc, allow it
+            return True
+        return self.valid_type(passed_remainder, req_remainder)
+
+    def get_types_remainder(self, type_string):
+        container_types = [('dict(str, ', ')'), ('list[', ']')]
+        for type_prefix, type_suffix in container_types:
+            if type_string.startswith(type_prefix) and type_string.endswith(type_suffix):
+                return set([type_prefix[:4]]), type_string[len(type_prefix):-1]
+        type_set = set(type_string.split('|'))
+        return type_set, ''
+
     def __setitem__(self, name, value):
-        check_type = False
         if name in self.openapi_types:
+            check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
             raise KeyError("{0} has no key '{1}'".format(
@@ -127,14 +157,11 @@ class FormatTest(object):
         passed_type = self.recursive_type(value)
         if type(name) != str:
             raise TypeError('Variable name must be type string and %s was not' % name)
-        elif passed_type != required_type and check_type:
-            raise ValueError('Variable value must be type %s but you passed in %s' %
-                             (required_type, passed_type))
+        elif check_type and not self.valid_type(passed_type, required_type):
+            raise TypeError('Variable value must be type %s but you passed in %s' %
+                            (required_type, passed_type))
 
-        if name in self.openapi_types:
-            setattr(self, name, value)
-        else:
-            self._data_store[name] = value
+        self._data_store[name] = value
 
     def __getitem__(self, name):
         if name in self.openapi_types:
@@ -167,7 +194,7 @@ class FormatTest(object):
         if integer is not None and integer < 10:  # noqa: E501
             raise ValueError("Invalid value for `integer`, must be a value greater than or equal to `10`")  # noqa: E501
 
-        self._data_store['integer'] = integer
+        self.__setitem__('integer', integer)
 
     @property
     def int32(self):
@@ -192,7 +219,7 @@ class FormatTest(object):
         if int32 is not None and int32 < 20:  # noqa: E501
             raise ValueError("Invalid value for `int32`, must be a value greater than or equal to `20`")  # noqa: E501
 
-        self._data_store['int32'] = int32
+        self.__setitem__('int32', int32)
 
     @property
     def int64(self):
@@ -213,7 +240,7 @@ class FormatTest(object):
         :type: int
         """
 
-        self._data_store['int64'] = int64
+        self.__setitem__('int64', int64)
 
     @property
     def number(self):
@@ -240,7 +267,7 @@ class FormatTest(object):
         if number is not None and number < 32.1:  # noqa: E501
             raise ValueError("Invalid value for `number`, must be a value greater than or equal to `32.1`")  # noqa: E501
 
-        self._data_store['number'] = number
+        self.__setitem__('number', number)
 
     @property
     def float(self):
@@ -265,7 +292,7 @@ class FormatTest(object):
         if float is not None and float < 54.3:  # noqa: E501
             raise ValueError("Invalid value for `float`, must be a value greater than or equal to `54.3`")  # noqa: E501
 
-        self._data_store['float'] = float
+        self.__setitem__('float', float)
 
     @property
     def double(self):
@@ -290,7 +317,7 @@ class FormatTest(object):
         if double is not None and double < 67.8:  # noqa: E501
             raise ValueError("Invalid value for `double`, must be a value greater than or equal to `67.8`")  # noqa: E501
 
-        self._data_store['double'] = double
+        self.__setitem__('double', double)
 
     @property
     def string(self):
@@ -313,7 +340,7 @@ class FormatTest(object):
         if string is not None and not re.search(r'', string):  # noqa: E501
             raise ValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
 
-        self._data_store['string'] = string
+        self.__setitem__('string', string)
 
     @property
     def byte(self):
@@ -338,7 +365,7 @@ class FormatTest(object):
         if byte is not None and not re.search(r'', byte):  # noqa: E501
             raise ValueError(r"Invalid value for `byte`, must be a follow pattern or equal to `/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/`")  # noqa: E501
 
-        self._data_store['byte'] = byte
+        self.__setitem__('byte', byte)
 
     @property
     def binary(self):
@@ -359,7 +386,7 @@ class FormatTest(object):
         :type: file
         """
 
-        self._data_store['binary'] = binary
+        self.__setitem__('binary', binary)
 
     @property
     def date(self):
@@ -382,7 +409,7 @@ class FormatTest(object):
         if date is None:
             raise ValueError("Invalid value for `date`, must not be `None`")  # noqa: E501
 
-        self._data_store['date'] = date
+        self.__setitem__('date', date)
 
     @property
     def date_time(self):
@@ -403,7 +430,7 @@ class FormatTest(object):
         :type: datetime
         """
 
-        self._data_store['date_time'] = date_time
+        self.__setitem__('date_time', date_time)
 
     @property
     def uuid(self):
@@ -424,7 +451,7 @@ class FormatTest(object):
         :type: str
         """
 
-        self._data_store['uuid'] = uuid
+        self.__setitem__('uuid', uuid)
 
     @property
     def password(self):
@@ -451,7 +478,7 @@ class FormatTest(object):
         if password is not None and len(password) < 10:
             raise ValueError("Invalid value for `password`, length must be greater than or equal to `10`")  # noqa: E501
 
-        self._data_store['password'] = password
+        self.__setitem__('password', password)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

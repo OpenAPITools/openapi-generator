@@ -1437,14 +1437,50 @@ definitions:
       property_anytype_3:
         type: object
         properties: {}
-    additionalProperties:
-      type: object
   AdditionalPropertiesString:
+    type: object
     properties:
       name:
         type: string
     additionalProperties:
       type: string
+  AdditionalPropertiesInteger:
+    type: object
+    properties:
+      name:
+        type: string
+    additionalProperties:
+      type: integer
+  AdditionalPropertiesNumber:
+    type: object
+    properties:
+      name:
+        type: string
+    additionalProperties:
+      type: number
+  AdditionalPropertiesBoolean:
+    type: object
+    properties:
+      name:
+        type: string
+    additionalProperties:
+      type: boolean
+  AdditionalPropertiesArray:
+    type: object
+    properties:
+      name:
+        type: string
+    additionalProperties:
+      type: array
+      items:
+        type: object
+  AdditionalPropertiesObject:
+    type: object
+    properties:
+      name:
+        type: string
+    additionalProperties:
+      type: object
   MixedPropertiesAndAdditionalPropertiesClass:
     type: object
     properties:

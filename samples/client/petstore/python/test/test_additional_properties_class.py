@@ -17,7 +17,7 @@ import unittest
 import petstore_api
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass  # noqa: E501
 from petstore_api.rest import ApiException
-
+from test import get_examples
 
 class TestAdditionalPropertiesClass(unittest.TestCase):
     """AdditionalPropertiesClass unit test stubs"""
@@ -28,42 +28,33 @@ class TestAdditionalPropertiesClass(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_empty_instance(self):
-        a = AdditionalPropertiesClass()
-        self.assertEqual(a.to_dict(), {})
+    def test_addl_props_can_have_any_valye_type_assigned(self):
+        for var_name in get_examples(['str']):
+            for var_value in get_examples(['int', 'str', 'float', 'bool', 'list', 'dict']):
+                keyword_args = {var_name: var_value}
+                a = AdditionalPropertiesClass(**keyword_args)
+                b = AdditionalPropertiesClass()
+                b[var_name] = var_value
+        assert True
 
-    def test_set_get_additional_property(self):
-        a = AdditionalPropertiesClass(var_1='value_1')
-        self.assertEqual(a.to_dict(), {'var_1': 'value_1'})
-        self.assertEqual(a['var_1'], 'value_1')
-
-    def test_set_change_get_additional_property(self):
-        a = AdditionalPropertiesClass(var_1='value_1')
-        a['var_1'] = 'new value'
-        self.assertEqual(a['var_1'], 'new value')
-
-    def test_access_both_props_with_brackets(self):
-        var_1_val = 'value_1'
-        map_property_val = {'a': 'b'}
-        a = AdditionalPropertiesClass(var_1=var_1_val, map_property=map_property_val)
-        self.assertEqual(a['var_1'], var_1_val)
-        self.assertEqual(a['map_property'], map_property_val)
-
-    def test_errors_thrown_on_wrong_addl_props_input(self):
-        with self.assertRaises(ValueError):
-            AdditionalPropertiesClass(var_1=7)
-
-        with self.assertRaises(ValueError):
-            a = AdditionalPropertiesClass()
-            a['var_1'] = 7
-
-        with self.assertRaises(ValueError):
-            a = AdditionalPropertiesClass()
-            a['var_1'] = True
+    def test_errors_thrown_on_wrong_addl_props_value_type(self):
+        var_name = 'var1'
+        var_value = None
+        keyword_args = {var_name: var_value}
+        with self.assertRaises(TypeError):
+            AdditionalPropertiesClass(**keyword_args)
 
         with self.assertRaises(TypeError):
             a = AdditionalPropertiesClass()
-            a[2] = 'what'
+            a[var_name] = var_value
+
+    def test_errors_thrown_on_wrong_var_name_type(self):
+        var_names = get_examples(['int', 'float', 'bool', 'None'])
+        for var_name in var_names:
+            with self.assertRaises(TypeError):
+                a = AdditionalPropertiesClass()
+                a[var_name] = 'some string'
+
 
 if __name__ == '__main__':
     unittest.main()

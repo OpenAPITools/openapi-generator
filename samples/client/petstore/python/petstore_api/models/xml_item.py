@@ -99,6 +99,10 @@ class XmlItem(object):
 
 
         Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wront type is input.
+                                Defaults to False
             attribute_string (str): [optional] if omitted the server will use the default value of 'string'
             attribute_number (float): [optional] if omitted the server will use the default value of 1.234
             attribute_integer (int): [optional] if omitted the server will use the default value of -2
@@ -128,12 +132,11 @@ class XmlItem(object):
             prefix_ns_boolean (bool): [optional] if omitted the server will use the default value of True
             prefix_ns_array (list[int]): [optional]
             prefix_ns_wrapped_array (list[int]): [optional]
-
-        """  # noqa: E501
+        """
 
         self._data_store = {}
-
         self.discriminator = None
+        self._check_type = kwargs.get('_check_type') or False
 
         for var_name, var_value in six.iteritems(kwargs):
             self.__setitem__(var_name, var_value)
@@ -147,8 +150,9 @@ class XmlItem(object):
             for child_key, child_value in six.iteritems(item):
                 child_key_types.add(self.recursive_type(child_key))
                 child_value_types.add(self.recursive_type(child_value))
-            if child_key_types != set(['str']):
-                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            # only allow empty dicts or dicts with str keys
+            if child_key_types not in [set(['str']), set()]:
+                raise TypeError('Invalid dict key type. All Openapi dict keys must be strings')
             child_value_types = '|'.join(sorted(list(child_value_types)))
             return "dict(str, {0})".format(child_value_types)
         elif item_type == list:
@@ -160,9 +164,35 @@ class XmlItem(object):
         else:
             return type(item).__name__
 
+    def valid_type(self, passed_type_str, required_type_str):
+        """Returns a boolean, True if passed_type is required_type"""
+        if passed_type_str == required_type_str:
+            return True
+        req_types, req_remainder = self.get_types_remainder(required_type_str)
+        passed_types, passed_remainder = self.get_types_remainder(passed_type_str)
+        if not passed_types.issubset(req_types):
+            return False
+        # passed_types is in req_types
+        if req_remainder == '':
+            return True
+        if (passed_types == set(['list']) and passed_remainder == '' and
+                all(char not in req_remainder for char in '([')):
+            # we have an empty list, and the inner required types are
+            # primitives like str, int etc, allow it
+            return True
+        return self.valid_type(passed_remainder, req_remainder)
+
+    def get_types_remainder(self, type_string):
+        container_types = [('dict(str, ', ')'), ('list[', ']')]
+        for type_prefix, type_suffix in container_types:
+            if type_string.startswith(type_prefix) and type_string.endswith(type_suffix):
+                return set([type_prefix[:4]]), type_string[len(type_prefix):-1]
+        type_set = set(type_string.split('|'))
+        return type_set, ''
+
     def __setitem__(self, name, value):
-        check_type = False
         if name in self.openapi_types:
+            check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
             raise KeyError("{0} has no key '{1}'".format(
@@ -171,14 +201,11 @@ class XmlItem(object):
         passed_type = self.recursive_type(value)
         if type(name) != str:
             raise TypeError('Variable name must be type string and %s was not' % name)
-        elif passed_type != required_type and check_type:
-            raise ValueError('Variable value must be type %s but you passed in %s' %
-                             (required_type, passed_type))
+        elif check_type and not self.valid_type(passed_type, required_type):
+            raise TypeError('Variable value must be type %s but you passed in %s' %
+                            (required_type, passed_type))
 
-        if name in self.openapi_types:
-            setattr(self, name, value)
-        else:
-            self._data_store[name] = value
+        self._data_store[name] = value
 
     def __getitem__(self, name):
         if name in self.openapi_types:
@@ -207,7 +234,7 @@ class XmlItem(object):
         :type: str
         """
 
-        self._data_store['attribute_string'] = attribute_string
+        self.__setitem__('attribute_string', attribute_string)
 
     @property
     def attribute_number(self):
@@ -228,7 +255,7 @@ class XmlItem(object):
         :type: float
         """
 
-        self._data_store['attribute_number'] = attribute_number
+        self.__setitem__('attribute_number', attribute_number)
 
     @property
     def attribute_integer(self):
@@ -249,7 +276,7 @@ class XmlItem(object):
         :type: int
         """
 
-        self._data_store['attribute_integer'] = attribute_integer
+        self.__setitem__('attribute_integer', attribute_integer)
 
     @property
     def attribute_boolean(self):
@@ -270,7 +297,7 @@ class XmlItem(object):
         :type: bool
         """
 
-        self._data_store['attribute_boolean'] = attribute_boolean
+        self.__setitem__('attribute_boolean', attribute_boolean)
 
     @property
     def wrapped_array(self):
@@ -291,7 +318,7 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._data_store['wrapped_array'] = wrapped_array
+        self.__setitem__('wrapped_array', wrapped_array)
 
     @property
     def name_string(self):
@@ -312,7 +339,7 @@ class XmlItem(object):
         :type: str
         """
 
-        self._data_store['name_string'] = name_string
+        self.__setitem__('name_string', name_string)
 
     @property
     def name_number(self):
@@ -333,7 +360,7 @@ class XmlItem(object):
         :type: float
         """
 
-        self._data_store['name_number'] = name_number
+        self.__setitem__('name_number', name_number)
 
     @property
     def name_integer(self):
@@ -354,7 +381,7 @@ class XmlItem(object):
         :type: int
         """
 
-        self._data_store['name_integer'] = name_integer
+        self.__setitem__('name_integer', name_integer)
 
     @property
     def name_boolean(self):
@@ -375,7 +402,7 @@ class XmlItem(object):
         :type: bool
         """
 
-        self._data_store['name_boolean'] = name_boolean
+        self.__setitem__('name_boolean', name_boolean)
 
     @property
     def name_array(self):
@@ -396,7 +423,7 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._data_store['name_array'] = name_array
+        self.__setitem__('name_array', name_array)
 
     @property
     def name_wrapped_array(self):
@@ -417,7 +444,7 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._data_store['name_wrapped_array'] = name_wrapped_array
+        self.__setitem__('name_wrapped_array', name_wrapped_array)
 
     @property
     def prefix_string(self):
@@ -438,7 +465,7 @@ class XmlItem(object):
         :type: str
         """
 
-        self._data_store['prefix_string'] = prefix_string
+        self.__setitem__('prefix_string', prefix_string)
 
     @property
     def prefix_number(self):
@@ -459,7 +486,7 @@ class XmlItem(object):
         :type: float
         """
 
-        self._data_store['prefix_number'] = prefix_number
+        self.__setitem__('prefix_number', prefix_number)
 
     @property
     def prefix_integer(self):
@@ -480,7 +507,7 @@ class XmlItem(object):
         :type: int
         """
 
-        self._data_store['prefix_integer'] = prefix_integer
+        self.__setitem__('prefix_integer', prefix_integer)
 
     @property
     def prefix_boolean(self):
@@ -501,7 +528,7 @@ class XmlItem(object):
         :type: bool
         """
 
-        self._data_store['prefix_boolean'] = prefix_boolean
+        self.__setitem__('prefix_boolean', prefix_boolean)
 
     @property
     def prefix_array(self):
@@ -522,7 +549,7 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._data_store['prefix_array'] = prefix_array
+        self.__setitem__('prefix_array', prefix_array)
 
     @property
     def prefix_wrapped_array(self):
@@ -543,7 +570,7 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._data_store['prefix_wrapped_array'] = prefix_wrapped_array
+        self.__setitem__('prefix_wrapped_array', prefix_wrapped_array)
 
     @property
     def namespace_string(self):
@@ -564,7 +591,7 @@ class XmlItem(object):
         :type: str
         """
 
-        self._data_store['namespace_string'] = namespace_string
+        self.__setitem__('namespace_string', namespace_string)
 
     @property
     def namespace_number(self):
@@ -585,7 +612,7 @@ class XmlItem(object):
         :type: float
         """
 
-        self._data_store['namespace_number'] = namespace_number
+        self.__setitem__('namespace_number', namespace_number)
 
     @property
     def namespace_integer(self):
@@ -606,7 +633,7 @@ class XmlItem(object):
         :type: int
         """
 
-        self._data_store['namespace_integer'] = namespace_integer
+        self.__setitem__('namespace_integer', namespace_integer)
 
     @property
     def namespace_boolean(self):
@@ -627,7 +654,7 @@ class XmlItem(object):
         :type: bool
         """
 
-        self._data_store['namespace_boolean'] = namespace_boolean
+        self.__setitem__('namespace_boolean', namespace_boolean)
 
     @property
     def namespace_array(self):
@@ -648,7 +675,7 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._data_store['namespace_array'] = namespace_array
+        self.__setitem__('namespace_array', namespace_array)
 
     @property
     def namespace_wrapped_array(self):
@@ -669,7 +696,7 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._data_store['namespace_wrapped_array'] = namespace_wrapped_array
+        self.__setitem__('namespace_wrapped_array', namespace_wrapped_array)
 
     @property
     def prefix_ns_string(self):
@@ -690,7 +717,7 @@ class XmlItem(object):
         :type: str
         """
 
-        self._data_store['prefix_ns_string'] = prefix_ns_string
+        self.__setitem__('prefix_ns_string', prefix_ns_string)
 
     @property
     def prefix_ns_number(self):
@@ -711,7 +738,7 @@ class XmlItem(object):
         :type: float
         """
 
-        self._data_store['prefix_ns_number'] = prefix_ns_number
+        self.__setitem__('prefix_ns_number', prefix_ns_number)
 
     @property
     def prefix_ns_integer(self):
@@ -732,7 +759,7 @@ class XmlItem(object):
         :type: int
         """
 
-        self._data_store['prefix_ns_integer'] = prefix_ns_integer
+        self.__setitem__('prefix_ns_integer', prefix_ns_integer)
 
     @property
     def prefix_ns_boolean(self):
@@ -753,7 +780,7 @@ class XmlItem(object):
         :type: bool
         """
 
-        self._data_store['prefix_ns_boolean'] = prefix_ns_boolean
+        self.__setitem__('prefix_ns_boolean', prefix_ns_boolean)
 
     @property
     def prefix_ns_array(self):
@@ -774,7 +801,7 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._data_store['prefix_ns_array'] = prefix_ns_array
+        self.__setitem__('prefix_ns_array', prefix_ns_array)
 
     @property
     def prefix_ns_wrapped_array(self):
@@ -795,7 +822,7 @@ class XmlItem(object):
         :type: list[int]
         """
 
-        self._data_store['prefix_ns_wrapped_array'] = prefix_ns_wrapped_array
+        self.__setitem__('prefix_ns_wrapped_array', prefix_ns_wrapped_array)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

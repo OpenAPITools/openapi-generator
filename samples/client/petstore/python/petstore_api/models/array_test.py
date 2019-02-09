@@ -47,15 +47,18 @@ class ArrayTest(object):
 
 
         Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wront type is input.
+                                Defaults to False
             array_of_string (list[str]): [optional]
             array_array_of_integer (list[list[int]]): [optional]
             array_array_of_model (list[list[ReadOnlyFirst]]): [optional]
-
-        """  # noqa: E501
+        """
 
         self._data_store = {}
-
         self.discriminator = None
+        self._check_type = kwargs.get('_check_type') or False
 
         for var_name, var_value in six.iteritems(kwargs):
             self.__setitem__(var_name, var_value)
@@ -69,8 +72,9 @@ class ArrayTest(object):
             for child_key, child_value in six.iteritems(item):
                 child_key_types.add(self.recursive_type(child_key))
                 child_value_types.add(self.recursive_type(child_value))
-            if child_key_types != set(['str']):
-                raise ValueError('Invalid dict key type. All Openapi dict keys must be strings')
+            # only allow empty dicts or dicts with str keys
+            if child_key_types not in [set(['str']), set()]:
+                raise TypeError('Invalid dict key type. All Openapi dict keys must be strings')
             child_value_types = '|'.join(sorted(list(child_value_types)))
             return "dict(str, {0})".format(child_value_types)
         elif item_type == list:
@@ -82,9 +86,35 @@ class ArrayTest(object):
         else:
             return type(item).__name__
 
+    def valid_type(self, passed_type_str, required_type_str):
+        """Returns a boolean, True if passed_type is required_type"""
+        if passed_type_str == required_type_str:
+            return True
+        req_types, req_remainder = self.get_types_remainder(required_type_str)
+        passed_types, passed_remainder = self.get_types_remainder(passed_type_str)
+        if not passed_types.issubset(req_types):
+            return False
+        # passed_types is in req_types
+        if req_remainder == '':
+            return True
+        if (passed_types == set(['list']) and passed_remainder == '' and
+                all(char not in req_remainder for char in '([')):
+            # we have an empty list, and the inner required types are
+            # primitives like str, int etc, allow it
+            return True
+        return self.valid_type(passed_remainder, req_remainder)
+
+    def get_types_remainder(self, type_string):
+        container_types = [('dict(str, ', ')'), ('list[', ']')]
+        for type_prefix, type_suffix in container_types:
+            if type_string.startswith(type_prefix) and type_string.endswith(type_suffix):
+                return set([type_prefix[:4]]), type_string[len(type_prefix):-1]
+        type_set = set(type_string.split('|'))
+        return type_set, ''
+
     def __setitem__(self, name, value):
-        check_type = False
         if name in self.openapi_types:
+            check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
             raise KeyError("{0} has no key '{1}'".format(
@@ -93,14 +123,11 @@ class ArrayTest(object):
         passed_type = self.recursive_type(value)
         if type(name) != str:
             raise TypeError('Variable name must be type string and %s was not' % name)
-        elif passed_type != required_type and check_type:
-            raise ValueError('Variable value must be type %s but you passed in %s' %
-                             (required_type, passed_type))
+        elif check_type and not self.valid_type(passed_type, required_type):
+            raise TypeError('Variable value must be type %s but you passed in %s' %
+                            (required_type, passed_type))
 
-        if name in self.openapi_types:
-            setattr(self, name, value)
-        else:
-            self._data_store[name] = value
+        self._data_store[name] = value
 
     def __getitem__(self, name):
         if name in self.openapi_types:
@@ -129,7 +156,7 @@ class ArrayTest(object):
         :type: list[str]
         """
 
-        self._data_store['array_of_string'] = array_of_string
+        self.__setitem__('array_of_string', array_of_string)
 
     @property
     def array_array_of_integer(self):
@@ -150,7 +177,7 @@ class ArrayTest(object):
         :type: list[list[int]]
         """
 
-        self._data_store['array_array_of_integer'] = array_array_of_integer
+        self.__setitem__('array_array_of_integer', array_array_of_integer)
 
     @property
     def array_array_of_model(self):
@@ -171,7 +198,7 @@ class ArrayTest(object):
         :type: list[list[ReadOnlyFirst]]
         """
 
-        self._data_store['array_array_of_model'] = array_array_of_model
+        self.__setitem__('array_array_of_model', array_array_of_model)
 
     def to_dict(self):
         """Returns the model properties as a dict"""

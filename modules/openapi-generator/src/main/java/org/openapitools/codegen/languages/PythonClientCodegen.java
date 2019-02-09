@@ -307,7 +307,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
             for (Map<String, Object> mo : models) {
                 CodegenModel cm = (CodegenModel) mo.get("model");
-                cm.additionalProperties.dataType = getCodegenPropertyDataType(cm.additionalProperties);
+                if (cm.additionalProperties != null) {
+                    cm.additionalProperties.dataType = getCodegenPropertyDataType(cm.additionalProperties);
+                }
                 for (CodegenProperty cp : cm.allVars) {
                     cp.dataType = getCodegenPropertyDataType(cp);
                 }
@@ -325,7 +327,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public String getCodegenPropertyDataType(CodegenProperty cp) {
         if (cp.jsonSchema.equals("{\n  \"type\" : \"object\",\n  \"properties\" : { }\n}") ||
-                cp.jsonSchema.equals("{\n  \"type\" : \"object\"\n}")) {
+                 cp.jsonSchema.equals("{\n  \"type\" : \"object\"\n}")) {
             return "str|float|int|bool|list|dict";
         } else if (cp.isMapContainer && cp.items != null) {
             return "dict(str, " + getCodegenPropertyDataType(cp.items) + ")";
