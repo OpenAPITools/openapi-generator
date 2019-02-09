@@ -1,0 +1,23 @@
+openapi: 3.0.1
+paths:
+  /test:
+    summary: test
+info:
+  description: test
+  version: 1.0.0
+  title: test
+components:
+  schemas:
+    Type:
+      properties:
+        prop:
+          nullable: true
+          enum: [A, B, C]
+          type: string
+        prop2:
+          enum: [A, B, C, null]
+          type: string
+        prop3:
+          nullable: true
+          enum: []
+          type: string
