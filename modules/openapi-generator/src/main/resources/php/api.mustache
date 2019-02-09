@@ -55,7 +55,7 @@ use {{invokerPackage}}\ObjectSerializer;
     protected $headerSelector;
 
     /**
-     * @var Host index
+     * @var int Host index
      */
     protected $hostIndex;
 
@@ -63,7 +63,7 @@ use {{invokerPackage}}\ObjectSerializer;
      * @param ClientInterface $client
      * @param Configuration   $config
      * @param HeaderSelector  $selector
-     * @param int             $host_index
+     * @param int             $host_index (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
@@ -121,6 +121,15 @@ use {{invokerPackage}}\ObjectSerializer;
      * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
 {{/vendorExtensions.x-group-parameters}}
+{{#servers}}
+{{#-first}}
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+{{/-first}}
+     * URL: {{{url}}}
+{{#-last}}
+     *
+{{/-last}}
+{{/servers}}
 {{#allParams}}
      * @param  {{dataType}} ${{paramName}}{{#description}} {{description}}{{/description}}{{^description}} {{paramName}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
@@ -147,9 +156,18 @@ use {{invokerPackage}}\ObjectSerializer;
      *
 {{/description}}
 {{#vendorExtensions.x-group-parameters}}
-     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
 {{/vendorExtensions.x-group-parameters}}
+{{#servers}}
+{{#-first}}
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+{{/-first}}
+     * URL: {{{url}}}
+{{#-last}}
+     *
+{{/-last}}
+{{/servers}}
 {{#allParams}}
      * @param  {{dataType}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
@@ -263,9 +281,18 @@ use {{invokerPackage}}\ObjectSerializer;
      *
 {{/description}}
 {{#vendorExtensions.x-group-parameters}}
-     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
 {{/vendorExtensions.x-group-parameters}}
+{{#servers}}
+{{#-first}}
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+{{/-first}}
+     * URL: {{{url}}}
+{{#-last}}
+     *
+{{/-last}}
+{{/servers}}
 {{#allParams}}
      * @param  {{dataType}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
@@ -293,9 +320,18 @@ use {{invokerPackage}}\ObjectSerializer;
      *
 {{/description}}
 {{#vendorExtensions.x-group-parameters}}
-     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
 {{/vendorExtensions.x-group-parameters}}
+{{#servers}}
+{{#-first}}
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+{{/-first}}
+     * URL: {{{url}}}
+{{#-last}}
+     *
+{{/-last}}
+{{/servers}}
 {{#allParams}}
      * @param  {{dataType}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}
@@ -354,6 +390,15 @@ use {{invokerPackage}}\ObjectSerializer;
      * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
 {{/vendorExtensions.x-group-parameters}}
+{{#servers}}
+{{#-first}}
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+{{/-first}}
+     * URL: {{{url}}}
+{{#-last}}
+     *
+{{/-last}}
+{{/servers}}
 {{#allParams}}
      * @param  {{dataType}} ${{paramName}}{{#description}} {{description}}{{/description}} {{#required}}(required){{/required}}{{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}

@@ -65,7 +65,7 @@ class AnotherFakeApi
     protected $headerSelector;
 
     /**
-     * @var Host index
+     * @var int Host index
      */
     protected $hostIndex;
 
@@ -73,7 +73,7 @@ class AnotherFakeApi
      * @param ClientInterface $client
      * @param Configuration   $config
      * @param HeaderSelector  $selector
-     * @param int             $host_index
+     * @param int             $host_index (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
