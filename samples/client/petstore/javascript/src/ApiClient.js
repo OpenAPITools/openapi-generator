@@ -123,18 +123,24 @@
     return param.toString();
   };
 
-  /**
+ /**
    * Builds full URL by appending the given path to the base URL and replacing path parameter place-holders with parameter values.
    * NOTE: query parameters are not handled here.
    * @param {String} path The path to append to the base URL.
    * @param {Object} pathParams The parameter values to append.
    * @returns {String} The encoded path with parameter values substituted.
    */
-  exports.prototype.buildUrl = function(path, pathParams) {
+  exports.prototype.buildUrl = function(path, pathParams, apiBasePath) {
     if (!path.match(/^\//)) {
       path = '/' + path;
     }
     var url = this.basePath + path;
+
+    // use API (operation, path) base path if defined
+    if (apiBasePath !== null && apiBasePath !== undefined) {
+        url = apiBasePath + path;
+    }
+
     var _this = this;
     url = url.replace(/\{([\w-]+)\}/g, function(fullMatch, key) {
       var value;
@@ -391,10 +397,10 @@
    */
   exports.prototype.callApi = function callApi(path, httpMethod, pathParams,
       queryParams, collectionQueryParams, headerParams, formParams, bodyParam, authNames, contentTypes, accepts,
-      returnType, callback) {
+      returnType, apiBasePath, callback) {
 
     var _this = this;
-    var url = this.buildUrl(path, pathParams);
+    var url = this.buildUrl(path, pathParams, apiBasePath);
     var request = superagent(httpMethod, url);
 
     if (this.plugins !== null) {

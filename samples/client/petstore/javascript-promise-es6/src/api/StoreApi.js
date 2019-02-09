@@ -43,12 +43,10 @@ export default class StoreApi {
      */
     deleteOrderWithHttpInfo(orderId) {
       let postBody = null;
-
       // verify the required parameter 'orderId' is set
       if (orderId === undefined || orderId === null) {
         throw new Error("Missing the required parameter 'orderId' when calling deleteOrder");
       }
-
 
       let pathParams = {
         'order_id': orderId
@@ -64,11 +62,10 @@ export default class StoreApi {
       let contentTypes = [];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/store/order/{order_id}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -94,7 +91,6 @@ export default class StoreApi {
     getInventoryWithHttpInfo() {
       let postBody = null;
 
-
       let pathParams = {
       };
       let queryParams = {
@@ -108,11 +104,10 @@ export default class StoreApi {
       let contentTypes = [];
       let accepts = ['application/json'];
       let returnType = {'String': 'Number'};
-
       return this.apiClient.callApi(
         '/store/inventory', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -137,12 +132,10 @@ export default class StoreApi {
      */
     getOrderByIdWithHttpInfo(orderId) {
       let postBody = null;
-
       // verify the required parameter 'orderId' is set
       if (orderId === undefined || orderId === null) {
         throw new Error("Missing the required parameter 'orderId' when calling getOrderById");
       }
-
 
       let pathParams = {
         'order_id': orderId
@@ -158,11 +151,10 @@ export default class StoreApi {
       let contentTypes = [];
       let accepts = ['application/xml', 'application/json'];
       let returnType = Order;
-
       return this.apiClient.callApi(
         '/store/order/{order_id}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -187,12 +179,10 @@ export default class StoreApi {
      */
     placeOrderWithHttpInfo(body) {
       let postBody = body;
-
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling placeOrder");
       }
-
 
       let pathParams = {
       };
@@ -207,11 +197,10 @@ export default class StoreApi {
       let contentTypes = [];
       let accepts = ['application/xml', 'application/json'];
       let returnType = Order;
-
       return this.apiClient.callApi(
         '/store/order', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
