@@ -24,7 +24,7 @@ For valid response try integer IDs with value &lt; 1000. Anything above 1000 or 
 //import org.openapitools.client.api.StoreApi;
 
 StoreApi apiInstance = new StoreApi();
-String orderId = "orderId_example"; // String | ID of the order that needs to be deleted
+String orderId = null; // String | ID of the order that needs to be deleted
 try {
     apiInstance.deleteOrder(orderId);
 } catch (ApiException e) {
@@ -37,7 +37,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of the order that needs to be deleted |
+ **orderId** | **String**| ID of the order that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -105,7 +105,7 @@ For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other val
 //import org.openapitools.client.api.StoreApi;
 
 StoreApi apiInstance = new StoreApi();
-Long orderId = 56L; // Long | ID of pet that needs to be fetched
+Long orderId = null; // Long | ID of pet that needs to be fetched
 try {
     Order result = apiInstance.getOrderById(orderId);
     System.out.println(result);
@@ -119,7 +119,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **Long**| ID of pet that needs to be fetched |
+ **orderId** | **Long**| ID of pet that needs to be fetched | [default to null]
 
 ### Return type
 

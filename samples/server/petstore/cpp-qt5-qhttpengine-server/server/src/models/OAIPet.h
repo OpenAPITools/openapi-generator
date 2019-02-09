@@ -36,7 +36,6 @@ public:
     OAIPet();
     OAIPet(QString json);
     ~OAIPet() override;
-    void init();
 
     QString asJson () const override;
     QJsonObject asJsonObject() const override;
@@ -62,26 +61,28 @@ public:
     void setStatus(const QString &status);
 
     virtual bool isSet() const override;
+    virtual bool isValid() const override;
 
 private:
+    void init();
     qint64 id;
     bool m_id_isSet;
-
+    bool m_id_isValid;
     OAICategory category;
     bool m_category_isSet;
-
+    bool m_category_isValid;
     QString name;
     bool m_name_isSet;
-
+    bool m_name_isValid;
     QList<QString> photo_urls;
     bool m_photo_urls_isSet;
-
+    bool m_photo_urls_isValid;
     QList<OAITag> tags;
     bool m_tags_isSet;
-
+    bool m_tags_isValid;
     QString status;
     bool m_status_isSet;
-
+    bool m_status_isValid;
 };
 
 }

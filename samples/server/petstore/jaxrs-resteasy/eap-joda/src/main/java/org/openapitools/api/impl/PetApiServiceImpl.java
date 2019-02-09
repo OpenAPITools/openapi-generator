@@ -18,7 +18,7 @@ import javax.ws.rs.core.SecurityContext;
 
 
 public class PetApiServiceImpl implements PetApi {
-      public Response addPet(Pet pet,SecurityContext securityContext) {
+      public Response addPet(Pet body,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }
@@ -38,7 +38,7 @@ public class PetApiServiceImpl implements PetApi {
       // do some magic!
       return Response.ok().build();
   }
-      public Response updatePet(Pet pet,SecurityContext securityContext) {
+      public Response updatePet(Pet body,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }

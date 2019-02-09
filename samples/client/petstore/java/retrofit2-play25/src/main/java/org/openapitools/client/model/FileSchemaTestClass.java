@@ -34,7 +34,7 @@ public class FileSchemaTestClass {
   private java.io.File file = null;
 
   @JsonProperty("files")
-  private List<java.io.File> files = null;
+  private List<java.io.File> files = new ArrayList<>();
 
   public FileSchemaTestClass file(java.io.File file) {
     this.file = file;
@@ -106,7 +106,6 @@ public class FileSchemaTestClass {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
-    
     sb.append("    file: ").append(toIndentedString(file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");

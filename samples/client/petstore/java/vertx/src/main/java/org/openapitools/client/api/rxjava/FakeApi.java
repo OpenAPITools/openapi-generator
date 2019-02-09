@@ -8,6 +8,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import java.util.*;
 
@@ -28,6 +29,27 @@ public class FakeApi {
 	    return delegate;
 	}
 
+    /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     * @param xmlItem XmlItem Body (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void createXmlItem(XmlItem xmlItem, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.createXmlItem(xmlItem, resultHandler);
+    }
+
+    /**
+     * creates an XmlItem
+     * this route creates an XmlItem
+     * @param xmlItem XmlItem Body (required)
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<Void> rxCreateXmlItem(XmlItem xmlItem) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.createXmlItem(xmlItem, fut);
+        }));
+    }
     /**
      * 
      * Test serialization of outer boolean types
@@ -52,22 +74,22 @@ public class FakeApi {
     /**
      * 
      * Test serialization of object with outer number type
-     * @param outerComposite Input composite as post body (optional)
+     * @param body Input composite as post body (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void fakeOuterCompositeSerialize(OuterComposite outerComposite, Handler<AsyncResult<OuterComposite>> resultHandler) {
-        delegate.fakeOuterCompositeSerialize(outerComposite, resultHandler);
+    public void fakeOuterCompositeSerialize(OuterComposite body, Handler<AsyncResult<OuterComposite>> resultHandler) {
+        delegate.fakeOuterCompositeSerialize(body, resultHandler);
     }
 
     /**
      * 
      * Test serialization of object with outer number type
-     * @param outerComposite Input composite as post body (optional)
+     * @param body Input composite as post body (optional)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<OuterComposite> rxFakeOuterCompositeSerialize(OuterComposite outerComposite) {
+    public Single<OuterComposite> rxFakeOuterCompositeSerialize(OuterComposite body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.fakeOuterCompositeSerialize(outerComposite, fut);
+            delegate.fakeOuterCompositeSerialize(body, fut);
         }));
     }
     /**
@@ -115,66 +137,66 @@ public class FakeApi {
     /**
      * 
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param fileSchemaTestClass  (required)
+     * @param body  (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testBodyWithFileSchema(fileSchemaTestClass, resultHandler);
+    public void testBodyWithFileSchema(FileSchemaTestClass body, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testBodyWithFileSchema(body, resultHandler);
     }
 
     /**
      * 
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param fileSchemaTestClass  (required)
+     * @param body  (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Void> rxTestBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) {
+    public Single<Void> rxTestBodyWithFileSchema(FileSchemaTestClass body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.testBodyWithFileSchema(fileSchemaTestClass, fut);
+            delegate.testBodyWithFileSchema(body, fut);
         }));
     }
     /**
      * 
      * 
      * @param query  (required)
-     * @param user  (required)
+     * @param body  (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void testBodyWithQueryParams(String query, User user, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testBodyWithQueryParams(query, user, resultHandler);
+    public void testBodyWithQueryParams(String query, User body, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testBodyWithQueryParams(query, body, resultHandler);
     }
 
     /**
      * 
      * 
      * @param query  (required)
-     * @param user  (required)
+     * @param body  (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Void> rxTestBodyWithQueryParams(String query, User user) {
+    public Single<Void> rxTestBodyWithQueryParams(String query, User body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.testBodyWithQueryParams(query, user, fut);
+            delegate.testBodyWithQueryParams(query, body, fut);
         }));
     }
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
-     * @param client client model (required)
+     * @param body client model (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void testClientModel(Client client, Handler<AsyncResult<Client>> resultHandler) {
-        delegate.testClientModel(client, resultHandler);
+    public void testClientModel(Client body, Handler<AsyncResult<Client>> resultHandler) {
+        delegate.testClientModel(body, resultHandler);
     }
 
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
-     * @param client client model (required)
+     * @param body client model (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Client> rxTestClientModel(Client client) {
+    public Single<Client> rxTestClientModel(Client body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.testClientModel(client, fut);
+            delegate.testClientModel(body, fut);
         }));
     }
     /**
@@ -293,22 +315,22 @@ public class FakeApi {
     /**
      * test inline additionalProperties
      * 
-     * @param requestBody request body (required)
+     * @param param request body (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void testInlineAdditionalProperties(Map<String, String> requestBody, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.testInlineAdditionalProperties(requestBody, resultHandler);
+    public void testInlineAdditionalProperties(Map<String, String> param, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testInlineAdditionalProperties(param, resultHandler);
     }
 
     /**
      * test inline additionalProperties
      * 
-     * @param requestBody request body (required)
+     * @param param request body (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Void> rxTestInlineAdditionalProperties(Map<String, String> requestBody) {
+    public Single<Void> rxTestInlineAdditionalProperties(Map<String, String> param) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.testInlineAdditionalProperties(requestBody, fut);
+            delegate.testInlineAdditionalProperties(param, fut);
         }));
     }
     /**

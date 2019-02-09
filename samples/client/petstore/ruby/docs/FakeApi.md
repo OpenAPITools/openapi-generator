@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**create_xml_item**](FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
 [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -16,6 +17,50 @@ Method | HTTP request | Description
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+
+
+# **create_xml_item**
+> create_xml_item(xml_item)
+
+creates an XmlItem
+
+this route creates an XmlItem
+
+### Example
+```ruby
+# load the gem
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+xml_item = Petstore::XmlItem.new # XmlItem | XmlItem Body
+
+begin
+  #creates an XmlItem
+  api_instance.create_xml_item(xml_item)
+rescue Petstore::ApiError => e
+  puts "Exception when calling FakeApi->create_xml_item: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **xml_item** | [**XmlItem**](XmlItem.md)| XmlItem Body | 
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+ - **Accept**: Not defined
+
 
 
 # **fake_outer_boolean_serialize**
@@ -59,7 +104,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: */*
 
 
@@ -78,7 +123,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  outer_composite: Petstore::OuterComposite.new # OuterComposite | Input composite as post body
+  body: Petstore::OuterComposite.new # OuterComposite | Input composite as post body
 }
 
 begin
@@ -93,7 +138,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outer_composite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
 
 ### Return type
 
@@ -105,7 +150,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: */*
 
 
@@ -151,7 +196,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: */*
 
 
@@ -197,13 +242,13 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: */*
 
 
 
 # **test_body_with_file_schema**
-> test_body_with_file_schema(file_schema_test_class)
+> test_body_with_file_schema(body)
 
 
 
@@ -215,10 +260,10 @@ For this test, the body for this request much reference a schema named `File`.
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-file_schema_test_class = Petstore::FileSchemaTestClass.new # FileSchemaTestClass | 
+body = Petstore::FileSchemaTestClass.new # FileSchemaTestClass | 
 
 begin
-  api_instance.test_body_with_file_schema(file_schema_test_class)
+  api_instance.test_body_with_file_schema(body)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_body_with_file_schema: #{e}"
 end
@@ -228,7 +273,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file_schema_test_class** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
 
 ### Return type
 
@@ -246,7 +291,7 @@ No authorization required
 
 
 # **test_body_with_query_params**
-> test_body_with_query_params(query, user)
+> test_body_with_query_params(query, body)
 
 
 
@@ -257,10 +302,10 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 query = 'query_example' # String | 
-user = Petstore::User.new # User | 
+body = Petstore::User.new # User | 
 
 begin
-  api_instance.test_body_with_query_params(query, user)
+  api_instance.test_body_with_query_params(query, body)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_body_with_query_params: #{e}"
 end
@@ -271,7 +316,7 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **String**|  | 
- **user** | [**User**](User.md)|  | 
+ **body** | [**User**](User.md)|  | 
 
 ### Return type
 
@@ -289,7 +334,7 @@ No authorization required
 
 
 # **test_client_model**
-> Client test_client_model(client)
+> Client test_client_model(body)
 
 To test \"client\" model
 
@@ -301,11 +346,11 @@ To test \"client\" model
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-client = Petstore::Client.new # Client | client model
+body = Petstore::Client.new # Client | client model
 
 begin
   #To test \"client\" model
-  result = api_instance.test_client_model(client)
+  result = api_instance.test_client_model(body)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_client_model: #{e}"
@@ -316,7 +361,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
@@ -528,7 +573,7 @@ No authorization required
 
 
 # **test_inline_additional_properties**
-> test_inline_additional_properties(request_body)
+> test_inline_additional_properties(param)
 
 test inline additionalProperties
 
@@ -538,11 +583,11 @@ test inline additionalProperties
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-request_body = {'key' => 'request_body_example'} # Hash<String, String> | request body
+param = {'key' => 'param_example'} # Hash<String, String> | request body
 
 begin
   #test inline additionalProperties
-  api_instance.test_inline_additional_properties(request_body)
+  api_instance.test_inline_additional_properties(param)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_inline_additional_properties: #{e}"
 end
@@ -552,7 +597,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**Hash&lt;String, String&gt;**](String.md)| request body | 
+ **param** | [**Hash&lt;String, String&gt;**](String.md)| request body | 
 
 ### Return type
 

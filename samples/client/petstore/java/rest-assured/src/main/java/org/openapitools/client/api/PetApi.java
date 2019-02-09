@@ -191,11 +191,11 @@ public class PetApi {
         }
 
          /**
-         * @param pet (Pet) Pet object that needs to be added to the store (required)
+         * @param body (Pet) Pet object that needs to be added to the store (required)
          * @return operation
          */
-        public AddPetOper body(Pet pet) {
-            reqSpec.setBody(pet);
+        public AddPetOper body(Pet body) {
+            reqSpec.setBody(body);
             return this;
         }
 
@@ -542,11 +542,11 @@ public class PetApi {
         }
 
          /**
-         * @param pet (Pet) Pet object that needs to be added to the store (required)
+         * @param body (Pet) Pet object that needs to be added to the store (required)
          * @return operation
          */
-        public UpdatePetOper body(Pet pet) {
-            reqSpec.setBody(pet);
+        public UpdatePetOper body(Pet body) {
+            reqSpec.setBody(body);
             return this;
         }
 

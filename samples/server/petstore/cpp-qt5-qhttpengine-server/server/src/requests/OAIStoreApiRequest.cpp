@@ -96,11 +96,11 @@ void OAIStoreApiRequest::placeOrderRequest(){
     QJsonDocument doc;
     socket->readJson(doc);
     QJsonObject obj = doc.object();
-    OAIOrder oai_order;
-    ::OpenAPI::fromJsonValue(oai_order, obj);
+    OAIOrder body;
+    ::OpenAPI::fromJsonValue(body, obj);
     
 
-    emit placeOrder(oai_order);
+    emit placeOrder(body);
 }
 
 
@@ -186,13 +186,19 @@ void OAIStoreApiRequest::placeOrderError(const OAIOrder& res, QNetworkReply::Net
 
 
 void OAIStoreApiRequest::sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type){
-    Q_UNUSED(res);  // TODO
     Q_UNUSED(error_type); // TODO
+    socket->write(res);
+    if(socket->isOpen()){
+        socket->close();
+    }    
 }
 
 void OAIStoreApiRequest::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){
-    Q_UNUSED(res);  // TODO
-    Q_UNUSED(error_type); // TODO
+    Q_UNUSED(error_type);  // TODO
+    socket->write(res->readAll());
+    if(socket->isOpen()){
+        socket->close();
+    }
 }
 
 }

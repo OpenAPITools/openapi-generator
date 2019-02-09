@@ -1,4 +1,4 @@
-module DateTime exposing (DateTime, decoder, encoder, toString)
+module DateTime exposing (DateTime, decoder, encode, toString)
 
 import Date
 import Date.Extra exposing (fromIsoString, toIsoString)
@@ -17,8 +17,8 @@ decoder =
         |> Decode.andThen decodeIsoString
 
 
-encoder : DateTime -> Encode.Value
-encoder =
+encode : DateTime -> Encode.Value
+encode =
     Encode.string << toString
 
 

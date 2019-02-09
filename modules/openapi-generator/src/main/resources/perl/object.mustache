@@ -23,8 +23,7 @@ use DateTime;
 use {{moduleName}}::Object::{{.}};
 {{/imports}}
 
-use base ("Class::Accessor", "Class::Data::Inheritable");
-
+use base ("Class::Accessor", "Class::Data::Inheritable"{{#allParents}}, "{{moduleName}}::Object::{{{.}}}"{{/allParents}});
 
 #
 #{{description}}
@@ -43,12 +42,12 @@ __PACKAGE__->class_documentation({description => '{{description}}',
 __PACKAGE__->method_documentation({
 {{#vars}}
     '{{name}}' => {
-    	datatype => '{{dataType}}',
-    	base_name => '{{baseName}}',
-    	description => '{{description}}',
-    	format => '{{format}}',
-    	read_only => '{{readOnly}}',
-    		},
+        datatype => '{{dataType}}',
+        base_name => '{{baseName}}',
+        description => '{{description}}',
+        format => '{{format}}',
+        read_only => '{{readOnly}}',
+            },
 {{/vars}}
 });
 

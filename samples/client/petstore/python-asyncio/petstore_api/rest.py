@@ -66,7 +66,7 @@ class RESTClientObject(object):
 
         connector = aiohttp.TCPConnector(
             limit=maxsize,
-            ssl_context=ssl_context
+            ssl=ssl_context
         )
 
         # https pool manager

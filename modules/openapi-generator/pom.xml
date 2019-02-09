@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
-        <version>3.3.3-SNAPSHOT</version>
+        <version>4.0.0-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -204,7 +204,7 @@
             <version>${swagger-core-version}</version>
         </dependency>
         <dependency>
-            <groupId>io.swagger.parser.v3</groupId>
+            <groupId>${swagger-parser-groupid}</groupId>
             <artifactId>swagger-parser</artifactId>
             <version>${swagger-parser-version}</version>
         </dependency> 

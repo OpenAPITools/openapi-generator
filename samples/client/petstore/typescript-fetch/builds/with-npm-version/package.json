@@ -2,26 +2,14 @@
   "name": "@swagger/typescript-fetch-petstore",
   "version": "1.0.0",
   "description": "OpenAPI client for @swagger/typescript-fetch-petstore",
-  "author": "OpenAPI-Generator Contributors",
-  "keywords": [
-    "fetch",
-    "typescript",
-    "openapi-client",
-    "openapi-generator",
-    "@swagger/typescript-fetch-petstore"
-  ],
-  "license": "Unlicense",
+  "author": "OpenAPI-Generator",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts" : {
     "build": "tsc --outDir dist/",
-    "prepublishOnly": "npm run build"
-  },
-  "dependencies": {
-    "portable-fetch": "^3.0.0"
+    "prepare": "npm run build"
   },
   "devDependencies": {
-    "@types/node": "^8.0.9",
     "typescript": "^2.4"
   },
   "publishConfig":{

@@ -17,30 +17,20 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.utils.ModelUtils;
-
-import io.swagger.v3.oas.models.media.*;
-import org.apache.commons.lang3.StringUtils;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
@@ -152,6 +142,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (StringUtils.isEmpty(System.getenv("DART_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable DART_POST_PROCESS_FILE not defined so the Dart code may not be properly formatted. To define it, try `export DART_POST_PROCESS_FILE=\"/usr/local/bin/dartfmt -w\"` (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(BROWSER_CLIENT)) {
@@ -242,12 +233,12 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+        return outputFolder + File.separator + apiDocPath.replace('/', File.separatorChar);
     }
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+        return outputFolder + File.separator + modelDocPath.replace('/', File.separatorChar);
     }
 
     @Override
@@ -262,7 +253,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
+        name = camelize(name, true);
 
         if (name.matches("^\\d.*")) {
             name = "n" + name;
@@ -285,23 +276,23 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toModelName(String name) {
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return org.openapitools.codegen.utils.StringUtils.camelize(name);
+        return camelize(name);
     }
 
     @Override
     public String toModelFilename(String name) {
-        return org.openapitools.codegen.utils.StringUtils.underscore(toModelName(name));
+        return underscore(toModelName(name));
     }
 
     @Override
     public String toApiFilename(String name) {
-        return org.openapitools.codegen.utils.StringUtils.underscore(toApiName(name));
+        return underscore(toApiName(name));
     }
 
     @Override
@@ -423,7 +414,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                 new ArrayList<Map<String, String>>();
         for (Map<String, Object> value : values) {
             Map<String, String> enumVar = new HashMap<String, String>();
-            String name = org.openapitools.codegen.utils.StringUtils.camelize((String) value.get("identifier"), true);
+            String name = camelize((String) value.get("identifier"), true);
             if (isReservedWord(name)) {
                 name = escapeReservedWord(name);
             }
@@ -449,7 +440,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                 "int".equalsIgnoreCase(datatype)) {
             var = "Number" + var;
         }
-        return escapeReservedWord(org.openapitools.codegen.utils.StringUtils.camelize(var, true));
+        return escapeReservedWord(camelize(var, true));
     }
 
     @Override
@@ -466,12 +457,12 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toOperationId(String operationId) {
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
-        return org.openapitools.codegen.utils.StringUtils.camelize(operationId, true);
+        return camelize(operationId, true);
     }
 
     public void setBrowserClient(boolean browserClient) {

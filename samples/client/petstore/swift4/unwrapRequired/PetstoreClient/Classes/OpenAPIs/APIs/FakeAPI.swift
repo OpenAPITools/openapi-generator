@@ -22,7 +22,6 @@ open class FakeAPI {
         }
     }
 
-
     /**
      - POST /fake/outer/boolean
      - Test serialization of outer boolean types
@@ -51,7 +50,6 @@ open class FakeAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      - POST /fake/outer/composite
@@ -82,7 +80,6 @@ open class FakeAPI {
         }
     }
 
-
     /**
      - POST /fake/outer/number
      - Test serialization of outer number types
@@ -111,7 +108,6 @@ open class FakeAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      - POST /fake/outer/string
@@ -145,7 +141,6 @@ open class FakeAPI {
             }
         }
     }
-
 
     /**
      - PUT /fake/body-with-file-schema
@@ -181,7 +176,6 @@ open class FakeAPI {
         }
     }
 
-
     /**
      - PUT /fake/body-with-query-params
      - parameter query: (query)  
@@ -214,7 +208,6 @@ open class FakeAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      To test \"client\" model
@@ -263,7 +256,6 @@ open class FakeAPI {
             }
         }
     }
-
 
     /**
      Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -408,7 +400,6 @@ open class FakeAPI {
         }
     }
 
-
     /**
      To test enum parameters
      - GET /fake
@@ -453,6 +444,62 @@ open class FakeAPI {
     }
 
     /**
+     Fake endpoint to test group parameters (optional)
+     
+     - parameter requiredStringGroup: (query) Required String in group parameters 
+     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
+     - parameter requiredInt64Group: (query) Required Integer in group parameters 
+     - parameter stringGroup: (query) String in group parameters (optional)
+     - parameter booleanGroup: (header) Boolean in group parameters (optional)
+     - parameter int64Group: (query) Integer in group parameters (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
+        testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute { (response, error) -> Void in
+            if error == nil {
+                completion((), error)
+            } else {
+                completion(nil, error)
+            }
+        }
+    }
+
+    /**
+     Fake endpoint to test group parameters (optional)
+     - DELETE /fake
+     - Fake endpoint to test group parameters (optional)
+     - parameter requiredStringGroup: (query) Required String in group parameters 
+     - parameter requiredBooleanGroup: (header) Required Boolean in group parameters 
+     - parameter requiredInt64Group: (query) Required Integer in group parameters 
+     - parameter stringGroup: (query) String in group parameters (optional)
+     - parameter booleanGroup: (header) Boolean in group parameters (optional)
+     - parameter int64Group: (query) Integer in group parameters (optional)
+     - returns: RequestBuilder<Void> 
+     */
+    open class func testGroupParametersWithRequestBuilder(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil) -> RequestBuilder<Void> {
+        let path = "/fake"
+        let URLString = PetstoreClientAPI.basePath + path
+        let parameters: [String:Any]? = nil
+        
+        var url = URLComponents(string: URLString)
+        url?.queryItems = APIHelper.mapValuesToQueryItems([
+            "required_string_group": requiredStringGroup.encodeToJSON(), 
+            "required_int64_group": requiredInt64Group.encodeToJSON(), 
+            "string_group": stringGroup?.encodeToJSON(), 
+            "int64_group": int64Group?.encodeToJSON()
+        ])
+        let nillableHeaders: [String: Any?] = [
+            "required_boolean_group": requiredBooleanGroup,
+            "boolean_group": booleanGroup
+        ]
+        let headerParameters = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
+
+        return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false, headers: headerParameters)
+    }
+
+    /**
      test inline additionalProperties
      
      - parameter requestBody: (body) request body 
@@ -467,7 +514,6 @@ open class FakeAPI {
             }
         }
     }
-
 
     /**
      test inline additionalProperties
@@ -503,7 +549,6 @@ open class FakeAPI {
             }
         }
     }
-
 
     /**
      test json serialization of form data

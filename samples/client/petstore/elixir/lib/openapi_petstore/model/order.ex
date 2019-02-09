@@ -18,12 +18,12 @@ defmodule OpenapiPetstore.Model.Order do
   ]
 
   @type t :: %__MODULE__{
-    :"id" => integer(),
-    :"petId" => integer(),
-    :"quantity" => integer(),
-    :"shipDate" => DateTime.t,
-    :"status" => String.t,
-    :"complete" => boolean()
+    :"id" => integer() | nil,
+    :"petId" => integer() | nil,
+    :"quantity" => integer() | nil,
+    :"shipDate" => DateTime.t | nil,
+    :"status" => String.t | nil,
+    :"complete" => boolean() | nil
   }
 end
 

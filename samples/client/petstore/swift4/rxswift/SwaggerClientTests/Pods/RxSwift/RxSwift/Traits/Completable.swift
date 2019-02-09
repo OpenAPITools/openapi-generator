@@ -6,6 +6,10 @@
 //  Copyright © 2017 Krunoslav Zaher. All rights reserved.
 //
 
+#if DEBUG
+import Foundation
+#endif
+
 /// Sequence containing 0 elements
 public enum CompletableTrait { }
 /// Represents a push style sequence containing 0 elements.
@@ -75,10 +79,20 @@ public extension PrimitiveSequenceType where TraitType == CompletableTrait, Elem
      - returns: Subscription object used to unsubscribe from the observable sequence.
      */
     public func subscribe(onCompleted: (() -> Void)? = nil, onError: ((Swift.Error) -> Void)? = nil) -> Disposable {
+        #if DEBUG
+                let callStack = Hooks.recordCallStackOnError ? Thread.callStackSymbols : []
+        #else
+                let callStack = [String]()
+        #endif
+
         return self.primitiveSequence.subscribe { event in
             switch event {
             case .error(let error):
-                onError?(error)
+                if let onError = onError {
+                    onError(error)
+                } else {
+                    Hooks.defaultErrorHandler(callStack, error)
+                }
             case .completed:
                 onCompleted?()
             }

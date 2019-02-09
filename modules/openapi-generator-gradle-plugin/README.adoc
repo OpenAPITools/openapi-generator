@@ -48,7 +48,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:3.3.2"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:3.3.4"
   }
 }
 
@@ -267,6 +267,26 @@ The gradle plugin is not currently published to https://plugins.gradle.org/m2/.
 |Map(String,String)
 |None
 |A map of options specific to a generator.
+
+|logToStderr
+|Boolean
+|false
+|To write all log messages (not just errors) to STDOUT
+
+|enablePostProcessFile
+|Boolean
+|false
+|To enable the file post-processing hook. This enables executing an external post-processor (usually a linter program). This only enables the post-processor. To define the post-processing command, define an environment variable such as LANG_POST_PROCESS_FILE (e.g. GO_POST_PROCESS_FILE, SCALA_POST_PROCESS_FILE). Please open an issue if your target generator does not support this functionality.
+
+|skipValidateSpec
+|Boolean
+|false
+|To skip spec validation. When true, we will skip the default behavior of validating a spec before generation.
+
+|generateAliasAsModel
+|Boolean
+|false
+|To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions. When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
 
 |===
 
@@ -557,3 +577,35 @@ you need a task reference or instance. One way to do this is to access it as `ta
 
 You can run `gradle tasks --debug` to see this registration.
 ====
+
+== Troubleshooting
+
+=== Android Studio
+
+Android Studio may experience a Windows-specific Guava dependency conflict with openapig-enerator-gradle-plugin versions greater than 3.0.0.
+
+As a workaround, you may force exclude conflicting Guava dependencies.
+
+```gradle
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath('org.openapitools:openapi-generator-gradle-plugin:3.3.4') {
+            exclude group: 'com.google.guava'
+        }
+    }
+}
+// …
+
+configurations {
+    compile.exclude module: 'guava-jdk5'
+}
+// …
+apply plugin: 'org.openapi.generator'
+```
+
+See https://github.com/OpenAPITools/openapi-generator/issues/1818[OpenAPITools/openapi-generator#1818] for more details.

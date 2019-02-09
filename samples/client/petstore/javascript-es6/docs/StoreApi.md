@@ -64,7 +64,6 @@ Returns a map of status codes to quantities
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
-
 // Configure API key authorization: api_key
 let api_key = defaultClient.authentications['api_key'];
 api_key.apiKey = 'YOUR API KEY';
@@ -141,7 +140,7 @@ No authorization required
 
 <a name="placeOrder"></a>
 # **placeOrder**
-> Order placeOrder(order)
+> Order placeOrder(body)
 
 Place an order for a pet
 
@@ -150,8 +149,8 @@ Place an order for a pet
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.StoreApi();
-let order = new OpenApiPetstore.Order(); // Order | order placed for purchasing the pet
-apiInstance.placeOrder(order, (error, data, response) => {
+let body = new OpenApiPetstore.Order(); // Order | order placed for purchasing the pet
+apiInstance.placeOrder(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -164,7 +163,7 @@ apiInstance.placeOrder(order, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 

@@ -3,12 +3,12 @@
 {{#model}}
 /**
  * {{classname}}Test
- * PHP version 5
  *
- * @category Class
- * @package  {{modelPackage}}
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * PHP version 7
+ *
+ * @package {{modelPackage}}
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 
 /**
@@ -35,19 +35,19 @@
  */
 namespace {{modelPackage}};
 
+use PHPUnit\Framework\TestCase;
 use {{modelPackage}}\{{classname}};
 
 /**
  * {{classname}}Test Class Doc Comment
  *
- * @category Class
- * @description {{#description}}{{description}}{{/description}}{{^description}}{{classname}}{{/description}}
- * @package  {{modelPackage}}
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package {{modelPackage}}
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
+ *
  * @coversDefaultClass \{{modelPackage}}\{{classname}}
  */
-class {{classname}}Test extends \PHPUnit_Framework_TestCase
+class {{classname}}Test extends TestCase
 {
 
     /**

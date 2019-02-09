@@ -276,7 +276,7 @@ impl<F, C> Api<C> for Client<F> where
     F: Future<Item=hyper::Response, Error=hyper::Error>  + 'static,
     C: Has<XSpanIdString> + Has<Option<AuthData>>{
 
-    fn test_special_tags(&self, param_client: models::Client, context: &C) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError>> {
+    fn test_special_tags(&self, param_body: models::Client, context: &C) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -294,7 +294,7 @@ impl<F, C> Api<C> for Client<F> where
 
         // Body parameter
 
-        let body = serde_json::to_string(&param_client).expect("impossible to fail to serialize");
+        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
 
         request.set_body(body.into_bytes());
@@ -395,7 +395,7 @@ if let Some(body) = body {
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
-                                                 serde_json::from_str::<models::OuterBoolean>(body)
+                                                 serde_json::from_str::<bool>(body)
                                                      .map_err(|e| e.into())
 
                                              ))
@@ -428,7 +428,7 @@ if let Some(body) = body {
 
     }
 
-    fn fake_outer_composite_serialize(&self, param_outer_composite: Option<models::OuterComposite>, context: &C) -> Box<Future<Item=FakeOuterCompositeSerializeResponse, Error=ApiError>> {
+    fn fake_outer_composite_serialize(&self, param_body: Option<models::OuterComposite>, context: &C) -> Box<Future<Item=FakeOuterCompositeSerializeResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -443,7 +443,7 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-        let body = param_outer_composite.map(|ref body| {
+        let body = param_body.map(|ref body| {
 
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
@@ -545,7 +545,7 @@ if let Some(body) = body {
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
-                                                 serde_json::from_str::<models::OuterNumber>(body)
+                                                 serde_json::from_str::<f64>(body)
                                                      .map_err(|e| e.into())
 
                                              ))
@@ -620,7 +620,7 @@ if let Some(body) = body {
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
-                                                 serde_json::from_str::<models::OuterString>(body)
+                                                 serde_json::from_str::<String>(body)
                                                      .map_err(|e| e.into())
 
                                              ))
@@ -653,7 +653,7 @@ if let Some(body) = body {
 
     }
 
-    fn test_body_with_query_params(&self, param_query: String, param_user: models::User, context: &C) -> Box<Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError>> {
+    fn test_body_with_query_params(&self, param_query: String, param_body: models::User, context: &C) -> Box<Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError>> {
 
         // Query parameters
         let query_query = format!("query={query}&", query=param_query.to_string());
@@ -673,7 +673,7 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
 
-        let body = serde_json::to_string(&param_user).expect("impossible to fail to serialize");
+        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
 
         request.set_body(body.into_bytes());
@@ -720,7 +720,7 @@ if let Some(body) = body {
 
     }
 
-    fn test_client_model(&self, param_client: models::Client, context: &C) -> Box<Future<Item=TestClientModelResponse, Error=ApiError>> {
+    fn test_client_model(&self, param_body: models::Client, context: &C) -> Box<Future<Item=TestClientModelResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -736,7 +736,7 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Patch, uri);
 
 
-        let body = serde_json::to_string(&param_client).expect("impossible to fail to serialize");
+        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
 
         request.set_body(body.into_bytes());
@@ -972,7 +972,7 @@ if let Some(body) = body {
 
     }
 
-    fn test_inline_additional_properties(&self, param_request_body: HashMap<String, String>, context: &C) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError>> {
+    fn test_inline_additional_properties(&self, param_param: HashMap<String, String>, context: &C) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -988,7 +988,7 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
 
-        let body = serde_json::to_string(&param_request_body).expect("impossible to fail to serialize");
+        let body = serde_json::to_string(&param_param).expect("impossible to fail to serialize");
 
 
         request.set_body(body.into_bytes());
@@ -1099,7 +1099,7 @@ if let Some(body) = body {
 
     }
 
-    fn test_classname(&self, param_client: models::Client, context: &C) -> Box<Future<Item=TestClassnameResponse, Error=ApiError>> {
+    fn test_classname(&self, param_body: models::Client, context: &C) -> Box<Future<Item=TestClassnameResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -1117,7 +1117,7 @@ if let Some(body) = body {
 
         // Body parameter
 
-        let body = serde_json::to_string(&param_client).expect("impossible to fail to serialize");
+        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
 
         request.set_body(body.into_bytes());
@@ -1174,7 +1174,7 @@ if let Some(body) = body {
 
     }
 
-    fn add_pet(&self, param_pet: models::Pet, context: &C) -> Box<Future<Item=AddPetResponse, Error=ApiError>> {
+    fn add_pet(&self, param_body: models::Pet, context: &C) -> Box<Future<Item=AddPetResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -1192,7 +1192,7 @@ if let Some(body) = body {
 
         // Body parameter
 
-        let body = serde_xml_rs::to_string(&param_pet).expect("impossible to fail to serialize");
+        let body = serde_xml_rs::to_string(&param_body).expect("impossible to fail to serialize");
 
 
         request.set_body(body.into_bytes());
@@ -1551,7 +1551,7 @@ if let Some(body) = body {
 
     }
 
-    fn update_pet(&self, param_pet: models::Pet, context: &C) -> Box<Future<Item=UpdatePetResponse, Error=ApiError>> {
+    fn update_pet(&self, param_body: models::Pet, context: &C) -> Box<Future<Item=UpdatePetResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -1567,7 +1567,7 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
 
-        let body = serde_xml_rs::to_string(&param_pet).expect("impossible to fail to serialize");
+        let body = serde_xml_rs::to_string(&param_body).expect("impossible to fail to serialize");
 
 
         request.set_body(body.into_bytes());
@@ -1990,7 +1990,7 @@ if let Some(body) = body {
 
     }
 
-    fn place_order(&self, param_order: models::Order, context: &C) -> Box<Future<Item=PlaceOrderResponse, Error=ApiError>> {
+    fn place_order(&self, param_body: models::Order, context: &C) -> Box<Future<Item=PlaceOrderResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -2006,7 +2006,7 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
 
-        let body = serde_json::to_string(&param_order).expect("impossible to fail to serialize");
+        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
 
         request.set_body(body.into_bytes());
@@ -2074,7 +2074,7 @@ if let Some(body) = body {
 
     }
 
-    fn create_user(&self, param_user: models::User, context: &C) -> Box<Future<Item=CreateUserResponse, Error=ApiError>> {
+    fn create_user(&self, param_body: models::User, context: &C) -> Box<Future<Item=CreateUserResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -2092,7 +2092,7 @@ if let Some(body) = body {
 
         // Body parameter
 
-        let body = serde_json::to_string(&param_user).expect("impossible to fail to serialize");
+        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
 
         request.set_body(body.into_bytes());
@@ -2139,7 +2139,7 @@ if let Some(body) = body {
 
     }
 
-    fn create_users_with_array_input(&self, param_user: &Vec<models::User>, context: &C) -> Box<Future<Item=CreateUsersWithArrayInputResponse, Error=ApiError>> {
+    fn create_users_with_array_input(&self, param_body: &Vec<models::User>, context: &C) -> Box<Future<Item=CreateUsersWithArrayInputResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -2155,7 +2155,7 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
 
-        let body = serde_json::to_string(&param_user).expect("impossible to fail to serialize");
+        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
 
         request.set_body(body.into_bytes());
@@ -2202,7 +2202,7 @@ if let Some(body) = body {
 
     }
 
-    fn create_users_with_list_input(&self, param_user: &Vec<models::User>, context: &C) -> Box<Future<Item=CreateUsersWithListInputResponse, Error=ApiError>> {
+    fn create_users_with_list_input(&self, param_body: &Vec<models::User>, context: &C) -> Box<Future<Item=CreateUsersWithListInputResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -2218,7 +2218,7 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
 
-        let body = serde_json::to_string(&param_user).expect("impossible to fail to serialize");
+        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
 
         request.set_body(body.into_bytes());
@@ -2569,7 +2569,7 @@ if let Some(body) = body {
 
     }
 
-    fn update_user(&self, param_username: String, param_user: models::User, context: &C) -> Box<Future<Item=UpdateUserResponse, Error=ApiError>> {
+    fn update_user(&self, param_username: String, param_body: models::User, context: &C) -> Box<Future<Item=UpdateUserResponse, Error=ApiError>> {
 
 
         let uri = format!(
@@ -2585,7 +2585,7 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
 
-        let body = serde_json::to_string(&param_user).expect("impossible to fail to serialize");
+        let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
 
         request.set_body(body.into_bytes());

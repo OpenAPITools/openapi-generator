@@ -17,11 +17,11 @@
 
 package org.openapitools.codegen;
 
-import static java.util.ServiceLoader.load;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
+
+import static java.util.ServiceLoader.load;
 
 public class CodegenConfigLoader {
     /**
@@ -45,7 +45,7 @@ public class CodegenConfigLoader {
 
         // else try to load directly
         try {
-            return (CodegenConfig) Class.forName(name).newInstance();
+            return (CodegenConfig) Class.forName(name).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new GeneratorNotFoundException("Can't load config class with name '".concat(name) + "'\nAvailable:\n" + availableConfigs.toString(), e);
         }

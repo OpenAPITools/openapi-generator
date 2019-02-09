@@ -82,18 +82,18 @@ class PetController extends Controller
         $securitypetstore_auth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $pet = $request->getContent();
+        $body = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $pet = $this->deserialize($pet, 'OpenAPI\Server\Model\Pet', $inputFormat);
+        $body = $this->deserialize($body, 'OpenAPI\Server\Model\Pet', $inputFormat);
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Pet");
-        $response = $this->validate($pet, $asserts);
+        $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -108,7 +108,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->addPet($pet, $responseCode, $responseHeaders);
+            $result = $handler->addPet($body, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';
@@ -121,7 +121,7 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -207,7 +207,7 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -294,7 +294,7 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -378,7 +378,7 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -462,7 +462,7 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -510,18 +510,18 @@ class PetController extends Controller
         $securitypetstore_auth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $pet = $request->getContent();
+        $body = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $pet = $this->deserialize($pet, 'OpenAPI\Server\Model\Pet', $inputFormat);
+        $body = $this->deserialize($body, 'OpenAPI\Server\Model\Pet', $inputFormat);
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Pet");
-        $response = $this->validate($pet, $asserts);
+        $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -536,7 +536,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->updatePet($pet, $responseCode, $responseHeaders);
+            $result = $handler->updatePet($body, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';
@@ -555,7 +555,7 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -649,7 +649,7 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -742,7 +742,7 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,

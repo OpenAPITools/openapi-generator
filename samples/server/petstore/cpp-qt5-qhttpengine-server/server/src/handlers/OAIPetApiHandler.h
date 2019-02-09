@@ -32,12 +32,12 @@ public:
 
 
 public slots:
-    virtual void addPet(OAIPet oai_pet);
+    virtual void addPet(OAIPet body);
     virtual void deletePet(qint64 pet_id, QString api_key);
     virtual void findPetsByStatus(QList<QString> status);
     virtual void findPetsByTags(QList<QString> tags);
     virtual void getPetById(qint64 pet_id);
-    virtual void updatePet(OAIPet oai_pet);
+    virtual void updatePet(OAIPet body);
     virtual void updatePetWithForm(qint64 pet_id, QString name, QString status);
     virtual void uploadFile(qint64 pet_id, QString additional_metadata, QIODevice* file);
     

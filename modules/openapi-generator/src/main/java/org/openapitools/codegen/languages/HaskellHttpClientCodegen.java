@@ -22,9 +22,9 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -36,6 +36,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(HaskellHttpClientCodegen.class);
@@ -622,8 +624,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
         op.operationId = uniqueName;
         op.operationIdLowerCase = uniqueName.toLowerCase(Locale.ROOT);
-        op.operationIdCamelCase = org.openapitools.codegen.utils.StringUtils.camelize(uniqueName);
-        op.operationIdSnakeCase = org.openapitools.codegen.utils.StringUtils.underscore(uniqueName);
+        op.operationIdCamelCase = camelize(uniqueName);
+        op.operationIdSnakeCase = underscore(uniqueName);
         opList.add(op);
         op.baseName = tag;
 
@@ -753,8 +755,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema mod, Map<String, Schema> allDefinitions) {
-        CodegenModel model = super.fromModel(name, mod, allDefinitions);
+    public CodegenModel fromModel(String name, Schema mod) {
+        CodegenModel model = super.fromModel(name, mod);
 
 //        while (typeNames.contains(model.classname)) {
 //            model.classname = generateNextName(model.classname);
@@ -891,7 +893,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (appendDataType
                 && uniqueParamNameTypes.containsKey(paramNameType)
                 && !isDuplicate(paramNameType, dataType)) {
-            paramNameType = paramNameType + dataType;
+            paramNameType = toTypeName("", paramNameType + dataType);
         }
 
         while (typeNames.contains(paramNameType)) {
@@ -1083,8 +1085,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     public String toVarName(String prefix, String name) {
         Boolean hasPrefix = !StringUtils.isBlank(prefix);
-        name = org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName(name.replaceAll("-", "_")));
-        name = org.openapitools.codegen.utils.StringUtils.camelize(name, !hasPrefix);
+        name = underscore(sanitizeName(name.replaceAll("-", "_")));
+        name = camelize(name, !hasPrefix);
         if (hasPrefix) {
             return prefix + name;
         } else {
@@ -1129,7 +1131,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     public String toTypeName(String prefix, String name) {
-        name = escapeIdentifier(prefix, org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(name)));
+        name = escapeIdentifier(prefix, camelize(sanitizeName(name)));
         return name;
     }
 
@@ -1138,7 +1140,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (StringUtils.isEmpty(operationId)) {
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
-        operationId = escapeIdentifier("op", org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true));
+        operationId = escapeIdentifier("op", camelize(sanitizeName(operationId), true));
         return operationId;
     }
 

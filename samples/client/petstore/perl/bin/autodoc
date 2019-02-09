@@ -13,16 +13,16 @@ help if $options{h};
 my $my_app = $options{c} || 'My::App';
 
 if ($options{c}) {
-	eval <<LOAD;
+    eval <<LOAD;
 use $my_app;
 apply_all_roles($my_app, "WWW::OpenAPIClient::Role::AutoDoc");
 LOAD
-	die $@ if $@;
+    die $@ if $@;
 }
 else {
-	package My::App;
-	use Moose;
-	with ('WWW::OpenAPIClient::Role', 'WWW::OpenAPIClient::Role::AutoDoc');
+    package My::App;
+    use Moose;
+    with ('WWW::OpenAPIClient::Role', 'WWW::OpenAPIClient::Role::AutoDoc');
 }
 
 package main;
@@ -40,26 +40,26 @@ $opt ||= 'wide';
 my $api = $my_app->new;
 
 if ($options{H}) {
-	my $pod2html = "pod2html --backlink --css http://st.pimg.net/tucs/style.css?3";
-	open STDOUT, "| $pod2html" or die "Can't fork: $!";
-	$api->autodoc($opt);
-	close STDOUT or die "Can't close: $!";
+    my $pod2html = "pod2html --backlink --css http://st.pimg.net/tucs/style.css?3";
+    open STDOUT, "| $pod2html" or die "Can't fork: $!";
+    $api->autodoc($opt);
+    close STDOUT or die "Can't close: $!";
 }
 elsif ($options{m}) {
-	my $pod2markdown = "pod2markdown --html-encode-chars 1";
-	open STDOUT, "| $pod2markdown" or die "Can't fork: $!";
-	$api->autodoc($opt);
-	close STDOUT or die "Can't close: $!";
+    my $pod2markdown = "pod2markdown --html-encode-chars 1";
+    open STDOUT, "| $pod2markdown" or die "Can't fork: $!";
+    $api->autodoc($opt);
+    close STDOUT or die "Can't close: $!";
 }
 else {
-	$api->autodoc($opt);
+    $api->autodoc($opt);
 }
 
 exit(0);
 
 # --------------------
 sub help {
-	print <<HELP;
+    print <<HELP;
 Usage: autodoc [OPTION] [-c My::App::Class]
 
   -w           wide format (default)
@@ -72,6 +72,6 @@ Usage: autodoc [OPTION] [-c My::App::Class]
 
 HELP
 
-	exit(0);
+    exit(0);
 }
 

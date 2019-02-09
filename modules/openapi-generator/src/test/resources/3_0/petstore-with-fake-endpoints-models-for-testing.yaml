@@ -30,6 +30,9 @@ paths:
                   string:
                     $ref: '#/components/schemas/Foo'
   /pet:
+    servers:
+    - url: 'http://petstore.swagger.io/v2'
+    - url: 'http://path-server-test.petstore.local/v2'
     post:
       tags:
         - pet
@@ -768,6 +771,8 @@ paths:
     delete:
       tags:
         - fake
+      security:
+        - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)
       description: Fake endpoint to test group parameters (optional)
       operationId: testGroupParameters
@@ -1096,6 +1101,10 @@ components:
     http_basic_test:
       type: http
       scheme: basic
+    bearer_test:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     Foo:
       type: object

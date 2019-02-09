@@ -150,7 +150,7 @@ This can only be done by the logged in user.
 //import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
-String username = "username_example"; // String | The name that needs to be deleted
+String username = null; // String | The name that needs to be deleted
 try {
     apiInstance.deleteUser(username);
 } catch (ApiException e) {
@@ -163,7 +163,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be deleted |
+ **username** | **String**| The name that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -190,7 +190,7 @@ Get user by user name
 //import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
-String username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing.
+String username = null; // String | The name that needs to be fetched. Use user1 for testing.
 try {
     User result = apiInstance.getUserByName(username);
     System.out.println(result);
@@ -204,7 +204,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing. |
+ **username** | **String**| The name that needs to be fetched. Use user1 for testing. | [default to null]
 
 ### Return type
 
@@ -231,8 +231,8 @@ Logs user into the system
 //import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
-String username = "username_example"; // String | The user name for login
-String password = "password_example"; // String | The password for login in clear text
+String username = null; // String | The user name for login
+String password = null; // String | The password for login in clear text
 try {
     String result = apiInstance.loginUser(username, password);
     System.out.println(result);
@@ -246,8 +246,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The user name for login |
- **password** | **String**| The password for login in clear text |
+ **username** | **String**| The user name for login | [default to null]
+ **password** | **String**| The password for login in clear text | [default to null]
 
 ### Return type
 
@@ -312,7 +312,7 @@ This can only be done by the logged in user.
 //import org.openapitools.client.api.UserApi;
 
 UserApi apiInstance = new UserApi();
-String username = "username_example"; // String | name that need to be deleted
+String username = null; // String | name that need to be deleted
 User user = new User(); // User | Updated user object
 try {
     apiInstance.updateUser(username, user);
@@ -326,7 +326,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted |
+ **username** | **String**| name that need to be deleted | [default to null]
  **user** | [**User**](User.md)| Updated user object |
 
 ### Return type

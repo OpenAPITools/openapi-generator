@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :swagger_petstore, key: :value
+#     config :open_api_petstore, key: :value
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:swagger_petstore, :key)
+#     Application.get_env(:open_api_petstore, :key)
 #
 # Or configure a 3rd-party app:
 #
