@@ -50,12 +50,10 @@ export default class UserApi {
      */
     createUser(user, callback) {
       let postBody = user;
-
       // verify the required parameter 'user' is set
       if (user === undefined || user === null) {
         throw new Error("Missing the required parameter 'user' when calling createUser");
       }
-
 
       let pathParams = {
       };
@@ -70,11 +68,10 @@ export default class UserApi {
       let contentTypes = ['application/json'];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/user', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 
@@ -93,12 +90,10 @@ export default class UserApi {
      */
     createUsersWithArrayInput(user, callback) {
       let postBody = user;
-
       // verify the required parameter 'user' is set
       if (user === undefined || user === null) {
         throw new Error("Missing the required parameter 'user' when calling createUsersWithArrayInput");
       }
-
 
       let pathParams = {
       };
@@ -113,11 +108,10 @@ export default class UserApi {
       let contentTypes = ['application/json'];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/user/createWithArray', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 
@@ -136,12 +130,10 @@ export default class UserApi {
      */
     createUsersWithListInput(user, callback) {
       let postBody = user;
-
       // verify the required parameter 'user' is set
       if (user === undefined || user === null) {
         throw new Error("Missing the required parameter 'user' when calling createUsersWithListInput");
       }
-
 
       let pathParams = {
       };
@@ -156,11 +148,10 @@ export default class UserApi {
       let contentTypes = ['application/json'];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/user/createWithList', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 
@@ -180,12 +171,10 @@ export default class UserApi {
      */
     deleteUser(username, callback) {
       let postBody = null;
-
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling deleteUser");
       }
-
 
       let pathParams = {
         'username': username
@@ -201,11 +190,10 @@ export default class UserApi {
       let contentTypes = [];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/user/{username}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 
@@ -225,12 +213,10 @@ export default class UserApi {
      */
     getUserByName(username, callback) {
       let postBody = null;
-
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling getUserByName");
       }
-
 
       let pathParams = {
         'username': username
@@ -246,11 +232,10 @@ export default class UserApi {
       let contentTypes = [];
       let accepts = ['application/xml', 'application/json'];
       let returnType = User;
-
       return this.apiClient.callApi(
         '/user/{username}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 
@@ -271,17 +256,14 @@ export default class UserApi {
      */
     loginUser(username, password, callback) {
       let postBody = null;
-
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling loginUser");
       }
-
       // verify the required parameter 'password' is set
       if (password === undefined || password === null) {
         throw new Error("Missing the required parameter 'password' when calling loginUser");
       }
-
 
       let pathParams = {
       };
@@ -298,11 +280,10 @@ export default class UserApi {
       let contentTypes = [];
       let accepts = ['application/xml', 'application/json'];
       let returnType = 'String';
-
       return this.apiClient.callApi(
         '/user/login', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 
@@ -321,7 +302,6 @@ export default class UserApi {
     logoutUser(callback) {
       let postBody = null;
 
-
       let pathParams = {
       };
       let queryParams = {
@@ -335,11 +315,10 @@ export default class UserApi {
       let contentTypes = [];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/user/logout', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 
@@ -360,17 +339,14 @@ export default class UserApi {
      */
     updateUser(username, user, callback) {
       let postBody = user;
-
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling updateUser");
       }
-
       // verify the required parameter 'user' is set
       if (user === undefined || user === null) {
         throw new Error("Missing the required parameter 'user' when calling updateUser");
       }
-
 
       let pathParams = {
         'username': username
@@ -386,11 +362,10 @@ export default class UserApi {
       let contentTypes = ['application/json'];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/user/{username}', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 

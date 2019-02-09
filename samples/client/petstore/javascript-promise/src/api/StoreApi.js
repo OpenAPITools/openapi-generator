@@ -79,11 +79,10 @@
       var contentTypes = [];
       var accepts = [];
       var returnType = null;
-
       return this.apiClient.callApi(
         '/store/order/{order_id}', 'DELETE',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -125,11 +124,10 @@
       var contentTypes = [];
       var accepts = ['application/json'];
       var returnType = {'String': 'Number'};
-
       return this.apiClient.callApi(
         '/store/inventory', 'GET',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -177,11 +175,10 @@
       var contentTypes = [];
       var accepts = ['application/xml', 'application/json'];
       var returnType = Order;
-
       return this.apiClient.callApi(
         '/store/order/{order_id}', 'GET',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -228,11 +225,10 @@
       var contentTypes = [];
       var accepts = ['application/xml', 'application/json'];
       var returnType = Order;
-
       return this.apiClient.callApi(
         '/store/order', 'POST',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
