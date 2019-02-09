@@ -255,7 +255,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 33);
+        Assert.assertEquals(generatedFiles.size(), 34);
         ensureContainsFile(generatedFiles, output, ".gitignore");
         ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
         ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
@@ -281,6 +281,7 @@ public class JavaClientCodegenTest {
         ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/ApiKeyAuth.java");
         ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/Authentication.java");
         ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/HttpBasicAuth.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/HttpBearerAuth.java");
         //ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/OAuth.java");
         //ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/OAuthFlow.java");
         ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/Configuration.java");
