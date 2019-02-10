@@ -17,13 +17,11 @@
 
 package org.openapitools.codegen.utils;
 
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -37,7 +35,7 @@ public class ModelUtilsTest {
 
     @Test
     public void testGetAllUsedSchemas() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/unusedSchemas.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/unusedSchemas.yaml");
         List<String> allUsedSchemas = ModelUtils.getAllUsedSchemas(openAPI);
         Assert.assertEquals(allUsedSchemas.size(), 32);
 
@@ -77,7 +75,7 @@ public class ModelUtilsTest {
 
     @Test
     public void testGetUnusedSchemas() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/unusedSchemas.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/unusedSchemas.yaml");
         List<String> unusedSchemas = ModelUtils.getUnusedSchemas(openAPI);
         Assert.assertEquals(unusedSchemas.size(), 4);
         //UnusedObj is not used at all:
@@ -92,7 +90,7 @@ public class ModelUtilsTest {
 
     @Test
     public void testSchemasUsedOnlyInFormParam() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/unusedSchemas.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/unusedSchemas.yaml");
         List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         Assert.assertEquals(unusedSchemas.size(), 3);
         //SomeObj2 is only used in an 'application/x-www-form-urlencoded' request
@@ -105,14 +103,14 @@ public class ModelUtilsTest {
 
     @Test
     public void testNoComponentsSection() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/ping.yaml");
         List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         Assert.assertEquals(unusedSchemas.size(), 0);
     }
 
     @Test
     public void testGlobalProducesConsumes() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/globalProducesConsumesTest.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/globalProducesConsumesTest.yaml");
         List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
         Assert.assertEquals(unusedSchemas.size(), 0);
     }

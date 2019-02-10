@@ -17,12 +17,11 @@
 
 package org.openapitools.codegen.swift3;
 
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.Swift3Codegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -90,7 +89,7 @@ public class Swift3CodegenTest {
 
     @Test(description = "returns NSData when response format is binary", enabled = false)
     public void binaryDataTest() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/binaryDataTest.json", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/binaryDataTest.json");
         final DefaultCodegen codegen = new Swift3Codegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/binaryResponse";
@@ -105,7 +104,7 @@ public class Swift3CodegenTest {
 
     @Test(description = "returns ISOFullDate when response format is date", enabled = false)
     public void dateTest() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/datePropertyTest.json", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new Swift3Codegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/dateResponse";

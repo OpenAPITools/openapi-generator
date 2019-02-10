@@ -18,13 +18,11 @@
 package org.openapitools.codegen.java;
 
 import com.google.common.collect.ImmutableMap;
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
@@ -195,7 +193,7 @@ public class JavaClientCodegenTest {
     
     @Test
     public void testGetSchemaTypeWithComposedSchemaWithAllOf() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/composed-allof.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/composed-allof.yaml");
         final JavaClientCodegen codegen = new JavaClientCodegen();
 
         Operation operation = openAPI.getPaths().get("/ping").getPost();
@@ -305,7 +303,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testReferencedHeader() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/issue855.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue855.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -320,7 +318,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testFreeFormObjects() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/issue796.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue796.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
 
         Schema test1 = openAPI.getComponents().getSchemas().get("MapTest1");

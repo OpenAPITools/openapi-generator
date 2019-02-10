@@ -18,7 +18,6 @@
 package org.openapitools.codegen.java;
 
 import com.google.common.collect.Sets;
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -28,7 +27,6 @@ import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.junit.rules.TemporaryFolder;
 import org.openapitools.codegen.*;
@@ -1222,9 +1220,7 @@ public class JavaModelTest {
         config.setHideGenerationTimestamp(true);
         config.setOutputDir(output.getAbsolutePath());
 
-        final OpenAPIParser openApiParser = new OpenAPIParser();
-        final ParseOptions options = new ParseOptions();
-        final OpenAPI openAPI = openApiParser.readLocation(inputSpec, null, options).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec(inputSpec);
 
         final ClientOptInput opts = new ClientOptInput();
         opts.setConfig(config);

@@ -18,11 +18,9 @@
 package org.openapitools.codegen.python;
 
 import com.google.common.collect.Sets;
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientCodegen;
@@ -34,7 +32,7 @@ public class PythonTest {
 
     @Test(description = "convert a python model with dots")
     public void modelTest() {
-        final OpenAPI openAPI= new OpenAPIParser().readLocation("src/test/resources/2_0/v1beta3.json", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI= TestUtils.parseSpec("src/test/resources/2_0/v1beta3.json");
         final DefaultCodegen codegen = new PythonClientCodegen();
         codegen.setOpenAPI(openAPI);
 
