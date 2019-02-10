@@ -30,23 +30,23 @@ Order <- R6::R6Class(
     `complete` = NULL,
     initialize = function(`id`, `petId`, `quantity`, `shipDate`, `status`, `complete`){
       if (!missing(`id`)) {
-                stopifnot(is.numeric(`id`), length(`id`) == 1)
+        stopifnot(is.numeric(`id`), length(`id`) == 1)
         self$`id` <- `id`
       }
       if (!missing(`petId`)) {
-                stopifnot(is.numeric(`petId`), length(`petId`) == 1)
+        stopifnot(is.numeric(`petId`), length(`petId`) == 1)
         self$`petId` <- `petId`
       }
       if (!missing(`quantity`)) {
-                stopifnot(is.numeric(`quantity`), length(`quantity`) == 1)
+        stopifnot(is.numeric(`quantity`), length(`quantity`) == 1)
         self$`quantity` <- `quantity`
       }
       if (!missing(`shipDate`)) {
-                stopifnot(is.character(`shipDate`), length(`shipDate`) == 1)
+        stopifnot(is.character(`shipDate`), length(`shipDate`) == 1)
         self$`shipDate` <- `shipDate`
       }
       if (!missing(`status`)) {
-                stopifnot(is.character(`status`), length(`status`) == 1)
+        stopifnot(is.character(`status`), length(`status`) == 1)
         self$`status` <- `status`
       }
       if (!missing(`complete`)) {
@@ -57,27 +57,27 @@ Order <- R6::R6Class(
       OrderObject <- list()
       if (!is.null(self$`id`)) {
         OrderObject[['id']] <-
-                self$`id`
+          self$`id`
       }
       if (!is.null(self$`petId`)) {
         OrderObject[['petId']] <-
-                self$`petId`
+          self$`petId`
       }
       if (!is.null(self$`quantity`)) {
         OrderObject[['quantity']] <-
-                self$`quantity`
+          self$`quantity`
       }
       if (!is.null(self$`shipDate`)) {
         OrderObject[['shipDate']] <-
-                self$`shipDate`
+          self$`shipDate`
       }
       if (!is.null(self$`status`)) {
         OrderObject[['status']] <-
-                self$`status`
+          self$`status`
       }
       if (!is.null(self$`complete`)) {
         OrderObject[['complete']] <-
-                self$`complete`
+          self$`complete`
       }
 
       OrderObject
@@ -85,75 +85,57 @@ Order <- R6::R6Class(
     fromJSON = function(OrderJson) {
       OrderObject <- jsonlite::fromJSON(OrderJson)
       if (!is.null(OrderObject$`id`)) {
-                self$`id` <- OrderObject$`id`
+        self$`id` <- OrderObject$`id`
       }
       if (!is.null(OrderObject$`petId`)) {
-                self$`petId` <- OrderObject$`petId`
+        self$`petId` <- OrderObject$`petId`
       }
       if (!is.null(OrderObject$`quantity`)) {
-                self$`quantity` <- OrderObject$`quantity`
+        self$`quantity` <- OrderObject$`quantity`
       }
       if (!is.null(OrderObject$`shipDate`)) {
-                self$`shipDate` <- OrderObject$`shipDate`
+        self$`shipDate` <- OrderObject$`shipDate`
       }
       if (!is.null(OrderObject$`status`)) {
-                self$`status` <- OrderObject$`status`
+        self$`status` <- OrderObject$`status`
       }
       if (!is.null(OrderObject$`complete`)) {
-                self$`complete` <- OrderObject$`complete`
+        self$`complete` <- OrderObject$`complete`
       }
     },
     toJSONString = function() {
        outstring <- sprintf(
         '{
            "id":
-                      %d
-                      
-                  
-              ,
+             %d,
            "petId":
-                      %d
-                      
-                  
-              ,
+             %d,
            "quantity":
-                      %d
-                      
-                  
-              ,
+             %d,
            "shipDate":
-                      
-                      "%s"
-                  
-              ,
+             "%s",
            "status":
-                      
-                      "%s"
-                  
-              ,
+             "%s",
            "complete":
-                      
-                      "%s"
-                  
-              
+             "%s"
         }',
-                self$`id`,
-                self$`petId`,
-                self$`quantity`,
-                self$`shipDate`,
-                self$`status`,
-                self$`complete`
+        self$`id`,
+        self$`petId`,
+        self$`quantity`,
+        self$`shipDate`,
+        self$`status`,
+        self$`complete`
       )
       gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(OrderJson) {
       OrderObject <- jsonlite::fromJSON(OrderJson)
-              self$`id` <- OrderObject$`id`
-              self$`petId` <- OrderObject$`petId`
-              self$`quantity` <- OrderObject$`quantity`
-              self$`shipDate` <- OrderObject$`shipDate`
-              self$`status` <- OrderObject$`status`
-              self$`complete` <- OrderObject$`complete`
+      self$`id` <- OrderObject$`id`
+      self$`petId` <- OrderObject$`petId`
+      self$`quantity` <- OrderObject$`quantity`
+      self$`shipDate` <- OrderObject$`shipDate`
+      self$`status` <- OrderObject$`status`
+      self$`complete` <- OrderObject$`complete`
     }
   )
 )
