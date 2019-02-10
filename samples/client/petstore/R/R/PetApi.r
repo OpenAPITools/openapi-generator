@@ -227,8 +227,8 @@ PetApi <- R6::R6Class(
       headerParams <- character()
 
       body <- list(
-          "name" = name,
-          "status" = status
+        "name" = name,
+        "status" = status
       )
 
       urlPath <- "/pet/{petId}"
@@ -258,8 +258,8 @@ PetApi <- R6::R6Class(
       headerParams <- character()
 
       body <- list(
-          "additionalMetadata" = additional_metadata,
-          "file" = httr::upload_file(file)
+        "additionalMetadata" = additional_metadata,
+        "file" = httr::upload_file(file)
       )
 
       urlPath <- "/pet/{petId}/uploadImage"

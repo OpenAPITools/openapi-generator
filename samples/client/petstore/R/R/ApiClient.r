@@ -23,49 +23,47 @@
 ApiClient  <- R6::R6Class(
   'ApiClient',
   public = list(
+    # base path of all requests
     basePath = "http://petstore.swagger.io/v2",
+    # configuration object
     configuration = NULL,
+    # user agent in the HTTP request
     userAgent = NULL,
+    # default headers in the HTTP request
     defaultHeaders = NULL,
     initialize = function(basePath, configuration, defaultHeaders){
-        if (!missing(basePath)) {
-            self$basePath <- basePath
-        }
+      if (!missing(basePath)) {
+        self$basePath <- basePath
+      }
 
-        if (!missing(configuration)) {
-            self$configuration <- configuration
-        }
+      if (!missing(configuration)) {
+        self$configuration <- configuration
+      }
 
-        if (!missing(defaultHeaders)) {
-            self$defaultHeaders <- defaultHeaders
-        }
+      if (!missing(defaultHeaders)) {
+        self$defaultHeaders <- defaultHeaders
+      }
 
-        self$`userAgent` <- 'OpenAPI-Generator/1.0.0/r'
+      self$`userAgent` <- 'OpenAPI-Generator/1.0.0/r'
     },
     callApi = function(url, method, queryParams, headerParams, body, ...){
-        headers <- httr::add_headers(c(headerParams, self$defaultHeaders))
+      headers <- httr::add_headers(c(headerParams, self$defaultHeaders))
 
-        if (method == "GET") {
-            httr::GET(url, queryParams, headers, ...)
-        }
-        else if (method == "POST") {
-            httr::POST(url, queryParams, headers, body = body, content_type("application/json"), ...)
-        }
-        else if (method == "PUT") {
-            httr::PUT(url, queryParams, headers, body = body, content_type("application/json"), ...)
-        }
-        else if (method == "PATCH") {
-            httr::PATCH(url, queryParams, headers, body = body, content_type("application/json"), ...)
-        }
-        else if (method == "HEAD") {
-            httr::HEAD(url, queryParams, headers, ...)
-        }
-        else if (method == "DELETE") {
-            httr::DELETE(url, queryParams, headers, ...)
-        }
-        else {
-            stop("http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`.")
-        }
+      if (method == "GET") {
+        httr::GET(url, queryParams, headers, ...)
+      } else if (method == "POST") {
+        httr::POST(url, queryParams, headers, body = body, content_type("application/json"), ...)
+      } else if (method == "PUT") {
+        httr::PUT(url, queryParams, headers, body = body, content_type("application/json"), ...)
+      } else if (method == "PATCH") {
+        httr::PATCH(url, queryParams, headers, body = body, content_type("application/json"), ...)
+      } else if (method == "HEAD") {
+        httr::HEAD(url, queryParams, headers, ...)
+      } else if (method == "DELETE") {
+        httr::DELETE(url, queryParams, headers, ...)
+      } else {
+        stop("http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`.")
+      }
     }
   )
 )

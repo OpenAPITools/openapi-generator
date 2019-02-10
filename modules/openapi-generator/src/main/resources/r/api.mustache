@@ -57,12 +57,12 @@
       {{#hasFormParams}}
       body <- list(
         {{#formParams}}
-          {{^isFile}}
-          "{{baseName}}" = {{paramName}}{{#hasMore}},{{/hasMore}}
-          {{/isFile}}
-          {{#isFile}}
-          "{{baseName}}" = httr::upload_file({{paramName}}){{#hasMore}},{{/hasMore}}
-          {{/isFile}}
+        {{^isFile}}
+        "{{baseName}}" = {{paramName}}{{#hasMore}},{{/hasMore}}
+        {{/isFile}}
+        {{#isFile}}
+        "{{baseName}}" = httr::upload_file({{paramName}}){{#hasMore}},{{/hasMore}}
+        {{/isFile}}
         {{/formParams}}
       )
 
