@@ -30,6 +30,7 @@
 namespace OpenAPI\Server\Controller;
 
 use \Exception;
+use JMS\Serializer\Exception\RuntimeException as SerializerRuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -74,7 +75,11 @@ class StoreController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $orderId = $this->deserialize($orderId, 'string', 'string');
+        try {
+            $orderId = $this->deserialize($orderId, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -152,8 +157,6 @@ class StoreController extends Controller
 
         // Use the default value if no value was provided
 
-        // Deserialize the input values that needs it
-
         // Validate the input values
 
 
@@ -220,7 +223,11 @@ class StoreController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $orderId = $this->deserialize($orderId, 'int', 'string');
+        try {
+            $orderId = $this->deserialize($orderId, 'int', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -310,7 +317,11 @@ class StoreController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $body = $this->deserialize($body, 'OpenAPI\Server\Model\Order', $inputFormat);
+        try {
+            $body = $this->deserialize($body, 'OpenAPI\Server\Model\Order', $inputFormat);
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];

@@ -20,6 +20,7 @@
 namespace {{controllerPackage}};
 
 use \Exception;
+use JMS\Serializer\Exception\RuntimeException as SerializerRuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -137,18 +138,24 @@ class {{controllerName}} extends Controller
         {{/isContainer}}
         {{/required}}
 
+        {{#hasParams}}
         // Deserialize the input values that needs it
-        {{#allParams}}
-        {{^isFile}}
-        {{#isBodyParam}}
-        ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}{{#items}}array<{{dataType}}>{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', $inputFormat);
-        {{/isBodyParam}}
-        {{^isBodyParam}}
-        ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}array<{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}{{^collectionFormat}}csv{{/collectionFormat}},{{dataType}}>{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', 'string');
-        {{/isBodyParam}}
-        {{/isFile}}
-        {{/allParams}}
+        try {
+            {{#allParams}}
+            {{^isFile}}
+            {{#isBodyParam}}
+            ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}{{#items}}array<{{dataType}}>{{/items}}{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', $inputFormat);
+            {{/isBodyParam}}
+            {{^isBodyParam}}
+            ${{paramName}} = $this->deserialize(${{paramName}}, '{{#isContainer}}array<{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}{{^collectionFormat}}csv{{/collectionFormat}},{{dataType}}>{{/isContainer}}{{^isContainer}}{{dataType}}{{/isContainer}}', 'string');
+            {{/isBodyParam}}
+            {{/isFile}}
+            {{/allParams}}
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
+        {{/hasParams}}
         // Validate the input values
 {{>api_input_validation}}
 

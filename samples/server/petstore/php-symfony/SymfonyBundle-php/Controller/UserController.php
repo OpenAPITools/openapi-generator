@@ -30,6 +30,7 @@
 namespace OpenAPI\Server\Controller;
 
 use \Exception;
+use JMS\Serializer\Exception\RuntimeException as SerializerRuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -83,7 +84,11 @@ class UserController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $body = $this->deserialize($body, 'OpenAPI\Server\Model\User', $inputFormat);
+        try {
+            $body = $this->deserialize($body, 'OpenAPI\Server\Model\User', $inputFormat);
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -165,7 +170,11 @@ class UserController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $body = $this->deserialize($body, 'array<OpenAPI\Server\Model\User>', $inputFormat);
+        try {
+            $body = $this->deserialize($body, 'array<OpenAPI\Server\Model\User>', $inputFormat);
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -249,7 +258,11 @@ class UserController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $body = $this->deserialize($body, 'array<OpenAPI\Server\Model\User>', $inputFormat);
+        try {
+            $body = $this->deserialize($body, 'array<OpenAPI\Server\Model\User>', $inputFormat);
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -324,7 +337,11 @@ class UserController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $username = $this->deserialize($username, 'string', 'string');
+        try {
+            $username = $this->deserialize($username, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -400,7 +417,11 @@ class UserController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $username = $this->deserialize($username, 'string', 'string');
+        try {
+            $username = $this->deserialize($username, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -481,8 +502,12 @@ class UserController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $username = $this->deserialize($username, 'string', 'string');
-        $password = $this->deserialize($password, 'string', 'string');
+        try {
+            $username = $this->deserialize($username, 'string', 'string');
+            $password = $this->deserialize($password, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -564,8 +589,6 @@ class UserController extends Controller
 
         // Use the default value if no value was provided
 
-        // Deserialize the input values that needs it
-
         // Validate the input values
 
 
@@ -639,8 +662,12 @@ class UserController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $username = $this->deserialize($username, 'string', 'string');
-        $body = $this->deserialize($body, 'OpenAPI\Server\Model\User', $inputFormat);
+        try {
+            $username = $this->deserialize($username, 'string', 'string');
+            $body = $this->deserialize($body, 'OpenAPI\Server\Model\User', $inputFormat);
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
