@@ -18,16 +18,16 @@
 #' @section Methods:
 #' \describe{
 #'
-#' delete_order Delete purchase order by ID
+#' DeleteOrder Delete purchase order by ID
 #'
 #'
-#' get_inventory Returns pet inventories by status
+#' GetInventory Returns pet inventories by status
 #'
 #'
-#' get_order_by_id Find purchase order by ID
+#' GetOrderById Find purchase order by ID
 #'
 #'
-#' place_order Place an order for a pet
+#' PlaceOrder Place an order for a pet
 #'
 #' }
 #'
@@ -45,7 +45,7 @@ StoreApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    delete_order = function(order_id, ...){
+    DeleteOrder = function(order_id, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
@@ -61,9 +61,9 @@ StoreApi <- R6::R6Class(
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        # void response, no need to return anything
+            # void response, no need to return anything
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         Response$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -71,7 +71,7 @@ StoreApi <- R6::R6Class(
       }
 
     },
-    get_inventory = function(...){
+    GetInventory = function(...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
@@ -83,7 +83,7 @@ StoreApi <- R6::R6Class(
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
                 jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -93,7 +93,7 @@ StoreApi <- R6::R6Class(
       }
 
     },
-    get_order_by_id = function(order_id, ...){
+    GetOrderById = function(order_id, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
@@ -109,7 +109,7 @@ StoreApi <- R6::R6Class(
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
                 jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -119,7 +119,7 @@ StoreApi <- R6::R6Class(
       }
 
     },
-    place_order = function(body, ...){
+    PlaceOrder = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
@@ -137,7 +137,7 @@ StoreApi <- R6::R6Class(
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
                 jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {

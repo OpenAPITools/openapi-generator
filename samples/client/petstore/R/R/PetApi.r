@@ -18,28 +18,28 @@
 #' @section Methods:
 #' \describe{
 #'
-#' add_pet Add a new pet to the store
+#' AddPet Add a new pet to the store
 #'
 #'
-#' delete_pet Deletes a pet
+#' DeletePet Deletes a pet
 #'
 #'
-#' find_pets_by_status Finds Pets by status
+#' FindPetsByStatus Finds Pets by status
 #'
 #'
-#' find_pets_by_tags Finds Pets by tags
+#' FindPetsByTags Finds Pets by tags
 #'
 #'
-#' get_pet_by_id Find pet by ID
+#' GetPetById Find pet by ID
 #'
 #'
-#' update_pet Update an existing pet
+#' UpdatePet Update an existing pet
 #'
 #'
-#' update_pet_with_form Updates a pet in the store with form data
+#' UpdatePetWithForm Updates a pet in the store with form data
 #'
 #'
-#' upload_file uploads an image
+#' UploadFile uploads an image
 #'
 #' }
 #'
@@ -57,7 +57,7 @@ PetApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    add_pet = function(body, ...){
+    AddPet = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
@@ -75,9 +75,9 @@ PetApi <- R6::R6Class(
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        # void response, no need to return anything
+            # void response, no need to return anything
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         Response$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -85,7 +85,7 @@ PetApi <- R6::R6Class(
       }
 
     },
-    delete_pet = function(pet_id, api_key, ...){
+    DeletePet = function(pet_id, api_key, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
@@ -105,9 +105,9 @@ PetApi <- R6::R6Class(
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        # void response, no need to return anything
+            # void response, no need to return anything
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         Response$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -115,7 +115,7 @@ PetApi <- R6::R6Class(
       }
 
     },
-    find_pets_by_status = function(status, ...){
+    FindPetsByStatus = function(status, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
@@ -131,7 +131,7 @@ PetApi <- R6::R6Class(
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
                 jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -141,7 +141,7 @@ PetApi <- R6::R6Class(
       }
 
     },
-    find_pets_by_tags = function(tags, ...){
+    FindPetsByTags = function(tags, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
@@ -157,7 +157,7 @@ PetApi <- R6::R6Class(
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
                 jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -167,7 +167,7 @@ PetApi <- R6::R6Class(
       }
 
     },
-    get_pet_by_id = function(pet_id, ...){
+    GetPetById = function(pet_id, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
@@ -183,7 +183,7 @@ PetApi <- R6::R6Class(
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
                 jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
@@ -193,7 +193,7 @@ PetApi <- R6::R6Class(
       }
 
     },
-    update_pet = function(body, ...){
+    UpdatePet = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
@@ -211,9 +211,9 @@ PetApi <- R6::R6Class(
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        # void response, no need to return anything
+            # void response, no need to return anything
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         Response$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -221,7 +221,7 @@ PetApi <- R6::R6Class(
       }
 
     },
-    update_pet_with_form = function(pet_id, name, status, ...){
+    UpdatePetWithForm = function(pet_id, name, status, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
@@ -242,9 +242,9 @@ PetApi <- R6::R6Class(
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        # void response, no need to return anything
+            # void response, no need to return anything
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         Response$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
@@ -252,7 +252,7 @@ PetApi <- R6::R6Class(
       }
 
     },
-    upload_file = function(pet_id, additional_metadata, file, ...){
+    UploadFile = function(pet_id, additional_metadata, file, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
@@ -273,7 +273,7 @@ PetApi <- R6::R6Class(
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
                 jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
