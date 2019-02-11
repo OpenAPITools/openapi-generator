@@ -1,4 +1,4 @@
-# ::PetApi
+# PetApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
