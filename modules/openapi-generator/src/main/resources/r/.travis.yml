@@ -1,6 +1,8 @@
 # ref: https://docs.travis-ci.com/user/languages/r/
 language: r
-cache: packages
+cache:
+  directories:
+  - /home/travis/R/Library
 r_packages:
 - jsonlite
 - httr
@@ -10,4 +12,4 @@ r_packages:
 script:
 - R CMD build .
 - R CMD check *tar.gz
-- R CMD install *tar.gz
+- R CMD INSTALL *tar.gz
