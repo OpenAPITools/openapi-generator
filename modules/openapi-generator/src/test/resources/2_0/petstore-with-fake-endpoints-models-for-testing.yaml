@@ -1425,16 +1425,16 @@ definitions:
           type: object
           additionalProperties:
             type: string
-      map_anytype:
+      map_map_anytype:
         type: object
         additionalProperties:
           type: object
           additionalProperties:
             type: object
-      property_anytype_1:
+      anytype_1:
         type: object
-      property_anytype_2: {}
-      property_anytype_3:
+      anytype_2: {}
+      anytype_3:
         type: object
         properties: {}
   AdditionalPropertiesString:
@@ -1475,6 +1475,15 @@ definitions:
       items:
         type: object
   AdditionalPropertiesObject:
+    type: object
+    properties:
+      name:
+        type: string
+    additionalProperties:
+      type: object
+      additionalProperties:
+        type: object
+  AdditionalPropertiesAnyType:
     type: object
     properties:
       name:

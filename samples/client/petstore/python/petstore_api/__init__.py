@@ -28,6 +28,7 @@ from petstore_api.api.user_api import UserApi
 from petstore_api.api_client import ApiClient
 from petstore_api.configuration import Configuration
 # import models into sdk package
+from petstore_api.models.additional_properties_any_type import AdditionalPropertiesAnyType
 from petstore_api.models.additional_properties_array import AdditionalPropertiesArray
 from petstore_api.models.additional_properties_boolean import AdditionalPropertiesBoolean
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass

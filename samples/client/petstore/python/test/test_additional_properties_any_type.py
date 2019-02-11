@@ -15,17 +15,17 @@ from __future__ import absolute_import
 import unittest
 
 import petstore_api
-from petstore_api.models.additional_properties_object import AdditionalPropertiesObject  # noqa: E501
+from petstore_api.models.additional_properties_any_type import AdditionalPropertiesAnyType  # noqa: E501
 from petstore_api.rest import ApiException
 from test.utils import EXAMPLES, VAR_NAME_INVALID_TYPES, get_examples
 
-ADDL_PROPS_VALUE_TYPE = 'dict'
-ADDL_PROPS_INVALID_VALUE_TYPES = [
-    val for val in EXAMPLES.keys() if val != ADDL_PROPS_VALUE_TYPE
+ADDL_PROPS_VALUE_TYPES = [
+    val for val in EXAMPLES.keys() if val != 'None'
 ]
+ADDL_PROPS_INVALID_VALUE_TYPES = ['None']
 
 
-class TestAdditionalPropertiesObject(unittest.TestCase):
+class TestAdditionalPropertiesAnyType(unittest.TestCase):
     """AdditionalPropertiesObject unit test stubs"""
 
     def test_addl_props_invalid_var_value_fails(self):
@@ -34,26 +34,26 @@ class TestAdditionalPropertiesObject(unittest.TestCase):
             for var_value in var_values:
                 keyword_args = {var_name: var_value}
                 with self.assertRaises(TypeError):
-                    AdditionalPropertiesObject(**keyword_args)
+                    AdditionalPropertiesAnyType(**keyword_args)
 
                 with self.assertRaises(TypeError):
-                    a = AdditionalPropertiesObject()
+                    a = AdditionalPropertiesAnyType()
                     a[var_name] = var_value
 
     def test_addl_props_invalid_var_name_fails(self):
         var_names = get_examples(VAR_NAME_INVALID_TYPES)
         for var_name in var_names:
-            for var_value in EXAMPLES[ADDL_PROPS_VALUE_TYPE]:
+            for var_value in EXAMPLES['str']:
                 with self.assertRaises(TypeError):
-                    a = AdditionalPropertiesObject()
+                    a = AdditionalPropertiesAnyType()
                     a[var_name] = var_value
 
     def test_addl_props_valid_value_type_succeeds(self):
         for var_name in EXAMPLES['str']:
-            for var_value in EXAMPLES[ADDL_PROPS_VALUE_TYPE]:
+            for var_value in get_examples(ADDL_PROPS_VALUE_TYPES):
                 keyword_args = {var_name: var_value}
-                a = AdditionalPropertiesObject(**keyword_args)
-                b = AdditionalPropertiesObject()
+                a = AdditionalPropertiesAnyType(**keyword_args)
+                b = AdditionalPropertiesAnyType()
                 b[var_name] = var_value
         assert True
 

@@ -43,7 +43,7 @@ class TestAdditionalPropertiesInteger(unittest.TestCase):
     def test_addl_props_invalid_var_name_fails(self):
         var_names = get_examples(VAR_NAME_INVALID_TYPES)
         for var_name in var_names:
-            for var_value in EXAMPLES['str']:
+            for var_value in EXAMPLES[ADDL_PROPS_VALUE_TYPE]:
                 with self.assertRaises(TypeError):
                     a = AdditionalPropertiesInteger()
                     a[var_name] = var_value

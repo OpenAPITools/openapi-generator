@@ -64,15 +64,23 @@ class TypeHolderDefault(object):
 
         self._data_store = {}
         self.discriminator = None
-        self._check_type = kwargs.get('_check_type') or False
-        self.__setitem__('string_item', string_item)
-        self.__setitem__('number_item', number_item)
-        self.__setitem__('integer_item', integer_item)
-        self.__setitem__('bool_item', bool_item)
-        self.__setitem__('array_item', array_item)
+        if '_check_type' in kwargs:
+            self._check_type = kwargs.pop('_check_type')
+        else:
+            self._check_type = False
 
+        # assign using .var_name to check against nullable and enums
+        self.string_item = string_item
+        self.number_item = number_item
+        self.integer_item = integer_item
+        self.bool_item = bool_item
+        self.array_item = array_item
         for var_name, var_value in six.iteritems(kwargs):
-            self.__setitem__(var_name, var_value)
+            if var_name in self.openapi_types:
+                # assign using .var_name to check against nullable and enums
+                setattr(self, var_name, var_value)
+            else:
+                self.__setitem__(var_name, var_value)
 
     def recursive_type(self, item):
         """Gets a string describing the full the recursive type of a value"""
@@ -87,6 +95,8 @@ class TypeHolderDefault(object):
             if child_key_types not in [set(['str']), set()]:
                 raise TypeError('Invalid dict key type. All Openapi dict keys must be strings')
             child_value_types = '|'.join(sorted(list(child_value_types)))
+            if child_key_types == set():
+                return "dict()"
             return "dict(str, {0})".format(child_value_types)
         elif item_type == list:
             child_value_types = set()
@@ -113,9 +123,16 @@ class TypeHolderDefault(object):
             # we have an empty list, and the inner required types are
             # primitives like str, int etc, allow it
             return True
+        if (passed_types == set(['dict']) and passed_remainder == '' and
+                all(char not in req_remainder for char in '([')):
+            # we have an empty dict, and the inner required types are
+            # primitives like str, int etc, allow it
+            return True
         return self.valid_type(passed_remainder, req_remainder)
 
     def get_types_remainder(self, type_string):
+        if type_string == 'dict()':
+            return set(['dict']), ''
         container_types = [('dict(str, ', ')'), ('list[', ']')]
         for type_prefix, type_suffix in container_types:
             if type_string.startswith(type_prefix) and type_string.endswith(type_suffix):

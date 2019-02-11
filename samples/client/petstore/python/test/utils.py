@@ -16,7 +16,7 @@ example_list_monotypes = [
     [exmple_simple['float'][0]],
     [exmple_simple['float'][0], exmple_simple['float'][1]],
     [exmple_simple['bool'][0]],
-    [exmple_simple['bool'][0], exmple_simple['bool'][1]],
+    [exmple_simple['bool'][0], exmple_simple['bool'][1]]
 ]
 
 example_dict_monotypes = [
@@ -25,12 +25,10 @@ example_dict_monotypes = [
     {exmple_simple['str'][0]: exmple_simple['int'][0]},
     {exmple_simple['str'][0]: exmple_simple['float'][0]},
     {exmple_simple['str'][0]: exmple_simple['bool'][0]},
-    {exmple_simple['str'][0]: None},
     {exmple_simple['str'][1]: exmple_simple['str'][1]},
     {exmple_simple['str'][1]: exmple_simple['int'][0]},
     {exmple_simple['str'][1]: exmple_simple['float'][0]},
-    {exmple_simple['str'][1]: exmple_simple['bool'][0]},
-    {exmple_simple['str'][1]: None},
+    {exmple_simple['str'][1]: exmple_simple['bool'][0]}
 ]
 # add lists to dict
 example_dict_monotypes_all = copy.deepcopy(example_dict_monotypes)

@@ -111,6 +111,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
  - [AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
  - [AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)

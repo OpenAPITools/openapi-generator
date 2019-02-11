@@ -43,7 +43,7 @@ class TestAdditionalPropertiesArray(unittest.TestCase):
     def test_addl_props_invalid_var_name_fails(self):
         var_names = get_examples(VAR_NAME_INVALID_TYPES)
         for var_name in var_names:
-            for var_value in EXAMPLES['str']:
+            for var_value in EXAMPLES[ADDL_PROPS_VALUE_TYPE]:
                 with self.assertRaises(TypeError):
                     a = AdditionalPropertiesArray()
                     a[var_name] = var_value
@@ -51,8 +51,7 @@ class TestAdditionalPropertiesArray(unittest.TestCase):
     def test_addl_props_valid_value_type_succeeds(self):
         for var_name in EXAMPLES['str']:
             for var_value in EXAMPLES[ADDL_PROPS_VALUE_TYPE]:
-                # keyword_args = {var_name: var_value}
-                keyword_args = {var_name: []}
+                keyword_args = {var_name: var_value}
                 a = AdditionalPropertiesArray(**keyword_args)
                 b = AdditionalPropertiesArray()
                 b[var_name] = var_value

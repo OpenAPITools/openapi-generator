@@ -14,6 +14,7 @@
 from __future__ import absolute_import
 
 # import models into model package
+from petstore_api.models.additional_properties_any_type import AdditionalPropertiesAnyType
 from petstore_api.models.additional_properties_array import AdditionalPropertiesArray
 from petstore_api.models.additional_properties_boolean import AdditionalPropertiesBoolean
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
