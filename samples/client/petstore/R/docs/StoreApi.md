@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 
 # **DeleteOrder**
-> DeleteOrder(var.order.id)
+> DeleteOrder(order.id)
 
 Delete purchase order by ID
 
@@ -35,7 +35,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-nil (empty response body)
+void (empty response body)
 
 ### Authorization
 
@@ -84,7 +84,7 @@ This endpoint does not need any parameter.
 
 
 # **GetOrderById**
-> Order GetOrderById(var.order.id)
+> Order GetOrderById(order.id)
 
 Find purchase order by ID
 
@@ -123,7 +123,7 @@ No authorization required
 
 
 # **PlaceOrder**
-> Order PlaceOrder(var.body)
+> Order PlaceOrder(body)
 
 Place an order for a pet
 

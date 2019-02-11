@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **AddPet**
-> AddPet(var.body)
+> AddPet(body)
 
 Add a new pet to the store
 
@@ -37,7 +37,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-nil (empty response body)
+void (empty response body)
 
 ### Authorization
 
@@ -51,7 +51,7 @@ nil (empty response body)
 
 
 # **DeletePet**
-> DeletePet(var.pet.id, api.key)
+> DeletePet(pet.id, api.key=var.api.key)
 
 Deletes a pet
 
@@ -75,7 +75,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-nil (empty response body)
+void (empty response body)
 
 ### Authorization
 
@@ -89,7 +89,7 @@ nil (empty response body)
 
 
 # **FindPetsByStatus**
-> Pet FindPetsByStatus(var.status)
+> Pet FindPetsByStatus(status)
 
 Finds Pets by status
 
@@ -128,7 +128,7 @@ Name | Type | Description  | Notes
 
 
 # **FindPetsByTags**
-> Pet FindPetsByTags(var.tags)
+> Pet FindPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -167,7 +167,7 @@ Name | Type | Description  | Notes
 
 
 # **GetPetById**
-> Pet GetPetById(var.pet.id)
+> Pet GetPetById(pet.id)
 
 Find pet by ID
 
@@ -206,7 +206,7 @@ Name | Type | Description  | Notes
 
 
 # **UpdatePet**
-> UpdatePet(var.body)
+> UpdatePet(body)
 
 Update an existing pet
 
@@ -228,7 +228,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-nil (empty response body)
+void (empty response body)
 
 ### Authorization
 
@@ -242,7 +242,7 @@ nil (empty response body)
 
 
 # **UpdatePetWithForm**
-> UpdatePetWithForm(var.pet.id, name, status)
+> UpdatePetWithForm(pet.id, name=var.name, status=var.status)
 
 Updates a pet in the store with form data
 
@@ -268,7 +268,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-nil (empty response body)
+void (empty response body)
 
 ### Authorization
 
@@ -282,7 +282,7 @@ nil (empty response body)
 
 
 # **UploadFile**
-> ApiResponse UploadFile(var.pet.id, additional.metadata, file)
+> ApiResponse UploadFile(pet.id, additional.metadata=var.additional.metadata, file=var.file)
 
 uploads an image
 

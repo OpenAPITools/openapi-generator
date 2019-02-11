@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **CreateUser**
-> CreateUser(var.body)
+> CreateUser(body)
 
 Create user
 
@@ -39,7 +39,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-nil (empty response body)
+void (empty response body)
 
 ### Authorization
 
@@ -53,7 +53,7 @@ No authorization required
 
 
 # **CreateUsersWithArrayInput**
-> CreateUsersWithArrayInput(var.body)
+> CreateUsersWithArrayInput(body)
 
 Creates list of users with given input array
 
@@ -75,7 +75,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-nil (empty response body)
+void (empty response body)
 
 ### Authorization
 
@@ -89,7 +89,7 @@ No authorization required
 
 
 # **CreateUsersWithListInput**
-> CreateUsersWithListInput(var.body)
+> CreateUsersWithListInput(body)
 
 Creates list of users with given input array
 
@@ -111,7 +111,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-nil (empty response body)
+void (empty response body)
 
 ### Authorization
 
@@ -125,7 +125,7 @@ No authorization required
 
 
 # **DeleteUser**
-> DeleteUser(var.username)
+> DeleteUser(username)
 
 Delete user
 
@@ -149,7 +149,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-nil (empty response body)
+void (empty response body)
 
 ### Authorization
 
@@ -163,7 +163,7 @@ No authorization required
 
 
 # **GetUserByName**
-> User GetUserByName(var.username)
+> User GetUserByName(username)
 
 Get user by user name
 
@@ -200,7 +200,7 @@ No authorization required
 
 
 # **LoginUser**
-> character LoginUser(var.username, var.password)
+> character LoginUser(username, password)
 
 Logs user into the system
 
@@ -257,7 +257,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-nil (empty response body)
+void (empty response body)
 
 ### Authorization
 
@@ -271,7 +271,7 @@ No authorization required
 
 
 # **UpdateUser**
-> UpdateUser(var.username, var.body)
+> UpdateUser(username, body)
 
 Updated user
 
@@ -297,7 +297,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-nil (empty response body)
+void (empty response body)
 
 ### Authorization
 
