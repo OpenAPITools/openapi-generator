@@ -183,7 +183,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}{{^pa
     }
 
     public static function oneOf() {
-        return [{{#oneOfTypes}}'{{.}}'{{^-last}}, {{/-last}}{{/oneOfTypes}}];
+        return [{{#oneOf}}'{{.}}'{{^-last}}, {{/-last}}{{/oneOf}}];
     }
 
     /**

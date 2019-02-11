@@ -334,17 +334,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    protected void getComposite(String name, ComposedSchema composed, Map<String, Schema> allDefinitions, CodegenModel m) {
-        super.getComposite(name, composed, allDefinitions, m);
-        if (composed.getOneOf() != null) {
-            for (Schema option: composed.getOneOf()) {
-                if (ModelUtils.isArraySchema(ModelUtils.unaliasSchema(this.openAPI, option))) {
-                    m.oneOfTypes.add(getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, option)));
-                } else {
-                    m.oneOfTypes.add(getTypeDeclaration(option));
-                }
-            }
+    protected String getOneOfType(Schema option) {
+        if (ModelUtils.isArraySchema(ModelUtils.unaliasSchema(this.openAPI, option))) {
+            return getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, option));
         }
+        return getTypeDeclaration(option);
     }
 
     @Override

@@ -1648,6 +1648,11 @@ public class DefaultCodegen implements CodegenConfig {
         return m;
     }
 
+    protected String getOneOfType(Schema option) {
+        String ref = ModelUtils.getSimpleRef(option.get$ref());
+        return toModelName(ref);
+    }
+
     protected void getComposite(String name, ComposedSchema composed, Map<String, Schema> allDefinitions, CodegenModel m) {
         Map<String, Schema> properties = new LinkedHashMap<String, Schema>();
         List<String> required = new ArrayList<String>();
@@ -1720,7 +1725,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (composed.getAnyOf() != null) {
                     m.anyOf.add(modelName);
                 } else if (composed.getOneOf() != null) {
-                    m.oneOf.add(modelName);
+                    m.oneOf.add(getOneOfType(interfaceSchema));
                 } else if (composed.getAllOf() != null) {
                     m.allOf.add(modelName);
                 } else {

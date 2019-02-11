@@ -37,7 +37,6 @@ public class CodegenModel {
     // anyOf, oneOf, allOf
     public Set<String> anyOf = new TreeSet<String>();
     public Set<String> oneOf = new TreeSet<String>();
-    public Set<String> oneOfTypes = new TreeSet<String>();
     public Set<String> allOf = new TreeSet<String>();
 
     public String name, classname, title, description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
