@@ -1,3 +1,15 @@
 # ref: https://docs.travis-ci.com/user/languages/r/
 language: r
-cache: packages
+cache:
+  directories:
+  - /home/travis/R/Library
+r_packages:
+- jsonlite
+- httr
+# uncomment below to install deps with devtools
+#install:
+#- R -e 'devtools::install_deps(dep = T)'
+script:
+- R CMD build .
+- R CMD check *tar.gz
+- R CMD INSTALL *tar.gz
