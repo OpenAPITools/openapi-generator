@@ -19,4 +19,8 @@ isInteger set
 isLong set
 }}{{#isLong}}{{#minimum}}@Min({{minimum}}L){{/minimum}}{{#maximum}} @Max({{maximum}}L) {{/maximum}}{{/isLong}}{{!
 Not Integer, not Long => we have a decimal value!
-}}{{^isInteger}}{{^isLong}}{{#minimum}}@DecimalMin("{{minimum}}"){{/minimum}}{{#maximum}} @DecimalMax("{{maximum}}") {{/maximum}}{{/isLong}}{{/isInteger}}
+exclusiveMinimum not set
+}}{{^isInteger}}{{^isLong}}{{^exclusiveMinimum}}{{#minimum}}@DecimalMin("{{minimum}}"){{/minimum}}{{#maximum}} @DecimalMax("{{maximum}}") {{/maximum}} {{/exclusiveMinimum}}{{/isLong}}{{/isInteger}}{{!
+Not Integer, not Long => we have a decimal value!
+exclusiveMinimum set
+}}{{^isInteger}}{{^isLong}}{{#exclusiveMinimum}}{{#minimum}}@DecimalMin(value="{{minimum}}",inclusive=false){{/minimum}}{{#maximum}} @DecimalMax(value="{{maximum}}",inclusive=false) {{/maximum}} {{/exclusiveMinimum}}{{/isLong}}{{/isInteger}}
