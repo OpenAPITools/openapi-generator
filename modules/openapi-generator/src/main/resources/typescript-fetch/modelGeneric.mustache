@@ -88,26 +88,22 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
     return value;
     {{/hasVars}}
 }
-{{#hasEnums}}
 
-/**
- * @export
- * @namespace {{classname}}
- */
-export namespace {{classname}} {
+{{#hasEnums}}
 {{#vars}}
-    {{#isEnum}}
-    /**
-     * @export
-     * @enum {string}
-     */
-    export enum {{enumName}} {
-    {{#allowableValues}}
-        {{#enumVars}}
-        {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
-        {{/enumVars}}
-    {{/allowableValues}}
-    }
-    {{/isEnum}}
+{{#isEnum}}
+/**
+* @export
+* @enum {string}
+*/
+export enum {{classname}}{{enumName}} {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+}
+{{/isEnum}}
 {{/vars}}
-}{{/hasEnums}}
+
+{{/hasEnums}}
