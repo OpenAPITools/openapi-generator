@@ -30,6 +30,7 @@ import org.testng.annotations.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 import static org.testng.AssertJUnit.*;
 
@@ -653,6 +654,31 @@ public class InlineModelResolverTest {
         ObjectSchema itemsProperty = (ObjectSchema) items.getProperties().get("arbitrary_object_model_with_array_inline_without_title");
         assertNull(itemsProperty.getProperties());
     }
+
+
+    private void checkComposedChildren(OpenAPI openAPI, List<Schema> children, String key) {
+        assertNotNull(children);
+        Schema inlined = children.get(0);
+        assertEquals("#/components/schemas/ComposedObjectModelInline_" + key, inlined.get$ref());
+        Schema child = ModelUtils.getReferencedSchema(openAPI, inlined);
+        assertNotNull(child.getProperties());
+        assertNotNull(child.getProperties().get("composed_object_model_inline_" + key));
+    }
+
+    @Test
+    public void objectComposedWithInline() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        new InlineModelResolver().flatten(openAPI);
+
+        assertTrue(openAPI.getComponents().getSchemas().get("ComposedObjectModelInline") instanceof ComposedSchema);
+
+        ComposedSchema schema = (ComposedSchema) openAPI.getComponents().getSchemas().get("ComposedObjectModelInline");
+
+        checkComposedChildren(openAPI, schema.getAllOf(), "allOf");
+        checkComposedChildren(openAPI, schema.getAnyOf(), "anyOf");
+        checkComposedChildren(openAPI, schema.getOneOf(), "oneOf");
+    }
+
 
     @Test
     public void arbitraryObjectModelWithArrayInlineWithTitle() {
