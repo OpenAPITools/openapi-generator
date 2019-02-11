@@ -4,9 +4,10 @@ cache: packages
 r_packages:
 - jsonlite
 - httr
-install:
-- R -e 'devtools::install_deps(dep = T)'
-
+# uncomment below to install deps with devtools
+#install:
+#- R -e 'devtools::install_deps(dep = T)'
 script:
 - R CMD build .
 - R CMD check *tar.gz
+- R CMD install *tar.gz
