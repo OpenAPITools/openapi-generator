@@ -45,14 +45,14 @@ StoreApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    DeleteOrder = function(order_id, ...){
+    DeleteOrder = function(order.id, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
       urlPath <- "/store/order/{orderId}"
-      if (!missing(`order_id`)) {
-        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), `order_id`, urlPath)
+      if (!missing(`order.id`)) {
+        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), `order.id`, urlPath)
       }
 
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
@@ -93,14 +93,14 @@ StoreApi <- R6::R6Class(
       }
 
     },
-    GetOrderById = function(order_id, ...){
+    GetOrderById = function(order.id, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
       urlPath <- "/store/order/{orderId}"
-      if (!missing(`order_id`)) {
-        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), `order_id`, urlPath)
+      if (!missing(`order.id`)) {
+        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), `order.id`, urlPath)
       }
 
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),

@@ -1,0 +1,324 @@
+# PetApi
+
+All URIs are relative to *http://petstore.swagger.io/v2*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**AddPet**](PetApi.md#AddPet) | **POST** /pet | Add a new pet to the store
+[**DeletePet**](PetApi.md#DeletePet) | **DELETE** /pet/{petId} | Deletes a pet
+[**FindPetsByStatus**](PetApi.md#FindPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
+[**FindPetsByTags**](PetApi.md#FindPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
+[**GetPetById**](PetApi.md#GetPetById) | **GET** /pet/{petId} | Find pet by ID
+[**UpdatePet**](PetApi.md#UpdatePet) | **PUT** /pet | Update an existing pet
+[**UpdatePetWithForm**](PetApi.md#UpdatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
+[**UploadFile**](PetApi.md#UploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+
+
+# **AddPet**
+> AddPet(body)
+
+Add a new pet to the store
+
+### Example
+```R
+library(petstore)
+
+var.body <- Pet$new # Pet | Pet object that needs to be added to the store
+
+#Add a new pet to the store
+PetApi$AddPet(var.body)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, application/xml
+ - **Accept**: Not defined
+
+
+
+# **DeletePet**
+> DeletePet(pet.id, api.key=var.api.key)
+
+Deletes a pet
+
+### Example
+```R
+library(petstore)
+
+var.pet.id <- 56 # integer | Pet id to delete
+var.api.key <- 'api.key_example' # character | 
+
+#Deletes a pet
+PetApi$DeletePet(var.pet.id, api.key=var.api.key)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet.id** | **integer**| Pet id to delete | 
+ **api.key** | **character**|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+
+
+# **FindPetsByStatus**
+> Pet FindPetsByStatus(status)
+
+Finds Pets by status
+
+Multiple status values can be provided with comma separated strings
+
+### Example
+```R
+library(petstore)
+
+var.status <- ['status_example'] # character | Status values that need to be considered for filter
+
+#Finds Pets by status
+result = PetApi$FindPetsByStatus(var.status)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **status** | [**character**](character.md)| Status values that need to be considered for filter | 
+
+### Return type
+
+[**Pet**](Pet.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
+
+
+
+# **FindPetsByTags**
+> Pet FindPetsByTags(tags)
+
+Finds Pets by tags
+
+Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+
+### Example
+```R
+library(petstore)
+
+var.tags <- ['tags_example'] # character | Tags to filter by
+
+#Finds Pets by tags
+result = PetApi$FindPetsByTags(var.tags)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **tags** | [**character**](character.md)| Tags to filter by | 
+
+### Return type
+
+[**Pet**](Pet.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
+
+
+
+# **GetPetById**
+> Pet GetPetById(pet.id)
+
+Find pet by ID
+
+Returns a single pet
+
+### Example
+```R
+library(petstore)
+
+var.pet.id <- 56 # integer | ID of pet to return
+
+#Find pet by ID
+result = PetApi$GetPetById(var.pet.id)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet.id** | **integer**| ID of pet to return | 
+
+### Return type
+
+[**Pet**](Pet.md)
+
+### Authorization
+
+[api_key](../README.md#api_key)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
+
+
+
+# **UpdatePet**
+> UpdatePet(body)
+
+Update an existing pet
+
+### Example
+```R
+library(petstore)
+
+var.body <- Pet$new # Pet | Pet object that needs to be added to the store
+
+#Update an existing pet
+PetApi$UpdatePet(var.body)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json, application/xml
+ - **Accept**: Not defined
+
+
+
+# **UpdatePetWithForm**
+> UpdatePetWithForm(pet.id, name=var.name, status=var.status)
+
+Updates a pet in the store with form data
+
+### Example
+```R
+library(petstore)
+
+var.pet.id <- 56 # integer | ID of pet that needs to be updated
+var.name <- 'name_example' # character | Updated name of the pet
+var.status <- 'status_example' # character | Updated status of the pet
+
+#Updates a pet in the store with form data
+PetApi$UpdatePetWithForm(var.pet.id, name=var.name, status=var.status)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet.id** | **integer**| ID of pet that needs to be updated | 
+ **name** | **character**| Updated name of the pet | [optional] 
+ **status** | **character**| Updated status of the pet | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+
+
+# **UploadFile**
+> ApiResponse UploadFile(pet.id, additional.metadata=var.additional.metadata, file=var.file)
+
+uploads an image
+
+### Example
+```R
+library(petstore)
+
+var.pet.id <- 56 # integer | ID of pet to update
+var.additional.metadata <- 'additional.metadata_example' # character | Additional data to pass to server
+var.file <- File.new('/path/to/file') # data.frame | file to upload
+
+#uploads an image
+result = PetApi$UploadFile(var.pet.id, additional.metadata=var.additional.metadata, file=var.file)
+dput(result)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet.id** | **integer**| ID of pet to update | 
+ **additional.metadata** | **character**| Additional data to pass to server | [optional] 
+ **file** | **data.frame**| file to upload | [optional] 
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+
+

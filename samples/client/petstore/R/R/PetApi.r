@@ -85,18 +85,18 @@ PetApi <- R6::R6Class(
       }
 
     },
-    DeletePet = function(pet_id, api_key, ...){
+    DeletePet = function(pet.id, api.key, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
-      if (!missing(`api_key`)) {
-        headerParams['api_key'] <- `api_key`
+      if (!missing(`api.key`)) {
+        headerParams['api_key'] <- `api.key`
       }
 
       urlPath <- "/pet/{petId}"
-      if (!missing(`pet_id`)) {
-        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet_id`, urlPath)
+      if (!missing(`pet.id`)) {
+        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
       }
 
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
@@ -167,14 +167,14 @@ PetApi <- R6::R6Class(
       }
 
     },
-    GetPetById = function(pet_id, ...){
+    GetPetById = function(pet.id, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
       urlPath <- "/pet/{petId}"
-      if (!missing(`pet_id`)) {
-        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet_id`, urlPath)
+      if (!missing(`pet.id`)) {
+        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
       }
 
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
@@ -221,7 +221,7 @@ PetApi <- R6::R6Class(
       }
 
     },
-    UpdatePetWithForm = function(pet_id, name, status, ...){
+    UpdatePetWithForm = function(pet.id, name, status, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
@@ -232,8 +232,8 @@ PetApi <- R6::R6Class(
       )
 
       urlPath <- "/pet/{petId}"
-      if (!missing(`pet_id`)) {
-        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet_id`, urlPath)
+      if (!missing(`pet.id`)) {
+        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
       }
 
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
@@ -252,19 +252,19 @@ PetApi <- R6::R6Class(
       }
 
     },
-    UploadFile = function(pet_id, additional_metadata, file, ...){
+    UploadFile = function(pet.id, additional.metadata, file, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- character()
 
       body <- list(
-        "additionalMetadata" = additional_metadata,
+        "additionalMetadata" = additional.metadata,
         "file" = httr::upload_file(file)
       )
 
       urlPath <- "/pet/{petId}/uploadImage"
-      if (!missing(`pet_id`)) {
-        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet_id`, urlPath)
+      if (!missing(`pet.id`)) {
+        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
       }
 
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),

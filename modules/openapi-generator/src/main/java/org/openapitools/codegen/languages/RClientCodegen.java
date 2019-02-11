@@ -17,8 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -27,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -133,8 +136,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiTestTemplateFiles.clear(); // TODO: add api test template
         modelTestTemplateFiles.clear(); // TODO: add model test template
 
-        apiDocTemplateFiles.clear(); // TODO: add api doc template
-        modelDocTemplateFiles.clear(); // TODO: add model doc template
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         modelPackage = packageName;
         apiPackage = packageName;
@@ -205,7 +208,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toParamName(String name) {
-        return toVarName(name);
+        return toVarName(name).replace("_", ".");
     }
 
     @Override
@@ -449,5 +452,160 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             return enumName;
         }
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            p.example = p.defaultValue;
+            return;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if ("character".equals(type)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if ("integer".equals(type)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if ("numeric".equals(type)) {
+            if (example == null) {
+                example = "3.4";
+            }
+        } else if ("data.frame".equals(type)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "File.new('" + escapeText(example) + "')";
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = type + "$new";
+        }
+
+        if (example == null) {
+            example = "NULL";
+        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = "[" + example + "]";
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = "{'key' => " + example + "}";
+        }
+
+        p.example = example;
+    }
+
+    /**
+     * Return the example value of the parameter. Overrides the
+     * setParameterExampleValue(CodegenParameter, Parameter) method in
+     * DefaultCodegen to always call setParameterExampleValue(CodegenParameter)
+     * in this class, which adds single quotes around strings from the
+     * x-example property.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param parameter        Parameter
+     */
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        if (parameter.getExample() != null) {
+            codegenParameter.example = parameter.getExample().toString();
+        } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            Example example = parameter.getExamples().values().iterator().next();
+            if (example.getValue() != null) {
+                codegenParameter.example = example.getValue().toString();
+            }
+        } else {
+            Schema schema = parameter.getSchema();
+            if (schema != null && schema.getExample() != null) {
+                codegenParameter.example = schema.getExample().toString();
+            }
+        }
+
+        setParameterExampleValue(codegenParameter);
+    }
+
+    /**
+     * Return the default value of the property
+     * @param p OpenAPI property object
+     * @return string presentation of the default value of the property
+     */
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                if (Boolean.valueOf(p.getDefault().toString()) == false)
+                    return "False";
+                else
+                    return "True";
+            }
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                if (Boolean.valueOf(p.getExample().toString()) == false)
+                    return "False";
+                else
+                    return "True";
+            }
+        } else if (ModelUtils.isDateSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            // default numbers are not yet returned by v2 spec openAPI results
+            // https://github.com/swagger-api/swagger-parser/issues/971
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                return p.getExample().toString();
+            }
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            // default integers are not yet returned by v2 spec openAPI results
+            // https://github.com/swagger-api/swagger-parser/issues/971
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                return p.getExample().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
+                    return "'''" + p.getDefault() + "'''";
+                else
+                    return "'" + p.getDefault() + "'";
+            }
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getExample()).find())
+                    return "'''" + p.getExample() + "'''";
+                else
+                    return "'" + p.getExample() + "'";
+            }
+        } else if (ModelUtils.isArraySchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                return p.getExample().toString();
+            }
+        }
+
+        return null;
     }
 }
