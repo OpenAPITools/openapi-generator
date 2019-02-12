@@ -25,6 +25,7 @@ use std::path::Path;
 use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
+use std::string::ToString;
 
 use mimetypes;
 
@@ -277,13 +278,17 @@ impl<F, C> Api<C> for Client<F> where
     C: Has<XSpanIdString> + Has<Option<AuthData>>{
 
     fn test_special_tags(&self, param_body: models::Client, context: &C) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/another-fake/dummy",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -352,13 +357,17 @@ impl<F, C> Api<C> for Client<F> where
     }
 
     fn fake_outer_boolean_serialize(&self, param_body: Option<bool>, context: &C) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake/outer/boolean",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -429,13 +438,17 @@ if let Some(body) = body {
     }
 
     fn fake_outer_composite_serialize(&self, param_body: Option<models::OuterComposite>, context: &C) -> Box<Future<Item=FakeOuterCompositeSerializeResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake/outer/composite",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -504,13 +517,17 @@ if let Some(body) = body {
     }
 
     fn fake_outer_number_serialize(&self, param_body: Option<f64>, context: &C) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake/outer/number",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -579,13 +596,17 @@ if let Some(body) = body {
     }
 
     fn fake_outer_string_serialize(&self, param_body: Option<String>, context: &C) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake/outer/string",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -654,17 +675,20 @@ if let Some(body) = body {
     }
 
     fn test_body_with_query_params(&self, param_query: String, param_body: models::User, context: &C) -> Box<Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
         // Query parameters
-        let query_query = format!("query={query}&", query=param_query.to_string());
+        query_string.append_pair("query", &param_query.to_string());
 
-
-        let uri = format!(
-            "{}/v2/fake/body-with-query-params?{query}",
-            self.base_path,
-            query=utf8_percent_encode(&query_query, QUERY_ENCODE_SET)
+        let mut uri = format!(
+            "{}/v2/fake/body-with-query-params",
+            self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -721,13 +745,17 @@ if let Some(body) = body {
     }
 
     fn test_client_model(&self, param_body: models::Client, context: &C) -> Box<Future<Item=TestClientModelResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -794,13 +822,17 @@ if let Some(body) = body {
     }
 
     fn test_endpoint_parameters(&self, param_number: f64, param_double: f64, param_pattern_without_delimiter: String, param_byte: swagger::ByteArray, param_integer: Option<i32>, param_int32: Option<i32>, param_int64: Option<i64>, param_float: Option<f32>, param_string: Option<String>, param_binary: Option<swagger::ByteArray>, param_date: Option<chrono::DateTime<chrono::Utc>>, param_date_time: Option<chrono::DateTime<chrono::Utc>>, param_password: Option<String>, param_callback: Option<String>, context: &C) -> Box<Future<Item=TestEndpointParametersResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -885,23 +917,31 @@ if let Some(body) = body {
     }
 
     fn test_enum_parameters(&self, param_enum_header_string_array: Option<&Vec<String>>, param_enum_header_string: Option<String>, param_enum_query_string_array: Option<&Vec<String>>, param_enum_query_string: Option<String>, param_enum_query_integer: Option<i32>, param_enum_query_double: Option<f64>, param_enum_form_string: Option<String>, context: &C) -> Box<Future<Item=TestEnumParametersResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
         // Query parameters
-        let query_enum_query_string_array = param_enum_query_string_array.map_or_else(String::new, |query| format!("enum_query_string_array={enum_query_string_array}&", enum_query_string_array=query.join(",")));
-        let query_enum_query_string = param_enum_query_string.map_or_else(String::new, |query| format!("enum_query_string={enum_query_string}&", enum_query_string=query.to_string()));
-        let query_enum_query_integer = param_enum_query_integer.map_or_else(String::new, |query| format!("enum_query_integer={enum_query_integer}&", enum_query_integer=query.to_string()));
-        let query_enum_query_double = param_enum_query_double.map_or_else(String::new, |query| format!("enum_query_double={enum_query_double}&", enum_query_double=query.to_string()));
+        if let Some(enum_query_string_array) = param_enum_query_string_array {
+            query_string.append_pair("enum_query_string_array", &enum_query_string_array.join(","));
+        }
+        if let Some(enum_query_string) = param_enum_query_string {
+            query_string.append_pair("enum_query_string", &enum_query_string.to_string());
+        }
+        if let Some(enum_query_integer) = param_enum_query_integer {
+            query_string.append_pair("enum_query_integer", &enum_query_integer.to_string());
+        }
+        if let Some(enum_query_double) = param_enum_query_double {
+            query_string.append_pair("enum_query_double", &enum_query_double.to_string());
+        }
 
-
-        let uri = format!(
-            "{}/v2/fake?{enum_query_string_array}{enum_query_string}{enum_query_integer}{enum_query_double}",
-            self.base_path,
-            enum_query_string_array=utf8_percent_encode(&query_enum_query_string_array, QUERY_ENCODE_SET),
-            enum_query_string=utf8_percent_encode(&query_enum_query_string, QUERY_ENCODE_SET),
-            enum_query_integer=utf8_percent_encode(&query_enum_query_integer, QUERY_ENCODE_SET),
-            enum_query_double=utf8_percent_encode(&query_enum_query_double, QUERY_ENCODE_SET)
+        let mut uri = format!(
+            "{}/v2/fake",
+            self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -973,13 +1013,17 @@ if let Some(body) = body {
     }
 
     fn test_inline_additional_properties(&self, param_param: HashMap<String, String>, context: &C) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake/inline-additionalProperties",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1036,13 +1080,17 @@ if let Some(body) = body {
     }
 
     fn test_json_form_data(&self, param_param: String, param_param2: String, context: &C) -> Box<Future<Item=TestJsonFormDataResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake/jsonFormData",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1100,13 +1148,17 @@ if let Some(body) = body {
     }
 
     fn test_classname(&self, param_body: models::Client, context: &C) -> Box<Future<Item=TestClassnameResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/fake_classname_test",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1175,13 +1227,17 @@ if let Some(body) = body {
     }
 
     fn add_pet(&self, param_body: models::Pet, context: &C) -> Box<Future<Item=AddPetResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/pet",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1240,13 +1296,17 @@ if let Some(body) = body {
     }
 
     fn delete_pet(&self, param_pet_id: i64, param_api_key: Option<String>, context: &C) -> Box<Future<Item=DeletePetResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/pet/{petId}",
             self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1301,17 +1361,20 @@ if let Some(body) = body {
     }
 
     fn find_pets_by_status(&self, param_status: &Vec<String>, context: &C) -> Box<Future<Item=FindPetsByStatusResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
         // Query parameters
-        let query_status = format!("status={status}&", status=param_status.join(","));
+        query_string.append_pair("status", &param_status.join(","));
 
-
-        let uri = format!(
-            "{}/v2/pet/findByStatus?{status}",
-            self.base_path,
-            status=utf8_percent_encode(&query_status, QUERY_ENCODE_SET)
+        let mut uri = format!(
+            "{}/v2/pet/findByStatus",
+            self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1383,17 +1446,20 @@ if let Some(body) = body {
     }
 
     fn find_pets_by_tags(&self, param_tags: &Vec<String>, context: &C) -> Box<Future<Item=FindPetsByTagsResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
         // Query parameters
-        let query_tags = format!("tags={tags}&", tags=param_tags.join(","));
+        query_string.append_pair("tags", &param_tags.join(","));
 
-
-        let uri = format!(
-            "{}/v2/pet/findByTags?{tags}",
-            self.base_path,
-            tags=utf8_percent_encode(&query_tags, QUERY_ENCODE_SET)
+        let mut uri = format!(
+            "{}/v2/pet/findByTags",
+            self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1465,13 +1531,17 @@ if let Some(body) = body {
     }
 
     fn get_pet_by_id(&self, param_pet_id: i64, context: &C) -> Box<Future<Item=GetPetByIdResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/pet/{petId}",
             self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1552,13 +1622,17 @@ if let Some(body) = body {
     }
 
     fn update_pet(&self, param_body: models::Pet, context: &C) -> Box<Future<Item=UpdatePetResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/pet",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1633,13 +1707,17 @@ if let Some(body) = body {
     }
 
     fn update_pet_with_form(&self, param_pet_id: i64, param_name: Option<String>, param_status: Option<String>, context: &C) -> Box<Future<Item=UpdatePetWithFormResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/pet/{petId}",
             self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1697,13 +1775,17 @@ if let Some(body) = body {
     }
 
     fn upload_file(&self, param_pet_id: i64, param_additional_metadata: Option<String>, param_file: Option<swagger::ByteArray>, context: &C) -> Box<Future<Item=UploadFileResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/pet/{petId}/uploadImage",
             self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1771,13 +1853,17 @@ if let Some(body) = body {
     }
 
     fn delete_order(&self, param_order_id: String, context: &C) -> Box<Future<Item=DeleteOrderResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/store/order/{order_id}",
             self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1837,13 +1923,17 @@ if let Some(body) = body {
     }
 
     fn get_inventory(&self, context: &C) -> Box<Future<Item=GetInventoryResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/store/inventory",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1904,13 +1994,17 @@ if let Some(body) = body {
     }
 
     fn get_order_by_id(&self, param_order_id: i64, context: &C) -> Box<Future<Item=GetOrderByIdResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/store/order/{order_id}",
             self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1991,13 +2085,17 @@ if let Some(body) = body {
     }
 
     fn place_order(&self, param_body: models::Order, context: &C) -> Box<Future<Item=PlaceOrderResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/store/order",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -2075,13 +2173,17 @@ if let Some(body) = body {
     }
 
     fn create_user(&self, param_body: models::User, context: &C) -> Box<Future<Item=CreateUserResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/user",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -2140,13 +2242,17 @@ if let Some(body) = body {
     }
 
     fn create_users_with_array_input(&self, param_body: &Vec<models::User>, context: &C) -> Box<Future<Item=CreateUsersWithArrayInputResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/user/createWithArray",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -2203,13 +2309,17 @@ if let Some(body) = body {
     }
 
     fn create_users_with_list_input(&self, param_body: &Vec<models::User>, context: &C) -> Box<Future<Item=CreateUsersWithListInputResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/user/createWithList",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -2266,13 +2376,17 @@ if let Some(body) = body {
     }
 
     fn delete_user(&self, param_username: String, context: &C) -> Box<Future<Item=DeleteUserResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/user/{username}",
             self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -2332,13 +2446,17 @@ if let Some(body) = body {
     }
 
     fn get_user_by_name(&self, param_username: String, context: &C) -> Box<Future<Item=GetUserByNameResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/user/{username}",
             self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -2419,19 +2537,21 @@ if let Some(body) = body {
     }
 
     fn login_user(&self, param_username: String, param_password: String, context: &C) -> Box<Future<Item=LoginUserResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
         // Query parameters
-        let query_username = format!("username={username}&", username=param_username.to_string());
-        let query_password = format!("password={password}&", password=param_password.to_string());
+        query_string.append_pair("username", &param_username.to_string());
+        query_string.append_pair("password", &param_password.to_string());
 
-
-        let uri = format!(
-            "{}/v2/user/login?{username}{password}",
-            self.base_path,
-            username=utf8_percent_encode(&query_username, QUERY_ENCODE_SET),
-            password=utf8_percent_encode(&query_password, QUERY_ENCODE_SET)
+        let mut uri = format!(
+            "{}/v2/user/login",
+            self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -2513,13 +2633,17 @@ if let Some(body) = body {
     }
 
     fn logout_user(&self, context: &C) -> Box<Future<Item=LogoutUserResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/user/logout",
             self.base_path
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -2570,13 +2694,17 @@ if let Some(body) = body {
     }
 
     fn update_user(&self, param_username: String, param_body: models::User, context: &C) -> Box<Future<Item=UpdateUserResponse, Error=ApiError>> {
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
 
-
-        let uri = format!(
+        let mut uri = format!(
             "{}/v2/user/{username}",
             self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
-
+        let query_string_str = query_string.finish();
+        if query_string_str != "" {
+            uri += "?";
+            uri += &query_string_str;
+        }
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
