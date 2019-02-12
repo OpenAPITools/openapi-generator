@@ -407,9 +407,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             throw new RuntimeException("Empty method name (operationId) not allowed");
         }
 
-        // method name cannot use reserved keyword, e.g. return
-        // append _ at the beginning, e.g. _return
-        if (isReservedWord(operationId)) {
+        // method name cannot use reserved keyword or word starting with number, e.g. return or 123return
+        // append _ at the beginning, e.g. _return or _123return
+        if (isReservedWord(operationId) || operationId.matches("^\\d.*")) {
             return escapeReservedWord(camelize(sanitizeName(operationId), true));
         }
 
