@@ -1425,6 +1425,12 @@ components:
             - -1.2
         outerEnum:
           $ref: '#/components/schemas/OuterEnum'
+        outerEnumInteger:
+          $ref: '#/components/schemas/OuterEnumInteger'
+        outerEnumDefaultValue:
+          $ref: '#/components/schemas/OuterEnumDefaultValue'
+        outerEnumIntegerDefaultValue:
+          $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
     AdditionalPropertiesClass:
       type: object
       properties:
@@ -1579,6 +1585,26 @@ components:
         - placed
         - approved
         - delivered
+    OuterEnumInteger:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+    OuterEnumDefaultValue:
+      type: string
+      enum:
+      - placed
+      - approved
+      - delivered
+      default: placed
+    OuterEnumIntegerDefaultValue:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      default: 0
     OuterComposite:
       type: object
       properties:
