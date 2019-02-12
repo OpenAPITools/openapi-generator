@@ -131,7 +131,7 @@ User <- R6::R6Class(
       }
     },
     toJSONString = function() {
-       outstring <- sprintf(
+      sprintf(
         '{
            "id":
              %d,
@@ -159,7 +159,6 @@ User <- R6::R6Class(
         self$`phone`,
         self$`userStatus`
       )
-      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(UserJson) {
       UserObject <- jsonlite::fromJSON(UserJson)

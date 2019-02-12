@@ -19,6 +19,7 @@
 #' Ref: https://openapi-generator.tech
 #' Do not edit the class manually.
 #'
+#' @importFrom httr content_type
 #' @export
 ApiClient  <- R6::R6Class(
   'ApiClient',
@@ -52,11 +53,11 @@ ApiClient  <- R6::R6Class(
       if (method == "GET") {
         httr::GET(url, queryParams, headers, ...)
       } else if (method == "POST") {
-        httr::POST(url, queryParams, headers, body = body, content_type("application/json"), ...)
+        httr::POST(url, queryParams, headers, body = body, httr::content_type("application/json"), ...)
       } else if (method == "PUT") {
-        httr::PUT(url, queryParams, headers, body = body, content_type("application/json"), ...)
+        httr::PUT(url, queryParams, headers, body = body, httr::content_type("application/json"), ...)
       } else if (method == "PATCH") {
-        httr::PATCH(url, queryParams, headers, body = body, content_type("application/json"), ...)
+        httr::PATCH(url, queryParams, headers, body = body, httr::content_type("application/json"), ...)
       } else if (method == "HEAD") {
         httr::HEAD(url, queryParams, headers, ...)
       } else if (method == "DELETE") {

@@ -66,7 +66,7 @@ ApiResponse <- R6::R6Class(
       }
     },
     toJSONString = function() {
-       outstring <- sprintf(
+      sprintf(
         '{
            "code":
              %d,
@@ -79,7 +79,6 @@ ApiResponse <- R6::R6Class(
         self$`type`,
         self$`message`
       )
-      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(ApiResponseJson) {
       ApiResponseObject <- jsonlite::fromJSON(ApiResponseJson)
