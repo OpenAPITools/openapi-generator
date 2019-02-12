@@ -667,7 +667,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void objectComposedWithInline() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         assertTrue(openAPI.getComponents().getSchemas().get("ComposedObjectModelInline") instanceof ComposedSchema);
@@ -678,7 +678,6 @@ public class InlineModelResolverTest {
         checkComposedChildren(openAPI, schema.getAnyOf(), "anyOf");
         checkComposedChildren(openAPI, schema.getOneOf(), "oneOf");
     }
-
 
     @Test
     public void arbitraryObjectModelWithArrayInlineWithTitle() {
