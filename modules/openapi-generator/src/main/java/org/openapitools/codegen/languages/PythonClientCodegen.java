@@ -237,10 +237,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
             supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
         }
-        supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
-        supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + modelPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + apiPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("configuration.mustache", packageName, "configuration.py"));
+        supportingFiles.add(new SupportingFile("__init__package.mustache", packageName, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__model.mustache", packageName + File.separatorChar + modelPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__api.mustache", packageName + File.separatorChar + apiPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("utils.mustache", packageName, "utils.py"));
 
         if (Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
