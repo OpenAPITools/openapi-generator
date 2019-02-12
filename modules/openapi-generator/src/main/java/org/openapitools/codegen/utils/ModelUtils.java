@@ -192,10 +192,20 @@ public class ModelUtils {
                 if (operation.getResponses() != null) {
                     for (ApiResponse r : operation.getResponses().values()) {
                         ApiResponse apiResponse = getReferencedApiResponse(openAPI, r);
-                        if (apiResponse != null && apiResponse.getContent() != null) {
-                            for (Entry<String, MediaType> e : apiResponse.getContent().entrySet()) {
-                                if (e.getValue().getSchema() != null) {
-                                    visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
+                        if (apiResponse != null) {
+                            if (apiResponse.getContent() != null) {
+                                for (Entry<String, MediaType> e : apiResponse.getContent().entrySet()) {
+                                    if (e.getValue().getSchema() != null) {
+                                        visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
+                                    }
+                                }
+                            }
+                            if (apiResponse.getHeaders() != null) {
+                                for (Entry<String, Header> e : apiResponse.getHeaders().entrySet()) {
+                                    Header header = getReferencedHeader(openAPI, e.getValue());
+                                    if (header.getSchema() != null) {
+                                        visitSchema(openAPI, header.getSchema(), e.getKey(), visitedSchemas, visitor);
+                                    }
                                 }
                             }
                         }
