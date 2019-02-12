@@ -448,8 +448,9 @@ module Petstore
       if @api_client.config.client_side_validation && pattern_without_delimiter.nil?
         fail ArgumentError, "Missing the required parameter 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters"
       end
-      if @api_client.config.client_side_validation && pattern_without_delimiter !~ Regexp.new(/^[A-Z].*/)
-        fail ArgumentError, "invalid value for 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters, must conform to the pattern /^[A-Z].*/."
+      pattern = Regexp.new(/^[A-Z].*/)
+      if @api_client.config.client_side_validation && pattern_without_delimiter !~ pattern
+        fail ArgumentError, "invalid value for 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters, must conform to the pattern #{pattern}."
       end
 
       # verify the required parameter 'byte' is set
@@ -476,8 +477,9 @@ module Petstore
         fail ArgumentError, 'invalid value for "opts[:"float"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 987.6.'
       end
 
-      if @api_client.config.client_side_validation && !opts[:'string'].nil? && opts[:'string'] !~ Regexp.new(/[a-z]/i)
-        fail ArgumentError, "invalid value for 'opts[:\"string\"]' when calling FakeApi.test_endpoint_parameters, must conform to the pattern /[a-z]/i."
+      pattern = Regexp.new(/[a-z]/i)
+      if @api_client.config.client_side_validation && !opts[:'string'].nil? && opts[:'string'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"string\"]' when calling FakeApi.test_endpoint_parameters, must conform to the pattern #{pattern}."
       end
 
       if @api_client.config.client_side_validation && !opts[:'password'].nil? && opts[:'password'].to_s.length > 64
