@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -530,6 +531,24 @@ public class DefaultCodegenTest {
         Assert.assertEquals(co1.path, "/here");
         CodegenOperation co2 = codegen.fromOperation("some/path", "get", operation2, null);
         Assert.assertEquals(co2.path, "/some/path");
+    }
+
+    @Test
+    public void testResponseWithNoSchemaInHeaders() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        ApiResponse response2XX = new ApiResponse()
+                .description("OK")
+                .addHeaderObject("x-custom-header", new Header()
+                        .description("a custom header")
+                        .style(Header.StyleEnum.SIMPLE));
+        Operation operation1 = new Operation().operationId("op1").responses(new ApiResponses().addApiResponse("2XX", response2XX));
+        openAPI.path("/here", new PathItem().get(operation1));
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenResponse cr = codegen.fromResponse("2XX", response2XX);
+        Assert.assertNotNull(cr);
+        Assert.assertTrue(cr.hasHeaders);
     }
 
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
