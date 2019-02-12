@@ -10,18 +10,27 @@ echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
 sleep 5
 
 # LIST OF SCRIPTS:
-declare -a scripts=("./bin/openapi3/ruby-client-petstore.sh"
+declare -a scripts=(
+# SAMPLES
+"./bin/ada-petstore.sh"
+"./bin/android-petstore-all.sh"
+"./bin/apex-petstore.sh"
+"./bin/bash-petstore.sh"
+"./bin/c-petstore.sh"
+"./bin/openapi3/ruby-client-petstore.sh"
 "./bin/ruby-client-petstore.sh"
 "./bin/java-petstore-all.sh"
 "./bin/java-jaxrs-petstore-server-all.sh"
 "./bin/openapi3/jaxrs-jersey-petstore.sh"
 "./bin/spring-all-pestore.sh"
+"./bin/javascript-petstore-all.sh"
 "./bin/kotlin-client-petstore.sh"
 "./bin/kotlin-client-string.sh"
 "./bin/kotlin-client-threetenbp.sh"
 "./bin/kotlin-server-petstore.sh"
 "./bin/mysql-schema-petstore.sh"
-"./bin/python-petstore.sh"
+"./bin/perl-petstore-all.sh"
+"./bin/python-petstore-all.sh"
 "./bin/openapi3/python-petstore.sh"
 "./bin/php-petstore.sh"
 "./bin/php-silex-petstore-server.sh"
@@ -36,15 +45,19 @@ declare -a scripts=("./bin/openapi3/ruby-client-petstore.sh"
 "./bin/typescript-inversify-petstore.sh"
 "./bin/typescript-rxjs-petstore.sh"
 "./bin/rust-server-petstore.sh"
+"./bin/r-petstore.sh"
 "./bin/haskell-http-client-petstore.sh"
-"./bin/csharp-petstore.sh"
+"./bin/csharp-petstore-all.sh"
+"./bin/go-petstore.sh"
+"./bin/go-petstore-server.sh"
+"./bin/go-gin-petstore-server.sh"
 "./bin/meta-codegen.sh"
+# OTHERS
 "./bin/utils/export_docs_generators.sh"
 "./bin/utils/export_generators_docusaurus_index.sh"
 "./bin/utils/copy-to-website.sh"
 "./bin/utils/export_generators_readme.sh"
-"./bin/go-petstore.sh"
-"./bin/go-gin-petstore-server.sh")
+)
 
 for script in "${scripts[@]}"; do
   if eval $script > /dev/null 2>&1; then
