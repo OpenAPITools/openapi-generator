@@ -166,7 +166,13 @@
       self$`{{baseName}}` <- lapply({{classname}}Object$`{{baseName}}`, function (x) x)
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
-      self$`{{baseName}}` <- lapply({{classname}}Object$`{{baseName}}`, function(x) {{dataType}}$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
+      data.frame <- {{classname}}Object$`{{baseName}}`
+      self$`{{baseName}}` <- vector("list", length = nrow(data.frame))
+      for (row in 1:nrow(data.frame)) {
+          {{baseName}}.node <- {{dataType}}$new()
+          {{baseName}}.node$fromJSON(jsonlite::toJSON(data.frame[row,,drop = TRUE], auto_unbox = TRUE))
+          self$`{{baseName}}`[[row]] <- {{baseName}}.node
+      }
       {{/isPrimitiveType}}
       {{/isListContainer}}
       {{^isListContainer}}

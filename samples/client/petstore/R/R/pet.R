@@ -139,11 +139,16 @@ Pet <- R6::R6Class(
     fromJSONString = function(PetJson) {
       PetObject <- jsonlite::fromJSON(PetJson)
       self$`id` <- PetObject$`id`
-      CategoryObject <- Category$new()
-      self$`category` <- CategoryObject$fromJSON(jsonlite::toJSON(PetObject$category, auto_unbox = TRUE))
+      self$`category` <- Category$new()$fromJSON(jsonlite::toJSON(PetObject$category, auto_unbox = TRUE))
       self$`name` <- PetObject$`name`
-      self$`photoUrls` <- PetObject$`photoUrls`
-      self$`tags` <- sapply(PetObject$`tags`, function(x) Tag$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
+      self$`photoUrls` <- lapply(PetObject$`photoUrls`, function (x) x)
+      data.frame <- PetObject$`tags`
+      self$`tags` <- vector("list", length = nrow(data.frame))
+      for (row in 1:nrow(data.frame)) {
+          tags.node <- Tag$new()
+          tags.node$fromJSON(jsonlite::toJSON(data.frame[row,,drop = TRUE], auto_unbox = TRUE))
+          self$`tags`[[row]] <- tags.node
+      }
       self$`status` <- PetObject$`status`
     }
   )
