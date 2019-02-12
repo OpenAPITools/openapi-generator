@@ -163,10 +163,10 @@
       {{#vars}}
       {{#isListContainer}}
       {{#isPrimitiveType}}
-      self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
+      self$`{{baseName}}` <- lapply({{classname}}Object$`{{baseName}}`, function (x) x)
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
-      self$`{{baseName}}` <- sapply({{classname}}Object$`{{baseName}}`, function(x) {{dataType}}$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
+      self$`{{baseName}}` <- lapply({{classname}}Object$`{{baseName}}`, function(x) {{dataType}}$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
       {{/isPrimitiveType}}
       {{/isListContainer}}
       {{^isListContainer}}
@@ -174,8 +174,7 @@
       self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
-      {{dataType}}Object <- {{dataType}}$new()
-      self$`{{baseName}}` <- {{dataType}}Object$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
+      self$`{{baseName}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
       {{/isPrimitiveType}}
       {{/isListContainer}}
       {{/vars}}
