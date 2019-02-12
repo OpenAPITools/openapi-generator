@@ -16,7 +16,7 @@ declare -a scripts=(
 "./bin/android-petstore-all.sh"
 "./bin/apex-petstore.sh"
 "./bin/bash-petstore.sh"
-"./bin/c-petstore.sh"
+# "./bin/c-petstore.sh" //TODO sample outdated
 "./bin/openapi3/ruby-client-petstore.sh"
 "./bin/ruby-client-petstore.sh"
 "./bin/java-petstore-all.sh"

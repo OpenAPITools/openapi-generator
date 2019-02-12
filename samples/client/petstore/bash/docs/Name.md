@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **integer** |  | [default to null]
-**snake_case** | **integer** |  | [optional] [default to null]
+**snakeUnderscorecase** | **integer** |  | [optional] [default to null]
 **property** | **string** |  | [optional] [default to null]
 **123Number** | **integer** |  | [optional] [default to null]
 

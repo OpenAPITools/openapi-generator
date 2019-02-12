@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**updatePet**](PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 [**updatePetWithForm**](PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**uploadFile**](PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 ## **addPet**
@@ -27,7 +28,7 @@ petstore-cli addPet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
+ **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -57,8 +58,8 @@ petstore-cli deletePet petId=value api_key:value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **integer** | Pet id to delete |
- **apiKey** | **string** |  | [optional]
+ **petId** | **integer** | Pet id to delete | [default to null]
+ **apiKey** | **string** |  | [optional] [default to null]
 
 ### Return type
 
@@ -90,7 +91,7 @@ petstore-cli findPetsByStatus  Specify as:  status="value1,value2,..."
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**array[string]**](string.md) | Status values that need to be considered for filter |
+ **status** | [**array[string]**](string.md) | Status values that need to be considered for filter | [default to null]
 
 ### Return type
 
@@ -122,7 +123,7 @@ petstore-cli findPetsByTags  Specify as:  tags="value1,value2,..."
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**array[string]**](string.md) | Tags to filter by |
+ **tags** | [**array[string]**](string.md) | Tags to filter by | [default to null]
 
 ### Return type
 
@@ -154,7 +155,7 @@ petstore-cli getPetById petId=value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **integer** | ID of pet to return |
+ **petId** | **integer** | ID of pet to return | [default to null]
 
 ### Return type
 
@@ -184,7 +185,7 @@ petstore-cli updatePet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
+ **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -214,7 +215,7 @@ petstore-cli updatePetWithForm petId=value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **integer** | ID of pet that needs to be updated |
+ **petId** | **integer** | ID of pet that needs to be updated | [default to null]
  **name** | **string** | Updated name of the pet | [optional] [default to null]
  **status** | **string** | Updated status of the pet | [optional] [default to null]
 
@@ -246,9 +247,41 @@ petstore-cli uploadFile petId=value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **integer** | ID of pet to update |
+ **petId** | **integer** | ID of pet to update | [default to null]
  **additionalMetadata** | **string** | Additional data to pass to server | [optional] [default to null]
  **file** | **binary** | file to upload | [optional] [default to null]
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+## **uploadFileWithRequiredFile**
+
+uploads an image (required)
+
+### Example
+```bash
+petstore-cli uploadFileWithRequiredFile petId=value
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **petId** | **integer** | ID of pet to update | [default to null]
+ **requiredFile** | **binary** | file to upload | [default to null]
+ **additionalMetadata** | **string** | Additional data to pass to server | [optional] [default to null]
 
 ### Return type
 

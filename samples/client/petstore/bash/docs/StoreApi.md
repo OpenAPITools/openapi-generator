@@ -25,7 +25,7 @@ petstore-cli deleteOrder order_id=value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **string** | ID of the order that needs to be deleted |
+ **orderId** | **string** | ID of the order that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -86,7 +86,7 @@ petstore-cli getOrderById order_id=value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **integer** | ID of pet that needs to be fetched |
+ **orderId** | **integer** | ID of pet that needs to be fetched | [default to null]
 
 ### Return type
 
@@ -116,7 +116,7 @@ petstore-cli placeOrder
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md) | order placed for purchasing the pet |
+ **body** | [**Order**](Order.md) | order placed for purchasing the pet |
 
 ### Return type
 

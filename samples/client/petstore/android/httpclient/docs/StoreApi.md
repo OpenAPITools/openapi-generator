@@ -136,7 +136,7 @@ No authorization required
 
 <a name="placeOrder"></a>
 # **placeOrder**
-> Order placeOrder(order)
+> Order placeOrder(body)
 
 Place an order for a pet
 
@@ -146,9 +146,9 @@ Place an order for a pet
 //import org.openapitools.client.api.StoreApi;
 
 StoreApi apiInstance = new StoreApi();
-Order order = new Order(); // Order | order placed for purchasing the pet
+Order body = new Order(); // Order | order placed for purchasing the pet
 try {
-    Order result = apiInstance.placeOrder(order);
+    Order result = apiInstance.placeOrder(body);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling StoreApi#placeOrder");
@@ -160,7 +160,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md)| order placed for purchasing the pet |
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet |
 
 ### Return type
 

@@ -29,7 +29,7 @@ petstore-cli createUser
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md) | Created user object |
+ **body** | [**User**](User.md) | Created user object |
 
 ### Return type
 
@@ -59,7 +59,7 @@ petstore-cli createUsersWithArrayInput
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**array[User]**](array.md) | List of user object |
+ **body** | [**array[User]**](array.md) | List of user object |
 
 ### Return type
 
@@ -89,7 +89,7 @@ petstore-cli createUsersWithListInput
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**array[User]**](array.md) | List of user object |
+ **body** | [**array[User]**](array.md) | List of user object |
 
 ### Return type
 
@@ -121,7 +121,7 @@ petstore-cli deleteUser username=value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string** | The name that needs to be deleted |
+ **username** | **string** | The name that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -151,7 +151,7 @@ petstore-cli getUserByName username=value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string** | The name that needs to be fetched. Use user1 for testing. |
+ **username** | **string** | The name that needs to be fetched. Use user1 for testing. | [default to null]
 
 ### Return type
 
@@ -181,8 +181,8 @@ petstore-cli loginUser  username=value  password=value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string** | The user name for login |
- **password** | **string** | The password for login in clear text |
+ **username** | **string** | The user name for login | [default to null]
+ **password** | **string** | The password for login in clear text | [default to null]
 
 ### Return type
 
@@ -241,8 +241,8 @@ petstore-cli updateUser username=value
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **string** | name that need to be deleted |
- **user** | [**User**](User.md) | Updated user object |
+ **username** | **string** | name that need to be deleted | [default to null]
+ **body** | [**User**](User.md) | Updated user object |
 
 ### Return type
 

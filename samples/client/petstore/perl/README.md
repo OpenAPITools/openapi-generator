@@ -265,7 +265,10 @@ use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
+use WWW::OpenAPIClient::Object::TypeHolderDefault;
+use WWW::OpenAPIClient::Object::TypeHolderExample;
 use WWW::OpenAPIClient::Object::User;
+use WWW::OpenAPIClient::Object::XmlItem;
 
 ````
 
@@ -318,7 +321,10 @@ use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
+use WWW::OpenAPIClient::Object::TypeHolderDefault;
+use WWW::OpenAPIClient::Object::TypeHolderExample;
 use WWW::OpenAPIClient::Object::User;
+use WWW::OpenAPIClient::Object::XmlItem;
 
 # for displaying the API response data
 use Data::Dumper;
@@ -346,6 +352,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+*FakeApi* | [**create_xml_item**](docs/FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
 *FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -416,7 +423,10 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [WWW::OpenAPIClient::Object::SpecialModelName](docs/SpecialModelName.md)
  - [WWW::OpenAPIClient::Object::Tag](docs/Tag.md)
+ - [WWW::OpenAPIClient::Object::TypeHolderDefault](docs/TypeHolderDefault.md)
+ - [WWW::OpenAPIClient::Object::TypeHolderExample](docs/TypeHolderExample.md)
  - [WWW::OpenAPIClient::Object::User](docs/User.md)
+ - [WWW::OpenAPIClient::Object::XmlItem](docs/XmlItem.md)
 
 
 # DOCUMENTATION FOR AUTHORIZATION

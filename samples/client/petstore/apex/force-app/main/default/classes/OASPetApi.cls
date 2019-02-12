@@ -28,17 +28,17 @@ public class OASPetApi {
     /**
      * Add a new pet to the store
      * 
-     * @param oaSPet Pet object that needs to be added to the store (required)
+     * @param body Pet object that needs to be added to the store (required)
      * @throws OAS.ApiException if fails to make API call
      */
     public void addPet(Map<String, Object> params) {
-        client.assertNotNull(params.get('oaSPet'), 'oaSPet');
+        client.assertNotNull(params.get('body'), 'body');
         List<OAS.Param> query = new List<OAS.Param>();
         List<OAS.Param> form = new List<OAS.Param>();
 
         client.invoke(
             'POST', '/pet',
-            (OASPet) params.get('oaSPet'),
+            (OASPet) params.get('body'),
             query, form,
             new Map<String, Object>(),
             new Map<String, Object>(),
@@ -157,17 +157,17 @@ public class OASPetApi {
     /**
      * Update an existing pet
      * 
-     * @param oaSPet Pet object that needs to be added to the store (required)
+     * @param body Pet object that needs to be added to the store (required)
      * @throws OAS.ApiException if fails to make API call
      */
     public void updatePet(Map<String, Object> params) {
-        client.assertNotNull(params.get('oaSPet'), 'oaSPet');
+        client.assertNotNull(params.get('body'), 'body');
         List<OAS.Param> query = new List<OAS.Param>();
         List<OAS.Param> form = new List<OAS.Param>();
 
         client.invoke(
             'PUT', '/pet',
-            (OASPet) params.get('oaSPet'),
+            (OASPet) params.get('body'),
             query, form,
             new Map<String, Object>(),
             new Map<String, Object>(),
