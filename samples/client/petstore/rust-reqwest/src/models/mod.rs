@@ -10,6 +10,3 @@ mod tag;
 pub use self::tag::Tag;
 mod user;
 pub use self::user::User;
-
-// TODO(farcaller): sort out files
-pub struct File;
