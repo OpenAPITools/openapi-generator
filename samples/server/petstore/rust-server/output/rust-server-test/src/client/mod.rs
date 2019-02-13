@@ -251,17 +251,11 @@ impl<F, C> Api<C> for Client<F> where
     C: Has<XSpanIdString> {
 
     fn dummy_get(&self, context: &C) -> Box<Future<Item=DummyGetResponse, Error=ApiError>> {
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
-
         let mut uri = format!(
             "{}/dummy",
             self.base_path
         );
-        let query_string_str = query_string.finish();
-        if query_string_str != "" {
-            uri += "?";
-            uri += &query_string_str;
-        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -312,17 +306,11 @@ impl<F, C> Api<C> for Client<F> where
     }
 
     fn dummy_put(&self, param_nested_response: models::InlineObject, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
-
         let mut uri = format!(
             "{}/dummy",
             self.base_path
         );
-        let query_string_str = query_string.finish();
-        if query_string_str != "" {
-            uri += "?";
-            uri += &query_string_str;
-        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -379,17 +367,11 @@ impl<F, C> Api<C> for Client<F> where
     }
 
     fn file_response_get(&self, context: &C) -> Box<Future<Item=FileResponseGetResponse, Error=ApiError>> {
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
-
         let mut uri = format!(
             "{}/file_response",
             self.base_path
         );
-        let query_string_str = query_string.finish();
-        if query_string_str != "" {
-            uri += "?";
-            uri += &query_string_str;
-        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -450,17 +432,11 @@ impl<F, C> Api<C> for Client<F> where
     }
 
     fn html_post(&self, param_body: String, context: &C) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>> {
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
-
         let mut uri = format!(
             "{}/html",
             self.base_path
         );
-        let query_string_str = query_string.finish();
-        if query_string_str != "" {
-            uri += "?";
-            uri += &query_string_str;
-        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -525,17 +501,11 @@ impl<F, C> Api<C> for Client<F> where
     }
 
     fn raw_json_get(&self, context: &C) -> Box<Future<Item=RawJsonGetResponse, Error=ApiError>> {
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
-
         let mut uri = format!(
             "{}/raw_json",
             self.base_path
         );
-        let query_string_str = query_string.finish();
-        if query_string_str != "" {
-            uri += "?";
-            uri += &query_string_str;
-        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
