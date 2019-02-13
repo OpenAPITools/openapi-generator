@@ -282,7 +282,7 @@ void (empty response body)
 
 
 # **UploadFile**
-> ApiResponse UploadFile(pet.id, additional.metadata=var.additional.metadata, file=var.file)
+> ModelApiResponse UploadFile(pet.id, additional.metadata=var.additional.metadata, file=var.file)
 
 uploads an image
 
@@ -309,7 +309,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ApiResponse**](ApiResponse.md)
+[**ModelApiResponse**](ApiResponse.md)
 
 ### Authorization
 

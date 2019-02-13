@@ -74,7 +74,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                         // reserved words: https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html
                         "if", "else", "repeat", "while", "function", "for", "in",
                         "next", "break", "TRUE", "FALSE", "NULL", "Inf", "NaN",
-                        "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_"
+                        "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_",
+                        // reserved words in API client
+                        "ApiResponse"
                 )
         );
 
@@ -149,11 +151,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("description.mustache", "", "DESCRIPTION"));
         supportingFiles.add(new SupportingFile("Rbuildignore.mustache", "", ".Rbuildignore"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile("response.mustache", File.separator + "R", "api_response.R"));
+        supportingFiles.add(new SupportingFile("ApiResponse.mustache", File.separator + "R", "api_response.R"));
         //supportingFiles.add(new SupportingFile("element.mustache", File.separator + "R", "Element.R"));
         supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
-        supportingFiles.add(new SupportingFile("testthat.mustache", "", "testthat.R"));
+        supportingFiles.add(new SupportingFile("testthat.mustache", File.separator + "tests", "testthat.R"));
     }
 
     @Override

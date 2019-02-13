@@ -26,26 +26,47 @@ ApiClient  <- R6::R6Class(
   public = list(
     # base path of all requests
     basePath = "http://petstore.swagger.io/v2",
-    # configuration object
-    configuration = NULL,
     # user agent in the HTTP request
-    userAgent = NULL,
+    userAgent = "OpenAPI-Generator/1.0.0/r",
     # default headers in the HTTP request
     defaultHeaders = NULL,
-    initialize = function(basePath, configuration, defaultHeaders){
-      if (!missing(basePath)) {
+    # username (HTTP basic authentication)
+    username = NULL,
+    # password (HTTP basic authentication)
+    password = NULL,
+    # API keys
+    apiKeys = list(),
+    # Access token
+    accessToken = NULL,
+    # constructor
+    initialize = function(basePath=NULL, userAgent=NULL, defaultHeaders=NULL, username=NULL, password=NULL, apiKeys=NULL, accessToken=NULL){
+      if (!is.null(basePath)) {
         self$basePath <- basePath
       }
 
-      if (!missing(configuration)) {
-        self$configuration <- configuration
-      }
-
-      if (!missing(defaultHeaders)) {
+      if (!is.null(defaultHeaders)) {
         self$defaultHeaders <- defaultHeaders
       }
 
-      self$`userAgent` <- 'OpenAPI-Generator/1.0.0/r'
+      if (!is.null(username)) {
+        self$username <- username
+      }
+
+      if (!is.null(password)) {
+        self$password <- password
+      }
+
+      if (!is.null(accessToken)) {
+        self$accessToken <- accessToken
+      }
+
+      if (!is.null(apiKeys)) {
+        self$apiKeys <- apiKeys
+      }
+
+      if (!is.null(userAgent)) {
+        self$`userAgent` <- 'OpenAPI-Generator/1.0.0/r'
+      }
     },
     callApi = function(url, method, queryParams, headerParams, body, ...){
       headers <- httr::add_headers(c(headerParams, self$defaultHeaders))

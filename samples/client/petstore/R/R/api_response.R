@@ -1,9 +1,9 @@
-#' Response Class
+#' ApiResponse Class
 #'
-#' Response Class
+#' ApiResponse Class
 #' @export
-Response  <- R6::R6Class(
-  'Response',
+ApiResponse  <- R6::R6Class(
+  'ApiResponse',
   public = list(
     content = NULL,
     response = NULL,

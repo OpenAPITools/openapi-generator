@@ -11,7 +11,6 @@
 #'
 #' @field path Stores url path of the request.
 #' @field apiClient Handles the client-server communication.
-#' @field userAgent Set the user agent of the request.
 #'
 #' @importFrom R6 R6Class
 #'
@@ -31,11 +30,11 @@
 #'
 #' }
 #'
+#' @importFrom jsonlite base64_enc
 #' @export
 StoreApi <- R6::R6Class(
   'StoreApi',
   public = list(
-    userAgent = "OpenAPI-Generator/1.0.0/r",
     apiClient = NULL,
     initialize = function(apiClient){
       if (!missing(apiClient)) {
@@ -54,6 +53,7 @@ StoreApi <- R6::R6Class(
       if (!missing(`order.id`)) {
         urlPath <- gsub(paste0("\\{", "orderId", "\\}"), `order.id`, urlPath)
       }
+
 
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "DELETE",
@@ -77,6 +77,11 @@ StoreApi <- R6::R6Class(
       headerParams <- character()
 
       urlPath <- "/store/inventory"
+      # API key authentication
+      if ("api_key" %in% names(self$apiClient$apiKey) && nchar(self$apiClient$apiKey["api_key"]) > 0) {
+        headerParams['api_key'] <- self$apiClient$apiKey["api_key"]
+      }
+
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
@@ -102,6 +107,7 @@ StoreApi <- R6::R6Class(
       if (!missing(`order.id`)) {
         urlPath <- gsub(paste0("\\{", "orderId", "\\}"), `order.id`, urlPath)
       }
+
 
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -131,6 +137,7 @@ StoreApi <- R6::R6Class(
       }
 
       urlPath <- "/store/order"
+
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
