@@ -280,6 +280,27 @@ paths:
       callbacks:
         sharedCallback:
           $ref: "#/components/callbacks/sharedCallback22"
+  /some/p23:
+    post:
+      operationId: op23
+      responses:
+        '2XX':
+          description: OK
+          headers:
+            x-app-info:
+              description: basic app info
+              style: simple
+              schema:
+                $ref: "#/components/schemas/SomeHeader23"
+  /some/p24:
+    post:
+      operationId: op24
+      responses:
+        '2XX':
+          description: OK
+          headers:
+            x-app-info:
+              $ref: "#/components/headers/sharedHeader24"
 components:
   schemas:
     UnusedObj1:
@@ -538,6 +559,11 @@ components:
           type: String
         response:
           type: String
+    SomeHeader23:
+      type: string
+    SomeHeader24:
+      type: integer
+      format: int64
     SomeObjShared:
       type: object
       properties:
@@ -607,4 +633,9 @@ components:
                 application/json:
                   schema:
                     $ref: '#/components/schemas/SOutput22'
-  
+  headers:
+    sharedHeader24:
+      description: basic header
+      style: simple
+      schema:
+        $ref: "#/components/schemas/SomeHeader24"

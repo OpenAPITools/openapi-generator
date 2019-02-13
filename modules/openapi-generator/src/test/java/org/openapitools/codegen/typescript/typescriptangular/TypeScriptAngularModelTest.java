@@ -214,4 +214,31 @@ public class TypeScriptAngularModelTest {
         Assert.assertEquals(cm.additionalPropertiesType, "Children");
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
+
+    @Test(description = "convert a model with a name starting with decimal")
+    public void beginDecimalNameTest() {
+        final Schema schema = new Schema()
+                .description("a model with a name starting with decimal")
+                .addProperties("1list", new StringSchema())
+                .addRequiredItem("1list");
+        final DefaultCodegen codegen = new TypeScriptAngularClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "1list");
+        Assert.assertEquals(property.dataType, "string");
+        Assert.assertEquals(property.name, "_1list");
+        Assert.assertEquals(property.defaultValue, "undefined");
+        Assert.assertEquals(property.baseType, "string");
+        Assert.assertFalse(property.hasMore);
+        Assert.assertTrue(property.required);
+        Assert.assertFalse(property.isContainer);
+    }
+
 }

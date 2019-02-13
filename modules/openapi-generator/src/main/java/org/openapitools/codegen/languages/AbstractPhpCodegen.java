@@ -49,8 +49,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     protected String apiDirName = "Api";
     protected String modelDirName = "Model";
     protected String variableNamingConvention = "snake_case";
-    protected String apiDocPath = docsBasePath + File.separator + apiDirName;
-    protected String modelDocPath = docsBasePath + File.separator + modelDirName;
+    protected String apiDocPath = docsBasePath + "/" + apiDirName;
+    protected String modelDocPath = docsBasePath + "/" + modelDirName;
     protected String interfaceNamePrefix = "", interfaceNameSuffix = "Interface";
     protected String abstractNamePrefix = "Abstract", abstractNameSuffix = "";
     protected String traitNamePrefix = "", traitNameSuffix = "Trait";
@@ -242,27 +242,13 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             basePath = basePath.replaceAll("[\\\\/]?$", "") + '/'; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         }
 
-        String regFirstPathSeparator;
-        if ("/".equals(File.separator)) { // for mac, linux
-            regFirstPathSeparator = "^/";
-        } else { // for windows
-            regFirstPathSeparator = "^\\\\";
-        }
-
-        String regLastPathSeparator;
-        if ("/".equals(File.separator)) { // for mac, linux
-            regLastPathSeparator = "/$";
-        } else { // for windows
-            regLastPathSeparator = "\\\\$";
-        }
-
         return (basePath
                 // Replace period, backslash, forward slash with file separator in package name
                 + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/"))
                 // Trim prefix file separators from package path
-                .replaceAll(regFirstPathSeparator, ""))
+                .replaceAll("^/", ""))
                 // Trim trailing file separators from the overall path
-                .replaceAll(regLastPathSeparator + "$", "");
+                .replaceAll("/$", "");
     }
 
     @Override
