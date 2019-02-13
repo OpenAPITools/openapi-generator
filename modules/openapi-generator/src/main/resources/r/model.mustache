@@ -116,16 +116,16 @@
       {{/vars}}
     },
     toJSONString = function() {
-       outstring <- sprintf(
+      sprintf(
         '{
            {{#vars}}
            "{{baseName}}":
            {{#isListContainer}}
            {{#isPrimitiveType}}
-             {{#isNumeric}}[%d]{{/isNumeric}}{{^isNumeric}}["%s"]{{/isNumeric}}{{#hasMore}},{{/hasMore}}
+             {{#isNumeric}}[%d]{{/isNumeric}}{{^isNumeric}}[%s]{{/isNumeric}}{{#hasMore}},{{/hasMore}}
            {{/isPrimitiveType}}
            {{^isPrimitiveType}}
-             ["%s"]{{#hasMore}},{{/hasMore}}
+             [%s]{{#hasMore}},{{/hasMore}}
            {{/isPrimitiveType}}
            {{/isListContainer}}
            {{^isListContainer}}
@@ -133,7 +133,7 @@
              {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}"%s"{{/isNumeric}}{{#hasMore}},{{/hasMore}}
            {{/isPrimitiveType}}
            {{^isPrimitiveType}}
-             "%s"{{#hasMore}},{{/hasMore}}
+             %s{{#hasMore}},{{/hasMore}}
            {{/isPrimitiveType}}
            {{/isListContainer}}
            {{/vars}}
@@ -141,10 +141,10 @@
         {{#vars}}
         {{#isListContainer}}
         {{#isPrimitiveType}}
-        paste0(self$`{{baseName}}`, collapse='","'){{#hasMore}},{{/hasMore}}
+        paste(unlist(lapply(self$`{{{baseName}}}`, function(x) paste0('"', x, '"'))), collapse=","){{#hasMore}},{{/hasMore}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        paste0(sapply(self$`{{baseName}}`, function(x) x$toJSON()), collapse='","'){{#hasMore}},{{/hasMore}}
+        paste(unlist(lapply(self$`{{{baseName}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE))), collapse=","){{#hasMore}},{{/hasMore}}
         {{/isPrimitiveType}}
         {{/isListContainer}}
         {{^isListContainer}}
@@ -152,22 +152,27 @@
         self$`{{baseName}}`{{#hasMore}},{{/hasMore}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        self$`{{baseName}}`$toJSON(){{#hasMore}},{{/hasMore}}
+        jsonlite::toJSON(self$`{{baseName}}`$toJSON(), auto_unbox=TRUE){{#hasMore}},{{/hasMore}}
         {{/isPrimitiveType}}
         {{/isListContainer}}
         {{/vars}}
       )
-      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function({{classname}}Json) {
       {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
       {{#vars}}
       {{#isListContainer}}
       {{#isPrimitiveType}}
-      self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
+      self$`{{baseName}}` <- lapply({{classname}}Object$`{{baseName}}`, function (x) x)
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
-      self$`{{baseName}}` <- sapply({{classname}}Object$`{{baseName}}`, function(x) {{dataType}}$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
+      data.frame <- {{classname}}Object$`{{baseName}}`
+      self$`{{baseName}}` <- vector("list", length = nrow(data.frame))
+      for (row in 1:nrow(data.frame)) {
+          {{baseName}}.node <- {{dataType}}$new()
+          {{baseName}}.node$fromJSON(jsonlite::toJSON(data.frame[row,,drop = TRUE], auto_unbox = TRUE))
+          self$`{{baseName}}`[[row]] <- {{baseName}}.node
+      }
       {{/isPrimitiveType}}
       {{/isListContainer}}
       {{^isListContainer}}
@@ -175,8 +180,7 @@
       self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
-      {{dataType}}Object <- {{dataType}}$new()
-      self$`{{baseName}}` <- {{dataType}}Object$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
+      self$`{{baseName}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
       {{/isPrimitiveType}}
       {{/isListContainer}}
       {{/vars}}

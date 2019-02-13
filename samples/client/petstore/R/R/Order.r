@@ -104,7 +104,7 @@ Order <- R6::R6Class(
       }
     },
     toJSONString = function() {
-       outstring <- sprintf(
+      sprintf(
         '{
            "id":
              %d,
@@ -126,7 +126,6 @@ Order <- R6::R6Class(
         self$`status`,
         self$`complete`
       )
-      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(OrderJson) {
       OrderObject <- jsonlite::fromJSON(OrderJson)

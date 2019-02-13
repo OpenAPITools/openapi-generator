@@ -53,7 +53,7 @@ Tag <- R6::R6Class(
       }
     },
     toJSONString = function() {
-       outstring <- sprintf(
+      sprintf(
         '{
            "id":
              %d,
@@ -63,7 +63,6 @@ Tag <- R6::R6Class(
         self$`id`,
         self$`name`
       )
-      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(TagJson) {
       TagObject <- jsonlite::fromJSON(TagJson)
