@@ -58,8 +58,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public RClientCodegen() {
         super();
         outputFolder = "generated-code/r";
-        modelTemplateFiles.put("model.mustache", ".r");
-        apiTemplateFiles.put("api.mustache", ".r");
+        modelTemplateFiles.put("model.mustache", ".R");
+        apiTemplateFiles.put("api.mustache", ".R");
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -149,9 +149,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("description.mustache", "", "DESCRIPTION"));
         supportingFiles.add(new SupportingFile("Rbuildignore.mustache", "", ".Rbuildignore"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile("response.mustache", File.separator + "R", "Response.r"));
-        supportingFiles.add(new SupportingFile("element.mustache", File.separator + "R", "Element.r"));
-        supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "ApiClient.r"));
+        supportingFiles.add(new SupportingFile("response.mustache", File.separator + "R", "api_response.R"));
+        //supportingFiles.add(new SupportingFile("element.mustache", File.separator + "R", "Element.R"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
         supportingFiles.add(new SupportingFile("testthat.mustache", "", "testthat.R"));
     }
@@ -214,12 +214,12 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toModelName(String name) {
-        return toModelFilename(name);
+    public String toModelFilename(String name) {
+        return underscore(toModelName(name));
     }
 
     @Override
-    public String toModelFilename(String name) {
+    public String toModelName(String name) {
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -251,7 +251,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PetApi.r => pet_api.r
-        return camelize(name + "_api");
+        return underscore(name + "_api");
     }
 
     @Override
