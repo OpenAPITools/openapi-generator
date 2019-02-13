@@ -95,7 +95,7 @@ test_that("UploadFile", {
   # @param [Hash] opts the optional parameters
   # @option opts [character] :additional.metadata Additional data to pass to server
   # @option opts [data.frame] :file file to upload
-  # @return [ApiResponse]
+  # @return [ModelApiResponse]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")

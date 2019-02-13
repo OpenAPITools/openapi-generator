@@ -622,4 +622,14 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String modelTestFileFolder() {
         return outputFolder + File.separator + testFolder;
     }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return "test_" + toApiFilename(name);
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        return "test_" + toModelFilename(name);
+    }
 }
