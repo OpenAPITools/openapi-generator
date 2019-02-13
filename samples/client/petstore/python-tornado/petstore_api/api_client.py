@@ -115,6 +115,8 @@ class ApiClient(object):
             _preload_content=True, _request_timeout=None, _host=None):
 
         config = self.configuration
+        if response_types is None:
+            response_types = {}
 
         # header parameters
         header_params = header_params or {}
