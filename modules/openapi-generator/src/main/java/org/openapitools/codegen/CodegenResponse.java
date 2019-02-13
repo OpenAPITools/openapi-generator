@@ -24,7 +24,7 @@ public class CodegenResponse {
     public String code, message;
     public boolean hasMore;
     public List<Map<String, Object>> examples;
-    public String dataType, baseType, containerType;
+    public String dataType, baseType, containerType, returnType;
     public boolean hasHeaders;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
             isDateTime, isUuid, isEmail, isModel, isFreeFormObject;
