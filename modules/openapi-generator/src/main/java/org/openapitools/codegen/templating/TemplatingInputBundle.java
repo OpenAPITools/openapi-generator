@@ -24,22 +24,11 @@ public class TemplatingInputBundle extends BaseBundle {
     private String apiFolder;
     private List<CodegenSecurity> authMethods = new ArrayList<>();
     private ExternalDocumentation externalDocs;
-    private String openapiJson;
-    private String openapiYaml;
     private List<Map<String, String>> pathSet = new ArrayList<>();
-    private List<ModelBundle> orderedModels = new ArrayList<>();
     private boolean hasAuthMethods;
     private boolean hasOAuthMethods;
     private List<CodegenSecurity> oauthMethods;
     private boolean hasBearerMethods;
-
-    public TemplatingInputBundle() {
-        super();
-    }
-
-    public TemplatingInputBundle(Map<String, Object> objs) {
-        super(objs);
-    }
 
     // hacky workaround for the templating engine to fetch truly dynamic values
     @Override
@@ -190,28 +179,6 @@ public class TemplatingInputBundle extends BaseBundle {
     }
 
 
-    public String getOpenapiJson() {
-        return openapiJson;
-    }
-
-    public void setOpenapiJson(String openapiJson) {
-        this.openapiJson = openapiJson;
-        put("openapiJson", openapiJson);
-        put("openapi-json", openapiJson);
-    }
-
-
-    public String getOpenapiYaml() {
-        return openapiYaml;
-    }
-
-    public void setOpenapiYaml(String openapiYaml) {
-        this.openapiYaml = openapiYaml;
-        put("openapiYaml", openapiYaml);
-        put("openapi-yaml", openapiYaml);
-    }
-
-
     public List<Map<String, String>> getPathSet() {
         return pathSet;
     }
@@ -222,45 +189,38 @@ public class TemplatingInputBundle extends BaseBundle {
     }
 
 
-    public List<ModelBundle> getOrderedModels() {
-        return orderedModels;
-    }
-
-    public void setOrderedModels(
-            List<ModelBundle> orderedModels) {
-        this.orderedModels = orderedModels;
-        put("orderedModels", orderedModels);
+    public boolean getHasAuthMethods() {
+        return hasAuthMethods;
     }
 
     public void setHasAuthMethods(boolean hasAuthMethods) {
         this.hasAuthMethods = hasAuthMethods;
     }
 
-    public boolean getHasAuthMethods() {
-        return hasAuthMethods;
+
+    public boolean getHasOAuthMethods() {
+        return hasOAuthMethods;
     }
 
     public void setHasOAuthMethods(boolean hasOAuthMethods) {
         this.hasOAuthMethods = hasOAuthMethods;
     }
 
-    public boolean getHasOAuthMethods() {
-        return hasOAuthMethods;
+
+    public List<CodegenSecurity> getOauthMethods() {
+        return oauthMethods;
     }
 
     public void setOauthMethods(List<CodegenSecurity> oauthMethods) {
         this.oauthMethods = oauthMethods;
     }
 
-    public List<CodegenSecurity> getOauthMethods() {
-        return oauthMethods;
+
+    public boolean getHasBearerMethods() {
+        return this.hasBearerMethods;
     }
 
     public void setHasBearerMethods(boolean hasBearerMethods) {
         this.hasBearerMethods = hasBearerMethods;
-    }
-
-    public boolean getHasBearerMethods() {
-        return this.hasBearerMethods;
     }
 }

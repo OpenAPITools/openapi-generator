@@ -21,19 +21,8 @@ public class ApiBundle extends BaseBundle {
     private String classFilename;
     private Map<String, Object> vendorExtensions = new HashMap<>();
     private boolean sortParamsByRequiredFlag;
-    private Set<String> modelImports = new HashSet<>();
-    private String commonPath;
     private Collection<CodegenSecurity> authMethods = new ArrayList<>();
     private boolean hasMore;
-
-    public ApiBundle() {
-        super();
-    }
-
-    public ApiBundle(Map<String, Object> objs) {
-        super(objs);
-    }
-
 
     // hacky workaround for the templating engine to fetch truly dynamic values
     @Override
@@ -204,36 +193,6 @@ public class ApiBundle extends BaseBundle {
     public void setOperations(OperationsBundle operations) {
         this.operations = operations;
         put("operations", operations);
-    }
-
-
-    public Set<String> getModelImports() {
-        return modelImports;
-    }
-
-    public void setModelImports(Set<String> modelImports) {
-        this.modelImports = modelImports;
-        put("modelImports", modelImports);
-    }
-
-
-    public String getCommonPath() {
-        return commonPath;
-    }
-
-    public void setCommonPath(String commonPath) {
-        this.commonPath = commonPath;
-        put("commonPath", commonPath);
-    }
-
-
-    public Collection<CodegenSecurity> getAuthMethods() {
-        return authMethods;
-    }
-
-    public void setAuthMethods(Collection<CodegenSecurity> authMethods) {
-        this.authMethods = authMethods;
-        put("authMethods", authMethods);
     }
 
 

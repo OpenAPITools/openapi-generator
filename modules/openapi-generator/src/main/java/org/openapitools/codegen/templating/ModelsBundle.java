@@ -11,8 +11,15 @@ public class ModelsBundle extends BaseBundle {
     private String classname;
     private String modelPackage;
 
-    public ModelsBundle(Map<String, Object> objs) {
-        super(objs);
+    public ModelsBundle (Map<String, Object> value) {
+        this._package = (String) value.get("package");
+        List<Map<String, Object>> models = (List<Map<String, Object>>) value.get("models");
+        for (Map<String, Object> model : models) {
+            this.models.add(new ModelBundle(model));
+        }
+        this.imports = (List<Map<String, String>>) value.get("imports");
+        this.classname = (String) value.get("classname");
+        this.modelPackage = (String) value.get("modelPackage");
     }
 
     public ModelsBundle() {

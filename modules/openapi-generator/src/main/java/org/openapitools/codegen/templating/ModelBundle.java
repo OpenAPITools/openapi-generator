@@ -2,9 +2,20 @@ package org.openapitools.codegen.templating;
 
 import org.openapitools.codegen.CodegenModel;
 
+import java.util.Map;
+
 public class ModelBundle extends BaseBundle{
     CodegenModel model;
     String importPath;
+
+    public ModelBundle(Map<String, Object> model) {
+        this.model = (CodegenModel) model.get("model");
+        this.importPath = (String) model.get("importPath");
+    }
+
+    public ModelBundle() {
+        super();
+    }
 
     // getters and setters. Each setter puts the value in the underlying Map
 

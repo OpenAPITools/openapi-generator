@@ -2,6 +2,7 @@ package org.openapitools.codegen.templating;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ApiInfoBundle extends BaseBundle {
 

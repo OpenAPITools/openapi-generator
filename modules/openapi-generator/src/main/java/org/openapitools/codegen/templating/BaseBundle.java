@@ -11,7 +11,4 @@ class BaseBundle extends HashMap<String, Object> implements Bundle {
     BaseBundle() {
     }
 
-    public BaseBundle(Map<String, Object> objs) {
-        this.putAll(objs);
-    }
 }
