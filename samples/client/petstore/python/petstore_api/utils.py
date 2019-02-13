@@ -72,3 +72,34 @@ def get_types_remainder(type_string):
             return set([type_prefix[:4]]), type_string[len(type_prefix):-1]
     type_set = set(type_string.split('|'))
     return type_set, ''
+
+
+def model_to_dict(model_instance, serialize=True):
+    """Returns the model properties as a dict
+
+    Kwargs:
+        serialize (bool): if True, the keys in the dict will be values from
+                          attribute_map
+    """
+    result = {}
+
+    for attr, value in six.iteritems(model_instance._data_store):
+        if serialize:
+            attr = model_instance.attribute_map[attr]
+        if isinstance(value, list):
+            result[attr] = list(map(
+                lambda x: model_to_dict(x, serialize=serialize)
+                if hasattr(x, '_data_store') else x, value
+            ))
+        elif hasattr(value, '_data_store'):
+            result[attr] = model_to_dict(value, serialize=serialize)
+        elif isinstance(value, dict):
+            result[attr] = dict(map(
+                lambda item: (item[0], model_to_dict(item[1], serialize=serialize))
+                if hasattr(item[1], '_data_store') else item,
+                value.items()
+            ))
+        else:
+            result[attr] = value
+
+    return result

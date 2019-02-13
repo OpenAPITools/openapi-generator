@@ -7,7 +7,7 @@ import re  # noqa: F401
 
 import six
 
-from {{packageName}}.utils import recursive_type, valid_type
+from {{packageName}}.utils import model_to_dict, recursive_type, valid_type
 
 
 {{#models}}
@@ -34,12 +34,10 @@ class {{classname}}(object):
                             Optional and required variables only.
       attribute_map (dict): The key is attribute name
                             and the value is json key in definition.
-                            Optional and required variables only.
+                            Optional, required variables, and
+                            additional properties.
 {{#additionalProperties}}
-      additional_properties_type (str): The attribute type.
-                                        additional_properties variables only.
-      additional_properties_map (dict): The key is attribute name
-                                        and the value is json key in definition.
+      additional_properties_type (str): The attribute type for
                                         additional_properties variables only.
 {{/additionalProperties}}
     """
@@ -55,7 +53,6 @@ class {{classname}}(object):
     }
 {{#additionalProperties}}
     additional_properties_type = '{{{dataType}}}'
-    additional_properties_map = {}
 {{/additionalProperties}}
 {{#discriminator}}
     discriminator_value_class_map = {
@@ -119,8 +116,8 @@ class {{classname}}(object):
 {{#additionalProperties}}
         # set a variable name value for json serialization
         if (name not in self.openapi_types and
-                name not in self.additional_properties_map):
-            self.additional_properties_map[name] = name
+                name not in self.attribute_map):
+            self.attribute_map[name] = name
 {{/additionalProperties}}
 
     def __getitem__(self, name):
@@ -237,26 +234,7 @@ class {{classname}}(object):
 {{/discriminator}}
     def to_dict(self):
         """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, value in six.iteritems(self._data_store):
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
+        return model_to_dict(self, serialize=False)
 
     def to_str(self):
         """Returns the string representation of the model"""

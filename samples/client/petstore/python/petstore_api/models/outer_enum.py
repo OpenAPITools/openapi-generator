@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import recursive_type, valid_type
+from petstore_api.utils import model_to_dict, recursive_type, valid_type
 
 
 class OuterEnum(object):
@@ -39,7 +39,8 @@ class OuterEnum(object):
                             Optional and required variables only.
       attribute_map (dict): The key is attribute name
                             and the value is json key in definition.
-                            Optional and required variables only.
+                            Optional, required variables, and
+                            additional properties.
     """
     openapi_types = {
     }
@@ -96,26 +97,7 @@ class OuterEnum(object):
 
     def to_dict(self):
         """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, value in six.iteritems(self._data_store):
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
+        return model_to_dict(self, serialize=False)
 
     def to_str(self):
         """Returns the string representation of the model"""

@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import recursive_type, valid_type
+from petstore_api.utils import model_to_dict, recursive_type, valid_type
 
 
 class AdditionalPropertiesArray(object):
@@ -32,11 +32,9 @@ class AdditionalPropertiesArray(object):
                             Optional and required variables only.
       attribute_map (dict): The key is attribute name
                             and the value is json key in definition.
-                            Optional and required variables only.
-      additional_properties_type (str): The attribute type.
-                                        additional_properties variables only.
-      additional_properties_map (dict): The key is attribute name
-                                        and the value is json key in definition.
+                            Optional, required variables, and
+                            additional properties.
+      additional_properties_type (str): The attribute type for
                                         additional_properties variables only.
     """
     openapi_types = {
@@ -46,7 +44,6 @@ class AdditionalPropertiesArray(object):
         'name': 'name'
     }
     additional_properties_type = 'list[str|float|int|bool|list|dict]'
-    additional_properties_map = {}
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
         """AdditionalPropertiesArray - a model defined in OpenAPI
@@ -90,8 +87,8 @@ class AdditionalPropertiesArray(object):
         self._data_store[name] = value
         # set a variable name value for json serialization
         if (name not in self.openapi_types and
-                name not in self.additional_properties_map):
-            self.additional_properties_map[name] = name
+                name not in self.attribute_map):
+            self.attribute_map[name] = name
 
     def __getitem__(self, name):
         if name in self.openapi_types:
@@ -124,26 +121,7 @@ class AdditionalPropertiesArray(object):
 
     def to_dict(self):
         """Returns the model properties as a dict"""
-        result = {}
-
-        for attr, value in six.iteritems(self._data_store):
-            if isinstance(value, list):
-                result[attr] = list(map(
-                    lambda x: x.to_dict() if hasattr(x, "to_dict") else x,
-                    value
-                ))
-            elif hasattr(value, "to_dict"):
-                result[attr] = value.to_dict()
-            elif isinstance(value, dict):
-                result[attr] = dict(map(
-                    lambda item: (item[0], item[1].to_dict())
-                    if hasattr(item[1], "to_dict") else item,
-                    value.items()
-                ))
-            else:
-                result[attr] = value
-
-        return result
+        return model_to_dict(self, serialize=False)
 
     def to_str(self):
         """Returns the string representation of the model"""
