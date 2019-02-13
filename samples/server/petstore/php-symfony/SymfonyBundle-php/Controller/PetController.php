@@ -98,6 +98,7 @@ class PetController extends Controller
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Pet");
+        $asserts[] = new Assert\Valid();
         $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -274,7 +275,7 @@ class PetController extends Controller
             new Assert\Choice([ "available", "pending", "sold" ])
         ]);
         $asserts[] = new Assert\All([
-            new Assert\Type("string")
+            new Assert\Type("string"),
         ]);
         $response = $this->validate($status, $asserts);
         if ($response instanceof Response) {
@@ -362,7 +363,7 @@ class PetController extends Controller
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\All([
-            new Assert\Type("string")
+            new Assert\Type("string"),
         ]);
         $response = $this->validate($tags, $asserts);
         if ($response instanceof Response) {
@@ -546,6 +547,7 @@ class PetController extends Controller
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Pet");
+        $asserts[] = new Assert\Valid();
         $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
