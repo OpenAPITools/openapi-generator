@@ -41,6 +41,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected String testFolder = "tests/testthat";
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -133,8 +134,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        apiTestTemplateFiles.clear(); // TODO: add api test template
-        modelTestTemplateFiles.clear(); // TODO: add model test template
+        modelTestTemplateFiles.put("model_test.mustache", ".R");
+        apiTestTemplateFiles.put("api_test.mustache", ".R");
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -148,10 +149,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("description.mustache", "", "DESCRIPTION"));
         supportingFiles.add(new SupportingFile("Rbuildignore.mustache", "", ".Rbuildignore"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile("response.mustache", "/R", "Response.r"));
-        supportingFiles.add(new SupportingFile("element.mustache", "/R", "Element.r"));
-        supportingFiles.add(new SupportingFile("api_client.mustache", "/R", "ApiClient.r"));
+        supportingFiles.add(new SupportingFile("response.mustache", File.separator + "R", "Response.r"));
+        supportingFiles.add(new SupportingFile("element.mustache", File.separator + "R", "Element.r"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "ApiClient.r"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
+        supportingFiles.add(new SupportingFile("testthat.mustache", "", "testthat.R"));
     }
 
     @Override
@@ -607,5 +609,15 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         return null;
+    }
+
+    @Override
+    public String apiTestFileFolder() {
+        return outputFolder + File.separator + testFolder; 
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return outputFolder + File.separator + testFolder;
     }
 }
