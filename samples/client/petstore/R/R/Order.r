@@ -135,6 +135,7 @@ Order <- R6::R6Class(
       self$`shipDate` <- OrderObject$`shipDate`
       self$`status` <- OrderObject$`status`
       self$`complete` <- OrderObject$`complete`
+      self
     }
   )
 )

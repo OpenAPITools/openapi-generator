@@ -170,6 +170,7 @@ User <- R6::R6Class(
       self$`password` <- UserObject$`password`
       self$`phone` <- UserObject$`phone`
       self$`userStatus` <- UserObject$`userStatus`
+      self
     }
   )
 )
