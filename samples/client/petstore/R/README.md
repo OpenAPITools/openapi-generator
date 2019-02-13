@@ -70,8 +70,8 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
- - [ApiResponse](docs/ApiResponse.md)
  - [Category](docs/Category.md)
+ - [ModelApiResponse](docs/ModelApiResponse.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
  - [Tag](docs/Tag.md)

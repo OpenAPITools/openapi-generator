@@ -11,7 +11,6 @@
 #'
 #' @field path Stores url path of the request.
 #' @field apiClient Handles the client-server communication.
-#' @field userAgent Set the user agent of the request.
 #'
 #' @importFrom R6 R6Class
 #'
@@ -43,11 +42,11 @@
 #'
 #' }
 #'
+#' @importFrom jsonlite base64_enc
 #' @export
 PetApi <- R6::R6Class(
   'PetApi',
   public = list(
-    userAgent = "OpenAPI-Generator/1.0.0/r",
     apiClient = NULL,
     initialize = function(apiClient){
       if (!missing(apiClient)) {
@@ -69,6 +68,9 @@ PetApi <- R6::R6Class(
       }
 
       urlPath <- "/pet"
+      # OAuth token
+      headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
+
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
@@ -99,6 +101,9 @@ PetApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
       }
 
+      # OAuth token
+      headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
+
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "DELETE",
                                  queryParams = queryParams,
@@ -125,6 +130,9 @@ PetApi <- R6::R6Class(
       }
 
       urlPath <- "/pet/findByStatus"
+      # OAuth token
+      headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
+
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
@@ -151,6 +159,9 @@ PetApi <- R6::R6Class(
       }
 
       urlPath <- "/pet/findByTags"
+      # OAuth token
+      headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
+
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
@@ -175,6 +186,11 @@ PetApi <- R6::R6Class(
       urlPath <- "/pet/{petId}"
       if (!missing(`pet.id`)) {
         urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
+      }
+
+      # API key authentication
+      if ("api_key" %in% names(self$apiClient$apiKey) && nchar(self$apiClient$apiKey["api_key"]) > 0) {
+        headerParams['api_key'] <- self$apiClient$apiKey["api_key"]
       }
 
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
@@ -205,6 +221,9 @@ PetApi <- R6::R6Class(
       }
 
       urlPath <- "/pet"
+      # OAuth token
+      headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
+
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "PUT",
                                  queryParams = queryParams,
@@ -235,6 +254,9 @@ PetApi <- R6::R6Class(
       if (!missing(`pet.id`)) {
         urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
       }
+
+      # OAuth token
+      headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
 
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
@@ -267,6 +289,9 @@ PetApi <- R6::R6Class(
         urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
       }
 
+      # OAuth token
+      headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
+
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
@@ -275,7 +300,7 @@ PetApi <- R6::R6Class(
                                  ...)
 
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        ApiResponse$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
+        ModelApiResponse$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
