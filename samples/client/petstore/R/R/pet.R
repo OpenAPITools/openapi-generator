@@ -150,6 +150,7 @@ Pet <- R6::R6Class(
           self$`tags`[[row]] <- tags.node
       }
       self$`status` <- PetObject$`status`
+      self
     }
   )
 )

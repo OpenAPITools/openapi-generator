@@ -85,6 +85,7 @@ ApiResponse <- R6::R6Class(
       self$`code` <- ApiResponseObject$`code`
       self$`type` <- ApiResponseObject$`type`
       self$`message` <- ApiResponseObject$`message`
+      self
     }
   )
 )
