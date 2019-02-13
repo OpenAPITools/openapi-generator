@@ -10,11 +10,8 @@
 package petstoreserver
 
 import (
-import (
 	"os"
 	"time"
-)
-
 )
 
 type FormatTest struct {
