@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -24,8 +24,8 @@ pub struct Configuration {
 pub type BasicAuth = (String, Option<String>);
 
 pub struct ApiKey {
-  pub prefix: Option<String>,
-  pub key: String,
+    pub prefix: Option<String>,
+    pub key: String,
 }
 
 impl Configuration {
