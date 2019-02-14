@@ -11,15 +11,18 @@ public class ModelsBundle extends BaseBundle {
     private String classname;
     private String modelPackage;
 
+    @SuppressWarnings("unchecked")
     public ModelsBundle (Map<String, Object> value) {
-        this._package = (String) value.get("package");
+        setPackage((String) value.get("package"));
         List<Map<String, Object>> models = (List<Map<String, Object>>) value.get("models");
+        List<ModelBundle> modelBundles = new ArrayList<>();
         for (Map<String, Object> model : models) {
-            this.models.add(new ModelBundle(model));
+            modelBundles.add(new ModelBundle(model));
         }
-        this.imports = (List<Map<String, String>>) value.get("imports");
-        this.classname = (String) value.get("classname");
-        this.modelPackage = (String) value.get("modelPackage");
+        setModels(modelBundles);
+        setImports((List<Map<String, String>>) value.get("imports"));
+        setClassname((String) value.get("classname"));
+        setModelPackage((String) value.get("modelPackage"));
     }
 
     public ModelsBundle() {

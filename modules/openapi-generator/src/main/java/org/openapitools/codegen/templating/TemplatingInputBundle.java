@@ -179,22 +179,13 @@ public class TemplatingInputBundle extends BaseBundle {
     }
 
 
-    public List<Map<String, String>> getPathSet() {
-        return pathSet;
-    }
-
-    public void setPathSet(List<Map<String, String>> pathSet) {
-        this.pathSet = pathSet;
-        put("pathSet", pathSet);
-    }
-
-
     public boolean getHasAuthMethods() {
         return hasAuthMethods;
     }
 
     public void setHasAuthMethods(boolean hasAuthMethods) {
         this.hasAuthMethods = hasAuthMethods;
+        put("hasAuthMethods", hasAuthMethods);
     }
 
 
@@ -204,6 +195,7 @@ public class TemplatingInputBundle extends BaseBundle {
 
     public void setHasOAuthMethods(boolean hasOAuthMethods) {
         this.hasOAuthMethods = hasOAuthMethods;
+        put("hasOAuthMethods", hasOAuthMethods);
     }
 
 
@@ -213,6 +205,7 @@ public class TemplatingInputBundle extends BaseBundle {
 
     public void setOauthMethods(List<CodegenSecurity> oauthMethods) {
         this.oauthMethods = oauthMethods;
+        put("oauthMethods", oauthMethods);
     }
 
 
@@ -222,5 +215,6 @@ public class TemplatingInputBundle extends BaseBundle {
 
     public void setHasBearerMethods(boolean hasBearerMethods) {
         this.hasBearerMethods = hasBearerMethods;
+        put("hasBearerMethods", hasBearerMethods);
     }
 }

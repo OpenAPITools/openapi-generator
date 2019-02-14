@@ -9,8 +9,8 @@ public class ModelBundle extends BaseBundle{
     String importPath;
 
     public ModelBundle(Map<String, Object> model) {
-        this.model = (CodegenModel) model.get("model");
-        this.importPath = (String) model.get("importPath");
+        setModel((CodegenModel) model.get("model"));
+        setImportPath((String) model.get("importPath"));
     }
 
     public ModelBundle() {
