@@ -59,7 +59,7 @@ UserApi <- R6::R6Class(
     CreateUser = function(body, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
@@ -88,7 +88,7 @@ UserApi <- R6::R6Class(
     CreateUsersWithArrayInput = function(body, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
@@ -117,7 +117,7 @@ UserApi <- R6::R6Class(
     CreateUsersWithListInput = function(body, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
@@ -146,7 +146,7 @@ UserApi <- R6::R6Class(
     DeleteUser = function(username, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       urlPath <- "/user/{username}"
       if (!missing(`username`)) {
@@ -173,7 +173,7 @@ UserApi <- R6::R6Class(
     GetUserByName = function(username, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       urlPath <- "/user/{username}"
       if (!missing(`username`)) {
@@ -200,7 +200,7 @@ UserApi <- R6::R6Class(
     LoginUser = function(username, password, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       if (!missing(`username`)) {
         queryParams['username'] <- username
@@ -231,7 +231,7 @@ UserApi <- R6::R6Class(
     LogoutUser = function(...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       urlPath <- "/user/logout"
 
@@ -254,7 +254,7 @@ UserApi <- R6::R6Class(
     UpdateUser = function(username, body, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()

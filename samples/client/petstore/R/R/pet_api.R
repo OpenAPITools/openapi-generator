@@ -59,7 +59,7 @@ PetApi <- R6::R6Class(
     AddPet = function(body, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
@@ -90,7 +90,7 @@ PetApi <- R6::R6Class(
     DeletePet = function(pet.id, api.key, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       if (!missing(`api.key`)) {
         headerParams['api_key'] <- `api.key`
@@ -123,7 +123,7 @@ PetApi <- R6::R6Class(
     FindPetsByStatus = function(status, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       if (!missing(`status`)) {
         queryParams['status'] <- status
@@ -152,7 +152,7 @@ PetApi <- R6::R6Class(
     FindPetsByTags = function(tags, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       if (!missing(`tags`)) {
         queryParams['tags'] <- tags
@@ -181,7 +181,7 @@ PetApi <- R6::R6Class(
     GetPetById = function(pet.id, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       urlPath <- "/pet/{petId}"
       if (!missing(`pet.id`)) {
@@ -189,8 +189,8 @@ PetApi <- R6::R6Class(
       }
 
       # API key authentication
-      if ("api_key" %in% names(self$apiClient$apiKey) && nchar(self$apiClient$apiKey["api_key"]) > 0) {
-        headerParams['api_key'] <- self$apiClient$apiKey["api_key"]
+      if ("api_key" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["api_key"]) > 0) {
+        headerParams['api_key'] <- paste(unlist(self$apiClient$apiKeys["api_key"]), collapse='')
       }
 
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
@@ -212,7 +212,7 @@ PetApi <- R6::R6Class(
     UpdatePet = function(body, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
@@ -243,7 +243,7 @@ PetApi <- R6::R6Class(
     UpdatePetWithForm = function(pet.id, name, status, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       body <- list(
         "name" = name,
@@ -277,7 +277,7 @@ PetApi <- R6::R6Class(
     UploadFile = function(pet.id, additional.metadata, file, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       body <- list(
         "additionalMetadata" = additional.metadata,

@@ -47,7 +47,7 @@ StoreApi <- R6::R6Class(
     DeleteOrder = function(order.id, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       urlPath <- "/store/order/{orderId}"
       if (!missing(`order.id`)) {
@@ -74,12 +74,12 @@ StoreApi <- R6::R6Class(
     GetInventory = function(...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       urlPath <- "/store/inventory"
       # API key authentication
-      if ("api_key" %in% names(self$apiClient$apiKey) && nchar(self$apiClient$apiKey["api_key"]) > 0) {
-        headerParams['api_key'] <- self$apiClient$apiKey["api_key"]
+      if ("api_key" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["api_key"]) > 0) {
+        headerParams['api_key'] <- paste(unlist(self$apiClient$apiKeys["api_key"]), collapse='')
       }
 
       resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
@@ -101,7 +101,7 @@ StoreApi <- R6::R6Class(
     GetOrderById = function(order.id, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       urlPath <- "/store/order/{orderId}"
       if (!missing(`order.id`)) {
@@ -128,7 +128,7 @@ StoreApi <- R6::R6Class(
     PlaceOrder = function(body, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()

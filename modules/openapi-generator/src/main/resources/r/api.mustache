@@ -35,7 +35,7 @@
     {{operationId}} = function({{#allParams}}{{paramName}}, {{/allParams}}...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       {{#hasHeaderParams}}
       {{#headerParams}}
@@ -93,13 +93,13 @@
       {{#isApiKey}}
       # API key authentication
       {{#isKeyInHeader}}
-      if ("{{{keyParamName}}}" %in% names(self$apiClient$apiKey) && nchar(self$apiClient$apiKey["{{{keyParamName}}}"]) > 0) {
-        headerParams['{{keyParamName}}'] <- self$apiClient$apiKey["{{keyParamName}}"]
+      if ("{{{keyParamName}}}" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["{{{keyParamName}}}"]) > 0) {
+        headerParams['{{keyParamName}}'] <- paste(unlist(self$apiClient$apiKeys["{{keyParamName}}"]), collapse='')
       }
       {{/isKeyInHeader}}
       {{#isKeyInQuery}}
-      if ("{{{keyParamName}}}" %in% names(self$apiClient$apiKey) && nchar(self$apiClient$apiKey["{{{keyParamName}}}"]) > 0) {
-        queryParams['{{keyParamName}}'] <- self$apiClient$apiKey["{{keyParamName}}"]
+      if ("{{{keyParamName}}}" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["{{{keyParamName}}}"]) > 0) {
+        queryParams['{{keyParamName}}'] <- paste(unlist(self$apiClient$apiKeys["{{keyParamName}}"]), collapse='')
       }
       {{/isKeyInQuery}}
       {{/isApiKey}}

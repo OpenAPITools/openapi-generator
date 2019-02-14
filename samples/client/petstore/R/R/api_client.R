@@ -19,7 +19,14 @@
 #' Ref: https://openapi-generator.tech
 #' Do not edit the class manually.
 #'
-#' @importFrom httr content_type
+#' @field basePath
+#' @field userAgent
+#' @field defaultHeaders
+#' @field username
+#' @field password
+#' @field apiKeys
+#' @field accessToken
+#' @importFrom httr
 #' @export
 ApiClient  <- R6::R6Class(
   'ApiClient',
@@ -35,7 +42,7 @@ ApiClient  <- R6::R6Class(
     # password (HTTP basic authentication)
     password = NULL,
     # API keys
-    apiKeys = list(),
+    apiKeys = NULL,
     # Access token
     accessToken = NULL,
     # constructor
@@ -62,10 +69,12 @@ ApiClient  <- R6::R6Class(
 
       if (!is.null(apiKeys)) {
         self$apiKeys <- apiKeys
+      } else {
+        self$apiKeys <- list()
       }
 
       if (!is.null(userAgent)) {
-        self$`userAgent` <- 'OpenAPI-Generator/1.0.0/r'
+        self$`userAgent` <- userAgent
       }
     },
     callApi = function(url, method, queryParams, headerParams, body, ...){
