@@ -22,6 +22,9 @@ public class SupportingFile {
     public String folder;
     public String destinationFilename;
 
+    // to add details of submodule generated to main module
+    public boolean merge = false;
+
     public SupportingFile(String templateFile, String destinationFilename) {
         this(templateFile, "", destinationFilename);
     }
@@ -30,6 +33,13 @@ public class SupportingFile {
         this.templateFile = templateFile;
         this.folder = folder;
         this.destinationFilename = destinationFilename;
+    }
+
+    public SupportingFile(String templateFile, String folder, String destinationFilename, boolean merge) {
+        this.templateFile = templateFile;
+        this.folder = folder;
+        this.destinationFilename = destinationFilename;
+        this.merge = merge;
     }
 
     @Override
