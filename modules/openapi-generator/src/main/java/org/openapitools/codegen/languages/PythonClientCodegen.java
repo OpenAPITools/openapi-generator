@@ -206,7 +206,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         Boolean isSubModule = false;
         if(packageName != null)
-            if(packageName.contains("."))
+            if(packageName.contains(".") && invokerPackage != "")
                 isSubModule = true;
 
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
