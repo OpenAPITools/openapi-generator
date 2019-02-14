@@ -67,6 +67,7 @@ class {{controllerName}} extends Controller
         }
 
         {{/bodyParams}}
+        {{#returnType}}
         // Figure out what data format to return to the client
         $produces = [{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}];
         // Figure out what the client accepts
@@ -76,6 +77,7 @@ class {{controllerName}} extends Controller
             return new Response('', 406);
         }
 
+        {{/returnType}}
         // Handle authentication
         {{#authMethods}}
         // Authentication '{{name}}' required
@@ -185,12 +187,14 @@ class {{controllerName}} extends Controller
             }
 
             return new Response(
-                $result !== null ?$this->serialize($result, $responseFormat):'',
+                {{#returnType}}$result !== null ?$this->serialize($result, $responseFormat):''{{/returnType}}{{^returnType}}''{{/returnType}},
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
+                        {{#returnType}}
                         'Content-Type' => $responseFormat,
+                        {{/returnType}}
                         'X-OpenAPI-Message' => $message
                     ]
                 )
