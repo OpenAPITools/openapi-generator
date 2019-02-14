@@ -43,7 +43,7 @@ mvn clean compile
 - `validateSpec` - Whether or not to validate the input spec prior to generation. Invalid specifications will result in an error.
 - `language` - target generation language (deprecated, replaced by `generatorName` as values here don't represent only 'language' any longer)
 - `generatorName` - target generator name
-- `output` - target output path (default is `${project.build.directory}/generated-sources/swagger`)
+- `output` - target output path (default is `${project.build.directory}/generated-sources/swagger`. Can also be set globally through the `openapi.generator.maven.plugin.output` property)
 - `templateDirectory` - directory with mustache templates
 - `addCompileSourceRoot` - add the output directory to the project as a source root (`true` by default)
 - `modelPackage` - the package to use for generated model objects/classes
@@ -69,6 +69,20 @@ mvn clean compile
 - `generateSupportingFiles` - generate the supporting files (`true` by default)
 - `supportingFilesToGenerate` - A comma separated list of supporting files to generate.  All files is the default.
 - `skip` - skip code generation (`false` by default. Can also be set globally through the `codegen.skip` property)
+- `verbose` - verbose mode (`false` by default)
+- `gitUserId` and `gitRepoId` - git infos of the project
+- `auth` - adds authorization headers when fetching the OpenAPI definitions remotely. Pass in a URL-encoded string of `name:header` with a comma separating multiple values
+- `configurationFile` - Path to separate json configuration file. File content should be in a json format {"optionKey":"optionValue", "optionKey1":"optionValue1"...} Supported options can be different for each language. Run `config-help -g {generator name}` command for language specific config options
+- `skipOverwrite` - Specifies if the existing files should be overwritten during the generation. (`false` by default)
+- `library` - library template (sub-template)
+- `instantiationTypes` - sets instantiation type mappings in the format of type=instantiatedType,type=instantiatedType. For example (in Java): `array=ArrayList,map=HashMap`. In other words array types will get instantiated as ArrayList in generated code. You can also have multiple occurrences of this option
+- `importMappings` - specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import. You can also have multiple occurrences of this option
+- `typeMappings` - sets mappings between OpenAPI spec types and generated code types in the format of OpenAPIType=generatedType,OpenAPIType=generatedType. For example: `array=List,map=Map,string=String`. You can also have multiple occurrences of this option
+- `languageSpecificPrimitives` - specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: `String,boolean,Boolean,Double`. You can also have multiple occurrences of this option
+- `additionalProperties` - sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value. You can also have multiple occurrences of this option
+- `reservedWordsMappings` - specifies how a reserved name should be escaped to. Otherwise, the default `_<name>` is used. For example `id=identifier`. You can also have multiple occurrences of this option
+- `skipIfSpecIsUnchanged` - Skip the execution if the source file is older than the output folder (`false` by default. Can also be set globally through the `codegen.skipIfSpecIsUnchanged` property)
+
 
 ### Custom Generator
 
