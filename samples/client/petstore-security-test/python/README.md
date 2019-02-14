@@ -51,6 +51,7 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.FakeApi(petstore_api.ApiClient(configuration))
 test_code_inject____end____rn_n_r = 'test_code_inject____end____rn_n_r_example' # str | To test code injection */ ' \\\" =end -- \\\\r\\\\n \\\\n \\\\r (optional)
@@ -85,6 +86,7 @@ Class | Method | HTTP request | Description
 - **Type**: API key
 - **API key parameter name**: api_key  */ ' " =end -- \r\n \n \r
 - **Location**: HTTP header
+
 
 ## petstore_auth
 
