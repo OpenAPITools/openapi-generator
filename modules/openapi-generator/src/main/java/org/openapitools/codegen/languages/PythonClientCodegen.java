@@ -40,6 +40,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String DEFAULT_LIBRARY = "urllib3";
 
     protected String packageName; // e.g. petstore_api
+    protected String invokerPackage;
     protected String packageVersion;
     protected String projectName; // for setup.py, e.g. petstore-api
     protected String packageUrl;
@@ -192,10 +193,21 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             setPackageVersion("1.0.0");
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));} 
+        else {
+            setInvokerPackage("");
+        }
+
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
             generateSourceCodeOnly = Boolean.valueOf(additionalProperties.get(CodegenConstants.SOURCECODEONLY_GENERATION).toString());
         }
+
+        Boolean isSubModule = false;
+        if(packageName != null)
+            if(packageName.contains("."))
+                isSubModule = true;
 
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
@@ -234,7 +246,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
             supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
         }
-        supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
+        
         supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + modelPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + apiPackage, "__init__.py"));
@@ -243,16 +255,24 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
         }
 
-        supportingFiles.add(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
+        if(!isSubModule){
+            supportingFiles.add(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
+            supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
 
-        if ("asyncio".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
-            additionalProperties.put("asyncio", "true");
-        } else if ("tornado".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("tornado/rest.mustache", packagePath(), "rest.py"));
-            additionalProperties.put("tornado", "true");
-        } else {
-            supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
+            if ("asyncio".equals(getLibrary())) {
+                supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
+                additionalProperties.put("asyncio", "true");
+            } else if ("tornado".equals(getLibrary())) {
+                supportingFiles.add(new SupportingFile("tornado/rest.mustache", packagePath(), "rest.py"));
+                additionalProperties.put("tornado", "true");
+            } else {
+                supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
+            }
+        }
+        if(isSubModule){
+            // If file already exists merge i.e merge API and MODELS data of submodule __init__ with main module __init__
+            supportingFiles.add(new SupportingFile("__init__api_submodule.mustache", invokerPath() + File.separatorChar + apiPackage, "__init__.py", true));
+            supportingFiles.add(new SupportingFile("__init__model_submodule.mustache", invokerPath() + File.separatorChar + modelPackage, "__init__.py", true));
         }
 
         modelPackage = packageName + "." + modelPackage;
@@ -570,6 +590,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         this.packageName = packageName;
     }
 
+    public void setInvokerPackage(String invokerPackage) {
+        this.invokerPackage = invokerPackage;
+    }
+
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
@@ -583,8 +607,14 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     }
 
     public String packagePath() {
-        return packageName.replace('.', File.separatorChar);
+        return this.packageName.replace('.', File.separatorChar);
     }
+
+    public String invokerPath() {
+        return this.invokerPackage.replace('.', File.separatorChar);
+    }
+
+
 
     /**
      * Generate Python package name from String `packageName`
