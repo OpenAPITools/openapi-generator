@@ -69,9 +69,13 @@ def get_types_remainder(type_string):
 def model_to_dict(model_instance, serialize=True):
     """Returns the model properties as a dict
 
-    Kwargs:
+    Args:
+        model_instance (one of your model instances): the model instance that
+            will be converted to a dict.
+
+    Keyword Args:
         serialize (bool): if True, the keys in the dict will be values from
-                          attribute_map
+            attribute_map
     """
     result = {}
 
