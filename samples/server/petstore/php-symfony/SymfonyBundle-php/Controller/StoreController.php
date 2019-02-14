@@ -327,6 +327,7 @@ class StoreController extends Controller
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Order");
+        $asserts[] = new Assert\Valid();
         $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
