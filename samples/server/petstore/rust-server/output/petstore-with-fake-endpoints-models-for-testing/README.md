@@ -220,33 +220,18 @@ Method | HTTP request | Description
 
 Example
 ```
-	auth := context.WithValue(context.TODO(), sw.ContextAPIKey, sw.APIKey{
-		Key: "APIKEY",
-		Prefix: "Bearer", // Omit if not necessary.
-	})
-    r, err := client.Service.Operation(auth, args)
 ```
 ## api_key_query
 - **Type**: API key 
 
 Example
 ```
-	auth := context.WithValue(context.TODO(), sw.ContextAPIKey, sw.APIKey{
-		Key: "APIKEY",
-		Prefix: "Bearer", // Omit if not necessary.
-	})
-    r, err := client.Service.Operation(auth, args)
 ```
 ## http_basic_test
 - **Type**: HTTP basic authentication
 
 Example
 ```
-	auth := context.WithValue(context.TODO(), sw.ContextBasicAuth, sw.BasicAuth{
-		UserName: "username",
-		Password: "password",
-	})
-    r, err := client.Service.Operation(auth, args)
 ```
 ## petstore_auth
 - **Type**: OAuth
@@ -258,19 +243,10 @@ Example
 
 Example
 ```
-	auth := context.WithValue(context.TODO(), sw.ContextAccessToken, "ACCESSTOKENSTRING")
-    r, err := client.Service.Operation(auth, args)
 ```
 
 Or via OAuth2 module to automatically refresh tokens and perform user authentication.
 ```
-	import 	"golang.org/x/oauth2"
-
-    / .. Perform OAuth2 round trip request and obtain a token .. //
-
-    tokenSource := oauth2cfg.TokenSource(createContext(httpClient), &token)
-	auth := context.WithValue(oauth2.NoContext, sw.ContextOAuth2, tokenSource)
-    r, err := client.Service.Operation(auth, args)
 ```
 
 ## Author
