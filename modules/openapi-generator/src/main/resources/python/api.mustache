@@ -9,7 +9,7 @@ import re  # noqa: F401
 # python 2 and python 3 compatibility library
 import six
 
-from {{packageName}}.api_client import ApiClient
+
 
 
 {{#operations}}
@@ -22,6 +22,7 @@ class {{classname}}(object):
 
     def __init__(self, api_client=None):
         if api_client is None:
+            from {{packageName}}.api_client import ApiClient
             api_client = ApiClient()
         self.api_client = api_client
 {{#operation}}
