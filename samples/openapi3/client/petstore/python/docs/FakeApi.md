@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -17,6 +18,49 @@ Method | HTTP request | Description
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 
+
+# **fake_health_get**
+> HealthCheckResult fake_health_get()
+
+Health check endpoint
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import petstore_api
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = petstore_api.FakeApi()
+
+try:
+    # Health check endpoint
+    api_response = api_instance.fake_health_get()
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling FakeApi->fake_health_get: %s\n" % e)
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**HealthCheckResult**](HealthCheckResult.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_boolean_serialize**
 > bool fake_outer_boolean_serialize(body=body)
