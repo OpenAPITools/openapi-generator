@@ -48,6 +48,24 @@ public abstract class AbstractGenerator {
         return output;
     }
 
+    public String mergeFileContent(String fileName, String content) throws IOException {
+        Reader fileReader = new InputStreamReader(new FileInputStream(fileName), "UTF-8");
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String line,existingContent = "";
+
+        while((line = bufferedReader.readLine()) != null) {
+            if(existingContent=="")
+                existingContent = line;
+            else
+                existingContent += System.lineSeparator() + line;
+        }
+
+        if(!existingContent.isEmpty()) {
+            content = existingContent + System.lineSeparator() + content;
+        }
+        return content;
+    }
+
     public String readTemplate(String name) {
         try {
             Reader reader = getTemplateReader(name);
