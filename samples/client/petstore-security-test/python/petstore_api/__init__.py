@@ -18,10 +18,14 @@ from __future__ import absolute_import
 __version__ = "1.0.0"
 
 # import apis into sdk package
+import petstore_api.api
 from petstore_api.api.fake_api import FakeApi
+
 
 # import ApiClient
 from petstore_api.api_client import ApiClient
 from petstore_api.configuration import Configuration
+
 # import models into sdk package
+import petstore_api.models
 from petstore_api.models.model_return import ModelReturn

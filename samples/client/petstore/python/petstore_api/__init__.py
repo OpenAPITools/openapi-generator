@@ -17,6 +17,7 @@ from __future__ import absolute_import
 __version__ = "1.0.0"
 
 # import apis into sdk package
+import petstore_api.api
 from petstore_api.api.another_fake_api import AnotherFakeApi
 from petstore_api.api.fake_api import FakeApi
 from petstore_api.api.fake_classname_tags_123_api import FakeClassnameTags123Api
@@ -24,10 +25,13 @@ from petstore_api.api.pet_api import PetApi
 from petstore_api.api.store_api import StoreApi
 from petstore_api.api.user_api import UserApi
 
+
 # import ApiClient
 from petstore_api.api_client import ApiClient
 from petstore_api.configuration import Configuration
+
 # import models into sdk package
+import petstore_api.models
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
 from petstore_api.models.animal import Animal
 from petstore_api.models.api_response import ApiResponse
