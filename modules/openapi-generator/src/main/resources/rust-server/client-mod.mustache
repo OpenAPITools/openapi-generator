@@ -25,6 +25,7 @@ use std::path::Path;
 use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
+use std::string::ToString;
 
 use mimetypes;
 
@@ -246,18 +247,24 @@ impl<F, C> Api<C> for Client<F> where
     C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<AuthData>>{{/hasAuthMethods}}{
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
     fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(&self{{#allParams}}, param_{{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}}{{/allParams}}, context: &C) -> Box<Future<Item={{{operationId}}}Response, Error=ApiError>> {
-{{#queryParams}}{{#-first}}
-        // Query parameters
-{{/-first}}{{#required}}        let query_{{{paramName}}} = format!("{{{baseName}}}={{=<% %>=}}{<% paramName %>}<%={{ }}=%>&", {{{paramName}}}=param_{{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});
-{{/required}}{{^required}}        let query_{{{paramName}}} = param_{{{paramName}}}.map_or_else(String::new, |query| format!("{{{baseName}}}={{=<% %>=}}{<% paramName %>}<%={{ }}=%>&", {{{paramName}}}=query{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}}));
-{{/required}}{{/queryParams}}
-
-        let uri = format!(
-            "{}{{{basePathWithoutHost}}}{{path}}{{#queryParams}}{{#-first}}?{{/-first}}{{=<% %>=}}{<% paramName %>}<%={{ }}=%>{{/queryParams}}",
-            self.base_path{{#pathParams}}, {{{baseName}}}=utf8_percent_encode(&param_{{{paramName}}}.to_string(), ID_ENCODE_SET){{/pathParams}}{{#queryParams}},
-            {{{paramName}}}=utf8_percent_encode(&query_{{{paramName}}}, QUERY_ENCODE_SET){{/queryParams}}
+        let mut uri = format!(
+            "{}{{{basePathWithoutHost}}}{{path}}",
+            self.base_path{{#pathParams}}, {{{baseName}}}=utf8_percent_encode(&param_{{{paramName}}}.to_string(), ID_ENCODE_SET){{/pathParams}}
         );
-
+{{#queryParams}}{{#-first}}        
+        // Query parameters
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+{{/-first}}{{#required}}        query_string.append_pair("{{{baseName}}}", &param_{{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});
+{{/required}}{{^required}}        if let Some({{{paramName}}}) = param_{{{paramName}}} {
+            query_string.append_pair("{{{baseName}}}", &{{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});
+        }
+{{/required}}{{#-last}}        
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+{{/-last}}{{/queryParams}}
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
