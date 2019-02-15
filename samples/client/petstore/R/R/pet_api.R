@@ -59,7 +59,11 @@ PetApi <- R6::R6Class(
     AddPet = function(body, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
+
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
+      }
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
@@ -71,7 +75,7 @@ PetApi <- R6::R6Class(
       # OAuth token
       headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -87,14 +91,16 @@ PetApi <- R6::R6Class(
       }
 
     },
-    DeletePet = function(pet.id, api.key, ...){
+    DeletePet = function(pet.id, api.key=NULL, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
-      if (!missing(`api.key`)) {
-        headerParams['api_key'] <- `api.key`
+      if (missing(`pet.id`)) {
+        stop("Missing required parameter `pet.id`.")
       }
+
+      headerParams['api_key'] <- `api.key`
 
       urlPath <- "/pet/{petId}"
       if (!missing(`pet.id`)) {
@@ -104,7 +110,7 @@ PetApi <- R6::R6Class(
       # OAuth token
       headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "DELETE",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -123,17 +129,19 @@ PetApi <- R6::R6Class(
     FindPetsByStatus = function(status, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
-      if (!missing(`status`)) {
-        queryParams['status'] <- status
+      if (missing(`status`)) {
+        stop("Missing required parameter `status`.")
       }
+
+      queryParams['status'] <- status
 
       urlPath <- "/pet/findByStatus"
       # OAuth token
       headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -152,17 +160,19 @@ PetApi <- R6::R6Class(
     FindPetsByTags = function(tags, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
-      if (!missing(`tags`)) {
-        queryParams['tags'] <- tags
+      if (missing(`tags`)) {
+        stop("Missing required parameter `tags`.")
       }
+
+      queryParams['tags'] <- tags
 
       urlPath <- "/pet/findByTags"
       # OAuth token
       headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -181,7 +191,11 @@ PetApi <- R6::R6Class(
     GetPetById = function(pet.id, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
+
+      if (missing(`pet.id`)) {
+        stop("Missing required parameter `pet.id`.")
+      }
 
       urlPath <- "/pet/{petId}"
       if (!missing(`pet.id`)) {
@@ -189,11 +203,11 @@ PetApi <- R6::R6Class(
       }
 
       # API key authentication
-      if ("api_key" %in% names(self$apiClient$apiKey) && nchar(self$apiClient$apiKey["api_key"]) > 0) {
-        headerParams['api_key'] <- self$apiClient$apiKey["api_key"]
+      if ("api_key" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["api_key"]) > 0) {
+        headerParams['api_key'] <- paste(unlist(self$apiClient$apiKeys["api_key"]), collapse='')
       }
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -212,7 +226,11 @@ PetApi <- R6::R6Class(
     UpdatePet = function(body, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
+
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
+      }
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
@@ -224,7 +242,7 @@ PetApi <- R6::R6Class(
       # OAuth token
       headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "PUT",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -240,10 +258,14 @@ PetApi <- R6::R6Class(
       }
 
     },
-    UpdatePetWithForm = function(pet.id, name, status, ...){
+    UpdatePetWithForm = function(pet.id, name=NULL, status=NULL, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
+
+      if (missing(`pet.id`)) {
+        stop("Missing required parameter `pet.id`.")
+      }
 
       body <- list(
         "name" = name,
@@ -258,7 +280,7 @@ PetApi <- R6::R6Class(
       # OAuth token
       headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -274,10 +296,14 @@ PetApi <- R6::R6Class(
       }
 
     },
-    UploadFile = function(pet.id, additional.metadata, file, ...){
+    UploadFile = function(pet.id, additional.metadata=NULL, file=NULL, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
+
+      if (missing(`pet.id`)) {
+        stop("Missing required parameter `pet.id`.")
+      }
 
       body <- list(
         "additionalMetadata" = additional.metadata,
@@ -292,7 +318,7 @@ PetApi <- R6::R6Class(
       # OAuth token
       headerParams['Authorization'] <- paste("Bearer", self$apiClient$accessToken, sep=" ")
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
                                  headerParams = headerParams,

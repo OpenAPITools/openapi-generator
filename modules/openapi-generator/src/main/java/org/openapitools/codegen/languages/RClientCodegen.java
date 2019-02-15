@@ -187,7 +187,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toVarName(String name) {
+    public String toParamName(String name) {
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
 
@@ -207,12 +207,13 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (name.matches("^\\d.*"))
             name = "Var" + name;
 
-        return name;
+        return name.replace("_", ".");
     }
 
     @Override
-    public String toParamName(String name) {
-        return toVarName(name).replace("_", ".");
+    public String toVarName(String name) {
+        // don't do anything as we'll put property name inside ` `, e.g. `date-time`
+        return name;
     }
 
     @Override
@@ -494,7 +495,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             example = "File.new('" + escapeText(example) + "')";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
-            example = type + "$new";
+            example = type + "$new()";
         }
 
         if (example == null) {

@@ -32,27 +32,25 @@
       }
     },
     {{#operation}}
-    {{operationId}} = function({{#allParams}}{{paramName}}, {{/allParams}}...){
+    {{{operationId}}} = function({{#requiredParams}}{{paramName}}, {{/requiredParams}}{{#optionalParams}}{{paramName}}={{^defaultValue}}NULL{{/defaultValue}}{{#defaultValue}}{{{.}}}{{/defaultValue}}, {{/optionalParams}}...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
-      {{#hasHeaderParams}}
-      {{#headerParams}}
-      if (!missing(`{{paramName}}`)) {
-        headerParams['{{baseName}}'] <- `{{paramName}}`
+      {{#requiredParams}}
+      if (missing(`{{paramName}}`)) {
+        stop("Missing required parameter `{{{paramName}}}`.")
       }
+
+      {{/requiredParams}}
+      {{#headerParams}}
+      headerParams['{{baseName}}'] <- `{{paramName}}`
 
       {{/headerParams}}
-      {{/hasHeaderParams}}
-      {{#hasQueryParams}}
       {{#queryParams}}
-      if (!missing(`{{paramName}}`)) {
-        queryParams['{{baseName}}'] <- {{paramName}}
-      }
+      queryParams['{{baseName}}'] <- {{paramName}}
 
       {{/queryParams}}
-      {{/hasQueryParams}}
       {{#hasFormParams}}
       body <- list(
         {{#formParams}}
@@ -93,13 +91,13 @@
       {{#isApiKey}}
       # API key authentication
       {{#isKeyInHeader}}
-      if ("{{{keyParamName}}}" %in% names(self$apiClient$apiKey) && nchar(self$apiClient$apiKey["{{{keyParamName}}}"]) > 0) {
-        headerParams['{{keyParamName}}'] <- self$apiClient$apiKey["{{keyParamName}}"]
+      if ("{{{keyParamName}}}" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["{{{keyParamName}}}"]) > 0) {
+        headerParams['{{keyParamName}}'] <- paste(unlist(self$apiClient$apiKeys["{{keyParamName}}"]), collapse='')
       }
       {{/isKeyInHeader}}
       {{#isKeyInQuery}}
-      if ("{{{keyParamName}}}" %in% names(self$apiClient$apiKey) && nchar(self$apiClient$apiKey["{{{keyParamName}}}"]) > 0) {
-        queryParams['{{keyParamName}}'] <- self$apiClient$apiKey["{{keyParamName}}"]
+      if ("{{{keyParamName}}}" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["{{{keyParamName}}}"]) > 0) {
+        queryParams['{{keyParamName}}'] <- paste(unlist(self$apiClient$apiKeys["{{keyParamName}}"]), collapse='')
       }
       {{/isKeyInQuery}}
       {{/isApiKey}}
@@ -109,7 +107,7 @@
       {{/isOAuth}}
       {{/authMethods}}
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "{{httpMethod}}",
                                  queryParams = queryParams,
                                  headerParams = headerParams,

@@ -25,10 +25,11 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var.body <- User$new # User | Created user object
+var.body <- User$new() # User | Created user object
 
 #Create user
-UserApi$CreateUser(var.body)
+api.instance <- UserApi$new()
+api.instance$CreateUser(var.body)
 ```
 
 ### Parameters
@@ -61,10 +62,11 @@ Creates list of users with given input array
 ```R
 library(petstore)
 
-var.body <- [array$new] # User | List of user object
+var.body <- [array$new()] # User | List of user object
 
 #Creates list of users with given input array
-UserApi$CreateUsersWithArrayInput(var.body)
+api.instance <- UserApi$new()
+api.instance$CreateUsersWithArrayInput(var.body)
 ```
 
 ### Parameters
@@ -97,10 +99,11 @@ Creates list of users with given input array
 ```R
 library(petstore)
 
-var.body <- [array$new] # User | List of user object
+var.body <- [array$new()] # User | List of user object
 
 #Creates list of users with given input array
-UserApi$CreateUsersWithListInput(var.body)
+api.instance <- UserApi$new()
+api.instance$CreateUsersWithListInput(var.body)
 ```
 
 ### Parameters
@@ -138,7 +141,8 @@ library(petstore)
 var.username <- 'username_example' # character | The name that needs to be deleted
 
 #Delete user
-UserApi$DeleteUser(var.username)
+api.instance <- UserApi$new()
+api.instance$DeleteUser(var.username)
 ```
 
 ### Parameters
@@ -174,7 +178,8 @@ library(petstore)
 var.username <- 'username_example' # character | The name that needs to be fetched. Use user1 for testing.
 
 #Get user by user name
-result = UserApi$GetUserByName(var.username)
+api.instance <- UserApi$new()
+result <- api.instance$GetUserByName(var.username)
 dput(result)
 ```
 
@@ -212,7 +217,8 @@ var.username <- 'username_example' # character | The user name for login
 var.password <- 'password_example' # character | The password for login in clear text
 
 #Logs user into the system
-result = UserApi$LoginUser(var.username, var.password)
+api.instance <- UserApi$new()
+result <- api.instance$LoginUser(var.username, var.password)
 dput(result)
 ```
 
@@ -249,7 +255,8 @@ library(petstore)
 
 
 #Logs out current logged in user session
-UserApi$LogoutUser()
+api.instance <- UserApi$new()
+api.instance$LogoutUser()
 ```
 
 ### Parameters
@@ -282,10 +289,11 @@ This can only be done by the logged in user.
 library(petstore)
 
 var.username <- 'username_example' # character | name that need to be deleted
-var.body <- User$new # User | Updated user object
+var.body <- User$new() # User | Updated user object
 
 #Updated user
-UserApi$UpdateUser(var.username, var.body)
+api.instance <- UserApi$new()
+api.instance$UpdateUser(var.username, var.body)
 ```
 
 ### Parameters

@@ -24,7 +24,8 @@ library(petstore)
 var.order.id <- 'order.id_example' # character | ID of the order that needs to be deleted
 
 #Delete purchase order by ID
-StoreApi$DeleteOrder(var.order.id)
+api.instance <- StoreApi$new()
+api.instance$DeleteOrder(var.order.id)
 ```
 
 ### Parameters
@@ -61,7 +62,10 @@ library(petstore)
 
 
 #Returns pet inventories by status
-result = StoreApi$GetInventory()
+api.instance <- StoreApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
+result <- api.instance$GetInventory()
 dput(result)
 ```
 
@@ -97,7 +101,8 @@ library(petstore)
 var.order.id <- 56 # integer | ID of pet that needs to be fetched
 
 #Find purchase order by ID
-result = StoreApi$GetOrderById(var.order.id)
+api.instance <- StoreApi$new()
+result <- api.instance$GetOrderById(var.order.id)
 dput(result)
 ```
 
@@ -131,10 +136,11 @@ Place an order for a pet
 ```R
 library(petstore)
 
-var.body <- Order$new # Order | order placed for purchasing the pet
+var.body <- Order$new() # Order | order placed for purchasing the pet
 
 #Place an order for a pet
-result = StoreApi$PlaceOrder(var.body)
+api.instance <- StoreApi$new()
+result <- api.instance$PlaceOrder(var.body)
 dput(result)
 ```
 

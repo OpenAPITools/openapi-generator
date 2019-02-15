@@ -23,10 +23,13 @@ Add a new pet to the store
 ```R
 library(petstore)
 
-var.body <- Pet$new # Pet | Pet object that needs to be added to the store
+var.body <- Pet$new() # Pet | Pet object that needs to be added to the store
 
 #Add a new pet to the store
-PetApi$AddPet(var.body)
+api.instance <- PetApi$new()
+# Configure OAuth2 access token for authorization: petstore_auth
+api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
+api.instance$AddPet(var.body)
 ```
 
 ### Parameters
@@ -63,7 +66,10 @@ var.pet.id <- 56 # integer | Pet id to delete
 var.api.key <- 'api.key_example' # character | 
 
 #Deletes a pet
-PetApi$DeletePet(var.pet.id, api.key=var.api.key)
+api.instance <- PetApi$new()
+# Configure OAuth2 access token for authorization: petstore_auth
+api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
+api.instance$DeletePet(var.pet.id, api.key=var.api.key)
 ```
 
 ### Parameters
@@ -102,7 +108,10 @@ library(petstore)
 var.status <- ['status_example'] # character | Status values that need to be considered for filter
 
 #Finds Pets by status
-result = PetApi$FindPetsByStatus(var.status)
+api.instance <- PetApi$new()
+# Configure OAuth2 access token for authorization: petstore_auth
+api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
+result <- api.instance$FindPetsByStatus(var.status)
 dput(result)
 ```
 
@@ -141,7 +150,10 @@ library(petstore)
 var.tags <- ['tags_example'] # character | Tags to filter by
 
 #Finds Pets by tags
-result = PetApi$FindPetsByTags(var.tags)
+api.instance <- PetApi$new()
+# Configure OAuth2 access token for authorization: petstore_auth
+api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
+result <- api.instance$FindPetsByTags(var.tags)
 dput(result)
 ```
 
@@ -180,7 +192,10 @@ library(petstore)
 var.pet.id <- 56 # integer | ID of pet to return
 
 #Find pet by ID
-result = PetApi$GetPetById(var.pet.id)
+api.instance <- PetApi$new()
+# Configure API key authorization: api_key
+api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
+result <- api.instance$GetPetById(var.pet.id)
 dput(result)
 ```
 
@@ -214,10 +229,13 @@ Update an existing pet
 ```R
 library(petstore)
 
-var.body <- Pet$new # Pet | Pet object that needs to be added to the store
+var.body <- Pet$new() # Pet | Pet object that needs to be added to the store
 
 #Update an existing pet
-PetApi$UpdatePet(var.body)
+api.instance <- PetApi$new()
+# Configure OAuth2 access token for authorization: petstore_auth
+api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
+api.instance$UpdatePet(var.body)
 ```
 
 ### Parameters
@@ -255,7 +273,10 @@ var.name <- 'name_example' # character | Updated name of the pet
 var.status <- 'status_example' # character | Updated status of the pet
 
 #Updates a pet in the store with form data
-PetApi$UpdatePetWithForm(var.pet.id, name=var.name, status=var.status)
+api.instance <- PetApi$new()
+# Configure OAuth2 access token for authorization: petstore_auth
+api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
+api.instance$UpdatePetWithForm(var.pet.id, name=var.name, status=var.status)
 ```
 
 ### Parameters
@@ -295,7 +316,10 @@ var.additional.metadata <- 'additional.metadata_example' # character | Additiona
 var.file <- File.new('/path/to/file') # data.frame | file to upload
 
 #uploads an image
-result = PetApi$UploadFile(var.pet.id, additional.metadata=var.additional.metadata, file=var.file)
+api.instance <- PetApi$new()
+# Configure OAuth2 access token for authorization: petstore_auth
+api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
+result <- api.instance$UploadFile(var.pet.id, additional.metadata=var.additional.metadata, file=var.file)
 dput(result)
 ```
 

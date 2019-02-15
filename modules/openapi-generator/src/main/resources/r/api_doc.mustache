@@ -28,7 +28,25 @@ var.{{{paramName}}} <- {{{example}}} # {{{dataType}}} | {{{description}}}
 {{#summary}}
 #{{{.}}}
 {{/summary}}
-{{#returnType}}result = {{/returnType}}{{{classname}}}${{{operationId}}}({{#requiredParams}}var.{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var.{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}})
+api.instance <- {{{classname}}}$new()
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{#isBasic}}
+# Configure HTTP basic authorization: {{{name}}}
+api.instance$apiClient$username <- 'TODO_YOUR_USERNAME';
+api.instance$apiClient$password <- 'TODO_YOUR_PASSWORD';
+{{/isBasic}}
+{{#isApiKey}}
+# Configure API key authorization: {{{name}}}
+api.instance$apiClient$apiKeys['{{{keyParamName}}}'] <- 'TODO_YOUR_API_KEY';
+{{/isApiKey}}
+{{#isOAuth}}
+# Configure OAuth2 access token for authorization: {{{name}}}
+api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
+{{/isOAuth}}
+{{/authMethods}}
+{{/hasAuthMethods}}
+{{#returnType}}result <- {{/returnType}}api.instance${{{operationId}}}({{#requiredParams}}var.{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var.{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}})
 {{#returnType}}
 dput(result)
 {{/returnType}}
@@ -38,8 +56,10 @@ dput(result)
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
-{{/allParams}}
+{{#requiredParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{/requiredParams}}
+{{#optionalParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{/optionalParams}}
 
 ### Return type
 
