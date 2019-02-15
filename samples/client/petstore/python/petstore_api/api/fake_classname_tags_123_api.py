@@ -17,7 +17,7 @@ import re  # noqa: F401
 # python 2 and python 3 compatibility library
 import six
 
-from petstore_api.api_client import ApiClient
+
 
 
 class FakeClassnameTags123Api(object):
@@ -29,6 +29,7 @@ class FakeClassnameTags123Api(object):
 
     def __init__(self, api_client=None):
         if api_client is None:
+            from petstore_api.api_client import ApiClient
             api_client = ApiClient()
         self.api_client = api_client
 
