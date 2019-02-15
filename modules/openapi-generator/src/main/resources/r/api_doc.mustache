@@ -46,7 +46,7 @@ api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
 {{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}
-{{#returnType}}result = {{/returnType}}api.instance${{{operationId}}}({{#requiredParams}}var.{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var.{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}})
+{{#returnType}}result <- {{/returnType}}api.instance${{{operationId}}}({{#requiredParams}}var.{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-first}}{{#requiredParams.0}}, {{/requiredParams.0}}{{/-first}}{{{paramName}}}=var.{{{paramName}}}{{^-last}}, {{/-last}}{{/optionalParams}})
 {{#returnType}}
 dput(result)
 {{/returnType}}

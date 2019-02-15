@@ -111,7 +111,7 @@ var.status <- ['status_example'] # character | Status values that need to be con
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result = api.instance$FindPetsByStatus(var.status)
+result <- api.instance$FindPetsByStatus(var.status)
 dput(result)
 ```
 
@@ -153,7 +153,7 @@ var.tags <- ['tags_example'] # character | Tags to filter by
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result = api.instance$FindPetsByTags(var.tags)
+result <- api.instance$FindPetsByTags(var.tags)
 dput(result)
 ```
 
@@ -195,7 +195,7 @@ var.pet.id <- 56 # integer | ID of pet to return
 api.instance <- PetApi$new()
 # Configure API key authorization: api_key
 api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
-result = api.instance$GetPetById(var.pet.id)
+result <- api.instance$GetPetById(var.pet.id)
 dput(result)
 ```
 
@@ -319,7 +319,7 @@ var.file <- File.new('/path/to/file') # data.frame | file to upload
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-result = api.instance$UploadFile(var.pet.id, additional.metadata=var.additional.metadata, file=var.file)
+result <- api.instance$UploadFile(var.pet.id, additional.metadata=var.additional.metadata, file=var.file)
 dput(result)
 ```
 

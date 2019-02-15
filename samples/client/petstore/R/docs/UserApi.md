@@ -179,7 +179,7 @@ var.username <- 'username_example' # character | The name that needs to be fetch
 
 #Get user by user name
 api.instance <- UserApi$new()
-result = api.instance$GetUserByName(var.username)
+result <- api.instance$GetUserByName(var.username)
 dput(result)
 ```
 
@@ -218,7 +218,7 @@ var.password <- 'password_example' # character | The password for login in clear
 
 #Logs user into the system
 api.instance <- UserApi$new()
-result = api.instance$LoginUser(var.username, var.password)
+result <- api.instance$LoginUser(var.username, var.password)
 dput(result)
 ```
 
