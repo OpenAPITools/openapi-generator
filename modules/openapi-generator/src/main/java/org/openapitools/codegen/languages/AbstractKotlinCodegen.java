@@ -162,7 +162,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("float", "kotlin.Float");
         typeMapping.put("long", "kotlin.Long");
         typeMapping.put("double", "kotlin.Double");
-        typeMapping.put("ByteArray", "kotlin.ByteArray");
+        typeMapping.put("ByteArray", "kotlin.String");
         typeMapping.put("number", "java.math.BigDecimal");
         typeMapping.put("date-time", "java.time.LocalDateTime");
         typeMapping.put("date", "java.time.LocalDateTime");
