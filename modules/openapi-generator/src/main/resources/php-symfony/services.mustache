@@ -18,6 +18,8 @@ services:
 
     {{bundleAlias}}.service.validator:
         class: '%{{bundleAlias}}.validator%'
+        arguments:
+            - '@validator'
 
 {{#apiInfo}}
 {{#apis}}
