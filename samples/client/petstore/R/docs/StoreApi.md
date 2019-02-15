@@ -64,7 +64,7 @@ library(petstore)
 #Returns pet inventories by status
 api.instance <- StoreApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKey['api_key'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
 result = api.instance$GetInventory()
 dput(result)
 ```
@@ -136,7 +136,7 @@ Place an order for a pet
 ```R
 library(petstore)
 
-var.body <- Order$new # Order | order placed for purchasing the pet
+var.body <- Order$new() # Order | order placed for purchasing the pet
 
 #Place an order for a pet
 api.instance <- StoreApi$new()

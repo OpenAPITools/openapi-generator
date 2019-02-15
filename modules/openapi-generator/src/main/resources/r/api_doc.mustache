@@ -38,7 +38,7 @@ api.instance$apiClient$password <- 'TODO_YOUR_PASSWORD';
 {{/isBasic}}
 {{#isApiKey}}
 # Configure API key authorization: {{{name}}}
-api.instance$apiClient$apiKey['{{{keyParamName}}}'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$apiKeys['{{{keyParamName}}}'] <- 'TODO_YOUR_API_KEY';
 {{/isApiKey}}
 {{#isOAuth}}
 # Configure OAuth2 access token for authorization: {{{name}}}

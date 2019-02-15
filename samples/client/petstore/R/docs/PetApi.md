@@ -23,7 +23,7 @@ Add a new pet to the store
 ```R
 library(petstore)
 
-var.body <- Pet$new # Pet | Pet object that needs to be added to the store
+var.body <- Pet$new() # Pet | Pet object that needs to be added to the store
 
 #Add a new pet to the store
 api.instance <- PetApi$new()
@@ -194,7 +194,7 @@ var.pet.id <- 56 # integer | ID of pet to return
 #Find pet by ID
 api.instance <- PetApi$new()
 # Configure API key authorization: api_key
-api.instance$apiClient$apiKey['api_key'] <- 'TODO_YOUR_API_KEY';
+api.instance$apiClient$apiKeys['api_key'] <- 'TODO_YOUR_API_KEY';
 result = api.instance$GetPetById(var.pet.id)
 dput(result)
 ```
@@ -229,7 +229,7 @@ Update an existing pet
 ```R
 library(petstore)
 
-var.body <- Pet$new # Pet | Pet object that needs to be added to the store
+var.body <- Pet$new() # Pet | Pet object that needs to be added to the store
 
 #Update an existing pet
 api.instance <- PetApi$new()
