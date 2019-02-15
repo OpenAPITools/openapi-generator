@@ -49,13 +49,17 @@ StoreApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- c()
 
+      if (missing(`order.id`)) {
+        stop("Missing required parameter `order.id`.")
+      }
+
       urlPath <- "/store/order/{orderId}"
       if (!missing(`order.id`)) {
         urlPath <- gsub(paste0("\\{", "orderId", "\\}"), `order.id`, urlPath)
       }
 
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "DELETE",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -82,7 +86,7 @@ StoreApi <- R6::R6Class(
         headerParams['api_key'] <- paste(unlist(self$apiClient$apiKeys["api_key"]), collapse='')
       }
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -103,13 +107,17 @@ StoreApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- c()
 
+      if (missing(`order.id`)) {
+        stop("Missing required parameter `order.id`.")
+      }
+
       urlPath <- "/store/order/{orderId}"
       if (!missing(`order.id`)) {
         urlPath <- gsub(paste0("\\{", "orderId", "\\}"), `order.id`, urlPath)
       }
 
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -130,6 +138,10 @@ StoreApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- c()
 
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
+      }
+
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
       } else {
@@ -138,7 +150,7 @@ StoreApi <- R6::R6Class(
 
       urlPath <- "/store/order"
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
                                  headerParams = headerParams,

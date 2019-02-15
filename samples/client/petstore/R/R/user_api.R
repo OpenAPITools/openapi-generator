@@ -61,6 +61,10 @@ UserApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- c()
 
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
+      }
+
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
       } else {
@@ -69,7 +73,7 @@ UserApi <- R6::R6Class(
 
       urlPath <- "/user"
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -90,6 +94,10 @@ UserApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- c()
 
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
+      }
+
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
       } else {
@@ -98,7 +106,7 @@ UserApi <- R6::R6Class(
 
       urlPath <- "/user/createWithArray"
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -119,6 +127,10 @@ UserApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- c()
 
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
+      }
+
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
       } else {
@@ -127,7 +139,7 @@ UserApi <- R6::R6Class(
 
       urlPath <- "/user/createWithList"
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -148,13 +160,17 @@ UserApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- c()
 
+      if (missing(`username`)) {
+        stop("Missing required parameter `username`.")
+      }
+
       urlPath <- "/user/{username}"
       if (!missing(`username`)) {
         urlPath <- gsub(paste0("\\{", "username", "\\}"), `username`, urlPath)
       }
 
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "DELETE",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -175,13 +191,17 @@ UserApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- c()
 
+      if (missing(`username`)) {
+        stop("Missing required parameter `username`.")
+      }
+
       urlPath <- "/user/{username}"
       if (!missing(`username`)) {
         urlPath <- gsub(paste0("\\{", "username", "\\}"), `username`, urlPath)
       }
 
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -202,17 +222,21 @@ UserApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- c()
 
-      if (!missing(`username`)) {
-        queryParams['username'] <- username
+      if (missing(`username`)) {
+        stop("Missing required parameter `username`.")
       }
 
-      if (!missing(`password`)) {
-        queryParams['password'] <- password
+      if (missing(`password`)) {
+        stop("Missing required parameter `password`.")
       }
+
+      queryParams['username'] <- username
+
+      queryParams['password'] <- password
 
       urlPath <- "/user/login"
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -235,7 +259,7 @@ UserApi <- R6::R6Class(
 
       urlPath <- "/user/logout"
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
@@ -256,6 +280,14 @@ UserApi <- R6::R6Class(
       queryParams <- list()
       headerParams <- c()
 
+      if (missing(`username`)) {
+        stop("Missing required parameter `username`.")
+      }
+
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
+      }
+
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
       } else {
@@ -268,7 +300,7 @@ UserApi <- R6::R6Class(
       }
 
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "PUT",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
