@@ -794,7 +794,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
             String name = "models::" + getTypeDeclaration(parameter.dataType);
             parameter.dataType = name;
-            // parameter.baseType = name;
         }
 
         return parameter;
@@ -812,7 +811,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
             String name = "models::" + getTypeDeclaration(parameter.dataType);
             parameter.dataType = name;
-            // parameter.baseType = name;
         }
     }
 
