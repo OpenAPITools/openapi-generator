@@ -464,13 +464,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         // loop through all models to update children models, isSelfReference, isCircularReference, etc
-        Map<String, Object> processed = new HashMap<String, Object>(allProcessedModels);
+        Map<String, Object> processed = new LinkedHashMap<String, Object>(allProcessedModels);
         processed = config.updateAllModels(processed);
 
         // post process all processed models
         processed = config.postProcessAllModels(processed);
 
-        allProcessedModels = new HashMap<String, ModelsBundle>();
+        allProcessedModels = new LinkedHashMap<String, ModelsBundle>();
         for (Map.Entry<String, Object> entry: processed.entrySet()) {
             allProcessedModels.put(entry.getKey(), new ModelsBundle((Map<String, Object>) entry.getValue()));
         }
