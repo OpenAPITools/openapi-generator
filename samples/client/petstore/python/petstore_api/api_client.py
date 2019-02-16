@@ -633,6 +633,55 @@ class ApiClient(object):
 
         instance = klass(**kwargs)
 
+        if hasattr(instance, 'composed_hierarchy'):
+            hierarchy = instance.composed_hierarchy
+            if sum([1 if v else 0 for v in hierarchy.values()]) > 1:
+                # ignore implicit AllOf
+                return instance
+
+            def error_msg(composed):
+                return "Failed to parse `{0}` as {1} ({2} {3})" \
+                    .format(data, klass,
+                            composed,
+                            ' '.join(hierarchy[composed]))
+
+            if hierarchy['allOf']:
+                matches = []
+                for sub_klass in hierarchy['allOf']:
+                    try:
+                        matches.append(self.__deserialize(data, sub_klass))
+                    except:  # noqa: E722
+                        pass
+                if len(matches) == len(hierarchy['allOf']):
+                    return instance
+
+                # not all matched -> error
+                raise rest.ApiException(status=0, reason=error_msg('allOf'))
+
+            if hierarchy['anyOf']:
+                for sub_klass in hierarchy['anyOf']:
+                    try:
+                        # if at least one of the sub-class matches
+                        # terminate with an instance of this class
+                        return self.__deserialize(data, sub_klass)
+                    except:  # noqa: E722
+                        pass
+                # none matched -> error
+                raise rest.ApiException(status=0, reason=error_msg('anyOf'))
+
+            if hierarchy['oneOf']:
+                matches = []
+                for sub_klass in hierarchy['oneOf']:
+                    try:
+                        matches.append(self.__deserialize(data, sub_klass))
+                    except:  # noqa: E722
+                        pass
+                if len(matches) == 1:
+                    return matches[0]
+
+                # none matched, or more than one matched -> error
+                raise rest.ApiException(status=0, reason=error_msg('oneOf'))
+
         if hasattr(instance, 'get_real_child_model'):
             klass_name = instance.get_real_child_model(data)
             if klass_name:

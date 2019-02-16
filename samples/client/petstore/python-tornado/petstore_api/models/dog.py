@@ -38,6 +38,12 @@ class Dog(object):
         'breed': 'breed'
     }
 
+    composed_hierarchy = {
+        'anyOf': [],
+        'allOf': ["Animal", "DogAllOf"],
+        'oneOf': [],
+    }
+
     def __init__(self, breed=None):  # noqa: E501
         """Dog - a model defined in OpenAPI"""  # noqa: E501
 

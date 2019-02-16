@@ -38,6 +38,12 @@ class Cat(object):
         'declawed': 'declawed'
     }
 
+    composed_hierarchy = {
+        'anyOf': [],
+        'allOf': ["Animal", "CatAllOf"],
+        'oneOf': [],
+    }
+
     def __init__(self, declawed=None):  # noqa: E501
         """Cat - a model defined in OpenAPI"""  # noqa: E501
 
