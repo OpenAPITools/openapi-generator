@@ -48,6 +48,18 @@ class {{classname}}(object):
     discriminator_value_class_map = {
         {{#children}}'{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}': '{{{classname}}}'{{^-last}},
         {{/-last}}{{/children}}
+        {{^children}}
+            {{#mapping}}
+                {{#mappedModels}}
+        '{{mappingName}}': '{{modelName}}'{{^-last}},{{/-last}}
+                {{/mappedModels}}
+            {{/mapping}}
+            {{^mapping}}
+                {{#interfaces}}
+        '{{classname}}': '{{classname}}'{{^-last}},{{/-last}}
+                {{/interfaces}}
+            {{/mapping}}
+        {{/children}}
     }
 {{/discriminator}}
 
