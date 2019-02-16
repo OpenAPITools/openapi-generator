@@ -50,6 +50,16 @@ class {{classname}}(object):
         {{/-last}}{{/children}}
     }
 {{/discriminator}}
+{{^discriminator}}
+{{#isComposed}}
+
+    composed_hierarchy = {
+        'anyOf': [{{#anyOf}}"{{.}}"{{^-last}}, {{/-last}}{{/anyOf}}],
+        'allOf': [{{#allOf}}"{{.}}"{{^-last}}, {{/-last}}{{/allOf}}],
+        'oneOf': [{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}],
+    }
+{{/isComposed}}
+{{/discriminator}}
 
     def __init__(self{{#vars}}, {{name}}={{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{/vars}}):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI"""  # noqa: E501
