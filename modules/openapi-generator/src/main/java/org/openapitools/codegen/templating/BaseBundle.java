@@ -11,4 +11,7 @@ class BaseBundle extends HashMap<String, Object> implements Bundle {
     BaseBundle() {
     }
 
+    public BaseBundle(Map<String, Object> value) {
+        super(value);
+    }
 }

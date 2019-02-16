@@ -13,16 +13,27 @@ public class ModelsBundle extends BaseBundle {
 
     @SuppressWarnings("unchecked")
     public ModelsBundle (Map<String, Object> value) {
-        setPackage((String) value.get("package"));
-        List<Map<String, Object>> models = (List<Map<String, Object>>) value.get("models");
-        List<ModelBundle> modelBundles = new ArrayList<>();
-        for (Map<String, Object> model : models) {
-            modelBundles.add(new ModelBundle(model));
+        super(value);
+        if (value.containsKey("packages")) {
+            setPackage((String) value.get("package"));
         }
-        setModels(modelBundles);
-        setImports((List<Map<String, String>>) value.get("imports"));
-        setClassname((String) value.get("classname"));
-        setModelPackage((String) value.get("modelPackage"));
+        if (value.containsKey("models")) {
+            List<Map<String, Object>> models = (List<Map<String, Object>>) value.get("models");
+            List<ModelBundle> modelBundles = new ArrayList<>();
+            for (Map<String, Object> model : models) {
+                modelBundles.add(new ModelBundle(model));
+            }
+            setModels(modelBundles);
+        }
+        if (value.containsKey("imports")) {
+            setImports((List<Map<String, String>>) value.get("imports"));
+        }
+        if (value.containsKey("classname")) {
+            setClassname((String) value.get("classname"));
+        }
+        if (value.containsKey("modelPackage")) {
+            setModelPackage((String) value.get("modelPackage"));
+        }
     }
 
     public ModelsBundle() {
