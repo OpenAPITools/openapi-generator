@@ -37,8 +37,6 @@ export class PetApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'petstore_auth': new OAuth(),
-        'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
     constructor(basePath?: string);
@@ -72,10 +70,6 @@ export class PetApi {
 
     public setApiKey(key: PetApiApiKeys, value: string) {
         (this.authentications as any)[PetApiApiKeys[key]].apiKey = value;
-    }
-
-    set accessToken(token: string) {
-        this.authentications.petstore_auth.accessToken = token;
     }
 
     /**

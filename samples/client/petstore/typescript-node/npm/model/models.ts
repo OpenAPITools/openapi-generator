@@ -1,18 +1,18 @@
-export * from './apiResponse';
-export * from './category';
 export * from './order';
-export * from './pet';
-export * from './tag';
+export * from './category';
 export * from './user';
+export * from './tag';
+export * from './apiResponse';
+export * from './pet';
 
 import localVarRequest = require('request');
 
-import { ApiResponse } from './apiResponse';
-import { Category } from './category';
 import { Order } from './order';
-import { Pet } from './pet';
-import { Tag } from './tag';
+import { Category } from './category';
 import { User } from './user';
+import { Tag } from './tag';
+import { ApiResponse } from './apiResponse';
+import { Pet } from './pet';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -32,12 +32,12 @@ let enumsMap: {[index: string]: any} = {
 }
 
 let typeMap: {[index: string]: any} = {
-    "ApiResponse": ApiResponse,
-    "Category": Category,
     "Order": Order,
-    "Pet": Pet,
-    "Tag": Tag,
+    "Category": Category,
     "User": User,
+    "Tag": Tag,
+    "ApiResponse": ApiResponse,
+    "Pet": Pet,
 }
 
 export class ObjectSerializer {

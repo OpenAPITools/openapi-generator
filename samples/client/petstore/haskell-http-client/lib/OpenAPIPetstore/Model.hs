@@ -213,284 +213,6 @@ newtype Username = Username { unUsername :: Text } deriving (P.Eq, P.Show)
 -- * Models
 
 
--- ** AdditionalPropertiesClass
--- | AdditionalPropertiesClass
-data AdditionalPropertiesClass = AdditionalPropertiesClass
-  { additionalPropertiesClassMapProperty :: !(Maybe (Map.Map String Text)) -- ^ "map_property"
-  , additionalPropertiesClassMapOfMapProperty :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_of_map_property"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON AdditionalPropertiesClass
-instance A.FromJSON AdditionalPropertiesClass where
-  parseJSON = A.withObject "AdditionalPropertiesClass" $ \o ->
-    AdditionalPropertiesClass
-      <$> (o .:? "map_property")
-      <*> (o .:? "map_of_map_property")
-
--- | ToJSON AdditionalPropertiesClass
-instance A.ToJSON AdditionalPropertiesClass where
-  toJSON AdditionalPropertiesClass {..} =
-   _omitNulls
-      [ "map_property" .= additionalPropertiesClassMapProperty
-      , "map_of_map_property" .= additionalPropertiesClassMapOfMapProperty
-      ]
-
-
--- | Construct a value of type 'AdditionalPropertiesClass' (by applying it's required fields, if any)
-mkAdditionalPropertiesClass
-  :: AdditionalPropertiesClass
-mkAdditionalPropertiesClass =
-  AdditionalPropertiesClass
-  { additionalPropertiesClassMapProperty = Nothing
-  , additionalPropertiesClassMapOfMapProperty = Nothing
-  }
-
--- ** Animal
--- | Animal
-data Animal = Animal
-  { animalClassName :: !(Text) -- ^ /Required/ "className"
-  , animalColor :: !(Maybe Text) -- ^ "color"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON Animal
-instance A.FromJSON Animal where
-  parseJSON = A.withObject "Animal" $ \o ->
-    Animal
-      <$> (o .:  "className")
-      <*> (o .:? "color")
-
--- | ToJSON Animal
-instance A.ToJSON Animal where
-  toJSON Animal {..} =
-   _omitNulls
-      [ "className" .= animalClassName
-      , "color" .= animalColor
-      ]
-
-
--- | Construct a value of type 'Animal' (by applying it's required fields, if any)
-mkAnimal
-  :: Text -- ^ 'animalClassName' 
-  -> Animal
-mkAnimal animalClassName =
-  Animal
-  { animalClassName
-  , animalColor = Nothing
-  }
-
--- ** ApiResponse
--- | ApiResponse
-data ApiResponse = ApiResponse
-  { apiResponseCode :: !(Maybe Int) -- ^ "code"
-  , apiResponseType :: !(Maybe Text) -- ^ "type"
-  , apiResponseMessage :: !(Maybe Text) -- ^ "message"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON ApiResponse
-instance A.FromJSON ApiResponse where
-  parseJSON = A.withObject "ApiResponse" $ \o ->
-    ApiResponse
-      <$> (o .:? "code")
-      <*> (o .:? "type")
-      <*> (o .:? "message")
-
--- | ToJSON ApiResponse
-instance A.ToJSON ApiResponse where
-  toJSON ApiResponse {..} =
-   _omitNulls
-      [ "code" .= apiResponseCode
-      , "type" .= apiResponseType
-      , "message" .= apiResponseMessage
-      ]
-
-
--- | Construct a value of type 'ApiResponse' (by applying it's required fields, if any)
-mkApiResponse
-  :: ApiResponse
-mkApiResponse =
-  ApiResponse
-  { apiResponseCode = Nothing
-  , apiResponseType = Nothing
-  , apiResponseMessage = Nothing
-  }
-
--- ** ArrayOfArrayOfNumberOnly
--- | ArrayOfArrayOfNumberOnly
-data ArrayOfArrayOfNumberOnly = ArrayOfArrayOfNumberOnly
-  { arrayOfArrayOfNumberOnlyArrayArrayNumber :: !(Maybe [[Double]]) -- ^ "ArrayArrayNumber"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON ArrayOfArrayOfNumberOnly
-instance A.FromJSON ArrayOfArrayOfNumberOnly where
-  parseJSON = A.withObject "ArrayOfArrayOfNumberOnly" $ \o ->
-    ArrayOfArrayOfNumberOnly
-      <$> (o .:? "ArrayArrayNumber")
-
--- | ToJSON ArrayOfArrayOfNumberOnly
-instance A.ToJSON ArrayOfArrayOfNumberOnly where
-  toJSON ArrayOfArrayOfNumberOnly {..} =
-   _omitNulls
-      [ "ArrayArrayNumber" .= arrayOfArrayOfNumberOnlyArrayArrayNumber
-      ]
-
-
--- | Construct a value of type 'ArrayOfArrayOfNumberOnly' (by applying it's required fields, if any)
-mkArrayOfArrayOfNumberOnly
-  :: ArrayOfArrayOfNumberOnly
-mkArrayOfArrayOfNumberOnly =
-  ArrayOfArrayOfNumberOnly
-  { arrayOfArrayOfNumberOnlyArrayArrayNumber = Nothing
-  }
-
--- ** ArrayOfNumberOnly
--- | ArrayOfNumberOnly
-data ArrayOfNumberOnly = ArrayOfNumberOnly
-  { arrayOfNumberOnlyArrayNumber :: !(Maybe [Double]) -- ^ "ArrayNumber"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON ArrayOfNumberOnly
-instance A.FromJSON ArrayOfNumberOnly where
-  parseJSON = A.withObject "ArrayOfNumberOnly" $ \o ->
-    ArrayOfNumberOnly
-      <$> (o .:? "ArrayNumber")
-
--- | ToJSON ArrayOfNumberOnly
-instance A.ToJSON ArrayOfNumberOnly where
-  toJSON ArrayOfNumberOnly {..} =
-   _omitNulls
-      [ "ArrayNumber" .= arrayOfNumberOnlyArrayNumber
-      ]
-
-
--- | Construct a value of type 'ArrayOfNumberOnly' (by applying it's required fields, if any)
-mkArrayOfNumberOnly
-  :: ArrayOfNumberOnly
-mkArrayOfNumberOnly =
-  ArrayOfNumberOnly
-  { arrayOfNumberOnlyArrayNumber = Nothing
-  }
-
--- ** ArrayTest
--- | ArrayTest
-data ArrayTest = ArrayTest
-  { arrayTestArrayOfString :: !(Maybe [Text]) -- ^ "array_of_string"
-  , arrayTestArrayArrayOfInteger :: !(Maybe [[Integer]]) -- ^ "array_array_of_integer"
-  , arrayTestArrayArrayOfModel :: !(Maybe [[ReadOnlyFirst]]) -- ^ "array_array_of_model"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON ArrayTest
-instance A.FromJSON ArrayTest where
-  parseJSON = A.withObject "ArrayTest" $ \o ->
-    ArrayTest
-      <$> (o .:? "array_of_string")
-      <*> (o .:? "array_array_of_integer")
-      <*> (o .:? "array_array_of_model")
-
--- | ToJSON ArrayTest
-instance A.ToJSON ArrayTest where
-  toJSON ArrayTest {..} =
-   _omitNulls
-      [ "array_of_string" .= arrayTestArrayOfString
-      , "array_array_of_integer" .= arrayTestArrayArrayOfInteger
-      , "array_array_of_model" .= arrayTestArrayArrayOfModel
-      ]
-
-
--- | Construct a value of type 'ArrayTest' (by applying it's required fields, if any)
-mkArrayTest
-  :: ArrayTest
-mkArrayTest =
-  ArrayTest
-  { arrayTestArrayOfString = Nothing
-  , arrayTestArrayArrayOfInteger = Nothing
-  , arrayTestArrayArrayOfModel = Nothing
-  }
-
--- ** Capitalization
--- | Capitalization
-data Capitalization = Capitalization
-  { capitalizationSmallCamel :: !(Maybe Text) -- ^ "smallCamel"
-  , capitalizationCapitalCamel :: !(Maybe Text) -- ^ "CapitalCamel"
-  , capitalizationSmallSnake :: !(Maybe Text) -- ^ "small_Snake"
-  , capitalizationCapitalSnake :: !(Maybe Text) -- ^ "Capital_Snake"
-  , capitalizationScaEthFlowPoints :: !(Maybe Text) -- ^ "SCA_ETH_Flow_Points"
-  , capitalizationAttName :: !(Maybe Text) -- ^ "ATT_NAME" - Name of the pet 
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON Capitalization
-instance A.FromJSON Capitalization where
-  parseJSON = A.withObject "Capitalization" $ \o ->
-    Capitalization
-      <$> (o .:? "smallCamel")
-      <*> (o .:? "CapitalCamel")
-      <*> (o .:? "small_Snake")
-      <*> (o .:? "Capital_Snake")
-      <*> (o .:? "SCA_ETH_Flow_Points")
-      <*> (o .:? "ATT_NAME")
-
--- | ToJSON Capitalization
-instance A.ToJSON Capitalization where
-  toJSON Capitalization {..} =
-   _omitNulls
-      [ "smallCamel" .= capitalizationSmallCamel
-      , "CapitalCamel" .= capitalizationCapitalCamel
-      , "small_Snake" .= capitalizationSmallSnake
-      , "Capital_Snake" .= capitalizationCapitalSnake
-      , "SCA_ETH_Flow_Points" .= capitalizationScaEthFlowPoints
-      , "ATT_NAME" .= capitalizationAttName
-      ]
-
-
--- | Construct a value of type 'Capitalization' (by applying it's required fields, if any)
-mkCapitalization
-  :: Capitalization
-mkCapitalization =
-  Capitalization
-  { capitalizationSmallCamel = Nothing
-  , capitalizationCapitalCamel = Nothing
-  , capitalizationSmallSnake = Nothing
-  , capitalizationCapitalSnake = Nothing
-  , capitalizationScaEthFlowPoints = Nothing
-  , capitalizationAttName = Nothing
-  }
-
--- ** Cat
--- | Cat
-data Cat = Cat
-  { catClassName :: !(Text) -- ^ /Required/ "className"
-  , catColor :: !(Maybe Text) -- ^ "color"
-  , catDeclawed :: !(Maybe Bool) -- ^ "declawed"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON Cat
-instance A.FromJSON Cat where
-  parseJSON = A.withObject "Cat" $ \o ->
-    Cat
-      <$> (o .:  "className")
-      <*> (o .:? "color")
-      <*> (o .:? "declawed")
-
--- | ToJSON Cat
-instance A.ToJSON Cat where
-  toJSON Cat {..} =
-   _omitNulls
-      [ "className" .= catClassName
-      , "color" .= catColor
-      , "declawed" .= catDeclawed
-      ]
-
-
--- | Construct a value of type 'Cat' (by applying it's required fields, if any)
-mkCat
-  :: Text -- ^ 'catClassName' 
-  -> Cat
-mkCat catClassName =
-  Cat
-  { catClassName
-  , catColor = Nothing
-  , catDeclawed = Nothing
-  }
-
 -- ** Category
 -- | Category
 data Category = Category
@@ -522,910 +244,6 @@ mkCategory categoryName =
   Category
   { categoryId = Nothing
   , categoryName
-  }
-
--- ** ClassModel
--- | ClassModel
--- Model for testing model with \"_class\" property
-data ClassModel = ClassModel
-  { classModelClass :: !(Maybe Text) -- ^ "_class"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON ClassModel
-instance A.FromJSON ClassModel where
-  parseJSON = A.withObject "ClassModel" $ \o ->
-    ClassModel
-      <$> (o .:? "_class")
-
--- | ToJSON ClassModel
-instance A.ToJSON ClassModel where
-  toJSON ClassModel {..} =
-   _omitNulls
-      [ "_class" .= classModelClass
-      ]
-
-
--- | Construct a value of type 'ClassModel' (by applying it's required fields, if any)
-mkClassModel
-  :: ClassModel
-mkClassModel =
-  ClassModel
-  { classModelClass = Nothing
-  }
-
--- ** Client
--- | Client
-data Client = Client
-  { clientClient :: !(Maybe Text) -- ^ "client"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON Client
-instance A.FromJSON Client where
-  parseJSON = A.withObject "Client" $ \o ->
-    Client
-      <$> (o .:? "client")
-
--- | ToJSON Client
-instance A.ToJSON Client where
-  toJSON Client {..} =
-   _omitNulls
-      [ "client" .= clientClient
-      ]
-
-
--- | Construct a value of type 'Client' (by applying it's required fields, if any)
-mkClient
-  :: Client
-mkClient =
-  Client
-  { clientClient = Nothing
-  }
-
--- ** Dog
--- | Dog
-data Dog = Dog
-  { dogClassName :: !(Text) -- ^ /Required/ "className"
-  , dogColor :: !(Maybe Text) -- ^ "color"
-  , dogBreed :: !(Maybe Text) -- ^ "breed"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON Dog
-instance A.FromJSON Dog where
-  parseJSON = A.withObject "Dog" $ \o ->
-    Dog
-      <$> (o .:  "className")
-      <*> (o .:? "color")
-      <*> (o .:? "breed")
-
--- | ToJSON Dog
-instance A.ToJSON Dog where
-  toJSON Dog {..} =
-   _omitNulls
-      [ "className" .= dogClassName
-      , "color" .= dogColor
-      , "breed" .= dogBreed
-      ]
-
-
--- | Construct a value of type 'Dog' (by applying it's required fields, if any)
-mkDog
-  :: Text -- ^ 'dogClassName' 
-  -> Dog
-mkDog dogClassName =
-  Dog
-  { dogClassName
-  , dogColor = Nothing
-  , dogBreed = Nothing
-  }
-
--- ** EnumArrays
--- | EnumArrays
-data EnumArrays = EnumArrays
-  { enumArraysJustSymbol :: !(Maybe E'JustSymbol) -- ^ "just_symbol"
-  , enumArraysArrayEnum :: !(Maybe [E'ArrayEnum]) -- ^ "array_enum"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON EnumArrays
-instance A.FromJSON EnumArrays where
-  parseJSON = A.withObject "EnumArrays" $ \o ->
-    EnumArrays
-      <$> (o .:? "just_symbol")
-      <*> (o .:? "array_enum")
-
--- | ToJSON EnumArrays
-instance A.ToJSON EnumArrays where
-  toJSON EnumArrays {..} =
-   _omitNulls
-      [ "just_symbol" .= enumArraysJustSymbol
-      , "array_enum" .= enumArraysArrayEnum
-      ]
-
-
--- | Construct a value of type 'EnumArrays' (by applying it's required fields, if any)
-mkEnumArrays
-  :: EnumArrays
-mkEnumArrays =
-  EnumArrays
-  { enumArraysJustSymbol = Nothing
-  , enumArraysArrayEnum = Nothing
-  }
-
--- ** EnumTest
--- | EnumTest
-data EnumTest = EnumTest
-  { enumTestEnumString :: !(Maybe E'EnumString) -- ^ "enum_string"
-  , enumTestEnumStringRequired :: !(E'EnumString) -- ^ /Required/ "enum_string_required"
-  , enumTestEnumInteger :: !(Maybe E'EnumInteger) -- ^ "enum_integer"
-  , enumTestEnumNumber :: !(Maybe E'EnumNumber) -- ^ "enum_number"
-  , enumTestOuterEnum :: !(Maybe OuterEnum) -- ^ "outerEnum"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON EnumTest
-instance A.FromJSON EnumTest where
-  parseJSON = A.withObject "EnumTest" $ \o ->
-    EnumTest
-      <$> (o .:? "enum_string")
-      <*> (o .:  "enum_string_required")
-      <*> (o .:? "enum_integer")
-      <*> (o .:? "enum_number")
-      <*> (o .:? "outerEnum")
-
--- | ToJSON EnumTest
-instance A.ToJSON EnumTest where
-  toJSON EnumTest {..} =
-   _omitNulls
-      [ "enum_string" .= enumTestEnumString
-      , "enum_string_required" .= enumTestEnumStringRequired
-      , "enum_integer" .= enumTestEnumInteger
-      , "enum_number" .= enumTestEnumNumber
-      , "outerEnum" .= enumTestOuterEnum
-      ]
-
-
--- | Construct a value of type 'EnumTest' (by applying it's required fields, if any)
-mkEnumTest
-  :: E'EnumString -- ^ 'enumTestEnumStringRequired' 
-  -> EnumTest
-mkEnumTest enumTestEnumStringRequired =
-  EnumTest
-  { enumTestEnumString = Nothing
-  , enumTestEnumStringRequired
-  , enumTestEnumInteger = Nothing
-  , enumTestEnumNumber = Nothing
-  , enumTestOuterEnum = Nothing
-  }
-
--- ** File
--- | File
--- Must be named `File` for test.
-data File = File
-  { fileSourceUri :: !(Maybe Text) -- ^ "sourceURI" - Test capitalization
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON File
-instance A.FromJSON File where
-  parseJSON = A.withObject "File" $ \o ->
-    File
-      <$> (o .:? "sourceURI")
-
--- | ToJSON File
-instance A.ToJSON File where
-  toJSON File {..} =
-   _omitNulls
-      [ "sourceURI" .= fileSourceUri
-      ]
-
-
--- | Construct a value of type 'File' (by applying it's required fields, if any)
-mkFile
-  :: File
-mkFile =
-  File
-  { fileSourceUri = Nothing
-  }
-
--- ** FileSchemaTestClass
--- | FileSchemaTestClass
-data FileSchemaTestClass = FileSchemaTestClass
-  { fileSchemaTestClassFile :: !(Maybe File) -- ^ "file"
-  , fileSchemaTestClassFiles :: !(Maybe [File]) -- ^ "files"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON FileSchemaTestClass
-instance A.FromJSON FileSchemaTestClass where
-  parseJSON = A.withObject "FileSchemaTestClass" $ \o ->
-    FileSchemaTestClass
-      <$> (o .:? "file")
-      <*> (o .:? "files")
-
--- | ToJSON FileSchemaTestClass
-instance A.ToJSON FileSchemaTestClass where
-  toJSON FileSchemaTestClass {..} =
-   _omitNulls
-      [ "file" .= fileSchemaTestClassFile
-      , "files" .= fileSchemaTestClassFiles
-      ]
-
-
--- | Construct a value of type 'FileSchemaTestClass' (by applying it's required fields, if any)
-mkFileSchemaTestClass
-  :: FileSchemaTestClass
-mkFileSchemaTestClass =
-  FileSchemaTestClass
-  { fileSchemaTestClassFile = Nothing
-  , fileSchemaTestClassFiles = Nothing
-  }
-
--- ** FormatTest
--- | FormatTest
-data FormatTest = FormatTest
-  { formatTestInteger :: !(Maybe Int) -- ^ "integer"
-  , formatTestInt32 :: !(Maybe Int) -- ^ "int32"
-  , formatTestInt64 :: !(Maybe Integer) -- ^ "int64"
-  , formatTestNumber :: !(Double) -- ^ /Required/ "number"
-  , formatTestFloat :: !(Maybe Float) -- ^ "float"
-  , formatTestDouble :: !(Maybe Double) -- ^ "double"
-  , formatTestString :: !(Maybe Text) -- ^ "string"
-  , formatTestByte :: !(ByteArray) -- ^ /Required/ "byte"
-  , formatTestBinary :: !(Maybe FilePath) -- ^ "binary"
-  , formatTestDate :: !(Date) -- ^ /Required/ "date"
-  , formatTestDateTime :: !(Maybe DateTime) -- ^ "dateTime"
-  , formatTestUuid :: !(Maybe Text) -- ^ "uuid"
-  , formatTestPassword :: !(Text) -- ^ /Required/ "password"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON FormatTest
-instance A.FromJSON FormatTest where
-  parseJSON = A.withObject "FormatTest" $ \o ->
-    FormatTest
-      <$> (o .:? "integer")
-      <*> (o .:? "int32")
-      <*> (o .:? "int64")
-      <*> (o .:  "number")
-      <*> (o .:? "float")
-      <*> (o .:? "double")
-      <*> (o .:? "string")
-      <*> (o .:  "byte")
-      <*> (o .:? "binary")
-      <*> (o .:  "date")
-      <*> (o .:? "dateTime")
-      <*> (o .:? "uuid")
-      <*> (o .:  "password")
-
--- | ToJSON FormatTest
-instance A.ToJSON FormatTest where
-  toJSON FormatTest {..} =
-   _omitNulls
-      [ "integer" .= formatTestInteger
-      , "int32" .= formatTestInt32
-      , "int64" .= formatTestInt64
-      , "number" .= formatTestNumber
-      , "float" .= formatTestFloat
-      , "double" .= formatTestDouble
-      , "string" .= formatTestString
-      , "byte" .= formatTestByte
-      , "binary" .= formatTestBinary
-      , "date" .= formatTestDate
-      , "dateTime" .= formatTestDateTime
-      , "uuid" .= formatTestUuid
-      , "password" .= formatTestPassword
-      ]
-
-
--- | Construct a value of type 'FormatTest' (by applying it's required fields, if any)
-mkFormatTest
-  :: Double -- ^ 'formatTestNumber' 
-  -> ByteArray -- ^ 'formatTestByte' 
-  -> Date -- ^ 'formatTestDate' 
-  -> Text -- ^ 'formatTestPassword' 
-  -> FormatTest
-mkFormatTest formatTestNumber formatTestByte formatTestDate formatTestPassword =
-  FormatTest
-  { formatTestInteger = Nothing
-  , formatTestInt32 = Nothing
-  , formatTestInt64 = Nothing
-  , formatTestNumber
-  , formatTestFloat = Nothing
-  , formatTestDouble = Nothing
-  , formatTestString = Nothing
-  , formatTestByte
-  , formatTestBinary = Nothing
-  , formatTestDate
-  , formatTestDateTime = Nothing
-  , formatTestUuid = Nothing
-  , formatTestPassword
-  }
-
--- ** HasOnlyReadOnly
--- | HasOnlyReadOnly
-data HasOnlyReadOnly = HasOnlyReadOnly
-  { hasOnlyReadOnlyBar :: !(Maybe Text) -- ^ "bar"
-  , hasOnlyReadOnlyFoo :: !(Maybe Text) -- ^ "foo"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON HasOnlyReadOnly
-instance A.FromJSON HasOnlyReadOnly where
-  parseJSON = A.withObject "HasOnlyReadOnly" $ \o ->
-    HasOnlyReadOnly
-      <$> (o .:? "bar")
-      <*> (o .:? "foo")
-
--- | ToJSON HasOnlyReadOnly
-instance A.ToJSON HasOnlyReadOnly where
-  toJSON HasOnlyReadOnly {..} =
-   _omitNulls
-      [ "bar" .= hasOnlyReadOnlyBar
-      , "foo" .= hasOnlyReadOnlyFoo
-      ]
-
-
--- | Construct a value of type 'HasOnlyReadOnly' (by applying it's required fields, if any)
-mkHasOnlyReadOnly
-  :: HasOnlyReadOnly
-mkHasOnlyReadOnly =
-  HasOnlyReadOnly
-  { hasOnlyReadOnlyBar = Nothing
-  , hasOnlyReadOnlyFoo = Nothing
-  }
-
--- ** MapTest
--- | MapTest
-data MapTest = MapTest
-  { mapTestMapMapOfString :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_map_of_string"
-  , mapTestMapOfEnumString :: !(Maybe (Map.Map String E'Inner)) -- ^ "map_of_enum_string"
-  , mapTestDirectMap :: !(Maybe (Map.Map String Bool)) -- ^ "direct_map"
-  , mapTestIndirectMap :: !(Maybe (Map.Map String Bool)) -- ^ "indirect_map"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON MapTest
-instance A.FromJSON MapTest where
-  parseJSON = A.withObject "MapTest" $ \o ->
-    MapTest
-      <$> (o .:? "map_map_of_string")
-      <*> (o .:? "map_of_enum_string")
-      <*> (o .:? "direct_map")
-      <*> (o .:? "indirect_map")
-
--- | ToJSON MapTest
-instance A.ToJSON MapTest where
-  toJSON MapTest {..} =
-   _omitNulls
-      [ "map_map_of_string" .= mapTestMapMapOfString
-      , "map_of_enum_string" .= mapTestMapOfEnumString
-      , "direct_map" .= mapTestDirectMap
-      , "indirect_map" .= mapTestIndirectMap
-      ]
-
-
--- | Construct a value of type 'MapTest' (by applying it's required fields, if any)
-mkMapTest
-  :: MapTest
-mkMapTest =
-  MapTest
-  { mapTestMapMapOfString = Nothing
-  , mapTestMapOfEnumString = Nothing
-  , mapTestDirectMap = Nothing
-  , mapTestIndirectMap = Nothing
-  }
-
--- ** MixedPropertiesAndAdditionalPropertiesClass
--- | MixedPropertiesAndAdditionalPropertiesClass
-data MixedPropertiesAndAdditionalPropertiesClass = MixedPropertiesAndAdditionalPropertiesClass
-  { mixedPropertiesAndAdditionalPropertiesClassUuid :: !(Maybe Text) -- ^ "uuid"
-  , mixedPropertiesAndAdditionalPropertiesClassDateTime :: !(Maybe DateTime) -- ^ "dateTime"
-  , mixedPropertiesAndAdditionalPropertiesClassMap :: !(Maybe (Map.Map String Animal)) -- ^ "map"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON MixedPropertiesAndAdditionalPropertiesClass
-instance A.FromJSON MixedPropertiesAndAdditionalPropertiesClass where
-  parseJSON = A.withObject "MixedPropertiesAndAdditionalPropertiesClass" $ \o ->
-    MixedPropertiesAndAdditionalPropertiesClass
-      <$> (o .:? "uuid")
-      <*> (o .:? "dateTime")
-      <*> (o .:? "map")
-
--- | ToJSON MixedPropertiesAndAdditionalPropertiesClass
-instance A.ToJSON MixedPropertiesAndAdditionalPropertiesClass where
-  toJSON MixedPropertiesAndAdditionalPropertiesClass {..} =
-   _omitNulls
-      [ "uuid" .= mixedPropertiesAndAdditionalPropertiesClassUuid
-      , "dateTime" .= mixedPropertiesAndAdditionalPropertiesClassDateTime
-      , "map" .= mixedPropertiesAndAdditionalPropertiesClassMap
-      ]
-
-
--- | Construct a value of type 'MixedPropertiesAndAdditionalPropertiesClass' (by applying it's required fields, if any)
-mkMixedPropertiesAndAdditionalPropertiesClass
-  :: MixedPropertiesAndAdditionalPropertiesClass
-mkMixedPropertiesAndAdditionalPropertiesClass =
-  MixedPropertiesAndAdditionalPropertiesClass
-  { mixedPropertiesAndAdditionalPropertiesClassUuid = Nothing
-  , mixedPropertiesAndAdditionalPropertiesClassDateTime = Nothing
-  , mixedPropertiesAndAdditionalPropertiesClassMap = Nothing
-  }
-
--- ** Model200Response
--- | Model200Response
--- Model for testing model name starting with number
-data Model200Response = Model200Response
-  { model200ResponseName :: !(Maybe Int) -- ^ "name"
-  , model200ResponseClass :: !(Maybe Text) -- ^ "class"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON Model200Response
-instance A.FromJSON Model200Response where
-  parseJSON = A.withObject "Model200Response" $ \o ->
-    Model200Response
-      <$> (o .:? "name")
-      <*> (o .:? "class")
-
--- | ToJSON Model200Response
-instance A.ToJSON Model200Response where
-  toJSON Model200Response {..} =
-   _omitNulls
-      [ "name" .= model200ResponseName
-      , "class" .= model200ResponseClass
-      ]
-
-
--- | Construct a value of type 'Model200Response' (by applying it's required fields, if any)
-mkModel200Response
-  :: Model200Response
-mkModel200Response =
-  Model200Response
-  { model200ResponseName = Nothing
-  , model200ResponseClass = Nothing
-  }
-
--- ** ModelList
--- | ModelList
-data ModelList = ModelList
-  { modelList123list :: !(Maybe Text) -- ^ "123-list"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON ModelList
-instance A.FromJSON ModelList where
-  parseJSON = A.withObject "ModelList" $ \o ->
-    ModelList
-      <$> (o .:? "123-list")
-
--- | ToJSON ModelList
-instance A.ToJSON ModelList where
-  toJSON ModelList {..} =
-   _omitNulls
-      [ "123-list" .= modelList123list
-      ]
-
-
--- | Construct a value of type 'ModelList' (by applying it's required fields, if any)
-mkModelList
-  :: ModelList
-mkModelList =
-  ModelList
-  { modelList123list = Nothing
-  }
-
--- ** ModelReturn
--- | ModelReturn
--- Model for testing reserved words
-data ModelReturn = ModelReturn
-  { modelReturnReturn :: !(Maybe Int) -- ^ "return"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON ModelReturn
-instance A.FromJSON ModelReturn where
-  parseJSON = A.withObject "ModelReturn" $ \o ->
-    ModelReturn
-      <$> (o .:? "return")
-
--- | ToJSON ModelReturn
-instance A.ToJSON ModelReturn where
-  toJSON ModelReturn {..} =
-   _omitNulls
-      [ "return" .= modelReturnReturn
-      ]
-
-
--- | Construct a value of type 'ModelReturn' (by applying it's required fields, if any)
-mkModelReturn
-  :: ModelReturn
-mkModelReturn =
-  ModelReturn
-  { modelReturnReturn = Nothing
-  }
-
--- ** Name
--- | Name
--- Model for testing model name same as property name
-data Name = Name
-  { nameName :: !(Int) -- ^ /Required/ "name"
-  , nameSnakeCase :: !(Maybe Int) -- ^ "snake_case"
-  , nameProperty :: !(Maybe Text) -- ^ "property"
-  , name123number :: !(Maybe Int) -- ^ "123Number"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON Name
-instance A.FromJSON Name where
-  parseJSON = A.withObject "Name" $ \o ->
-    Name
-      <$> (o .:  "name")
-      <*> (o .:? "snake_case")
-      <*> (o .:? "property")
-      <*> (o .:? "123Number")
-
--- | ToJSON Name
-instance A.ToJSON Name where
-  toJSON Name {..} =
-   _omitNulls
-      [ "name" .= nameName
-      , "snake_case" .= nameSnakeCase
-      , "property" .= nameProperty
-      , "123Number" .= name123number
-      ]
-
-
--- | Construct a value of type 'Name' (by applying it's required fields, if any)
-mkName
-  :: Int -- ^ 'nameName' 
-  -> Name
-mkName nameName =
-  Name
-  { nameName
-  , nameSnakeCase = Nothing
-  , nameProperty = Nothing
-  , name123number = Nothing
-  }
-
--- ** NumberOnly
--- | NumberOnly
-data NumberOnly = NumberOnly
-  { numberOnlyJustNumber :: !(Maybe Double) -- ^ "JustNumber"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON NumberOnly
-instance A.FromJSON NumberOnly where
-  parseJSON = A.withObject "NumberOnly" $ \o ->
-    NumberOnly
-      <$> (o .:? "JustNumber")
-
--- | ToJSON NumberOnly
-instance A.ToJSON NumberOnly where
-  toJSON NumberOnly {..} =
-   _omitNulls
-      [ "JustNumber" .= numberOnlyJustNumber
-      ]
-
-
--- | Construct a value of type 'NumberOnly' (by applying it's required fields, if any)
-mkNumberOnly
-  :: NumberOnly
-mkNumberOnly =
-  NumberOnly
-  { numberOnlyJustNumber = Nothing
-  }
-
--- ** Order
--- | Order
-data Order = Order
-  { orderId :: !(Maybe Integer) -- ^ "id"
-  , orderPetId :: !(Maybe Integer) -- ^ "petId"
-  , orderQuantity :: !(Maybe Int) -- ^ "quantity"
-  , orderShipDate :: !(Maybe DateTime) -- ^ "shipDate"
-  , orderStatus :: !(Maybe E'Status) -- ^ "status" - Order Status
-  , orderComplete :: !(Maybe Bool) -- ^ "complete"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON Order
-instance A.FromJSON Order where
-  parseJSON = A.withObject "Order" $ \o ->
-    Order
-      <$> (o .:? "id")
-      <*> (o .:? "petId")
-      <*> (o .:? "quantity")
-      <*> (o .:? "shipDate")
-      <*> (o .:? "status")
-      <*> (o .:? "complete")
-
--- | ToJSON Order
-instance A.ToJSON Order where
-  toJSON Order {..} =
-   _omitNulls
-      [ "id" .= orderId
-      , "petId" .= orderPetId
-      , "quantity" .= orderQuantity
-      , "shipDate" .= orderShipDate
-      , "status" .= orderStatus
-      , "complete" .= orderComplete
-      ]
-
-
--- | Construct a value of type 'Order' (by applying it's required fields, if any)
-mkOrder
-  :: Order
-mkOrder =
-  Order
-  { orderId = Nothing
-  , orderPetId = Nothing
-  , orderQuantity = Nothing
-  , orderShipDate = Nothing
-  , orderStatus = Nothing
-  , orderComplete = Nothing
-  }
-
--- ** OuterComposite
--- | OuterComposite
-data OuterComposite = OuterComposite
-  { outerCompositeMyNumber :: !(Maybe Double) -- ^ "my_number"
-  , outerCompositeMyString :: !(Maybe Text) -- ^ "my_string"
-  , outerCompositeMyBoolean :: !(Maybe Bool) -- ^ "my_boolean"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON OuterComposite
-instance A.FromJSON OuterComposite where
-  parseJSON = A.withObject "OuterComposite" $ \o ->
-    OuterComposite
-      <$> (o .:? "my_number")
-      <*> (o .:? "my_string")
-      <*> (o .:? "my_boolean")
-
--- | ToJSON OuterComposite
-instance A.ToJSON OuterComposite where
-  toJSON OuterComposite {..} =
-   _omitNulls
-      [ "my_number" .= outerCompositeMyNumber
-      , "my_string" .= outerCompositeMyString
-      , "my_boolean" .= outerCompositeMyBoolean
-      ]
-
-
--- | Construct a value of type 'OuterComposite' (by applying it's required fields, if any)
-mkOuterComposite
-  :: OuterComposite
-mkOuterComposite =
-  OuterComposite
-  { outerCompositeMyNumber = Nothing
-  , outerCompositeMyString = Nothing
-  , outerCompositeMyBoolean = Nothing
-  }
-
--- ** Pet
--- | Pet
-data Pet = Pet
-  { petId :: !(Maybe Integer) -- ^ "id"
-  , petCategory :: !(Maybe Category) -- ^ "category"
-  , petName :: !(Text) -- ^ /Required/ "name"
-  , petPhotoUrls :: !([Text]) -- ^ /Required/ "photoUrls"
-  , petTags :: !(Maybe [Tag]) -- ^ "tags"
-  , petStatus :: !(Maybe E'Status2) -- ^ "status" - pet status in the store
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON Pet
-instance A.FromJSON Pet where
-  parseJSON = A.withObject "Pet" $ \o ->
-    Pet
-      <$> (o .:? "id")
-      <*> (o .:? "category")
-      <*> (o .:  "name")
-      <*> (o .:  "photoUrls")
-      <*> (o .:? "tags")
-      <*> (o .:? "status")
-
--- | ToJSON Pet
-instance A.ToJSON Pet where
-  toJSON Pet {..} =
-   _omitNulls
-      [ "id" .= petId
-      , "category" .= petCategory
-      , "name" .= petName
-      , "photoUrls" .= petPhotoUrls
-      , "tags" .= petTags
-      , "status" .= petStatus
-      ]
-
-
--- | Construct a value of type 'Pet' (by applying it's required fields, if any)
-mkPet
-  :: Text -- ^ 'petName' 
-  -> [Text] -- ^ 'petPhotoUrls' 
-  -> Pet
-mkPet petName petPhotoUrls =
-  Pet
-  { petId = Nothing
-  , petCategory = Nothing
-  , petName
-  , petPhotoUrls
-  , petTags = Nothing
-  , petStatus = Nothing
-  }
-
--- ** ReadOnlyFirst
--- | ReadOnlyFirst
-data ReadOnlyFirst = ReadOnlyFirst
-  { readOnlyFirstBar :: !(Maybe Text) -- ^ "bar"
-  , readOnlyFirstBaz :: !(Maybe Text) -- ^ "baz"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON ReadOnlyFirst
-instance A.FromJSON ReadOnlyFirst where
-  parseJSON = A.withObject "ReadOnlyFirst" $ \o ->
-    ReadOnlyFirst
-      <$> (o .:? "bar")
-      <*> (o .:? "baz")
-
--- | ToJSON ReadOnlyFirst
-instance A.ToJSON ReadOnlyFirst where
-  toJSON ReadOnlyFirst {..} =
-   _omitNulls
-      [ "bar" .= readOnlyFirstBar
-      , "baz" .= readOnlyFirstBaz
-      ]
-
-
--- | Construct a value of type 'ReadOnlyFirst' (by applying it's required fields, if any)
-mkReadOnlyFirst
-  :: ReadOnlyFirst
-mkReadOnlyFirst =
-  ReadOnlyFirst
-  { readOnlyFirstBar = Nothing
-  , readOnlyFirstBaz = Nothing
-  }
-
--- ** SpecialModelName
--- | SpecialModelName
-data SpecialModelName = SpecialModelName
-  { specialModelNameSpecialPropertyName :: !(Maybe Integer) -- ^ "$special[property.name]"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON SpecialModelName
-instance A.FromJSON SpecialModelName where
-  parseJSON = A.withObject "SpecialModelName" $ \o ->
-    SpecialModelName
-      <$> (o .:? "$special[property.name]")
-
--- | ToJSON SpecialModelName
-instance A.ToJSON SpecialModelName where
-  toJSON SpecialModelName {..} =
-   _omitNulls
-      [ "$special[property.name]" .= specialModelNameSpecialPropertyName
-      ]
-
-
--- | Construct a value of type 'SpecialModelName' (by applying it's required fields, if any)
-mkSpecialModelName
-  :: SpecialModelName
-mkSpecialModelName =
-  SpecialModelName
-  { specialModelNameSpecialPropertyName = Nothing
-  }
-
--- ** Tag
--- | Tag
-data Tag = Tag
-  { tagId :: !(Maybe Integer) -- ^ "id"
-  , tagName :: !(Maybe Text) -- ^ "name"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON Tag
-instance A.FromJSON Tag where
-  parseJSON = A.withObject "Tag" $ \o ->
-    Tag
-      <$> (o .:? "id")
-      <*> (o .:? "name")
-
--- | ToJSON Tag
-instance A.ToJSON Tag where
-  toJSON Tag {..} =
-   _omitNulls
-      [ "id" .= tagId
-      , "name" .= tagName
-      ]
-
-
--- | Construct a value of type 'Tag' (by applying it's required fields, if any)
-mkTag
-  :: Tag
-mkTag =
-  Tag
-  { tagId = Nothing
-  , tagName = Nothing
-  }
-
--- ** TypeHolderDefault
--- | TypeHolderDefault
-data TypeHolderDefault = TypeHolderDefault
-  { typeHolderDefaultStringItem :: !(Text) -- ^ /Required/ "string_item"
-  , typeHolderDefaultNumberItem :: !(Double) -- ^ /Required/ "number_item"
-  , typeHolderDefaultIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
-  , typeHolderDefaultBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
-  , typeHolderDefaultArrayItem :: !([Int]) -- ^ /Required/ "array_item"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TypeHolderDefault
-instance A.FromJSON TypeHolderDefault where
-  parseJSON = A.withObject "TypeHolderDefault" $ \o ->
-    TypeHolderDefault
-      <$> (o .:  "string_item")
-      <*> (o .:  "number_item")
-      <*> (o .:  "integer_item")
-      <*> (o .:  "bool_item")
-      <*> (o .:  "array_item")
-
--- | ToJSON TypeHolderDefault
-instance A.ToJSON TypeHolderDefault where
-  toJSON TypeHolderDefault {..} =
-   _omitNulls
-      [ "string_item" .= typeHolderDefaultStringItem
-      , "number_item" .= typeHolderDefaultNumberItem
-      , "integer_item" .= typeHolderDefaultIntegerItem
-      , "bool_item" .= typeHolderDefaultBoolItem
-      , "array_item" .= typeHolderDefaultArrayItem
-      ]
-
-
--- | Construct a value of type 'TypeHolderDefault' (by applying it's required fields, if any)
-mkTypeHolderDefault
-  :: Text -- ^ 'typeHolderDefaultStringItem' 
-  -> Double -- ^ 'typeHolderDefaultNumberItem' 
-  -> Int -- ^ 'typeHolderDefaultIntegerItem' 
-  -> Bool -- ^ 'typeHolderDefaultBoolItem' 
-  -> [Int] -- ^ 'typeHolderDefaultArrayItem' 
-  -> TypeHolderDefault
-mkTypeHolderDefault typeHolderDefaultStringItem typeHolderDefaultNumberItem typeHolderDefaultIntegerItem typeHolderDefaultBoolItem typeHolderDefaultArrayItem =
-  TypeHolderDefault
-  { typeHolderDefaultStringItem
-  , typeHolderDefaultNumberItem
-  , typeHolderDefaultIntegerItem
-  , typeHolderDefaultBoolItem
-  , typeHolderDefaultArrayItem
-  }
-
--- ** TypeHolderExample
--- | TypeHolderExample
-data TypeHolderExample = TypeHolderExample
-  { typeHolderExampleStringItem :: !(Text) -- ^ /Required/ "string_item"
-  , typeHolderExampleNumberItem :: !(Double) -- ^ /Required/ "number_item"
-  , typeHolderExampleIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
-  , typeHolderExampleBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
-  , typeHolderExampleArrayItem :: !([Int]) -- ^ /Required/ "array_item"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON TypeHolderExample
-instance A.FromJSON TypeHolderExample where
-  parseJSON = A.withObject "TypeHolderExample" $ \o ->
-    TypeHolderExample
-      <$> (o .:  "string_item")
-      <*> (o .:  "number_item")
-      <*> (o .:  "integer_item")
-      <*> (o .:  "bool_item")
-      <*> (o .:  "array_item")
-
--- | ToJSON TypeHolderExample
-instance A.ToJSON TypeHolderExample where
-  toJSON TypeHolderExample {..} =
-   _omitNulls
-      [ "string_item" .= typeHolderExampleStringItem
-      , "number_item" .= typeHolderExampleNumberItem
-      , "integer_item" .= typeHolderExampleIntegerItem
-      , "bool_item" .= typeHolderExampleBoolItem
-      , "array_item" .= typeHolderExampleArrayItem
-      ]
-
-
--- | Construct a value of type 'TypeHolderExample' (by applying it's required fields, if any)
-mkTypeHolderExample
-  :: Text -- ^ 'typeHolderExampleStringItem' 
-  -> Double -- ^ 'typeHolderExampleNumberItem' 
-  -> Int -- ^ 'typeHolderExampleIntegerItem' 
-  -> Bool -- ^ 'typeHolderExampleBoolItem' 
-  -> [Int] -- ^ 'typeHolderExampleArrayItem' 
-  -> TypeHolderExample
-mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem typeHolderExampleIntegerItem typeHolderExampleBoolItem typeHolderExampleArrayItem =
-  TypeHolderExample
-  { typeHolderExampleStringItem
-  , typeHolderExampleNumberItem
-  , typeHolderExampleIntegerItem
-  , typeHolderExampleBoolItem
-  , typeHolderExampleArrayItem
   }
 
 -- ** User
@@ -1482,6 +300,196 @@ mkUser =
   , userPassword = Nothing
   , userPhone = Nothing
   , userUserStatus = Nothing
+  }
+
+-- ** ArrayOfNumberOnly
+-- | ArrayOfNumberOnly
+data ArrayOfNumberOnly = ArrayOfNumberOnly
+  { arrayOfNumberOnlyArrayNumber :: !(Maybe [Double]) -- ^ "ArrayNumber"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON ArrayOfNumberOnly
+instance A.FromJSON ArrayOfNumberOnly where
+  parseJSON = A.withObject "ArrayOfNumberOnly" $ \o ->
+    ArrayOfNumberOnly
+      <$> (o .:? "ArrayNumber")
+
+-- | ToJSON ArrayOfNumberOnly
+instance A.ToJSON ArrayOfNumberOnly where
+  toJSON ArrayOfNumberOnly {..} =
+   _omitNulls
+      [ "ArrayNumber" .= arrayOfNumberOnlyArrayNumber
+      ]
+
+
+-- | Construct a value of type 'ArrayOfNumberOnly' (by applying it's required fields, if any)
+mkArrayOfNumberOnly
+  :: ArrayOfNumberOnly
+mkArrayOfNumberOnly =
+  ArrayOfNumberOnly
+  { arrayOfNumberOnlyArrayNumber = Nothing
+  }
+
+-- ** Capitalization
+-- | Capitalization
+data Capitalization = Capitalization
+  { capitalizationSmallCamel :: !(Maybe Text) -- ^ "smallCamel"
+  , capitalizationCapitalCamel :: !(Maybe Text) -- ^ "CapitalCamel"
+  , capitalizationSmallSnake :: !(Maybe Text) -- ^ "small_Snake"
+  , capitalizationCapitalSnake :: !(Maybe Text) -- ^ "Capital_Snake"
+  , capitalizationScaEthFlowPoints :: !(Maybe Text) -- ^ "SCA_ETH_Flow_Points"
+  , capitalizationAttName :: !(Maybe Text) -- ^ "ATT_NAME" - Name of the pet 
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Capitalization
+instance A.FromJSON Capitalization where
+  parseJSON = A.withObject "Capitalization" $ \o ->
+    Capitalization
+      <$> (o .:? "smallCamel")
+      <*> (o .:? "CapitalCamel")
+      <*> (o .:? "small_Snake")
+      <*> (o .:? "Capital_Snake")
+      <*> (o .:? "SCA_ETH_Flow_Points")
+      <*> (o .:? "ATT_NAME")
+
+-- | ToJSON Capitalization
+instance A.ToJSON Capitalization where
+  toJSON Capitalization {..} =
+   _omitNulls
+      [ "smallCamel" .= capitalizationSmallCamel
+      , "CapitalCamel" .= capitalizationCapitalCamel
+      , "small_Snake" .= capitalizationSmallSnake
+      , "Capital_Snake" .= capitalizationCapitalSnake
+      , "SCA_ETH_Flow_Points" .= capitalizationScaEthFlowPoints
+      , "ATT_NAME" .= capitalizationAttName
+      ]
+
+
+-- | Construct a value of type 'Capitalization' (by applying it's required fields, if any)
+mkCapitalization
+  :: Capitalization
+mkCapitalization =
+  Capitalization
+  { capitalizationSmallCamel = Nothing
+  , capitalizationCapitalCamel = Nothing
+  , capitalizationSmallSnake = Nothing
+  , capitalizationCapitalSnake = Nothing
+  , capitalizationScaEthFlowPoints = Nothing
+  , capitalizationAttName = Nothing
+  }
+
+-- ** MixedPropertiesAndAdditionalPropertiesClass
+-- | MixedPropertiesAndAdditionalPropertiesClass
+data MixedPropertiesAndAdditionalPropertiesClass = MixedPropertiesAndAdditionalPropertiesClass
+  { mixedPropertiesAndAdditionalPropertiesClassUuid :: !(Maybe Text) -- ^ "uuid"
+  , mixedPropertiesAndAdditionalPropertiesClassDateTime :: !(Maybe DateTime) -- ^ "dateTime"
+  , mixedPropertiesAndAdditionalPropertiesClassMap :: !(Maybe (Map.Map String Animal)) -- ^ "map"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON MixedPropertiesAndAdditionalPropertiesClass
+instance A.FromJSON MixedPropertiesAndAdditionalPropertiesClass where
+  parseJSON = A.withObject "MixedPropertiesAndAdditionalPropertiesClass" $ \o ->
+    MixedPropertiesAndAdditionalPropertiesClass
+      <$> (o .:? "uuid")
+      <*> (o .:? "dateTime")
+      <*> (o .:? "map")
+
+-- | ToJSON MixedPropertiesAndAdditionalPropertiesClass
+instance A.ToJSON MixedPropertiesAndAdditionalPropertiesClass where
+  toJSON MixedPropertiesAndAdditionalPropertiesClass {..} =
+   _omitNulls
+      [ "uuid" .= mixedPropertiesAndAdditionalPropertiesClassUuid
+      , "dateTime" .= mixedPropertiesAndAdditionalPropertiesClassDateTime
+      , "map" .= mixedPropertiesAndAdditionalPropertiesClassMap
+      ]
+
+
+-- | Construct a value of type 'MixedPropertiesAndAdditionalPropertiesClass' (by applying it's required fields, if any)
+mkMixedPropertiesAndAdditionalPropertiesClass
+  :: MixedPropertiesAndAdditionalPropertiesClass
+mkMixedPropertiesAndAdditionalPropertiesClass =
+  MixedPropertiesAndAdditionalPropertiesClass
+  { mixedPropertiesAndAdditionalPropertiesClassUuid = Nothing
+  , mixedPropertiesAndAdditionalPropertiesClassDateTime = Nothing
+  , mixedPropertiesAndAdditionalPropertiesClassMap = Nothing
+  }
+
+-- ** ApiResponse
+-- | ApiResponse
+data ApiResponse = ApiResponse
+  { apiResponseCode :: !(Maybe Int) -- ^ "code"
+  , apiResponseType :: !(Maybe Text) -- ^ "type"
+  , apiResponseMessage :: !(Maybe Text) -- ^ "message"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON ApiResponse
+instance A.FromJSON ApiResponse where
+  parseJSON = A.withObject "ApiResponse" $ \o ->
+    ApiResponse
+      <$> (o .:? "code")
+      <*> (o .:? "type")
+      <*> (o .:? "message")
+
+-- | ToJSON ApiResponse
+instance A.ToJSON ApiResponse where
+  toJSON ApiResponse {..} =
+   _omitNulls
+      [ "code" .= apiResponseCode
+      , "type" .= apiResponseType
+      , "message" .= apiResponseMessage
+      ]
+
+
+-- | Construct a value of type 'ApiResponse' (by applying it's required fields, if any)
+mkApiResponse
+  :: ApiResponse
+mkApiResponse =
+  ApiResponse
+  { apiResponseCode = Nothing
+  , apiResponseType = Nothing
+  , apiResponseMessage = Nothing
+  }
+
+-- ** Name
+-- | Name
+-- Model for testing model name same as property name
+data Name = Name
+  { nameName :: !(Int) -- ^ /Required/ "name"
+  , nameSnakeCase :: !(Maybe Int) -- ^ "snake_case"
+  , nameProperty :: !(Maybe Text) -- ^ "property"
+  , name123number :: !(Maybe Int) -- ^ "123Number"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Name
+instance A.FromJSON Name where
+  parseJSON = A.withObject "Name" $ \o ->
+    Name
+      <$> (o .:  "name")
+      <*> (o .:? "snake_case")
+      <*> (o .:? "property")
+      <*> (o .:? "123Number")
+
+-- | ToJSON Name
+instance A.ToJSON Name where
+  toJSON Name {..} =
+   _omitNulls
+      [ "name" .= nameName
+      , "snake_case" .= nameSnakeCase
+      , "property" .= nameProperty
+      , "123Number" .= name123number
+      ]
+
+
+-- | Construct a value of type 'Name' (by applying it's required fields, if any)
+mkName
+  :: Int -- ^ 'nameName' 
+  -> Name
+mkName nameName =
+  Name
+  { nameName
+  , nameSnakeCase = Nothing
+  , nameProperty = Nothing
+  , name123number = Nothing
   }
 
 -- ** XmlItem
@@ -1622,6 +630,998 @@ mkXmlItem =
   , xmlItemPrefixNsBoolean = Nothing
   , xmlItemPrefixNsArray = Nothing
   , xmlItemPrefixNsWrappedArray = Nothing
+  }
+
+-- ** ModelList
+-- | ModelList
+data ModelList = ModelList
+  { modelList123list :: !(Maybe Text) -- ^ "123-list"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON ModelList
+instance A.FromJSON ModelList where
+  parseJSON = A.withObject "ModelList" $ \o ->
+    ModelList
+      <$> (o .:? "123-list")
+
+-- | ToJSON ModelList
+instance A.ToJSON ModelList where
+  toJSON ModelList {..} =
+   _omitNulls
+      [ "123-list" .= modelList123list
+      ]
+
+
+-- | Construct a value of type 'ModelList' (by applying it's required fields, if any)
+mkModelList
+  :: ModelList
+mkModelList =
+  ModelList
+  { modelList123list = Nothing
+  }
+
+-- ** NumberOnly
+-- | NumberOnly
+data NumberOnly = NumberOnly
+  { numberOnlyJustNumber :: !(Maybe Double) -- ^ "JustNumber"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON NumberOnly
+instance A.FromJSON NumberOnly where
+  parseJSON = A.withObject "NumberOnly" $ \o ->
+    NumberOnly
+      <$> (o .:? "JustNumber")
+
+-- | ToJSON NumberOnly
+instance A.ToJSON NumberOnly where
+  toJSON NumberOnly {..} =
+   _omitNulls
+      [ "JustNumber" .= numberOnlyJustNumber
+      ]
+
+
+-- | Construct a value of type 'NumberOnly' (by applying it's required fields, if any)
+mkNumberOnly
+  :: NumberOnly
+mkNumberOnly =
+  NumberOnly
+  { numberOnlyJustNumber = Nothing
+  }
+
+-- ** Model200Response
+-- | Model200Response
+-- Model for testing model name starting with number
+data Model200Response = Model200Response
+  { model200ResponseName :: !(Maybe Int) -- ^ "name"
+  , model200ResponseClass :: !(Maybe Text) -- ^ "class"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Model200Response
+instance A.FromJSON Model200Response where
+  parseJSON = A.withObject "Model200Response" $ \o ->
+    Model200Response
+      <$> (o .:? "name")
+      <*> (o .:? "class")
+
+-- | ToJSON Model200Response
+instance A.ToJSON Model200Response where
+  toJSON Model200Response {..} =
+   _omitNulls
+      [ "name" .= model200ResponseName
+      , "class" .= model200ResponseClass
+      ]
+
+
+-- | Construct a value of type 'Model200Response' (by applying it's required fields, if any)
+mkModel200Response
+  :: Model200Response
+mkModel200Response =
+  Model200Response
+  { model200ResponseName = Nothing
+  , model200ResponseClass = Nothing
+  }
+
+-- ** Client
+-- | Client
+data Client = Client
+  { clientClient :: !(Maybe Text) -- ^ "client"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Client
+instance A.FromJSON Client where
+  parseJSON = A.withObject "Client" $ \o ->
+    Client
+      <$> (o .:? "client")
+
+-- | ToJSON Client
+instance A.ToJSON Client where
+  toJSON Client {..} =
+   _omitNulls
+      [ "client" .= clientClient
+      ]
+
+
+-- | Construct a value of type 'Client' (by applying it's required fields, if any)
+mkClient
+  :: Client
+mkClient =
+  Client
+  { clientClient = Nothing
+  }
+
+-- ** Dog
+-- | Dog
+data Dog = Dog
+  { dogClassName :: !(Text) -- ^ /Required/ "className"
+  , dogColor :: !(Maybe Text) -- ^ "color"
+  , dogBreed :: !(Maybe Text) -- ^ "breed"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Dog
+instance A.FromJSON Dog where
+  parseJSON = A.withObject "Dog" $ \o ->
+    Dog
+      <$> (o .:  "className")
+      <*> (o .:? "color")
+      <*> (o .:? "breed")
+
+-- | ToJSON Dog
+instance A.ToJSON Dog where
+  toJSON Dog {..} =
+   _omitNulls
+      [ "className" .= dogClassName
+      , "color" .= dogColor
+      , "breed" .= dogBreed
+      ]
+
+
+-- | Construct a value of type 'Dog' (by applying it's required fields, if any)
+mkDog
+  :: Text -- ^ 'dogClassName' 
+  -> Dog
+mkDog dogClassName =
+  Dog
+  { dogClassName
+  , dogColor = Nothing
+  , dogBreed = Nothing
+  }
+
+-- ** EnumTest
+-- | EnumTest
+data EnumTest = EnumTest
+  { enumTestEnumString :: !(Maybe E'EnumString) -- ^ "enum_string"
+  , enumTestEnumStringRequired :: !(E'EnumString) -- ^ /Required/ "enum_string_required"
+  , enumTestEnumInteger :: !(Maybe E'EnumInteger) -- ^ "enum_integer"
+  , enumTestEnumNumber :: !(Maybe E'EnumNumber) -- ^ "enum_number"
+  , enumTestOuterEnum :: !(Maybe OuterEnum) -- ^ "outerEnum"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON EnumTest
+instance A.FromJSON EnumTest where
+  parseJSON = A.withObject "EnumTest" $ \o ->
+    EnumTest
+      <$> (o .:? "enum_string")
+      <*> (o .:  "enum_string_required")
+      <*> (o .:? "enum_integer")
+      <*> (o .:? "enum_number")
+      <*> (o .:? "outerEnum")
+
+-- | ToJSON EnumTest
+instance A.ToJSON EnumTest where
+  toJSON EnumTest {..} =
+   _omitNulls
+      [ "enum_string" .= enumTestEnumString
+      , "enum_string_required" .= enumTestEnumStringRequired
+      , "enum_integer" .= enumTestEnumInteger
+      , "enum_number" .= enumTestEnumNumber
+      , "outerEnum" .= enumTestOuterEnum
+      ]
+
+
+-- | Construct a value of type 'EnumTest' (by applying it's required fields, if any)
+mkEnumTest
+  :: E'EnumString -- ^ 'enumTestEnumStringRequired' 
+  -> EnumTest
+mkEnumTest enumTestEnumStringRequired =
+  EnumTest
+  { enumTestEnumString = Nothing
+  , enumTestEnumStringRequired
+  , enumTestEnumInteger = Nothing
+  , enumTestEnumNumber = Nothing
+  , enumTestOuterEnum = Nothing
+  }
+
+-- ** AdditionalPropertiesClass
+-- | AdditionalPropertiesClass
+data AdditionalPropertiesClass = AdditionalPropertiesClass
+  { additionalPropertiesClassMapProperty :: !(Maybe (Map.Map String Text)) -- ^ "map_property"
+  , additionalPropertiesClassMapOfMapProperty :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_of_map_property"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesClass
+instance A.FromJSON AdditionalPropertiesClass where
+  parseJSON = A.withObject "AdditionalPropertiesClass" $ \o ->
+    AdditionalPropertiesClass
+      <$> (o .:? "map_property")
+      <*> (o .:? "map_of_map_property")
+
+-- | ToJSON AdditionalPropertiesClass
+instance A.ToJSON AdditionalPropertiesClass where
+  toJSON AdditionalPropertiesClass {..} =
+   _omitNulls
+      [ "map_property" .= additionalPropertiesClassMapProperty
+      , "map_of_map_property" .= additionalPropertiesClassMapOfMapProperty
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesClass' (by applying it's required fields, if any)
+mkAdditionalPropertiesClass
+  :: AdditionalPropertiesClass
+mkAdditionalPropertiesClass =
+  AdditionalPropertiesClass
+  { additionalPropertiesClassMapProperty = Nothing
+  , additionalPropertiesClassMapOfMapProperty = Nothing
+  }
+
+-- ** Order
+-- | Order
+data Order = Order
+  { orderId :: !(Maybe Integer) -- ^ "id"
+  , orderPetId :: !(Maybe Integer) -- ^ "petId"
+  , orderQuantity :: !(Maybe Int) -- ^ "quantity"
+  , orderShipDate :: !(Maybe DateTime) -- ^ "shipDate"
+  , orderStatus :: !(Maybe E'Status) -- ^ "status" - Order Status
+  , orderComplete :: !(Maybe Bool) -- ^ "complete"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Order
+instance A.FromJSON Order where
+  parseJSON = A.withObject "Order" $ \o ->
+    Order
+      <$> (o .:? "id")
+      <*> (o .:? "petId")
+      <*> (o .:? "quantity")
+      <*> (o .:? "shipDate")
+      <*> (o .:? "status")
+      <*> (o .:? "complete")
+
+-- | ToJSON Order
+instance A.ToJSON Order where
+  toJSON Order {..} =
+   _omitNulls
+      [ "id" .= orderId
+      , "petId" .= orderPetId
+      , "quantity" .= orderQuantity
+      , "shipDate" .= orderShipDate
+      , "status" .= orderStatus
+      , "complete" .= orderComplete
+      ]
+
+
+-- | Construct a value of type 'Order' (by applying it's required fields, if any)
+mkOrder
+  :: Order
+mkOrder =
+  Order
+  { orderId = Nothing
+  , orderPetId = Nothing
+  , orderQuantity = Nothing
+  , orderShipDate = Nothing
+  , orderStatus = Nothing
+  , orderComplete = Nothing
+  }
+
+-- ** SpecialModelName
+-- | SpecialModelName
+data SpecialModelName = SpecialModelName
+  { specialModelNameSpecialPropertyName :: !(Maybe Integer) -- ^ "$special[property.name]"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON SpecialModelName
+instance A.FromJSON SpecialModelName where
+  parseJSON = A.withObject "SpecialModelName" $ \o ->
+    SpecialModelName
+      <$> (o .:? "$special[property.name]")
+
+-- | ToJSON SpecialModelName
+instance A.ToJSON SpecialModelName where
+  toJSON SpecialModelName {..} =
+   _omitNulls
+      [ "$special[property.name]" .= specialModelNameSpecialPropertyName
+      ]
+
+
+-- | Construct a value of type 'SpecialModelName' (by applying it's required fields, if any)
+mkSpecialModelName
+  :: SpecialModelName
+mkSpecialModelName =
+  SpecialModelName
+  { specialModelNameSpecialPropertyName = Nothing
+  }
+
+-- ** ModelReturn
+-- | ModelReturn
+-- Model for testing reserved words
+data ModelReturn = ModelReturn
+  { modelReturnReturn :: !(Maybe Int) -- ^ "return"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON ModelReturn
+instance A.FromJSON ModelReturn where
+  parseJSON = A.withObject "ModelReturn" $ \o ->
+    ModelReturn
+      <$> (o .:? "return")
+
+-- | ToJSON ModelReturn
+instance A.ToJSON ModelReturn where
+  toJSON ModelReturn {..} =
+   _omitNulls
+      [ "return" .= modelReturnReturn
+      ]
+
+
+-- | Construct a value of type 'ModelReturn' (by applying it's required fields, if any)
+mkModelReturn
+  :: ModelReturn
+mkModelReturn =
+  ModelReturn
+  { modelReturnReturn = Nothing
+  }
+
+-- ** ReadOnlyFirst
+-- | ReadOnlyFirst
+data ReadOnlyFirst = ReadOnlyFirst
+  { readOnlyFirstBar :: !(Maybe Text) -- ^ "bar"
+  , readOnlyFirstBaz :: !(Maybe Text) -- ^ "baz"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON ReadOnlyFirst
+instance A.FromJSON ReadOnlyFirst where
+  parseJSON = A.withObject "ReadOnlyFirst" $ \o ->
+    ReadOnlyFirst
+      <$> (o .:? "bar")
+      <*> (o .:? "baz")
+
+-- | ToJSON ReadOnlyFirst
+instance A.ToJSON ReadOnlyFirst where
+  toJSON ReadOnlyFirst {..} =
+   _omitNulls
+      [ "bar" .= readOnlyFirstBar
+      , "baz" .= readOnlyFirstBaz
+      ]
+
+
+-- | Construct a value of type 'ReadOnlyFirst' (by applying it's required fields, if any)
+mkReadOnlyFirst
+  :: ReadOnlyFirst
+mkReadOnlyFirst =
+  ReadOnlyFirst
+  { readOnlyFirstBar = Nothing
+  , readOnlyFirstBaz = Nothing
+  }
+
+-- ** ArrayOfArrayOfNumberOnly
+-- | ArrayOfArrayOfNumberOnly
+data ArrayOfArrayOfNumberOnly = ArrayOfArrayOfNumberOnly
+  { arrayOfArrayOfNumberOnlyArrayArrayNumber :: !(Maybe [[Double]]) -- ^ "ArrayArrayNumber"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON ArrayOfArrayOfNumberOnly
+instance A.FromJSON ArrayOfArrayOfNumberOnly where
+  parseJSON = A.withObject "ArrayOfArrayOfNumberOnly" $ \o ->
+    ArrayOfArrayOfNumberOnly
+      <$> (o .:? "ArrayArrayNumber")
+
+-- | ToJSON ArrayOfArrayOfNumberOnly
+instance A.ToJSON ArrayOfArrayOfNumberOnly where
+  toJSON ArrayOfArrayOfNumberOnly {..} =
+   _omitNulls
+      [ "ArrayArrayNumber" .= arrayOfArrayOfNumberOnlyArrayArrayNumber
+      ]
+
+
+-- | Construct a value of type 'ArrayOfArrayOfNumberOnly' (by applying it's required fields, if any)
+mkArrayOfArrayOfNumberOnly
+  :: ArrayOfArrayOfNumberOnly
+mkArrayOfArrayOfNumberOnly =
+  ArrayOfArrayOfNumberOnly
+  { arrayOfArrayOfNumberOnlyArrayArrayNumber = Nothing
+  }
+
+-- ** ArrayTest
+-- | ArrayTest
+data ArrayTest = ArrayTest
+  { arrayTestArrayOfString :: !(Maybe [Text]) -- ^ "array_of_string"
+  , arrayTestArrayArrayOfInteger :: !(Maybe [[Integer]]) -- ^ "array_array_of_integer"
+  , arrayTestArrayArrayOfModel :: !(Maybe [[ReadOnlyFirst]]) -- ^ "array_array_of_model"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON ArrayTest
+instance A.FromJSON ArrayTest where
+  parseJSON = A.withObject "ArrayTest" $ \o ->
+    ArrayTest
+      <$> (o .:? "array_of_string")
+      <*> (o .:? "array_array_of_integer")
+      <*> (o .:? "array_array_of_model")
+
+-- | ToJSON ArrayTest
+instance A.ToJSON ArrayTest where
+  toJSON ArrayTest {..} =
+   _omitNulls
+      [ "array_of_string" .= arrayTestArrayOfString
+      , "array_array_of_integer" .= arrayTestArrayArrayOfInteger
+      , "array_array_of_model" .= arrayTestArrayArrayOfModel
+      ]
+
+
+-- | Construct a value of type 'ArrayTest' (by applying it's required fields, if any)
+mkArrayTest
+  :: ArrayTest
+mkArrayTest =
+  ArrayTest
+  { arrayTestArrayOfString = Nothing
+  , arrayTestArrayArrayOfInteger = Nothing
+  , arrayTestArrayArrayOfModel = Nothing
+  }
+
+-- ** OuterComposite
+-- | OuterComposite
+data OuterComposite = OuterComposite
+  { outerCompositeMyNumber :: !(Maybe Double) -- ^ "my_number"
+  , outerCompositeMyString :: !(Maybe Text) -- ^ "my_string"
+  , outerCompositeMyBoolean :: !(Maybe Bool) -- ^ "my_boolean"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON OuterComposite
+instance A.FromJSON OuterComposite where
+  parseJSON = A.withObject "OuterComposite" $ \o ->
+    OuterComposite
+      <$> (o .:? "my_number")
+      <*> (o .:? "my_string")
+      <*> (o .:? "my_boolean")
+
+-- | ToJSON OuterComposite
+instance A.ToJSON OuterComposite where
+  toJSON OuterComposite {..} =
+   _omitNulls
+      [ "my_number" .= outerCompositeMyNumber
+      , "my_string" .= outerCompositeMyString
+      , "my_boolean" .= outerCompositeMyBoolean
+      ]
+
+
+-- | Construct a value of type 'OuterComposite' (by applying it's required fields, if any)
+mkOuterComposite
+  :: OuterComposite
+mkOuterComposite =
+  OuterComposite
+  { outerCompositeMyNumber = Nothing
+  , outerCompositeMyString = Nothing
+  , outerCompositeMyBoolean = Nothing
+  }
+
+-- ** FormatTest
+-- | FormatTest
+data FormatTest = FormatTest
+  { formatTestInteger :: !(Maybe Int) -- ^ "integer"
+  , formatTestInt32 :: !(Maybe Int) -- ^ "int32"
+  , formatTestInt64 :: !(Maybe Integer) -- ^ "int64"
+  , formatTestNumber :: !(Double) -- ^ /Required/ "number"
+  , formatTestFloat :: !(Maybe Float) -- ^ "float"
+  , formatTestDouble :: !(Maybe Double) -- ^ "double"
+  , formatTestString :: !(Maybe Text) -- ^ "string"
+  , formatTestByte :: !(ByteArray) -- ^ /Required/ "byte"
+  , formatTestBinary :: !(Maybe FilePath) -- ^ "binary"
+  , formatTestDate :: !(Date) -- ^ /Required/ "date"
+  , formatTestDateTime :: !(Maybe DateTime) -- ^ "dateTime"
+  , formatTestUuid :: !(Maybe Text) -- ^ "uuid"
+  , formatTestPassword :: !(Text) -- ^ /Required/ "password"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON FormatTest
+instance A.FromJSON FormatTest where
+  parseJSON = A.withObject "FormatTest" $ \o ->
+    FormatTest
+      <$> (o .:? "integer")
+      <*> (o .:? "int32")
+      <*> (o .:? "int64")
+      <*> (o .:  "number")
+      <*> (o .:? "float")
+      <*> (o .:? "double")
+      <*> (o .:? "string")
+      <*> (o .:  "byte")
+      <*> (o .:? "binary")
+      <*> (o .:  "date")
+      <*> (o .:? "dateTime")
+      <*> (o .:? "uuid")
+      <*> (o .:  "password")
+
+-- | ToJSON FormatTest
+instance A.ToJSON FormatTest where
+  toJSON FormatTest {..} =
+   _omitNulls
+      [ "integer" .= formatTestInteger
+      , "int32" .= formatTestInt32
+      , "int64" .= formatTestInt64
+      , "number" .= formatTestNumber
+      , "float" .= formatTestFloat
+      , "double" .= formatTestDouble
+      , "string" .= formatTestString
+      , "byte" .= formatTestByte
+      , "binary" .= formatTestBinary
+      , "date" .= formatTestDate
+      , "dateTime" .= formatTestDateTime
+      , "uuid" .= formatTestUuid
+      , "password" .= formatTestPassword
+      ]
+
+
+-- | Construct a value of type 'FormatTest' (by applying it's required fields, if any)
+mkFormatTest
+  :: Double -- ^ 'formatTestNumber' 
+  -> ByteArray -- ^ 'formatTestByte' 
+  -> Date -- ^ 'formatTestDate' 
+  -> Text -- ^ 'formatTestPassword' 
+  -> FormatTest
+mkFormatTest formatTestNumber formatTestByte formatTestDate formatTestPassword =
+  FormatTest
+  { formatTestInteger = Nothing
+  , formatTestInt32 = Nothing
+  , formatTestInt64 = Nothing
+  , formatTestNumber
+  , formatTestFloat = Nothing
+  , formatTestDouble = Nothing
+  , formatTestString = Nothing
+  , formatTestByte
+  , formatTestBinary = Nothing
+  , formatTestDate
+  , formatTestDateTime = Nothing
+  , formatTestUuid = Nothing
+  , formatTestPassword
+  }
+
+-- ** EnumArrays
+-- | EnumArrays
+data EnumArrays = EnumArrays
+  { enumArraysJustSymbol :: !(Maybe E'JustSymbol) -- ^ "just_symbol"
+  , enumArraysArrayEnum :: !(Maybe [E'ArrayEnum]) -- ^ "array_enum"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON EnumArrays
+instance A.FromJSON EnumArrays where
+  parseJSON = A.withObject "EnumArrays" $ \o ->
+    EnumArrays
+      <$> (o .:? "just_symbol")
+      <*> (o .:? "array_enum")
+
+-- | ToJSON EnumArrays
+instance A.ToJSON EnumArrays where
+  toJSON EnumArrays {..} =
+   _omitNulls
+      [ "just_symbol" .= enumArraysJustSymbol
+      , "array_enum" .= enumArraysArrayEnum
+      ]
+
+
+-- | Construct a value of type 'EnumArrays' (by applying it's required fields, if any)
+mkEnumArrays
+  :: EnumArrays
+mkEnumArrays =
+  EnumArrays
+  { enumArraysJustSymbol = Nothing
+  , enumArraysArrayEnum = Nothing
+  }
+
+-- ** ClassModel
+-- | ClassModel
+-- Model for testing model with \"_class\" property
+data ClassModel = ClassModel
+  { classModelClass :: !(Maybe Text) -- ^ "_class"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON ClassModel
+instance A.FromJSON ClassModel where
+  parseJSON = A.withObject "ClassModel" $ \o ->
+    ClassModel
+      <$> (o .:? "_class")
+
+-- | ToJSON ClassModel
+instance A.ToJSON ClassModel where
+  toJSON ClassModel {..} =
+   _omitNulls
+      [ "_class" .= classModelClass
+      ]
+
+
+-- | Construct a value of type 'ClassModel' (by applying it's required fields, if any)
+mkClassModel
+  :: ClassModel
+mkClassModel =
+  ClassModel
+  { classModelClass = Nothing
+  }
+
+-- ** FileSchemaTestClass
+-- | FileSchemaTestClass
+data FileSchemaTestClass = FileSchemaTestClass
+  { fileSchemaTestClassFile :: !(Maybe File) -- ^ "file"
+  , fileSchemaTestClassFiles :: !(Maybe [File]) -- ^ "files"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON FileSchemaTestClass
+instance A.FromJSON FileSchemaTestClass where
+  parseJSON = A.withObject "FileSchemaTestClass" $ \o ->
+    FileSchemaTestClass
+      <$> (o .:? "file")
+      <*> (o .:? "files")
+
+-- | ToJSON FileSchemaTestClass
+instance A.ToJSON FileSchemaTestClass where
+  toJSON FileSchemaTestClass {..} =
+   _omitNulls
+      [ "file" .= fileSchemaTestClassFile
+      , "files" .= fileSchemaTestClassFiles
+      ]
+
+
+-- | Construct a value of type 'FileSchemaTestClass' (by applying it's required fields, if any)
+mkFileSchemaTestClass
+  :: FileSchemaTestClass
+mkFileSchemaTestClass =
+  FileSchemaTestClass
+  { fileSchemaTestClassFile = Nothing
+  , fileSchemaTestClassFiles = Nothing
+  }
+
+-- ** Animal
+-- | Animal
+data Animal = Animal
+  { animalClassName :: !(Text) -- ^ /Required/ "className"
+  , animalColor :: !(Maybe Text) -- ^ "color"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Animal
+instance A.FromJSON Animal where
+  parseJSON = A.withObject "Animal" $ \o ->
+    Animal
+      <$> (o .:  "className")
+      <*> (o .:? "color")
+
+-- | ToJSON Animal
+instance A.ToJSON Animal where
+  toJSON Animal {..} =
+   _omitNulls
+      [ "className" .= animalClassName
+      , "color" .= animalColor
+      ]
+
+
+-- | Construct a value of type 'Animal' (by applying it's required fields, if any)
+mkAnimal
+  :: Text -- ^ 'animalClassName' 
+  -> Animal
+mkAnimal animalClassName =
+  Animal
+  { animalClassName
+  , animalColor = Nothing
+  }
+
+-- ** Cat
+-- | Cat
+data Cat = Cat
+  { catClassName :: !(Text) -- ^ /Required/ "className"
+  , catColor :: !(Maybe Text) -- ^ "color"
+  , catDeclawed :: !(Maybe Bool) -- ^ "declawed"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Cat
+instance A.FromJSON Cat where
+  parseJSON = A.withObject "Cat" $ \o ->
+    Cat
+      <$> (o .:  "className")
+      <*> (o .:? "color")
+      <*> (o .:? "declawed")
+
+-- | ToJSON Cat
+instance A.ToJSON Cat where
+  toJSON Cat {..} =
+   _omitNulls
+      [ "className" .= catClassName
+      , "color" .= catColor
+      , "declawed" .= catDeclawed
+      ]
+
+
+-- | Construct a value of type 'Cat' (by applying it's required fields, if any)
+mkCat
+  :: Text -- ^ 'catClassName' 
+  -> Cat
+mkCat catClassName =
+  Cat
+  { catClassName
+  , catColor = Nothing
+  , catDeclawed = Nothing
+  }
+
+-- ** TypeHolderDefault
+-- | TypeHolderDefault
+data TypeHolderDefault = TypeHolderDefault
+  { typeHolderDefaultStringItem :: !(Text) -- ^ /Required/ "string_item"
+  , typeHolderDefaultNumberItem :: !(Double) -- ^ /Required/ "number_item"
+  , typeHolderDefaultIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
+  , typeHolderDefaultBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
+  , typeHolderDefaultArrayItem :: !([Int]) -- ^ /Required/ "array_item"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON TypeHolderDefault
+instance A.FromJSON TypeHolderDefault where
+  parseJSON = A.withObject "TypeHolderDefault" $ \o ->
+    TypeHolderDefault
+      <$> (o .:  "string_item")
+      <*> (o .:  "number_item")
+      <*> (o .:  "integer_item")
+      <*> (o .:  "bool_item")
+      <*> (o .:  "array_item")
+
+-- | ToJSON TypeHolderDefault
+instance A.ToJSON TypeHolderDefault where
+  toJSON TypeHolderDefault {..} =
+   _omitNulls
+      [ "string_item" .= typeHolderDefaultStringItem
+      , "number_item" .= typeHolderDefaultNumberItem
+      , "integer_item" .= typeHolderDefaultIntegerItem
+      , "bool_item" .= typeHolderDefaultBoolItem
+      , "array_item" .= typeHolderDefaultArrayItem
+      ]
+
+
+-- | Construct a value of type 'TypeHolderDefault' (by applying it's required fields, if any)
+mkTypeHolderDefault
+  :: Text -- ^ 'typeHolderDefaultStringItem' 
+  -> Double -- ^ 'typeHolderDefaultNumberItem' 
+  -> Int -- ^ 'typeHolderDefaultIntegerItem' 
+  -> Bool -- ^ 'typeHolderDefaultBoolItem' 
+  -> [Int] -- ^ 'typeHolderDefaultArrayItem' 
+  -> TypeHolderDefault
+mkTypeHolderDefault typeHolderDefaultStringItem typeHolderDefaultNumberItem typeHolderDefaultIntegerItem typeHolderDefaultBoolItem typeHolderDefaultArrayItem =
+  TypeHolderDefault
+  { typeHolderDefaultStringItem
+  , typeHolderDefaultNumberItem
+  , typeHolderDefaultIntegerItem
+  , typeHolderDefaultBoolItem
+  , typeHolderDefaultArrayItem
+  }
+
+-- ** MapTest
+-- | MapTest
+data MapTest = MapTest
+  { mapTestMapMapOfString :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_map_of_string"
+  , mapTestMapOfEnumString :: !(Maybe (Map.Map String E'Inner)) -- ^ "map_of_enum_string"
+  , mapTestDirectMap :: !(Maybe (Map.Map String Bool)) -- ^ "direct_map"
+  , mapTestIndirectMap :: !(Maybe (Map.Map String Bool)) -- ^ "indirect_map"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON MapTest
+instance A.FromJSON MapTest where
+  parseJSON = A.withObject "MapTest" $ \o ->
+    MapTest
+      <$> (o .:? "map_map_of_string")
+      <*> (o .:? "map_of_enum_string")
+      <*> (o .:? "direct_map")
+      <*> (o .:? "indirect_map")
+
+-- | ToJSON MapTest
+instance A.ToJSON MapTest where
+  toJSON MapTest {..} =
+   _omitNulls
+      [ "map_map_of_string" .= mapTestMapMapOfString
+      , "map_of_enum_string" .= mapTestMapOfEnumString
+      , "direct_map" .= mapTestDirectMap
+      , "indirect_map" .= mapTestIndirectMap
+      ]
+
+
+-- | Construct a value of type 'MapTest' (by applying it's required fields, if any)
+mkMapTest
+  :: MapTest
+mkMapTest =
+  MapTest
+  { mapTestMapMapOfString = Nothing
+  , mapTestMapOfEnumString = Nothing
+  , mapTestDirectMap = Nothing
+  , mapTestIndirectMap = Nothing
+  }
+
+-- ** TypeHolderExample
+-- | TypeHolderExample
+data TypeHolderExample = TypeHolderExample
+  { typeHolderExampleStringItem :: !(Text) -- ^ /Required/ "string_item"
+  , typeHolderExampleNumberItem :: !(Double) -- ^ /Required/ "number_item"
+  , typeHolderExampleIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
+  , typeHolderExampleBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
+  , typeHolderExampleArrayItem :: !([Int]) -- ^ /Required/ "array_item"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON TypeHolderExample
+instance A.FromJSON TypeHolderExample where
+  parseJSON = A.withObject "TypeHolderExample" $ \o ->
+    TypeHolderExample
+      <$> (o .:  "string_item")
+      <*> (o .:  "number_item")
+      <*> (o .:  "integer_item")
+      <*> (o .:  "bool_item")
+      <*> (o .:  "array_item")
+
+-- | ToJSON TypeHolderExample
+instance A.ToJSON TypeHolderExample where
+  toJSON TypeHolderExample {..} =
+   _omitNulls
+      [ "string_item" .= typeHolderExampleStringItem
+      , "number_item" .= typeHolderExampleNumberItem
+      , "integer_item" .= typeHolderExampleIntegerItem
+      , "bool_item" .= typeHolderExampleBoolItem
+      , "array_item" .= typeHolderExampleArrayItem
+      ]
+
+
+-- | Construct a value of type 'TypeHolderExample' (by applying it's required fields, if any)
+mkTypeHolderExample
+  :: Text -- ^ 'typeHolderExampleStringItem' 
+  -> Double -- ^ 'typeHolderExampleNumberItem' 
+  -> Int -- ^ 'typeHolderExampleIntegerItem' 
+  -> Bool -- ^ 'typeHolderExampleBoolItem' 
+  -> [Int] -- ^ 'typeHolderExampleArrayItem' 
+  -> TypeHolderExample
+mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem typeHolderExampleIntegerItem typeHolderExampleBoolItem typeHolderExampleArrayItem =
+  TypeHolderExample
+  { typeHolderExampleStringItem
+  , typeHolderExampleNumberItem
+  , typeHolderExampleIntegerItem
+  , typeHolderExampleBoolItem
+  , typeHolderExampleArrayItem
+  }
+
+-- ** Tag
+-- | Tag
+data Tag = Tag
+  { tagId :: !(Maybe Integer) -- ^ "id"
+  , tagName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Tag
+instance A.FromJSON Tag where
+  parseJSON = A.withObject "Tag" $ \o ->
+    Tag
+      <$> (o .:? "id")
+      <*> (o .:? "name")
+
+-- | ToJSON Tag
+instance A.ToJSON Tag where
+  toJSON Tag {..} =
+   _omitNulls
+      [ "id" .= tagId
+      , "name" .= tagName
+      ]
+
+
+-- | Construct a value of type 'Tag' (by applying it's required fields, if any)
+mkTag
+  :: Tag
+mkTag =
+  Tag
+  { tagId = Nothing
+  , tagName = Nothing
+  }
+
+-- ** File
+-- | File
+-- Must be named `File` for test.
+data File = File
+  { fileSourceUri :: !(Maybe Text) -- ^ "sourceURI" - Test capitalization
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON File
+instance A.FromJSON File where
+  parseJSON = A.withObject "File" $ \o ->
+    File
+      <$> (o .:? "sourceURI")
+
+-- | ToJSON File
+instance A.ToJSON File where
+  toJSON File {..} =
+   _omitNulls
+      [ "sourceURI" .= fileSourceUri
+      ]
+
+
+-- | Construct a value of type 'File' (by applying it's required fields, if any)
+mkFile
+  :: File
+mkFile =
+  File
+  { fileSourceUri = Nothing
+  }
+
+-- ** HasOnlyReadOnly
+-- | HasOnlyReadOnly
+data HasOnlyReadOnly = HasOnlyReadOnly
+  { hasOnlyReadOnlyBar :: !(Maybe Text) -- ^ "bar"
+  , hasOnlyReadOnlyFoo :: !(Maybe Text) -- ^ "foo"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON HasOnlyReadOnly
+instance A.FromJSON HasOnlyReadOnly where
+  parseJSON = A.withObject "HasOnlyReadOnly" $ \o ->
+    HasOnlyReadOnly
+      <$> (o .:? "bar")
+      <*> (o .:? "foo")
+
+-- | ToJSON HasOnlyReadOnly
+instance A.ToJSON HasOnlyReadOnly where
+  toJSON HasOnlyReadOnly {..} =
+   _omitNulls
+      [ "bar" .= hasOnlyReadOnlyBar
+      , "foo" .= hasOnlyReadOnlyFoo
+      ]
+
+
+-- | Construct a value of type 'HasOnlyReadOnly' (by applying it's required fields, if any)
+mkHasOnlyReadOnly
+  :: HasOnlyReadOnly
+mkHasOnlyReadOnly =
+  HasOnlyReadOnly
+  { hasOnlyReadOnlyBar = Nothing
+  , hasOnlyReadOnlyFoo = Nothing
+  }
+
+-- ** Pet
+-- | Pet
+data Pet = Pet
+  { petId :: !(Maybe Integer) -- ^ "id"
+  , petCategory :: !(Maybe Category) -- ^ "category"
+  , petName :: !(Text) -- ^ /Required/ "name"
+  , petPhotoUrls :: !([Text]) -- ^ /Required/ "photoUrls"
+  , petTags :: !(Maybe [Tag]) -- ^ "tags"
+  , petStatus :: !(Maybe E'Status2) -- ^ "status" - pet status in the store
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON Pet
+instance A.FromJSON Pet where
+  parseJSON = A.withObject "Pet" $ \o ->
+    Pet
+      <$> (o .:? "id")
+      <*> (o .:? "category")
+      <*> (o .:  "name")
+      <*> (o .:  "photoUrls")
+      <*> (o .:? "tags")
+      <*> (o .:? "status")
+
+-- | ToJSON Pet
+instance A.ToJSON Pet where
+  toJSON Pet {..} =
+   _omitNulls
+      [ "id" .= petId
+      , "category" .= petCategory
+      , "name" .= petName
+      , "photoUrls" .= petPhotoUrls
+      , "tags" .= petTags
+      , "status" .= petStatus
+      ]
+
+
+-- | Construct a value of type 'Pet' (by applying it's required fields, if any)
+mkPet
+  :: Text -- ^ 'petName' 
+  -> [Text] -- ^ 'petPhotoUrls' 
+  -> Pet
+mkPet petName petPhotoUrls =
+  Pet
+  { petId = Nothing
+  , petCategory = Nothing
+  , petName
+  , petPhotoUrls
+  , petTags = Nothing
+  , petStatus = Nothing
   }
 
 

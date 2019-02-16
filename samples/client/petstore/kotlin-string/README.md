@@ -60,12 +60,12 @@ Class | Method | HTTP request | Description
 <a name="documentation-for-models"></a>
 ## Documentation for Models
 
- - [org.openapitools.client.models.ApiResponse](docs/ApiResponse.md)
- - [org.openapitools.client.models.Category](docs/Category.md)
  - [org.openapitools.client.models.Order](docs/Order.md)
- - [org.openapitools.client.models.Pet](docs/Pet.md)
- - [org.openapitools.client.models.Tag](docs/Tag.md)
+ - [org.openapitools.client.models.Category](docs/Category.md)
  - [org.openapitools.client.models.User](docs/User.md)
+ - [org.openapitools.client.models.Tag](docs/Tag.md)
+ - [org.openapitools.client.models.ApiResponse](docs/ApiResponse.md)
+ - [org.openapitools.client.models.Pet](docs/Pet.md)
 
 
 <a name="documentation-for-authorization"></a>
