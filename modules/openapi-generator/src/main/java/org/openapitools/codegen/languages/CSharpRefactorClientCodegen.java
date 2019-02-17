@@ -40,18 +40,24 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
     protected static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
     protected static final String SUPPORTS_UWP = "supportsUWP";
 
+    protected static final String NET_STANDARD = "netStandard";
+
+    // Project Variable, determined from target framework. Not intended to be user-settable.
+    protected static final String TARGET_FRAMEWORK_IDENTIFIER = "targetFrameworkIdentifier";
+    // Project Variable, determined from target framework. Not intended to be user-settable.
+    protected static final String TARGET_FRAMEWORK_VERSION = "targetFrameworkVersion";
+
     @SuppressWarnings({"hiding"})
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     private static final List<FrameworkStrategy> frameworkStrategies = Arrays.asList(
-            FrameworkStrategy.NET452,
-            FrameworkStrategy.NET46,
             FrameworkStrategy.NETSTANDARD_1_3,
             FrameworkStrategy.NETSTANDARD_1_4,
             FrameworkStrategy.NETSTANDARD_1_5,
             FrameworkStrategy.NETSTANDARD_1_6,
-            FrameworkStrategy.NETSTANDARD_2_0
+            FrameworkStrategy.NETSTANDARD_2_0,
+            FrameworkStrategy.NETCOREAPP_2_0
     );
-    private static FrameworkStrategy defaultFramework = FrameworkStrategy.NET452;
+    private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Org.OpenAPITools.Client";
@@ -66,9 +72,7 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
     protected String targetFrameworkNuget = targetFramework;
 
     protected boolean supportsAsync = Boolean.TRUE;
-    protected boolean supportsUWP = Boolean.FALSE;
     protected boolean netStandard = Boolean.FALSE;
-    protected boolean generatePropertyChanged = Boolean.FALSE;
 
     protected boolean validatable = Boolean.TRUE;
     protected Map<Character, String> regexModifiers;
@@ -185,10 +189,6 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
                 CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
                 this.optionalEmitDefaultValue);
-
-        addSwitch(CodegenConstants.GENERATE_PROPERTY_CHANGED,
-                CodegenConstants.PACKAGE_DESCRIPTION_DESC,
-                this.generatePropertyChanged);
 
         // NOTE: This will reduce visibility of all public members in templates. Users can use InternalsVisibleTo
         // https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.internalsvisibletoattribute(v=vs.110).aspx
@@ -475,7 +475,7 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
         clientPackage = "Client";
 
         String framework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.dotNetFrameworkVersion);
-        FrameworkStrategy strategy = FrameworkStrategy.NET46;
+        FrameworkStrategy strategy = defaultFramework;
         for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
             if (framework.equals(frameworkStrategy.name)) {
                 strategy = frameworkStrategy;
@@ -487,20 +487,16 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
         setTargetFrameworkNuget(strategy.getNugetFrameworkIdentifier());
         setTargetFramework(strategy.dotNetFrameworkVersion);
 
+        if (strategy != FrameworkStrategy.NETSTANDARD_2_0) {
+            LOGGER.warn("If using built-in templates-RestSharp only supports netstandard 2.0 or later.");
+        }
+
         setSupportsAsync(Boolean.TRUE);
-        setSupportsUWP(Boolean.FALSE);
-        setNetStandard(strategy != FrameworkStrategy.NET46);
+        setNetStandard(strategy.isNetStandard);
 
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
-            if (netStandard) {
-                LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is not supported in .NET Standard generated code.");
-                additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
-            } else if (Boolean.TRUE.equals(netCoreProjectFileFlag)) {
-                LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is not supported in .NET Core csproj project format.");
-                additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
-            } else {
-                setGeneratePropertyChanged(convertPropertyToBooleanAndWriteBack(CodegenConstants.GENERATE_PROPERTY_CHANGED));
-            }
+            LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is not supported in the .NET Standard generator.");
+            additionalProperties.remove(CodegenConstants.GENERATE_PROPERTY_CHANGED);
         }
 
         final AtomicReference<Boolean> excludeTests = new AtomicReference<>();
@@ -513,7 +509,6 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
         syncStringProperty(additionalProperties, CodegenConstants.OPTIONAL_PROJECT_GUID, this::setPackageGuid, packageGuid);
         syncStringProperty(additionalProperties, "targetFrameworkNuget", this::setTargetFrameworkNuget, this.targetFrameworkNuget);
 
-        syncBooleanProperty(additionalProperties, SUPPORTS_UWP, this::setSupportsUWP, this.supportsUWP);
         syncBooleanProperty(additionalProperties, "netStandard", this::setNetStandard, this.netStandard);
 
         // TODO: either remove this and update templates to match the "optionalEmitDefaultValues" property, or rename that property.
@@ -580,14 +575,6 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
 
             modelTestTemplateFiles.put("model_test.mustache", ".cs");
             apiTestTemplateFiles.put("api_test.mustache", ".cs");
-
-            if (Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
-                supportingFiles.add(new SupportingFile("packages_test.config.mustache", testPackageFolder + File.separator, "packages.config"));
-            }
-        }
-
-        if (Boolean.TRUE.equals(generatePropertyChanged)) {
-            supportingFiles.add(new SupportingFile("FodyWeavers.xml", packageFolder, "FodyWeavers.xml"));
         }
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -624,10 +611,6 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
         additionalProperties.put("modelDocPath", modelDocPath);
     }
 
-    public void setGeneratePropertyChanged(final Boolean generatePropertyChanged) {
-        this.generatePropertyChanged = generatePropertyChanged;
-    }
-
     public void setNetStandard(Boolean netStandard) {
         this.netStandard = netStandard;
     }
@@ -654,10 +637,6 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
 
     public void setSupportsAsync(Boolean supportsAsync) {
         this.supportsAsync = supportsAsync;
-    }
-
-    public void setSupportsUWP(Boolean supportsUWP) {
-        this.supportsUWP = supportsUWP;
     }
 
     public void setTargetFramework(String dotnetFramework) {
@@ -805,20 +784,6 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
     // https://docs.microsoft.com/en-us/dotnet/standard/net-standard
     @SuppressWarnings("Duplicates")
     private static abstract class FrameworkStrategy {
-        static FrameworkStrategy NET452 = new FrameworkStrategy("NET452", ".NET Framework 4.5.2", "v4.5.2", Boolean.FALSE) {
-            @Override
-            protected void configureAdditionalProperties(Map<String, Object> properties) {
-                super.configureAdditionalProperties(properties);
-                properties.put(MCS_NET_VERSION_KEY, "4.5.2-api");
-            }
-
-            @Override
-            protected String getNugetFrameworkIdentifier() {
-                return "net45";
-            }
-        };
-        static FrameworkStrategy NET46 = new FrameworkStrategy("NET46", ".NET Framework 4.6+ compatible", "v4.6", Boolean.FALSE) {
-        };
         static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "v4.6.1") {
         };
         static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4 compatible", "v4.6.1") {
@@ -828,6 +793,8 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
         static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6 compatible", "v4.6.1") {
         };
         static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0 compatible", "v4.6.1") {
+        };
+        static FrameworkStrategy NETCOREAPP_2_0 = new FrameworkStrategy("netcoreapp2.0", ".NET Core 2.0 compatible", "v4.6.1") {
         };
         protected String name;
         protected String description;
@@ -849,17 +816,31 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
 
         protected void configureAdditionalProperties(final Map<String, Object> properties) {
             properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, this.dotNetFrameworkVersion);
+
+            // not intended to be user-settable
+            properties.put(TARGET_FRAMEWORK_IDENTIFIER, this.getTargetFrameworkIdentifier());
+            properties.putIfAbsent(TARGET_FRAMEWORK_VERSION, this.getTargetFrameworkVersion());
             properties.putIfAbsent(MCS_NET_VERSION_KEY, "4.6-api");
 
-            properties.put("netStandard", this.isNetStandard);
+            properties.put(NET_STANDARD, this.isNetStandard);
             if (properties.containsKey(SUPPORTS_UWP)) {
-                LOGGER.warn(".NET " + this.name + " generator does not support UWP.");
+                LOGGER.warn(".NET " + this.name + " generator does not support the UWP option. Use the csharp generator instead.");
                 properties.remove(SUPPORTS_UWP);
             }
         }
 
         protected String getNugetFrameworkIdentifier() {
             return this.name.toLowerCase();
+        }
+
+        protected String getTargetFrameworkIdentifier() {
+            if (this.isNetStandard) return ".NETStandard";
+            else return ".NETCoreApp";
+        }
+
+        protected String getTargetFrameworkVersion() {
+            if (this.isNetStandard) return "v" + this.name.replace("netstandard", "");
+            else return "v" + this.name.replace("netcoreapp", "");
         }
     }
 }
