@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>{{targetFrameworkNuget}}</TargetFramework>
     <AssemblyName>{{testPackageName}}</AssemblyName>
     <PackageId>{{testPackageName}}</PackageId>
     <OutputType>Library</OutputType>
@@ -14,6 +13,8 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <RootNamespace>{{testPackageName}}</RootNamespace>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

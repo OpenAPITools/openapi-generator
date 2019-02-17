@@ -493,6 +493,7 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
 
         setSupportsAsync(Boolean.TRUE);
         setNetStandard(strategy.isNetStandard);
+        setNetCoreProjectFileFlag(!strategy.isNetStandard);
 
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
             LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is not supported in the .NET Standard generator.");
@@ -551,15 +552,10 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("RequestOptions.mustache", clientPackageDir, "RequestOptions.cs"));
         supportingFiles.add(new SupportingFile("Multimap.mustache", clientPackageDir, "Multimap.cs"));
 
-        if (Boolean.FALSE.equals(this.netStandard) && Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
-            supportingFiles.add(new SupportingFile("compile.mustache", "", "build.bat"));
-            supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "build.sh"));
+        supportingFiles.add(new SupportingFile("compile.mustache", "", "build.bat"));
+        supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "build.sh"));
 
-            // copy package.config to nuget's standard location for project-level installs
-            supportingFiles.add(new SupportingFile("packages.config.mustache", packageFolder + File.separator, "packages.config"));
-            // .travis.yml for travis-ci.org CI
-            supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
-        } else if (Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
+        if (Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
             supportingFiles.add(new SupportingFile("project.json.mustache", packageFolder + File.separator, "project.json"));
         }
 
@@ -794,7 +790,8 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
         };
         static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0 compatible", "v4.6.1") {
         };
-        static FrameworkStrategy NETCOREAPP_2_0 = new FrameworkStrategy("netcoreapp2.0", ".NET Core 2.0 compatible", "v4.6.1") {
+        static FrameworkStrategy NETCOREAPP_2_0 = new FrameworkStrategy("netcoreapp2.0", ".NET Core 2.0 compatible", "v4.6.1", Boolean.FALSE) {
+
         };
         protected String name;
         protected String description;
@@ -819,7 +816,7 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
 
             // not intended to be user-settable
             properties.put(TARGET_FRAMEWORK_IDENTIFIER, this.getTargetFrameworkIdentifier());
-            properties.putIfAbsent(TARGET_FRAMEWORK_VERSION, this.getTargetFrameworkVersion());
+            properties.put(TARGET_FRAMEWORK_VERSION, this.getTargetFrameworkVersion());
             properties.putIfAbsent(MCS_NET_VERSION_KEY, "4.6-api");
 
             properties.put(NET_STANDARD, this.isNetStandard);
