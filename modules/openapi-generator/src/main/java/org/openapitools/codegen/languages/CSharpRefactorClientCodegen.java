@@ -827,7 +827,7 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
         }
 
         protected String getNugetFrameworkIdentifier() {
-            return this.name.toLowerCase();
+            return this.name.toLowerCase(Locale.ROOT);
         }
 
         protected String getTargetFrameworkIdentifier() {
