@@ -13,6 +13,7 @@
 #ifndef OAI_APIROUTER_H
 #define OAI_APIROUTER_H
 
+#include <functional>
 #include <QObject>
 #include <QStringList>
 #include <QSharedPointer>

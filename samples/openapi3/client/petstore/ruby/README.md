@@ -75,6 +75,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *Petstore::AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 *Petstore::DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
+*Petstore::FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 *Petstore::FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *Petstore::FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *Petstore::FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -139,11 +140,18 @@ Class | Method | HTTP request | Description
  - [Petstore::ArrayTest](docs/ArrayTest.md)
  - [Petstore::OuterComposite](docs/OuterComposite.md)
  - [Petstore::FormatTest](docs/FormatTest.md)
+<<<<<<< HEAD
  - [Petstore::EnumArrays](docs/EnumArrays.md)
  - [Petstore::ClassModel](docs/ClassModel.md)
  - [Petstore::FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Petstore::Animal](docs/Animal.md)
  - [Petstore::Cat](docs/Cat.md)
+=======
+ - [Petstore::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [Petstore::HealthCheckResult](docs/HealthCheckResult.md)
+ - [Petstore::InlineResponseDefault](docs/InlineResponseDefault.md)
+ - [Petstore::List](docs/List.md)
+>>>>>>> master
  - [Petstore::MapTest](docs/MapTest.md)
  - [Petstore::Tag](docs/Tag.md)
  - [Petstore::File](docs/File.md)
