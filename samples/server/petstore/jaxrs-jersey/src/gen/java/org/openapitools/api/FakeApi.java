@@ -12,6 +12,7 @@ import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
+import org.openapitools.model.HealthCheckResult;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
@@ -63,6 +64,17 @@ public class FakeApi  {
       this.delegate = delegate;
    }
 
+    @GET
+    @Path("/health")
+    
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Health check endpoint", notes = "", response = HealthCheckResult.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "The instance started successfully", response = HealthCheckResult.class) })
+    public Response fakeHealthGet(@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.fakeHealthGet(securityContext);
+    }
     @POST
     @Path("/outer/boolean")
     @Consumes({ "application/json" })

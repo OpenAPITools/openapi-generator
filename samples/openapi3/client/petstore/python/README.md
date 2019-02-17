@@ -73,6 +73,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
+*FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -138,6 +139,13 @@ Class | Method | HTTP request | Description
  - [ArrayTest](docs/ArrayTest.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [FormatTest](docs/FormatTest.md)
+ - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [HealthCheckResult](docs/HealthCheckResult.md)
+ - [InlineObject](docs/InlineObject.md)
+ - [InlineObject1](docs/InlineObject1.md)
+ - [InlineObject2](docs/InlineObject2.md)
+ - [InlineObject3](docs/InlineObject3.md)
+ - [InlineObject4](docs/InlineObject4.md)
  - [InlineObject5](docs/InlineObject5.md)
  - [InlineObject4](docs/InlineObject4.md)
  - [InlineObject3](docs/InlineObject3.md)

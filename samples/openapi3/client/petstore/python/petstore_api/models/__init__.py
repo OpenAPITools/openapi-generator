@@ -41,6 +41,13 @@ from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.array_test import ArrayTest
 from petstore_api.models.outer_composite import OuterComposite
 from petstore_api.models.format_test import FormatTest
+from petstore_api.models.has_only_read_only import HasOnlyReadOnly
+from petstore_api.models.health_check_result import HealthCheckResult
+from petstore_api.models.inline_object import InlineObject
+from petstore_api.models.inline_object1 import InlineObject1
+from petstore_api.models.inline_object2 import InlineObject2
+from petstore_api.models.inline_object3 import InlineObject3
+from petstore_api.models.inline_object4 import InlineObject4
 from petstore_api.models.inline_object5 import InlineObject5
 from petstore_api.models.inline_object4 import InlineObject4
 from petstore_api.models.inline_object3 import InlineObject3
