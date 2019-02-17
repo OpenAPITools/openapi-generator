@@ -23,26 +23,8 @@ public class ApiBundle extends BaseBundle {
     private boolean sortParamsByRequiredFlag;
     private Collection<CodegenSecurity> authMethods = new ArrayList<>();
     private boolean hasMore;
+    private boolean hasImport;
 
-    // hacky workaround for the templating engine to fetch truly dynamic values
-    @Override
-    public Object get(Object k){
-        switch((String) k) {
-            case "hasImport" : return !imports.isEmpty();
-            case "hasAuthMethods" : return !authMethods.isEmpty();
-        }
-        return super.get(k);
-    }
-
-    @Override
-    public boolean containsKey(Object k){
-        if ("hasImport".equals(k)) {
-            return true;
-        } else if ("hasAuthMethods".equals(k)) {
-            return true;
-        }
-        return super.containsKey(k);
-    }
 
     // getters and setters. Each setter puts the value in the underlying Map
 
@@ -203,5 +185,14 @@ public class ApiBundle extends BaseBundle {
     public void setHasMore(boolean hasMore) {
         this.hasMore = hasMore;
         put("hasMore", hasMore);
+    }
+
+    public void setHasImport(boolean hasImport) {
+        this.hasImport = hasImport;
+        put("hasImport", hasImport);
+    }
+
+    public boolean getHasImport() {
+        return hasImport;
     }
 }

@@ -30,24 +30,6 @@ public class TemplatingInputBundle extends BaseBundle {
     private List<CodegenSecurity> oauthMethods;
     private boolean hasBearerMethods;
 
-    // hacky workaround for the templating engine to fetch truly dynamic values
-    @Override
-    public Object get(Object k) {
-        switch ((String) k) {
-            case "hasAuthMethods":
-                return !authMethods.isEmpty();
-        }
-        return super.get(k);
-    }
-
-    @Override
-    public boolean containsKey(Object k) {
-        if ("hasAuthMethods".equals(k)) {
-            return true;
-        }
-        return super.containsKey(k);
-    }
-
     // getters and setters. Each setter puts the value in the underlying Map
 
     public String getApiPackage() {

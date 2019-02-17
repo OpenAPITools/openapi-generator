@@ -1127,7 +1127,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         // add a flag to indicate whether there's any {{import}}
         if (imports.size() > 0) {
-            operations.put("hasImport", true);
+            operations.setHasImport(true);
         }
 
         List<Object> listAllModels = new ArrayList<Object>(allModels);
