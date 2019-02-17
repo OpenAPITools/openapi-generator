@@ -79,17 +79,17 @@
       <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\JsonSubTypes.1.5.1\lib\{{targetFrameworkNuget}}\JsonSubTypes.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\RestSharp.106.5.4\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}\RestSharp.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\RestSharp.106.5.4\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}\RestSharp.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\RestSharp.106.5.4\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}\RestSharp.dll</HintPath>
-        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\RestSharp.106.5.4\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\RestSharp.106.6.7\lib\{{^netStandard}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}net4{{/isNet452}}{{/netStandard}}{{#netStandard}}netstandard2.0{{/netStandard}}\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('..\packages')">..\packages\RestSharp.106.6.7\lib\{{^netStandard}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}net4{{/isNet452}}{{/netStandard}}{{#netStandard}}netstandard2.0{{/netStandard}}\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('..\..\packages')">..\..\packages\RestSharp.106.6.7\lib\{{^netStandard}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}net4{{/isNet452}}{{/netStandard}}{{#netStandard}}netstandard2.0{{/netStandard}}\RestSharp.dll</HintPath>
+        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\RestSharp.106.6.7\lib\{{^netStandard}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}net4{{/isNet452}}{{/netStandard}}{{#netStandard}}netstandard2.0{{/netStandard}}\RestSharp.dll</HintPath>
     </Reference>
     {{#useCompareNetObjects}}
     <Reference Include="KellermanSoftware.Compare-NET-Objects">
-        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\CompareNETObjects.4.57.0\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
-        <HintPath Condition="Exists('..\packages')">..\packages\CompareNETObjects.4.57.0\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
-        <HintPath Condition="Exists('..\..\packages')">..\..\packages\CompareNETObjects.4.57.0\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
-        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\CompareNETObjects.4.57.0\lib\{{#isNet40}}net4{{/isNet40}}{{^isNet40}}{{#isNet452}}net452{{/isNet452}}{{^isNet452}}{{targetFrameworkNuget}}{{/isNet452}}{{/isNet40}}\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+        <HintPath Condition="Exists('$(SolutionDir)\packages')">$(SolutionDir)\packages\CompareNETObjects.4.57.0\lib\{{targetFrameworkNuget}}\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+        <HintPath Condition="Exists('..\packages')">..\packages\CompareNETObjects.4.57.0\lib\{{targetFrameworkNuget}}\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+        <HintPath Condition="Exists('..\..\packages')">..\..\packages\CompareNETObjects.4.57.0\lib\{{targetFrameworkNuget}}\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
+        <HintPath Condition="Exists('{{binRelativePath}}')">{{binRelativePath}}\CompareNETObjects.4.57.0\lib\{{targetFrameworkNuget}}\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
     </Reference>
     {{/useCompareNetObjects}}
     {{#generatePropertyChanged}}
