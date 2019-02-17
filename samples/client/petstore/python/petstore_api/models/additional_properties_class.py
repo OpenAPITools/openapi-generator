@@ -41,12 +41,12 @@ class AdditionalPropertiesClass(object):
         'map_integer': 'dict(str, int)',
         'map_boolean': 'dict(str, bool)',
         'map_array_integer': 'dict(str, list[int])',
-        'map_array_anytype': 'dict(str, list[str|float|int|bool|list|dict])',
+        'map_array_anytype': 'dict(str, list[str/float/int/bool/list/dict])',
         'map_map_string': 'dict(str, dict(str, str))',
-        'map_map_anytype': 'dict(str, dict(str, str|float|int|bool|list|dict))',
-        'anytype_1': 'str|float|int|bool|list|dict',
-        'anytype_2': 'str|float|int|bool|list|dict',
-        'anytype_3': 'str|float|int|bool|list|dict'
+        'map_map_anytype': 'dict(str, dict(str, str/float/int/bool/list/dict))',
+        'anytype_1': 'str/float/int/bool/list/dict',
+        'anytype_2': 'str/float/int/bool/list/dict',
+        'anytype_3': 'str/float/int/bool/list/dict'
     }
     attribute_map = {
         'map_string': 'map_string',
@@ -77,12 +77,12 @@ class AdditionalPropertiesClass(object):
             map_integer (dict(str, int)): [optional]
             map_boolean (dict(str, bool)): [optional]
             map_array_integer (dict(str, list[int])): [optional]
-            map_array_anytype (dict(str, list[str|float|int|bool|list|dict])): [optional]
+            map_array_anytype (dict(str, list[str/float/int/bool/list/dict])): [optional]
             map_map_string (dict(str, dict(str, str))): [optional]
-            map_map_anytype (dict(str, dict(str, str|float|int|bool|list|dict))): [optional]
-            anytype_1 (str|float|int|bool|list|dict): [optional]
-            anytype_2 (str|float|int|bool|list|dict): [optional]
-            anytype_3 (str|float|int|bool|list|dict): [optional]
+            map_map_anytype (dict(str, dict(str, str/float/int/bool/list/dict))): [optional]
+            anytype_1 (str/float/int/bool/list/dict): [optional]
+            anytype_2 (str/float/int/bool/list/dict): [optional]
+            anytype_3 (str/float/int/bool/list/dict): [optional]
         """
 
         self._data_store = {}
@@ -232,7 +232,7 @@ class AdditionalPropertiesClass(object):
 
 
         :return: The map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, list[str|float|int|bool|list|dict])
+        :rtype: dict(str, list[str/float/int/bool/list/dict])
         """
         return self._data_store.get('map_array_anytype')
 
@@ -242,7 +242,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_array_anytype: The map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, list[str|float|int|bool|list|dict])
+        :type: dict(str, list[str/float/int/bool/list/dict])
         """
 
         self.__setitem__('map_array_anytype', map_array_anytype)
@@ -274,7 +274,7 @@ class AdditionalPropertiesClass(object):
 
 
         :return: The map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, dict(str, str|float|int|bool|list|dict))
+        :rtype: dict(str, dict(str, str/float/int/bool/list/dict))
         """
         return self._data_store.get('map_map_anytype')
 
@@ -284,7 +284,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_map_anytype: The map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, dict(str, str|float|int|bool|list|dict))
+        :type: dict(str, dict(str, str/float/int/bool/list/dict))
         """
 
         self.__setitem__('map_map_anytype', map_map_anytype)
@@ -295,7 +295,7 @@ class AdditionalPropertiesClass(object):
 
 
         :return: The anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: str|float|int|bool|list|dict
+        :rtype: str/float/int/bool/list/dict
         """
         return self._data_store.get('anytype_1')
 
@@ -305,7 +305,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param anytype_1: The anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: str|float|int|bool|list|dict
+        :type: str/float/int/bool/list/dict
         """
 
         self.__setitem__('anytype_1', anytype_1)
@@ -316,7 +316,7 @@ class AdditionalPropertiesClass(object):
 
 
         :return: The anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: str|float|int|bool|list|dict
+        :rtype: str/float/int/bool/list/dict
         """
         return self._data_store.get('anytype_2')
 
@@ -326,7 +326,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param anytype_2: The anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: str|float|int|bool|list|dict
+        :type: str/float/int/bool/list/dict
         """
 
         self.__setitem__('anytype_2', anytype_2)
@@ -337,7 +337,7 @@ class AdditionalPropertiesClass(object):
 
 
         :return: The anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: str|float|int|bool|list|dict
+        :rtype: str/float/int/bool/list/dict
         """
         return self._data_store.get('anytype_3')
 
@@ -347,7 +347,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param anytype_3: The anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: str|float|int|bool|list|dict
+        :type: str/float/int/bool/list/dict
         """
 
         self.__setitem__('anytype_3', anytype_3)

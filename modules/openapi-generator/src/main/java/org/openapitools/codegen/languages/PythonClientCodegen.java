@@ -302,23 +302,51 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     // override with any special post-processing for all models
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        // loop through properties of each model to fix dataType
+        // loop through properties of each model to fix data types
+        // datatypeWithEnum is used for documentation
+        // dataType is used for model definitions
+        // also include referenced model import paths so we can import those
+        // classes and use them when defining data types in models
         for (Map.Entry<String, Object> entry : objs.entrySet()) {
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
             List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
             for (Map<String, Object> mo : models) {
                 CodegenModel cm = (CodegenModel) mo.get("model");
+                // clear out imports so we will only include full path imports
+                cm.imports.clear();
                 if (cm.additionalProperties != null) {
-                    cm.additionalProperties.dataType = getCodegenPropertyDataType(cm.additionalProperties);
+                    cm.additionalProperties.datatypeWithEnum = getDocsDataType(cm.additionalProperties);
+                    cm.additionalProperties.dataType = getRealDataType(cm.additionalProperties);
                 }
-                for (CodegenProperty cp : cm.allVars) {
-                    cp.dataType = getCodegenPropertyDataType(cp);
-                }
-                for (CodegenProperty cp : cm.requiredVars) {
-                    cp.dataType = getCodegenPropertyDataType(cp);
-                }
-                for (CodegenProperty cp : cm.optionalVars) {
-                    cp.dataType = getCodegenPropertyDataType(cp);
+                ArrayList<List<CodegenProperty>> listOfLists= new ArrayList<List<CodegenProperty>>();
+                listOfLists.add(cm.allVars);
+                listOfLists.add(cm.requiredVars);
+                listOfLists.add(cm.optionalVars);
+                listOfLists.add(cm.vars);
+                for (List<CodegenProperty> varList : listOfLists) {
+                  for (CodegenProperty cp : varList) {
+                      cp.datatypeWithEnum = getDocsDataType(cp);
+                      cp.dataType = getRealDataType(cp);
+                      String otherModelName = null;
+                      if (cp.complexType != null) {
+                          otherModelName = cp.complexType;
+                      }
+                      if (cp.mostInnerItems != null) {
+                          if (cp.mostInnerItems.complexType != null) {
+                              otherModelName = cp.mostInnerItems.complexType;
+                          }
+                      }
+                      if (otherModelName != null) {
+                          HashMap referencedModel = (HashMap) objs.get(otherModelName);
+                          ArrayList myModel = (ArrayList) referencedModel.get("models");
+                          HashMap modelData = (HashMap) myModel.get(0);
+                          String importPath = (String) modelData.get("importPath");
+                          // only add importPath to parameters if it isn't in importPaths
+                          if (!cm.imports.contains(importPath)) {
+                              cm.imports.add(importPath);
+                          }
+                      }
+                  }
                 }
             }
         }
@@ -326,16 +354,42 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return objs;
     }
 
-    public String getCodegenPropertyDataType(CodegenProperty cp) {
-        if (cp.jsonSchema.equals("{\n  \"type\" : \"object\",\n  \"properties\" : { }\n}") ||
-                 cp.jsonSchema.equals("{\n  \"type\" : \"object\"\n}")) {
-            return "str|float|int|bool|list|dict";
+    public String getDocsDataType(CodegenProperty cp) {
+        String typeSuffix = "";
+        if (cp.isNullable) {
+            typeSuffix = "/None";
+        }
+        if (cp.isFreeFormObject && cp.items == null) {
+            return "bool/dict/float/int/list/str" + typeSuffix;
         } else if (cp.isMapContainer && cp.items != null) {
-            return "dict(str, " + getCodegenPropertyDataType(cp.items) + ")";
+            return  "dict(str: " + getDocsDataType(cp.items) + ")" + typeSuffix;
         } else if (cp.isListContainer && cp.items != null) {
-            return "list[" + getCodegenPropertyDataType(cp.items) + "]";
+            return "list[" + getDocsDataType(cp.items) + "]" + typeSuffix;
         } else {
-            return cp.baseType;
+            return cp.baseType + typeSuffix;
+        }
+    }
+
+    public String getRealDataType(CodegenProperty cp) {
+        String typeSuffix = ",)";
+        if (cp.isNullable) {
+            typeSuffix = ", none_type)";
+        }
+        if (cp.isFreeFormObject && cp.items == null) {
+            if (!cp.isNullable) {
+                typeSuffix = ")";
+            }
+            return "(bool, dict, float, int, list, str" + typeSuffix;
+        } else if (cp.isMapContainer && cp.items != null) {
+            return "({str: " + getRealDataType(cp.items) + "}" + typeSuffix;
+        } else if (cp.isListContainer && cp.items != null) {
+            return "([" + getRealDataType(cp.items) + "]" + typeSuffix;
+        } else {
+            String baseType = cp.baseType;
+            if (baseType == "file") {
+                baseType = "file_type";
+            }
+            return "(" + baseType + typeSuffix;
         }
     }
 

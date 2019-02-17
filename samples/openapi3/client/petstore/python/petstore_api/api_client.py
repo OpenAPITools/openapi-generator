@@ -23,6 +23,7 @@ import six
 from six.moves.urllib.parse import quote
 
 from petstore_api.configuration import Configuration
+from petstore_api.utils import model_to_dict
 import petstore_api.models
 from petstore_api import rest
 
@@ -215,14 +216,10 @@ class ApiClient(object):
         if isinstance(obj, dict):
             obj_dict = obj
         else:
-            # Convert model obj to dict except
-            # attributes `openapi_types`, `attribute_map`
-            # and attributes which value is not None.
+            # Convert model obj to dict
             # Convert attribute name to json key in
             # model definition for request.
-            obj_dict = {obj.attribute_map[attr]: getattr(obj, attr)
-                        for attr, _ in six.iteritems(obj.openapi_types)
-                        if getattr(obj, attr) is not None}
+            obj_dict = model_to_dict(obj, serialize=True)
 
         return {key: self.sanitize_for_serialization(val)
                 for key, val in six.iteritems(obj_dict)}

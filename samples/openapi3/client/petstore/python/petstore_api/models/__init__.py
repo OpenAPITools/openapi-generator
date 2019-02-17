@@ -48,6 +48,7 @@ from petstore_api.models.mixed_properties_and_additional_properties_class import
 from petstore_api.models.model200_response import Model200Response
 from petstore_api.models.model_return import ModelReturn
 from petstore_api.models.name import Name
+from petstore_api.models.nullable_class import NullableClass
 from petstore_api.models.number_only import NumberOnly
 from petstore_api.models.order import Order
 from petstore_api.models.outer_composite import OuterComposite

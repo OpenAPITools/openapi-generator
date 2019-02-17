@@ -12,6 +12,7 @@
 
 import six
 
+TYPE_SEPARATOR = '/'
 
 def recursive_type(item):
     """Gets a string describing the full the recursive type of a value"""
@@ -25,7 +26,7 @@ def recursive_type(item):
         # only allow empty dicts or dicts with str keys
         if child_key_types not in [set(['str']), set()]:
             raise TypeError('Invalid dict key type. All Openapi dict keys must be strings')
-        child_value_types = '|'.join(sorted(list(child_value_types)))
+        child_value_types = TYPE_SEPARATOR.join(sorted(list(child_value_types)))
         if child_key_types == set():
             return "dict()"
         return "dict(str, {0})".format(child_value_types)
@@ -33,7 +34,7 @@ def recursive_type(item):
         child_value_types = set()
         for child_item in item:
             child_value_types.add(recursive_type(child_item))
-        child_value_types = '|'.join(sorted(list(child_value_types)))
+        child_value_types = TYPE_SEPARATOR.join(sorted(list(child_value_types)))
         return "list[{0}]".format(child_value_types)
     else:
         return type(item).__name__
@@ -49,13 +50,18 @@ def valid_type(passed_type_str, required_type_str):
         return False
     # passed_types is in req_types
     if req_remainder == '':
+        # all types are of the required types and there are no more inner
+        # variables left to look at
         return True
-    if (passed_types == set(['list']) and passed_remainder == '' and
+    if passed_types == {'NoneType'}:
+        # a valid None was passed in so accept it
+        return True
+    if (passed_types == {'list'} and passed_remainder == '' and
             all(char not in req_remainder for char in '([')):
         # we have an empty list, and the inner required types are
         # primitives like str, int etc, allow it
         return True
-    if (passed_types == set(['dict']) and passed_remainder == '' and
+    if (passed_types == {'dict'} and passed_remainder == '' and
             all(char not in req_remainder for char in '([')):
         # we have an empty dict, and the inner required types are
         # primitives like str, int etc, allow it
@@ -65,21 +71,32 @@ def valid_type(passed_type_str, required_type_str):
 
 def get_types_remainder(type_string):
     if type_string == 'dict()':
-        return set(['dict']), ''
+        return {'dict'}, ''
     container_types = [('dict(str, ', ')'), ('list[', ']')]
-    for type_prefix, type_suffix in container_types:
-        if type_string.startswith(type_prefix) and type_string.endswith(type_suffix):
-            return set([type_prefix[:4]]), type_string[len(type_prefix):-1]
-    type_set = set(type_string.split('|'))
-    return type_set, ''
+    type_set = set()
+    remainder = ''
+    type_string_items = type_string.split(TYPE_SEPARATOR)
+    for type_string_item in type_string_items:
+      if type_string_item in ['NoneType', 'int', 'float', 'bool', 'list', 'dict', 'str']:
+          type_set.add(type_string_item)
+          continue
+      for type_prefix, type_suffix in container_types:
+          if type_string_item.startswith(type_prefix) and type_string_item.endswith(type_suffix):
+              type_set.add(type_prefix[:4])
+              remainder = type_string[len(type_prefix):-1]
+    return type_set, remainder
 
 
 def model_to_dict(model_instance, serialize=True):
     """Returns the model properties as a dict
 
-    Kwargs:
+    Args:
+        model_instance (one of your model instances): the model instance that
+            will be converted to a dict.
+
+    Keyword Args:
         serialize (bool): if True, the keys in the dict will be values from
-                          attribute_map
+            attribute_map
     """
     result = {}
 

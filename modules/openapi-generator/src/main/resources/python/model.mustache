@@ -7,8 +7,17 @@ import re  # noqa: F401
 
 import six
 
-from {{packageName}}.utils import model_to_dict, recursive_type, valid_type
-
+from {{packageName}}.utils import (
+    OpenApiTypeError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
+{{#models}}{{#model}}{{#imports}}{{.}}
+{{/imports}}{{/model}}{{/models}}
 
 {{#models}}
 {{#model}}
@@ -43,7 +52,7 @@ class {{classname}}(object):
     """
     openapi_types = {
 {{#allVars}}
-        '{{name}}': '{{{dataType}}}'{{#hasMore}},{{/hasMore}}
+        '{{name}}': {{{dataType}}}{{#hasMore}},{{/hasMore}}
 {{/allVars}}
     }
     attribute_map = {
@@ -65,15 +74,15 @@ class {{classname}}(object):
         """{{classname}} - a model defined in OpenAPI
 
 {{#requiredVars}}{{^hasMore}}        Args:{{/hasMore}}{{/requiredVars}}{{#requiredVars}}{{^defaultValue}}
-            {{name}} ({{dataType}}):{{#description}} {{description}}{{/description}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{#defaultValue}}
-            {{name}} ({{dataType}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]{{/defaultValue}}{{/requiredVars}}
+            {{name}} ({{datatypeWithEnum}}):{{#description}} {{description}}{{/description}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{#defaultValue}}
+            {{name}} ({{datatypeWithEnum}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]{{/defaultValue}}{{/requiredVars}}
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False{{#optionalVars}}
-            {{name}} ({{dataType}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}{{/optionalVars}}
+            {{name}} ({{datatypeWithEnum}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}{{/optionalVars}}
         """
 
         self._data_store = {}
@@ -105,12 +114,16 @@ class {{classname}}(object):
                 type(self).__name__, name))
 {{/additionalProperties}}
 
-        passed_type = recursive_type(value)
+        variable_path = [name]
         if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+            raise OpenApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
 {{#additionalProperties}}
@@ -137,8 +150,8 @@ class {{classname}}(object):
         {{{description}}}  # noqa: E501
 {{/description}}
 
-        :return: The {{name}} of this {{classname}}.  # noqa: E501
-        :rtype: {{dataType}}
+        Returns:
+            {{datatypeWithEnum}}: The {{name}} of this {{classname}}.  # noqa: E501
         """
         return self._data_store.get('{{name}}')
 
@@ -150,8 +163,8 @@ class {{classname}}(object):
         {{{description}}}  # noqa: E501
 {{/description}}
 
-        :param {{name}}: The {{name}} of this {{classname}}.  # noqa: E501
-        :type: {{dataType}}
+        Returns:
+            {{datatypeWithEnum}}: The {{name}} of this {{classname}}.  # noqa: E501
         """
 {{^isNullable}}
 {{#required}}

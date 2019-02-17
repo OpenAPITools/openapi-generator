@@ -43,7 +43,7 @@ class AdditionalPropertiesArray(object):
     attribute_map = {
         'name': 'name'
     }
-    additional_properties_type = 'list[str|float|int|bool|list|dict]'
+    additional_properties_type = 'list[str/float/int/bool/list/dict]'
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
         """AdditionalPropertiesArray - a model defined in OpenAPI
