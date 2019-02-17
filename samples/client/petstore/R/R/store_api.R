@@ -30,7 +30,7 @@
 #'
 #' }
 #'
-#' @importFrom jsonlite base64_enc
+#' @importFrom caTools base64encode
 #' @export
 StoreApi <- R6::R6Class(
   'StoreApi',

@@ -17,7 +17,7 @@
 {{/operation}}
 #' }
 #'
-#' @importFrom jsonlite base64_enc
+#' @importFrom caTools base64encode
 #' @export
 {{classname}} <- R6::R6Class(
   '{{classname}}',
@@ -86,7 +86,7 @@
       {{#authMethods}}
       {{#isHttpBasic}}
       # HTTP basic auth
-      headerParams['Authorization'] <- paste("Basic", jsonlite::base64_enc(paste(self$apiClient$username, self$apiClient$password, sep=":"), sep=" ")
+      headerParams['Authorization'] <- paste("Basic", caTools::base64encode(paste(self$apiClient$username, self$apiClient$password, sep=":"), sep=" ")
       {{/isHttpBasic}}
       {{#isApiKey}}
       # API key authentication
