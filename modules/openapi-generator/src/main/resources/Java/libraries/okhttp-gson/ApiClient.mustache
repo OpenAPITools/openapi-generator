@@ -672,6 +672,40 @@ public class ApiClient {
     }
 
     /**
+     * Formats the specified collection path parameter to a string value.
+     *
+     * @param collectionFormat The collection format of the parameter.
+     * @param value The value of the parameter.
+     * @return String representation of the parameter
+     */
+    public String collectionPathParameterToString(String collectionFormat, Collection value) {
+        // create the value based on the collection format
+        if ("multi".equals(collectionFormat)) {
+            // not valid for path params
+            return parameterToString(value);
+        }
+
+        // collectionFormat is assumed to be "csv" by default
+        String delimiter = ",";
+
+        if ("ssv".equals(collectionFormat)) {
+            delimiter = " ";
+        } else if ("tsv".equals(collectionFormat)) {
+            delimiter = "\t";
+        } else if ("pipes".equals(collectionFormat)) {
+            delimiter = "|";
+        }
+
+        StringBuilder sb = new StringBuilder() ;
+        for (Object item : value) {
+            sb.append(delimiter);
+            sb.append(parameterToString(item));
+        }
+
+        return sb.substring(delimiter.length());
+    }
+
+    /**
      * Sanitize filename by removing path.
      * e.g. ../../sun.gif becomes sun.gif
      *
