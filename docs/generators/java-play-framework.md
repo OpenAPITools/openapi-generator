@@ -41,6 +41,7 @@ sidebar_label: java-play-framework
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
+|snapshotVersion|Uses a SNAPSHOT version.| |null|
 |title|server title name or client service name| |null|
 |configPackage|configuration package for generated code| |null|
 |basePackage|base package for generated code| |null|

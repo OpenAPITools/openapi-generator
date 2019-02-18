@@ -68,15 +68,6 @@ class PetController extends Controller
             return new Response('', 415);
         }
 
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
         // Authentication 'petstore_auth' required
         // Oauth required
@@ -98,6 +89,7 @@ class PetController extends Controller
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Pet");
+        $asserts[] = new Assert\Valid();
         $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -126,12 +118,11 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result !== null ?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -151,15 +142,6 @@ class PetController extends Controller
      */
     public function deletePetAction(Request $request, $petId)
     {
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
         // Authentication 'petstore_auth' required
         // Oauth required
@@ -216,12 +198,11 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result !== null ?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -274,7 +255,7 @@ class PetController extends Controller
             new Assert\Choice([ "available", "pending", "sold" ])
         ]);
         $asserts[] = new Assert\All([
-            new Assert\Type("string")
+            new Assert\Type("string"),
         ]);
         $response = $this->validate($status, $asserts);
         if ($response instanceof Response) {
@@ -362,7 +343,7 @@ class PetController extends Controller
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\All([
-            new Assert\Type("string")
+            new Assert\Type("string"),
         ]);
         $response = $this->validate($tags, $asserts);
         if ($response instanceof Response) {
@@ -516,15 +497,6 @@ class PetController extends Controller
             return new Response('', 415);
         }
 
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
         // Authentication 'petstore_auth' required
         // Oauth required
@@ -546,6 +518,7 @@ class PetController extends Controller
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Pet");
+        $asserts[] = new Assert\Valid();
         $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
@@ -580,12 +553,11 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result !== null ?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -605,15 +577,6 @@ class PetController extends Controller
      */
     public function updatePetWithFormAction(Request $request, $petId)
     {
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
         // Authentication 'petstore_auth' required
         // Oauth required
@@ -678,12 +641,11 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result !== null ?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
