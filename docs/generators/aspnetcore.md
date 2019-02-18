@@ -7,12 +7,14 @@ sidebar_label: aspnetcore
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|licenseName|Package License Name| |NoLicense|
-|licenseUrl|Package License Url| |http://nolicense.org|
-|packageAuthors|Package Authors| |OpenAPI|
-|packageCopyright|Package Copyright| |Copyright 2019|
+|licenseUrl|The URL of the license| |http://nolicense.org|
+|licenseName|The name of the license| |NoLicense|
+|packageCopyright|Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |No Copyright|
+|packageAuthors|Specifies Authors property in the .NET Core project file.| |OpenAPI|
+|packageTitle|Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |OpenAPI Library|
+|artifactVersion|artifact version in generated pom.xml| |0.0.0|
+|artifactVersion|artifact version in generated pom.xml| |0.0.0|
 |packageName|C# package name (convention: Title.Case).| |Org.OpenAPITools|
-|packageTtile|Package Title| |OpenAPI Library|
 |packageVersion|C# package version.| |1.0.0|
 |packageGuid|The GUID that will be associated with the C# project| |null|
 |sourceFolder|source folder for generated code| |src|
@@ -22,7 +24,8 @@ sidebar_label: aspnetcore
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
-|generateWWWRoot|Generate the wwwroot directory.| |true|
-|classModifier|Add a class modifier to the generated class. If the modfier is "abstract" then the methods are made abstract too.| |none|
-|operationModifier|Override the defaultmethod type for the generate method. If the modfier is "abstract" then the method body is not generated..| |virtual|
-|generateBody|Generate method body| |true|
+|generateWWWRoot|Generates WWWRoot, default is true.| |true|
+|classModifier|Class modifiers such as abstract or partial| ||
+|operationModifier|Operation modifiers such as virtual or abstract.| |virtual|
+|generateBody|Generates method body, default is true.| |true|
+|buildTarget|Target the build for a program or library.| |program|
