@@ -41,6 +41,7 @@ sidebar_label: jaxrs-resteasy
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
+|snapshotVersion|Uses a SNAPSHOT version.| |null|
 |implFolder|folder for generated implementation code| |null|
 |title|a title describing the application| |null|
 |useBeanValidation|Use BeanValidation API annotations| |true|

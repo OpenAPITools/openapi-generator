@@ -191,6 +191,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_VERSION, CodegenConstants.PARENT_VERSION_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.SNAPSHOT_VERSION, CodegenConstants.SNAPSHOT_VERSION_DESC));
     }
 
     @Override
@@ -264,9 +265,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
             this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
+        } else if (this.getVersionFromSpecification() != null) {
+            this.setArtifactVersion(this.getVersionFromSpecification());
         } else {
             //not set, use to be passed to template
             additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
+            Boolean useSnapshotVersion = Boolean.valueOf((String) additionalProperties.get(CodegenConstants.SNAPSHOT_VERSION));
+
+            if (useSnapshotVersion) {
+                this.setArtifactVersion(this.buildSnapshotVersion(this.artifactVersion));
+            }
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_URL)) {
@@ -1338,6 +1349,29 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             delim = ".";
         }
         return sb.toString();
+    }
+
+    /**
+     * Gets version from API specification.
+     *
+     * @return API version
+     */
+    private String getVersionFromSpecification () {
+        if (this.openAPI != null && this.openAPI.getInfo() != null) {
+            return this.openAPI.getInfo().getVersion();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Builds a SNAPSHOT version from a given version.
+     *
+     * @param version
+     * @return SNAPSHOT version
+     */
+    private String buildSnapshotVersion (String version) {
+        return version + "-" + "SNAPSHOT";
     }
 
     public void setSupportJava6(boolean value) {
