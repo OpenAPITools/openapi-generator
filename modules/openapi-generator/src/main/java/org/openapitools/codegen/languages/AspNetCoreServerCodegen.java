@@ -59,7 +59,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
     protected String aspnetCoreVersion= "2.1"; // default to 2.1
-    private String classModifier = null;
+    private String classModifier = "";
     private String operationModifier = "virtual";
     private boolean generateBody = true;
     private String buildTarget = "program";
