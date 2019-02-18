@@ -174,8 +174,9 @@
 
       {{/minimum}}
       {{#pattern}}
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} !~ Regexp.new({{{pattern}}})
-        invalid_properties.push('invalid value for "{{{name}}}", must conform to the pattern {{{pattern}}}.')
+      pattern = Regexp.new({{{pattern}}})
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} !~ pattern
+        invalid_properties.push("invalid value for \"{{{name}}}\", must conform to the pattern #{pattern}.")
       end
 
       {{/pattern}}
@@ -327,8 +328,9 @@
 
       {{/minimum}}
       {{#pattern}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} !~ Regexp.new({{{pattern}}})
-        fail ArgumentError, 'invalid value for "{{{name}}}", must conform to the pattern {{{pattern}}}.'
+      pattern = Regexp.new({{{pattern}}})
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} !~ pattern
+        fail ArgumentError, "invalid value for \"{{{name}}}\", must conform to the pattern #{pattern}."
       end
 
       {{/pattern}}
