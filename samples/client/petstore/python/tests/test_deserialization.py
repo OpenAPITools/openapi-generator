@@ -85,7 +85,7 @@ class DeserializationTests(unittest.TestCase):
                 "id": 0,
                 "className": "Dog",
                 "color": "white",
-                "bread": "Jack Russel Terrier"
+                "breed": "Jack Russel Terrier"
             }
         }
         response = MockResponse(data=json.dumps(data))

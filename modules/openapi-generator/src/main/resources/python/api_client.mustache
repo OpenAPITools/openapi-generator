@@ -268,6 +268,7 @@ class ApiClient(object):
         """
         if data is None:
             return None
+        self.__deserializer_track.append(klass)
 
         if type(klass) == str:
             if klass.startswith('list['):
@@ -656,10 +657,15 @@ class ApiClient(object):
                 matches = []
                 for sub_klass in hierarchy['allOf']:
                     try:
-                        matches.append(self.__deserialize(data, sub_klass))
+                        if sub_klass in self.__deserializer_track:
+                            # seen it before, break the recursion
+                            matches.append(None)
+                        else:
+                            matches.append(self.__deserialize(data, sub_klass))
                     except:  # noqa: E722
                         pass
                 if len(matches) == len(hierarchy['allOf']):
+                    self.__deserializer_track.clear()
                     return instance
 
                 # not all matched -> error
