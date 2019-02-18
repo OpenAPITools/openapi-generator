@@ -165,7 +165,7 @@ class ApiClient(object):
             # use server/host defined in path or operation instead
             url = _host + resource_path
 
-        _decode_utf8 = {k: v != 'file' for k,v in six.iteritems(response_types)}
+        _decode_utf8 = {k: v != 'file' for k, v in six.iteritems(response_types)}
 
         # perform request and return response
         response_data = {{#asyncio}}await {{/asyncio}}{{#tornado}}yield {{/tornado}}self.request(
