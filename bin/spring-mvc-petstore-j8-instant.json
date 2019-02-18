@@ -1,0 +1,5 @@
+{
+    "library": "spring-mvc",
+    "dateLibrary": "java8-instant",
+    "artifactId": "spring-mvc-j8-instant"
+}
