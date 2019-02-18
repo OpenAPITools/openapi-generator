@@ -57,7 +57,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected String packageProductName = "OpenAPILibrary";
     protected String packageDescription = "A library generated from a OpenAPI doc";
     protected String packageCompany = "OpenAPI";
-    protected String packageCopyright = "Copyright 2019";
+    protected String packageCopyright = "No Copyright";
     protected String packageAuthors = "OpenAPI";
 
     protected String interfacePrefix = "I";
