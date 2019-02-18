@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -45,10 +47,10 @@ class InlineResponseDefault(object):
                             additional properties.
     """
     openapi_types = {
-        'string': (Foo,)
+        'string': (Foo,)  # noqa: E501
     }
     attribute_map = {
-        'string': 'string'
+        'string': 'string'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -61,7 +63,7 @@ class InlineResponseDefault(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            string (Foo): [optional]
+            string (Foo): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -80,12 +82,12 @@ class InlineResponseDefault(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -101,7 +103,7 @@ class InlineResponseDefault(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -115,7 +117,8 @@ class InlineResponseDefault(object):
         return self._data_store.get('string')
 
     @string.setter
-    def string(self, string):
+    def string(
+            self, string):
         """Sets the string of this InlineResponseDefault.
 
 
@@ -123,7 +126,10 @@ class InlineResponseDefault(object):
             Foo: The string of this InlineResponseDefault.  # noqa: E501
         """
 
-        self.__setitem__('string', string)
+        self.__setitem__(
+            'string',
+            string
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

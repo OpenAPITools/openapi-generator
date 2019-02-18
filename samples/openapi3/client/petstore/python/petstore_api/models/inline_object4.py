@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,12 +46,12 @@ class InlineObject4(object):
                             additional properties.
     """
     openapi_types = {
-        'param': (str,),
-        'param2': (str,)
+        'param': (str,),  # noqa: E501
+        'param2': (str,)  # noqa: E501
     }
     attribute_map = {
-        'param': 'param',
-        'param2': 'param2'
+        'param': 'param',  # noqa: E501
+        'param2': 'param2'  # noqa: E501
     }
 
     def __init__(self, param, param2, _check_type=False, **kwargs):  # noqa: E501
@@ -85,12 +87,12 @@ class InlineObject4(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -106,7 +108,7 @@ class InlineObject4(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -121,7 +123,8 @@ class InlineObject4(object):
         return self._data_store.get('param')
 
     @param.setter
-    def param(self, param):
+    def param(
+            self, param):
         """Sets the param of this InlineObject4.
 
         field1  # noqa: E501
@@ -130,9 +133,12 @@ class InlineObject4(object):
             str: The param of this InlineObject4.  # noqa: E501
         """
         if param is None:
-            raise ValueError("Invalid value for `param`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `param`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('param', param)
+        self.__setitem__(
+            'param',
+            param
+        )
 
     @property
     def param2(self):
@@ -146,7 +152,8 @@ class InlineObject4(object):
         return self._data_store.get('param2')
 
     @param2.setter
-    def param2(self, param2):
+    def param2(
+            self, param2):
         """Sets the param2 of this InlineObject4.
 
         field2  # noqa: E501
@@ -155,9 +162,12 @@ class InlineObject4(object):
             str: The param2 of this InlineObject4.  # noqa: E501
         """
         if param2 is None:
-            raise ValueError("Invalid value for `param2`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `param2`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('param2', param2)
+        self.__setitem__(
+            'param2',
+            param2
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

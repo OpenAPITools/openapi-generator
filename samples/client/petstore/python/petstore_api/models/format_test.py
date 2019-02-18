@@ -15,7 +15,17 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import model_to_dict, recursive_type, valid_type
+from petstore_api.utils import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
 
 
 class FormatTest(object):
@@ -36,19 +46,19 @@ class FormatTest(object):
                             additional properties.
     """
     openapi_types = {
-        'integer': 'int',
-        'int32': 'int',
-        'int64': 'int',
-        'number': 'float',
-        'float': 'float',
-        'double': 'float',
-        'string': 'str',
-        'byte': 'str',
-        'binary': 'file',
-        'date': 'date',
-        'date_time': 'datetime',
-        'uuid': 'str',
-        'password': 'str'
+        'integer': (int,),
+        'int32': (int,),
+        'int64': (int,),
+        'number': (float,),
+        'float': (float,),
+        'double': (float,),
+        'string': (str,),
+        'byte': (str,),
+        'binary': (file_type,),
+        'date': (date,),
+        'date_time': (datetime,),
+        'uuid': (str,),
+        'password': (str,)
     }
     attribute_map = {
         'integer': 'integer',
@@ -112,15 +122,19 @@ class FormatTest(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
-        passed_type = recursive_type(value)
-        if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+        variable_path = [name]
+        if not isinstance(name, str):
+            raise ApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
 
@@ -129,7 +143,7 @@ class FormatTest(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -137,8 +151,8 @@ class FormatTest(object):
         """Gets the integer of this FormatTest.  # noqa: E501
 
 
-        :return: The integer of this FormatTest.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The integer of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('integer')
 
@@ -147,13 +161,13 @@ class FormatTest(object):
         """Sets the integer of this FormatTest.
 
 
-        :param integer: The integer of this FormatTest.  # noqa: E501
-        :type: int
+        Returns:
+            int: The integer of this FormatTest.  # noqa: E501
         """
         if integer is not None and integer > 100:  # noqa: E501
-            raise ValueError("Invalid value for `integer`, must be a value less than or equal to `100`")  # noqa: E501
+            raise ApiValueError("Invalid value for `integer`, must be a value less than or equal to `100`")  # noqa: E501
         if integer is not None and integer < 10:  # noqa: E501
-            raise ValueError("Invalid value for `integer`, must be a value greater than or equal to `10`")  # noqa: E501
+            raise ApiValueError("Invalid value for `integer`, must be a value greater than or equal to `10`")  # noqa: E501
 
         self.__setitem__('integer', integer)
 
@@ -162,8 +176,8 @@ class FormatTest(object):
         """Gets the int32 of this FormatTest.  # noqa: E501
 
 
-        :return: The int32 of this FormatTest.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The int32 of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('int32')
 
@@ -172,13 +186,13 @@ class FormatTest(object):
         """Sets the int32 of this FormatTest.
 
 
-        :param int32: The int32 of this FormatTest.  # noqa: E501
-        :type: int
+        Returns:
+            int: The int32 of this FormatTest.  # noqa: E501
         """
         if int32 is not None and int32 > 200:  # noqa: E501
-            raise ValueError("Invalid value for `int32`, must be a value less than or equal to `200`")  # noqa: E501
+            raise ApiValueError("Invalid value for `int32`, must be a value less than or equal to `200`")  # noqa: E501
         if int32 is not None and int32 < 20:  # noqa: E501
-            raise ValueError("Invalid value for `int32`, must be a value greater than or equal to `20`")  # noqa: E501
+            raise ApiValueError("Invalid value for `int32`, must be a value greater than or equal to `20`")  # noqa: E501
 
         self.__setitem__('int32', int32)
 
@@ -187,8 +201,8 @@ class FormatTest(object):
         """Gets the int64 of this FormatTest.  # noqa: E501
 
 
-        :return: The int64 of this FormatTest.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The int64 of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('int64')
 
@@ -197,8 +211,8 @@ class FormatTest(object):
         """Sets the int64 of this FormatTest.
 
 
-        :param int64: The int64 of this FormatTest.  # noqa: E501
-        :type: int
+        Returns:
+            int: The int64 of this FormatTest.  # noqa: E501
         """
 
         self.__setitem__('int64', int64)
@@ -208,8 +222,8 @@ class FormatTest(object):
         """Gets the number of this FormatTest.  # noqa: E501
 
 
-        :return: The number of this FormatTest.  # noqa: E501
-        :rtype: float
+        Returns:
+            float: The number of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('number')
 
@@ -218,15 +232,15 @@ class FormatTest(object):
         """Sets the number of this FormatTest.
 
 
-        :param number: The number of this FormatTest.  # noqa: E501
-        :type: float
+        Returns:
+            float: The number of this FormatTest.  # noqa: E501
         """
         if number is None:
-            raise ValueError("Invalid value for `number`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `number`, must not be `None`")  # noqa: E501
         if number is not None and number > 543.2:  # noqa: E501
-            raise ValueError("Invalid value for `number`, must be a value less than or equal to `543.2`")  # noqa: E501
+            raise ApiValueError("Invalid value for `number`, must be a value less than or equal to `543.2`")  # noqa: E501
         if number is not None and number < 32.1:  # noqa: E501
-            raise ValueError("Invalid value for `number`, must be a value greater than or equal to `32.1`")  # noqa: E501
+            raise ApiValueError("Invalid value for `number`, must be a value greater than or equal to `32.1`")  # noqa: E501
 
         self.__setitem__('number', number)
 
@@ -235,8 +249,8 @@ class FormatTest(object):
         """Gets the float of this FormatTest.  # noqa: E501
 
 
-        :return: The float of this FormatTest.  # noqa: E501
-        :rtype: float
+        Returns:
+            float: The float of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('float')
 
@@ -245,13 +259,13 @@ class FormatTest(object):
         """Sets the float of this FormatTest.
 
 
-        :param float: The float of this FormatTest.  # noqa: E501
-        :type: float
+        Returns:
+            float: The float of this FormatTest.  # noqa: E501
         """
         if float is not None and float > 987.6:  # noqa: E501
-            raise ValueError("Invalid value for `float`, must be a value less than or equal to `987.6`")  # noqa: E501
+            raise ApiValueError("Invalid value for `float`, must be a value less than or equal to `987.6`")  # noqa: E501
         if float is not None and float < 54.3:  # noqa: E501
-            raise ValueError("Invalid value for `float`, must be a value greater than or equal to `54.3`")  # noqa: E501
+            raise ApiValueError("Invalid value for `float`, must be a value greater than or equal to `54.3`")  # noqa: E501
 
         self.__setitem__('float', float)
 
@@ -260,8 +274,8 @@ class FormatTest(object):
         """Gets the double of this FormatTest.  # noqa: E501
 
 
-        :return: The double of this FormatTest.  # noqa: E501
-        :rtype: float
+        Returns:
+            float: The double of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('double')
 
@@ -270,13 +284,13 @@ class FormatTest(object):
         """Sets the double of this FormatTest.
 
 
-        :param double: The double of this FormatTest.  # noqa: E501
-        :type: float
+        Returns:
+            float: The double of this FormatTest.  # noqa: E501
         """
         if double is not None and double > 123.4:  # noqa: E501
-            raise ValueError("Invalid value for `double`, must be a value less than or equal to `123.4`")  # noqa: E501
+            raise ApiValueError("Invalid value for `double`, must be a value less than or equal to `123.4`")  # noqa: E501
         if double is not None and double < 67.8:  # noqa: E501
-            raise ValueError("Invalid value for `double`, must be a value greater than or equal to `67.8`")  # noqa: E501
+            raise ApiValueError("Invalid value for `double`, must be a value greater than or equal to `67.8`")  # noqa: E501
 
         self.__setitem__('double', double)
 
@@ -285,8 +299,8 @@ class FormatTest(object):
         """Gets the string of this FormatTest.  # noqa: E501
 
 
-        :return: The string of this FormatTest.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The string of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('string')
 
@@ -295,11 +309,11 @@ class FormatTest(object):
         """Sets the string of this FormatTest.
 
 
-        :param string: The string of this FormatTest.  # noqa: E501
-        :type: str
+        Returns:
+            str: The string of this FormatTest.  # noqa: E501
         """
         if string is not None and not re.search(r'', string):  # noqa: E501
-            raise ValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
+            raise ApiValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
 
         self.__setitem__('string', string)
 
@@ -308,8 +322,8 @@ class FormatTest(object):
         """Gets the byte of this FormatTest.  # noqa: E501
 
 
-        :return: The byte of this FormatTest.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The byte of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('byte')
 
@@ -318,13 +332,13 @@ class FormatTest(object):
         """Sets the byte of this FormatTest.
 
 
-        :param byte: The byte of this FormatTest.  # noqa: E501
-        :type: str
+        Returns:
+            str: The byte of this FormatTest.  # noqa: E501
         """
         if byte is None:
-            raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
         if byte is not None and not re.search(r'', byte):  # noqa: E501
-            raise ValueError(r"Invalid value for `byte`, must be a follow pattern or equal to `/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/`")  # noqa: E501
+            raise ApiValueError(r"Invalid value for `byte`, must be a follow pattern or equal to `/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/`")  # noqa: E501
 
         self.__setitem__('byte', byte)
 
@@ -333,8 +347,8 @@ class FormatTest(object):
         """Gets the binary of this FormatTest.  # noqa: E501
 
 
-        :return: The binary of this FormatTest.  # noqa: E501
-        :rtype: file
+        Returns:
+            file: The binary of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('binary')
 
@@ -343,8 +357,8 @@ class FormatTest(object):
         """Sets the binary of this FormatTest.
 
 
-        :param binary: The binary of this FormatTest.  # noqa: E501
-        :type: file
+        Returns:
+            file: The binary of this FormatTest.  # noqa: E501
         """
 
         self.__setitem__('binary', binary)
@@ -354,8 +368,8 @@ class FormatTest(object):
         """Gets the date of this FormatTest.  # noqa: E501
 
 
-        :return: The date of this FormatTest.  # noqa: E501
-        :rtype: date
+        Returns:
+            date: The date of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('date')
 
@@ -364,11 +378,11 @@ class FormatTest(object):
         """Sets the date of this FormatTest.
 
 
-        :param date: The date of this FormatTest.  # noqa: E501
-        :type: date
+        Returns:
+            date: The date of this FormatTest.  # noqa: E501
         """
         if date is None:
-            raise ValueError("Invalid value for `date`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `date`, must not be `None`")  # noqa: E501
 
         self.__setitem__('date', date)
 
@@ -377,8 +391,8 @@ class FormatTest(object):
         """Gets the date_time of this FormatTest.  # noqa: E501
 
 
-        :return: The date_time of this FormatTest.  # noqa: E501
-        :rtype: datetime
+        Returns:
+            datetime: The date_time of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('date_time')
 
@@ -387,8 +401,8 @@ class FormatTest(object):
         """Sets the date_time of this FormatTest.
 
 
-        :param date_time: The date_time of this FormatTest.  # noqa: E501
-        :type: datetime
+        Returns:
+            datetime: The date_time of this FormatTest.  # noqa: E501
         """
 
         self.__setitem__('date_time', date_time)
@@ -398,8 +412,8 @@ class FormatTest(object):
         """Gets the uuid of this FormatTest.  # noqa: E501
 
 
-        :return: The uuid of this FormatTest.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The uuid of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('uuid')
 
@@ -408,8 +422,8 @@ class FormatTest(object):
         """Sets the uuid of this FormatTest.
 
 
-        :param uuid: The uuid of this FormatTest.  # noqa: E501
-        :type: str
+        Returns:
+            str: The uuid of this FormatTest.  # noqa: E501
         """
 
         self.__setitem__('uuid', uuid)
@@ -419,8 +433,8 @@ class FormatTest(object):
         """Gets the password of this FormatTest.  # noqa: E501
 
 
-        :return: The password of this FormatTest.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The password of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('password')
 
@@ -429,15 +443,15 @@ class FormatTest(object):
         """Sets the password of this FormatTest.
 
 
-        :param password: The password of this FormatTest.  # noqa: E501
-        :type: str
+        Returns:
+            str: The password of this FormatTest.  # noqa: E501
         """
         if password is None:
-            raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
         if password is not None and len(password) > 64:
-            raise ValueError("Invalid value for `password`, length must be less than or equal to `64`")  # noqa: E501
+            raise ApiValueError("Invalid value for `password`, length must be less than or equal to `64`")  # noqa: E501
         if password is not None and len(password) < 10:
-            raise ValueError("Invalid value for `password`, length must be greater than or equal to `10`")  # noqa: E501
+            raise ApiValueError("Invalid value for `password`, length must be greater than or equal to `10`")  # noqa: E501
 
         self.__setitem__('password', password)
 

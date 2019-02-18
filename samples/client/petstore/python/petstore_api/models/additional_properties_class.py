@@ -15,7 +15,17 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import model_to_dict, recursive_type, valid_type
+from petstore_api.utils import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
 
 
 class AdditionalPropertiesClass(object):
@@ -36,17 +46,17 @@ class AdditionalPropertiesClass(object):
                             additional properties.
     """
     openapi_types = {
-        'map_string': 'dict(str, str)',
-        'map_number': 'dict(str, float)',
-        'map_integer': 'dict(str, int)',
-        'map_boolean': 'dict(str, bool)',
-        'map_array_integer': 'dict(str, list[int])',
-        'map_array_anytype': 'dict(str, list[str/float/int/bool/list/dict])',
-        'map_map_string': 'dict(str, dict(str, str))',
-        'map_map_anytype': 'dict(str, dict(str, str/float/int/bool/list/dict))',
-        'anytype_1': 'str/float/int/bool/list/dict',
-        'anytype_2': 'str/float/int/bool/list/dict',
-        'anytype_3': 'str/float/int/bool/list/dict'
+        'map_string': ({str: (str,)},),
+        'map_number': ({str: (float,)},),
+        'map_integer': ({str: (int,)},),
+        'map_boolean': ({str: (bool,)},),
+        'map_array_integer': ({str: ([(int,)],)},),
+        'map_array_anytype': ({str: ([(bool, date, datetime, dict, float, int, list, str)],)},),
+        'map_map_string': ({str: ({str: (str,)},)},),
+        'map_map_anytype': ({str: ({str: (bool, date, datetime, dict, float, int, list, str)},)},),
+        'anytype_1': (bool, date, datetime, dict, float, int, list, str),
+        'anytype_2': (bool, date, datetime, dict, float, int, list, str),
+        'anytype_3': (bool, date, datetime, dict, float, int, list, str)
     }
     attribute_map = {
         'map_string': 'map_string',
@@ -72,17 +82,17 @@ class AdditionalPropertiesClass(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            map_string (dict(str, str)): [optional]
-            map_number (dict(str, float)): [optional]
-            map_integer (dict(str, int)): [optional]
-            map_boolean (dict(str, bool)): [optional]
-            map_array_integer (dict(str, list[int])): [optional]
-            map_array_anytype (dict(str, list[str/float/int/bool/list/dict])): [optional]
-            map_map_string (dict(str, dict(str, str))): [optional]
-            map_map_anytype (dict(str, dict(str, str/float/int/bool/list/dict))): [optional]
-            anytype_1 (str/float/int/bool/list/dict): [optional]
-            anytype_2 (str/float/int/bool/list/dict): [optional]
-            anytype_3 (str/float/int/bool/list/dict): [optional]
+            map_string (dict(str: str)): [optional]
+            map_number (dict(str: float)): [optional]
+            map_integer (dict(str: int)): [optional]
+            map_boolean (dict(str: bool)): [optional]
+            map_array_integer (dict(str: list[int])): [optional]
+            map_array_anytype (dict(str: list[bool/date/datetime/dict/float/int/list/str])): [optional]
+            map_map_string (dict(str: dict(str: str))): [optional]
+            map_map_anytype (dict(str: dict(str: bool/date/datetime/dict/float/int/list/str))): [optional]
+            anytype_1 (bool/date/datetime/dict/float/int/list/str): [optional]
+            anytype_2 (bool/date/datetime/dict/float/int/list/str): [optional]
+            anytype_3 (bool/date/datetime/dict/float/int/list/str): [optional]
         """
 
         self._data_store = {}
@@ -101,15 +111,19 @@ class AdditionalPropertiesClass(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
-        passed_type = recursive_type(value)
-        if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+        variable_path = [name]
+        if not isinstance(name, str):
+            raise ApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
 
@@ -118,7 +132,7 @@ class AdditionalPropertiesClass(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -126,8 +140,8 @@ class AdditionalPropertiesClass(object):
         """Gets the map_string of this AdditionalPropertiesClass.  # noqa: E501
 
 
-        :return: The map_string of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, str)
+        Returns:
+            dict(str: str): The map_string of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('map_string')
 
@@ -136,8 +150,8 @@ class AdditionalPropertiesClass(object):
         """Sets the map_string of this AdditionalPropertiesClass.
 
 
-        :param map_string: The map_string of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, str)
+        Returns:
+            dict(str: str): The map_string of this AdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__('map_string', map_string)
@@ -147,8 +161,8 @@ class AdditionalPropertiesClass(object):
         """Gets the map_number of this AdditionalPropertiesClass.  # noqa: E501
 
 
-        :return: The map_number of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, float)
+        Returns:
+            dict(str: float): The map_number of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('map_number')
 
@@ -157,8 +171,8 @@ class AdditionalPropertiesClass(object):
         """Sets the map_number of this AdditionalPropertiesClass.
 
 
-        :param map_number: The map_number of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, float)
+        Returns:
+            dict(str: float): The map_number of this AdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__('map_number', map_number)
@@ -168,8 +182,8 @@ class AdditionalPropertiesClass(object):
         """Gets the map_integer of this AdditionalPropertiesClass.  # noqa: E501
 
 
-        :return: The map_integer of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, int)
+        Returns:
+            dict(str: int): The map_integer of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('map_integer')
 
@@ -178,8 +192,8 @@ class AdditionalPropertiesClass(object):
         """Sets the map_integer of this AdditionalPropertiesClass.
 
 
-        :param map_integer: The map_integer of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, int)
+        Returns:
+            dict(str: int): The map_integer of this AdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__('map_integer', map_integer)
@@ -189,8 +203,8 @@ class AdditionalPropertiesClass(object):
         """Gets the map_boolean of this AdditionalPropertiesClass.  # noqa: E501
 
 
-        :return: The map_boolean of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, bool)
+        Returns:
+            dict(str: bool): The map_boolean of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('map_boolean')
 
@@ -199,8 +213,8 @@ class AdditionalPropertiesClass(object):
         """Sets the map_boolean of this AdditionalPropertiesClass.
 
 
-        :param map_boolean: The map_boolean of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, bool)
+        Returns:
+            dict(str: bool): The map_boolean of this AdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__('map_boolean', map_boolean)
@@ -210,8 +224,8 @@ class AdditionalPropertiesClass(object):
         """Gets the map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
 
 
-        :return: The map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, list[int])
+        Returns:
+            dict(str: list[int]): The map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('map_array_integer')
 
@@ -220,8 +234,8 @@ class AdditionalPropertiesClass(object):
         """Sets the map_array_integer of this AdditionalPropertiesClass.
 
 
-        :param map_array_integer: The map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, list[int])
+        Returns:
+            dict(str: list[int]): The map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__('map_array_integer', map_array_integer)
@@ -231,8 +245,8 @@ class AdditionalPropertiesClass(object):
         """Gets the map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
 
 
-        :return: The map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, list[str/float/int/bool/list/dict])
+        Returns:
+            dict(str: list[bool/date/datetime/dict/float/int/list/str]): The map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('map_array_anytype')
 
@@ -241,8 +255,8 @@ class AdditionalPropertiesClass(object):
         """Sets the map_array_anytype of this AdditionalPropertiesClass.
 
 
-        :param map_array_anytype: The map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, list[str/float/int/bool/list/dict])
+        Returns:
+            dict(str: list[bool/date/datetime/dict/float/int/list/str]): The map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__('map_array_anytype', map_array_anytype)
@@ -252,8 +266,8 @@ class AdditionalPropertiesClass(object):
         """Gets the map_map_string of this AdditionalPropertiesClass.  # noqa: E501
 
 
-        :return: The map_map_string of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, dict(str, str))
+        Returns:
+            dict(str: dict(str: str)): The map_map_string of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('map_map_string')
 
@@ -262,8 +276,8 @@ class AdditionalPropertiesClass(object):
         """Sets the map_map_string of this AdditionalPropertiesClass.
 
 
-        :param map_map_string: The map_map_string of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, dict(str, str))
+        Returns:
+            dict(str: dict(str: str)): The map_map_string of this AdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__('map_map_string', map_map_string)
@@ -273,8 +287,8 @@ class AdditionalPropertiesClass(object):
         """Gets the map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
 
 
-        :return: The map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, dict(str, str/float/int/bool/list/dict))
+        Returns:
+            dict(str: dict(str: bool/date/datetime/dict/float/int/list/str)): The map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('map_map_anytype')
 
@@ -283,8 +297,8 @@ class AdditionalPropertiesClass(object):
         """Sets the map_map_anytype of this AdditionalPropertiesClass.
 
 
-        :param map_map_anytype: The map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, dict(str, str/float/int/bool/list/dict))
+        Returns:
+            dict(str: dict(str: bool/date/datetime/dict/float/int/list/str)): The map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__('map_map_anytype', map_map_anytype)
@@ -294,8 +308,8 @@ class AdditionalPropertiesClass(object):
         """Gets the anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
 
 
-        :return: The anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: str/float/int/bool/list/dict
+        Returns:
+            bool/date/datetime/dict/float/int/list/str: The anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('anytype_1')
 
@@ -304,8 +318,8 @@ class AdditionalPropertiesClass(object):
         """Sets the anytype_1 of this AdditionalPropertiesClass.
 
 
-        :param anytype_1: The anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: str/float/int/bool/list/dict
+        Returns:
+            bool/date/datetime/dict/float/int/list/str: The anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__('anytype_1', anytype_1)
@@ -315,8 +329,8 @@ class AdditionalPropertiesClass(object):
         """Gets the anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
 
 
-        :return: The anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: str/float/int/bool/list/dict
+        Returns:
+            bool/date/datetime/dict/float/int/list/str: The anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('anytype_2')
 
@@ -325,8 +339,8 @@ class AdditionalPropertiesClass(object):
         """Sets the anytype_2 of this AdditionalPropertiesClass.
 
 
-        :param anytype_2: The anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: str/float/int/bool/list/dict
+        Returns:
+            bool/date/datetime/dict/float/int/list/str: The anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__('anytype_2', anytype_2)
@@ -336,8 +350,8 @@ class AdditionalPropertiesClass(object):
         """Gets the anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
 
 
-        :return: The anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
-        :rtype: str/float/int/bool/list/dict
+        Returns:
+            bool/date/datetime/dict/float/int/list/str: The anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('anytype_3')
 
@@ -346,8 +360,8 @@ class AdditionalPropertiesClass(object):
         """Sets the anytype_3 of this AdditionalPropertiesClass.
 
 
-        :param anytype_3: The anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: str/float/int/bool/list/dict
+        Returns:
+            bool/date/datetime/dict/float/int/list/str: The anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__('anytype_3', anytype_3)

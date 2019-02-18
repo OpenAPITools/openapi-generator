@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,26 +46,26 @@ class Category(object):
                             additional properties.
     """
     openapi_types = {
-        'id': (int,),
-        'name': (str,)
+        'id': (int,),  # noqa: E501
+        'name': (str,)  # noqa: E501
     }
     attribute_map = {
-        'id': 'id',
-        'name': 'name'
+        'id': 'id',  # noqa: E501
+        'name': 'name'  # noqa: E501
     }
 
     def __init__(self, name='default-name', _check_type=False, **kwargs):  # noqa: E501
         """Category - a model defined in OpenAPI
 
         Args:
-            name (str): defaults to 'default-name', must be one of ['default-name']
+            name (str): defaults to 'default-name', must be one of ['default-name']  # noqa: E501
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            id (int): [optional]
+            id (int): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -84,12 +86,12 @@ class Category(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -105,7 +107,7 @@ class Category(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -119,7 +121,8 @@ class Category(object):
         return self._data_store.get('id')
 
     @id.setter
-    def id(self, id):
+    def id(
+            self, id):
         """Sets the id of this Category.
 
 
@@ -127,7 +130,10 @@ class Category(object):
             int: The id of this Category.  # noqa: E501
         """
 
-        self.__setitem__('id', id)
+        self.__setitem__(
+            'id',
+            id
+        )
 
     @property
     def name(self):
@@ -140,7 +146,8 @@ class Category(object):
         return self._data_store.get('name')
 
     @name.setter
-    def name(self, name):
+    def name(
+            self, name):
         """Sets the name of this Category.
 
 
@@ -148,9 +155,12 @@ class Category(object):
             str: The name of this Category.  # noqa: E501
         """
         if name is None:
-            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('name', name)
+        self.__setitem__(
+            'name',
+            name
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

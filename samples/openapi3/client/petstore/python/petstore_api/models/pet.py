@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -46,20 +48,20 @@ class Pet(object):
                             additional properties.
     """
     openapi_types = {
-        'id': (int,),
-        'category': (Category,),
-        'name': (str,),
-        'photo_urls': ([(str,)],),
-        'tags': ([(Tag,)],),
-        'status': (str,)
+        'id': (int,),  # noqa: E501
+        'category': (Category,),  # noqa: E501
+        'name': (str,),  # noqa: E501
+        'photo_urls': ([(str,)],),  # noqa: E501
+        'tags': ([(Tag,)],),  # noqa: E501
+        'status': (str,)  # noqa: E501
     }
     attribute_map = {
-        'id': 'id',
-        'category': 'category',
-        'name': 'name',
-        'photo_urls': 'photoUrls',
-        'tags': 'tags',
-        'status': 'status'
+        'id': 'id',  # noqa: E501
+        'category': 'category',  # noqa: E501
+        'name': 'name',  # noqa: E501
+        'photo_urls': 'photoUrls',  # noqa: E501
+        'tags': 'tags',  # noqa: E501
+        'status': 'status'  # noqa: E501
     }
 
     def __init__(self, photo_urls, name='doggie', _check_type=False, **kwargs):  # noqa: E501
@@ -67,17 +69,17 @@ class Pet(object):
 
         Args:
             photo_urls (list[str]):
-            name (str): defaults to 'doggie', must be one of ['doggie']
+            name (str): defaults to 'doggie', must be one of ['doggie']  # noqa: E501
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            id (int): [optional]
-            category (Category): [optional]
-            tags (list[Tag]): [optional]
-            status (str): pet status in the store. [optional]
+            id (int): [optional]  # noqa: E501
+            category (Category): [optional]  # noqa: E501
+            tags (list[Tag]): [optional]  # noqa: E501
+            status (str): pet status in the store. [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -99,12 +101,12 @@ class Pet(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -120,7 +122,7 @@ class Pet(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -134,7 +136,8 @@ class Pet(object):
         return self._data_store.get('id')
 
     @id.setter
-    def id(self, id):
+    def id(
+            self, id):
         """Sets the id of this Pet.
 
 
@@ -142,7 +145,10 @@ class Pet(object):
             int: The id of this Pet.  # noqa: E501
         """
 
-        self.__setitem__('id', id)
+        self.__setitem__(
+            'id',
+            id
+        )
 
     @property
     def category(self):
@@ -155,7 +161,8 @@ class Pet(object):
         return self._data_store.get('category')
 
     @category.setter
-    def category(self, category):
+    def category(
+            self, category):
         """Sets the category of this Pet.
 
 
@@ -163,7 +170,10 @@ class Pet(object):
             Category: The category of this Pet.  # noqa: E501
         """
 
-        self.__setitem__('category', category)
+        self.__setitem__(
+            'category',
+            category
+        )
 
     @property
     def name(self):
@@ -176,7 +186,8 @@ class Pet(object):
         return self._data_store.get('name')
 
     @name.setter
-    def name(self, name):
+    def name(
+            self, name):
         """Sets the name of this Pet.
 
 
@@ -184,9 +195,12 @@ class Pet(object):
             str: The name of this Pet.  # noqa: E501
         """
         if name is None:
-            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('name', name)
+        self.__setitem__(
+            'name',
+            name
+        )
 
     @property
     def photo_urls(self):
@@ -199,7 +213,8 @@ class Pet(object):
         return self._data_store.get('photo_urls')
 
     @photo_urls.setter
-    def photo_urls(self, photo_urls):
+    def photo_urls(
+            self, photo_urls):
         """Sets the photo_urls of this Pet.
 
 
@@ -207,9 +222,12 @@ class Pet(object):
             list[str]: The photo_urls of this Pet.  # noqa: E501
         """
         if photo_urls is None:
-            raise ValueError("Invalid value for `photo_urls`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `photo_urls`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('photo_urls', photo_urls)
+        self.__setitem__(
+            'photo_urls',
+            photo_urls
+        )
 
     @property
     def tags(self):
@@ -222,7 +240,8 @@ class Pet(object):
         return self._data_store.get('tags')
 
     @tags.setter
-    def tags(self, tags):
+    def tags(
+            self, tags):
         """Sets the tags of this Pet.
 
 
@@ -230,7 +249,10 @@ class Pet(object):
             list[Tag]: The tags of this Pet.  # noqa: E501
         """
 
-        self.__setitem__('tags', tags)
+        self.__setitem__(
+            'tags',
+            tags
+        )
 
     @property
     def status(self):
@@ -244,7 +266,8 @@ class Pet(object):
         return self._data_store.get('status')
 
     @status.setter
-    def status(self, status):
+    def status(
+            self, status):
         """Sets the status of this Pet.
 
         pet status in the store  # noqa: E501
@@ -254,12 +277,15 @@ class Pet(object):
         """
         allowed_values = ["available", "pending", "sold"]  # noqa: E501
         if status not in allowed_values:
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
                 .format(status, allowed_values)
             )
 
-        self.__setitem__('status', status)
+        self.__setitem__(
+            'status',
+            status
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

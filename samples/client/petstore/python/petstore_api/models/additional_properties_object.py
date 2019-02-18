@@ -15,7 +15,17 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import model_to_dict, recursive_type, valid_type
+from petstore_api.utils import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
 
 
 class AdditionalPropertiesObject(object):
@@ -38,12 +48,12 @@ class AdditionalPropertiesObject(object):
                                         additional_properties variables only.
     """
     openapi_types = {
-        'name': 'str'
+        'name': (str,)
     }
     attribute_map = {
         'name': 'name'
     }
-    additional_properties_type = 'dict(str, str/float/int/bool/list/dict)'
+    additional_properties_type = ({str: (bool, date, datetime, dict, float, int, list, str)},)
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
         """AdditionalPropertiesObject - a model defined in OpenAPI
@@ -77,12 +87,16 @@ class AdditionalPropertiesObject(object):
             check_type = True
             required_type = self.additional_properties_type
 
-        passed_type = recursive_type(value)
-        if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+        variable_path = [name]
+        if not isinstance(name, str):
+            raise ApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
         # set a variable name value for json serialization
@@ -95,7 +109,7 @@ class AdditionalPropertiesObject(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -103,8 +117,8 @@ class AdditionalPropertiesObject(object):
         """Gets the name of this AdditionalPropertiesObject.  # noqa: E501
 
 
-        :return: The name of this AdditionalPropertiesObject.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The name of this AdditionalPropertiesObject.  # noqa: E501
         """
         return self._data_store.get('name')
 
@@ -113,8 +127,8 @@ class AdditionalPropertiesObject(object):
         """Sets the name of this AdditionalPropertiesObject.
 
 
-        :param name: The name of this AdditionalPropertiesObject.  # noqa: E501
-        :type: str
+        Returns:
+            str: The name of this AdditionalPropertiesObject.  # noqa: E501
         """
 
         self.__setitem__('name', name)

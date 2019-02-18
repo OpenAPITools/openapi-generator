@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,12 +46,12 @@ class InlineObject1(object):
                             additional properties.
     """
     openapi_types = {
-        'additional_metadata': (str,),
-        'file': (file_type,)
+        'additional_metadata': (str,),  # noqa: E501
+        'file': (file_type,)  # noqa: E501
     }
     attribute_map = {
-        'additional_metadata': 'additionalMetadata',
-        'file': 'file'
+        'additional_metadata': 'additionalMetadata',  # noqa: E501
+        'file': 'file'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -62,8 +64,8 @@ class InlineObject1(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            additional_metadata (str): Additional data to pass to server. [optional]
-            file (file): file to upload. [optional]
+            additional_metadata (str): Additional data to pass to server. [optional]  # noqa: E501
+            file (file): file to upload. [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -82,12 +84,12 @@ class InlineObject1(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -103,7 +105,7 @@ class InlineObject1(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -118,7 +120,8 @@ class InlineObject1(object):
         return self._data_store.get('additional_metadata')
 
     @additional_metadata.setter
-    def additional_metadata(self, additional_metadata):
+    def additional_metadata(
+            self, additional_metadata):
         """Sets the additional_metadata of this InlineObject1.
 
         Additional data to pass to server  # noqa: E501
@@ -127,7 +130,10 @@ class InlineObject1(object):
             str: The additional_metadata of this InlineObject1.  # noqa: E501
         """
 
-        self.__setitem__('additional_metadata', additional_metadata)
+        self.__setitem__(
+            'additional_metadata',
+            additional_metadata
+        )
 
     @property
     def file(self):
@@ -141,7 +147,8 @@ class InlineObject1(object):
         return self._data_store.get('file')
 
     @file.setter
-    def file(self, file):
+    def file(
+            self, file):
         """Sets the file of this InlineObject1.
 
         file to upload  # noqa: E501
@@ -150,7 +157,10 @@ class InlineObject1(object):
             file: The file of this InlineObject1.  # noqa: E501
         """
 
-        self.__setitem__('file', file)
+        self.__setitem__(
+            'file',
+            file
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

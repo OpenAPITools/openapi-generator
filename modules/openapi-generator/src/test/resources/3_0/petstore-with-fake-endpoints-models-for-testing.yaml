@@ -1669,6 +1669,14 @@ components:
         string_prop:
           type: string
           nullable: true
+        date_prop:
+          type: string
+          format: date
+          nullable: true
+        datetime_prop:
+          type: string
+          format: date-time
+          nullable: true
         array_nullable_prop:
           type: array
           nullable: true

@@ -68,13 +68,16 @@ class PetApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
         local_var_hosts = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2']  # noqa: E501
         local_var_host = local_var_hosts[0]
-        if kwargs.get('_host_index'):
-            if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
-                raise ValueError("Invalid host index. Must be 0 <= index < %s" % len(local_var_host))
-            local_var_host = local_var_hosts[int(kwargs.get('_host_index'))]
-        local_var_params = locals()
+        _host_index = kwargs.get('_host_index')
+        if _host_index:
+            if (int(_host_index) < 0 or
+                    int(_host_index) >= len(local_var_hosts)):
+                raise ValueError("Invalid host index. Must be 0 <= index < %s"
+                                 % len(local_var_host))
+            local_var_host = local_var_hosts[int(_host_index)]
 
         all_params = ['pet']  # noqa: E501
         all_params.append('async_req')
@@ -553,13 +556,16 @@ class PetApi(object):
                  returns the request thread.
         """
 
+        local_var_params = locals()
         local_var_hosts = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2']  # noqa: E501
         local_var_host = local_var_hosts[0]
-        if kwargs.get('_host_index'):
-            if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
-                raise ValueError("Invalid host index. Must be 0 <= index < %s" % len(local_var_host))
-            local_var_host = local_var_hosts[int(kwargs.get('_host_index'))]
-        local_var_params = locals()
+        _host_index = kwargs.get('_host_index')
+        if _host_index:
+            if (int(_host_index) < 0 or
+                    int(_host_index) >= len(local_var_hosts)):
+                raise ValueError("Invalid host index. Must be 0 <= index < %s"
+                                 % len(local_var_host))
+            local_var_host = local_var_hosts[int(_host_index)]
 
         all_params = ['pet']  # noqa: E501
         all_params.append('async_req')

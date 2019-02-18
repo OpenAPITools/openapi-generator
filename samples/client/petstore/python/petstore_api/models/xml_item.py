@@ -15,7 +15,17 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import model_to_dict, recursive_type, valid_type
+from petstore_api.utils import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
 
 
 class XmlItem(object):
@@ -36,35 +46,35 @@ class XmlItem(object):
                             additional properties.
     """
     openapi_types = {
-        'attribute_string': 'str',
-        'attribute_number': 'float',
-        'attribute_integer': 'int',
-        'attribute_boolean': 'bool',
-        'wrapped_array': 'list[int]',
-        'name_string': 'str',
-        'name_number': 'float',
-        'name_integer': 'int',
-        'name_boolean': 'bool',
-        'name_array': 'list[int]',
-        'name_wrapped_array': 'list[int]',
-        'prefix_string': 'str',
-        'prefix_number': 'float',
-        'prefix_integer': 'int',
-        'prefix_boolean': 'bool',
-        'prefix_array': 'list[int]',
-        'prefix_wrapped_array': 'list[int]',
-        'namespace_string': 'str',
-        'namespace_number': 'float',
-        'namespace_integer': 'int',
-        'namespace_boolean': 'bool',
-        'namespace_array': 'list[int]',
-        'namespace_wrapped_array': 'list[int]',
-        'prefix_ns_string': 'str',
-        'prefix_ns_number': 'float',
-        'prefix_ns_integer': 'int',
-        'prefix_ns_boolean': 'bool',
-        'prefix_ns_array': 'list[int]',
-        'prefix_ns_wrapped_array': 'list[int]'
+        'attribute_string': (str,),
+        'attribute_number': (float,),
+        'attribute_integer': (int,),
+        'attribute_boolean': (bool,),
+        'wrapped_array': ([(int,)],),
+        'name_string': (str,),
+        'name_number': (float,),
+        'name_integer': (int,),
+        'name_boolean': (bool,),
+        'name_array': ([(int,)],),
+        'name_wrapped_array': ([(int,)],),
+        'prefix_string': (str,),
+        'prefix_number': (float,),
+        'prefix_integer': (int,),
+        'prefix_boolean': (bool,),
+        'prefix_array': ([(int,)],),
+        'prefix_wrapped_array': ([(int,)],),
+        'namespace_string': (str,),
+        'namespace_number': (float,),
+        'namespace_integer': (int,),
+        'namespace_boolean': (bool,),
+        'namespace_array': ([(int,)],),
+        'namespace_wrapped_array': ([(int,)],),
+        'prefix_ns_string': (str,),
+        'prefix_ns_number': (float,),
+        'prefix_ns_integer': (int,),
+        'prefix_ns_boolean': (bool,),
+        'prefix_ns_array': ([(int,)],),
+        'prefix_ns_wrapped_array': ([(int,)],)
     }
     attribute_map = {
         'attribute_string': 'attribute_string',
@@ -155,15 +165,19 @@ class XmlItem(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
-        passed_type = recursive_type(value)
-        if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+        variable_path = [name]
+        if not isinstance(name, str):
+            raise ApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
 
@@ -172,7 +186,7 @@ class XmlItem(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -180,8 +194,8 @@ class XmlItem(object):
         """Gets the attribute_string of this XmlItem.  # noqa: E501
 
 
-        :return: The attribute_string of this XmlItem.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The attribute_string of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('attribute_string')
 
@@ -190,8 +204,8 @@ class XmlItem(object):
         """Sets the attribute_string of this XmlItem.
 
 
-        :param attribute_string: The attribute_string of this XmlItem.  # noqa: E501
-        :type: str
+        Returns:
+            str: The attribute_string of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('attribute_string', attribute_string)
@@ -201,8 +215,8 @@ class XmlItem(object):
         """Gets the attribute_number of this XmlItem.  # noqa: E501
 
 
-        :return: The attribute_number of this XmlItem.  # noqa: E501
-        :rtype: float
+        Returns:
+            float: The attribute_number of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('attribute_number')
 
@@ -211,8 +225,8 @@ class XmlItem(object):
         """Sets the attribute_number of this XmlItem.
 
 
-        :param attribute_number: The attribute_number of this XmlItem.  # noqa: E501
-        :type: float
+        Returns:
+            float: The attribute_number of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('attribute_number', attribute_number)
@@ -222,8 +236,8 @@ class XmlItem(object):
         """Gets the attribute_integer of this XmlItem.  # noqa: E501
 
 
-        :return: The attribute_integer of this XmlItem.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The attribute_integer of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('attribute_integer')
 
@@ -232,8 +246,8 @@ class XmlItem(object):
         """Sets the attribute_integer of this XmlItem.
 
 
-        :param attribute_integer: The attribute_integer of this XmlItem.  # noqa: E501
-        :type: int
+        Returns:
+            int: The attribute_integer of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('attribute_integer', attribute_integer)
@@ -243,8 +257,8 @@ class XmlItem(object):
         """Gets the attribute_boolean of this XmlItem.  # noqa: E501
 
 
-        :return: The attribute_boolean of this XmlItem.  # noqa: E501
-        :rtype: bool
+        Returns:
+            bool: The attribute_boolean of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('attribute_boolean')
 
@@ -253,8 +267,8 @@ class XmlItem(object):
         """Sets the attribute_boolean of this XmlItem.
 
 
-        :param attribute_boolean: The attribute_boolean of this XmlItem.  # noqa: E501
-        :type: bool
+        Returns:
+            bool: The attribute_boolean of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('attribute_boolean', attribute_boolean)
@@ -264,8 +278,8 @@ class XmlItem(object):
         """Gets the wrapped_array of this XmlItem.  # noqa: E501
 
 
-        :return: The wrapped_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        Returns:
+            list[int]: The wrapped_array of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('wrapped_array')
 
@@ -274,8 +288,8 @@ class XmlItem(object):
         """Sets the wrapped_array of this XmlItem.
 
 
-        :param wrapped_array: The wrapped_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        Returns:
+            list[int]: The wrapped_array of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('wrapped_array', wrapped_array)
@@ -285,8 +299,8 @@ class XmlItem(object):
         """Gets the name_string of this XmlItem.  # noqa: E501
 
 
-        :return: The name_string of this XmlItem.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The name_string of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('name_string')
 
@@ -295,8 +309,8 @@ class XmlItem(object):
         """Sets the name_string of this XmlItem.
 
 
-        :param name_string: The name_string of this XmlItem.  # noqa: E501
-        :type: str
+        Returns:
+            str: The name_string of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('name_string', name_string)
@@ -306,8 +320,8 @@ class XmlItem(object):
         """Gets the name_number of this XmlItem.  # noqa: E501
 
 
-        :return: The name_number of this XmlItem.  # noqa: E501
-        :rtype: float
+        Returns:
+            float: The name_number of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('name_number')
 
@@ -316,8 +330,8 @@ class XmlItem(object):
         """Sets the name_number of this XmlItem.
 
 
-        :param name_number: The name_number of this XmlItem.  # noqa: E501
-        :type: float
+        Returns:
+            float: The name_number of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('name_number', name_number)
@@ -327,8 +341,8 @@ class XmlItem(object):
         """Gets the name_integer of this XmlItem.  # noqa: E501
 
 
-        :return: The name_integer of this XmlItem.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The name_integer of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('name_integer')
 
@@ -337,8 +351,8 @@ class XmlItem(object):
         """Sets the name_integer of this XmlItem.
 
 
-        :param name_integer: The name_integer of this XmlItem.  # noqa: E501
-        :type: int
+        Returns:
+            int: The name_integer of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('name_integer', name_integer)
@@ -348,8 +362,8 @@ class XmlItem(object):
         """Gets the name_boolean of this XmlItem.  # noqa: E501
 
 
-        :return: The name_boolean of this XmlItem.  # noqa: E501
-        :rtype: bool
+        Returns:
+            bool: The name_boolean of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('name_boolean')
 
@@ -358,8 +372,8 @@ class XmlItem(object):
         """Sets the name_boolean of this XmlItem.
 
 
-        :param name_boolean: The name_boolean of this XmlItem.  # noqa: E501
-        :type: bool
+        Returns:
+            bool: The name_boolean of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('name_boolean', name_boolean)
@@ -369,8 +383,8 @@ class XmlItem(object):
         """Gets the name_array of this XmlItem.  # noqa: E501
 
 
-        :return: The name_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        Returns:
+            list[int]: The name_array of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('name_array')
 
@@ -379,8 +393,8 @@ class XmlItem(object):
         """Sets the name_array of this XmlItem.
 
 
-        :param name_array: The name_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        Returns:
+            list[int]: The name_array of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('name_array', name_array)
@@ -390,8 +404,8 @@ class XmlItem(object):
         """Gets the name_wrapped_array of this XmlItem.  # noqa: E501
 
 
-        :return: The name_wrapped_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        Returns:
+            list[int]: The name_wrapped_array of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('name_wrapped_array')
 
@@ -400,8 +414,8 @@ class XmlItem(object):
         """Sets the name_wrapped_array of this XmlItem.
 
 
-        :param name_wrapped_array: The name_wrapped_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        Returns:
+            list[int]: The name_wrapped_array of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('name_wrapped_array', name_wrapped_array)
@@ -411,8 +425,8 @@ class XmlItem(object):
         """Gets the prefix_string of this XmlItem.  # noqa: E501
 
 
-        :return: The prefix_string of this XmlItem.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The prefix_string of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('prefix_string')
 
@@ -421,8 +435,8 @@ class XmlItem(object):
         """Sets the prefix_string of this XmlItem.
 
 
-        :param prefix_string: The prefix_string of this XmlItem.  # noqa: E501
-        :type: str
+        Returns:
+            str: The prefix_string of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('prefix_string', prefix_string)
@@ -432,8 +446,8 @@ class XmlItem(object):
         """Gets the prefix_number of this XmlItem.  # noqa: E501
 
 
-        :return: The prefix_number of this XmlItem.  # noqa: E501
-        :rtype: float
+        Returns:
+            float: The prefix_number of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('prefix_number')
 
@@ -442,8 +456,8 @@ class XmlItem(object):
         """Sets the prefix_number of this XmlItem.
 
 
-        :param prefix_number: The prefix_number of this XmlItem.  # noqa: E501
-        :type: float
+        Returns:
+            float: The prefix_number of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('prefix_number', prefix_number)
@@ -453,8 +467,8 @@ class XmlItem(object):
         """Gets the prefix_integer of this XmlItem.  # noqa: E501
 
 
-        :return: The prefix_integer of this XmlItem.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The prefix_integer of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('prefix_integer')
 
@@ -463,8 +477,8 @@ class XmlItem(object):
         """Sets the prefix_integer of this XmlItem.
 
 
-        :param prefix_integer: The prefix_integer of this XmlItem.  # noqa: E501
-        :type: int
+        Returns:
+            int: The prefix_integer of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('prefix_integer', prefix_integer)
@@ -474,8 +488,8 @@ class XmlItem(object):
         """Gets the prefix_boolean of this XmlItem.  # noqa: E501
 
 
-        :return: The prefix_boolean of this XmlItem.  # noqa: E501
-        :rtype: bool
+        Returns:
+            bool: The prefix_boolean of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('prefix_boolean')
 
@@ -484,8 +498,8 @@ class XmlItem(object):
         """Sets the prefix_boolean of this XmlItem.
 
 
-        :param prefix_boolean: The prefix_boolean of this XmlItem.  # noqa: E501
-        :type: bool
+        Returns:
+            bool: The prefix_boolean of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('prefix_boolean', prefix_boolean)
@@ -495,8 +509,8 @@ class XmlItem(object):
         """Gets the prefix_array of this XmlItem.  # noqa: E501
 
 
-        :return: The prefix_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        Returns:
+            list[int]: The prefix_array of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('prefix_array')
 
@@ -505,8 +519,8 @@ class XmlItem(object):
         """Sets the prefix_array of this XmlItem.
 
 
-        :param prefix_array: The prefix_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        Returns:
+            list[int]: The prefix_array of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('prefix_array', prefix_array)
@@ -516,8 +530,8 @@ class XmlItem(object):
         """Gets the prefix_wrapped_array of this XmlItem.  # noqa: E501
 
 
-        :return: The prefix_wrapped_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        Returns:
+            list[int]: The prefix_wrapped_array of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('prefix_wrapped_array')
 
@@ -526,8 +540,8 @@ class XmlItem(object):
         """Sets the prefix_wrapped_array of this XmlItem.
 
 
-        :param prefix_wrapped_array: The prefix_wrapped_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        Returns:
+            list[int]: The prefix_wrapped_array of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('prefix_wrapped_array', prefix_wrapped_array)
@@ -537,8 +551,8 @@ class XmlItem(object):
         """Gets the namespace_string of this XmlItem.  # noqa: E501
 
 
-        :return: The namespace_string of this XmlItem.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The namespace_string of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('namespace_string')
 
@@ -547,8 +561,8 @@ class XmlItem(object):
         """Sets the namespace_string of this XmlItem.
 
 
-        :param namespace_string: The namespace_string of this XmlItem.  # noqa: E501
-        :type: str
+        Returns:
+            str: The namespace_string of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('namespace_string', namespace_string)
@@ -558,8 +572,8 @@ class XmlItem(object):
         """Gets the namespace_number of this XmlItem.  # noqa: E501
 
 
-        :return: The namespace_number of this XmlItem.  # noqa: E501
-        :rtype: float
+        Returns:
+            float: The namespace_number of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('namespace_number')
 
@@ -568,8 +582,8 @@ class XmlItem(object):
         """Sets the namespace_number of this XmlItem.
 
 
-        :param namespace_number: The namespace_number of this XmlItem.  # noqa: E501
-        :type: float
+        Returns:
+            float: The namespace_number of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('namespace_number', namespace_number)
@@ -579,8 +593,8 @@ class XmlItem(object):
         """Gets the namespace_integer of this XmlItem.  # noqa: E501
 
 
-        :return: The namespace_integer of this XmlItem.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The namespace_integer of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('namespace_integer')
 
@@ -589,8 +603,8 @@ class XmlItem(object):
         """Sets the namespace_integer of this XmlItem.
 
 
-        :param namespace_integer: The namespace_integer of this XmlItem.  # noqa: E501
-        :type: int
+        Returns:
+            int: The namespace_integer of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('namespace_integer', namespace_integer)
@@ -600,8 +614,8 @@ class XmlItem(object):
         """Gets the namespace_boolean of this XmlItem.  # noqa: E501
 
 
-        :return: The namespace_boolean of this XmlItem.  # noqa: E501
-        :rtype: bool
+        Returns:
+            bool: The namespace_boolean of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('namespace_boolean')
 
@@ -610,8 +624,8 @@ class XmlItem(object):
         """Sets the namespace_boolean of this XmlItem.
 
 
-        :param namespace_boolean: The namespace_boolean of this XmlItem.  # noqa: E501
-        :type: bool
+        Returns:
+            bool: The namespace_boolean of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('namespace_boolean', namespace_boolean)
@@ -621,8 +635,8 @@ class XmlItem(object):
         """Gets the namespace_array of this XmlItem.  # noqa: E501
 
 
-        :return: The namespace_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        Returns:
+            list[int]: The namespace_array of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('namespace_array')
 
@@ -631,8 +645,8 @@ class XmlItem(object):
         """Sets the namespace_array of this XmlItem.
 
 
-        :param namespace_array: The namespace_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        Returns:
+            list[int]: The namespace_array of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('namespace_array', namespace_array)
@@ -642,8 +656,8 @@ class XmlItem(object):
         """Gets the namespace_wrapped_array of this XmlItem.  # noqa: E501
 
 
-        :return: The namespace_wrapped_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        Returns:
+            list[int]: The namespace_wrapped_array of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('namespace_wrapped_array')
 
@@ -652,8 +666,8 @@ class XmlItem(object):
         """Sets the namespace_wrapped_array of this XmlItem.
 
 
-        :param namespace_wrapped_array: The namespace_wrapped_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        Returns:
+            list[int]: The namespace_wrapped_array of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('namespace_wrapped_array', namespace_wrapped_array)
@@ -663,8 +677,8 @@ class XmlItem(object):
         """Gets the prefix_ns_string of this XmlItem.  # noqa: E501
 
 
-        :return: The prefix_ns_string of this XmlItem.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The prefix_ns_string of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('prefix_ns_string')
 
@@ -673,8 +687,8 @@ class XmlItem(object):
         """Sets the prefix_ns_string of this XmlItem.
 
 
-        :param prefix_ns_string: The prefix_ns_string of this XmlItem.  # noqa: E501
-        :type: str
+        Returns:
+            str: The prefix_ns_string of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('prefix_ns_string', prefix_ns_string)
@@ -684,8 +698,8 @@ class XmlItem(object):
         """Gets the prefix_ns_number of this XmlItem.  # noqa: E501
 
 
-        :return: The prefix_ns_number of this XmlItem.  # noqa: E501
-        :rtype: float
+        Returns:
+            float: The prefix_ns_number of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('prefix_ns_number')
 
@@ -694,8 +708,8 @@ class XmlItem(object):
         """Sets the prefix_ns_number of this XmlItem.
 
 
-        :param prefix_ns_number: The prefix_ns_number of this XmlItem.  # noqa: E501
-        :type: float
+        Returns:
+            float: The prefix_ns_number of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('prefix_ns_number', prefix_ns_number)
@@ -705,8 +719,8 @@ class XmlItem(object):
         """Gets the prefix_ns_integer of this XmlItem.  # noqa: E501
 
 
-        :return: The prefix_ns_integer of this XmlItem.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The prefix_ns_integer of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('prefix_ns_integer')
 
@@ -715,8 +729,8 @@ class XmlItem(object):
         """Sets the prefix_ns_integer of this XmlItem.
 
 
-        :param prefix_ns_integer: The prefix_ns_integer of this XmlItem.  # noqa: E501
-        :type: int
+        Returns:
+            int: The prefix_ns_integer of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('prefix_ns_integer', prefix_ns_integer)
@@ -726,8 +740,8 @@ class XmlItem(object):
         """Gets the prefix_ns_boolean of this XmlItem.  # noqa: E501
 
 
-        :return: The prefix_ns_boolean of this XmlItem.  # noqa: E501
-        :rtype: bool
+        Returns:
+            bool: The prefix_ns_boolean of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('prefix_ns_boolean')
 
@@ -736,8 +750,8 @@ class XmlItem(object):
         """Sets the prefix_ns_boolean of this XmlItem.
 
 
-        :param prefix_ns_boolean: The prefix_ns_boolean of this XmlItem.  # noqa: E501
-        :type: bool
+        Returns:
+            bool: The prefix_ns_boolean of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('prefix_ns_boolean', prefix_ns_boolean)
@@ -747,8 +761,8 @@ class XmlItem(object):
         """Gets the prefix_ns_array of this XmlItem.  # noqa: E501
 
 
-        :return: The prefix_ns_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        Returns:
+            list[int]: The prefix_ns_array of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('prefix_ns_array')
 
@@ -757,8 +771,8 @@ class XmlItem(object):
         """Sets the prefix_ns_array of this XmlItem.
 
 
-        :param prefix_ns_array: The prefix_ns_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        Returns:
+            list[int]: The prefix_ns_array of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('prefix_ns_array', prefix_ns_array)
@@ -768,8 +782,8 @@ class XmlItem(object):
         """Gets the prefix_ns_wrapped_array of this XmlItem.  # noqa: E501
 
 
-        :return: The prefix_ns_wrapped_array of this XmlItem.  # noqa: E501
-        :rtype: list[int]
+        Returns:
+            list[int]: The prefix_ns_wrapped_array of this XmlItem.  # noqa: E501
         """
         return self._data_store.get('prefix_ns_wrapped_array')
 
@@ -778,8 +792,8 @@ class XmlItem(object):
         """Sets the prefix_ns_wrapped_array of this XmlItem.
 
 
-        :param prefix_ns_wrapped_array: The prefix_ns_wrapped_array of this XmlItem.  # noqa: E501
-        :type: list[int]
+        Returns:
+            list[int]: The prefix_ns_wrapped_array of this XmlItem.  # noqa: E501
         """
 
         self.__setitem__('prefix_ns_wrapped_array', prefix_ns_wrapped_array)

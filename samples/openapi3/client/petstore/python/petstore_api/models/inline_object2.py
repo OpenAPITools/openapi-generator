@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,12 +46,12 @@ class InlineObject2(object):
                             additional properties.
     """
     openapi_types = {
-        'enum_form_string_array': ([(str,)],),
-        'enum_form_string': (str,)
+        'enum_form_string_array': ([(str,)],),  # noqa: E501
+        'enum_form_string': (str,)  # noqa: E501
     }
     attribute_map = {
-        'enum_form_string_array': 'enum_form_string_array',
-        'enum_form_string': 'enum_form_string'
+        'enum_form_string_array': 'enum_form_string_array',  # noqa: E501
+        'enum_form_string': 'enum_form_string'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -62,8 +64,8 @@ class InlineObject2(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            enum_form_string_array (list[str]): Form parameter enum test (string array). [optional]
-            enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+            enum_form_string_array (list[str]): Form parameter enum test (string array). [optional]  # noqa: E501
+            enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'  # noqa: E501
         """
 
         self._data_store = {}
@@ -82,12 +84,12 @@ class InlineObject2(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -103,7 +105,7 @@ class InlineObject2(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -118,7 +120,8 @@ class InlineObject2(object):
         return self._data_store.get('enum_form_string_array')
 
     @enum_form_string_array.setter
-    def enum_form_string_array(self, enum_form_string_array):
+    def enum_form_string_array(
+            self, enum_form_string_array):
         """Sets the enum_form_string_array of this InlineObject2.
 
         Form parameter enum test (string array)  # noqa: E501
@@ -128,13 +131,16 @@ class InlineObject2(object):
         """
         allowed_values = [">", "$"]  # noqa: E501
         if not set(enum_form_string_array).issubset(set(allowed_values)):
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid values for `enum_form_string_array` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set(enum_form_string_array) - set(allowed_values))),  # noqa: E501
                         ", ".join(map(str, allowed_values)))
             )
 
-        self.__setitem__('enum_form_string_array', enum_form_string_array)
+        self.__setitem__(
+            'enum_form_string_array',
+            enum_form_string_array
+        )
 
     @property
     def enum_form_string(self):
@@ -148,7 +154,8 @@ class InlineObject2(object):
         return self._data_store.get('enum_form_string')
 
     @enum_form_string.setter
-    def enum_form_string(self, enum_form_string):
+    def enum_form_string(
+            self, enum_form_string):
         """Sets the enum_form_string of this InlineObject2.
 
         Form parameter enum test (string)  # noqa: E501
@@ -158,12 +165,15 @@ class InlineObject2(object):
         """
         allowed_values = ["_abc", "-efg", "(xyz)"]  # noqa: E501
         if enum_form_string not in allowed_values:
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid value for `enum_form_string` ({0}), must be one of {1}"  # noqa: E501
                 .format(enum_form_string, allowed_values)
             )
 
-        self.__setitem__('enum_form_string', enum_form_string)
+        self.__setitem__(
+            'enum_form_string',
+            enum_form_string
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

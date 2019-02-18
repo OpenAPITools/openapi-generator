@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,12 +46,12 @@ class AdditionalPropertiesClass(object):
                             additional properties.
     """
     openapi_types = {
-        'map_property': ({str: (str,)},),
-        'map_of_map_property': ({str: ({str: (str,)},)},)
+        'map_property': ({str: (str,)},),  # noqa: E501
+        'map_of_map_property': ({str: ({str: (str,)},)},)  # noqa: E501
     }
     attribute_map = {
-        'map_property': 'map_property',
-        'map_of_map_property': 'map_of_map_property'
+        'map_property': 'map_property',  # noqa: E501
+        'map_of_map_property': 'map_of_map_property'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -62,8 +64,8 @@ class AdditionalPropertiesClass(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            map_property (dict(str: str)): [optional]
-            map_of_map_property (dict(str: dict(str: str))): [optional]
+            map_property (dict(str: str)): [optional]  # noqa: E501
+            map_of_map_property (dict(str: dict(str: str))): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -82,12 +84,12 @@ class AdditionalPropertiesClass(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -103,7 +105,7 @@ class AdditionalPropertiesClass(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -117,7 +119,8 @@ class AdditionalPropertiesClass(object):
         return self._data_store.get('map_property')
 
     @map_property.setter
-    def map_property(self, map_property):
+    def map_property(
+            self, map_property):
         """Sets the map_property of this AdditionalPropertiesClass.
 
 
@@ -125,7 +128,10 @@ class AdditionalPropertiesClass(object):
             dict(str: str): The map_property of this AdditionalPropertiesClass.  # noqa: E501
         """
 
-        self.__setitem__('map_property', map_property)
+        self.__setitem__(
+            'map_property',
+            map_property
+        )
 
     @property
     def map_of_map_property(self):
@@ -138,7 +144,8 @@ class AdditionalPropertiesClass(object):
         return self._data_store.get('map_of_map_property')
 
     @map_of_map_property.setter
-    def map_of_map_property(self, map_of_map_property):
+    def map_of_map_property(
+            self, map_of_map_property):
         """Sets the map_of_map_property of this AdditionalPropertiesClass.
 
 
@@ -146,7 +153,10 @@ class AdditionalPropertiesClass(object):
             dict(str: dict(str: str)): The map_of_map_property of this AdditionalPropertiesClass.  # noqa: E501
         """
 
-        self.__setitem__('map_of_map_property', map_of_map_property)
+        self.__setitem__(
+            'map_of_map_property',
+            map_of_map_property
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

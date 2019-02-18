@@ -360,7 +360,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             typeSuffix = "/None";
         }
         if (cp.isFreeFormObject && cp.items == null) {
-            return "bool/dict/float/int/list/str" + typeSuffix;
+            return "bool/date/datetime/dict/float/int/list/str" + typeSuffix;
         } else if (cp.isMapContainer && cp.items != null) {
             return  "dict(str: " + getDocsDataType(cp.items) + ")" + typeSuffix;
         } else if (cp.isListContainer && cp.items != null) {
@@ -379,7 +379,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (!cp.isNullable) {
                 typeSuffix = ")";
             }
-            return "(bool, dict, float, int, list, str" + typeSuffix;
+            return "(bool, date, datetime, dict, float, int, list, str" + typeSuffix;
         } else if (cp.isMapContainer && cp.items != null) {
             return "({str: " + getRealDataType(cp.items) + "}" + typeSuffix;
         } else if (cp.isListContainer && cp.items != null) {

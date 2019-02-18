@@ -15,7 +15,17 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import model_to_dict, recursive_type, valid_type
+from petstore_api.utils import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
 
 
 class User(object):
@@ -36,14 +46,14 @@ class User(object):
                             additional properties.
     """
     openapi_types = {
-        'id': 'int',
-        'username': 'str',
-        'first_name': 'str',
-        'last_name': 'str',
-        'email': 'str',
-        'password': 'str',
-        'phone': 'str',
-        'user_status': 'int'
+        'id': (int,),
+        'username': (str,),
+        'first_name': (str,),
+        'last_name': (str,),
+        'email': (str,),
+        'password': (str,),
+        'phone': (str,),
+        'user_status': (int,)
     }
     attribute_map = {
         'id': 'id',
@@ -92,15 +102,19 @@ class User(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
-        passed_type = recursive_type(value)
-        if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+        variable_path = [name]
+        if not isinstance(name, str):
+            raise ApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
 
@@ -109,7 +123,7 @@ class User(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -117,8 +131,8 @@ class User(object):
         """Gets the id of this User.  # noqa: E501
 
 
-        :return: The id of this User.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The id of this User.  # noqa: E501
         """
         return self._data_store.get('id')
 
@@ -127,8 +141,8 @@ class User(object):
         """Sets the id of this User.
 
 
-        :param id: The id of this User.  # noqa: E501
-        :type: int
+        Returns:
+            int: The id of this User.  # noqa: E501
         """
 
         self.__setitem__('id', id)
@@ -138,8 +152,8 @@ class User(object):
         """Gets the username of this User.  # noqa: E501
 
 
-        :return: The username of this User.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The username of this User.  # noqa: E501
         """
         return self._data_store.get('username')
 
@@ -148,8 +162,8 @@ class User(object):
         """Sets the username of this User.
 
 
-        :param username: The username of this User.  # noqa: E501
-        :type: str
+        Returns:
+            str: The username of this User.  # noqa: E501
         """
 
         self.__setitem__('username', username)
@@ -159,8 +173,8 @@ class User(object):
         """Gets the first_name of this User.  # noqa: E501
 
 
-        :return: The first_name of this User.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The first_name of this User.  # noqa: E501
         """
         return self._data_store.get('first_name')
 
@@ -169,8 +183,8 @@ class User(object):
         """Sets the first_name of this User.
 
 
-        :param first_name: The first_name of this User.  # noqa: E501
-        :type: str
+        Returns:
+            str: The first_name of this User.  # noqa: E501
         """
 
         self.__setitem__('first_name', first_name)
@@ -180,8 +194,8 @@ class User(object):
         """Gets the last_name of this User.  # noqa: E501
 
 
-        :return: The last_name of this User.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The last_name of this User.  # noqa: E501
         """
         return self._data_store.get('last_name')
 
@@ -190,8 +204,8 @@ class User(object):
         """Sets the last_name of this User.
 
 
-        :param last_name: The last_name of this User.  # noqa: E501
-        :type: str
+        Returns:
+            str: The last_name of this User.  # noqa: E501
         """
 
         self.__setitem__('last_name', last_name)
@@ -201,8 +215,8 @@ class User(object):
         """Gets the email of this User.  # noqa: E501
 
 
-        :return: The email of this User.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The email of this User.  # noqa: E501
         """
         return self._data_store.get('email')
 
@@ -211,8 +225,8 @@ class User(object):
         """Sets the email of this User.
 
 
-        :param email: The email of this User.  # noqa: E501
-        :type: str
+        Returns:
+            str: The email of this User.  # noqa: E501
         """
 
         self.__setitem__('email', email)
@@ -222,8 +236,8 @@ class User(object):
         """Gets the password of this User.  # noqa: E501
 
 
-        :return: The password of this User.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The password of this User.  # noqa: E501
         """
         return self._data_store.get('password')
 
@@ -232,8 +246,8 @@ class User(object):
         """Sets the password of this User.
 
 
-        :param password: The password of this User.  # noqa: E501
-        :type: str
+        Returns:
+            str: The password of this User.  # noqa: E501
         """
 
         self.__setitem__('password', password)
@@ -243,8 +257,8 @@ class User(object):
         """Gets the phone of this User.  # noqa: E501
 
 
-        :return: The phone of this User.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The phone of this User.  # noqa: E501
         """
         return self._data_store.get('phone')
 
@@ -253,8 +267,8 @@ class User(object):
         """Sets the phone of this User.
 
 
-        :param phone: The phone of this User.  # noqa: E501
-        :type: str
+        Returns:
+            str: The phone of this User.  # noqa: E501
         """
 
         self.__setitem__('phone', phone)
@@ -265,8 +279,8 @@ class User(object):
 
         User Status  # noqa: E501
 
-        :return: The user_status of this User.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The user_status of this User.  # noqa: E501
         """
         return self._data_store.get('user_status')
 
@@ -276,8 +290,8 @@ class User(object):
 
         User Status  # noqa: E501
 
-        :param user_status: The user_status of this User.  # noqa: E501
-        :type: int
+        Returns:
+            int: The user_status of this User.  # noqa: E501
         """
 
         self.__setitem__('user_status', user_status)

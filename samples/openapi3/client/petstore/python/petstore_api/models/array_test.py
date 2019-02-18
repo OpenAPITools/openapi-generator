@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -45,14 +47,14 @@ class ArrayTest(object):
                             additional properties.
     """
     openapi_types = {
-        'array_of_string': ([(str,)],),
-        'array_array_of_integer': ([([(int,)],)],),
-        'array_array_of_model': ([([(ReadOnlyFirst,)],)],)
+        'array_of_string': ([(str,)],),  # noqa: E501
+        'array_array_of_integer': ([([(int,)],)],),  # noqa: E501
+        'array_array_of_model': ([([(ReadOnlyFirst,)],)],)  # noqa: E501
     }
     attribute_map = {
-        'array_of_string': 'array_of_string',
-        'array_array_of_integer': 'array_array_of_integer',
-        'array_array_of_model': 'array_array_of_model'
+        'array_of_string': 'array_of_string',  # noqa: E501
+        'array_array_of_integer': 'array_array_of_integer',  # noqa: E501
+        'array_array_of_model': 'array_array_of_model'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -65,9 +67,9 @@ class ArrayTest(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            array_of_string (list[str]): [optional]
-            array_array_of_integer (list[list[int]]): [optional]
-            array_array_of_model (list[list[ReadOnlyFirst]]): [optional]
+            array_of_string (list[str]): [optional]  # noqa: E501
+            array_array_of_integer (list[list[int]]): [optional]  # noqa: E501
+            array_array_of_model (list[list[ReadOnlyFirst]]): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -86,12 +88,12 @@ class ArrayTest(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -107,7 +109,7 @@ class ArrayTest(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -121,7 +123,8 @@ class ArrayTest(object):
         return self._data_store.get('array_of_string')
 
     @array_of_string.setter
-    def array_of_string(self, array_of_string):
+    def array_of_string(
+            self, array_of_string):
         """Sets the array_of_string of this ArrayTest.
 
 
@@ -129,7 +132,10 @@ class ArrayTest(object):
             list[str]: The array_of_string of this ArrayTest.  # noqa: E501
         """
 
-        self.__setitem__('array_of_string', array_of_string)
+        self.__setitem__(
+            'array_of_string',
+            array_of_string
+        )
 
     @property
     def array_array_of_integer(self):
@@ -142,7 +148,8 @@ class ArrayTest(object):
         return self._data_store.get('array_array_of_integer')
 
     @array_array_of_integer.setter
-    def array_array_of_integer(self, array_array_of_integer):
+    def array_array_of_integer(
+            self, array_array_of_integer):
         """Sets the array_array_of_integer of this ArrayTest.
 
 
@@ -150,7 +157,10 @@ class ArrayTest(object):
             list[list[int]]: The array_array_of_integer of this ArrayTest.  # noqa: E501
         """
 
-        self.__setitem__('array_array_of_integer', array_array_of_integer)
+        self.__setitem__(
+            'array_array_of_integer',
+            array_array_of_integer
+        )
 
     @property
     def array_array_of_model(self):
@@ -163,7 +173,8 @@ class ArrayTest(object):
         return self._data_store.get('array_array_of_model')
 
     @array_array_of_model.setter
-    def array_array_of_model(self, array_array_of_model):
+    def array_array_of_model(
+            self, array_array_of_model):
         """Sets the array_array_of_model of this ArrayTest.
 
 
@@ -171,7 +182,10 @@ class ArrayTest(object):
             list[list[ReadOnlyFirst]]: The array_array_of_model of this ArrayTest.  # noqa: E501
         """
 
-        self.__setitem__('array_array_of_model', array_array_of_model)
+        self.__setitem__(
+            'array_array_of_model',
+            array_array_of_model
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

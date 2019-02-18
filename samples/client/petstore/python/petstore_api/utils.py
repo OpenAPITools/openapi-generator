@@ -10,81 +10,116 @@
 """
 
 
+from datetime import date, datetime
+import re
+
 import six
 
-TYPE_SEPARATOR = '/'
-
-def recursive_type(item):
-    """Gets a string describing the full the recursive type of a value"""
-    item_type = type(item)
-    if item_type == dict:
-        child_key_types = set()
-        child_value_types = set()
-        for child_key, child_value in six.iteritems(item):
-            child_key_types.add(recursive_type(child_key))
-            child_value_types.add(recursive_type(child_value))
-        # only allow empty dicts or dicts with str keys
-        if child_key_types not in [set(['str']), set()]:
-            raise TypeError('Invalid dict key type. All Openapi dict keys must be strings')
-        child_value_types = TYPE_SEPARATOR.join(sorted(list(child_value_types)))
-        if child_key_types == set():
-            return "dict()"
-        return "dict(str, {0})".format(child_value_types)
-    elif item_type == list:
-        child_value_types = set()
-        for child_item in item:
-            child_value_types.add(recursive_type(child_item))
-        child_value_types = TYPE_SEPARATOR.join(sorted(list(child_value_types)))
-        return "list[{0}]".format(child_value_types)
-    else:
-        return type(item).__name__
+none_type = type(None)
+if six.PY3:
+    import io
+    file_type = io.IOBase
+else:
+    file_type = file
 
 
-def valid_type(passed_type_str, required_type_str):
-    """Returns a boolean, True if passed_type is required_type"""
-    if passed_type_str == required_type_str:
-        return True
-    req_types, req_remainder = get_types_remainder(required_type_str)
-    passed_types, passed_remainder = get_types_remainder(passed_type_str)
-    if not passed_types.issubset(req_types):
-        return False
-    # passed_types is in req_types
-    if req_remainder == '':
+class OpenApiException(Exception):
+    """The base exception class for all OpenAPIExceptions"""
+
+
+class ApiTypeError(OpenApiException, TypeError):
+    def __init__(self, required_types, current_item, path_to_item,
+                 value_type=True):
+        key_or_value = 'value'
+        if not value_type:
+            key_or_value = 'key'
+        msg = ("Invalid type for variable {0}. Required {1} type is {2} and "
+               "passed type was {3} at location={4}".format(
+               path_to_item[0],
+               key_or_value,
+               required_types,
+               type(current_item),
+               path_to_item
+               ))
+        super(ApiTypeError, self).__init__(msg)
+        self.path_to_item = path_to_item
+        self.current_item = current_item
+        self.required_types = required_types
+
+
+class ApiValueError(OpenApiException, ValueError):
+    def __init__(self, msg):
+        super(ApiTypeError, self).__init__(msg)
+
+
+class ApiKeyError(OpenApiException, KeyError):
+    def __init__(self, msg):
+        super(ApiKeyError, self).__init__(msg)
+
+
+def get_required_type_classes(required_types):
+    """Converts the tuple required_types into a tuple of its child classes
+
+    required_type will contain either classes or instance of list or dict
+    so convert it to a tuple of classes
+    """
+    results = []
+    child_required_types = {}
+    for required_type in required_types:
+        if isinstance(required_type, list):
+            results.append(list)
+            child_required_types[list] = required_type[0]
+        elif isinstance(required_type, dict):
+            results.append(dict)
+            child_required_types[dict] = required_type[str]
+        else:
+            results.append(required_type)
+    return tuple(results), child_required_types
+
+
+def validate_type(input_value, required_types, variable_path):
+    """Raises a TypeError is ther is a problem, otherwise continue"""
+    results = get_required_type_classes(required_types)
+    required_type_classes, child_required_types = results
+    # Note: we can't use isinstance here because isinstance(True, int) == True
+    if not type(input_value) in required_type_classes:
+        raise ApiTypeError(
+            required_type_classes,
+            input_value,
+            variable_path
+        )
+    # input_value's type is in required_type_classes
+    if child_required_types == {}:
         # all types are of the required types and there are no more inner
         # variables left to look at
-        return True
-    if passed_types == {'NoneType'}:
-        # a valid None was passed in so accept it
-        return True
-    if (passed_types == {'list'} and passed_remainder == '' and
-            all(char not in req_remainder for char in '([')):
-        # we have an empty list, and the inner required types are
-        # primitives like str, int etc, allow it
-        return True
-    if (passed_types == {'dict'} and passed_remainder == '' and
-            all(char not in req_remainder for char in '([')):
-        # we have an empty dict, and the inner required types are
-        # primitives like str, int etc, allow it
-        return True
-    return valid_type(passed_remainder, req_remainder)
-
-
-def get_types_remainder(type_string):
-    if type_string == 'dict()':
-        return {'dict'}, ''
-    container_types = [('dict(str, ', ')'), ('list[', ']')]
-    type_set = set()
-    remainder = ''
-    type_string_items = type_string.split(TYPE_SEPARATOR)
-    for type_string_item in type_string_items:
-      if type_string_item in ['NoneType', 'int', 'float', 'bool', 'list', 'dict', 'str']:
-          type_set.add(type_string_item)
-          continue
-      for type_prefix, type_suffix in container_types:
-          if type_string_item.startswith(type_prefix) and type_string_item.endswith(type_suffix):
-              type_set.add(type_prefix[:4])
-              remainder = type_string[len(type_prefix):-1]
-    return type_set, remainder
+        return
+    inner_required_types = child_required_types.get(type(input_value))
+    if inner_required_types is None:
+        # for this type, there are not more inner variables left to look at
+        return
+    if isinstance(input_value, list):
+        if input_value == []:
+            # allow an empty list
+            return
+        for index, inner_value in enumerate(input_value):
+            inner_path = list(variable_path)
+            inner_path.append(index)
+            validate_type(inner_value, inner_required_types, inner_path)
+    elif isinstance(input_value, dict):
+        if input_value == {}:
+            # allow an empty dict
+            return
+        for inner_key, inner_val in six.iteritems(input_value):
+            inner_path = list(variable_path)
+            inner_path.append(inner_key)
+            if not isinstance(inner_key, str):
+                raise ApiTypeError(
+                    (str,),
+                    inner_key,
+                    inner_path,
+                    value_type=False
+                )
+            validate_type(inner_val, inner_required_types, inner_path)
 
 
 def model_to_dict(model_instance, serialize=True):
@@ -108,14 +143,14 @@ def model_to_dict(model_instance, serialize=True):
                 lambda x: model_to_dict(x, serialize=serialize)
                 if hasattr(x, '_data_store') else x, value
             ))
-        elif hasattr(value, '_data_store'):
-            result[attr] = model_to_dict(value, serialize=serialize)
         elif isinstance(value, dict):
             result[attr] = dict(map(
                 lambda item: (item[0], model_to_dict(item[1], serialize=serialize))
                 if hasattr(item[1], '_data_store') else item,
                 value.items()
             ))
+        elif hasattr(value, '_data_store'):
+            result[attr] = model_to_dict(value, serialize=serialize)
         else:
             result[attr] = value
 

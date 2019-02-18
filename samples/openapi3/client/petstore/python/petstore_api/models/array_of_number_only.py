@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,10 +46,10 @@ class ArrayOfNumberOnly(object):
                             additional properties.
     """
     openapi_types = {
-        'array_number': ([(float,)],)
+        'array_number': ([(float,)],)  # noqa: E501
     }
     attribute_map = {
-        'array_number': 'ArrayNumber'
+        'array_number': 'ArrayNumber'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -60,7 +62,7 @@ class ArrayOfNumberOnly(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            array_number (list[float]): [optional]
+            array_number (list[float]): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -79,12 +81,12 @@ class ArrayOfNumberOnly(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -100,7 +102,7 @@ class ArrayOfNumberOnly(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -114,7 +116,8 @@ class ArrayOfNumberOnly(object):
         return self._data_store.get('array_number')
 
     @array_number.setter
-    def array_number(self, array_number):
+    def array_number(
+            self, array_number):
         """Sets the array_number of this ArrayOfNumberOnly.
 
 
@@ -122,7 +125,10 @@ class ArrayOfNumberOnly(object):
             list[float]: The array_number of this ArrayOfNumberOnly.  # noqa: E501
         """
 
-        self.__setitem__('array_number', array_number)
+        self.__setitem__(
+            'array_number',
+            array_number
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

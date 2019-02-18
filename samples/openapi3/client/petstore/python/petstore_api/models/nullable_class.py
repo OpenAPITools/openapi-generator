@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -46,30 +48,34 @@ class NullableClass(object):
                                         additional_properties variables only.
     """
     openapi_types = {
-        'integer_prop': (int, none_type),
-        'number_prop': (float, none_type),
-        'boolean_prop': (bool, none_type),
-        'string_prop': (str, none_type),
-        'array_nullable_prop': ([(bool, dict, float, int, list, str)], none_type),
-        'array_and_items_nullable_prop': ([(bool, dict, float, int, list, str, none_type)], none_type),
-        'array_items_nullable': ([(bool, dict, float, int, list, str, none_type)],),
-        'object_nullable_prop': ({str: (bool, dict, float, int, list, str)}, none_type),
-        'object_and_items_nullable_prop': ({str: (bool, dict, float, int, list, str, none_type)}, none_type),
-        'object_items_nullable': ({str: (bool, dict, float, int, list, str, none_type)},)
+        'integer_prop': (int, none_type),  # noqa: E501
+        'number_prop': (float, none_type),  # noqa: E501
+        'boolean_prop': (bool, none_type),  # noqa: E501
+        'string_prop': (str, none_type),  # noqa: E501
+        'date_prop': (date, none_type),  # noqa: E501
+        'datetime_prop': (datetime, none_type),  # noqa: E501
+        'array_nullable_prop': ([(bool, date, datetime, dict, float, int, list, str)], none_type),  # noqa: E501
+        'array_and_items_nullable_prop': ([(bool, date, datetime, dict, float, int, list, str, none_type)], none_type),  # noqa: E501
+        'array_items_nullable': ([(bool, date, datetime, dict, float, int, list, str, none_type)],),  # noqa: E501
+        'object_nullable_prop': ({str: (bool, date, datetime, dict, float, int, list, str)}, none_type),  # noqa: E501
+        'object_and_items_nullable_prop': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type),  # noqa: E501
+        'object_items_nullable': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},)  # noqa: E501
     }
     attribute_map = {
-        'integer_prop': 'integer_prop',
-        'number_prop': 'number_prop',
-        'boolean_prop': 'boolean_prop',
-        'string_prop': 'string_prop',
-        'array_nullable_prop': 'array_nullable_prop',
-        'array_and_items_nullable_prop': 'array_and_items_nullable_prop',
-        'array_items_nullable': 'array_items_nullable',
-        'object_nullable_prop': 'object_nullable_prop',
-        'object_and_items_nullable_prop': 'object_and_items_nullable_prop',
-        'object_items_nullable': 'object_items_nullable'
+        'integer_prop': 'integer_prop',  # noqa: E501
+        'number_prop': 'number_prop',  # noqa: E501
+        'boolean_prop': 'boolean_prop',  # noqa: E501
+        'string_prop': 'string_prop',  # noqa: E501
+        'date_prop': 'date_prop',  # noqa: E501
+        'datetime_prop': 'datetime_prop',  # noqa: E501
+        'array_nullable_prop': 'array_nullable_prop',  # noqa: E501
+        'array_and_items_nullable_prop': 'array_and_items_nullable_prop',  # noqa: E501
+        'array_items_nullable': 'array_items_nullable',  # noqa: E501
+        'object_nullable_prop': 'object_nullable_prop',  # noqa: E501
+        'object_and_items_nullable_prop': 'object_and_items_nullable_prop',  # noqa: E501
+        'object_items_nullable': 'object_items_nullable'  # noqa: E501
     }
-    additional_properties_type = '(bool, dict, float, int, list, str, none_type)'
+    additional_properties_type = (bool, date, datetime, dict, float, int, list, str, none_type)  # noqa: E501
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
         """NullableClass - a model defined in OpenAPI
@@ -81,16 +87,18 @@ class NullableClass(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            integer_prop (int/None): [optional]
-            number_prop (float/None): [optional]
-            boolean_prop (bool/None): [optional]
-            string_prop (str/None): [optional]
-            array_nullable_prop (list[bool/dict/float/int/list/str]/None): [optional]
-            array_and_items_nullable_prop (list[bool/dict/float/int/list/str/None]/None): [optional]
-            array_items_nullable (list[bool/dict/float/int/list/str/None]): [optional]
-            object_nullable_prop (dict(str: bool/dict/float/int/list/str)/None): [optional]
-            object_and_items_nullable_prop (dict(str: bool/dict/float/int/list/str/None)/None): [optional]
-            object_items_nullable (dict(str: bool/dict/float/int/list/str/None)): [optional]
+            integer_prop (int/None): [optional]  # noqa: E501
+            number_prop (float/None): [optional]  # noqa: E501
+            boolean_prop (bool/None): [optional]  # noqa: E501
+            string_prop (str/None): [optional]  # noqa: E501
+            date_prop (date/None): [optional]  # noqa: E501
+            datetime_prop (datetime/None): [optional]  # noqa: E501
+            array_nullable_prop (list[bool/date/datetime/dict/float/int/list/str]/None): [optional]  # noqa: E501
+            array_and_items_nullable_prop (list[bool/date/datetime/dict/float/int/list/str/None]/None): [optional]  # noqa: E501
+            array_items_nullable (list[bool/date/datetime/dict/float/int/list/str/None]): [optional]  # noqa: E501
+            object_nullable_prop (dict(str: bool/date/datetime/dict/float/int/list/str)/None): [optional]  # noqa: E501
+            object_and_items_nullable_prop (dict(str: bool/date/datetime/dict/float/int/list/str/None)/None): [optional]  # noqa: E501
+            object_items_nullable (dict(str: bool/date/datetime/dict/float/int/list/str/None)): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -113,8 +121,8 @@ class NullableClass(object):
             required_type = self.additional_properties_type
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -134,7 +142,7 @@ class NullableClass(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -148,7 +156,8 @@ class NullableClass(object):
         return self._data_store.get('integer_prop')
 
     @integer_prop.setter
-    def integer_prop(self, integer_prop):
+    def integer_prop(
+            self, integer_prop):
         """Sets the integer_prop of this NullableClass.
 
 
@@ -156,7 +165,10 @@ class NullableClass(object):
             int/None: The integer_prop of this NullableClass.  # noqa: E501
         """
 
-        self.__setitem__('integer_prop', integer_prop)
+        self.__setitem__(
+            'integer_prop',
+            integer_prop
+        )
 
     @property
     def number_prop(self):
@@ -169,7 +181,8 @@ class NullableClass(object):
         return self._data_store.get('number_prop')
 
     @number_prop.setter
-    def number_prop(self, number_prop):
+    def number_prop(
+            self, number_prop):
         """Sets the number_prop of this NullableClass.
 
 
@@ -177,7 +190,10 @@ class NullableClass(object):
             float/None: The number_prop of this NullableClass.  # noqa: E501
         """
 
-        self.__setitem__('number_prop', number_prop)
+        self.__setitem__(
+            'number_prop',
+            number_prop
+        )
 
     @property
     def boolean_prop(self):
@@ -190,7 +206,8 @@ class NullableClass(object):
         return self._data_store.get('boolean_prop')
 
     @boolean_prop.setter
-    def boolean_prop(self, boolean_prop):
+    def boolean_prop(
+            self, boolean_prop):
         """Sets the boolean_prop of this NullableClass.
 
 
@@ -198,7 +215,10 @@ class NullableClass(object):
             bool/None: The boolean_prop of this NullableClass.  # noqa: E501
         """
 
-        self.__setitem__('boolean_prop', boolean_prop)
+        self.__setitem__(
+            'boolean_prop',
+            boolean_prop
+        )
 
     @property
     def string_prop(self):
@@ -211,7 +231,8 @@ class NullableClass(object):
         return self._data_store.get('string_prop')
 
     @string_prop.setter
-    def string_prop(self, string_prop):
+    def string_prop(
+            self, string_prop):
         """Sets the string_prop of this NullableClass.
 
 
@@ -219,7 +240,60 @@ class NullableClass(object):
             str/None: The string_prop of this NullableClass.  # noqa: E501
         """
 
-        self.__setitem__('string_prop', string_prop)
+        self.__setitem__(
+            'string_prop',
+            string_prop
+        )
+
+    @property
+    def date_prop(self):
+        """Gets the date_prop of this NullableClass.  # noqa: E501
+
+
+        Returns:
+            date/None: The date_prop of this NullableClass.  # noqa: E501
+        """
+        return self._data_store.get('date_prop')
+
+    @date_prop.setter
+    def date_prop(
+            self, date_prop):
+        """Sets the date_prop of this NullableClass.
+
+
+        Returns:
+            date/None: The date_prop of this NullableClass.  # noqa: E501
+        """
+
+        self.__setitem__(
+            'date_prop',
+            date_prop
+        )
+
+    @property
+    def datetime_prop(self):
+        """Gets the datetime_prop of this NullableClass.  # noqa: E501
+
+
+        Returns:
+            datetime/None: The datetime_prop of this NullableClass.  # noqa: E501
+        """
+        return self._data_store.get('datetime_prop')
+
+    @datetime_prop.setter
+    def datetime_prop(
+            self, datetime_prop):
+        """Sets the datetime_prop of this NullableClass.
+
+
+        Returns:
+            datetime/None: The datetime_prop of this NullableClass.  # noqa: E501
+        """
+
+        self.__setitem__(
+            'datetime_prop',
+            datetime_prop
+        )
 
     @property
     def array_nullable_prop(self):
@@ -227,20 +301,24 @@ class NullableClass(object):
 
 
         Returns:
-            list[bool/dict/float/int/list/str]/None: The array_nullable_prop of this NullableClass.  # noqa: E501
+            list[bool/date/datetime/dict/float/int/list/str]/None: The array_nullable_prop of this NullableClass.  # noqa: E501
         """
         return self._data_store.get('array_nullable_prop')
 
     @array_nullable_prop.setter
-    def array_nullable_prop(self, array_nullable_prop):
+    def array_nullable_prop(
+            self, array_nullable_prop):
         """Sets the array_nullable_prop of this NullableClass.
 
 
         Returns:
-            list[bool/dict/float/int/list/str]/None: The array_nullable_prop of this NullableClass.  # noqa: E501
+            list[bool/date/datetime/dict/float/int/list/str]/None: The array_nullable_prop of this NullableClass.  # noqa: E501
         """
 
-        self.__setitem__('array_nullable_prop', array_nullable_prop)
+        self.__setitem__(
+            'array_nullable_prop',
+            array_nullable_prop
+        )
 
     @property
     def array_and_items_nullable_prop(self):
@@ -248,20 +326,24 @@ class NullableClass(object):
 
 
         Returns:
-            list[bool/dict/float/int/list/str/None]/None: The array_and_items_nullable_prop of this NullableClass.  # noqa: E501
+            list[bool/date/datetime/dict/float/int/list/str/None]/None: The array_and_items_nullable_prop of this NullableClass.  # noqa: E501
         """
         return self._data_store.get('array_and_items_nullable_prop')
 
     @array_and_items_nullable_prop.setter
-    def array_and_items_nullable_prop(self, array_and_items_nullable_prop):
+    def array_and_items_nullable_prop(
+            self, array_and_items_nullable_prop):
         """Sets the array_and_items_nullable_prop of this NullableClass.
 
 
         Returns:
-            list[bool/dict/float/int/list/str/None]/None: The array_and_items_nullable_prop of this NullableClass.  # noqa: E501
+            list[bool/date/datetime/dict/float/int/list/str/None]/None: The array_and_items_nullable_prop of this NullableClass.  # noqa: E501
         """
 
-        self.__setitem__('array_and_items_nullable_prop', array_and_items_nullable_prop)
+        self.__setitem__(
+            'array_and_items_nullable_prop',
+            array_and_items_nullable_prop
+        )
 
     @property
     def array_items_nullable(self):
@@ -269,20 +351,24 @@ class NullableClass(object):
 
 
         Returns:
-            list[bool/dict/float/int/list/str/None]: The array_items_nullable of this NullableClass.  # noqa: E501
+            list[bool/date/datetime/dict/float/int/list/str/None]: The array_items_nullable of this NullableClass.  # noqa: E501
         """
         return self._data_store.get('array_items_nullable')
 
     @array_items_nullable.setter
-    def array_items_nullable(self, array_items_nullable):
+    def array_items_nullable(
+            self, array_items_nullable):
         """Sets the array_items_nullable of this NullableClass.
 
 
         Returns:
-            list[bool/dict/float/int/list/str/None]: The array_items_nullable of this NullableClass.  # noqa: E501
+            list[bool/date/datetime/dict/float/int/list/str/None]: The array_items_nullable of this NullableClass.  # noqa: E501
         """
 
-        self.__setitem__('array_items_nullable', array_items_nullable)
+        self.__setitem__(
+            'array_items_nullable',
+            array_items_nullable
+        )
 
     @property
     def object_nullable_prop(self):
@@ -290,20 +376,24 @@ class NullableClass(object):
 
 
         Returns:
-            dict(str: bool/dict/float/int/list/str)/None: The object_nullable_prop of this NullableClass.  # noqa: E501
+            dict(str: bool/date/datetime/dict/float/int/list/str)/None: The object_nullable_prop of this NullableClass.  # noqa: E501
         """
         return self._data_store.get('object_nullable_prop')
 
     @object_nullable_prop.setter
-    def object_nullable_prop(self, object_nullable_prop):
+    def object_nullable_prop(
+            self, object_nullable_prop):
         """Sets the object_nullable_prop of this NullableClass.
 
 
         Returns:
-            dict(str: bool/dict/float/int/list/str)/None: The object_nullable_prop of this NullableClass.  # noqa: E501
+            dict(str: bool/date/datetime/dict/float/int/list/str)/None: The object_nullable_prop of this NullableClass.  # noqa: E501
         """
 
-        self.__setitem__('object_nullable_prop', object_nullable_prop)
+        self.__setitem__(
+            'object_nullable_prop',
+            object_nullable_prop
+        )
 
     @property
     def object_and_items_nullable_prop(self):
@@ -311,20 +401,24 @@ class NullableClass(object):
 
 
         Returns:
-            dict(str: bool/dict/float/int/list/str/None)/None: The object_and_items_nullable_prop of this NullableClass.  # noqa: E501
+            dict(str: bool/date/datetime/dict/float/int/list/str/None)/None: The object_and_items_nullable_prop of this NullableClass.  # noqa: E501
         """
         return self._data_store.get('object_and_items_nullable_prop')
 
     @object_and_items_nullable_prop.setter
-    def object_and_items_nullable_prop(self, object_and_items_nullable_prop):
+    def object_and_items_nullable_prop(
+            self, object_and_items_nullable_prop):
         """Sets the object_and_items_nullable_prop of this NullableClass.
 
 
         Returns:
-            dict(str: bool/dict/float/int/list/str/None)/None: The object_and_items_nullable_prop of this NullableClass.  # noqa: E501
+            dict(str: bool/date/datetime/dict/float/int/list/str/None)/None: The object_and_items_nullable_prop of this NullableClass.  # noqa: E501
         """
 
-        self.__setitem__('object_and_items_nullable_prop', object_and_items_nullable_prop)
+        self.__setitem__(
+            'object_and_items_nullable_prop',
+            object_and_items_nullable_prop
+        )
 
     @property
     def object_items_nullable(self):
@@ -332,20 +426,24 @@ class NullableClass(object):
 
 
         Returns:
-            dict(str: bool/dict/float/int/list/str/None): The object_items_nullable of this NullableClass.  # noqa: E501
+            dict(str: bool/date/datetime/dict/float/int/list/str/None): The object_items_nullable of this NullableClass.  # noqa: E501
         """
         return self._data_store.get('object_items_nullable')
 
     @object_items_nullable.setter
-    def object_items_nullable(self, object_items_nullable):
+    def object_items_nullable(
+            self, object_items_nullable):
         """Sets the object_items_nullable of this NullableClass.
 
 
         Returns:
-            dict(str: bool/dict/float/int/list/str/None): The object_items_nullable of this NullableClass.  # noqa: E501
+            dict(str: bool/date/datetime/dict/float/int/list/str/None): The object_items_nullable of this NullableClass.  # noqa: E501
         """
 
-        self.__setitem__('object_items_nullable', object_items_nullable)
+        self.__setitem__(
+            'object_items_nullable',
+            object_items_nullable
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

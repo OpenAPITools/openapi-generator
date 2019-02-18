@@ -28,6 +28,7 @@ try:
 except ImportError:
     raise ImportError('OpenAPI Python client requires urllib3.')
 
+from petstore_api.utils import OpenApiException
 
 logger = logging.getLogger(__name__)
 
@@ -294,7 +295,7 @@ class RESTClientObject(object):
                             body=body)
 
 
-class ApiException(Exception):
+class ApiException(OpenApiException):
 
     def __init__(self, status=None, reason=None, http_resp=None):
         if http_resp:

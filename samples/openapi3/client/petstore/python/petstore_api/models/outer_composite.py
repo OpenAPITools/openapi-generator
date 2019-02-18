@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,14 +46,14 @@ class OuterComposite(object):
                             additional properties.
     """
     openapi_types = {
-        'my_number': (float,),
-        'my_string': (str,),
-        'my_boolean': (bool,)
+        'my_number': (float,),  # noqa: E501
+        'my_string': (str,),  # noqa: E501
+        'my_boolean': (bool,)  # noqa: E501
     }
     attribute_map = {
-        'my_number': 'my_number',
-        'my_string': 'my_string',
-        'my_boolean': 'my_boolean'
+        'my_number': 'my_number',  # noqa: E501
+        'my_string': 'my_string',  # noqa: E501
+        'my_boolean': 'my_boolean'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -64,9 +66,9 @@ class OuterComposite(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            my_number (float): [optional]
-            my_string (str): [optional]
-            my_boolean (bool): [optional]
+            my_number (float): [optional]  # noqa: E501
+            my_string (str): [optional]  # noqa: E501
+            my_boolean (bool): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -85,12 +87,12 @@ class OuterComposite(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -106,7 +108,7 @@ class OuterComposite(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -120,7 +122,8 @@ class OuterComposite(object):
         return self._data_store.get('my_number')
 
     @my_number.setter
-    def my_number(self, my_number):
+    def my_number(
+            self, my_number):
         """Sets the my_number of this OuterComposite.
 
 
@@ -128,7 +131,10 @@ class OuterComposite(object):
             float: The my_number of this OuterComposite.  # noqa: E501
         """
 
-        self.__setitem__('my_number', my_number)
+        self.__setitem__(
+            'my_number',
+            my_number
+        )
 
     @property
     def my_string(self):
@@ -141,7 +147,8 @@ class OuterComposite(object):
         return self._data_store.get('my_string')
 
     @my_string.setter
-    def my_string(self, my_string):
+    def my_string(
+            self, my_string):
         """Sets the my_string of this OuterComposite.
 
 
@@ -149,7 +156,10 @@ class OuterComposite(object):
             str: The my_string of this OuterComposite.  # noqa: E501
         """
 
-        self.__setitem__('my_string', my_string)
+        self.__setitem__(
+            'my_string',
+            my_string
+        )
 
     @property
     def my_boolean(self):
@@ -162,7 +172,8 @@ class OuterComposite(object):
         return self._data_store.get('my_boolean')
 
     @my_boolean.setter
-    def my_boolean(self, my_boolean):
+    def my_boolean(
+            self, my_boolean):
         """Sets the my_boolean of this OuterComposite.
 
 
@@ -170,7 +181,10 @@ class OuterComposite(object):
             bool: The my_boolean of this OuterComposite.  # noqa: E501
         """
 
-        self.__setitem__('my_boolean', my_boolean)
+        self.__setitem__(
+            'my_boolean',
+            my_boolean
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

@@ -15,7 +15,17 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import model_to_dict, recursive_type, valid_type
+from petstore_api.utils import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
 
 
 class MapTest(object):
@@ -36,10 +46,10 @@ class MapTest(object):
                             additional properties.
     """
     openapi_types = {
-        'map_map_of_string': 'dict(str, dict(str, str))',
-        'map_of_enum_string': 'dict(str, str)',
-        'direct_map': 'dict(str, bool)',
-        'indirect_map': 'dict(str, bool)'
+        'map_map_of_string': ({str: ({str: (str,)},)},),
+        'map_of_enum_string': ({str: (str,)},),
+        'direct_map': ({str: (bool,)},),
+        'indirect_map': ({str: (bool,)},)
     }
     attribute_map = {
         'map_map_of_string': 'map_map_of_string',
@@ -58,10 +68,10 @@ class MapTest(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            map_map_of_string (dict(str, dict(str, str))): [optional]
-            map_of_enum_string (dict(str, str)): [optional]
-            direct_map (dict(str, bool)): [optional]
-            indirect_map (dict(str, bool)): [optional]
+            map_map_of_string (dict(str: dict(str: str))): [optional]
+            map_of_enum_string (dict(str: str)): [optional]
+            direct_map (dict(str: bool)): [optional]
+            indirect_map (dict(str: bool)): [optional]
         """
 
         self._data_store = {}
@@ -80,15 +90,19 @@ class MapTest(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
-        passed_type = recursive_type(value)
-        if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+        variable_path = [name]
+        if not isinstance(name, str):
+            raise ApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
 
@@ -97,7 +111,7 @@ class MapTest(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -105,8 +119,8 @@ class MapTest(object):
         """Gets the map_map_of_string of this MapTest.  # noqa: E501
 
 
-        :return: The map_map_of_string of this MapTest.  # noqa: E501
-        :rtype: dict(str, dict(str, str))
+        Returns:
+            dict(str: dict(str: str)): The map_map_of_string of this MapTest.  # noqa: E501
         """
         return self._data_store.get('map_map_of_string')
 
@@ -115,8 +129,8 @@ class MapTest(object):
         """Sets the map_map_of_string of this MapTest.
 
 
-        :param map_map_of_string: The map_map_of_string of this MapTest.  # noqa: E501
-        :type: dict(str, dict(str, str))
+        Returns:
+            dict(str: dict(str: str)): The map_map_of_string of this MapTest.  # noqa: E501
         """
 
         self.__setitem__('map_map_of_string', map_map_of_string)
@@ -126,8 +140,8 @@ class MapTest(object):
         """Gets the map_of_enum_string of this MapTest.  # noqa: E501
 
 
-        :return: The map_of_enum_string of this MapTest.  # noqa: E501
-        :rtype: dict(str, str)
+        Returns:
+            dict(str: str): The map_of_enum_string of this MapTest.  # noqa: E501
         """
         return self._data_store.get('map_of_enum_string')
 
@@ -136,12 +150,12 @@ class MapTest(object):
         """Sets the map_of_enum_string of this MapTest.
 
 
-        :param map_of_enum_string: The map_of_enum_string of this MapTest.  # noqa: E501
-        :type: dict(str, str)
+        Returns:
+            dict(str: str): The map_of_enum_string of this MapTest.  # noqa: E501
         """
         allowed_values = ["UPPER", "lower"]  # noqa: E501
         if not set(map_of_enum_string.keys()).issubset(set(allowed_values)):
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid keys in `map_of_enum_string` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set(map_of_enum_string.keys()) - set(allowed_values))),  # noqa: E501
                         ", ".join(map(str, allowed_values)))
@@ -154,8 +168,8 @@ class MapTest(object):
         """Gets the direct_map of this MapTest.  # noqa: E501
 
 
-        :return: The direct_map of this MapTest.  # noqa: E501
-        :rtype: dict(str, bool)
+        Returns:
+            dict(str: bool): The direct_map of this MapTest.  # noqa: E501
         """
         return self._data_store.get('direct_map')
 
@@ -164,8 +178,8 @@ class MapTest(object):
         """Sets the direct_map of this MapTest.
 
 
-        :param direct_map: The direct_map of this MapTest.  # noqa: E501
-        :type: dict(str, bool)
+        Returns:
+            dict(str: bool): The direct_map of this MapTest.  # noqa: E501
         """
 
         self.__setitem__('direct_map', direct_map)
@@ -175,8 +189,8 @@ class MapTest(object):
         """Gets the indirect_map of this MapTest.  # noqa: E501
 
 
-        :return: The indirect_map of this MapTest.  # noqa: E501
-        :rtype: dict(str, bool)
+        Returns:
+            dict(str: bool): The indirect_map of this MapTest.  # noqa: E501
         """
         return self._data_store.get('indirect_map')
 
@@ -185,8 +199,8 @@ class MapTest(object):
         """Sets the indirect_map of this MapTest.
 
 
-        :param indirect_map: The indirect_map of this MapTest.  # noqa: E501
-        :type: dict(str, bool)
+        Returns:
+            dict(str: bool): The indirect_map of this MapTest.  # noqa: E501
         """
 
         self.__setitem__('indirect_map', indirect_map)

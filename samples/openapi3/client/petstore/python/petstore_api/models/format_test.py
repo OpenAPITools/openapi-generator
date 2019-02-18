@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,38 +46,38 @@ class FormatTest(object):
                             additional properties.
     """
     openapi_types = {
-        'integer': (int,),
-        'int32': (int,),
-        'int64': (int,),
-        'number': (float,),
-        'float': (float,),
-        'double': (float,),
-        'string': (str,),
-        'byte': (str,),
-        'binary': (file_type,),
-        'date': (date,),
-        'date_time': (datetime,),
-        'uuid': (str,),
-        'password': (str,),
-        'pattern_with_digits': (str,),
-        'pattern_with_digits_and_delimiter': (str,)
+        'integer': (int,),  # noqa: E501
+        'int32': (int,),  # noqa: E501
+        'int64': (int,),  # noqa: E501
+        'number': (float,),  # noqa: E501
+        'float': (float,),  # noqa: E501
+        'double': (float,),  # noqa: E501
+        'string': (str,),  # noqa: E501
+        'byte': (str,),  # noqa: E501
+        'binary': (file_type,),  # noqa: E501
+        'date': (date,),  # noqa: E501
+        'date_time': (datetime,),  # noqa: E501
+        'uuid': (str,),  # noqa: E501
+        'password': (str,),  # noqa: E501
+        'pattern_with_digits': (str,),  # noqa: E501
+        'pattern_with_digits_and_delimiter': (str,)  # noqa: E501
     }
     attribute_map = {
-        'integer': 'integer',
-        'int32': 'int32',
-        'int64': 'int64',
-        'number': 'number',
-        'float': 'float',
-        'double': 'double',
-        'string': 'string',
-        'byte': 'byte',
-        'binary': 'binary',
-        'date': 'date',
-        'date_time': 'dateTime',
-        'uuid': 'uuid',
-        'password': 'password',
-        'pattern_with_digits': 'pattern_with_digits',
-        'pattern_with_digits_and_delimiter': 'pattern_with_digits_and_delimiter'
+        'integer': 'integer',  # noqa: E501
+        'int32': 'int32',  # noqa: E501
+        'int64': 'int64',  # noqa: E501
+        'number': 'number',  # noqa: E501
+        'float': 'float',  # noqa: E501
+        'double': 'double',  # noqa: E501
+        'string': 'string',  # noqa: E501
+        'byte': 'byte',  # noqa: E501
+        'binary': 'binary',  # noqa: E501
+        'date': 'date',  # noqa: E501
+        'date_time': 'dateTime',  # noqa: E501
+        'uuid': 'uuid',  # noqa: E501
+        'password': 'password',  # noqa: E501
+        'pattern_with_digits': 'pattern_with_digits',  # noqa: E501
+        'pattern_with_digits_and_delimiter': 'pattern_with_digits_and_delimiter'  # noqa: E501
     }
 
     def __init__(self, number, byte, date, password, _check_type=False, **kwargs):  # noqa: E501
@@ -92,17 +94,17 @@ class FormatTest(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            integer (int): [optional]
-            int32 (int): [optional]
-            int64 (int): [optional]
-            float (float): [optional]
-            double (float): [optional]
-            string (str): [optional]
-            binary (file): [optional]
-            date_time (datetime): [optional]
-            uuid (str): [optional]
-            pattern_with_digits (str): A string that is a 10 digit number. Can have leading zeros.. [optional]
-            pattern_with_digits_and_delimiter (str): A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.. [optional]
+            integer (int): [optional]  # noqa: E501
+            int32 (int): [optional]  # noqa: E501
+            int64 (int): [optional]  # noqa: E501
+            float (float): [optional]  # noqa: E501
+            double (float): [optional]  # noqa: E501
+            string (str): [optional]  # noqa: E501
+            binary (file): [optional]  # noqa: E501
+            date_time (datetime): [optional]  # noqa: E501
+            uuid (str): [optional]  # noqa: E501
+            pattern_with_digits (str): A string that is a 10 digit number. Can have leading zeros.. [optional]  # noqa: E501
+            pattern_with_digits_and_delimiter (str): A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.. [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -126,12 +128,12 @@ class FormatTest(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -147,7 +149,7 @@ class FormatTest(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -161,7 +163,8 @@ class FormatTest(object):
         return self._data_store.get('integer')
 
     @integer.setter
-    def integer(self, integer):
+    def integer(
+            self, integer):
         """Sets the integer of this FormatTest.
 
 
@@ -169,11 +172,14 @@ class FormatTest(object):
             int: The integer of this FormatTest.  # noqa: E501
         """
         if integer is not None and integer > 100:  # noqa: E501
-            raise ValueError("Invalid value for `integer`, must be a value less than or equal to `100`")  # noqa: E501
+            raise ApiValueError("Invalid value for `integer`, must be a value less than or equal to `100`")  # noqa: E501
         if integer is not None and integer < 10:  # noqa: E501
-            raise ValueError("Invalid value for `integer`, must be a value greater than or equal to `10`")  # noqa: E501
+            raise ApiValueError("Invalid value for `integer`, must be a value greater than or equal to `10`")  # noqa: E501
 
-        self.__setitem__('integer', integer)
+        self.__setitem__(
+            'integer',
+            integer
+        )
 
     @property
     def int32(self):
@@ -186,7 +192,8 @@ class FormatTest(object):
         return self._data_store.get('int32')
 
     @int32.setter
-    def int32(self, int32):
+    def int32(
+            self, int32):
         """Sets the int32 of this FormatTest.
 
 
@@ -194,11 +201,14 @@ class FormatTest(object):
             int: The int32 of this FormatTest.  # noqa: E501
         """
         if int32 is not None and int32 > 200:  # noqa: E501
-            raise ValueError("Invalid value for `int32`, must be a value less than or equal to `200`")  # noqa: E501
+            raise ApiValueError("Invalid value for `int32`, must be a value less than or equal to `200`")  # noqa: E501
         if int32 is not None and int32 < 20:  # noqa: E501
-            raise ValueError("Invalid value for `int32`, must be a value greater than or equal to `20`")  # noqa: E501
+            raise ApiValueError("Invalid value for `int32`, must be a value greater than or equal to `20`")  # noqa: E501
 
-        self.__setitem__('int32', int32)
+        self.__setitem__(
+            'int32',
+            int32
+        )
 
     @property
     def int64(self):
@@ -211,7 +221,8 @@ class FormatTest(object):
         return self._data_store.get('int64')
 
     @int64.setter
-    def int64(self, int64):
+    def int64(
+            self, int64):
         """Sets the int64 of this FormatTest.
 
 
@@ -219,7 +230,10 @@ class FormatTest(object):
             int: The int64 of this FormatTest.  # noqa: E501
         """
 
-        self.__setitem__('int64', int64)
+        self.__setitem__(
+            'int64',
+            int64
+        )
 
     @property
     def number(self):
@@ -232,7 +246,8 @@ class FormatTest(object):
         return self._data_store.get('number')
 
     @number.setter
-    def number(self, number):
+    def number(
+            self, number):
         """Sets the number of this FormatTest.
 
 
@@ -240,13 +255,16 @@ class FormatTest(object):
             float: The number of this FormatTest.  # noqa: E501
         """
         if number is None:
-            raise ValueError("Invalid value for `number`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `number`, must not be `None`")  # noqa: E501
         if number is not None and number > 543.2:  # noqa: E501
-            raise ValueError("Invalid value for `number`, must be a value less than or equal to `543.2`")  # noqa: E501
+            raise ApiValueError("Invalid value for `number`, must be a value less than or equal to `543.2`")  # noqa: E501
         if number is not None and number < 32.1:  # noqa: E501
-            raise ValueError("Invalid value for `number`, must be a value greater than or equal to `32.1`")  # noqa: E501
+            raise ApiValueError("Invalid value for `number`, must be a value greater than or equal to `32.1`")  # noqa: E501
 
-        self.__setitem__('number', number)
+        self.__setitem__(
+            'number',
+            number
+        )
 
     @property
     def float(self):
@@ -259,7 +277,8 @@ class FormatTest(object):
         return self._data_store.get('float')
 
     @float.setter
-    def float(self, float):
+    def float(
+            self, float):
         """Sets the float of this FormatTest.
 
 
@@ -267,11 +286,14 @@ class FormatTest(object):
             float: The float of this FormatTest.  # noqa: E501
         """
         if float is not None and float > 987.6:  # noqa: E501
-            raise ValueError("Invalid value for `float`, must be a value less than or equal to `987.6`")  # noqa: E501
+            raise ApiValueError("Invalid value for `float`, must be a value less than or equal to `987.6`")  # noqa: E501
         if float is not None and float < 54.3:  # noqa: E501
-            raise ValueError("Invalid value for `float`, must be a value greater than or equal to `54.3`")  # noqa: E501
+            raise ApiValueError("Invalid value for `float`, must be a value greater than or equal to `54.3`")  # noqa: E501
 
-        self.__setitem__('float', float)
+        self.__setitem__(
+            'float',
+            float
+        )
 
     @property
     def double(self):
@@ -284,7 +306,8 @@ class FormatTest(object):
         return self._data_store.get('double')
 
     @double.setter
-    def double(self, double):
+    def double(
+            self, double):
         """Sets the double of this FormatTest.
 
 
@@ -292,11 +315,14 @@ class FormatTest(object):
             float: The double of this FormatTest.  # noqa: E501
         """
         if double is not None and double > 123.4:  # noqa: E501
-            raise ValueError("Invalid value for `double`, must be a value less than or equal to `123.4`")  # noqa: E501
+            raise ApiValueError("Invalid value for `double`, must be a value less than or equal to `123.4`")  # noqa: E501
         if double is not None and double < 67.8:  # noqa: E501
-            raise ValueError("Invalid value for `double`, must be a value greater than or equal to `67.8`")  # noqa: E501
+            raise ApiValueError("Invalid value for `double`, must be a value greater than or equal to `67.8`")  # noqa: E501
 
-        self.__setitem__('double', double)
+        self.__setitem__(
+            'double',
+            double
+        )
 
     @property
     def string(self):
@@ -309,7 +335,8 @@ class FormatTest(object):
         return self._data_store.get('string')
 
     @string.setter
-    def string(self, string):
+    def string(
+            self, string):
         """Sets the string of this FormatTest.
 
 
@@ -317,9 +344,12 @@ class FormatTest(object):
             str: The string of this FormatTest.  # noqa: E501
         """
         if string is not None and not re.search(r'', string):  # noqa: E501
-            raise ValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
+            raise ApiValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
 
-        self.__setitem__('string', string)
+        self.__setitem__(
+            'string',
+            string
+        )
 
     @property
     def byte(self):
@@ -332,7 +362,8 @@ class FormatTest(object):
         return self._data_store.get('byte')
 
     @byte.setter
-    def byte(self, byte):
+    def byte(
+            self, byte):
         """Sets the byte of this FormatTest.
 
 
@@ -340,9 +371,12 @@ class FormatTest(object):
             str: The byte of this FormatTest.  # noqa: E501
         """
         if byte is None:
-            raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('byte', byte)
+        self.__setitem__(
+            'byte',
+            byte
+        )
 
     @property
     def binary(self):
@@ -355,7 +389,8 @@ class FormatTest(object):
         return self._data_store.get('binary')
 
     @binary.setter
-    def binary(self, binary):
+    def binary(
+            self, binary):
         """Sets the binary of this FormatTest.
 
 
@@ -363,7 +398,10 @@ class FormatTest(object):
             file: The binary of this FormatTest.  # noqa: E501
         """
 
-        self.__setitem__('binary', binary)
+        self.__setitem__(
+            'binary',
+            binary
+        )
 
     @property
     def date(self):
@@ -376,7 +414,8 @@ class FormatTest(object):
         return self._data_store.get('date')
 
     @date.setter
-    def date(self, date):
+    def date(
+            self, date):
         """Sets the date of this FormatTest.
 
 
@@ -384,9 +423,12 @@ class FormatTest(object):
             date: The date of this FormatTest.  # noqa: E501
         """
         if date is None:
-            raise ValueError("Invalid value for `date`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `date`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('date', date)
+        self.__setitem__(
+            'date',
+            date
+        )
 
     @property
     def date_time(self):
@@ -399,7 +441,8 @@ class FormatTest(object):
         return self._data_store.get('date_time')
 
     @date_time.setter
-    def date_time(self, date_time):
+    def date_time(
+            self, date_time):
         """Sets the date_time of this FormatTest.
 
 
@@ -407,7 +450,10 @@ class FormatTest(object):
             datetime: The date_time of this FormatTest.  # noqa: E501
         """
 
-        self.__setitem__('date_time', date_time)
+        self.__setitem__(
+            'date_time',
+            date_time
+        )
 
     @property
     def uuid(self):
@@ -420,7 +466,8 @@ class FormatTest(object):
         return self._data_store.get('uuid')
 
     @uuid.setter
-    def uuid(self, uuid):
+    def uuid(
+            self, uuid):
         """Sets the uuid of this FormatTest.
 
 
@@ -428,7 +475,10 @@ class FormatTest(object):
             str: The uuid of this FormatTest.  # noqa: E501
         """
 
-        self.__setitem__('uuid', uuid)
+        self.__setitem__(
+            'uuid',
+            uuid
+        )
 
     @property
     def password(self):
@@ -441,7 +491,8 @@ class FormatTest(object):
         return self._data_store.get('password')
 
     @password.setter
-    def password(self, password):
+    def password(
+            self, password):
         """Sets the password of this FormatTest.
 
 
@@ -449,13 +500,16 @@ class FormatTest(object):
             str: The password of this FormatTest.  # noqa: E501
         """
         if password is None:
-            raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
         if password is not None and len(password) > 64:
-            raise ValueError("Invalid value for `password`, length must be less than or equal to `64`")  # noqa: E501
+            raise ApiValueError("Invalid value for `password`, length must be less than or equal to `64`")  # noqa: E501
         if password is not None and len(password) < 10:
-            raise ValueError("Invalid value for `password`, length must be greater than or equal to `10`")  # noqa: E501
+            raise ApiValueError("Invalid value for `password`, length must be greater than or equal to `10`")  # noqa: E501
 
-        self.__setitem__('password', password)
+        self.__setitem__(
+            'password',
+            password
+        )
 
     @property
     def pattern_with_digits(self):
@@ -469,7 +523,8 @@ class FormatTest(object):
         return self._data_store.get('pattern_with_digits')
 
     @pattern_with_digits.setter
-    def pattern_with_digits(self, pattern_with_digits):
+    def pattern_with_digits(
+            self, pattern_with_digits):
         """Sets the pattern_with_digits of this FormatTest.
 
         A string that is a 10 digit number. Can have leading zeros.  # noqa: E501
@@ -478,9 +533,12 @@ class FormatTest(object):
             str: The pattern_with_digits of this FormatTest.  # noqa: E501
         """
         if pattern_with_digits is not None and not re.search(r'', pattern_with_digits):  # noqa: E501
-            raise ValueError(r"Invalid value for `pattern_with_digits`, must be a follow pattern or equal to `/^\d{10}$/`")  # noqa: E501
+            raise ApiValueError(r"Invalid value for `pattern_with_digits`, must be a follow pattern or equal to `/^\d{10}$/`")  # noqa: E501
 
-        self.__setitem__('pattern_with_digits', pattern_with_digits)
+        self.__setitem__(
+            'pattern_with_digits',
+            pattern_with_digits
+        )
 
     @property
     def pattern_with_digits_and_delimiter(self):
@@ -494,7 +552,8 @@ class FormatTest(object):
         return self._data_store.get('pattern_with_digits_and_delimiter')
 
     @pattern_with_digits_and_delimiter.setter
-    def pattern_with_digits_and_delimiter(self, pattern_with_digits_and_delimiter):
+    def pattern_with_digits_and_delimiter(
+            self, pattern_with_digits_and_delimiter):
         """Sets the pattern_with_digits_and_delimiter of this FormatTest.
 
         A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.  # noqa: E501
@@ -503,9 +562,12 @@ class FormatTest(object):
             str: The pattern_with_digits_and_delimiter of this FormatTest.  # noqa: E501
         """
         if pattern_with_digits_and_delimiter is not None and not re.search(r'', pattern_with_digits_and_delimiter):  # noqa: E501
-            raise ValueError(r"Invalid value for `pattern_with_digits_and_delimiter`, must be a follow pattern or equal to `/^image_\d{1,3}$/i`")  # noqa: E501
+            raise ApiValueError(r"Invalid value for `pattern_with_digits_and_delimiter`, must be a follow pattern or equal to `/^image_\d{1,3}$/i`")  # noqa: E501
 
-        self.__setitem__('pattern_with_digits_and_delimiter', pattern_with_digits_and_delimiter)
+        self.__setitem__(
+            'pattern_with_digits_and_delimiter',
+            pattern_with_digits_and_delimiter
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

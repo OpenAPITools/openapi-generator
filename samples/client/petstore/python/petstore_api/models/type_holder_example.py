@@ -15,7 +15,17 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import model_to_dict, recursive_type, valid_type
+from petstore_api.utils import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
 
 
 class TypeHolderExample(object):
@@ -36,11 +46,11 @@ class TypeHolderExample(object):
                             additional properties.
     """
     openapi_types = {
-        'string_item': 'str',
-        'number_item': 'float',
-        'integer_item': 'int',
-        'bool_item': 'bool',
-        'array_item': 'list[int]'
+        'string_item': (str,),
+        'number_item': (float,),
+        'integer_item': (int,),
+        'bool_item': (bool,),
+        'array_item': ([(int,)],)
     }
     attribute_map = {
         'string_item': 'string_item',
@@ -89,15 +99,19 @@ class TypeHolderExample(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
-        passed_type = recursive_type(value)
-        if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+        variable_path = [name]
+        if not isinstance(name, str):
+            raise ApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
 
@@ -106,7 +120,7 @@ class TypeHolderExample(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -114,8 +128,8 @@ class TypeHolderExample(object):
         """Gets the string_item of this TypeHolderExample.  # noqa: E501
 
 
-        :return: The string_item of this TypeHolderExample.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The string_item of this TypeHolderExample.  # noqa: E501
         """
         return self._data_store.get('string_item')
 
@@ -124,11 +138,11 @@ class TypeHolderExample(object):
         """Sets the string_item of this TypeHolderExample.
 
 
-        :param string_item: The string_item of this TypeHolderExample.  # noqa: E501
-        :type: str
+        Returns:
+            str: The string_item of this TypeHolderExample.  # noqa: E501
         """
         if string_item is None:
-            raise ValueError("Invalid value for `string_item`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `string_item`, must not be `None`")  # noqa: E501
 
         self.__setitem__('string_item', string_item)
 
@@ -137,8 +151,8 @@ class TypeHolderExample(object):
         """Gets the number_item of this TypeHolderExample.  # noqa: E501
 
 
-        :return: The number_item of this TypeHolderExample.  # noqa: E501
-        :rtype: float
+        Returns:
+            float: The number_item of this TypeHolderExample.  # noqa: E501
         """
         return self._data_store.get('number_item')
 
@@ -147,11 +161,11 @@ class TypeHolderExample(object):
         """Sets the number_item of this TypeHolderExample.
 
 
-        :param number_item: The number_item of this TypeHolderExample.  # noqa: E501
-        :type: float
+        Returns:
+            float: The number_item of this TypeHolderExample.  # noqa: E501
         """
         if number_item is None:
-            raise ValueError("Invalid value for `number_item`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `number_item`, must not be `None`")  # noqa: E501
 
         self.__setitem__('number_item', number_item)
 
@@ -160,8 +174,8 @@ class TypeHolderExample(object):
         """Gets the integer_item of this TypeHolderExample.  # noqa: E501
 
 
-        :return: The integer_item of this TypeHolderExample.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The integer_item of this TypeHolderExample.  # noqa: E501
         """
         return self._data_store.get('integer_item')
 
@@ -170,11 +184,11 @@ class TypeHolderExample(object):
         """Sets the integer_item of this TypeHolderExample.
 
 
-        :param integer_item: The integer_item of this TypeHolderExample.  # noqa: E501
-        :type: int
+        Returns:
+            int: The integer_item of this TypeHolderExample.  # noqa: E501
         """
         if integer_item is None:
-            raise ValueError("Invalid value for `integer_item`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `integer_item`, must not be `None`")  # noqa: E501
 
         self.__setitem__('integer_item', integer_item)
 
@@ -183,8 +197,8 @@ class TypeHolderExample(object):
         """Gets the bool_item of this TypeHolderExample.  # noqa: E501
 
 
-        :return: The bool_item of this TypeHolderExample.  # noqa: E501
-        :rtype: bool
+        Returns:
+            bool: The bool_item of this TypeHolderExample.  # noqa: E501
         """
         return self._data_store.get('bool_item')
 
@@ -193,11 +207,11 @@ class TypeHolderExample(object):
         """Sets the bool_item of this TypeHolderExample.
 
 
-        :param bool_item: The bool_item of this TypeHolderExample.  # noqa: E501
-        :type: bool
+        Returns:
+            bool: The bool_item of this TypeHolderExample.  # noqa: E501
         """
         if bool_item is None:
-            raise ValueError("Invalid value for `bool_item`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `bool_item`, must not be `None`")  # noqa: E501
 
         self.__setitem__('bool_item', bool_item)
 
@@ -206,8 +220,8 @@ class TypeHolderExample(object):
         """Gets the array_item of this TypeHolderExample.  # noqa: E501
 
 
-        :return: The array_item of this TypeHolderExample.  # noqa: E501
-        :rtype: list[int]
+        Returns:
+            list[int]: The array_item of this TypeHolderExample.  # noqa: E501
         """
         return self._data_store.get('array_item')
 
@@ -216,11 +230,11 @@ class TypeHolderExample(object):
         """Sets the array_item of this TypeHolderExample.
 
 
-        :param array_item: The array_item of this TypeHolderExample.  # noqa: E501
-        :type: list[int]
+        Returns:
+            list[int]: The array_item of this TypeHolderExample.  # noqa: E501
         """
         if array_item is None:
-            raise ValueError("Invalid value for `array_item`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `array_item`, must not be `None`")  # noqa: E501
 
         self.__setitem__('array_item', array_item)
 

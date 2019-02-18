@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,20 +46,20 @@ class Capitalization(object):
                             additional properties.
     """
     openapi_types = {
-        'small_camel': (str,),
-        'capital_camel': (str,),
-        'small_snake': (str,),
-        'capital_snake': (str,),
-        'sca_eth_flow_points': (str,),
-        'att_name': (str,)
+        'small_camel': (str,),  # noqa: E501
+        'capital_camel': (str,),  # noqa: E501
+        'small_snake': (str,),  # noqa: E501
+        'capital_snake': (str,),  # noqa: E501
+        'sca_eth_flow_points': (str,),  # noqa: E501
+        'att_name': (str,)  # noqa: E501
     }
     attribute_map = {
-        'small_camel': 'smallCamel',
-        'capital_camel': 'CapitalCamel',
-        'small_snake': 'small_Snake',
-        'capital_snake': 'Capital_Snake',
-        'sca_eth_flow_points': 'SCA_ETH_Flow_Points',
-        'att_name': 'ATT_NAME'
+        'small_camel': 'smallCamel',  # noqa: E501
+        'capital_camel': 'CapitalCamel',  # noqa: E501
+        'small_snake': 'small_Snake',  # noqa: E501
+        'capital_snake': 'Capital_Snake',  # noqa: E501
+        'sca_eth_flow_points': 'SCA_ETH_Flow_Points',  # noqa: E501
+        'att_name': 'ATT_NAME'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -70,12 +72,12 @@ class Capitalization(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            small_camel (str): [optional]
-            capital_camel (str): [optional]
-            small_snake (str): [optional]
-            capital_snake (str): [optional]
-            sca_eth_flow_points (str): [optional]
-            att_name (str): Name of the pet . [optional]
+            small_camel (str): [optional]  # noqa: E501
+            capital_camel (str): [optional]  # noqa: E501
+            small_snake (str): [optional]  # noqa: E501
+            capital_snake (str): [optional]  # noqa: E501
+            sca_eth_flow_points (str): [optional]  # noqa: E501
+            att_name (str): Name of the pet . [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -94,12 +96,12 @@ class Capitalization(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -115,7 +117,7 @@ class Capitalization(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -129,7 +131,8 @@ class Capitalization(object):
         return self._data_store.get('small_camel')
 
     @small_camel.setter
-    def small_camel(self, small_camel):
+    def small_camel(
+            self, small_camel):
         """Sets the small_camel of this Capitalization.
 
 
@@ -137,7 +140,10 @@ class Capitalization(object):
             str: The small_camel of this Capitalization.  # noqa: E501
         """
 
-        self.__setitem__('small_camel', small_camel)
+        self.__setitem__(
+            'small_camel',
+            small_camel
+        )
 
     @property
     def capital_camel(self):
@@ -150,7 +156,8 @@ class Capitalization(object):
         return self._data_store.get('capital_camel')
 
     @capital_camel.setter
-    def capital_camel(self, capital_camel):
+    def capital_camel(
+            self, capital_camel):
         """Sets the capital_camel of this Capitalization.
 
 
@@ -158,7 +165,10 @@ class Capitalization(object):
             str: The capital_camel of this Capitalization.  # noqa: E501
         """
 
-        self.__setitem__('capital_camel', capital_camel)
+        self.__setitem__(
+            'capital_camel',
+            capital_camel
+        )
 
     @property
     def small_snake(self):
@@ -171,7 +181,8 @@ class Capitalization(object):
         return self._data_store.get('small_snake')
 
     @small_snake.setter
-    def small_snake(self, small_snake):
+    def small_snake(
+            self, small_snake):
         """Sets the small_snake of this Capitalization.
 
 
@@ -179,7 +190,10 @@ class Capitalization(object):
             str: The small_snake of this Capitalization.  # noqa: E501
         """
 
-        self.__setitem__('small_snake', small_snake)
+        self.__setitem__(
+            'small_snake',
+            small_snake
+        )
 
     @property
     def capital_snake(self):
@@ -192,7 +206,8 @@ class Capitalization(object):
         return self._data_store.get('capital_snake')
 
     @capital_snake.setter
-    def capital_snake(self, capital_snake):
+    def capital_snake(
+            self, capital_snake):
         """Sets the capital_snake of this Capitalization.
 
 
@@ -200,7 +215,10 @@ class Capitalization(object):
             str: The capital_snake of this Capitalization.  # noqa: E501
         """
 
-        self.__setitem__('capital_snake', capital_snake)
+        self.__setitem__(
+            'capital_snake',
+            capital_snake
+        )
 
     @property
     def sca_eth_flow_points(self):
@@ -213,7 +231,8 @@ class Capitalization(object):
         return self._data_store.get('sca_eth_flow_points')
 
     @sca_eth_flow_points.setter
-    def sca_eth_flow_points(self, sca_eth_flow_points):
+    def sca_eth_flow_points(
+            self, sca_eth_flow_points):
         """Sets the sca_eth_flow_points of this Capitalization.
 
 
@@ -221,7 +240,10 @@ class Capitalization(object):
             str: The sca_eth_flow_points of this Capitalization.  # noqa: E501
         """
 
-        self.__setitem__('sca_eth_flow_points', sca_eth_flow_points)
+        self.__setitem__(
+            'sca_eth_flow_points',
+            sca_eth_flow_points
+        )
 
     @property
     def att_name(self):
@@ -235,7 +257,8 @@ class Capitalization(object):
         return self._data_store.get('att_name')
 
     @att_name.setter
-    def att_name(self, att_name):
+    def att_name(
+            self, att_name):
         """Sets the att_name of this Capitalization.
 
         Name of the pet   # noqa: E501
@@ -244,7 +267,10 @@ class Capitalization(object):
             str: The att_name of this Capitalization.  # noqa: E501
         """
 
-        self.__setitem__('att_name', att_name)
+        self.__setitem__(
+            'att_name',
+            att_name
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -45,14 +47,14 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
                             additional properties.
     """
     openapi_types = {
-        'uuid': (str,),
-        'date_time': (datetime,),
-        'map': ({str: (Animal,)},)
+        'uuid': (str,),  # noqa: E501
+        'date_time': (datetime,),  # noqa: E501
+        'map': ({str: (Animal,)},)  # noqa: E501
     }
     attribute_map = {
-        'uuid': 'uuid',
-        'date_time': 'dateTime',
-        'map': 'map'
+        'uuid': 'uuid',  # noqa: E501
+        'date_time': 'dateTime',  # noqa: E501
+        'map': 'map'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -65,9 +67,9 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            uuid (str): [optional]
-            date_time (datetime): [optional]
-            map (dict(str: Animal)): [optional]
+            uuid (str): [optional]  # noqa: E501
+            date_time (datetime): [optional]  # noqa: E501
+            map (dict(str: Animal)): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -86,12 +88,12 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -107,7 +109,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -121,7 +123,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         return self._data_store.get('uuid')
 
     @uuid.setter
-    def uuid(self, uuid):
+    def uuid(
+            self, uuid):
         """Sets the uuid of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
@@ -129,7 +132,10 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
             str: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
 
-        self.__setitem__('uuid', uuid)
+        self.__setitem__(
+            'uuid',
+            uuid
+        )
 
     @property
     def date_time(self):
@@ -142,7 +148,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         return self._data_store.get('date_time')
 
     @date_time.setter
-    def date_time(self, date_time):
+    def date_time(
+            self, date_time):
         """Sets the date_time of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
@@ -150,7 +157,10 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
             datetime: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
 
-        self.__setitem__('date_time', date_time)
+        self.__setitem__(
+            'date_time',
+            date_time
+        )
 
     @property
     def map(self):
@@ -163,7 +173,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         return self._data_store.get('map')
 
     @map.setter
-    def map(self, map):
+    def map(
+            self, map):
         """Sets the map of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
@@ -171,7 +182,10 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
             dict(str: Animal): The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
 
-        self.__setitem__('map', map)
+        self.__setitem__(
+            'map',
+            map
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

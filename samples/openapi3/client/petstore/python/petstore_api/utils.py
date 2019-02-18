@@ -10,8 +10,7 @@
 """
 
 
-from datetime import date, datetime
-import re
+from datetime import date, datetime  # noqa: F401
 
 import six
 
@@ -20,52 +19,43 @@ if six.PY3:
     import io
     file_type = io.IOBase
 else:
-    file_type = file
-
-def recursive_type(item):
-    """Gets a string describing the full the recursive type of a value"""
-    item_type = type(item)
-    if item_type == dict:
-        child_key_types = set()
-        child_value_types = set()
-        for child_key, child_value in six.iteritems(item):
-            child_key_types.add(recursive_type(child_key))
-            child_value_types.add(recursive_type(child_value))
-        # only allow empty dicts or dicts with str keys
-        if child_key_types not in [set(['str']), set()]:
-            raise TypeError('Invalid dict key type. All Openapi dict keys must be strings')
-        child_value_types = TYPE_SEPARATOR.join(sorted(list(child_value_types)))
-        if child_key_types == set():
-            return "dict()"
-        return "dict(str, {0})".format(child_value_types)
-    elif item_type == list:
-        child_value_types = set()
-        for child_item in item:
-            child_value_types.add(recursive_type(child_item))
-        child_value_types = TYPE_SEPARATOR.join(sorted(list(child_value_types)))
-        return "list[{0}]".format(child_value_types)
-    else:
-        return type(item).__name__
+    file_type = file  # noqa: F821
 
 
-class OpenaApiTypeError(TypeError):
+class OpenApiException(Exception):
+    """The base exception class for all OpenAPIExceptions"""
+
+
+class ApiTypeError(OpenApiException, TypeError):
     def __init__(self, required_types, current_item, path_to_item,
                  value_type=True):
         key_or_value = 'value'
         if not value_type:
             key_or_value = 'key'
-        msg = ("Invalid type for variable {0}. Required {1} type is {2} and "
-               "passed type was {3} at location={4}".format(
-               path_to_item[0],
-               key_or_value,
-               required_types,
-               type(current_item),
-               path_to_item
-               ))
-        super(OpenaApiTypeError, self).__init__(msg)
+        msg = (
+            "Invalid type for variable {0}. Required {1} type is {2} and "
+            "passed type was {3} at location={4}".format(
+                path_to_item[0],
+                key_or_value,
+                required_types,
+                type(current_item),
+                path_to_item
+            )
+        )
+        super(ApiTypeError, self).__init__(msg)
         self.path_to_item = path_to_item
         self.current_item = current_item
         self.required_types = required_types
+
+
+class ApiValueError(OpenApiException, ValueError):
+    def __init__(self, msg):
+        super(ApiTypeError, self).__init__(msg)
+
+
+class ApiKeyError(OpenApiException, KeyError):
+    def __init__(self, msg):
+        super(ApiKeyError, self).__init__(msg)
 
 
 def get_required_type_classes(required_types):
@@ -92,8 +82,9 @@ def validate_type(input_value, required_types, variable_path):
     """Raises a TypeError is ther is a problem, otherwise continue"""
     results = get_required_type_classes(required_types)
     required_type_classes, child_required_types = results
-    if not isinstance(input_value, required_type_classes):
-        raise OpenaApiTypeError(
+    # Note: we can't use isinstance here because isinstance(True, int) == True
+    if not type(input_value) in required_type_classes:
+        raise ApiTypeError(
             required_type_classes,
             input_value,
             variable_path
@@ -123,7 +114,7 @@ def validate_type(input_value, required_types, variable_path):
             inner_path = list(variable_path)
             inner_path.append(inner_key)
             if not isinstance(inner_key, str):
-                raise OpenaApiTypeError(
+                raise ApiTypeError(
                     (str,),
                     inner_key,
                     inner_path,
@@ -155,7 +146,8 @@ def model_to_dict(model_instance, serialize=True):
             ))
         elif isinstance(value, dict):
             result[attr] = dict(map(
-                lambda item: (item[0], model_to_dict(item[1], serialize=serialize))
+                lambda item: (item[0],
+                              model_to_dict(item[1], serialize=serialize))
                 if hasattr(item[1], '_data_store') else item,
                 value.items()
             ))

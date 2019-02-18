@@ -15,7 +15,19 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import model_to_dict, recursive_type, valid_type
+from petstore_api.utils import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
+from petstore_api.models.category import Category
+from petstore_api.models.tag import Tag
 
 
 class Pet(object):
@@ -36,12 +48,12 @@ class Pet(object):
                             additional properties.
     """
     openapi_types = {
-        'id': 'int',
-        'category': 'Category',
-        'name': 'str',
-        'photo_urls': 'list[str]',
-        'tags': 'list[Tag]',
-        'status': 'str'
+        'id': (int,),
+        'category': (Category,),
+        'name': (str,),
+        'photo_urls': ([(str,)],),
+        'tags': ([(Tag,)],),
+        'status': (str,)
     }
     attribute_map = {
         'id': 'id',
@@ -89,15 +101,19 @@ class Pet(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
-        passed_type = recursive_type(value)
-        if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+        variable_path = [name]
+        if not isinstance(name, str):
+            raise ApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
 
@@ -106,7 +122,7 @@ class Pet(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -114,8 +130,8 @@ class Pet(object):
         """Gets the id of this Pet.  # noqa: E501
 
 
-        :return: The id of this Pet.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The id of this Pet.  # noqa: E501
         """
         return self._data_store.get('id')
 
@@ -124,8 +140,8 @@ class Pet(object):
         """Sets the id of this Pet.
 
 
-        :param id: The id of this Pet.  # noqa: E501
-        :type: int
+        Returns:
+            int: The id of this Pet.  # noqa: E501
         """
 
         self.__setitem__('id', id)
@@ -135,8 +151,8 @@ class Pet(object):
         """Gets the category of this Pet.  # noqa: E501
 
 
-        :return: The category of this Pet.  # noqa: E501
-        :rtype: Category
+        Returns:
+            Category: The category of this Pet.  # noqa: E501
         """
         return self._data_store.get('category')
 
@@ -145,8 +161,8 @@ class Pet(object):
         """Sets the category of this Pet.
 
 
-        :param category: The category of this Pet.  # noqa: E501
-        :type: Category
+        Returns:
+            Category: The category of this Pet.  # noqa: E501
         """
 
         self.__setitem__('category', category)
@@ -156,8 +172,8 @@ class Pet(object):
         """Gets the name of this Pet.  # noqa: E501
 
 
-        :return: The name of this Pet.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The name of this Pet.  # noqa: E501
         """
         return self._data_store.get('name')
 
@@ -166,11 +182,11 @@ class Pet(object):
         """Sets the name of this Pet.
 
 
-        :param name: The name of this Pet.  # noqa: E501
-        :type: str
+        Returns:
+            str: The name of this Pet.  # noqa: E501
         """
         if name is None:
-            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self.__setitem__('name', name)
 
@@ -179,8 +195,8 @@ class Pet(object):
         """Gets the photo_urls of this Pet.  # noqa: E501
 
 
-        :return: The photo_urls of this Pet.  # noqa: E501
-        :rtype: list[str]
+        Returns:
+            list[str]: The photo_urls of this Pet.  # noqa: E501
         """
         return self._data_store.get('photo_urls')
 
@@ -189,11 +205,11 @@ class Pet(object):
         """Sets the photo_urls of this Pet.
 
 
-        :param photo_urls: The photo_urls of this Pet.  # noqa: E501
-        :type: list[str]
+        Returns:
+            list[str]: The photo_urls of this Pet.  # noqa: E501
         """
         if photo_urls is None:
-            raise ValueError("Invalid value for `photo_urls`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `photo_urls`, must not be `None`")  # noqa: E501
 
         self.__setitem__('photo_urls', photo_urls)
 
@@ -202,8 +218,8 @@ class Pet(object):
         """Gets the tags of this Pet.  # noqa: E501
 
 
-        :return: The tags of this Pet.  # noqa: E501
-        :rtype: list[Tag]
+        Returns:
+            list[Tag]: The tags of this Pet.  # noqa: E501
         """
         return self._data_store.get('tags')
 
@@ -212,8 +228,8 @@ class Pet(object):
         """Sets the tags of this Pet.
 
 
-        :param tags: The tags of this Pet.  # noqa: E501
-        :type: list[Tag]
+        Returns:
+            list[Tag]: The tags of this Pet.  # noqa: E501
         """
 
         self.__setitem__('tags', tags)
@@ -224,8 +240,8 @@ class Pet(object):
 
         pet status in the store  # noqa: E501
 
-        :return: The status of this Pet.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The status of this Pet.  # noqa: E501
         """
         return self._data_store.get('status')
 
@@ -235,12 +251,12 @@ class Pet(object):
 
         pet status in the store  # noqa: E501
 
-        :param status: The status of this Pet.  # noqa: E501
-        :type: str
+        Returns:
+            str: The status of this Pet.  # noqa: E501
         """
         allowed_values = ["available", "pending", "sold"]  # noqa: E501
         if status not in allowed_values:
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
                 .format(status, allowed_values)
             )

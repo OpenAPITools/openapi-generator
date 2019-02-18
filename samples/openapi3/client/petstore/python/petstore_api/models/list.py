@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,10 +46,10 @@ class List(object):
                             additional properties.
     """
     openapi_types = {
-        '_123_list': (str,)
+        '_123_list': (str,)  # noqa: E501
     }
     attribute_map = {
-        '_123_list': '123-list'
+        '_123_list': '123-list'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -60,7 +62,7 @@ class List(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            _123_list (str): [optional]
+            _123_list (str): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -79,12 +81,12 @@ class List(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -100,7 +102,7 @@ class List(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -114,7 +116,8 @@ class List(object):
         return self._data_store.get('_123_list')
 
     @_123_list.setter
-    def _123_list(self, _123_list):
+    def _123_list(
+            self, _123_list):
         """Sets the _123_list of this List.
 
 
@@ -122,7 +125,10 @@ class List(object):
             str: The _123_list of this List.  # noqa: E501
         """
 
-        self.__setitem__('_123_list', _123_list)
+        self.__setitem__(
+            '_123_list',
+            _123_list
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

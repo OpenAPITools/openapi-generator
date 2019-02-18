@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,10 +46,10 @@ class File(object):
                             additional properties.
     """
     openapi_types = {
-        'source_uri': (str,)
+        'source_uri': (str,)  # noqa: E501
     }
     attribute_map = {
-        'source_uri': 'sourceURI'
+        'source_uri': 'sourceURI'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -60,7 +62,7 @@ class File(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            source_uri (str): Test capitalization. [optional]
+            source_uri (str): Test capitalization. [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -79,12 +81,12 @@ class File(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -100,7 +102,7 @@ class File(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -115,7 +117,8 @@ class File(object):
         return self._data_store.get('source_uri')
 
     @source_uri.setter
-    def source_uri(self, source_uri):
+    def source_uri(
+            self, source_uri):
         """Sets the source_uri of this File.
 
         Test capitalization  # noqa: E501
@@ -124,7 +127,10 @@ class File(object):
             str: The source_uri of this File.  # noqa: E501
         """
 
-        self.__setitem__('source_uri', source_uri)
+        self.__setitem__(
+            'source_uri',
+            source_uri
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

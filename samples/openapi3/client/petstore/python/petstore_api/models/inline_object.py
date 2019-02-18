@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,12 +46,12 @@ class InlineObject(object):
                             additional properties.
     """
     openapi_types = {
-        'name': (str,),
-        'status': (str,)
+        'name': (str,),  # noqa: E501
+        'status': (str,)  # noqa: E501
     }
     attribute_map = {
-        'name': 'name',
-        'status': 'status'
+        'name': 'name',  # noqa: E501
+        'status': 'status'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -62,8 +64,8 @@ class InlineObject(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            name (str): Updated name of the pet. [optional]
-            status (str): Updated status of the pet. [optional]
+            name (str): Updated name of the pet. [optional]  # noqa: E501
+            status (str): Updated status of the pet. [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -82,12 +84,12 @@ class InlineObject(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -103,7 +105,7 @@ class InlineObject(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -118,7 +120,8 @@ class InlineObject(object):
         return self._data_store.get('name')
 
     @name.setter
-    def name(self, name):
+    def name(
+            self, name):
         """Sets the name of this InlineObject.
 
         Updated name of the pet  # noqa: E501
@@ -127,7 +130,10 @@ class InlineObject(object):
             str: The name of this InlineObject.  # noqa: E501
         """
 
-        self.__setitem__('name', name)
+        self.__setitem__(
+            'name',
+            name
+        )
 
     @property
     def status(self):
@@ -141,7 +147,8 @@ class InlineObject(object):
         return self._data_store.get('status')
 
     @status.setter
-    def status(self, status):
+    def status(
+            self, status):
         """Sets the status of this InlineObject.
 
         Updated status of the pet  # noqa: E501
@@ -150,7 +157,10 @@ class InlineObject(object):
             str: The status of this InlineObject.  # noqa: E501
         """
 
-        self.__setitem__('status', status)
+        self.__setitem__(
+            'status',
+            status
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

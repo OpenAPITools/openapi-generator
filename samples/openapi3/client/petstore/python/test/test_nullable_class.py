@@ -16,16 +16,19 @@ import unittest
 
 import petstore_api
 from petstore_api.models.nullable_class import NullableClass  # noqa: E501
-from petstore_api.rest import ApiException
+from petstore_api.utils import ApiTypeError
 from test.utils import EXAMPLES, VAR_NAME_INVALID_TYPES, get_examples
 
 
 VALID_TYPES_BY_VAR = {
-    'integer_prop': ['int', 'NoneType'],
-    'number_prop': ['float', 'NoneType'],
-    'boolean_prop': ['bool', 'NoneType'],
-    'string_prop': ['str', 'NoneType'],
-    'array_nullable_prop': ['list', 'NoneType']
+    'integer_prop': ['int', 'None'],
+    'number_prop': ['float', 'None'],
+    'boolean_prop': ['bool', 'None'],
+    'string_prop': ['str', 'None'],
+    'date_prop': ['date', 'None'],
+    'datetime_prop': ['datetime', 'None'],
+    'array_nullable_prop': ['list', 'None'],
+    'object_nullable_prop': ['dict', 'None']
 }
 
 class TestNullableClass(unittest.TestCase):
@@ -51,115 +54,293 @@ class TestNullableClass(unittest.TestCase):
         ]
         for var_value in get_examples(invalid_types):
             keyword_args = {var_name: var_value}
-            with self.assertRaises(TypeError):
+            with self.assertRaises(ApiTypeError) as exc:
                 a = NullableClass(_check_type=True, **keyword_args)
-            with self.assertRaises(TypeError):
+            with self.assertRaises(ApiTypeError):
                 a = NullableClass(_check_type=True)
                 a[var_name] = var_value
 
-    # def test_number_prop_valid_values(self):
-    #     var_name = 'number_prop'
-    #     for var_value in get_examples(VALID_TYPES_BY_VAR[var_name]):
-    #         keyword_args = {var_name: var_value}
-    #         a = NullableClass(_check_type=True, **keyword_args)
-    #         assert a[var_name] == var_value
-    #         assert a.to_dict() == keyword_args
-    #         b = NullableClass(_check_type=True)
-    #         b[var_name] = var_value
-    #         assert b[var_name] == var_value
-    #         assert b.to_dict() == keyword_args
-    #
-    # def test_number_prop_invalid_values(self):
-    #     var_name = 'number_prop'
-    #     valid_types = VALID_TYPES_BY_VAR[var_name]
-    #     invalid_types = [
-    #         val for val in EXAMPLES.keys() if val not in valid_types
-    #     ]
-    #     for var_value in get_examples(invalid_types):
-    #         keyword_args = {var_name: var_value}
-    #         with self.assertRaises(TypeError):
-    #             NullableClass(_check_type=True, **keyword_args)
-    #         with self.assertRaises(TypeError):
-    #             a = NullableClass(_check_type=True)
-    #             a[var_name] = var_value
-    #
-    # def test_boolean_prop_valid_values(self):
-    #     var_name = 'boolean_prop'
-    #     for var_value in get_examples(VALID_TYPES_BY_VAR[var_name]):
-    #         keyword_args = {var_name: var_value}
-    #         a = NullableClass(_check_type=True, **keyword_args)
-    #         assert a[var_name] == var_value
-    #         assert a.to_dict() == keyword_args
-    #         b = NullableClass(_check_type=True)
-    #         b[var_name] = var_value
-    #         assert b[var_name] == var_value
-    #         assert b.to_dict() == keyword_args
-    #
-    # def test_boolean_prop_invalid_values(self):
-    #     var_name = 'boolean_prop'
-    #     valid_types = VALID_TYPES_BY_VAR[var_name]
-    #     invalid_types = [
-    #         val for val in EXAMPLES.keys() if val not in valid_types
-    #     ]
-    #     for var_value in get_examples(invalid_types):
-    #         keyword_args = {var_name: var_value}
-    #         with self.assertRaises(TypeError):
-    #             NullableClass(_check_type=True, **keyword_args)
-    #         with self.assertRaises(TypeError):
-    #             a = NullableClass(_check_type=True)
-    #             a[var_name] = var_value
-    #
-    # def test_string_prop_valid_values(self):
-    #     var_name = 'string_prop'
-    #     for var_value in get_examples(VALID_TYPES_BY_VAR[var_name]):
-    #         keyword_args = {var_name: var_value}
-    #         a = NullableClass(_check_type=True, **keyword_args)
-    #         assert a[var_name] == var_value
-    #         assert a.to_dict() == keyword_args
-    #         b = NullableClass(_check_type=True)
-    #         b[var_name] = var_value
-    #         assert b[var_name] == var_value
-    #         assert b.to_dict() == keyword_args
-    #
-    # def test_string_prop_invalid_values(self):
-    #     var_name = 'string_prop'
-    #     valid_types = VALID_TYPES_BY_VAR[var_name]
-    #     invalid_types = [
-    #         val for val in EXAMPLES.keys() if val not in valid_types
-    #     ]
-    #     for var_value in get_examples(invalid_types):
-    #         keyword_args = {var_name: var_value}
-    #         with self.assertRaises(TypeError):
-    #             NullableClass(_check_type=True, **keyword_args)
-    #         with self.assertRaises(TypeError):
-    #             a = NullableClass(_check_type=True)
-    #             a[var_name] = var_value
-    #
-    # def test_array_nullable_prop_valid_values(self):
-    #     var_name = 'array_nullable_prop'
-    #     for var_value in get_examples(VALID_TYPES_BY_VAR[var_name]):
-    #         keyword_args = {var_name: var_value}
-    #         a = NullableClass(_check_type=True, **keyword_args)
-    #         assert a[var_name] == var_value
-    #         assert a.to_dict() == keyword_args
-    #         b = NullableClass(_check_type=True)
-    #         b[var_name] = var_value
-    #         assert b[var_name] == var_value
-    #         assert b.to_dict() == keyword_args
-    #
-    # def test_array_nullable_prop_invalid_values(self):
-    #     var_name = 'array_nullable_prop'
-    #     valid_types = VALID_TYPES_BY_VAR[var_name]
-    #     invalid_types = [
-    #         val for val in EXAMPLES.keys() if val not in valid_types
-    #     ]
-    #     for var_value in get_examples(invalid_types):
-    #         keyword_args = {var_name: var_value}
-    #         with self.assertRaises(TypeError):
-    #             NullableClass(_check_type=True, **keyword_args)
-    #         with self.assertRaises(TypeError):
-    #             a = NullableClass(_check_type=True)
-    #             a[var_name] = var_value
+    def test_number_prop_valid_values(self):
+        var_name = 'number_prop'
+        for var_value in get_examples(VALID_TYPES_BY_VAR[var_name]):
+            keyword_args = {var_name: var_value}
+            a = NullableClass(_check_type=True, **keyword_args)
+            assert a[var_name] == var_value
+            assert a.to_dict() == keyword_args
+            b = NullableClass(_check_type=True)
+            b[var_name] = var_value
+            assert b[var_name] == var_value
+            assert b.to_dict() == keyword_args
+
+    def test_number_prop_invalid_values(self):
+        var_name = 'number_prop'
+        valid_types = VALID_TYPES_BY_VAR[var_name]
+        invalid_types = [
+            val for val in EXAMPLES.keys() if val not in valid_types
+        ]
+        for var_value in get_examples(invalid_types):
+            keyword_args = {var_name: var_value}
+            with self.assertRaises(ApiTypeError):
+                NullableClass(_check_type=True, **keyword_args)
+            with self.assertRaises(ApiTypeError):
+                a = NullableClass(_check_type=True)
+                a[var_name] = var_value
+
+    def test_boolean_prop_valid_values(self):
+        var_name = 'boolean_prop'
+        for var_value in get_examples(VALID_TYPES_BY_VAR[var_name]):
+            keyword_args = {var_name: var_value}
+            a = NullableClass(_check_type=True, **keyword_args)
+            assert a[var_name] == var_value
+            assert a.to_dict() == keyword_args
+            b = NullableClass(_check_type=True)
+            b[var_name] = var_value
+            assert b[var_name] == var_value
+            assert b.to_dict() == keyword_args
+
+    def test_boolean_prop_invalid_values(self):
+        var_name = 'boolean_prop'
+        valid_types = VALID_TYPES_BY_VAR[var_name]
+        invalid_types = [
+            val for val in EXAMPLES.keys() if val not in valid_types
+        ]
+        for var_value in get_examples(invalid_types):
+            keyword_args = {var_name: var_value}
+            with self.assertRaises(ApiTypeError):
+                NullableClass(_check_type=True, **keyword_args)
+            with self.assertRaises(ApiTypeError):
+                a = NullableClass(_check_type=True)
+                a[var_name] = var_value
+
+    def test_string_prop_valid_values(self):
+        var_name = 'string_prop'
+        for var_value in get_examples(VALID_TYPES_BY_VAR[var_name]):
+            keyword_args = {var_name: var_value}
+            a = NullableClass(_check_type=True, **keyword_args)
+            assert a[var_name] == var_value
+            assert a.to_dict() == keyword_args
+            b = NullableClass(_check_type=True)
+            b[var_name] = var_value
+            assert b[var_name] == var_value
+            assert b.to_dict() == keyword_args
+
+    def test_string_prop_invalid_values(self):
+        var_name = 'string_prop'
+        valid_types = VALID_TYPES_BY_VAR[var_name]
+        invalid_types = [
+            val for val in EXAMPLES.keys() if val not in valid_types
+        ]
+        for var_value in get_examples(invalid_types):
+            keyword_args = {var_name: var_value}
+            with self.assertRaises(ApiTypeError):
+                NullableClass(_check_type=True, **keyword_args)
+            with self.assertRaises(ApiTypeError):
+                a = NullableClass(_check_type=True)
+                a[var_name] = var_value
+
+    def test_date_prop_valid_values(self):
+        var_name = 'date_prop'
+        for var_value in get_examples(VALID_TYPES_BY_VAR[var_name]):
+            keyword_args = {var_name: var_value}
+            a = NullableClass(_check_type=True, **keyword_args)
+            assert a[var_name] == var_value
+            assert a.to_dict() == keyword_args
+            b = NullableClass(_check_type=True)
+            b[var_name] = var_value
+            assert b[var_name] == var_value
+            assert b.to_dict() == keyword_args
+
+    def test_date_prop_invalid_values(self):
+        var_name = 'date_prop'
+        valid_types = VALID_TYPES_BY_VAR[var_name]
+        invalid_types = [
+            val for val in EXAMPLES.keys() if val not in valid_types
+        ]
+        for var_value in get_examples(invalid_types):
+            keyword_args = {var_name: var_value}
+            with self.assertRaises(ApiTypeError):
+                NullableClass(_check_type=True, **keyword_args)
+            with self.assertRaises(ApiTypeError):
+                a = NullableClass(_check_type=True)
+                a[var_name] = var_value
+
+    def test_datetime_prop_valid_values(self):
+        var_name = 'datetime_prop'
+        for var_value in get_examples(VALID_TYPES_BY_VAR[var_name]):
+            keyword_args = {var_name: var_value}
+            a = NullableClass(_check_type=True, **keyword_args)
+            assert a[var_name] == var_value
+            assert a.to_dict() == keyword_args
+            b = NullableClass(_check_type=True)
+            b[var_name] = var_value
+            assert b[var_name] == var_value
+            assert b.to_dict() == keyword_args
+
+    def test_datetime_prop_invalid_values(self):
+        var_name = 'datetime_prop'
+        valid_types = VALID_TYPES_BY_VAR[var_name]
+        invalid_types = [
+            val for val in EXAMPLES.keys() if val not in valid_types
+        ]
+        for var_value in get_examples(invalid_types):
+            keyword_args = {var_name: var_value}
+            with self.assertRaises(ApiTypeError):
+                NullableClass(_check_type=True, **keyword_args)
+            with self.assertRaises(ApiTypeError):
+                a = NullableClass(_check_type=True)
+                a[var_name] = var_value
+
+    def test_array_nullable_prop_valid_values(self):
+        var_name = 'array_nullable_prop'
+        for var_value in get_examples(VALID_TYPES_BY_VAR[var_name]):
+            keyword_args = {var_name: var_value}
+            a = NullableClass(_check_type=True, **keyword_args)
+            assert a[var_name] == var_value
+            assert a.to_dict() == keyword_args
+            b = NullableClass(_check_type=True)
+            b[var_name] = var_value
+            assert b[var_name] == var_value
+            assert b.to_dict() == keyword_args
+
+    def test_array_nullable_prop_invalid_values(self):
+        var_name = 'array_nullable_prop'
+        valid_types = VALID_TYPES_BY_VAR[var_name]
+        invalid_types = [
+            val for val in EXAMPLES.keys() if val not in valid_types
+        ]
+        for var_value in get_examples(invalid_types):
+            keyword_args = {var_name: var_value}
+            with self.assertRaises(ApiTypeError):
+                NullableClass(_check_type=True, **keyword_args)
+            with self.assertRaises(ApiTypeError):
+                a = NullableClass(_check_type=True)
+                a[var_name] = var_value
+
+    def test_array_and_items_nullable_prop_valid_values(self):
+        var_name = 'array_and_items_nullable_prop'
+        var_values = get_examples(['list', 'None'])
+        var_values.append([None])
+        for var_value in var_values:
+            keyword_args = {var_name: var_value}
+            a = NullableClass(_check_type=True, **keyword_args)
+            assert a[var_name] == var_value
+            assert a.to_dict() == keyword_args
+            b = NullableClass(_check_type=True)
+            b[var_name] = var_value
+            assert b[var_name] == var_value
+            assert b.to_dict() == keyword_args
+
+    def test_array_and_items_nullable_prop_invalid_values(self):
+        var_name = 'array_and_items_nullable_prop'
+        var_values = [object, [object]]
+        for var_value in var_values:
+            keyword_args = {var_name: var_value}
+            with self.assertRaises(ApiTypeError):
+                NullableClass(_check_type=True, **keyword_args)
+            with self.assertRaises(ApiTypeError):
+                a = NullableClass(_check_type=True)
+                a[var_name] = var_value
+
+    def test_array_items_nullable_valid_values(self):
+        var_name = 'array_items_nullable'
+        var_values = get_examples(['list'])
+        var_values.append([None])
+        for var_value in var_values:
+            keyword_args = {var_name: var_value}
+            a = NullableClass(_check_type=True, **keyword_args)
+            assert a[var_name] == var_value
+            assert a.to_dict() == keyword_args
+            b = NullableClass(_check_type=True)
+            b[var_name] = var_value
+            assert b[var_name] == var_value
+            assert b.to_dict() == keyword_args
+
+    def test_array_items_nullable_invalid_values(self):
+        var_name = 'array_items_nullable'
+        var_values = [None, object, [object]]
+        for var_value in var_values:
+            keyword_args = {var_name: var_value}
+            with self.assertRaises(ApiTypeError):
+                NullableClass(_check_type=True, **keyword_args)
+            with self.assertRaises(ApiTypeError):
+                a = NullableClass(_check_type=True)
+                a[var_name] = var_value
+
+    def test_object_nullable_prop_valid_values(self):
+        var_name = 'object_nullable_prop'
+        for var_value in get_examples(VALID_TYPES_BY_VAR[var_name]):
+            keyword_args = {var_name: var_value}
+            a = NullableClass(_check_type=True, **keyword_args)
+            assert a[var_name] == var_value
+            assert a.to_dict() == keyword_args
+            b = NullableClass(_check_type=True)
+            b[var_name] = var_value
+            assert b[var_name] == var_value
+            assert b.to_dict() == keyword_args
+
+    def test_object_nullable_prop_invalid_values(self):
+        var_name = 'object_nullable_prop'
+        valid_types = VALID_TYPES_BY_VAR[var_name]
+        invalid_types = [
+            val for val in EXAMPLES.keys() if val not in valid_types
+        ]
+        for var_value in get_examples(invalid_types):
+            keyword_args = {var_name: var_value}
+            with self.assertRaises(ApiTypeError):
+                NullableClass(_check_type=True, **keyword_args)
+            with self.assertRaises(ApiTypeError):
+                a = NullableClass(_check_type=True)
+                a[var_name] = var_value
+
+    def test_object_and_items_nullable_prop_valid_values(self):
+        var_name = 'object_and_items_nullable_prop'
+        var_values = get_examples(['dict', 'None'])
+        var_values.append({'hi': None})
+        for var_value in var_values:
+            keyword_args = {var_name: var_value}
+            a = NullableClass(_check_type=True, **keyword_args)
+            assert a[var_name] == var_value
+            assert a.to_dict() == keyword_args
+            b = NullableClass(_check_type=True)
+            b[var_name] = var_value
+            assert b[var_name] == var_value
+            assert b.to_dict() == keyword_args
+
+    def test_object_and_items_nullable_prop_invalid_values(self):
+        var_name = 'object_and_items_nullable_prop'
+        var_values = [object, {'hi': object}]
+        for var_value in var_values:
+            keyword_args = {var_name: var_value}
+            with self.assertRaises(ApiTypeError):
+                NullableClass(_check_type=True, **keyword_args)
+            with self.assertRaises(ApiTypeError):
+                a = NullableClass(_check_type=True)
+                a[var_name] = var_value
+
+    def test_object_items_nullable_valid_values(self):
+        var_name = 'object_items_nullable'
+        var_values = get_examples(['dict'])
+        var_values.append({'hi': None})
+        for var_value in var_values:
+            keyword_args = {var_name: var_value}
+            a = NullableClass(_check_type=True, **keyword_args)
+            assert a[var_name] == var_value
+            assert a.to_dict() == keyword_args
+            b = NullableClass(_check_type=True)
+            b[var_name] = var_value
+            assert b[var_name] == var_value
+            assert b.to_dict() == keyword_args
+
+    def test_object_items_nullable_invalid_values(self):
+        var_name = 'object_items_nullable'
+        var_values = [None, object, {'hi': object}]
+        for var_value in var_values:
+            keyword_args = {var_name: var_value}
+            with self.assertRaises(ApiTypeError):
+                NullableClass(_check_type=True, **keyword_args)
+            with self.assertRaises(ApiTypeError):
+                a = NullableClass(_check_type=True)
+                a[var_name] = var_value
 
 
 if __name__ == '__main__':

@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,16 +46,16 @@ class Name(object):
                             additional properties.
     """
     openapi_types = {
-        'name': (int,),
-        'snake_case': (int,),
-        '_property': (str,),
-        '_123_number': (int,)
+        'name': (int,),  # noqa: E501
+        'snake_case': (int,),  # noqa: E501
+        '_property': (str,),  # noqa: E501
+        '_123_number': (int,)  # noqa: E501
     }
     attribute_map = {
-        'name': 'name',
-        'snake_case': 'snake_case',
-        '_property': 'property',
-        '_123_number': '123Number'
+        'name': 'name',  # noqa: E501
+        'snake_case': 'snake_case',  # noqa: E501
+        '_property': 'property',  # noqa: E501
+        '_123_number': '123Number'  # noqa: E501
     }
 
     def __init__(self, name, _check_type=False, **kwargs):  # noqa: E501
@@ -67,9 +69,9 @@ class Name(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            snake_case (int): [optional]
-            _property (str): [optional]
-            _123_number (int): [optional]
+            snake_case (int): [optional]  # noqa: E501
+            _property (str): [optional]  # noqa: E501
+            _123_number (int): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -90,12 +92,12 @@ class Name(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -111,7 +113,7 @@ class Name(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -125,7 +127,8 @@ class Name(object):
         return self._data_store.get('name')
 
     @name.setter
-    def name(self, name):
+    def name(
+            self, name):
         """Sets the name of this Name.
 
 
@@ -133,9 +136,12 @@ class Name(object):
             int: The name of this Name.  # noqa: E501
         """
         if name is None:
-            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('name', name)
+        self.__setitem__(
+            'name',
+            name
+        )
 
     @property
     def snake_case(self):
@@ -148,7 +154,8 @@ class Name(object):
         return self._data_store.get('snake_case')
 
     @snake_case.setter
-    def snake_case(self, snake_case):
+    def snake_case(
+            self, snake_case):
         """Sets the snake_case of this Name.
 
 
@@ -156,7 +163,10 @@ class Name(object):
             int: The snake_case of this Name.  # noqa: E501
         """
 
-        self.__setitem__('snake_case', snake_case)
+        self.__setitem__(
+            'snake_case',
+            snake_case
+        )
 
     @property
     def _property(self):
@@ -169,7 +179,8 @@ class Name(object):
         return self._data_store.get('_property')
 
     @_property.setter
-    def _property(self, _property):
+    def _property(
+            self, _property):
         """Sets the _property of this Name.
 
 
@@ -177,7 +188,10 @@ class Name(object):
             str: The _property of this Name.  # noqa: E501
         """
 
-        self.__setitem__('_property', _property)
+        self.__setitem__(
+            '_property',
+            _property
+        )
 
     @property
     def _123_number(self):
@@ -190,7 +204,8 @@ class Name(object):
         return self._data_store.get('_123_number')
 
     @_123_number.setter
-    def _123_number(self, _123_number):
+    def _123_number(
+            self, _123_number):
         """Sets the _123_number of this Name.
 
 
@@ -198,7 +213,10 @@ class Name(object):
             int: The _123_number of this Name.  # noqa: E501
         """
 
-        self.__setitem__('_123_number', _123_number)
+        self.__setitem__(
+            '_123_number',
+            _123_number
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

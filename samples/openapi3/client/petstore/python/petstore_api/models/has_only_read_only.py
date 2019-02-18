@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,12 +46,12 @@ class HasOnlyReadOnly(object):
                             additional properties.
     """
     openapi_types = {
-        'bar': (str,),
-        'foo': (str,)
+        'bar': (str,),  # noqa: E501
+        'foo': (str,)  # noqa: E501
     }
     attribute_map = {
-        'bar': 'bar',
-        'foo': 'foo'
+        'bar': 'bar',  # noqa: E501
+        'foo': 'foo'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -62,8 +64,8 @@ class HasOnlyReadOnly(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            bar (str): [optional]
-            foo (str): [optional]
+            bar (str): [optional]  # noqa: E501
+            foo (str): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -82,12 +84,12 @@ class HasOnlyReadOnly(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -103,7 +105,7 @@ class HasOnlyReadOnly(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -117,7 +119,8 @@ class HasOnlyReadOnly(object):
         return self._data_store.get('bar')
 
     @bar.setter
-    def bar(self, bar):
+    def bar(
+            self, bar):
         """Sets the bar of this HasOnlyReadOnly.
 
 
@@ -125,7 +128,10 @@ class HasOnlyReadOnly(object):
             str: The bar of this HasOnlyReadOnly.  # noqa: E501
         """
 
-        self.__setitem__('bar', bar)
+        self.__setitem__(
+            'bar',
+            bar
+        )
 
     @property
     def foo(self):
@@ -138,7 +144,8 @@ class HasOnlyReadOnly(object):
         return self._data_store.get('foo')
 
     @foo.setter
-    def foo(self, foo):
+    def foo(
+            self, foo):
         """Sets the foo of this HasOnlyReadOnly.
 
 
@@ -146,7 +153,10 @@ class HasOnlyReadOnly(object):
             str: The foo of this HasOnlyReadOnly.  # noqa: E501
         """
 
-        self.__setitem__('foo', foo)
+        self.__setitem__(
+            'foo',
+            foo
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

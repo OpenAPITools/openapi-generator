@@ -15,7 +15,17 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import model_to_dict, recursive_type, valid_type
+from petstore_api.utils import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
 
 
 class Capitalization(object):
@@ -36,12 +46,12 @@ class Capitalization(object):
                             additional properties.
     """
     openapi_types = {
-        'small_camel': 'str',
-        'capital_camel': 'str',
-        'small_snake': 'str',
-        'capital_snake': 'str',
-        'sca_eth_flow_points': 'str',
-        'att_name': 'str'
+        'small_camel': (str,),
+        'capital_camel': (str,),
+        'small_snake': (str,),
+        'capital_snake': (str,),
+        'sca_eth_flow_points': (str,),
+        'att_name': (str,)
     }
     attribute_map = {
         'small_camel': 'smallCamel',
@@ -86,15 +96,19 @@ class Capitalization(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
-        passed_type = recursive_type(value)
-        if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+        variable_path = [name]
+        if not isinstance(name, str):
+            raise ApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
 
@@ -103,7 +117,7 @@ class Capitalization(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -111,8 +125,8 @@ class Capitalization(object):
         """Gets the small_camel of this Capitalization.  # noqa: E501
 
 
-        :return: The small_camel of this Capitalization.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The small_camel of this Capitalization.  # noqa: E501
         """
         return self._data_store.get('small_camel')
 
@@ -121,8 +135,8 @@ class Capitalization(object):
         """Sets the small_camel of this Capitalization.
 
 
-        :param small_camel: The small_camel of this Capitalization.  # noqa: E501
-        :type: str
+        Returns:
+            str: The small_camel of this Capitalization.  # noqa: E501
         """
 
         self.__setitem__('small_camel', small_camel)
@@ -132,8 +146,8 @@ class Capitalization(object):
         """Gets the capital_camel of this Capitalization.  # noqa: E501
 
 
-        :return: The capital_camel of this Capitalization.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The capital_camel of this Capitalization.  # noqa: E501
         """
         return self._data_store.get('capital_camel')
 
@@ -142,8 +156,8 @@ class Capitalization(object):
         """Sets the capital_camel of this Capitalization.
 
 
-        :param capital_camel: The capital_camel of this Capitalization.  # noqa: E501
-        :type: str
+        Returns:
+            str: The capital_camel of this Capitalization.  # noqa: E501
         """
 
         self.__setitem__('capital_camel', capital_camel)
@@ -153,8 +167,8 @@ class Capitalization(object):
         """Gets the small_snake of this Capitalization.  # noqa: E501
 
 
-        :return: The small_snake of this Capitalization.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The small_snake of this Capitalization.  # noqa: E501
         """
         return self._data_store.get('small_snake')
 
@@ -163,8 +177,8 @@ class Capitalization(object):
         """Sets the small_snake of this Capitalization.
 
 
-        :param small_snake: The small_snake of this Capitalization.  # noqa: E501
-        :type: str
+        Returns:
+            str: The small_snake of this Capitalization.  # noqa: E501
         """
 
         self.__setitem__('small_snake', small_snake)
@@ -174,8 +188,8 @@ class Capitalization(object):
         """Gets the capital_snake of this Capitalization.  # noqa: E501
 
 
-        :return: The capital_snake of this Capitalization.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The capital_snake of this Capitalization.  # noqa: E501
         """
         return self._data_store.get('capital_snake')
 
@@ -184,8 +198,8 @@ class Capitalization(object):
         """Sets the capital_snake of this Capitalization.
 
 
-        :param capital_snake: The capital_snake of this Capitalization.  # noqa: E501
-        :type: str
+        Returns:
+            str: The capital_snake of this Capitalization.  # noqa: E501
         """
 
         self.__setitem__('capital_snake', capital_snake)
@@ -195,8 +209,8 @@ class Capitalization(object):
         """Gets the sca_eth_flow_points of this Capitalization.  # noqa: E501
 
 
-        :return: The sca_eth_flow_points of this Capitalization.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The sca_eth_flow_points of this Capitalization.  # noqa: E501
         """
         return self._data_store.get('sca_eth_flow_points')
 
@@ -205,8 +219,8 @@ class Capitalization(object):
         """Sets the sca_eth_flow_points of this Capitalization.
 
 
-        :param sca_eth_flow_points: The sca_eth_flow_points of this Capitalization.  # noqa: E501
-        :type: str
+        Returns:
+            str: The sca_eth_flow_points of this Capitalization.  # noqa: E501
         """
 
         self.__setitem__('sca_eth_flow_points', sca_eth_flow_points)
@@ -217,8 +231,8 @@ class Capitalization(object):
 
         Name of the pet   # noqa: E501
 
-        :return: The att_name of this Capitalization.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The att_name of this Capitalization.  # noqa: E501
         """
         return self._data_store.get('att_name')
 
@@ -228,8 +242,8 @@ class Capitalization(object):
 
         Name of the pet   # noqa: E501
 
-        :param att_name: The att_name of this Capitalization.  # noqa: E501
-        :type: str
+        Returns:
+            str: The att_name of this Capitalization.  # noqa: E501
         """
 
         self.__setitem__('att_name', att_name)

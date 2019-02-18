@@ -15,7 +15,17 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import model_to_dict, recursive_type, valid_type
+from petstore_api.utils import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
 
 
 class Order(object):
@@ -36,12 +46,12 @@ class Order(object):
                             additional properties.
     """
     openapi_types = {
-        'id': 'int',
-        'pet_id': 'int',
-        'quantity': 'int',
-        'ship_date': 'datetime',
-        'status': 'str',
-        'complete': 'bool'
+        'id': (int,),
+        'pet_id': (int,),
+        'quantity': (int,),
+        'ship_date': (datetime,),
+        'status': (str,),
+        'complete': (bool,)
     }
     attribute_map = {
         'id': 'id',
@@ -86,15 +96,19 @@ class Order(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
-        passed_type = recursive_type(value)
-        if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+        variable_path = [name]
+        if not isinstance(name, str):
+            raise ApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
 
@@ -103,7 +117,7 @@ class Order(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -111,8 +125,8 @@ class Order(object):
         """Gets the id of this Order.  # noqa: E501
 
 
-        :return: The id of this Order.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The id of this Order.  # noqa: E501
         """
         return self._data_store.get('id')
 
@@ -121,8 +135,8 @@ class Order(object):
         """Sets the id of this Order.
 
 
-        :param id: The id of this Order.  # noqa: E501
-        :type: int
+        Returns:
+            int: The id of this Order.  # noqa: E501
         """
 
         self.__setitem__('id', id)
@@ -132,8 +146,8 @@ class Order(object):
         """Gets the pet_id of this Order.  # noqa: E501
 
 
-        :return: The pet_id of this Order.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The pet_id of this Order.  # noqa: E501
         """
         return self._data_store.get('pet_id')
 
@@ -142,8 +156,8 @@ class Order(object):
         """Sets the pet_id of this Order.
 
 
-        :param pet_id: The pet_id of this Order.  # noqa: E501
-        :type: int
+        Returns:
+            int: The pet_id of this Order.  # noqa: E501
         """
 
         self.__setitem__('pet_id', pet_id)
@@ -153,8 +167,8 @@ class Order(object):
         """Gets the quantity of this Order.  # noqa: E501
 
 
-        :return: The quantity of this Order.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The quantity of this Order.  # noqa: E501
         """
         return self._data_store.get('quantity')
 
@@ -163,8 +177,8 @@ class Order(object):
         """Sets the quantity of this Order.
 
 
-        :param quantity: The quantity of this Order.  # noqa: E501
-        :type: int
+        Returns:
+            int: The quantity of this Order.  # noqa: E501
         """
 
         self.__setitem__('quantity', quantity)
@@ -174,8 +188,8 @@ class Order(object):
         """Gets the ship_date of this Order.  # noqa: E501
 
 
-        :return: The ship_date of this Order.  # noqa: E501
-        :rtype: datetime
+        Returns:
+            datetime: The ship_date of this Order.  # noqa: E501
         """
         return self._data_store.get('ship_date')
 
@@ -184,8 +198,8 @@ class Order(object):
         """Sets the ship_date of this Order.
 
 
-        :param ship_date: The ship_date of this Order.  # noqa: E501
-        :type: datetime
+        Returns:
+            datetime: The ship_date of this Order.  # noqa: E501
         """
 
         self.__setitem__('ship_date', ship_date)
@@ -196,8 +210,8 @@ class Order(object):
 
         Order Status  # noqa: E501
 
-        :return: The status of this Order.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The status of this Order.  # noqa: E501
         """
         return self._data_store.get('status')
 
@@ -207,12 +221,12 @@ class Order(object):
 
         Order Status  # noqa: E501
 
-        :param status: The status of this Order.  # noqa: E501
-        :type: str
+        Returns:
+            str: The status of this Order.  # noqa: E501
         """
         allowed_values = ["placed", "approved", "delivered"]  # noqa: E501
         if status not in allowed_values:
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid value for `status` ({0}), must be one of {1}"  # noqa: E501
                 .format(status, allowed_values)
             )
@@ -224,8 +238,8 @@ class Order(object):
         """Gets the complete of this Order.  # noqa: E501
 
 
-        :return: The complete of this Order.  # noqa: E501
-        :rtype: bool
+        Returns:
+            bool: The complete of this Order.  # noqa: E501
         """
         return self._data_store.get('complete')
 
@@ -234,8 +248,8 @@ class Order(object):
         """Sets the complete of this Order.
 
 
-        :param complete: The complete of this Order.  # noqa: E501
-        :type: bool
+        Returns:
+            bool: The complete of this Order.  # noqa: E501
         """
 
         self.__setitem__('complete', complete)

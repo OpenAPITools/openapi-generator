@@ -15,7 +15,17 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import model_to_dict, recursive_type, valid_type
+from petstore_api.utils import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
 
 
 class Name(object):
@@ -36,10 +46,10 @@ class Name(object):
                             additional properties.
     """
     openapi_types = {
-        'name': 'int',
-        'snake_case': 'int',
-        '_property': 'str',
-        '_123_number': 'int'
+        'name': (int,),
+        'snake_case': (int,),
+        '_property': (str,),
+        '_123_number': (int,)
     }
     attribute_map = {
         'name': 'name',
@@ -82,15 +92,19 @@ class Name(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
-        passed_type = recursive_type(value)
-        if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+        variable_path = [name]
+        if not isinstance(name, str):
+            raise ApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
 
@@ -99,7 +113,7 @@ class Name(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -107,8 +121,8 @@ class Name(object):
         """Gets the name of this Name.  # noqa: E501
 
 
-        :return: The name of this Name.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The name of this Name.  # noqa: E501
         """
         return self._data_store.get('name')
 
@@ -117,11 +131,11 @@ class Name(object):
         """Sets the name of this Name.
 
 
-        :param name: The name of this Name.  # noqa: E501
-        :type: int
+        Returns:
+            int: The name of this Name.  # noqa: E501
         """
         if name is None:
-            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self.__setitem__('name', name)
 
@@ -130,8 +144,8 @@ class Name(object):
         """Gets the snake_case of this Name.  # noqa: E501
 
 
-        :return: The snake_case of this Name.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The snake_case of this Name.  # noqa: E501
         """
         return self._data_store.get('snake_case')
 
@@ -140,8 +154,8 @@ class Name(object):
         """Sets the snake_case of this Name.
 
 
-        :param snake_case: The snake_case of this Name.  # noqa: E501
-        :type: int
+        Returns:
+            int: The snake_case of this Name.  # noqa: E501
         """
 
         self.__setitem__('snake_case', snake_case)
@@ -151,8 +165,8 @@ class Name(object):
         """Gets the _property of this Name.  # noqa: E501
 
 
-        :return: The _property of this Name.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The _property of this Name.  # noqa: E501
         """
         return self._data_store.get('_property')
 
@@ -161,8 +175,8 @@ class Name(object):
         """Sets the _property of this Name.
 
 
-        :param _property: The _property of this Name.  # noqa: E501
-        :type: str
+        Returns:
+            str: The _property of this Name.  # noqa: E501
         """
 
         self.__setitem__('_property', _property)
@@ -172,8 +186,8 @@ class Name(object):
         """Gets the _123_number of this Name.  # noqa: E501
 
 
-        :return: The _123_number of this Name.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The _123_number of this Name.  # noqa: E501
         """
         return self._data_store.get('_123_number')
 
@@ -182,8 +196,8 @@ class Name(object):
         """Sets the _123_number of this Name.
 
 
-        :param _123_number: The _123_number of this Name.  # noqa: E501
-        :type: int
+        Returns:
+            int: The _123_number of this Name.  # noqa: E501
         """
 
         self.__setitem__('_123_number', _123_number)

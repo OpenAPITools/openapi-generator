@@ -15,7 +15,17 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import model_to_dict, recursive_type, valid_type
+from petstore_api.utils import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
 
 
 class Animal(object):
@@ -36,8 +46,8 @@ class Animal(object):
                             additional properties.
     """
     openapi_types = {
-        'class_name': 'str',
-        'color': 'str'
+        'class_name': (str,),
+        'color': (str,)
     }
     attribute_map = {
         'class_name': 'className',
@@ -80,15 +90,19 @@ class Animal(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
-        passed_type = recursive_type(value)
-        if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+        variable_path = [name]
+        if not isinstance(name, str):
+            raise ApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
 
@@ -97,7 +111,7 @@ class Animal(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -105,8 +119,8 @@ class Animal(object):
         """Gets the class_name of this Animal.  # noqa: E501
 
 
-        :return: The class_name of this Animal.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The class_name of this Animal.  # noqa: E501
         """
         return self._data_store.get('class_name')
 
@@ -115,11 +129,11 @@ class Animal(object):
         """Sets the class_name of this Animal.
 
 
-        :param class_name: The class_name of this Animal.  # noqa: E501
-        :type: str
+        Returns:
+            str: The class_name of this Animal.  # noqa: E501
         """
         if class_name is None:
-            raise ValueError("Invalid value for `class_name`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `class_name`, must not be `None`")  # noqa: E501
 
         self.__setitem__('class_name', class_name)
 
@@ -128,8 +142,8 @@ class Animal(object):
         """Gets the color of this Animal.  # noqa: E501
 
 
-        :return: The color of this Animal.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The color of this Animal.  # noqa: E501
         """
         return self._data_store.get('color')
 
@@ -138,8 +152,8 @@ class Animal(object):
         """Sets the color of this Animal.
 
 
-        :param color: The color of this Animal.  # noqa: E501
-        :type: str
+        Returns:
+            str: The color of this Animal.  # noqa: E501
         """
 
         self.__setitem__('color', color)

@@ -15,7 +15,18 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import model_to_dict, recursive_type, valid_type
+from petstore_api.utils import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
+from petstore_api.models.animal import Animal
 
 
 class MixedPropertiesAndAdditionalPropertiesClass(object):
@@ -36,9 +47,9 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
                             additional properties.
     """
     openapi_types = {
-        'uuid': 'str',
-        'date_time': 'datetime',
-        'map': 'dict(str, Animal)'
+        'uuid': (str,),
+        'date_time': (datetime,),
+        'map': ({str: (Animal,)},)
     }
     attribute_map = {
         'uuid': 'uuid',
@@ -58,7 +69,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
                                 Defaults to False
             uuid (str): [optional]
             date_time (datetime): [optional]
-            map (dict(str, Animal)): [optional]
+            map (dict(str: Animal)): [optional]
         """
 
         self._data_store = {}
@@ -77,15 +88,19 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
-        passed_type = recursive_type(value)
-        if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+        variable_path = [name]
+        if not isinstance(name, str):
+            raise ApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
 
@@ -94,7 +109,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -102,8 +117,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         """Gets the uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
 
 
-        :return: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('uuid')
 
@@ -112,8 +127,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         """Sets the uuid of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
-        :param uuid: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :type: str
+        Returns:
+            str: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__('uuid', uuid)
@@ -123,8 +138,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         """Gets the date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
 
 
-        :return: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :rtype: datetime
+        Returns:
+            datetime: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('date_time')
 
@@ -133,8 +148,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         """Sets the date_time of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
-        :param date_time: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :type: datetime
+        Returns:
+            datetime: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__('date_time', date_time)
@@ -144,8 +159,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         """Gets the map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
 
 
-        :return: The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :rtype: dict(str, Animal)
+        Returns:
+            dict(str: Animal): The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('map')
 
@@ -154,8 +169,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
         """Sets the map of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
-        :param map: The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, Animal)
+        Returns:
+            dict(str: Animal): The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__('map', map)

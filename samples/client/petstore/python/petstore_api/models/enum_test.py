@@ -15,7 +15,18 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import model_to_dict, recursive_type, valid_type
+from petstore_api.utils import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type,
+    validate_type
+)
+from petstore_api.models.outer_enum import OuterEnum
 
 
 class EnumTest(object):
@@ -36,11 +47,11 @@ class EnumTest(object):
                             additional properties.
     """
     openapi_types = {
-        'enum_string': 'str',
-        'enum_string_required': 'str',
-        'enum_integer': 'int',
-        'enum_number': 'float',
-        'outer_enum': 'OuterEnum'
+        'enum_string': (str,),
+        'enum_string_required': (str,),
+        'enum_integer': (int,),
+        'enum_number': (float,),
+        'outer_enum': (OuterEnum,)
     }
     attribute_map = {
         'enum_string': 'enum_string',
@@ -85,15 +96,19 @@ class EnumTest(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
-        passed_type = recursive_type(value)
-        if type(name) != str:
-            raise TypeError('Variable name must be type string and %s was not' % name)
-        elif check_type and not valid_type(passed_type, required_type):
-            raise TypeError('Variable value must be type %s but you passed in %s' %
-                            (required_type, passed_type))
+        variable_path = [name]
+        if not isinstance(name, str):
+            raise ApiTypeError(
+                (str,),
+                name,
+                variable_path,
+                value_type=False
+            )
+        if check_type:
+            validate_type(value, required_type, variable_path)
 
         self._data_store[name] = value
 
@@ -102,7 +117,7 @@ class EnumTest(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -110,8 +125,8 @@ class EnumTest(object):
         """Gets the enum_string of this EnumTest.  # noqa: E501
 
 
-        :return: The enum_string of this EnumTest.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The enum_string of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('enum_string')
 
@@ -120,12 +135,12 @@ class EnumTest(object):
         """Sets the enum_string of this EnumTest.
 
 
-        :param enum_string: The enum_string of this EnumTest.  # noqa: E501
-        :type: str
+        Returns:
+            str: The enum_string of this EnumTest.  # noqa: E501
         """
         allowed_values = ["UPPER", "lower", ""]  # noqa: E501
         if enum_string not in allowed_values:
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid value for `enum_string` ({0}), must be one of {1}"  # noqa: E501
                 .format(enum_string, allowed_values)
             )
@@ -137,8 +152,8 @@ class EnumTest(object):
         """Gets the enum_string_required of this EnumTest.  # noqa: E501
 
 
-        :return: The enum_string_required of this EnumTest.  # noqa: E501
-        :rtype: str
+        Returns:
+            str: The enum_string_required of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('enum_string_required')
 
@@ -147,14 +162,14 @@ class EnumTest(object):
         """Sets the enum_string_required of this EnumTest.
 
 
-        :param enum_string_required: The enum_string_required of this EnumTest.  # noqa: E501
-        :type: str
+        Returns:
+            str: The enum_string_required of this EnumTest.  # noqa: E501
         """
         if enum_string_required is None:
-            raise ValueError("Invalid value for `enum_string_required`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `enum_string_required`, must not be `None`")  # noqa: E501
         allowed_values = ["UPPER", "lower", ""]  # noqa: E501
         if enum_string_required not in allowed_values:
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid value for `enum_string_required` ({0}), must be one of {1}"  # noqa: E501
                 .format(enum_string_required, allowed_values)
             )
@@ -166,8 +181,8 @@ class EnumTest(object):
         """Gets the enum_integer of this EnumTest.  # noqa: E501
 
 
-        :return: The enum_integer of this EnumTest.  # noqa: E501
-        :rtype: int
+        Returns:
+            int: The enum_integer of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('enum_integer')
 
@@ -176,12 +191,12 @@ class EnumTest(object):
         """Sets the enum_integer of this EnumTest.
 
 
-        :param enum_integer: The enum_integer of this EnumTest.  # noqa: E501
-        :type: int
+        Returns:
+            int: The enum_integer of this EnumTest.  # noqa: E501
         """
         allowed_values = [1, -1]  # noqa: E501
         if enum_integer not in allowed_values:
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid value for `enum_integer` ({0}), must be one of {1}"  # noqa: E501
                 .format(enum_integer, allowed_values)
             )
@@ -193,8 +208,8 @@ class EnumTest(object):
         """Gets the enum_number of this EnumTest.  # noqa: E501
 
 
-        :return: The enum_number of this EnumTest.  # noqa: E501
-        :rtype: float
+        Returns:
+            float: The enum_number of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('enum_number')
 
@@ -203,12 +218,12 @@ class EnumTest(object):
         """Sets the enum_number of this EnumTest.
 
 
-        :param enum_number: The enum_number of this EnumTest.  # noqa: E501
-        :type: float
+        Returns:
+            float: The enum_number of this EnumTest.  # noqa: E501
         """
         allowed_values = [1.1, -1.2]  # noqa: E501
         if enum_number not in allowed_values:
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid value for `enum_number` ({0}), must be one of {1}"  # noqa: E501
                 .format(enum_number, allowed_values)
             )
@@ -220,8 +235,8 @@ class EnumTest(object):
         """Gets the outer_enum of this EnumTest.  # noqa: E501
 
 
-        :return: The outer_enum of this EnumTest.  # noqa: E501
-        :rtype: OuterEnum
+        Returns:
+            OuterEnum: The outer_enum of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('outer_enum')
 
@@ -230,8 +245,8 @@ class EnumTest(object):
         """Sets the outer_enum of this EnumTest.
 
 
-        :param outer_enum: The outer_enum of this EnumTest.  # noqa: E501
-        :type: OuterEnum
+        Returns:
+            OuterEnum: The outer_enum of this EnumTest.  # noqa: E501
         """
 
         self.__setitem__('outer_enum', outer_enum)

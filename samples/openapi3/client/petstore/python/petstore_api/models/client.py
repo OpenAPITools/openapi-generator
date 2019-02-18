@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,10 +46,10 @@ class Client(object):
                             additional properties.
     """
     openapi_types = {
-        'client': (str,)
+        'client': (str,)  # noqa: E501
     }
     attribute_map = {
-        'client': 'client'
+        'client': 'client'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -60,7 +62,7 @@ class Client(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            client (str): [optional]
+            client (str): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -79,12 +81,12 @@ class Client(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -100,7 +102,7 @@ class Client(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -114,7 +116,8 @@ class Client(object):
         return self._data_store.get('client')
 
     @client.setter
-    def client(self, client):
+    def client(
+            self, client):
         """Sets the client of this Client.
 
 
@@ -122,7 +125,10 @@ class Client(object):
             str: The client of this Client.  # noqa: E501
         """
 
-        self.__setitem__('client', client)
+        self.__setitem__(
+            'client',
+            client
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

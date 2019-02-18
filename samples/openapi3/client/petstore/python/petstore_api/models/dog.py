@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,14 +46,14 @@ class Dog(object):
                             additional properties.
     """
     openapi_types = {
-        'class_name': (str,),
-        'color': (str,),
-        'breed': (str,)
+        'class_name': (str,),  # noqa: E501
+        'color': (str,),  # noqa: E501
+        'breed': (str,)  # noqa: E501
     }
     attribute_map = {
-        'class_name': 'className',
-        'color': 'color',
-        'breed': 'breed'
+        'class_name': 'className',  # noqa: E501
+        'color': 'color',  # noqa: E501
+        'breed': 'breed'  # noqa: E501
     }
 
     def __init__(self, class_name, _check_type=False, **kwargs):  # noqa: E501
@@ -65,8 +67,8 @@ class Dog(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            breed (str): [optional]
-            color (str): [optional] if omitted the server will use the default value of 'red'
+            breed (str): [optional]  # noqa: E501
+            color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
         """
 
         self._data_store = {}
@@ -87,12 +89,12 @@ class Dog(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -108,7 +110,7 @@ class Dog(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -122,7 +124,8 @@ class Dog(object):
         return self._data_store.get('class_name')
 
     @class_name.setter
-    def class_name(self, class_name):
+    def class_name(
+            self, class_name):
         """Sets the class_name of this Dog.
 
 
@@ -130,9 +133,12 @@ class Dog(object):
             str: The class_name of this Dog.  # noqa: E501
         """
         if class_name is None:
-            raise ValueError("Invalid value for `class_name`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `class_name`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('class_name', class_name)
+        self.__setitem__(
+            'class_name',
+            class_name
+        )
 
     @property
     def color(self):
@@ -145,7 +151,8 @@ class Dog(object):
         return self._data_store.get('color')
 
     @color.setter
-    def color(self, color):
+    def color(
+            self, color):
         """Sets the color of this Dog.
 
 
@@ -153,7 +160,10 @@ class Dog(object):
             str: The color of this Dog.  # noqa: E501
         """
 
-        self.__setitem__('color', color)
+        self.__setitem__(
+            'color',
+            color
+        )
 
     @property
     def breed(self):
@@ -166,7 +176,8 @@ class Dog(object):
         return self._data_store.get('breed')
 
     @breed.setter
-    def breed(self, breed):
+    def breed(
+            self, breed):
         """Sets the breed of this Dog.
 
 
@@ -174,7 +185,10 @@ class Dog(object):
             str: The breed of this Dog.  # noqa: E501
         """
 
-        self.__setitem__('breed', breed)
+        self.__setitem__(
+            'breed',
+            breed
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

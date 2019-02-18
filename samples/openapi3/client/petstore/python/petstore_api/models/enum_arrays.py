@@ -15,8 +15,10 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
-    OpenaApiTypeError,
+from petstore_api.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -44,12 +46,12 @@ class EnumArrays(object):
                             additional properties.
     """
     openapi_types = {
-        'just_symbol': (str,),
-        'array_enum': ([(str,)],)
+        'just_symbol': (str,),  # noqa: E501
+        'array_enum': ([(str,)],)  # noqa: E501
     }
     attribute_map = {
-        'just_symbol': 'just_symbol',
-        'array_enum': 'array_enum'
+        'just_symbol': 'just_symbol',  # noqa: E501
+        'array_enum': 'array_enum'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -62,8 +64,8 @@ class EnumArrays(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            just_symbol (str): [optional]
-            array_enum (list[str]): [optional]
+            just_symbol (str): [optional]  # noqa: E501
+            array_enum (list[str]): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -82,12 +84,12 @@ class EnumArrays(object):
             check_type = self._check_type
             required_type = self.openapi_types[name]
         else:
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenaApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -103,7 +105,7 @@ class EnumArrays(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
     @property
@@ -117,7 +119,8 @@ class EnumArrays(object):
         return self._data_store.get('just_symbol')
 
     @just_symbol.setter
-    def just_symbol(self, just_symbol):
+    def just_symbol(
+            self, just_symbol):
         """Sets the just_symbol of this EnumArrays.
 
 
@@ -126,12 +129,15 @@ class EnumArrays(object):
         """
         allowed_values = [">=", "$"]  # noqa: E501
         if just_symbol not in allowed_values:
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid value for `just_symbol` ({0}), must be one of {1}"  # noqa: E501
                 .format(just_symbol, allowed_values)
             )
 
-        self.__setitem__('just_symbol', just_symbol)
+        self.__setitem__(
+            'just_symbol',
+            just_symbol
+        )
 
     @property
     def array_enum(self):
@@ -144,7 +150,8 @@ class EnumArrays(object):
         return self._data_store.get('array_enum')
 
     @array_enum.setter
-    def array_enum(self, array_enum):
+    def array_enum(
+            self, array_enum):
         """Sets the array_enum of this EnumArrays.
 
 
@@ -153,13 +160,16 @@ class EnumArrays(object):
         """
         allowed_values = ["fish", "crab"]  # noqa: E501
         if not set(array_enum).issubset(set(allowed_values)):
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid values for `array_enum` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set(array_enum) - set(allowed_values))),  # noqa: E501
                         ", ".join(map(str, allowed_values)))
             )
 
-        self.__setitem__('array_enum', array_enum)
+        self.__setitem__(
+            'array_enum',
+            array_enum
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

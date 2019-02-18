@@ -7,8 +7,10 @@ import re  # noqa: F401
 
 import six
 
-from {{packageName}}.utils import (
-    OpenApiTypeError,
+from {{packageName}}.utils import (  # noqa: F401
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
     date,
     datetime,
     file_type,
@@ -52,16 +54,16 @@ class {{classname}}(object):
     """
     openapi_types = {
 {{#allVars}}
-        '{{name}}': {{{dataType}}}{{#hasMore}},{{/hasMore}}
+        '{{name}}': {{{dataType}}}{{#hasMore}},{{/hasMore}}  # noqa: E501
 {{/allVars}}
     }
     attribute_map = {
 {{#allVars}}
-        '{{name}}': '{{baseName}}'{{#hasMore}},{{/hasMore}}
+        '{{name}}': '{{baseName}}'{{#hasMore}},{{/hasMore}}  # noqa: E501
 {{/allVars}}
     }
 {{#additionalProperties}}
-    additional_properties_type = '{{{dataType}}}'
+    additional_properties_type = {{{dataType}}}  # noqa: E501
 {{/additionalProperties}}
 {{#discriminator}}
     discriminator_value_class_map = {
@@ -75,14 +77,14 @@ class {{classname}}(object):
 
 {{#requiredVars}}{{^hasMore}}        Args:{{/hasMore}}{{/requiredVars}}{{#requiredVars}}{{^defaultValue}}
             {{name}} ({{datatypeWithEnum}}):{{#description}} {{description}}{{/description}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{#defaultValue}}
-            {{name}} ({{datatypeWithEnum}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]{{/defaultValue}}{{/requiredVars}}
+            {{name}} ({{datatypeWithEnum}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]  # noqa: E501{{/defaultValue}}{{/requiredVars}}
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False{{#optionalVars}}
-            {{name}} ({{datatypeWithEnum}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}{{/optionalVars}}
+            {{name}} ({{datatypeWithEnum}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}  # noqa: E501{{/optionalVars}}
         """
 
         self._data_store = {}
@@ -110,13 +112,13 @@ class {{classname}}(object):
             required_type = self.additional_properties_type
 {{/additionalProperties}}
 {{^additionalProperties}}
-            raise KeyError("{0} has no key '{1}'".format(
+            raise ApiKeyError("{0} has no key '{1}'".format(
                 type(self).__name__, name))
 {{/additionalProperties}}
 
         variable_path = [name]
-        if type(name) != str:
-            raise OpenApiTypeError(
+        if not isinstance(name, str):
+            raise ApiTypeError(
                 (str,),
                 name,
                 variable_path,
@@ -138,7 +140,7 @@ class {{classname}}(object):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise KeyError("{0} has no key {1}".format(
+        raise ApiKeyError("{0} has no key {1}".format(
             type(self).__name__, name))
 
 {{#allVars}}
@@ -156,7 +158,8 @@ class {{classname}}(object):
         return self._data_store.get('{{name}}')
 
     @{{name}}.setter
-    def {{name}}(self, {{name}}):
+    def {{name}}(
+            self, {{name}}):
         """Sets the {{name}} of this {{classname}}.
 
 {{#description}}
@@ -169,7 +172,7 @@ class {{classname}}(object):
 {{^isNullable}}
 {{#required}}
         if {{name}} is None:
-            raise ValueError("Invalid value for `{{name}}`, must not be `None`")  # noqa: E501
+            raise ApiValueError("Invalid value for `{{name}}`, must not be `None`")  # noqa: E501
 {{/required}}
 {{/isNullable}}
 {{#isEnum}}
@@ -177,7 +180,7 @@ class {{classname}}(object):
         allowed_values = [{{#isNullable}}None,{{/isNullable}}{{#allowableValues}}{{#values}}{{#items.isString}}"{{/items.isString}}{{{this}}}{{#items.isString}}"{{/items.isString}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]  # noqa: E501
 {{#isListContainer}}
         if not set({{{name}}}).issubset(set(allowed_values)):
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid values for `{{{name}}}` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set({{{name}}}) - set(allowed_values))),  # noqa: E501
                         ", ".join(map(str, allowed_values)))
@@ -185,7 +188,7 @@ class {{classname}}(object):
 {{/isListContainer}}
 {{#isMapContainer}}
         if not set({{{name}}}.keys()).issubset(set(allowed_values)):
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid keys in `{{{name}}}` [{0}], must be a subset of [{1}]"  # noqa: E501
                 .format(", ".join(map(str, set({{{name}}}.keys()) - set(allowed_values))),  # noqa: E501
                         ", ".join(map(str, allowed_values)))
@@ -195,7 +198,7 @@ class {{classname}}(object):
 {{^isContainer}}
         allowed_values = [{{#isNullable}}None,{{/isNullable}}{{#allowableValues}}{{#values}}{{#isString}}"{{/isString}}{{{this}}}{{#isString}}"{{/isString}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}]  # noqa: E501
         if {{{name}}} not in allowed_values:
-            raise ValueError(
+            raise ApiValueError(
                 "Invalid value for `{{{name}}}` ({0}), must be one of {1}"  # noqa: E501
                 .format({{{name}}}, allowed_values)
             )
@@ -205,36 +208,39 @@ class {{classname}}(object):
 {{#hasValidation}}
 {{#maxLength}}
         if {{name}} is not None and len({{name}}) > {{maxLength}}:
-            raise ValueError("Invalid value for `{{name}}`, length must be less than or equal to `{{maxLength}}`")  # noqa: E501
+            raise ApiValueError("Invalid value for `{{name}}`, length must be less than or equal to `{{maxLength}}`")  # noqa: E501
 {{/maxLength}}
 {{#minLength}}
         if {{name}} is not None and len({{name}}) < {{minLength}}:
-            raise ValueError("Invalid value for `{{name}}`, length must be greater than or equal to `{{minLength}}`")  # noqa: E501
+            raise ApiValueError("Invalid value for `{{name}}`, length must be greater than or equal to `{{minLength}}`")  # noqa: E501
 {{/minLength}}
 {{#maximum}}
         if {{name}} is not None and {{name}} >{{#exclusiveMaximum}}={{/exclusiveMaximum}} {{maximum}}:  # noqa: E501
-            raise ValueError("Invalid value for `{{name}}`, must be a value less than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}`{{maximum}}`")  # noqa: E501
+            raise ApiValueError("Invalid value for `{{name}}`, must be a value less than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}`{{maximum}}`")  # noqa: E501
 {{/maximum}}
 {{#minimum}}
         if {{name}} is not None and {{name}} <{{#exclusiveMinimum}}={{/exclusiveMinimum}} {{minimum}}:  # noqa: E501
-            raise ValueError("Invalid value for `{{name}}`, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}`{{minimum}}`")  # noqa: E501
+            raise ApiValueError("Invalid value for `{{name}}`, must be a value greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}`{{minimum}}`")  # noqa: E501
 {{/minimum}}
 {{#pattern}}
         if {{name}} is not None and not re.search(r'{{{vendorExtensions.x-regex}}}', {{name}}{{#vendorExtensions.x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}}):  # noqa: E501
-            raise ValueError(r"Invalid value for `{{name}}`, must be a follow pattern or equal to `{{{pattern}}}`")  # noqa: E501
+            raise ApiValueError(r"Invalid value for `{{name}}`, must be a follow pattern or equal to `{{{pattern}}}`")  # noqa: E501
 {{/pattern}}
 {{#maxItems}}
         if {{name}} is not None and len({{name}}) > {{maxItems}}:
-            raise ValueError("Invalid value for `{{name}}`, number of items must be less than or equal to `{{maxItems}}`")  # noqa: E501
+            raise ApiValueError("Invalid value for `{{name}}`, number of items must be less than or equal to `{{maxItems}}`")  # noqa: E501
 {{/maxItems}}
 {{#minItems}}
         if {{name}} is not None and len({{name}}) < {{minItems}}:
-            raise ValueError("Invalid value for `{{name}}`, number of items must be greater than or equal to `{{minItems}}`")  # noqa: E501
+            raise ApiValueError("Invalid value for `{{name}}`, number of items must be greater than or equal to `{{minItems}}`")  # noqa: E501
 {{/minItems}}
 {{/hasValidation}}
 {{/isEnum}}
 
-        self.__setitem__('{{name}}', {{name}})
+        self.__setitem__(
+            '{{name}}',
+            {{name}}
+        )
 
 {{/allVars}}
 {{#discriminator}}
