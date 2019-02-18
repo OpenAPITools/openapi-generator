@@ -41,6 +41,7 @@ sidebar_label: java-pkmst
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
+|snapshotVersion|Uses a SNAPSHOT version.| |null|
 |groupId|groupId in generated pom.xml| |null|
 |artifactId|artifactId in generated pom.xml| |null|
 |artifactVersion|artifact version in generated pom.xml| |null|
