@@ -48,7 +48,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
-    protected String licenseUrl = "http://localhost";
+    protected String licenseUrl = "http://nolicense.org";
     protected String licenseName = "NoLicense";
 
     protected String packageVersion = "1.0.0";
@@ -57,7 +57,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected String packageProductName = "OpenAPILibrary";
     protected String packageDescription = "A library generated from a OpenAPI doc";
     protected String packageCompany = "OpenAPI";
-    protected String packageCopyright = "No Copyright";
+    protected String packageCopyright = "Copyright 2019";
     protected String packageAuthors = "OpenAPI";
 
     protected String interfacePrefix = "I";
