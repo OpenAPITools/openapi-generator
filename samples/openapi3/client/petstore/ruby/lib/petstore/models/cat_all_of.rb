@@ -13,29 +13,21 @@ OpenAPI Generator version: 4.0.0-SNAPSHOT
 require 'date'
 
 module Petstore
-  class Dog < Animal
-    attr_accessor :breed
+  class CatAllOf
+    attr_accessor :declawed
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'breed' => :'breed'
+        :'declawed' => :'declawed'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'breed' => :'String'
+        :'declawed' => :'BOOLEAN'
       }
-    end
-
-    # List of class defined in allOf (OpenAPI v3)
-    def self.openapi_all_of
-      [
-      :'Animal',
-      :'DogAllOf'
-      ]
     end
 
     # Initializes the object
@@ -46,25 +38,22 @@ module Petstore
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
 
-      # call parent's initialize
-      super(attributes)
-
-      if attributes.has_key?(:'breed')
-        self.breed = attributes[:'breed']
+      if attributes.has_key?(:'declawed')
+        self.declawed = attributes[:'declawed']
       end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
-      invalid_properties = super
+      invalid_properties = Array.new
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      true && super
+      true
     end
 
     # Checks equality by comparing each attribute.
@@ -72,7 +61,7 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          breed == o.breed && super(o)
+          declawed == o.declawed
     end
 
     # @see the `==` method
@@ -84,7 +73,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [breed].hash
+      [declawed].hash
     end
 
     # Builds the object from hash
@@ -99,7 +88,6 @@ module Petstore
     # @return [Object] Returns the model itself
     def build_from_hash(attributes)
       return nil unless attributes.is_a?(Hash)
-      super(attributes)
       self.class.openapi_types.each_pair do |key, type|
         if type =~ /\AArray<(.*)>/i
           # check to ensure the input is an array given that the attribute
@@ -171,7 +159,7 @@ module Petstore
     # Returns the object in the form of hash
     # @return [Hash] Returns the object in the form of hash
     def to_hash
-      hash = super
+      hash = {}
       self.class.attribute_map.each_pair do |attr, param|
         value = self.send(attr)
         next if value.nil?
