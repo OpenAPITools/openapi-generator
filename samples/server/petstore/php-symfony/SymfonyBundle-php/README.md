@@ -148,12 +148,12 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [Order](Resources/docs/Model/Order.md)
- - [Category](Resources/docs/Model/Category.md)
- - [User](Resources/docs/Model/User.md)
- - [Tag](Resources/docs/Model/Tag.md)
  - [ApiResponse](Resources/docs/Model/ApiResponse.md)
+ - [Category](Resources/docs/Model/Category.md)
+ - [Order](Resources/docs/Model/Order.md)
  - [Pet](Resources/docs/Model/Pet.md)
+ - [Tag](Resources/docs/Model/Tag.md)
+ - [User](Resources/docs/Model/User.md)
 
 
 ## Documentation For Authorization

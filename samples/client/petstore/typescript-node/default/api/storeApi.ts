@@ -36,6 +36,7 @@ export class StoreApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
     constructor(basePath?: string);

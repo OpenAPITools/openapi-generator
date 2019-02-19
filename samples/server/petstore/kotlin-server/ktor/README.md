@@ -74,12 +74,12 @@ Class | Method | HTTP request | Description
 <a name="documentation-for-models"></a>
 ## Documentation for Models
 
- - [org.openapitools.server.models.Order](docs/Order.md)
- - [org.openapitools.server.models.Category](docs/Category.md)
- - [org.openapitools.server.models.User](docs/User.md)
- - [org.openapitools.server.models.Tag](docs/Tag.md)
  - [org.openapitools.server.models.ApiResponse](docs/ApiResponse.md)
+ - [org.openapitools.server.models.Category](docs/Category.md)
+ - [org.openapitools.server.models.Order](docs/Order.md)
  - [org.openapitools.server.models.Pet](docs/Pet.md)
+ - [org.openapitools.server.models.Tag](docs/Tag.md)
+ - [org.openapitools.server.models.User](docs/User.md)
 
 
 <a name="documentation-for-authorization"></a>
