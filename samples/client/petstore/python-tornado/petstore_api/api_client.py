@@ -78,6 +78,7 @@ class ApiClient(object):
         self.cookie = cookie
         # Set default User-Agent.
         self.user_agent = 'OpenAPI-Generator/1.0.0/python'
+        self.__deserializer_track = []
 
     def __del__(self):
         if self._pool:
