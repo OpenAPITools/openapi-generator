@@ -308,5 +308,5 @@ components:
           type: object
           nullable: true
           properties:
-            foo:
+            nullable_property_name:
               type: string
