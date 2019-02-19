@@ -18,6 +18,7 @@ Install the dependencies
 ```R
 install.packages("jsonlite")
 install.packages("httr")
+install.packages("caTools")
 ```
 
 ### Build the package

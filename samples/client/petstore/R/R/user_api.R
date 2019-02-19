@@ -42,7 +42,7 @@
 #'
 #' }
 #'
-#' @importFrom jsonlite base64_enc
+#' @importFrom caTools base64encode
 #' @export
 UserApi <- R6::R6Class(
   'UserApi',
