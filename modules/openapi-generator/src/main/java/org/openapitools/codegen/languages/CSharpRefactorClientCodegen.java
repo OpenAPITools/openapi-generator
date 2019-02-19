@@ -552,9 +552,6 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("RequestOptions.mustache", clientPackageDir, "RequestOptions.cs"));
         supportingFiles.add(new SupportingFile("Multimap.mustache", clientPackageDir, "Multimap.cs"));
 
-        supportingFiles.add(new SupportingFile("compile.mustache", "", "build.bat"));
-        supportingFiles.add(new SupportingFile("compile-mono.sh.mustache", "", "build.sh"));
-
         if (Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
             supportingFiles.add(new SupportingFile("project.json.mustache", packageFolder + File.separator, "project.json"));
         }
@@ -566,9 +563,6 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
 
         // Only write out test related files if excludeTests is unset or explicitly set to false (see start of this method)
         if (Boolean.FALSE.equals(excludeTests.get())) {
-            // shell script to run the nunit test
-            supportingFiles.add(new SupportingFile("mono_nunit_test.mustache", "", "mono_nunit_test.sh"));
-
             modelTestTemplateFiles.put("model_test.mustache", ".cs");
             apiTestTemplateFiles.put("api_test.mustache", ".cs");
         }
