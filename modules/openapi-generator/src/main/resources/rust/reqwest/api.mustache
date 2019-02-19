@@ -83,17 +83,17 @@ impl {{{classname}}} for {{{classname}}}Client {
             req_builder = req_builder.basic_auth(auth_conf.0.to_owned(), auth_conf.1.to_owned());
         };
         {{/isBasicBearer}}
+        {{#isBasicBearer}}
+        if let Some(ref token) = configuration.bearer_access_token {
+            req_builder = req_builder.bearer_auth(token.to_owned());
+        };
+        {{/isBasicBearer}}
         {{/isBasic}}
         {{#isOAuth}}
         if let Some(ref token) = configuration.oauth_access_token {
             req_builder = req_builder.bearer_auth(token.to_owned());
         };
         {{/isOAuth}}
-        {{#isBasicBearer}}
-        if let Some(ref token) = configuration.oauth_access_token {
-            req_builder = req_builder.bearer_auth(token.to_owned());
-        };
-        {{/isBasicBearer}}
         {{/authMethods}}
         {{/hasAuthMethods}}
         {{#isMultipart}}
