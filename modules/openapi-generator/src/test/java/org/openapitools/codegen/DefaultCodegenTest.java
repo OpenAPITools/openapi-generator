@@ -551,6 +551,18 @@ public class DefaultCodegenTest {
         Assert.assertTrue(cr.hasHeaders);
     }
 
+    @Test
+    public void testNullableProperty() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/examples.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenProperty property = codegen.fromProperty("address", (Schema) openAPI.getComponents().getSchemas().get("User").getProperties().get("address"));
+
+        Assert.assertTrue(property.isNullable);
+    }
+
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
         CodegenDiscriminator test = new CodegenDiscriminator();
         test.setPropertyName("DollarUnderscoretype");
