@@ -301,3 +301,12 @@ components:
     EmptyExampleOnStringTypeModels:
       type: string
       example: ''
+    InlinePropertyIsNullable:
+      type: object
+      properties:
+        nullable_property:
+          type: object
+          nullable: true
+          properties:
+            foo:
+              type: string
