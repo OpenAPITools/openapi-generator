@@ -2041,8 +2041,10 @@ public class DefaultCodegen implements CodegenConfig {
                 property.allowableValues = allowableValues;
             }
         }
-        //Referenced enum case:
+
         Schema r = ModelUtils.getReferencedSchema(this.openAPI, p);
+
+        //Referenced enum case:
         if (r.getEnum() != null && !r.getEnum().isEmpty()) {
             List<Object> _enum = r.getEnum();
 
@@ -2051,6 +2053,10 @@ public class DefaultCodegen implements CodegenConfig {
             if (allowableValues.size() > 0) {
                 property.allowableValues = allowableValues;
             }
+        }
+
+        if (r.getNullable() != null) {
+            property.isNullable = r.getNullable();
         }
 
         property.dataType = getTypeDeclaration(p);
