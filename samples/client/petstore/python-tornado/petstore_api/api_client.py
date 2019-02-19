@@ -661,7 +661,7 @@ class ApiClient(object):
                     except:  # noqa: E722
                         pass
                 if len(matches) == len(hierarchy['allOf']):
-                    self.__deserializer_track.clear()
+                    self.__deserializer_track = []
                     return instance
 
                 # not all matched -> error
