@@ -84,10 +84,12 @@
       {{/pathParams}}
       {{/hasPathParams}}
       {{#authMethods}}
-      {{#isHttpBasic}}
+      {{#isBasic}}
+      {{#isBasicBasic}}
       # HTTP basic auth
-      headerParams['Authorization'] <- paste("Basic", caTools::base64encode(paste(self$apiClient$username, self$apiClient$password, sep=":"), sep=" ")
-      {{/isHttpBasic}}
+      headerParams['Authorization'] <- paste("Basic", caTools::base64encode(paste(self$apiClient$username, self$apiClient$password, sep=":")), sep=" ")
+      {{/isBasicBasic}}
+      {{/isBasic}}
       {{#isApiKey}}
       # API key authentication
       {{#isKeyInHeader}}
