@@ -2042,11 +2042,11 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        Schema r = ModelUtils.getReferencedSchema(this.openAPI, p);
+        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
 
         //Referenced enum case:
-        if (r.getEnum() != null && !r.getEnum().isEmpty()) {
-            List<Object> _enum = r.getEnum();
+        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+            List<Object> _enum = referencedSchema.getEnum();
 
             Map<String, Object> allowableValues = new HashMap<String, Object>();
             allowableValues.put("values", _enum);
@@ -2055,8 +2055,8 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if (r.getNullable() != null) {
-            property.isNullable = r.getNullable();
+        if (referencedSchema.getNullable() != null) {
+            property.isNullable = referencedSchema.getNullable();
         }
 
         property.dataType = getTypeDeclaration(p);
