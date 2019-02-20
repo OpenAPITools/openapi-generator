@@ -1044,7 +1044,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                                             scope.put("scope", sc);
                                             scope.put("description", "");
                                             count++;
-                                            if (count < req.get(key).size()){
+                                            if (req.get(key) != null && count < req.get(key).size()){
                                                 scope.put("hasMore", "true");
                                             } else {
                                                 scope.put("hasMore", null);
