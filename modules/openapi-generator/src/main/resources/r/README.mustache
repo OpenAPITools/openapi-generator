@@ -32,9 +32,11 @@ install.packages("caTools")
 ### Build the package
 
 ```sh
-- R CMD build .
-- R CMD check {{{packageName}}}_{{{packageVersion}}}.tar.gz
-- R CMD INSTALL {{{packageName}}}_{{{packageVersion}}}.tar.gz
+git clone https://github.com/{{{gitUserId}}}/{{{gitRepoId}}}
+cd {{{gitRepoId}}}
+R CMD build .
+R CMD check {{{packageName}}}_{{{packageVersion}}}.tar.gz
+R CMD INSTALL {{{packageName}}}_{{{packageVersion}}}.tar.gz
 ```
 
 ### Install the package
@@ -43,10 +45,17 @@ install.packages("caTools")
 install.packages("{{{packageName}}}")
 ```
 
+To install directly from Github, use `devtools`:
+```R
+install.packages("devtools")
+library(devtools)
+install_github("{{{gitUserId}}}/{{{gitRepoId}}}")
+```
+
 ### Usage
 
 ```R
-libary({{{packageName}}})
+library({{{packageName}}})
 ```
 
 ## Documentation for API Endpoints
