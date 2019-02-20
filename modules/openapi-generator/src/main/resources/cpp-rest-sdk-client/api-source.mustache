@@ -193,7 +193,7 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
         {{#bodyParam}}
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
         {{#isPrimitiveType}}
-        localVarMultipart->add(ModelBase::toHttpContent("{{paramName}}", {{paramName}}));
+        localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), {{paramName}}));
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isListContainer}}

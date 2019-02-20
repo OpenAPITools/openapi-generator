@@ -531,6 +531,7 @@ public class InlineModelResolver {
         model.setName(object.getName());
         model.setXml(xml);
         model.setRequired(object.getRequired());
+        model.setNullable(object.getNullable());
         if (properties != null) {
             flattenProperties(properties, path);
             model.setProperties(properties);
