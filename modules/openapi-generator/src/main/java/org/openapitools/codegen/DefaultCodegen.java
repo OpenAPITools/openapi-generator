@@ -1325,38 +1325,67 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema instanceof ComposedSchema) { // composed schema
             ComposedSchema cs = (ComposedSchema) schema;
             List<Schema> schemas = ModelUtils.getInterfaces(cs);
-            if (cs.getAllOf() != null) {
-                List<String> names = new ArrayList<>();
-                for (Schema s : schemas) {
-                    names.add(getSingleSchemaType(s));
-                }
 
-                if (names.size() == 0) {
-                    LOGGER.error("allOf has no member defined: {}. Default to ERROR_ALLOF_SCHEMA", cs);
-                    return "ERROR_ALLOF_SCHEMA";
-                } else if (names.size() == 1) {
-                    return names.get(0);
-                } else {
-                    LOGGER.warn("allOf with multiple schemas defined. Using only the first one: {}. To fully utilize allOf, please use $ref instead of inline schema definition", names.get(0));
-                    return names.get(0);
-                }
+            List<String> names = new ArrayList<>();
+            for (Schema s : schemas) {
+                names.add(getSingleSchemaType(s));
+            }
+
+            if (cs.getAllOf() != null) {
+                return toAllOfName(names, cs);
             } else if (cs.getAnyOf() != null) { // anyOf
-                List<String> names = new ArrayList<>();
-                for (Schema s : schemas) {
-                    names.add(getSingleSchemaType(s));
-                }
-                return "anyOf<" + String.join(",", names) + ">";
+                return toAnyOfName(names, cs);
             } else if (cs.getOneOf() != null) { // oneOf
-                List<String> names = new ArrayList<>();
-                for (Schema s : schemas) {
-                    names.add(getSingleSchemaType(s));
-                }
-                return "oneOf<" + String.join(",", names) + ">";
+                return toOneOfName(names, cs);
             }
         }
 
         return getSingleSchemaType(schema);
 
+    }
+
+    /**
+     * Return the name of the allOf schema
+     *
+     * @param names          List of names
+     * @param composedSchema composed schema
+     * @return name of the allOf schema
+     */
+    @SuppressWarnings("static-method")
+    public String toAllOfName(List<String> names, ComposedSchema composedSchema) {
+        if (names.size() == 0) {
+            LOGGER.error("allOf has no member defined: {}. Default to ERROR_ALLOF_SCHEMA", composedSchema);
+            return "ERROR_ALLOF_SCHEMA";
+        } else if (names.size() == 1) {
+            return names.get(0);
+        } else {
+            LOGGER.warn("allOf with multiple schemas defined. Using only the first one: {}. To fully utilize allOf, please use $ref instead of inline schema definition", names.get(0));
+            return names.get(0);
+        }
+    }
+
+    /**
+     * Return the name of the anyOf schema
+     *
+     * @param names          List of names
+     * @param composedSchema composed schema
+     * @return name of the anyOf schema
+     */
+    @SuppressWarnings("static-method")
+    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+        return "anyOf<" + String.join(",", names) + ">";
+    }
+
+    /**
+     * Return the name of the oneOf schema
+     *
+     * @param names          List of names
+     * @param composedSchema composed schema
+     * @return name of the oneOf schema
+     */
+    @SuppressWarnings("static-method")
+    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+        return "oneOf<" + String.join(",", names) + ">";
     }
 
     private String getSingleSchemaType(Schema schema) {
@@ -1522,7 +1551,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Output the Getter name, e.g. getSize
+     * Output the Setter name, e.g. setSize
      *
      * @param name the name of the property
      * @return setter name based on naming convention
@@ -1559,8 +1588,8 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Convert OAS Model object to Codegen Model object
      *
-     * @param name           the name of the model
-     * @param schema         OAS Model object
+     * @param name   the name of the model
+     * @param schema OAS Model object
      * @return Codegen Model object
      */
     public CodegenModel fromModel(String name, Schema schema) {
@@ -1993,7 +2022,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (property.minimum != null || property.maximum != null)
                 property.hasValidation = true;
 
-        } else if (ModelUtils.isFreeFormObject(p)){
+        } else if (ModelUtils.isFreeFormObject(p)) {
             property.isFreeFormObject = true;
         }
 
@@ -2005,23 +2034,29 @@ public class DefaultCodegen implements CodegenConfig {
                 property._enum.add(String.valueOf(i));
             }
             property.isEnum = true;
-            
-            Map<String, Object> allowableValues = new HashMap<String, Object>();
-            allowableValues.put("values", _enum);
-            if (allowableValues.size() > 0) {
-                property.allowableValues = allowableValues;
-            }
-        }
-        //Referenced enum case:
-        Schema r = ModelUtils.getReferencedSchema(this.openAPI, p);
-        if (r.getEnum() != null && !r.getEnum().isEmpty()) {
-            List<Object> _enum = r.getEnum();
 
             Map<String, Object> allowableValues = new HashMap<String, Object>();
             allowableValues.put("values", _enum);
             if (allowableValues.size() > 0) {
                 property.allowableValues = allowableValues;
             }
+        }
+
+        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
+
+        //Referenced enum case:
+        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+            List<Object> _enum = referencedSchema.getEnum();
+
+            Map<String, Object> allowableValues = new HashMap<String, Object>();
+            allowableValues.put("values", _enum);
+            if (allowableValues.size() > 0) {
+                property.allowableValues = allowableValues;
+            }
+        }
+
+        if (referencedSchema.getNullable() != null) {
+            property.isNullable = referencedSchema.getNullable();
         }
 
         property.dataType = getTypeDeclaration(p);
@@ -2273,14 +2308,17 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Convert OAS Operation object to Codegen Operation object
+     *
      * @param httpMethod HTTP method
      * @param operation  OAS operation object
      * @param path       the path of the operation
+     * @param servers    list of servers
      * @return Codegen Operation object
      */
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
-                                          Operation operation) {
+                                          Operation operation,
+                                          List<Server> servers) {
         LOGGER.debug("fromOperation => operation: " + operation);
         if (operation == null)
             throw new RuntimeException("operation cannot be null in fromOperation");
@@ -2293,6 +2331,15 @@ public class DefaultCodegen implements CodegenConfig {
 
             Object isCallbackRequest = op.vendorExtensions.remove("x-callback-request");
             op.isCallbackRequest = Boolean.TRUE.equals(isCallbackRequest);
+        }
+
+        // servers setting
+        if (operation.getServers() != null && !operation.getServers().isEmpty()) {
+            // use operation-level servers first if defined
+            op.servers = fromServers(operation.getServers());
+        } else if (servers != null && !servers.isEmpty()) {
+            // use path-level servers
+            op.servers = fromServers(servers);
         }
 
         // store the original operationId for plug-in
@@ -2410,7 +2457,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (operation.getCallbacks() != null && !operation.getCallbacks().isEmpty()) {
             operation.getCallbacks().forEach((name, callback) -> {
-                CodegenCallback c = fromCallback(name, callback);
+                CodegenCallback c = fromCallback(name, callback, servers);
                 c.hasMore = true;
                 op.callbacks.add(c);
             });
@@ -2587,9 +2634,9 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Convert OAS Response object to Codegen Response object
+     *
      * @param responseCode HTTP response code
      * @param response     OAS Response object
-     *
      * @return Codegen Response object
      */
     public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
@@ -2706,9 +2753,10 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param name     callback name
      * @param callback OAS Callback object
+     * @param servers  list of servers
      * @return Codegen Response object
      */
-    public CodegenCallback fromCallback(String name, Callback callback) {
+    public CodegenCallback fromCallback(String name, Callback callback, List<Server> servers) {
         CodegenCallback c = new CodegenCallback();
         c.name = name;
 
@@ -2750,7 +2798,7 @@ public class DefaultCodegen implements CodegenConfig {
                         // distinguish between normal operations and callback requests
                         op.getExtensions().put("x-callback-request", true);
 
-                        CodegenOperation co = fromOperation(expression, method, op);
+                        CodegenOperation co = fromOperation(expression, method, op, servers);
                         if (genId) {
                             co.operationIdOriginal = null;
                             // legacy (see `fromOperation()`)
@@ -3121,8 +3169,7 @@ public class DefaultCodegen implements CodegenConfig {
                 cs.isBasic = true;
                 if ("basic".equals(securityScheme.getScheme())) {
                     cs.isBasicBasic = true;
-                }
-                else if ("bearer".equals(securityScheme.getScheme())) {
+                } else if ("bearer".equals(securityScheme.getScheme())) {
                     cs.isBasicBearer = true;
                     cs.bearerFormat = securityScheme.getBearerFormat();
                 }
@@ -3250,17 +3297,25 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Add headers to codegen property
+     *
      * @param response   API response
      * @param properties list of codegen property
      */
     private void addHeaders(ApiResponse response, List<CodegenProperty> properties) {
         if (response.getHeaders() != null) {
-            for (Map.Entry<String, Header> headers : response.getHeaders().entrySet()) {
-                String description = headers.getValue().getDescription();
+            for (Map.Entry<String, Header> headerEntry : response.getHeaders().entrySet()) {
+                String description = headerEntry.getValue().getDescription();
                 // follow the $ref
-                Header header = ModelUtils.getReferencedHeader(this.openAPI, headers.getValue());
+                Header header = ModelUtils.getReferencedHeader(this.openAPI, headerEntry.getValue());
 
-                CodegenProperty cp = fromProperty(headers.getKey(), header.getSchema());
+                Schema schema;
+                if(header.getSchema() == null) {
+                    LOGGER.warn("No schema defined for Header '" + headerEntry.getKey() +"', using a String schema");
+                    schema = new StringSchema();
+                } else {
+                    schema = header.getSchema();
+                }
+                CodegenProperty cp = fromProperty(headerEntry.getKey(), schema);
                 cp.setDescription(escapeText(description));
                 cp.setUnescapedDescription(description);
                 properties.add(cp);
@@ -3366,8 +3421,8 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Loop through propertiies and unalias the reference if $ref (reference) is defined
-     * @param properties model properties (schemas)
      *
+     * @param properties model properties (schemas)
      * @return model properties with direct reference to schemas
      */
     private Map<String, Schema> unaliasPropertySchema(Map<String, Schema> properties) {
@@ -3931,8 +3986,8 @@ public class DefaultCodegen implements CodegenConfig {
         Map<String, Object> allowableValues = var.allowableValues;
 
         // handle array
-        if (var.items != null) {
-            allowableValues = var.items.allowableValues;
+        if (var.mostInnerItems != null) {
+            allowableValues = var.mostInnerItems.allowableValues;
         }
 
         if (allowableValues == null) {
@@ -3943,6 +3998,13 @@ public class DefaultCodegen implements CodegenConfig {
         if (values == null) {
             return;
         }
+
+        String varDataType = var.mostInnerItems != null ? var.mostInnerItems.dataType : var.dataType;
+        Optional<Schema> referencedSchema = ModelUtils.getSchemas(openAPI).entrySet().stream()
+                .filter(entry -> Objects.equals(varDataType, toModelName(entry.getKey())))
+                .map(Map.Entry::getValue)
+                .findFirst();
+        String dataType = (referencedSchema.isPresent()) ? getTypeDeclaration(referencedSchema.get()) : varDataType;
 
         // put "enumVars" map into `allowableValues", including `name` and `value`
         List<Map<String, Object>> enumVars = new ArrayList<>();
@@ -3960,7 +4022,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            final String dataType = var.mostInnerItems != null ? var.mostInnerItems.dataType : var.dataType;
             enumVar.put("name", toEnumVarName(enumName, dataType));
             enumVar.put("value", toEnumValue(value.toString(), dataType));
             enumVar.put("isString", isDataTypeString(dataType));
@@ -3968,14 +4029,23 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
         Map<String, Object> extensions = var.mostInnerItems != null ? var.mostInnerItems.getVendorExtensions() : var.getVendorExtensions();
+        if(referencedSchema.isPresent()) {
+            extensions = referencedSchema.get().getExtensions();
+        }
         updateEnumVarsWithExtensions(enumVars, extensions);
         allowableValues.put("enumVars", enumVars);
 
         // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
         if (var.defaultValue != null) {
             String enumName = null;
+            final String enumDefaultValue;
+            if("string".equalsIgnoreCase(dataType)) {
+                enumDefaultValue = toEnumValue(var.defaultValue, dataType);
+            } else {
+                enumDefaultValue = var.defaultValue;
+            }
             for (Map<String, Object> enumVar : enumVars) {
-                if (toEnumValue(var.defaultValue, var.dataType).equals(enumVar.get("value"))) {
+                if (enumDefaultValue.equals(enumVar.get("value"))) {
                     enumName = (String) enumVar.get("name");
                     break;
                 }

@@ -187,16 +187,18 @@ module Petstore
         invalid_properties.push('invalid value for "double", must be greater than or equal to 67.8.')
       end
 
-      if !@string.nil? && @string !~ Regexp.new(/[a-z]/i)
-        invalid_properties.push('invalid value for "string", must conform to the pattern /[a-z]/i.')
+      pattern = Regexp.new(/[a-z]/i)
+      if !@string.nil? && @string !~ pattern
+        invalid_properties.push("invalid value for \"string\", must conform to the pattern #{pattern}.")
       end
 
       if @byte.nil?
         invalid_properties.push('invalid value for "byte", byte cannot be nil.')
       end
 
-      if @byte !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
-        invalid_properties.push('invalid value for "byte", must conform to the pattern /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.')
+      pattern = Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
+      if @byte !~ pattern
+        invalid_properties.push("invalid value for \"byte\", must conform to the pattern #{pattern}.")
       end
 
       if @date.nil?
@@ -319,8 +321,9 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] string Value to be assigned
     def string=(string)
-      if !string.nil? && string !~ Regexp.new(/[a-z]/i)
-        fail ArgumentError, 'invalid value for "string", must conform to the pattern /[a-z]/i.'
+      pattern = Regexp.new(/[a-z]/i)
+      if !string.nil? && string !~ pattern
+        fail ArgumentError, "invalid value for \"string\", must conform to the pattern #{pattern}."
       end
 
       @string = string
@@ -333,8 +336,9 @@ module Petstore
         fail ArgumentError, 'byte cannot be nil'
       end
 
-      if byte !~ Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
-        fail ArgumentError, 'invalid value for "byte", must conform to the pattern /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/.'
+      pattern = Regexp.new(/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/)
+      if byte !~ pattern
+        fail ArgumentError, "invalid value for \"byte\", must conform to the pattern #{pattern}."
       end
 
       @byte = byte
@@ -499,7 +503,5 @@ module Petstore
         value
       end
     end
-
   end
-
 end

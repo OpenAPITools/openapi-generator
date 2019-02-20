@@ -130,7 +130,7 @@ module Petstore
     def valid?
       return false if @name.nil?
       return false if @photo_urls.nil?
-      status_validator = EnumAttributeValidator.new('String', ['available', 'pending', 'sold'])
+      status_validator = EnumAttributeValidator.new('String', ["available", "pending", "sold"])
       return false unless status_validator.valid?(@status)
       true
     end
@@ -138,9 +138,9 @@ module Petstore
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] status Object to be assigned
     def status=(status)
-      validator = EnumAttributeValidator.new('String', ['available', 'pending', 'sold'])
+      validator = EnumAttributeValidator.new('String', ["available", "pending", "sold"])
       unless validator.valid?(status)
-        fail ArgumentError, 'invalid value for "status", must be one of #{validator.allowable_values}.'
+        fail ArgumentError, "invalid value for \"status\", must be one of #{validator.allowable_values}."
       end
       @status = status
     end
@@ -279,7 +279,5 @@ module Petstore
         value
       end
     end
-
   end
-
 end

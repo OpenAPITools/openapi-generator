@@ -78,11 +78,10 @@
       var contentTypes = [];
       var accepts = [];
       var returnType = null;
-
       return this.apiClient.callApi(
         '/user', 'POST',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -129,11 +128,10 @@
       var contentTypes = [];
       var accepts = [];
       var returnType = null;
-
       return this.apiClient.callApi(
         '/user/createWithArray', 'POST',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -179,11 +177,10 @@
       var contentTypes = [];
       var accepts = [];
       var returnType = null;
-
       return this.apiClient.callApi(
         '/user/createWithList', 'POST',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -231,11 +228,10 @@
       var contentTypes = [];
       var accepts = [];
       var returnType = null;
-
       return this.apiClient.callApi(
         '/user/{username}', 'DELETE',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -283,11 +279,10 @@
       var contentTypes = [];
       var accepts = ['application/xml', 'application/json'];
       var returnType = User;
-
       return this.apiClient.callApi(
         '/user/{username}', 'GET',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -341,11 +336,10 @@
       var contentTypes = [];
       var accepts = ['application/xml', 'application/json'];
       var returnType = 'String';
-
       return this.apiClient.callApi(
         '/user/login', 'GET',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -386,11 +380,10 @@
       var contentTypes = [];
       var accepts = [];
       var returnType = null;
-
       return this.apiClient.callApi(
         '/user/logout', 'GET',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -443,11 +436,10 @@
       var contentTypes = [];
       var accepts = [];
       var returnType = null;
-
       return this.apiClient.callApi(
         '/user/{username}', 'PUT',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 

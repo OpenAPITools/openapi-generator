@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -561,10 +562,10 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation) {
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
 
         CodegenOperation op = super.fromOperation(
-                path, httpMethod, operation);
+                path, httpMethod, operation, null);
 
         if (op.getHasExamples()) {
             // prepare examples for Apex test classes

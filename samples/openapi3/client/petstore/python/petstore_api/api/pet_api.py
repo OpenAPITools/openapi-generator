@@ -68,6 +68,12 @@ class PetApi(object):
                  returns the request thread.
         """
 
+        local_var_hosts = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2']  # noqa: E501
+        local_var_host = local_var_hosts[0]
+        if kwargs.get('_host_index'):
+            if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
+                raise ValueError("Invalid host index. Must be 0 <= index < %s" % len(local_var_host))
+            local_var_host = local_var_hosts[int(kwargs.get('_host_index'))]
         local_var_params = locals()
 
         all_params = ['pet']  # noqa: E501
@@ -77,7 +83,7 @@ class PetApi(object):
         all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
+            if key not in all_params and key != "_host_index":
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method add_pet" % key
@@ -124,6 +130,7 @@ class PetApi(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
+            _host=local_var_host,
             collection_formats=collection_formats)
 
     def delete_pet(self, pet_id, **kwargs):  # noqa: E501
@@ -546,6 +553,12 @@ class PetApi(object):
                  returns the request thread.
         """
 
+        local_var_hosts = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2']  # noqa: E501
+        local_var_host = local_var_hosts[0]
+        if kwargs.get('_host_index'):
+            if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
+                raise ValueError("Invalid host index. Must be 0 <= index < %s" % len(local_var_host))
+            local_var_host = local_var_hosts[int(kwargs.get('_host_index'))]
         local_var_params = locals()
 
         all_params = ['pet']  # noqa: E501
@@ -555,7 +568,7 @@ class PetApi(object):
         all_params.append('_request_timeout')
 
         for key, val in six.iteritems(local_var_params['kwargs']):
-            if key not in all_params:
+            if key not in all_params and key != "_host_index":
                 raise TypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method update_pet" % key
@@ -602,6 +615,7 @@ class PetApi(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
+            _host=local_var_host,
             collection_formats=collection_formats)
 
     def update_pet_with_form(self, pet_id, **kwargs):  # noqa: E501

@@ -492,8 +492,9 @@ module Petstore
       if @api_client.config.client_side_validation && pattern_without_delimiter.nil?
         fail ArgumentError, "Missing the required parameter 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters"
       end
-      if @api_client.config.client_side_validation && pattern_without_delimiter !~ Regexp.new(/^[A-Z].*/)
-        fail ArgumentError, "invalid value for 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters, must conform to the pattern /^[A-Z].*/."
+      pattern = Regexp.new(/^[A-Z].*/)
+      if @api_client.config.client_side_validation && pattern_without_delimiter !~ pattern
+        fail ArgumentError, "invalid value for 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters, must conform to the pattern #{pattern}."
       end
 
       # verify the required parameter 'byte' is set
@@ -520,8 +521,9 @@ module Petstore
         fail ArgumentError, 'invalid value for "opts[:"float"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 987.6.'
       end
 
-      if @api_client.config.client_side_validation && !opts[:'string'].nil? && opts[:'string'] !~ Regexp.new(/[a-z]/i)
-        fail ArgumentError, "invalid value for 'opts[:\"string\"]' when calling FakeApi.test_endpoint_parameters, must conform to the pattern /[a-z]/i."
+      pattern = Regexp.new(/[a-z]/i)
+      if @api_client.config.client_side_validation && !opts[:'string'].nil? && opts[:'string'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"string\"]' when calling FakeApi.test_endpoint_parameters, must conform to the pattern #{pattern}."
       end
 
       if @api_client.config.client_side_validation && !opts[:'password'].nil? && opts[:'password'].to_s.length > 64
@@ -608,29 +610,37 @@ module Petstore
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_enum_parameters ...'
       end
-      if @api_client.config.client_side_validation && opts[:'enum_header_string_array'] && !opts[:'enum_header_string_array'].all? { |item| ['>', '$'].include?(item) }
-        fail ArgumentError, 'invalid value for "enum_header_string_array", must include one of >, $'
+      allowable_values = [">", "$"]
+      if @api_client.config.client_side_validation && opts[:'enum_header_string_array'] && !opts[:'enum_header_string_array'].all? { |item| allowable_values.include?(item) }
+        fail ArgumentError, "invalid value for \"enum_header_string_array\", must include one of #{allowable_values}"
       end
-      if @api_client.config.client_side_validation && opts[:'enum_header_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_header_string'])
-        fail ArgumentError, 'invalid value for "enum_header_string", must be one of _abc, -efg, (xyz)'
+      allowable_values = ["_abc", "-efg", "(xyz)"]
+      if @api_client.config.client_side_validation && opts[:'enum_header_string'] && !allowable_values.include?(opts[:'enum_header_string'])
+        fail ArgumentError, "invalid value for \"enum_header_string\", must be one of #{allowable_values}"
       end
-      if @api_client.config.client_side_validation && opts[:'enum_query_string_array'] && !opts[:'enum_query_string_array'].all? { |item| ['>', '$'].include?(item) }
-        fail ArgumentError, 'invalid value for "enum_query_string_array", must include one of >, $'
+      allowable_values = [">", "$"]
+      if @api_client.config.client_side_validation && opts[:'enum_query_string_array'] && !opts[:'enum_query_string_array'].all? { |item| allowable_values.include?(item) }
+        fail ArgumentError, "invalid value for \"enum_query_string_array\", must include one of #{allowable_values}"
       end
-      if @api_client.config.client_side_validation && opts[:'enum_query_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_query_string'])
-        fail ArgumentError, 'invalid value for "enum_query_string", must be one of _abc, -efg, (xyz)'
+      allowable_values = ["_abc", "-efg", "(xyz)"]
+      if @api_client.config.client_side_validation && opts[:'enum_query_string'] && !allowable_values.include?(opts[:'enum_query_string'])
+        fail ArgumentError, "invalid value for \"enum_query_string\", must be one of #{allowable_values}"
       end
-      if @api_client.config.client_side_validation && opts[:'enum_query_integer'] && !['1', '-2'].include?(opts[:'enum_query_integer'])
-        fail ArgumentError, 'invalid value for "enum_query_integer", must be one of 1, -2'
+      allowable_values = [1, -2]
+      if @api_client.config.client_side_validation && opts[:'enum_query_integer'] && !allowable_values.include?(opts[:'enum_query_integer'])
+        fail ArgumentError, "invalid value for \"enum_query_integer\", must be one of #{allowable_values}"
       end
-      if @api_client.config.client_side_validation && opts[:'enum_query_double'] && !['1.1', '-1.2'].include?(opts[:'enum_query_double'])
-        fail ArgumentError, 'invalid value for "enum_query_double", must be one of 1.1, -1.2'
+      allowable_values = [1.1, -1.2]
+      if @api_client.config.client_side_validation && opts[:'enum_query_double'] && !allowable_values.include?(opts[:'enum_query_double'])
+        fail ArgumentError, "invalid value for \"enum_query_double\", must be one of #{allowable_values}"
       end
-      if @api_client.config.client_side_validation && opts[:'enum_form_string_array'] && !opts[:'enum_form_string_array'].all? { |item| ['>', '$'].include?(item) }
-        fail ArgumentError, 'invalid value for "enum_form_string_array", must include one of >, $'
+      allowable_values = [">", "$"]
+      if @api_client.config.client_side_validation && opts[:'enum_form_string_array'] && !opts[:'enum_form_string_array'].all? { |item| allowable_values.include?(item) }
+        fail ArgumentError, "invalid value for \"enum_form_string_array\", must include one of #{allowable_values}"
       end
-      if @api_client.config.client_side_validation && opts[:'enum_form_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_form_string'])
-        fail ArgumentError, 'invalid value for "enum_form_string", must be one of _abc, -efg, (xyz)'
+      allowable_values = ["_abc", "-efg", "(xyz)"]
+      if @api_client.config.client_side_validation && opts[:'enum_form_string'] && !allowable_values.include?(opts[:'enum_form_string'])
+        fail ArgumentError, "invalid value for \"enum_form_string\", must be one of #{allowable_values}"
       end
       # resource path
       local_var_path = '/fake'
@@ -850,6 +860,5 @@ module Petstore
       end
       return data, status_code, headers
     end
-
   end
 end

@@ -65,18 +65,46 @@ class FakeApi
     protected $headerSelector;
 
     /**
+     * @var int Host index
+     */
+    protected $hostIndex;
+
+    /**
      * @param ClientInterface $client
      * @param Configuration   $config
      * @param HeaderSelector  $selector
+     * @param int             $host_index (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
-        HeaderSelector $selector = null
+        HeaderSelector $selector = null,
+        $host_index = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
         $this->headerSelector = $selector ?: new HeaderSelector();
+        $this->hostIndex = $host_index;
+    }
+
+    /**
+     * Set the host index
+     *
+     * @param  int Host index (required)
+     */
+    public function setHostIndex($host_index)
+    {
+        $this->hostIndex = $host_index;
+    }
+
+    /**
+     * Get the host index
+     *
+     * @return Host index
+     */
+    public function getHostIndex()
+    {
+        return $this->hostIndex;
     }
 
     /**
@@ -2764,7 +2792,7 @@ class FakeApi
      *
      * Fake endpoint to test group parameters (optional)
      *
-     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
      * @param  int $required_string_group Required String in group parameters (required)
      * @param  bool $required_boolean_group Required Boolean in group parameters (required)
@@ -2823,7 +2851,7 @@ class FakeApi
      *
      * Fake endpoint to test group parameters (optional)
      *
-     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
      * @param  int $required_string_group Required String in group parameters (required)
      * @param  bool $required_boolean_group Required Boolean in group parameters (required)
@@ -2850,7 +2878,7 @@ class FakeApi
      *
      * Fake endpoint to test group parameters (optional)
      *
-     * Note: the inpput parameter is an associative array with the keys listed as the parameter name below
+     * Note: the input parameter is an associative array with the keys listed as the parameter name below
      *
      * @param  int $required_string_group Required String in group parameters (required)
      * @param  bool $required_boolean_group Required Boolean in group parameters (required)

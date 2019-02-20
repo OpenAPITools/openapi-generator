@@ -174,8 +174,9 @@
 
       {{/minimum}}
       {{#pattern}}
-      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} !~ Regexp.new({{{pattern}}})
-        invalid_properties.push('invalid value for "{{{name}}}", must conform to the pattern {{{pattern}}}.')
+      pattern = Regexp.new({{{pattern}}})
+      if {{^required}}!@{{{name}}}.nil? && {{/required}}@{{{name}}} !~ pattern
+        invalid_properties.push("invalid value for \"{{{name}}}\", must conform to the pattern #{pattern}.")
       end
 
       {{/pattern}}
@@ -207,7 +208,7 @@
       {{/isNullable}}
       {{#isEnum}}
       {{^isContainer}}
-      {{{name}}}_validator = EnumAttributeValidator.new('{{{dataType}}}', [{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
+      {{{name}}}_validator = EnumAttributeValidator.new('{{{dataType}}}', [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
       return false unless {{{name}}}_validator.valid?(@{{{name}}})
       {{/isContainer}}
       {{/isEnum}}
@@ -280,9 +281,9 @@
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] {{{name}}} Object to be assigned
     def {{{name}}}=({{{name}}})
-      validator = EnumAttributeValidator.new('{{{dataType}}}', [{{#allowableValues}}{{#values}}'{{{this}}}'{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
+      validator = EnumAttributeValidator.new('{{{dataType}}}', [{{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}])
       unless validator.valid?({{{name}}})
-        fail ArgumentError, 'invalid value for "{{{name}}}", must be one of #{validator.allowable_values}.'
+        fail ArgumentError, "invalid value for \"{{{name}}}\", must be one of #{validator.allowable_values}."
       end
       @{{{name}}} = {{{name}}}
     end
@@ -327,8 +328,9 @@
 
       {{/minimum}}
       {{#pattern}}
-      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} !~ Regexp.new({{{pattern}}})
-        fail ArgumentError, 'invalid value for "{{{name}}}", must conform to the pattern {{{pattern}}}.'
+      pattern = Regexp.new({{{pattern}}})
+      if {{^required}}!{{{name}}}.nil? && {{/required}}{{{name}}} !~ pattern
+        fail ArgumentError, "invalid value for \"{{{name}}}\", must conform to the pattern #{pattern}."
       end
 
       {{/pattern}}

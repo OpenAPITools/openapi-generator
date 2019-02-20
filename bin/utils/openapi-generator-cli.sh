@@ -20,7 +20,7 @@
 ####
 set -o pipefail
 
-for cmd in {mvn,python,curl}; do
+for cmd in {mvn,jq,curl}; do
   if ! command -v ${cmd} > /dev/null; then
   >&2 echo "This script requires '${cmd}' to be installed."
     exit 1
@@ -28,8 +28,8 @@ for cmd in {mvn,python,curl}; do
 done
 
 function latest.tag {
-  local uri="https://api.github.com/repos/${1}/tags"
-  curl -s ${uri} | python -c "import sys, json; print json.load(sys.stdin)[0]['name'][1:]"
+  local uri="https://api.github.com/repos/${1}/releases"
+  curl -s ${uri} | jq -r 'first(.[]|select(.prerelease==false)).tag_name'
 }
 
 ghrepo=openapitools/openapi-generator

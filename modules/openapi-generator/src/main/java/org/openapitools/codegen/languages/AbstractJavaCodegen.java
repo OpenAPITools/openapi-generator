@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -160,7 +161,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(new CliOption(CodegenConstants.LICENSE_NAME, CodegenConstants.LICENSE_NAME_DESC));
         cliOptions.add(new CliOption(CodegenConstants.LICENSE_URL, CodegenConstants.LICENSE_URL_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SERIALIZE_BIG_DECIMAL_AS_STRING, CodegenConstants
                 .SERIALIZE_BIG_DECIMAL_AS_STRING_DESC));
@@ -191,6 +191,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_VERSION, CodegenConstants.PARENT_VERSION_DESC));
+        cliOptions.add(CliOption.newString(CodegenConstants.SNAPSHOT_VERSION, CodegenConstants.SNAPSHOT_VERSION_DESC));
     }
 
     @Override
@@ -264,9 +265,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
             this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
+        } else if (this.getVersionFromSpecification() != null) {
+            this.setArtifactVersion(this.getVersionFromSpecification());
         } else {
             //not set, use to be passed to template
             additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
+            Boolean useSnapshotVersion = Boolean.valueOf((String) additionalProperties.get(CodegenConstants.SNAPSHOT_VERSION));
+
+            if (useSnapshotVersion) {
+                this.setArtifactVersion(this.buildSnapshotVersion(this.artifactVersion));
+            }
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_URL)) {
@@ -339,10 +350,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
-
-        if (additionalProperties.containsKey(CodegenConstants.LOCAL_VARIABLE_PREFIX)) {
-            this.setLocalVariablePrefix((String) additionalProperties.get(CodegenConstants.LOCAL_VARIABLE_PREFIX));
-        }
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZABLE_MODEL)) {
             this.setSerializableModel(Boolean.valueOf(additionalProperties.get(CodegenConstants.SERIALIZABLE_MODEL).toString()));
@@ -1130,8 +1137,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation);
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         op.path = sanitizePath(op.path);
         return op;
     }
@@ -1344,14 +1351,39 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return sb.toString();
     }
 
+    /**
+     * Gets version from API specification.
+     *
+     * @return API version
+     */
+    private String getVersionFromSpecification () {
+        if (this.openAPI != null && this.openAPI.getInfo() != null) {
+            return this.openAPI.getInfo().getVersion();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Builds a SNAPSHOT version from a given version.
+     *
+     * @param version
+     * @return SNAPSHOT version
+     */
+    private String buildSnapshotVersion (String version) {
+        return version + "-" + "SNAPSHOT";
+    }
+
     public void setSupportJava6(boolean value) {
         this.supportJava6 = value;
     }
 
+    @Override
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
     }
 
+    @Override
     public boolean convertPropertyToBoolean(String propertyKey) {
         boolean booleanValue = false;
         if (additionalProperties.containsKey(propertyKey)) {
@@ -1361,6 +1393,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return booleanValue;
     }
 
+    @Override
     public void writePropertyBack(String propertyKey, boolean value) {
         additionalProperties.put(propertyKey, value);
     }
@@ -1385,6 +1418,33 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         return tag;
     }
+
+    /**
+     * Camelize the method name of the getter and setter
+     *
+     * @param name string to be camelized
+     * @return Camelized string
+     */
+    @Override
+    public String getterAndSetterCapitalize(String name) {
+        boolean lowercaseFirstLetter = false;
+        if (name == null || name.length() == 0) {
+            return name;
+        }
+        name = toVarName(name);
+        //
+        // Let the property name capitalized
+        // except when the first letter of the property name is lowercase and the second letter is uppercase
+        // Refer to section 8.8: Capitalization of inferred names of the JavaBeans API specification
+        // http://download.oracle.com/otn-pub/jcp/7224-javabeans-1.01-fr-spec-oth-JSpec/beans.101.pdf)
+        //
+        if (name.length() > 1 && Character.isLowerCase(name.charAt(0)) && Character.isUpperCase(name.charAt(1))) {
+            lowercaseFirstLetter = true;
+        }
+        return camelize(name, lowercaseFirstLetter);
+    }
+
+
 
     @Override
     public void postProcessFile(File file, String fileType) {

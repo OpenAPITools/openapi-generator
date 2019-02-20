@@ -78,11 +78,10 @@
       var contentTypes = ['application/json'];
       var accepts = ['application/json'];
       var returnType = Client;
-
       return this.apiClient.callApi(
         '/another-fake/dummy', 'PATCH',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 

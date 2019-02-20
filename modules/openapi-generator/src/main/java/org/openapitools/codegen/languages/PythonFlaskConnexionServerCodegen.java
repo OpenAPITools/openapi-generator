@@ -49,9 +49,9 @@ public class PythonFlaskConnexionServerCodegen extends PythonAbstractConnexionSe
         supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile("encoder.mustache", packageName, "encoder.py"));
-        supportingFiles.add(new SupportingFile("__init__test.mustache", packageName + File.separatorChar + testPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__.mustache", packageName, "__init__.py"));
+        supportingFiles.add(new SupportingFile("encoder.mustache", packagePath(), "encoder.py"));
+        supportingFiles.add(new SupportingFile("__init__test.mustache", packagePath() + File.separatorChar + testPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__.mustache", packagePath(), "__init__.py"));
         testPackage = packageName + "." + testPackage;
     }
 }

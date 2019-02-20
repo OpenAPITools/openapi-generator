@@ -401,7 +401,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
         } else {
-            return "'" + escapeText(value) + "'";
+            return "\"" + escapeText(value) + "\"";
         }
     }
 

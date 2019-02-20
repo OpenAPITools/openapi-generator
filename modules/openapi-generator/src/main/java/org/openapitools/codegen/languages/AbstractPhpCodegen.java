@@ -40,11 +40,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public static final String VARIABLE_NAMING_CONVENTION = "variableNamingConvention";
     public static final String PACKAGE_NAME = "packageName";
     public static final String SRC_BASE_PATH = "srcBasePath";
-    // composerVendorName/composerProjectName has be replaced by gitUserId/gitRepoId. prepare to remove these.
-    // public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
-    // public static final String COMPOSER_PROJECT_NAME = "composerProjectName";
-    // protected String composerVendorName = null;
-    // protected String composerProjectName = null;
     protected String invokerPackage = "php";
     protected String packageName = "php-base";
     protected String artifactVersion = null;
@@ -54,8 +49,8 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     protected String apiDirName = "Api";
     protected String modelDirName = "Model";
     protected String variableNamingConvention = "snake_case";
-    protected String apiDocPath = docsBasePath + File.separator + apiDirName;
-    protected String modelDocPath = docsBasePath + File.separator + modelDirName;
+    protected String apiDocPath = docsBasePath + "/" + apiDirName;
+    protected String modelDocPath = docsBasePath + "/" + modelDirName;
     protected String interfaceNamePrefix = "", interfaceNameSuffix = "Interface";
     protected String abstractNamePrefix = "Abstract", abstractNameSuffix = "";
     protected String traitNamePrefix = "", traitNameSuffix = "Trait";
@@ -137,9 +132,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay\\Pets"));
         cliOptions.add(new CliOption(PACKAGE_NAME, "The main package name for classes. e.g. GeneratedPetstore"));
         cliOptions.add(new CliOption(SRC_BASE_PATH, "The directory to serve as source root."));
-        // cliOptions.add(new CliOption(COMPOSER_VENDOR_NAME, "The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets. IMPORTANT NOTE (2016/03): composerVendorName will be deprecated and replaced by gitUserId in the next openapi-generator release"));
         cliOptions.add(new CliOption(CodegenConstants.GIT_USER_ID, CodegenConstants.GIT_USER_ID_DESC));
-        // cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client. IMPORTANT NOTE (2016/03): composerProjectName will be deprecated and replaced by gitRepoId in the next openapi-generator release"));
         cliOptions.add(new CliOption(CodegenConstants.GIT_REPO_ID, CodegenConstants.GIT_REPO_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "The version to use in the composer package version field. e.g. 1.2.3"));
     }
@@ -187,23 +180,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         }
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
 
-        // if (additionalProperties.containsKey(COMPOSER_PROJECT_NAME)) {
-        //     this.setComposerProjectName((String) additionalProperties.get(COMPOSER_PROJECT_NAME));
-        // } else {
-        //     additionalProperties.put(COMPOSER_PROJECT_NAME, composerProjectName);
-        // }
-
         if (additionalProperties.containsKey(CodegenConstants.GIT_USER_ID)) {
             this.setGitUserId((String) additionalProperties.get(CodegenConstants.GIT_USER_ID));
         } else {
             additionalProperties.put(CodegenConstants.GIT_USER_ID, gitUserId);
         }
-
-        // if (additionalProperties.containsKey(COMPOSER_VENDOR_NAME)) {
-        //     this.setComposerVendorName((String) additionalProperties.get(COMPOSER_VENDOR_NAME));
-        // } else {
-        //     additionalProperties.put(COMPOSER_VENDOR_NAME, composerVendorName);
-        // }
 
         if (additionalProperties.containsKey(CodegenConstants.GIT_REPO_ID)) {
             this.setGitRepoId((String) additionalProperties.get(CodegenConstants.GIT_REPO_ID));
@@ -261,27 +242,13 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             basePath = basePath.replaceAll("[\\\\/]?$", "") + '/'; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         }
 
-        String regFirstPathSeparator;
-        if ("/".equals(File.separator)) { // for mac, linux
-            regFirstPathSeparator = "^/";
-        } else { // for windows
-            regFirstPathSeparator = "^\\\\";
-        }
-
-        String regLastPathSeparator;
-        if ("/".equals(File.separator)) { // for mac, linux
-            regLastPathSeparator = "/$";
-        } else { // for windows
-            regLastPathSeparator = "\\\\$";
-        }
-
         return (basePath
                 // Replace period, backslash, forward slash with file separator in package name
                 + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/"))
                 // Trim prefix file separators from package path
-                .replaceAll(regFirstPathSeparator, ""))
+                .replaceAll("^/", ""))
                 // Trim trailing file separators from the overall path
-                .replaceAll(regLastPathSeparator + "$", "");
+                .replaceAll("/$", "");
     }
 
     @Override
@@ -408,14 +375,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public void setParameterNamingConvention(String variableNamingConvention) {
         this.variableNamingConvention = variableNamingConvention;
     }
-
-    // public void setComposerVendorName(String composerVendorName) {
-    //     this.composerVendorName = composerVendorName;
-    // }
-
-    // public void setComposerProjectName(String composerProjectName) {
-    //     this.composerProjectName = composerProjectName;
-    // }
 
     @Override
     public String toVarName(String name) {

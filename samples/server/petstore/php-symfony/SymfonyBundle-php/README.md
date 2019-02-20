@@ -26,7 +26,7 @@ To install the dependencies via [Composer](http://getcomposer.org/), add the fol
 Then run:
 
 ```
-composer require openapi/server-bundle:dev-master
+composer require GIT_USER_ID/GIT_REPO_ID:dev-master
 ```
 
 to add the generated openapi bundle as a dependency.

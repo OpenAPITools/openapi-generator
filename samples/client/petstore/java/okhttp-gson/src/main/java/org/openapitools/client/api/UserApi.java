@@ -36,33 +36,33 @@ import java.util.List;
 import java.util.Map;
 
 public class UserApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public UserApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public UserApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
      * Build call for createUser
      * @param body Created user object (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call createUserCall(User body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call createUserCall(User body, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -75,7 +75,7 @@ public class UserApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -83,27 +83,27 @@ public class UserApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createUserValidateBeforeCall(User body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call createUserValidateBeforeCall(User body, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -111,8 +111,8 @@ public class UserApi {
         }
         
 
-        okhttp3.Call call = createUserCall(body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = createUserCall(body, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -134,52 +134,52 @@ public class UserApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> createUserWithHttpInfo(User body) throws ApiException {
-        okhttp3.Call call = createUserValidateBeforeCall(body, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = createUserValidateBeforeCall(body, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Create user (asynchronously)
      * This can only be done by the logged in user.
      * @param body Created user object (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call createUserAsync(User body, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call createUserAsync(User body, final ApiCallback<Void> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = createUserValidateBeforeCall(body, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = createUserValidateBeforeCall(body, _progressListener, _progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
     }
     /**
      * Build call for createUsersWithArrayInput
      * @param body List of user object (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call createUsersWithArrayInputCall(List<User> body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call createUsersWithArrayInputCall(List<User> body, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -192,7 +192,7 @@ public class UserApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -200,27 +200,27 @@ public class UserApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createUsersWithArrayInputValidateBeforeCall(List<User> body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call createUsersWithArrayInputValidateBeforeCall(List<User> body, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -228,8 +228,8 @@ public class UserApi {
         }
         
 
-        okhttp3.Call call = createUsersWithArrayInputCall(body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = createUsersWithArrayInputCall(body, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -251,52 +251,52 @@ public class UserApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
-        okhttp3.Call call = createUsersWithArrayInputValidateBeforeCall(body, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = createUsersWithArrayInputValidateBeforeCall(body, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Creates list of users with given input array (asynchronously)
      * 
      * @param body List of user object (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call createUsersWithArrayInputAsync(List<User> body, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call createUsersWithArrayInputAsync(List<User> body, final ApiCallback<Void> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = createUsersWithArrayInputValidateBeforeCall(body, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = createUsersWithArrayInputValidateBeforeCall(body, _progressListener, _progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
     }
     /**
      * Build call for createUsersWithListInput
      * @param body List of user object (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call createUsersWithListInputCall(List<User> body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call createUsersWithListInputCall(List<User> body, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -309,7 +309,7 @@ public class UserApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -317,27 +317,27 @@ public class UserApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createUsersWithListInputValidateBeforeCall(List<User> body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call createUsersWithListInputValidateBeforeCall(List<User> body, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -345,8 +345,8 @@ public class UserApi {
         }
         
 
-        okhttp3.Call call = createUsersWithListInputCall(body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = createUsersWithListInputCall(body, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -368,57 +368,57 @@ public class UserApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body) throws ApiException {
-        okhttp3.Call call = createUsersWithListInputValidateBeforeCall(body, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = createUsersWithListInputValidateBeforeCall(body, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Creates list of users with given input array (asynchronously)
      * 
      * @param body List of user object (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call createUsersWithListInputAsync(List<User> body, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call createUsersWithListInputAsync(List<User> body, final ApiCallback<Void> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = createUsersWithListInputValidateBeforeCall(body, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = createUsersWithListInputValidateBeforeCall(body, _progressListener, _progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
     }
     /**
      * Build call for deleteUser
      * @param username The name that needs to be deleted (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call deleteUserCall(String username, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call deleteUserCall(String username, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/user/{username}"
-            .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+            .replaceAll("\\{" + "username" + "\\}", localVarApiClient.escapeString(username.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -427,7 +427,7 @@ public class UserApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -435,27 +435,27 @@ public class UserApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deleteUserValidateBeforeCall(String username, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call deleteUserValidateBeforeCall(String username, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -463,8 +463,8 @@ public class UserApi {
         }
         
 
-        okhttp3.Call call = deleteUserCall(username, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = deleteUserCall(username, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -486,57 +486,57 @@ public class UserApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
-        okhttp3.Call call = deleteUserValidateBeforeCall(username, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = deleteUserValidateBeforeCall(username, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Delete user (asynchronously)
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call deleteUserAsync(String username, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call deleteUserAsync(String username, final ApiCallback<Void> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = deleteUserValidateBeforeCall(username, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = deleteUserValidateBeforeCall(username, _progressListener, _progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getUserByName
      * @param username The name that needs to be fetched. Use user1 for testing. (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getUserByNameCall(String username, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getUserByNameCall(String username, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/user/{username}"
-            .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+            .replaceAll("\\{" + "username" + "\\}", localVarApiClient.escapeString(username.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -545,7 +545,7 @@ public class UserApi {
         final String[] localVarAccepts = {
             "application/xml", "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -553,27 +553,27 @@ public class UserApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getUserByNameValidateBeforeCall(String username, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getUserByNameValidateBeforeCall(String username, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -581,8 +581,8 @@ public class UserApi {
         }
         
 
-        okhttp3.Call call = getUserByNameCall(username, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getUserByNameCall(username, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -594,8 +594,8 @@ public class UserApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public User getUserByName(String username) throws ApiException {
-        ApiResponse<User> resp = getUserByNameWithHttpInfo(username);
-        return resp.getData();
+        ApiResponse<User> localVarResp = getUserByNameWithHttpInfo(username);
+        return localVarResp.getData();
     }
 
     /**
@@ -606,55 +606,55 @@ public class UserApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
-        okhttp3.Call call = getUserByNameValidateBeforeCall(username, null, null);
+        okhttp3.Call localVarCall = getUserByNameValidateBeforeCall(username, null, null);
         Type localVarReturnType = new TypeToken<User>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Get user by user name (asynchronously)
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getUserByNameAsync(String username, final ApiCallback<User> callback) throws ApiException {
+    public okhttp3.Call getUserByNameAsync(String username, final ApiCallback<User> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = getUserByNameValidateBeforeCall(username, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getUserByNameValidateBeforeCall(username, _progressListener, _progressRequestListener);
         Type localVarReturnType = new TypeToken<User>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for loginUser
      * @param username The user name for login (required)
      * @param password The password for login in clear text (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call loginUserCall(String username, String password, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call loginUserCall(String username, String password, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -663,11 +663,11 @@ public class UserApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (username != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("username", username));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("username", username));
         }
 
         if (password != null) {
-            localVarQueryParams.addAll(apiClient.parameterToPair("password", password));
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("password", password));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -675,7 +675,7 @@ public class UserApi {
         final String[] localVarAccepts = {
             "application/xml", "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -683,27 +683,27 @@ public class UserApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call loginUserValidateBeforeCall(String username, String password, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call loginUserValidateBeforeCall(String username, String password, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -716,8 +716,8 @@ public class UserApi {
         }
         
 
-        okhttp3.Call call = loginUserCall(username, password, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = loginUserCall(username, password, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -730,8 +730,8 @@ public class UserApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public String loginUser(String username, String password) throws ApiException {
-        ApiResponse<String> resp = loginUserWithHttpInfo(username, password);
-        return resp.getData();
+        ApiResponse<String> localVarResp = loginUserWithHttpInfo(username, password);
+        return localVarResp.getData();
     }
 
     /**
@@ -743,9 +743,9 @@ public class UserApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
-        okhttp3.Call call = loginUserValidateBeforeCall(username, password, null, null);
+        okhttp3.Call localVarCall = loginUserValidateBeforeCall(username, password, null, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -753,44 +753,44 @@ public class UserApi {
      * 
      * @param username The user name for login (required)
      * @param password The password for login in clear text (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call loginUserAsync(String username, String password, final ApiCallback<String> callback) throws ApiException {
+    public okhttp3.Call loginUserAsync(String username, String password, final ApiCallback<String> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = loginUserValidateBeforeCall(username, password, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = loginUserValidateBeforeCall(username, password, _progressListener, _progressRequestListener);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for logoutUser
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call logoutUserCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call logoutUserCall(final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -803,7 +803,7 @@ public class UserApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -811,31 +811,31 @@ public class UserApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call logoutUserValidateBeforeCall(final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call logoutUserValidateBeforeCall(final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
 
-        okhttp3.Call call = logoutUserCall(progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = logoutUserCall(_progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -855,57 +855,57 @@ public class UserApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> logoutUserWithHttpInfo() throws ApiException {
-        okhttp3.Call call = logoutUserValidateBeforeCall(null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = logoutUserValidateBeforeCall(null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Logs out current logged in user session (asynchronously)
      * 
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call logoutUserAsync(final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call logoutUserAsync(final ApiCallback<Void> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = logoutUserValidateBeforeCall(progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = logoutUserValidateBeforeCall(_progressListener, _progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
     }
     /**
      * Build call for updateUser
      * @param username name that need to be deleted (required)
      * @param body Updated user object (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call updateUserCall(String username, User body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call updateUserCall(String username, User body, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
         String localVarPath = "/user/{username}"
-            .replaceAll("\\{" + "username" + "\\}", apiClient.escapeString(username.toString()));
+            .replaceAll("\\{" + "username" + "\\}", localVarApiClient.escapeString(username.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -914,7 +914,7 @@ public class UserApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -922,27 +922,27 @@ public class UserApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updateUserValidateBeforeCall(String username, User body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call updateUserValidateBeforeCall(String username, User body, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'username' is set
         if (username == null) {
@@ -955,8 +955,8 @@ public class UserApi {
         }
         
 
-        okhttp3.Call call = updateUserCall(username, body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = updateUserCall(username, body, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -980,8 +980,8 @@ public class UserApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> updateUserWithHttpInfo(String username, User body) throws ApiException {
-        okhttp3.Call call = updateUserValidateBeforeCall(username, body, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = updateUserValidateBeforeCall(username, body, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
@@ -989,33 +989,33 @@ public class UserApi {
      * This can only be done by the logged in user.
      * @param username name that need to be deleted (required)
      * @param body Updated user object (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call updateUserAsync(String username, User body, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call updateUserAsync(String username, User body, final ApiCallback<Void> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = updateUserValidateBeforeCall(username, body, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = updateUserValidateBeforeCall(username, body, _progressListener, _progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
     }
 }

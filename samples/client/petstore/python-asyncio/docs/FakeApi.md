@@ -27,6 +27,7 @@ creates an XmlItem
 this route creates an XmlItem
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -74,6 +75,7 @@ No authorization required
 Test serialization of outer boolean types
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -121,6 +123,7 @@ No authorization required
 Test serialization of object with outer number type
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -168,6 +171,7 @@ No authorization required
 Test serialization of outer number types
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -215,6 +219,7 @@ No authorization required
 Test serialization of outer string types
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -262,6 +267,7 @@ No authorization required
 For this test, the body for this request much reference a schema named `File`.
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -306,6 +312,7 @@ No authorization required
 
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -354,6 +361,7 @@ To test \"client\" model
 To test \"client\" model
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -403,7 +411,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 ### Example
 
-* Basic Authentication (http_basic_test): 
+* Basic Authentication (http_basic_test):
 ```python
 from __future__ import print_function
 import time
@@ -481,6 +489,7 @@ To test enum parameters
 To test enum parameters
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -542,6 +551,7 @@ Fake endpoint to test group parameters (optional)
 Fake endpoint to test group parameters (optional)
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -597,6 +607,7 @@ No authorization required
 test inline additionalProperties
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -642,6 +653,7 @@ No authorization required
 test json serialization of form data
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time

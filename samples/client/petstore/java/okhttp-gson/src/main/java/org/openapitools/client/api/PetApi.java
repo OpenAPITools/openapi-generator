@@ -38,33 +38,33 @@ import java.util.List;
 import java.util.Map;
 
 public class PetApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public PetApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public PetApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
      * Build call for addPet
      * @param body Pet object that needs to be added to the store (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call addPetCall(Pet body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call addPetCall(Pet body, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -77,7 +77,7 @@ public class PetApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -85,27 +85,27 @@ public class PetApi {
         final String[] localVarContentTypes = {
             "application/json", "application/xml"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call addPetValidateBeforeCall(Pet body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call addPetValidateBeforeCall(Pet body, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -113,8 +113,8 @@ public class PetApi {
         }
         
 
-        okhttp3.Call call = addPetCall(body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = addPetCall(body, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -136,71 +136,71 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
-        okhttp3.Call call = addPetValidateBeforeCall(body, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = addPetValidateBeforeCall(body, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Add a new pet to the store (asynchronously)
      * 
      * @param body Pet object that needs to be added to the store (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call addPetAsync(Pet body, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call addPetAsync(Pet body, final ApiCallback<Void> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = addPetValidateBeforeCall(body, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = addPetValidateBeforeCall(body, _progressListener, _progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
     }
     /**
      * Build call for deletePet
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call deletePetCall(Long petId, String apiKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call deletePetCall(Long petId, String apiKey, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/pet/{petId}"
-            .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+            .replaceAll("\\{" + "petId" + "\\}", localVarApiClient.escapeString(petId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         if (apiKey != null) {
-            localVarHeaderParams.put("api_key", apiClient.parameterToString(apiKey));
+            localVarHeaderParams.put("api_key", localVarApiClient.parameterToString(apiKey));
         }
 
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -208,27 +208,27 @@ public class PetApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return apiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "DELETE", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call deletePetValidateBeforeCall(Long petId, String apiKey, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call deletePetValidateBeforeCall(Long petId, String apiKey, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -236,8 +236,8 @@ public class PetApi {
         }
         
 
-        okhttp3.Call call = deletePetCall(petId, apiKey, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = deletePetCall(petId, apiKey, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -261,8 +261,8 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
-        okhttp3.Call call = deletePetValidateBeforeCall(petId, apiKey, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = deletePetValidateBeforeCall(petId, apiKey, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
@@ -270,44 +270,44 @@ public class PetApi {
      * 
      * @param petId Pet id to delete (required)
      * @param apiKey  (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call deletePetAsync(Long petId, String apiKey, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call deletePetAsync(Long petId, String apiKey, final ApiCallback<Void> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = deletePetValidateBeforeCall(petId, apiKey, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = deletePetValidateBeforeCall(petId, apiKey, _progressListener, _progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
     }
     /**
      * Build call for findPetsByStatus
      * @param status Status values that need to be considered for filter (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call findPetsByStatusCall(List<String> status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call findPetsByStatusCall(List<String> status, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -316,7 +316,7 @@ public class PetApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (status != null) {
-            localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "status", status));
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("csv", "status", status));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -324,7 +324,7 @@ public class PetApi {
         final String[] localVarAccepts = {
             "application/xml", "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -332,27 +332,27 @@ public class PetApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call findPetsByStatusValidateBeforeCall(List<String> status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call findPetsByStatusValidateBeforeCall(List<String> status, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'status' is set
         if (status == null) {
@@ -360,8 +360,8 @@ public class PetApi {
         }
         
 
-        okhttp3.Call call = findPetsByStatusCall(status, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = findPetsByStatusCall(status, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -373,8 +373,8 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public List<Pet> findPetsByStatus(List<String> status) throws ApiException {
-        ApiResponse<List<Pet>> resp = findPetsByStatusWithHttpInfo(status);
-        return resp.getData();
+        ApiResponse<List<Pet>> localVarResp = findPetsByStatusWithHttpInfo(status);
+        return localVarResp.getData();
     }
 
     /**
@@ -385,56 +385,56 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
-        okhttp3.Call call = findPetsByStatusValidateBeforeCall(status, null, null);
+        okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, null, null);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Finds Pets by status (asynchronously)
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call findPetsByStatusAsync(List<String> status, final ApiCallback<List<Pet>> callback) throws ApiException {
+    public okhttp3.Call findPetsByStatusAsync(List<String> status, final ApiCallback<List<Pet>> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = findPetsByStatusValidateBeforeCall(status, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = findPetsByStatusValidateBeforeCall(status, _progressListener, _progressRequestListener);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for findPetsByTags
      * @param tags Tags to filter by (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      * @deprecated
      */
     @Deprecated
-    public okhttp3.Call findPetsByTagsCall(List<String> tags, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call findPetsByTagsCall(List<String> tags, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -443,7 +443,7 @@ public class PetApi {
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         if (tags != null) {
-            localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "tags", tags));
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("csv", "tags", tags));
         }
 
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
@@ -451,7 +451,7 @@ public class PetApi {
         final String[] localVarAccepts = {
             "application/xml", "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -459,28 +459,28 @@ public class PetApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @Deprecated
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call findPetsByTagsValidateBeforeCall(List<String> tags, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call findPetsByTagsValidateBeforeCall(List<String> tags, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'tags' is set
         if (tags == null) {
@@ -488,8 +488,8 @@ public class PetApi {
         }
         
 
-        okhttp3.Call call = findPetsByTagsCall(tags, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = findPetsByTagsCall(tags, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -503,8 +503,8 @@ public class PetApi {
      */
     @Deprecated
     public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
-        ApiResponse<List<Pet>> resp = findPetsByTagsWithHttpInfo(tags);
-        return resp.getData();
+        ApiResponse<List<Pet>> localVarResp = findPetsByTagsWithHttpInfo(tags);
+        return localVarResp.getData();
     }
 
     /**
@@ -517,61 +517,61 @@ public class PetApi {
      */
     @Deprecated
     public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
-        okhttp3.Call call = findPetsByTagsValidateBeforeCall(tags, null, null);
+        okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, null, null);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Finds Pets by tags (asynchronously)
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      * @deprecated
      */
     @Deprecated
-    public okhttp3.Call findPetsByTagsAsync(List<String> tags, final ApiCallback<List<Pet>> callback) throws ApiException {
+    public okhttp3.Call findPetsByTagsAsync(List<String> tags, final ApiCallback<List<Pet>> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = findPetsByTagsValidateBeforeCall(tags, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = findPetsByTagsValidateBeforeCall(tags, _progressListener, _progressRequestListener);
         Type localVarReturnType = new TypeToken<List<Pet>>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for getPetById
      * @param petId ID of pet to return (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call getPetByIdCall(Long petId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call getPetByIdCall(Long petId, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/pet/{petId}"
-            .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+            .replaceAll("\\{" + "petId" + "\\}", localVarApiClient.escapeString(petId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -580,7 +580,7 @@ public class PetApi {
         final String[] localVarAccepts = {
             "application/xml", "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -588,27 +588,27 @@ public class PetApi {
         final String[] localVarContentTypes = {
             
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] { "api_key" };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call getPetByIdValidateBeforeCall(Long petId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call getPetByIdValidateBeforeCall(Long petId, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -616,8 +616,8 @@ public class PetApi {
         }
         
 
-        okhttp3.Call call = getPetByIdCall(petId, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = getPetByIdCall(petId, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -629,8 +629,8 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public Pet getPetById(Long petId) throws ApiException {
-        ApiResponse<Pet> resp = getPetByIdWithHttpInfo(petId);
-        return resp.getData();
+        ApiResponse<Pet> localVarResp = getPetByIdWithHttpInfo(petId);
+        return localVarResp.getData();
     }
 
     /**
@@ -641,54 +641,54 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
-        okhttp3.Call call = getPetByIdValidateBeforeCall(petId, null, null);
+        okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, null, null);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      * Find pet by ID (asynchronously)
      * Returns a single pet
      * @param petId ID of pet to return (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call getPetByIdAsync(Long petId, final ApiCallback<Pet> callback) throws ApiException {
+    public okhttp3.Call getPetByIdAsync(Long petId, final ApiCallback<Pet> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = getPetByIdValidateBeforeCall(petId, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = getPetByIdValidateBeforeCall(petId, _progressListener, _progressRequestListener);
         Type localVarReturnType = new TypeToken<Pet>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for updatePet
      * @param body Pet object that needs to be added to the store (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call updatePetCall(Pet body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call updatePetCall(Pet body, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = body;
 
         // create path and map variables
@@ -701,7 +701,7 @@ public class PetApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -709,27 +709,27 @@ public class PetApi {
         final String[] localVarContentTypes = {
             "application/json", "application/xml"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return apiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updatePetValidateBeforeCall(Pet body, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call updatePetValidateBeforeCall(Pet body, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'body' is set
         if (body == null) {
@@ -737,8 +737,8 @@ public class PetApi {
         }
         
 
-        okhttp3.Call call = updatePetCall(body, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = updatePetCall(body, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -760,59 +760,59 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
-        okhttp3.Call call = updatePetValidateBeforeCall(body, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = updatePetValidateBeforeCall(body, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Update an existing pet (asynchronously)
      * 
      * @param body Pet object that needs to be added to the store (required)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call updatePetAsync(Pet body, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call updatePetAsync(Pet body, final ApiCallback<Void> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = updatePetValidateBeforeCall(body, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = updatePetValidateBeforeCall(body, _progressListener, _progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
     }
     /**
      * Build call for updatePetWithForm
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
      * @param status Updated status of the pet (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call updatePetWithFormCall(Long petId, String name, String status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call updatePetWithFormCall(Long petId, String name, String status, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/pet/{petId}"
-            .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+            .replaceAll("\\{" + "petId" + "\\}", localVarApiClient.escapeString(petId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -829,7 +829,7 @@ public class PetApi {
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -837,27 +837,27 @@ public class PetApi {
         final String[] localVarContentTypes = {
             "application/x-www-form-urlencoded"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updatePetWithFormValidateBeforeCall(Long petId, String name, String status, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call updatePetWithFormValidateBeforeCall(Long petId, String name, String status, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -865,8 +865,8 @@ public class PetApi {
         }
         
 
-        okhttp3.Call call = updatePetWithFormCall(petId, name, status, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = updatePetWithFormCall(petId, name, status, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -892,8 +892,8 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
-        okhttp3.Call call = updatePetWithFormValidateBeforeCall(petId, name, status, null, null);
-        return apiClient.execute(call);
+        okhttp3.Call localVarCall = updatePetWithFormValidateBeforeCall(petId, name, status, null, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
@@ -902,51 +902,51 @@ public class PetApi {
      * @param petId ID of pet that needs to be updated (required)
      * @param name Updated name of the pet (optional)
      * @param status Updated status of the pet (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call updatePetWithFormAsync(Long petId, String name, String status, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call updatePetWithFormAsync(Long petId, String name, String status, final ApiCallback<Void> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = updatePetWithFormValidateBeforeCall(petId, name, status, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = updatePetWithFormValidateBeforeCall(petId, name, status, _progressListener, _progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
     }
     /**
      * Build call for uploadFile
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param file file to upload (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call uploadFileCall(Long petId, String additionalMetadata, File file, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call uploadFileCall(Long petId, String additionalMetadata, File file, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/pet/{petId}/uploadImage"
-            .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+            .replaceAll("\\{" + "petId" + "\\}", localVarApiClient.escapeString(petId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -963,7 +963,7 @@ public class PetApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -971,27 +971,27 @@ public class PetApi {
         final String[] localVarContentTypes = {
             "multipart/form-data"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call uploadFileValidateBeforeCall(Long petId, String additionalMetadata, File file, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call uploadFileValidateBeforeCall(Long petId, String additionalMetadata, File file, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -999,8 +999,8 @@ public class PetApi {
         }
         
 
-        okhttp3.Call call = uploadFileCall(petId, additionalMetadata, file, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = uploadFileCall(petId, additionalMetadata, file, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -1014,8 +1014,8 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
-        ApiResponse<ModelApiResponse> resp = uploadFileWithHttpInfo(petId, additionalMetadata, file);
-        return resp.getData();
+        ApiResponse<ModelApiResponse> localVarResp = uploadFileWithHttpInfo(petId, additionalMetadata, file);
+        return localVarResp.getData();
     }
 
     /**
@@ -1028,9 +1028,9 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
-        okhttp3.Call call = uploadFileValidateBeforeCall(petId, additionalMetadata, file, null, null);
+        okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, file, null, null);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -1039,52 +1039,52 @@ public class PetApi {
      * @param petId ID of pet to update (required)
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param file file to upload (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call uploadFileAsync(Long petId, String additionalMetadata, File file, final ApiCallback<ModelApiResponse> callback) throws ApiException {
+    public okhttp3.Call uploadFileAsync(Long petId, String additionalMetadata, File file, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = uploadFileValidateBeforeCall(petId, additionalMetadata, file, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, file, _progressListener, _progressRequestListener);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
     /**
      * Build call for uploadFileWithRequiredFile
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call uploadFileWithRequiredFileCall(Long petId, File requiredFile, String additionalMetadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public okhttp3.Call uploadFileWithRequiredFileCall(Long petId, File requiredFile, String additionalMetadata, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/fake/{petId}/uploadImageWithRequiredFile"
-            .replaceAll("\\{" + "petId" + "\\}", apiClient.escapeString(petId.toString()));
+            .replaceAll("\\{" + "petId" + "\\}", localVarApiClient.escapeString(petId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -1101,7 +1101,7 @@ public class PetApi {
         final String[] localVarAccepts = {
             "application/json"
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
@@ -1109,27 +1109,27 @@ public class PetApi {
         final String[] localVarContentTypes = {
             "multipart/form-data"
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.setHttpClient(apiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
                 @Override
                 public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
                     okhttp3.Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
                             .build();
                 }
             }).build());
         }
 
         String[] localVarAuthNames = new String[] { "petstore_auth" };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call uploadFileWithRequiredFileValidateBeforeCall(Long petId, File requiredFile, String additionalMetadata, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call uploadFileWithRequiredFileValidateBeforeCall(Long petId, File requiredFile, String additionalMetadata, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -1142,8 +1142,8 @@ public class PetApi {
         }
         
 
-        okhttp3.Call call = uploadFileWithRequiredFileCall(petId, requiredFile, additionalMetadata, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = uploadFileWithRequiredFileCall(petId, requiredFile, additionalMetadata, _progressListener, _progressRequestListener);
+        return localVarCall;
 
     }
 
@@ -1157,8 +1157,8 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
-        ApiResponse<ModelApiResponse> resp = uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
-        return resp.getData();
+        ApiResponse<ModelApiResponse> localVarResp = uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
+        return localVarResp.getData();
     }
 
     /**
@@ -1171,9 +1171,9 @@ public class PetApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
-        okhttp3.Call call = uploadFileWithRequiredFileValidateBeforeCall(petId, requiredFile, additionalMetadata, null, null);
+        okhttp3.Call localVarCall = uploadFileWithRequiredFileValidateBeforeCall(petId, requiredFile, additionalMetadata, null, null);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
@@ -1182,34 +1182,34 @@ public class PetApi {
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
      * @param additionalMetadata Additional data to pass to server (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call uploadFileWithRequiredFileAsync(Long petId, File requiredFile, String additionalMetadata, final ApiCallback<ModelApiResponse> callback) throws ApiException {
+    public okhttp3.Call uploadFileWithRequiredFileAsync(Long petId, File requiredFile, String additionalMetadata, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
 
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
                 @Override
                 public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
                 }
             };
 
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
                 @Override
                 public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
                 }
             };
         }
 
-        okhttp3.Call call = uploadFileWithRequiredFileValidateBeforeCall(petId, requiredFile, additionalMetadata, progressListener, progressRequestListener);
+        okhttp3.Call localVarCall = uploadFileWithRequiredFileValidateBeforeCall(petId, requiredFile, additionalMetadata, _progressListener, _progressRequestListener);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
     }
 }

@@ -43,7 +43,12 @@
 {{/emitJSDoc}}{{=< >=}}    this.authentications = {
 <#authMethods>
 <#isBasic>
+<^isBasicBearer>
       '<name>': {type: 'basic'}<^-last>,</-last>
+</isBasicBearer>
+<#isBasicBearer>
+      '<name>': {type: 'bearer'}<^-last>,</-last><#bearerFormat> // <&.></bearerFormat>
+</isBasicBearer>
 </isBasic>
 <#isApiKey>
       '<name>': {type: 'apiKey', 'in': <#isKeyInHeader>'header'</isKeyInHeader><^isKeyInHeader>'query'</isKeyInHeader>, name: '<keyParamName>'}<^-last>,</-last>
@@ -117,18 +122,26 @@
     return param.toString();
   };
 
-{{#emitJSDoc}}  /**
+{{#emitJSDoc}}
+ /**
    * Builds full URL by appending the given path to the base URL and replacing path parameter place-holders with parameter values.
    * NOTE: query parameters are not handled here.
    * @param {String} path The path to append to the base URL.
    * @param {Object} pathParams The parameter values to append.
    * @returns {String} The encoded path with parameter values substituted.
    */
-{{/emitJSDoc}}  exports.prototype.buildUrl = function(path, pathParams) {
+{{/emitJSDoc}}
+  exports.prototype.buildUrl = function(path, pathParams, apiBasePath) {
     if (!path.match(/^\//)) {
       path = '/' + path;
     }
     var url = this.basePath + path;
+
+    // use API (operation, path) base path if defined
+    if (apiBasePath !== null && apiBasePath !== undefined) {
+        url = apiBasePath + path;
+    }
+
     var _this = this;
     url = url.replace(/\{([\w-]+)\}/g, function(fullMatch, key) {
       var value;
@@ -303,6 +316,11 @@
             request.auth(auth.username || '', auth.password || '');
           }
           break;
+        case 'bearer':
+          if (auth.accessToken) {
+            request.set({'Authorization': 'Bearer ' + auth.accessToken});
+          }
+          break;
         case 'apiKey':
           if (auth.apiKey) {
             var data = {};
@@ -380,10 +398,10 @@
    */
 {{/emitJSDoc}}  exports.prototype.callApi = function callApi(path, httpMethod, pathParams,
       queryParams, collectionQueryParams, headerParams, formParams, bodyParam, authNames, contentTypes, accepts,
-      returnType{{^usePromises}}, callback{{/usePromises}}) {
+      returnType, apiBasePath{{^usePromises}}, callback{{/usePromises}}) {
 
     var _this = this;
-    var url = this.buildUrl(path, pathParams);
+    var url = this.buildUrl(path, pathParams, apiBasePath);
     var request = superagent(httpMethod, url);
 
     if (this.plugins !== null) {

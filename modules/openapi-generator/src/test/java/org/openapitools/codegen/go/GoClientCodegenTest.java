@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.go;
 
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.GoClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -61,12 +60,12 @@ public class GoClientCodegenTest {
 
     @Test(description = "test example value for body parameter")
     public void bodyParameterTest() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final GoClientCodegen codegen = new GoClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/fake";
         final Operation p = openAPI.getPaths().get(path).getGet();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
         Assert.assertEquals(op.formParams.size(), 2);
         CodegenParameter bp = op.formParams.get(0);
         Assert.assertFalse(bp.isPrimitiveType);

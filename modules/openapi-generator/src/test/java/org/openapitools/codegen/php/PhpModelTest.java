@@ -17,11 +17,9 @@
 
 package org.openapitools.codegen.php;
 
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PhpClientCodegen;
 import org.testng.Assert;
@@ -304,7 +302,7 @@ public class PhpModelTest {
 
     @Test(description = "test enum array model")
     public void enumArrayModelTest() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
@@ -339,7 +337,7 @@ public class PhpModelTest {
 
     @Test(description = "test enum model for values (numeric, string, etc)")
     public void enumMdoelValueTest() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("Enum_Test");
@@ -378,14 +376,14 @@ public class PhpModelTest {
     // datetime (or primitive type) not yet supported in HTTP request body
     @Test(description = "returns DateTime when using `--model-name-prefix`")
     public void dateTest() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/datePropertyTest.json", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setModelNamePrefix("foo");
         codegen.setOpenAPI(openAPI);
 
         final String path = "/tests/dateResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
-        final CodegenOperation op = codegen.fromOperation(path, "post", p);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
         Assert.assertEquals(op.returnType, "\\DateTime");
         Assert.assertEquals(op.bodyParam.dataType, "\\DateTime");

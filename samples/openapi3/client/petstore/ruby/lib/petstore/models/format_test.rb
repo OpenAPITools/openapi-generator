@@ -205,8 +205,9 @@ module Petstore
         invalid_properties.push('invalid value for "double", must be greater than or equal to 67.8.')
       end
 
-      if !@string.nil? && @string !~ Regexp.new(/[a-z]/i)
-        invalid_properties.push('invalid value for "string", must conform to the pattern /[a-z]/i.')
+      pattern = Regexp.new(/[a-z]/i)
+      if !@string.nil? && @string !~ pattern
+        invalid_properties.push("invalid value for \"string\", must conform to the pattern #{pattern}.")
       end
 
       if @byte.nil?
@@ -229,12 +230,14 @@ module Petstore
         invalid_properties.push('invalid value for "password", the character length must be great than or equal to 10.')
       end
 
-      if !@pattern_with_digits.nil? && @pattern_with_digits !~ Regexp.new(/^\d{10}$/)
-        invalid_properties.push('invalid value for "pattern_with_digits", must conform to the pattern /^\d{10}$/.')
+      pattern = Regexp.new(/^\d{10}$/)
+      if !@pattern_with_digits.nil? && @pattern_with_digits !~ pattern
+        invalid_properties.push("invalid value for \"pattern_with_digits\", must conform to the pattern #{pattern}.")
       end
 
-      if !@pattern_with_digits_and_delimiter.nil? && @pattern_with_digits_and_delimiter !~ Regexp.new(/^image_\d{1,3}$/i)
-        invalid_properties.push('invalid value for "pattern_with_digits_and_delimiter", must conform to the pattern /^image_\d{1,3}$/i.')
+      pattern = Regexp.new(/^image_\d{1,3}$/i)
+      if !@pattern_with_digits_and_delimiter.nil? && @pattern_with_digits_and_delimiter !~ pattern
+        invalid_properties.push("invalid value for \"pattern_with_digits_and_delimiter\", must conform to the pattern #{pattern}.")
       end
 
       invalid_properties
@@ -342,8 +345,9 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] string Value to be assigned
     def string=(string)
-      if !string.nil? && string !~ Regexp.new(/[a-z]/i)
-        fail ArgumentError, 'invalid value for "string", must conform to the pattern /[a-z]/i.'
+      pattern = Regexp.new(/[a-z]/i)
+      if !string.nil? && string !~ pattern
+        fail ArgumentError, "invalid value for \"string\", must conform to the pattern #{pattern}."
       end
 
       @string = string
@@ -370,8 +374,9 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] pattern_with_digits Value to be assigned
     def pattern_with_digits=(pattern_with_digits)
-      if !pattern_with_digits.nil? && pattern_with_digits !~ Regexp.new(/^\d{10}$/)
-        fail ArgumentError, 'invalid value for "pattern_with_digits", must conform to the pattern /^\d{10}$/.'
+      pattern = Regexp.new(/^\d{10}$/)
+      if !pattern_with_digits.nil? && pattern_with_digits !~ pattern
+        fail ArgumentError, "invalid value for \"pattern_with_digits\", must conform to the pattern #{pattern}."
       end
 
       @pattern_with_digits = pattern_with_digits
@@ -380,8 +385,9 @@ module Petstore
     # Custom attribute writer method with validation
     # @param [Object] pattern_with_digits_and_delimiter Value to be assigned
     def pattern_with_digits_and_delimiter=(pattern_with_digits_and_delimiter)
-      if !pattern_with_digits_and_delimiter.nil? && pattern_with_digits_and_delimiter !~ Regexp.new(/^image_\d{1,3}$/i)
-        fail ArgumentError, 'invalid value for "pattern_with_digits_and_delimiter", must conform to the pattern /^image_\d{1,3}$/i.'
+      pattern = Regexp.new(/^image_\d{1,3}$/i)
+      if !pattern_with_digits_and_delimiter.nil? && pattern_with_digits_and_delimiter !~ pattern
+        fail ArgumentError, "invalid value for \"pattern_with_digits_and_delimiter\", must conform to the pattern #{pattern}."
       end
 
       @pattern_with_digits_and_delimiter = pattern_with_digits_and_delimiter
@@ -530,7 +536,5 @@ module Petstore
         value
       end
     end
-
   end
-
 end

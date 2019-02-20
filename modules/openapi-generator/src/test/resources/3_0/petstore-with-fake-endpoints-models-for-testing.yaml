@@ -30,6 +30,9 @@ paths:
                   string:
                     $ref: '#/components/schemas/Foo'
   /pet:
+    servers:
+    - url: 'http://petstore.swagger.io/v2'
+    - url: 'http://path-server-test.petstore.local/v2'
     post:
       tags:
         - pet
@@ -1027,6 +1030,18 @@ paths:
                   format: binary
               required:
                 - requiredFile
+  /fake/health:
+    get:
+      tags:
+        - fake
+      summary: Health check endpoint
+      responses:
+        200:
+          description: The instance started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckResult'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1605,3 +1620,10 @@ components:
           format: int64
       xml:
         name: '$special[model.name]'
+    HealthCheckResult:
+      type: object
+      properties:
+        NullableMessage:
+          nullable: true
+          type: string
+      description: Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.

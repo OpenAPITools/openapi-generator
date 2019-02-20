@@ -18,13 +18,11 @@
 package org.openapitools.codegen.java;
 
 import com.google.common.collect.ImmutableMap;
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
@@ -195,11 +193,11 @@ public class JavaClientCodegenTest {
     
     @Test
     public void testGetSchemaTypeWithComposedSchemaWithAllOf() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/composed-allof.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/composed-allof.yaml");
         final JavaClientCodegen codegen = new JavaClientCodegen();
 
         Operation operation = openAPI.getPaths().get("/ping").getPost();
-        CodegenOperation co = codegen.fromOperation("/ping", "POST", operation);
+        CodegenOperation co = codegen.fromOperation("/ping", "POST", operation, null);
         Assert.assertEquals(co.allParams.size(), 1);
         Assert.assertEquals(co.allParams.get(0).baseType, "MessageEventCoreWithTimeListEntries");
     }
@@ -255,7 +253,7 @@ public class JavaClientCodegenTest {
         generator.opts(clientOptInput).generate();
 
         Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 33);
+        Assert.assertEquals(generatedFiles.size(), 34);
         ensureContainsFile(generatedFiles, output, ".gitignore");
         ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
         ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
@@ -281,6 +279,7 @@ public class JavaClientCodegenTest {
         ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/ApiKeyAuth.java");
         ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/Authentication.java");
         ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/HttpBasicAuth.java");
+        ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/HttpBearerAuth.java");
         //ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/OAuth.java");
         //ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/OAuthFlow.java");
         ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/Configuration.java");
@@ -304,7 +303,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testReferencedHeader() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/issue855.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue855.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -319,7 +318,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testFreeFormObjects() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/issue796.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue796.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
 
         Schema test1 = openAPI.getComponents().getSchemas().get("MapTest1");

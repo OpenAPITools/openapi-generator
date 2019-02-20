@@ -222,7 +222,7 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var body = 1.2D;  // decimal? | Input number as post body (optional) 
+            var body = 8.14;  // decimal? | Input number as post body (optional) 
 
             try
             {

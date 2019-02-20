@@ -194,7 +194,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
-            generateSourceCodeOnly = true;
+            generateSourceCodeOnly = Boolean.valueOf(additionalProperties.get(CodegenConstants.SOURCECODEONLY_GENERATION).toString());
         }
 
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
@@ -203,10 +203,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (generateSourceCodeOnly) {
             // tests in <package>/test
-            testFolder = packageName + File.separatorChar + testFolder;
+            testFolder = packagePath() + File.separatorChar + testFolder;
             // api/model docs in <package>/docs
-            apiDocPath = packageName + File.separatorChar + apiDocPath;
-            modelDocPath = packageName + File.separatorChar + modelDocPath;
+            apiDocPath = packagePath() + File.separatorChar + apiDocPath;
+            modelDocPath = packagePath() + File.separatorChar + modelDocPath;
         }
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -219,7 +219,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         String readmePath = "README.md";
         String readmeTemplate = "README.mustache";
         if (generateSourceCodeOnly) {
-            readmePath = packageName + "_" + readmePath;
+            readmePath = packagePath() + "_" + readmePath;
             readmeTemplate = "README_onlypackage.mustache";
         }
         supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
@@ -234,25 +234,25 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
             supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
         }
-        supportingFiles.add(new SupportingFile("configuration.mustache", packageName, "configuration.py"));
-        supportingFiles.add(new SupportingFile("__init__package.mustache", packageName, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__model.mustache", packageName + File.separatorChar + modelPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__api.mustache", packageName + File.separatorChar + apiPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
+        supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + modelPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + apiPackage, "__init__.py"));
 
         if (Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
         }
 
-        supportingFiles.add(new SupportingFile("api_client.mustache", packageName, "api_client.py"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
 
         if ("asyncio".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packageName, "rest.py"));
+            supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("asyncio", "true");
         } else if ("tornado".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("tornado/rest.mustache", packageName, "rest.py"));
+            supportingFiles.add(new SupportingFile("tornado/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("tornado", "true");
         } else {
-            supportingFiles.add(new SupportingFile("rest.mustache", packageName, "rest.py"));
+            supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
         }
 
         modelPackage = packageName + "." + modelPackage;
@@ -580,6 +580,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setPackageUrl(String packageUrl) {
         this.packageUrl = packageUrl;
+    }
+
+    public String packagePath() {
+        return packageName.replace('.', File.separatorChar);
     }
 
     /**

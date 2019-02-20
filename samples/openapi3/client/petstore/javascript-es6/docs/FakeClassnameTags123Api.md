@@ -19,7 +19,6 @@ To test class name in snake case
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
-
 // Configure API key authorization: api_key_query
 let api_key_query = defaultClient.authentications['api_key_query'];
 api_key_query.apiKey = 'YOUR API KEY';

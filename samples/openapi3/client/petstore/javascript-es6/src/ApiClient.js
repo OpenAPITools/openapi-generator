@@ -43,6 +43,7 @@ class ApiClient {
         this.authentications = {
             'api_key': {type: 'apiKey', 'in': 'header', name: 'api_key'},
             'api_key_query': {type: 'apiKey', 'in': 'query', name: 'api_key_query'},
+            'bearer_test': {type: 'bearer'}, // JWT
             'http_basic_test': {type: 'basic'},
             'petstore_auth': {type: 'oauth2'}
         }
@@ -112,19 +113,26 @@ class ApiClient {
         return param.toString();
     }
 
-    /**
+   /**
     * Builds full URL by appending the given path to the base URL and replacing path parameter place-holders with parameter values.
     * NOTE: query parameters are not handled here.
     * @param {String} path The path to append to the base URL.
     * @param {Object} pathParams The parameter values to append.
+    * @param {String} apiBasePath Base path defined in the path, operation level to override the default one
     * @returns {String} The encoded path with parameter values substituted.
     */
-    buildUrl(path, pathParams) {
+    buildUrl(path, pathParams, apiBasePath) {
         if (!path.match(/^\//)) {
             path = '/' + path;
         }
 
         var url = this.basePath + path;
+
+        // use API (operation, path) base path if defined
+        if (apiBasePath !== null && apiBasePath !== undefined) {
+            url = apiBasePath + path;
+        }
+
         url = url.replace(/\{([\w-]+)\}/g, (fullMatch, key) => {
             var value;
             if (pathParams.hasOwnProperty(key)) {
@@ -273,6 +281,12 @@ class ApiClient {
                     }
 
                     break;
+                case 'bearer':
+                    if (auth.accessToken) {
+                        request.set({'Authorization': 'Bearer ' + auth.accessToken});
+                    }
+
+                    break;
                 case 'apiKey':
                     if (auth.apiKey) {
                         var data = {};
@@ -302,7 +316,7 @@ class ApiClient {
         });
     }
 
-    /**
+   /**
     * Deserializes an HTTP response body into a value of the specified type.
     * @param {Object} response A SuperAgent response object.
     * @param {(String|Array.<String>|Object.<String, Object>|Function)} returnType The type to return. Pass a string for simple types
@@ -327,7 +341,7 @@ class ApiClient {
         return ApiClient.convertToType(data, returnType);
     }
 
-    /**
+   /**
     * Callback function to receive the result of the operation.
     * @callback module:ApiClient~callApiCallback
     * @param {String} error Error message, if any.
@@ -335,7 +349,7 @@ class ApiClient {
     * @param {String} response The complete HTTP response.
     */
 
-    /**
+   /**
     * Invokes the REST service using the supplied settings and parameters.
     * @param {String} path The base URL to invoke.
     * @param {String} httpMethod The HTTP method to use.
@@ -349,14 +363,15 @@ class ApiClient {
     * @param {Array.<String>} accepts An array of acceptable response MIME types.
     * @param {(String|Array|ObjectFunction)} returnType The required type to return; can be a string for simple types or the
     * constructor for a complex type.
+    * @param {String} apiBasePath base path defined in the operation/path level to override the default one 
     * @param {module:ApiClient~callApiCallback} callback The callback function.
     * @returns {Object} The SuperAgent request object.
     */
     callApi(path, httpMethod, pathParams,
         queryParams, headerParams, formParams, bodyParam, authNames, contentTypes, accepts,
-        returnType, callback) {
+        returnType, apiBasePath, callback) {
 
-        var url = this.buildUrl(path, pathParams);
+        var url = this.buildUrl(path, pathParams, apiBasePath);
         var request = superagent(httpMethod, url);
 
         if (this.plugins !== null) {
@@ -436,8 +451,6 @@ class ApiClient {
                 request.withCredentials();
             }
         }
-
-        
 
         request.end((error, response) => {
             if (callback) {

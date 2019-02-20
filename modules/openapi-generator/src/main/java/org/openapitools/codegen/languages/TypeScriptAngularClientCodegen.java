@@ -93,7 +93,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(PROVIDED_IN_ROOT,
                 "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).",
                 SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '4.3'"));
+        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '7.0.0'"));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service. Default is 'Service'."));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts). Default is '.service'."));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model. Default is ''."));
@@ -138,7 +138,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(NG_VERSION)) {
             ngVersion = new SemVer(additionalProperties.get(NG_VERSION).toString());
         } else {
-            ngVersion = new SemVer("4.3.0");
+            ngVersion = new SemVer("7.0.0");
             LOGGER.info("generating code for Angular {} ...", ngVersion);
             LOGGER.info("  (you can select the angular version by setting the additionalProperty ngVersion)");
         }
@@ -206,6 +206,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         if (additionalProperties.containsKey(NPM_VERSION)) {
             this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
+        } else if (this.getVersionFromApi() != null) {
+            this.setNpmVersion(this.getVersionFromApi());
         }
 
         if (additionalProperties.containsKey(SNAPSHOT)
@@ -223,7 +225,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             // Angular v7 requires typescript ">=3.1.1 <3.2.0"
             additionalProperties.put("tsVersion", ">=3.1.1 <3.2.0");
         } else if (ngVersion.atLeast("6.0.0")) {
-            additionalProperties.put("tsVersion", ">=2.1.5 <2.7.0");
+            additionalProperties.put("tsVersion", ">=2.7.2 and <2.10.0");
         } else if (ngVersion.atLeast("5.0.0")) {
             additionalProperties.put("tsVersion", ">=2.1.5 <2.7.0");
         } else {
@@ -266,8 +268,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put("tsickleVersion", "0.34.0");
         } else if (ngVersion.atLeast("6.0.0")) {
             // compatible versions with typescript version
-            additionalProperties.put("ngPackagrVersion", "2.4.5");
-            additionalProperties.put("tsickleVersion", "0.27.5");
+            additionalProperties.put("ngPackagrVersion", "3.0.6");
+            additionalProperties.put("tsickleVersion", "0.32.1");
         } else if (ngVersion.atLeast("5.0.0")) {
             // compatible versions with typescript version
             additionalProperties.put("ngPackagrVersion", "2.4.5");
@@ -649,5 +651,18 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             name = camelize(name, true);
         }
         return name;
+    }
+
+    /**
+     * Returns version from OpenAPI info.
+     *
+     * @return
+     */
+    private String getVersionFromApi() {
+        if (this.openAPI != null && this.openAPI.getInfo() != null) {
+            return this.openAPI.getInfo().getVersion();
+        } else {
+            return null;
+        }
     }
 }
