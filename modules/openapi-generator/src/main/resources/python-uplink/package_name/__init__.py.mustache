@@ -1,0 +1,27 @@
+# coding: utf-8
+
+{{>partials/header.py}}
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
+
+__version__ = "{{packageVersion}}"
+
+# import super client
+from {{packageName}}.client import {{clientClassName}}
+
+# import apis into SDK package
+{{#apiInfo}}{{#apis}}from {{apiPackage}}.{{classVarName}} import {{classname}}
+{{/apis}}
+{{/apiInfo}}
+
+# import api security/auth methods into SDK package
+from {{packageName}}.security import ProxyAuth, MultiAuth
+{{#authMethods}}
+from {{packageName}}.security import {{vendorExtensions.classname}}
+{{/authMethods}}
+
+# import models into SDK package
+{{#models}}{{#model}}from {{modelPackage}}.{{classFilename}} import {{classname}}, {{classname}}Schema
+{{/model}}
+{{/models}}
+

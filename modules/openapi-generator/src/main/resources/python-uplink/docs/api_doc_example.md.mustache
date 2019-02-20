@@ -1,0 +1,33 @@
+```python
+from __future__ import print_function
+import time
+import {{{packageName}}}
+from {{{packageName}}} import security
+from pprint import pprint
+{{#hasAuthMethods}}{{#authMethods}}
+{{#vendorExtensions}}{{#isBasicBasic}}
+# Configure HTTP basic authorization: {{{name}}}
+auth = security.{{classname}}('YOUR_USERNAME', 'YOUR_PASSWORD'){{/isBasicBasic}}{{#isApiKey}}
+# Configure API key authorization: {{{name}}}
+auth = security.{{classname}}('YOUR_API_KEY'){{/isApiKey}}{{#isBasicBearer}}
+# Configure HTTP Bearer Token authorization: {{{name}}}
+auth = security.{{classname}}('YOUR_BEARER_TOKEN'){{/isBasicBearer}}{{#isOAuth}}
+# Configure OAuth2 access token for authorization: {{{name}}}
+# TODO: oauth with 'YOUR_ACCESS_TOKEN'{{/isOAuth}}
+# If you need multiple auth methods, string them together with MultiAuth
+# auth = security.MultiAuth(auth, security.ProxyAuth('PROXY_USERNAME', 'PROXY_PASSWORD'))
+{{/vendorExtensions}}{{/authMethods}}
+{{/hasAuthMethods}}
+
+# create an instance of the API class
+api_client = {{{packageName}}}.{{{clientClassname}}}({{#hasAuthMethods}}auth=auth{{/hasAuthMethods}})
+{{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{/allParams}}
+
+try:
+{{#summary}}    # {{{.}}}
+{{/summary}}    {{#returnType}}api_response = {{/returnType}}api_client.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}
+    pprint(api_response){{/returnType}}
+except ApiException as e:
+    print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
+```

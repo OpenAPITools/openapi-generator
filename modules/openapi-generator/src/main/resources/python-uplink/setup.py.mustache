@@ -1,0 +1,40 @@
+# coding: utf-8
+
+{{>partials/header.py}}
+
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
+
+from setuptools import setup, find_packages
+
+NAME = "{{{projectName}}}"
+VERSION = "{{packageVersion}}"
+{{#apiInfo}}
+{{#apis}}
+{{^hasMore}}
+# To install the library, run the following
+#
+# python setup.py install
+#
+# prerequisite: setuptools
+# http://pypi.python.org/pypi/setuptools
+
+REQUIRES = ["six >= 1.12", "uplink[marshmallow] == 0.8.0.post1", "marshmallow >= 3.0.0rc3"]
+
+setup(
+    name=NAME,
+    version=VERSION,
+    description="{{appName}}",
+    author_email="{{infoEmail}}",
+    url="{{packageUrl}}",
+    keywords=["OpenAPI", "OpenAPI-Generator", "{{{appName}}}", "uplink", "marshmallow"],
+    install_requires=REQUIRES,
+    packages=find_packages(exclude="tests",),
+    include_package_data=True,
+    long_description="""\
+    {{appDescription}}  # noqa: E501
+    """
+)
+{{/hasMore}}
+{{/apis}}
+{{/apiInfo}}

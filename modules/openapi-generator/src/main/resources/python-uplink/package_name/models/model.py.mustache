@@ -1,0 +1,64 @@
+# coding=utf-8
+
+{{>partials/header.py}}
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
+
+from collections import namedtuple
+
+from marshmallow import fields, validate
+
+from {{modelPackage}}._schema import SchemaBase
+from {{modelPackage}} import _validate
+
+{{#models}}
+{{#hasImports}}
+# Model, Schema imports
+{{/hasImports}}
+{{#imports}}
+{{import}}
+{{/imports}}
+{{/models}}
+
+{{! NOTE: This file is written to handle multiple related models, but the generator/parser needs work before that will happen. }}
+__all__ = [{{#models}}{{#model}}
+    '{{classname}}', '{{classname}}Schema',
+{{/model}}{{/models}}]
+
+{{#models}}{{#model}}{{! TODO: non-object models? maybe lists? }}
+{{classname}} = namedtuple('{{classname}}', field_names=[{{#vars}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/vars}}])
+{{/model}}{{/models}}
+{{#models}}{{#model}}
+class {{classname}}Schema(SchemaBase):
+    """
+    {{>partials/auto_generated_class_docblock}}
+    """
+    __model__ = {{classname}}
+
+{{#vars}}
+{{#isPrimitiveType}}
+{{^isContainer}}
+{{! FreeFormObject is a primitive type (Dict) }}
+    {{name}} = {{vendorExtensions.x-marshmallowFieldType}}({{>partials/models/field_args.py}})
+{{/isContainer}}
+{{#isContainer}}
+    {{name}} = {{>partials/models/recursive_container_start.py}}{{#mostInnerItems}}{{vendorExtensions.x-marshmallowFieldType}}({{>partials/models/field_args.py}}){{/mostInnerItems}}{{>partials/models/recursive_container_end.py}}
+{{/isContainer}}
+{{/isPrimitiveType}}
+{{^isPrimitiveType}}
+{{#isContainer}}
+{{! mostInnerItems may be a model or the last container that didn't define items. }}
+    {{name}} = {{>partials/models/recursive_container_start.py}}{{#mostInnerItems}}{{^isModel}}fields.Dict({{<partials/models/field_args.py}}){{/isModel}}{{#isModel}}fields.Nested({{complexType}}Schema, {{>partials/models/field_args.py}}){{/isModel}}{{/mostInnerItems}}{{>partials/models/recursive_container_end.py}}
+{{/isContainer}}
+{{/isPrimitiveType}}
+{{#isModel}}
+{{! not primitive and not container }}
+    {{name}} = fields.Nested({{#isSelfReference}}"self"{{/isSelfReference}}{{^isSelfReference}}{{complexType}}Schema{{/isSelfReference}}, {{>partials/models/field_args.py}})
+{{/isModel}}
+{{! there should not be anything that is none of: primitive, container, model }}
+    """{{baseName}}: {{{dataType}}}{{#defaultValue}} (server side default: {{{.}}}){{/defaultValue}}"""
+
+{{/vars}}
+{{/model}}
+{{/models}}
+

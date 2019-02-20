@@ -1,0 +1,6 @@
+{{#items}}{{#isContainer}}{{>partials/models/recursive_container_end.py}}{{/isContainer}}{{/items}}, {{>partials/models/field_args_common.py}}{{#hasValidation}}validate=[
+        {{>partials/models/validate_field.py}}{{#isEnum}}
+        validate.ContainsOnly([
+            {{>partials/models/validate_field_enum.py}}
+        ]),{{/isEnum}}
+    ]{{/hasValidation}})

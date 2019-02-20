@@ -1,0 +1,35 @@
+# coding: utf-8
+
+{{>partials/header.py}}
+from __future__ import absolute_import
+
+import unittest
+
+import {{packageName}}
+{{#authMethods}}
+from {{packageName}}.security import {{vendorExtensions.classname}}
+{{/authMethods}}
+
+
+class {{#authMethods}}Test{{vendorExtensions.classname}}(unittest.TestCase):
+    """{{vendorExtensions.classname}} unit test stubs"""
+
+    def setUp(self):
+        self.api = {{apiPackage}}.{{classVarName}}.{{vendorExtensions.classname}}()
+
+    def tearDown(self):
+        pass
+
+    def test{{vendorExtensions.classname}}(self):
+        """Test case for {{{vendorExtensions.classname}}}
+
+{{#summary}}
+        {{{summary}}}
+{{/summary}}
+        """
+        pass
+
+{{/authMethods}}
+
+if __name__ == '__main__':
+    unittest.main()

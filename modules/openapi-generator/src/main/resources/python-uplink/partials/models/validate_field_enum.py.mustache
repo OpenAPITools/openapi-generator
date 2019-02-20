@@ -1,0 +1,2 @@
+{{#isNullable}}None,{{/isNullable}}{{#allowableValues}}{{#enumVars}}
+{{#isString}}"{{/isString}}{{{value}}}{{#isString}}"{{/isString}},{{! python allows trailing , which is nicer for diff tools}}{{/enumVars}}{{/allowableValues}}

@@ -1,0 +1,120 @@
+# coding: utf-8
+
+{{>partials/header.py}}
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
+
+# noinspection PyUnresolvedReferences
+import re
+# noinspection PyUnresolvedReferences
+import six
+
+import uplink
+from uplink import returns  # decorators to declare return type
+from uplink.arguments import *  # type hints for arguments
+from uplink.decorators import *  # request decorators
+from uplink.types import *  # type hints for return types
+
+from {{apiPackage}}.consumer import BaseApiConsumer
+from {{packageName}}.decorators import *  # http methods, security, media_type
+{{#operations}}
+{{#imports}}
+{{import}}  # TODO: fix Schema import
+{{/imports}}
+
+__all__ = ['{{classname}}']
+
+
+{{#vendorExtensions}}
+{{#useClassSecurity}}
+@security({{#allOpsAuthMethods}}'{{{name}}}'{{#hasMore}}, {{/hasMore}}{{/allOpsAuthMethods}})
+{{/useClassSecurity}}
+{{#allOpsSendJson}}
+@json  # serialization
+{{/allOpsSendJson}}
+{{#allOpsSendForm}}
+@form_url_encoded  # serialization
+{{/allOpsSendForm}}
+{{#allOpsSendMultipart}}
+@multipart  # serialization
+{{/allOpsSendMultipart}}
+{{#allOpsReturnJson}}
+@returns.json  # deserialization
+{{/allOpsReturnJson}}
+{{#useClassMimeType}}
+@mime_type(
+    content_type=[{{#classContentTypes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/classContentTypes}}],
+    accept=[{{#classAcceptMimeTypes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/classAcceptMimeTypes}}],
+)
+{{/useClassMimeType}}
+{{/vendorExtensions}}
+class {{classname}}(BaseApiConsumer):
+    """
+    Operations that work with {{baseName}} tag
+
+    {{>partials/auto_generated_class_docblock}}
+    """
+{{#operation}}
+
+{{#vendorExtensions}}
+{{^useClassSecurity}}
+    @security({{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}})
+{{/useClassSecurity}}
+{{^allOpsSendJson}}
+{{#isJsonOp}}
+    @json  # serialization
+{{/isJsonOp}}
+{{/allOpsSendJson}}
+{{^allOpsSendForm}}
+{{#isFormOp}}
+    @form_url_encoded  # serialization
+{{/isFormOp}}
+{{/allOpsSendForm}}
+{{^allOpsSendMultipart}}
+{{#isMultipartOp}}
+    @multipart  # serialization
+{{/isMultipartOp}}
+{{/allOpsSendMultipart}}
+{{^useClassMimeType}}
+    @mime_type(
+    {{#hasConsumes}}
+        content_type=[{{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}],
+    {{/hasConsumes}}
+    {{#hasProduces}}
+        accept=[{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}],
+    {{/hasProduces}}
+    )
+{{/useClassMimeType}}
+{{! TODO: Handle no return type }}
+    @returns{{#opReturnsJson}}.json{{/opReturnsJson}}{{#returnType}}({{returnType}}){{/returnType}}
+{{/vendorExtensions}}
+    @{{httpMethod}}('{{{path}}}', args={
+{{#allParams}}
+{{^isPathParam}}
+{{! sortParamsByRequiredFlag must be true for this client }}
+        '{{paramName}}': {{#isQueryParam}}Query{{/isQueryParam}}{{#isHeaderParam}}Header{{/isHeaderParam}}{{#isCookieParam}}Cookie{{/isCookieParam}}{{#isBodyParam}}Body{{/isBodyParam}}{{#isFormParam}}{{#vendorExtensions}}{{#isMultipartOp}}Part{{/isMultipartOp}}{{#isFormOp}}Field{{/isFormOp}}{{/vendorExtensions}}{{/isFormParam}}{{#hasMore}},{{/hasMore}}
+{{/isPathParam}}
+{{/allParams}}
+    })
+    def {{operationId}}(
+            self,
+{{#allParams}}
+{{! sortParamsByRequiredFlag must be true for this client }}
+            {{paramName}}{{#optional}}={{defaultValue}}{{/optional}}{{#hasMore}},{{/hasMore}}
+{{/allParams}}
+    ):
+        """
+        {{#summary}}{{{.}}}{{/summary}}{{^summary}}{{operationId}}{{/summary}}  # noqa: E501
+
+{{#notes}}
+        {{{notes}}}  # noqa: E501
+{{/notes}}
+
+{{#allParams}}
+        :param {{dataType}} {{paramName}}:{{#description}} {{{description}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
+{{/allParams}}
+        :return: {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}None{{/returnType}}
+        """
+
+{{/operation}}
+{{/operations}}

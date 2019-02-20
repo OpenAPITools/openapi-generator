@@ -1,0 +1,83 @@
+# coding: utf-8
+
+{{>partials/header.py}}
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
+
+from uplink import Consumer
+# noinspection PyProtectedMember
+from uplink.auth import get_auth
+from uplink.utils import no_op
+
+from theatro_configapi_pyclient.security import MultiAuth
+
+
+__all__ = ['BaseApiConsumer']
+
+
+class BaseApiConsumer(Consumer):
+    """
+    Super class for all Theatro Config API resources
+
+    {{>partials/auto_generated_class_docblock}}
+    """
+
+    _security = {
+        # Security postfix on all spec-defined security auth types
+{{#authMethods}}
+        '{{vendorExtensions.classname}}': no_op,
+{{/authMethods}}
+    }
+
+    def __init__(
+        self,
+        base_url='{{{basePath}}}',
+        client=None,
+        converters=(),
+        auth=None,
+        hooks=(),
+        security=None,
+        **kwargs
+    ):
+        """
+        auth example:
+            auth = MultiAuth(
+                ServiceAccountAuth(username, password),
+                AppApiKeyAuth(key),
+                ProxyAuth(proxy_user, proxy_pass)
+            )
+        """
+        auth = self._setup_security_and_auth(security, auth)
+        super(BaseApiConsumer, self).__init__(
+            base_url=base_url, client=client, converters=converters, auth=auth, hooks=hooks, **kwargs
+        )
+        {{#httpUserAgent}}
+        user_agent = '{{{.}}}'
+        {{/httpUserAgent}}{{^httpUserAgent}}
+        client_type = self.__client.__class__.__name__
+        user_agent = 'OpenAPI-Generator/{{{packageVersion}}}/python-uplink/%s' % client_type
+        {{/httpUserAgent}}
+        self.session.headers['User-Agent'] = user_agent
+
+    def _setup_security_and_auth(self, security, auth):
+        global_auth = []
+        try:
+            for security_method in security:
+                auth_method = get_auth(security_method)
+                if not self._add_security(auth_method):
+                    global_auth.append(auth_method)
+        except TypeError:
+            auth_method = get_auth(security)
+            if not self._add_security(auth_method):
+                global_auth.append(auth_method)
+        auth = MultiAuth(*auth)
+        auth.extend(global_auth)
+        return auth
+
+    def _add_security(self, auth_method):
+        security_type = type(auth_method).__class__.__name__
+        if security_type in self._security:
+            self._security[security_type] = auth_method
+            return True
+        return False
+

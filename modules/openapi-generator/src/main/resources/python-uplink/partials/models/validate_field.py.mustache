@@ -1,0 +1,8 @@
+{{#minLength}}validate.Length(min={{minLength}}{{#maxLength}}, max={{maxLength}}{{/maxLength}}),{{/minLength}}{{^minLength}}{{#maxLength}}
+validate.Length(max={{maxLength}}),{{/maxLength}}{{/minLength}}{{#minimum}}
+_validate.Range(min={{minimum}}{{#exclusiveMinimum}}, exclusive_min=True{{/exclusiveMinimum}}{{#maximum}}, max={{maximum}}{{#exclusiveMaximum}}, exclusive_max=True{{/exclusiveMaximum}}{{/maximum}}),{{/minimum}}{{^minimum}}{{#maximum}}
+_validate.Range(max={{maximum}}{{#exclusiveMaximum}}, exclusive_max=True{{/exclusiveMaximum}}),{{/maximum}}{{/minimum}}{{#multipleOf}}
+_validate.MultipleOf({{multipleOf}}),{{/multipleOf}}{{#minItems}}{{!minItems is also used for minProperties}}
+validate.Length(min={{minItems}}{{#maxItems}}, max={{maxItems}}{{/maxItems}}),{{/minItems}}{{^minItems}}{{#maxItems}}{{!maxItems is also used for maxProperties}}
+validate.Length(max={{maxItems}}),{{/maxItems}}{{/minItems}}{{#pattern}}
+_validate.Pattern(regex=r'{{{x-regex}}}'{{#x-modifiers}}{{#-first}}, flags={{/-first}}re.{{.}}{{^-last}} | {{/-last}}{{/x-modifiers}}),{{/pattern}}

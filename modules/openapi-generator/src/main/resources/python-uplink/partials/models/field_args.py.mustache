@@ -1,0 +1,6 @@
+{{>partials/models/field_args_common.py}}{{#hasValidation}}validate=[
+    {{>partials/models/validate_field.py}}{{#isEnum}}
+    validate.OneOf([
+        {{>partials/models/validate_field_enum.py}}
+    ]),{{/isEnum}}
+]{{/hasValidation}}

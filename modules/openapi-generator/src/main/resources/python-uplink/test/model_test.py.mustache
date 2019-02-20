@@ -1,0 +1,49 @@
+# coding: utf-8
+
+{{>partials/header.py}}
+from __future__ import absolute_import
+
+import unittest
+
+{{#models}}
+{{#model}}
+import {{packageName}}
+from {{modelPackage}}.{{classFilename}} import {{classname}}, {{classname}}Schema
+
+
+class Test{{classname}}(unittest.TestCase):
+    """{{classname}} unit test stubs"""
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test{{classname}}(self):
+        """Test {{classname}}"""
+        # FIXME: construct object with mandatory attributes with example values
+        # model = {{packageName}}.models.{{classFilename}}.{{classname}}()
+        pass
+
+
+class Test{{classname}}Schema(unittest.TestCase):
+    """{{classname}}Schema unit test stubs"""
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test{{classname}}Schema(self):
+        """Test {{classname}}Schema"""
+        # FIXME: construct object with mandatory attributes with example values
+        # model = {{packageName}}.models.{{classFilename}}.{{classname}}()
+        pass
+
+{{/model}}
+{{/models}}
+
+if __name__ == '__main__':
+    unittest.main()

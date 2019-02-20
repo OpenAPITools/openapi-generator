@@ -1,0 +1,3 @@
+{{#isListContainer}}fields.List({{/isListContainer}}{{!
+}}{{#isMapContainer}}fields.Dict(keys=fields.String(), values={{/isMapContainer}}{{!
+}}{{#items}}{{#isContainer}}{{>partials/models/recursive_container_start.py}}{{/isContainer}}{{/items}}
