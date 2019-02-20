@@ -1034,10 +1034,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     codegenOperation.authMethods = config.fromSecurity(authMethods);
                     List<Map<String, Object>> scopes = new ArrayList<Map<String, Object>>();
                     for (CodegenSecurity security : codegenOperation.authMethods){
-                        if (security.isBasicBearer){
+                        if (security != null && security.isBasicBearer != null && security.isBasicBearer){
                             for (SecurityRequirement req : securities){
+                                if (req == null) continue;
                                 for (String key : req.keySet()){
-                                    if (key.equals(security.name)){
+                                    if (security.name != null && key.equals(security.name)){
                                         int count = 0;
                                         for (String sc : req.get(key)){
                                             Map<String, Object> scope = new HashMap<String, Object>();
