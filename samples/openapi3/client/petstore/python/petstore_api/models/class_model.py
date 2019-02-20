@@ -46,7 +46,7 @@ class ClassModel(object):
                             additional properties.
     """
     openapi_types = {
-        '_class': (str,)  # noqa: E501
+        '_class': [str]  # noqa: E501
     }
     attribute_map = {
         '_class': '_class'  # noqa: E501
@@ -111,7 +111,7 @@ class ClassModel(object):
 
 
         Returns:
-            str: The _class of this ClassModel.  # noqa: E501
+            (str): The _class of this ClassModel.  # noqa: E501
         """
         return self._data_store.get('_class')
 
@@ -122,7 +122,7 @@ class ClassModel(object):
 
 
         Returns:
-            str: The _class of this ClassModel.  # noqa: E501
+            (str): The _class of this ClassModel.  # noqa: E501
         """
 
         self.__setitem__(

@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -47,12 +47,12 @@ class FileSchemaTestClass(object):
                             additional properties.
     """
     openapi_types = {
-        'file': (File,),
-        'files': ([(File,)],)
+        'file': [File],  # noqa: E501
+        'files': [[(File,)]]  # noqa: E501
     }
     attribute_map = {
-        'file': 'file',
-        'files': 'files'
+        'file': 'file',  # noqa: E501
+        'files': 'files'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -65,8 +65,8 @@ class FileSchemaTestClass(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            file (File): [optional]
-            files (list[File]): [optional]
+            file (File): [optional]  # noqa: E501
+            files ([(File,)]): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -115,20 +115,24 @@ class FileSchemaTestClass(object):
 
 
         Returns:
-            File: The file of this FileSchemaTestClass.  # noqa: E501
+            (File): The file of this FileSchemaTestClass.  # noqa: E501
         """
         return self._data_store.get('file')
 
     @file.setter
-    def file(self, file):
+    def file(
+            self, file):
         """Sets the file of this FileSchemaTestClass.
 
 
         Returns:
-            File: The file of this FileSchemaTestClass.  # noqa: E501
+            (File): The file of this FileSchemaTestClass.  # noqa: E501
         """
 
-        self.__setitem__('file', file)
+        self.__setitem__(
+            'file',
+            file
+        )
 
     @property
     def files(self):
@@ -136,20 +140,24 @@ class FileSchemaTestClass(object):
 
 
         Returns:
-            list[File]: The files of this FileSchemaTestClass.  # noqa: E501
+            ([(File,)]): The files of this FileSchemaTestClass.  # noqa: E501
         """
         return self._data_store.get('files')
 
     @files.setter
-    def files(self, files):
+    def files(
+            self, files):
         """Sets the files of this FileSchemaTestClass.
 
 
         Returns:
-            list[File]: The files of this FileSchemaTestClass.  # noqa: E501
+            ([(File,)]): The files of this FileSchemaTestClass.  # noqa: E501
         """
 
-        self.__setitem__('files', files)
+        self.__setitem__(
+            'files',
+            files
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

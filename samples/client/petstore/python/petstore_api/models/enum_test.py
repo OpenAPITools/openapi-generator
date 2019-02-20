@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -47,18 +47,18 @@ class EnumTest(object):
                             additional properties.
     """
     openapi_types = {
-        'enum_string': (str,),
-        'enum_string_required': (str,),
-        'enum_integer': (int,),
-        'enum_number': (float,),
-        'outer_enum': (OuterEnum,)
+        'enum_string': [str],  # noqa: E501
+        'enum_string_required': [str],  # noqa: E501
+        'enum_integer': [int],  # noqa: E501
+        'enum_number': [float],  # noqa: E501
+        'outer_enum': [OuterEnum]  # noqa: E501
     }
     attribute_map = {
-        'enum_string': 'enum_string',
-        'enum_string_required': 'enum_string_required',
-        'enum_integer': 'enum_integer',
-        'enum_number': 'enum_number',
-        'outer_enum': 'outerEnum'
+        'enum_string': 'enum_string',  # noqa: E501
+        'enum_string_required': 'enum_string_required',  # noqa: E501
+        'enum_integer': 'enum_integer',  # noqa: E501
+        'enum_number': 'enum_number',  # noqa: E501
+        'outer_enum': 'outerEnum'  # noqa: E501
     }
 
     def __init__(self, enum_string_required, _check_type=False, **kwargs):  # noqa: E501
@@ -72,10 +72,10 @@ class EnumTest(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            enum_string (str): [optional]
-            enum_integer (int): [optional]
-            enum_number (float): [optional]
-            outer_enum (OuterEnum): [optional]
+            enum_string (str): [optional]  # noqa: E501
+            enum_integer (int): [optional]  # noqa: E501
+            enum_number (float): [optional]  # noqa: E501
+            outer_enum (OuterEnum): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -126,17 +126,18 @@ class EnumTest(object):
 
 
         Returns:
-            str: The enum_string of this EnumTest.  # noqa: E501
+            (str): The enum_string of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('enum_string')
 
     @enum_string.setter
-    def enum_string(self, enum_string):
+    def enum_string(
+            self, enum_string):
         """Sets the enum_string of this EnumTest.
 
 
         Returns:
-            str: The enum_string of this EnumTest.  # noqa: E501
+            (str): The enum_string of this EnumTest.  # noqa: E501
         """
         allowed_values = ["UPPER", "lower", ""]  # noqa: E501
         if enum_string not in allowed_values:
@@ -145,7 +146,10 @@ class EnumTest(object):
                 .format(enum_string, allowed_values)
             )
 
-        self.__setitem__('enum_string', enum_string)
+        self.__setitem__(
+            'enum_string',
+            enum_string
+        )
 
     @property
     def enum_string_required(self):
@@ -153,17 +157,18 @@ class EnumTest(object):
 
 
         Returns:
-            str: The enum_string_required of this EnumTest.  # noqa: E501
+            (str): The enum_string_required of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('enum_string_required')
 
     @enum_string_required.setter
-    def enum_string_required(self, enum_string_required):
+    def enum_string_required(
+            self, enum_string_required):
         """Sets the enum_string_required of this EnumTest.
 
 
         Returns:
-            str: The enum_string_required of this EnumTest.  # noqa: E501
+            (str): The enum_string_required of this EnumTest.  # noqa: E501
         """
         if enum_string_required is None:
             raise ApiValueError("Invalid value for `enum_string_required`, must not be `None`")  # noqa: E501
@@ -174,7 +179,10 @@ class EnumTest(object):
                 .format(enum_string_required, allowed_values)
             )
 
-        self.__setitem__('enum_string_required', enum_string_required)
+        self.__setitem__(
+            'enum_string_required',
+            enum_string_required
+        )
 
     @property
     def enum_integer(self):
@@ -182,17 +190,18 @@ class EnumTest(object):
 
 
         Returns:
-            int: The enum_integer of this EnumTest.  # noqa: E501
+            (int): The enum_integer of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('enum_integer')
 
     @enum_integer.setter
-    def enum_integer(self, enum_integer):
+    def enum_integer(
+            self, enum_integer):
         """Sets the enum_integer of this EnumTest.
 
 
         Returns:
-            int: The enum_integer of this EnumTest.  # noqa: E501
+            (int): The enum_integer of this EnumTest.  # noqa: E501
         """
         allowed_values = [1, -1]  # noqa: E501
         if enum_integer not in allowed_values:
@@ -201,7 +210,10 @@ class EnumTest(object):
                 .format(enum_integer, allowed_values)
             )
 
-        self.__setitem__('enum_integer', enum_integer)
+        self.__setitem__(
+            'enum_integer',
+            enum_integer
+        )
 
     @property
     def enum_number(self):
@@ -209,17 +221,18 @@ class EnumTest(object):
 
 
         Returns:
-            float: The enum_number of this EnumTest.  # noqa: E501
+            (float): The enum_number of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('enum_number')
 
     @enum_number.setter
-    def enum_number(self, enum_number):
+    def enum_number(
+            self, enum_number):
         """Sets the enum_number of this EnumTest.
 
 
         Returns:
-            float: The enum_number of this EnumTest.  # noqa: E501
+            (float): The enum_number of this EnumTest.  # noqa: E501
         """
         allowed_values = [1.1, -1.2]  # noqa: E501
         if enum_number not in allowed_values:
@@ -228,7 +241,10 @@ class EnumTest(object):
                 .format(enum_number, allowed_values)
             )
 
-        self.__setitem__('enum_number', enum_number)
+        self.__setitem__(
+            'enum_number',
+            enum_number
+        )
 
     @property
     def outer_enum(self):
@@ -236,20 +252,24 @@ class EnumTest(object):
 
 
         Returns:
-            OuterEnum: The outer_enum of this EnumTest.  # noqa: E501
+            (OuterEnum): The outer_enum of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('outer_enum')
 
     @outer_enum.setter
-    def outer_enum(self, outer_enum):
+    def outer_enum(
+            self, outer_enum):
         """Sets the outer_enum of this EnumTest.
 
 
         Returns:
-            OuterEnum: The outer_enum of this EnumTest.  # noqa: E501
+            (OuterEnum): The outer_enum of this EnumTest.  # noqa: E501
         """
 
-        self.__setitem__('outer_enum', outer_enum)
+        self.__setitem__(
+            'outer_enum',
+            outer_enum
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

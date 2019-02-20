@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -46,14 +46,14 @@ class ApiResponse(object):
                             additional properties.
     """
     openapi_types = {
-        'code': (int,),
-        'type': (str,),
-        'message': (str,)
+        'code': [int],  # noqa: E501
+        'type': [str],  # noqa: E501
+        'message': [str]  # noqa: E501
     }
     attribute_map = {
-        'code': 'code',
-        'type': 'type',
-        'message': 'message'
+        'code': 'code',  # noqa: E501
+        'type': 'type',  # noqa: E501
+        'message': 'message'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -66,9 +66,9 @@ class ApiResponse(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            code (int): [optional]
-            type (str): [optional]
-            message (str): [optional]
+            code (int): [optional]  # noqa: E501
+            type (str): [optional]  # noqa: E501
+            message (str): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -117,20 +117,24 @@ class ApiResponse(object):
 
 
         Returns:
-            int: The code of this ApiResponse.  # noqa: E501
+            (int): The code of this ApiResponse.  # noqa: E501
         """
         return self._data_store.get('code')
 
     @code.setter
-    def code(self, code):
+    def code(
+            self, code):
         """Sets the code of this ApiResponse.
 
 
         Returns:
-            int: The code of this ApiResponse.  # noqa: E501
+            (int): The code of this ApiResponse.  # noqa: E501
         """
 
-        self.__setitem__('code', code)
+        self.__setitem__(
+            'code',
+            code
+        )
 
     @property
     def type(self):
@@ -138,20 +142,24 @@ class ApiResponse(object):
 
 
         Returns:
-            str: The type of this ApiResponse.  # noqa: E501
+            (str): The type of this ApiResponse.  # noqa: E501
         """
         return self._data_store.get('type')
 
     @type.setter
-    def type(self, type):
+    def type(
+            self, type):
         """Sets the type of this ApiResponse.
 
 
         Returns:
-            str: The type of this ApiResponse.  # noqa: E501
+            (str): The type of this ApiResponse.  # noqa: E501
         """
 
-        self.__setitem__('type', type)
+        self.__setitem__(
+            'type',
+            type
+        )
 
     @property
     def message(self):
@@ -159,20 +167,24 @@ class ApiResponse(object):
 
 
         Returns:
-            str: The message of this ApiResponse.  # noqa: E501
+            (str): The message of this ApiResponse.  # noqa: E501
         """
         return self._data_store.get('message')
 
     @message.setter
-    def message(self, message):
+    def message(
+            self, message):
         """Sets the message of this ApiResponse.
 
 
         Returns:
-            str: The message of this ApiResponse.  # noqa: E501
+            (str): The message of this ApiResponse.  # noqa: E501
         """
 
-        self.__setitem__('message', message)
+        self.__setitem__(
+            'message',
+            message
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

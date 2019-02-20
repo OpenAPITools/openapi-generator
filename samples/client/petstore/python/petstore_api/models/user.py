@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -46,24 +46,24 @@ class User(object):
                             additional properties.
     """
     openapi_types = {
-        'id': (int,),
-        'username': (str,),
-        'first_name': (str,),
-        'last_name': (str,),
-        'email': (str,),
-        'password': (str,),
-        'phone': (str,),
-        'user_status': (int,)
+        'id': [int],  # noqa: E501
+        'username': [str],  # noqa: E501
+        'first_name': [str],  # noqa: E501
+        'last_name': [str],  # noqa: E501
+        'email': [str],  # noqa: E501
+        'password': [str],  # noqa: E501
+        'phone': [str],  # noqa: E501
+        'user_status': [int]  # noqa: E501
     }
     attribute_map = {
-        'id': 'id',
-        'username': 'username',
-        'first_name': 'firstName',
-        'last_name': 'lastName',
-        'email': 'email',
-        'password': 'password',
-        'phone': 'phone',
-        'user_status': 'userStatus'
+        'id': 'id',  # noqa: E501
+        'username': 'username',  # noqa: E501
+        'first_name': 'firstName',  # noqa: E501
+        'last_name': 'lastName',  # noqa: E501
+        'email': 'email',  # noqa: E501
+        'password': 'password',  # noqa: E501
+        'phone': 'phone',  # noqa: E501
+        'user_status': 'userStatus'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -76,14 +76,14 @@ class User(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            id (int): [optional]
-            username (str): [optional]
-            first_name (str): [optional]
-            last_name (str): [optional]
-            email (str): [optional]
-            password (str): [optional]
-            phone (str): [optional]
-            user_status (int): User Status. [optional]
+            id (int): [optional]  # noqa: E501
+            username (str): [optional]  # noqa: E501
+            first_name (str): [optional]  # noqa: E501
+            last_name (str): [optional]  # noqa: E501
+            email (str): [optional]  # noqa: E501
+            password (str): [optional]  # noqa: E501
+            phone (str): [optional]  # noqa: E501
+            user_status (int): User Status. [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -132,20 +132,24 @@ class User(object):
 
 
         Returns:
-            int: The id of this User.  # noqa: E501
+            (int): The id of this User.  # noqa: E501
         """
         return self._data_store.get('id')
 
     @id.setter
-    def id(self, id):
+    def id(
+            self, id):
         """Sets the id of this User.
 
 
         Returns:
-            int: The id of this User.  # noqa: E501
+            (int): The id of this User.  # noqa: E501
         """
 
-        self.__setitem__('id', id)
+        self.__setitem__(
+            'id',
+            id
+        )
 
     @property
     def username(self):
@@ -153,20 +157,24 @@ class User(object):
 
 
         Returns:
-            str: The username of this User.  # noqa: E501
+            (str): The username of this User.  # noqa: E501
         """
         return self._data_store.get('username')
 
     @username.setter
-    def username(self, username):
+    def username(
+            self, username):
         """Sets the username of this User.
 
 
         Returns:
-            str: The username of this User.  # noqa: E501
+            (str): The username of this User.  # noqa: E501
         """
 
-        self.__setitem__('username', username)
+        self.__setitem__(
+            'username',
+            username
+        )
 
     @property
     def first_name(self):
@@ -174,20 +182,24 @@ class User(object):
 
 
         Returns:
-            str: The first_name of this User.  # noqa: E501
+            (str): The first_name of this User.  # noqa: E501
         """
         return self._data_store.get('first_name')
 
     @first_name.setter
-    def first_name(self, first_name):
+    def first_name(
+            self, first_name):
         """Sets the first_name of this User.
 
 
         Returns:
-            str: The first_name of this User.  # noqa: E501
+            (str): The first_name of this User.  # noqa: E501
         """
 
-        self.__setitem__('first_name', first_name)
+        self.__setitem__(
+            'first_name',
+            first_name
+        )
 
     @property
     def last_name(self):
@@ -195,20 +207,24 @@ class User(object):
 
 
         Returns:
-            str: The last_name of this User.  # noqa: E501
+            (str): The last_name of this User.  # noqa: E501
         """
         return self._data_store.get('last_name')
 
     @last_name.setter
-    def last_name(self, last_name):
+    def last_name(
+            self, last_name):
         """Sets the last_name of this User.
 
 
         Returns:
-            str: The last_name of this User.  # noqa: E501
+            (str): The last_name of this User.  # noqa: E501
         """
 
-        self.__setitem__('last_name', last_name)
+        self.__setitem__(
+            'last_name',
+            last_name
+        )
 
     @property
     def email(self):
@@ -216,20 +232,24 @@ class User(object):
 
 
         Returns:
-            str: The email of this User.  # noqa: E501
+            (str): The email of this User.  # noqa: E501
         """
         return self._data_store.get('email')
 
     @email.setter
-    def email(self, email):
+    def email(
+            self, email):
         """Sets the email of this User.
 
 
         Returns:
-            str: The email of this User.  # noqa: E501
+            (str): The email of this User.  # noqa: E501
         """
 
-        self.__setitem__('email', email)
+        self.__setitem__(
+            'email',
+            email
+        )
 
     @property
     def password(self):
@@ -237,20 +257,24 @@ class User(object):
 
 
         Returns:
-            str: The password of this User.  # noqa: E501
+            (str): The password of this User.  # noqa: E501
         """
         return self._data_store.get('password')
 
     @password.setter
-    def password(self, password):
+    def password(
+            self, password):
         """Sets the password of this User.
 
 
         Returns:
-            str: The password of this User.  # noqa: E501
+            (str): The password of this User.  # noqa: E501
         """
 
-        self.__setitem__('password', password)
+        self.__setitem__(
+            'password',
+            password
+        )
 
     @property
     def phone(self):
@@ -258,20 +282,24 @@ class User(object):
 
 
         Returns:
-            str: The phone of this User.  # noqa: E501
+            (str): The phone of this User.  # noqa: E501
         """
         return self._data_store.get('phone')
 
     @phone.setter
-    def phone(self, phone):
+    def phone(
+            self, phone):
         """Sets the phone of this User.
 
 
         Returns:
-            str: The phone of this User.  # noqa: E501
+            (str): The phone of this User.  # noqa: E501
         """
 
-        self.__setitem__('phone', phone)
+        self.__setitem__(
+            'phone',
+            phone
+        )
 
     @property
     def user_status(self):
@@ -280,21 +308,25 @@ class User(object):
         User Status  # noqa: E501
 
         Returns:
-            int: The user_status of this User.  # noqa: E501
+            (int): The user_status of this User.  # noqa: E501
         """
         return self._data_store.get('user_status')
 
     @user_status.setter
-    def user_status(self, user_status):
+    def user_status(
+            self, user_status):
         """Sets the user_status of this User.
 
         User Status  # noqa: E501
 
         Returns:
-            int: The user_status of this User.  # noqa: E501
+            (int): The user_status of this User.  # noqa: E501
         """
 
-        self.__setitem__('user_status', user_status)
+        self.__setitem__(
+            'user_status',
+            user_status
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

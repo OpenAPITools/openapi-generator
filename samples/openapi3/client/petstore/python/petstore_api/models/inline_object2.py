@@ -46,8 +46,8 @@ class InlineObject2(object):
                             additional properties.
     """
     openapi_types = {
-        'enum_form_string_array': ([(str,)],),  # noqa: E501
-        'enum_form_string': (str,)  # noqa: E501
+        'enum_form_string_array': [[(str,)]],  # noqa: E501
+        'enum_form_string': [str]  # noqa: E501
     }
     attribute_map = {
         'enum_form_string_array': 'enum_form_string_array',  # noqa: E501
@@ -64,7 +64,7 @@ class InlineObject2(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            enum_form_string_array (list[str]): Form parameter enum test (string array). [optional]  # noqa: E501
+            enum_form_string_array ([(str,)]): Form parameter enum test (string array). [optional]  # noqa: E501
             enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'  # noqa: E501
         """
 
@@ -115,7 +115,7 @@ class InlineObject2(object):
         Form parameter enum test (string array)  # noqa: E501
 
         Returns:
-            list[str]: The enum_form_string_array of this InlineObject2.  # noqa: E501
+            ([(str,)]): The enum_form_string_array of this InlineObject2.  # noqa: E501
         """
         return self._data_store.get('enum_form_string_array')
 
@@ -127,7 +127,7 @@ class InlineObject2(object):
         Form parameter enum test (string array)  # noqa: E501
 
         Returns:
-            list[str]: The enum_form_string_array of this InlineObject2.  # noqa: E501
+            ([(str,)]): The enum_form_string_array of this InlineObject2.  # noqa: E501
         """
         allowed_values = [">", "$"]  # noqa: E501
         if not set(enum_form_string_array).issubset(set(allowed_values)):
@@ -149,7 +149,7 @@ class InlineObject2(object):
         Form parameter enum test (string)  # noqa: E501
 
         Returns:
-            str: The enum_form_string of this InlineObject2.  # noqa: E501
+            (str): The enum_form_string of this InlineObject2.  # noqa: E501
         """
         return self._data_store.get('enum_form_string')
 
@@ -161,7 +161,7 @@ class InlineObject2(object):
         Form parameter enum test (string)  # noqa: E501
 
         Returns:
-            str: The enum_form_string of this InlineObject2.  # noqa: E501
+            (str): The enum_form_string of this InlineObject2.  # noqa: E501
         """
         allowed_values = ["_abc", "-efg", "(xyz)"]  # noqa: E501
         if enum_form_string not in allowed_values:

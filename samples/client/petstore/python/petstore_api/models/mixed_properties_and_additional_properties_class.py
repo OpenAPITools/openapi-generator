@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -47,14 +47,14 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
                             additional properties.
     """
     openapi_types = {
-        'uuid': (str,),
-        'date_time': (datetime,),
-        'map': ({str: (Animal,)},)
+        'uuid': [str],  # noqa: E501
+        'date_time': [datetime],  # noqa: E501
+        'map': [{str: (Animal,)}]  # noqa: E501
     }
     attribute_map = {
-        'uuid': 'uuid',
-        'date_time': 'dateTime',
-        'map': 'map'
+        'uuid': 'uuid',  # noqa: E501
+        'date_time': 'dateTime',  # noqa: E501
+        'map': 'map'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -67,9 +67,9 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            uuid (str): [optional]
-            date_time (datetime): [optional]
-            map (dict(str: Animal)): [optional]
+            uuid (str): [optional]  # noqa: E501
+            date_time (datetime): [optional]  # noqa: E501
+            map ({str: (Animal,)}): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -118,20 +118,24 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         Returns:
-            str: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
+            (str): The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('uuid')
 
     @uuid.setter
-    def uuid(self, uuid):
+    def uuid(
+            self, uuid):
         """Sets the uuid of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
         Returns:
-            str: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
+            (str): The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
 
-        self.__setitem__('uuid', uuid)
+        self.__setitem__(
+            'uuid',
+            uuid
+        )
 
     @property
     def date_time(self):
@@ -139,20 +143,24 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         Returns:
-            datetime: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
+            (datetime): The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('date_time')
 
     @date_time.setter
-    def date_time(self, date_time):
+    def date_time(
+            self, date_time):
         """Sets the date_time of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
         Returns:
-            datetime: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
+            (datetime): The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
 
-        self.__setitem__('date_time', date_time)
+        self.__setitem__(
+            'date_time',
+            date_time
+        )
 
     @property
     def map(self):
@@ -160,20 +168,24 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         Returns:
-            dict(str: Animal): The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
+            ({str: (Animal,)}): The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('map')
 
     @map.setter
-    def map(self, map):
+    def map(
+            self, map):
         """Sets the map of this MixedPropertiesAndAdditionalPropertiesClass.
 
 
         Returns:
-            dict(str: Animal): The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
+            ({str: (Animal,)}): The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
 
-        self.__setitem__('map', map)
+        self.__setitem__(
+            'map',
+            map
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

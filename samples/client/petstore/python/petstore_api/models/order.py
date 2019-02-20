@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -46,20 +46,20 @@ class Order(object):
                             additional properties.
     """
     openapi_types = {
-        'id': (int,),
-        'pet_id': (int,),
-        'quantity': (int,),
-        'ship_date': (datetime,),
-        'status': (str,),
-        'complete': (bool,)
+        'id': [int],  # noqa: E501
+        'pet_id': [int],  # noqa: E501
+        'quantity': [int],  # noqa: E501
+        'ship_date': [datetime],  # noqa: E501
+        'status': [str],  # noqa: E501
+        'complete': [bool]  # noqa: E501
     }
     attribute_map = {
-        'id': 'id',
-        'pet_id': 'petId',
-        'quantity': 'quantity',
-        'ship_date': 'shipDate',
-        'status': 'status',
-        'complete': 'complete'
+        'id': 'id',  # noqa: E501
+        'pet_id': 'petId',  # noqa: E501
+        'quantity': 'quantity',  # noqa: E501
+        'ship_date': 'shipDate',  # noqa: E501
+        'status': 'status',  # noqa: E501
+        'complete': 'complete'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -72,12 +72,12 @@ class Order(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            id (int): [optional]
-            pet_id (int): [optional]
-            quantity (int): [optional]
-            ship_date (datetime): [optional]
-            status (str): Order Status. [optional]
-            complete (bool): [optional] if omitted the server will use the default value of False
+            id (int): [optional]  # noqa: E501
+            pet_id (int): [optional]  # noqa: E501
+            quantity (int): [optional]  # noqa: E501
+            ship_date (datetime): [optional]  # noqa: E501
+            status (str): Order Status. [optional]  # noqa: E501
+            complete (bool): [optional] if omitted the server will use the default value of False  # noqa: E501
         """
 
         self._data_store = {}
@@ -126,20 +126,24 @@ class Order(object):
 
 
         Returns:
-            int: The id of this Order.  # noqa: E501
+            (int): The id of this Order.  # noqa: E501
         """
         return self._data_store.get('id')
 
     @id.setter
-    def id(self, id):
+    def id(
+            self, id):
         """Sets the id of this Order.
 
 
         Returns:
-            int: The id of this Order.  # noqa: E501
+            (int): The id of this Order.  # noqa: E501
         """
 
-        self.__setitem__('id', id)
+        self.__setitem__(
+            'id',
+            id
+        )
 
     @property
     def pet_id(self):
@@ -147,20 +151,24 @@ class Order(object):
 
 
         Returns:
-            int: The pet_id of this Order.  # noqa: E501
+            (int): The pet_id of this Order.  # noqa: E501
         """
         return self._data_store.get('pet_id')
 
     @pet_id.setter
-    def pet_id(self, pet_id):
+    def pet_id(
+            self, pet_id):
         """Sets the pet_id of this Order.
 
 
         Returns:
-            int: The pet_id of this Order.  # noqa: E501
+            (int): The pet_id of this Order.  # noqa: E501
         """
 
-        self.__setitem__('pet_id', pet_id)
+        self.__setitem__(
+            'pet_id',
+            pet_id
+        )
 
     @property
     def quantity(self):
@@ -168,20 +176,24 @@ class Order(object):
 
 
         Returns:
-            int: The quantity of this Order.  # noqa: E501
+            (int): The quantity of this Order.  # noqa: E501
         """
         return self._data_store.get('quantity')
 
     @quantity.setter
-    def quantity(self, quantity):
+    def quantity(
+            self, quantity):
         """Sets the quantity of this Order.
 
 
         Returns:
-            int: The quantity of this Order.  # noqa: E501
+            (int): The quantity of this Order.  # noqa: E501
         """
 
-        self.__setitem__('quantity', quantity)
+        self.__setitem__(
+            'quantity',
+            quantity
+        )
 
     @property
     def ship_date(self):
@@ -189,20 +201,24 @@ class Order(object):
 
 
         Returns:
-            datetime: The ship_date of this Order.  # noqa: E501
+            (datetime): The ship_date of this Order.  # noqa: E501
         """
         return self._data_store.get('ship_date')
 
     @ship_date.setter
-    def ship_date(self, ship_date):
+    def ship_date(
+            self, ship_date):
         """Sets the ship_date of this Order.
 
 
         Returns:
-            datetime: The ship_date of this Order.  # noqa: E501
+            (datetime): The ship_date of this Order.  # noqa: E501
         """
 
-        self.__setitem__('ship_date', ship_date)
+        self.__setitem__(
+            'ship_date',
+            ship_date
+        )
 
     @property
     def status(self):
@@ -211,18 +227,19 @@ class Order(object):
         Order Status  # noqa: E501
 
         Returns:
-            str: The status of this Order.  # noqa: E501
+            (str): The status of this Order.  # noqa: E501
         """
         return self._data_store.get('status')
 
     @status.setter
-    def status(self, status):
+    def status(
+            self, status):
         """Sets the status of this Order.
 
         Order Status  # noqa: E501
 
         Returns:
-            str: The status of this Order.  # noqa: E501
+            (str): The status of this Order.  # noqa: E501
         """
         allowed_values = ["placed", "approved", "delivered"]  # noqa: E501
         if status not in allowed_values:
@@ -231,7 +248,10 @@ class Order(object):
                 .format(status, allowed_values)
             )
 
-        self.__setitem__('status', status)
+        self.__setitem__(
+            'status',
+            status
+        )
 
     @property
     def complete(self):
@@ -239,20 +259,24 @@ class Order(object):
 
 
         Returns:
-            bool: The complete of this Order.  # noqa: E501
+            (bool): The complete of this Order.  # noqa: E501
         """
         return self._data_store.get('complete')
 
     @complete.setter
-    def complete(self, complete):
+    def complete(
+            self, complete):
         """Sets the complete of this Order.
 
 
         Returns:
-            bool: The complete of this Order.  # noqa: E501
+            (bool): The complete of this Order.  # noqa: E501
         """
 
-        self.__setitem__('complete', complete)
+        self.__setitem__(
+            'complete',
+            complete
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

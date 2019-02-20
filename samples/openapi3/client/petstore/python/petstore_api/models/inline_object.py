@@ -46,8 +46,8 @@ class InlineObject(object):
                             additional properties.
     """
     openapi_types = {
-        'name': (str,),  # noqa: E501
-        'status': (str,)  # noqa: E501
+        'name': [str],  # noqa: E501
+        'status': [str]  # noqa: E501
     }
     attribute_map = {
         'name': 'name',  # noqa: E501
@@ -115,7 +115,7 @@ class InlineObject(object):
         Updated name of the pet  # noqa: E501
 
         Returns:
-            str: The name of this InlineObject.  # noqa: E501
+            (str): The name of this InlineObject.  # noqa: E501
         """
         return self._data_store.get('name')
 
@@ -127,7 +127,7 @@ class InlineObject(object):
         Updated name of the pet  # noqa: E501
 
         Returns:
-            str: The name of this InlineObject.  # noqa: E501
+            (str): The name of this InlineObject.  # noqa: E501
         """
 
         self.__setitem__(
@@ -142,7 +142,7 @@ class InlineObject(object):
         Updated status of the pet  # noqa: E501
 
         Returns:
-            str: The status of this InlineObject.  # noqa: E501
+            (str): The status of this InlineObject.  # noqa: E501
         """
         return self._data_store.get('status')
 
@@ -154,7 +154,7 @@ class InlineObject(object):
         Updated status of the pet  # noqa: E501
 
         Returns:
-            str: The status of this InlineObject.  # noqa: E501
+            (str): The status of this InlineObject.  # noqa: E501
         """
 
         self.__setitem__(

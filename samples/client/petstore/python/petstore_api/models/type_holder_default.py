@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -46,18 +46,18 @@ class TypeHolderDefault(object):
                             additional properties.
     """
     openapi_types = {
-        'string_item': (str,),
-        'number_item': (float,),
-        'integer_item': (int,),
-        'bool_item': (bool,),
-        'array_item': ([(int,)],)
+        'string_item': [str],  # noqa: E501
+        'number_item': [float],  # noqa: E501
+        'integer_item': [int],  # noqa: E501
+        'bool_item': [bool],  # noqa: E501
+        'array_item': [[(int,)]]  # noqa: E501
     }
     attribute_map = {
-        'string_item': 'string_item',
-        'number_item': 'number_item',
-        'integer_item': 'integer_item',
-        'bool_item': 'bool_item',
-        'array_item': 'array_item'
+        'string_item': 'string_item',  # noqa: E501
+        'number_item': 'number_item',  # noqa: E501
+        'integer_item': 'integer_item',  # noqa: E501
+        'bool_item': 'bool_item',  # noqa: E501
+        'array_item': 'array_item'  # noqa: E501
     }
 
     def __init__(self, number_item, integer_item, array_item, string_item='what', bool_item=True, _check_type=False, **kwargs):  # noqa: E501
@@ -66,9 +66,9 @@ class TypeHolderDefault(object):
         Args:
             number_item (float):
             integer_item (int):
-            array_item (list[int]):
-            string_item (str): defaults to 'what', must be one of ['what']
-            bool_item (bool): defaults to True, must be one of [True]
+            array_item ([(int,)]):
+            string_item (str): defaults to 'what', must be one of ['what']  # noqa: E501
+            bool_item (bool): defaults to True, must be one of [True]  # noqa: E501
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -129,22 +129,26 @@ class TypeHolderDefault(object):
 
 
         Returns:
-            str: The string_item of this TypeHolderDefault.  # noqa: E501
+            (str): The string_item of this TypeHolderDefault.  # noqa: E501
         """
         return self._data_store.get('string_item')
 
     @string_item.setter
-    def string_item(self, string_item):
+    def string_item(
+            self, string_item):
         """Sets the string_item of this TypeHolderDefault.
 
 
         Returns:
-            str: The string_item of this TypeHolderDefault.  # noqa: E501
+            (str): The string_item of this TypeHolderDefault.  # noqa: E501
         """
         if string_item is None:
             raise ApiValueError("Invalid value for `string_item`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('string_item', string_item)
+        self.__setitem__(
+            'string_item',
+            string_item
+        )
 
     @property
     def number_item(self):
@@ -152,22 +156,26 @@ class TypeHolderDefault(object):
 
 
         Returns:
-            float: The number_item of this TypeHolderDefault.  # noqa: E501
+            (float): The number_item of this TypeHolderDefault.  # noqa: E501
         """
         return self._data_store.get('number_item')
 
     @number_item.setter
-    def number_item(self, number_item):
+    def number_item(
+            self, number_item):
         """Sets the number_item of this TypeHolderDefault.
 
 
         Returns:
-            float: The number_item of this TypeHolderDefault.  # noqa: E501
+            (float): The number_item of this TypeHolderDefault.  # noqa: E501
         """
         if number_item is None:
             raise ApiValueError("Invalid value for `number_item`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('number_item', number_item)
+        self.__setitem__(
+            'number_item',
+            number_item
+        )
 
     @property
     def integer_item(self):
@@ -175,22 +183,26 @@ class TypeHolderDefault(object):
 
 
         Returns:
-            int: The integer_item of this TypeHolderDefault.  # noqa: E501
+            (int): The integer_item of this TypeHolderDefault.  # noqa: E501
         """
         return self._data_store.get('integer_item')
 
     @integer_item.setter
-    def integer_item(self, integer_item):
+    def integer_item(
+            self, integer_item):
         """Sets the integer_item of this TypeHolderDefault.
 
 
         Returns:
-            int: The integer_item of this TypeHolderDefault.  # noqa: E501
+            (int): The integer_item of this TypeHolderDefault.  # noqa: E501
         """
         if integer_item is None:
             raise ApiValueError("Invalid value for `integer_item`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('integer_item', integer_item)
+        self.__setitem__(
+            'integer_item',
+            integer_item
+        )
 
     @property
     def bool_item(self):
@@ -198,22 +210,26 @@ class TypeHolderDefault(object):
 
 
         Returns:
-            bool: The bool_item of this TypeHolderDefault.  # noqa: E501
+            (bool): The bool_item of this TypeHolderDefault.  # noqa: E501
         """
         return self._data_store.get('bool_item')
 
     @bool_item.setter
-    def bool_item(self, bool_item):
+    def bool_item(
+            self, bool_item):
         """Sets the bool_item of this TypeHolderDefault.
 
 
         Returns:
-            bool: The bool_item of this TypeHolderDefault.  # noqa: E501
+            (bool): The bool_item of this TypeHolderDefault.  # noqa: E501
         """
         if bool_item is None:
             raise ApiValueError("Invalid value for `bool_item`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('bool_item', bool_item)
+        self.__setitem__(
+            'bool_item',
+            bool_item
+        )
 
     @property
     def array_item(self):
@@ -221,22 +237,26 @@ class TypeHolderDefault(object):
 
 
         Returns:
-            list[int]: The array_item of this TypeHolderDefault.  # noqa: E501
+            ([(int,)]): The array_item of this TypeHolderDefault.  # noqa: E501
         """
         return self._data_store.get('array_item')
 
     @array_item.setter
-    def array_item(self, array_item):
+    def array_item(
+            self, array_item):
         """Sets the array_item of this TypeHolderDefault.
 
 
         Returns:
-            list[int]: The array_item of this TypeHolderDefault.  # noqa: E501
+            ([(int,)]): The array_item of this TypeHolderDefault.  # noqa: E501
         """
         if array_item is None:
             raise ApiValueError("Invalid value for `array_item`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('array_item', array_item)
+        self.__setitem__(
+            'array_item',
+            array_item
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

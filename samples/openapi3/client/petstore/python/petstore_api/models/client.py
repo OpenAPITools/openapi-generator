@@ -46,7 +46,7 @@ class Client(object):
                             additional properties.
     """
     openapi_types = {
-        'client': (str,)  # noqa: E501
+        'client': [str]  # noqa: E501
     }
     attribute_map = {
         'client': 'client'  # noqa: E501
@@ -111,7 +111,7 @@ class Client(object):
 
 
         Returns:
-            str: The client of this Client.  # noqa: E501
+            (str): The client of this Client.  # noqa: E501
         """
         return self._data_store.get('client')
 
@@ -122,7 +122,7 @@ class Client(object):
 
 
         Returns:
-            str: The client of this Client.  # noqa: E501
+            (str): The client of this Client.  # noqa: E501
         """
 
         self.__setitem__(

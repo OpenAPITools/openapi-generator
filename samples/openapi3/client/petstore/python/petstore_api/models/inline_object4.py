@@ -46,8 +46,8 @@ class InlineObject4(object):
                             additional properties.
     """
     openapi_types = {
-        'param': (str,),  # noqa: E501
-        'param2': (str,)  # noqa: E501
+        'param': [str],  # noqa: E501
+        'param2': [str]  # noqa: E501
     }
     attribute_map = {
         'param': 'param',  # noqa: E501
@@ -118,7 +118,7 @@ class InlineObject4(object):
         field1  # noqa: E501
 
         Returns:
-            str: The param of this InlineObject4.  # noqa: E501
+            (str): The param of this InlineObject4.  # noqa: E501
         """
         return self._data_store.get('param')
 
@@ -130,7 +130,7 @@ class InlineObject4(object):
         field1  # noqa: E501
 
         Returns:
-            str: The param of this InlineObject4.  # noqa: E501
+            (str): The param of this InlineObject4.  # noqa: E501
         """
         if param is None:
             raise ApiValueError("Invalid value for `param`, must not be `None`")  # noqa: E501
@@ -147,7 +147,7 @@ class InlineObject4(object):
         field2  # noqa: E501
 
         Returns:
-            str: The param2 of this InlineObject4.  # noqa: E501
+            (str): The param2 of this InlineObject4.  # noqa: E501
         """
         return self._data_store.get('param2')
 
@@ -159,7 +159,7 @@ class InlineObject4(object):
         field2  # noqa: E501
 
         Returns:
-            str: The param2 of this InlineObject4.  # noqa: E501
+            (str): The param2 of this InlineObject4.  # noqa: E501
         """
         if param2 is None:
             raise ApiValueError("Invalid value for `param2`, must not be `None`")  # noqa: E501

@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -46,10 +46,10 @@ class SpecialModelName(object):
                             additional properties.
     """
     openapi_types = {
-        'special_property_name': (int,)
+        'special_property_name': [int]  # noqa: E501
     }
     attribute_map = {
-        'special_property_name': '$special[property.name]'
+        'special_property_name': '$special[property.name]'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -62,7 +62,7 @@ class SpecialModelName(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            special_property_name (int): [optional]
+            special_property_name (int): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -111,20 +111,24 @@ class SpecialModelName(object):
 
 
         Returns:
-            int: The special_property_name of this SpecialModelName.  # noqa: E501
+            (int): The special_property_name of this SpecialModelName.  # noqa: E501
         """
         return self._data_store.get('special_property_name')
 
     @special_property_name.setter
-    def special_property_name(self, special_property_name):
+    def special_property_name(
+            self, special_property_name):
         """Sets the special_property_name of this SpecialModelName.
 
 
         Returns:
-            int: The special_property_name of this SpecialModelName.  # noqa: E501
+            (int): The special_property_name of this SpecialModelName.  # noqa: E501
         """
 
-        self.__setitem__('special_property_name', special_property_name)
+        self.__setitem__(
+            'special_property_name',
+            special_property_name
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

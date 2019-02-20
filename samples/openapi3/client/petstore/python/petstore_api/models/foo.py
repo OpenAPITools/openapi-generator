@@ -46,7 +46,7 @@ class Foo(object):
                             additional properties.
     """
     openapi_types = {
-        'bar': (str,)  # noqa: E501
+        'bar': [str]  # noqa: E501
     }
     attribute_map = {
         'bar': 'bar'  # noqa: E501
@@ -111,7 +111,7 @@ class Foo(object):
 
 
         Returns:
-            str: The bar of this Foo.  # noqa: E501
+            (str): The bar of this Foo.  # noqa: E501
         """
         return self._data_store.get('bar')
 
@@ -122,7 +122,7 @@ class Foo(object):
 
 
         Returns:
-            str: The bar of this Foo.  # noqa: E501
+            (str): The bar of this Foo.  # noqa: E501
         """
 
         self.__setitem__(

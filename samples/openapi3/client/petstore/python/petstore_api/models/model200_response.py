@@ -46,8 +46,8 @@ class Model200Response(object):
                             additional properties.
     """
     openapi_types = {
-        'name': (int,),  # noqa: E501
-        '_class': (str,)  # noqa: E501
+        'name': [int],  # noqa: E501
+        '_class': [str]  # noqa: E501
     }
     attribute_map = {
         'name': 'name',  # noqa: E501
@@ -114,7 +114,7 @@ class Model200Response(object):
 
 
         Returns:
-            int: The name of this Model200Response.  # noqa: E501
+            (int): The name of this Model200Response.  # noqa: E501
         """
         return self._data_store.get('name')
 
@@ -125,7 +125,7 @@ class Model200Response(object):
 
 
         Returns:
-            int: The name of this Model200Response.  # noqa: E501
+            (int): The name of this Model200Response.  # noqa: E501
         """
 
         self.__setitem__(
@@ -139,7 +139,7 @@ class Model200Response(object):
 
 
         Returns:
-            str: The _class of this Model200Response.  # noqa: E501
+            (str): The _class of this Model200Response.  # noqa: E501
         """
         return self._data_store.get('_class')
 
@@ -150,7 +150,7 @@ class Model200Response(object):
 
 
         Returns:
-            str: The _class of this Model200Response.  # noqa: E501
+            (str): The _class of this Model200Response.  # noqa: E501
         """
 
         self.__setitem__(

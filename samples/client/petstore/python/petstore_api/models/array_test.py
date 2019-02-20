@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -47,14 +47,14 @@ class ArrayTest(object):
                             additional properties.
     """
     openapi_types = {
-        'array_of_string': ([(str,)],),
-        'array_array_of_integer': ([([(int,)],)],),
-        'array_array_of_model': ([([(ReadOnlyFirst,)],)],)
+        'array_of_string': [[(str,)]],  # noqa: E501
+        'array_array_of_integer': [[([(int,)],)]],  # noqa: E501
+        'array_array_of_model': [[([(ReadOnlyFirst,)],)]]  # noqa: E501
     }
     attribute_map = {
-        'array_of_string': 'array_of_string',
-        'array_array_of_integer': 'array_array_of_integer',
-        'array_array_of_model': 'array_array_of_model'
+        'array_of_string': 'array_of_string',  # noqa: E501
+        'array_array_of_integer': 'array_array_of_integer',  # noqa: E501
+        'array_array_of_model': 'array_array_of_model'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -67,9 +67,9 @@ class ArrayTest(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            array_of_string (list[str]): [optional]
-            array_array_of_integer (list[list[int]]): [optional]
-            array_array_of_model (list[list[ReadOnlyFirst]]): [optional]
+            array_of_string ([(str,)]): [optional]  # noqa: E501
+            array_array_of_integer ([([(int,)],)]): [optional]  # noqa: E501
+            array_array_of_model ([([(ReadOnlyFirst,)],)]): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -118,20 +118,24 @@ class ArrayTest(object):
 
 
         Returns:
-            list[str]: The array_of_string of this ArrayTest.  # noqa: E501
+            ([(str,)]): The array_of_string of this ArrayTest.  # noqa: E501
         """
         return self._data_store.get('array_of_string')
 
     @array_of_string.setter
-    def array_of_string(self, array_of_string):
+    def array_of_string(
+            self, array_of_string):
         """Sets the array_of_string of this ArrayTest.
 
 
         Returns:
-            list[str]: The array_of_string of this ArrayTest.  # noqa: E501
+            ([(str,)]): The array_of_string of this ArrayTest.  # noqa: E501
         """
 
-        self.__setitem__('array_of_string', array_of_string)
+        self.__setitem__(
+            'array_of_string',
+            array_of_string
+        )
 
     @property
     def array_array_of_integer(self):
@@ -139,20 +143,24 @@ class ArrayTest(object):
 
 
         Returns:
-            list[list[int]]: The array_array_of_integer of this ArrayTest.  # noqa: E501
+            ([([(int,)],)]): The array_array_of_integer of this ArrayTest.  # noqa: E501
         """
         return self._data_store.get('array_array_of_integer')
 
     @array_array_of_integer.setter
-    def array_array_of_integer(self, array_array_of_integer):
+    def array_array_of_integer(
+            self, array_array_of_integer):
         """Sets the array_array_of_integer of this ArrayTest.
 
 
         Returns:
-            list[list[int]]: The array_array_of_integer of this ArrayTest.  # noqa: E501
+            ([([(int,)],)]): The array_array_of_integer of this ArrayTest.  # noqa: E501
         """
 
-        self.__setitem__('array_array_of_integer', array_array_of_integer)
+        self.__setitem__(
+            'array_array_of_integer',
+            array_array_of_integer
+        )
 
     @property
     def array_array_of_model(self):
@@ -160,20 +168,24 @@ class ArrayTest(object):
 
 
         Returns:
-            list[list[ReadOnlyFirst]]: The array_array_of_model of this ArrayTest.  # noqa: E501
+            ([([(ReadOnlyFirst,)],)]): The array_array_of_model of this ArrayTest.  # noqa: E501
         """
         return self._data_store.get('array_array_of_model')
 
     @array_array_of_model.setter
-    def array_array_of_model(self, array_array_of_model):
+    def array_array_of_model(
+            self, array_array_of_model):
         """Sets the array_array_of_model of this ArrayTest.
 
 
         Returns:
-            list[list[ReadOnlyFirst]]: The array_array_of_model of this ArrayTest.  # noqa: E501
+            ([([(ReadOnlyFirst,)],)]): The array_array_of_model of this ArrayTest.  # noqa: E501
         """
 
-        self.__setitem__('array_array_of_model', array_array_of_model)
+        self.__setitem__(
+            'array_array_of_model',
+            array_array_of_model
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

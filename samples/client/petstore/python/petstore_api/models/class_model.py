@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -46,10 +46,10 @@ class ClassModel(object):
                             additional properties.
     """
     openapi_types = {
-        '_class': (str,)
+        '_class': [str]  # noqa: E501
     }
     attribute_map = {
-        '_class': '_class'
+        '_class': '_class'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -62,7 +62,7 @@ class ClassModel(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            _class (str): [optional]
+            _class (str): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -111,20 +111,24 @@ class ClassModel(object):
 
 
         Returns:
-            str: The _class of this ClassModel.  # noqa: E501
+            (str): The _class of this ClassModel.  # noqa: E501
         """
         return self._data_store.get('_class')
 
     @_class.setter
-    def _class(self, _class):
+    def _class(
+            self, _class):
         """Sets the _class of this ClassModel.
 
 
         Returns:
-            str: The _class of this ClassModel.  # noqa: E501
+            (str): The _class of this ClassModel.  # noqa: E501
         """
 
-        self.__setitem__('_class', _class)
+        self.__setitem__(
+            '_class',
+            _class
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

@@ -46,7 +46,7 @@ class SpecialModelName(object):
                             additional properties.
     """
     openapi_types = {
-        'special_property_name': (int,)  # noqa: E501
+        'special_property_name': [int]  # noqa: E501
     }
     attribute_map = {
         'special_property_name': '$special[property.name]'  # noqa: E501
@@ -111,7 +111,7 @@ class SpecialModelName(object):
 
 
         Returns:
-            int: The special_property_name of this SpecialModelName.  # noqa: E501
+            (int): The special_property_name of this SpecialModelName.  # noqa: E501
         """
         return self._data_store.get('special_property_name')
 
@@ -122,7 +122,7 @@ class SpecialModelName(object):
 
 
         Returns:
-            int: The special_property_name of this SpecialModelName.  # noqa: E501
+            (int): The special_property_name of this SpecialModelName.  # noqa: E501
         """
 
         self.__setitem__(

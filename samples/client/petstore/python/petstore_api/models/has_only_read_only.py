@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -46,12 +46,12 @@ class HasOnlyReadOnly(object):
                             additional properties.
     """
     openapi_types = {
-        'bar': (str,),
-        'foo': (str,)
+        'bar': [str],  # noqa: E501
+        'foo': [str]  # noqa: E501
     }
     attribute_map = {
-        'bar': 'bar',
-        'foo': 'foo'
+        'bar': 'bar',  # noqa: E501
+        'foo': 'foo'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -64,8 +64,8 @@ class HasOnlyReadOnly(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            bar (str): [optional]
-            foo (str): [optional]
+            bar (str): [optional]  # noqa: E501
+            foo (str): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -114,20 +114,24 @@ class HasOnlyReadOnly(object):
 
 
         Returns:
-            str: The bar of this HasOnlyReadOnly.  # noqa: E501
+            (str): The bar of this HasOnlyReadOnly.  # noqa: E501
         """
         return self._data_store.get('bar')
 
     @bar.setter
-    def bar(self, bar):
+    def bar(
+            self, bar):
         """Sets the bar of this HasOnlyReadOnly.
 
 
         Returns:
-            str: The bar of this HasOnlyReadOnly.  # noqa: E501
+            (str): The bar of this HasOnlyReadOnly.  # noqa: E501
         """
 
-        self.__setitem__('bar', bar)
+        self.__setitem__(
+            'bar',
+            bar
+        )
 
     @property
     def foo(self):
@@ -135,20 +139,24 @@ class HasOnlyReadOnly(object):
 
 
         Returns:
-            str: The foo of this HasOnlyReadOnly.  # noqa: E501
+            (str): The foo of this HasOnlyReadOnly.  # noqa: E501
         """
         return self._data_store.get('foo')
 
     @foo.setter
-    def foo(self, foo):
+    def foo(
+            self, foo):
         """Sets the foo of this HasOnlyReadOnly.
 
 
         Returns:
-            str: The foo of this HasOnlyReadOnly.  # noqa: E501
+            (str): The foo of this HasOnlyReadOnly.  # noqa: E501
         """
 
-        self.__setitem__('foo', foo)
+        self.__setitem__(
+            'foo',
+            foo
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

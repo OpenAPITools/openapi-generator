@@ -46,12 +46,12 @@ class Capitalization(object):
                             additional properties.
     """
     openapi_types = {
-        'small_camel': (str,),  # noqa: E501
-        'capital_camel': (str,),  # noqa: E501
-        'small_snake': (str,),  # noqa: E501
-        'capital_snake': (str,),  # noqa: E501
-        'sca_eth_flow_points': (str,),  # noqa: E501
-        'att_name': (str,)  # noqa: E501
+        'small_camel': [str],  # noqa: E501
+        'capital_camel': [str],  # noqa: E501
+        'small_snake': [str],  # noqa: E501
+        'capital_snake': [str],  # noqa: E501
+        'sca_eth_flow_points': [str],  # noqa: E501
+        'att_name': [str]  # noqa: E501
     }
     attribute_map = {
         'small_camel': 'smallCamel',  # noqa: E501
@@ -126,7 +126,7 @@ class Capitalization(object):
 
 
         Returns:
-            str: The small_camel of this Capitalization.  # noqa: E501
+            (str): The small_camel of this Capitalization.  # noqa: E501
         """
         return self._data_store.get('small_camel')
 
@@ -137,7 +137,7 @@ class Capitalization(object):
 
 
         Returns:
-            str: The small_camel of this Capitalization.  # noqa: E501
+            (str): The small_camel of this Capitalization.  # noqa: E501
         """
 
         self.__setitem__(
@@ -151,7 +151,7 @@ class Capitalization(object):
 
 
         Returns:
-            str: The capital_camel of this Capitalization.  # noqa: E501
+            (str): The capital_camel of this Capitalization.  # noqa: E501
         """
         return self._data_store.get('capital_camel')
 
@@ -162,7 +162,7 @@ class Capitalization(object):
 
 
         Returns:
-            str: The capital_camel of this Capitalization.  # noqa: E501
+            (str): The capital_camel of this Capitalization.  # noqa: E501
         """
 
         self.__setitem__(
@@ -176,7 +176,7 @@ class Capitalization(object):
 
 
         Returns:
-            str: The small_snake of this Capitalization.  # noqa: E501
+            (str): The small_snake of this Capitalization.  # noqa: E501
         """
         return self._data_store.get('small_snake')
 
@@ -187,7 +187,7 @@ class Capitalization(object):
 
 
         Returns:
-            str: The small_snake of this Capitalization.  # noqa: E501
+            (str): The small_snake of this Capitalization.  # noqa: E501
         """
 
         self.__setitem__(
@@ -201,7 +201,7 @@ class Capitalization(object):
 
 
         Returns:
-            str: The capital_snake of this Capitalization.  # noqa: E501
+            (str): The capital_snake of this Capitalization.  # noqa: E501
         """
         return self._data_store.get('capital_snake')
 
@@ -212,7 +212,7 @@ class Capitalization(object):
 
 
         Returns:
-            str: The capital_snake of this Capitalization.  # noqa: E501
+            (str): The capital_snake of this Capitalization.  # noqa: E501
         """
 
         self.__setitem__(
@@ -226,7 +226,7 @@ class Capitalization(object):
 
 
         Returns:
-            str: The sca_eth_flow_points of this Capitalization.  # noqa: E501
+            (str): The sca_eth_flow_points of this Capitalization.  # noqa: E501
         """
         return self._data_store.get('sca_eth_flow_points')
 
@@ -237,7 +237,7 @@ class Capitalization(object):
 
 
         Returns:
-            str: The sca_eth_flow_points of this Capitalization.  # noqa: E501
+            (str): The sca_eth_flow_points of this Capitalization.  # noqa: E501
         """
 
         self.__setitem__(
@@ -252,7 +252,7 @@ class Capitalization(object):
         Name of the pet   # noqa: E501
 
         Returns:
-            str: The att_name of this Capitalization.  # noqa: E501
+            (str): The att_name of this Capitalization.  # noqa: E501
         """
         return self._data_store.get('att_name')
 
@@ -264,7 +264,7 @@ class Capitalization(object):
         Name of the pet   # noqa: E501
 
         Returns:
-            str: The att_name of this Capitalization.  # noqa: E501
+            (str): The att_name of this Capitalization.  # noqa: E501
         """
 
         self.__setitem__(

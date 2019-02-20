@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -48,12 +48,12 @@ class AdditionalPropertiesBoolean(object):
                                         additional_properties variables only.
     """
     openapi_types = {
-        'name': (str,)
+        'name': [str]  # noqa: E501
     }
     attribute_map = {
-        'name': 'name'
+        'name': 'name'  # noqa: E501
     }
-    additional_properties_type = (bool,)
+    additional_properties_type = [bool]  # noqa: E501
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
         """AdditionalPropertiesBoolean - a model defined in OpenAPI
@@ -65,7 +65,7 @@ class AdditionalPropertiesBoolean(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            name (str): [optional]
+            name (str): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -118,20 +118,24 @@ class AdditionalPropertiesBoolean(object):
 
 
         Returns:
-            str: The name of this AdditionalPropertiesBoolean.  # noqa: E501
+            (str): The name of this AdditionalPropertiesBoolean.  # noqa: E501
         """
         return self._data_store.get('name')
 
     @name.setter
-    def name(self, name):
+    def name(
+            self, name):
         """Sets the name of this AdditionalPropertiesBoolean.
 
 
         Returns:
-            str: The name of this AdditionalPropertiesBoolean.  # noqa: E501
+            (str): The name of this AdditionalPropertiesBoolean.  # noqa: E501
         """
 
-        self.__setitem__('name', name)
+        self.__setitem__(
+            'name',
+            name
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

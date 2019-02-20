@@ -47,9 +47,9 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
                             additional properties.
     """
     openapi_types = {
-        'uuid': (str,),  # noqa: E501
-        'date_time': (datetime,),  # noqa: E501
-        'map': ({str: (Animal,)},)  # noqa: E501
+        'uuid': [str],  # noqa: E501
+        'date_time': [datetime],  # noqa: E501
+        'map': [{str: (Animal,)}]  # noqa: E501
     }
     attribute_map = {
         'uuid': 'uuid',  # noqa: E501
@@ -69,7 +69,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
                                 Defaults to False
             uuid (str): [optional]  # noqa: E501
             date_time (datetime): [optional]  # noqa: E501
-            map (dict(str: Animal)): [optional]  # noqa: E501
+            map ({str: (Animal,)}): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -118,7 +118,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         Returns:
-            str: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
+            (str): The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('uuid')
 
@@ -129,7 +129,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         Returns:
-            str: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
+            (str): The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__(
@@ -143,7 +143,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         Returns:
-            datetime: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
+            (datetime): The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('date_time')
 
@@ -154,7 +154,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         Returns:
-            datetime: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
+            (datetime): The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__(
@@ -168,7 +168,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         Returns:
-            dict(str: Animal): The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
+            ({str: (Animal,)}): The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('map')
 
@@ -179,7 +179,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         Returns:
-            dict(str: Animal): The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
+            ({str: (Animal,)}): The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__(

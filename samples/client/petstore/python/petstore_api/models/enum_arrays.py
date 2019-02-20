@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -46,12 +46,12 @@ class EnumArrays(object):
                             additional properties.
     """
     openapi_types = {
-        'just_symbol': (str,),
-        'array_enum': ([(str,)],)
+        'just_symbol': [str],  # noqa: E501
+        'array_enum': [[(str,)]]  # noqa: E501
     }
     attribute_map = {
-        'just_symbol': 'just_symbol',
-        'array_enum': 'array_enum'
+        'just_symbol': 'just_symbol',  # noqa: E501
+        'array_enum': 'array_enum'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -64,8 +64,8 @@ class EnumArrays(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            just_symbol (str): [optional]
-            array_enum (list[str]): [optional]
+            just_symbol (str): [optional]  # noqa: E501
+            array_enum ([(str,)]): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -114,17 +114,18 @@ class EnumArrays(object):
 
 
         Returns:
-            str: The just_symbol of this EnumArrays.  # noqa: E501
+            (str): The just_symbol of this EnumArrays.  # noqa: E501
         """
         return self._data_store.get('just_symbol')
 
     @just_symbol.setter
-    def just_symbol(self, just_symbol):
+    def just_symbol(
+            self, just_symbol):
         """Sets the just_symbol of this EnumArrays.
 
 
         Returns:
-            str: The just_symbol of this EnumArrays.  # noqa: E501
+            (str): The just_symbol of this EnumArrays.  # noqa: E501
         """
         allowed_values = [">=", "$"]  # noqa: E501
         if just_symbol not in allowed_values:
@@ -133,7 +134,10 @@ class EnumArrays(object):
                 .format(just_symbol, allowed_values)
             )
 
-        self.__setitem__('just_symbol', just_symbol)
+        self.__setitem__(
+            'just_symbol',
+            just_symbol
+        )
 
     @property
     def array_enum(self):
@@ -141,17 +145,18 @@ class EnumArrays(object):
 
 
         Returns:
-            list[str]: The array_enum of this EnumArrays.  # noqa: E501
+            ([(str,)]): The array_enum of this EnumArrays.  # noqa: E501
         """
         return self._data_store.get('array_enum')
 
     @array_enum.setter
-    def array_enum(self, array_enum):
+    def array_enum(
+            self, array_enum):
         """Sets the array_enum of this EnumArrays.
 
 
         Returns:
-            list[str]: The array_enum of this EnumArrays.  # noqa: E501
+            ([(str,)]): The array_enum of this EnumArrays.  # noqa: E501
         """
         allowed_values = ["fish", "crab"]  # noqa: E501
         if not set(array_enum).issubset(set(allowed_values)):
@@ -161,7 +166,10 @@ class EnumArrays(object):
                         ", ".join(map(str, allowed_values)))
             )
 
-        self.__setitem__('array_enum', array_enum)
+        self.__setitem__(
+            'array_enum',
+            array_enum
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

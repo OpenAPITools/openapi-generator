@@ -48,12 +48,12 @@ class Pet(object):
                             additional properties.
     """
     openapi_types = {
-        'id': (int,),  # noqa: E501
-        'category': (Category,),  # noqa: E501
-        'name': (str,),  # noqa: E501
-        'photo_urls': ([(str,)],),  # noqa: E501
-        'tags': ([(Tag,)],),  # noqa: E501
-        'status': (str,)  # noqa: E501
+        'id': [int],  # noqa: E501
+        'category': [Category],  # noqa: E501
+        'name': [str],  # noqa: E501
+        'photo_urls': [[(str,)]],  # noqa: E501
+        'tags': [[(Tag,)]],  # noqa: E501
+        'status': [str]  # noqa: E501
     }
     attribute_map = {
         'id': 'id',  # noqa: E501
@@ -68,7 +68,7 @@ class Pet(object):
         """Pet - a model defined in OpenAPI
 
         Args:
-            photo_urls (list[str]):
+            photo_urls ([(str,)]):
             name (str): defaults to 'doggie', must be one of ['doggie']  # noqa: E501
 
         Keyword Args:
@@ -78,7 +78,7 @@ class Pet(object):
                                 Defaults to False
             id (int): [optional]  # noqa: E501
             category (Category): [optional]  # noqa: E501
-            tags (list[Tag]): [optional]  # noqa: E501
+            tags ([(Tag,)]): [optional]  # noqa: E501
             status (str): pet status in the store. [optional]  # noqa: E501
         """
 
@@ -131,7 +131,7 @@ class Pet(object):
 
 
         Returns:
-            int: The id of this Pet.  # noqa: E501
+            (int): The id of this Pet.  # noqa: E501
         """
         return self._data_store.get('id')
 
@@ -142,7 +142,7 @@ class Pet(object):
 
 
         Returns:
-            int: The id of this Pet.  # noqa: E501
+            (int): The id of this Pet.  # noqa: E501
         """
 
         self.__setitem__(
@@ -156,7 +156,7 @@ class Pet(object):
 
 
         Returns:
-            Category: The category of this Pet.  # noqa: E501
+            (Category): The category of this Pet.  # noqa: E501
         """
         return self._data_store.get('category')
 
@@ -167,7 +167,7 @@ class Pet(object):
 
 
         Returns:
-            Category: The category of this Pet.  # noqa: E501
+            (Category): The category of this Pet.  # noqa: E501
         """
 
         self.__setitem__(
@@ -181,7 +181,7 @@ class Pet(object):
 
 
         Returns:
-            str: The name of this Pet.  # noqa: E501
+            (str): The name of this Pet.  # noqa: E501
         """
         return self._data_store.get('name')
 
@@ -192,7 +192,7 @@ class Pet(object):
 
 
         Returns:
-            str: The name of this Pet.  # noqa: E501
+            (str): The name of this Pet.  # noqa: E501
         """
         if name is None:
             raise ApiValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
@@ -208,7 +208,7 @@ class Pet(object):
 
 
         Returns:
-            list[str]: The photo_urls of this Pet.  # noqa: E501
+            ([(str,)]): The photo_urls of this Pet.  # noqa: E501
         """
         return self._data_store.get('photo_urls')
 
@@ -219,7 +219,7 @@ class Pet(object):
 
 
         Returns:
-            list[str]: The photo_urls of this Pet.  # noqa: E501
+            ([(str,)]): The photo_urls of this Pet.  # noqa: E501
         """
         if photo_urls is None:
             raise ApiValueError("Invalid value for `photo_urls`, must not be `None`")  # noqa: E501
@@ -235,7 +235,7 @@ class Pet(object):
 
 
         Returns:
-            list[Tag]: The tags of this Pet.  # noqa: E501
+            ([(Tag,)]): The tags of this Pet.  # noqa: E501
         """
         return self._data_store.get('tags')
 
@@ -246,7 +246,7 @@ class Pet(object):
 
 
         Returns:
-            list[Tag]: The tags of this Pet.  # noqa: E501
+            ([(Tag,)]): The tags of this Pet.  # noqa: E501
         """
 
         self.__setitem__(
@@ -261,7 +261,7 @@ class Pet(object):
         pet status in the store  # noqa: E501
 
         Returns:
-            str: The status of this Pet.  # noqa: E501
+            (str): The status of this Pet.  # noqa: E501
         """
         return self._data_store.get('status')
 
@@ -273,7 +273,7 @@ class Pet(object):
         pet status in the store  # noqa: E501
 
         Returns:
-            str: The status of this Pet.  # noqa: E501
+            (str): The status of this Pet.  # noqa: E501
         """
         allowed_values = ["available", "pending", "sold"]  # noqa: E501
         if status not in allowed_values:

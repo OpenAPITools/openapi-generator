@@ -46,8 +46,8 @@ class EnumArrays(object):
                             additional properties.
     """
     openapi_types = {
-        'just_symbol': (str,),  # noqa: E501
-        'array_enum': ([(str,)],)  # noqa: E501
+        'just_symbol': [str],  # noqa: E501
+        'array_enum': [[(str,)]]  # noqa: E501
     }
     attribute_map = {
         'just_symbol': 'just_symbol',  # noqa: E501
@@ -65,7 +65,7 @@ class EnumArrays(object):
                                 raised if the wrong type is input.
                                 Defaults to False
             just_symbol (str): [optional]  # noqa: E501
-            array_enum (list[str]): [optional]  # noqa: E501
+            array_enum ([(str,)]): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -114,7 +114,7 @@ class EnumArrays(object):
 
 
         Returns:
-            str: The just_symbol of this EnumArrays.  # noqa: E501
+            (str): The just_symbol of this EnumArrays.  # noqa: E501
         """
         return self._data_store.get('just_symbol')
 
@@ -125,7 +125,7 @@ class EnumArrays(object):
 
 
         Returns:
-            str: The just_symbol of this EnumArrays.  # noqa: E501
+            (str): The just_symbol of this EnumArrays.  # noqa: E501
         """
         allowed_values = [">=", "$"]  # noqa: E501
         if just_symbol not in allowed_values:
@@ -145,7 +145,7 @@ class EnumArrays(object):
 
 
         Returns:
-            list[str]: The array_enum of this EnumArrays.  # noqa: E501
+            ([(str,)]): The array_enum of this EnumArrays.  # noqa: E501
         """
         return self._data_store.get('array_enum')
 
@@ -156,7 +156,7 @@ class EnumArrays(object):
 
 
         Returns:
-            list[str]: The array_enum of this EnumArrays.  # noqa: E501
+            ([(str,)]): The array_enum of this EnumArrays.  # noqa: E501
         """
         allowed_values = ["fish", "crab"]  # noqa: E501
         if not set(array_enum).issubset(set(allowed_values)):

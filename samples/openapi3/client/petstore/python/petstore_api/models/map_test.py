@@ -46,10 +46,10 @@ class MapTest(object):
                             additional properties.
     """
     openapi_types = {
-        'map_map_of_string': ({str: ({str: (str,)},)},),  # noqa: E501
-        'map_of_enum_string': ({str: (str,)},),  # noqa: E501
-        'direct_map': ({str: (bool,)},),  # noqa: E501
-        'indirect_map': ({str: (bool,)},)  # noqa: E501
+        'map_map_of_string': [{str: ({str: (str,)},)}],  # noqa: E501
+        'map_of_enum_string': [{str: (str,)}],  # noqa: E501
+        'direct_map': [{str: (bool,)}],  # noqa: E501
+        'indirect_map': [{str: (bool,)}]  # noqa: E501
     }
     attribute_map = {
         'map_map_of_string': 'map_map_of_string',  # noqa: E501
@@ -68,10 +68,10 @@ class MapTest(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            map_map_of_string (dict(str: dict(str: str))): [optional]  # noqa: E501
-            map_of_enum_string (dict(str: str)): [optional]  # noqa: E501
-            direct_map (dict(str: bool)): [optional]  # noqa: E501
-            indirect_map (dict(str: bool)): [optional]  # noqa: E501
+            map_map_of_string ({str: ({str: (str,)},)}): [optional]  # noqa: E501
+            map_of_enum_string ({str: (str,)}): [optional]  # noqa: E501
+            direct_map ({str: (bool,)}): [optional]  # noqa: E501
+            indirect_map ({str: (bool,)}): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -120,7 +120,7 @@ class MapTest(object):
 
 
         Returns:
-            dict(str: dict(str: str)): The map_map_of_string of this MapTest.  # noqa: E501
+            ({str: ({str: (str,)},)}): The map_map_of_string of this MapTest.  # noqa: E501
         """
         return self._data_store.get('map_map_of_string')
 
@@ -131,7 +131,7 @@ class MapTest(object):
 
 
         Returns:
-            dict(str: dict(str: str)): The map_map_of_string of this MapTest.  # noqa: E501
+            ({str: ({str: (str,)},)}): The map_map_of_string of this MapTest.  # noqa: E501
         """
 
         self.__setitem__(
@@ -145,7 +145,7 @@ class MapTest(object):
 
 
         Returns:
-            dict(str: str): The map_of_enum_string of this MapTest.  # noqa: E501
+            ({str: (str,)}): The map_of_enum_string of this MapTest.  # noqa: E501
         """
         return self._data_store.get('map_of_enum_string')
 
@@ -156,7 +156,7 @@ class MapTest(object):
 
 
         Returns:
-            dict(str: str): The map_of_enum_string of this MapTest.  # noqa: E501
+            ({str: (str,)}): The map_of_enum_string of this MapTest.  # noqa: E501
         """
         allowed_values = ["UPPER", "lower"]  # noqa: E501
         if not set(map_of_enum_string.keys()).issubset(set(allowed_values)):
@@ -177,7 +177,7 @@ class MapTest(object):
 
 
         Returns:
-            dict(str: bool): The direct_map of this MapTest.  # noqa: E501
+            ({str: (bool,)}): The direct_map of this MapTest.  # noqa: E501
         """
         return self._data_store.get('direct_map')
 
@@ -188,7 +188,7 @@ class MapTest(object):
 
 
         Returns:
-            dict(str: bool): The direct_map of this MapTest.  # noqa: E501
+            ({str: (bool,)}): The direct_map of this MapTest.  # noqa: E501
         """
 
         self.__setitem__(
@@ -202,7 +202,7 @@ class MapTest(object):
 
 
         Returns:
-            dict(str: bool): The indirect_map of this MapTest.  # noqa: E501
+            ({str: (bool,)}): The indirect_map of this MapTest.  # noqa: E501
         """
         return self._data_store.get('indirect_map')
 
@@ -213,7 +213,7 @@ class MapTest(object):
 
 
         Returns:
-            dict(str: bool): The indirect_map of this MapTest.  # noqa: E501
+            ({str: (bool,)}): The indirect_map of this MapTest.  # noqa: E501
         """
 
         self.__setitem__(

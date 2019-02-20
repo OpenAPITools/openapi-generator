@@ -46,10 +46,10 @@ class Name(object):
                             additional properties.
     """
     openapi_types = {
-        'name': (int,),  # noqa: E501
-        'snake_case': (int,),  # noqa: E501
-        '_property': (str,),  # noqa: E501
-        '_123_number': (int,)  # noqa: E501
+        'name': [int],  # noqa: E501
+        'snake_case': [int],  # noqa: E501
+        '_property': [str],  # noqa: E501
+        '_123_number': [int]  # noqa: E501
     }
     attribute_map = {
         'name': 'name',  # noqa: E501
@@ -122,7 +122,7 @@ class Name(object):
 
 
         Returns:
-            int: The name of this Name.  # noqa: E501
+            (int): The name of this Name.  # noqa: E501
         """
         return self._data_store.get('name')
 
@@ -133,7 +133,7 @@ class Name(object):
 
 
         Returns:
-            int: The name of this Name.  # noqa: E501
+            (int): The name of this Name.  # noqa: E501
         """
         if name is None:
             raise ApiValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
@@ -149,7 +149,7 @@ class Name(object):
 
 
         Returns:
-            int: The snake_case of this Name.  # noqa: E501
+            (int): The snake_case of this Name.  # noqa: E501
         """
         return self._data_store.get('snake_case')
 
@@ -160,7 +160,7 @@ class Name(object):
 
 
         Returns:
-            int: The snake_case of this Name.  # noqa: E501
+            (int): The snake_case of this Name.  # noqa: E501
         """
 
         self.__setitem__(
@@ -174,7 +174,7 @@ class Name(object):
 
 
         Returns:
-            str: The _property of this Name.  # noqa: E501
+            (str): The _property of this Name.  # noqa: E501
         """
         return self._data_store.get('_property')
 
@@ -185,7 +185,7 @@ class Name(object):
 
 
         Returns:
-            str: The _property of this Name.  # noqa: E501
+            (str): The _property of this Name.  # noqa: E501
         """
 
         self.__setitem__(
@@ -199,7 +199,7 @@ class Name(object):
 
 
         Returns:
-            int: The _123_number of this Name.  # noqa: E501
+            (int): The _123_number of this Name.  # noqa: E501
         """
         return self._data_store.get('_123_number')
 
@@ -210,7 +210,7 @@ class Name(object):
 
 
         Returns:
-            int: The _123_number of this Name.  # noqa: E501
+            (int): The _123_number of this Name.  # noqa: E501
         """
 
         self.__setitem__(

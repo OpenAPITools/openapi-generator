@@ -46,8 +46,8 @@ class AdditionalPropertiesClass(object):
                             additional properties.
     """
     openapi_types = {
-        'map_property': ({str: (str,)},),  # noqa: E501
-        'map_of_map_property': ({str: ({str: (str,)},)},)  # noqa: E501
+        'map_property': [{str: (str,)}],  # noqa: E501
+        'map_of_map_property': [{str: ({str: (str,)},)}]  # noqa: E501
     }
     attribute_map = {
         'map_property': 'map_property',  # noqa: E501
@@ -64,8 +64,8 @@ class AdditionalPropertiesClass(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            map_property (dict(str: str)): [optional]  # noqa: E501
-            map_of_map_property (dict(str: dict(str: str))): [optional]  # noqa: E501
+            map_property ({str: (str,)}): [optional]  # noqa: E501
+            map_of_map_property ({str: ({str: (str,)},)}): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -114,7 +114,7 @@ class AdditionalPropertiesClass(object):
 
 
         Returns:
-            dict(str: str): The map_property of this AdditionalPropertiesClass.  # noqa: E501
+            ({str: (str,)}): The map_property of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('map_property')
 
@@ -125,7 +125,7 @@ class AdditionalPropertiesClass(object):
 
 
         Returns:
-            dict(str: str): The map_property of this AdditionalPropertiesClass.  # noqa: E501
+            ({str: (str,)}): The map_property of this AdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__(
@@ -139,7 +139,7 @@ class AdditionalPropertiesClass(object):
 
 
         Returns:
-            dict(str: dict(str: str)): The map_of_map_property of this AdditionalPropertiesClass.  # noqa: E501
+            ({str: ({str: (str,)},)}): The map_of_map_property of this AdditionalPropertiesClass.  # noqa: E501
         """
         return self._data_store.get('map_of_map_property')
 
@@ -150,7 +150,7 @@ class AdditionalPropertiesClass(object):
 
 
         Returns:
-            dict(str: dict(str: str)): The map_of_map_property of this AdditionalPropertiesClass.  # noqa: E501
+            ({str: ({str: (str,)},)}): The map_of_map_property of this AdditionalPropertiesClass.  # noqa: E501
         """
 
         self.__setitem__(

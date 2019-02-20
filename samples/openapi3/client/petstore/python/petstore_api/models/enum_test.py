@@ -47,11 +47,11 @@ class EnumTest(object):
                             additional properties.
     """
     openapi_types = {
-        'enum_string': (str,),  # noqa: E501
-        'enum_string_required': (str,),  # noqa: E501
-        'enum_integer': (int,),  # noqa: E501
-        'enum_number': (float,),  # noqa: E501
-        'outer_enum': (OuterEnum,)  # noqa: E501
+        'enum_string': [str],  # noqa: E501
+        'enum_string_required': [str],  # noqa: E501
+        'enum_integer': [int],  # noqa: E501
+        'enum_number': [float],  # noqa: E501
+        'outer_enum': [OuterEnum]  # noqa: E501
     }
     attribute_map = {
         'enum_string': 'enum_string',  # noqa: E501
@@ -126,7 +126,7 @@ class EnumTest(object):
 
 
         Returns:
-            str: The enum_string of this EnumTest.  # noqa: E501
+            (str): The enum_string of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('enum_string')
 
@@ -137,7 +137,7 @@ class EnumTest(object):
 
 
         Returns:
-            str: The enum_string of this EnumTest.  # noqa: E501
+            (str): The enum_string of this EnumTest.  # noqa: E501
         """
         allowed_values = ["UPPER", "lower", ""]  # noqa: E501
         if enum_string not in allowed_values:
@@ -157,7 +157,7 @@ class EnumTest(object):
 
 
         Returns:
-            str: The enum_string_required of this EnumTest.  # noqa: E501
+            (str): The enum_string_required of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('enum_string_required')
 
@@ -168,7 +168,7 @@ class EnumTest(object):
 
 
         Returns:
-            str: The enum_string_required of this EnumTest.  # noqa: E501
+            (str): The enum_string_required of this EnumTest.  # noqa: E501
         """
         if enum_string_required is None:
             raise ApiValueError("Invalid value for `enum_string_required`, must not be `None`")  # noqa: E501
@@ -190,7 +190,7 @@ class EnumTest(object):
 
 
         Returns:
-            int: The enum_integer of this EnumTest.  # noqa: E501
+            (int): The enum_integer of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('enum_integer')
 
@@ -201,7 +201,7 @@ class EnumTest(object):
 
 
         Returns:
-            int: The enum_integer of this EnumTest.  # noqa: E501
+            (int): The enum_integer of this EnumTest.  # noqa: E501
         """
         allowed_values = [1, -1]  # noqa: E501
         if enum_integer not in allowed_values:
@@ -221,7 +221,7 @@ class EnumTest(object):
 
 
         Returns:
-            float: The enum_number of this EnumTest.  # noqa: E501
+            (float): The enum_number of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('enum_number')
 
@@ -232,7 +232,7 @@ class EnumTest(object):
 
 
         Returns:
-            float: The enum_number of this EnumTest.  # noqa: E501
+            (float): The enum_number of this EnumTest.  # noqa: E501
         """
         allowed_values = [1.1, -1.2]  # noqa: E501
         if enum_number not in allowed_values:
@@ -252,7 +252,7 @@ class EnumTest(object):
 
 
         Returns:
-            OuterEnum: The outer_enum of this EnumTest.  # noqa: E501
+            (OuterEnum): The outer_enum of this EnumTest.  # noqa: E501
         """
         return self._data_store.get('outer_enum')
 
@@ -263,7 +263,7 @@ class EnumTest(object):
 
 
         Returns:
-            OuterEnum: The outer_enum of this EnumTest.  # noqa: E501
+            (OuterEnum): The outer_enum of this EnumTest.  # noqa: E501
         """
 
         self.__setitem__(

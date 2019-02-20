@@ -46,9 +46,9 @@ class OuterComposite(object):
                             additional properties.
     """
     openapi_types = {
-        'my_number': (float,),  # noqa: E501
-        'my_string': (str,),  # noqa: E501
-        'my_boolean': (bool,)  # noqa: E501
+        'my_number': [float],  # noqa: E501
+        'my_string': [str],  # noqa: E501
+        'my_boolean': [bool]  # noqa: E501
     }
     attribute_map = {
         'my_number': 'my_number',  # noqa: E501
@@ -117,7 +117,7 @@ class OuterComposite(object):
 
 
         Returns:
-            float: The my_number of this OuterComposite.  # noqa: E501
+            (float): The my_number of this OuterComposite.  # noqa: E501
         """
         return self._data_store.get('my_number')
 
@@ -128,7 +128,7 @@ class OuterComposite(object):
 
 
         Returns:
-            float: The my_number of this OuterComposite.  # noqa: E501
+            (float): The my_number of this OuterComposite.  # noqa: E501
         """
 
         self.__setitem__(
@@ -142,7 +142,7 @@ class OuterComposite(object):
 
 
         Returns:
-            str: The my_string of this OuterComposite.  # noqa: E501
+            (str): The my_string of this OuterComposite.  # noqa: E501
         """
         return self._data_store.get('my_string')
 
@@ -153,7 +153,7 @@ class OuterComposite(object):
 
 
         Returns:
-            str: The my_string of this OuterComposite.  # noqa: E501
+            (str): The my_string of this OuterComposite.  # noqa: E501
         """
 
         self.__setitem__(
@@ -167,7 +167,7 @@ class OuterComposite(object):
 
 
         Returns:
-            bool: The my_boolean of this OuterComposite.  # noqa: E501
+            (bool): The my_boolean of this OuterComposite.  # noqa: E501
         """
         return self._data_store.get('my_boolean')
 
@@ -178,7 +178,7 @@ class OuterComposite(object):
 
 
         Returns:
-            bool: The my_boolean of this OuterComposite.  # noqa: E501
+            (bool): The my_boolean of this OuterComposite.  # noqa: E501
         """
 
         self.__setitem__(

@@ -47,7 +47,7 @@ class InlineResponseDefault(object):
                             additional properties.
     """
     openapi_types = {
-        'string': (Foo,)  # noqa: E501
+        'string': [Foo]  # noqa: E501
     }
     attribute_map = {
         'string': 'string'  # noqa: E501
@@ -112,7 +112,7 @@ class InlineResponseDefault(object):
 
 
         Returns:
-            Foo: The string of this InlineResponseDefault.  # noqa: E501
+            (Foo): The string of this InlineResponseDefault.  # noqa: E501
         """
         return self._data_store.get('string')
 
@@ -123,7 +123,7 @@ class InlineResponseDefault(object):
 
 
         Returns:
-            Foo: The string of this InlineResponseDefault.  # noqa: E501
+            (Foo): The string of this InlineResponseDefault.  # noqa: E501
         """
 
         self.__setitem__(

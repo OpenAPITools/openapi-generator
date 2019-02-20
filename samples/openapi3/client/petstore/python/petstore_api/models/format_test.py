@@ -46,21 +46,21 @@ class FormatTest(object):
                             additional properties.
     """
     openapi_types = {
-        'integer': (int,),  # noqa: E501
-        'int32': (int,),  # noqa: E501
-        'int64': (int,),  # noqa: E501
-        'number': (float,),  # noqa: E501
-        'float': (float,),  # noqa: E501
-        'double': (float,),  # noqa: E501
-        'string': (str,),  # noqa: E501
-        'byte': (str,),  # noqa: E501
-        'binary': (file_type,),  # noqa: E501
-        'date': (date,),  # noqa: E501
-        'date_time': (datetime,),  # noqa: E501
-        'uuid': (str,),  # noqa: E501
-        'password': (str,),  # noqa: E501
-        'pattern_with_digits': (str,),  # noqa: E501
-        'pattern_with_digits_and_delimiter': (str,)  # noqa: E501
+        'integer': [int],  # noqa: E501
+        'int32': [int],  # noqa: E501
+        'int64': [int],  # noqa: E501
+        'number': [float],  # noqa: E501
+        'float': [float],  # noqa: E501
+        'double': [float],  # noqa: E501
+        'string': [str],  # noqa: E501
+        'byte': [str],  # noqa: E501
+        'binary': [file_type],  # noqa: E501
+        'date': [date],  # noqa: E501
+        'date_time': [datetime],  # noqa: E501
+        'uuid': [str],  # noqa: E501
+        'password': [str],  # noqa: E501
+        'pattern_with_digits': [str],  # noqa: E501
+        'pattern_with_digits_and_delimiter': [str]  # noqa: E501
     }
     attribute_map = {
         'integer': 'integer',  # noqa: E501
@@ -100,7 +100,7 @@ class FormatTest(object):
             float (float): [optional]  # noqa: E501
             double (float): [optional]  # noqa: E501
             string (str): [optional]  # noqa: E501
-            binary (file): [optional]  # noqa: E501
+            binary (file_type): [optional]  # noqa: E501
             date_time (datetime): [optional]  # noqa: E501
             uuid (str): [optional]  # noqa: E501
             pattern_with_digits (str): A string that is a 10 digit number. Can have leading zeros.. [optional]  # noqa: E501
@@ -158,7 +158,7 @@ class FormatTest(object):
 
 
         Returns:
-            int: The integer of this FormatTest.  # noqa: E501
+            (int): The integer of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('integer')
 
@@ -169,7 +169,7 @@ class FormatTest(object):
 
 
         Returns:
-            int: The integer of this FormatTest.  # noqa: E501
+            (int): The integer of this FormatTest.  # noqa: E501
         """
         if integer is not None and integer > 100:  # noqa: E501
             raise ApiValueError("Invalid value for `integer`, must be a value less than or equal to `100`")  # noqa: E501
@@ -187,7 +187,7 @@ class FormatTest(object):
 
 
         Returns:
-            int: The int32 of this FormatTest.  # noqa: E501
+            (int): The int32 of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('int32')
 
@@ -198,7 +198,7 @@ class FormatTest(object):
 
 
         Returns:
-            int: The int32 of this FormatTest.  # noqa: E501
+            (int): The int32 of this FormatTest.  # noqa: E501
         """
         if int32 is not None and int32 > 200:  # noqa: E501
             raise ApiValueError("Invalid value for `int32`, must be a value less than or equal to `200`")  # noqa: E501
@@ -216,7 +216,7 @@ class FormatTest(object):
 
 
         Returns:
-            int: The int64 of this FormatTest.  # noqa: E501
+            (int): The int64 of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('int64')
 
@@ -227,7 +227,7 @@ class FormatTest(object):
 
 
         Returns:
-            int: The int64 of this FormatTest.  # noqa: E501
+            (int): The int64 of this FormatTest.  # noqa: E501
         """
 
         self.__setitem__(
@@ -241,7 +241,7 @@ class FormatTest(object):
 
 
         Returns:
-            float: The number of this FormatTest.  # noqa: E501
+            (float): The number of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('number')
 
@@ -252,7 +252,7 @@ class FormatTest(object):
 
 
         Returns:
-            float: The number of this FormatTest.  # noqa: E501
+            (float): The number of this FormatTest.  # noqa: E501
         """
         if number is None:
             raise ApiValueError("Invalid value for `number`, must not be `None`")  # noqa: E501
@@ -272,7 +272,7 @@ class FormatTest(object):
 
 
         Returns:
-            float: The float of this FormatTest.  # noqa: E501
+            (float): The float of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('float')
 
@@ -283,7 +283,7 @@ class FormatTest(object):
 
 
         Returns:
-            float: The float of this FormatTest.  # noqa: E501
+            (float): The float of this FormatTest.  # noqa: E501
         """
         if float is not None and float > 987.6:  # noqa: E501
             raise ApiValueError("Invalid value for `float`, must be a value less than or equal to `987.6`")  # noqa: E501
@@ -301,7 +301,7 @@ class FormatTest(object):
 
 
         Returns:
-            float: The double of this FormatTest.  # noqa: E501
+            (float): The double of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('double')
 
@@ -312,7 +312,7 @@ class FormatTest(object):
 
 
         Returns:
-            float: The double of this FormatTest.  # noqa: E501
+            (float): The double of this FormatTest.  # noqa: E501
         """
         if double is not None and double > 123.4:  # noqa: E501
             raise ApiValueError("Invalid value for `double`, must be a value less than or equal to `123.4`")  # noqa: E501
@@ -330,7 +330,7 @@ class FormatTest(object):
 
 
         Returns:
-            str: The string of this FormatTest.  # noqa: E501
+            (str): The string of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('string')
 
@@ -341,7 +341,7 @@ class FormatTest(object):
 
 
         Returns:
-            str: The string of this FormatTest.  # noqa: E501
+            (str): The string of this FormatTest.  # noqa: E501
         """
         if string is not None and not re.search(r'', string):  # noqa: E501
             raise ApiValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
@@ -357,7 +357,7 @@ class FormatTest(object):
 
 
         Returns:
-            str: The byte of this FormatTest.  # noqa: E501
+            (str): The byte of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('byte')
 
@@ -368,7 +368,7 @@ class FormatTest(object):
 
 
         Returns:
-            str: The byte of this FormatTest.  # noqa: E501
+            (str): The byte of this FormatTest.  # noqa: E501
         """
         if byte is None:
             raise ApiValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
@@ -384,7 +384,7 @@ class FormatTest(object):
 
 
         Returns:
-            file: The binary of this FormatTest.  # noqa: E501
+            (file_type): The binary of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('binary')
 
@@ -395,7 +395,7 @@ class FormatTest(object):
 
 
         Returns:
-            file: The binary of this FormatTest.  # noqa: E501
+            (file_type): The binary of this FormatTest.  # noqa: E501
         """
 
         self.__setitem__(
@@ -409,7 +409,7 @@ class FormatTest(object):
 
 
         Returns:
-            date: The date of this FormatTest.  # noqa: E501
+            (date): The date of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('date')
 
@@ -420,7 +420,7 @@ class FormatTest(object):
 
 
         Returns:
-            date: The date of this FormatTest.  # noqa: E501
+            (date): The date of this FormatTest.  # noqa: E501
         """
         if date is None:
             raise ApiValueError("Invalid value for `date`, must not be `None`")  # noqa: E501
@@ -436,7 +436,7 @@ class FormatTest(object):
 
 
         Returns:
-            datetime: The date_time of this FormatTest.  # noqa: E501
+            (datetime): The date_time of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('date_time')
 
@@ -447,7 +447,7 @@ class FormatTest(object):
 
 
         Returns:
-            datetime: The date_time of this FormatTest.  # noqa: E501
+            (datetime): The date_time of this FormatTest.  # noqa: E501
         """
 
         self.__setitem__(
@@ -461,7 +461,7 @@ class FormatTest(object):
 
 
         Returns:
-            str: The uuid of this FormatTest.  # noqa: E501
+            (str): The uuid of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('uuid')
 
@@ -472,7 +472,7 @@ class FormatTest(object):
 
 
         Returns:
-            str: The uuid of this FormatTest.  # noqa: E501
+            (str): The uuid of this FormatTest.  # noqa: E501
         """
 
         self.__setitem__(
@@ -486,7 +486,7 @@ class FormatTest(object):
 
 
         Returns:
-            str: The password of this FormatTest.  # noqa: E501
+            (str): The password of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('password')
 
@@ -497,7 +497,7 @@ class FormatTest(object):
 
 
         Returns:
-            str: The password of this FormatTest.  # noqa: E501
+            (str): The password of this FormatTest.  # noqa: E501
         """
         if password is None:
             raise ApiValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
@@ -518,7 +518,7 @@ class FormatTest(object):
         A string that is a 10 digit number. Can have leading zeros.  # noqa: E501
 
         Returns:
-            str: The pattern_with_digits of this FormatTest.  # noqa: E501
+            (str): The pattern_with_digits of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('pattern_with_digits')
 
@@ -530,7 +530,7 @@ class FormatTest(object):
         A string that is a 10 digit number. Can have leading zeros.  # noqa: E501
 
         Returns:
-            str: The pattern_with_digits of this FormatTest.  # noqa: E501
+            (str): The pattern_with_digits of this FormatTest.  # noqa: E501
         """
         if pattern_with_digits is not None and not re.search(r'', pattern_with_digits):  # noqa: E501
             raise ApiValueError(r"Invalid value for `pattern_with_digits`, must be a follow pattern or equal to `/^\d{10}$/`")  # noqa: E501
@@ -547,7 +547,7 @@ class FormatTest(object):
         A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.  # noqa: E501
 
         Returns:
-            str: The pattern_with_digits_and_delimiter of this FormatTest.  # noqa: E501
+            (str): The pattern_with_digits_and_delimiter of this FormatTest.  # noqa: E501
         """
         return self._data_store.get('pattern_with_digits_and_delimiter')
 
@@ -559,7 +559,7 @@ class FormatTest(object):
         A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.  # noqa: E501
 
         Returns:
-            str: The pattern_with_digits_and_delimiter of this FormatTest.  # noqa: E501
+            (str): The pattern_with_digits_and_delimiter of this FormatTest.  # noqa: E501
         """
         if pattern_with_digits_and_delimiter is not None and not re.search(r'', pattern_with_digits_and_delimiter):  # noqa: E501
             raise ApiValueError(r"Invalid value for `pattern_with_digits_and_delimiter`, must be a follow pattern or equal to `/^image_\d{1,3}$/i`")  # noqa: E501

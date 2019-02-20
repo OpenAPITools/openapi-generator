@@ -10,8 +10,7 @@
 """
 
 
-from datetime import date, datetime
-import re
+from datetime import date, datetime  # noqa: F401
 
 import six
 
@@ -20,7 +19,7 @@ if six.PY3:
     import io
     file_type = io.IOBase
 else:
-    file_type = file
+    file_type = file  # noqa: F821
 
 
 class OpenApiException(Exception):
@@ -33,14 +32,16 @@ class ApiTypeError(OpenApiException, TypeError):
         key_or_value = 'value'
         if not value_type:
             key_or_value = 'key'
-        msg = ("Invalid type for variable {0}. Required {1} type is {2} and "
-               "passed type was {3} at location={4}".format(
-               path_to_item[0],
-               key_or_value,
-               required_types,
-               type(current_item),
-               path_to_item
-               ))
+        msg = (
+            "Invalid type for variable {0}. Required {1} type is {2} and "
+            "passed type was {3} at location={4}".format(
+                path_to_item[0],
+                key_or_value,
+                required_types,
+                type(current_item),
+                path_to_item
+            )
+        )
         super(ApiTypeError, self).__init__(msg)
         self.path_to_item = path_to_item
         self.current_item = current_item
@@ -145,7 +146,8 @@ def model_to_dict(model_instance, serialize=True):
             ))
         elif isinstance(value, dict):
             result[attr] = dict(map(
-                lambda item: (item[0], model_to_dict(item[1], serialize=serialize))
+                lambda item: (item[0],
+                              model_to_dict(item[1], serialize=serialize))
                 if hasattr(item[1], '_data_store') else item,
                 value.items()
             ))

@@ -46,7 +46,7 @@ class NumberOnly(object):
                             additional properties.
     """
     openapi_types = {
-        'just_number': (float,)  # noqa: E501
+        'just_number': [float]  # noqa: E501
     }
     attribute_map = {
         'just_number': 'JustNumber'  # noqa: E501
@@ -111,7 +111,7 @@ class NumberOnly(object):
 
 
         Returns:
-            float: The just_number of this NumberOnly.  # noqa: E501
+            (float): The just_number of this NumberOnly.  # noqa: E501
         """
         return self._data_store.get('just_number')
 
@@ -122,7 +122,7 @@ class NumberOnly(object):
 
 
         Returns:
-            float: The just_number of this NumberOnly.  # noqa: E501
+            (float): The just_number of this NumberOnly.  # noqa: E501
         """
 
         self.__setitem__(

@@ -46,7 +46,7 @@ class File(object):
                             additional properties.
     """
     openapi_types = {
-        'source_uri': (str,)  # noqa: E501
+        'source_uri': [str]  # noqa: E501
     }
     attribute_map = {
         'source_uri': 'sourceURI'  # noqa: E501
@@ -112,7 +112,7 @@ class File(object):
         Test capitalization  # noqa: E501
 
         Returns:
-            str: The source_uri of this File.  # noqa: E501
+            (str): The source_uri of this File.  # noqa: E501
         """
         return self._data_store.get('source_uri')
 
@@ -124,7 +124,7 @@ class File(object):
         Test capitalization  # noqa: E501
 
         Returns:
-            str: The source_uri of this File.  # noqa: E501
+            (str): The source_uri of this File.  # noqa: E501
         """
 
         self.__setitem__(

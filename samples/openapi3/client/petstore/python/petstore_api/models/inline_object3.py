@@ -46,20 +46,20 @@ class InlineObject3(object):
                             additional properties.
     """
     openapi_types = {
-        'integer': (int,),  # noqa: E501
-        'int32': (int,),  # noqa: E501
-        'int64': (int,),  # noqa: E501
-        'number': (float,),  # noqa: E501
-        'float': (float,),  # noqa: E501
-        'double': (float,),  # noqa: E501
-        'string': (str,),  # noqa: E501
-        'pattern_without_delimiter': (str,),  # noqa: E501
-        'byte': (str,),  # noqa: E501
-        'binary': (file_type,),  # noqa: E501
-        'date': (date,),  # noqa: E501
-        'date_time': (datetime,),  # noqa: E501
-        'password': (str,),  # noqa: E501
-        'callback': (str,)  # noqa: E501
+        'integer': [int],  # noqa: E501
+        'int32': [int],  # noqa: E501
+        'int64': [int],  # noqa: E501
+        'number': [float],  # noqa: E501
+        'float': [float],  # noqa: E501
+        'double': [float],  # noqa: E501
+        'string': [str],  # noqa: E501
+        'pattern_without_delimiter': [str],  # noqa: E501
+        'byte': [str],  # noqa: E501
+        'binary': [file_type],  # noqa: E501
+        'date': [date],  # noqa: E501
+        'date_time': [datetime],  # noqa: E501
+        'password': [str],  # noqa: E501
+        'callback': [str]  # noqa: E501
     }
     attribute_map = {
         'integer': 'integer',  # noqa: E501
@@ -97,7 +97,7 @@ class InlineObject3(object):
             int64 (int): None. [optional]  # noqa: E501
             float (float): None. [optional]  # noqa: E501
             string (str): None. [optional]  # noqa: E501
-            binary (file): None. [optional]  # noqa: E501
+            binary (file_type): None. [optional]  # noqa: E501
             date (date): None. [optional]  # noqa: E501
             date_time (datetime): None. [optional]  # noqa: E501
             password (str): None. [optional]  # noqa: E501
@@ -156,7 +156,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            int: The integer of this InlineObject3.  # noqa: E501
+            (int): The integer of this InlineObject3.  # noqa: E501
         """
         return self._data_store.get('integer')
 
@@ -168,7 +168,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            int: The integer of this InlineObject3.  # noqa: E501
+            (int): The integer of this InlineObject3.  # noqa: E501
         """
         if integer is not None and integer > 100:  # noqa: E501
             raise ApiValueError("Invalid value for `integer`, must be a value less than or equal to `100`")  # noqa: E501
@@ -187,7 +187,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            int: The int32 of this InlineObject3.  # noqa: E501
+            (int): The int32 of this InlineObject3.  # noqa: E501
         """
         return self._data_store.get('int32')
 
@@ -199,7 +199,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            int: The int32 of this InlineObject3.  # noqa: E501
+            (int): The int32 of this InlineObject3.  # noqa: E501
         """
         if int32 is not None and int32 > 200:  # noqa: E501
             raise ApiValueError("Invalid value for `int32`, must be a value less than or equal to `200`")  # noqa: E501
@@ -218,7 +218,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            int: The int64 of this InlineObject3.  # noqa: E501
+            (int): The int64 of this InlineObject3.  # noqa: E501
         """
         return self._data_store.get('int64')
 
@@ -230,7 +230,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            int: The int64 of this InlineObject3.  # noqa: E501
+            (int): The int64 of this InlineObject3.  # noqa: E501
         """
 
         self.__setitem__(
@@ -245,7 +245,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            float: The number of this InlineObject3.  # noqa: E501
+            (float): The number of this InlineObject3.  # noqa: E501
         """
         return self._data_store.get('number')
 
@@ -257,7 +257,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            float: The number of this InlineObject3.  # noqa: E501
+            (float): The number of this InlineObject3.  # noqa: E501
         """
         if number is None:
             raise ApiValueError("Invalid value for `number`, must not be `None`")  # noqa: E501
@@ -278,7 +278,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            float: The float of this InlineObject3.  # noqa: E501
+            (float): The float of this InlineObject3.  # noqa: E501
         """
         return self._data_store.get('float')
 
@@ -290,7 +290,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            float: The float of this InlineObject3.  # noqa: E501
+            (float): The float of this InlineObject3.  # noqa: E501
         """
         if float is not None and float > 987.6:  # noqa: E501
             raise ApiValueError("Invalid value for `float`, must be a value less than or equal to `987.6`")  # noqa: E501
@@ -307,7 +307,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            float: The double of this InlineObject3.  # noqa: E501
+            (float): The double of this InlineObject3.  # noqa: E501
         """
         return self._data_store.get('double')
 
@@ -319,7 +319,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            float: The double of this InlineObject3.  # noqa: E501
+            (float): The double of this InlineObject3.  # noqa: E501
         """
         if double is None:
             raise ApiValueError("Invalid value for `double`, must not be `None`")  # noqa: E501
@@ -340,7 +340,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            str: The string of this InlineObject3.  # noqa: E501
+            (str): The string of this InlineObject3.  # noqa: E501
         """
         return self._data_store.get('string')
 
@@ -352,7 +352,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            str: The string of this InlineObject3.  # noqa: E501
+            (str): The string of this InlineObject3.  # noqa: E501
         """
         if string is not None and not re.search(r'', string):  # noqa: E501
             raise ApiValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
@@ -369,7 +369,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            str: The pattern_without_delimiter of this InlineObject3.  # noqa: E501
+            (str): The pattern_without_delimiter of this InlineObject3.  # noqa: E501
         """
         return self._data_store.get('pattern_without_delimiter')
 
@@ -381,7 +381,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            str: The pattern_without_delimiter of this InlineObject3.  # noqa: E501
+            (str): The pattern_without_delimiter of this InlineObject3.  # noqa: E501
         """
         if pattern_without_delimiter is None:
             raise ApiValueError("Invalid value for `pattern_without_delimiter`, must not be `None`")  # noqa: E501
@@ -400,7 +400,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            str: The byte of this InlineObject3.  # noqa: E501
+            (str): The byte of this InlineObject3.  # noqa: E501
         """
         return self._data_store.get('byte')
 
@@ -412,7 +412,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            str: The byte of this InlineObject3.  # noqa: E501
+            (str): The byte of this InlineObject3.  # noqa: E501
         """
         if byte is None:
             raise ApiValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
@@ -429,7 +429,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            file: The binary of this InlineObject3.  # noqa: E501
+            (file_type): The binary of this InlineObject3.  # noqa: E501
         """
         return self._data_store.get('binary')
 
@@ -441,7 +441,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            file: The binary of this InlineObject3.  # noqa: E501
+            (file_type): The binary of this InlineObject3.  # noqa: E501
         """
 
         self.__setitem__(
@@ -456,7 +456,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            date: The date of this InlineObject3.  # noqa: E501
+            (date): The date of this InlineObject3.  # noqa: E501
         """
         return self._data_store.get('date')
 
@@ -468,7 +468,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            date: The date of this InlineObject3.  # noqa: E501
+            (date): The date of this InlineObject3.  # noqa: E501
         """
 
         self.__setitem__(
@@ -483,7 +483,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            datetime: The date_time of this InlineObject3.  # noqa: E501
+            (datetime): The date_time of this InlineObject3.  # noqa: E501
         """
         return self._data_store.get('date_time')
 
@@ -495,7 +495,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            datetime: The date_time of this InlineObject3.  # noqa: E501
+            (datetime): The date_time of this InlineObject3.  # noqa: E501
         """
 
         self.__setitem__(
@@ -510,7 +510,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            str: The password of this InlineObject3.  # noqa: E501
+            (str): The password of this InlineObject3.  # noqa: E501
         """
         return self._data_store.get('password')
 
@@ -522,7 +522,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            str: The password of this InlineObject3.  # noqa: E501
+            (str): The password of this InlineObject3.  # noqa: E501
         """
         if password is not None and len(password) > 64:
             raise ApiValueError("Invalid value for `password`, length must be less than or equal to `64`")  # noqa: E501
@@ -541,7 +541,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            str: The callback of this InlineObject3.  # noqa: E501
+            (str): The callback of this InlineObject3.  # noqa: E501
         """
         return self._data_store.get('callback')
 
@@ -553,7 +553,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         Returns:
-            str: The callback of this InlineObject3.  # noqa: E501
+            (str): The callback of this InlineObject3.  # noqa: E501
         """
 
         self.__setitem__(

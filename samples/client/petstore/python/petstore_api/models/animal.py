@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -46,12 +46,12 @@ class Animal(object):
                             additional properties.
     """
     openapi_types = {
-        'class_name': (str,),
-        'color': (str,)
+        'class_name': [str],  # noqa: E501
+        'color': [str]  # noqa: E501
     }
     attribute_map = {
-        'class_name': 'className',
-        'color': 'color'
+        'class_name': 'className',  # noqa: E501
+        'color': 'color'  # noqa: E501
     }
     discriminator_value_class_map = {
         'Dog': 'Dog',
@@ -69,7 +69,7 @@ class Animal(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            color (str): [optional] if omitted the server will use the default value of 'red'
+            color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
         """
 
         self._data_store = {}
@@ -120,22 +120,26 @@ class Animal(object):
 
 
         Returns:
-            str: The class_name of this Animal.  # noqa: E501
+            (str): The class_name of this Animal.  # noqa: E501
         """
         return self._data_store.get('class_name')
 
     @class_name.setter
-    def class_name(self, class_name):
+    def class_name(
+            self, class_name):
         """Sets the class_name of this Animal.
 
 
         Returns:
-            str: The class_name of this Animal.  # noqa: E501
+            (str): The class_name of this Animal.  # noqa: E501
         """
         if class_name is None:
             raise ApiValueError("Invalid value for `class_name`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('class_name', class_name)
+        self.__setitem__(
+            'class_name',
+            class_name
+        )
 
     @property
     def color(self):
@@ -143,20 +147,24 @@ class Animal(object):
 
 
         Returns:
-            str: The color of this Animal.  # noqa: E501
+            (str): The color of this Animal.  # noqa: E501
         """
         return self._data_store.get('color')
 
     @color.setter
-    def color(self, color):
+    def color(
+            self, color):
         """Sets the color of this Animal.
 
 
         Returns:
-            str: The color of this Animal.  # noqa: E501
+            (str): The color of this Animal.  # noqa: E501
         """
 
-        self.__setitem__('color', color)
+        self.__setitem__(
+            'color',
+            color
+        )
 
     def get_real_child_model(self, data):
         """Returns the real base class specified by the discriminator"""

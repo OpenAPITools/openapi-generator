@@ -18,6 +18,16 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
+from petstore_api.utils import (  # noqa: F401
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    none_type,
+    validate_type
+)
+from petstore_api.models.inline_response_default import InlineResponseDefault
 
 
 class DefaultApi(object):
@@ -32,7 +42,7 @@ class DefaultApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def foo_get(self, **kwargs):  # noqa: E501
+    def foo_get(self, _check_type=False, **kwargs):  # noqa: E501
         """foo_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -47,12 +57,12 @@ class DefaultApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.foo_get_with_http_info(**kwargs)  # noqa: E501
+            return self.foo_get_with_http_info(_check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.foo_get_with_http_info(**kwargs)  # noqa: E501
+            (data) = self.foo_get_with_http_info(_check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def foo_get_with_http_info(self, **kwargs):  # noqa: E501
+    def foo_get_with_http_info(self, _check_type=False, **kwargs):  # noqa: E501
         """foo_get  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -76,7 +86,7 @@ class DefaultApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method foo_get" % key
                 )
@@ -110,7 +120,7 @@ class DefaultApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='InlineResponseDefault',  # noqa: E501
+            response_type=[InlineResponseDefault],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

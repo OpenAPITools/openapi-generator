@@ -46,7 +46,7 @@ class ArrayOfNumberOnly(object):
                             additional properties.
     """
     openapi_types = {
-        'array_number': ([(float,)],)  # noqa: E501
+        'array_number': [[(float,)]]  # noqa: E501
     }
     attribute_map = {
         'array_number': 'ArrayNumber'  # noqa: E501
@@ -62,7 +62,7 @@ class ArrayOfNumberOnly(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            array_number (list[float]): [optional]  # noqa: E501
+            array_number ([(float,)]): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -111,7 +111,7 @@ class ArrayOfNumberOnly(object):
 
 
         Returns:
-            list[float]: The array_number of this ArrayOfNumberOnly.  # noqa: E501
+            ([(float,)]): The array_number of this ArrayOfNumberOnly.  # noqa: E501
         """
         return self._data_store.get('array_number')
 
@@ -122,7 +122,7 @@ class ArrayOfNumberOnly(object):
 
 
         Returns:
-            list[float]: The array_number of this ArrayOfNumberOnly.  # noqa: E501
+            ([(float,)]): The array_number of this ArrayOfNumberOnly.  # noqa: E501
         """
 
         self.__setitem__(

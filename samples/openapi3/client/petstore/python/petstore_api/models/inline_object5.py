@@ -46,8 +46,8 @@ class InlineObject5(object):
                             additional properties.
     """
     openapi_types = {
-        'additional_metadata': (str,),  # noqa: E501
-        'required_file': (file_type,)  # noqa: E501
+        'additional_metadata': [str],  # noqa: E501
+        'required_file': [file_type]  # noqa: E501
     }
     attribute_map = {
         'additional_metadata': 'additionalMetadata',  # noqa: E501
@@ -58,7 +58,7 @@ class InlineObject5(object):
         """InlineObject5 - a model defined in OpenAPI
 
         Args:
-            required_file (file): file to upload
+            required_file (file_type): file to upload
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -117,7 +117,7 @@ class InlineObject5(object):
         Additional data to pass to server  # noqa: E501
 
         Returns:
-            str: The additional_metadata of this InlineObject5.  # noqa: E501
+            (str): The additional_metadata of this InlineObject5.  # noqa: E501
         """
         return self._data_store.get('additional_metadata')
 
@@ -129,7 +129,7 @@ class InlineObject5(object):
         Additional data to pass to server  # noqa: E501
 
         Returns:
-            str: The additional_metadata of this InlineObject5.  # noqa: E501
+            (str): The additional_metadata of this InlineObject5.  # noqa: E501
         """
 
         self.__setitem__(
@@ -144,7 +144,7 @@ class InlineObject5(object):
         file to upload  # noqa: E501
 
         Returns:
-            file: The required_file of this InlineObject5.  # noqa: E501
+            (file_type): The required_file of this InlineObject5.  # noqa: E501
         """
         return self._data_store.get('required_file')
 
@@ -156,7 +156,7 @@ class InlineObject5(object):
         file to upload  # noqa: E501
 
         Returns:
-            file: The required_file of this InlineObject5.  # noqa: E501
+            (file_type): The required_file of this InlineObject5.  # noqa: E501
         """
         if required_file is None:
             raise ApiValueError("Invalid value for `required_file`, must not be `None`")  # noqa: E501

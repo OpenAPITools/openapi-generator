@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -46,12 +46,12 @@ class Model200Response(object):
                             additional properties.
     """
     openapi_types = {
-        'name': (int,),
-        '_class': (str,)
+        'name': [int],  # noqa: E501
+        '_class': [str]  # noqa: E501
     }
     attribute_map = {
-        'name': 'name',
-        '_class': 'class'
+        'name': 'name',  # noqa: E501
+        '_class': 'class'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -64,8 +64,8 @@ class Model200Response(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            name (int): [optional]
-            _class (str): [optional]
+            name (int): [optional]  # noqa: E501
+            _class (str): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -114,20 +114,24 @@ class Model200Response(object):
 
 
         Returns:
-            int: The name of this Model200Response.  # noqa: E501
+            (int): The name of this Model200Response.  # noqa: E501
         """
         return self._data_store.get('name')
 
     @name.setter
-    def name(self, name):
+    def name(
+            self, name):
         """Sets the name of this Model200Response.
 
 
         Returns:
-            int: The name of this Model200Response.  # noqa: E501
+            (int): The name of this Model200Response.  # noqa: E501
         """
 
-        self.__setitem__('name', name)
+        self.__setitem__(
+            'name',
+            name
+        )
 
     @property
     def _class(self):
@@ -135,20 +139,24 @@ class Model200Response(object):
 
 
         Returns:
-            str: The _class of this Model200Response.  # noqa: E501
+            (str): The _class of this Model200Response.  # noqa: E501
         """
         return self._data_store.get('_class')
 
     @_class.setter
-    def _class(self, _class):
+    def _class(
+            self, _class):
         """Sets the _class of this Model200Response.
 
 
         Returns:
-            str: The _class of this Model200Response.  # noqa: E501
+            (str): The _class of this Model200Response.  # noqa: E501
         """
 
-        self.__setitem__('_class', _class)
+        self.__setitem__(
+            '_class',
+            _class
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

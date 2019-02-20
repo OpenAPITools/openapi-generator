@@ -47,8 +47,8 @@ class FileSchemaTestClass(object):
                             additional properties.
     """
     openapi_types = {
-        'file': (File,),  # noqa: E501
-        'files': ([(File,)],)  # noqa: E501
+        'file': [File],  # noqa: E501
+        'files': [[(File,)]]  # noqa: E501
     }
     attribute_map = {
         'file': 'file',  # noqa: E501
@@ -66,7 +66,7 @@ class FileSchemaTestClass(object):
                                 raised if the wrong type is input.
                                 Defaults to False
             file (File): [optional]  # noqa: E501
-            files (list[File]): [optional]  # noqa: E501
+            files ([(File,)]): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -115,7 +115,7 @@ class FileSchemaTestClass(object):
 
 
         Returns:
-            File: The file of this FileSchemaTestClass.  # noqa: E501
+            (File): The file of this FileSchemaTestClass.  # noqa: E501
         """
         return self._data_store.get('file')
 
@@ -126,7 +126,7 @@ class FileSchemaTestClass(object):
 
 
         Returns:
-            File: The file of this FileSchemaTestClass.  # noqa: E501
+            (File): The file of this FileSchemaTestClass.  # noqa: E501
         """
 
         self.__setitem__(
@@ -140,7 +140,7 @@ class FileSchemaTestClass(object):
 
 
         Returns:
-            list[File]: The files of this FileSchemaTestClass.  # noqa: E501
+            ([(File,)]): The files of this FileSchemaTestClass.  # noqa: E501
         """
         return self._data_store.get('files')
 
@@ -151,7 +151,7 @@ class FileSchemaTestClass(object):
 
 
         Returns:
-            list[File]: The files of this FileSchemaTestClass.  # noqa: E501
+            ([(File,)]): The files of this FileSchemaTestClass.  # noqa: E501
         """
 
         self.__setitem__(

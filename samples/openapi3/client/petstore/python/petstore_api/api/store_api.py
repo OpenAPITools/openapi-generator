@@ -18,6 +18,16 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
+from petstore_api.utils import (  # noqa: F401
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    none_type,
+    validate_type
+)
+from petstore_api.models.order import Order
 
 
 class StoreApi(object):
@@ -32,7 +42,7 @@ class StoreApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def delete_order(self, order_id, **kwargs):  # noqa: E501
+    def delete_order(self, order_id, _check_type=False, **kwargs):  # noqa: E501
         """Delete purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
@@ -49,12 +59,12 @@ class StoreApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.delete_order_with_http_info(order_id, **kwargs)  # noqa: E501
+            return self.delete_order_with_http_info(order_id, _check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.delete_order_with_http_info(order_id, **kwargs)  # noqa: E501
+            (data) = self.delete_order_with_http_info(order_id, _check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def delete_order_with_http_info(self, order_id, **kwargs):  # noqa: E501
+    def delete_order_with_http_info(self, order_id, _check_type=False, **kwargs):  # noqa: E501
         """Delete purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
@@ -80,16 +90,25 @@ class StoreApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method delete_order" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+        data_types_by_param = {
+            'order_id': [str],
+        }
+
+        if _check_type:
+            for param_name, param_value in six.iteritems(local_var_params):
+                required_type = data_types_by_param.get(param_name)
+                if required_type:
+                    validate_type(param_value, required_type, [param_name])
         # verify the required parameter 'order_id' is set
         if ('order_id' not in local_var_params or
                 local_var_params['order_id'] is None):
-            raise ValueError("Missing the required parameter `order_id` when calling `delete_order`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `order_id` when calling `delete_order`")  # noqa: E501
 
         collection_formats = {}
 
@@ -124,7 +143,7 @@ class StoreApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_inventory(self, **kwargs):  # noqa: E501
+    def get_inventory(self, _check_type=False, **kwargs):  # noqa: E501
         """Returns pet inventories by status  # noqa: E501
 
         Returns a map of status codes to quantities  # noqa: E501
@@ -134,18 +153,18 @@ class StoreApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :return: dict(str, int)
+        :return: {str: (int,)}
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_inventory_with_http_info(**kwargs)  # noqa: E501
+            return self.get_inventory_with_http_info(_check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.get_inventory_with_http_info(**kwargs)  # noqa: E501
+            (data) = self.get_inventory_with_http_info(_check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def get_inventory_with_http_info(self, **kwargs):  # noqa: E501
+    def get_inventory_with_http_info(self, _check_type=False, **kwargs):  # noqa: E501
         """Returns pet inventories by status  # noqa: E501
 
         Returns a map of status codes to quantities  # noqa: E501
@@ -155,7 +174,7 @@ class StoreApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :return: dict(str, int)
+        :return: {str: (int,)}
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -170,7 +189,7 @@ class StoreApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method get_inventory" % key
                 )
@@ -204,7 +223,7 @@ class StoreApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='dict(str, int)',  # noqa: E501
+            response_type=[{str: (int,)}],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -212,7 +231,7 @@ class StoreApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_order_by_id(self, order_id, **kwargs):  # noqa: E501
+    def get_order_by_id(self, order_id, _check_type=False, **kwargs):  # noqa: E501
         """Find purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
@@ -229,12 +248,12 @@ class StoreApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_order_by_id_with_http_info(order_id, **kwargs)  # noqa: E501
+            return self.get_order_by_id_with_http_info(order_id, _check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.get_order_by_id_with_http_info(order_id, **kwargs)  # noqa: E501
+            (data) = self.get_order_by_id_with_http_info(order_id, _check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def get_order_by_id_with_http_info(self, order_id, **kwargs):  # noqa: E501
+    def get_order_by_id_with_http_info(self, order_id, _check_type=False, **kwargs):  # noqa: E501
         """Find purchase order by ID  # noqa: E501
 
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
@@ -260,21 +279,30 @@ class StoreApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method get_order_by_id" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+        data_types_by_param = {
+            'order_id': [int],
+        }
+
+        if _check_type:
+            for param_name, param_value in six.iteritems(local_var_params):
+                required_type = data_types_by_param.get(param_name)
+                if required_type:
+                    validate_type(param_value, required_type, [param_name])
         # verify the required parameter 'order_id' is set
         if ('order_id' not in local_var_params or
                 local_var_params['order_id'] is None):
-            raise ValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")  # noqa: E501
 
         if 'order_id' in local_var_params and local_var_params['order_id'] > 5:  # noqa: E501
-            raise ValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value less than or equal to `5`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value less than or equal to `5`")  # noqa: E501
         if 'order_id' in local_var_params and local_var_params['order_id'] < 1:  # noqa: E501
-            raise ValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value greater than or equal to `1`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value greater than or equal to `1`")  # noqa: E501
         collection_formats = {}
 
         path_params = {}
@@ -304,7 +332,7 @@ class StoreApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='Order',  # noqa: E501
+            response_type=[Order],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -312,7 +340,7 @@ class StoreApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def place_order(self, order, **kwargs):  # noqa: E501
+    def place_order(self, order, _check_type=False, **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -328,12 +356,12 @@ class StoreApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.place_order_with_http_info(order, **kwargs)  # noqa: E501
+            return self.place_order_with_http_info(order, _check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.place_order_with_http_info(order, **kwargs)  # noqa: E501
+            (data) = self.place_order_with_http_info(order, _check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def place_order_with_http_info(self, order, **kwargs):  # noqa: E501
+    def place_order_with_http_info(self, order, _check_type=False, **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -358,16 +386,25 @@ class StoreApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method place_order" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+        data_types_by_param = {
+            'order': [Order],
+        }
+
+        if _check_type:
+            for param_name, param_value in six.iteritems(local_var_params):
+                required_type = data_types_by_param.get(param_name)
+                if required_type:
+                    validate_type(param_value, required_type, [param_name])
         # verify the required parameter 'order' is set
         if ('order' not in local_var_params or
                 local_var_params['order'] is None):
-            raise ValueError("Missing the required parameter `order` when calling `place_order`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `order` when calling `place_order`")  # noqa: E501
 
         collection_formats = {}
 
@@ -402,7 +439,7 @@ class StoreApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='Order',  # noqa: E501
+            response_type=[Order],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

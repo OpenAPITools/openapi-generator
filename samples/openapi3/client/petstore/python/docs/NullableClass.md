@@ -3,18 +3,18 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**integer_prop** | **int/None** |  | [optional] 
-**number_prop** | **float/None** |  | [optional] 
-**boolean_prop** | **bool/None** |  | [optional] 
-**string_prop** | **str/None** |  | [optional] 
-**date_prop** | **date/None** |  | [optional] 
-**datetime_prop** | **datetime/None** |  | [optional] 
-**array_nullable_prop** | **list[bool/date/datetime/dict/float/int/list/str]/None** |  | [optional] 
-**array_and_items_nullable_prop** | **list[bool/date/datetime/dict/float/int/list/str/None]/None** |  | [optional] 
-**array_items_nullable** | **list[bool/date/datetime/dict/float/int/list/str/None]** |  | [optional] 
-**object_nullable_prop** | **dict(str: bool/date/datetime/dict/float/int/list/str)/None** |  | [optional] 
-**object_and_items_nullable_prop** | **dict(str: bool/date/datetime/dict/float/int/list/str/None)/None** |  | [optional] 
-**object_items_nullable** | **dict(str: bool/date/datetime/dict/float/int/list/str/None)** |  | [optional] 
+**integer_prop** | **int, none_type** |  | [optional] 
+**number_prop** | **float, none_type** |  | [optional] 
+**boolean_prop** | **bool, none_type** |  | [optional] 
+**string_prop** | **str, none_type** |  | [optional] 
+**date_prop** | **date, none_type** |  | [optional] 
+**datetime_prop** | **datetime, none_type** |  | [optional] 
+**array_nullable_prop** | **[(bool, date, datetime, dict, float, int, list, str)], none_type** |  | [optional] 
+**array_and_items_nullable_prop** | **[(bool, date, datetime, dict, float, int, list, str, none_type)], none_type** |  | [optional] 
+**array_items_nullable** | **[(bool, date, datetime, dict, float, int, list, str, none_type)]** |  | [optional] 
+**object_nullable_prop** | **{str: (bool, date, datetime, dict, float, int, list, str)}, none_type** |  | [optional] 
+**object_and_items_nullable_prop** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}, none_type** |  | [optional] 
+**object_items_nullable** | **{str: (bool, date, datetime, dict, float, int, list, str, none_type)}** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

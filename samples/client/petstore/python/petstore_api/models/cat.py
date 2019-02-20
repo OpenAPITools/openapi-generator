@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -46,14 +46,14 @@ class Cat(object):
                             additional properties.
     """
     openapi_types = {
-        'class_name': (str,),
-        'color': (str,),
-        'declawed': (bool,)
+        'class_name': [str],  # noqa: E501
+        'color': [str],  # noqa: E501
+        'declawed': [bool]  # noqa: E501
     }
     attribute_map = {
-        'class_name': 'className',
-        'color': 'color',
-        'declawed': 'declawed'
+        'class_name': 'className',  # noqa: E501
+        'color': 'color',  # noqa: E501
+        'declawed': 'declawed'  # noqa: E501
     }
 
     def __init__(self, class_name, _check_type=False, **kwargs):  # noqa: E501
@@ -67,8 +67,8 @@ class Cat(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            declawed (bool): [optional]
-            color (str): [optional] if omitted the server will use the default value of 'red'
+            declawed (bool): [optional]  # noqa: E501
+            color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
         """
 
         self._data_store = {}
@@ -119,22 +119,26 @@ class Cat(object):
 
 
         Returns:
-            str: The class_name of this Cat.  # noqa: E501
+            (str): The class_name of this Cat.  # noqa: E501
         """
         return self._data_store.get('class_name')
 
     @class_name.setter
-    def class_name(self, class_name):
+    def class_name(
+            self, class_name):
         """Sets the class_name of this Cat.
 
 
         Returns:
-            str: The class_name of this Cat.  # noqa: E501
+            (str): The class_name of this Cat.  # noqa: E501
         """
         if class_name is None:
             raise ApiValueError("Invalid value for `class_name`, must not be `None`")  # noqa: E501
 
-        self.__setitem__('class_name', class_name)
+        self.__setitem__(
+            'class_name',
+            class_name
+        )
 
     @property
     def color(self):
@@ -142,20 +146,24 @@ class Cat(object):
 
 
         Returns:
-            str: The color of this Cat.  # noqa: E501
+            (str): The color of this Cat.  # noqa: E501
         """
         return self._data_store.get('color')
 
     @color.setter
-    def color(self, color):
+    def color(
+            self, color):
         """Sets the color of this Cat.
 
 
         Returns:
-            str: The color of this Cat.  # noqa: E501
+            (str): The color of this Cat.  # noqa: E501
         """
 
-        self.__setitem__('color', color)
+        self.__setitem__(
+            'color',
+            color
+        )
 
     @property
     def declawed(self):
@@ -163,20 +171,24 @@ class Cat(object):
 
 
         Returns:
-            bool: The declawed of this Cat.  # noqa: E501
+            (bool): The declawed of this Cat.  # noqa: E501
         """
         return self._data_store.get('declawed')
 
     @declawed.setter
-    def declawed(self, declawed):
+    def declawed(
+            self, declawed):
         """Sets the declawed of this Cat.
 
 
         Returns:
-            bool: The declawed of this Cat.  # noqa: E501
+            (bool): The declawed of this Cat.  # noqa: E501
         """
 
-        self.__setitem__('declawed', declawed)
+        self.__setitem__(
+            'declawed',
+            declawed
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

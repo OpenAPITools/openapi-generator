@@ -46,7 +46,7 @@ class ModelReturn(object):
                             additional properties.
     """
     openapi_types = {
-        '_return': (int,)  # noqa: E501
+        '_return': [int]  # noqa: E501
     }
     attribute_map = {
         '_return': 'return'  # noqa: E501
@@ -111,7 +111,7 @@ class ModelReturn(object):
 
 
         Returns:
-            int: The _return of this ModelReturn.  # noqa: E501
+            (int): The _return of this ModelReturn.  # noqa: E501
         """
         return self._data_store.get('_return')
 
@@ -122,7 +122,7 @@ class ModelReturn(object):
 
 
         Returns:
-            int: The _return of this ModelReturn.  # noqa: E501
+            (int): The _return of this ModelReturn.  # noqa: E501
         """
 
         self.__setitem__(

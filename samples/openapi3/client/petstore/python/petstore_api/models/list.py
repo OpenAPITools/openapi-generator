@@ -46,7 +46,7 @@ class List(object):
                             additional properties.
     """
     openapi_types = {
-        '_123_list': (str,)  # noqa: E501
+        '_123_list': [str]  # noqa: E501
     }
     attribute_map = {
         '_123_list': '123-list'  # noqa: E501
@@ -111,7 +111,7 @@ class List(object):
 
 
         Returns:
-            str: The _123_list of this List.  # noqa: E501
+            (str): The _123_list of this List.  # noqa: E501
         """
         return self._data_store.get('_123_list')
 
@@ -122,7 +122,7 @@ class List(object):
 
 
         Returns:
-            str: The _123_list of this List.  # noqa: E501
+            (str): The _123_list of this List.  # noqa: E501
         """
 
         self.__setitem__(

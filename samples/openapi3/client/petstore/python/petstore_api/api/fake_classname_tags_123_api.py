@@ -18,6 +18,16 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
+from petstore_api.utils import (  # noqa: F401
+    ApiTypeError,
+    ApiValueError,
+    date,
+    datetime,
+    file_type,
+    none_type,
+    validate_type
+)
+from petstore_api.models.client import Client
 
 
 class FakeClassnameTags123Api(object):
@@ -32,7 +42,7 @@ class FakeClassnameTags123Api(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def test_classname(self, client, **kwargs):  # noqa: E501
+    def test_classname(self, client, _check_type=False, **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501
@@ -49,12 +59,12 @@ class FakeClassnameTags123Api(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
+            return self.test_classname_with_http_info(client, _check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
+            (data) = self.test_classname_with_http_info(client, _check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def test_classname_with_http_info(self, client, **kwargs):  # noqa: E501
+    def test_classname_with_http_info(self, client, _check_type=False, **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501
 
         To test class name in snake case  # noqa: E501
@@ -80,16 +90,25 @@ class FakeClassnameTags123Api(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_classname" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+        data_types_by_param = {
+            'client': [Client],
+        }
+
+        if _check_type:
+            for param_name, param_value in six.iteritems(local_var_params):
+                required_type = data_types_by_param.get(param_name)
+                if required_type:
+                    validate_type(param_value, required_type, [param_name])
         # verify the required parameter 'client' is set
         if ('client' not in local_var_params or
                 local_var_params['client'] is None):
-            raise ValueError("Missing the required parameter `client` when calling `test_classname`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `client` when calling `test_classname`")  # noqa: E501
 
         collection_formats = {}
 
@@ -124,7 +143,7 @@ class FakeClassnameTags123Api(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='Client',  # noqa: E501
+            response_type=[Client],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

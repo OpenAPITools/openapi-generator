@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -46,10 +46,10 @@ class List(object):
                             additional properties.
     """
     openapi_types = {
-        '_123_list': (str,)
+        '_123_list': [str]  # noqa: E501
     }
     attribute_map = {
-        '_123_list': '123-list'
+        '_123_list': '123-list'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -62,7 +62,7 @@ class List(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            _123_list (str): [optional]
+            _123_list (str): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -111,20 +111,24 @@ class List(object):
 
 
         Returns:
-            str: The _123_list of this List.  # noqa: E501
+            (str): The _123_list of this List.  # noqa: E501
         """
         return self._data_store.get('_123_list')
 
     @_123_list.setter
-    def _123_list(self, _123_list):
+    def _123_list(
+            self, _123_list):
         """Sets the _123_list of this List.
 
 
         Returns:
-            str: The _123_list of this List.  # noqa: E501
+            (str): The _123_list of this List.  # noqa: E501
         """
 
-        self.__setitem__('_123_list', _123_list)
+        self.__setitem__(
+            '_123_list',
+            _123_list
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

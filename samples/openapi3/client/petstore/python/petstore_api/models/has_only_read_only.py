@@ -46,8 +46,8 @@ class HasOnlyReadOnly(object):
                             additional properties.
     """
     openapi_types = {
-        'bar': (str,),  # noqa: E501
-        'foo': (str,)  # noqa: E501
+        'bar': [str],  # noqa: E501
+        'foo': [str]  # noqa: E501
     }
     attribute_map = {
         'bar': 'bar',  # noqa: E501
@@ -114,7 +114,7 @@ class HasOnlyReadOnly(object):
 
 
         Returns:
-            str: The bar of this HasOnlyReadOnly.  # noqa: E501
+            (str): The bar of this HasOnlyReadOnly.  # noqa: E501
         """
         return self._data_store.get('bar')
 
@@ -125,7 +125,7 @@ class HasOnlyReadOnly(object):
 
 
         Returns:
-            str: The bar of this HasOnlyReadOnly.  # noqa: E501
+            (str): The bar of this HasOnlyReadOnly.  # noqa: E501
         """
 
         self.__setitem__(
@@ -139,7 +139,7 @@ class HasOnlyReadOnly(object):
 
 
         Returns:
-            str: The foo of this HasOnlyReadOnly.  # noqa: E501
+            (str): The foo of this HasOnlyReadOnly.  # noqa: E501
         """
         return self._data_store.get('foo')
 
@@ -150,7 +150,7 @@ class HasOnlyReadOnly(object):
 
 
         Returns:
-            str: The foo of this HasOnlyReadOnly.  # noqa: E501
+            (str): The foo of this HasOnlyReadOnly.  # noqa: E501
         """
 
         self.__setitem__(

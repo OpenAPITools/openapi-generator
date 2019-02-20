@@ -46,9 +46,9 @@ class ApiResponse(object):
                             additional properties.
     """
     openapi_types = {
-        'code': (int,),  # noqa: E501
-        'type': (str,),  # noqa: E501
-        'message': (str,)  # noqa: E501
+        'code': [int],  # noqa: E501
+        'type': [str],  # noqa: E501
+        'message': [str]  # noqa: E501
     }
     attribute_map = {
         'code': 'code',  # noqa: E501
@@ -117,7 +117,7 @@ class ApiResponse(object):
 
 
         Returns:
-            int: The code of this ApiResponse.  # noqa: E501
+            (int): The code of this ApiResponse.  # noqa: E501
         """
         return self._data_store.get('code')
 
@@ -128,7 +128,7 @@ class ApiResponse(object):
 
 
         Returns:
-            int: The code of this ApiResponse.  # noqa: E501
+            (int): The code of this ApiResponse.  # noqa: E501
         """
 
         self.__setitem__(
@@ -142,7 +142,7 @@ class ApiResponse(object):
 
 
         Returns:
-            str: The type of this ApiResponse.  # noqa: E501
+            (str): The type of this ApiResponse.  # noqa: E501
         """
         return self._data_store.get('type')
 
@@ -153,7 +153,7 @@ class ApiResponse(object):
 
 
         Returns:
-            str: The type of this ApiResponse.  # noqa: E501
+            (str): The type of this ApiResponse.  # noqa: E501
         """
 
         self.__setitem__(
@@ -167,7 +167,7 @@ class ApiResponse(object):
 
 
         Returns:
-            str: The message of this ApiResponse.  # noqa: E501
+            (str): The message of this ApiResponse.  # noqa: E501
         """
         return self._data_store.get('message')
 
@@ -178,7 +178,7 @@ class ApiResponse(object):
 
 
         Returns:
-            str: The message of this ApiResponse.  # noqa: E501
+            (str): The message of this ApiResponse.  # noqa: E501
         """
 
         self.__setitem__(

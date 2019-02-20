@@ -46,12 +46,12 @@ class Order(object):
                             additional properties.
     """
     openapi_types = {
-        'id': (int,),  # noqa: E501
-        'pet_id': (int,),  # noqa: E501
-        'quantity': (int,),  # noqa: E501
-        'ship_date': (datetime,),  # noqa: E501
-        'status': (str,),  # noqa: E501
-        'complete': (bool,)  # noqa: E501
+        'id': [int],  # noqa: E501
+        'pet_id': [int],  # noqa: E501
+        'quantity': [int],  # noqa: E501
+        'ship_date': [datetime],  # noqa: E501
+        'status': [str],  # noqa: E501
+        'complete': [bool]  # noqa: E501
     }
     attribute_map = {
         'id': 'id',  # noqa: E501
@@ -126,7 +126,7 @@ class Order(object):
 
 
         Returns:
-            int: The id of this Order.  # noqa: E501
+            (int): The id of this Order.  # noqa: E501
         """
         return self._data_store.get('id')
 
@@ -137,7 +137,7 @@ class Order(object):
 
 
         Returns:
-            int: The id of this Order.  # noqa: E501
+            (int): The id of this Order.  # noqa: E501
         """
 
         self.__setitem__(
@@ -151,7 +151,7 @@ class Order(object):
 
 
         Returns:
-            int: The pet_id of this Order.  # noqa: E501
+            (int): The pet_id of this Order.  # noqa: E501
         """
         return self._data_store.get('pet_id')
 
@@ -162,7 +162,7 @@ class Order(object):
 
 
         Returns:
-            int: The pet_id of this Order.  # noqa: E501
+            (int): The pet_id of this Order.  # noqa: E501
         """
 
         self.__setitem__(
@@ -176,7 +176,7 @@ class Order(object):
 
 
         Returns:
-            int: The quantity of this Order.  # noqa: E501
+            (int): The quantity of this Order.  # noqa: E501
         """
         return self._data_store.get('quantity')
 
@@ -187,7 +187,7 @@ class Order(object):
 
 
         Returns:
-            int: The quantity of this Order.  # noqa: E501
+            (int): The quantity of this Order.  # noqa: E501
         """
 
         self.__setitem__(
@@ -201,7 +201,7 @@ class Order(object):
 
 
         Returns:
-            datetime: The ship_date of this Order.  # noqa: E501
+            (datetime): The ship_date of this Order.  # noqa: E501
         """
         return self._data_store.get('ship_date')
 
@@ -212,7 +212,7 @@ class Order(object):
 
 
         Returns:
-            datetime: The ship_date of this Order.  # noqa: E501
+            (datetime): The ship_date of this Order.  # noqa: E501
         """
 
         self.__setitem__(
@@ -227,7 +227,7 @@ class Order(object):
         Order Status  # noqa: E501
 
         Returns:
-            str: The status of this Order.  # noqa: E501
+            (str): The status of this Order.  # noqa: E501
         """
         return self._data_store.get('status')
 
@@ -239,7 +239,7 @@ class Order(object):
         Order Status  # noqa: E501
 
         Returns:
-            str: The status of this Order.  # noqa: E501
+            (str): The status of this Order.  # noqa: E501
         """
         allowed_values = ["placed", "approved", "delivered"]  # noqa: E501
         if status not in allowed_values:
@@ -259,7 +259,7 @@ class Order(object):
 
 
         Returns:
-            bool: The complete of this Order.  # noqa: E501
+            (bool): The complete of this Order.  # noqa: E501
         """
         return self._data_store.get('complete')
 
@@ -270,7 +270,7 @@ class Order(object):
 
 
         Returns:
-            bool: The complete of this Order.  # noqa: E501
+            (bool): The complete of this Order.  # noqa: E501
         """
 
         self.__setitem__(

@@ -292,6 +292,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+        // use this to set the correct datatype for operation parameters
     }
 
     @Override
@@ -302,11 +303,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     // override with any special post-processing for all models
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        // loop through properties of each model to fix data types
-        // datatypeWithEnum is used for documentation
-        // dataType is used for model definitions
-        // also include referenced model import paths so we can import those
-        // classes and use them when defining data types in models
+        // loop through properties of each model to update
+        // the model imports to absolute paths
         for (Map.Entry<String, Object> entry : objs.entrySet()) {
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
             List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
@@ -314,10 +312,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 // clear out imports so we will only include full path imports
                 cm.imports.clear();
-                if (cm.additionalProperties != null) {
-                    cm.additionalProperties.datatypeWithEnum = getDocsDataType(cm.additionalProperties);
-                    cm.additionalProperties.dataType = getRealDataType(cm.additionalProperties);
-                }
                 ArrayList<List<CodegenProperty>> listOfLists= new ArrayList<List<CodegenProperty>>();
                 listOfLists.add(cm.allVars);
                 listOfLists.add(cm.requiredVars);
@@ -325,8 +319,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 listOfLists.add(cm.vars);
                 for (List<CodegenProperty> varList : listOfLists) {
                   for (CodegenProperty cp : varList) {
-                      cp.datatypeWithEnum = getDocsDataType(cp);
-                      cp.dataType = getRealDataType(cp);
                       String otherModelName = null;
                       if (cp.complexType != null) {
                           otherModelName = cp.complexType;
@@ -352,45 +344,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         return objs;
-    }
-
-    public String getDocsDataType(CodegenProperty cp) {
-        String typeSuffix = "";
-        if (cp.isNullable) {
-            typeSuffix = "/None";
-        }
-        if (cp.isFreeFormObject && cp.items == null) {
-            return "bool/date/datetime/dict/float/int/list/str" + typeSuffix;
-        } else if (cp.isMapContainer && cp.items != null) {
-            return  "dict(str: " + getDocsDataType(cp.items) + ")" + typeSuffix;
-        } else if (cp.isListContainer && cp.items != null) {
-            return "list[" + getDocsDataType(cp.items) + "]" + typeSuffix;
-        } else {
-            return cp.baseType + typeSuffix;
-        }
-    }
-
-    public String getRealDataType(CodegenProperty cp) {
-        String typeSuffix = ",)";
-        if (cp.isNullable) {
-            typeSuffix = ", none_type)";
-        }
-        if (cp.isFreeFormObject && cp.items == null) {
-            if (!cp.isNullable) {
-                typeSuffix = ")";
-            }
-            return "(bool, date, datetime, dict, float, int, list, str" + typeSuffix;
-        } else if (cp.isMapContainer && cp.items != null) {
-            return "({str: " + getRealDataType(cp.items) + "}" + typeSuffix;
-        } else if (cp.isListContainer && cp.items != null) {
-            return "([" + getRealDataType(cp.items) + "]" + typeSuffix;
-        } else {
-            String baseType = cp.baseType;
-            if (baseType == "file") {
-                baseType = "file_type";
-            }
-            return "(" + baseType + typeSuffix;
-        }
     }
 
     /*
@@ -500,18 +453,54 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return outputFolder + File.separatorChar + testFolder;
     }
 
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
+    /**
+     * Output the type declaration of the property
+     *
+     * @param schema property schema
+     * @return a string presentation of the property type
+     */
+    public String getSimpleTypeDeclaration(Schema schema) {
+        String oasType = getSchemaType(schema);
+        if (typeMapping.containsKey(oasType)) {
+            return typeMapping.get(oasType);
+        }
+        return oasType;
+    }
+
+    public String getTypeString(Schema p, String prefix, String suffix) {
+        // this is used to set dataType, which defines a python tuple of classes
+        String typeSuffix = suffix;
+        if (suffix == ")") {
+            typeSuffix = "," + suffix;
+        }
+        if (ModelUtils.isNullable(p)) {
+            typeSuffix = ", none_type" + suffix;
+        }
+        if (ModelUtils.isFreeFormObject(p) && ModelUtils.getAdditionalProperties(p) == null) {
+            if (!ModelUtils.isNullable(p)) {
+                typeSuffix = suffix;
+            }
+            return prefix + "bool, date, datetime, dict, float, int, list, str" + typeSuffix;
+        }
+        if (ModelUtils.isMapSchema(p)) {
+            Schema inner = ModelUtils.getAdditionalProperties(p);
+            return prefix + "{str: " + getTypeString(inner, "(", ")") + "}" + typeSuffix;
+        } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
+            return prefix + "[" + getTypeString(inner, "(", ")") + "]" + typeSuffix;
         }
-        // TODO: debug here, detect wildcard object and return all types
-        return super.getTypeDeclaration(p);
+        String baseType = getSimpleTypeDeclaration(p);
+        if (baseType == "file") {
+            baseType = "file_type";
+        }
+        return prefix + baseType + typeSuffix;
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        // this is used to set dataType, which defines a python tuple of classes
+        return getTypeString(p, "", "");
     }
 
     @Override

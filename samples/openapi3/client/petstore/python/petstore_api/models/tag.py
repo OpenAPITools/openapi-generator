@@ -46,8 +46,8 @@ class Tag(object):
                             additional properties.
     """
     openapi_types = {
-        'id': (int,),  # noqa: E501
-        'name': (str,)  # noqa: E501
+        'id': [int],  # noqa: E501
+        'name': [str]  # noqa: E501
     }
     attribute_map = {
         'id': 'id',  # noqa: E501
@@ -114,7 +114,7 @@ class Tag(object):
 
 
         Returns:
-            int: The id of this Tag.  # noqa: E501
+            (int): The id of this Tag.  # noqa: E501
         """
         return self._data_store.get('id')
 
@@ -125,7 +125,7 @@ class Tag(object):
 
 
         Returns:
-            int: The id of this Tag.  # noqa: E501
+            (int): The id of this Tag.  # noqa: E501
         """
 
         self.__setitem__(
@@ -139,7 +139,7 @@ class Tag(object):
 
 
         Returns:
-            str: The name of this Tag.  # noqa: E501
+            (str): The name of this Tag.  # noqa: E501
         """
         return self._data_store.get('name')
 
@@ -150,7 +150,7 @@ class Tag(object):
 
 
         Returns:
-            str: The name of this Tag.  # noqa: E501
+            (str): The name of this Tag.  # noqa: E501
         """
 
         self.__setitem__(

@@ -46,8 +46,8 @@ class InlineObject1(object):
                             additional properties.
     """
     openapi_types = {
-        'additional_metadata': (str,),  # noqa: E501
-        'file': (file_type,)  # noqa: E501
+        'additional_metadata': [str],  # noqa: E501
+        'file': [file_type]  # noqa: E501
     }
     attribute_map = {
         'additional_metadata': 'additionalMetadata',  # noqa: E501
@@ -65,7 +65,7 @@ class InlineObject1(object):
                                 raised if the wrong type is input.
                                 Defaults to False
             additional_metadata (str): Additional data to pass to server. [optional]  # noqa: E501
-            file (file): file to upload. [optional]  # noqa: E501
+            file (file_type): file to upload. [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -115,7 +115,7 @@ class InlineObject1(object):
         Additional data to pass to server  # noqa: E501
 
         Returns:
-            str: The additional_metadata of this InlineObject1.  # noqa: E501
+            (str): The additional_metadata of this InlineObject1.  # noqa: E501
         """
         return self._data_store.get('additional_metadata')
 
@@ -127,7 +127,7 @@ class InlineObject1(object):
         Additional data to pass to server  # noqa: E501
 
         Returns:
-            str: The additional_metadata of this InlineObject1.  # noqa: E501
+            (str): The additional_metadata of this InlineObject1.  # noqa: E501
         """
 
         self.__setitem__(
@@ -142,7 +142,7 @@ class InlineObject1(object):
         file to upload  # noqa: E501
 
         Returns:
-            file: The file of this InlineObject1.  # noqa: E501
+            (file_type): The file of this InlineObject1.  # noqa: E501
         """
         return self._data_store.get('file')
 
@@ -154,7 +154,7 @@ class InlineObject1(object):
         file to upload  # noqa: E501
 
         Returns:
-            file: The file of this InlineObject1.  # noqa: E501
+            (file_type): The file of this InlineObject1.  # noqa: E501
         """
 
         self.__setitem__(

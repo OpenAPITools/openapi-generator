@@ -46,9 +46,9 @@ class Cat(object):
                             additional properties.
     """
     openapi_types = {
-        'class_name': (str,),  # noqa: E501
-        'color': (str,),  # noqa: E501
-        'declawed': (bool,)  # noqa: E501
+        'class_name': [str],  # noqa: E501
+        'color': [str],  # noqa: E501
+        'declawed': [bool]  # noqa: E501
     }
     attribute_map = {
         'class_name': 'className',  # noqa: E501
@@ -119,7 +119,7 @@ class Cat(object):
 
 
         Returns:
-            str: The class_name of this Cat.  # noqa: E501
+            (str): The class_name of this Cat.  # noqa: E501
         """
         return self._data_store.get('class_name')
 
@@ -130,7 +130,7 @@ class Cat(object):
 
 
         Returns:
-            str: The class_name of this Cat.  # noqa: E501
+            (str): The class_name of this Cat.  # noqa: E501
         """
         if class_name is None:
             raise ApiValueError("Invalid value for `class_name`, must not be `None`")  # noqa: E501
@@ -146,7 +146,7 @@ class Cat(object):
 
 
         Returns:
-            str: The color of this Cat.  # noqa: E501
+            (str): The color of this Cat.  # noqa: E501
         """
         return self._data_store.get('color')
 
@@ -157,7 +157,7 @@ class Cat(object):
 
 
         Returns:
-            str: The color of this Cat.  # noqa: E501
+            (str): The color of this Cat.  # noqa: E501
         """
 
         self.__setitem__(
@@ -171,7 +171,7 @@ class Cat(object):
 
 
         Returns:
-            bool: The declawed of this Cat.  # noqa: E501
+            (bool): The declawed of this Cat.  # noqa: E501
         """
         return self._data_store.get('declawed')
 
@@ -182,7 +182,7 @@ class Cat(object):
 
 
         Returns:
-            bool: The declawed of this Cat.  # noqa: E501
+            (bool): The declawed of this Cat.  # noqa: E501
         """
 
         self.__setitem__(

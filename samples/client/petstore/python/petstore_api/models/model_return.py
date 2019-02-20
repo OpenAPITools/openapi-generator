@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -46,10 +46,10 @@ class ModelReturn(object):
                             additional properties.
     """
     openapi_types = {
-        '_return': (int,)
+        '_return': [int]  # noqa: E501
     }
     attribute_map = {
-        '_return': 'return'
+        '_return': 'return'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -62,7 +62,7 @@ class ModelReturn(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            _return (int): [optional]
+            _return (int): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -111,20 +111,24 @@ class ModelReturn(object):
 
 
         Returns:
-            int: The _return of this ModelReturn.  # noqa: E501
+            (int): The _return of this ModelReturn.  # noqa: E501
         """
         return self._data_store.get('_return')
 
     @_return.setter
-    def _return(self, _return):
+    def _return(
+            self, _return):
         """Sets the _return of this ModelReturn.
 
 
         Returns:
-            int: The _return of this ModelReturn.  # noqa: E501
+            (int): The _return of this ModelReturn.  # noqa: E501
         """
 
-        self.__setitem__('_return', _return)
+        self.__setitem__(
+            '_return',
+            _return
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

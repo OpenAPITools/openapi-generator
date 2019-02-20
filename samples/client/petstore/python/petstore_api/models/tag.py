@@ -15,7 +15,7 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (
+from petstore_api.utils import (  # noqa: F401
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
@@ -46,12 +46,12 @@ class Tag(object):
                             additional properties.
     """
     openapi_types = {
-        'id': (int,),
-        'name': (str,)
+        'id': [int],  # noqa: E501
+        'name': [str]  # noqa: E501
     }
     attribute_map = {
-        'id': 'id',
-        'name': 'name'
+        'id': 'id',  # noqa: E501
+        'name': 'name'  # noqa: E501
     }
 
     def __init__(self, _check_type=False, **kwargs):  # noqa: E501
@@ -64,8 +64,8 @@ class Tag(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            id (int): [optional]
-            name (str): [optional]
+            id (int): [optional]  # noqa: E501
+            name (str): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -114,20 +114,24 @@ class Tag(object):
 
 
         Returns:
-            int: The id of this Tag.  # noqa: E501
+            (int): The id of this Tag.  # noqa: E501
         """
         return self._data_store.get('id')
 
     @id.setter
-    def id(self, id):
+    def id(
+            self, id):
         """Sets the id of this Tag.
 
 
         Returns:
-            int: The id of this Tag.  # noqa: E501
+            (int): The id of this Tag.  # noqa: E501
         """
 
-        self.__setitem__('id', id)
+        self.__setitem__(
+            'id',
+            id
+        )
 
     @property
     def name(self):
@@ -135,20 +139,24 @@ class Tag(object):
 
 
         Returns:
-            str: The name of this Tag.  # noqa: E501
+            (str): The name of this Tag.  # noqa: E501
         """
         return self._data_store.get('name')
 
     @name.setter
-    def name(self, name):
+    def name(
+            self, name):
         """Sets the name of this Tag.
 
 
         Returns:
-            str: The name of this Tag.  # noqa: E501
+            (str): The name of this Tag.  # noqa: E501
         """
 
-        self.__setitem__('name', name)
+        self.__setitem__(
+            'name',
+            name
+        )
 
     def to_dict(self):
         """Returns the model properties as a dict"""

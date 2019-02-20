@@ -46,8 +46,8 @@ class Category(object):
                             additional properties.
     """
     openapi_types = {
-        'id': (int,),  # noqa: E501
-        'name': (str,)  # noqa: E501
+        'id': [int],  # noqa: E501
+        'name': [str]  # noqa: E501
     }
     attribute_map = {
         'id': 'id',  # noqa: E501
@@ -116,7 +116,7 @@ class Category(object):
 
 
         Returns:
-            int: The id of this Category.  # noqa: E501
+            (int): The id of this Category.  # noqa: E501
         """
         return self._data_store.get('id')
 
@@ -127,7 +127,7 @@ class Category(object):
 
 
         Returns:
-            int: The id of this Category.  # noqa: E501
+            (int): The id of this Category.  # noqa: E501
         """
 
         self.__setitem__(
@@ -141,7 +141,7 @@ class Category(object):
 
 
         Returns:
-            str: The name of this Category.  # noqa: E501
+            (str): The name of this Category.  # noqa: E501
         """
         return self._data_store.get('name')
 
@@ -152,7 +152,7 @@ class Category(object):
 
 
         Returns:
-            str: The name of this Category.  # noqa: E501
+            (str): The name of this Category.  # noqa: E501
         """
         if name is None:
             raise ApiValueError("Invalid value for `name`, must not be `None`")  # noqa: E501

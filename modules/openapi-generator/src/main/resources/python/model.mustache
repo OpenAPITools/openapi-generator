@@ -54,7 +54,7 @@ class {{classname}}(object):
     """
     openapi_types = {
 {{#allVars}}
-        '{{name}}': {{{dataType}}}{{#hasMore}},{{/hasMore}}  # noqa: E501
+        '{{name}}': [{{{dataType}}}]{{#hasMore}},{{/hasMore}}  # noqa: E501
 {{/allVars}}
     }
     attribute_map = {
@@ -63,7 +63,7 @@ class {{classname}}(object):
 {{/allVars}}
     }
 {{#additionalProperties}}
-    additional_properties_type = {{{dataType}}}  # noqa: E501
+    additional_properties_type = [{{{dataType}}}]  # noqa: E501
 {{/additionalProperties}}
 {{#discriminator}}
     discriminator_value_class_map = {
@@ -76,15 +76,15 @@ class {{classname}}(object):
         """{{classname}} - a model defined in OpenAPI
 
 {{#requiredVars}}{{^hasMore}}        Args:{{/hasMore}}{{/requiredVars}}{{#requiredVars}}{{^defaultValue}}
-            {{name}} ({{datatypeWithEnum}}):{{#description}} {{description}}{{/description}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{#defaultValue}}
-            {{name}} ({{datatypeWithEnum}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]  # noqa: E501{{/defaultValue}}{{/requiredVars}}
+            {{name}} ({{{dataType}}}):{{#description}} {{description}}{{/description}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{#defaultValue}}
+            {{name}} ({{{dataType}}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]  # noqa: E501{{/defaultValue}}{{/requiredVars}}
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False{{#optionalVars}}
-            {{name}} ({{datatypeWithEnum}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}  # noqa: E501{{/optionalVars}}
+            {{name}} ({{{dataType}}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}  # noqa: E501{{/optionalVars}}
         """
 
         self._data_store = {}
@@ -153,7 +153,7 @@ class {{classname}}(object):
 {{/description}}
 
         Returns:
-            {{datatypeWithEnum}}: The {{name}} of this {{classname}}.  # noqa: E501
+            ({{{dataType}}}): The {{name}} of this {{classname}}.  # noqa: E501
         """
         return self._data_store.get('{{name}}')
 
@@ -167,7 +167,7 @@ class {{classname}}(object):
 {{/description}}
 
         Returns:
-            {{datatypeWithEnum}}: The {{name}} of this {{classname}}.  # noqa: E501
+            ({{{dataType}}}): The {{name}} of this {{classname}}.  # noqa: E501
         """
 {{^isNullable}}
 {{#required}}

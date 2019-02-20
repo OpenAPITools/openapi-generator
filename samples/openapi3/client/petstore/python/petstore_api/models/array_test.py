@@ -47,9 +47,9 @@ class ArrayTest(object):
                             additional properties.
     """
     openapi_types = {
-        'array_of_string': ([(str,)],),  # noqa: E501
-        'array_array_of_integer': ([([(int,)],)],),  # noqa: E501
-        'array_array_of_model': ([([(ReadOnlyFirst,)],)],)  # noqa: E501
+        'array_of_string': [[(str,)]],  # noqa: E501
+        'array_array_of_integer': [[([(int,)],)]],  # noqa: E501
+        'array_array_of_model': [[([(ReadOnlyFirst,)],)]]  # noqa: E501
     }
     attribute_map = {
         'array_of_string': 'array_of_string',  # noqa: E501
@@ -67,9 +67,9 @@ class ArrayTest(object):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
-            array_of_string (list[str]): [optional]  # noqa: E501
-            array_array_of_integer (list[list[int]]): [optional]  # noqa: E501
-            array_array_of_model (list[list[ReadOnlyFirst]]): [optional]  # noqa: E501
+            array_of_string ([(str,)]): [optional]  # noqa: E501
+            array_array_of_integer ([([(int,)],)]): [optional]  # noqa: E501
+            array_array_of_model ([([(ReadOnlyFirst,)],)]): [optional]  # noqa: E501
         """
 
         self._data_store = {}
@@ -118,7 +118,7 @@ class ArrayTest(object):
 
 
         Returns:
-            list[str]: The array_of_string of this ArrayTest.  # noqa: E501
+            ([(str,)]): The array_of_string of this ArrayTest.  # noqa: E501
         """
         return self._data_store.get('array_of_string')
 
@@ -129,7 +129,7 @@ class ArrayTest(object):
 
 
         Returns:
-            list[str]: The array_of_string of this ArrayTest.  # noqa: E501
+            ([(str,)]): The array_of_string of this ArrayTest.  # noqa: E501
         """
 
         self.__setitem__(
@@ -143,7 +143,7 @@ class ArrayTest(object):
 
 
         Returns:
-            list[list[int]]: The array_array_of_integer of this ArrayTest.  # noqa: E501
+            ([([(int,)],)]): The array_array_of_integer of this ArrayTest.  # noqa: E501
         """
         return self._data_store.get('array_array_of_integer')
 
@@ -154,7 +154,7 @@ class ArrayTest(object):
 
 
         Returns:
-            list[list[int]]: The array_array_of_integer of this ArrayTest.  # noqa: E501
+            ([([(int,)],)]): The array_array_of_integer of this ArrayTest.  # noqa: E501
         """
 
         self.__setitem__(
@@ -168,7 +168,7 @@ class ArrayTest(object):
 
 
         Returns:
-            list[list[ReadOnlyFirst]]: The array_array_of_model of this ArrayTest.  # noqa: E501
+            ([([(ReadOnlyFirst,)],)]): The array_array_of_model of this ArrayTest.  # noqa: E501
         """
         return self._data_store.get('array_array_of_model')
 
@@ -179,7 +179,7 @@ class ArrayTest(object):
 
 
         Returns:
-            list[list[ReadOnlyFirst]]: The array_array_of_model of this ArrayTest.  # noqa: E501
+            ([([(ReadOnlyFirst,)],)]): The array_array_of_model of this ArrayTest.  # noqa: E501
         """
 
         self.__setitem__(

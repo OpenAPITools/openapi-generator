@@ -46,14 +46,14 @@ class User(object):
                             additional properties.
     """
     openapi_types = {
-        'id': (int,),  # noqa: E501
-        'username': (str,),  # noqa: E501
-        'first_name': (str,),  # noqa: E501
-        'last_name': (str,),  # noqa: E501
-        'email': (str,),  # noqa: E501
-        'password': (str,),  # noqa: E501
-        'phone': (str,),  # noqa: E501
-        'user_status': (int,)  # noqa: E501
+        'id': [int],  # noqa: E501
+        'username': [str],  # noqa: E501
+        'first_name': [str],  # noqa: E501
+        'last_name': [str],  # noqa: E501
+        'email': [str],  # noqa: E501
+        'password': [str],  # noqa: E501
+        'phone': [str],  # noqa: E501
+        'user_status': [int]  # noqa: E501
     }
     attribute_map = {
         'id': 'id',  # noqa: E501
@@ -132,7 +132,7 @@ class User(object):
 
 
         Returns:
-            int: The id of this User.  # noqa: E501
+            (int): The id of this User.  # noqa: E501
         """
         return self._data_store.get('id')
 
@@ -143,7 +143,7 @@ class User(object):
 
 
         Returns:
-            int: The id of this User.  # noqa: E501
+            (int): The id of this User.  # noqa: E501
         """
 
         self.__setitem__(
@@ -157,7 +157,7 @@ class User(object):
 
 
         Returns:
-            str: The username of this User.  # noqa: E501
+            (str): The username of this User.  # noqa: E501
         """
         return self._data_store.get('username')
 
@@ -168,7 +168,7 @@ class User(object):
 
 
         Returns:
-            str: The username of this User.  # noqa: E501
+            (str): The username of this User.  # noqa: E501
         """
 
         self.__setitem__(
@@ -182,7 +182,7 @@ class User(object):
 
 
         Returns:
-            str: The first_name of this User.  # noqa: E501
+            (str): The first_name of this User.  # noqa: E501
         """
         return self._data_store.get('first_name')
 
@@ -193,7 +193,7 @@ class User(object):
 
 
         Returns:
-            str: The first_name of this User.  # noqa: E501
+            (str): The first_name of this User.  # noqa: E501
         """
 
         self.__setitem__(
@@ -207,7 +207,7 @@ class User(object):
 
 
         Returns:
-            str: The last_name of this User.  # noqa: E501
+            (str): The last_name of this User.  # noqa: E501
         """
         return self._data_store.get('last_name')
 
@@ -218,7 +218,7 @@ class User(object):
 
 
         Returns:
-            str: The last_name of this User.  # noqa: E501
+            (str): The last_name of this User.  # noqa: E501
         """
 
         self.__setitem__(
@@ -232,7 +232,7 @@ class User(object):
 
 
         Returns:
-            str: The email of this User.  # noqa: E501
+            (str): The email of this User.  # noqa: E501
         """
         return self._data_store.get('email')
 
@@ -243,7 +243,7 @@ class User(object):
 
 
         Returns:
-            str: The email of this User.  # noqa: E501
+            (str): The email of this User.  # noqa: E501
         """
 
         self.__setitem__(
@@ -257,7 +257,7 @@ class User(object):
 
 
         Returns:
-            str: The password of this User.  # noqa: E501
+            (str): The password of this User.  # noqa: E501
         """
         return self._data_store.get('password')
 
@@ -268,7 +268,7 @@ class User(object):
 
 
         Returns:
-            str: The password of this User.  # noqa: E501
+            (str): The password of this User.  # noqa: E501
         """
 
         self.__setitem__(
@@ -282,7 +282,7 @@ class User(object):
 
 
         Returns:
-            str: The phone of this User.  # noqa: E501
+            (str): The phone of this User.  # noqa: E501
         """
         return self._data_store.get('phone')
 
@@ -293,7 +293,7 @@ class User(object):
 
 
         Returns:
-            str: The phone of this User.  # noqa: E501
+            (str): The phone of this User.  # noqa: E501
         """
 
         self.__setitem__(
@@ -308,7 +308,7 @@ class User(object):
         User Status  # noqa: E501
 
         Returns:
-            int: The user_status of this User.  # noqa: E501
+            (int): The user_status of this User.  # noqa: E501
         """
         return self._data_store.get('user_status')
 
@@ -320,7 +320,7 @@ class User(object):
         User Status  # noqa: E501
 
         Returns:
-            int: The user_status of this User.  # noqa: E501
+            (int): The user_status of this User.  # noqa: E501
         """
 
         self.__setitem__(
