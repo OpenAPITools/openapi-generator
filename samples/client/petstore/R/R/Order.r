@@ -28,7 +28,7 @@ Order <- R6::R6Class(
     `shipDate` = NULL,
     `status` = NULL,
     `complete` = NULL,
-    initialize = function(`id`=NULL, `petId`=NULL, `quantity`=NULL, `shipDate`=NULL, `status`=NULL, `complete`=False, ...){
+    initialize = function(`id`=NULL, `petId`=NULL, `quantity`=NULL, `shipDate`=NULL, `status`=NULL, `complete`=FALSE, ...){
       local.optional.var <- list(...)
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
