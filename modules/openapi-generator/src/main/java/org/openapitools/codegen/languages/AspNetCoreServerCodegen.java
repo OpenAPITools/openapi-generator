@@ -248,12 +248,11 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if ("abstract".equals(operationModifier)) {
             generateBody = false;
             additionalProperties.put(GENERATE_BODY, generateBody);
+        }
+        if (additionalProperties.containsKey(GENERATE_BODY)) {
+            generateBody = convertPropertyToBooleanAndWriteBack(GENERATE_BODY);
         } else {
-            if (additionalProperties.containsKey(GENERATE_BODY)) {
-                generateBody = convertPropertyToBooleanAndWriteBack(GENERATE_BODY);
-            } else {
-                additionalProperties.put(GENERATE_BODY, generateBody);
-            }
+            additionalProperties.put(GENERATE_BODY, generateBody);
         }
 
         // CHeck for class modifier if not present set the default value.
