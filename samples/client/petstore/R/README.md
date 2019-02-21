@@ -24,9 +24,11 @@ install.packages("caTools")
 ### Build the package
 
 ```sh
-- R CMD build .
-- R CMD check petstore_1.0.0.tar.gz
-- R CMD INSTALL petstore_1.0.0.tar.gz
+git clone https://github.com/GIT_USER_ID/GIT_REPO_ID
+cd GIT_REPO_ID
+R CMD build .
+R CMD check petstore_1.0.0.tar.gz
+R CMD INSTALL petstore_1.0.0.tar.gz
 ```
 
 ### Install the package
@@ -35,10 +37,17 @@ install.packages("caTools")
 install.packages("petstore")
 ```
 
+To install directly from Github, use `devtools`:
+```R
+install.packages("devtools")
+library(devtools)
+install_github("GIT_USER_ID/GIT_REPO_ID")
+```
+
 ### Usage
 
 ```R
-libary(petstore)
+library(petstore)
 ```
 
 ## Documentation for API Endpoints
