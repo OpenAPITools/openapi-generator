@@ -24,7 +24,6 @@ sidebar_label: aspnetcore
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
-|generateWWWRoot|Generates WWWRoot, default is true.| |true|
 |classModifier|Class modifiers such as abstract or partial| ||
 |operationModifier|Operation modifiers such as virtual or abstract.| |virtual|
 |generateBody|Generates method body, default is true.| |true|
