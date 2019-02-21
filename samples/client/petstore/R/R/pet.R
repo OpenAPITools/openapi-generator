@@ -28,15 +28,8 @@ Pet <- R6::R6Class(
     `photoUrls` = NULL,
     `tags` = NULL,
     `status` = NULL,
-    initialize = function(`id`, `category`, `name`, `photoUrls`, `tags`, `status`){
-      if (!missing(`id`)) {
-        stopifnot(is.numeric(`id`), length(`id`) == 1)
-        self$`id` <- `id`
-      }
-      if (!missing(`category`)) {
-        stopifnot(R6::is.R6(`category`))
-        self$`category` <- `category`
-      }
+    initialize = function(`name`, `photoUrls`, `id`=NULL, `category`=NULL, `tags`=NULL, `status`=NULL, ...){
+      local.optional.var <- list(...)
       if (!missing(`name`)) {
         stopifnot(is.character(`name`), length(`name`) == 1)
         self$`name` <- `name`
@@ -46,12 +39,20 @@ Pet <- R6::R6Class(
         sapply(`photoUrls`, function(x) stopifnot(is.character(x)))
         self$`photoUrls` <- `photoUrls`
       }
-      if (!missing(`tags`)) {
+      if (!is.null(`id`)) {
+        stopifnot(is.numeric(`id`), length(`id`) == 1)
+        self$`id` <- `id`
+      }
+      if (!is.null(`category`)) {
+        stopifnot(R6::is.R6(`category`))
+        self$`category` <- `category`
+      }
+      if (!is.null(`tags`)) {
         stopifnot(is.vector(`tags`), length(`tags`) != 0)
         sapply(`tags`, function(x) stopifnot(R6::is.R6(x)))
         self$`tags` <- `tags`
       }
-      if (!missing(`status`)) {
+      if (!is.null(`status`)) {
         stopifnot(is.character(`status`), length(`status`) == 1)
         self$`status` <- `status`
       }

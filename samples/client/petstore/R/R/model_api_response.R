@@ -22,16 +22,17 @@ ModelApiResponse <- R6::R6Class(
     `code` = NULL,
     `type` = NULL,
     `message` = NULL,
-    initialize = function(`code`, `type`, `message`){
-      if (!missing(`code`)) {
+    initialize = function(`code`=NULL, `type`=NULL, `message`=NULL, ...){
+      local.optional.var <- list(...)
+      if (!is.null(`code`)) {
         stopifnot(is.numeric(`code`), length(`code`) == 1)
         self$`code` <- `code`
       }
-      if (!missing(`type`)) {
+      if (!is.null(`type`)) {
         stopifnot(is.character(`type`), length(`type`) == 1)
         self$`type` <- `type`
       }
-      if (!missing(`message`)) {
+      if (!is.null(`message`)) {
         stopifnot(is.character(`message`), length(`message`) == 1)
         self$`message` <- `message`
       }

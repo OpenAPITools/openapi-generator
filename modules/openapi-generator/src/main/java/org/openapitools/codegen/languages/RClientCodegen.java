@@ -547,17 +547,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 if (Boolean.valueOf(p.getDefault().toString()) == false)
-                    return "False";
+                    return "FALSE";
                 else
-                    return "True";
+                    return "TRUE";
             }
             // include fallback to example, default defined as server only
             // example is not defined as server only
             if (p.getExample() != null) {
                 if (Boolean.valueOf(p.getExample().toString()) == false)
-                    return "False";
+                    return "FALSE";
                 else
-                    return "True";
+                    return "TRUE";
             }
         } else if (ModelUtils.isDateSchema(p)) {
             // TODO

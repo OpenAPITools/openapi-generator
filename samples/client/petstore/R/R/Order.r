@@ -28,28 +28,29 @@ Order <- R6::R6Class(
     `shipDate` = NULL,
     `status` = NULL,
     `complete` = NULL,
-    initialize = function(`id`, `petId`, `quantity`, `shipDate`, `status`, `complete`){
-      if (!missing(`id`)) {
+    initialize = function(`id`=NULL, `petId`=NULL, `quantity`=NULL, `shipDate`=NULL, `status`=NULL, `complete`=False, ...){
+      local.optional.var <- list(...)
+      if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
         self$`id` <- `id`
       }
-      if (!missing(`petId`)) {
+      if (!is.null(`petId`)) {
         stopifnot(is.numeric(`petId`), length(`petId`) == 1)
         self$`petId` <- `petId`
       }
-      if (!missing(`quantity`)) {
+      if (!is.null(`quantity`)) {
         stopifnot(is.numeric(`quantity`), length(`quantity`) == 1)
         self$`quantity` <- `quantity`
       }
-      if (!missing(`shipDate`)) {
+      if (!is.null(`shipDate`)) {
         stopifnot(is.character(`shipDate`), length(`shipDate`) == 1)
         self$`shipDate` <- `shipDate`
       }
-      if (!missing(`status`)) {
+      if (!is.null(`status`)) {
         stopifnot(is.character(`status`), length(`status`) == 1)
         self$`status` <- `status`
       }
-      if (!missing(`complete`)) {
+      if (!is.null(`complete`)) {
         self$`complete` <- `complete`
       }
     },
