@@ -626,11 +626,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toApiTestFilename(String name) {
-        return toApiFilename(name) + "_test";
+        return "test_" + toApiFilename(name);
     }
 
     @Override
     public String toModelTestFilename(String name) {
-        return toModelFilename(name) + "_test";
+        return "test_" + toModelFilename(name);
     }
 }

@@ -19,18 +19,18 @@ test_that("username", {
   #expect_equal(model.instance$`username`, "EXPECTED_RESULT")
 })
 
-test_that("firstName", {
-  # tests for the property `firstName` (character)
+test_that("first_name", {
+  # tests for the property `first_name` (character)
 
   # uncomment below to test the property 
-  #expect_equal(model.instance$`firstName`, "EXPECTED_RESULT")
+  #expect_equal(model.instance$`first_name`, "EXPECTED_RESULT")
 })
 
-test_that("lastName", {
-  # tests for the property `lastName` (character)
+test_that("last_name", {
+  # tests for the property `last_name` (character)
 
   # uncomment below to test the property 
-  #expect_equal(model.instance$`lastName`, "EXPECTED_RESULT")
+  #expect_equal(model.instance$`last_name`, "EXPECTED_RESULT")
 })
 
 test_that("email", {
@@ -54,11 +54,11 @@ test_that("phone", {
   #expect_equal(model.instance$`phone`, "EXPECTED_RESULT")
 })
 
-test_that("userStatus", {
-  # tests for the property `userStatus` (integer)
+test_that("user_status", {
+  # tests for the property `user_status` (integer)
   # User Status
 
   # uncomment below to test the property 
-  #expect_equal(model.instance$`userStatus`, "EXPECTED_RESULT")
+  #expect_equal(model.instance$`user_status`, "EXPECTED_RESULT")
 })
 
