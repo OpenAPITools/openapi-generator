@@ -614,14 +614,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 else
                     return "True";
             }
-            // include fallback to example, default defined as server only
-            // example is not defined as server only
-            if (p.getExample() != null) {
-                if (Boolean.valueOf(p.getExample().toString()) == false)
-                    return "False";
-                else
-                    return "True";
-            }
         } else if (ModelUtils.isDateSchema(p)) {
             // TODO
         } else if (ModelUtils.isDateTimeSchema(p)) {
@@ -630,23 +622,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-            // default numbers are not yet returned by v2 spec openAPI results
-            // https://github.com/swagger-api/swagger-parser/issues/971
-            // include fallback to example, default defined as server only
-            // example is not defined as server only
             if (p.getExample() != null) {
                 return p.getExample().toString();
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
-            }
-            // default integers are not yet returned by v2 spec openAPI results
-            // https://github.com/swagger-api/swagger-parser/issues/971
-            // include fallback to example, default defined as server only
-            // example is not defined as server only
-            if (p.getExample() != null) {
-                return p.getExample().toString();
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
@@ -655,22 +636,9 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 else
                     return "'" + p.getDefault() + "'";
             }
-            // include fallback to example, default defined as server only
-            // example is not defined as server only
-            if (p.getExample() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getExample()).find())
-                    return "'''" + p.getExample() + "'''";
-                else
-                    return "'" + p.getExample() + "'";
-            }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
-            }
-            // include fallback to example, default defined as server only
-            // example is not defined as server only
-            if (p.getExample() != null) {
-                return p.getExample().toString();
             }
         }
 
