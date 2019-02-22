@@ -720,4 +720,28 @@ public class InlineModelResolverTest {
         assertTrue(ModelUtils.getReferencedSchema(openAPI, schema.getItems()) instanceof StringSchema);
         assertNull(ModelUtils.getReferencedSchema(openAPI, schema.getItems()).getExample());
     }
+
+    @Test
+    public void nullable() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        Schema nullablePropertyReference = (Schema) openAPI.getComponents().getSchemas().get("InlinePropertyIsNullable").getProperties().get("nullable_property");
+        Schema nullablePropertySchema = ModelUtils.getReferencedSchema(openAPI, nullablePropertyReference);
+        assertTrue(nullablePropertySchema.getNullable());
+
+
+        Schema nullableRequestBodyReference = (Schema) openAPI
+                .getPaths()
+                .get("/nullable_properties")
+                .getPost()
+                .getRequestBody()
+                .getContent()
+                .get("application/json")
+                .getSchema()
+                .getProperties()
+                .get("nullable_request_body_property");
+        Schema nullableRequestBodySchema = ModelUtils.getReferencedSchema(openAPI, nullableRequestBodyReference);
+        assertTrue(nullableRequestBodySchema.getNullable());
+    }
 }

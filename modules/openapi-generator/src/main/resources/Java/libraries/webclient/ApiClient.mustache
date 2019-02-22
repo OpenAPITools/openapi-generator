@@ -478,22 +478,7 @@ public class ApiClient {
      */
     public <T> Mono<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames);
-
-        return requestBuilder.exchange()
-            .flatMap(response -> {
-                HttpStatus statusCode = response.statusCode();
-                if (response.statusCode() == HttpStatus.NO_CONTENT) {
-                    return Mono.empty();
-                } else if (statusCode.is2xxSuccessful()) {
-                    if (returnType == null) {
-                        return Mono.empty();
-                    } else {
-                        return response.bodyToMono(returnType);
-                    }
-                } else {
-                    return Mono.error(new RestClientException("API returned " + statusCode + " and it wasn't handled by the RestTemplate error handler"));
-                }
-        });
+        return requestBuilder.retrieve().bodyToMono(returnType);
     }
 
     /**
@@ -514,23 +499,7 @@ public class ApiClient {
      */
     public <T> Flux<T> invokeFluxAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames);
-
-        return requestBuilder.exchange()
-            .flatMapMany(response -> {
-                HttpStatus statusCode = response.statusCode();
-                ClientResponse.Headers headers = response.headers();
-                if (response.statusCode() == HttpStatus.NO_CONTENT) {
-                    return Flux.empty();
-                } else if (statusCode.is2xxSuccessful()) {
-                    if (returnType == null) {
-                        return Flux.empty();
-                    } else {
-                        return response.bodyToFlux(returnType);
-                    }
-                } else {
-                    return Flux.error(new RestClientException("API returned " + statusCode + " and it wasn't handled by the RestTemplate error handler"));
-                }
-            });
+        return requestBuilder.retrieve().bodyToFlux(returnType);
     }
 
     private WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames) {

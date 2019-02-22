@@ -147,7 +147,7 @@ uncapitalize [] = []
 -- Remove a field label prefix during JSON parsing.
 -- Also perform any replacements for special characters.
 removeFieldLabelPrefix :: Bool -> String -> Options
-removeFieldLabelPrefix forParsing prefix =
+removeFieldLabelPrefix _ prefix =
   defaultOptions
     { omitNothingFields  = True
     , fieldLabelModifier = uncapitalize . fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix . replaceSpecialChars
@@ -190,8 +190,4 @@ removeFieldLabelPrefix forParsing prefix =
       , ("?", "'Question_Mark")
       , (">=", "'Greater_Than_Or_Equal_To")
       ]
-    mkCharReplacement (replaceStr, searchStr) = T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
-    replacer =
-      if forParsing
-        then flip T.replace
-        else T.replace
+    mkCharReplacement (replaceStr, searchStr) = T.unpack . T.replace (T.tail $ T.pack searchStr) (T.pack replaceStr) . T.pack
