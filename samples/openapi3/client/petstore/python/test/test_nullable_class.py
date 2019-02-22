@@ -160,6 +160,8 @@ class TestNullableClass(unittest.TestCase):
             keyword_args = {var_name: var_value}
             with self.assertRaises(ApiTypeError):
                 NullableClass(_check_type=True, **keyword_args)
+                print(keyword_args)
+                a = 5
             with self.assertRaises(ApiTypeError):
                 a = NullableClass(_check_type=True)
                 a[var_name] = var_value

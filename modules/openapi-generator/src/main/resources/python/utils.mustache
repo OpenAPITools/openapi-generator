@@ -14,6 +14,10 @@ else:
     file_type = file  # noqa: F821
 
 
+class OpenApiModel(object):
+    """The base class for all OpenAPIModels"""
+
+
 class OpenApiException(Exception):
     """The base exception class for all OpenAPIExceptions"""
 
@@ -73,17 +77,17 @@ def get_required_type_classes(required_types):
                                      of list or dict
     """
     results = []
-    child_required_types = {}
+    child_req_types_by_current_type = {}
     for required_type in required_types:
         if isinstance(required_type, list):
             results.append(list)
-            child_required_types[list] = required_type[0]
+            child_req_types_by_current_type[list] = required_type[0]
         elif isinstance(required_type, dict):
             results.append(dict)
-            child_required_types[dict] = required_type[str]
+            child_req_types_by_current_type[dict] = required_type[str]
         else:
             results.append(required_type)
-    return tuple(results), child_required_types
+    return tuple(results), child_req_types_by_current_type
 
 
 def get_parent_key_or_index(input_data, variable_path):
@@ -113,20 +117,33 @@ def get_parent_key_or_index(input_data, variable_path):
 def validate_type(input_value, required_types, variable_path):
     """Raises a TypeError is ther is a problem, otherwise continue"""
     results = get_required_type_classes(required_types)
-    required_type_classes, child_required_types = results
-    # Note: we can't use isinstance here because isinstance(True, int) == True
-    if not type(input_value) in required_type_classes:
+    valid_classes, child_req_types_by_current_type = results
+
+    valid_type = False
+    for required_class in valid_classes:
+        if ((type(input_value) == bool and required_class == int) or
+                (type(input_value) == datetime and required_class == date)):
+            # we can't use isinstance because
+            # isinstance(True, int) == True == isinstance(datetime_val, date)
+            valid_type = False
+            continue
+        valid_type = isinstance(input_value, required_class)
+        if valid_type:
+            break
+    if not valid_type:
         raise ApiTypeError(
-            required_type_classes,
+            valid_classes,
             input_value,
             variable_path
         )
-    # input_value's type is in required_type_classes
-    if child_required_types == {}:
+    # input_value's type is in valid_classes
+    if child_req_types_by_current_type == {}:
         # all types are of the required types and there are no more inner
         # variables left to look at
         return
-    inner_required_types = child_required_types.get(type(input_value))
+    inner_required_types = child_req_types_by_current_type.get(
+        type(input_value)
+    )
     if inner_required_types is None:
         # for this type, there are not more inner variables left to look at
         return
@@ -150,7 +167,7 @@ def validate_type(input_value, required_types, variable_path):
                     (str,),
                     inner_key,
                     inner_path,
-                    value_type=False
+                    key_type=True
                 )
             validate_type(inner_val, inner_required_types, inner_path)
 

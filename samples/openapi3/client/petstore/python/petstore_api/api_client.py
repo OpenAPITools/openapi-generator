@@ -10,7 +10,9 @@
 
 from __future__ import absolute_import
 
-import datetime
+from collections import OrderedDict
+import copy
+import inspect
 import json
 import mimetypes
 from multiprocessing.pool import ThreadPool
@@ -23,9 +25,82 @@ import six
 from six.moves.urllib.parse import quote
 
 from petstore_api.configuration import Configuration
-from petstore_api.utils import model_to_dict
+from petstore_api.utils import (
+    ApiTypeError,
+    OpenApiModel,
+    date,
+    datetime,
+    file_type,
+    model_to_dict,
+    none_type
+)
 import petstore_api.models
 from petstore_api import rest
+
+COERCION_INDEX_BY_TYPE = {
+    none_type: 0,
+    list: 1,
+    OpenApiModel: 2,
+    dict: 3,
+    float: 4,
+    int: 5,
+    bool: 6,
+    datetime: 7,
+    date: 8,
+    str: 9
+}
+COERCIBLE_TYPE_PAIRS = (
+    (dict, OpenApiModel),
+    (str, int),
+    (str, float),
+    (str, datetime),
+    (str, date),
+    (int, str),
+    (float, str)
+)
+
+def order_response_types(required_types):
+    """Returns the required types sorted in coercion order
+
+    Args:
+        required_types (list/tuple): collection of classes or instance of
+            list or dict with classs information inside it
+
+    Returns:
+        (list/tuple): coercion order sorted collection of classes or instance
+            of list or dict with classs information inside it
+    """
+
+    def index_getter(class_or_instance):
+        if isinstance(class_or_instance, list):
+            return COERCION_INDEX_BY_TYPE[list]
+        elif isinstance(class_or_instance, dict):
+            return COERCION_INDEX_BY_TYPE[dict]
+        return COERCION_INDEX_BY_TYPE[class_or_instance]
+
+    sorted_types = sorted(
+        required_types,
+        lambda class_or_instance: index_getter(class_or_instance)
+    )
+    return sorted_types
+
+
+def remove_uncoercible(required_types_classes, current_type):
+    """Only keeps the type conversions that are possible
+
+    Args:
+        required_types_classes (tuple): tuple of classes that are required
+        current_type (any): class of current type
+
+    Returns:
+        (list): the remaining coercible required types, classes only
+    """
+    results_classes = []
+    for required_type_class in required_types_classes:
+        class_pair = (current_type, required_type_class)
+        if class_pair in COERCIBLE_TYPE_PAIRS:
+            results_classes.append(required_type_class)
+    return results_classes
 
 
 class ApiClient(object):
@@ -57,8 +132,8 @@ class ApiClient(object):
         'float': float,
         'str': str,
         'bool': bool,
-        'date': datetime.date,
-        'datetime': datetime.datetime,
+        'date': date,
+        'datetime': datetime,
         'object': object,
     }
     _pool = None
@@ -108,7 +183,7 @@ class ApiClient(object):
     def __call_api(
             self, resource_path, method, path_params=None,
             query_params=None, header_params=None, body=None, post_params=None,
-            files=None, response_type=None, auth_settings=None,
+            files=None, response_types=None, auth_settings=None,
             _return_http_data_only=None, collection_formats=None,
             _preload_content=True, _request_timeout=None, _host=None):
 
@@ -176,7 +251,7 @@ class ApiClient(object):
         if _preload_content:
             # deserialize response data
             if response_type:
-                return_data = self.deserialize(response_data, response_type)
+                return_data = self.deserialize(response_data, response_types)
             else:
                 return_data = None
 
@@ -224,18 +299,18 @@ class ApiClient(object):
         return {key: self.sanitize_for_serialization(val)
                 for key, val in six.iteritems(obj_dict)}
 
-    def deserialize(self, response, response_type):
+    def deserialize(self, response, response_types):
         """Deserializes response into an object.
 
         :param response: RESTResponse object to be deserialized.
-        :param response_type: class literal for
-            deserialized object, or string of class name.
+        :param response_types: list of response classses for
+            deserialized object.
 
         :return: deserialized object.
         """
         # handle file downloading
         # save response body into a tmp file and return the instance
-        if response_type == "file":
+        if file_type in response_types:
             return self.__deserialize_file(response)
 
         # fetch data from response object
@@ -244,51 +319,81 @@ class ApiClient(object):
         except ValueError:
             data = response.data
 
-        return self.__deserialize(data, response_type)
+        return self.__deserialize(data, response_types)
 
-    def __deserialize(self, data, klass):
+    def __deserialize(self, data, response_types):
         """Deserializes dict, list, str into an object.
 
         :param data: dict, list or str.
-        :param klass: class literal, or string of class name.
+        :param response_types: list of response classes.
 
         :return: object.
         """
-        if data is None:
-            return None
+        serialized_data_by_index = {}
+        response_types_ordered = order_response_types(response_types)
+        for index, response_type in enumerate(response_types_ordered):
+            try:
+                validate_type(data, response_type, [])
+                serialized_data_by_index[index] = data
+            except ApiTypeError as exc:
+                pass
 
-        if type(klass) == str:
-            if klass.startswith('list['):
-                sub_kls = re.match(r'list\[(.*)\]', klass).group(1)
-                return [self.__deserialize(sub_data, sub_kls)
-                        for sub_data in data]
+        for index, response_type in enumerate(response_types_ordered):
+            # we put our data in a dict so our deserialization functions
+            # can be passed a parent and a key and update our data structure
+            # this is needed if we are passed a str and need to convert it
+            input_data = {'received': copy.deepcopy(data)}
+            deserializing = True
+            validated = False
+            while deserializing:
+                try:
+                    validate_type(
+                        input_data['received'],
+                        response_type,
+                        ['received']
+                    )
+                    validated = True
+                    deserializing = False
+                except ApiTypeError as exc:
+                    valid_classes = exc.required_types
+                    valid_classes_ordered = order_response_types(valid_classes)
+                    valid_classes_coercible = remove_uncoercible(
+                        valid_classes_ordered, type(exc.current_item))
+                    if not valid_classes_coercible:
+                        deserializing = False
+                        continue
+                    deserialize_succes = False
+                    parent, key_or_index = get_parent_key_or_index(
+                        input_data, exc.path_to_item)
+                    for valid_class in valid_classes_coercible:
+                        if isinstance(valid_class, OpenApiModel):
+                            deserialize_succes = self.__deserialize_model(
+                                parent, key_or_index, valid_class)
+                        elif valid_class == str and exc.key_type:
+                            deserialize_succes = self.__deserialize_key(
+                                parent, key_or_index, valid_class)
+                        else:
+                            deserialize_succes = self.__deserialize_primitive(
+                                parent, key_or_index, valid_class)
+                        if deserialize_succes:
+                            break
+                    if not deserialize_succes:
+                        deserializing = False
+            if validated:
+                serialized_data_by_index[index] = input_data['received']
+                break
 
-            if klass.startswith('dict('):
-                sub_kls = re.match(r'dict\(([^,]*), (.*)\)', klass).group(2)
-                return {k: self.__deserialize(v, sub_kls)
-                        for k, v in six.iteritems(data)}
-
-            # convert str to class
-            if klass in self.NATIVE_TYPES_MAPPING:
-                klass = self.NATIVE_TYPES_MAPPING[klass]
-            else:
-                klass = getattr(petstore_api.models, klass)
-
-        if klass in self.PRIMITIVE_TYPES:
-            return self.__deserialize_primitive(data, klass)
-        elif klass == object:
-            return self.__deserialize_object(data)
-        elif klass == datetime.date:
-            return self.__deserialize_date(data)
-        elif klass == datetime.datetime:
-            return self.__deserialize_datatime(data)
-        else:
-            return self.__deserialize_model(data, klass)
+        # compare and choose the best value here
+        if not serialized_data_by_index:
+            # we were unable to deserialize the results, raise an exception
+            validate_type(data, response_types, [])
+        min_index = min(list(serialized_data_by_index.keys()))
+        return serialized_data_by_index[min_index]
 
     def call_api(self, resource_path, method,
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
-                 response_type=None, auth_settings=None, async_req=None,
+                 response_types=None, auth_settings=None, async_req=None,
                  _return_http_data_only=None, collection_formats=None,
                  _preload_content=True, _request_timeout=None, _host=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
@@ -305,7 +410,7 @@ class ApiClient(object):
         :param post_params dict: Request post form parameters,
             for `application/x-www-form-urlencoded`, `multipart/form-data`.
         :param auth_settings list: Auth Settings names for the request.
-        :param response: Response data type.
+        :param response_types: List of response data type classes.
         :param files dict: key -> filename, value -> filepath,
             for `multipart/form-data`.
         :param async_req bool: execute request asynchronously
@@ -331,7 +436,7 @@ class ApiClient(object):
             return self.__call_api(resource_path, method,
                                    path_params, query_params, header_params,
                                    body, post_params, files,
-                                   response_type, auth_settings,
+                                   response_types, auth_settings,
                                    _return_http_data_only, collection_formats,
                                    _preload_content, _request_timeout, _host)
         else:
@@ -339,7 +444,7 @@ class ApiClient(object):
                                            method, path_params, query_params,
                                            header_params, body,
                                            post_params, files,
-                                           response_type, auth_settings,
+                                           response_types, auth_settings,
                                            _return_http_data_only,
                                            collection_formats,
                                            _preload_content,
@@ -560,13 +665,6 @@ class ApiClient(object):
             return six.text_type(data)
         except TypeError:
             return data
-
-    def __deserialize_object(self, value):
-        """Return an original value.
-
-        :return: object.
-        """
-        return value
 
     def __deserialize_date(self, string):
         """Deserializes string to date.

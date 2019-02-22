@@ -22,15 +22,31 @@ else:
     file_type = file  # noqa: F821
 
 
+class OpenApiModel(object):
+    """The base class for all OpenAPIModels"""
+
+
 class OpenApiException(Exception):
     """The base exception class for all OpenAPIExceptions"""
 
 
 class ApiTypeError(OpenApiException, TypeError):
     def __init__(self, required_types, current_item, path_to_item,
-                 value_type=True):
+                 key_type=False):
+        """ Raises an exception for TypeErrors
+
+        Args:
+            required_types (tuple): the primitive classes that current item
+                                    should be an instance of
+            current_item (any): the value which is the incorrect type
+            path_to_item (list): a list of keys an indices to get to the
+                                 current_item
+            key_type (bool): False if our value is a value in a dict
+                             True if it is a key in a dict
+                             False if our item is an item in a list
+        """
         key_or_value = 'value'
-        if not value_type:
+        if key_type:
             key_or_value = 'key'
         msg = (
             "Invalid type for variable {0}. Required {1} type is {2} and "
@@ -43,6 +59,7 @@ class ApiTypeError(OpenApiException, TypeError):
             )
         )
         super(ApiTypeError, self).__init__(msg)
+        self.key_type = key_type
         self.path_to_item = path_to_item
         self.current_item = current_item
         self.required_types = required_types
@@ -59,42 +76,82 @@ class ApiKeyError(OpenApiException, KeyError):
 
 
 def get_required_type_classes(required_types):
-    """Converts the tuple required_types into a tuple of its child classes
+    """Converts the tuple required_types into a tuple of:
+    tuple(child_classes), dict(class: required_type)
+    where required_type is a class or list instance or dict instance
 
-    required_type will contain either classes or instance of list or dict
-    so convert it to a tuple of classes
+    Args:
+        required_types (tuple/list): will contain either classes or instance
+                                     of list or dict
     """
     results = []
-    child_required_types = {}
+    child_req_types_by_current_type = {}
     for required_type in required_types:
         if isinstance(required_type, list):
             results.append(list)
-            child_required_types[list] = required_type[0]
+            child_req_types_by_current_type[list] = required_type[0]
         elif isinstance(required_type, dict):
             results.append(dict)
-            child_required_types[dict] = required_type[str]
+            child_req_types_by_current_type[dict] = required_type[str]
         else:
             results.append(required_type)
-    return tuple(results), child_required_types
+    return tuple(results), child_req_types_by_current_type
+
+
+def get_parent_key_or_index(input_data, variable_path):
+    """Returns a tuple of parent, key_or_index
+
+    Args:
+        input_data (dict/list): the root data object that had an
+                                ApiTypeException
+        variable_path (list): the path to the exception, values are keys or
+                              indices
+
+    Returns:
+        [parent, key_or_index]:
+            parent (dict/list): the parent of the item that has an
+                                ApiTypeException
+            key_or_index (str/int): the key that points to the item that has an
+                                    ApiTypeException
+    """
+    current_item = input_data
+    for index, path_value in variable_path[:-1]:
+        current_item = current_item[path_value]
+    parent = current_item
+    key_or_index = variable_path[-1]
+    return parent, key_or_index
 
 
 def validate_type(input_value, required_types, variable_path):
     """Raises a TypeError is ther is a problem, otherwise continue"""
     results = get_required_type_classes(required_types)
-    required_type_classes, child_required_types = results
-    # Note: we can't use isinstance here because isinstance(True, int) == True
-    if not type(input_value) in required_type_classes:
+    valid_classes, child_req_types_by_current_type = results
+
+    valid_type = False
+    for required_class in valid_classes:
+        if ((type(input_value) == bool and required_class == int) or
+                (type(input_value) == datetime and required_class == date)):
+            # we can't use isinstance because
+            # isinstance(True, int) == True == isinstance(datetime_val, date)
+            valid_type = False
+            continue
+        valid_type = isinstance(input_value, required_class)
+        if valid_type:
+            break
+    if not valid_type:
         raise ApiTypeError(
-            required_type_classes,
+            valid_classes,
             input_value,
             variable_path
         )
-    # input_value's type is in required_type_classes
-    if child_required_types == {}:
+    # input_value's type is in valid_classes
+    if child_req_types_by_current_type == {}:
         # all types are of the required types and there are no more inner
         # variables left to look at
         return
-    inner_required_types = child_required_types.get(type(input_value))
+    inner_required_types = child_req_types_by_current_type.get(
+        type(input_value)
+    )
     if inner_required_types is None:
         # for this type, there are not more inner variables left to look at
         return
@@ -118,7 +175,7 @@ def validate_type(input_value, required_types, variable_path):
                     (str,),
                     inner_key,
                     inner_path,
-                    value_type=False
+                    key_type=True
                 )
             validate_type(inner_val, inner_required_types, inner_path)
 

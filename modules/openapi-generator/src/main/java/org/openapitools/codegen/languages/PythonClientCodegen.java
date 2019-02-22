@@ -300,6 +300,18 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         postProcessPattern(property.pattern, property.vendorExtensions);
     }
 
+    public void addModelImport(Map<String, Object> objs, CodegenModel cm, String otherModelName) {
+        // adds the absolute path to otherModelName as an import in CodegenModel cm
+        HashMap referencedModel = (HashMap) objs.get(otherModelName);
+        ArrayList myModel = (ArrayList) referencedModel.get("models");
+        HashMap modelData = (HashMap) myModel.get(0);
+        String importPath = (String) modelData.get("importPath");
+        // only add importPath to parameters if it isn't in importPaths
+        if (!cm.imports.contains(importPath)) {
+            cm.imports.add(importPath);
+        }
+    }
+
     // override with any special post-processing for all models
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
@@ -312,6 +324,14 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 // clear out imports so we will only include full path imports
                 cm.imports.clear();
+                CodegenDiscriminator discriminator = cm.discriminator;
+                if (discriminator != null) {
+                    Set<CodegenDiscriminator.MappedModel> mappedModels = discriminator.getMappedModels();
+                    for (CodegenDiscriminator.MappedModel mappedModel : mappedModels) {
+                        String otherModelName = mappedModel.getModelName();
+                        addModelImport(objs, cm, otherModelName);
+                    }
+                }
                 ArrayList<List<CodegenProperty>> listOfLists= new ArrayList<List<CodegenProperty>>();
                 listOfLists.add(cm.allVars);
                 listOfLists.add(cm.requiredVars);
@@ -329,14 +349,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                           }
                       }
                       if (otherModelName != null) {
-                          HashMap referencedModel = (HashMap) objs.get(otherModelName);
-                          ArrayList myModel = (ArrayList) referencedModel.get("models");
-                          HashMap modelData = (HashMap) myModel.get(0);
-                          String importPath = (String) modelData.get("importPath");
-                          // only add importPath to parameters if it isn't in importPaths
-                          if (!cm.imports.contains(importPath)) {
-                              cm.imports.add(importPath);
-                          }
+                          addModelImport(objs, cm, otherModelName);
                       }
                   }
                 }
