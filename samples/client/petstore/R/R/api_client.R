@@ -83,15 +83,15 @@ ApiClient  <- R6::R6Class(
       if (method == "GET") {
         httr::GET(url, queryParams, headers, ...)
       } else if (method == "POST") {
-        httr::POST(url, queryParams, headers, body = body, httr::content_type("application/json"), ...)
+        httr::POST(url, query = queryParams, headers, body = body, httr::content_type("application/json"), ...)
       } else if (method == "PUT") {
-        httr::PUT(url, queryParams, headers, body = body, httr::content_type("application/json"), ...)
+        httr::PUT(url, query = queryParams, headers, body = body, httr::content_type("application/json"), ...)
       } else if (method == "PATCH") {
-        httr::PATCH(url, queryParams, headers, body = body, httr::content_type("application/json"), ...)
+        httr::PATCH(url, query = queryParams, headers, body = body, httr::content_type("application/json"), ...)
       } else if (method == "HEAD") {
-        httr::HEAD(url, queryParams, headers, ...)
+        httr::HEAD(url, query = queryParams, headers, ...)
       } else if (method == "DELETE") {
-        httr::DELETE(url, queryParams, headers, ...)
+        httr::DELETE(url, query = queryParams, headers, ...)
       } else {
         stop("http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`.")
       }
