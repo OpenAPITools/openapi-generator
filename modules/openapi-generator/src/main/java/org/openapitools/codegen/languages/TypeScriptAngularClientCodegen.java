@@ -93,7 +93,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(PROVIDED_IN_ROOT,
                 "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).",
                 SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '4.3'"));
+        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '7.0.0'"));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service. Default is 'Service'."));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts). Default is '.service'."));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model. Default is ''."));
@@ -138,7 +138,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(NG_VERSION)) {
             ngVersion = new SemVer(additionalProperties.get(NG_VERSION).toString());
         } else {
-            ngVersion = new SemVer("4.3.0");
+            ngVersion = new SemVer("7.0.0");
             LOGGER.info("generating code for Angular {} ...", ngVersion);
             LOGGER.info("  (you can select the angular version by setting the additionalProperty ngVersion)");
         }
