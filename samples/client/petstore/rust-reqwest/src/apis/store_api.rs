@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -42,15 +42,9 @@ impl StoreApi for StoreApiClient {
         let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=urlencode(order_id));
         let mut req_builder = client.delete(uri_str.as_str());
 
-        
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-        
-        
-        
-        
-        
 
         // send request
         let req = req_builder.build()?;
@@ -66,13 +60,9 @@ impl StoreApi for StoreApiClient {
         let uri_str = format!("{}/store/inventory", configuration.base_path);
         let mut req_builder = client.get(uri_str.as_str());
 
-        
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-        
-        
-        
         if let Some(ref apikey) = configuration.api_key {
             let key = apikey.key.clone();
             let val = match apikey.prefix {
@@ -81,11 +71,6 @@ impl StoreApi for StoreApiClient {
             };
             req_builder = req_builder.header("api_key", val);
         };
-        
-        
-        
-        
-        
 
         // send request
         let req = req_builder.build()?;
@@ -100,15 +85,9 @@ impl StoreApi for StoreApiClient {
         let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=order_id);
         let mut req_builder = client.get(uri_str.as_str());
 
-        
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-        
-        
-        
-        
-        
 
         // send request
         let req = req_builder.build()?;
@@ -123,17 +102,10 @@ impl StoreApi for StoreApiClient {
         let uri_str = format!("{}/store/order", configuration.base_path);
         let mut req_builder = client.post(uri_str.as_str());
 
-        
         if let Some(ref user_agent) = configuration.user_agent {
             req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
         }
-        
-        
-        
-        
-        
         req_builder = req_builder.json(&body);
-        
 
         // send request
         let req = req_builder.build()?;

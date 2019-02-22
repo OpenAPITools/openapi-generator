@@ -30,9 +30,9 @@ type UserApiService service
 UserApiService Create user
 This can only be done by the logged in user.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param user Created user object
+ * @param body Created user object
 */
-func (a *UserApiService) CreateUser(ctx context.Context, user User) (*http.Response, error) {
+func (a *UserApiService) CreateUser(ctx context.Context, body User) (*http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Post")
 		localVarPostBody     interface{}
@@ -66,7 +66,7 @@ func (a *UserApiService) CreateUser(ctx context.Context, user User) (*http.Respo
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &user
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -97,9 +97,9 @@ func (a *UserApiService) CreateUser(ctx context.Context, user User) (*http.Respo
 /*
 UserApiService Creates list of users with given input array
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param user List of user object
+ * @param body List of user object
 */
-func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []User) (*http.Response, error) {
+func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, body []User) (*http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Post")
 		localVarPostBody     interface{}
@@ -133,7 +133,7 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []U
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &user
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -164,9 +164,9 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []U
 /*
 UserApiService Creates list of users with given input array
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param user List of user object
+ * @param body List of user object
 */
-func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, user []User) (*http.Response, error) {
+func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, body []User) (*http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Post")
 		localVarPostBody     interface{}
@@ -200,7 +200,7 @@ func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, user []Us
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &user
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -352,14 +352,6 @@ func (a *UserApiService) GetUserByName(ctx context.Context, username string) (Us
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
-		}
-	}
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -374,6 +366,15 @@ func (a *UserApiService) GetUserByName(ctx context.Context, username string) (Us
 			}
 			newErr.model = v
 			return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
 		}
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
@@ -440,14 +441,6 @@ func (a *UserApiService) LoginUser(ctx context.Context, username string, passwor
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
-		}
-	}
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -462,6 +455,15 @@ func (a *UserApiService) LoginUser(ctx context.Context, username string, passwor
 			}
 			newErr.model = v
 			return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
 		}
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
@@ -538,9 +540,9 @@ UserApiService Updated user
 This can only be done by the logged in user.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param username name that need to be deleted
- * @param user Updated user object
+ * @param body Updated user object
 */
-func (a *UserApiService) UpdateUser(ctx context.Context, username string, user User) (*http.Response, error) {
+func (a *UserApiService) UpdateUser(ctx context.Context, username string, body User) (*http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Put")
 		localVarPostBody     interface{}
@@ -575,7 +577,7 @@ func (a *UserApiService) UpdateUser(ctx context.Context, username string, user U
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &user
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err

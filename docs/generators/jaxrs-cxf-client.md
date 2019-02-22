@@ -41,6 +41,7 @@ sidebar_label: jaxrs-cxf-client
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
+|snapshotVersion|Uses a SNAPSHOT version.| |null|
 |useBeanValidation|Use BeanValidation API annotations| |false|
 |useGzipFeatureForTests|Use Gzip Feature for tests| |false|
 |useLoggingFeatureForTests|Use Logging Feature for tests| |false|

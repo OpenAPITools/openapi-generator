@@ -17,17 +17,16 @@
 
 package org.openapitools.codegen;
 
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -119,7 +118,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testGetProducesInfo() throws Exception {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/produces.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/produces.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -190,7 +189,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testFormParameterHasDefaultValue() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -202,7 +201,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testEnsureNoDuplicateProduces() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/two-responses.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/two-responses.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -237,7 +236,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testGetSchemaTypeWithComposedSchemaWithOneOf() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/composed-oneof.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/composed-oneof.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/state").getPost();
@@ -355,7 +354,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testExample1() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/examples.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/examples.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/example1/singular").getGet();
@@ -373,7 +372,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testExample2() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/examples.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/examples.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/example2/singular").getGet();
@@ -385,7 +384,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testExample3() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/examples.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/examples.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/example3/singular").getGet();
@@ -403,7 +402,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testExample4() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/examples.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/examples.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
 
         Operation operation = openAPI.getPaths().get("/example4/singular").getPost();
@@ -421,7 +420,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testDiscriminator() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
 
         Schema animal = openAPI.getComponents().getSchemas().get("Animal");
@@ -437,7 +436,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testDiscriminatorWithCustomMapping() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/allOf.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -454,7 +453,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testParentName() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/allOf.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf.yaml");
         DefaultCodegen codegen = new DefaultCodegen();
 
         Schema child = openAPI.getComponents().getSchemas().get("Child");
@@ -465,7 +464,7 @@ public class DefaultCodegenTest {
 
     @Test
     public void testCallbacks() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/callbacks.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/callbacks.yaml");
         final CodegenConfig codegen = new DefaultCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -534,6 +533,36 @@ public class DefaultCodegenTest {
         Assert.assertEquals(co2.path, "/some/path");
     }
 
+    @Test
+    public void testResponseWithNoSchemaInHeaders() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        ApiResponse response2XX = new ApiResponse()
+                .description("OK")
+                .addHeaderObject("x-custom-header", new Header()
+                        .description("a custom header")
+                        .style(Header.StyleEnum.SIMPLE));
+        Operation operation1 = new Operation().operationId("op1").responses(new ApiResponses().addApiResponse("2XX", response2XX));
+        openAPI.path("/here", new PathItem().get(operation1));
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenResponse cr = codegen.fromResponse("2XX", response2XX);
+        Assert.assertNotNull(cr);
+        Assert.assertTrue(cr.hasHeaders);
+    }
+
+    @Test
+    public void testNullableProperty() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/examples.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenProperty property = codegen.fromProperty("address", (Schema) openAPI.getComponents().getSchemas().get("User").getProperties().get("address"));
+
+        Assert.assertTrue(property.isNullable);
+    }
+
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
         CodegenDiscriminator test = new CodegenDiscriminator();
         test.setPropertyName("DollarUnderscoretype");
@@ -552,7 +581,8 @@ public class DefaultCodegenTest {
         allowableValues.put("values", Collections.singletonList(1));
         items.setAllowableValues(allowableValues);
         items.dataType = "Integer";
-        array.setItems(items);
+        array.items = items;
+        array.mostInnerItems = items;
         array.dataType = "Array";
         return array;
     }

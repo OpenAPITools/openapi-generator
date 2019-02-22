@@ -1551,7 +1551,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Output the Getter name, e.g. getSize
+     * Output the Setter name, e.g. setSize
      *
      * @param name the name of the property
      * @return setter name based on naming convention
@@ -2041,16 +2041,22 @@ public class DefaultCodegen implements CodegenConfig {
                 property.allowableValues = allowableValues;
             }
         }
+
+        Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
+
         //Referenced enum case:
-        Schema r = ModelUtils.getReferencedSchema(this.openAPI, p);
-        if (r.getEnum() != null && !r.getEnum().isEmpty()) {
-            List<Object> _enum = r.getEnum();
+        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+            List<Object> _enum = referencedSchema.getEnum();
 
             Map<String, Object> allowableValues = new HashMap<String, Object>();
             allowableValues.put("values", _enum);
             if (allowableValues.size() > 0) {
                 property.allowableValues = allowableValues;
             }
+        }
+
+        if (referencedSchema.getNullable() != null) {
+            property.isNullable = referencedSchema.getNullable();
         }
 
         property.dataType = getTypeDeclaration(p);
@@ -3297,12 +3303,19 @@ public class DefaultCodegen implements CodegenConfig {
      */
     private void addHeaders(ApiResponse response, List<CodegenProperty> properties) {
         if (response.getHeaders() != null) {
-            for (Map.Entry<String, Header> headers : response.getHeaders().entrySet()) {
-                String description = headers.getValue().getDescription();
+            for (Map.Entry<String, Header> headerEntry : response.getHeaders().entrySet()) {
+                String description = headerEntry.getValue().getDescription();
                 // follow the $ref
-                Header header = ModelUtils.getReferencedHeader(this.openAPI, headers.getValue());
+                Header header = ModelUtils.getReferencedHeader(this.openAPI, headerEntry.getValue());
 
-                CodegenProperty cp = fromProperty(headers.getKey(), header.getSchema());
+                Schema schema;
+                if(header.getSchema() == null) {
+                    LOGGER.warn("No schema defined for Header '" + headerEntry.getKey() +"', using a String schema");
+                    schema = new StringSchema();
+                } else {
+                    schema = header.getSchema();
+                }
+                CodegenProperty cp = fromProperty(headerEntry.getKey(), schema);
                 cp.setDescription(escapeText(description));
                 cp.setUnescapedDescription(description);
                 properties.add(cp);
@@ -3973,8 +3986,8 @@ public class DefaultCodegen implements CodegenConfig {
         Map<String, Object> allowableValues = var.allowableValues;
 
         // handle array
-        if (var.items != null) {
-            allowableValues = var.items.allowableValues;
+        if (var.mostInnerItems != null) {
+            allowableValues = var.mostInnerItems.allowableValues;
         }
 
         if (allowableValues == null) {
@@ -3985,6 +3998,13 @@ public class DefaultCodegen implements CodegenConfig {
         if (values == null) {
             return;
         }
+
+        String varDataType = var.mostInnerItems != null ? var.mostInnerItems.dataType : var.dataType;
+        Optional<Schema> referencedSchema = ModelUtils.getSchemas(openAPI).entrySet().stream()
+                .filter(entry -> Objects.equals(varDataType, toModelName(entry.getKey())))
+                .map(Map.Entry::getValue)
+                .findFirst();
+        String dataType = (referencedSchema.isPresent()) ? getTypeDeclaration(referencedSchema.get()) : varDataType;
 
         // put "enumVars" map into `allowableValues", including `name` and `value`
         List<Map<String, Object>> enumVars = new ArrayList<>();
@@ -4002,7 +4022,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            final String dataType = var.mostInnerItems != null ? var.mostInnerItems.dataType : var.dataType;
             enumVar.put("name", toEnumVarName(enumName, dataType));
             enumVar.put("value", toEnumValue(value.toString(), dataType));
             enumVar.put("isString", isDataTypeString(dataType));
@@ -4010,14 +4029,23 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
         Map<String, Object> extensions = var.mostInnerItems != null ? var.mostInnerItems.getVendorExtensions() : var.getVendorExtensions();
+        if(referencedSchema.isPresent()) {
+            extensions = referencedSchema.get().getExtensions();
+        }
         updateEnumVarsWithExtensions(enumVars, extensions);
         allowableValues.put("enumVars", enumVars);
 
         // handle default value for enum, e.g. available => StatusEnum.AVAILABLE
         if (var.defaultValue != null) {
             String enumName = null;
+            final String enumDefaultValue;
+            if("string".equalsIgnoreCase(dataType)) {
+                enumDefaultValue = toEnumValue(var.defaultValue, dataType);
+            } else {
+                enumDefaultValue = var.defaultValue;
+            }
             for (Map<String, Object> enumVar : enumVars) {
-                if (toEnumValue(var.defaultValue, var.dataType).equals(enumVar.get("value"))) {
+                if (enumDefaultValue.equals(enumVar.get("value"))) {
                     enumName = (String) enumVar.get("name");
                     break;
                 }
