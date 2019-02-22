@@ -266,6 +266,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/EmptyExampleOnStringTypeModels'
+  /nullable_properties:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nullable_request_body_property:
+                  type: object
+                  nullable: true
+                  properties:
+                    nullable_request_body_property_name:
+                      type: string
+      operationId: arbitraryObjectRequestBodyProperty
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     Users:
@@ -301,3 +319,12 @@ components:
     EmptyExampleOnStringTypeModels:
       type: string
       example: ''
+    InlinePropertyIsNullable:
+      type: object
+      properties:
+        nullable_property:
+          type: object
+          nullable: true
+          properties:
+            nullable_property_name:
+              type: string
