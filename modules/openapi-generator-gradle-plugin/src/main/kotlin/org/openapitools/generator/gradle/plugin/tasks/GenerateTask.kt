@@ -403,11 +403,25 @@ open class GenerateTask : DefaultTask() {
                 GeneratorProperties.clearProperty(CodegenConstants.APIS)
             }
 
-            GeneratorProperties.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.get().toString())
-            GeneratorProperties.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
-            GeneratorProperties.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.get().toString())
-            GeneratorProperties.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
-            GeneratorProperties.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
+            if (generateApiDocumentation.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.get().toString())
+            }
+
+            if (generateModelDocumentation.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
+            }
+
+            if (generateModelTests.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.get().toString())
+            }
+
+            if (generateApiTests.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
+            }
+
+            if (withXml.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
+            }
 
             // now override with any specified parameters
             verbose.ifNotEmpty { value ->
