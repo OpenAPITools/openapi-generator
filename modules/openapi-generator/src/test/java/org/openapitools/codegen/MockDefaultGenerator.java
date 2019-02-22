@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen;
 
+import org.openapitools.codegen.templating.Bundle;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -31,7 +33,7 @@ public class MockDefaultGenerator extends DefaultGenerator {
     private Map<String, String> files = new HashMap<>();
 
     @Override
-    protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {
+    protected File processTemplateToFile(Bundle templateData, String templateName, String outputFilename) throws IOException {
         templateBasedFiles.add(new WrittenTemplateBasedFile(templateData, templateName, normalizePath(outputFilename)));
         return super.processTemplateToFile(templateData, templateName, outputFilename);
     }
@@ -61,17 +63,17 @@ public class MockDefaultGenerator extends DefaultGenerator {
     }
 
     public static class WrittenTemplateBasedFile {
-        private Map<String, Object> templateData;
+        private Bundle templateData;
         private String templateName;
         private String outputFilename;
 
-        public WrittenTemplateBasedFile(Map<String, Object> templateData, String templateName, String outputFilename) {
+        public WrittenTemplateBasedFile(Bundle templateData, String templateName, String outputFilename) {
             this.templateData = templateData;
             this.templateName = templateName;
             this.outputFilename = outputFilename;
         }
 
-        public Map<String, Object> getTemplateData() {
+        public Bundle getTemplateData() {
             return templateData;
         }
 

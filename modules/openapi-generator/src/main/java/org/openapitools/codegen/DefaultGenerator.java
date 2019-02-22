@@ -37,6 +37,14 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.config.GeneratorProperties;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+//import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.templating.ApiBundle;
+import org.openapitools.codegen.templating.ApiInfoBundle;
+import org.openapitools.codegen.templating.Bundle;
+import org.openapitools.codegen.templating.ModelBundle;
+import org.openapitools.codegen.templating.ModelsBundle;
+import org.openapitools.codegen.templating.OperationsBundle;
+import org.openapitools.codegen.templating.TemplatingInputBundle;
 import org.openapitools.codegen.utils.ImplementationVersion;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
@@ -261,7 +269,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
     }
 
-    private void generateModelTests(List<File> files, Map<String, Object> models, String modelName) throws IOException {
+    private void generateModelTests(List<File> files, ModelsBundle models, String modelName) throws IOException {
         // to generate model test files
         for (String templateName : config.modelTestTemplateFiles().keySet()) {
             String suffix = config.modelTestTemplateFiles().get(templateName);
@@ -281,7 +289,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
     }
 
-    private void generateModelDocumentation(List<File> files, Map<String, Object> models, String modelName) throws IOException {
+    private void generateModelDocumentation(List<File> files, ModelsBundle models, String modelName) throws IOException {
         for (String templateName : config.modelDocTemplateFiles().keySet()) {
             String docExtension = config.getDocExtension();
             String suffix = docExtension != null ? docExtension : config.modelDocTemplateFiles().get(templateName);
@@ -300,7 +308,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
     }
 
-    private void generateModel(List<File> files, Map<String, Object> models, String modelName) throws IOException {
+    private void generateModel(List<File> files, ModelsBundle models, String modelName) throws IOException {
         for (String templateName : config.modelTemplateFiles().keySet()) {
             String suffix = config.modelTemplateFiles().get(templateName);
             String filename = config.modelFileFolder() + File.separator + config.toModelFilename(modelName) + suffix;
@@ -318,7 +326,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
     }
 
-    private void generateModels(List<File> files, List<Object> allModels, List<String> unusedModels) {
+    private void generateModels(List<File> files, List<ModelBundle> allModels, List<String> unusedModels) {
         if (!generateModels) {
             return;
         }
@@ -347,7 +355,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         // store all processed models
-        Map<String, Object> allProcessedModels = new TreeMap<String, Object>(new Comparator<String>() {
+        Map<String, ModelsBundle> allProcessedModels = new TreeMap<String, ModelsBundle>(new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
                 return ObjectUtils.compare(config.toModelName(o1), config.toModelName(o2));
@@ -446,8 +454,8 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
                 Map<String, Schema> schemaMap = new HashMap<>();
                 schemaMap.put(name, schema);
-                Map<String, Object> models = processModels(config, schemaMap);
-                models.put("classname", config.toModelName(name));
+                ModelsBundle models = processModels(config, schemaMap);
+                models.setClassname(config.toModelName(name));
                 models.putAll(config.additionalProperties());
                 allProcessedModels.put(name, models);
             } catch (Exception e) {
@@ -456,15 +464,22 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         // loop through all models to update children models, isSelfReference, isCircularReference, etc
-        allProcessedModels = config.updateAllModels(allProcessedModels);
+        Map<String, Object> processed = new LinkedHashMap<String, Object>(allProcessedModels);
+        processed = config.updateAllModels(processed);
 
         // post process all processed models
-        allProcessedModels = config.postProcessAllModels(allProcessedModels);
+        processed = config.postProcessAllModels(processed);
+
+        allProcessedModels = new LinkedHashMap<String, ModelsBundle>();
+        for (Map.Entry<String, Object> entry: processed.entrySet()) {
+            allProcessedModels.put(entry.getKey(), new ModelsBundle((Map<String, Object>) entry.getValue()));
+        }
 
         // generate files based on processed models
         for (String modelName : allProcessedModels.keySet()) {
-            Map<String, Object> models = (Map<String, Object>) allProcessedModels.get(modelName);
-            models.put("modelPackage", config.modelPackage());
+            ModelsBundle models = allProcessedModels.get(modelName);
+            models.setModelPackage(config.modelPackage());
+            models.putAll(config.additionalProperties());
             try {
                 //don't generate models that have an import mapping
                 if (config.importMapping().containsKey(modelName)) {
@@ -472,10 +487,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
 
                 // TODO revise below as we've already performed unaliasing so that the isAlias check may be removed
-                Map<String, Object> modelTemplate = (Map<String, Object>) ((List<Object>) models.get("models")).get(0);
+                ModelBundle modelTemplate = models.getModels().get(0);
                 // Special handling of aliases only applies to Java
-                if (modelTemplate != null && modelTemplate.containsKey("model")) {
-                    CodegenModel m = (CodegenModel) modelTemplate.get("model");
+                if (modelTemplate != null) {
+                    CodegenModel m = modelTemplate.getModel();
                     if (m.isAlias) {
                         continue;  // Don't create user-defined classes for aliases
                     }
@@ -505,7 +520,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
     }
 
-    private void generateApis(List<File> files, List<Object> allOperations, List<Object> allModels) {
+    private void generateApis(List<File> files, List<ApiBundle> allOperations, List<ModelBundle> allModels) {
         if (!generateApis) {
             return;
         }
@@ -533,19 +548,19 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         return ObjectUtils.compare(one.operationId, another.operationId);
                     }
                 });
-                Map<String, Object> operation = processOperations(config, tag, ops, allModels);
+                ApiBundle operation = processOperations(config, tag, ops, allModels);
                 URL url = URLPathUtils.getServerURL(openAPI);
-                operation.put("basePath", basePath);
-                operation.put("basePathWithoutHost", config.encodePath(url.getPath()).replaceAll("/$", ""));
-                operation.put("contextPath", contextPath);
-                operation.put("baseName", tag);
-                operation.put("apiPackage", config.apiPackage());
-                operation.put("modelPackage", config.modelPackage());
+                operation.setBasePath(basePath);
+                operation.setBasePathWithoutHost(config.encodePath(url.getPath()).replaceAll("/$", ""));
+                operation.setContextPath(contextPath);
+                operation.setBaseName(tag);
+                operation.setApiPackage(config.apiPackage());
+                operation.setModelPackage(config.modelPackage());
                 operation.putAll(config.additionalProperties());
-                operation.put("classname", config.toApiName(tag));
-                operation.put("classVarName", config.toApiVarName(tag));
-                operation.put("importPath", config.toApiImport(tag));
-                operation.put("classFilename", config.toApiFilename(tag));
+                operation.setClassname(config.toApiName(tag));
+                operation.setClassVarName(config.toApiVarName(tag));
+                operation.setImportPath(config.toApiImport(tag));
+                operation.setClassFilename(config.toApiFilename(tag));
 
                 if (allModels == null || allModels.isEmpty()) {
                     operation.put("hasModel", false);
@@ -554,7 +569,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 }
 
                 if (!config.vendorExtensions().isEmpty()) {
-                    operation.put("vendorExtensions", config.vendorExtensions());
+                    operation.setVendorExtensions(config.vendorExtensions());
                 }
 
                 // process top-level x-group-parameters
@@ -576,18 +591,18 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (this.config.additionalProperties().containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
                     sortParamsByRequiredFlag = Boolean.valueOf(this.config.additionalProperties().get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString());
                 }
-                operation.put("sortParamsByRequiredFlag", sortParamsByRequiredFlag);
+                operation.setSortParamsByRequiredFlag(sortParamsByRequiredFlag);
 
                 /* consumes, produces are no longer defined in OAS3.0
                 processMimeTypes(swagger.getConsumes(), operation, "consumes");
                 processMimeTypes(swagger.getProduces(), operation, "produces");
                 */
 
-                allOperations.add(new HashMap<String, Object>(operation));
+                allOperations.add(operation);
                 for (int i = 0; i < allOperations.size(); i++) {
-                    Map<String, Object> oo = (Map<String, Object>) allOperations.get(i);
+                    ApiBundle oo = allOperations.get(i);
                     if (i < (allOperations.size() - 1)) {
-                        oo.put("hasMore", "true");
+                        oo.setHasMore(true);
                     }
                 }
 
@@ -658,7 +673,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
     }
 
-    private void generateSupportingFiles(List<File> files, Map<String, Object> bundle) {
+    private void generateSupportingFiles(List<File> files, TemplatingInputBundle bundle) {
         if (!generateSupportingFiles) {
             return;
         }
@@ -809,41 +824,43 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return outputFile;
     }
 
-    private Map<String, Object> buildSupportFileBundle(List<Object> allOperations, List<Object> allModels) {
+    private TemplatingInputBundle buildSupportFileBundle(List<ApiBundle> allOperations, List<ModelBundle> allModels) {
 
-        Map<String, Object> bundle = new HashMap<String, Object>();
+        TemplatingInputBundle bundle = new TemplatingInputBundle();
         bundle.putAll(config.additionalProperties());
-        bundle.put("apiPackage", config.apiPackage());
+        bundle.setApiPackage(config.apiPackage());
 
-        Map<String, Object> apis = new HashMap<String, Object>();
-        apis.put("apis", allOperations);
+        ApiInfoBundle apis = new ApiInfoBundle();
+        apis.setApis(allOperations);
 
         URL url = URLPathUtils.getServerURL(openAPI);
 
-        bundle.put("openAPI", openAPI);
-        bundle.put("basePath", basePath);
-        bundle.put("basePathWithoutHost", basePathWithoutHost);
-        bundle.put("scheme", URLPathUtils.getScheme(url, config));
-        bundle.put("host", url.getHost());
-        bundle.put("contextPath", contextPath);
-        bundle.put("apiInfo", apis);
-        bundle.put("models", allModels);
-        bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
-        bundle.put("modelPackage", config.modelPackage());
+        bundle.setOpenAPI(openAPI);
+        bundle.setBasePath(basePath);
+        bundle.setBasePathWithoutHost(basePathWithoutHost);
+        bundle.setScheme(URLPathUtils.getScheme(url, config));
+        bundle.setHost(url.getHost());
+        bundle.setContextPath(contextPath);
+        bundle.setApiInfo(apis);
+        bundle.setModels(allModels);
+        bundle.setApiFolder(config.apiPackage().replace('.', File.separatorChar));
+        bundle.setModelPackage(config.modelPackage());
 
-        Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        Map<String, SecurityScheme> securitySchemeMap =
+            openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
         List<CodegenSecurity> authMethods = config.fromSecurity(securitySchemeMap);
         if (authMethods != null && !authMethods.isEmpty()) {
-            bundle.put("authMethods", authMethods);
-            bundle.put("hasAuthMethods", true);
+            bundle.setAuthMethods(authMethods);
+            bundle.setHasAuthMethods(true);
 
             if (hasOAuthMethods(authMethods)) {
-                bundle.put("hasOAuthMethods", true);
-                bundle.put("oauthMethods", getOAuthMethods(authMethods));
+                bundle.setHasOAuthMethods(true);
+                bundle.setOauthMethods(getOAuthMethods(authMethods));
             }
 
             if (hasBearerMethods(authMethods)) {
                 bundle.put("hasBearerMethods", true);
+                bundle.setHasBearerMethods(true);
             }
         }
 
@@ -854,12 +871,12 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
 
         if (openAPI.getExternalDocs() != null) {
-            bundle.put("externalDocs", openAPI.getExternalDocs());
+            bundle.setExternalDocs(openAPI.getExternalDocs());
         }
 
         for (int i = 0; i < allModels.size() - 1; i++) {
-            HashMap<String, CodegenModel> cm = (HashMap<String, CodegenModel>) allModels.get(i);
-            CodegenModel m = cm.get("model");
+            ModelBundle cm = allModels.get(i);
+            CodegenModel m = cm.getModel();
             m.hasMoreModels = true;
         }
 
@@ -893,14 +910,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         List<File> files = new ArrayList<File>();
         // models
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
-        List<Object> allModels = new ArrayList<Object>();
+        List<ModelBundle> allModels = new ArrayList<ModelBundle>();
         generateModels(files, allModels, filteredSchemas);
         // apis
-        List<Object> allOperations = new ArrayList<Object>();
+        List<ApiBundle> allOperations = new ArrayList<>();
         generateApis(files, allOperations, allModels);
 
         // supporting files
-        Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels);
+        TemplatingInputBundle bundle = buildSupportFileBundle(allOperations, allModels);
         generateSupportingFiles(files, bundle);
         config.processOpenAPI(openAPI);
 
@@ -911,7 +928,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
 
-    protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {
+    protected File processTemplateToFile(Bundle templateData, String templateName, String outputFilename) throws IOException {
         String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
         if (ignoreProcessor.allowsFile(new File(adjustedOutputFilename))) {
             String templateFile = getFullTemplateFile(config, templateName);
@@ -1060,11 +1077,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
 
-    private Map<String, Object> processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops, List<Object> allModels) {
-        Map<String, Object> operations = new HashMap<String, Object>();
-        Map<String, Object> objs = new HashMap<String, Object>();
-        objs.put("classname", config.toApiName(tag));
-        objs.put("pathPrefix", config.toApiVarName(tag));
+    private ApiBundle processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops, List<ModelBundle> allModels) {
+        ApiBundle operations = new ApiBundle();
+        OperationsBundle objs = new OperationsBundle();
+        objs.setClassname(config.toApiName(tag));
+        objs.setPathPrefix(config.toApiVarName(tag));
 
         // check for operationId uniqueness
         Set<String> opIds = new HashSet<String>();
@@ -1077,10 +1094,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
             opIds.add(opId);
         }
-        objs.put("operation", ops);
+        objs.setOperation(ops);
 
-        operations.put("operations", objs);
-        operations.put("package", config.apiPackage());
+        operations.setOperations(objs);
+        operations.setPackage(config.apiPackage());
 
         Set<String> allImports = new TreeSet<String>();
         for (CodegenOperation op : ops) {
@@ -1106,16 +1123,18 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             }
         }
 
-        operations.put("imports", imports);
+        operations.setImports(imports);
 
         // add a flag to indicate whether there's any {{import}}
         if (imports.size() > 0) {
-            operations.put("hasImport", true);
+            operations.setHasImport(true);
         }
 
-        config.postProcessOperationsWithModels(operations, allModels);
+        List<Object> listAllModels = new ArrayList<Object>(allModels);
+
+        config.postProcessOperationsWithModels(operations, listAllModels);
         if (objs.size() > 0) {
-            List<CodegenOperation> os = (List<CodegenOperation>) objs.get("operation");
+            List<CodegenOperation> os = objs.getOperation();
 
             if (os != null && os.size() > 0) {
                 CodegenOperation op = os.get(os.size() - 1);
@@ -1126,26 +1145,26 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
 
-    private Map<String, Object> processModels(CodegenConfig config, Map<String, Schema> definitions) {
-        Map<String, Object> objs = new HashMap<String, Object>();
-        objs.put("package", config.modelPackage());
-        List<Object> models = new ArrayList<Object>();
+    private ModelsBundle processModels(CodegenConfig config, Map<String, Schema> definitions) {
+        ModelsBundle objs = new ModelsBundle();
+        objs.setPackage(config.modelPackage());
+        List<ModelBundle> models = new ArrayList<ModelBundle>();
         Set<String> allImports = new LinkedHashSet<String>();
         for (String key : definitions.keySet()) {
             Schema schema = definitions.get(key);
             if (schema == null)
                 throw new RuntimeException("schema cannot be null in processMoels");
             CodegenModel cm = config.fromModel(key, schema);
-            Map<String, Object> mo = new HashMap<String, Object>();
-            mo.put("model", cm);
-            mo.put("importPath", config.toModelImport(cm.classname));
+            ModelBundle mo = new ModelBundle();
+            mo.setModel(cm);
+            mo.setImportPath(config.toModelImport(cm.classname));
             models.add(mo);
 
             cm.removeSelfReferenceImport();
 
             allImports.addAll(cm.imports);
         }
-        objs.put("models", models);
+        objs.setModels(models);
         Set<String> importSet = new TreeSet<String>();
         for (String nextImport : allImports) {
             String mapping = config.importMapping().get(nextImport);
@@ -1167,7 +1186,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             item.put("import", s);
             imports.add(item);
         }
-        objs.put("imports", imports);
+        objs.setImports(imports);
         config.postProcessModels(objs);
         return objs;
     }
