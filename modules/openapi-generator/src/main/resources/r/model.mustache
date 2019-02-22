@@ -17,8 +17,9 @@
     {{#vars}}
     `{{{baseName}}}` = NULL,
     {{/vars}}
-    initialize = function({{#vars}}`{{baseName}}`{{#hasMore}}, {{/hasMore}}{{/vars}}){
-      {{#vars}}
+    initialize = function({{#requiredVars}}`{{baseName}}`{{#hasMore}}, {{/hasMore}}{{/requiredVars}}{{#optionalVars}}{{#-first}}{{#requiredVars.0}}, {{/requiredVars.0}}{{/-first}}`{{baseName}}`={{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}NULL{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalVars}}, ...){
+      local.optional.var <- list(...)
+      {{#requiredVars}}
       if (!missing(`{{baseName}}`)) {
         {{^isListContainer}}
         {{#isInteger}}
@@ -58,7 +59,48 @@
         {{/isListContainer}}
         self$`{{baseName}}` <- `{{baseName}}`
       }
-      {{/vars}}
+      {{/requiredVars}}
+      {{#optionalVars}}
+      if (!is.null(`{{baseName}}`)) {
+        {{^isListContainer}}
+        {{#isInteger}}
+        stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isInteger}}
+        {{#isLong}}
+        stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isLong}}
+        {{#isFloat}}
+        stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isFloat}}
+        {{#isDouble}}
+        stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isDouble}}
+        {{#isString}}
+        stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isString}}
+        {{#isDate}}
+        stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isDate}}
+        {{#isDateTime}}
+        stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isDateTime}}
+        {{^isPrimitiveType}}
+        stopifnot(R6::is.R6(`{{baseName}}`))
+        {{/isPrimitiveType}}
+        {{/isListContainer}}
+        {{#isListContainer}}
+        {{#isPrimitiveType}}
+        stopifnot(is.vector(`{{baseName}}`), length(`{{baseName}}`) != 0)
+        sapply(`{{baseName}}`, function(x) stopifnot(is.character(x)))
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        stopifnot(is.vector(`{{baseName}}`), length(`{{baseName}}`) != 0)
+        sapply(`{{baseName}}`, function(x) stopifnot(R6::is.R6(x)))
+        {{/isPrimitiveType}}
+        {{/isListContainer}}
+        self$`{{baseName}}` <- `{{baseName}}`
+      }
+      {{/optionalVars}}
     },
     toJSON = function() {
       {{classname}}Object <- list()

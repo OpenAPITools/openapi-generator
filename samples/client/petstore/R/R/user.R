@@ -32,36 +32,37 @@ User <- R6::R6Class(
     `password` = NULL,
     `phone` = NULL,
     `userStatus` = NULL,
-    initialize = function(`id`, `username`, `firstName`, `lastName`, `email`, `password`, `phone`, `userStatus`){
-      if (!missing(`id`)) {
+    initialize = function(`id`=NULL, `username`=NULL, `firstName`=NULL, `lastName`=NULL, `email`=NULL, `password`=NULL, `phone`=NULL, `userStatus`=NULL, ...){
+      local.optional.var <- list(...)
+      if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
         self$`id` <- `id`
       }
-      if (!missing(`username`)) {
+      if (!is.null(`username`)) {
         stopifnot(is.character(`username`), length(`username`) == 1)
         self$`username` <- `username`
       }
-      if (!missing(`firstName`)) {
+      if (!is.null(`firstName`)) {
         stopifnot(is.character(`firstName`), length(`firstName`) == 1)
         self$`firstName` <- `firstName`
       }
-      if (!missing(`lastName`)) {
+      if (!is.null(`lastName`)) {
         stopifnot(is.character(`lastName`), length(`lastName`) == 1)
         self$`lastName` <- `lastName`
       }
-      if (!missing(`email`)) {
+      if (!is.null(`email`)) {
         stopifnot(is.character(`email`), length(`email`) == 1)
         self$`email` <- `email`
       }
-      if (!missing(`password`)) {
+      if (!is.null(`password`)) {
         stopifnot(is.character(`password`), length(`password`) == 1)
         self$`password` <- `password`
       }
-      if (!missing(`phone`)) {
+      if (!is.null(`phone`)) {
         stopifnot(is.character(`phone`), length(`phone`) == 1)
         self$`phone` <- `phone`
       }
-      if (!missing(`userStatus`)) {
+      if (!is.null(`userStatus`)) {
         stopifnot(is.numeric(`userStatus`), length(`userStatus`) == 1)
         self$`userStatus` <- `userStatus`
       }
