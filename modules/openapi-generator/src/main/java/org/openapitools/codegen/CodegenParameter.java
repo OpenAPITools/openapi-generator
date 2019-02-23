@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class CodegenParameter {
     public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
@@ -182,131 +183,69 @@ public class CodegenParameter {
 
         CodegenParameter that = (CodegenParameter) o;
 
-        if (isEnum != that.isEnum) return false;
-        if (isFormParam != that.isFormParam)
-            return false;
-        if (isQueryParam != that.isQueryParam)
-            return false;
-        if (isPathParam != that.isPathParam)
-            return false;
-        if (isHeaderParam != that.isHeaderParam)
-            return false;
-        if (isCookieParam != that.isCookieParam)
-            return false;
-        if (isBodyParam != that.isBodyParam)
-            return false;
-        if (hasMore != that.hasMore)
-            return false;
-        if (isContainer != that.isContainer)
-            return false;
-        if (secondaryParam != that.secondaryParam)
-            return false;
-        if (isCollectionFormatMulti != that.isCollectionFormatMulti)
-            return false;
-        if (isPrimitiveType != that.isPrimitiveType)
-            return false;
-        if (isModel != that.isModel)
-            return false;
-        if (baseName != null ? !baseName.equals(that.baseName) : that.baseName != null)
-            return false;
-        if (paramName != null ? !paramName.equals(that.paramName) : that.paramName != null)
-            return false;
-        if (dataType != null ? !dataType.equals(that.dataType) : that.dataType != null)
-            return false;
-        if (datatypeWithEnum != null ? !datatypeWithEnum.equals(that.datatypeWithEnum) : that.datatypeWithEnum != null)
-            return false;
-        if (enumName != null ? !enumName.equals(that.enumName) : that.enumName != null)
-            return false;
-        if (dataFormat != null ? !dataFormat.equals(that.dataFormat) : that.dataFormat != null)
-            return false;
-        if (collectionFormat != null ? !collectionFormat.equals(that.collectionFormat) : that.collectionFormat != null)
-            return false;
-        if (description != null ? !description.equals(that.description) : that.description != null)
-            return false;
-        if (unescapedDescription != null ? !unescapedDescription.equals(that.unescapedDescription) : that.unescapedDescription != null)
-            return false;
-        if (baseType != null ? !baseType.equals(that.baseType) : that.baseType != null)
-            return false;
-        if (defaultValue != null ? !defaultValue.equals(that.defaultValue) : that.defaultValue != null)
-            return false;
-        if (example != null ? !example.equals(that.example) : that.example != null)
-            return false;
-        if (jsonSchema != null ? !jsonSchema.equals(that.jsonSchema) : that.jsonSchema != null)
-            return false;
-        if (isString != that.isString)
-            return false;
-        if (isNumeric != that.isNumeric)
-            return false;
-        if (isInteger != that.isInteger)
-            return false;
-        if (isLong != that.isLong)
-            return false;
-        if (isNumber != that.isNumber)
-            return false;
-        if (isFloat != that.isFloat)
-            return false;
-        if (isDouble != that.isDouble)
-            return false;
-        if (isByteArray != that.isByteArray)
-            return false;
-        if (isBinary != that.isBinary)
-            return false;
-        if (isBoolean != that.isBoolean)
-            return false;
-        if (isDate != that.isDate)
-            return false;
-        if (isDateTime != that.isDateTime)
-            return false;
-        if (isUuid != that.isUuid)
-            return false;
-        if (isEmail != that.isEmail)
-            return false;
-        if (isFreeFormObject != that.isFreeFormObject)
-            return false;
-        if (isListContainer != that.isListContainer)
-            return false;
-        if (isMapContainer != that.isMapContainer)
-            return false;
-        if (isFile != that.isFile)
-            return false;
-        if (_enum != null ? !_enum.equals(that._enum) : that._enum != null)
-            return false;
-        if (allowableValues != null ? !allowableValues.equals(that.allowableValues) : that.allowableValues != null)
-            return false;
-        if (items != null ? !items.equals(that.items) : that.items != null)
-            return false;
-        if (mostInnerItems != null ? !mostInnerItems.equals(that.mostInnerItems) : that.mostInnerItems != null)
-            return false;
-        if (vendorExtensions != null ? !vendorExtensions.equals(that.vendorExtensions) : that.vendorExtensions != null)
-            return false;
-        if (hasValidation != that.hasValidation)
-            return false;
-        if (isNullable != that.isNullable)
-            return false;
-        if (required != that.required)
-            return false;
-        if (maximum != null ? !maximum.equals(that.maximum) : that.maximum != null)
-            return false;
-        if (exclusiveMaximum != that.exclusiveMaximum)
-            return false;
-        if (minimum != null ? !minimum.equals(that.minimum) : that.minimum != null)
-            return false;
-        if (exclusiveMinimum != that.exclusiveMinimum)
-            return false;
-        if (maxLength != null ? !maxLength.equals(that.maxLength) : that.maxLength != null)
-            return false;
-        if (minLength != null ? !minLength.equals(that.minLength) : that.minLength != null)
-            return false;
-        if (pattern != null ? !pattern.equals(that.pattern) : that.pattern != null)
-            return false;
-        if (maxItems != null ? !maxItems.equals(that.maxItems) : that.maxItems != null)
-            return false;
-        if (minItems != null ? !minItems.equals(that.minItems) : that.minItems != null)
-            return false;
-        if (uniqueItems != that.uniqueItems)
-            return false;
-        return multipleOf != null ? multipleOf.equals(that.multipleOf) : that.multipleOf == null;
-
+        return Objects.equals(isEnum, that.isEnum) &&
+            Objects.equals(isFormParam, that.isFormParam) &&
+            Objects.equals(isQueryParam, that.isQueryParam) &&
+            Objects.equals(isPathParam, that.isPathParam) &&
+            Objects.equals(isHeaderParam, that.isHeaderParam) &&
+            Objects.equals(isCookieParam, that.isCookieParam) &&
+            Objects.equals(isBodyParam, that.isBodyParam) &&
+            Objects.equals(hasMore, that.hasMore) &&
+            Objects.equals(isContainer, that.isContainer) &&
+            Objects.equals(secondaryParam, that.secondaryParam) &&
+            Objects.equals(isCollectionFormatMulti, that.isCollectionFormatMulti) &&
+            Objects.equals(isPrimitiveType, that.isPrimitiveType) &&
+            Objects.equals(isModel, that.isModel) &&
+            Objects.equals(baseName, that.baseName) &&
+            Objects.equals(paramName, that.paramName) &&
+            Objects.equals(dataType, that.dataType) &&
+            Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
+            Objects.equals(enumName, that.enumName) &&
+            Objects.equals(dataFormat, that.dataFormat) &&
+            Objects.equals(collectionFormat, that.collectionFormat) &&
+            Objects.equals(description, that.description) &&
+            Objects.equals(unescapedDescription, that.unescapedDescription) &&
+            Objects.equals(baseType, that.baseType) &&
+            Objects.equals(defaultValue, that.defaultValue) &&
+            Objects.equals(example, that.example) &&
+            Objects.equals(jsonSchema, that.jsonSchema) &&
+            Objects.equals(isString, that.isString) &&
+            Objects.equals(isNumeric, that.isNumeric) &&
+            Objects.equals(isInteger, that.isInteger) &&
+            Objects.equals(isLong, that.isLong) &&
+            Objects.equals(isNumber, that.isNumber) &&
+            Objects.equals(isFloat, that.isFloat) &&
+            Objects.equals(isDouble, that.isDouble) &&
+            Objects.equals(isByteArray, that.isByteArray) &&
+            Objects.equals(isBinary, that.isBinary) &&
+            Objects.equals(isBoolean, that.isBoolean) &&
+            Objects.equals(isDate, that.isDate) &&
+            Objects.equals(isDateTime, that.isDateTime) &&
+            Objects.equals(isUuid, that.isUuid) &&
+            Objects.equals(isEmail, that.isEmail) &&
+            Objects.equals(isFreeFormObject, that.isFreeFormObject) &&
+            Objects.equals(isListContainer, that.isListContainer) &&
+            Objects.equals(isMapContainer, that.isMapContainer) &&
+            Objects.equals(isFile, that.isFile) &&
+            Objects.equals(_enum, that._enum) &&
+            Objects.equals(allowableValues, that.allowableValues) &&
+            Objects.equals(items, that.items) &&
+            Objects.equals(mostInnerItems, that.mostInnerItems) &&
+            Objects.equals(vendorExtensions, that.vendorExtensions) &&
+            Objects.equals(hasValidation, that.hasValidation) &&
+            Objects.equals(isNullable, that.isNullable) &&
+            Objects.equals(required, that.required) &&
+            Objects.equals(maximum, that.maximum) &&
+            Objects.equals(exclusiveMaximum, that.exclusiveMaximum) &&
+            Objects.equals(minimum, that.minimum) &&
+            Objects.equals(exclusiveMinimum, that.exclusiveMinimum) &&
+            Objects.equals(maxLength, that.maxLength) &&
+            Objects.equals(minLength, that.minLength) &&
+            Objects.equals(pattern, that.pattern) &&
+            Objects.equals(maxItems, that.maxItems) &&
+            Objects.equals(minItems, that.minItems) &&
+            Objects.equals(uniqueItems, that.uniqueItems) &&
+            Objects.equals(multipleOf, that.multipleOf);
     }
 
     @Override

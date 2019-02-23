@@ -132,82 +132,44 @@ public class CodegenModel {
 
         CodegenModel that = (CodegenModel) o;
 
-        if (parent != null ? !parent.equals(that.parent) : that.parent != null)
-            return false;
-        if (parentSchema != null ? !parentSchema.equals(that.parentSchema) : that.parentSchema != null)
-            return false;
-        if (interfaces != null ? !interfaces.equals(that.interfaces) : that.interfaces != null)
-            return false;
-        if (allParents != null ? !allParents.equals(that.allParents) : that.allParents != null)
-            return false;
-        if (parentModel != null ? !parentModel.equals(that.parentModel) : that.parentModel != null)
-            return false;
-        if (interfaceModels != null ? !interfaceModels.equals(that.interfaceModels) : that.interfaceModels != null)
-            return false;
-        if (name != null ? !name.equals(that.name) : that.name != null)
-            return false;
-        if (classname != null ? !classname.equals(that.classname) : that.classname != null)
-            return false;
-        if (title != null ? !title.equals(that.title) : that.title != null)
-            return false;
-        if (description != null ? !description.equals(that.description) : that.description != null)
-            return false;
-        if (classVarName != null ? !classVarName.equals(that.classVarName) : that.classVarName != null)
-            return false;
-        if (modelJson != null ? !modelJson.equals(that.modelJson) : that.modelJson != null)
-            return false;
-        if (dataType != null ? !dataType.equals(that.dataType) : that.dataType != null)
-            return false;
-        if (xmlPrefix != null ? !xmlPrefix.equals(that.xmlPrefix) : that.xmlPrefix != null)
-            return false;
-        if (xmlNamespace != null ? !xmlNamespace.equals(that.xmlNamespace) : that.xmlNamespace != null)
-            return false;
-        if (xmlName != null ? !xmlName.equals(that.xmlName) : that.xmlName != null)
-            return false;
-        if (classFilename != null ? !classFilename.equals(that.classFilename) : that.classFilename != null)
-            return false;
-        if (unescapedDescription != null ? !unescapedDescription.equals(that.unescapedDescription) : that.unescapedDescription != null)
-            return false;
-        if (discriminator != null ? !discriminator.equals(that.discriminator) : that.discriminator != null)
-            return false;
-        if (defaultValue != null ? !defaultValue.equals(that.defaultValue) : that.defaultValue != null)
-            return false;
-        if (vars != null ? !vars.equals(that.vars) : that.vars != null)
-            return false;
-        if (requiredVars != null ? !requiredVars.equals(that.requiredVars) : that.requiredVars != null)
-            return false;
-        if (optionalVars != null ? !optionalVars.equals(that.optionalVars) : that.optionalVars != null)
-            return false;
-        if (allVars != null ? !allVars.equals(that.allVars) : that.allVars != null)
-            return false;
-        if (allowableValues != null ? !allowableValues.equals(that.allowableValues) : that.allowableValues != null)
-            return false;
-        if (mandatory != null ? !mandatory.equals(that.mandatory) : that.mandatory != null)
-            return false;
-        if (allMandatory != null ? !allMandatory.equals(that.allMandatory) : that.allMandatory != null)
-            return false;
-        if (imports != null ? !imports.equals(that.imports) : that.imports != null)
-            return false;
-        if (hasVars != that.hasVars)
-            return false;
-        if (emptyVars != that.emptyVars)
-            return false;
-        if (hasMoreModels != that.hasMoreModels)
-            return false;
-        if (hasEnums != that.hasEnums)
-            return false;
-        if (isEnum != that.isEnum)
-            return false;
-        if (externalDocumentation != null ? !externalDocumentation.equals(that.externalDocumentation) : that.externalDocumentation != null)
-            return false;
-        if (!Objects.equals(hasOnlyReadOnly, that.hasOnlyReadOnly))
-            return false;
-        if (!Objects.equals(hasChildren, that.hasChildren))
-            return false;
-        if (!Objects.equals(parentVars, that.parentVars))
-            return false;
-        return vendorExtensions != null ? vendorExtensions.equals(that.vendorExtensions) : that.vendorExtensions == null;
-
+        return Objects.equals(parent, that.parent) &&
+            Objects.equals(parentSchema, that.parentSchema) &&
+            Objects.equals(interfaces, that.interfaces) &&
+            Objects.equals(allParents, that.allParents) &&
+            Objects.equals(parentModel, that.parentModel) &&
+            Objects.equals(interfaceModels, that.interfaceModels) &&
+            Objects.equals(name, that.name) &&
+            Objects.equals(classname, that.classname) &&
+            Objects.equals(title, that.title) &&
+            Objects.equals(description, that.description) &&
+            Objects.equals(classVarName, that.classVarName) &&
+            Objects.equals(modelJson, that.modelJson) &&
+            Objects.equals(dataType, that.dataType) &&
+            Objects.equals(xmlPrefix, that.xmlPrefix) &&
+            Objects.equals(xmlNamespace, that.xmlNamespace) &&
+            Objects.equals(xmlName, that.xmlName) &&
+            Objects.equals(classFilename, that.classFilename) &&
+            Objects.equals(unescapedDescription, that.unescapedDescription) &&
+            Objects.equals(discriminator, that.discriminator) &&
+            Objects.equals(defaultValue, that.defaultValue) &&
+            Objects.equals(vars, that.vars) &&
+            Objects.equals(requiredVars, that.requiredVars) &&
+            Objects.equals(optionalVars, that.optionalVars) &&
+            Objects.equals(allVars, that.allVars) &&
+            Objects.equals(allowableValues, that.allowableValues) &&
+            Objects.equals(mandatory, that.mandatory) &&
+            Objects.equals(allMandatory, that.allMandatory) &&
+            Objects.equals(imports, that.imports) &&
+            Objects.equals(hasVars, that.hasVars) &&
+            Objects.equals(emptyVars, that.emptyVars) &&
+            Objects.equals(hasMoreModels, that.hasMoreModels) &&
+            Objects.equals(hasEnums, that.hasEnums) &&
+            Objects.equals(isEnum, that.isEnum) &&
+            Objects.equals(externalDocumentation, that.externalDocumentation) &&
+            Objects.equals(hasOnlyReadOnly, that.hasOnlyReadOnly) &&
+            Objects.equals(hasChildren, that.hasChildren) &&
+            Objects.equals(parentVars, that.parentVars) &&
+            Objects.equals(vendorExtensions, that.vendorExtensions);
     }
 
     @Override

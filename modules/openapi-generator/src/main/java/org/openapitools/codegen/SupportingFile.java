@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen;
 
+import java.util.Objects;
+
 public class SupportingFile {
     public String templateFile;
     public String folder;
@@ -50,12 +52,9 @@ public class SupportingFile {
 
         SupportingFile that = (SupportingFile) o;
 
-        if (templateFile != null ? !templateFile.equals(that.templateFile) : that.templateFile != null)
-            return false;
-        if (folder != null ? !folder.equals(that.folder) : that.folder != null)
-            return false;
-        return destinationFilename != null ? destinationFilename.equals(that.destinationFilename) : that.destinationFilename == null;
-
+        return Objects.equals(templateFile, that.templateFile) &&
+            Objects.equals(folder, that.folder) &&
+            Objects.equals(destinationFilename, that.destinationFilename);
     }
 
     @Override

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 public class CodegenSecurity {
     public String name;
@@ -51,48 +52,27 @@ public class CodegenSecurity {
 
         CodegenSecurity that = (CodegenSecurity) o;
 
-        if (name != null ? !name.equals(that.name) : that.name != null)
-            return false;
-        if (type != null ? !type.equals(that.type) : that.type != null)
-            return false;
-        if (hasMore != null ? !hasMore.equals(that.hasMore) : that.hasMore != null)
-            return false;
-        if (isBasic != null ? !isBasic.equals(that.isBasic) : that.isBasic != null)
-            return false;
-        if (isBasicBasic != null ? !isBasicBasic.equals(that.isBasicBasic) : that.isBasicBasic != null)
-            return false;
-        if (isBasicBearer != null ? !isBasicBearer.equals(that.isBasicBearer) : that.isBasicBearer != null)
-            return false;
-        if (bearerFormat != null ? !bearerFormat.equals(that.bearerFormat) : that.bearerFormat != null)
-            return false;
-        if (isOAuth != null ? !isOAuth.equals(that.isOAuth) : that.isOAuth != null)
-            return false;
-        if (isApiKey != null ? !isApiKey.equals(that.isApiKey) : that.isApiKey != null)
-            return false;
-        if (vendorExtensions != null ? !vendorExtensions.equals(that.vendorExtensions) : that.vendorExtensions != null)
-            return false;
-        if (keyParamName != null ? !keyParamName.equals(that.keyParamName) : that.keyParamName != null)
-            return false;
-        if (isKeyInQuery != null ? !isKeyInQuery.equals(that.isKeyInQuery) : that.isKeyInQuery != null)
-            return false;
-        if (isKeyInHeader != null ? !isKeyInHeader.equals(that.isKeyInHeader) : that.isKeyInHeader != null)
-            return false;
-        if (flow != null ? !flow.equals(that.flow) : that.flow != null)
-            return false;
-        if (authorizationUrl != null ? !authorizationUrl.equals(that.authorizationUrl) : that.authorizationUrl != null)
-            return false;
-        if (tokenUrl != null ? !tokenUrl.equals(that.tokenUrl) : that.tokenUrl != null)
-            return false;
-        if (isCode != null ? !isCode.equals(that.isCode) : that.isCode != null)
-            return false;
-        if (isPassword != null ? !isPassword.equals(that.isPassword) : that.isPassword != null)
-            return false;
-        if (isApplication != null ? !isApplication.equals(that.isApplication) : that.isApplication != null)
-            return false;
-        if (isImplicit != null ? !isImplicit.equals(that.isImplicit) : that.isImplicit != null)
-            return false;
-        return scopes != null ? scopes.equals(that.scopes) : that.scopes == null;
-
+        return Objects.equals(name, that.name) &&
+            Objects.equals(type, that.type) &&
+            Objects.equals(hasMore, that.hasMore) &&
+            Objects.equals(isBasic, that.isBasic) &&
+            Objects.equals(isBasicBasic, that.isBasicBasic) &&
+            Objects.equals(isBasicBearer, that.isBasicBearer) &&
+            Objects.equals(bearerFormat, that.bearerFormat) &&
+            Objects.equals(isOAuth, that.isOAuth) &&
+            Objects.equals(isApiKey, that.isApiKey) &&
+            Objects.equals(vendorExtensions, that.vendorExtensions) &&
+            Objects.equals(keyParamName, that.keyParamName) &&
+            Objects.equals(isKeyInQuery, that.isKeyInQuery) &&
+            Objects.equals(isKeyInHeader, that.isKeyInHeader) &&
+            Objects.equals(flow, that.flow) &&
+            Objects.equals(authorizationUrl, that.authorizationUrl) &&
+            Objects.equals(tokenUrl, that.tokenUrl) &&
+            Objects.equals(isCode, that.isCode) &&
+            Objects.equals(isPassword, that.isPassword) &&
+            Objects.equals(isApplication, that.isApplication) &&
+            Objects.equals(isImplicit, that.isImplicit) &&
+            Objects.equals(scopes, that.scopes);
     }
 
     @Override
