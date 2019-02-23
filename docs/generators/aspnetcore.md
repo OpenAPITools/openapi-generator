@@ -7,13 +7,11 @@ sidebar_label: aspnetcore
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|licenseUrl|The URL of the license| |http://nolicense.org|
+|licenseUrl|The URL of the license| |http://localhost|
 |licenseName|The name of the license| |NoLicense|
 |packageCopyright|Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |No Copyright|
 |packageAuthors|Specifies Authors property in the .NET Core project file.| |OpenAPI|
 |packageTitle|Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |OpenAPI Library|
-|artifactVersion|artifact version in generated pom.xml| |0.0.0|
-|artifactVersion|artifact version in generated pom.xml| |0.0.0|
 |packageName|C# package name (convention: Title.Case).| |Org.OpenAPITools|
 |packageVersion|C# package version.| |1.0.0|
 |packageGuid|The GUID that will be associated with the C# project| |null|
@@ -26,5 +24,5 @@ sidebar_label: aspnetcore
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
 |classModifier|Class modifiers such as abstract or partial| ||
 |operationModifier|Operation modifiers such as virtual or abstract.| |virtual|
-|generateBody|Generates method body, default is true.| |true|
+|generateBody|Generates method body.| |true|
 |buildTarget|Target the build for a program or library.| |program|
