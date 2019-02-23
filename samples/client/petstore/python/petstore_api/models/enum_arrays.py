@@ -15,10 +15,12 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (  # noqa: F401
+from petstore_api.exceptions import (
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
+)
+from petstore_api.model_utils import (  # noqa: F401
     OpenApiModel,
     date,
     datetime,

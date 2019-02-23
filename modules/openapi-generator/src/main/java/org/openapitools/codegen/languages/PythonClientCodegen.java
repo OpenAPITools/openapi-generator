@@ -241,7 +241,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("__init__package.mustache", packageName, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", packageName + File.separatorChar + modelPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__api.mustache", packageName + File.separatorChar + apiPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("utils.mustache", packageName, "utils.py"));
+        supportingFiles.add(new SupportingFile("model_utils.mustache", packageName, "model_utils.py"));
+        supportingFiles.add(new SupportingFile("exceptions.mustache", packageName, "exceptions.py"));
 
         if (Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
@@ -292,7 +293,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
-        // use this to set the correct datatype for operation parameters
     }
 
     @Override

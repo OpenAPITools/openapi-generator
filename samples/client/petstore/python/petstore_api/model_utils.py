@@ -128,55 +128,6 @@ def get_parent_key_or_index(input_data, variable_path):
     return parent, key_or_index
 
 
-class OpenApiException(Exception):
-    """The base exception class for all OpenAPIExceptions"""
-
-
-class ApiTypeError(OpenApiException, TypeError):
-    def __init__(self, required_types, current_item, path_to_item,
-                 key_type=False):
-        """ Raises an exception for TypeErrors
-
-        Args:
-            required_types (tuple): the primitive classes that current item
-                                    should be an instance of
-            current_item (any): the value which is the incorrect type
-            path_to_item (list): a list of keys an indices to get to the
-                                 current_item
-            key_type (bool): False if our value is a value in a dict
-                             True if it is a key in a dict
-                             False if our item is an item in a list
-        """
-        key_or_value = 'value'
-        if key_type:
-            key_or_value = 'key'
-        msg = (
-            "Invalid type for variable {0}. Required {1} type is {2} and "
-            "passed type was {3} at location={4}".format(
-                path_to_item[0],
-                key_or_value,
-                required_types,
-                type(current_item),
-                path_to_item
-            )
-        )
-        super(ApiTypeError, self).__init__(msg)
-        self.key_type = key_type
-        self.path_to_item = path_to_item
-        self.current_item = current_item
-        self.required_types = required_types
-
-
-class ApiValueError(OpenApiException, ValueError):
-    def __init__(self, msg):
-        super(ApiTypeError, self).__init__(msg)
-
-
-class ApiKeyError(OpenApiException, KeyError):
-    def __init__(self, msg):
-        super(ApiKeyError, self).__init__(msg)
-
-
 def get_required_type_classes(required_types_mixed):
     """Converts the tuple required_types into a tuple of:
     tuple(child_classes), dict(class: required_type)

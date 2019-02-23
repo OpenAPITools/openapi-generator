@@ -7,10 +7,12 @@ import re  # noqa: F401
 
 import six
 
-from {{packageName}}.utils import (  # noqa: F401
+from {{packageName}}.exceptions import (
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
+)
+from {{packageName}}.model_utils import (  # noqa: F401
     OpenApiModel,
     date,
     datetime,
@@ -113,8 +115,10 @@ class {{classname}}(OpenApiModel):
             required_type = self.additional_properties_type
 {{/additionalProperties}}
 {{^additionalProperties}}
-            raise ApiKeyError("{0} has no key '{1}'".format(
-                type(self).__name__, name))
+            raise ApiKeyError(
+                "{0} has no key '{1}'".format(type(self).__name__, name),
+                [name]
+            )
 {{/additionalProperties}}
 
         variable_path = [name]
@@ -141,8 +145,10 @@ class {{classname}}(OpenApiModel):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise ApiKeyError("{0} has no key {1}".format(
-            type(self).__name__, name))
+        raise ApiKeyError(
+            "{0} has no key '{1}'".format(type(self).__name__, name),
+            [name]
+        )
 
 {{#allVars}}
     @property

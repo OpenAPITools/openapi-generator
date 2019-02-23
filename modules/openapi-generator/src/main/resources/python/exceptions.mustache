@@ -1,0 +1,87 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+
+class OpenApiException(Exception):
+    """The base exception class for all OpenAPIExceptions"""
+
+
+class ApiTypeError(OpenApiException, TypeError):
+    def __init__(self, required_types, current_item, path_to_item,
+                 key_type=False):
+        """ Raises an exception for TypeErrors
+
+        Args:
+            required_types (tuple): the primitive classes that current item
+                                    should be an instance of
+            current_item (any): the value which is the incorrect type
+            path_to_item (list): a list of keys an indices to get to the
+                                 current_item
+
+        Keyword Args:
+            key_type (bool): False if our value is a value in a dict
+                             True if it is a key in a dict
+                             False if our item is an item in a list
+        """
+        key_or_value = 'value'
+        if key_type:
+            key_or_value = 'key'
+        msg = (
+            "Invalid type for variable {0}. Required {1} type is {2} and "
+            "passed type was {3} at location={4}".format(
+                path_to_item[0],
+                key_or_value,
+                required_types,
+                type(current_item),
+                path_to_item
+            )
+        )
+        super(ApiTypeError, self).__init__(msg)
+        self.key_type = key_type
+        self.path_to_item = path_to_item
+        self.current_item = current_item
+        self.required_types = required_types
+
+
+class ApiValueError(OpenApiException, ValueError):
+    def __init__(self, msg):
+        super(ApiTypeError, self).__init__(msg)
+
+
+class ApiKeyError(OpenApiException, KeyError):
+    def __init__(self, msg, path_to_item):
+        Args:
+            path_to_item (list): a list of keys an indices to get to the
+                                 current_item
+
+        super(ApiKeyError, self).__init__(msg)
+        self.path_to_item = path_to_item
+
+
+class ApiException(OpenApiException):
+
+    def __init__(self, status=None, reason=None, http_resp=None):
+        if http_resp:
+            self.status = http_resp.status
+            self.reason = http_resp.reason
+            self.body = http_resp.data
+            self.headers = http_resp.getheaders()
+        else:
+            self.status = status
+            self.reason = reason
+            self.body = None
+            self.headers = None
+
+    def __str__(self):
+        """Custom error messages for exception"""
+        error_message = "({0})\n"\
+                        "Reason: {1}\n".format(self.status, self.reason)
+        if self.headers:
+            error_message += "HTTP response headers: {0}\n".format(
+                self.headers)
+
+        if self.body:
+            error_message += "HTTP response body: {0}\n".format(self.body)
+
+        return error_message

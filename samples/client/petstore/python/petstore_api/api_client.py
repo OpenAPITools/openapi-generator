@@ -26,94 +26,25 @@ import six
 from six.moves.urllib.parse import quote
 
 from petstore_api.configuration import Configuration
-from petstore_api.utils import (
+from petstore_api.exceptions import (
     ApiTypeError,
     ApiValueError,
+)
+from petstore_api.model_utils import (
     OpenApiModel,
+    change_keys_js_to_python,
     date,
     datetime,
     file_type,
+    get_parent_key_or_index,
     model_to_dict,
     none_type,
+    order_response_types,
+    remove_uncoercible,
     validate_type
 )
 import petstore_api.models
 from petstore_api import rest
-
-COERCION_INDEX_BY_TYPE = {
-    none_type: 0,
-    list: 1,
-    OpenApiModel: 2,
-    dict: 3,
-    float: 4,
-    int: 5,
-    bool: 6,
-    datetime: 7,
-    date: 8,
-    str: 9
-}
-COERCIBLE_TYPE_PAIRS = (
-    (dict, OpenApiModel),
-    (str, int),
-    (str, float),
-    (str, datetime),
-    (str, date),
-    (int, str),
-    (float, str),
-    (str, file_type)
-)
-
-def order_response_types(required_types):
-    """Returns the required types sorted in coercion order
-
-    Args:
-        required_types (list/tuple): collection of classes or instance of
-            list or dict with classs information inside it
-
-    Returns:
-        (list/tuple): coercion order sorted collection of classes or instance
-            of list or dict with classs information inside it
-    """
-
-    def index_getter(class_or_instance):
-        if isinstance(class_or_instance, list):
-            return COERCION_INDEX_BY_TYPE[list]
-        elif isinstance(class_or_instance, dict):
-            return COERCION_INDEX_BY_TYPE[dict]
-        elif isinstance(class_or_instance, OpenApiModel):
-            return COERCION_INDEX_BY_TYPE[OpenApiModel]
-        return COERCION_INDEX_BY_TYPE[class_or_instance]
-
-    sorted_types = sorted(
-        required_types,
-        key=lambda class_or_instance: index_getter(class_or_instance)
-    )
-    return sorted_types
-
-
-def remove_uncoercible(required_types_classes, current_item):
-    """Only keeps the type conversions that are possible
-
-    Args:
-        required_types_classes (tuple): tuple of classes that are required
-        current_item (any): the current item to be converted
-
-    Returns:
-        (list): the remaining coercible required types, classes only
-    """
-    if isinstance(current_item, OpenApiModel):
-        current_type = OpenApiModel
-    elif isinstance(current_item, file_type):
-        current_type = file_type
-    else:
-        current_type = type(current_item)
-
-    results_classes = []
-    for required_type_class in required_types_classes:
-        class_pair = (current_type, required_type_class)
-        if class_pair in COERCIBLE_TYPE_PAIRS:
-            results_classes.append(required_type_class)
-    return results_classes
 
 
 class ApiClient(object):
@@ -338,74 +269,57 @@ class ApiClient(object):
 
         :return: object.
         """
-        serialized_data_by_index = {}
-        response_types_ordered = order_response_types(response_types_mixed)
-        input_data = {'received': data}
-        for index, response_type in enumerate(response_types_ordered):
+        # we put our data in a dict so all values can be accessible by a key
+        # or index, so we can use parent[key_or_index] = value
+        # to update our input data
+        input_data = {'received_data': copy.deepcopy(data)}
+        deserializing = True
+        validated = False
+        while deserializing:
             try:
                 validate_type(
-                    input_data['received'],
-                    response_type,
-                    ['received']
+                    input_data['received_data'],
+                    response_types_mixed,
+                    ['received_data']
                 )
-                serialized_data_by_index[index] = input_data['received']
+                validated = True
+                deserializing = False
             except ApiTypeError as exc:
-                pass
-
-        for index, response_type in enumerate(response_types_ordered):
-            # we put our data in a dict so our deserialization functions
-            # can be passed a parent and a key and update our data structure
-            # this is needed if we are passed a str and need to convert it
-            input_data = {'received': copy.deepcopy(data)}
-            deserializing = True
-            validated = False
-            while deserializing:
-                try:
-                    validate_type(
-                        input_data['received'],
-                        response_type,
-                        ['received']
-                    )
-                    validated = True
-                    serialized_data_by_index[index] = input_data['received']
+                valid_classes = exc.required_types
+                valid_classes_ordered = order_response_types(valid_classes)
+                valid_classes_coercible = remove_uncoercible(
+                    valid_classes_ordered, exc.current_item)
+                if not valid_classes_coercible or exc.key_type:
+                    # we do not handle keytype errors, json will take care
+                    # of this for us
                     deserializing = False
-                except ApiTypeError as exc:
-                    valid_classes = exc.required_types
-                    valid_classes_ordered = order_response_types(valid_classes)
-                    valid_classes_coercible = remove_uncoercible(
-                        valid_classes_ordered, type(exc.current_item))
-                    if not valid_classes_coercible or exc.key_type:
-                        # we do not handle keytype errors, json will take care
-                        # of this for us
-                        deserializing = False
-                        continue
-                    deserialized_item = False
-                    parent, key_or_index = get_parent_key_or_index(
-                        input_data, exc.path_to_item)
-                    for valid_class in valid_classes_coercible:
-                        if isinstance(valid_class, OpenApiModel):
-                            deserialized_item = self.__deserialize_model(
-                                parent[key_or_index], valid_class)
-                        elif isinstance(valid_class, file_type):
-                            deserialized_item = self.__deserialize_file(
-                                parent[key_or_index])
-                        else:
-                            deserialized_item = self.__deserialize_primitive(
-                                parent[key_or_index], valid_class)
-                        if deserialized_item:
-                            parent[key_or_index] = deserialized_item
-                            break
-                    if not deserialized_item:
-                        deserializing = False
-            if validated:
-                break
-
-        # compare and choose the best value here
-        if not serialized_data_by_index:
-            # we were unable to deserialize the results, raise an exception
-            validate_type(data, response_types_mixed, ['received'])
-        min_index = min(list(serialized_data_by_index.keys()))
-        return serialized_data_by_index[min_index]
+                    continue
+                deserialized_item = False
+                parent, key_or_index = get_parent_key_or_index(
+                    input_data, exc.path_to_item)
+                for valid_class in valid_classes_coercible:
+                    if issubclass(valid_class, OpenApiModel):
+                        deserialized_item = self.__deserialize_model(
+                            parent[key_or_index], valid_class)
+                    elif isinstance(valid_class, file_type):
+                        deserialized_item = self.__deserialize_file(
+                            parent[key_or_index])
+                    else:
+                        deserialized_item = self.__deserialize_primitive(
+                            parent[key_or_index], valid_class)
+                    if deserialized_item:
+                        parent[key_or_index] = deserialized_item
+                        break
+                if not deserialized_item:
+                    deserializing = False
+        if validated:
+            return input_data['received_data']
+        # we were unable to deserialize the results, raise an exception
+        validate_type(
+            input_data['received_data'],
+            response_types_mixed,
+            ['received_data']
+        )
 
     def call_api(self, resource_path, method,
                  path_params=None, query_params=None, header_params=None,
@@ -533,7 +447,7 @@ class ApiClient(object):
                                            _request_timeout=_request_timeout,
                                            body=body)
         else:
-            raise ValueError(
+            raise ApiValueError(
                 "http method must be `GET`, `HEAD`, `OPTIONS`,"
                 " `POST`, `PATCH`, `PUT` or `DELETE`."
             )
@@ -648,7 +562,7 @@ class ApiClient(object):
                 elif auth_setting['in'] == 'query':
                     querys.append((auth_setting['key'], auth_setting['value']))
                 else:
-                    raise ValueError(
+                    raise ApiValueError(
                         'Authentication token must be in `query` or `header`'
                     )
 
@@ -726,24 +640,29 @@ class ApiClient(object):
         return instance
 
     def __deserialize_model(self, model_data, model_class):
-        """Deserializes dict to model.
+        """Deserializes model_data to model instance.
 
         :param model_data: list or dict
         :param model_class: model class
         :return: model instance
         """
+        fixed_model_data = copy.deepcopy(model_data)
+        if isinstance(fixed_model_data, dict):
+            fixed_model_data = change_keys_js_to_python(fixed_model_data,
+                                                        model_class)
 
         deserializing = True
         instance = None
         while deserializing:
             try:
-                instance = self.__get_model_instance(model_data, model_class)
+                instance = self.__get_model_instance(fixed_model_data,
+                                                     model_class)
                 deserializing = False
             except ApiTypeError as exc:
                 valid_classes = exc.required_types
                 valid_classes_ordered = order_response_types(valid_classes)
                 valid_classes_coercible = remove_uncoercible(
-                    valid_classes_ordered, type(exc.current_item))
+                    valid_classes_ordered, exc.current_item)
                 if not valid_classes_coercible or exc.key_type:
                     # we do not handle keytype errors, json will take care
                     # of this for us
@@ -751,9 +670,9 @@ class ApiClient(object):
                     continue
                 deserialized_item = False
                 parent, key_or_index = get_parent_key_or_index(
-                    model_data, exc.path_to_item)
+                    fixed_model_data, exc.path_to_item)
                 for valid_class in valid_classes_coercible:
-                    if isinstance(valid_class, OpenApiModel):
+                    if issubclass(valid_class, OpenApiModel):
                         deserialized_item = self.__deserialize_model(
                             parent[key_or_index], valid_class)
                     elif isinstance(valid_class, file_type):
@@ -769,5 +688,5 @@ class ApiClient(object):
                     deserializing = False
         if not instance:
             # raise the exception
-            instance = self.__get_model_instance(model_data, model_class)
+            instance = self.__get_model_instance(fixed_model_data, model_class)
         return instance
