@@ -412,83 +412,81 @@ public class CodegenProperty implements Cloneable {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((_enum == null) ? 0 : _enum.hashCode());
-        result = prime * result + ((allowableValues == null) ? 0 : allowableValues.hashCode());
-        result = prime * result + ((baseName == null) ? 0 : baseName.hashCode());
-        result = prime * result + ((baseType == null) ? 0 : baseType.hashCode());
-        result = prime * result + ((complexType == null) ? 0 : complexType.hashCode());
-        result = prime * result + ((containerType == null) ? 0 : containerType.hashCode());
-        result = prime * result + ((dataType == null) ? 0 : dataType.hashCode());
-        result = prime * result + ((datatypeWithEnum == null) ? 0 : datatypeWithEnum.hashCode());
-        result = prime * result + ((dataFormat == null) ? 0 : dataFormat.hashCode());
-        result = prime * result + ((defaultValue == null) ? 0 : defaultValue.hashCode());
-        result = prime * result + ((defaultValueWithParam == null) ? 0 : defaultValueWithParam.hashCode());
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
-        result = prime * result + ((example == null) ? 0 : example.hashCode());
-        result = prime * result + (exclusiveMaximum ? 13 : 31);
-        result = prime * result + (exclusiveMinimum ? 13 : 31);
-        result = prime * result + ((getter == null) ? 0 : getter.hashCode());
-        result = prime * result + (hasMore ? 13 : 31);
-        result = prime * result + ((hasMoreNonReadOnly ? 13 : 31));
-        result = prime * result + ((isContainer ? 13 : 31));
-        result = prime * result + (isEnum ? 1231 : 1237);
-        result = prime * result + ((isPrimitiveType ? 13 : 31));
-        result = prime * result + ((isModel ? 13 : 31));
-        result = prime * result + ((isReadOnly ? 13 : 31));
-        result = prime * result + ((isWriteOnly ? 13 : 31));
-        result = prime * result + ((isNullable ? 13 : 31));
-        result = prime * result + ((isSelfReference ? 13 : 31));
-        result = prime * result + ((items == null) ? 0 : items.hashCode());
-        result = prime * result + ((mostInnerItems == null) ? 0 : mostInnerItems.hashCode());
-        result = prime * result + ((jsonSchema == null) ? 0 : jsonSchema.hashCode());
-        result = prime * result + ((max == null) ? 0 : max.hashCode());
-        result = prime * result + ((maxLength == null) ? 0 : maxLength.hashCode());
-        result = prime * result + ((maximum == null) ? 0 : maximum.hashCode());
-        result = prime * result + ((min == null) ? 0 : min.hashCode());
-        result = prime * result + ((minLength == null) ? 0 : minLength.hashCode());
-        result = prime * result + ((minimum == null) ? 0 : minimum.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((pattern == null) ? 0 : pattern.hashCode());
-        result = prime * result + ((required ? 13 : 31));
-        result = prime * result + ((secondaryParam ? 13 : 31));
-        result = prime * result + ((setter == null) ? 0 : setter.hashCode());
-        result = prime * result + ((unescapedDescription == null) ? 0 : unescapedDescription.hashCode());
-        result = prime * result + ((vendorExtensions == null) ? 0 : vendorExtensions.hashCode());
-        result = prime * result + ((hasValidation ? 13 : 31));
-        result = prime * result + ((isString ? 13 : 31));
-        result = prime * result + ((isNumeric ? 13 : 31));
-        result = prime * result + ((isInteger ? 13 : 31));
-        result = prime * result + ((isLong ? 13 : 31));
-        result = prime * result + ((isNumber ? 13 : 31));
-        result = prime * result + ((isFloat ? 13 : 31));
-        result = prime * result + ((isDouble ? 13 : 31));
-        result = prime * result + ((isByteArray ? 13 : 31));
-        result = prime * result + ((isBinary ? 13 : 31));
-        result = prime * result + ((isFile ? 13 : 31));
-        result = prime * result + ((isBoolean ? 13 : 31));
-        result = prime * result + ((isDate ? 13 : 31));
-        result = prime * result + ((isDateTime ? 13 : 31));
-        result = prime * result + ((isUuid ? 13 : 31));
-        result = prime * result + ((isEmail ? 13 : 31));
-        result = prime * result + ((isFreeFormObject ? 13 : 31));
-        result = prime * result + ((isMapContainer ? 13 : 31));
-        result = prime * result + ((isListContainer ? 13 : 31));
-        result = prime * result + Objects.hashCode(isInherited);
-        result = prime * result + Objects.hashCode(discriminatorValue);
-        result = prime * result + Objects.hashCode(nameInCamelCase);
-        result = prime * result + Objects.hashCode(nameInSnakeCase);
-        result = prime * result + Objects.hashCode(enumName);
-        result = prime * result + ((maxItems == null) ? 0 : maxItems.hashCode());
-        result = prime * result + ((minItems == null) ? 0 : minItems.hashCode());
-        result = prime * result + ((isXmlAttribute ? 13 : 31));
-        result = prime * result + ((xmlPrefix == null) ? 0 : xmlPrefix.hashCode());
-        result = prime * result + ((xmlName == null) ? 0 : xmlName.hashCode());
-        result = prime * result + ((xmlNamespace == null) ? 0 : xmlNamespace.hashCode());
-        result = prime * result + ((isXmlWrapped ? 13 : 31));
-        return result;
+        return Objects.hash(
+            _enum,
+            allowableValues,
+            baseName,
+            baseType,
+            complexType,
+            containerType,
+            dataType,
+            datatypeWithEnum,
+            dataFormat,
+            defaultValue,
+            defaultValueWithParam,
+            description,
+            title,
+            example,
+            exclusiveMaximum,
+            exclusiveMinimum,
+            getter,
+            hasMore,
+            hasMoreNonReadOnly,
+            isContainer,
+            isEnum,
+            isPrimitiveType,
+            isModel,
+            isReadOnly,
+            isWriteOnly,
+            isNullable,
+            isSelfReference,
+            items,
+            mostInnerItems,
+            jsonSchema,
+            max,
+            maxLength,
+            maximum,
+            min,
+            minLength,
+            minimum,
+            name,
+            pattern,
+            required,
+            secondaryParam,
+            setter,
+            unescapedDescription,
+            vendorExtensions,
+            hasValidation,
+            isString,
+            isNumeric,
+            isInteger,
+            isLong,
+            isNumber,
+            isFloat,
+            isDouble,
+            isByteArray,
+            isBinary,
+            isFile,
+            isBoolean,
+            isDate,
+            isDateTime,
+            isUuid,
+            isEmail,
+            isFreeFormObject,
+            isMapContainer,
+            isListContainer,
+            isInherited,
+            discriminatorValue,
+            nameInCamelCase,
+            nameInSnakeCase,
+            enumName,
+            maxItems,
+            minItems,
+            isXmlAttribute,
+            xmlPrefix,
+            xmlName,
+            xmlNamespace,
+            isXmlWrapped);
     }
 
     @Override

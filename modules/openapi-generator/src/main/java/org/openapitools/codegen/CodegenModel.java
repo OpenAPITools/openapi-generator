@@ -174,45 +174,45 @@ public class CodegenModel {
 
     @Override
     public int hashCode() {
-        int result = parent != null ? parent.hashCode() : 0;
-        result = 31 * result + (parentSchema != null ? parentSchema.hashCode() : 0);
-        result = 31 * result + (interfaces != null ? interfaces.hashCode() : 0);
-        result = 31 * result + (allParents != null ? allParents.hashCode() : 0);
-        result = 31 * result + (parentModel != null ? parentModel.hashCode() : 0);
-        result = 31 * result + (interfaceModels != null ? interfaceModels.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (classname != null ? classname.hashCode() : 0);
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (classVarName != null ? classVarName.hashCode() : 0);
-        result = 31 * result + (modelJson != null ? modelJson.hashCode() : 0);
-        result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
-        result = 31 * result + (xmlPrefix != null ? xmlPrefix.hashCode() : 0);
-        result = 31 * result + (xmlNamespace != null ? xmlNamespace.hashCode() : 0);
-        result = 31 * result + (xmlName != null ? xmlName.hashCode() : 0);
-        result = 31 * result + (classFilename != null ? classFilename.hashCode() : 0);
-        result = 31 * result + (unescapedDescription != null ? unescapedDescription.hashCode() : 0);
-        result = 31 * result + (discriminator != null ? discriminator.hashCode() : 0);
-        result = 31 * result + (defaultValue != null ? defaultValue.hashCode() : 0);
-        result = 31 * result + (vars != null ? vars.hashCode() : 0);
-        result = 31 * result + (requiredVars != null ? requiredVars.hashCode() : 0);
-        result = 31 * result + (optionalVars != null ? optionalVars.hashCode() : 0);
-        result = 31 * result + (allVars != null ? allVars.hashCode() : 0);
-        result = 31 * result + (allowableValues != null ? allowableValues.hashCode() : 0);
-        result = 31 * result + (mandatory != null ? mandatory.hashCode() : 0);
-        result = 31 * result + (allMandatory != null ? allMandatory.hashCode() : 0);
-        result = 31 * result + (imports != null ? imports.hashCode() : 0);
-        result = 31 * result + (hasVars ? 13 : 31);
-        result = 31 * result + (emptyVars ? 13 : 31);
-        result = 31 * result + (hasMoreModels ? 13 : 31);
-        result = 31 * result + (hasEnums ? 13 : 31);
-        result = 31 * result + (isEnum ? 13 : 31);
-        result = 31 * result + (externalDocumentation != null ? externalDocumentation.hashCode() : 0);
-        result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
-        result = 31 * result + Objects.hash(hasOnlyReadOnly);
-        result = 31 * result + Objects.hash(hasChildren);
-        result = 31 * result + Objects.hash(parentVars);
-        return result;
+        return Objects.hash(
+            parent,
+            parentSchema,
+            interfaces,
+            allParents,
+            parentModel,
+            interfaceModels,
+            name,
+            classname,
+            title,
+            description,
+            classVarName,
+            modelJson,
+            dataType,
+            xmlPrefix,
+            xmlNamespace,
+            xmlName,
+            classFilename,
+            unescapedDescription,
+            discriminator,
+            defaultValue,
+            vars,
+            requiredVars,
+            optionalVars,
+            allVars,
+            allowableValues,
+            mandatory,
+            allMandatory,
+            imports,
+            hasVars,
+            emptyVars,
+            hasMoreModels,
+            hasEnums,
+            isEnum,
+            externalDocumentation,
+            vendorExtensions,
+            hasOnlyReadOnly,
+            hasChildren,
+            parentVars);
     }
 
     public String getParent() {

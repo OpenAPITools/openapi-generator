@@ -77,27 +77,27 @@ public class CodegenSecurity {
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (hasMore != null ? hasMore.hashCode() : 0);
-        result = 31 * result + (isBasic != null ? isBasic.hashCode() : 0);
-        result = 31 * result + (isBasicBasic != null ? isBasicBasic.hashCode() : 0);
-        result = 31 * result + (isBasicBearer != null ? isBasicBearer.hashCode() : 0);
-        result = 31 * result + (bearerFormat != null ? bearerFormat.hashCode() : 0);
-        result = 31 * result + (isOAuth != null ? isOAuth.hashCode() : 0);
-        result = 31 * result + (isApiKey != null ? isApiKey.hashCode() : 0);
-        result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
-        result = 31 * result + (keyParamName != null ? keyParamName.hashCode() : 0);
-        result = 31 * result + (isKeyInQuery != null ? isKeyInQuery.hashCode() : 0);
-        result = 31 * result + (isKeyInHeader != null ? isKeyInHeader.hashCode() : 0);
-        result = 31 * result + (flow != null ? flow.hashCode() : 0);
-        result = 31 * result + (authorizationUrl != null ? authorizationUrl.hashCode() : 0);
-        result = 31 * result + (tokenUrl != null ? tokenUrl.hashCode() : 0);
-        result = 31 * result + (isCode != null ? isCode.hashCode() : 0);
-        result = 31 * result + (isPassword != null ? isPassword.hashCode() : 0);
-        result = 31 * result + (isApplication != null ? isApplication.hashCode() : 0);
-        result = 31 * result + (isImplicit != null ? isImplicit.hashCode() : 0);
-        result = 31 * result + (scopes != null ? scopes.hashCode() : 0);
-        return result;
+        return Objects.hash(
+            name,
+            type,
+            hasMore,
+            isBasic,
+            isBasicBasic,
+            isBasicBearer,
+            bearerFormat,
+            isOAuth,
+            isApiKey,
+            vendorExtensions,
+            keyParamName,
+            isKeyInQuery,
+            isKeyInHeader,
+            flow,
+            authorizationUrl,
+            tokenUrl,
+            isCode,
+            isPassword,
+            isApplication,
+            isImplicit,
+            scopes);
     }
 }

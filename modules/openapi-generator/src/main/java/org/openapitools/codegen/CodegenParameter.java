@@ -250,70 +250,70 @@ public class CodegenParameter {
 
     @Override
     public int hashCode() {
-        int result = isFormParam ? 13 : 31;
-        result = 31 * result + (isQueryParam ? 13 : 31);
-        result = 31 * result + (isPathParam ? 13 : 31);
-        result = 31 * result + (isHeaderParam ? 13 : 31);
-        result = 31 * result + (isCookieParam ? 13 : 31);
-        result = 31 * result + (isBodyParam ? 13 : 31);
-        result = 31 * result + (hasMore ? 13 : 31);
-        result = 31 * result + (isContainer ? 13 : 31);
-        result = 31 * result + (secondaryParam ? 13 : 31);
-        result = 31 * result + (isCollectionFormatMulti ? 13 : 31);
-        result = 31 * result + (isPrimitiveType ? 13 : 31);
-        result = 31 * result + (isModel ? 13 : 31);
-        result = 31 * result + (baseName != null ? baseName.hashCode() : 0);
-        result = 31 * result + (paramName != null ? paramName.hashCode() : 0);
-        result = 31 * result + (dataType != null ? dataType.hashCode() : 0);
-        result = 31 * result + (datatypeWithEnum != null ? datatypeWithEnum.hashCode() : 0);
-        result = 31 * result + (enumName != null ? enumName.hashCode() : 0);
-        result = 31 * result + (dataFormat != null ? dataFormat.hashCode() : 0);
-        result = 31 * result + (collectionFormat != null ? collectionFormat.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (unescapedDescription != null ? unescapedDescription.hashCode() : 0);
-        result = 31 * result + (baseType != null ? baseType.hashCode() : 0);
-        result = 31 * result + (defaultValue != null ? defaultValue.hashCode() : 0);
-        result = 31 * result + (example != null ? example.hashCode() : 0);
-        result = 31 * result + (jsonSchema != null ? jsonSchema.hashCode() : 0);
-        result = 31 * result + (isString ? 13 : 31);
-        result = 31 * result + (isNumeric ? 13 : 31);
-        result = 31 * result + (isInteger ? 13 : 31);
-        result = 31 * result + (isLong ? 13 : 31);
-        result = 31 * result + (isFloat ? 13 : 31);
-        result = 31 * result + (isNumber ? 13 : 31);
-        result = 31 * result + (isDouble ? 13 : 31);
-        result = 31 * result + (isByteArray ? 13 : 31);
-        result = 31 * result + (isBinary ? 13 : 31);
-        result = 31 * result + (isBoolean ? 13 : 31);
-        result = 31 * result + (isDate ? 13 : 31);
-        result = 31 * result + (isDateTime ? 13 : 31);
-        result = 31 * result + (isUuid ? 13 : 31);
-        result = 31 * result + (isEmail ? 13 : 31);
-        result = 31 * result + (isFreeFormObject ? 13 : 31);
-        result = 31 * result + (isListContainer ? 13 : 31);
-        result = 31 * result + (isMapContainer ? 13 : 31);
-        result = 31 * result + (isFile ? 13 : 31);
-        result = 31 * result + (isEnum ? 1 : 0);
-        result = 31 * result + (_enum != null ? _enum.hashCode() : 0);
-        result = 31 * result + (allowableValues != null ? allowableValues.hashCode() : 0);
-        result = 31 * result + (items != null ? items.hashCode() : 0);
-        result = 31 * result + (mostInnerItems != null ? mostInnerItems.hashCode() : 0);
-        result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
-        result = 31 * result + (hasValidation ? 13 : 31);
-        result = 31 * result + (isNullable ? 13 : 31);
-        result = 31 * result + (required ? 13 : 31);
-        result = 31 * result + (maximum != null ? maximum.hashCode() : 0);
-        result = 31 * result + (exclusiveMaximum ? 13 : 31);
-        result = 31 * result + (minimum != null ? minimum.hashCode() : 0);
-        result = 31 * result + (exclusiveMinimum ? 13 : 31);
-        result = 31 * result + (maxLength != null ? maxLength.hashCode() : 0);
-        result = 31 * result + (minLength != null ? minLength.hashCode() : 0);
-        result = 31 * result + (pattern != null ? pattern.hashCode() : 0);
-        result = 31 * result + (maxItems != null ? maxItems.hashCode() : 0);
-        result = 31 * result + (minItems != null ? minItems.hashCode() : 0);
-        result = 31 * result + (uniqueItems ? 13 : 31);
-        result = 31 * result + (multipleOf != null ? multipleOf.hashCode() : 0);
-        return result;
+        return Objects.hash(
+            isFormParam,
+            isQueryParam,
+            isPathParam,
+            isHeaderParam,
+            isCookieParam,
+            isBodyParam,
+            hasMore,
+            isContainer,
+            secondaryParam,
+            isCollectionFormatMulti,
+            isPrimitiveType,
+            isModel,
+            baseName,
+            paramName,
+            dataType,
+            datatypeWithEnum,
+            enumName,
+            dataFormat,
+            collectionFormat,
+            description,
+            unescapedDescription,
+            baseType,
+            defaultValue,
+            example,
+            jsonSchema,
+            isString,
+            isNumeric,
+            isInteger,
+            isLong,
+            isFloat,
+            isNumber,
+            isDouble,
+            isByteArray,
+            isBinary,
+            isBoolean,
+            isDate,
+            isDateTime,
+            isUuid,
+            isEmail,
+            isFreeFormObject,
+            isListContainer,
+            isMapContainer,
+            isFile,
+            isEnum,
+            _enum,
+            allowableValues,
+            items,
+            mostInnerItems,
+            vendorExtensions,
+            hasValidation,
+            isNullable,
+            required,
+            maximum,
+            exclusiveMaximum,
+            minimum,
+            exclusiveMinimum,
+            maxLength,
+            minLength,
+            pattern,
+            maxItems,
+            minItems,
+            uniqueItems,
+            multipleOf);
     }
 
     @java.lang.Override

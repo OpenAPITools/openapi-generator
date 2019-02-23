@@ -314,63 +314,63 @@ public class CodegenOperation {
 
     @Override
     public int hashCode() {
-        int result = responseHeaders.hashCode();
-        result = 31 * result + (hasAuthMethods ? 13:31);
-        result = 31 * result + (hasConsumes ? 13:31);
-        result = 31 * result + (hasProduces ? 13:31);
-        result = 31 * result + (hasParams ? 13:31);
-        result = 31 * result + (hasOptionalParams ? 13:31);
-        result = 31 * result + (returnTypeIsPrimitive ? 13:31);
-        result = 31 * result + (returnSimpleType ? 13:31);
-        result = 31 * result + (subresourceOperation ? 13:31);
-        result = 31 * result + (isMapContainer ? 13:31);
-        result = 31 * result + (isListContainer ? 13:31);
-        result = 31 * result + (isMultipart ? 13:31);
-        result = 31 * result + (hasMore ? 13:31);
-        result = 31 * result + (isResponseBinary ? 13:31);
-        result = 31 * result + (isResponseFile ? 13:31);
-        result = 31 * result + (hasReference ? 13:31);
-        result = 31 * result + (isDeprecated ? 13:31);
-        result = 31 * result + (isCallbackRequest ? 13:31);
-        result = 31 * result + (path != null ? path.hashCode() : 0);
-        result = 31 * result + (operationId != null ? operationId.hashCode() : 0);
-        result = 31 * result + (returnType != null ? returnType.hashCode() : 0);
-        result = 31 * result + (httpMethod != null ? httpMethod.hashCode() : 0);
-        result = 31 * result + (returnBaseType != null ? returnBaseType.hashCode() : 0);
-        result = 31 * result + (returnContainer != null ? returnContainer.hashCode() : 0);
-        result = 31 * result + (summary != null ? summary.hashCode() : 0);
-        result = 31 * result + (unescapedNotes != null ? unescapedNotes.hashCode() : 0);
-        result = 31 * result + (notes != null ? notes.hashCode() : 0);
-        result = 31 * result + (baseName != null ? baseName.hashCode() : 0);
-        result = 31 * result + (defaultResponse != null ? defaultResponse.hashCode() : 0);
-        result = 31 * result + (discriminator != null ? discriminator.hashCode() : 0);
-        result = 31 * result + (consumes != null ? consumes.hashCode() : 0);
-        result = 31 * result + (produces != null ? produces.hashCode() : 0);
-        result = 31 * result + (servers != null ? servers.hashCode() : 0);
-        result = 31 * result + (bodyParam != null ? bodyParam.hashCode() : 0);
-        result = 31 * result + (allParams != null ? allParams.hashCode() : 0);
-        result = 31 * result + (bodyParams != null ? bodyParams.hashCode() : 0);
-        result = 31 * result + (pathParams != null ? pathParams.hashCode() : 0);
-        result = 31 * result + (queryParams != null ? queryParams.hashCode() : 0);
-        result = 31 * result + (headerParams != null ? headerParams.hashCode() : 0);
-        result = 31 * result + (formParams != null ? formParams.hashCode() : 0);
-        result = 31 * result + (cookieParams != null ? cookieParams.hashCode() : 0);
-        result = 31 * result + (requiredParams!= null ? requiredParams.hashCode() : 0);
-        result = 31 * result + (optionalParams != null ? optionalParams.hashCode() : 0);
-        result = 31 * result + (authMethods != null ? authMethods.hashCode() : 0);
-        result = 31 * result + (tags != null ? tags.hashCode() : 0);
-        result = 31 * result + (responses != null ? responses.hashCode() : 0);
-        result = 31 * result + (callbacks != null ? callbacks.hashCode() : 0);
-        result = 31 * result + (imports != null ? imports.hashCode() : 0);
-        result = 31 * result + (examples != null ? examples.hashCode() : 0);
-        result = 31 * result + (externalDocs != null ? externalDocs.hashCode() : 0);
-        result = 31 * result + (vendorExtensions != null ? vendorExtensions.hashCode() : 0);
-        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
-        result = 31 * result + (prioritizedContentTypes != null ? prioritizedContentTypes.hashCode() : 0);
-        result = 31 * result + (operationIdOriginal != null ? operationIdOriginal.hashCode() : 0);
-        result = 31 * result + (operationIdLowerCase != null ? operationIdLowerCase.hashCode() : 0);
-        result = 31 * result + (operationIdCamelCase != null ? operationIdCamelCase.hashCode() : 0);
-        return result;
+        return Objects.hash(
+            responseHeaders,
+            hasAuthMethods,
+            hasConsumes,
+            hasProduces,
+            hasParams,
+            hasOptionalParams,
+            returnTypeIsPrimitive,
+            returnSimpleType,
+            subresourceOperation,
+            isMapContainer,
+            isListContainer,
+            isMultipart,
+            hasMore,
+            isResponseBinary,
+            isResponseFile,
+            hasReference,
+            isDeprecated,
+            isCallbackRequest,
+            path,
+            operationId,
+            returnType,
+            httpMethod,
+            returnBaseType,
+            returnContainer,
+            summary,
+            unescapedNotes,
+            notes,
+            baseName,
+            defaultResponse,
+            discriminator,
+            consumes,
+            produces,
+            servers,
+            bodyParam,
+            allParams,
+            bodyParams,
+            pathParams,
+            queryParams,
+            headerParams,
+            formParams,
+            cookieParams,
+            requiredParams,
+            optionalParams,
+            authMethods,
+            tags,
+            responses,
+            callbacks,
+            imports,
+            examples,
+            externalDocs,
+            vendorExtensions,
+            nickname,
+            prioritizedContentTypes,
+            operationIdOriginal,
+            operationIdLowerCase,
+            operationIdCamelCase);
     }
 
 

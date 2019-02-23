@@ -59,10 +59,7 @@ public class SupportingFile {
 
     @Override
     public int hashCode() {
-        int result = templateFile != null ? templateFile.hashCode() : 0;
-        result = 31 * result + (folder != null ? folder.hashCode() : 0);
-        result = 31 * result + (destinationFilename != null ? destinationFilename.hashCode() : 0);
-        return result;
+        return Objects.hash(templateFile, folder, destinationFilename);
     }
 }
 
