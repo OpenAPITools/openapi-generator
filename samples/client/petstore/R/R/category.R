@@ -20,13 +20,14 @@ Category <- R6::R6Class(
   public = list(
     `id` = NULL,
     `name` = NULL,
-    initialize = function(`id`, `name`){
-      if (!missing(`id`)) {
-                stopifnot(is.numeric(`id`), length(`id`) == 1)
+    initialize = function(`id`=NULL, `name`=NULL, ...){
+      local.optional.var <- list(...)
+      if (!is.null(`id`)) {
+        stopifnot(is.numeric(`id`), length(`id`) == 1)
         self$`id` <- `id`
       }
-      if (!missing(`name`)) {
-                stopifnot(is.character(`name`), length(`name`) == 1)
+      if (!is.null(`name`)) {
+        stopifnot(is.character(`name`), length(`name`) == 1)
         self$`name` <- `name`
       }
     },
@@ -34,11 +35,11 @@ Category <- R6::R6Class(
       CategoryObject <- list()
       if (!is.null(self$`id`)) {
         CategoryObject[['id']] <-
-                self$`id`
+          self$`id`
       }
       if (!is.null(self$`name`)) {
         CategoryObject[['name']] <-
-                self$`name`
+          self$`name`
       }
 
       CategoryObject
@@ -46,35 +47,29 @@ Category <- R6::R6Class(
     fromJSON = function(CategoryJson) {
       CategoryObject <- jsonlite::fromJSON(CategoryJson)
       if (!is.null(CategoryObject$`id`)) {
-                self$`id` <- CategoryObject$`id`
+        self$`id` <- CategoryObject$`id`
       }
       if (!is.null(CategoryObject$`name`)) {
-                self$`name` <- CategoryObject$`name`
+        self$`name` <- CategoryObject$`name`
       }
     },
     toJSONString = function() {
-       outstring <- sprintf(
+      sprintf(
         '{
            "id":
-                      %d
-                      
-                  
-              ,
+             %d,
            "name":
-                      
-                      "%s"
-                  
-              
+             "%s"
         }',
-                self$`id`,
-                self$`name`
+        self$`id`,
+        self$`name`
       )
-      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(CategoryJson) {
       CategoryObject <- jsonlite::fromJSON(CategoryJson)
-              self$`id` <- CategoryObject$`id`
-              self$`name` <- CategoryObject$`name`
+      self$`id` <- CategoryObject$`id`
+      self$`name` <- CategoryObject$`name`
+      self
     }
   )
 )
