@@ -11,31 +11,30 @@
 #'
 #' @field path Stores url path of the request.
 #' @field apiClient Handles the client-server communication.
-#' @field userAgent Set the user agent of the request.
 #'
 #' @importFrom R6 R6Class
 #'
 #' @section Methods:
 #' \describe{
 #'
-#' delete_order Delete purchase order by ID
+#' DeleteOrder Delete purchase order by ID
 #'
 #'
-#' get_inventory Returns pet inventories by status
+#' GetInventory Returns pet inventories by status
 #'
 #'
-#' get_order_by_id Find purchase order by ID
+#' GetOrderById Find purchase order by ID
 #'
 #'
-#' place_order Place an order for a pet
+#' PlaceOrder Place an order for a pet
 #'
 #' }
 #'
+#' @importFrom caTools base64encode
 #' @export
 StoreApi <- R6::R6Class(
   'StoreApi',
   public = list(
-    userAgent = "OpenAPI-Generator/1.0.0/r",
     apiClient = NULL,
     initialize = function(apiClient){
       if (!missing(apiClient)) {
@@ -45,84 +44,103 @@ StoreApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    delete_order = function(order_id, ...){
+    DeleteOrder = function(order.id, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
-      urlPath <- "/store/order/{orderId}"
-      if (!missing(`order_id`)) {
-        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), `order_id`, urlPath)
+      if (missing(`order.id`)) {
+        stop("Missing required parameter `order.id`.")
       }
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      urlPath <- "/store/order/{orderId}"
+      if (!missing(`order.id`)) {
+        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), `order.id`, urlPath)
+      }
+
+
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "DELETE",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         # void response, no need to return anything
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        Response$new("API client error", resp)
+        ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        Response$new("API server error", resp)
+        ApiResponse$new("API server error", resp)
       }
 
     },
-    get_inventory = function(...){
+    GetInventory = function(...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
 
       urlPath <- "/store/inventory"
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+      # API key authentication
+      if ("api_key" %in% names(self$apiClient$apiKeys) && nchar(self$apiClient$apiKeys["api_key"]) > 0) {
+        headerParams['api_key'] <- paste(unlist(self$apiClient$apiKeys["api_key"]), collapse='')
+      }
+
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-                jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
+        integer$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        Response$new("API client error", resp)
+        ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        Response$new("API server error", resp)
+        ApiResponse$new("API server error", resp)
       }
 
     },
-    get_order_by_id = function(order_id, ...){
+    GetOrderById = function(order.id, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
+
+      if (missing(`order.id`)) {
+        stop("Missing required parameter `order.id`.")
+      }
 
       urlPath <- "/store/order/{orderId}"
-      if (!missing(`order_id`)) {
-        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), `order_id`, urlPath)
+      if (!missing(`order.id`)) {
+        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), `order.id`, urlPath)
       }
 
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-                jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
+        Order$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        Response$new("API client error", resp)
+        ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        Response$new("API server error", resp)
+        ApiResponse$new("API server error", resp)
       }
 
     },
-    place_order = function(body, ...){
+    PlaceOrder = function(body, ...){
       args <- list(...)
       queryParams <- list()
-      headerParams <- character()
+      headerParams <- c()
+
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
+      }
 
       if (!missing(`body`)) {
         body <- `body`$toJSONString()
@@ -131,19 +149,20 @@ StoreApi <- R6::R6Class(
       }
 
       urlPath <- "/store/order"
-      resp <- self$apiClient$callApi(url = paste0(self$apiClient$basePath, urlPath),
+
+      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "POST",
                                  queryParams = queryParams,
                                  headerParams = headerParams,
                                  body = body,
                                  ...)
-      
+
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-                jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
+        Order$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        Response$new("API client error", resp)
+        ApiResponse$new("API client error", resp)
       } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        Response$new("API server error", resp)
+        ApiResponse$new("API server error", resp)
       }
 
     }

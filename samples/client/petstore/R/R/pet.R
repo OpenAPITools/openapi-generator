@@ -28,31 +28,32 @@ Pet <- R6::R6Class(
     `photoUrls` = NULL,
     `tags` = NULL,
     `status` = NULL,
-    initialize = function(`id`, `category`, `name`, `photoUrls`, `tags`, `status`){
-      if (!missing(`id`)) {
-                stopifnot(is.numeric(`id`), length(`id`) == 1)
-        self$`id` <- `id`
-      }
-      if (!missing(`category`)) {
-                stopifnot(R6::is.R6(`category`))
-        self$`category` <- `category`
-      }
+    initialize = function(`name`, `photoUrls`, `id`=NULL, `category`=NULL, `tags`=NULL, `status`=NULL, ...){
+      local.optional.var <- list(...)
       if (!missing(`name`)) {
-                stopifnot(is.character(`name`), length(`name`) == 1)
+        stopifnot(is.character(`name`), length(`name`) == 1)
         self$`name` <- `name`
       }
       if (!missing(`photoUrls`)) {
-                stopifnot(is.vector(`photoUrls`), length(`photoUrls`) != 0)
-                sapply(`photoUrls`, function(x) stopifnot(is.character(x)))
+        stopifnot(is.vector(`photoUrls`), length(`photoUrls`) != 0)
+        sapply(`photoUrls`, function(x) stopifnot(is.character(x)))
         self$`photoUrls` <- `photoUrls`
       }
-      if (!missing(`tags`)) {
-                stopifnot(is.vector(`tags`), length(`tags`) != 0)
-                sapply(`tags`, function(x) stopifnot(R6::is.R6(x)))
+      if (!is.null(`id`)) {
+        stopifnot(is.numeric(`id`), length(`id`) == 1)
+        self$`id` <- `id`
+      }
+      if (!is.null(`category`)) {
+        stopifnot(R6::is.R6(`category`))
+        self$`category` <- `category`
+      }
+      if (!is.null(`tags`)) {
+        stopifnot(is.vector(`tags`), length(`tags`) != 0)
+        sapply(`tags`, function(x) stopifnot(R6::is.R6(x)))
         self$`tags` <- `tags`
       }
-      if (!missing(`status`)) {
-                stopifnot(is.character(`status`), length(`status`) == 1)
+      if (!is.null(`status`)) {
+        stopifnot(is.character(`status`), length(`status`) == 1)
         self$`status` <- `status`
       }
     },
@@ -60,27 +61,27 @@ Pet <- R6::R6Class(
       PetObject <- list()
       if (!is.null(self$`id`)) {
         PetObject[['id']] <-
-                self$`id`
+          self$`id`
       }
       if (!is.null(self$`category`)) {
         PetObject[['category']] <-
-                self$`category`$toJSON()
+          self$`category`$toJSON()
       }
       if (!is.null(self$`name`)) {
         PetObject[['name']] <-
-                self$`name`
+          self$`name`
       }
       if (!is.null(self$`photoUrls`)) {
         PetObject[['photoUrls']] <-
-                self$`photoUrls`
+          self$`photoUrls`
       }
       if (!is.null(self$`tags`)) {
         PetObject[['tags']] <-
-                sapply(self$`tags`, function(x) x$toJSON())
+          sapply(self$`tags`, function(x) x$toJSON())
       }
       if (!is.null(self$`status`)) {
         PetObject[['status']] <-
-                self$`status`
+          self$`status`
       }
 
       PetObject
@@ -88,78 +89,69 @@ Pet <- R6::R6Class(
     fromJSON = function(PetJson) {
       PetObject <- jsonlite::fromJSON(PetJson)
       if (!is.null(PetObject$`id`)) {
-                self$`id` <- PetObject$`id`
+        self$`id` <- PetObject$`id`
       }
       if (!is.null(PetObject$`category`)) {
-                categoryObject <- Category$new()
-                categoryObject$fromJSON(jsonlite::toJSON(PetObject$category, auto_unbox = TRUE))
-                self$`category` <- categoryObject
+        categoryObject <- Category$new()
+        categoryObject$fromJSON(jsonlite::toJSON(PetObject$category, auto_unbox = TRUE))
+        self$`category` <- categoryObject
       }
       if (!is.null(PetObject$`name`)) {
-                self$`name` <- PetObject$`name`
+        self$`name` <- PetObject$`name`
       }
       if (!is.null(PetObject$`photoUrls`)) {
-                self$`photoUrls` <- PetObject$`photoUrls`
+        self$`photoUrls` <- PetObject$`photoUrls`
       }
       if (!is.null(PetObject$`tags`)) {
-                self$`tags` <- sapply(PetObject$`tags`, function(x) {
-                  tagsObject <- Tag$new()
-                  tagsObject$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE))
-                  tagsObject
-            })
+        self$`tags` <- sapply(PetObject$`tags`, function(x) {
+          tagsObject <- Tag$new()
+          tagsObject$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE))
+          tagsObject
+        })
       }
       if (!is.null(PetObject$`status`)) {
-                self$`status` <- PetObject$`status`
+        self$`status` <- PetObject$`status`
       }
     },
     toJSONString = function() {
-       outstring <- sprintf(
+      sprintf(
         '{
            "id":
-                      %d
-                      
-                  
-              ,
+             %d,
            "category":
-                  "%s"
-              ,
+             %s,
            "name":
-                      
-                      "%s"
-                  
-              ,
+             "%s",
            "photoUrls":
-                      
-                      ["%s"]
-                  
-              ,
+             [%s],
            "tags":
-                  ["%s"]
-              ,
+             [%s],
            "status":
-                      
-                      "%s"
-                  
-              
+             "%s"
         }',
-                self$`id`,
-                self$`category`$toJSON(),
-                self$`name`,
-                paste0(self$`photoUrls`, collapse='","'),
-                paste0(sapply(self$`tags`, function(x) x$toJSON()), collapse='","'),
-                self$`status`
+        self$`id`,
+        jsonlite::toJSON(self$`category`$toJSON(), auto_unbox=TRUE),
+        self$`name`,
+        paste(unlist(lapply(self$`photoUrls`, function(x) paste0('"', x, '"'))), collapse=","),
+        paste(unlist(lapply(self$`tags`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE))), collapse=","),
+        self$`status`
       )
-      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function(PetJson) {
       PetObject <- jsonlite::fromJSON(PetJson)
-              self$`id` <- PetObject$`id`
-              CategoryObject <- Category$new()
-              self$`category` <- CategoryObject$fromJSON(jsonlite::toJSON(PetObject$category, auto_unbox = TRUE))
-              self$`name` <- PetObject$`name`
-              self$`photoUrls` <- PetObject$`photoUrls`
-              self$`tags` <- sapply(PetObject$`tags`, function(x) Tag$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
-              self$`status` <- PetObject$`status`
+      self$`id` <- PetObject$`id`
+      self$`category` <- Category$new()$fromJSON(jsonlite::toJSON(PetObject$category, auto_unbox = TRUE))
+      self$`name` <- PetObject$`name`
+      self$`photoUrls` <- lapply(PetObject$`photoUrls`, function (x) x)
+      data.frame <- PetObject$`tags`
+      self$`tags` <- vector("list", length = nrow(data.frame))
+      for (row in 1:nrow(data.frame)) {
+          tags.node <- Tag$new()
+          tags.node$fromJSON(jsonlite::toJSON(data.frame[row,,drop = TRUE], auto_unbox = TRUE))
+          self$`tags`[[row]] <- tags.node
+      }
+      self$`status` <- PetObject$`status`
+      self
     }
   )
 )

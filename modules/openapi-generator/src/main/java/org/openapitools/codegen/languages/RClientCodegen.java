@@ -17,8 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -27,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -38,6 +41,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected String testFolder = "tests/testthat";
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -54,8 +58,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public RClientCodegen() {
         super();
         outputFolder = "generated-code/r";
-        modelTemplateFiles.put("model.mustache", ".r");
-        apiTemplateFiles.put("api.mustache", ".r");
+        modelTemplateFiles.put("model.mustache", ".R");
+        apiTemplateFiles.put("api.mustache", ".R");
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -70,7 +74,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                         // reserved words: https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html
                         "if", "else", "repeat", "while", "function", "for", "in",
                         "next", "break", "TRUE", "FALSE", "NULL", "Inf", "NaN",
-                        "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_"
+                        "NA", "NA_integer_", "NA_real_", "NA_complex_", "NA_character_",
+                        // reserved words in API client
+                        "ApiResponse"
                 )
         );
 
@@ -130,11 +136,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        apiTestTemplateFiles.clear(); // TODO: add api test template
-        modelTestTemplateFiles.clear(); // TODO: add model test template
+        modelTestTemplateFiles.put("model_test.mustache", ".R");
+        apiTestTemplateFiles.put("api_test.mustache", ".R");
 
-        apiDocTemplateFiles.clear(); // TODO: add api doc template
-        modelDocTemplateFiles.clear(); // TODO: add model doc template
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         modelPackage = packageName;
         apiPackage = packageName;
@@ -145,10 +151,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("description.mustache", "", "DESCRIPTION"));
         supportingFiles.add(new SupportingFile("Rbuildignore.mustache", "", ".Rbuildignore"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile("response.mustache", "/R", "Response.r"));
-        supportingFiles.add(new SupportingFile("element.mustache", "/R", "Element.r"));
-        supportingFiles.add(new SupportingFile("api_client.mustache", "/R", "ApiClient.r"));
+        supportingFiles.add(new SupportingFile("ApiResponse.mustache", File.separator + "R", "api_response.R"));
+        //supportingFiles.add(new SupportingFile("element.mustache", File.separator + "R", "Element.R"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", File.separator + "R", "api_client.R"));
         supportingFiles.add(new SupportingFile("NAMESPACE.mustache", "", "NAMESPACE"));
+        supportingFiles.add(new SupportingFile("testthat.mustache", File.separator + "tests", "testthat.R"));
     }
 
     @Override
@@ -180,7 +187,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toVarName(String name) {
+    public String toParamName(String name) {
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
 
@@ -200,21 +207,22 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (name.matches("^\\d.*"))
             name = "Var" + name;
 
+        return name.replace("_", ".");
+    }
+
+    @Override
+    public String toVarName(String name) {
+        // don't do anything as we'll put property name inside ` `, e.g. `date-time`
         return name;
     }
 
     @Override
-    public String toParamName(String name) {
-        return toVarName(name);
+    public String toModelFilename(String name) {
+        return underscore(toModelName(name));
     }
 
     @Override
     public String toModelName(String name) {
-        return toModelFilename(name);
-    }
-
-    @Override
-    public String toModelFilename(String name) {
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -246,7 +254,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = name.replaceAll("-", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // e.g. PetApi.r => pet_api.r
-        return camelize(name + "_api");
+        return underscore(name + "_api");
     }
 
     @Override
@@ -327,7 +335,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             sanitizedOperationId = "call_" + sanitizedOperationId;
         }
 
-        return underscore(sanitizedOperationId);
+        return camelize(sanitizedOperationId);
     }
 
     @Override
@@ -449,5 +457,180 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else {
             return enumName;
         }
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        String example;
+
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            p.example = p.defaultValue;
+            return;
+        }
+
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
+
+        if ("character".equals(type)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if ("integer".equals(type)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if ("numeric".equals(type)) {
+            if (example == null) {
+                example = "3.4";
+            }
+        } else if ("data.frame".equals(type)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "File.new('" + escapeText(example) + "')";
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = type + "$new()";
+        }
+
+        if (example == null) {
+            example = "NULL";
+        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = "[" + example + "]";
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = "{'key' => " + example + "}";
+        }
+
+        p.example = example;
+    }
+
+    /**
+     * Return the example value of the parameter. Overrides the
+     * setParameterExampleValue(CodegenParameter, Parameter) method in
+     * DefaultCodegen to always call setParameterExampleValue(CodegenParameter)
+     * in this class, which adds single quotes around strings from the
+     * x-example property.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param parameter        Parameter
+     */
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        if (parameter.getExample() != null) {
+            codegenParameter.example = parameter.getExample().toString();
+        } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            Example example = parameter.getExamples().values().iterator().next();
+            if (example.getValue() != null) {
+                codegenParameter.example = example.getValue().toString();
+            }
+        } else {
+            Schema schema = parameter.getSchema();
+            if (schema != null && schema.getExample() != null) {
+                codegenParameter.example = schema.getExample().toString();
+            }
+        }
+
+        setParameterExampleValue(codegenParameter);
+    }
+
+    /**
+     * Return the default value of the property
+     * @param p OpenAPI property object
+     * @return string presentation of the default value of the property
+     */
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                if (Boolean.valueOf(p.getDefault().toString()) == false)
+                    return "FALSE";
+                else
+                    return "TRUE";
+            }
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                if (Boolean.valueOf(p.getExample().toString()) == false)
+                    return "FALSE";
+                else
+                    return "TRUE";
+            }
+        } else if (ModelUtils.isDateSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            // default numbers are not yet returned by v2 spec openAPI results
+            // https://github.com/swagger-api/swagger-parser/issues/971
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                return p.getExample().toString();
+            }
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            // default integers are not yet returned by v2 spec openAPI results
+            // https://github.com/swagger-api/swagger-parser/issues/971
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                return p.getExample().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
+                    return "'''" + p.getDefault() + "'''";
+                else
+                    return "'" + p.getDefault() + "'";
+            }
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getExample()).find())
+                    return "'''" + p.getExample() + "'''";
+                else
+                    return "'" + p.getExample() + "'";
+            }
+        } else if (ModelUtils.isArraySchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            // include fallback to example, default defined as server only
+            // example is not defined as server only
+            if (p.getExample() != null) {
+                return p.getExample().toString();
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public String apiTestFileFolder() {
+        return outputFolder + File.separator + testFolder; 
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return outputFolder + File.separator + testFolder;
+    }
+
+    @Override
+    public String toApiTestFilename(String name) {
+        return "test_" + toApiFilename(name);
+    }
+
+    @Override
+    public String toModelTestFilename(String name) {
+        return "test_" + toModelFilename(name);
     }
 }
