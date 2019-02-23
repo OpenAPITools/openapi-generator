@@ -57,6 +57,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
     protected String aspnetCoreVersion= "2.1"; // default to 2.1
+    // TODO Make next two enums toensure fixed list.
     private String classModifier = "";
     private String operationModifier = "virtual";
     private boolean generateBody = true;
@@ -101,14 +102,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         addOption(CodegenConstants.PACKAGE_TITLE,
                 CodegenConstants.PACKAGE_TITLE_DESC,
                 packageTitle);
-
-        addOption(CodegenConstants.ARTIFACT_VERSION,
-                CodegenConstants.ARTIFACT_VERSION_DESC,
-                "0.0.0");
-
-        addOption(CodegenConstants.ARTIFACT_VERSION,
-                CodegenConstants.ARTIFACT_VERSION_DESC,
-                "0.0.0");
 
         addOption(CodegenConstants.PACKAGE_NAME,
                 "C# package name (convention: Title.Case).",
@@ -160,7 +153,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 operationModifier);
 
         addSwitch(GENERATE_BODY,
-                "Generates method body, default is true.",
+                "Generates method body.",
                 generateBody);
 
         addOption(BUILD_TARGET,
@@ -220,6 +213,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             additionalProperties.put(CLASS_MODIFIER, classModifier);
         }
 
+        // TODO Validate modifier values
         // If class modifierier is abstract then the methods need to be abstrat too.
         if ("abstract".equals(classModifier)) {
             operationModifier = classModifier;
@@ -232,6 +226,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             additionalProperties.put(OPERATION_MODIFIER, operationModifier);
         }
 
+        // TODO Validate modifier values
         // If operation modifier is abstract then dont generate any body
         if ("abstract".equals(operationModifier)) {
             generateBody = false;
