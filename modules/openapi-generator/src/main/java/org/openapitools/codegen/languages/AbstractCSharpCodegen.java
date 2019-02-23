@@ -48,7 +48,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
-    protected String licenseUrl = "http://nolicense.org";
+    protected String licenseUrl = "http://localhost";
     protected String licenseName = "NoLicense";
 
     protected String packageVersion = "1.0.0";
