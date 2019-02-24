@@ -46,7 +46,7 @@ class TypeHolderExample(object):
         'array_item': 'array_item'
     }
 
-    def __init__(self, string_item='what', number_item=1.234, integer_item=-2, bool_item=True, array_item=[0, 1, 2, 3]):  # noqa: E501
+    def __init__(self, string_item=None, number_item=1.234, integer_item=None, bool_item=None, array_item=None):  # noqa: E501
         """TypeHolderExample - a model defined in OpenAPI"""  # noqa: E501
 
         self._string_item = None
