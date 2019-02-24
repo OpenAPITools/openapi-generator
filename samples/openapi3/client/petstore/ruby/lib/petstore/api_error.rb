@@ -34,5 +34,10 @@ module Petstore
         super arg
       end
     end
+
+    # Override to_s to print variables
+    def to_s
+      {code: code,response_headers: response_headers,response_body: response_body}.inspect
+    end
   end
 end
