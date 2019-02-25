@@ -18,14 +18,16 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
-from petstore_api.utils import (  # noqa: F401
+from petstore_api.exceptions import (
     ApiTypeError,
-    ApiValueError,
+    ApiValueError
+)
+from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
     none_type,
-    validate_type
+    validate_and_convert_types
 )
 from petstore_api.models.client import Client
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
@@ -106,9 +108,10 @@ class FakeApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'xml_item' is set
         if ('xml_item' not in local_var_params or
                 local_var_params['xml_item'] is None):
@@ -211,9 +214,10 @@ class FakeApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
 
         collection_formats = {}
 
@@ -312,9 +316,10 @@ class FakeApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
 
         collection_formats = {}
 
@@ -413,9 +418,10 @@ class FakeApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
 
         collection_formats = {}
 
@@ -514,9 +520,10 @@ class FakeApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
 
         collection_formats = {}
 
@@ -615,9 +622,10 @@ class FakeApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'body' is set
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
@@ -721,9 +729,10 @@ class FakeApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'query' is set
         if ('query' not in local_var_params or
                 local_var_params['query'] is None):
@@ -832,9 +841,10 @@ class FakeApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'body' is set
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
@@ -980,9 +990,10 @@ class FakeApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'number' is set
         if ('number' not in local_var_params or
                 local_var_params['number'] is None):
@@ -1172,9 +1183,10 @@ class FakeApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
 
         collection_formats = {}
 
@@ -1305,9 +1317,10 @@ class FakeApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'required_string_group' is set
         if ('required_string_group' not in local_var_params or
                 local_var_params['required_string_group'] is None):
@@ -1422,9 +1435,10 @@ class FakeApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'param' is set
         if ('param' not in local_var_params or
                 local_var_params['param'] is None):
@@ -1528,9 +1542,10 @@ class FakeApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'param' is set
         if ('param' not in local_var_params or
                 local_var_params['param'] is None):

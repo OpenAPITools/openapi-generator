@@ -25,9 +25,12 @@ from petstore_api import (
     Pet,
     Tag
 )
-from petstore_api.utils import (
+from petstore_api.exceptions import (
     ApiTypeError,
+    ApiKeyError,
     ApiValueError,
+)
+from petstore_api.model_utils import (
     date,
     datetime,
     file_type,
@@ -139,6 +142,16 @@ class DeserializationTests(unittest.TestCase):
         deserialized = self.deserialize(response, response_types_mixed)
         self.assertTrue(isinstance(deserialized, str))
         self.assertEqual(deserialized, data)
+
+    def test_deserialize_str_to_int(self):
+        """ deserialize str """
+        data = "2"
+        response = MockResponse(data=json.dumps(data))
+        response_types_mixed = [int]
+
+        deserialized = self.deserialize(response, response_types_mixed)
+        self.assertTrue(isinstance(deserialized, int))
+        self.assertEqual(deserialized, 2)
 
     def test_deserialize_date(self):
         """ deserialize date """
@@ -262,7 +275,7 @@ class DeserializationTests(unittest.TestCase):
         self.assertEqual(deserialized[0].name, "doggie0")
         self.assertEqual(deserialized[1].name, "doggie1")
 
-    def test_deserialize_list_of_pet_failure(self):
+    def test_deserialize_failure_keyerror(self):
         """ deserialize list[Pet] """
         data = [
             {
@@ -304,7 +317,116 @@ class DeserializationTests(unittest.TestCase):
         response = MockResponse(data=json.dumps(data))
         response_types_mixed = [[(Pet,)]]
 
-        deserialized = self.deserialize(response, response_types_mixed)
+        error_msg = ()
+        with self.assertRaises(ApiKeyError) as exc:
+            deserialized = self.deserialize(response, response_types_mixed)
+        self.assertEqual(str(exc.exception),
+            "\"Pet has no key 'namee' at ['received_data'][1]['namee']\"")
+
+    def test_deserialize_failure_typeerror(self):
+        """ deserialize list[Pet] """
+        data = [
+            {
+                "id": 0,
+                "category": {
+                    "id": 0,
+                    "name": "string"
+                },
+                "name": "doggie0",
+                "photoUrls": [
+                    "string"
+                ],
+                "tags": [
+                    {
+                        "id": 0,
+                        "name": "string"
+                    }
+                ],
+                "status": "available"
+            },
+            {
+                "id": None,
+                "category": {
+                    "id": 0,
+                    "name": "string"
+                },
+                "name": "doggie1",
+                "photoUrls": [
+                    "string"
+                ],
+                "tags": [
+                    {
+                        "id": 0,
+                        "name": "string"
+                    }
+                ],
+                "status": "available"
+            }]
+        response = MockResponse(data=json.dumps(data))
+        response_types_mixed = [[(Pet,)]]
+
+        with self.assertRaises(ApiTypeError) as exc:
+            deserialized = self.deserialize(response, response_types_mixed)
+        self.assertEqual(
+            str(exc.exception),
+            (
+                "Invalid type for variable 'id'. Required value type is "
+                "<class 'int'> and passed type was <class 'NoneType'> at "
+                "['received_data'][1]['id']"
+            )
+        )
+
+    def test_deserialize_failure_valueerror(self):
+        """ deserialize list[Pet] """
+        data = [
+            {
+                "id": 0,
+                "category": {
+                    "id": 0,
+                    "name": "string"
+                },
+                "name": "doggie0",
+                "photoUrls": [
+                    "string"
+                ],
+                "tags": [
+                    {
+                        "id": 0,
+                        "name": "string"
+                    }
+                ],
+                "status": "available"
+            },
+            {
+                "id": 'a1',
+                "category": {
+                    "id": 0,
+                    "name": "string"
+                },
+                "name": "doggie1",
+                "photoUrls": [
+                    "string"
+                ],
+                "tags": [
+                    {
+                        "id": 0,
+                        "name": "string"
+                    }
+                ],
+                "status": "available"
+            }]
+        response = MockResponse(data=json.dumps(data))
+        response_types_mixed = [[(Pet,)]]
+
+        with self.assertRaises(ApiValueError) as exc:
+            deserialized = self.deserialize(response, response_types_mixed)
+        self.assertEqual(
+            str(exc.exception),
+            (
+                "Failed to parse 'a1' as <class 'int'> at ['received_data']"
+                "[1]['id']"
+            )
+        )
 
     def test_deserialize_nested_dict(self):
         """ deserialize dict(str, dict(str, int)) """
@@ -336,26 +458,100 @@ class DeserializationTests(unittest.TestCase):
         self.assertTrue(isinstance(deserialized[0][0], str))
         self.assertEqual(deserialized, data)
 
+    def test_deserialize_list_to_class_instance(self):
+        """ deserialize list to model """
+        photo_urls = ['http://www.example.com/image.jpg']
+        data = [photo_urls]
+        response = MockResponse(data=json.dumps(data))
+        response_types_mixed = [Pet]
+
+        deserialized = self.deserialize(response, response_types_mixed)
+        self.assertTrue(isinstance(deserialized, Pet))
+        self.assertEqual(deserialized.photo_urls, photo_urls)
+
+    def test_deserialize_primitive_failure(self):
+        """ try to deserialize bad string into int """
+        data = {'hi': 'a23'}
+        response = MockResponse(data=json.dumps(data))
+        response_types_mixed = [{str: (int,)}]
+
+        with self.assertRaises(ApiValueError) as exc:
+            deserialized = self.deserialize(response, response_types_mixed)
+        error_msg = (
+            "Failed to parse 'a23' as <class 'int'> at ['received_data']['hi']"
+        )
+        self.assertEqual(str(exc.exception), error_msg)
+
+
     def test_deserialize_none_failure(self):
         """ deserialize None """
         data = None
         response = MockResponse(data=json.dumps(data))
         response_types_mixed = [datetime]
 
-        with self.assertRaises(TypeError) as exc:
+        with self.assertRaises(ApiTypeError) as exc:
             deserialized = self.deserialize(response, response_types_mixed)
         error_msg = (
-            "Invalid type for variable received_data. Required value type is "
-            "(<class 'datetime.datetime'>,) and passed type was <class "
-            "'NoneType'> at location=['received_data']"
+            "Invalid type for variable 'received_data'. Required value type is "
+            "<class 'datetime.datetime'> and passed type was <class "
+            "'NoneType'> at ['received_data']"
         )
         self.assertEqual(str(exc.exception), error_msg)
 
     def test_deserialize_nullable_success(self):
         """ deserialize datatetime/None """
+        response_types_mixed = [date, none_type]
+
         data = None
         response = MockResponse(data=json.dumps(data))
-        response_types_mixed = [datetime, none_type]
-
         deserialized = self.deserialize(response, response_types_mixed)
+        self.assertTrue(isinstance(deserialized, none_type))
         self.assertEqual(deserialized, None)
+
+        data = "1997-07-16"
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, response_types_mixed)
+        self.assertTrue(isinstance(deserialized, date))
+        self.assertEqual(deserialized, date(1997, 7, 16))
+
+    def test_deserialize_anytype_string_types(self):
+        """ deserialize str -> date """
+        response_types_mixed = [bool, date, datetime, dict, float, int, list, str]
+
+        data = "7"
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, response_types_mixed)
+        self.assertTrue(isinstance(deserialized, int))
+        self.assertEqual(deserialized, 7)
+
+        data = "0"
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, response_types_mixed)
+        self.assertTrue(isinstance(deserialized, int))
+        self.assertEqual(deserialized, 0)
+
+        data = "-3.1415"
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, response_types_mixed)
+        self.assertTrue(isinstance(deserialized, float))
+        self.assertEqual(deserialized, -3.1415)
+
+        data = "hi"
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, response_types_mixed)
+        self.assertTrue(isinstance(deserialized, str))
+        self.assertEqual(deserialized, data)
+
+        data = "1997-07-16"
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, response_types_mixed)
+        self.assertTrue(isinstance(deserialized, date))
+        self.assertEqual(deserialized, date(1997, 7, 16))
+
+        data = "1997-07-16T19:20:30.45+01:00"
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, response_types_mixed)
+        self.assertTrue(isinstance(deserialized, datetime))
+        correct_datetime = datetime(1997, 7, 16, 19, 20, 30, 450000,
+            tzinfo=tzoffset(None, 3600))
+        self.assertEqual(deserialized, correct_datetime)

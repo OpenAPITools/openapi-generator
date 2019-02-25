@@ -27,7 +27,8 @@ from petstore_api.model_utils import (  # noqa: F401
     file_type,
     model_to_dict,
     none_type,
-    validate_type
+    type_error_message,
+    validate_and_convert_types
 )
 from petstore_api.models.category import Category
 from petstore_api.models.tag import Tag
@@ -67,7 +68,7 @@ class Pet(OpenApiModel):
         'status': 'status'  # noqa: E501
     }
 
-    def __init__(self, photo_urls, name='doggie', _check_type=False, **kwargs):  # noqa: E501
+    def __init__(self, photo_urls, name='doggie', _check_type=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
         """Pet - a model defined in OpenAPI
 
         Args:
@@ -79,6 +80,13 @@ class Pet(OpenApiModel):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
             id (int): [optional]  # noqa: E501
             category (Category): [optional]  # noqa: E501
             tags ([(Tag,)]): [optional]  # noqa: E501
@@ -88,6 +96,8 @@ class Pet(OpenApiModel):
         self._data_store = {}
         self.discriminator = None
         self._check_type = _check_type
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
 
         # assign using .var_name to check against nullable and enums
         self.name = name
@@ -102,31 +112,57 @@ class Pet(OpenApiModel):
     def __setitem__(self, name, value):
         if name in self.openapi_types:
             check_type = self._check_type
-            required_type = self.openapi_types[name]
+            required_types_mixed = self.openapi_types[name]
         else:
-            raise ApiKeyError("{0} has no key '{1}'".format(
-                type(self).__name__, name))
-
-        variable_path = [name]
-        if not isinstance(name, str):
-            raise ApiTypeError(
-                (str,),
-                name,
-                variable_path,
-                value_type=False
+            path_to_item = []
+            if self._path_to_item:
+                path_to_item.extend(self._path_to_item)
+            path_to_item.append(name)
+            raise ApiKeyError(
+                "{0} has no key '{1}'".format(type(self).__name__, name),
+                path_to_item
             )
-        if check_type:
-            validate_type(value, required_type, variable_path)
 
-        self._data_store[name] = value
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+
+        if not isinstance(name, str):
+            error_msg = type_error_message(
+                var_name=name,
+                var_value=name,
+                valid_classes=(str,),
+                key_type=True
+            )
+            raise ApiTypeError(
+                error_msg,
+                path_to_item=path_to_item,
+                valid_classes=(str,),
+                key_type=True
+            )
+
+        if check_type:
+            self._data_store[name] = validate_and_convert_types(
+                value, required_types_mixed, path_to_item,
+                configuration=self._configuration)
+        else:
+            self._data_store[name] = value
 
     def __getitem__(self, name):
         if name in self.openapi_types:
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise ApiKeyError("{0} has no key {1}".format(
-            type(self).__name__, name))
+
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+        raise ApiKeyError(
+            "{0} has no key '{1}'".format(type(self).__name__, name),
+            [name]
+        )
 
     @property
     def id(self):

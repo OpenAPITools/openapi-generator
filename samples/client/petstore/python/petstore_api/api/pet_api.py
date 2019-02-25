@@ -18,14 +18,16 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
-from petstore_api.utils import (  # noqa: F401
+from petstore_api.exceptions import (
     ApiTypeError,
-    ApiValueError,
+    ApiValueError
+)
+from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
     none_type,
-    validate_type
+    validate_and_convert_types
 )
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.pet import Pet
@@ -101,9 +103,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'body' is set
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
@@ -207,9 +210,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
@@ -310,9 +314,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'status' is set
         if ('status' not in local_var_params or
                 local_var_params['status'] is None):
@@ -416,9 +421,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'tags' is set
         if ('tags' not in local_var_params or
                 local_var_params['tags'] is None):
@@ -522,9 +528,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
@@ -625,9 +632,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'body' is set
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
@@ -734,9 +742,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
@@ -847,9 +856,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
@@ -964,9 +974,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):

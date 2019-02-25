@@ -2,9 +2,20 @@
 
 {{>partial_header}}
 
+import copy
 from datetime import date, datetime  # noqa: F401
+import os
+import re
+import tempfile
 
+from dateutil.parser import parse
 import six
+
+from {{packageName}}.exceptions import (
+    ApiKeyError,
+    ApiTypeError,
+    ApiValueError,
+)
 
 none_type = type(None)
 if six.PY3:
@@ -50,7 +61,7 @@ def order_response_types(required_types):
             list or dict with classs information inside it
 
     Returns:
-        (list/tuple): coercion order sorted collection of classes or instance
+        (list): coercion order sorted collection of classes or instance
             of list or dict with classs information inside it
     """
 
@@ -87,6 +98,9 @@ def remove_uncoercible(required_types_classes, current_item):
 
     results_classes = []
     for real_required_type_class in required_types_classes:
+        if real_required_type_class == current_type:
+            # don't consider converting to one's own class
+            continue
         required_type_class = real_required_type_class
         if issubclass(real_required_type_class, OpenApiModel):
             required_type_class = OpenApiModel
@@ -96,13 +110,13 @@ def remove_uncoercible(required_types_classes, current_item):
     return results_classes
 
 
-def get_parent_key_or_index(input_data, variable_path):
+def get_parent_key_or_index(input_data, path_to_item):
     """Returns a tuple of parent, key_or_index
 
     Args:
         input_data (dict/list): the root data object that had an
                                 ApiTypeException
-        variable_path (list): the path to the exception, values are keys or
+        path_to_item (list): the path to the exception, values are keys or
                               indices
 
     Returns:
@@ -113,34 +127,42 @@ def get_parent_key_or_index(input_data, variable_path):
                                     ApiTypeException
     """
     current_item = input_data
-    for index, path_value in enumerate(variable_path[:-1]):
+    for index, path_value in enumerate(path_to_item[:-1]):
         current_item = current_item[path_value]
     parent = current_item
-    key_or_index = variable_path[-1]
+    key_or_index = path_to_item[-1]
     return parent, key_or_index
 
 
 def get_required_type_classes(required_types_mixed):
-    """Converts the tuple required_types into a tuple of:
-    tuple(child_classes), dict(class: required_type)
-    where required_type is a class or list instance or dict instance
+    """Converts the tuple required_types into a tuple and a dict described
+    below
 
     Args:
-        required_types_mixed (tuple/list): will contain either classes or instance
-                                           of list or dict
+        required_types_mixed (tuple/list): will contain either classes or
+            instance of list or dict
+
+    Returns:
+        (valid_classes, dict_valid_class_to_child_types_mixed):
+            valid_classes (tuple): the valid classes that the current item
+                                   should be
+            dict_valid_class_to_child_types_mixed (doct):
+                valid_class (class): this is the key
+                child_types_mixed (list/dict/tuple): describes the valid child
+                    types
     """
-    results = []
+    valid_classes = []
     child_req_types_by_current_type = {}
     for required_type in required_types_mixed:
         if isinstance(required_type, list):
-            results.append(list)
+            valid_classes.append(list)
             child_req_types_by_current_type[list] = required_type[0]
         elif isinstance(required_type, dict):
-            results.append(dict)
+            valid_classes.append(dict)
             child_req_types_by_current_type[dict] = required_type[str]
         else:
-            results.append(required_type)
-    return tuple(results), child_req_types_by_current_type
+            valid_classes.append(required_type)
+    return tuple(valid_classes), child_req_types_by_current_type
 
 
 def change_keys_js_to_python(input_dict, model_class):
@@ -162,13 +184,224 @@ def change_keys_js_to_python(input_dict, model_class):
     return output_dict
 
 
-def validate_type(input_value, required_types_mixed, variable_path):
-    """Raises a TypeError is there is a problem, otherwise continue
+def get_type_error(var_value, path_to_item, valid_classes, key_type=False):
+    error_msg = type_error_message(
+        var_name=path_to_item[-1],
+        var_value=var_value,
+        valid_classes=valid_classes,
+        key_type=key_type
+    )
+    return ApiTypeError(
+        error_msg,
+        path_to_item=path_to_item,
+        valid_classes=valid_classes,
+        key_type=key_type
+    )
 
-    :param input_value: any typed item
-    :param required_types_mixed: For the response, a list of
-        valid classes, or a list tuples of valid classes, or a dict where
-        the value is a tuple of value classes.
+
+def deserialize_primitive(data, klass, path_to_item):
+    """Deserializes string to primitive type.
+
+    :param data: str/int/float
+    :param klass: str/class the class to convert to
+
+    :return: int, float, str, bool, date, datetime
+    """
+    additional_message = ""
+    try:
+        if klass in {datetime, date}:
+            additional_message = (
+                ". If you need your parameter to have a fallback "
+                "string value, please set its type as `type: {}` in your "
+                "spec. That allows the value to be any type."
+            )
+            if klass == datetime:
+                # The string should be in iso8601 datetime format.
+                parsed_datetime = parse(data)
+                date_only = (parsed_datetime.hour == 0 and
+                    parsed_datetime.minute == 0 and
+                    parsed_datetime.second == 0 and
+                    parsed_datetime.tzinfo == None and
+                    8 <= len(data) <= 10)
+                if date_only:
+                    raise ValueError("This is a date, not a datetime")
+                return parsed_datetime
+            elif klass == date:
+                return parse(data).date()
+        else:
+            converted_value = klass(data)
+            if isinstance(data, str) and klass == float:
+                if str(converted_value) != data:
+                    # '7' -> 7.0 -> '7.0' != '7'
+                    raise ValueError('This is not a float')
+            return converted_value
+    except (OverflowError, ValueError):
+        # parse can raise OverflowError
+        raise ApiValueError(
+            "Failed to parse {0} as {1}{2}".format(
+                repr(data), klass, additional_message
+            ),
+            path_to_item=path_to_item
+        )
+
+
+def deserialize_model(model_data, model_class, path_to_item, configuration):
+    """Deserializes model_data to model instance.
+
+    Args:
+        model_data (list/dict): data to instantiate the model
+        model_class (OpenApiModel): the model class
+        path_to_item (list): path to the model in the received data
+        configuration (Configuration): the instance to use to convert files
+
+    Returns:
+        model instance
+
+    Raise:
+        ApiTypeError
+        ApiValueError
+        ApiKeyError
+    """
+    fixed_model_data = copy.deepcopy(model_data)
+
+    if isinstance(fixed_model_data, dict):
+        fixed_model_data = change_keys_js_to_python(fixed_model_data,
+                                                    model_class)
+
+    kw_args = dict(_check_type=True,
+                   _path_to_item=path_to_item,
+                   _configuration=configuration)
+    if isinstance(model_data, list):
+        instance = model_class(*model_data, **kw_args)
+    elif isinstance(model_data, dict):
+        kw_args.update(fixed_model_data)
+        instance = model_class(**kw_args)
+
+    if hasattr(instance, 'get_real_child_model'):
+        discriminator_class = instance.get_real_child_model(model_data)
+        if discriminator_class:
+            if isinstance(model_data, list):
+                instance = discriminator_class(*model_data, **kw_args)
+            elif isinstance(model_data, dict):
+                instance = discriminator_class(**kw_args)
+
+    return instance
+
+
+def deserialize_file(self, response_data, configuration,
+                     content_disposition=None):
+    """Deserializes body to file
+
+    Saves response body into a file in a temporary folder,
+    using the filename from the `Content-Disposition` header if provided.
+
+    Args:
+        param response_data (str):  the file data to write
+        configuration (Configuration): the instance to use to convert files
+
+    Keyword Args:
+        content_disposition (str):  the value of the Content-Disposition
+            header
+
+    Returns:
+        (str): the deserialized file path
+    """
+    fd, path = tempfile.mkstemp(dir=configuration.temp_folder_path)
+    os.close(fd)
+    os.remove(path)
+
+    if content_disposition:
+        filename = re.search(r'filename=[\'"]?([^\'"\s]+)[\'"]?',
+                             content_disposition).group(1)
+        path = os.path.join(os.path.dirname(path), filename)
+
+    with open(path, "wb") as f:
+        f.write(response_data)
+
+    return path
+
+
+def attempt_convert_item(input_value, valid_classes, path_to_item,
+                         configuration, key_type=False, must_convert=False):
+    """
+    Args:
+        input_value (any): the data to convert
+        valid_classes (any): the classes that are valid
+        path_to_item (list): the path to the item to convert
+        configuration (Configuration): the instance to use to convert files
+        key_type (bool): if True we need to convert a key type (not supported)
+        must_convert (bool): if True we must convert
+
+    Returns:
+        instance (any) the fixed item
+
+    Raises:
+        ApiTypeError
+        ApiValueError
+        ApiKeyError
+    """
+    valid_classes_ordered = order_response_types(valid_classes)
+    valid_classes_coercible = remove_uncoercible(
+        valid_classes_ordered, input_value)
+    type_error = get_type_error(input_value, path_to_item, valid_classes,
+        key_type=key_type)
+    if not valid_classes_coercible or key_type:
+        # we do not handle keytype errors, json will take care
+        # of this for us
+        raise type_error
+    deserialized_item = None
+    for valid_class in valid_classes_coercible:
+        try:
+            if issubclass(valid_class, OpenApiModel):
+                deserialized_item = deserialize_model(
+                    input_value,
+                    valid_class,
+                    path_to_item,
+                    configuration
+                )
+            elif isinstance(valid_class, file_type):
+                deserialized_item = deserialize_file(
+                    input_value, configuration)
+            else:
+                deserialized_item = deserialize_primitive(
+                    input_value,
+                    valid_class,
+                    path_to_item
+                )
+            return deserialized_item
+        except (ApiTypeError, ApiValueError, ApiKeyError) as conversion_exc:
+            if must_convert:
+                raise conversion_exc
+            # if we have conversion errors when must_convert == False
+            # we ignore the exception and move on to the next class
+            continue
+    # we were unable to convert, must_convert == False
+    return input_value
+
+
+def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
+                               configuration=None):
+    """Raises a TypeError is there is a problem, otherwise returns value
+
+    Args:
+        input_value (any): the data to validate/convert
+        required_types_mixed (list/dict/tuple): A list of
+            valid classes, or a list tuples of valid classes, or a dict where
+            the value is a tuple of value classes
+        path_to_item: (list) the path to the data being validated
+            this stores a list of keys or indices to get to the data being
+            validated
+        configuration: (Configuration): the configuration class to use
+            when converting file_type items.
+            If passed, conversion will be attempted when possible
+            If not passed, no conversions will be attempted and
+            exceptions will be raised
+
+    Returns:
+        the correctly typed value
+
+    Raises:
+        ApiTypeError
     """
     results = get_required_type_classes(required_types_mixed)
     valid_classes, child_req_types_by_current_type = results
@@ -185,45 +418,60 @@ def validate_type(input_value, required_types_mixed, variable_path):
         if valid_type:
             break
     if not valid_type:
-        raise ApiTypeError(
-            valid_classes,
-            input_value,
-            variable_path
-        )
+        if configuration:
+            # if input_value is not valid_type try to convert it
+            converted_instance = attempt_convert_item(input_value,
+                valid_classes, path_to_item, configuration, key_type=False,
+                must_convert=True)
+            return converted_instance
+        else:
+            raise get_type_error(input_value, path_to_item, valid_classes,
+                key_type=False)
+
     # input_value's type is in valid_classes
+    if len(valid_classes) > 1 and configuration:
+        # there are valid classes which are not the current class
+        valid_classes_ordered = order_response_types(valid_classes)
+        valid_classes_coercible = remove_uncoercible(
+            valid_classes_ordered, input_value)
+        if valid_classes_coercible:
+            converted_instance = attempt_convert_item(input_value,
+                valid_classes_coercible, path_to_item, configuration,
+                key_type=False, must_convert=False)
+            return converted_instance
+
     if child_req_types_by_current_type == {}:
         # all types are of the required types and there are no more inner
         # variables left to look at
-        return
+        return input_value
     inner_required_types = child_req_types_by_current_type.get(
         type(input_value)
     )
     if inner_required_types is None:
         # for this type, there are not more inner variables left to look at
-        return
+        return input_value
     if isinstance(input_value, list):
         if input_value == []:
             # allow an empty list
-            return
+            return input_value
         for index, inner_value in enumerate(input_value):
-            inner_path = list(variable_path)
+            inner_path = list(path_to_item)
             inner_path.append(index)
-            validate_type(inner_value, inner_required_types, inner_path)
+            input_value[index] = validate_and_convert_types(inner_value,
+                inner_required_types, inner_path, configuration=configuration)
     elif isinstance(input_value, dict):
         if input_value == {}:
             # allow an empty dict
-            return
+            return input_value
         for inner_key, inner_val in six.iteritems(input_value):
-            inner_path = list(variable_path)
+            inner_path = list(path_to_item)
             inner_path.append(inner_key)
             if not isinstance(inner_key, str):
-                raise ApiTypeError(
-                    (str,),
-                    inner_key,
-                    inner_path,
-                    key_type=True
-                )
-            validate_type(inner_val, inner_required_types, inner_path)
+                raise get_type_error(inner_key, inner_path, valid_classes,
+                    key_type=True)
+            input_value[inner_key] = validate_and_convert_types(inner_val,
+                inner_required_types, inner_path, configuration=configuration)
+    return input_value
 
 
 def model_to_dict(model_instance, serialize=True):
@@ -260,3 +508,33 @@ def model_to_dict(model_instance, serialize=True):
             result[attr] = value
 
     return result
+
+
+def type_error_message(var_value=None, var_name=None, valid_classes=None,
+                       key_type=None):
+    """
+    Keyword Args:
+        var_value (any): the variable which has the type_error
+        var_name (str): the name of the variable which has the typ error
+        valid_classes (tuple): the accepted classes for current_item's
+                                  value
+        key_type (bool): False if our value is a value in a dict
+                         True if it is a key in a dict
+                         False if our item is an item in a list
+    """
+    key_or_value = 'value'
+    if key_type:
+        key_or_value = 'key'
+    valid_classes_phrase = 'is {0}'.format(valid_classes[0])
+    if len(valid_classes) > 1:
+        valid_classes_phrase = 'is one of {0}'.format(valid_classes)
+    msg = (
+        "Invalid type for variable '{0}'. Required {1} type {2} and "
+        "passed type was {3}".format(
+            var_name,
+            key_or_value,
+            valid_classes_phrase,
+            type(var_value),
+        )
+    )
+    return msg

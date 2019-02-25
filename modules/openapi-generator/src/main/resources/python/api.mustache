@@ -10,14 +10,16 @@ import re  # noqa: F401
 import six
 
 from {{packageName}}.api_client import ApiClient
-from {{packageName}}.utils import (  # noqa: F401
+from {{packageName}}.exceptions import (
     ApiTypeError,
-    ApiValueError,
+    ApiValueError
+)
+from {{packageName}}.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
     none_type,
-    validate_type
+    validate_and_convert_types
 )
 {{#imports}}
 {{{import}}}
@@ -131,9 +133,10 @@ class {{classname}}(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
 {{/hasParams}}
 {{#allParams}}
 {{^isNullable}}
