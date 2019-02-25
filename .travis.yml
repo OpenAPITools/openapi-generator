@@ -28,7 +28,6 @@ cache:
   - $HOME/samples/server/petstore/rust-server/target
   - $HOME/perl5
   - $HOME/.cargo
-  - $HOME/.stack
   - $HOME/.pub-cache
   - $HOME/samples/server/petstore/cpp-pistache/pistache
   - $HOME/.npm  
@@ -50,10 +49,6 @@ addons:
     - petstore.swagger.io
 
 before_install:
-  # install haskell
-  - curl -sSL https://get.haskellstack.org/ | sh
-  - stack upgrade
-  - stack --version
   # install rust
   - curl https://sh.rustup.rs -sSf | sh -s -- -y -v
   # required when sudo: required for the Ruby petstore tests

@@ -83,6 +83,7 @@ jobs:
         - ~/.gradle
         - ~/.cache/bower
         - ".git"
+        - ~/.stack
     # Teardown
     #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
     # Save test results
