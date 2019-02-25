@@ -9,6 +9,6 @@ public class SpecValidationExceptionTest {
     public void shouldGetDefaultMessage() {
         SpecValidationException specValidationException = new SpecValidationException();
 
-        Assert.assertEquals(specValidationException.getMessage(), "null | Error count: 0, Warning count: 0\nErrors: \n");
+        Assert.assertEquals(specValidationException.getMessage(), String.format("null | Error count: 0, Warning count: 0%sErrors: %s", System.lineSeparator(), System.lineSeparator()));
     }
 }
