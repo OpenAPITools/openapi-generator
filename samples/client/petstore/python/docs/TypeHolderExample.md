@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **string_item** | **str** |  | 
-**number_item** | **float** |  | [default to 1.234]
+**number_item** | **float** |  | 
 **integer_item** | **int** |  | 
 **bool_item** | **bool** |  | 
 **array_item** | **list[int]** |  | 
