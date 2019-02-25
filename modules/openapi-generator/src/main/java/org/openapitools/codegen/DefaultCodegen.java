@@ -1251,23 +1251,7 @@ public class DefaultCodegen implements CodegenConfig {
             return schema.getExample().toString();
         }
 
-        if (ModelUtils.isBooleanSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isDateSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isDateTimeSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isNumberSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isIntegerSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isStringSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isObjectSchema(schema)) {
-            return "null";
-        } else {
-            return "null";
-        }
+        return "null";
     }
 
     /**
@@ -1282,23 +1266,7 @@ public class DefaultCodegen implements CodegenConfig {
             return schema.getDefault().toString();
         }
 
-        if (ModelUtils.isBooleanSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isDateSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isDateTimeSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isNumberSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isIntegerSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isStringSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isObjectSchema(schema)) {
-            return "null";
-        } else {
-            return "null";
-        }
+        return "null";
     }
 
     /**
