@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **CreateUser**
-> CreateUser(body)
+> CreateUser(user)
 
 Create user
 
@@ -25,18 +25,18 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var.body <- User$new() # User | Created user object
+var.user <- User$new() # User | Created user object
 
 #Create user
 api.instance <- UserApi$new()
-api.instance$CreateUser(var.body)
+api.instance$CreateUser(var.user)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+ **user** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -48,13 +48,13 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 
 
 # **CreateUsersWithArrayInput**
-> CreateUsersWithArrayInput(body)
+> CreateUsersWithArrayInput(user)
 
 Creates list of users with given input array
 
@@ -62,18 +62,18 @@ Creates list of users with given input array
 ```R
 library(petstore)
 
-var.body <- [array$new()] # User | List of user object
+var.user <- [array$new()] # User | List of user object
 
 #Creates list of users with given input array
 api.instance <- UserApi$new()
-api.instance$CreateUsersWithArrayInput(var.body)
+api.instance$CreateUsersWithArrayInput(var.user)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](array.md)| List of user object | 
+ **user** | [**User**](array.md)| List of user object | 
 
 ### Return type
 
@@ -85,13 +85,13 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 
 
 # **CreateUsersWithListInput**
-> CreateUsersWithListInput(body)
+> CreateUsersWithListInput(user)
 
 Creates list of users with given input array
 
@@ -99,18 +99,18 @@ Creates list of users with given input array
 ```R
 library(petstore)
 
-var.body <- [array$new()] # User | List of user object
+var.user <- [array$new()] # User | List of user object
 
 #Creates list of users with given input array
 api.instance <- UserApi$new()
-api.instance$CreateUsersWithListInput(var.body)
+api.instance$CreateUsersWithListInput(var.user)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](array.md)| List of user object | 
+ **user** | [**User**](array.md)| List of user object | 
 
 ### Return type
 
@@ -122,7 +122,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 
@@ -278,7 +278,7 @@ No authorization required
 
 
 # **UpdateUser**
-> UpdateUser(username, body)
+> UpdateUser(username, user)
 
 Updated user
 
@@ -289,11 +289,11 @@ This can only be done by the logged in user.
 library(petstore)
 
 var.username <- 'username_example' # character | name that need to be deleted
-var.body <- User$new() # User | Updated user object
+var.user <- User$new() # User | Updated user object
 
 #Updated user
 api.instance <- UserApi$new()
-api.instance$UpdateUser(var.username, var.body)
+api.instance$UpdateUser(var.username, var.user)
 ```
 
 ### Parameters
@@ -301,7 +301,7 @@ api.instance$UpdateUser(var.username, var.body)
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **character**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | 
+ **user** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -313,7 +313,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 
