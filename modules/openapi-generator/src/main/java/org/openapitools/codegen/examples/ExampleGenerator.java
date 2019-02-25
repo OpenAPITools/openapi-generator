@@ -259,7 +259,7 @@ public class ExampleGenerator {
             if (ModelUtils.isFloatSchema(property)) { // float
                 return (float) randomNumber(min, max);
             } else if (ModelUtils.isDoubleSchema(property)) { // decimal/double
-                return new BigDecimal(randomNumber(min, max));
+                return BigDecimal.valueOf(randomNumber(min, max));
             } else { // no format defined
                 return randomNumber(min, max);
             }
