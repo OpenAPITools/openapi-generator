@@ -622,9 +622,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-            if (p.getExample() != null) {
-                return p.getExample().toString();
-            }
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
