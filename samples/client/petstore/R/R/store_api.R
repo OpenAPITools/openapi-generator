@@ -133,17 +133,17 @@ StoreApi <- R6::R6Class(
       }
 
     },
-    PlaceOrder = function(body, ...){
+    PlaceOrder = function(order, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`body`)) {
-        stop("Missing required parameter `body`.")
+      if (missing(`order`)) {
+        stop("Missing required parameter `order`.")
       }
 
-      if (!missing(`body`)) {
-        body <- `body`$toJSONString()
+      if (!missing(`order`)) {
+        body <- `order`$toJSONString()
       } else {
         body <- NULL
       }
