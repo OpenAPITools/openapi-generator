@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 public class DefaultCodegenTest {
 
     @Test
-    public void testHasBodyParameter() throws Exception {
+    public void testHasBodyParameter() {
         final Schema refSchema = new Schema<>().$ref("#/components/schemas/Pet");
         Operation pingOperation = new Operation()
                 .responses(
@@ -59,6 +59,13 @@ public class DefaultCodegenTest {
 
         Assert.assertEquals(codegen.hasBodyParameter(openAPI, pingOperation), false);
         Assert.assertEquals(codegen.hasBodyParameter(openAPI, createOperation), true);
+    }
+
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testParameterEmptyDescription() {
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        codegen.fromRequestBody(null, new HashSet<>(), null);
     }
 
     @Test
