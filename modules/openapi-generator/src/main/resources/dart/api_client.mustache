@@ -109,7 +109,10 @@ class ApiClient {
 
     _updateParamsForAuth(authNames, queryParams, headerParams);
 
-    var ps = queryParams.where((p) => p.value != null).map((p) => '${p.name}=${p.value}');
+    var ps = queryParams
+      .where((p) => p.value != null)
+      .map((p) => '${p.name}=${Uri.encodeQueryComponent(p.value)}');
+
     String queryString = ps.isNotEmpty ?
                          '?' + ps.join('&') :
                          '';
