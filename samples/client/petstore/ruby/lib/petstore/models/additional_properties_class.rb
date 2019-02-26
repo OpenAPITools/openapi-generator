@@ -206,5 +206,4 @@ module Petstore
       end
     end
   end
-
 end
