@@ -11,6 +11,8 @@ extern crate percent_encoding;
 extern crate url;
 
 
+
+
 use std::sync::Arc;
 use std::marker::PhantomData;
 use futures::{Future, future, Stream, stream};
@@ -19,6 +21,8 @@ use hyper::{Request, Response, Error, StatusCode};
 use hyper::header::{Headers, ContentType};
 use self::url::form_urlencoded;
 use mimetypes;
+
+
 
 use serde_json;
 
@@ -139,8 +143,16 @@ where
 
 
 
+
+
+
+
+
+
+
                 Box::new({
                         {{
+
 
                                 Box::new(api_impl.dummy_get(&context)
                                     .then(move |result| {
@@ -169,8 +181,11 @@ where
                                     }
                                 ))
 
+
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
+
+
 
 
             },
@@ -178,6 +193,10 @@ where
 
             // DummyPut - PUT /dummy
             &hyper::Method::Put if path.matched(paths::ID_DUMMY) => {
+
+
+
+
 
 
 
@@ -214,6 +233,10 @@ where
                                 };
 
 
+
+
+
+
                                 Box::new(api_impl.dummy_put(param_nested_response, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
@@ -246,11 +269,14 @@ where
                                 ))
 
 
+
+
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter nested_response: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
+
 
             },
 
@@ -264,8 +290,16 @@ where
 
 
 
+
+
+
+
+
+
+
                 Box::new({
                         {{
+
 
                                 Box::new(api_impl.file_response_get(&context)
                                     .then(move |result| {
@@ -302,8 +336,11 @@ where
                                     }
                                 ))
 
+
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
+
+
 
 
             },
@@ -311,6 +348,10 @@ where
 
             // HtmlPost - POST /html
             &hyper::Method::Post if path.matched(paths::ID_HTML) => {
+
+
+
+
 
 
 
@@ -335,6 +376,10 @@ where
                                     Some(param_body) => param_body,
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body("Missing required body parameter body"))),
                                 };
+
+
+
+
 
 
                                 Box::new(api_impl.html_post(param_body, &context)
@@ -373,11 +418,14 @@ where
                                 ))
 
 
+
+
                             },
                             Err(e) => Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't read body parameter body: {}", e)))),
                         }
                     })
                 ) as Box<Future<Item=Response, Error=Error>>
+
 
             },
 
@@ -391,8 +439,16 @@ where
 
 
 
+
+
+
+
+
+
+
                 Box::new({
                         {{
+
 
                                 Box::new(api_impl.raw_json_get(&context)
                                     .then(move |result| {
@@ -429,8 +485,11 @@ where
                                     }
                                 ))
 
+
                         }}
                 }) as Box<Future<Item=Response, Error=Error>>
+
+
 
 
             },
@@ -450,6 +509,7 @@ impl<T, C> Clone for Service<T, C>
         }
     }
 }
+
 
 /// Request parser for `Api`.
 pub struct ApiRequestParser;

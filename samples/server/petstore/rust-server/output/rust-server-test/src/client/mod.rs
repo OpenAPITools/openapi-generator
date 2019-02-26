@@ -9,6 +9,7 @@ extern crate url;
 
 
 
+
 use hyper;
 use hyper::header::{Headers, ContentType};
 use hyper::Uri;
@@ -26,6 +27,8 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
+
+
 
 use mimetypes;
 
@@ -273,6 +276,13 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
+
+
+
+
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -335,12 +345,19 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
+
+
+
+
         let body = serde_json::to_string(&param_nested_response).expect("impossible to fail to serialize");
 
         request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::DUMMY_PUT.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -402,6 +419,13 @@ impl<F, C> Api<C> for Client<F> where
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+
+
+
+
+
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -479,12 +503,19 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
+
+
+
+
         let body = param_body;
 
         request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::HTML_POST.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -559,6 +590,13 @@ impl<F, C> Api<C> for Client<F> where
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+
+
+
+
+
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));

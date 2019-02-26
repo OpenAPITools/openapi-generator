@@ -65,6 +65,15 @@ paths:
           description: OK
         400:
           description: Bad Request
+  /uuid:
+    get:
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UuidObject'
+          description: Duplicate Response long text. One.
   /required_octet_stream:
     put:
       requestBody:

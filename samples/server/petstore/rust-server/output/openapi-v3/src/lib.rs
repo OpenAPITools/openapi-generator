@@ -11,6 +11,7 @@ extern crate chrono;
 extern crate lazy_static;
 #[macro_use]
 extern crate log;
+extern crate mime;
 
 // Logically this should be in the client and server modules, but rust doesn't allow `macro_use` from a module.
 #[cfg(any(feature = "client", feature = "server"))]
@@ -43,6 +44,12 @@ pub const API_VERSION: &'static str = "1.0.7";
 pub enum RequiredOctetStreamPutResponse {
     /// OK
     OK ,
+}
+
+#[derive(Debug, PartialEq)]
+pub enum UuidGetResponse {
+    /// Duplicate Response long text. One.
+    DuplicateResponseLongText ( uuid::Uuid ) ,
 }
 
 #[derive(Debug, PartialEq)]
@@ -93,6 +100,9 @@ pub trait Api<C> {
     fn required_octet_stream_put(&self, body: swagger::ByteArray, context: &C) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>>;
 
 
+    fn uuid_get(&self, context: &C) -> Box<Future<Item=UuidGetResponse, Error=ApiError>>;
+
+
     fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>, context: &C) -> Box<Future<Item=XmlExtraPostResponse, Error=ApiError>>;
 
 
@@ -114,6 +124,9 @@ pub trait ApiNoContext {
 
 
     fn required_octet_stream_put(&self, body: swagger::ByteArray) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>>;
+
+
+    fn uuid_get(&self) -> Box<Future<Item=UuidGetResponse, Error=ApiError>>;
 
 
     fn xml_extra_post(&self, duplicate_xml_object: Option<models::DuplicateXmlObject>) -> Box<Future<Item=XmlExtraPostResponse, Error=ApiError>>;
@@ -149,6 +162,11 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
 
     fn required_octet_stream_put(&self, body: swagger::ByteArray) -> Box<Future<Item=RequiredOctetStreamPutResponse, Error=ApiError>> {
         self.api().required_octet_stream_put(body, &self.context())
+    }
+
+
+    fn uuid_get(&self) -> Box<Future<Item=UuidGetResponse, Error=ApiError>> {
+        self.api().uuid_get(&self.context())
     }
 
 

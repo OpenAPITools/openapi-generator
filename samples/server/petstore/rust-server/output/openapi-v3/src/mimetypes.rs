@@ -4,6 +4,10 @@ pub mod responses {
     use hyper::mime::*;
 
     // The macro is called per-operation to beat the recursion limit
+    /// Create Mime objects for the response content types for UuidGet
+    lazy_static! {
+        pub static ref UUID_GET_DUPLICATE_RESPONSE_LONG_TEXT: Mime = "application/json".parse().unwrap();
+    }
 
 }
 

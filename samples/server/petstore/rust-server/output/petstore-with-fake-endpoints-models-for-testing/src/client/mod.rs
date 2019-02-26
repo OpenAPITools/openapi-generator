@@ -7,6 +7,7 @@ extern crate mime;
 extern crate chrono;
 extern crate url;
 extern crate serde_urlencoded;
+extern crate multipart; 
 
 
 use hyper;
@@ -26,6 +27,11 @@ use std::sync::Arc;
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
+
+
+use hyper::mime::Mime; 
+use std::io::Cursor; 
+use client::multipart::client::lazy::Multipart; 
 
 use mimetypes;
 
@@ -300,6 +306,10 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Patch, uri);
 
 
+
+
+
+
         // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
@@ -307,6 +317,9 @@ impl<F, C> Api<C> for Client<F> where
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_SPECIAL_TAGS.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -383,6 +396,10 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
 
+
+
+
+
         // Body parameter
         let body = param_body.map(|ref body| {
             serde_json::to_string(body).expect("impossible to fail to serialize")
@@ -393,6 +410,9 @@ if let Some(body) = body {
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_BOOLEAN_SERIALIZE.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -468,6 +488,10 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
+
+
+
+
         let body = param_body.map(|ref body| {
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
@@ -477,6 +501,9 @@ if let Some(body) = body {
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_COMPOSITE_SERIALIZE.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -552,6 +579,10 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
+
+
+
+
         let body = param_body.map(|ref body| {
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
@@ -561,6 +592,9 @@ if let Some(body) = body {
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_NUMBER_SERIALIZE.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -636,6 +670,10 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
+
+
+
+
         let body = param_body.map(|ref body| {
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
@@ -645,6 +683,9 @@ if let Some(body) = body {
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_STRING_SERIALIZE.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -721,12 +762,19 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
+
+
+
+
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
         request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_BODY_WITH_QUERY_PARAMS.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -789,12 +837,19 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Patch, uri);
 
+
+
+
+
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
         request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_CLIENT_MODEL.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -870,6 +925,10 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
+
+
+
+
         let params = &[
             ("integer", param_integer.map(|param| format!("{:?}", param))),
             ("int32", param_int32.map(|param| format!("{:?}", param))),
@@ -890,6 +949,9 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_ENDPOINT_PARAMETERS.clone()));
         request.set_body(body.into_bytes());
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
         if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
             if let AuthData::Basic(ref basic_header) = *auth_data {
@@ -979,6 +1041,10 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
+
+
+
+
         let params = &[
             ("enum_form_string", param_enum_form_string),
         ];
@@ -986,6 +1052,9 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_ENUM_PARAMETERS.clone()));
         request.set_body(body.into_bytes());
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
         // Header parameters
@@ -1063,12 +1132,19 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
+
+
+
+
         let body = serde_json::to_string(&param_param).expect("impossible to fail to serialize");
 
         request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_INLINE_ADDITIONAL_PROPERTIES.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1131,6 +1207,10 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
+
+
+
+
         let params = &[
             ("param", Some(param_param)),
             ("param2", Some(param_param2)),
@@ -1139,6 +1219,9 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_JSON_FORM_DATA.clone()));
         request.set_body(body.into_bytes());
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1206,6 +1289,10 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Patch, uri);
 
 
+
+
+
+
         // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
@@ -1213,6 +1300,9 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_CLASSNAME.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1289,6 +1379,10 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
 
+
+
+
+
         // Body parameter
         let body = param_body.to_xml();
 
@@ -1296,6 +1390,9 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::ADD_PET.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1357,6 +1454,13 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Delete, uri);
+
+
+
+
+
+
+
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -1425,6 +1529,13 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+
+
+
+
+
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -1514,6 +1625,13 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
+
+
+
+
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1598,6 +1716,13 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+
+
+
+
+
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -1699,12 +1824,19 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
+
+
+
+
         let body = param_body.to_xml();
 
         request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_PET.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1785,6 +1917,10 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
+
+
+
+
         let params = &[
             ("name", param_name),
             ("status", param_status),
@@ -1793,6 +1929,9 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_PET_WITH_FORM.clone()));
         request.set_body(body.into_bytes());
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1855,14 +1994,66 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-        let params = &[
-            ("additionalMetadata", param_additional_metadata),
-            ("file", param_file.map(|param| format!("{:?}", param))),
-        ];
-        let body = serde_urlencoded::to_string(params).expect("impossible to fail to serialize");
 
-        request.headers_mut().set(ContentType(mimetypes::requests::UPLOAD_FILE.clone()));
-        request.set_body(body.into_bytes());
+        let mut multipart = Multipart::new(); 
+
+    
+        //For each parameter, encode as appropriate and add to the multipart body as a stream.  
+
+        
+        let additional_metadata_str = match serde_json::to_string(&param_additional_metadata) {
+            Ok(str) => str,
+            Err(e) => return Box::new(futures::done(Err(ApiError(format!("Unable to parse additional_metadata to string: {}", e))))),
+        };
+
+        let additional_metadata_vec = additional_metadata_str.as_bytes().to_vec();
+
+        let additional_metadata_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
+
+        let additional_metadata_cursor = Cursor::new(additional_metadata_vec);
+
+        multipart.add_stream("additional_metadata",  additional_metadata_cursor,  None as Option<&str>, Some(additional_metadata_mime));  
+        
+
+
+        
+        let file_str = match serde_json::to_string(&param_file) {
+            Ok(str) => str,
+            Err(e) => return Box::new(futures::done(Err(ApiError(format!("Unable to parse file to string: {}", e))))),
+        };
+
+        let file_vec = file_str.as_bytes().to_vec();
+
+        let file_mime = mime::Mime::from_str("application/json").expect("impossible to fail to parse");
+
+        let file_cursor = Cursor::new(file_vec);
+
+        multipart.add_stream("file",  file_cursor,  None as Option<&str>, Some(file_mime));  
+        
+
+    
+
+
+        let mut fields = match multipart.prepare() {
+            Ok(fields) => fields,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build request: {}", err))))),
+        };
+
+        let mut body_string = String::new();
+        fields.to_body().read_to_string(&mut body_string).unwrap();
+        let boundary = fields.boundary();
+
+        let multipart_header = match Mime::from_str(&format!("multipart/form-data;boundary={}", boundary)) {
+            Ok(multipart_header) => multipart_header,
+            Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build multipart header: {:?}", err))))),
+        };
+
+        request.set_body(body_string.into_bytes());
+        request.headers_mut().set(ContentType(multipart_header));
+
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1939,6 +2130,13 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Delete, uri);
 
 
+
+
+
+
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -2009,6 +2207,13 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+
+
+
+
+
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -2090,6 +2295,13 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+
+
+
+
+
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -2186,12 +2398,19 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
+
+
+
+
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
         request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::PLACE_ORDER.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -2278,6 +2497,10 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
 
+
+
+
+
         // Body parameter
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
@@ -2285,6 +2508,9 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::CREATE_USER.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -2347,12 +2573,19 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
+
+
+
+
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
         request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::CREATE_USERS_WITH_ARRAY_INPUT.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -2415,12 +2648,19 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
+
+
+
+
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
         request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::CREATE_USERS_WITH_LIST_INPUT.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -2482,6 +2722,13 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Delete, uri);
+
+
+
+
+
+
+
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -2554,6 +2801,13 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
+
+
+
+
+
+
+
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -2653,6 +2907,13 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
+
+
+
+
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -2749,6 +3010,13 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
+
+
+
+
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -2811,12 +3079,19 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
+
+
+
+
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
         request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_USER.clone()));
+
+
+
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 

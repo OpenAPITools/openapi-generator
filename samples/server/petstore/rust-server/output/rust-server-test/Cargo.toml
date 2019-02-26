@@ -23,8 +23,8 @@ swagger = "2"
 #
 lazy_static = "0.2"
 log = "0.3.0"
-mime = "0.3.3"
-multipart = {version = "0.13.3", optional = true}
+mime = "0.2.6"
+multipart = {version = "0.13.3"}
 native-tls = {version = "0.1.4", optional = true}
 openssl = {version = "0.9.14", optional = true}
 percent-encoding = {version = "1.0.0", optional = true}
