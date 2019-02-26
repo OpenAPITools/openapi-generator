@@ -67,32 +67,35 @@
 
   describe('PetApi', function() {
     it('should create and get pet', function(done) {
-      this.timeout(5000);
+      this.timeout(15000);
       var pet = createRandomPet();
-      api_instance.addPet(pet, function(error) {
-        if (error) throw error;
-
-        api.getPetById(pet.id, function(error, fetched, response) {
+      try {
+        //api_instance.addPet(pet, {_base_path_index: 1}, function(error) {
+        api_instance.addPet(pet, null, function(error) {
           if (error) throw error;
-          expect(response.status).to.be(200);
-          expect(response.ok).to.be(true);
-          expect(response.get('Content-Type')).to.be('application/json');
 
-          expect(fetched).to.be.a(OpenApiPetstore.Pet);
-          expect(fetched.id).to.be(pet.id);
-          expect(getProperty(fetched, "getPhotoUrls", "photoUrls"))
-            .to.eql(getProperty(pet, "getPhotoUrls", "photoUrls"));
-          expect(getProperty(fetched, "getCategory", "category"))
-            .to.be.a(OpenApiPetstore.Category);
-          expect(getProperty(getProperty(fetched, "getCategory", "category"), "getName", "name"))
-            .to.be(getProperty(getProperty(pet, "getCategory", "category"), "getName", "name"));
+          api_instance.getPetById(pet.id, function(error, fetched, response) {
+            if (error) throw error;
+            expect(response.status).to.be(200);
+            expect(response.ok).to.be(true);
+            expect(response.get('Content-Type')).to.be('application/json');
 
-          api.deletePet(pet.id);
-          //done();
+            expect(fetched).to.be.a(OpenApiPetstore.Pet);
+            expect(fetched.id).to.be(pet.id);
+            expect(getProperty(fetched, "getPhotoUrls", "photoUrls"))
+              .to.eql(getProperty(pet, "getPhotoUrls", "photoUrls"));
+            expect(getProperty(fetched, "getCategory", "category"))
+              .to.be.a(OpenApiPetstore.Category);
+            expect(getProperty(getProperty(fetched, "getCategory", "category"), "getName", "name"))
+              .to.be(getProperty(getProperty(pet, "getCategory", "category"), "getName", "name"));
+
+            api_instance.deletePet(pet.id);
+            done();
+          });
         });
-        //done();
-      });
-      done();
+      } catch (error) {
+        done(error);
+      }
     });
     describe('addPet', function() {
       it('should call addPet successfully', function(done) {
