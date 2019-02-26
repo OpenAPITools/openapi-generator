@@ -978,13 +978,20 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                         hasOptionalParams = true;
                     }
                 }
+
+                if (operation.servers != null && operation.servers.isEmpty()) {
+                    hasOptionalParams = true;
+                }
+
                 if (hasOptionalParams) {
                     argList.add("opts");
-                }
+                } 
+
                 if (!usePromises) {
                     argList.add("callback");
                 }
                 operation.vendorExtensions.put("x-codegen-argList", StringUtils.join(argList, ", "));
+                operation.vendorExtensions.put("x-codegen-hasOptionalParams", hasOptionalParams);
 
                 // Store JSDoc type specification into vendor-extension: x-jsdoc-type.
                 for (CodegenParameter cp : operation.allParams) {
