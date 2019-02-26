@@ -7,4 +7,14 @@ Name | Type | Description | Notes
 **type** | **String** |  | [optional] 
 **message** | **String** |  | [optional] 
 
+## Code Sample
+
+```ruby
+require 'Petstore'
+
+instance = Petstore::ApiResponse.new(code: null,
+                                 type: null,
+                                 message: null)
+```
+
 

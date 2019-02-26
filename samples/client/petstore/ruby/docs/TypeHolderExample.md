@@ -9,4 +9,16 @@ Name | Type | Description | Notes
 **bool_item** | **BOOLEAN** |  | 
 **array_item** | **Array&lt;Integer&gt;** |  | 
 
+## Code Sample
+
+```ruby
+require 'Petstore'
+
+instance = Petstore::TypeHolderExample.new(string_item: what,
+                                 number_item: 1.234,
+                                 integer_item: -2,
+                                 bool_item: true,
+                                 array_item: [0, 1, 2, 3])
+```
+
 
