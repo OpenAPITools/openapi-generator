@@ -26,15 +26,11 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAxiosClientCodegen.class);
-
     private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
 
     public static final String NPM_NAME = "npmName";
@@ -176,8 +172,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
-        Map<String, Object> vals = (Map<String, Object>) objs.get("operations");
-        List<CodegenOperation> operations = (List<CodegenOperation>) vals.get("operation");
+        Map<String, Object> vals = (Map<String, Object>) objs.getOrDefault("operations", new HashMap<>());
+        List<CodegenOperation> operations = (List<CodegenOperation>) vals.getOrDefault("operation", new ArrayList<>());
         /*
             Filter all the operations that are multipart/form-data operations and set the vendor extension flag
             'multipartFormData' for the template to work with.
@@ -193,22 +189,6 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
-    }
-
-    @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
-        Map<String, Object> ret = super.postProcessOperations(objs);
-        Map<String, Object> vals = (Map<String, Object>)ret.getOrDefault("operations", new HashMap<>());
-        List<CodegenOperation> operations = (List<CodegenOperation>)vals.getOrDefault("operation", new ArrayList<>());
-        /*
-            Filter all the operations that are multipart/form-data operations and set the vendor extension flag
-            'multipartFormData' for the template to work with.
-         */
-        operations.stream()
-                .filter(op -> op.hasConsumes)
-                .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
-                .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
-        return ret;
     }
 
     @Override
@@ -265,4 +245,5 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
     }
+
 }
