@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.springframework.core.io.Resource;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
+import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -303,7 +304,7 @@ public class FormatTest   {
    * Get uuid
    * @return uuid
   */
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
 
   @Valid
 

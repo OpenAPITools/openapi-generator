@@ -40,6 +40,7 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
+      x-codegen-request-body-name: body
     put:
       operationId: updatePet
       requestBody:
@@ -69,6 +70,7 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
+      x-codegen-request-body-name: body
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
@@ -325,6 +327,7 @@ paths:
       summary: Place an order for a pet
       tags:
       - store
+      x-codegen-request-body-name: body
   /store/order/{orderId}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -396,6 +399,7 @@ paths:
       summary: Create user
       tags:
       - user
+      x-codegen-request-body-name: body
   /user/createWithArray:
     post:
       operationId: createUsersWithArrayInput
@@ -415,6 +419,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
+      x-codegen-request-body-name: body
   /user/createWithList:
     post:
       operationId: createUsersWithListInput
@@ -434,6 +439,7 @@ paths:
       summary: Creates list of users with given input array
       tags:
       - user
+      x-codegen-request-body-name: body
   /user/login:
     get:
       operationId: loginUser
@@ -563,6 +569,7 @@ paths:
       summary: Updated user
       tags:
       - user
+      x-codegen-request-body-name: body
 components:
   schemas:
     Order:

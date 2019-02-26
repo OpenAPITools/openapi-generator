@@ -1,12 +1,6 @@
 package org.openapitools.codegen.serializer;
 
-import static org.testng.Assert.assertEquals;
-
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.ExternalDocumentation;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -15,10 +9,12 @@ import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
-
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+
+import static org.testng.Assert.assertEquals;
 
 public class SerializerUtilsTest {
 
@@ -44,6 +40,7 @@ public class SerializerUtilsTest {
                 .operationId("pingOp")
                 .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("Ok")))));
         openAPI.components(new Components().addSchemas("SomeObject", new ObjectSchema().description("An Obj").addProperties("id", new StringSchema())));
+        openAPI.setExtensions(new LinkedHashMap<>()); // required because swagger-core is using HashMap instead of LinkedHashMap internally.
         openAPI.addExtension("x-custom", "value1");
         openAPI.addExtension("x-other", "value2");
 
@@ -87,8 +84,8 @@ public class SerializerUtilsTest {
                "        id:\n" + 
                "          type: string\n" + 
                "      type: object\n" + 
-               "x-other: value2\n" + 
-               "x-custom: value1\n";
+               "x-custom: value1\n" + 
+               "x-other: value2\n";
         assertEquals(content, expected);
     }
 

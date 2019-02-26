@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
         /// <param name="_return">_return.</param>
-        public Return(int? _return = default(int?))
+        public Return(int _return = default(int))
         {
             this._Return = _return;
         }
@@ -44,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets _Return
         /// </summary>
         [DataMember(Name="return", EmitDefaultValue=false)]
-        public int? _Return { get; set; }
+        public int _Return { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -75,7 +76,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Return);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Return).AreEqual;
         }
 
         /// <summary>
@@ -85,15 +86,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(Return input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this._Return == input._Return ||
-                    (this._Return != null &&
-                    this._Return.Equals(input._Return))
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

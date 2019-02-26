@@ -32,11 +32,19 @@ namespace Org.OpenAPITools.Client
 
         #region Enumerators
 
+        /// <summary>
+        /// To get the enumerator.
+        /// </summary>
+        /// <returns>Enumerator</returns>
         public IEnumerator<KeyValuePair<T, IList<TValue>>> GetEnumerator()
         {
             return _dictionary.GetEnumerator();
         }
 
+        /// <summary>
+        /// To get the enumerator.
+        /// </summary>
+        /// <returns>Enumerator</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _dictionary.GetEnumerator();
@@ -45,13 +53,19 @@ namespace Org.OpenAPITools.Client
         #endregion Enumerators
 
         #region Public Members
-
+        /// <summary>
+        /// Add values to Multimap
+        /// </summary>
+        /// <param name="item">Key value pair</param>
         public void Add(KeyValuePair<T, IList<TValue>> item)
         {
             if (!TryAdd(item.Key, item.Value))
                 throw new InvalidOperationException("Could not add values to Multimap.");
         }
 
+        /// <summary>
+        /// Clear Multimap
+        /// </summary>
         public void Clear()
         {
             _dictionary.Clear();

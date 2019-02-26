@@ -16,29 +16,19 @@ open class FakeClassnameTags123API {
      To test class name in snake case
      
      - parameter client: (body) client model 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func testClassname(client: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void)) {
-        testClassnameWithRequestBuilder(client: client).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     To test class name in snake case
-     
-     - parameter client: (body) client model 
      - returns: Observable<Client>
      */
     open class func testClassname(client: Client) -> Observable<Client> {
         return Observable.create { observer -> Disposable in
-            testClassname(client: client) { data, error in
+            testClassnameWithRequestBuilder(client: client).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
+                } else if let response = response {
+                    observer.onNext(response.body!)
                 } else {
-                    observer.on(.next(data!))
+                    fatalError()
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }

@@ -17,6 +17,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +25,20 @@ import java.util.List;
 import java.util.Map;
 
 public interface FakeApi {
+  /**
+   * creates an XmlItem
+   * this route creates an XmlItem
+   * @param xmlItem XmlItem Body (required)
+   * @return Call&lt;Void&gt;
+   */
+  @Headers({
+    "Content-Type:application/xml"
+  })
+  @POST("fake/create_xml_item")
+  Call<Void> createXmlItem(
+    @retrofit2.http.Body XmlItem xmlItem
+  );
+
   /**
    * 
    * Test serialization of outer boolean types
@@ -38,12 +53,12 @@ public interface FakeApi {
   /**
    * 
    * Test serialization of object with outer number type
-   * @param outerComposite Input composite as post body (optional)
+   * @param body Input composite as post body (optional)
    * @return Call&lt;OuterComposite&gt;
    */
   @POST("fake/outer/composite")
   Call<OuterComposite> fakeOuterCompositeSerialize(
-    @retrofit2.http.Body OuterComposite outerComposite
+    @retrofit2.http.Body OuterComposite body
   );
 
   /**
@@ -71,7 +86,7 @@ public interface FakeApi {
   /**
    * 
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-   * @param fileSchemaTestClass  (required)
+   * @param body  (required)
    * @return Call&lt;Void&gt;
    */
   @Headers({
@@ -79,14 +94,14 @@ public interface FakeApi {
   })
   @PUT("fake/body-with-file-schema")
   Call<Void> testBodyWithFileSchema(
-    @retrofit2.http.Body FileSchemaTestClass fileSchemaTestClass
+    @retrofit2.http.Body FileSchemaTestClass body
   );
 
   /**
    * 
    * 
    * @param query  (required)
-   * @param user  (required)
+   * @param body  (required)
    * @return Call&lt;Void&gt;
    */
   @Headers({
@@ -94,13 +109,13 @@ public interface FakeApi {
   })
   @PUT("fake/body-with-query-params")
   Call<Void> testBodyWithQueryParams(
-    @retrofit2.http.Query("query") String query, @retrofit2.http.Body User user
+    @retrofit2.http.Query("query") String query, @retrofit2.http.Body User body
   );
 
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
-   * @param client client model (required)
+   * @param body client model (required)
    * @return Call&lt;Client&gt;
    */
   @Headers({
@@ -108,7 +123,7 @@ public interface FakeApi {
   })
   @PATCH("fake")
   Call<Client> testClientModel(
-    @retrofit2.http.Body Client client
+    @retrofit2.http.Body Client body
   );
 
   /**
@@ -174,7 +189,7 @@ public interface FakeApi {
   /**
    * test inline additionalProperties
    * 
-   * @param requestBody request body (required)
+   * @param param request body (required)
    * @return Call&lt;Void&gt;
    */
   @Headers({
@@ -182,7 +197,7 @@ public interface FakeApi {
   })
   @POST("fake/inline-additionalProperties")
   Call<Void> testInlineAdditionalProperties(
-    @retrofit2.http.Body Map<String, String> requestBody
+    @retrofit2.http.Body Map<String, String> param
   );
 
   /**

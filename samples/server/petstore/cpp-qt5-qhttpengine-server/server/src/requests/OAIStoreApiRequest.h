@@ -67,7 +67,7 @@ signals:
     void deleteOrder(QString order_id);
     void getInventory();
     void getOrderById(qint64 order_id);
-    void placeOrder(OAIOrder oai_order);
+    void placeOrder(OAIOrder body);
     
 
 private:

@@ -258,6 +258,9 @@ typedef void (^PMKBooleanAdapter)(BOOL, NSError * __nullable) NS_REFINED_FOR_SWI
 @end
 
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  Whenever resolving a promise you may resolve with a tuple, eg.
@@ -273,6 +276,9 @@ typedef void (^PMKBooleanAdapter)(BOOL, NSError * __nullable) NS_REFINED_FOR_SWI
 #define __PMKManifold(_1, _2, _3, N, ...) __PMKArrayWithCount(N, _1, _2, _3)
 extern id __nonnull __PMKArrayWithCount(NSUInteger, ...);
 
+#ifdef __cplusplus
+}   // Extern C
+#endif
 
 
 @interface AnyPromise (Deprecations)

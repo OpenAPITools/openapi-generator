@@ -29,7 +29,7 @@ public interface FakeClassnameTestApiDelegate {
     /**
      * @see FakeClassnameTestApi#testClassname
      */
-    default Mono<ResponseEntity<Client>> testClassname(Mono<Client> client,
+    default Mono<ResponseEntity<Client>> testClassname(Mono<Client> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

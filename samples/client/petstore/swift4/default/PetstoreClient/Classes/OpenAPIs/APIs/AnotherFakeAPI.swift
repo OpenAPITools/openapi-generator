@@ -23,7 +23,6 @@ open class AnotherFakeAPI {
         }
     }
 
-
     /**
      To test special tags
      - PATCH /another-fake/dummy

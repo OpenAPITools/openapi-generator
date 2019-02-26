@@ -19,6 +19,58 @@ module Petstore
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
+    # creates an XmlItem
+    # this route creates an XmlItem
+    # @param xml_item XmlItem Body
+    # @param [Hash] opts the optional parameters
+    # @return [nil]
+    def create_xml_item(xml_item, opts = {})
+      create_xml_item_with_http_info(xml_item, opts)
+      nil
+    end
+
+    # creates an XmlItem
+    # this route creates an XmlItem
+    # @param xml_item XmlItem Body
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    def create_xml_item_with_http_info(xml_item, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: FakeApi.create_xml_item ...'
+      end
+      # verify the required parameter 'xml_item' is set
+      if @api_client.config.client_side_validation && xml_item.nil?
+        fail ArgumentError, "Missing the required parameter 'xml_item' when calling FakeApi.create_xml_item"
+      end
+      # resource path
+      local_var_path = '/fake/create_xml_item'
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/xml', 'application/xml; charset=utf-8', 'application/xml; charset=utf-16', 'text/xml', 'text/xml; charset=utf-8', 'text/xml; charset=utf-16'])
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = @api_client.object_to_http_body(xml_item)
+      auth_names = []
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FakeApi#create_xml_item\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Test serialization of outer boolean types
     # @param [Hash] opts the optional parameters
     # @option opts [BOOLEAN] :body Input boolean as post body
@@ -68,7 +120,7 @@ module Petstore
 
     # Test serialization of object with outer number type
     # @param [Hash] opts the optional parameters
-    # @option opts [OuterComposite] :outer_composite Input composite as post body
+    # @option opts [OuterComposite] :body Input composite as post body
     # @return [OuterComposite]
     def fake_outer_composite_serialize(opts = {})
       data, _status_code, _headers = fake_outer_composite_serialize_with_http_info(opts)
@@ -77,7 +129,7 @@ module Petstore
 
     # Test serialization of object with outer number type
     # @param [Hash] opts the optional parameters
-    # @option opts [OuterComposite] :outer_composite Input composite as post body
+    # @option opts [OuterComposite] :body Input composite as post body
     # @return [Array<(OuterComposite, Fixnum, Hash)>] OuterComposite data, response status code and response headers
     def fake_outer_composite_serialize_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -98,7 +150,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(opts[:'outer_composite'])
+      post_body = @api_client.object_to_http_body(opts[:'body'])
       auth_names = []
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -208,25 +260,25 @@ module Petstore
     end
 
     # For this test, the body for this request much reference a schema named `File`.
-    # @param file_schema_test_class 
+    # @param body 
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def test_body_with_file_schema(file_schema_test_class, opts = {})
-      test_body_with_file_schema_with_http_info(file_schema_test_class, opts)
+    def test_body_with_file_schema(body, opts = {})
+      test_body_with_file_schema_with_http_info(body, opts)
       nil
     end
 
     # For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-    # @param file_schema_test_class 
+    # @param body 
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def test_body_with_file_schema_with_http_info(file_schema_test_class, opts = {})
+    def test_body_with_file_schema_with_http_info(body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_body_with_file_schema ...'
       end
-      # verify the required parameter 'file_schema_test_class' is set
-      if @api_client.config.client_side_validation && file_schema_test_class.nil?
-        fail ArgumentError, "Missing the required parameter 'file_schema_test_class' when calling FakeApi.test_body_with_file_schema"
+      # verify the required parameter 'body' is set
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling FakeApi.test_body_with_file_schema"
       end
       # resource path
       local_var_path = '/fake/body-with-file-schema'
@@ -243,7 +295,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(file_schema_test_class)
+      post_body = @api_client.object_to_http_body(body)
       auth_names = []
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
@@ -258,19 +310,19 @@ module Petstore
     end
 
     # @param query 
-    # @param user 
+    # @param body 
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def test_body_with_query_params(query, user, opts = {})
-      test_body_with_query_params_with_http_info(query, user, opts)
+    def test_body_with_query_params(query, body, opts = {})
+      test_body_with_query_params_with_http_info(query, body, opts)
       nil
     end
 
     # @param query 
-    # @param user 
+    # @param body 
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def test_body_with_query_params_with_http_info(query, user, opts = {})
+    def test_body_with_query_params_with_http_info(query, body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_body_with_query_params ...'
       end
@@ -278,9 +330,9 @@ module Petstore
       if @api_client.config.client_side_validation && query.nil?
         fail ArgumentError, "Missing the required parameter 'query' when calling FakeApi.test_body_with_query_params"
       end
-      # verify the required parameter 'user' is set
-      if @api_client.config.client_side_validation && user.nil?
-        fail ArgumentError, "Missing the required parameter 'user' when calling FakeApi.test_body_with_query_params"
+      # verify the required parameter 'body' is set
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling FakeApi.test_body_with_query_params"
       end
       # resource path
       local_var_path = '/fake/body-with-query-params'
@@ -298,7 +350,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(user)
+      post_body = @api_client.object_to_http_body(body)
       auth_names = []
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
@@ -314,26 +366,26 @@ module Petstore
 
     # To test \"client\" model
     # To test \"client\" model
-    # @param client client model
+    # @param body client model
     # @param [Hash] opts the optional parameters
     # @return [Client]
-    def test_client_model(client, opts = {})
-      data, _status_code, _headers = test_client_model_with_http_info(client, opts)
+    def test_client_model(body, opts = {})
+      data, _status_code, _headers = test_client_model_with_http_info(body, opts)
       data
     end
 
     # To test \&quot;client\&quot; model
     # To test \&quot;client\&quot; model
-    # @param client client model
+    # @param body client model
     # @param [Hash] opts the optional parameters
     # @return [Array<(Client, Fixnum, Hash)>] Client data, response status code and response headers
-    def test_client_model_with_http_info(client, opts = {})
+    def test_client_model_with_http_info(body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_client_model ...'
       end
-      # verify the required parameter 'client' is set
-      if @api_client.config.client_side_validation && client.nil?
-        fail ArgumentError, "Missing the required parameter 'client' when calling FakeApi.test_client_model"
+      # verify the required parameter 'body' is set
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling FakeApi.test_client_model"
       end
       # resource path
       local_var_path = '/fake'
@@ -352,7 +404,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(client)
+      post_body = @api_client.object_to_http_body(body)
       auth_names = []
       data, status_code, headers = @api_client.call_api(:PATCH, local_var_path,
         :header_params => header_params,
@@ -440,8 +492,9 @@ module Petstore
       if @api_client.config.client_side_validation && pattern_without_delimiter.nil?
         fail ArgumentError, "Missing the required parameter 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters"
       end
-      if @api_client.config.client_side_validation && pattern_without_delimiter !~ Regexp.new(/^[A-Z].*/)
-        fail ArgumentError, "invalid value for 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters, must conform to the pattern /^[A-Z].*/."
+      pattern = Regexp.new(/^[A-Z].*/)
+      if @api_client.config.client_side_validation && pattern_without_delimiter !~ pattern
+        fail ArgumentError, "invalid value for 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters, must conform to the pattern #{pattern}."
       end
 
       # verify the required parameter 'byte' is set
@@ -468,8 +521,9 @@ module Petstore
         fail ArgumentError, 'invalid value for "opts[:"float"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 987.6.'
       end
 
-      if @api_client.config.client_side_validation && !opts[:'string'].nil? && opts[:'string'] !~ Regexp.new(/[a-z]/i)
-        fail ArgumentError, "invalid value for 'opts[:\"string\"]' when calling FakeApi.test_endpoint_parameters, must conform to the pattern /[a-z]/i."
+      pattern = Regexp.new(/[a-z]/i)
+      if @api_client.config.client_side_validation && !opts[:'string'].nil? && opts[:'string'] !~ pattern
+        fail ArgumentError, "invalid value for 'opts[:\"string\"]' when calling FakeApi.test_endpoint_parameters, must conform to the pattern #{pattern}."
       end
 
       if @api_client.config.client_side_validation && !opts[:'password'].nil? && opts[:'password'].to_s.length > 64
@@ -556,29 +610,37 @@ module Petstore
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_enum_parameters ...'
       end
-      if @api_client.config.client_side_validation && opts[:'enum_header_string_array'] && !opts[:'enum_header_string_array'].all? { |item| ['>', '$'].include?(item) }
-        fail ArgumentError, 'invalid value for "enum_header_string_array", must include one of >, $'
+      allowable_values = [">", "$"]
+      if @api_client.config.client_side_validation && opts[:'enum_header_string_array'] && !opts[:'enum_header_string_array'].all? { |item| allowable_values.include?(item) }
+        fail ArgumentError, "invalid value for \"enum_header_string_array\", must include one of #{allowable_values}"
       end
-      if @api_client.config.client_side_validation && opts[:'enum_header_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_header_string'])
-        fail ArgumentError, 'invalid value for "enum_header_string", must be one of _abc, -efg, (xyz)'
+      allowable_values = ["_abc", "-efg", "(xyz)"]
+      if @api_client.config.client_side_validation && opts[:'enum_header_string'] && !allowable_values.include?(opts[:'enum_header_string'])
+        fail ArgumentError, "invalid value for \"enum_header_string\", must be one of #{allowable_values}"
       end
-      if @api_client.config.client_side_validation && opts[:'enum_query_string_array'] && !opts[:'enum_query_string_array'].all? { |item| ['>', '$'].include?(item) }
-        fail ArgumentError, 'invalid value for "enum_query_string_array", must include one of >, $'
+      allowable_values = [">", "$"]
+      if @api_client.config.client_side_validation && opts[:'enum_query_string_array'] && !opts[:'enum_query_string_array'].all? { |item| allowable_values.include?(item) }
+        fail ArgumentError, "invalid value for \"enum_query_string_array\", must include one of #{allowable_values}"
       end
-      if @api_client.config.client_side_validation && opts[:'enum_query_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_query_string'])
-        fail ArgumentError, 'invalid value for "enum_query_string", must be one of _abc, -efg, (xyz)'
+      allowable_values = ["_abc", "-efg", "(xyz)"]
+      if @api_client.config.client_side_validation && opts[:'enum_query_string'] && !allowable_values.include?(opts[:'enum_query_string'])
+        fail ArgumentError, "invalid value for \"enum_query_string\", must be one of #{allowable_values}"
       end
-      if @api_client.config.client_side_validation && opts[:'enum_query_integer'] && !['1', '-2'].include?(opts[:'enum_query_integer'])
-        fail ArgumentError, 'invalid value for "enum_query_integer", must be one of 1, -2'
+      allowable_values = [1, -2]
+      if @api_client.config.client_side_validation && opts[:'enum_query_integer'] && !allowable_values.include?(opts[:'enum_query_integer'])
+        fail ArgumentError, "invalid value for \"enum_query_integer\", must be one of #{allowable_values}"
       end
-      if @api_client.config.client_side_validation && opts[:'enum_query_double'] && !['1.1', '-1.2'].include?(opts[:'enum_query_double'])
-        fail ArgumentError, 'invalid value for "enum_query_double", must be one of 1.1, -1.2'
+      allowable_values = [1.1, -1.2]
+      if @api_client.config.client_side_validation && opts[:'enum_query_double'] && !allowable_values.include?(opts[:'enum_query_double'])
+        fail ArgumentError, "invalid value for \"enum_query_double\", must be one of #{allowable_values}"
       end
-      if @api_client.config.client_side_validation && opts[:'enum_form_string_array'] && !opts[:'enum_form_string_array'].all? { |item| ['>', '$'].include?(item) }
-        fail ArgumentError, 'invalid value for "enum_form_string_array", must include one of >, $'
+      allowable_values = [">", "$"]
+      if @api_client.config.client_side_validation && opts[:'enum_form_string_array'] && !opts[:'enum_form_string_array'].all? { |item| allowable_values.include?(item) }
+        fail ArgumentError, "invalid value for \"enum_form_string_array\", must include one of #{allowable_values}"
       end
-      if @api_client.config.client_side_validation && opts[:'enum_form_string'] && !['_abc', '-efg', '(xyz)'].include?(opts[:'enum_form_string'])
-        fail ArgumentError, 'invalid value for "enum_form_string", must be one of _abc, -efg, (xyz)'
+      allowable_values = ["_abc", "-efg", "(xyz)"]
+      if @api_client.config.client_side_validation && opts[:'enum_form_string'] && !allowable_values.include?(opts[:'enum_form_string'])
+        fail ArgumentError, "invalid value for \"enum_form_string\", must be one of #{allowable_values}"
       end
       # resource path
       local_var_path = '/fake'
@@ -692,25 +754,25 @@ module Petstore
     end
 
     # test inline additionalProperties
-    # @param request_body request body
+    # @param param request body
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def test_inline_additional_properties(request_body, opts = {})
-      test_inline_additional_properties_with_http_info(request_body, opts)
+    def test_inline_additional_properties(param, opts = {})
+      test_inline_additional_properties_with_http_info(param, opts)
       nil
     end
 
     # test inline additionalProperties
-    # @param request_body request body
+    # @param param request body
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def test_inline_additional_properties_with_http_info(request_body, opts = {})
+    def test_inline_additional_properties_with_http_info(param, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_inline_additional_properties ...'
       end
-      # verify the required parameter 'request_body' is set
-      if @api_client.config.client_side_validation && request_body.nil?
-        fail ArgumentError, "Missing the required parameter 'request_body' when calling FakeApi.test_inline_additional_properties"
+      # verify the required parameter 'param' is set
+      if @api_client.config.client_side_validation && param.nil?
+        fail ArgumentError, "Missing the required parameter 'param' when calling FakeApi.test_inline_additional_properties"
       end
       # resource path
       local_var_path = '/fake/inline-additionalProperties'
@@ -727,7 +789,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(request_body)
+      post_body = @api_client.object_to_http_body(param)
       auth_names = []
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -798,6 +860,5 @@ module Petstore
       end
       return data, status_code, headers
     end
-
   end
 end

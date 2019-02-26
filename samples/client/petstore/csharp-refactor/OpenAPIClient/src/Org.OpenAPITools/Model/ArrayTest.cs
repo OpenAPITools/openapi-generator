@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayOfString">arrayOfString.</param>
         /// <param name="arrayArrayOfInteger">arrayArrayOfInteger.</param>
         /// <param name="arrayArrayOfModel">arrayArrayOfModel.</param>
-        public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long?>> arrayArrayOfInteger = default(List<List<long?>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
+        public ArrayTest(List<string> arrayOfString = default(List<string>), List<List<long>> arrayArrayOfInteger = default(List<List<long>>), List<List<ReadOnlyFirst>> arrayArrayOfModel = default(List<List<ReadOnlyFirst>>))
         {
             this.ArrayOfString = arrayOfString;
             this.ArrayArrayOfInteger = arrayArrayOfInteger;
@@ -54,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
         [DataMember(Name="array_array_of_integer", EmitDefaultValue=false)]
-        public List<List<long?>> ArrayArrayOfInteger { get; set; }
+        public List<List<long>> ArrayArrayOfInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfModel
@@ -93,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as ArrayTest);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as ArrayTest).AreEqual;
         }
 
         /// <summary>
@@ -103,25 +104,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(ArrayTest input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.ArrayOfString == input.ArrayOfString ||
-                    this.ArrayOfString != null &&
-                    this.ArrayOfString.SequenceEqual(input.ArrayOfString)
-                ) && 
-                (
-                    this.ArrayArrayOfInteger == input.ArrayArrayOfInteger ||
-                    this.ArrayArrayOfInteger != null &&
-                    this.ArrayArrayOfInteger.SequenceEqual(input.ArrayArrayOfInteger)
-                ) && 
-                (
-                    this.ArrayArrayOfModel == input.ArrayArrayOfModel ||
-                    this.ArrayArrayOfModel != null &&
-                    this.ArrayArrayOfModel.SequenceEqual(input.ArrayArrayOfModel)
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

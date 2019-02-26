@@ -92,7 +92,7 @@ final fileprivate class ZipCollectionTypeSink<C: Collection, O: ObserverType>
                     
                     for i in 0 ..< _values.count {
                         arguments.append(_values[i].dequeue()!)
-                        if _values[i].count > 0 {
+                        if !_values[i].isEmpty {
                             _numberOfValues += 1
                         }
                     }

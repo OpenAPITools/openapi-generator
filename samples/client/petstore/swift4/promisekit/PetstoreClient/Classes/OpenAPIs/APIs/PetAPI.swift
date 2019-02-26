@@ -16,31 +16,15 @@ open class PetAPI {
      Add a new pet to the store
      
      - parameter pet: (body) Pet object that needs to be added to the store 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func addPet(pet: Pet, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        addPetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Add a new pet to the store
-     
-     - parameter pet: (body) Pet object that needs to be added to the store 
      - returns: Promise<Void>
      */
     open class func addPet( pet: Pet) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        addPet(pet: pet) { data, error in
+        addPetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
-                deferred.fulfill(data!)
+                deferred.fulfill(())
             }
         }
         return deferred.promise
@@ -72,32 +56,15 @@ open class PetAPI {
      
      - parameter petId: (path) Pet id to delete 
      - parameter apiKey: (header)  (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func deletePet(petId: Int64, apiKey: String? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Deletes a pet
-     
-     - parameter petId: (path) Pet id to delete 
-     - parameter apiKey: (header)  (optional)
      - returns: Promise<Void>
      */
     open class func deletePet( petId: Int64,  apiKey: String? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        deletePet(petId: petId, apiKey: apiKey) { data, error in
+        deletePetWithRequestBuilder(petId: petId, apiKey: apiKey).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
-                deferred.fulfill(data!)
+                deferred.fulfill(())
             }
         }
         return deferred.promise
@@ -145,27 +112,17 @@ open class PetAPI {
      Finds Pets by status
      
      - parameter status: (query) Status values that need to be considered for filter 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func findPetsByStatus(status: [String], completion: @escaping ((_ data: [Pet]?,_ error: Error?) -> Void)) {
-        findPetsByStatusWithRequestBuilder(status: status).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     Finds Pets by status
-     
-     - parameter status: (query) Status values that need to be considered for filter 
      - returns: Promise<[Pet]>
      */
     open class func findPetsByStatus( status: [String]) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pending()
-        findPetsByStatus(status: status) { data, error in
+        findPetsByStatusWithRequestBuilder(status: status).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
+            } else if let response = response {
+                deferred.fulfill(response.body!)
             } else {
-                deferred.fulfill(data!)
+                fatalError()
             }
         }
         return deferred.promise
@@ -200,27 +157,17 @@ open class PetAPI {
      Finds Pets by tags
      
      - parameter tags: (query) Tags to filter by 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func findPetsByTags(tags: [String], completion: @escaping ((_ data: [Pet]?,_ error: Error?) -> Void)) {
-        findPetsByTagsWithRequestBuilder(tags: tags).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     Finds Pets by tags
-     
-     - parameter tags: (query) Tags to filter by 
      - returns: Promise<[Pet]>
      */
     open class func findPetsByTags( tags: [String]) -> Promise<[Pet]> {
         let deferred = Promise<[Pet]>.pending()
-        findPetsByTags(tags: tags) { data, error in
+        findPetsByTagsWithRequestBuilder(tags: tags).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
+            } else if let response = response {
+                deferred.fulfill(response.body!)
             } else {
-                deferred.fulfill(data!)
+                fatalError()
             }
         }
         return deferred.promise
@@ -255,27 +202,17 @@ open class PetAPI {
      Find pet by ID
      
      - parameter petId: (path) ID of pet to return 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func getPetById(petId: Int64, completion: @escaping ((_ data: Pet?,_ error: Error?) -> Void)) {
-        getPetByIdWithRequestBuilder(petId: petId).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     Find pet by ID
-     
-     - parameter petId: (path) ID of pet to return 
      - returns: Promise<Pet>
      */
     open class func getPetById( petId: Int64) -> Promise<Pet> {
         let deferred = Promise<Pet>.pending()
-        getPetById(petId: petId) { data, error in
+        getPetByIdWithRequestBuilder(petId: petId).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
+            } else if let response = response {
+                deferred.fulfill(response.body!)
             } else {
-                deferred.fulfill(data!)
+                fatalError()
             }
         }
         return deferred.promise
@@ -310,31 +247,15 @@ open class PetAPI {
      Update an existing pet
      
      - parameter pet: (body) Pet object that needs to be added to the store 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func updatePet(pet: Pet, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        updatePetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Update an existing pet
-     
-     - parameter pet: (body) Pet object that needs to be added to the store 
      - returns: Promise<Void>
      */
     open class func updatePet( pet: Pet) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePet(pet: pet) { data, error in
+        updatePetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
-                deferred.fulfill(data!)
+                deferred.fulfill(())
             }
         }
         return deferred.promise
@@ -367,33 +288,15 @@ open class PetAPI {
      - parameter petId: (path) ID of pet that needs to be updated 
      - parameter name: (form) Updated name of the pet (optional)
      - parameter status: (form) Updated status of the pet (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Updates a pet in the store with form data
-     
-     - parameter petId: (path) ID of pet that needs to be updated 
-     - parameter name: (form) Updated name of the pet (optional)
-     - parameter status: (form) Updated status of the pet (optional)
      - returns: Promise<Void>
      */
     open class func updatePetWithForm( petId: Int64,  name: String? = nil,  status: String? = nil) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        updatePetWithForm(petId: petId, name: name, status: status) { data, error in
+        updatePetWithFormWithRequestBuilder(petId: petId, name: name, status: status).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
-                deferred.fulfill(data!)
+                deferred.fulfill(())
             }
         }
         return deferred.promise
@@ -437,29 +340,17 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - parameter file: (form) file to upload (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, completion: @escaping ((_ data: ApiResponse?,_ error: Error?) -> Void)) {
-        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     uploads an image
-     
-     - parameter petId: (path) ID of pet to update 
-     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
-     - parameter file: (form) file to upload (optional)
      - returns: Promise<ApiResponse>
      */
     open class func uploadFile( petId: Int64,  additionalMetadata: String? = nil,  file: URL? = nil) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
-        uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file) { data, error in
+        uploadFileWithRequestBuilder(petId: petId, additionalMetadata: additionalMetadata, file: file).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
+            } else if let response = response {
+                deferred.fulfill(response.body!)
             } else {
-                deferred.fulfill(data!)
+                fatalError()
             }
         }
         return deferred.promise
@@ -503,29 +394,17 @@ open class PetAPI {
      - parameter petId: (path) ID of pet to update 
      - parameter requiredFile: (form) file to upload 
      - parameter additionalMetadata: (form) Additional data to pass to server (optional)
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, completion: @escaping ((_ data: ApiResponse?,_ error: Error?) -> Void)) {
-        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     uploads an image (required)
-     
-     - parameter petId: (path) ID of pet to update 
-     - parameter requiredFile: (form) file to upload 
-     - parameter additionalMetadata: (form) Additional data to pass to server (optional)
      - returns: Promise<ApiResponse>
      */
     open class func uploadFileWithRequiredFile( petId: Int64,  requiredFile: URL,  additionalMetadata: String? = nil) -> Promise<ApiResponse> {
         let deferred = Promise<ApiResponse>.pending()
-        uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata) { data, error in
+        uploadFileWithRequiredFileWithRequestBuilder(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
+            } else if let response = response {
+                deferred.fulfill(response.body!)
             } else {
-                deferred.fulfill(data!)
+                fatalError()
             }
         }
         return deferred.promise

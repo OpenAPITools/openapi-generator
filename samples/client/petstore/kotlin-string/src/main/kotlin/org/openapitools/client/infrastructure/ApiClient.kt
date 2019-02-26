@@ -1,7 +1,11 @@
 package org.openapitools.client.infrastructure
 
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.ToJson
 import okhttp3.*
 import java.io.File
+import java.util.*
 
 open class ApiClient(val baseUrl: String) {
     companion object {
@@ -51,7 +55,14 @@ open class ApiClient(val baseUrl: String) {
     protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String = JsonMediaType): T? {
         if(body == null) return null
         return when(mediaType) {
-            JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(body.source())
+            JsonMediaType -> Moshi.Builder().add(object {
+                    @ToJson
+                    fun toJson(uuid: UUID) = uuid.toString()
+                    @FromJson
+                    fun fromJson(s: String) = UUID.fromString(s)
+                })
+                .add(ByteArrayAdapter())
+                .build().adapter(T::class.java).fromJson(body.source())
             else -> TODO()
         }
     }

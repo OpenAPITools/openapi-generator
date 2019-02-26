@@ -30,9 +30,9 @@ type PetApiService service
 /*
 PetApiService Add a new pet to the store
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param pet Pet object that needs to be added to the store
+ * @param body Pet object that needs to be added to the store
 */
-func (a *PetApiService) AddPet(ctx context.Context, pet Pet) (*http.Response, error) {
+func (a *PetApiService) AddPet(ctx context.Context, body Pet) (*http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Post")
 		localVarPostBody     interface{}
@@ -66,7 +66,7 @@ func (a *PetApiService) AddPet(ctx context.Context, pet Pet) (*http.Response, er
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &pet
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -400,7 +400,6 @@ func (a *PetApiService) GetPetById(ctx context.Context, petId int64) (Pet, *http
 			localVarHeaderParams["api_key"] = key
 		}
 	}
-
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -450,9 +449,9 @@ func (a *PetApiService) GetPetById(ctx context.Context, petId int64) (Pet, *http
 /*
 PetApiService Update an existing pet
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param pet Pet object that needs to be added to the store
+ * @param body Pet object that needs to be added to the store
 */
-func (a *PetApiService) UpdatePet(ctx context.Context, pet Pet) (*http.Response, error) {
+func (a *PetApiService) UpdatePet(ctx context.Context, body Pet) (*http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Put")
 		localVarPostBody     interface{}
@@ -486,7 +485,7 @@ func (a *PetApiService) UpdatePet(ctx context.Context, pet Pet) (*http.Response,
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &pet
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err

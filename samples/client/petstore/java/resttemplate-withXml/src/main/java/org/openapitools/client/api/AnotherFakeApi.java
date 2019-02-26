@@ -50,20 +50,20 @@ public class AnotherFakeApi {
      * To test special tags
      * To test special tags and operation ID starting with number
      * <p><b>200</b> - successful operation
-     * @param client client model
+     * @param body client model
      * @return Client
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Client call123testSpecialTags(Client client) throws RestClientException {
-        Object postBody = client;
+    public Client call123testSpecialTags(Client body) throws RestClientException {
+        Object postBody = body;
         
-        // verify the required parameter 'client' is set
-        if (client == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'client' when calling call123testSpecialTags");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling call123testSpecialTags");
         }
         
         String path = UriComponentsBuilder.fromPath("/another-fake/dummy").build().toUriString();
-        
+
         final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();

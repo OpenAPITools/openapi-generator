@@ -114,9 +114,9 @@ instance WH.ToForm {{classname}} where
 {{#generateModelConstructors}}
 -- | Construct a value of type '{{classname}}' (by applying it's required fields, if any)
 mk{{classname}}
-  :: {{#requiredVars}}{{{vendorExtensions.x-dataType}}} -- ^ '{{name}}'{{#description}}:{{/description}} {{{description}}}
-  -> {{/requiredVars}}{{classname}}
-mk{{classname}} {{#requiredVars}}{{name}} {{/requiredVars}}=
+  :: {{#vars}}{{#required}}{{{vendorExtensions.x-dataType}}} -- ^ '{{name}}'{{#description}}:{{/description}} {{{description}}}
+  -> {{/required}}{{/vars}}{{classname}}
+mk{{classname}} {{#vars}}{{#required}}{{name}} {{/required}}{{/vars}}=
   {{classname}}
   { {{#vars}}{{#required}}{{name}}{{/required}}{{^required}}{{name}} = {{#isListContainer}}Nothing{{/isListContainer}}{{#isMapContainer}}Nothing{{/isMapContainer}}{{^isContainer}}Nothing{{/isContainer}}{{/required}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}

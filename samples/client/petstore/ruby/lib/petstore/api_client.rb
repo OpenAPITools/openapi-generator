@@ -210,9 +210,7 @@ module Petstore
         end
       else
         # models, e.g. Pet
-        Petstore.const_get(return_type).new.tap do |model|
-          model.build_from_hash data
-        end
+        Petstore.const_get(return_type).build_from_hash(data)
       end
     end
 

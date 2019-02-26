@@ -20,19 +20,14 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.GeneratorProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
 public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
@@ -59,8 +54,8 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
         apiDocTemplateFiles.remove("api_doc.mustache");
 
 
-        apiPackage = System.getProperty("swagger.codegen.inflector.apipackage", "org.openapitools.controllers");
-        modelPackage = System.getProperty("swagger.codegen.inflector.modelpackage", "org.openapitools.model");
+        apiPackage = GeneratorProperties.getProperty("swagger.codegen.inflector.apipackage", "org.openapitools.controllers");
+        modelPackage = GeneratorProperties.getProperty("swagger.codegen.inflector.modelpackage", "org.openapitools.model");
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
@@ -227,6 +222,6 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
             return "DefaultController";
         }
         name = name.replaceAll("[^a-zA-Z0-9]+", "_");
-        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Controller";
+        return camelize(name) + "Controller";
     }
 }

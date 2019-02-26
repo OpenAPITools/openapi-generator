@@ -14,10 +14,16 @@ require 'date'
 
 module Petstore
   class OuterEnum
-    
-    PLACED = 'placed'.freeze
-    APPROVED = 'approved'.freeze
-    DELIVERED = 'delivered'.freeze
+    PLACED = "placed".freeze
+    APPROVED = "approved".freeze
+    DELIVERED = "delivered".freeze
+
+    # Builds the enum from string
+    # @param [String] The enum value in the form of the string
+    # @return [String] The enum value
+    def self.build_from_hash(value)
+      new.build_from_hash(value)
+    end
 
     # Builds the enum from string
     # @param [String] The enum value in the form of the string

@@ -19,17 +19,17 @@ import javax.ws.rs.core.SecurityContext;
 @RequestScoped
 
 public class UserApiServiceImpl implements UserApiService {
-      public Response createUser(User user,SecurityContext securityContext)
+      public Response createUser(User body,SecurityContext securityContext)
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
   }
-      public Response createUsersWithArrayInput(List<User> user,SecurityContext securityContext)
+      public Response createUsersWithArrayInput(List<User> body,SecurityContext securityContext)
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
   }
-      public Response createUsersWithListInput(List<User> user,SecurityContext securityContext)
+      public Response createUsersWithListInput(List<User> body,SecurityContext securityContext)
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
@@ -54,7 +54,7 @@ public class UserApiServiceImpl implements UserApiService {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
   }
-      public Response updateUser(String username,User user,SecurityContext securityContext)
+      public Response updateUser(String username,User body,SecurityContext securityContext)
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

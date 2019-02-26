@@ -1,1 +1,1 @@
-{{#isHeaderParam}}{{{dataType}}} {{paramName}}{{/isHeaderParam}}
+{{#isHeaderParam}}{{#useBeanValidation}}{{>beanValidationHeaderParams}}{{/useBeanValidation}}{{{dataType}}} {{paramName}}{{/isHeaderParam}}

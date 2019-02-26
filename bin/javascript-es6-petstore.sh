@@ -29,7 +29,6 @@ fi
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="generate -t modules/openapi-generator/src/main/resources/Javascript/es6 \
 -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g javascript \
--o samples/client/petstore/javascript-es6 \
---additional-properties useES6=true $@"
+-o samples/client/petstore/javascript-es6 $@"
 
 java -DappName=PetstoreClient $JAVA_OPTS -jar $executable $ags

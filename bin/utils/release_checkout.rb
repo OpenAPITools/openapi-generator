@@ -1,7 +1,25 @@
-#release_chekcout.rb
+#!/usr/bin/env ruby
+#
+# release_chekcout.rb
+#
 require 'rubygems'
 require 'open-uri'
 require 'net/http'
+
+def check_npmjs
+  print "Checking npmjs... "
+
+  url = "https://www.npmjs.com/package/@openapitools/openapi-generator-cli?activeTab=versions"
+  open(url) do |f|
+    content = f.read
+    if !content.nil? && content.include?($version)
+      puts "[OK]"
+    else
+      puts "[ERROR]"
+      puts "> #{url} not yet updated with #{$version}"
+    end
+  end
+end
 
 def check_homebrew
   print "Checking homebrew forumla ... "
@@ -184,6 +202,7 @@ $version = ARGV[0]
 
 puts "Running checkout on OpenAPI Generator release #{$version}"
 
+check_npmjs
 check_homebrew
 check_openapi_generator_jar
 check_openapi_generator_cli_jar

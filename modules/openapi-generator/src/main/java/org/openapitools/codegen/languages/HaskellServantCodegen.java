@@ -21,32 +21,19 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class HaskellServantCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(HaskellServantCodegen.class);
@@ -472,8 +459,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
 
     @Override
-    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, definitions, openAPI);
+    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, servers);
 
         List<String> path = pathToServantRoute(op.path, op.pathParams);
         List<String> type = pathToClientType(op.path, op.pathParams);
@@ -502,7 +489,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             }
         } else if (op.getHasFormParams()) {
             // Use the FormX data type, where X is the conglomerate of all things being passed
-            String formName = "Form" + org.openapitools.codegen.utils.StringUtils.camelize(op.operationId);
+            String formName = "Form" + camelize(op.operationId);
             bodyType = formName;
             path.add("ReqBody '[FormUrlEncoded] " + formName);
         }
@@ -527,7 +514,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         // store form parameter name in the vendor extensions
         for (CodegenParameter param : op.formParams) {
-            param.vendorExtensions.put("x-formParamName", org.openapitools.codegen.utils.StringUtils.camelize(param.baseName));
+            param.vendorExtensions.put("x-formParamName", camelize(param.baseName));
         }
 
         // Add the HTTP method and return type
@@ -543,9 +530,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
         op.vendorExtensions.put("x-routeType", joinStrings(" :> ", path));
         op.vendorExtensions.put("x-clientType", joinStrings(" -> ", type));
-        op.vendorExtensions.put("x-formName", "Form" + org.openapitools.codegen.utils.StringUtils.camelize(op.operationId));
+        op.vendorExtensions.put("x-formName", "Form" + camelize(op.operationId));
         for (CodegenParameter param : op.formParams) {
-            param.vendorExtensions.put("x-formPrefix", org.openapitools.codegen.utils.StringUtils.camelize(op.operationId, true));
+            param.vendorExtensions.put("x-formPrefix", camelize(op.operationId, true));
         }
         return op;
     }
@@ -598,8 +585,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
     // Override fromModel to create the appropriate model namings
     @Override
-    public CodegenModel fromModel(String name, Schema mod, Map<String, Schema> allDefinitions) {
-        CodegenModel model = super.fromModel(name, mod, allDefinitions);
+    public CodegenModel fromModel(String name, Schema mod) {
+        CodegenModel model = super.fromModel(name, mod);
 
         setGenerateToSchema(model);
 
@@ -610,9 +597,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         }
 
         // From the model name, compute the prefix for the fields.
-        String prefix = org.openapitools.codegen.utils.StringUtils.camelize(model.classname, true);
+        String prefix = camelize(model.classname, true);
         for (CodegenProperty prop : model.vars) {
-            prop.name = toVarName(prefix + org.openapitools.codegen.utils.StringUtils.camelize(fixOperatorChars(prop.name)));
+            prop.name = toVarName(prefix + camelize(fixOperatorChars(prop.name)));
         }
 
         // Create newtypes for things with non-object types

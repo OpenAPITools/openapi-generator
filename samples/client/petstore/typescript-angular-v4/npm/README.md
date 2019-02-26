@@ -25,8 +25,10 @@ npm install @swagger/angular2-typescript-petstore@0.0.1 --save
 _without publishing (not recommended):_
 
 ```
-npm install PATH_TO_GENERATED_PACKAGE/dist --save
+npm install PATH_TO_GENERATED_PACKAGE/dist.tgz --save
 ```
+
+_It's important to take the tgz file, otherwise you'll get trouble with links on windows_
 
 _using `npm link`:_
 

@@ -17,9 +17,13 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 
 public class GroovyClientCodegen extends AbstractJavaCodegen {
@@ -99,7 +103,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
             return "DefaultApi";
         }
         name = sanitizeName(name);
-        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
+        return camelize(name) + "Api";
     }
 
     public void setConfigPackage(String configPackage) {

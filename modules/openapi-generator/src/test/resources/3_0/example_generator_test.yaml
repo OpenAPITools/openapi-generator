@@ -1,0 +1,74 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+paths:
+  /generate_from_response_schema_with_no_example:
+    get:
+      operationId: generateFromResponseSchemaWithNoExample
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+  /generate_from_response_schema_with_primitive_type:
+    get:
+      operationId: generateFromResponseSchemaWithNoExample
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: primitive type example value
+  /generate_from_response_schema_with_array_of_model:
+    get:
+      operationId: generateFromResponseSchemaWithArrayOfModel
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StringSchema'
+  /generate_from_response_schema_with_array_of_primitive_types:
+    get:
+      operationId: generateFromResponseSchemaWithArrayOfPrimitiveTypes
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: primitive types example value
+  /generate_from_response_schema_with_model:
+    get:
+      operationId: generateFromResponseSchemaWithArrayOfPrimitiveTypes
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleSchema'
+components:
+  schemas:
+    StringSchema:
+      type: string
+      example: string schema example value
+    ExampleSchema:
+      type: object
+      properties:
+        example_schema_property:
+          type: string
+          example: example schema property value

@@ -24,27 +24,17 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.Markdown;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(StaticHtml2Generator.class);
@@ -162,7 +152,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
             Info info = openAPI.getInfo();
             if (StringUtils.isBlank(jsProjectName) && info.getTitle() != null) {
                 // when jsProjectName is not specified, generate it from info.title
-                jsProjectName = sanitizeName(org.openapitools.codegen.utils.StringUtils.dashize(info.getTitle()));
+                jsProjectName = sanitizeName(dashize(info.getTitle()));
             }
         }
 
@@ -171,7 +161,7 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
             jsProjectName = "openapi-js-client";
         }
         if (StringUtils.isBlank(jsModuleName)) {
-            jsModuleName = org.openapitools.codegen.utils.StringUtils.camelize(org.openapitools.codegen.utils.StringUtils.underscore(jsProjectName));
+            jsModuleName = camelize(underscore(jsProjectName));
         }
 
         additionalProperties.put("jsProjectName", jsProjectName);
@@ -197,8 +187,8 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, openAPI);
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         if (op.returnType != null) {
             op.returnType = normalizeType(op.returnType);
         }

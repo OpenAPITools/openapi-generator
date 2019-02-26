@@ -12,8 +12,7 @@
   "module": "dist/index.js",  
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "ngc",
-    "postinstall": "npm run build"
+    "build": "ngc && npm pack"
   },
   "peerDependencies": {
     "@angular/core": "^2.0.0",
@@ -33,8 +32,8 @@
     "@angular/platform-browser": "^2.0.0",
     "reflect-metadata": "^0.1.3",
     "rxjs": "^5.4.0",
-    "zone.js": "^0.7.6 || ^0.8.26",
-    "typescript": ">=2.1.5 <2.8"
+    "zone.js": "^0.7.6",
+    "typescript": ">=2.1.5 <2.8.0"
   },
   "publishConfig": {
     "registry": "https://skimdb.npmjs.com/registry"

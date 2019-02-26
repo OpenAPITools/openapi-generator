@@ -27,7 +27,6 @@ public:
     {{classname}}();
     {{classname}}(QString json);
     ~{{classname}}() override;
-    void init();
 
     QString asJson () const override;
     QJsonObject asJsonObject() const override;
@@ -43,6 +42,7 @@ public:
     virtual bool isValid() const override;
 
 private:
+    void init();
     {{#vars}}
     {{{dataType}}} {{name}};
     bool m_{{name}}_isSet;

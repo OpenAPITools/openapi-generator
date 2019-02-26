@@ -21,26 +21,26 @@ module Petstore
     end
     # Create user
     # This can only be done by the logged in user.
-    # @param user Created user object
+    # @param body Created user object
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def create_user(user, opts = {})
-      create_user_with_http_info(user, opts)
+    def create_user(body, opts = {})
+      create_user_with_http_info(body, opts)
       nil
     end
 
     # Create user
     # This can only be done by the logged in user.
-    # @param user Created user object
+    # @param body Created user object
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def create_user_with_http_info(user, opts = {})
+    def create_user_with_http_info(body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: UserApi.create_user ...'
       end
-      # verify the required parameter 'user' is set
-      if @api_client.config.client_side_validation && user.nil?
-        fail ArgumentError, "Missing the required parameter 'user' when calling UserApi.create_user"
+      # verify the required parameter 'body' is set
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_user"
       end
       # resource path
       local_var_path = '/user'
@@ -55,7 +55,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(user)
+      post_body = @api_client.object_to_http_body(body)
       auth_names = []
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -70,25 +70,25 @@ module Petstore
     end
 
     # Creates list of users with given input array
-    # @param user List of user object
+    # @param body List of user object
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def create_users_with_array_input(user, opts = {})
-      create_users_with_array_input_with_http_info(user, opts)
+    def create_users_with_array_input(body, opts = {})
+      create_users_with_array_input_with_http_info(body, opts)
       nil
     end
 
     # Creates list of users with given input array
-    # @param user List of user object
+    # @param body List of user object
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def create_users_with_array_input_with_http_info(user, opts = {})
+    def create_users_with_array_input_with_http_info(body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: UserApi.create_users_with_array_input ...'
       end
-      # verify the required parameter 'user' is set
-      if @api_client.config.client_side_validation && user.nil?
-        fail ArgumentError, "Missing the required parameter 'user' when calling UserApi.create_users_with_array_input"
+      # verify the required parameter 'body' is set
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_users_with_array_input"
       end
       # resource path
       local_var_path = '/user/createWithArray'
@@ -103,7 +103,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(user)
+      post_body = @api_client.object_to_http_body(body)
       auth_names = []
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -118,25 +118,25 @@ module Petstore
     end
 
     # Creates list of users with given input array
-    # @param user List of user object
+    # @param body List of user object
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def create_users_with_list_input(user, opts = {})
-      create_users_with_list_input_with_http_info(user, opts)
+    def create_users_with_list_input(body, opts = {})
+      create_users_with_list_input_with_http_info(body, opts)
       nil
     end
 
     # Creates list of users with given input array
-    # @param user List of user object
+    # @param body List of user object
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def create_users_with_list_input_with_http_info(user, opts = {})
+    def create_users_with_list_input_with_http_info(body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: UserApi.create_users_with_list_input ...'
       end
-      # verify the required parameter 'user' is set
-      if @api_client.config.client_side_validation && user.nil?
-        fail ArgumentError, "Missing the required parameter 'user' when calling UserApi.create_users_with_list_input"
+      # verify the required parameter 'body' is set
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.create_users_with_list_input"
       end
       # resource path
       local_var_path = '/user/createWithList'
@@ -151,7 +151,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(user)
+      post_body = @api_client.object_to_http_body(body)
       auth_names = []
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -370,21 +370,21 @@ module Petstore
     # Updated user
     # This can only be done by the logged in user.
     # @param username name that need to be deleted
-    # @param user Updated user object
+    # @param body Updated user object
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def update_user(username, user, opts = {})
-      update_user_with_http_info(username, user, opts)
+    def update_user(username, body, opts = {})
+      update_user_with_http_info(username, body, opts)
       nil
     end
 
     # Updated user
     # This can only be done by the logged in user.
     # @param username name that need to be deleted
-    # @param user Updated user object
+    # @param body Updated user object
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def update_user_with_http_info(username, user, opts = {})
+    def update_user_with_http_info(username, body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: UserApi.update_user ...'
       end
@@ -392,9 +392,9 @@ module Petstore
       if @api_client.config.client_side_validation && username.nil?
         fail ArgumentError, "Missing the required parameter 'username' when calling UserApi.update_user"
       end
-      # verify the required parameter 'user' is set
-      if @api_client.config.client_side_validation && user.nil?
-        fail ArgumentError, "Missing the required parameter 'user' when calling UserApi.update_user"
+      # verify the required parameter 'body' is set
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling UserApi.update_user"
       end
       # resource path
       local_var_path = '/user/{username}'.sub('{' + 'username' + '}', username.to_s)
@@ -409,7 +409,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(user)
+      post_body = @api_client.object_to_http_body(body)
       auth_names = []
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
@@ -422,6 +422,5 @@ module Petstore
       end
       return data, status_code, headers
     end
-
   end
 end

@@ -23,7 +23,7 @@ public interface PetApi {
   /**
    * Add a new pet to the store
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @return Completable
    */
   @Headers({
@@ -31,7 +31,7 @@ public interface PetApi {
   })
   @POST("pet")
   Completable addPet(
-    @retrofit2.http.Body Pet pet
+    @retrofit2.http.Body Pet body
   );
 
   /**
@@ -84,7 +84,7 @@ public interface PetApi {
   /**
    * Update an existing pet
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @return Completable
    */
   @Headers({
@@ -92,7 +92,7 @@ public interface PetApi {
   })
   @PUT("pet")
   Completable updatePet(
-    @retrofit2.http.Body Pet pet
+    @retrofit2.http.Body Pet body
   );
 
   /**

@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> addPet(pet)
+> addPet(body)
 
 Add a new pet to the store
 
@@ -25,14 +25,13 @@ Add a new pet to the store
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
-
 // Configure OAuth2 access token for authorization: petstore_auth
 let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
 let apiInstance = new OpenApiPetstore.PetApi();
-let pet = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
-apiInstance.addPet(pet, (error, data, response) => {
+let body = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
+apiInstance.addPet(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -45,7 +44,7 @@ apiInstance.addPet(pet, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -70,7 +69,6 @@ Deletes a pet
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
-
 // Configure OAuth2 access token for authorization: petstore_auth
 let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
@@ -121,7 +119,6 @@ Multiple status values can be provided with comma separated strings
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
-
 // Configure OAuth2 access token for authorization: petstore_auth
 let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
@@ -168,7 +165,6 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
-
 // Configure OAuth2 access token for authorization: petstore_auth
 let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
@@ -215,7 +211,6 @@ Returns a single pet
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
-
 // Configure API key authorization: api_key
 let api_key = defaultClient.authentications['api_key'];
 api_key.apiKey = 'YOUR API KEY';
@@ -254,7 +249,7 @@ Name | Type | Description  | Notes
 
 <a name="updatePet"></a>
 # **updatePet**
-> updatePet(pet)
+> updatePet(body)
 
 Update an existing pet
 
@@ -262,14 +257,13 @@ Update an existing pet
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
-
 // Configure OAuth2 access token for authorization: petstore_auth
 let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
 
 let apiInstance = new OpenApiPetstore.PetApi();
-let pet = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
-apiInstance.updatePet(pet, (error, data, response) => {
+let body = new OpenApiPetstore.Pet(); // Pet | Pet object that needs to be added to the store
+apiInstance.updatePet(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -282,7 +276,7 @@ apiInstance.updatePet(pet, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -307,7 +301,6 @@ Updates a pet in the store with form data
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
-
 // Configure OAuth2 access token for authorization: petstore_auth
 let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
@@ -358,7 +351,6 @@ uploads an image
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
-
 // Configure OAuth2 access token for authorization: petstore_auth
 let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';
@@ -409,7 +401,6 @@ uploads an image (required)
 ```javascript
 import OpenApiPetstore from 'open_api_petstore';
 let defaultClient = OpenApiPetstore.ApiClient.instance;
-
 // Configure OAuth2 access token for authorization: petstore_auth
 let petstore_auth = defaultClient.authentications['petstore_auth'];
 petstore_auth.accessToken = 'YOUR ACCESS TOKEN';

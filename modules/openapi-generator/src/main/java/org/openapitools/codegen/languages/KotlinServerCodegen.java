@@ -19,17 +19,12 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.mustache.CamelCaseLambda;
-import org.openapitools.codegen.mustache.IndentedLambda;
-import org.openapitools.codegen.mustache.LowercaseLambda;
-import org.openapitools.codegen.mustache.TitlecaseLambda;
-import org.openapitools.codegen.mustache.UppercaseLambda;
+import org.openapitools.codegen.mustache.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

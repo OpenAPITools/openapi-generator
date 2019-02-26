@@ -60,9 +60,9 @@ impl<C> Server<C> {
 impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
 
     /// To test special tags
-    fn test_special_tags(&self, client: models::Client, context: &C) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError>> {
+    fn test_special_tags(&self, body: models::Client, context: &C) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("test_special_tags({:?}) - X-Span-ID: {:?}", client, context.get().0.clone());
+        println!("test_special_tags({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
@@ -74,9 +74,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
 
-    fn fake_outer_composite_serialize(&self, outer_composite: Option<models::OuterComposite>, context: &C) -> Box<Future<Item=FakeOuterCompositeSerializeResponse, Error=ApiError>> {
+    fn fake_outer_composite_serialize(&self, body: Option<models::OuterComposite>, context: &C) -> Box<Future<Item=FakeOuterCompositeSerializeResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("fake_outer_composite_serialize({:?}) - X-Span-ID: {:?}", outer_composite, context.get().0.clone());
+        println!("fake_outer_composite_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
@@ -95,16 +95,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
 
-    fn test_body_with_query_params(&self, query: String, user: models::User, context: &C) -> Box<Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError>> {
+    fn test_body_with_query_params(&self, query: String, body: models::User, context: &C) -> Box<Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("test_body_with_query_params(\"{}\", {:?}) - X-Span-ID: {:?}", query, user, context.get().0.clone());
+        println!("test_body_with_query_params(\"{}\", {:?}) - X-Span-ID: {:?}", query, body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
     /// To test \"client\" model
-    fn test_client_model(&self, client: models::Client, context: &C) -> Box<Future<Item=TestClientModelResponse, Error=ApiError>> {
+    fn test_client_model(&self, body: models::Client, context: &C) -> Box<Future<Item=TestClientModelResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("test_client_model({:?}) - X-Span-ID: {:?}", client, context.get().0.clone());
+        println!("test_client_model({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
@@ -123,9 +123,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
     /// test inline additionalProperties
-    fn test_inline_additional_properties(&self, request_body: HashMap<String, String>, context: &C) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError>> {
+    fn test_inline_additional_properties(&self, param: HashMap<String, String>, context: &C) -> Box<Future<Item=TestInlineAdditionalPropertiesResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("test_inline_additional_properties({:?}) - X-Span-ID: {:?}", request_body, context.get().0.clone());
+        println!("test_inline_additional_properties({:?}) - X-Span-ID: {:?}", param, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
@@ -137,16 +137,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
     /// To test class name in snake case
-    fn test_classname(&self, client: models::Client, context: &C) -> Box<Future<Item=TestClassnameResponse, Error=ApiError>> {
+    fn test_classname(&self, body: models::Client, context: &C) -> Box<Future<Item=TestClassnameResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("test_classname({:?}) - X-Span-ID: {:?}", client, context.get().0.clone());
+        println!("test_classname({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
     /// Add a new pet to the store
-    fn add_pet(&self, pet: models::Pet, context: &C) -> Box<Future<Item=AddPetResponse, Error=ApiError>> {
+    fn add_pet(&self, body: models::Pet, context: &C) -> Box<Future<Item=AddPetResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("add_pet({:?}) - X-Span-ID: {:?}", pet, context.get().0.clone());
+        println!("add_pet({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
@@ -179,9 +179,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
     /// Update an existing pet
-    fn update_pet(&self, pet: models::Pet, context: &C) -> Box<Future<Item=UpdatePetResponse, Error=ApiError>> {
+    fn update_pet(&self, body: models::Pet, context: &C) -> Box<Future<Item=UpdatePetResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("update_pet({:?}) - X-Span-ID: {:?}", pet, context.get().0.clone());
+        println!("update_pet({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
@@ -221,30 +221,30 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
     /// Place an order for a pet
-    fn place_order(&self, order: models::Order, context: &C) -> Box<Future<Item=PlaceOrderResponse, Error=ApiError>> {
+    fn place_order(&self, body: models::Order, context: &C) -> Box<Future<Item=PlaceOrderResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("place_order({:?}) - X-Span-ID: {:?}", order, context.get().0.clone());
+        println!("place_order({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
     /// Create user
-    fn create_user(&self, user: models::User, context: &C) -> Box<Future<Item=CreateUserResponse, Error=ApiError>> {
+    fn create_user(&self, body: models::User, context: &C) -> Box<Future<Item=CreateUserResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("create_user({:?}) - X-Span-ID: {:?}", user, context.get().0.clone());
+        println!("create_user({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
     /// Creates list of users with given input array
-    fn create_users_with_array_input(&self, user: &Vec<models::User>, context: &C) -> Box<Future<Item=CreateUsersWithArrayInputResponse, Error=ApiError>> {
+    fn create_users_with_array_input(&self, body: &Vec<models::User>, context: &C) -> Box<Future<Item=CreateUsersWithArrayInputResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("create_users_with_array_input({:?}) - X-Span-ID: {:?}", user, context.get().0.clone());
+        println!("create_users_with_array_input({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
     /// Creates list of users with given input array
-    fn create_users_with_list_input(&self, user: &Vec<models::User>, context: &C) -> Box<Future<Item=CreateUsersWithListInputResponse, Error=ApiError>> {
+    fn create_users_with_list_input(&self, body: &Vec<models::User>, context: &C) -> Box<Future<Item=CreateUsersWithListInputResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("create_users_with_list_input({:?}) - X-Span-ID: {:?}", user, context.get().0.clone());
+        println!("create_users_with_list_input({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
@@ -277,9 +277,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
     /// Updated user
-    fn update_user(&self, username: String, user: models::User, context: &C) -> Box<Future<Item=UpdateUserResponse, Error=ApiError>> {
+    fn update_user(&self, username: String, body: models::User, context: &C) -> Box<Future<Item=UpdateUserResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("update_user(\"{}\", {:?}) - X-Span-ID: {:?}", username, user, context.get().0.clone());
+        println!("update_user(\"{}\", {:?}) - X-Span-ID: {:?}", username, body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 

@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **add_pet**
-> add_pet(ctx, pet)
+> add_pet(ctx, body)
 Add a new pet to the store
 
 ### Required Parameters
@@ -23,7 +23,7 @@ Add a new pet to the store
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context containing the authentication | nil if no authentication
-  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+  **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -160,7 +160,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_pet**
-> update_pet(ctx, pet)
+> update_pet(ctx, body)
 Update an existing pet
 
 ### Required Parameters
@@ -168,7 +168,7 @@ Update an existing pet
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context containing the authentication | nil if no authentication
-  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+  **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -240,7 +240,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **i64**| ID of pet to update | 
  **additional_metadata** | **String**| Additional data to pass to server | 
- **file** | **::models::File**| file to upload | 
+ **file** | **&std::path::Path**| file to upload | 
 
 ### Return type
 

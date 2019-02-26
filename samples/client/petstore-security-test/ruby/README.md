@@ -58,7 +58,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  unknown_base_type: Petstore::UNKNOWN_BASE_TYPE.new # Object | 
+  test_code_inject____end____rn_n_r: 'test_code_inject____end____rn_n_r_example' # String | To test code injection */ ' \\\" =_end -- \\\\r\\\\n \\\\n \\\\r
 }
 
 begin

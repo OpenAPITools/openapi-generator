@@ -1,0 +1,330 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /resolve_inline_request_body:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                address:
+                  type: object
+                  properties:
+                    street:
+                      type: string
+      operationId: resolveInlineRequestBody
+      responses:
+        '200':
+          description: OK
+  /resolve_inline_request_body_with_required:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+        required: true
+      operationId: resolveInlineRequestBodyWithRequired
+      responses:
+        '200':
+          description: OK
+  /resolve_inline_request_body_with_title:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: resolve_inline_request_body_with_title
+              type: object
+              properties:
+                name:
+                  type: string
+      operationId: resolveInlineRequestBodyWithRequired
+      responses:
+        '200':
+          description: OK
+  /non_model_request_body:
+    post:
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: string
+              format: binary
+      operationId: nonModelRequestBody
+      responses:
+        '200':
+          description: OK
+  /resolve_inline_array_request_body:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  street:
+                    type: string
+                  city:
+                    type: string
+      operationId: resolveInlineArrayRequestBody
+      responses:
+        '200':
+          description: OK
+  /resolve_inline_array_request_body_with_title:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                title: resolveInlineArrayRequestBodyWithTitleItems
+                type: object
+                properties:
+                  street_2:
+                    type: string
+                  city_2:
+                    type: string
+      operationId: resolveInlineArrayRequestBodyWithTitle
+      responses:
+        '200':
+          description: OK
+  /resolve_inline_array_response:
+    get:
+      operationId: resolveInlineArrayResponse
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    array_response_property:
+                      type: string
+  /resolve_inline_array_response_with_title:
+    get:
+      operationId: resolveInlineArrayResponseWithTitle
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  title: resolveInlineArrayResponseWithTitleItems
+                  type: object
+                  properties:
+                    array_response_with_title_property:
+                      type: string
+  /resolve_inline_object_response_with_additional_properties:
+    get:
+      operationId: resolveInlineObjectResponseWithAdditionalProperties
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    resolve_inline_object_response_with_additional_properties:
+                      type: string
+  /arbitrary_object_request_body:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      operationId: arbitraryObjectRequestBody
+      responses:
+        '200':
+          description: OK
+  /arbitrary_object_request_body_property:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                arbitrary_object_request_body_property:
+                  type: object
+      operationId: arbitraryObjectRequestBodyProperty
+      responses:
+        '200':
+          description: OK
+  /arbitrary_request_body_array:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: item
+              items:
+                type: object
+      operationId: arbitraryRequestBodyArray
+      responses:
+        '200':
+          description: OK
+  /arbitrary_request_body_array_property:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: item
+              items:
+                type: object
+                properties:
+                  arbitrary_request_body_array_property:
+                    type: object
+      operationId: arbitraryRequestBodyArrayProperty
+      responses:
+        '200':
+          description: OK
+  /arbitrary_object_response:
+    get:
+      operationId: arbitraryObjectResponse
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /arbitrary_object_response_array:
+    get:
+      operationId: arbitraryObjectResponseArray
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /arbitrary_object_response_array_inline:
+    get:
+      operationId: arbitraryObjectResponseArrayInline
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    arbitrary_object_response_array_inline:
+                      type: object
+  /arbitrary_object_response_with_additional_property:
+    get:
+      operationId: arbitraryObjectResponseWithAdditionalProperty
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /empty_example_on_string_models:
+    get:
+      operationId: emptyExampleoOnStringTypeModels
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmptyExampleOnStringTypeModels'
+  /nullable_properties:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nullable_request_body_property:
+                  type: object
+                  nullable: true
+                  properties:
+                    nullable_request_body_property_name:
+                      type: string
+      operationId: arbitraryObjectRequestBodyProperty
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Users:
+      type: array
+      items:
+        title: User
+        type: object
+        properties:
+          street:
+            type: string
+          city:
+            type: string
+    ArbitraryObjectModelInline:
+      type: object
+      properties:
+        arbitrary_object_model_inline:
+          type: object
+    ArbitraryObjectModelWithArrayInlineWithoutTitle:
+      type: array
+      items:
+        type: object
+        properties:
+          arbitrary_object_model_with_array_inline_without_title:
+            type: object
+    ArbitraryObjectModelWithArrayInlineWithTitle:
+      type: array
+      items:
+        title: ArbitraryObjectModelWithArrayInlineWithTitleInner
+        type: object
+        properties:
+          arbitrary_object_model_with_array_inline_with_title:
+            type: object
+    EmptyExampleOnStringTypeModels:
+      type: string
+      example: ''
+    InlinePropertyIsNullable:
+      type: object
+      properties:
+        nullable_property:
+          type: object
+          nullable: true
+          properties:
+            nullable_property_name:
+              type: string

@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="file">file.</param>
         /// <param name="files">files.</param>
-        public FileSchemaTestClass(System.IO.Stream file = default(System.IO.Stream), List<System.IO.Stream> files = default(List<System.IO.Stream>))
+        public FileSchemaTestClass(File file = default(File), List<File> files = default(List<File>))
         {
             this.File = file;
             this.Files = files;
@@ -46,13 +47,13 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets File
         /// </summary>
         [DataMember(Name="file", EmitDefaultValue=false)]
-        public System.IO.Stream File { get; set; }
+        public File File { get; set; }
 
         /// <summary>
         /// Gets or Sets Files
         /// </summary>
         [DataMember(Name="files", EmitDefaultValue=false)]
-        public List<System.IO.Stream> Files { get; set; }
+        public List<File> Files { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -84,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as FileSchemaTestClass);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as FileSchemaTestClass).AreEqual;
         }
 
         /// <summary>
@@ -94,20 +95,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(FileSchemaTestClass input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.File == input.File ||
-                    (this.File != null &&
-                    this.File.Equals(input.File))
-                ) && 
-                (
-                    this.Files == input.Files ||
-                    this.Files != null &&
-                    this.Files.SequenceEqual(input.Files)
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

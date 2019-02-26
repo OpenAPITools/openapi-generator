@@ -174,6 +174,22 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        Map<String, Object> vals = (Map<String, Object>) objs.get("operations");
+        List<CodegenOperation> operations = (List<CodegenOperation>) vals.get("operation");
+        /*
+            Filter all the operations that are multipart/form-data operations and set the vendor extension flag
+            'multipartFormData' for the template to work with.
+         */
+        operations.stream()
+                .filter(op -> op.hasConsumes)
+                .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
+                .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
+        return objs;
+    }
+
+    @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);

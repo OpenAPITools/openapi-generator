@@ -24,4 +24,5 @@ part 'model/pet.dart';
 part 'model/tag.dart';
 part 'model/user.dart';
 
+
 ApiClient defaultApiClient = ApiClient();

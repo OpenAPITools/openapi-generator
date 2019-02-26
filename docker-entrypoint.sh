@@ -12,7 +12,7 @@ codegen="${cli}/target/openapi-generator-cli.jar"
 # We code in a list of commands here as source processing is potentially buggy (requires undocumented conventional use of annotations).
 # A list of known commands helps us determine if we should compile CLI. There's an edge-case where a new command not added to this
 # list won't be considered a "real" command. We can get around that a bit by checking CLI completions beforehand if it exists.
-commands="list,generate,meta,langs,help,config-help,validate,version"
+commands="list,generate,meta,help,config-help,validate,version"
 
 # if CLI jar exists, check $1 against completions available in the CLI
 if [[ -f "${codegen}" && -n "$(java ${JAVA_OPTS} -jar "${codegen}" completion | grep "^$1\$" )" ]]; then

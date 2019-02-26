@@ -18,11 +18,10 @@
 package org.openapitools.codegen.options;
 
 import com.google.common.collect.ImmutableMap;
-
-import java.util.Map;
-
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
+
+import java.util.Map;
 
 public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
     public static final String SUPPORTS_ES6_VALUE = "false";

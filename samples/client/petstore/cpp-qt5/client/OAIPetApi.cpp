@@ -32,7 +32,7 @@ OAIPetApi::OAIPetApi(QString host, QString basePath) {
 }
 
 void
-OAIPetApi::addPet(const OAIPet& oai_pet) {
+OAIPetApi::addPet(const OAIPet& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
     
@@ -40,7 +40,7 @@ OAIPetApi::addPet(const OAIPet& oai_pet) {
     OAIHttpRequestInput input(fullPath, "POST");
 
     
-    QString output = oai_pet.asJson();
+    QString output = body.asJson();
     input.request_body.append(output);
     
 
@@ -72,6 +72,7 @@ OAIPetApi::addPetCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit addPetSignal();
+        emit addPetSignalFull(worker);
     } else {
         emit addPetSignalE(error_type, error_str);
         emit addPetSignalEFull(worker, error_type, error_str);
@@ -121,6 +122,7 @@ OAIPetApi::deletePetCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit deletePetSignal();
+        emit deletePetSignalFull(worker);
     } else {
         emit deletePetSignalE(error_type, error_str);
         emit deletePetSignalEFull(worker, error_type, error_str);
@@ -214,6 +216,7 @@ OAIPetApi::findPetsByStatusCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit findPetsByStatusSignal(output);
+        emit findPetsByStatusSignalFull(worker, output);
     } else {
         emit findPetsByStatusSignalE(output, error_type, error_str);
         emit findPetsByStatusSignalEFull(worker, error_type, error_str);
@@ -307,6 +310,7 @@ OAIPetApi::findPetsByTagsCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit findPetsByTagsSignal(output);
+        emit findPetsByTagsSignalFull(worker, output);
     } else {
         emit findPetsByTagsSignalE(output, error_type, error_str);
         emit findPetsByTagsSignalEFull(worker, error_type, error_str);
@@ -354,6 +358,7 @@ OAIPetApi::getPetByIdCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit getPetByIdSignal(output);
+        emit getPetByIdSignalFull(worker, output);
     } else {
         emit getPetByIdSignalE(output, error_type, error_str);
         emit getPetByIdSignalEFull(worker, error_type, error_str);
@@ -361,7 +366,7 @@ OAIPetApi::getPetByIdCallback(OAIHttpRequestWorker * worker) {
 }
 
 void
-OAIPetApi::updatePet(const OAIPet& oai_pet) {
+OAIPetApi::updatePet(const OAIPet& body) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
     
@@ -369,7 +374,7 @@ OAIPetApi::updatePet(const OAIPet& oai_pet) {
     OAIHttpRequestInput input(fullPath, "PUT");
 
     
-    QString output = oai_pet.asJson();
+    QString output = body.asJson();
     input.request_body.append(output);
     
 
@@ -401,6 +406,7 @@ OAIPetApi::updatePetCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit updatePetSignal();
+        emit updatePetSignalFull(worker);
     } else {
         emit updatePetSignalE(error_type, error_str);
         emit updatePetSignalEFull(worker, error_type, error_str);
@@ -453,6 +459,7 @@ OAIPetApi::updatePetWithFormCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit updatePetWithFormSignal();
+        emit updatePetWithFormSignalFull(worker);
     } else {
         emit updatePetWithFormSignalE(error_type, error_str);
         emit updatePetWithFormSignalEFull(worker, error_type, error_str);
@@ -506,6 +513,7 @@ OAIPetApi::uploadFileCallback(OAIHttpRequestWorker * worker) {
 
     if (worker->error_type == QNetworkReply::NoError) {
         emit uploadFileSignal(output);
+        emit uploadFileSignalFull(worker, output);
     } else {
         emit uploadFileSignalE(output, error_type, error_str);
         emit uploadFileSignalEFull(worker, error_type, error_str);
