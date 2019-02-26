@@ -1,6 +1,6 @@
 <?php
 /**
- * EnumTestTest
+ * OuterEnumDefaultValueTest
  *
  * PHP version 5
  *
@@ -32,15 +32,15 @@ namespace OpenAPI\Client;
 use PHPUnit\Framework\TestCase;
 
 /**
- * EnumTestTest Class Doc Comment
+ * OuterEnumDefaultValueTest Class Doc Comment
  *
  * @category    Class
- * @description EnumTest
+ * @description OuterEnumDefaultValue
  * @package     OpenAPI\Client
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
  */
-class EnumTestTest extends TestCase
+class OuterEnumDefaultValueTest extends TestCase
 {
 
     /**
@@ -72,65 +72,9 @@ class EnumTestTest extends TestCase
     }
 
     /**
-     * Test "EnumTest"
+     * Test "OuterEnumDefaultValue"
      */
-    public function testEnumTest()
-    {
-    }
-
-    /**
-     * Test attribute "enum_string"
-     */
-    public function testPropertyEnumString()
-    {
-    }
-
-    /**
-     * Test attribute "enum_string_required"
-     */
-    public function testPropertyEnumStringRequired()
-    {
-    }
-
-    /**
-     * Test attribute "enum_integer"
-     */
-    public function testPropertyEnumInteger()
-    {
-    }
-
-    /**
-     * Test attribute "enum_number"
-     */
-    public function testPropertyEnumNumber()
-    {
-    }
-
-    /**
-     * Test attribute "outer_enum"
-     */
-    public function testPropertyOuterEnum()
-    {
-    }
-
-    /**
-     * Test attribute "outer_enum_integer"
-     */
-    public function testPropertyOuterEnumInteger()
-    {
-    }
-
-    /**
-     * Test attribute "outer_enum_default_value"
-     */
-    public function testPropertyOuterEnumDefaultValue()
-    {
-    }
-
-    /**
-     * Test attribute "outer_enum_integer_default_value"
-     */
-    public function testPropertyOuterEnumIntegerDefaultValue()
+    public function testOuterEnumDefaultValue()
     {
     }
 }
