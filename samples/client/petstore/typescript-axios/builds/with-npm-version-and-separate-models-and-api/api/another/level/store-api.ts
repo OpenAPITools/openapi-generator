@@ -132,14 +132,14 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} order order placed for purchasing the pet
+         * @param {Order} body order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(order: Order, options: any = {}): RequestArgs {
-            // verify required parameter 'order' is not null or undefined
-            if (order === null || order === undefined) {
-                throw new RequiredError('order','Required parameter order was null or undefined when calling placeOrder.');
+        placeOrder(body: Order, options: any = {}): RequestArgs {
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling placeOrder.');
             }
             const localVarPath = `/store/order`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -159,7 +159,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
             const needsSerialization = (<any>"Order" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(order || {}) : (order || "");
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -219,12 +219,12 @@ export const StoreApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} order order placed for purchasing the pet
+         * @param {Order} body order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(order: Order, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order> {
-            const localVarAxiosArgs = StoreApiAxiosParamCreator(configuration).placeOrder(order, options);
+        placeOrder(body: Order, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order> {
+            const localVarAxiosArgs = StoreApiAxiosParamCreator(configuration).placeOrder(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -271,12 +271,12 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} order order placed for purchasing the pet
+         * @param {Order} body order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(order: Order, options?: any) {
-            return StoreApiFp(configuration).placeOrder(order, options)(axios, basePath);
+        placeOrder(body: Order, options?: any) {
+            return StoreApiFp(configuration).placeOrder(body, options)(axios, basePath);
         },
     };
 };
@@ -326,13 +326,13 @@ export class StoreApi extends BaseAPI {
     /**
      * 
      * @summary Place an order for a pet
-     * @param {Order} order order placed for purchasing the pet
+     * @param {Order} body order placed for purchasing the pet
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public placeOrder(order: Order, options?: any) {
-        return StoreApiFp(this.configuration).placeOrder(order, options)(this.axios, this.basePath);
+    public placeOrder(body: Order, options?: any) {
+        return StoreApiFp(this.configuration).placeOrder(body, options)(this.axios, this.basePath);
     }
 
 }

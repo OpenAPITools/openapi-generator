@@ -29,14 +29,14 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
         /**
          * 
          * @summary Add a new pet to the store
-         * @param {Pet} pet Pet object that needs to be added to the store
+         * @param {Pet} body Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(pet: Pet, options: any = {}): RequestArgs {
-            // verify required parameter 'pet' is not null or undefined
-            if (pet === null || pet === undefined) {
-                throw new RequiredError('pet','Required parameter pet was null or undefined when calling addPet.');
+        addPet(body: Pet, options: any = {}): RequestArgs {
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling addPet.');
             }
             const localVarPath = `/pet`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -65,7 +65,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
             const needsSerialization = (<any>"Pet" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(pet || {}) : (pet || "");
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -257,14 +257,14 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
         /**
          * 
          * @summary Update an existing pet
-         * @param {Pet} pet Pet object that needs to be added to the store
+         * @param {Pet} body Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(pet: Pet, options: any = {}): RequestArgs {
-            // verify required parameter 'pet' is not null or undefined
-            if (pet === null || pet === undefined) {
-                throw new RequiredError('pet','Required parameter pet was null or undefined when calling updatePet.');
+        updatePet(body: Pet, options: any = {}): RequestArgs {
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling updatePet.');
             }
             const localVarPath = `/pet`;
             const localVarUrlObj = url.parse(localVarPath, true);
@@ -293,7 +293,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
             const needsSerialization = (<any>"Pet" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(pet || {}) : (pet || "");
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body || {}) : (body || "");
 
             return {
                 url: url.format(localVarUrlObj),
@@ -424,12 +424,12 @@ export const PetApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Add a new pet to the store
-         * @param {Pet} pet Pet object that needs to be added to the store
+         * @param {Pet} body Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(pet: Pet, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
-            const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).addPet(pet, options);
+        addPet(body: Pet, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
+            const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).addPet(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -495,12 +495,12 @@ export const PetApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Update an existing pet
-         * @param {Pet} pet Pet object that needs to be added to the store
+         * @param {Pet} body Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(pet: Pet, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
-            const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).updatePet(pet, options);
+        updatePet(body: Pet, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Response> {
+            const localVarAxiosArgs = PetApiAxiosParamCreator(configuration).updatePet(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -550,12 +550,12 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
         /**
          * 
          * @summary Add a new pet to the store
-         * @param {Pet} pet Pet object that needs to be added to the store
+         * @param {Pet} body Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet(pet: Pet, options?: any) {
-            return PetApiFp(configuration).addPet(pet, options)(axios, basePath);
+        addPet(body: Pet, options?: any) {
+            return PetApiFp(configuration).addPet(body, options)(axios, basePath);
         },
         /**
          * 
@@ -601,12 +601,12 @@ export const PetApiFactory = function (configuration?: Configuration, basePath?:
         /**
          * 
          * @summary Update an existing pet
-         * @param {Pet} pet Pet object that needs to be added to the store
+         * @param {Pet} body Pet object that needs to be added to the store
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet(pet: Pet, options?: any) {
-            return PetApiFp(configuration).updatePet(pet, options)(axios, basePath);
+        updatePet(body: Pet, options?: any) {
+            return PetApiFp(configuration).updatePet(body, options)(axios, basePath);
         },
         /**
          * 
@@ -645,13 +645,13 @@ export class PetApi extends BaseAPI {
     /**
      * 
      * @summary Add a new pet to the store
-     * @param {Pet} pet Pet object that needs to be added to the store
+     * @param {Pet} body Pet object that needs to be added to the store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public addPet(pet: Pet, options?: any) {
-        return PetApiFp(this.configuration).addPet(pet, options)(this.axios, this.basePath);
+    public addPet(body: Pet, options?: any) {
+        return PetApiFp(this.configuration).addPet(body, options)(this.axios, this.basePath);
     }
 
     /**
@@ -706,13 +706,13 @@ export class PetApi extends BaseAPI {
     /**
      * 
      * @summary Update an existing pet
-     * @param {Pet} pet Pet object that needs to be added to the store
+     * @param {Pet} body Pet object that needs to be added to the store
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public updatePet(pet: Pet, options?: any) {
-        return PetApiFp(this.configuration).updatePet(pet, options)(this.axios, this.basePath);
+    public updatePet(body: Pet, options?: any) {
+        return PetApiFp(this.configuration).updatePet(body, options)(this.axios, this.basePath);
     }
 
     /**
