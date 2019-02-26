@@ -979,7 +979,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                     }
                 }
 
-                if (operation.servers != null && operation.servers.isEmpty()) {
+                if (operation.servers != null && !operation.servers.isEmpty()) {
+                    // add optional parameter for servers (e.g. index)
                     hasOptionalParams = true;
                 }
 

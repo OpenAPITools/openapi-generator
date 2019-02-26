@@ -48,7 +48,8 @@ export default class PetApi {
      * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @param {module:api/PetApi~addPetCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    addPet(pet, callback) {
+    addPet(pet, opts, callback) {
+      opts = opts || {};
       let postBody = pet;
       // verify the required parameter 'pet' is set
       if (pet === undefined || pet === null) {
@@ -271,7 +272,8 @@ export default class PetApi {
      * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @param {module:api/PetApi~updatePetCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    updatePet(pet, callback) {
+    updatePet(pet, opts, callback) {
+      opts = opts || {};
       let postBody = pet;
       // verify the required parameter 'pet' is set
       if (pet === undefined || pet === null) {

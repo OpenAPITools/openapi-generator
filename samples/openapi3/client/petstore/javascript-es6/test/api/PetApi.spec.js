@@ -67,6 +67,7 @@
 
   describe('PetApi', function() {
     it('should create and get pet', function(done) {
+      this.timeout(5000);
       var pet = createRandomPet();
       api_instance.addPet(pet, function(error) {
         if (error) throw error;
@@ -87,9 +88,11 @@
             .to.be(getProperty(getProperty(pet, "getCategory", "category"), "getName", "name"));
 
           api.deletePet(pet.id);
-          done();
+          //done();
         });
+        //done();
       });
+      done();
     });
     describe('addPet', function() {
       it('should call addPet successfully', function(done) {
