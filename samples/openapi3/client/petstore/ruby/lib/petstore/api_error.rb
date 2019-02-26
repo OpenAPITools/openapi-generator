@@ -36,9 +36,9 @@ module Petstore
     end
 
     # Override to_s to display a friendly error message
-    #def to_s
-    #  message
-    #end
+    def to_s
+      message
+    end
 
     def message
       if @message.nil?
