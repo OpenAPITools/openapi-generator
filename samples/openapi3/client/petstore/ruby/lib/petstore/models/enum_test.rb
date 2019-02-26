@@ -71,29 +71,36 @@ module Petstore
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
-      return unless attributes.is_a?(Hash)
+      if (!attributes.is_a?(Hash))
+        fail ArgumentError, "The input argument (attributes) must be a hash in `Petstore::EnumTest` initialize method"
+      end
 
-      # convert string to symbol for hash key
-      attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
+      # check to see if the attribute exists and convert string to symbol for hash key
+      attributes = attributes.each_with_object({}) { |(k, v), h|
+        if (!self.class.attribute_map.key?(k.to_sym))
+          fail ArgumentError, "`#{k}` is not a valid attribute in `Petstore::EnumTest`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+        end
+        h[k.to_sym] = v
+      }
 
-      if attributes.has_key?(:'enum_string')
+      if attributes.key?(:'enum_string')
         self.enum_string = attributes[:'enum_string']
       end
 
-      if attributes.has_key?(:'enum_string_required')
+      if attributes.key?(:'enum_string_required')
         self.enum_string_required = attributes[:'enum_string_required']
       end
 
-      if attributes.has_key?(:'enum_integer')
+      if attributes.key?(:'enum_integer')
         self.enum_integer = attributes[:'enum_integer']
       end
 
-      if attributes.has_key?(:'enum_number')
+      if attributes.key?(:'enum_number')
         self.enum_number = attributes[:'enum_number']
       end
 
-      if attributes.has_key?(:'outerEnum')
-        self.outer_enum = attributes[:'outerEnum']
+      if attributes.key?(:'outer_enum')
+        self.outer_enum = attributes[:'outer_enum']
       end
     end
 

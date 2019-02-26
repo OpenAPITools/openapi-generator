@@ -145,140 +145,147 @@ module Petstore
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
-      return unless attributes.is_a?(Hash)
+      if (!attributes.is_a?(Hash))
+        fail ArgumentError, "The input argument (attributes) must be a hash in `Petstore::XmlItem` initialize method"
+      end
 
-      # convert string to symbol for hash key
-      attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
+      # check to see if the attribute exists and convert string to symbol for hash key
+      attributes = attributes.each_with_object({}) { |(k, v), h|
+        if (!self.class.attribute_map.key?(k.to_sym))
+          fail ArgumentError, "`#{k}` is not a valid attribute in `Petstore::XmlItem`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+        end
+        h[k.to_sym] = v
+      }
 
-      if attributes.has_key?(:'attribute_string')
+      if attributes.key?(:'attribute_string')
         self.attribute_string = attributes[:'attribute_string']
       end
 
-      if attributes.has_key?(:'attribute_number')
+      if attributes.key?(:'attribute_number')
         self.attribute_number = attributes[:'attribute_number']
       end
 
-      if attributes.has_key?(:'attribute_integer')
+      if attributes.key?(:'attribute_integer')
         self.attribute_integer = attributes[:'attribute_integer']
       end
 
-      if attributes.has_key?(:'attribute_boolean')
+      if attributes.key?(:'attribute_boolean')
         self.attribute_boolean = attributes[:'attribute_boolean']
       end
 
-      if attributes.has_key?(:'wrapped_array')
+      if attributes.key?(:'wrapped_array')
         if (value = attributes[:'wrapped_array']).is_a?(Array)
           self.wrapped_array = value
         end
       end
 
-      if attributes.has_key?(:'name_string')
+      if attributes.key?(:'name_string')
         self.name_string = attributes[:'name_string']
       end
 
-      if attributes.has_key?(:'name_number')
+      if attributes.key?(:'name_number')
         self.name_number = attributes[:'name_number']
       end
 
-      if attributes.has_key?(:'name_integer')
+      if attributes.key?(:'name_integer')
         self.name_integer = attributes[:'name_integer']
       end
 
-      if attributes.has_key?(:'name_boolean')
+      if attributes.key?(:'name_boolean')
         self.name_boolean = attributes[:'name_boolean']
       end
 
-      if attributes.has_key?(:'name_array')
+      if attributes.key?(:'name_array')
         if (value = attributes[:'name_array']).is_a?(Array)
           self.name_array = value
         end
       end
 
-      if attributes.has_key?(:'name_wrapped_array')
+      if attributes.key?(:'name_wrapped_array')
         if (value = attributes[:'name_wrapped_array']).is_a?(Array)
           self.name_wrapped_array = value
         end
       end
 
-      if attributes.has_key?(:'prefix_string')
+      if attributes.key?(:'prefix_string')
         self.prefix_string = attributes[:'prefix_string']
       end
 
-      if attributes.has_key?(:'prefix_number')
+      if attributes.key?(:'prefix_number')
         self.prefix_number = attributes[:'prefix_number']
       end
 
-      if attributes.has_key?(:'prefix_integer')
+      if attributes.key?(:'prefix_integer')
         self.prefix_integer = attributes[:'prefix_integer']
       end
 
-      if attributes.has_key?(:'prefix_boolean')
+      if attributes.key?(:'prefix_boolean')
         self.prefix_boolean = attributes[:'prefix_boolean']
       end
 
-      if attributes.has_key?(:'prefix_array')
+      if attributes.key?(:'prefix_array')
         if (value = attributes[:'prefix_array']).is_a?(Array)
           self.prefix_array = value
         end
       end
 
-      if attributes.has_key?(:'prefix_wrapped_array')
+      if attributes.key?(:'prefix_wrapped_array')
         if (value = attributes[:'prefix_wrapped_array']).is_a?(Array)
           self.prefix_wrapped_array = value
         end
       end
 
-      if attributes.has_key?(:'namespace_string')
+      if attributes.key?(:'namespace_string')
         self.namespace_string = attributes[:'namespace_string']
       end
 
-      if attributes.has_key?(:'namespace_number')
+      if attributes.key?(:'namespace_number')
         self.namespace_number = attributes[:'namespace_number']
       end
 
-      if attributes.has_key?(:'namespace_integer')
+      if attributes.key?(:'namespace_integer')
         self.namespace_integer = attributes[:'namespace_integer']
       end
 
-      if attributes.has_key?(:'namespace_boolean')
+      if attributes.key?(:'namespace_boolean')
         self.namespace_boolean = attributes[:'namespace_boolean']
       end
 
-      if attributes.has_key?(:'namespace_array')
+      if attributes.key?(:'namespace_array')
         if (value = attributes[:'namespace_array']).is_a?(Array)
           self.namespace_array = value
         end
       end
 
-      if attributes.has_key?(:'namespace_wrapped_array')
+      if attributes.key?(:'namespace_wrapped_array')
         if (value = attributes[:'namespace_wrapped_array']).is_a?(Array)
           self.namespace_wrapped_array = value
         end
       end
 
-      if attributes.has_key?(:'prefix_ns_string')
+      if attributes.key?(:'prefix_ns_string')
         self.prefix_ns_string = attributes[:'prefix_ns_string']
       end
 
-      if attributes.has_key?(:'prefix_ns_number')
+      if attributes.key?(:'prefix_ns_number')
         self.prefix_ns_number = attributes[:'prefix_ns_number']
       end
 
-      if attributes.has_key?(:'prefix_ns_integer')
+      if attributes.key?(:'prefix_ns_integer')
         self.prefix_ns_integer = attributes[:'prefix_ns_integer']
       end
 
-      if attributes.has_key?(:'prefix_ns_boolean')
+      if attributes.key?(:'prefix_ns_boolean')
         self.prefix_ns_boolean = attributes[:'prefix_ns_boolean']
       end
 
-      if attributes.has_key?(:'prefix_ns_array')
+      if attributes.key?(:'prefix_ns_array')
         if (value = attributes[:'prefix_ns_array']).is_a?(Array)
           self.prefix_ns_array = value
         end
       end
 
-      if attributes.has_key?(:'prefix_ns_wrapped_array')
+      if attributes.key?(:'prefix_ns_wrapped_array')
         if (value = attributes[:'prefix_ns_wrapped_array']).is_a?(Array)
           self.prefix_ns_wrapped_array = value
         end

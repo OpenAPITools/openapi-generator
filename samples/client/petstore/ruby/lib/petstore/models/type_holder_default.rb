@@ -49,32 +49,39 @@ module Petstore
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
-      return unless attributes.is_a?(Hash)
+      if (!attributes.is_a?(Hash))
+        fail ArgumentError, "The input argument (attributes) must be a hash in `Petstore::TypeHolderDefault` initialize method"
+      end
 
-      # convert string to symbol for hash key
-      attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
+      # check to see if the attribute exists and convert string to symbol for hash key
+      attributes = attributes.each_with_object({}) { |(k, v), h|
+        if (!self.class.attribute_map.key?(k.to_sym))
+          fail ArgumentError, "`#{k}` is not a valid attribute in `Petstore::TypeHolderDefault`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+        end
+        h[k.to_sym] = v
+      }
 
-      if attributes.has_key?(:'string_item')
+      if attributes.key?(:'string_item')
         self.string_item = attributes[:'string_item']
       else
         self.string_item = 'what'
       end
 
-      if attributes.has_key?(:'number_item')
+      if attributes.key?(:'number_item')
         self.number_item = attributes[:'number_item']
       end
 
-      if attributes.has_key?(:'integer_item')
+      if attributes.key?(:'integer_item')
         self.integer_item = attributes[:'integer_item']
       end
 
-      if attributes.has_key?(:'bool_item')
+      if attributes.key?(:'bool_item')
         self.bool_item = attributes[:'bool_item']
       else
         self.bool_item = true
       end
 
-      if attributes.has_key?(:'array_item')
+      if attributes.key?(:'array_item')
         if (value = attributes[:'array_item']).is_a?(Array)
           self.array_item = value
         end
