@@ -6,16 +6,16 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Canonical
 class Order {
-    Long id = null
+    Long id
 
-    Long petId = null
+    Long petId
 
-    Integer quantity = null
+    Integer quantity
 
-    Date shipDate = null
+    Date shipDate
 
     /* Order Status */
-    String status = null
+    String status
 
     Boolean complete = false
 
