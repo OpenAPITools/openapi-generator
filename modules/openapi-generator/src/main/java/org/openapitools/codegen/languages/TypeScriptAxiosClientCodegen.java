@@ -30,7 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
 
     public static final String NPM_NAME = "npmName";
     public static final String NPM_VERSION = "npmVersion";
