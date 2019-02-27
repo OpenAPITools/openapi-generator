@@ -41,7 +41,7 @@ public class InlineResponseDefault   {
    **/
   @JsonProperty("string")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public Foo getString() {
     return string;
   }
