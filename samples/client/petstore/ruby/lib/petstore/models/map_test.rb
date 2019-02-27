@@ -67,30 +67,37 @@ module Petstore
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
-      return unless attributes.is_a?(Hash)
+      if (!attributes.is_a?(Hash))
+        fail ArgumentError, "The input argument (attributes) must be a hash in `Petstore::MapTest` initialize method"
+      end
 
-      # convert string to symbol for hash key
-      attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
+      # check to see if the attribute exists and convert string to symbol for hash key
+      attributes = attributes.each_with_object({}) { |(k, v), h|
+        if (!self.class.attribute_map.key?(k.to_sym))
+          fail ArgumentError, "`#{k}` is not a valid attribute in `Petstore::MapTest`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+        end
+        h[k.to_sym] = v
+      }
 
-      if attributes.has_key?(:'map_map_of_string')
+      if attributes.key?(:'map_map_of_string')
         if (value = attributes[:'map_map_of_string']).is_a?(Hash)
           self.map_map_of_string = value
         end
       end
 
-      if attributes.has_key?(:'map_of_enum_string')
+      if attributes.key?(:'map_of_enum_string')
         if (value = attributes[:'map_of_enum_string']).is_a?(Hash)
           self.map_of_enum_string = value
         end
       end
 
-      if attributes.has_key?(:'direct_map')
+      if attributes.key?(:'direct_map')
         if (value = attributes[:'direct_map']).is_a?(Hash)
           self.direct_map = value
         end
       end
 
-      if attributes.has_key?(:'indirect_map')
+      if attributes.key?(:'indirect_map')
         if (value = attributes[:'indirect_map']).is_a?(Hash)
           self.indirect_map = value
         end

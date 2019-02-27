@@ -102,10 +102,17 @@
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
-      return unless attributes.is_a?(Hash)
+      if (!attributes.is_a?(Hash))
+        fail ArgumentError, "The input argument (attributes) must be a hash in `{{{moduleName}}}::{{{classname}}}` initialize method"
+      end
 
-      # convert string to symbol for hash key
-      attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
+      # check to see if the attribute exists and convert string to symbol for hash key
+      attributes = attributes.each_with_object({}) { |(k, v), h|
+        if (!self.class.attribute_map.key?(k.to_sym))
+          fail ArgumentError, "`#{k}` is not a valid attribute in `{{{moduleName}}}::{{{classname}}}`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+        end
+        h[k.to_sym] = v
+      }
       {{#parent}}
 
       # call parent's initialize
@@ -113,19 +120,19 @@
       {{/parent}}
       {{#vars}}
 
-      if attributes.has_key?(:'{{{baseName}}}')
+      if attributes.key?(:'{{{name}}}')
         {{#isListContainer}}
-        if (value = attributes[:'{{{baseName}}}']).is_a?(Array)
+        if (value = attributes[:'{{{name}}}']).is_a?(Array)
           self.{{{name}}} = value
         end
         {{/isListContainer}}
         {{#isMapContainer}}
-        if (value = attributes[:'{{{baseName}}}']).is_a?(Hash)
+        if (value = attributes[:'{{{name}}}']).is_a?(Hash)
           self.{{{name}}} = value
         end
         {{/isMapContainer}}
         {{^isContainer}}
-        self.{{{name}}} = attributes[:'{{{baseName}}}']
+        self.{{{name}}} = attributes[:'{{{name}}}']
         {{/isContainer}}
       {{#defaultValue}}
       else
