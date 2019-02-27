@@ -49,7 +49,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     protected String defaultCabalVersion = "0.1.0.0";
     protected String modulePath = null;
 
-    protected Boolean useKatip = true;
+    protected Boolean useKatip = false;
     protected Boolean allowNonUniqueOperationIds = false;
     protected Boolean genEnums = true;
 
