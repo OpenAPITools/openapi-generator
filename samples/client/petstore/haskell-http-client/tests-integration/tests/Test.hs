@@ -257,13 +257,13 @@ testUserOps mgr config = do
 
     before (pure _users) $
       it "createUsersWithArrayInput" $ \users -> do
-        let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.ContentType S.MimeJSON) (S.User2 users)
+        let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.ContentType S.MimeJSON) (S.Body users)
         createUsersWithArrayInputResult <- S.dispatchLbs mgr config createUsersWithArrayInputRequest
         NH.responseStatus createUsersWithArrayInputResult `shouldBe` NH.status200
 
     before (pure _users) $
       it "createUsersWithListInput" $ \users -> do
-        let createUsersWithListInputRequest = S.createUsersWithListInput (S.ContentType S.MimeJSON) (S.User2 users)
+        let createUsersWithListInputRequest = S.createUsersWithListInput (S.ContentType S.MimeJSON) (S.Body users)
         createUsersWithListInputResult <- S.dispatchLbs mgr config createUsersWithListInputRequest 
         NH.responseStatus createUsersWithListInputResult `shouldBe` NH.status200
 
