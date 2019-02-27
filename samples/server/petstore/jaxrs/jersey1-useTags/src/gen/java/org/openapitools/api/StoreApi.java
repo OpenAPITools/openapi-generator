@@ -86,7 +86,7 @@ public class StoreApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid Order", response = Void.class) })
     public Response placeOrder(
-        @ApiParam(value = "order placed for purchasing the pet" ,required=true) @Valid Order body,
+        @ApiParam(value = "order placed for purchasing the pet" ,required=true) @NotNull @Valid Order body,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.placeOrder(body,securityContext);
