@@ -2,10 +2,9 @@ apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
-def artifactory = 'buildserver.supportspace.com'
-group = 'com.supportspace'
+group = '{{groupId}}'
+version = '{{artifactVersion}}'
 archivesBaseName = 'openapi-gen-groovy'
-version = '0.1'
 
 buildscript {
     repositories {
@@ -19,8 +18,6 @@ buildscript {
 repositories {
     mavenCentral()
     mavenLocal()
-    mavenCentral(artifactUrls: ['https://maven.springframework.org/milestone'])
-    maven { url  "https://$artifactory:8080/artifactory/repo" }
 }
 
 ext {
