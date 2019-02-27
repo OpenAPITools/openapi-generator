@@ -115,16 +115,16 @@ module Petstore
         self.outer_enum = attributes[:'outer_enum']
       end
 
-      if attributes.has_key?(:'outerEnumInteger')
-        self.outer_enum_integer = attributes[:'outerEnumInteger']
+      if attributes.key?(:'outer_enum_integer')
+        self.outer_enum_integer = attributes[:'outer_enum_integer']
       end
 
-      if attributes.has_key?(:'outerEnumDefaultValue')
-        self.outer_enum_default_value = attributes[:'outerEnumDefaultValue']
+      if attributes.key?(:'outer_enum_default_value')
+        self.outer_enum_default_value = attributes[:'outer_enum_default_value']
       end
 
-      if attributes.has_key?(:'outerEnumIntegerDefaultValue')
-        self.outer_enum_integer_default_value = attributes[:'outerEnumIntegerDefaultValue']
+      if attributes.key?(:'outer_enum_integer_default_value')
+        self.outer_enum_integer_default_value = attributes[:'outer_enum_integer_default_value']
       end
     end
 

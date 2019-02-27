@@ -21,7 +21,10 @@ instance = Petstore::EnumTest.new(enum_string: null,
                                  enum_string_required: null,
                                  enum_integer: null,
                                  enum_number: null,
-                                 outer_enum: null)
+                                 outer_enum: null,
+                                 outer_enum_integer: null,
+                                 outer_enum_default_value: null,
+                                 outer_enum_integer_default_value: null)
 ```
 
 
