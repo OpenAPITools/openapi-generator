@@ -7,4 +7,14 @@ Name | Type | Description | Notes
 **my_string** | **String** |  | [optional] 
 **my_boolean** | **BOOLEAN** |  | [optional] 
 
+## Code Sample
+
+```ruby
+require 'Petstore'
+
+instance = Petstore::OuterComposite.new(my_number: null,
+                                 my_string: null,
+                                 my_boolean: null)
+```
+
 

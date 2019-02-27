@@ -1554,6 +1554,7 @@ components:
           format: date-time
           type: string
         uuid:
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
           format: uuid
           type: string
         password:

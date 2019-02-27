@@ -24,6 +24,12 @@ module Petstore
 
     attr_accessor :outer_enum
 
+    attr_accessor :outer_enum_integer
+
+    attr_accessor :outer_enum_default_value
+
+    attr_accessor :outer_enum_integer_default_value
+
     class EnumAttributeValidator
       attr_reader :datatype
       attr_reader :allowable_values
@@ -53,7 +59,10 @@ module Petstore
         :'enum_string_required' => :'enum_string_required',
         :'enum_integer' => :'enum_integer',
         :'enum_number' => :'enum_number',
-        :'outer_enum' => :'outerEnum'
+        :'outer_enum' => :'outerEnum',
+        :'outer_enum_integer' => :'outerEnumInteger',
+        :'outer_enum_default_value' => :'outerEnumDefaultValue',
+        :'outer_enum_integer_default_value' => :'outerEnumIntegerDefaultValue'
       }
     end
 
@@ -64,36 +73,58 @@ module Petstore
         :'enum_string_required' => :'String',
         :'enum_integer' => :'Integer',
         :'enum_number' => :'Float',
-        :'outer_enum' => :'OuterEnum'
+        :'outer_enum' => :'OuterEnum',
+        :'outer_enum_integer' => :'OuterEnumInteger',
+        :'outer_enum_default_value' => :'OuterEnumDefaultValue',
+        :'outer_enum_integer_default_value' => :'OuterEnumIntegerDefaultValue'
       }
     end
 
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
-      return unless attributes.is_a?(Hash)
+      if (!attributes.is_a?(Hash))
+        fail ArgumentError, "The input argument (attributes) must be a hash in `Petstore::EnumTest` initialize method"
+      end
 
-      # convert string to symbol for hash key
-      attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
+      # check to see if the attribute exists and convert string to symbol for hash key
+      attributes = attributes.each_with_object({}) { |(k, v), h|
+        if (!self.class.attribute_map.key?(k.to_sym))
+          fail ArgumentError, "`#{k}` is not a valid attribute in `Petstore::EnumTest`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+        end
+        h[k.to_sym] = v
+      }
 
-      if attributes.has_key?(:'enum_string')
+      if attributes.key?(:'enum_string')
         self.enum_string = attributes[:'enum_string']
       end
 
-      if attributes.has_key?(:'enum_string_required')
+      if attributes.key?(:'enum_string_required')
         self.enum_string_required = attributes[:'enum_string_required']
       end
 
-      if attributes.has_key?(:'enum_integer')
+      if attributes.key?(:'enum_integer')
         self.enum_integer = attributes[:'enum_integer']
       end
 
-      if attributes.has_key?(:'enum_number')
+      if attributes.key?(:'enum_number')
         self.enum_number = attributes[:'enum_number']
       end
 
-      if attributes.has_key?(:'outerEnum')
-        self.outer_enum = attributes[:'outerEnum']
+      if attributes.key?(:'outer_enum')
+        self.outer_enum = attributes[:'outer_enum']
+      end
+
+      if attributes.key?(:'outer_enum_integer')
+        self.outer_enum_integer = attributes[:'outer_enum_integer']
+      end
+
+      if attributes.key?(:'outer_enum_default_value')
+        self.outer_enum_default_value = attributes[:'outer_enum_default_value']
+      end
+
+      if attributes.key?(:'outer_enum_integer_default_value')
+        self.outer_enum_integer_default_value = attributes[:'outer_enum_integer_default_value']
       end
     end
 
@@ -172,7 +203,10 @@ module Petstore
           enum_string_required == o.enum_string_required &&
           enum_integer == o.enum_integer &&
           enum_number == o.enum_number &&
-          outer_enum == o.outer_enum
+          outer_enum == o.outer_enum &&
+          outer_enum_integer == o.outer_enum_integer &&
+          outer_enum_default_value == o.outer_enum_default_value &&
+          outer_enum_integer_default_value == o.outer_enum_integer_default_value
     end
 
     # @see the `==` method
@@ -184,7 +218,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [enum_string, enum_string_required, enum_integer, enum_number, outer_enum].hash
+      [enum_string, enum_string_required, enum_integer, enum_number, outer_enum, outer_enum_integer, outer_enum_default_value, outer_enum_integer_default_value].hash
     end
 
     # Builds the object from hash

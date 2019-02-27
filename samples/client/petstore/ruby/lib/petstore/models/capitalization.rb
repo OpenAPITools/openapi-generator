@@ -54,33 +54,40 @@ module Petstore
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
-      return unless attributes.is_a?(Hash)
-
-      # convert string to symbol for hash key
-      attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
-
-      if attributes.has_key?(:'smallCamel')
-        self.small_camel = attributes[:'smallCamel']
+      if (!attributes.is_a?(Hash))
+        fail ArgumentError, "The input argument (attributes) must be a hash in `Petstore::Capitalization` initialize method"
       end
 
-      if attributes.has_key?(:'CapitalCamel')
-        self.capital_camel = attributes[:'CapitalCamel']
+      # check to see if the attribute exists and convert string to symbol for hash key
+      attributes = attributes.each_with_object({}) { |(k, v), h|
+        if (!self.class.attribute_map.key?(k.to_sym))
+          fail ArgumentError, "`#{k}` is not a valid attribute in `Petstore::Capitalization`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+        end
+        h[k.to_sym] = v
+      }
+
+      if attributes.key?(:'small_camel')
+        self.small_camel = attributes[:'small_camel']
       end
 
-      if attributes.has_key?(:'small_Snake')
-        self.small_snake = attributes[:'small_Snake']
+      if attributes.key?(:'capital_camel')
+        self.capital_camel = attributes[:'capital_camel']
       end
 
-      if attributes.has_key?(:'Capital_Snake')
-        self.capital_snake = attributes[:'Capital_Snake']
+      if attributes.key?(:'small_snake')
+        self.small_snake = attributes[:'small_snake']
       end
 
-      if attributes.has_key?(:'SCA_ETH_Flow_Points')
-        self.sca_eth_flow_points = attributes[:'SCA_ETH_Flow_Points']
+      if attributes.key?(:'capital_snake')
+        self.capital_snake = attributes[:'capital_snake']
       end
 
-      if attributes.has_key?(:'ATT_NAME')
-        self.att_name = attributes[:'ATT_NAME']
+      if attributes.key?(:'sca_eth_flow_points')
+        self.sca_eth_flow_points = attributes[:'sca_eth_flow_points']
+      end
+
+      if attributes.key?(:'att_name')
+        self.att_name = attributes[:'att_name']
       end
     end
 
