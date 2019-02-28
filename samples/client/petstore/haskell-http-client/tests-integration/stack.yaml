@@ -1,4 +1,4 @@
-resolver: lts-10.10
+resolver: lts-13.9
 packages:
   - location: '.'
   - location: '..'

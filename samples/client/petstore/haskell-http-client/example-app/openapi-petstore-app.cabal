@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 56ae3aaeafb9097357340f607e1eaf6de362bdf849f038e8495e41eedc747747
+-- hash: ac93c2ec93cd0d2783d67276552e1c6bac8001151915ed0b6c698df9738859b5
 
 name:           openapi-petstore-app
 version:        0.1.0.0
@@ -21,18 +21,20 @@ extra-source-files:
 
 executable openapi-petstore-app
   main-is: Main.hs
+  other-modules:
+      Paths_openapi_petstore_app
   ghc-options: -Wall
   build-depends:
       aeson >=1.0 && <2.0
     , base >=4.7 && <5.0
     , bytestring >=0.10.0 && <0.11
     , case-insensitive
-    , containers >=0.5.0.0 && <0.6
-    , http-api-data >=0.3.4 && <0.4
+    , containers >=0.5.0.0 && <0.8
+    , http-api-data >=0.3.4 && <0.5
     , http-client >=0.5 && <0.6
     , http-client-tls
     , http-media >=0.4 && <0.8
-    , http-types >=0.8 && <0.12
+    , http-types >=0.8 && <0.13
     , microlens >=0.4.3 && <0.5
     , mtl >=2.2.1
     , openapi-petstore
@@ -41,6 +43,4 @@ executable openapi-petstore-app
     , transformers >=0.4.0.0
     , unordered-containers
     , vector >=0.10.9 && <0.13
-  other-modules:
-      Paths_openapi_petstore_app
   default-language: Haskell2010
