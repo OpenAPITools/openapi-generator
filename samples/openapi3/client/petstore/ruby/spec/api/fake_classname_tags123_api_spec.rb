@@ -19,7 +19,7 @@ require 'json'
 describe 'FakeClassnameTags123Api' do
   before do
     # run before each test
-    @instance = Petstore::FakeClassnameTags123Api.new
+    @api_instance = Petstore::FakeClassnameTags123Api.new
   end
 
   after do
@@ -28,7 +28,7 @@ describe 'FakeClassnameTags123Api' do
 
   describe 'test an instance of FakeClassnameTags123Api' do
     it 'should create an instance of FakeClassnameTags123Api' do
-      expect(@instance).to be_instance_of(Petstore::FakeClassnameTags123Api)
+      expect(@api_instance).to be_instance_of(Petstore::FakeClassnameTags123Api)
     end
   end
 
