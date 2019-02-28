@@ -1,0 +1,4 @@
+setuptools
+six >= 1.12
+uplink[marshmallow] == 0.8.0.post1
+marshmallow >= 3.0.0rc3
