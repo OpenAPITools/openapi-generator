@@ -2121,6 +2121,7 @@ data LogoutUser
 updateUser :: (Consumes UpdateUser contentType, MimeRender contentType User) => ContentType contentType -> User -> Username -> OpenAPIPetstoreRequest UpdateUser contentType NoContent MimeNoContent
 data UpdateUser
 instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.User.UpdateUser OpenAPIPetstore.Model.User
+instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.User.UpdateUser mtype
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.User.UpdateUser OpenAPIPetstore.MimeTypes.MimeNoContent
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.User.LogoutUser OpenAPIPetstore.MimeTypes.MimeNoContent
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.User.LoginUser OpenAPIPetstore.MimeTypes.MimeXML
@@ -2129,10 +2130,13 @@ instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.User.GetUserByNa
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.User.GetUserByName OpenAPIPetstore.MimeTypes.MimeJSON
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.User.DeleteUser OpenAPIPetstore.MimeTypes.MimeNoContent
 instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.User.CreateUsersWithListInput OpenAPIPetstore.Model.Body
+instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.User.CreateUsersWithListInput mtype
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.User.CreateUsersWithListInput OpenAPIPetstore.MimeTypes.MimeNoContent
 instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.User.CreateUsersWithArrayInput OpenAPIPetstore.Model.Body
+instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.User.CreateUsersWithArrayInput mtype
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.User.CreateUsersWithArrayInput OpenAPIPetstore.MimeTypes.MimeNoContent
 instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.User.CreateUser OpenAPIPetstore.Model.User
+instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.User.CreateUser mtype
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.User.CreateUser OpenAPIPetstore.MimeTypes.MimeNoContent
 
 
@@ -2180,6 +2184,7 @@ data GetOrderById
 placeOrder :: (Consumes PlaceOrder contentType, MimeRender contentType Order) => ContentType contentType -> Accept accept -> Order -> OpenAPIPetstoreRequest PlaceOrder contentType Order accept
 data PlaceOrder
 instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.Store.PlaceOrder OpenAPIPetstore.Model.Order
+instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Store.PlaceOrder mtype
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Store.PlaceOrder OpenAPIPetstore.MimeTypes.MimeXML
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Store.PlaceOrder OpenAPIPetstore.MimeTypes.MimeJSON
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Store.GetOrderById OpenAPIPetstore.MimeTypes.MimeXML
@@ -2492,12 +2497,16 @@ instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.Fake.TestBodyWith
 instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.TestBodyWithFileSchema OpenAPIPetstore.MimeTypes.MimeJSON
 instance OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Fake.TestBodyWithFileSchema OpenAPIPetstore.MimeTypes.MimeNoContent
 instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.Fake.FakeOuterStringSerialize OpenAPIPetstore.Model.BodyText
+instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.FakeOuterStringSerialize mtype
 instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Fake.FakeOuterStringSerialize mtype
 instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.Fake.FakeOuterNumberSerialize OpenAPIPetstore.Model.BodyDouble
+instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.FakeOuterNumberSerialize mtype
 instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Fake.FakeOuterNumberSerialize mtype
 instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.Fake.FakeOuterCompositeSerialize OpenAPIPetstore.Model.OuterComposite
+instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.FakeOuterCompositeSerialize mtype
 instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Fake.FakeOuterCompositeSerialize mtype
 instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.Fake.FakeOuterBooleanSerialize OpenAPIPetstore.Model.BodyBool
+instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.FakeOuterBooleanSerialize mtype
 instance OpenAPIPetstore.MimeTypes.MimeType mtype => OpenAPIPetstore.MimeTypes.Produces OpenAPIPetstore.API.Fake.FakeOuterBooleanSerialize mtype
 instance OpenAPIPetstore.Core.HasBodyParam OpenAPIPetstore.API.Fake.CreateXmlItem OpenAPIPetstore.Model.XmlItem
 instance OpenAPIPetstore.MimeTypes.Consumes OpenAPIPetstore.API.Fake.CreateXmlItem OpenAPIPetstore.MimeTypes.MimeXML
