@@ -26,7 +26,7 @@ import org.openapitools.codegen.testutils.IntegrationTestPathsConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TypescriptNodeEnumTest extends AbstractIntegrationTest {
+public class TypescriptNodeEnumIntegrationTest extends AbstractIntegrationTest {
 
     @Override
     protected CodegenConfig getCodegenConfig() {

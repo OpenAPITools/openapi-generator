@@ -34,6 +34,9 @@ let enumsMap: {[index: string]: any} = {
                     {{/isEnum}}
                 {{/vars}}
             {{/hasEnums}}
+            {{#isEnum}}
+        "{{classname}}": {{classname}},
+            {{/isEnum}}
         {{/model}}
     {{/models}}
 }
@@ -41,7 +44,9 @@ let enumsMap: {[index: string]: any} = {
 let typeMap: {[index: string]: any} = {
     {{#models}}
         {{#model}}
+            {{^isEnum}}
     "{{classname}}": {{classname}},
+            {{/isEnum}}
         {{/model}}
     {{/models}}
 }

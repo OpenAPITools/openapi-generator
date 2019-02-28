@@ -19,11 +19,11 @@ let primitives = [
                  ];
                  
 let enumsMap: {[index: string]: any} = {
+        "ExternalEnum": ExternalEnum,
         "ObjectWithEnums.EnumInObjectEnum": ObjectWithEnums.EnumInObjectEnum,
 }
 
 let typeMap: {[index: string]: any} = {
-    "ExternalEnum": ExternalEnum,
     "ObjectWithEnums": ObjectWithEnums,
 }
 
