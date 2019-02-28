@@ -103,7 +103,7 @@
           "items" : {
             "type" : "string",
             "enum" : [ "available", "pending", "sold" ],
-            "default" : "available"
+            "default" : ["available"]
           },
           "collectionFormat" : "multi"
         } ],
