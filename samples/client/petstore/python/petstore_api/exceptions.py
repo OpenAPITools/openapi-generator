@@ -10,6 +10,7 @@
 """
 
 
+import six
 
 class OpenApiException(Exception):
     """The base exception class for all OpenAPIExceptions"""
@@ -106,7 +107,15 @@ class ApiException(OpenApiException):
 
         return error_message
 
-
 def render_path(path_to_item):
     """Returns a string representation of a path"""
-    return "".join(["[{0}]".format(repr(pth)) for pth in path_to_item])
+    result = ""
+    for pth in path_to_item:
+        is_int = isinstance(pth, int)
+        if six.PY2 and isinstance(pth, long) and is_int == False:
+            is_int = True
+        if is_int:
+            result += "[{0}]".format(pth)
+        else:
+            result += "['{0}']".format(pth)
+    return result

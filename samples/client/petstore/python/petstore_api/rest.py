@@ -22,11 +22,7 @@ import certifi
 # python 2 and python 3 compatibility library
 import six
 from six.moves.urllib.parse import urlencode
-
-try:
-    import urllib3
-except ImportError:
-    raise ImportError('OpenAPI Python client requires urllib3.')
+import urllib3
 
 from petstore_api.exceptions import ApiException, ApiValueError
 

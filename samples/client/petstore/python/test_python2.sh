@@ -9,9 +9,10 @@ DEACTIVE=false
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
+PY_LOC=$(which python)
 ### set virtualenv
 if [ -z "$VIRTUAL_ENV" ]; then
-		virtualenv $VENV --no-site-packages --always-copy
+		virtualenv $VENV --python=$PY_LOC --no-site-packages --always-copy
 		source $VENV/bin/activate
     DEACTIVE=true
 fi
@@ -30,4 +31,3 @@ flake8 --show-source petstore_api/
 #if [ $DEACTIVE == true ]; then
 #    deactivate
 #fi
-

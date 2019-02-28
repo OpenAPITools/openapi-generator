@@ -38,6 +38,7 @@ from petstore_api.model_utils import (
     file_type,
     model_to_dict,
     none_type,
+    str,
     validate_and_convert_types
 )
 import petstore_api.models

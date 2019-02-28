@@ -10,13 +10,25 @@ class TimeZone(tzinfo):
         return self.time_delta
 
 exmple_simple = {
-    'int': [2, -5, 0],
+    'int': [
+        2,
+        -5,
+        0,
+        2147483647, # int32 max
+        -2147483648, # int32 min
+        9223372036854775807, # int64 max
+        -9223372036854775808 # int64 min
+    ],
     'str': ['مرحبا كيف حالك', 'fancy\nstring', 'hey there'],
     'float': [3.14159, -12.4, 0.0],
     'bool': [True, False],
     'None': [None],
     'date': [date(1000, 7, 31), date(1970, 1, 1), date(2396, 2, 29)],
-    'datetime': [datetime(1000, 7, 31, 13, 32, 57, tzinfo=None), datetime(1970, 1, 1, 2, 12, 41, tzinfo=TimeZone(0)), datetime(2396, 2, 29, 23, 57, 6, tzinfo=TimeZone(-6))]
+    'datetime': [
+        datetime(1000, 7, 31, 13, 32, 57, tzinfo=None),
+        datetime(1970, 1, 1, 2, 12, 41, tzinfo=TimeZone(0)),
+        datetime(2396, 2, 29, 23, 57, 6, tzinfo=TimeZone(-6))
+    ]
 }
 
 example_list_monotypes = [

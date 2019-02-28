@@ -25,8 +25,11 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
+    get_simple_class,
+    int,
     model_to_dict,
     none_type,
+    str,
     type_error_message,
     validate_and_convert_types
 )
@@ -108,7 +111,7 @@ class ModelReturn(OpenApiModel):
             path_to_item.extend(self._path_to_item)
         path_to_item.append(name)
 
-        if not isinstance(name, str):
+        if get_simple_class(name) != str:
             error_msg = type_error_message(
                 var_name=name,
                 var_value=name,

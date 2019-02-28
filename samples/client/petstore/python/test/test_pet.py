@@ -15,8 +15,8 @@ from __future__ import absolute_import
 import unittest
 
 import petstore_api
-from petstore_api.models.pet import Pet  # noqa: E501
-from petstore_api.rest import ApiException
+from petstore_api.models import Pet, Category, Tag, Dog
+from petstore_api.exceptions import ApiTypeError
 
 
 class TestPet(unittest.TestCase):
@@ -28,12 +28,40 @@ class TestPet(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testPet(self):
-        """Test Pet"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.models.pet.Pet()  # noqa: E501
-        pass
+    def testPet_valid_inputs(self):
+        """Test Pet with valid arguments"""
+        keyword_args = dict(
+            id=3,
+            category=Category(id=0, name='poodle'),
+            name='Samantha',
+            photo_urls=['http://www.example.com/image.jpg'],
+            tags=[Tag(id=3, name='black')],
+            status='available',
+            _check_type=True
+        )
+        pet = Pet(**keyword_args)
+        assert True
 
+    def testPet_invalid_inputs(self):
+        """Test Pet where we pass an invalid class in"""
+        keyword_args = dict(
+            id=3,
+            category=Dog(class_name='large dogs', color='black',
+                         breed='poodle'),
+            name='Samantha',
+            photo_urls=['http://www.example.com/image.jpg'],
+            tags=[Tag(id=3, name='black')],
+            status='available',
+            _check_type=True
+        )
+        with self.assertRaises(ApiTypeError) as exc:
+            pet = Pet(**keyword_args)
+
+        self.assertEqual(
+            str(exc.exception),
+            ("Invalid type for variable 'category'. Required value type is "
+            "Category and passed type was Dog at ['category']")
+        )
 
 if __name__ == '__main__':
     unittest.main()

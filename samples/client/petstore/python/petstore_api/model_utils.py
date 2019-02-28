@@ -29,12 +29,68 @@ none_type = type(None)
 if six.PY3:
     import io
     file_type = io.IOBase
+    # these are needed for when other modules import str and int from here
+    str = str
+    int = int
 else:
     file_type = file  # noqa: F821
+    str_py2 = str
+    unicode_py2 = unicode
+    long_py2 = long
+    int_py2 = int
+    # this requires that the future library is installed
+    from builtins import int, str
 
 
 class OpenApiModel(object):
     """The base class for all OpenAPIModels"""
+
+
+def get_simple_class(input_value):
+    """Returns an input_value's simple class that we will use for type checking
+    All models that inherit from OpenApiModel will return OpenApiModel
+    Python2
+    float and int will return int, where int is the python3 int backport
+    str and unicode will return str, where str is the python3 str backport
+    Note: float and int ARE both instances of int backport
+    Note: str_py2 and unicode_py2 are NOT both instances of str backport
+
+    Args:
+        input_value (class/class_instance): the item for which we will return
+                                            the simple class
+    """
+    if isinstance(input_value, type):
+        # input_value is a class
+        return input_value
+    elif isinstance(input_value, list):
+        return list
+    elif isinstance(input_value, dict):
+        return dict
+    elif isinstance(input_value, none_type):
+        return none_type
+    elif isinstance(input_value, file_type):
+        return file_type
+    elif isinstance(input_value, bool):
+        # this must be higher than the int check because
+        # isinstance(True, int) == True
+        return bool
+    elif isinstance(input_value, int):
+        # for pytho2 input_value==float_instance -> return int
+        # where int is the python3 int backport
+        return int
+    elif isinstance(input_value, datetime):
+        # this must be higher than the int check because
+        # isinstance(datetime_instance, date) == True
+        return datetime
+    elif isinstance(input_value, date):
+        # this must be higher than the int check because
+        # isinstance(datetime_instance, date) == True
+        return datetime
+    elif (six.PY2 and isinstance(input_value, (str_py2, unicode_py2, str)) or
+            isinstance(input_value, str)):
+        return str
+    return type(input_value)
+
 
 COERCION_INDEX_BY_TYPE = {
     none_type: 0,
@@ -48,6 +104,17 @@ COERCION_INDEX_BY_TYPE = {
     date: 8,
     str: 9
 }
+
+# these are used to limit what type conversions we try to do
+# when we have a valid type already and we want to try converting
+# to another type
+UPCONVERSION_TYPE_PAIRS = (
+    (str, datetime),
+    (str, date),
+    (list, OpenApiModel),
+    (dict, OpenApiModel),
+)
+
 COERCIBLE_TYPE_PAIRS = (
     (dict, OpenApiModel),
     (list, OpenApiModel),
@@ -89,57 +156,42 @@ def order_response_types(required_types):
     return sorted_types
 
 
-def remove_uncoercible(required_types_classes, current_item):
+def remove_uncoercible(required_types_classes, current_item, must_convert=True):
     """Only keeps the type conversions that are possible
 
     Args:
         required_types_classes (tuple): tuple of classes that are required
+                          these should be ordered by COERCION_INDEX_BY_TYPE
         current_item (any): the current item to be converted
+
+    Keyword Args:
+        must_convert (bool): if True the item to convert is of the wrong
+                          type and we want a big list of coercibles
+                          if False, we want a limited list of coercibles
 
     Returns:
         (list): the remaining coercible required types, classes only
     """
-    if isinstance(current_item, file_type):
-        current_type = file_type
-    else:
-        current_type = type(current_item)
+    current_type_simple = get_simple_class(current_item)
 
     results_classes = []
-    for real_required_type_class in required_types_classes:
-        if real_required_type_class == current_type:
+    for required_type_class in required_types_classes:
+        # convert our models to OpenApiModel
+        required_type_class_simplified = required_type_class
+        if isinstance(required_type_class_simplified, type):
+            if issubclass(required_type_class_simplified, OpenApiModel):
+                required_type_class_simplified = OpenApiModel
+
+        if required_type_class_simplified == current_type_simple:
             # don't consider converting to one's own class
             continue
-        required_type_class = real_required_type_class
-        if issubclass(real_required_type_class, OpenApiModel):
-            required_type_class = OpenApiModel
-        class_pair = (current_type, required_type_class)
-        if class_pair in COERCIBLE_TYPE_PAIRS:
-            results_classes.append(real_required_type_class)
+
+        class_pair = (current_type_simple, required_type_class_simplified)
+        if must_convert and class_pair in COERCIBLE_TYPE_PAIRS:
+            results_classes.append(required_type_class)
+        elif class_pair in UPCONVERSION_TYPE_PAIRS:
+            results_classes.append(required_type_class)
     return results_classes
-
-
-def get_parent_key_or_index(input_data, path_to_item):
-    """Returns a tuple of parent, key_or_index
-
-    Args:
-        input_data (dict/list): the root data object that had an
-                                ApiTypeException
-        path_to_item (list): the path to the exception, values are keys or
-                              indices
-
-    Returns:
-        (parent, key_or_index):
-            parent (dict/list): the parent of the item that has an
-                                ApiTypeException
-            key_or_index (str/int): the key that points to the item that has an
-                                    ApiTypeException
-    """
-    current_item = input_data
-    for index, path_value in enumerate(path_to_item[:-1]):
-        current_item = current_item[path_value]
-    parent = current_item
-    key_or_index = path_to_item[-1]
-    return parent, key_or_index
 
 
 def get_required_type_classes(required_types_mixed):
@@ -219,11 +271,13 @@ def deserialize_primitive(data, klass, path_to_item):
     try:
         if klass in {datetime, date}:
             additional_message = (
-                ". If you need your parameter to have a fallback "
+                "If you need your parameter to have a fallback "
                 "string value, please set its type as `type: {}` in your "
-                "spec. That allows the value to be any type."
+                "spec. That allows the value to be any type. "
             )
             if klass == datetime:
+                if len(data) < 8:
+                    raise ValueError("This is not a datetime")
                 # The string should be in iso8601 datetime format.
                 parsed_datetime = parse(data)
                 date_only = (parsed_datetime.hour == 0 and
@@ -235,6 +289,8 @@ def deserialize_primitive(data, klass, path_to_item):
                     raise ValueError("This is a date, not a datetime")
                 return parsed_datetime
             elif klass == date:
+                if len(data) < 8:
+                    raise ValueError("This is not a date")
                 return parse(data).date()
         else:
             converted_value = klass(data)
@@ -246,8 +302,8 @@ def deserialize_primitive(data, klass, path_to_item):
     except (OverflowError, ValueError):
         # parse can raise OverflowError
         raise ApiValueError(
-            "Failed to parse {0} as {1}{2}".format(
-                repr(data), klass, additional_message
+            "{0}Failed to parse {1} as {2}".format(
+                additional_message, repr(data), get_py3_class_name(klass)
             ),
             path_to_item=path_to_item
         )
@@ -351,32 +407,20 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
     valid_classes_ordered = order_response_types(valid_classes)
     valid_classes_coercible = remove_uncoercible(
         valid_classes_ordered, input_value)
-    type_error = get_type_error(input_value, path_to_item, valid_classes,
-        key_type=key_type)
     if not valid_classes_coercible or key_type:
         # we do not handle keytype errors, json will take care
         # of this for us
-        raise type_error
+        raise get_type_error(input_value, path_to_item, valid_classes,
+            key_type=key_type)
     deserialized_item = None
     for valid_class in valid_classes_coercible:
         try:
             if issubclass(valid_class, OpenApiModel):
-                deserialized_item = deserialize_model(
-                    input_value,
-                    valid_class,
-                    path_to_item,
-                    configuration
-                )
-            elif isinstance(valid_class, file_type):
-                deserialized_item = deserialize_file(
-                    input_value, configuration)
-            else:
-                deserialized_item = deserialize_primitive(
-                    input_value,
-                    valid_class,
-                    path_to_item
-                )
-            return deserialized_item
+                return deserialize_model(input_value, valid_class,
+                                         path_to_item, configuration)
+            elif valid_class == file_type:
+                return deserialize_file(input_value, configuration)
+            return deserialize_primitive(input_value,valid_class, path_to_item)
         except (ApiTypeError, ApiValueError, ApiKeyError) as conversion_exc:
             if must_convert:
                 raise conversion_exc
@@ -414,17 +458,8 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
     results = get_required_type_classes(required_types_mixed)
     valid_classes, child_req_types_by_current_type = results
 
-    valid_type = False
-    for required_class in valid_classes:
-        if ((type(input_value) == bool and required_class == int) or
-                (type(input_value) == datetime and required_class == date)):
-            # we can't use isinstance because
-            # isinstance(True, int) == True == isinstance(datetime_val, date)
-            valid_type = False
-            continue
-        valid_type = isinstance(input_value, required_class)
-        if valid_type:
-            break
+    imput_class_simple = get_simple_class(input_value)
+    valid_type = imput_class_simple in set(valid_classes)
     if not valid_type:
         if configuration:
             # if input_value is not valid_type try to convert it
@@ -439,9 +474,8 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
     # input_value's type is in valid_classes
     if len(valid_classes) > 1 and configuration:
         # there are valid classes which are not the current class
-        valid_classes_ordered = order_response_types(valid_classes)
         valid_classes_coercible = remove_uncoercible(
-            valid_classes_ordered, input_value)
+            valid_classes, input_value, must_convert=False)
         if valid_classes_coercible:
             converted_instance = attempt_convert_item(input_value,
                 valid_classes_coercible, path_to_item, configuration,
@@ -474,7 +508,7 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
         for inner_key, inner_val in six.iteritems(input_value):
             inner_path = list(path_to_item)
             inner_path.append(inner_key)
-            if not isinstance(inner_key, str):
+            if get_simple_class(inner_key) != str:
                 raise get_type_error(inner_key, inner_path, valid_classes,
                     key_type=True)
             input_value[inner_key] = validate_and_convert_types(inner_val,
@@ -533,16 +567,39 @@ def type_error_message(var_value=None, var_name=None, valid_classes=None,
     key_or_value = 'value'
     if key_type:
         key_or_value = 'key'
-    valid_classes_phrase = 'is {0}'.format(valid_classes[0])
-    if len(valid_classes) > 1:
-        valid_classes_phrase = 'is one of {0}'.format(valid_classes)
+    valid_classes_phrase = get_valid_classes_phrase(valid_classes)
     msg = (
         "Invalid type for variable '{0}'. Required {1} type {2} and "
         "passed type was {3}".format(
             var_name,
             key_or_value,
             valid_classes_phrase,
-            type(var_value),
+            type(var_value).__name__,
         )
     )
     return msg
+
+
+def get_valid_classes_phrase(input_classes):
+    """Returns a string phrase describing what types are allowed
+    Note: Adds the extra valid classes in python2
+    """
+    all_classes = list(input_classes)
+    if six.PY2 and str in input_classes:
+        all_classes.extend([str_py2, unicode_py2])
+    if six.PY2 and int in input_classes:
+        all_classes.extend([int_py2, long_py2])
+    all_classes = sorted(all_classes, key=lambda cls: cls.__name__)
+    all_class_names = [cls.__name__ for cls in all_classes]
+    if len(all_class_names) == 1:
+        return 'is {0}'.format(all_class_names[0])
+    return "is one of [{0}]".format(", ".join(all_class_names))
+
+
+def get_py3_class_name(input_class):
+    if six.PY2:
+      if input_class == str:
+          return 'str'
+      elif input_class == int:
+          return 'int'
+    return input_class.__name__
