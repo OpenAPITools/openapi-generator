@@ -49,7 +49,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     protected String defaultCabalVersion = "0.1.0.0";
     protected String modulePath = null;
 
-    protected Boolean useMonadLogger = false;
+    protected Boolean useKatip = true;
     protected Boolean allowNonUniqueOperationIds = false;
     protected Boolean genEnums = true;
 
@@ -71,7 +71,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public static final String PROP_MODEL_DERIVING = "modelDeriving";
     public static final String PROP_REQUEST_TYPE = "requestType";
     public static final String PROP_STRICT_FIELDS = "strictFields";
-    public static final String PROP_USE_MONAD_LOGGER = "useMonadLogger";
+    public static final String PROP_USE_KATIP = "useKatip";
 
     // protected String MODEL_IMPORTS = "modelImports";
     // protected String MODEL_EXTENSIONS = "modelExtensions";
@@ -109,7 +109,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     static final String X_RETURN_TYPE = "x-returnType";
     static final String X_STRICT_FIELDS = "x-strictFields";
     static final String X_UNKNOWN_MIME_TYPES = "x-unknownMimeTypes";
-    static final String X_USE_MONAD_LOGGER = "x-useMonadLogger";
+    static final String X_USE_KATIP = "x-useKatip";
     static final String X_ALLOW_NONUNIQUE_OPERATION_IDS = "x-allowNonUniqueOperationIds";
     static final String X_NEWTYPE = "x-newtype";
     static final String X_ENUM = "x-enum";
@@ -260,7 +260,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
         cliOptions.add(CliOption.newString(PROP_MODEL_DERIVING, "Additional classes to include in the deriving() clause of Models"));
         cliOptions.add(CliOption.newBoolean(PROP_STRICT_FIELDS, "Add strictness annotations to all model fields").defaultValue((Boolean.TRUE.toString())));
-        cliOptions.add(CliOption.newBoolean(PROP_USE_MONAD_LOGGER, "Use the monad-logger package to provide logging (if false, use the katip logging package)").defaultValue((Boolean.FALSE.toString())));
+        cliOptions.add(CliOption.newBoolean(PROP_USE_KATIP, "Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger").defaultValue((Boolean.TRUE.toString())));
 
         cliOptions.add(CliOption.newString(PROP_DATETIME_FORMAT, "format string used to parse/render a datetime"));
         cliOptions.add(CliOption.newString(PROP_DATE_FORMAT, "format string used to parse/render a date").defaultValue(defaultDateFormat));
@@ -343,9 +343,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         additionalProperties.put(X_STRICT_FIELDS, value);
     }
 
-    public void setUseMonadLogger(Boolean value) {
-        additionalProperties.put(X_USE_MONAD_LOGGER, value);
-        this.useMonadLogger = value;
+    public void setUseKatip(Boolean value) {
+        additionalProperties.put(X_USE_KATIP, value);
+        this.useKatip = value;
     }
 
     private void setStringProp(String key, String value) {
@@ -439,10 +439,10 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         } else {
             setStrictFields(true);
         }
-        if (additionalProperties.containsKey(PROP_USE_MONAD_LOGGER)) {
-            setUseMonadLogger(convertPropertyToBoolean(PROP_USE_MONAD_LOGGER));
+        if (additionalProperties.containsKey(PROP_USE_KATIP)) {
+            setUseKatip(convertPropertyToBoolean(PROP_USE_KATIP));
         } else {
-            setUseMonadLogger(false);
+            setUseKatip(true);
         }
 
         if (additionalProperties.containsKey(PROP_CABAL_PACKAGE)) {
@@ -524,7 +524,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         supportingFiles.add(new SupportingFile("MimeTypes.mustache", modulePath, "MimeTypes.hs"));
 
         // logger
-        supportingFiles.add(new SupportingFile(useMonadLogger ? "LoggingMonadLogger.mustache" : "LoggingKatip.mustache", modulePath, "Logging.hs"));
+        supportingFiles.add(new SupportingFile("Logging.mustache", modulePath, "Logging.hs"));
+        supportingFiles.add(new SupportingFile("LoggingMonadLogger.mustache", modulePath, "LoggingMonadLogger.hs"));
+        supportingFiles.add(new SupportingFile("LoggingKatip.mustache", modulePath, "LoggingKatip.hs"));
 
         apiTemplateFiles.put("API.mustache", ".hs");
         // modelTemplateFiles.put("Model.mustache", ".hs");
