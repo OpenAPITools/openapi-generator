@@ -155,7 +155,6 @@ runPet mgr config = do
 
 
 -- * STORE
-instance S.Consumes S.PlaceOrder S.MimeJSON
 
 runStore :: NH.Manager -> S.OpenAPIPetstoreConfig -> IO ()
 runStore mgr config = do
@@ -188,11 +187,6 @@ runStore mgr config = do
 
 
 -- * USER
-
-instance S.Consumes S.CreateUser S.MimeJSON
-instance S.Consumes S.CreateUsersWithArrayInput S.MimeJSON
-instance S.Consumes S.CreateUsersWithListInput S.MimeJSON
-instance S.Consumes S.UpdateUser S.MimeJSON
 
 runUser :: NH.Manager -> S.OpenAPIPetstoreConfig -> IO ()
 runUser mgr config = do

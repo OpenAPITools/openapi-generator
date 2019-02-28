@@ -164,8 +164,6 @@ testPetOps mgr config =
 
 -- * STORE TESTS
   
-instance S.Consumes S.PlaceOrder S.MimeJSON
-
 testStoreOps :: NH.Manager -> S.OpenAPIPetstoreConfig -> Spec
 testStoreOps mgr config = do
 
@@ -221,11 +219,6 @@ testStoreOps mgr config = do
 
 
 -- * USER TESTS
-
-instance S.Consumes S.CreateUser S.MimeJSON
-instance S.Consumes S.CreateUsersWithArrayInput S.MimeJSON
-instance S.Consumes S.CreateUsersWithListInput S.MimeJSON
-instance S.Consumes S.UpdateUser S.MimeJSON
 
 testUserOps :: NH.Manager -> S.OpenAPIPetstoreConfig -> Spec
 testUserOps mgr config = do
