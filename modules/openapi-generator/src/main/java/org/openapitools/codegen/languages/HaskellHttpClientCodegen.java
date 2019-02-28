@@ -49,7 +49,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     protected String defaultCabalVersion = "0.1.0.0";
     protected String modulePath = null;
 
-    protected Boolean useKatip = false;
+    protected Boolean useKatip = true;
     protected Boolean allowNonUniqueOperationIds = false;
     protected Boolean genEnums = true;
 
@@ -260,7 +260,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
         cliOptions.add(CliOption.newString(PROP_MODEL_DERIVING, "Additional classes to include in the deriving() clause of Models"));
         cliOptions.add(CliOption.newBoolean(PROP_STRICT_FIELDS, "Add strictness annotations to all model fields").defaultValue((Boolean.TRUE.toString())));
-        cliOptions.add(CliOption.newBoolean(PROP_USE_KATIP, "Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger").defaultValue((Boolean.FALSE.toString())));
+        cliOptions.add(CliOption.newBoolean(PROP_USE_KATIP, "Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger").defaultValue((Boolean.TRUE.toString())));
 
         cliOptions.add(CliOption.newString(PROP_DATETIME_FORMAT, "format string used to parse/render a datetime"));
         cliOptions.add(CliOption.newString(PROP_DATE_FORMAT, "format string used to parse/render a date").defaultValue(defaultDateFormat));
@@ -442,7 +442,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         if (additionalProperties.containsKey(PROP_USE_KATIP)) {
             setUseKatip(convertPropertyToBoolean(PROP_USE_KATIP));
         } else {
-            setUseKatip(false);
+            setUseKatip(true);
         }
 
         if (additionalProperties.containsKey(PROP_CABAL_PACKAGE)) {

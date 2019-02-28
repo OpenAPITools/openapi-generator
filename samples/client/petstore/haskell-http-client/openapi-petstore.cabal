@@ -27,7 +27,7 @@ extra-source-files:
 
 Flag UseKatip
   Description: Use the katip package to provide logging (if false, use the default monad-logger package)
-  Default:     False
+  Default:     True
   Manual:      True
 
 library
