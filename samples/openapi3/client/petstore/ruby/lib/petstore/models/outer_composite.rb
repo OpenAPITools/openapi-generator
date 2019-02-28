@@ -41,20 +41,27 @@ module Petstore
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
-      return unless attributes.is_a?(Hash)
+      if (!attributes.is_a?(Hash))
+        fail ArgumentError, "The input argument (attributes) must be a hash in `Petstore::OuterComposite` initialize method"
+      end
 
-      # convert string to symbol for hash key
-      attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
+      # check to see if the attribute exists and convert string to symbol for hash key
+      attributes = attributes.each_with_object({}) { |(k, v), h|
+        if (!self.class.attribute_map.key?(k.to_sym))
+          fail ArgumentError, "`#{k}` is not a valid attribute in `Petstore::OuterComposite`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+        end
+        h[k.to_sym] = v
+      }
 
-      if attributes.has_key?(:'my_number')
+      if attributes.key?(:'my_number')
         self.my_number = attributes[:'my_number']
       end
 
-      if attributes.has_key?(:'my_string')
+      if attributes.key?(:'my_string')
         self.my_string = attributes[:'my_string']
       end
 
-      if attributes.has_key?(:'my_boolean')
+      if attributes.key?(:'my_boolean')
         self.my_boolean = attributes[:'my_boolean']
       end
     end

@@ -113,7 +113,7 @@ public class Pet   {
    **/
   @JsonProperty("category")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public Category getCategory() {
     return category;
   }
@@ -133,8 +133,7 @@ public class Pet   {
    **/
   @JsonProperty("name")
   @ApiModelProperty(example = "doggie", required = true, value = "")
-    @NotNull
-
+  @NotNull 
   public String getName() {
     return name;
   }
@@ -159,8 +158,7 @@ public class Pet   {
    **/
   @JsonProperty("photoUrls")
   @ApiModelProperty(required = true, value = "")
-    @NotNull
-
+  @NotNull 
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -188,7 +186,7 @@ public class Pet   {
    **/
   @JsonProperty("tags")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public List<Tag> getTags() {
     return tags;
   }

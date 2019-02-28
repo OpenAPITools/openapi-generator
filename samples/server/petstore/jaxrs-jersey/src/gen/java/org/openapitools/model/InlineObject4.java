@@ -43,8 +43,7 @@ public class InlineObject4   {
    **/
   @JsonProperty("param")
   @ApiModelProperty(required = true, value = "field1")
-    @NotNull
-
+  @NotNull 
   public String getParam() {
     return param;
   }
@@ -64,8 +63,7 @@ public class InlineObject4   {
    **/
   @JsonProperty("param2")
   @ApiModelProperty(required = true, value = "field2")
-    @NotNull
-
+  @NotNull 
   public String getParam2() {
     return param2;
   }
