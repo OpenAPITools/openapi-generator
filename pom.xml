@@ -1364,7 +1364,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-parser-groupid>org.openapitools.swagger.parser</swagger-parser-groupid>
-        <swagger-parser-version>2.0.10-SNAPSHOT</swagger-parser-version>
+        <swagger-parser-version>2.0.10-SNAPSHOT</swagger-parser-version><!-- TODO: WIP, set a released version -->
         <swagger-core-version>2.0.6</swagger-core-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.1</felix-version>
