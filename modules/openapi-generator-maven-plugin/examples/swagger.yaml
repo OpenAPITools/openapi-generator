@@ -110,8 +110,7 @@ paths:
           - "available"
           - "pending"
           - "sold"
-          default:
-          - "available"
+          default: "available"
         collectionFormat: "csv"
       responses:
         200:

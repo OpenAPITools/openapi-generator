@@ -74,8 +74,7 @@ paths:
                 - available
                 - pending
                 - sold
-              default:
-                - available
+              default: available
       responses:
         '200':
           description: successful operation
