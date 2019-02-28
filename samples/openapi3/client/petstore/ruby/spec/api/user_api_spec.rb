@@ -19,7 +19,7 @@ require 'json'
 describe 'UserApi' do
   before do
     # run before each test
-    @instance = Petstore::UserApi.new
+    @api_instance = Petstore::UserApi.new
   end
 
   after do
@@ -28,7 +28,7 @@ describe 'UserApi' do
 
   describe 'test an instance of UserApi' do
     it 'should create an instance of UserApi' do
-      expect(@instance).to be_instance_of(Petstore::UserApi)
+      expect(@api_instance).to be_instance_of(Petstore::UserApi)
     end
   end
 
