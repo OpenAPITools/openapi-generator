@@ -25,6 +25,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.TreeSet;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -144,8 +145,30 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        // don't do enum modifications
-        return objs;
+        // process enum in models
+        List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            cm.imports = new TreeSet(cm.imports);
+            // name enum with model name, e.g. StatusEnum => PetStatusEnum
+            for (CodegenProperty var : cm.vars) {
+                if (Boolean.TRUE.equals(var.isEnum)) {
+                    // behaviour for enum names is specific for typescript to not use namespaces
+                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+                }
+            }
+            if (cm.parent != null) {
+                for (CodegenProperty var : cm.allVars) {
+                    if (Boolean.TRUE.equals(var.isEnum)) {
+                        var.datatypeWithEnum = var.datatypeWithEnum
+                                .replace(var.enumName, cm.classname + var.enumName);
+                    }
+                }
+            }
+        }
+
+         return objs;
     }
 
     @Override

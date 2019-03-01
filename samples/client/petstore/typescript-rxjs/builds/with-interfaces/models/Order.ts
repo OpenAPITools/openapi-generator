@@ -46,7 +46,7 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    status?: StatusEnum;
+    status?: OrderStatusEnum;
     /**
      * 
      * @type {boolean}
@@ -59,6 +59,9 @@ export interface Order {
  * @export
  * @enum {string}
  */
-export enum StatusEnum {
+export enum OrderStatusEnum {
+    Placed = 'placed',
+    Approved = 'approved',
+    Delivered = 'delivered'
 }
 
