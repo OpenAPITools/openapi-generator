@@ -42,6 +42,7 @@ from petstore_api.model_utils import (
     none_type,
     str
 )
+from petstore_api.rest import RESTResponse
 
 MockResponse = namedtuple('MockResponse', 'data')
 
@@ -79,6 +80,10 @@ class DeserializationTests(unittest.TestCase):
 
     def test_enum_test(self):
         """ deserialize dict(str, Enum_Test) """
+
+        # TODO: fix this test
+        # this test will not work until this issue is fixed:
+        # https://github.com/OpenAPITools/openapi-generator/issues/1991
         data = {
             'enum_test': {
                 "enum_string": "UPPER",
@@ -647,3 +652,43 @@ class DeserializationTests(unittest.TestCase):
             deserialized = self.deserialize(response, response_types_mixed)
             self.assertTrue(isinstance(deserialized, AdditionalPropertiesAnyType))
             self.assertEqual(deserialized['some_var'], output)
+
+    def test_deserialize_file(self):
+        """Ensures that file deserialization works"""
+        response_types_mixed = [file_type]
+
+        # sample from http://www.jtricks.com/download-text
+        HTTPResponse = namedtuple(
+            'urllib3_response_HTTPResponse',
+            ['status', 'reason', 'data', 'getheaders', 'getheader']
+        )
+        headers = {'Content-Disposition': 'attachment; filename=content.txt'}
+        def get_headers():
+            return headers
+        def get_header(name, default=None):
+            return headers.get(name, default)
+        file_data = (
+            "You are reading text file that was supposed to be downloaded\r\n"
+            "to your hard disk. If your browser offered to save you the file,"
+            "\r\nthen it handled the Content-Disposition header correctly."
+        )
+        http_response = HTTPResponse(
+            status=200,
+            reason='OK',
+            data=file_data,
+            getheaders=get_headers,
+            getheader=get_header
+        )
+        # response which is deserialized to a file
+        mock_response = RESTResponse(http_response)
+        file_path = None
+        try:
+            file_path = self.deserialize(mock_response, response_types_mixed)
+            self.assertTrue(os.path.isfile(file_path))
+            if six.PY3:
+                file_data = file_data.encode('utf-8')
+            with open(file_path, 'rb') as file_object:
+                self.assertEqual(file_object.read(), file_data)
+        finally:
+            if file_path:
+                os.unlink(file_path)

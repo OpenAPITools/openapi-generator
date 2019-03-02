@@ -40,8 +40,7 @@ class OpenApiModel(object):
 
 def get_simple_class(input_value):
     """Returns an input_value's simple class that we will use for type checking
-    All models that inherit from OpenApiModel will return OpenApiModel
-    Python2
+    Python2:
     float and int will return int, where int is the python3 int backport
     str and unicode will return str, where str is the python3 str backport
     Note: float and int ARE both instances of int backport
@@ -75,8 +74,6 @@ def get_simple_class(input_value):
         # isinstance(datetime_instance, date) == True
         return datetime
     elif isinstance(input_value, date):
-        # this must be higher than the int check because
-        # isinstance(datetime_instance, date) == True
         return datetime
     elif (six.PY2 and isinstance(input_value, (str_py2, unicode_py2, str)) or
             isinstance(input_value, str)):
@@ -344,8 +341,7 @@ def deserialize_model(model_data, model_class, path_to_item, configuration):
     return instance
 
 
-def deserialize_file(self, response_data, configuration,
-                     content_disposition=None):
+def deserialize_file(response_data, configuration, content_disposition=None):
     """Deserializes body to file
 
     Saves response body into a file in a temporary folder,
@@ -372,6 +368,9 @@ def deserialize_file(self, response_data, configuration,
         path = os.path.join(os.path.dirname(path), filename)
 
     with open(path, "wb") as f:
+        if six.PY3 and isisinstance(response_data, str):
+            # in python3 change str to bytes so we can write it
+            response_data = response_data.encode('utf-8')
         f.write(response_data)
 
     return path

@@ -10,9 +10,7 @@
 
 from __future__ import absolute_import
 
-from collections import OrderedDict
 import copy
-import inspect
 import json
 import mimetypes
 from multiprocessing.pool import ThreadPool
@@ -67,7 +65,11 @@ class ApiClient(object):
         to the API. More threads means more concurrent API requests.
     """
 
-    PRIMITIVE_TYPES = (float, bool, bytes, six.text_type) + six.integer_types
+    # six.binary_type python2=str, python3=bytes
+    # six.text_type python2=unicode, python3=str
+    PRIMITIVE_TYPES = (
+      (float, bool, six.binary_type, six.text_type) + six.integer_types
+    )
     _pool = None
 
     def __init__(self, configuration=None, header_name=None, header_value=None,
@@ -256,8 +258,8 @@ class ApiClient(object):
             # this path is used if we are deserializing string data
             received_data = response.data
 
-        # start our path as 'received_data' so users have some context
-        # if they are deserializing a string and the data type is wrong
+        # store our data under the key of 'received_data' so users have some
+        # context if they are deserializing a string and the data type is wrong
         deserialized_data = validate_and_convert_types(
             received_data,
             response_types_mixed,

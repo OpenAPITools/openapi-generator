@@ -48,8 +48,7 @@ class OpenApiModel(object):
 
 def get_simple_class(input_value):
     """Returns an input_value's simple class that we will use for type checking
-    All models that inherit from OpenApiModel will return OpenApiModel
-    Python2
+    Python2:
     float and int will return int, where int is the python3 int backport
     str and unicode will return str, where str is the python3 str backport
     Note: float and int ARE both instances of int backport
@@ -75,16 +74,14 @@ def get_simple_class(input_value):
         # isinstance(True, int) == True
         return bool
     elif isinstance(input_value, int):
-        # for pytho2 input_value==float_instance -> return int
+        # for python2 input_value==long_instance -> return int
         # where int is the python3 int backport
         return int
     elif isinstance(input_value, datetime):
-        # this must be higher than the int check because
+        # this must be higher than the date check because
         # isinstance(datetime_instance, date) == True
         return datetime
     elif isinstance(input_value, date):
-        # this must be higher than the int check because
-        # isinstance(datetime_instance, date) == True
         return datetime
     elif (six.PY2 and isinstance(input_value, (str_py2, unicode_py2, str)) or
             isinstance(input_value, str)):
@@ -352,8 +349,7 @@ def deserialize_model(model_data, model_class, path_to_item, configuration):
     return instance
 
 
-def deserialize_file(self, response_data, configuration,
-                     content_disposition=None):
+def deserialize_file(response_data, configuration, content_disposition=None):
     """Deserializes body to file
 
     Saves response body into a file in a temporary folder,
@@ -380,6 +376,9 @@ def deserialize_file(self, response_data, configuration,
         path = os.path.join(os.path.dirname(path), filename)
 
     with open(path, "wb") as f:
+        if six.PY3 and isisinstance(response_data, str):
+            # in python3 change str to bytes so we can write it
+            response_data = response_data.encode('utf-8')
         f.write(response_data)
 
     return path
@@ -420,7 +419,8 @@ def attempt_convert_item(input_value, valid_classes, path_to_item,
                                          path_to_item, configuration)
             elif valid_class == file_type:
                 return deserialize_file(input_value, configuration)
-            return deserialize_primitive(input_value,valid_class, path_to_item)
+            return deserialize_primitive(input_value, valid_class,
+                                         path_to_item)
         except (ApiTypeError, ApiValueError, ApiKeyError) as conversion_exc:
             if must_convert:
                 raise conversion_exc
@@ -458,8 +458,8 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
     results = get_required_type_classes(required_types_mixed)
     valid_classes, child_req_types_by_current_type = results
 
-    imput_class_simple = get_simple_class(input_value)
-    valid_type = imput_class_simple in set(valid_classes)
+    input_class_simple = get_simple_class(input_value)
+    valid_type = input_class_simple in set(valid_classes)
     if not valid_type:
         if configuration:
             # if input_value is not valid_type try to convert it
