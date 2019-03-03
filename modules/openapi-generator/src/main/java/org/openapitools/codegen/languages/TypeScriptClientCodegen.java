@@ -678,7 +678,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             inner = (Schema) p.getAdditionalProperties();
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
-        	// TODO: Change type declaration
+            // TODO: Change type declaration
             return "HttpFile";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "any";
