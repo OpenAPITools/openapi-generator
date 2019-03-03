@@ -19,7 +19,7 @@ export class PetApi {
 		this.responseProcessor = new PetApiResponseProcessor();
 	}
 
-    public addPet(pet: Pet, options?: any): Promise<void> {
+    public addPet(pet: Pet, options?: Configuration): Promise<void> {
     	const requestContext = this.requestFactory.addPet(pet, options);
 
 		// build promise chain
@@ -38,7 +38,7 @@ export class PetApi {
 	    	});
     }
 	
-    public deletePet(petId: number, apiKey?: string, options?: any): Promise<void> {
+    public deletePet(petId: number, apiKey?: string, options?: Configuration): Promise<void> {
     	const requestContext = this.requestFactory.deletePet(petId, apiKey, options);
 
 		// build promise chain
@@ -57,7 +57,7 @@ export class PetApi {
 	    	});
     }
 	
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: any): Promise<Array<Pet>> {
+    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Promise<Array<Pet>> {
     	const requestContext = this.requestFactory.findPetsByStatus(status, options);
 
 		// build promise chain
@@ -76,7 +76,7 @@ export class PetApi {
 	    	});
     }
 	
-    public findPetsByTags(tags: Array<string>, options?: any): Promise<Array<Pet>> {
+    public findPetsByTags(tags: Array<string>, options?: Configuration): Promise<Array<Pet>> {
     	const requestContext = this.requestFactory.findPetsByTags(tags, options);
 
 		// build promise chain
@@ -95,7 +95,7 @@ export class PetApi {
 	    	});
     }
 	
-    public getPetById(petId: number, options?: any): Promise<Pet> {
+    public getPetById(petId: number, options?: Configuration): Promise<Pet> {
     	const requestContext = this.requestFactory.getPetById(petId, options);
 
 		// build promise chain
@@ -114,7 +114,7 @@ export class PetApi {
 	    	});
     }
 	
-    public updatePet(pet: Pet, options?: any): Promise<void> {
+    public updatePet(pet: Pet, options?: Configuration): Promise<void> {
     	const requestContext = this.requestFactory.updatePet(pet, options);
 
 		// build promise chain
@@ -133,7 +133,7 @@ export class PetApi {
 	    	});
     }
 	
-    public updatePetWithForm(petId: number, name?: string, status?: string, options?: any): Promise<void> {
+    public updatePetWithForm(petId: number, name?: string, status?: string, options?: Configuration): Promise<void> {
     	const requestContext = this.requestFactory.updatePetWithForm(petId, name, status, options);
 
 		// build promise chain
@@ -152,7 +152,7 @@ export class PetApi {
 	    	});
     }
 	
-    public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, options?: any): Promise<ApiResponse> {
+    public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, options?: Configuration): Promise<ApiResponse> {
     	const requestContext = this.requestFactory.uploadFile(petId, additionalMetadata, file, options);
 
 		// build promise chain
@@ -187,7 +187,7 @@ export class StoreApi {
 		this.responseProcessor = new StoreApiResponseProcessor();
 	}
 
-    public deleteOrder(orderId: string, options?: any): Promise<void> {
+    public deleteOrder(orderId: string, options?: Configuration): Promise<void> {
     	const requestContext = this.requestFactory.deleteOrder(orderId, options);
 
 		// build promise chain
@@ -206,7 +206,7 @@ export class StoreApi {
 	    	});
     }
 	
-    public getInventory(options?: any): Promise<{ [key: string]: number; }> {
+    public getInventory(options?: Configuration): Promise<{ [key: string]: number; }> {
     	const requestContext = this.requestFactory.getInventory(options);
 
 		// build promise chain
@@ -225,7 +225,7 @@ export class StoreApi {
 	    	});
     }
 	
-    public getOrderById(orderId: number, options?: any): Promise<Order> {
+    public getOrderById(orderId: number, options?: Configuration): Promise<Order> {
     	const requestContext = this.requestFactory.getOrderById(orderId, options);
 
 		// build promise chain
@@ -244,7 +244,7 @@ export class StoreApi {
 	    	});
     }
 	
-    public placeOrder(order: Order, options?: any): Promise<Order> {
+    public placeOrder(order: Order, options?: Configuration): Promise<Order> {
     	const requestContext = this.requestFactory.placeOrder(order, options);
 
 		// build promise chain
@@ -279,7 +279,7 @@ export class UserApi {
 		this.responseProcessor = new UserApiResponseProcessor();
 	}
 
-    public createUser(user: User, options?: any): Promise<void> {
+    public createUser(user: User, options?: Configuration): Promise<void> {
     	const requestContext = this.requestFactory.createUser(user, options);
 
 		// build promise chain
@@ -298,7 +298,7 @@ export class UserApi {
 	    	});
     }
 	
-    public createUsersWithArrayInput(user: Array<User>, options?: any): Promise<void> {
+    public createUsersWithArrayInput(user: Array<User>, options?: Configuration): Promise<void> {
     	const requestContext = this.requestFactory.createUsersWithArrayInput(user, options);
 
 		// build promise chain
@@ -317,7 +317,7 @@ export class UserApi {
 	    	});
     }
 	
-    public createUsersWithListInput(user: Array<User>, options?: any): Promise<void> {
+    public createUsersWithListInput(user: Array<User>, options?: Configuration): Promise<void> {
     	const requestContext = this.requestFactory.createUsersWithListInput(user, options);
 
 		// build promise chain
@@ -336,7 +336,7 @@ export class UserApi {
 	    	});
     }
 	
-    public deleteUser(username: string, options?: any): Promise<void> {
+    public deleteUser(username: string, options?: Configuration): Promise<void> {
     	const requestContext = this.requestFactory.deleteUser(username, options);
 
 		// build promise chain
@@ -355,7 +355,7 @@ export class UserApi {
 	    	});
     }
 	
-    public getUserByName(username: string, options?: any): Promise<User> {
+    public getUserByName(username: string, options?: Configuration): Promise<User> {
     	const requestContext = this.requestFactory.getUserByName(username, options);
 
 		// build promise chain
@@ -374,7 +374,7 @@ export class UserApi {
 	    	});
     }
 	
-    public loginUser(username: string, password: string, options?: any): Promise<string> {
+    public loginUser(username: string, password: string, options?: Configuration): Promise<string> {
     	const requestContext = this.requestFactory.loginUser(username, password, options);
 
 		// build promise chain
@@ -393,7 +393,7 @@ export class UserApi {
 	    	});
     }
 	
-    public logoutUser(options?: any): Promise<void> {
+    public logoutUser(options?: Configuration): Promise<void> {
     	const requestContext = this.requestFactory.logoutUser(options);
 
 		// build promise chain
@@ -412,7 +412,7 @@ export class UserApi {
 	    	});
     }
 	
-    public updateUser(username: string, user: User, options?: any): Promise<void> {
+    public updateUser(username: string, user: User, options?: Configuration): Promise<void> {
     	const requestContext = this.requestFactory.updateUser(username, user, options);
 
 		// build promise chain

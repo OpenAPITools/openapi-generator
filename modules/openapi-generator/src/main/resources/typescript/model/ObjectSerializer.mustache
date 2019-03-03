@@ -6,7 +6,7 @@ export * from './{{{ classFilename }}}';
 
 {{#models}}
 {{#model}}
-import { {{classname}} } from './{{{ classFilename }}}';
+import { {{classname}}{{#hasEnums}}{{#vars}}{{#isEnum}}, {{classname}}{{enumName}} {{/isEnum}} {{/vars}}{{/hasEnums}} } from './{{{ classFilename }}}';
 {{/model}}
 {{/models}}
 
@@ -22,19 +22,19 @@ let primitives = [
                     "any"
                  ];
                  
-let enumsMap: {[index: string]: any} = {
+let enumsMap: Set<string> = new Set<string>([
     {{#models}}
         {{#model}}
             {{#hasEnums}}
                 {{#vars}}
                     {{#isEnum}}
-        {{#isContainer}}"{{classname}}.{{enumName}}": {{classname}}.{{enumName}}{{/isContainer}}{{#isNotContainer}}"{{datatypeWithEnum}}": {{datatypeWithEnum}}{{/isNotContainer}},
+					"{{classname}}{{enumName}}",
                     {{/isEnum}}
                 {{/vars}}
             {{/hasEnums}}
         {{/model}}
     {{/models}}
-}
+]);
 
 let typeMap: {[index: string]: any} = {
     {{#models}}
@@ -53,7 +53,7 @@ export class ObjectSerializer {
         } else if (expectedType === "Date") {
             return expectedType;
         } else {
-            if (enumsMap[expectedType]) {
+            if (enumsMap.has(expectedType)) {
                 return expectedType;
             }
 
@@ -97,7 +97,7 @@ export class ObjectSerializer {
         } else if (type === "Date") {
             return data.toISOString();
         } else {
-            if (enumsMap[type]) {
+            if (enumsMap.has(type)) {
                 return data;
             }
             if (!typeMap[type]) { // in case we dont know the type
@@ -137,7 +137,7 @@ export class ObjectSerializer {
         } else if (type === "Date") {
             return new Date(data);
         } else {
-            if (enumsMap[type]) {// is Enum
+            if (enumsMap.has(type)) {// is Enum
                 return data;
             }
 

@@ -16,7 +16,7 @@ export class Pet {
     /**
     * pet status in the store
     */
-    'status'?: Pet.StatusEnum;
+    'status'?: PetStatusEnum;
 
     static discriminator: string | undefined = undefined;
 
@@ -49,7 +49,7 @@ export class Pet {
         {
             "name": "status",
             "baseName": "status",
-            "type": "Pet.StatusEnum"
+            "type": "PetStatusEnum"
         }    ];
 
     static getAttributeTypeMap() {
@@ -57,10 +57,6 @@ export class Pet {
     }
 }
 
-export namespace Pet {
-    export enum StatusEnum {
-        Available = <any> 'available',
-        Pending = <any> 'pending',
-        Sold = <any> 'sold'
-    }
-}
+
+export type PetStatusEnum = "available" | "pending" | "sold" ;
+

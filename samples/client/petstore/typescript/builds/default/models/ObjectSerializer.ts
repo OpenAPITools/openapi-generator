@@ -7,8 +7,8 @@ export * from './User';
 
 import { ApiResponse } from './ApiResponse';
 import { Category } from './Category';
-import { Order } from './Order';
-import { Pet } from './Pet';
+import { Order    , OrderStatusEnum    } from './Order';
+import { Pet     , PetStatusEnum   } from './Pet';
 import { Tag } from './Tag';
 import { User } from './User';
 
@@ -24,10 +24,10 @@ let primitives = [
                     "any"
                  ];
                  
-let enumsMap: {[index: string]: any} = {
-        "Order.StatusEnum": Order.StatusEnum,
-        "Pet.StatusEnum": Pet.StatusEnum,
-}
+let enumsMap: Set<string> = new Set<string>([
+					"OrderStatusEnum",
+					"PetStatusEnum",
+]);
 
 let typeMap: {[index: string]: any} = {
     "ApiResponse": ApiResponse,
@@ -47,7 +47,7 @@ export class ObjectSerializer {
         } else if (expectedType === "Date") {
             return expectedType;
         } else {
-            if (enumsMap[expectedType]) {
+            if (enumsMap.has(expectedType)) {
                 return expectedType;
             }
 
@@ -91,7 +91,7 @@ export class ObjectSerializer {
         } else if (type === "Date") {
             return data.toISOString();
         } else {
-            if (enumsMap[type]) {
+            if (enumsMap.has(type)) {
                 return data;
             }
             if (!typeMap[type]) { // in case we dont know the type
@@ -131,7 +131,7 @@ export class ObjectSerializer {
         } else if (type === "Date") {
             return new Date(data);
         } else {
-            if (enumsMap[type]) {// is Enum
+            if (enumsMap.has(type)) {// is Enum
                 return data;
             }
 

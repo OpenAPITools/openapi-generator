@@ -13,7 +13,7 @@ export class Order {
     /**
     * Order Status
     */
-    'status'?: Order.StatusEnum;
+    'status'?: OrderStatusEnum;
     'complete'?: boolean;
 
     static discriminator: string | undefined = undefined;
@@ -42,7 +42,7 @@ export class Order {
         {
             "name": "status",
             "baseName": "status",
-            "type": "Order.StatusEnum"
+            "type": "OrderStatusEnum"
         },
         {
             "name": "complete",
@@ -55,10 +55,6 @@ export class Order {
     }
 }
 
-export namespace Order {
-    export enum StatusEnum {
-        Placed = <any> 'placed',
-        Approved = <any> 'approved',
-        Delivered = <any> 'delivered'
-    }
-}
+
+export type OrderStatusEnum = "placed" | "approved" | "delivered" ;
+

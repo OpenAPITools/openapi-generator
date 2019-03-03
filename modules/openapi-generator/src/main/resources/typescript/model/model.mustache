@@ -51,19 +51,13 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 }
 
 {{#hasEnums}}
-export namespace {{classname}} {
+
 {{#vars}}
 {{#isEnum}}
-    export enum {{enumName}} {
-        {{#allowableValues}}
-        {{#enumVars}}
-        {{name}} = <any> {{{value}}}{{^-last}},{{/-last}}
-        {{/enumVars}}
-        {{/allowableValues}}
-    }
+export type {{classname}}{{enumName}} ={{#allowableValues}}{{#values}} "{{.}}" {{^-last}}|{{/-last}}{{/values}}{{/allowableValues}};
 {{/isEnum}}
 {{/vars}}
-}
+
 {{/hasEnums}}
 {{/model}}
 {{/models}}
