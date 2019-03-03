@@ -20,4 +20,10 @@ type EnumTest struct {
 	EnumNumber float64 `json:"enum_number,omitempty"`
 
 	OuterEnum OuterEnum `json:"outerEnum,omitempty"`
+
+	OuterEnumInteger OuterEnumInteger `json:"outerEnumInteger,omitempty"`
+
+	OuterEnumDefaultValue OuterEnumDefaultValue `json:"outerEnumDefaultValue,omitempty"`
+
+	OuterEnumIntegerDefaultValue OuterEnumIntegerDefaultValue `json:"outerEnumIntegerDefaultValue,omitempty"`
 }
