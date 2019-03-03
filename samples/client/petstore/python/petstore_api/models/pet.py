@@ -71,12 +71,12 @@ class Pet(OpenApiModel):
         'status': 'status'  # noqa: E501
     }
 
-    def __init__(self, photo_urls, name='doggie', _check_type=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+    def __init__(self, name, photo_urls, _check_type=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
         """Pet - a model defined in OpenAPI
 
         Args:
+            name (str):
             photo_urls ([(str,)]):
-            name (str): defaults to 'doggie', must be one of ['doggie']  # noqa: E501
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types

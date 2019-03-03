@@ -18,14 +18,18 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
-from petstore_api.utils import (  # noqa: F401
+from petstore_api.exceptions import (
     ApiTypeError,
-    ApiValueError,
+    ApiValueError
+)
+from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
+    int,
     none_type,
-    validate_type
+    str,
+    validate_and_convert_types
 )
 from petstore_api.models.client import Client
 
@@ -102,9 +106,10 @@ class AnotherFakeApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'client' is set
         if ('client' not in local_var_params or
                 local_var_params['client'] is None):
@@ -143,7 +148,7 @@ class AnotherFakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_types=[Client],  # noqa: E501
+            response_types_mixed=[Client],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

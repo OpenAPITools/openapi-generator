@@ -18,14 +18,18 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
-from petstore_api.utils import (  # noqa: F401
+from petstore_api.exceptions import (
     ApiTypeError,
-    ApiValueError,
+    ApiValueError
+)
+from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
+    int,
     none_type,
-    validate_type
+    str,
+    validate_and_convert_types
 )
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.pet import Pet
@@ -111,9 +115,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet' is set
         if ('pet' not in local_var_params or
                 local_var_params['pet'] is None):
@@ -148,7 +153,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_types=None,  # noqa: E501
+            response_types_mixed=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -218,9 +223,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
@@ -253,7 +259,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_types=None,  # noqa: E501
+            response_types_mixed=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -321,9 +327,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'status' is set
         if ('status' not in local_var_params or
                 local_var_params['status'] is None):
@@ -359,7 +366,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_types=[[(Pet,)]],  # noqa: E501
+            response_types_mixed=[[(Pet,)]],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -427,9 +434,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'tags' is set
         if ('tags' not in local_var_params or
                 local_var_params['tags'] is None):
@@ -465,7 +473,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_types=[[(Pet,)]],  # noqa: E501
+            response_types_mixed=[[(Pet,)]],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -533,9 +541,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
@@ -570,7 +579,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_types=[Pet],  # noqa: E501
+            response_types_mixed=[Pet],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -646,9 +655,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet' is set
         if ('pet' not in local_var_params or
                 local_var_params['pet'] is None):
@@ -683,7 +693,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_types=None,  # noqa: E501
+            response_types_mixed=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -756,9 +766,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
@@ -797,7 +808,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_types=None,  # noqa: E501
+            response_types_mixed=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -869,9 +880,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
@@ -914,7 +926,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_types=[ApiResponse],  # noqa: E501
+            response_types_mixed=[ApiResponse],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -986,9 +998,10 @@ class PetApi(object):
 
         if _check_type:
             for param_name, param_value in six.iteritems(local_var_params):
-                required_type = data_types_by_param.get(param_name)
+                required_types_mixed = data_types_by_param.get(param_name)
                 if required_type:
-                    validate_type(param_value, required_type, [param_name])
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
@@ -1035,7 +1048,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_types=[ApiResponse],  # noqa: E501
+            response_types_mixed=[ApiResponse],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

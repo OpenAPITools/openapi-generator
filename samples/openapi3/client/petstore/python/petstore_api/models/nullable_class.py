@@ -15,17 +15,23 @@ import re  # noqa: F401
 
 import six
 
-from petstore_api.utils import (  # noqa: F401
+from petstore_api.exceptions import (
     ApiKeyError,
     ApiTypeError,
     ApiValueError,
+)
+from petstore_api.model_utils import (  # noqa: F401
     OpenApiModel,
     date,
     datetime,
     file_type,
+    get_simple_class,
+    int,
     model_to_dict,
     none_type,
-    validate_type
+    str,
+    type_error_message,
+    validate_and_convert_types
 )
 
 
@@ -78,7 +84,7 @@ class NullableClass(OpenApiModel):
     }
     additional_properties_type = [bool, date, datetime, dict, float, int, list, str, none_type]  # noqa: E501
 
-    def __init__(self, _check_type=False, **kwargs):  # noqa: E501
+    def __init__(self, _check_type=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
         """NullableClass - a model defined in OpenAPI
 
 
@@ -88,6 +94,13 @@ class NullableClass(OpenApiModel):
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
                                 Defaults to False
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
             integer_prop (int, none_type): [optional]  # noqa: E501
             number_prop (float, none_type): [optional]  # noqa: E501
             boolean_prop (bool, none_type): [optional]  # noqa: E501
@@ -105,6 +118,8 @@ class NullableClass(OpenApiModel):
         self._data_store = {}
         self.discriminator = None
         self._check_type = _check_type
+        self._path_to_item = _path_to_item
+        self._configuration = _configuration
 
         for var_name, var_value in six.iteritems(kwargs):
             if var_name in self.openapi_types:
@@ -116,23 +131,37 @@ class NullableClass(OpenApiModel):
     def __setitem__(self, name, value):
         if name in self.openapi_types:
             check_type = self._check_type
-            required_type = self.openapi_types[name]
+            required_types_mixed = self.openapi_types[name]
         else:
             check_type = True
-            required_type = self.additional_properties_type
+            required_types_mixed = self.additional_properties_type
 
-        variable_path = [name]
-        if not isinstance(name, str):
-            raise ApiTypeError(
-                (str,),
-                name,
-                variable_path,
-                value_type=False
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+
+        if get_simple_class(name) != str:
+            error_msg = type_error_message(
+                var_name=name,
+                var_value=name,
+                valid_classes=(str,),
+                key_type=True
             )
-        if check_type:
-            validate_type(value, required_type, variable_path)
+            raise ApiTypeError(
+                error_msg,
+                path_to_item=path_to_item,
+                valid_classes=(str,),
+                key_type=True
+            )
 
-        self._data_store[name] = value
+        if check_type:
+            self._data_store[name] = validate_and_convert_types(
+                value, required_types_mixed, path_to_item,
+                configuration=self._configuration)
+        else:
+            self._data_store[name] = value
+
         # set a variable name value for json serialization
         if (name not in self.openapi_types and
                 name not in self.attribute_map):
@@ -143,8 +172,15 @@ class NullableClass(OpenApiModel):
             return self._data_store.get(name)
         if name in self._data_store:
             return self._data_store[name]
-        raise ApiKeyError("{0} has no key {1}".format(
-            type(self).__name__, name))
+
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+        raise ApiKeyError(
+            "{0} has no key '{1}'".format(type(self).__name__, name),
+            [name]
+        )
 
     @property
     def integer_prop(self):

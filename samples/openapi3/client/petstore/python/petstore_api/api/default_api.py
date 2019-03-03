@@ -18,14 +18,18 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
-from petstore_api.utils import (  # noqa: F401
+from petstore_api.exceptions import (
     ApiTypeError,
-    ApiValueError,
+    ApiValueError
+)
+from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
+    int,
     none_type,
-    validate_type
+    str,
+    validate_and_convert_types
 )
 from petstore_api.models.inline_response_default import InlineResponseDefault
 
@@ -120,7 +124,7 @@ class DefaultApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_types=[InlineResponseDefault],  # noqa: E501
+            response_types_mixed=[InlineResponseDefault],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

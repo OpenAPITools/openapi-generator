@@ -67,15 +67,15 @@ class TypeHolderExample(OpenApiModel):
         'array_item': 'array_item'  # noqa: E501
     }
 
-    def __init__(self, string_item='what', number_item=1.234, integer_item=-2, bool_item=True, array_item=[0, 1, 2, 3], _check_type=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
+    def __init__(self, string_item, number_item, integer_item, bool_item, array_item, _check_type=False, _path_to_item=(), _configuration=None, **kwargs):  # noqa: E501
         """TypeHolderExample - a model defined in OpenAPI
 
         Args:
-            string_item (str): defaults to 'what', must be one of ['what']  # noqa: E501
-            number_item (float): defaults to 1.234, must be one of [1.234]  # noqa: E501
-            integer_item (int): defaults to -2, must be one of [-2]  # noqa: E501
-            bool_item (bool): defaults to True, must be one of [True]  # noqa: E501
-            array_item ([(int,)]): defaults to [0, 1, 2, 3], must be one of [[0, 1, 2, 3]]  # noqa: E501
+            string_item (str):
+            number_item (float):
+            integer_item (int):
+            bool_item (bool):
+            array_item ([(int,)]):
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types

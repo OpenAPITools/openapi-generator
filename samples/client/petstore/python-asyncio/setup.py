@@ -32,6 +32,11 @@ setup(
     url="",
     keywords=["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"],
     install_requires=REQUIRES,
+    extras_require={
+        ':python_version <= "2.7"': [
+            'future',
+        ],
+    },
     packages=find_packages(),
     include_package_data=True,
     long_description="""\

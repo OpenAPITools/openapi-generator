@@ -18,6 +18,20 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
+from petstore_api.exceptions import (
+    ApiTypeError,
+    ApiValueError
+)
+from petstore_api.model_utils import (  # noqa: F401
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_and_convert_types
+)
+from petstore_api.models.client import Client
 
 
 class AnotherFakeApi(object):
@@ -32,7 +46,7 @@ class AnotherFakeApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def call_123_test_special_tags(self, body, **kwargs):  # noqa: E501
+    def call_123_test_special_tags(self, body, _check_type=False, **kwargs):  # noqa: E501
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501
@@ -49,12 +63,12 @@ class AnotherFakeApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.call_123_test_special_tags_with_http_info(body, **kwargs)  # noqa: E501
+            return self.call_123_test_special_tags_with_http_info(body, _check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.call_123_test_special_tags_with_http_info(body, **kwargs)  # noqa: E501
+            (data) = self.call_123_test_special_tags_with_http_info(body, _check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def call_123_test_special_tags_with_http_info(self, body, **kwargs):  # noqa: E501
+    def call_123_test_special_tags_with_http_info(self, body, _check_type=False, **kwargs):  # noqa: E501
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501
@@ -80,16 +94,26 @@ class AnotherFakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method call_123_test_special_tags" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+        data_types_by_param = {
+            'body': [Client],
+        }
+
+        if _check_type:
+            for param_name, param_value in six.iteritems(local_var_params):
+                required_types_mixed = data_types_by_param.get(param_name)
+                if required_type:
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'body' is set
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `call_123_test_special_tags`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `body` when calling `call_123_test_special_tags`")  # noqa: E501
 
         collection_formats = {}
 
@@ -124,7 +148,7 @@ class AnotherFakeApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='Client',  # noqa: E501
+            response_types_mixed=[Client],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

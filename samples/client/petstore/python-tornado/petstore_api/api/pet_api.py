@@ -18,6 +18,21 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
+from petstore_api.exceptions import (
+    ApiTypeError,
+    ApiValueError
+)
+from petstore_api.model_utils import (  # noqa: F401
+    date,
+    datetime,
+    file_type,
+    int,
+    none_type,
+    str,
+    validate_and_convert_types
+)
+from petstore_api.models.api_response import ApiResponse
+from petstore_api.models.pet import Pet
 
 
 class PetApi(object):
@@ -32,7 +47,7 @@ class PetApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def add_pet(self, body, **kwargs):  # noqa: E501
+    def add_pet(self, body, _check_type=False, **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -48,12 +63,12 @@ class PetApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.add_pet_with_http_info(body, **kwargs)  # noqa: E501
+            return self.add_pet_with_http_info(body, _check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.add_pet_with_http_info(body, **kwargs)  # noqa: E501
+            (data) = self.add_pet_with_http_info(body, _check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def add_pet_with_http_info(self, body, **kwargs):  # noqa: E501
+    def add_pet_with_http_info(self, body, _check_type=False, **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -78,16 +93,26 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method add_pet" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+        data_types_by_param = {
+            'body': [Pet],
+        }
+
+        if _check_type:
+            for param_name, param_value in six.iteritems(local_var_params):
+                required_types_mixed = data_types_by_param.get(param_name)
+                if required_type:
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'body' is set
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `add_pet`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `body` when calling `add_pet`")  # noqa: E501
 
         collection_formats = {}
 
@@ -118,7 +143,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_mixed=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -126,7 +151,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def delete_pet(self, pet_id, **kwargs):  # noqa: E501
+    def delete_pet(self, pet_id, _check_type=False, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -143,12 +168,12 @@ class PetApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.delete_pet_with_http_info(pet_id, **kwargs)  # noqa: E501
+            return self.delete_pet_with_http_info(pet_id, _check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.delete_pet_with_http_info(pet_id, **kwargs)  # noqa: E501
+            (data) = self.delete_pet_with_http_info(pet_id, _check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def delete_pet_with_http_info(self, pet_id, **kwargs):  # noqa: E501
+    def delete_pet_with_http_info(self, pet_id, _check_type=False, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -174,16 +199,27 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method delete_pet" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+        data_types_by_param = {
+            'pet_id': [int],
+            'api_key': [str],
+        }
+
+        if _check_type:
+            for param_name, param_value in six.iteritems(local_var_params):
+                required_types_mixed = data_types_by_param.get(param_name)
+                if required_type:
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
-            raise ValueError("Missing the required parameter `pet_id` when calling `delete_pet`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `pet_id` when calling `delete_pet`")  # noqa: E501
 
         collection_formats = {}
 
@@ -212,7 +248,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_mixed=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -220,7 +256,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def find_pets_by_status(self, status, **kwargs):  # noqa: E501
+    def find_pets_by_status(self, status, _check_type=False, **kwargs):  # noqa: E501
         """Finds Pets by status  # noqa: E501
 
         Multiple status values can be provided with comma separated strings  # noqa: E501
@@ -230,19 +266,19 @@ class PetApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param list[str] status: Status values that need to be considered for filter (required)
-        :return: list[Pet]
+        :param [(str,)] status: Status values that need to be considered for filter (required)
+        :return: [(Pet,)]
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
+            return self.find_pets_by_status_with_http_info(status, _check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
+            (data) = self.find_pets_by_status_with_http_info(status, _check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def find_pets_by_status_with_http_info(self, status, **kwargs):  # noqa: E501
+    def find_pets_by_status_with_http_info(self, status, _check_type=False, **kwargs):  # noqa: E501
         """Finds Pets by status  # noqa: E501
 
         Multiple status values can be provided with comma separated strings  # noqa: E501
@@ -252,8 +288,8 @@ class PetApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param list[str] status: Status values that need to be considered for filter (required)
-        :return: list[Pet]
+        :param [(str,)] status: Status values that need to be considered for filter (required)
+        :return: [(Pet,)]
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -268,16 +304,26 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method find_pets_by_status" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+        data_types_by_param = {
+            'status': [[(str,)]],
+        }
+
+        if _check_type:
+            for param_name, param_value in six.iteritems(local_var_params):
+                required_types_mixed = data_types_by_param.get(param_name)
+                if required_type:
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'status' is set
         if ('status' not in local_var_params or
                 local_var_params['status'] is None):
-            raise ValueError("Missing the required parameter `status` when calling `find_pets_by_status`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `status` when calling `find_pets_by_status`")  # noqa: E501
 
         collection_formats = {}
 
@@ -309,7 +355,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='list[Pet]',  # noqa: E501
+            response_types_mixed=[[(Pet,)]],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -317,7 +363,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def find_pets_by_tags(self, tags, **kwargs):  # noqa: E501
+    def find_pets_by_tags(self, tags, _check_type=False, **kwargs):  # noqa: E501
         """Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
@@ -327,19 +373,19 @@ class PetApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param list[str] tags: Tags to filter by (required)
-        :return: list[Pet]
+        :param [(str,)] tags: Tags to filter by (required)
+        :return: [(Pet,)]
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
+            return self.find_pets_by_tags_with_http_info(tags, _check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
+            (data) = self.find_pets_by_tags_with_http_info(tags, _check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def find_pets_by_tags_with_http_info(self, tags, **kwargs):  # noqa: E501
+    def find_pets_by_tags_with_http_info(self, tags, _check_type=False, **kwargs):  # noqa: E501
         """Finds Pets by tags  # noqa: E501
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
@@ -349,8 +395,8 @@ class PetApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param list[str] tags: Tags to filter by (required)
-        :return: list[Pet]
+        :param [(str,)] tags: Tags to filter by (required)
+        :return: [(Pet,)]
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -365,16 +411,26 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method find_pets_by_tags" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+        data_types_by_param = {
+            'tags': [[(str,)]],
+        }
+
+        if _check_type:
+            for param_name, param_value in six.iteritems(local_var_params):
+                required_types_mixed = data_types_by_param.get(param_name)
+                if required_type:
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'tags' is set
         if ('tags' not in local_var_params or
                 local_var_params['tags'] is None):
-            raise ValueError("Missing the required parameter `tags` when calling `find_pets_by_tags`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `tags` when calling `find_pets_by_tags`")  # noqa: E501
 
         collection_formats = {}
 
@@ -406,7 +462,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='list[Pet]',  # noqa: E501
+            response_types_mixed=[[(Pet,)]],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -414,7 +470,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def get_pet_by_id(self, pet_id, **kwargs):  # noqa: E501
+    def get_pet_by_id(self, pet_id, _check_type=False, **kwargs):  # noqa: E501
         """Find pet by ID  # noqa: E501
 
         Returns a single pet  # noqa: E501
@@ -431,12 +487,12 @@ class PetApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
+            return self.get_pet_by_id_with_http_info(pet_id, _check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
+            (data) = self.get_pet_by_id_with_http_info(pet_id, _check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def get_pet_by_id_with_http_info(self, pet_id, **kwargs):  # noqa: E501
+    def get_pet_by_id_with_http_info(self, pet_id, _check_type=False, **kwargs):  # noqa: E501
         """Find pet by ID  # noqa: E501
 
         Returns a single pet  # noqa: E501
@@ -462,16 +518,26 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method get_pet_by_id" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+        data_types_by_param = {
+            'pet_id': [int],
+        }
+
+        if _check_type:
+            for param_name, param_value in six.iteritems(local_var_params):
+                required_types_mixed = data_types_by_param.get(param_name)
+                if required_type:
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
-            raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")  # noqa: E501
 
         collection_formats = {}
 
@@ -502,7 +568,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='Pet',  # noqa: E501
+            response_types_mixed=[Pet],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -510,7 +576,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def update_pet(self, body, **kwargs):  # noqa: E501
+    def update_pet(self, body, _check_type=False, **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -526,12 +592,12 @@ class PetApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.update_pet_with_http_info(body, **kwargs)  # noqa: E501
+            return self.update_pet_with_http_info(body, _check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.update_pet_with_http_info(body, **kwargs)  # noqa: E501
+            (data) = self.update_pet_with_http_info(body, _check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def update_pet_with_http_info(self, body, **kwargs):  # noqa: E501
+    def update_pet_with_http_info(self, body, _check_type=False, **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -556,16 +622,26 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method update_pet" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+        data_types_by_param = {
+            'body': [Pet],
+        }
+
+        if _check_type:
+            for param_name, param_value in six.iteritems(local_var_params):
+                required_types_mixed = data_types_by_param.get(param_name)
+                if required_type:
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'body' is set
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `update_pet`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `body` when calling `update_pet`")  # noqa: E501
 
         collection_formats = {}
 
@@ -596,7 +672,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_mixed=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -604,7 +680,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def update_pet_with_form(self, pet_id, **kwargs):  # noqa: E501
+    def update_pet_with_form(self, pet_id, _check_type=False, **kwargs):  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -622,12 +698,12 @@ class PetApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.update_pet_with_form_with_http_info(pet_id, **kwargs)  # noqa: E501
+            return self.update_pet_with_form_with_http_info(pet_id, _check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.update_pet_with_form_with_http_info(pet_id, **kwargs)  # noqa: E501
+            (data) = self.update_pet_with_form_with_http_info(pet_id, _check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def update_pet_with_form_with_http_info(self, pet_id, **kwargs):  # noqa: E501
+    def update_pet_with_form_with_http_info(self, pet_id, _check_type=False, **kwargs):  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -654,16 +730,28 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method update_pet_with_form" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+        data_types_by_param = {
+            'pet_id': [int],
+            'name': [str],
+            'status': [str],
+        }
+
+        if _check_type:
+            for param_name, param_value in six.iteritems(local_var_params):
+                required_types_mixed = data_types_by_param.get(param_name)
+                if required_type:
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
-            raise ValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")  # noqa: E501
 
         collection_formats = {}
 
@@ -698,7 +786,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_types_mixed=None,  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -706,7 +794,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def upload_file(self, pet_id, **kwargs):  # noqa: E501
+    def upload_file(self, pet_id, _check_type=False, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -717,19 +805,19 @@ class PetApi(object):
         :param async_req bool
         :param int pet_id: ID of pet to update (required)
         :param str additional_metadata: Additional data to pass to server
-        :param file file: file to upload
+        :param file_type file: file to upload
         :return: ApiResponse
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.upload_file_with_http_info(pet_id, **kwargs)  # noqa: E501
+            return self.upload_file_with_http_info(pet_id, _check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.upload_file_with_http_info(pet_id, **kwargs)  # noqa: E501
+            (data) = self.upload_file_with_http_info(pet_id, _check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def upload_file_with_http_info(self, pet_id, **kwargs):  # noqa: E501
+    def upload_file_with_http_info(self, pet_id, _check_type=False, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -740,7 +828,7 @@ class PetApi(object):
         :param async_req bool
         :param int pet_id: ID of pet to update (required)
         :param str additional_metadata: Additional data to pass to server
-        :param file file: file to upload
+        :param file_type file: file to upload
         :return: ApiResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -756,16 +844,28 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method upload_file" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+        data_types_by_param = {
+            'pet_id': [int],
+            'additional_metadata': [str],
+            'file': [file_type],
+        }
+
+        if _check_type:
+            for param_name, param_value in six.iteritems(local_var_params):
+                required_types_mixed = data_types_by_param.get(param_name)
+                if required_type:
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
-            raise ValueError("Missing the required parameter `pet_id` when calling `upload_file`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `pet_id` when calling `upload_file`")  # noqa: E501
 
         collection_formats = {}
 
@@ -804,7 +904,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='ApiResponse',  # noqa: E501
+            response_types_mixed=[ApiResponse],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
@@ -812,7 +912,7 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def upload_file_with_required_file(self, pet_id, required_file, **kwargs):  # noqa: E501
+    def upload_file_with_required_file(self, pet_id, required_file, _check_type=False, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -822,7 +922,7 @@ class PetApi(object):
 
         :param async_req bool
         :param int pet_id: ID of pet to update (required)
-        :param file required_file: file to upload (required)
+        :param file_type required_file: file to upload (required)
         :param str additional_metadata: Additional data to pass to server
         :return: ApiResponse
                  If the method is called asynchronously,
@@ -830,12 +930,12 @@ class PetApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.upload_file_with_required_file_with_http_info(pet_id, required_file, **kwargs)  # noqa: E501
+            return self.upload_file_with_required_file_with_http_info(pet_id, required_file, _check_type=_check_type, **kwargs)  # noqa: E501
         else:
-            (data) = self.upload_file_with_required_file_with_http_info(pet_id, required_file, **kwargs)  # noqa: E501
+            (data) = self.upload_file_with_required_file_with_http_info(pet_id, required_file, _check_type=_check_type, **kwargs)  # noqa: E501
             return data
 
-    def upload_file_with_required_file_with_http_info(self, pet_id, required_file, **kwargs):  # noqa: E501
+    def upload_file_with_required_file_with_http_info(self, pet_id, required_file, _check_type=False, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
@@ -845,7 +945,7 @@ class PetApi(object):
 
         :param async_req bool
         :param int pet_id: ID of pet to update (required)
-        :param file required_file: file to upload (required)
+        :param file_type required_file: file to upload (required)
         :param str additional_metadata: Additional data to pass to server
         :return: ApiResponse
                  If the method is called asynchronously,
@@ -862,20 +962,32 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method upload_file_with_required_file" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+        data_types_by_param = {
+            'pet_id': [int],
+            'required_file': [file_type],
+            'additional_metadata': [str],
+        }
+
+        if _check_type:
+            for param_name, param_value in six.iteritems(local_var_params):
+                required_types_mixed = data_types_by_param.get(param_name)
+                if required_type:
+                    local_var_params[param_name] = validate_and_convert_types(
+                        param_value, required_types_mixed, [param_name])
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
-            raise ValueError("Missing the required parameter `pet_id` when calling `upload_file_with_required_file`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `pet_id` when calling `upload_file_with_required_file`")  # noqa: E501
         # verify the required parameter 'required_file' is set
         if ('required_file' not in local_var_params or
                 local_var_params['required_file'] is None):
-            raise ValueError("Missing the required parameter `required_file` when calling `upload_file_with_required_file`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `required_file` when calling `upload_file_with_required_file`")  # noqa: E501
 
         collection_formats = {}
 
@@ -914,7 +1026,7 @@ class PetApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='ApiResponse',  # noqa: E501
+            response_types_mixed=[ApiResponse],  # noqa: E501
             auth_settings=auth_settings,
             async_req=local_var_params.get('async_req'),
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501

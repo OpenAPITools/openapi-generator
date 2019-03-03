@@ -132,33 +132,33 @@ class XmlItem(OpenApiModel):
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
                                 If omitted no type conversion is done.
-            attribute_string (str): [optional] if omitted the server will use the default value of 'string'  # noqa: E501
-            attribute_number (float): [optional] if omitted the server will use the default value of 1.234  # noqa: E501
-            attribute_integer (int): [optional] if omitted the server will use the default value of -2  # noqa: E501
-            attribute_boolean (bool): [optional] if omitted the server will use the default value of True  # noqa: E501
+            attribute_string (str): [optional]  # noqa: E501
+            attribute_number (float): [optional]  # noqa: E501
+            attribute_integer (int): [optional]  # noqa: E501
+            attribute_boolean (bool): [optional]  # noqa: E501
             wrapped_array ([(int,)]): [optional]  # noqa: E501
-            name_string (str): [optional] if omitted the server will use the default value of 'string'  # noqa: E501
-            name_number (float): [optional] if omitted the server will use the default value of 1.234  # noqa: E501
-            name_integer (int): [optional] if omitted the server will use the default value of -2  # noqa: E501
-            name_boolean (bool): [optional] if omitted the server will use the default value of True  # noqa: E501
+            name_string (str): [optional]  # noqa: E501
+            name_number (float): [optional]  # noqa: E501
+            name_integer (int): [optional]  # noqa: E501
+            name_boolean (bool): [optional]  # noqa: E501
             name_array ([(int,)]): [optional]  # noqa: E501
             name_wrapped_array ([(int,)]): [optional]  # noqa: E501
-            prefix_string (str): [optional] if omitted the server will use the default value of 'string'  # noqa: E501
-            prefix_number (float): [optional] if omitted the server will use the default value of 1.234  # noqa: E501
-            prefix_integer (int): [optional] if omitted the server will use the default value of -2  # noqa: E501
-            prefix_boolean (bool): [optional] if omitted the server will use the default value of True  # noqa: E501
+            prefix_string (str): [optional]  # noqa: E501
+            prefix_number (float): [optional]  # noqa: E501
+            prefix_integer (int): [optional]  # noqa: E501
+            prefix_boolean (bool): [optional]  # noqa: E501
             prefix_array ([(int,)]): [optional]  # noqa: E501
             prefix_wrapped_array ([(int,)]): [optional]  # noqa: E501
-            namespace_string (str): [optional] if omitted the server will use the default value of 'string'  # noqa: E501
-            namespace_number (float): [optional] if omitted the server will use the default value of 1.234  # noqa: E501
-            namespace_integer (int): [optional] if omitted the server will use the default value of -2  # noqa: E501
-            namespace_boolean (bool): [optional] if omitted the server will use the default value of True  # noqa: E501
+            namespace_string (str): [optional]  # noqa: E501
+            namespace_number (float): [optional]  # noqa: E501
+            namespace_integer (int): [optional]  # noqa: E501
+            namespace_boolean (bool): [optional]  # noqa: E501
             namespace_array ([(int,)]): [optional]  # noqa: E501
             namespace_wrapped_array ([(int,)]): [optional]  # noqa: E501
-            prefix_ns_string (str): [optional] if omitted the server will use the default value of 'string'  # noqa: E501
-            prefix_ns_number (float): [optional] if omitted the server will use the default value of 1.234  # noqa: E501
-            prefix_ns_integer (int): [optional] if omitted the server will use the default value of -2  # noqa: E501
-            prefix_ns_boolean (bool): [optional] if omitted the server will use the default value of True  # noqa: E501
+            prefix_ns_string (str): [optional]  # noqa: E501
+            prefix_ns_number (float): [optional]  # noqa: E501
+            prefix_ns_integer (int): [optional]  # noqa: E501
+            prefix_ns_boolean (bool): [optional]  # noqa: E501
             prefix_ns_array ([(int,)]): [optional]  # noqa: E501
             prefix_ns_wrapped_array ([(int,)]): [optional]  # noqa: E501
         """
