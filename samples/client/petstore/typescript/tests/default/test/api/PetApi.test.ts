@@ -1,15 +1,16 @@
-import {PetApi, Configuration, Pet, ApiException, Tag, HttpFile} from 'ts-petstore-client'
+import * as petstore from 'ts-petstore-client'
+
 import { expect, assert } from "chai";
 import * as fs from 'fs';
 
-const configuration = new Configuration()
-const petApi = new PetApi(configuration)
+const configuration = new petstore.Configuration()
+const petApi = new petstore.apis.PetApi(configuration)
 
-const tag = new Tag();
+const tag = new petstore.models.Tag();
 tag.name = "tag1"
 tag.id = Math.floor(Math.random() * 100000)
 
-const pet = new Pet()
+const pet = new petstore.models.Pet()
 pet.id = Math.floor(Math.random() * 100000)
 pet.name = "PetName"
 pet.photoUrls = []
@@ -34,7 +35,7 @@ describe("PetApi", () =>{
             return petApi.deletePet(pet.id)
         }).then(() => {
             return petApi.getPetById(pet.id)
-        }).then((pet: Pet) => {
+        }).then((pet: petstore.models.Pet) => {
             done("Pet with id " + pet.id + " was not deleted!");
         }).catch((err: any) => {
             if (err.code && err.code == 404) {
@@ -48,7 +49,7 @@ describe("PetApi", () =>{
     it("findPetsByStatus", (done) => {
         petApi.addPet(pet).then(() => {
             return petApi.findPetsByStatus(["available"])
-        }).then((pets: Pet[]) => {
+        }).then((pets: petstore.models.Pet[]) => {
             expect(pets.length).to.be.at.least(1);
             done();
         }).catch((err) => {
@@ -71,7 +72,7 @@ describe("PetApi", () =>{
     it("getPetById", (done) => {
         petApi.addPet(pet).then(() => {
             return petApi.getPetById(pet.id)
-        }).then((returnedPet: Pet) => {
+        }).then((returnedPet: petstore.models.Pet) => {
             expect(returnedPet).to.deep.equal(pet);
             done();
         }).catch((err) => {
@@ -92,7 +93,7 @@ describe("PetApi", () =>{
             });
         }).then(() => {
             return petApi.getPetById(pet.id);
-        }).then((returnedPet: Pet) => {
+        }).then((returnedPet: petstore.models.Pet) => {
             expect(returnedPet.id).to.equal(pet.id)
             expect(returnedPet.name).to.equal(updatedName);
             done();

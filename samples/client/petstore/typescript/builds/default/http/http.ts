@@ -4,6 +4,8 @@ import * as FormData from "form-data";
 // @ts-ignore 
 import * as URLParse from "url-parse";
 
+export * from './isomorphic-fetch';
+
 export enum HttpMethod {
     GET = "GET",
     HEAD = "HEAD",

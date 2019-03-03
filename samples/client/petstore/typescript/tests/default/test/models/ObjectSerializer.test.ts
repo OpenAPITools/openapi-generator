@@ -1,6 +1,6 @@
 const rewire = require("rewire")
 import { expect} from "chai";
-import {Pet, Category, Tag} from "ts-petstore-client"
+import * as petstore from "ts-petstore-client"
 
 
 const objectSerializerFile = rewire(__dirname + "/../../node_modules/ts-petstore-client/models/ObjectSerializer.ts")
@@ -41,7 +41,7 @@ describe("ObjectSerializer", () => {
         })
 
         it("Class", () => {
-            const input = new Category()
+            const input = new petstore.models.Category()
             input.id = 4
             input.name = "Test"
             expect(ObjectSerializer.serialize(input, "Category")).to.deep.equal({ "id": input.id, "name": input.name})
@@ -56,7 +56,7 @@ describe("ObjectSerializer", () => {
             const tags = []
             const tagResult = []
             for (let i = 0; i < 2; i++) {
-                const tag = new Tag()
+                const tag = new petstore.models.Tag()
                 tag.id = i
                 tag.name = "Tag" + i    
                 tags.push(tag)
@@ -66,10 +66,10 @@ describe("ObjectSerializer", () => {
                 })
             }
             
-            const category = new Category()
+            const category = new petstore.models.Category()
             category.id = 4
             category.name = "TestCat"
-            const pet = new Pet()
+            const pet = new petstore.models.Pet()
             pet.id = 145
             pet.category = category
             pet.name = "PetName"
@@ -93,7 +93,7 @@ describe("ObjectSerializer", () => {
             const categories = []
             const result = []
             for (let i = 0; i < 2; i++) {
-                const category = new Category()
+                const category = new petstore.models.Category()
                 category.id = i
                 category.name = "Cat" + i
                 categories.push(category)
@@ -139,7 +139,7 @@ describe("ObjectSerializer", () => {
         })
 
         it("Class", () => {
-            const input = new Category()
+            const input = new petstore.models.Category()
             input.id = 4
             input.name = "Test"
             const deserialized = ObjectSerializer.deserialize({ "id": 4, "name": "Test"}, "Category")
@@ -157,7 +157,7 @@ describe("ObjectSerializer", () => {
             const tags = []
             const tagResult = []
             for (let i = 0; i < 2; i++) {
-                const tag = new Tag()
+                const tag = new petstore.models.Tag()
                 tag.id = i
                 tag.name = "Tag" + i    
                 tags.push(tag)
@@ -167,10 +167,10 @@ describe("ObjectSerializer", () => {
                 })
             }
             
-            const category = new Category()
+            const category = new petstore.models.Category()
             category.id = 4
             category.name = "TestCat"
-            const pet = new Pet()
+            const pet = new petstore.models.Pet()
             pet.id = 145
             pet.category = category
             pet.name = "PetName"
@@ -188,7 +188,7 @@ describe("ObjectSerializer", () => {
                 "photoUrls": [ "url", "other url"],
                 "status": "available",
                 "tags": tagResult
-            }, "Pet") as Pet
+            }, "Pet") as petstore.models.Pet
 
             expect(deserialized.constructor.name).to.equal("Pet")
             expect(deserialized.category.constructor.name).to.equal("Category")
@@ -202,7 +202,7 @@ describe("ObjectSerializer", () => {
             const categories = []
             const result = []
             for (let i = 0; i < 2; i++) {
-                const category = new Category()
+                const category = new petstore.models.Category()
                 category.id = i
                 category.name = "Cat" + i
                 categories.push(category)
