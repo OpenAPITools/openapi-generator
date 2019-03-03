@@ -29,13 +29,13 @@ namespace Org.OpenAPITools.Controllers
         /// Create user
         /// </summary>
         /// <remarks>This can only be done by the logged in user.</remarks>
-        /// <param name="user">Created user object</param>
+        /// <param name="body">Created user object</param>
         /// <response code="0">successful operation</response>
         [HttpPost]
         [Route("/v2/user")]
         [ValidateModelState]
         [SwaggerOperation("CreateUser")]
-        public virtual IActionResult CreateUser([FromBody]User user)
+        public virtual IActionResult CreateUser([FromBody]User body)
         { 
             //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(0);
@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <response code="0">successful operation</response>
         [HttpPost]
         [Route("/v2/user/createWithArray")]
         [ValidateModelState]
         [SwaggerOperation("CreateUsersWithArrayInput")]
-        public virtual IActionResult CreateUsersWithArrayInput([FromBody]List<User> user)
+        public virtual IActionResult CreateUsersWithArrayInput([FromBody]List<User> body)
         { 
             //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(0);
@@ -65,13 +65,13 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Creates list of users with given input array
         /// </summary>
-        /// <param name="user">List of user object</param>
+        /// <param name="body">List of user object</param>
         /// <response code="0">successful operation</response>
         [HttpPost]
         [Route("/v2/user/createWithList")]
         [ValidateModelState]
         [SwaggerOperation("CreateUsersWithListInput")]
-        public virtual IActionResult CreateUsersWithListInput([FromBody]List<User> user)
+        public virtual IActionResult CreateUsersWithListInput([FromBody]List<User> body)
         { 
             //TODO: Uncomment the next line to return response 0 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(0);
@@ -188,14 +188,14 @@ namespace Org.OpenAPITools.Controllers
         /// </summary>
         /// <remarks>This can only be done by the logged in user.</remarks>
         /// <param name="username">name that need to be deleted</param>
-        /// <param name="user">Updated user object</param>
+        /// <param name="body">Updated user object</param>
         /// <response code="400">Invalid user supplied</response>
         /// <response code="404">User not found</response>
         [HttpPut]
         [Route("/v2/user/{username}")]
         [ValidateModelState]
         [SwaggerOperation("UpdateUser")]
-        public virtual IActionResult UpdateUser([FromRoute][Required]string username, [FromBody]User user)
+        public virtual IActionResult UpdateUser([FromRoute][Required]string username, [FromBody]User body)
         { 
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
