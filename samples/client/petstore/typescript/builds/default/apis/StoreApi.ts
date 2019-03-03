@@ -1,5 +1,6 @@
 // TODO: better import syntax?
 import { BaseAPIRequestFactory, RequiredError } from './baseapi';
+import {Configuration} from '../configuration';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import * as FormData from "form-data";
 import {ObjectSerializer} from '../models/ObjectSerializer';
@@ -11,7 +12,9 @@ import { Order } from '../models/Order';
 export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 	// TODO: allow passing of Configuration via Options (=> overwrites config set for this request factory
 	
-    public deleteOrder(orderId: string, options?: any): RequestContext {
+    public deleteOrder(orderId: string, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
             throw new RequiredError('Required parameter orderId was null or undefined when calling deleteOrder.');
@@ -23,7 +26,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -40,13 +43,14 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public getInventory(options?: any): RequestContext {
+    public getInventory(options?: Configuration): RequestContext {
+		let config = options || this.configuration;
 		
 		// Path Params
     	const localVarPath = '/store/inventory';
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -60,7 +64,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 		
 		let authMethod = null;
     	// Apply auth methods
-    	authMethod = this.configuration.authMethods["api_key"]
+    	authMethod = config.authMethods["api_key"]
     	if (authMethod) {
     		authMethod.applySecurityAuthentication(requestContext);
     	}
@@ -68,7 +72,9 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public getOrderById(orderId: number, options?: any): RequestContext {
+    public getOrderById(orderId: number, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'orderId' is not null or undefined
         if (orderId === null || orderId === undefined) {
             throw new RequiredError('Required parameter orderId was null or undefined when calling getOrderById.');
@@ -80,7 +86,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -97,7 +103,9 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public placeOrder(order: Order, options?: any): RequestContext {
+    public placeOrder(order: Order, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'order' is not null or undefined
         if (order === null || order === undefined) {
             throw new RequiredError('Required parameter order was null or undefined when calling placeOrder.');
@@ -108,7 +116,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
     	const localVarPath = '/store/order';
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params

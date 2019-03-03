@@ -1,5 +1,6 @@
 // TODO: better import syntax?
 import { BaseAPIRequestFactory, RequiredError } from './baseapi';
+import {Configuration} from '../configuration';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import * as FormData from "form-data";
 import {ObjectSerializer} from '../models/ObjectSerializer';
@@ -15,8 +16,10 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 	// TODO: allow passing of Configuration via Options (=> overwrites config set for this request factory
 	
 	{{#operation}}
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): RequestContext {
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): RequestContext {
+		let config = options || this.configuration;
 		{{#allParams}}
+		
 		{{#required}}
         // verify required parameter '{{paramName}}' is not null or undefined
         if ({{paramName}} === null || {{paramName}} === undefined) {
@@ -31,7 +34,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
             .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -100,7 +103,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 		{{/hasAuthMethods}}
     	// Apply auth methods
     	{{#authMethods}}
-    	authMethod = this.configuration.authMethods["{{name}}"]
+    	authMethod = config.authMethods["{{name}}"]
     	if (authMethod) {
     		authMethod.applySecurityAuthentication(requestContext);
     	}

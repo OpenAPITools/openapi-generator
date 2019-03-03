@@ -1,5 +1,6 @@
 // TODO: better import syntax?
 import { BaseAPIRequestFactory, RequiredError } from './baseapi';
+import {Configuration} from '../configuration';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import * as FormData from "form-data";
 import {ObjectSerializer} from '../models/ObjectSerializer';
@@ -12,7 +13,9 @@ import { Pet } from '../models/Pet';
 export class PetApiRequestFactory extends BaseAPIRequestFactory {
 	// TODO: allow passing of Configuration via Options (=> overwrites config set for this request factory
 	
-    public addPet(pet: Pet, options?: any): RequestContext {
+    public addPet(pet: Pet, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'pet' is not null or undefined
         if (pet === null || pet === undefined) {
             throw new RequiredError('Required parameter pet was null or undefined when calling addPet.');
@@ -23,7 +26,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	const localVarPath = '/pet';
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -42,7 +45,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 		
 		let authMethod = null;
     	// Apply auth methods
-    	authMethod = this.configuration.authMethods["petstore_auth"]
+    	authMethod = config.authMethods["petstore_auth"]
     	if (authMethod) {
     		authMethod.applySecurityAuthentication(requestContext);
     	}
@@ -50,19 +53,22 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public deletePet(petId: number, apiKey?: string, options?: any): RequestContext {
+    public deletePet(petId: number, apiKey?: string, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
             throw new RequiredError('Required parameter petId was null or undefined when calling deletePet.');
         }
 
 		
+		
 		// Path Params
     	const localVarPath = '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -77,7 +83,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 		
 		let authMethod = null;
     	// Apply auth methods
-    	authMethod = this.configuration.authMethods["petstore_auth"]
+    	authMethod = config.authMethods["petstore_auth"]
     	if (authMethod) {
     		authMethod.applySecurityAuthentication(requestContext);
     	}
@@ -85,7 +91,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: any): RequestContext {
+    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'status' is not null or undefined
         if (status === null || status === undefined) {
             throw new RequiredError('Required parameter status was null or undefined when calling findPetsByStatus.');
@@ -96,7 +104,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	const localVarPath = '/pet/findByStatus';
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -113,7 +121,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 		
 		let authMethod = null;
     	// Apply auth methods
-    	authMethod = this.configuration.authMethods["petstore_auth"]
+    	authMethod = config.authMethods["petstore_auth"]
     	if (authMethod) {
     		authMethod.applySecurityAuthentication(requestContext);
     	}
@@ -121,7 +129,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public findPetsByTags(tags: Array<string>, options?: any): RequestContext {
+    public findPetsByTags(tags: Array<string>, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'tags' is not null or undefined
         if (tags === null || tags === undefined) {
             throw new RequiredError('Required parameter tags was null or undefined when calling findPetsByTags.');
@@ -132,7 +142,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	const localVarPath = '/pet/findByTags';
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -149,7 +159,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 		
 		let authMethod = null;
     	// Apply auth methods
-    	authMethod = this.configuration.authMethods["petstore_auth"]
+    	authMethod = config.authMethods["petstore_auth"]
     	if (authMethod) {
     		authMethod.applySecurityAuthentication(requestContext);
     	}
@@ -157,7 +167,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public getPetById(petId: number, options?: any): RequestContext {
+    public getPetById(petId: number, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
             throw new RequiredError('Required parameter petId was null or undefined when calling getPetById.');
@@ -169,7 +181,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -183,7 +195,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 		
 		let authMethod = null;
     	// Apply auth methods
-    	authMethod = this.configuration.authMethods["api_key"]
+    	authMethod = config.authMethods["api_key"]
     	if (authMethod) {
     		authMethod.applySecurityAuthentication(requestContext);
     	}
@@ -191,7 +203,9 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public updatePet(pet: Pet, options?: any): RequestContext {
+    public updatePet(pet: Pet, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'pet' is not null or undefined
         if (pet === null || pet === undefined) {
             throw new RequiredError('Required parameter pet was null or undefined when calling updatePet.');
@@ -202,7 +216,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	const localVarPath = '/pet';
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -221,7 +235,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 		
 		let authMethod = null;
     	// Apply auth methods
-    	authMethod = this.configuration.authMethods["petstore_auth"]
+    	authMethod = config.authMethods["petstore_auth"]
     	if (authMethod) {
     		authMethod.applySecurityAuthentication(requestContext);
     	}
@@ -229,19 +243,23 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public updatePetWithForm(petId: number, name?: string, status?: string, options?: any): RequestContext {
+    public updatePetWithForm(petId: number, name?: string, status?: string, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
             throw new RequiredError('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
 
 		
+		
+		
 		// Path Params
     	const localVarPath = '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -265,7 +283,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 		
 		let authMethod = null;
     	// Apply auth methods
-    	authMethod = this.configuration.authMethods["petstore_auth"]
+    	authMethod = config.authMethods["petstore_auth"]
     	if (authMethod) {
     		authMethod.applySecurityAuthentication(requestContext);
     	}
@@ -273,19 +291,23 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, options?: any): RequestContext {
+    public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
             throw new RequiredError('Required parameter petId was null or undefined when calling uploadFile.');
         }
 
 		
+		
+		
 		// Path Params
     	const localVarPath = '/pet/{petId}/uploadImage'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -309,7 +331,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 		
 		let authMethod = null;
     	// Apply auth methods
-    	authMethod = this.configuration.authMethods["petstore_auth"]
+    	authMethod = config.authMethods["petstore_auth"]
     	if (authMethod) {
     		authMethod.applySecurityAuthentication(requestContext);
     	}
