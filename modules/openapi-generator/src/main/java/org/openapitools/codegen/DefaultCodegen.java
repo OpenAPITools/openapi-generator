@@ -1251,7 +1251,7 @@ public class DefaultCodegen implements CodegenConfig {
             return schema.getExample().toString();
         }
 
-        return "null";
+        return getPropertyDefaultValue(schema);
     }
 
     /**
@@ -1266,7 +1266,33 @@ public class DefaultCodegen implements CodegenConfig {
             return schema.getDefault().toString();
         }
 
-        return "null";
+        return getPropertyDefaultValue(schema);
+    }
+
+    /**
+     * Return property value depending on property type
+     * @param schema property type
+     * @return property value
+     */
+    private String getPropertyDefaultValue(Schema schema) {
+        //NOSONAR
+        if (ModelUtils.isBooleanSchema(schema)) {
+            return "null";
+        } else if (ModelUtils.isDateSchema(schema)) {
+            return "null";
+        } else if (ModelUtils.isDateTimeSchema(schema)) {
+            return "null";
+        } else if (ModelUtils.isNumberSchema(schema)) {
+            return "null";
+        } else if (ModelUtils.isIntegerSchema(schema)) {
+            return "null";
+        } else if (ModelUtils.isStringSchema(schema)) {
+            return "null";
+        } else if (ModelUtils.isObjectSchema(schema)) {
+            return "null";
+        } else {
+            return "null";
+        }
     }
 
     /**
