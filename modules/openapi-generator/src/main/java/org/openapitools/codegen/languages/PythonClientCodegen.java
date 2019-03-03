@@ -92,6 +92,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // TODO file and binary is mapped as `file`
         languageSpecificPrimitives.add("file");
 
+        instantiationTypes.put("map", "dict");
+
         typeMapping.clear();
         typeMapping.put("integer", "int");
         typeMapping.put("float", "float");
@@ -512,6 +514,14 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public String getTypeDeclaration(Schema p) {
         // this is used to set dataType, which defines a python tuple of classes
         return getTypeString(p, "", "");
+    }
+
+    @Override
+    public String toInstantiationType(Schema property) {
+        if (property instanceof ArraySchema || property instanceof MapSchema || property.getAdditionalProperties() != null) {
+            return getSchemaType(property);
+        }
+        return super.toInstantiationType(property);
     }
 
     @Override
