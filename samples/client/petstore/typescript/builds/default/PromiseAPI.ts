@@ -1,4 +1,4 @@
-import { ResponseContext } from './http/http';
+import { ResponseContext, HttpFile } from './http/http';
 import * as models from './models/all';
 import { Configuration} from './configuration'
 
@@ -152,7 +152,7 @@ export class PetApi {
 	    	});
     }
 	
-    public uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any): Promise<ApiResponse> {
+    public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, options?: any): Promise<ApiResponse> {
     	const requestContext = this.requestFactory.uploadFile(petId, additionalMetadata, file, options);
 
 		// build promise chain
