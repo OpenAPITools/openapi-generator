@@ -1,5 +1,6 @@
 // TODO: better import syntax?
 import { BaseAPIRequestFactory, RequiredError } from './baseapi';
+import {Configuration} from '../configuration';
 import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import * as FormData from "form-data";
 import {ObjectSerializer} from '../models/ObjectSerializer';
@@ -11,7 +12,9 @@ import { User } from '../models/User';
 export class UserApiRequestFactory extends BaseAPIRequestFactory {
 	// TODO: allow passing of Configuration via Options (=> overwrites config set for this request factory
 	
-    public createUser(user: User, options?: any): RequestContext {
+    public createUser(user: User, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
             throw new RequiredError('Required parameter user was null or undefined when calling createUser.');
@@ -22,7 +25,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	const localVarPath = '/user';
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -44,7 +47,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public createUsersWithArrayInput(user: Array<User>, options?: any): RequestContext {
+    public createUsersWithArrayInput(user: Array<User>, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
             throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
@@ -55,7 +60,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	const localVarPath = '/user/createWithArray';
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -77,7 +82,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public createUsersWithListInput(user: Array<User>, options?: any): RequestContext {
+    public createUsersWithListInput(user: Array<User>, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
             throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithListInput.');
@@ -88,7 +95,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	const localVarPath = '/user/createWithList';
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.POST);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -110,7 +117,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public deleteUser(username: string, options?: any): RequestContext {
+    public deleteUser(username: string, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
             throw new RequiredError('Required parameter username was null or undefined when calling deleteUser.');
@@ -122,7 +131,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.DELETE);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -139,7 +148,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public getUserByName(username: string, options?: any): RequestContext {
+    public getUserByName(username: string, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
             throw new RequiredError('Required parameter username was null or undefined when calling getUserByName.');
@@ -151,7 +162,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -168,12 +179,15 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public loginUser(username: string, password: string, options?: any): RequestContext {
+    public loginUser(username: string, password: string, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
             throw new RequiredError('Required parameter username was null or undefined when calling loginUser.');
         }
 
+		
         // verify required parameter 'password' is not null or undefined
         if (password === null || password === undefined) {
             throw new RequiredError('Required parameter password was null or undefined when calling loginUser.');
@@ -184,7 +198,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	const localVarPath = '/user/login';
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -207,13 +221,14 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public logoutUser(options?: any): RequestContext {
+    public logoutUser(options?: Configuration): RequestContext {
+		let config = options || this.configuration;
 		
 		// Path Params
     	const localVarPath = '/user/logout';
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.GET);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
@@ -230,12 +245,15 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public updateUser(username: string, user: User, options?: any): RequestContext {
+    public updateUser(username: string, user: User, options?: Configuration): RequestContext {
+		let config = options || this.configuration;
+		
         // verify required parameter 'username' is not null or undefined
         if (username === null || username === undefined) {
             throw new RequiredError('Required parameter username was null or undefined when calling updateUser.');
         }
 
+		
         // verify required parameter 'user' is not null or undefined
         if (user === null || user === undefined) {
             throw new RequiredError('Required parameter user was null or undefined when calling updateUser.');
@@ -247,7 +265,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
             .replace('{' + 'username' + '}', encodeURIComponent(String(username)));
 
 		// Make Request Context
-    	const requestContext = this.configuration.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.PUT);
         requestContext.setHeaderParam("Accept", "application/json")
 
         // Query Params
