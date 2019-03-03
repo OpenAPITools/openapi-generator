@@ -1,8 +1,18 @@
-export * from './http/http';
-export { IsomorphicFetchHttpLibrary } from './http/isomorphic-fetch';
-export * from './auth/auth';
-export * from './middleware';
-export *  from './models/all';
-export { Configuration} from './configuration'
-export * from './PromiseAPI';
-export * from './apis/exception';
+import * as http from './http/http';
+import *  as auth from './auth/auth';
+import {Middleware} from './middleware';
+import * as models  from './models/all';
+import { Configuration} from './configuration'
+import * as apis from './PromiseAPI';
+import * as exceptions from './apis/exception';
+
+export {
+	http,
+	
+	auth,
+	Middleware,
+	models,
+	Configuration,
+	apis,
+	exceptions
+};

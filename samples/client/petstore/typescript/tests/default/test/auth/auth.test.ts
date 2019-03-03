@@ -1,5 +1,4 @@
-import {NoAuthentication, APIKeyAuthentication} from "ts-petstore-client";
-import {RequestContext, HttpMethod} from 'ts-petstore-client';
+import * as petstore from 'ts-petstore-client';
 import { expect} from "chai";
 
 
@@ -7,8 +6,8 @@ import { expect} from "chai";
 describe("Security Authentication", () => {
     describe("No Authentication", () => {
         it("No Authentication", () => {
-            let ctx = new RequestContext("http://google.com", HttpMethod.GET);
-            let noAuth = new NoAuthentication();
+            let ctx = new petstore.http.RequestContext("http://google.com", petstore.http.HttpMethod.GET);
+            let noAuth = new petstore.auth.NoAuthentication();
             noAuth.applySecurityAuthentication(ctx);
     
             expect(ctx.getUrl()).to.equal("http://google.com");
@@ -20,8 +19,8 @@ describe("Security Authentication", () => {
     describe("API Key Authentication", () => {
         // TODO: make all params const variables
         it("Header API Key", () => {
-            let ctx = new RequestContext("http://google.com", HttpMethod.GET);
-            let auth = new APIKeyAuthentication("my_name", "paramName", "header", "apiKey");
+            let ctx = new petstore.http.RequestContext("http://google.com", petstore.http.HttpMethod.GET);
+            let auth = new petstore.auth.APIKeyAuthentication("my_name", "paramName", "header", "apiKey");
             auth.applySecurityAuthentication(ctx);
     
             expect(ctx.getUrl()).to.equal("http://google.com");
@@ -31,8 +30,8 @@ describe("Security Authentication", () => {
         });    
 
         it("Query API Key", () => {
-            let ctx = new RequestContext("http://google.com?a=b", HttpMethod.GET);
-            let auth = new APIKeyAuthentication("my_name", "paramName", "query", "apiKey",);
+            let ctx = new petstore.http.RequestContext("http://google.com?a=b", petstore.http.HttpMethod.GET);
+            let auth = new petstore.auth.APIKeyAuthentication("my_name", "paramName", "query", "apiKey",);
             auth.applySecurityAuthentication(ctx);
     
             expect(ctx.getUrl()).to.contain("paramName=apiKey");
@@ -41,8 +40,8 @@ describe("Security Authentication", () => {
         });    
 
         it("Cookie API Key", () => {
-            let ctx = new RequestContext("http://google.com", HttpMethod.GET);
-            let auth = new APIKeyAuthentication("my_name", "paramName", "cookie", "apiKey",);
+            let ctx = new petstore.http.RequestContext("http://google.com", petstore.http.HttpMethod.GET);
+            let auth = new petstore.auth.APIKeyAuthentication("my_name", "paramName", "cookie", "apiKey",);
             auth.applySecurityAuthentication(ctx);
     
             expect(ctx.getUrl()).to.equal("http://google.com");
