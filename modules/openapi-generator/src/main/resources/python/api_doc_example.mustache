@@ -8,19 +8,28 @@ from pprint import pprint
 {{#hasAuthMethods}}
 # create an instance of the API class
 api_instance = {{{packageName}}}.{{{classname}}}({{{packageName}}}.ApiClient(configuration))
-{{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
-{{/allParams}}
 {{/hasAuthMethods}}
 {{^hasAuthMethods}}
 # create an instance of the API class
 api_instance = {{{packageName}}}.{{{classname}}}()
-{{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
-{{/allParams}}
 {{/hasAuthMethods}}
+{{#requiredParams}}{{^defaultValue}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}
+{{/defaultValue}}{{/requiredParams}}{{#optionalParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (server default to {{{defaultValue}}} if omitted){{/defaultValue}}
+{{/optionalParams}}
 
+# example passing only required values which don't have defaults set
 try:
 {{#summary}}    # {{{.}}}
-{{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{#required}}{{paramName}}{{/required}}{{^required}}{{paramName}}={{paramName}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}
+{{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#requiredParams}}{{^defaultValue}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/defaultValue}}{{/requiredParams}}){{#returnType}}
+    pprint(api_response){{/returnType}}
+except ApiException as e:
+    print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
+
+# example passing only required values which don't have defaults set
+# and optional values
+try:
+{{#summary}}    # {{{.}}}
+{{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#requiredParams}}{{^defaultValue}}{{paramName}}, {{/defaultValue}}{{/requiredParams}}{{#optionalParams}}{{paramName}}={{paramName}}{{#hasMore}}, {{/hasMore}}{{/optionalParams}}){{#returnType}}
     pprint(api_response){{/returnType}}
 except ApiException as e:
     print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
