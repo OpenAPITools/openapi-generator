@@ -92,8 +92,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // TODO file and binary is mapped as `file`
         languageSpecificPrimitives.add("file");
 
-        instantiationTypes.put("map", "dict");
-
         typeMapping.clear();
         typeMapping.put("integer", "int");
         typeMapping.put("float", "float");
@@ -237,12 +235,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
             supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
         }
-        supportingFiles.add(new SupportingFile("configuration.mustache", packageName, "configuration.py"));
-        supportingFiles.add(new SupportingFile("__init__package.mustache", packageName, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__model.mustache", packageName + File.separatorChar + modelPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__api.mustache", packageName + File.separatorChar + apiPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("model_utils.mustache", packageName, "model_utils.py"));
-        supportingFiles.add(new SupportingFile("exceptions.mustache", packageName, "exceptions.py"));
+        supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
+        supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + modelPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + apiPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("model_utils.mustache", packagePath(), "model_utils.py"));
+        supportingFiles.add(new SupportingFile("exceptions.mustache", packagePath(), "exceptions.py"));
 
         if (Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
@@ -514,14 +512,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public String getTypeDeclaration(Schema p) {
         // this is used to set dataType, which defines a python tuple of classes
         return getTypeString(p, "", "");
-    }
-
-    @Override
-    public String toInstantiationType(Schema property) {
-        if (property instanceof ArraySchema || property instanceof MapSchema || property.getAdditionalProperties() != null) {
-            return getSchemaType(property);
-        }
-        return super.toInstantiationType(property);
     }
 
     @Override
