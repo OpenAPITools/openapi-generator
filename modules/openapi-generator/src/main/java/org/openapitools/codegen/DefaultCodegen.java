@@ -257,7 +257,7 @@ public class DefaultCodegen implements CodegenConfig {
                 for (CodegenProperty cp : cm.allVars) {
                     // detect self import
                     if (cp.dataType.equalsIgnoreCase(cm.classname) ||
-                            (cp.isContainer && cp.items.dataType.equalsIgnoreCase(cm.classname))) {
+                            (cp.isContainer && cp.items != null && cp.items.dataType.equalsIgnoreCase(cm.classname))) {
                         cm.imports.remove(cm.classname); // remove self import
                         cp.isSelfReference = true;
                     }
@@ -1507,10 +1507,16 @@ public class DefaultCodegen implements CodegenConfig {
      * @return a string presentation of the property type
      */
     public String getTypeDeclaration(Schema schema) {
+        if (schema == null) {
+            LOGGER.warn("Null schema found. Default type to `NULL_SCHMEA_ERR`");
+            return "NULL_SCHMEA_ERR";
+        }
+
         String oasType = getSchemaType(schema);
         if (typeMapping.containsKey(oasType)) {
             return typeMapping.get(oasType);
         }
+
         return oasType;
     }
 
