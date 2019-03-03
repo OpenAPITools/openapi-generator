@@ -1,6 +1,6 @@
 // TODO: better import syntax?
 import { BaseAPIRequestFactory, RequiredError } from './baseapi';
-import { RequestContext, HttpMethod, ResponseContext} from '../http/http';
+import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import * as FormData from "form-data";
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
@@ -68,7 +68,12 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         {{^isListContainer}}
         if ({{paramName}} !== undefined) {
         // TODO: replace .append with .set
-            localVarFormParams.append('{{baseName}}', {{paramName}} as any);
+             {{^isFile}}
+             localVarFormParams.append('{{baseName}}', {{paramName}} as any);
+             {{/isFile}}
+             {{#isFile}}
+             localVarFormParams.append('{{baseName}}', {{paramName}}.data, { "filename": {{paramName}}.name });
+             {{/isFile}}  
         }
         {{/isListContainer}}
 		{{/formParams}}		

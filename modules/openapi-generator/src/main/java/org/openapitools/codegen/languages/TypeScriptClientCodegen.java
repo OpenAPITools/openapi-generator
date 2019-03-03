@@ -107,6 +107,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "Date");
         typeMapping.put("binary", "any");
+        // TODO: allow other types for file e.g. Blob
         typeMapping.put("File", "any");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
@@ -677,7 +678,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             inner = (Schema) p.getAdditionalProperties();
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
-            return "any";
+        	// TODO: Change type declaration
+            return "HttpFile";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "any";
         } else {

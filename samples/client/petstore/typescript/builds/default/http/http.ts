@@ -15,6 +15,10 @@ export enum HttpMethod {
     TRACE = "TRACE",
     PATCH = "PATCH"
 }
+export interface HttpFile {
+	data: Buffer;
+	name: string;
+}
 
 export interface FormEntry {
     contentDisposition: string;

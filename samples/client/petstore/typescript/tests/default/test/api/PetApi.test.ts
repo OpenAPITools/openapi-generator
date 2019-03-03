@@ -1,5 +1,6 @@
-import {PetApi, Configuration, Pet, ApiException, Tag} from 'ts-petstore-client'
+import {PetApi, Configuration, Pet, ApiException, Tag, HttpFile} from 'ts-petstore-client'
 import { expect, assert } from "chai";
+import * as fs from 'fs';
 
 const configuration = new Configuration()
 const petApi = new PetApi(configuration)
@@ -18,8 +19,6 @@ pet.category = undefined
 
 describe("PetApi", () =>{ 
     it("addPet", (done) => {
-
-
         petApi.addPet(pet).then(() => {
             return petApi.getPetById(pet.id)
         }).then((createdPet) => {
@@ -38,7 +37,7 @@ describe("PetApi", () =>{
         }).then((pet: Pet) => {
             done("Pet with id " + pet.id + " was not deleted!");
         }).catch((err: any) => {
-            if (err instanceof ApiException && err.code == 404) {
+            if (err.code && err.code == 404) {
                 done();                
             } else {
                 done(err)
@@ -118,8 +117,14 @@ describe("PetApi", () =>{
         })
     })*/
 
-/*    it("", (done) => {
-        file
-        petApi.uploadFile(pet.id, "", file)
-    })*/
+    it("uploadFile", (done) => {
+        const image = fs.readFileSync(__dirname + "/pet.png")
+        petApi.uploadFile(pet.id, "Metadata", { name: "pet.png", data: image}).then((response: any) => {
+            expect(response.code).to.be.gte(200).and.lt(300);
+            expect(response.message).to.contain("pet.png");
+            done();
+        }).catch((err) => {
+            done(err);
+        })
+    })
 })

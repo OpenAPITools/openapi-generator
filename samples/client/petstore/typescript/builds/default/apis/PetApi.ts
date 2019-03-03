@@ -1,6 +1,6 @@
 // TODO: better import syntax?
 import { BaseAPIRequestFactory, RequiredError } from './baseapi';
-import { RequestContext, HttpMethod, ResponseContext} from '../http/http';
+import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
 import * as FormData from "form-data";
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
@@ -253,11 +253,11 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         if (name !== undefined) {
         // TODO: replace .append with .set
-            localVarFormParams.append('name', name as any);
+             localVarFormParams.append('name', name as any);
         }
         if (status !== undefined) {
         // TODO: replace .append with .set
-            localVarFormParams.append('status', status as any);
+             localVarFormParams.append('status', status as any);
         }
 		requestContext.setBody(localVarFormParams);
 
@@ -273,7 +273,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
-    public uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any): RequestContext {
+    public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, options?: any): RequestContext {
         // verify required parameter 'petId' is not null or undefined
         if (petId === null || petId === undefined) {
             throw new RequiredError('Required parameter petId was null or undefined when calling uploadFile.');
@@ -297,11 +297,11 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         if (additionalMetadata !== undefined) {
         // TODO: replace .append with .set
-            localVarFormParams.append('additionalMetadata', additionalMetadata as any);
+             localVarFormParams.append('additionalMetadata', additionalMetadata as any);
         }
         if (file !== undefined) {
         // TODO: replace .append with .set
-            localVarFormParams.append('file', file as any);
+             localVarFormParams.append('file', file.data, { "filename": file.name });
         }
 		requestContext.setBody(localVarFormParams);
 
