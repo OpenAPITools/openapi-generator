@@ -13,7 +13,7 @@ const pet = new Pet()
 pet.id = Math.floor(Math.random() * 100000)
 pet.name = "PetName"
 pet.photoUrls = []
-pet.status = Pet.StatusEnum.Available
+pet.status = 'available'
 pet.tags = [ tag ]
 pet.category = undefined
 

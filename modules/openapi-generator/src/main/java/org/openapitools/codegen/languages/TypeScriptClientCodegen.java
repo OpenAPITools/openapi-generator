@@ -546,14 +546,14 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
                 if (Boolean.TRUE.equals(var.isEnum)) {
-                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + "." + var.enumName);
+                    var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
                 }
             }
             if (cm.parent != null) {
                 for (CodegenProperty var : cm.allVars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
                         var.datatypeWithEnum = var.datatypeWithEnum
-                                .replace(var.enumName, cm.classname + "." + var.enumName);
+                                .replace(var.enumName, cm.classname + var.enumName);
                     }
                 }
             }

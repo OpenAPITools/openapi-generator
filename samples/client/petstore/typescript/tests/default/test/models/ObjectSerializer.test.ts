@@ -48,7 +48,7 @@ describe("ObjectSerializer", () => {
         });
 
         it ("Enum", () => {
-            const input = Pet.StatusEnum.Available
+            const input = "available"
             expect(ObjectSerializer.serialize(input, "Pet.StatusEnum")).to.equal("available")
         })
 
@@ -74,7 +74,7 @@ describe("ObjectSerializer", () => {
             pet.category = category
             pet.name = "PetName"
             pet.photoUrls = [ "url", "other url"] 
-            pet.status = Pet.StatusEnum.Available
+            pet.status = "available"
             pet.tags = tags
 
             expect(ObjectSerializer.serialize(pet, "Pet")).to.deep.equal({
@@ -149,7 +149,7 @@ describe("ObjectSerializer", () => {
         });
 
         it ("Enum", () => {
-            const input = Pet.StatusEnum.Available
+            const input = "available"
             expect(ObjectSerializer.deserialize("available", "Pet.StatusEnum")).to.equal(input)
         })
 
@@ -175,7 +175,7 @@ describe("ObjectSerializer", () => {
             pet.category = category
             pet.name = "PetName"
             pet.photoUrls = [ "url", "other url"] 
-            pet.status = Pet.StatusEnum.Available
+            pet.status = "available"
             pet.tags = tags
 
             const deserialized = ObjectSerializer.deserialize({
