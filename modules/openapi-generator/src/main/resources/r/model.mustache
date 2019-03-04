@@ -213,7 +213,7 @@
 			  self$`{{baseName}}` <- vector("list", length = nrow(data.frame))
 			  for (row in 1:nrow(data.frame)) {
 				  {{baseName}}.node <- {{dataType}}$new()
-				  {{baseName}}.node$fromJSON(jsonlite::toJSON(data.frame[row,,drop = TRUE], auto_unbox = TRUE))
+				  {{baseName}}.node$fromJSON(jsonlite::toJSON(data.frame[row,,drop = F], auto_unbox = TRUE))
 				  self$`{{baseName}}`[[row]] <- {{baseName}}.node
 			  }
 			  {{/isPrimitiveType}}
@@ -225,7 +225,7 @@
 			  {{/isPrimitiveType}}
 			  {{^isPrimitiveType}}
 				x <- {{classname}}Object$`{{baseName}}`
-				self$`{{baseName}}` <- sapply(names(x), function(y) {{dataType}}$new()$fromJSONString(jsonlite::toJSON(x[[y]])))  
+				self$`{{baseName}}` <- sapply(names(x), function(y){ Obj <- {{dataType}}$new();Obj$fromJSON(jsonlite::toJSON(x[[y]], auto_unbox = TRUE));Obj})  
 			  {{/isPrimitiveType}}
 		{{/isMapContainer}}  
 	  {{/isContainer}}  
