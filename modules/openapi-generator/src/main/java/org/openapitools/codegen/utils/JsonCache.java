@@ -55,7 +55,9 @@ import com.fasterxml.jackson.databind.node.JsonNodeType;
  * @since 4.0.0
  */
 public interface JsonCache {
-    /** Exception thrown by cache operations. Not intended to be created by client code. */
+    /**
+     * Exception thrown by cache operations. Not intended to be created by client code.
+     */
     class CacheException extends Exception {
         private static final long serialVersionUID = -1215367978375557620L;
 
@@ -68,14 +70,18 @@ public interface JsonCache {
         }
     }
 
-    /** A factory for creating JSON cache root instances. */
+    /**
+     * A factory for creating JSON cache root instances.
+     */
     interface Factory {
-        /** The singleton factory instance. */
+        /**
+         * The singleton factory instance.
+         */
         Factory instance = JsonCacheImpl.FactoryImpl.instance;
 
         /**
          * Returns a new cache root instance.
-         * 
+         *
          * @return A new instance.
          */
         Root create();
@@ -94,17 +100,29 @@ public interface JsonCache {
      * Load/merge/save/flush functionality implemented by the root of a JSON cache hierarchy.
      */
     interface Root extends JsonCache {
-        /** Describes cache behaviour when a load method is called for a cache instance that is already loaded. */
+        /**
+         * Describes cache behaviour when a load method is called for a cache instance that is already loaded.
+         */
         enum MergePolicy {
-        /** Calls to <code>load()</code> methods are ignored when the cache is already loaded. */
-        NO_MERGE,
-        /** Recursively merges the incoming tree into the existing tree, retaining existing leaf properties. */
-        MERGE_RECURSIVE,
-        /** Retains existing root properties, ignoring incoming duplicate properties. */
-        KEEP_EXISTING,
-        /** Overwrites existing root properties with incoming duplicate properties. */
-        OVERWRITE_EXISTING
-        };
+            /**
+             * Calls to <code>load()</code> methods are ignored when the cache is already loaded.
+             */
+            NO_MERGE,
+            /**
+             * Recursively merges the incoming tree into the existing tree, retaining existing leaf properties.
+             */
+            MERGE_RECURSIVE,
+            /**
+             * Retains existing root properties, ignoring incoming duplicate properties.
+             */
+            KEEP_EXISTING,
+            /**
+             * Overwrites existing root properties with incoming duplicate properties.
+             */
+            OVERWRITE_EXISTING
+        }
+
+        ;
 
         /**
          * If the cache is dirty, saves the object graph in JSON format to the specified file.
@@ -164,7 +182,7 @@ public interface JsonCache {
         /**
          * Returns the merge policy that applies when <code>load()</code> is called on a cache that is already loaded.
          * The default is {@link MergePolicy#MERGE_RECURSIVE};
-         * 
+         *
          * @return The merge policy.
          * @see #mergePolicy(MergePolicy)
          */
@@ -218,7 +236,7 @@ public interface JsonCache {
 
         /**
          * Sets the merge policy that applies when <code>load()</code> is called for a cache that is already loaded.
-         * 
+         *
          * @param policy The merge policy.
          * @return The receiver, to allow chaining.
          * @throws NullPointerException if <code>policy</code> is null.
@@ -565,7 +583,7 @@ public interface JsonCache {
 
     /**
      * Retrieves an <code>Object</code> value from within the graph.
-     * 
+     *
      * @param path A pointer to the value to return.
      * @return the property value or <code>null</code> if not present.
      * @throws CacheException           if <code>path</code> is not a valid path within the object graph managed by the
@@ -941,7 +959,7 @@ public interface JsonCache {
 
     /**
      * Returns the node type at the specified location in the object graph.
-     * 
+     *
      * @param ptr A pointer to the node to test.
      * @return The node type.
      */
@@ -949,7 +967,7 @@ public interface JsonCache {
 
     /**
      * Returns the node type at the specified location in the object graph.
-     * 
+     *
      * @param path A JSON Pointer expression for the node to test.
      * @return The node type.
      */
@@ -1001,8 +1019,8 @@ public interface JsonCache {
 
     /**
      * Retrieves a typed object value from within the graph.
-     * 
-     * @param      <T> The type of object to return.
+     *
+     * @param <T>  The type of object to return.
      * @param ptr  A pointer to the value to return.
      * @param type The type of object to return.
      * @return the property value or <code>null</code> if not present.
@@ -1015,7 +1033,7 @@ public interface JsonCache {
      * Retrieves a typed object value from within the graph. If the value is not present, stores
      * <code>defaultValue</code> at the specified location and returns this value.
      *
-     * @param              <T> The type of the object to return.
+     * @param <T>          The type of the object to return.
      * @param ptr          A pointer to the value to return.
      * @param defaultValue The default value to return if <code>ptr</code> is not present in the graph.
      * @return the property value or <code>defaultValue</code> if not present.
@@ -1026,8 +1044,8 @@ public interface JsonCache {
 
     /**
      * Retrieves a typed object value from within the graph.
-     * 
-     * @param      <T> The type of object to return.
+     *
+     * @param <T>  The type of object to return.
      * @param path A JSON pointer expression for the value to return.
      * @param type The type of object to return.
      * @return the property value or <code>null</code> if not present.
@@ -1041,7 +1059,7 @@ public interface JsonCache {
      * Retrieves a typed object value from within the graph. If the value is not present, stores
      * <code>defaultValue</code> at the specified location and returns this value.
      *
-     * @param              <T> The type of the object to return.
+     * @param <T>          The type of the object to return.
      * @param path         A JSON pointer expression for the value to return.
      * @param defaultValue The default value to return if <code>path</code> is not present in the graph.
      * @return the property value or <code>defaultValue</code> if not present.
@@ -1054,7 +1072,7 @@ public interface JsonCache {
     /**
      * Retrieves a typed list of objects from within the graph.
      *
-     * @param      <T> The list element type.
+     * @param <T>  The list element type.
      * @param ptr  A pointer to the values to return.
      * @param type The list element type.
      * @return the property values.
@@ -1067,7 +1085,7 @@ public interface JsonCache {
      * Retrieves a typed list of objects from within the graph. If the values are not present, stores
      * <code>defaultValue</code> at the specified location and returns this value.
      *
-     * @param              <T> The list element type.
+     * @param <T>          The list element type.
      * @param ptr          A pointer to the values to return.
      * @param type         The list element type.
      * @param defaultValue The default values to return if <code>ptr</code> is not present in the graph.
@@ -1080,7 +1098,7 @@ public interface JsonCache {
     /**
      * Retrieves a typed list of objects from within the graph.
      *
-     * @param      <T> The list element type.
+     * @param <T>  The list element type.
      * @param path A JSON Pointer expression for the values to return.
      * @param type The list element type.
      * @return the property values.
@@ -1094,7 +1112,7 @@ public interface JsonCache {
      * Retrieves a typed list of objects from within the graph. If the values are not present, stores
      * <code>defaultValue</code> at the specified location and returns this value.
      *
-     * @param              <T> The list element type.
+     * @param <T>          The list element type.
      * @param path         A JSON Pointer expression for the values to return.
      * @param type         The list element type.
      * @param defaultValue The default values to return if <code>path</code> is not present in the graph.
@@ -1195,14 +1213,14 @@ public interface JsonCache {
 
     /**
      * Returns the parent cache of which this is a descendant.
-     * 
+     *
      * @return The parent cache, <code>null</code> if the receiver is the root cache.
      */
     JsonCache parent();
 
     /**
      * Returns the root cache of which this is a descendant.
-     * 
+     *
      * @return The root cache. The root cache returns itself.
      */
     Root root();

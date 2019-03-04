@@ -59,7 +59,9 @@ import com.fasterxml.jackson.databind.node.POJONode;
  * @since 4.0.0
  */
 class JsonCacheImpl implements JsonCache.Root {
-    /** Manages a sub-tree of a parent cache, identified by a base pointer rooted. */
+    /**
+     * Manages a sub-tree of a parent cache, identified by a base pointer rooted.
+     */
     private static class ChildCacheImpl implements JsonCache {
         private final JsonPointer basePtr;
         private final JsonCache parent;
@@ -860,7 +862,7 @@ class JsonCacheImpl implements JsonCache.Root {
 
     /**
      * Ensures that a suitable container exists for the specified JSON pointer.
-     * 
+     *
      * @param ptr A {@link https://tools.ietf.org/html/rfc6901 JSON Pointer} to the property to set.
      * @return The container that owns the property identified by <code>path</code>.
      */
@@ -897,8 +899,8 @@ class JsonCacheImpl implements JsonCache.Root {
             String ancestorProperty = stack.pop();
             String childProperty = stack.isEmpty() // split
                     ? forceArray && !isInteger(lastProperty) // split
-                            ? "0" // split
-                            : lastProperty // split
+                    ? "0" // split
+                    : lastProperty // split
                     : stack.peek();
             // Parent can be array or object; child can be array or object - that's four possible combinations.
             // Infer the child container type from the child property name: an integer pattern implies an array node.
@@ -1571,7 +1573,8 @@ class JsonCacheImpl implements JsonCache.Root {
             if (dest.isArray()) {
                 ArrayNode destArray = (ArrayNode) dest;
                 ArrayNode srcArray = (ArrayNode) src;
-                outer: for (int i = 0; i < srcArray.size(); i++) {
+                outer:
+                for (int i = 0; i < srcArray.size(); i++) {
                     // Only add a source element if it is not already present in the destination array.
                     JsonNode srcElem = srcArray.get(i);
                     for (int j = 0; j < destArray.size(); j++) {

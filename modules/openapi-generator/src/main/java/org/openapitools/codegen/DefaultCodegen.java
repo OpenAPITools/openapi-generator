@@ -3306,8 +3306,8 @@ public class DefaultCodegen implements CodegenConfig {
                 Header header = ModelUtils.getReferencedHeader(this.openAPI, headerEntry.getValue());
 
                 Schema schema;
-                if(header.getSchema() == null) {
-                    LOGGER.warn("No schema defined for Header '" + headerEntry.getKey() +"', using a String schema");
+                if (header.getSchema() == null) {
+                    LOGGER.warn("No schema defined for Header '" + headerEntry.getKey() + "', using a String schema");
                     schema = new StringSchema();
                 } else {
                     schema = header.getSchema();
@@ -4023,7 +4023,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
         Map<String, Object> extensions = var.mostInnerItems != null ? var.mostInnerItems.getVendorExtensions() : var.getVendorExtensions();
-        if(referencedSchema.isPresent()) {
+        if (referencedSchema.isPresent()) {
             extensions = referencedSchema.get().getExtensions();
         }
         updateEnumVarsWithExtensions(enumVars, extensions);
@@ -4033,7 +4033,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (var.defaultValue != null) {
             String enumName = null;
             final String enumDefaultValue;
-            if("string".equalsIgnoreCase(dataType)) {
+            if ("string".equalsIgnoreCase(dataType)) {
                 enumDefaultValue = toEnumValue(var.defaultValue, dataType);
             } else {
                 enumDefaultValue = var.defaultValue;

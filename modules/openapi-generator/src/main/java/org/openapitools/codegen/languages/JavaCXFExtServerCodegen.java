@@ -64,7 +64,7 @@ import io.swagger.v3.oas.models.media.Schema;
 
 /**
  * An Apache CXF-based JAX-RS server with extended capabilities.
- * 
+ *
  * @author Adrian Price, TIBCO Software Inc.
  */
 public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXFExtServerFeatures {
@@ -100,7 +100,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         }
 
         private CodegenVariable(CodegenVariable parent, CodegenOperation op, String testDataPath,
-                Map<String, CodegenModel> models) {
+                                Map<String, CodegenModel> models) {
 
             name = "response";
             dataFormat = null;// op.dataFormat;
@@ -135,7 +135,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         }
 
         private CodegenVariable(CodegenVariable parent, CodegenParameter param, String testDataPath,
-                Map<String, CodegenModel> models) {
+                                Map<String, CodegenModel> models) {
 
             name = param.paramName;
             dataFormat = param.dataFormat;
@@ -162,7 +162,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         }
 
         private CodegenVariable(CodegenVariable parent, CodegenProperty prop, String testDataPath,
-                Map<String, CodegenModel> models) {
+                                Map<String, CodegenModel> models) {
 
             name = prop.name;
             dataFormat = prop.dataFormat;
@@ -335,7 +335,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     }
 
     private void appendArrayValue(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
-            String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
+                                  String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
 
         if (var.dataType.equals("byte[]")) {
             // Byte arrays are represented as Base64-encoded strings.
@@ -373,7 +373,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     }
 
     private void appendByteArrayValue(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
-            String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
+                                      String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
 
         if (!loadTestDataFromFile)
             buffer.append('"');
@@ -393,7 +393,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     }
 
     private void appendListValue(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
-            String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
+                                 String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
 
         op.imports.add("List");
         if (!loadTestDataFromFile) {
@@ -425,7 +425,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
 
     /**
      * Declares and initialises a local variable of the specified type.
-     * 
+     *
      * @param buffer
      * @param indent
      * @param op
@@ -439,7 +439,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
      * @return <code>localVar</code> with a numeric suffix if necessary to ensure uniqueness.
      */
     private String appendLocalVariable(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
-            Collection<String> localVars, Map<String, CodegenModel> models) {
+                                       Collection<String> localVars, Map<String, CodegenModel> models) {
 
         // Ensure that we're using a unique local variable name (to avoid typing and overwriting conflicts).
         String localVar = localVariablePrefix + var.name;
@@ -457,7 +457,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     }
 
     private void appendMapValue(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
-            String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
+                                String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
 
         op.imports.add("Map");
         if (!loadTestDataFromFile) {
@@ -491,7 +491,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     }
 
     private void appendObjectValue(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
-            String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
+                                   String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
 
         if ("Object".equals(var.dataType)) {
             // Jackson can't serialize java.lang.Object, so we'll provide an empty JSON ObjectNode instead.
@@ -509,7 +509,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     }
 
     private void appendPropertyAssignments(StringBuilder buffer, String indent, CodegenOperation op,
-            CodegenVariable parent, String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
+                                           CodegenVariable parent, String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
 
         CodegenModel cm = models.get(parent.dataType);
         if (cm != null) { // TODO: handle isArrayModel and isMapModel
@@ -788,7 +788,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
      * @param type      The value type.
      */
     private void appendScalarValue(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
-            String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
+                                   String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
 
         if (!var.isPrimitiveType && !DATE_TYPES.contains(var.dataType) || var.dataType.equals("Object")) {
             // All other non-container types: allocate a new object on the heap.
@@ -857,7 +857,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     }
 
     private StringBuilder appendValue(StringBuilder buffer, String indent, CodegenOperation op, CodegenVariable var,
-            String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
+                                      String localVar, Collection<String> localVars, Map<String, CodegenModel> models) {
 
         if (var.isListContainer)
             appendListValue(buffer, indent, op, var, localVar, localVars, models);
@@ -876,7 +876,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
      * content type for consumes and/or produces and respectively have a body parameter and/or a return value. This is
      * necessary since none of the configured CXF or Jackson JAX-RS providers support the inferred default content type
      * of <code>&ast;/*</code>.
-     * 
+     *
      * @param op
      */
     private void applyDefaultContentTypes(CodegenOperation op) {
@@ -1050,7 +1050,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                         break;
                     case "email":
                         pattern = "[a-z][a-z0-9_.-]{1,8}@[a-z][a-z0-9-.]{2,12}\\.[a-z]{2,4}"; // (simplistic but
-                                                                                              // sufficient)
+                        // sufficient)
                         break;
                     case "hostname":
                         pattern = "[a-z][a-z0-9-.]{2,12}\\.[a-z]{2,4}"; // (simplistic but sufficient)
