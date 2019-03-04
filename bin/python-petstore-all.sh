@@ -4,3 +4,4 @@
 ./bin/python-asyncio-petstore.sh
 ./bin/python-petstore.sh
 ./bin/python-tornado-petstore.sh
+./bin/python-uplink-client-petstore.sh

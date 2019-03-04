@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/python-uplink -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g python-uplink -o samples/client/petstore/python-uplink -DpackageName=petstore_api $@"
+ags="generate -t modules/openapi-generator/src/main/resources/python-uplink -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g python-uplink -o samples/openapi3/client/petstore/python-uplink -DpackageName=petstore_api $@"
 
-java ${JAVA_OPTS} -jar ${executable} ${ags}
+java $JAVA_OPTS -jar $executable $ags
