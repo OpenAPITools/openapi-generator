@@ -1,4 +1,4 @@
-# openapi_client_python_uplink.UserApi
+# petstore_api.UserApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
@@ -25,13 +25,13 @@ This can only be done by the logged in user.
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.()
-body = openapi_client_python_uplink.User() # User | Created user object
+api_client = petstore_api.()
+body = petstore_api.User() # User | Created user object
 
 try:
     # Create user
@@ -71,12 +71,12 @@ Creates list of users with given input array
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.()
+api_client = petstore_api.()
 body = NULL # list[User] | List of user object
 
 try:
@@ -117,12 +117,12 @@ Creates list of users with given input array
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.()
+api_client = petstore_api.()
 body = NULL # list[User] | List of user object
 
 try:
@@ -165,12 +165,12 @@ This can only be done by the logged in user.
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.()
+api_client = petstore_api.()
 username = 'username_example' # str | The name that needs to be deleted
 
 try:
@@ -211,12 +211,12 @@ Get user by user name
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.()
+api_client = petstore_api.()
 username = 'username_example' # str | The name that needs to be fetched. Use user1 for testing.
 
 try:
@@ -258,12 +258,12 @@ Logs user into the system
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.()
+api_client = petstore_api.()
 username = 'username_example' # str | The user name for login
 password = 'password_example' # str | The password for login in clear text
 
@@ -307,12 +307,12 @@ Logs out current logged in user session
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.()
+api_client = petstore_api.()
 
 try:
     # Logs out current logged in user session
@@ -351,14 +351,14 @@ This can only be done by the logged in user.
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.()
+api_client = petstore_api.()
 username = 'username_example' # str | name that need to be deleted
-body = openapi_client_python_uplink.User() # User | Updated user object
+body = petstore_api.User() # User | Updated user object
 
 try:
     # Updated user

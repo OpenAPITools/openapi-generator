@@ -16,8 +16,8 @@ from collections import namedtuple
 
 from marshmallow import fields, validate
 
-from openapi_client_python_uplink.models._schema import SchemaBase
-from openapi_client_python_uplink.models import _validate
+from petstore_api.models._schema import SchemaBase
+from petstore_api.models import _validate
 
 
 __all__ = [

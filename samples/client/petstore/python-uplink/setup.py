@@ -15,7 +15,7 @@ __metaclass__ = type
 
 from setuptools import setup, find_packages
 
-NAME = "openapi-client-python-uplink"
+NAME = "petstore-api"
 VERSION = "0.1.0"
 # To install the library, run the following
 #

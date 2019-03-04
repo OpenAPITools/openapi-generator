@@ -1,4 +1,4 @@
-# openapi_client_python_uplink.PetApi
+# petstore_api.PetApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
@@ -23,8 +23,8 @@ Add a new pet to the store
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 
@@ -35,8 +35,8 @@ from pprint import pprint
 
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.(auth=auth)
-body = openapi_client_python_uplink.Pet() # Pet | Pet object that needs to be added to the store
+api_client = petstore_api.(auth=auth)
+body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
 try:
     # Add a new pet to the store
@@ -76,8 +76,8 @@ Deletes a pet
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 
@@ -88,7 +88,7 @@ from pprint import pprint
 
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.(auth=auth)
+api_client = petstore_api.(auth=auth)
 pet_id = 56 # int | Pet id to delete
 api_key = 'api_key_example' # str |  (optional)
 
@@ -133,8 +133,8 @@ Multiple status values can be provided with comma separated strings
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 
@@ -145,7 +145,7 @@ from pprint import pprint
 
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.(auth=auth)
+api_client = petstore_api.(auth=auth)
 status = NULL # list[str] | Status values that need to be considered for filter
 
 try:
@@ -189,8 +189,8 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 
@@ -201,7 +201,7 @@ from pprint import pprint
 
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.(auth=auth)
+api_client = petstore_api.(auth=auth)
 tags = NULL # list[str] | Tags to filter by
 
 try:
@@ -245,8 +245,8 @@ Returns a single pet
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 
@@ -257,7 +257,7 @@ auth = security.ApiKeySecurity('YOUR_API_KEY')
 
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.(auth=auth)
+api_client = petstore_api.(auth=auth)
 pet_id = 56 # int | ID of pet to return
 
 try:
@@ -299,8 +299,8 @@ Update an existing pet
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 
@@ -311,8 +311,8 @@ from pprint import pprint
 
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.(auth=auth)
-body = openapi_client_python_uplink.Pet() # Pet | Pet object that needs to be added to the store
+api_client = petstore_api.(auth=auth)
+body = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
 
 try:
     # Update an existing pet
@@ -352,8 +352,8 @@ Updates a pet in the store with form data
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 
@@ -364,7 +364,7 @@ from pprint import pprint
 
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.(auth=auth)
+api_client = petstore_api.(auth=auth)
 pet_id = 56 # int | ID of pet that needs to be updated
 name = 'name_example' # str | Updated name of the pet (optional)
 status = 'status_example' # str | Updated status of the pet (optional)
@@ -409,8 +409,8 @@ uploads an image
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 
@@ -421,7 +421,7 @@ from pprint import pprint
 
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.(auth=auth)
+api_client = petstore_api.(auth=auth)
 pet_id = 56 # int | ID of pet to update
 additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
 file = '/path/to/file' # file | file to upload (optional)

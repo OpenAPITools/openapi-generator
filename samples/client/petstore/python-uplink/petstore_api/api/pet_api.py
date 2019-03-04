@@ -23,10 +23,10 @@ from uplink.arguments import *  # type hints for arguments
 from uplink.decorators import *  # request decorators
 from uplink.types import *  # type hints for return types
 
-from openapi_client_python_uplink.api.consumer import BaseApiConsumer
-from openapi_client_python_uplink.decorators import *  # http methods, security, media_type
-from openapi_client_python_uplink.models.api_response import ApiResponse  # TODO: fix Schema import
-from openapi_client_python_uplink.models.pet import Pet  # TODO: fix Schema import
+from petstore_api.api.consumer import BaseApiConsumer
+from petstore_api.decorators import *  # http methods, security, media_type
+from petstore_api.models.api_response import ApiResponse  # TODO: fix Schema import
+from petstore_api.models.pet import Pet  # TODO: fix Schema import
 
 __all__ = ['PetApi']
 

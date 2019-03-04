@@ -16,13 +16,13 @@ from collections import namedtuple
 
 from marshmallow import fields, validate
 
-from openapi_client_python_uplink.models._schema import SchemaBase
-from openapi_client_python_uplink.models import _validate
+from petstore_api.models._schema import SchemaBase
+from petstore_api.models import _validate
 
-from openapi_client_python_uplink.models.category import Category
-from openapi_client_python_uplink.models.category import CategorySchema
-from openapi_client_python_uplink.models.tag import Tag
-from openapi_client_python_uplink.models.tag import TagSchema
+from petstore_api.models.category import Category
+from petstore_api.models.category import CategorySchema
+from petstore_api.models.tag import Tag
+from petstore_api.models.tag import TagSchema
 
 __all__ = [
     'Pet', 'PetSchema',

@@ -13,7 +13,7 @@ from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
 # import apis into api package
-from openapi_client_python_uplink.api.pet_api import PetApi
-from openapi_client_python_uplink.api.store_api import StoreApi
-from openapi_client_python_uplink.api.user_api import UserApi
+from petstore_api.api.pet_api import PetApi
+from petstore_api.api.store_api import StoreApi
+from petstore_api.api.user_api import UserApi
 

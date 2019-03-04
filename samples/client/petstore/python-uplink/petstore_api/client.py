@@ -14,7 +14,7 @@ __metaclass__ = type
 
 from uplink.session import Session
 
-from openapi_client_python_uplink import openapi_client_python_uplink.api
+from petstore_api import petstore_api.api
 
 __all__ = ["ApiClient"]
 
@@ -79,10 +79,10 @@ class ApiClient:
                 raise TypeError("%s must be a %s. Got %s." % (self._name, self._api_class.__name__, type(value)))
             instance.__dict__[self._name] = value
 
-    pet_api = ApiDescriptor("pet_api", openapi_client_python_uplink.api.pet_api.PetApi)
+    pet_api = ApiDescriptor("pet_api", petstore_api.api.pet_api.PetApi)
 
-    store_api = ApiDescriptor("store_api", openapi_client_python_uplink.api.store_api.StoreApi)
+    store_api = ApiDescriptor("store_api", petstore_api.api.store_api.StoreApi)
 
-    user_api = ApiDescriptor("user_api", openapi_client_python_uplink.api.user_api.UserApi)
+    user_api = ApiDescriptor("user_api", petstore_api.api.user_api.UserApi)
 
 

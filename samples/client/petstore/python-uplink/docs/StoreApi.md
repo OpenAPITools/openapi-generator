@@ -1,4 +1,4 @@
-# openapi_client_python_uplink.StoreApi
+# petstore_api.StoreApi
 
 All URIs are relative to *http://petstore.swagger.io/v2*
 
@@ -21,12 +21,12 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.()
+api_client = petstore_api.()
 order_id = 'order_id_example' # str | ID of the order that needs to be deleted
 
 try:
@@ -69,8 +69,8 @@ Returns a map of status codes to quantities
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 
@@ -81,7 +81,7 @@ auth = security.ApiKeySecurity('YOUR_API_KEY')
 
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.(auth=auth)
+api_client = petstore_api.(auth=auth)
 
 try:
     # Returns pet inventories by status
@@ -121,12 +121,12 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.()
+api_client = petstore_api.()
 order_id = 56 # int | ID of pet that needs to be fetched
 
 try:
@@ -168,13 +168,13 @@ Place an order for a pet
 ```python
 from __future__ import print_function
 import time
-import openapi_client_python_uplink
-from openapi_client_python_uplink import security
+import petstore_api
+from petstore_api import security
 from pprint import pprint
 
 # create an instance of the API class
-api_client = openapi_client_python_uplink.()
-body = openapi_client_python_uplink.Order() # Order | order placed for purchasing the pet
+api_client = petstore_api.()
+body = petstore_api.Order() # Order | order placed for purchasing the pet
 
 try:
     # Place an order for a pet
