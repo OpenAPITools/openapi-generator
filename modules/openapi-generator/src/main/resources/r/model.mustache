@@ -203,28 +203,40 @@
     fromJSONString = function({{classname}}Json) {
       {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
       {{#vars}}
-      {{#isListContainer}}
-      {{#isPrimitiveType}}
-      self$`{{baseName}}` <- lapply({{classname}}Object$`{{baseName}}`, function (x) x)
-      {{/isPrimitiveType}}
-      {{^isPrimitiveType}}
-      data.frame <- {{classname}}Object$`{{baseName}}`
-      self$`{{baseName}}` <- vector("list", length = nrow(data.frame))
-      for (row in 1:nrow(data.frame)) {
-          {{baseName}}.node <- {{dataType}}$new()
-          {{baseName}}.node$fromJSON(jsonlite::toJSON(data.frame[row,,drop = TRUE], auto_unbox = TRUE))
-          self$`{{baseName}}`[[row]] <- {{baseName}}.node
-      }
-      {{/isPrimitiveType}}
-      {{/isListContainer}}
-      {{^isListContainer}}
-      {{#isPrimitiveType}}
-      self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
-      {{/isPrimitiveType}}
-      {{^isPrimitiveType}}
-      self$`{{baseName}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
-      {{/isPrimitiveType}}
-      {{/isListContainer}}
+	    {{#isContainer}}	  
+		  {{#isListContainer}}
+			  {{#isPrimitiveType}}
+			  self$`{{baseName}}` <- lapply({{classname}}Object$`{{baseName}}`, function (x) x)
+			  {{/isPrimitiveType}}
+			  {{^isPrimitiveType}}
+			  data.frame <- {{classname}}Object$`{{baseName}}`
+			  self$`{{baseName}}` <- vector("list", length = nrow(data.frame))
+			  for (row in 1:nrow(data.frame)) {
+				  {{baseName}}.node <- {{dataType}}$new()
+				  {{baseName}}.node$fromJSON(jsonlite::toJSON(data.frame[row,,drop = TRUE], auto_unbox = TRUE))
+				  self$`{{baseName}}`[[row]] <- {{baseName}}.node
+			  }
+			  {{/isPrimitiveType}}
+		 {{/isListContainer}}		
+		 {{#isMapContainer}}
+			  {{#isPrimitiveType}}
+				x <- {{classname}}Object$`{{baseName}}`
+				self$`{{baseName}}` <- sapply(names(x), function(y) x[[y]])  		  
+			  {{/isPrimitiveType}}
+			  {{^isPrimitiveType}}
+				x <- {{classname}}Object$`{{baseName}}`
+				self$`{{baseName}}` <- sapply(names(x), function(y) {{dataType}}$new()$fromJSONString(jsonlite::toJSON(x[[y]])))  
+			  {{/isPrimitiveType}}
+		{{/isMapContainer}}  
+	  {{/isContainer}}  
+	  {{^isContainer}} 
+		{{#isPrimitiveType}}
+		  self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
+		{{/isPrimitiveType}}
+		{{^isPrimitiveType}}
+		  self$`{{baseName}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
+		{{/isPrimitiveType}}  
+	  {{/isContainer}}
       {{/vars}}
       self
     }
