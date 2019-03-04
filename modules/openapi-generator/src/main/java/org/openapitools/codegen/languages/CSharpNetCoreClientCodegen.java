@@ -244,7 +244,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 }
 
                 for (final CodegenProperty property : codegenModel.readWriteVars) {
-                    if (property.defaultValue == null && property.baseName.equals(parentCodegenModel.discriminator)) {
+                    if (property.defaultValue == null) {
                         property.defaultValue = "\"" + name + "\"";
                     }
                 }

@@ -426,10 +426,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         final Map<String, List<String>> scopes = new HashMap<>();
         for (SecurityRequirement requirement : securities) {
             for (String key : requirement.keySet()) {
-                SecurityScheme securityScheme = securitySchemes.get(key);
-                if (securityScheme != null) {
-                    scopes.put(key, requirement.get(key));
-                }
+                Optional.ofNullable(securitySchemes).ifPresent(_securitySchemes -> Optional.ofNullable(securitySchemes.get(key))
+                        .ifPresent(securityScheme -> scopes.put(key, requirement.get(key))));
             }
         }
         return scopes;

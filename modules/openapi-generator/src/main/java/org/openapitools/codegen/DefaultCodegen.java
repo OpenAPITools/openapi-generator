@@ -1274,8 +1274,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @param schema property type
      * @return property value
      */
+    @SuppressWarnings("squid:S3923")
     private String getPropertyDefaultValue(Schema schema) {
-        //NOSONAR
         if (ModelUtils.isBooleanSchema(schema)) {
             return "null";
         } else if (ModelUtils.isDateSchema(schema)) {
@@ -4793,6 +4793,9 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
+        if(parameter == null || property == null) {
+            return;
+        }
         parameter.isNullable = property.isNullable;
     }
 
