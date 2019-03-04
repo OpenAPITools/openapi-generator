@@ -1251,23 +1251,7 @@ public class DefaultCodegen implements CodegenConfig {
             return schema.getExample().toString();
         }
 
-        if (ModelUtils.isBooleanSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isDateSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isDateTimeSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isNumberSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isIntegerSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isStringSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isObjectSchema(schema)) {
-            return "null";
-        } else {
-            return "null";
-        }
+        return getPropertyDefaultValue(schema);
     }
 
     /**
@@ -1282,6 +1266,16 @@ public class DefaultCodegen implements CodegenConfig {
             return schema.getDefault().toString();
         }
 
+        return getPropertyDefaultValue(schema);
+    }
+
+    /**
+     * Return property value depending on property type
+     * @param schema property type
+     * @return property value
+     */
+    private String getPropertyDefaultValue(Schema schema) {
+        //NOSONAR
         if (ModelUtils.isBooleanSchema(schema)) {
             return "null";
         } else if (ModelUtils.isDateSchema(schema)) {
@@ -4506,6 +4500,7 @@ public class DefaultCodegen implements CodegenConfig {
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
         if (body == null) {
             LOGGER.error("body in fromRequestBody cannot be null!");
+            throw new RuntimeException("body in fromRequestBody cannot be null!");
         }
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegenParameter.baseName = "UNKNOWN_BASE_NAME";

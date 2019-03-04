@@ -254,12 +254,12 @@ public class ExampleGenerator {
         } else if (ModelUtils.isDateTimeSchema(property)) {
             return "2000-01-23T04:56:07.000+00:00";
         } else if (ModelUtils.isNumberSchema(property)) {
-            Double min = property.getMinimum() == null ? null : property.getMinimum().doubleValue();
-            Double max = property.getMaximum() == null ? null : property.getMaximum().doubleValue();
+            Double min = getPropertyValue(property.getMinimum());
+            Double max = getPropertyValue(property.getMaximum());
             if (ModelUtils.isFloatSchema(property)) { // float
                 return (float) randomNumber(min, max);
             } else if (ModelUtils.isDoubleSchema(property)) { // decimal/double
-                return new BigDecimal(randomNumber(min, max));
+                return BigDecimal.valueOf(randomNumber(min, max));
             } else { // no format defined
                 return randomNumber(min, max);
             }
@@ -267,8 +267,8 @@ public class ExampleGenerator {
             return "";  // TODO
 
         } else if (ModelUtils.isIntegerSchema(property)) {
-            Double min = property.getMinimum() == null ? null : property.getMinimum().doubleValue();
-            Double max = property.getMaximum() == null ? null : property.getMaximum().doubleValue();
+            Double min = getPropertyValue(property.getMinimum());
+            Double max = getPropertyValue(property.getMaximum());
             if (ModelUtils.isLongSchema(property)) {
                 return (long) randomNumber(min, max);
             }
@@ -317,6 +317,10 @@ public class ExampleGenerator {
         }
 
         return "";
+    }
+
+    private Double getPropertyValue(BigDecimal propertyValue) {
+        return propertyValue == null ? null : propertyValue.doubleValue();
     }
 
     private double randomNumber(Double min, Double max) {

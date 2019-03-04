@@ -32,7 +32,6 @@ import java.util.Locale;
 import java.util.Map;
 
 public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
 
     public static final String NPM_NAME = "npmName";
     public static final String NPM_VERSION = "npmVersion";
