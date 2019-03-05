@@ -157,8 +157,8 @@
       }
       {{/vars}}
     },
-    toJSONString = function() {
-      sprintf(
+       toJSONString = function() {
+      outstring = sprintf(
         '{
            {{#vars}}
            "{{baseName}}":
@@ -181,24 +181,32 @@
            {{/vars}}
         }',
         {{#vars}}
+		{{!AAPI Added the if else condition to handle null values}}
+		if (!is.null(self$`{{baseName}}`)) {
         {{#isListContainer}}
         {{#isPrimitiveType}}
-        paste(unlist(lapply(self$`{{{baseName}}}`, function(x) paste0('"', x, '"'))), collapse=","){{#hasMore}},{{/hasMore}}
+        paste(unlist(lapply(self$`{{{baseName}}}`, function(x) paste0('"', x, '"'))), collapse=",")
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        paste(unlist(lapply(self$`{{{baseName}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE))), collapse=","){{#hasMore}},{{/hasMore}}
+        paste(unlist(lapply(self$`{{{baseName}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE))), collapse=",")
         {{/isPrimitiveType}}
         {{/isListContainer}}
         {{^isListContainer}}
         {{#isPrimitiveType}}
-        self$`{{baseName}}`{{#hasMore}},{{/hasMore}}
+        self$`{{baseName}}`
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        jsonlite::toJSON(self$`{{baseName}}`$toJSON(), auto_unbox=TRUE){{#hasMore}},{{/hasMore}}
+        jsonlite::toJSON(self$`{{baseName}}`$toJSON(), auto_unbox=TRUE)
         {{/isPrimitiveType}}
         {{/isListContainer}}
+		}
+		else{
+		"null"
+		}{{#hasMore}},{{/hasMore}}
         {{/vars}}
       )
+	  outstring = gsub("[\r\n]| ", "", outstring)
+	  gsub(':\\[null\\]|:\\\"null\\\"',':null',outstring)
     },
     fromJSONString = function({{classname}}Json) {
       {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
