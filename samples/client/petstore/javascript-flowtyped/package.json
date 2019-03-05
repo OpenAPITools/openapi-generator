@@ -1,12 +1,13 @@
 {
   "name": "open_api_petstore",
   "version": "1.0.0",
-  "description": "swagger client for open_api_petstore",
-  "author": "Swagger Codegen Contributors",
+  "description": "OpenAPI Client for open_api_petstore",
+  "author": "OpenAPI-Generator Contributors",
   "keywords": [
     "fetch",
     "flow",
-    "swagger-client",
+    "openapi",
+    "openapi-generator",
     "open_api_petstore"
   ],
   "license": "Unlicense",
