@@ -10,6 +10,7 @@
 """
 
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -41,7 +42,14 @@ class Tag(object):
     }
 
     def __init__(self, id=None, name=None):  # noqa: E501
-        """Tag - a model defined in OpenAPI"""  # noqa: E501
+        """Tag - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            id (int): [optional]  # noqa: E501
+            name (str): [optional]  # noqa: E501
+        """
 
         self._id = None
         self._name = None

@@ -10,6 +10,7 @@
 """
 
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -44,7 +45,12 @@ class OuterEnum(object):
     }
 
     def __init__(self):  # noqa: E501
-        """OuterEnum - a model defined in OpenAPI"""  # noqa: E501
+        """OuterEnum - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+        """
         self.discriminator = None
 
     def to_dict(self):

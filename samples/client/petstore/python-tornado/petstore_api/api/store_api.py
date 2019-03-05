@@ -41,11 +41,14 @@ class StoreApi(object):
         >>> thread = api.delete_order(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str order_id: ID of the order that needs to be deleted (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            order_id (str): ID of the order that needs to be deleted
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -63,11 +66,14 @@ class StoreApi(object):
         >>> thread = api.delete_order_with_http_info(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str order_id: ID of the order that needs to be deleted (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            order_id (str): ID of the order that needs to be deleted
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -90,6 +96,7 @@ class StoreApi(object):
         if ('order_id' not in local_var_params or
                 local_var_params['order_id'] is None):
             raise ValueError("Missing the required parameter `order_id` when calling `delete_order`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -133,10 +140,13 @@ class StoreApi(object):
         >>> thread = api.get_inventory(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :return: dict(str, int)
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            dict(str, int):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -154,10 +164,13 @@ class StoreApi(object):
         >>> thread = api.get_inventory_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :return: dict(str, int)
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            dict(str, int):
         """
 
         local_var_params = locals()
@@ -176,6 +189,7 @@ class StoreApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+
 
         collection_formats = {}
 
@@ -221,11 +235,14 @@ class StoreApi(object):
         >>> thread = api.get_order_by_id(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param int order_id: ID of pet that needs to be fetched (required)
-        :return: Order
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            order_id (int): ID of pet that needs to be fetched
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            Order:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -243,11 +260,14 @@ class StoreApi(object):
         >>> thread = api.get_order_by_id_with_http_info(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param int order_id: ID of pet that needs to be fetched (required)
-        :return: Order
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            order_id (int): ID of pet that needs to be fetched
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            Order:
         """
 
         local_var_params = locals()
@@ -270,6 +290,7 @@ class StoreApi(object):
         if ('order_id' not in local_var_params or
                 local_var_params['order_id'] is None):
             raise ValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")  # noqa: E501
+
 
         if 'order_id' in local_var_params and local_var_params['order_id'] > 5:  # noqa: E501
             raise ValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value less than or equal to `5`")  # noqa: E501
@@ -320,11 +341,14 @@ class StoreApi(object):
         >>> thread = api.place_order(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param Order body: order placed for purchasing the pet (required)
-        :return: Order
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (Order): order placed for purchasing the pet
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            Order:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -341,11 +365,14 @@ class StoreApi(object):
         >>> thread = api.place_order_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param Order body: order placed for purchasing the pet (required)
-        :return: Order
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (Order): order placed for purchasing the pet
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            Order:
         """
 
         local_var_params = locals()
@@ -368,6 +395,7 @@ class StoreApi(object):
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `place_order`")  # noqa: E501
+
 
         collection_formats = {}
 

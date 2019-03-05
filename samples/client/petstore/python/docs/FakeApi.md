@@ -432,7 +432,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_endpoint_enums_length_one**
-> test_endpoint_enums_length_one()
+> test_endpoint_enums_length_one(query_integer, query_string, path_string, path_integer, header_number)
 
 
 
@@ -449,10 +449,15 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
+query_integer = 56 # int | 
+query_string = 'query_string_example' # str | 
+path_string = 'path_string_example' # str | 
+path_integer = 56 # int | 
+header_number = 3.4 # float | 
 
 # example passing only required values which don't have defaults set
 try:
-    api_instance.test_endpoint_enums_length_one()
+    api_instance.test_endpoint_enums_length_one(query_integer, query_string, path_string, path_integer, header_number)
 except ApiException as e:
     print("Exception when calling FakeApi->test_endpoint_enums_length_one: %s\n" % e)
 
@@ -463,11 +468,11 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query_integer** | **int**|  | [default to 3]
- **query_string** | **str**|  | [default to &#39;brillig&#39;]
- **path_string** | **str**|  | [default to &#39;hello&#39;]
- **path_integer** | **int**|  | [default to 34]
- **header_number** | **float**|  | [default to 1.234]
+ **query_integer** | **int**|  | 
+ **query_string** | **str**|  | 
+ **path_string** | **str**|  | 
+ **path_integer** | **int**|  | 
+ **header_number** | **float**|  | 
 
 ### Return type
 

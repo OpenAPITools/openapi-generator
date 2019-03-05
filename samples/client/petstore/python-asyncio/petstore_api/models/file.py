@@ -10,6 +10,7 @@
 """
 
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -39,7 +40,13 @@ class File(object):
     }
 
     def __init__(self, source_uri=None):  # noqa: E501
-        """File - a model defined in OpenAPI"""  # noqa: E501
+        """File - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            source_uri (str): Test capitalization. [optional]  # noqa: E501
+        """
 
         self._source_uri = None
         self.discriminator = None

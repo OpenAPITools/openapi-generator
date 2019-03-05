@@ -10,6 +10,7 @@
 """
 
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -40,8 +41,15 @@ class Category(object):
         'name': 'name'
     }
 
-    def __init__(self, id=None, name='default-name'):  # noqa: E501
-        """Category - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, name='default-name', id=None):  # noqa: E501
+        """Category - a model defined in OpenAPI
+
+        Args:
+
+        Keyword Args:
+            name (str): defaults to 'default-name', must be one of ['default-name']
+            id (int): [optional]  # noqa: E501
+        """
 
         self._id = None
         self._name = None

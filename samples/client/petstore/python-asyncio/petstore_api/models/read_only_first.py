@@ -10,6 +10,7 @@
 """
 
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -41,7 +42,14 @@ class ReadOnlyFirst(object):
     }
 
     def __init__(self, bar=None, baz=None):  # noqa: E501
-        """ReadOnlyFirst - a model defined in OpenAPI"""  # noqa: E501
+        """ReadOnlyFirst - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            bar (str): [optional]  # noqa: E501
+            baz (str): [optional]  # noqa: E501
+        """
 
         self._bar = None
         self._baz = None

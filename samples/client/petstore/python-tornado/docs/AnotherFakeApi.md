@@ -27,12 +27,15 @@ from pprint import pprint
 api_instance = petstore_api.AnotherFakeApi()
 body = petstore_api.Client() # Client | client model
 
+# example passing only required values which don't have defaults set
 try:
     # To test special tags
     api_response = api_instance.call_123_test_special_tags(body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
+
+
 ```
 
 ### Parameters

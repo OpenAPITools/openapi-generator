@@ -51,19 +51,19 @@ class TypeHolderExample(object):
         'array_item': 'array_item'
     }
 
-    def __init__(self, bool_item, array_item, string_item='what', number_item=1.2339999675750732, integer_item=-2, date_item=dateutil_parser('2017-07-21').date(), datetime_item=dateutil_parser('2017-07-21T17:32:28.000Z')):  # noqa: E501
+    def __init__(self, string_item, number_item, integer_item, bool_item, date_item, datetime_item, array_item):  # noqa: E501
         """TypeHolderExample - a model defined in OpenAPI
 
         Args:
+            string_item (str):
+            number_item (float):
+            integer_item (int):
             bool_item (bool):
+            date_item (date):
+            datetime_item (datetime):
             array_item (list[int]):
 
         Keyword Args:
-            string_item (str): defaults to 'what', must be one of ['what']
-            number_item (float): defaults to 1.2339999675750732, must be one of [1.2339999675750732]
-            integer_item (int): defaults to -2, must be one of [-2]
-            date_item (date): defaults to dateutil_parser('2017-07-21').date(), must be one of [dateutil_parser('2017-07-21').date()]
-            datetime_item (datetime): defaults to dateutil_parser('2017-07-21T17:32:28.000Z'), must be one of [dateutil_parser('2017-07-21T17:32:28.000Z')]
         """
 
         self._string_item = None
@@ -213,7 +213,7 @@ class TypeHolderExample(object):
         """
         if date_item is None:
             raise ValueError("Invalid value for `date_item`, must not be `None`")  # noqa: E501
-        allowed_values = [dateutil_parser('2017-07-21').date()]  # noqa: E501
+        allowed_values = [Thu Jul 20 17:00:00 PDT 2017]  # noqa: E501
         if date_item not in allowed_values:
             raise ValueError(
                 "Invalid value for `date_item` ({0}), must be one of {1}"  # noqa: E501
@@ -242,7 +242,7 @@ class TypeHolderExample(object):
         """
         if datetime_item is None:
             raise ValueError("Invalid value for `datetime_item`, must not be `None`")  # noqa: E501
-        allowed_values = [dateutil_parser('2017-07-21T17:32:28.000Z')]  # noqa: E501
+        allowed_values = [Fri Jul 21 10:32:28 PDT 2017]  # noqa: E501
         if datetime_item not in allowed_values:
             raise ValueError(
                 "Invalid value for `datetime_item` ({0}), must be one of {1}"  # noqa: E501

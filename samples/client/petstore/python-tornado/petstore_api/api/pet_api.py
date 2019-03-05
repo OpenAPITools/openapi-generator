@@ -40,11 +40,14 @@ class PetApi(object):
         >>> thread = api.add_pet(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param Pet body: Pet object that needs to be added to the store (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (Pet): Pet object that needs to be added to the store
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -61,11 +64,14 @@ class PetApi(object):
         >>> thread = api.add_pet_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param Pet body: Pet object that needs to be added to the store (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (Pet): Pet object that needs to be added to the store
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -88,6 +94,7 @@ class PetApi(object):
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `add_pet`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -134,12 +141,15 @@ class PetApi(object):
         >>> thread = api.delete_pet(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param int pet_id: Pet id to delete (required)
-        :param str api_key:
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            pet_id (int): Pet id to delete
+
+        Keyword Args:
+            api_key (str): [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -156,12 +166,15 @@ class PetApi(object):
         >>> thread = api.delete_pet_with_http_info(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param int pet_id: Pet id to delete (required)
-        :param str api_key:
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            pet_id (int): Pet id to delete
+
+        Keyword Args:
+            api_key (str): [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -184,6 +197,7 @@ class PetApi(object):
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `delete_pet`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -229,11 +243,14 @@ class PetApi(object):
         >>> thread = api.find_pets_by_status(status, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param list[str] status: Status values that need to be considered for filter (required)
-        :return: list[Pet]
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            status (list[str]): Status values that need to be considered for filter
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            list[Pet]:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -251,11 +268,14 @@ class PetApi(object):
         >>> thread = api.find_pets_by_status_with_http_info(status, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param list[str] status: Status values that need to be considered for filter (required)
-        :return: list[Pet]
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            status (list[str]): Status values that need to be considered for filter
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            list[Pet]:
         """
 
         local_var_params = locals()
@@ -278,6 +298,15 @@ class PetApi(object):
         if ('status' not in local_var_params or
                 local_var_params['status'] is None):
             raise ValueError("Missing the required parameter `status` when calling `find_pets_by_status`")  # noqa: E501
+
+        allowed_values = ["available", "pending", "sold"]  # noqa: E501
+        if ('status' in local_var_params and
+                not set(local_var_params['status']).issubset(set(allowed_values))):  # noqa: E501
+            raise ValueError(
+                "Invalid values for `status` [{0}], must be a subset of [{1}]"  # noqa: E501
+                .format(", ".join(map(str, set(local_var_params['status']) - set(allowed_values))),  # noqa: E501
+                        ", ".join(map(str, allowed_values)))
+            )
 
         collection_formats = {}
 
@@ -326,11 +355,14 @@ class PetApi(object):
         >>> thread = api.find_pets_by_tags(tags, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param list[str] tags: Tags to filter by (required)
-        :return: list[Pet]
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            tags (list[str]): Tags to filter by
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            list[Pet]:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -348,11 +380,14 @@ class PetApi(object):
         >>> thread = api.find_pets_by_tags_with_http_info(tags, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param list[str] tags: Tags to filter by (required)
-        :return: list[Pet]
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            tags (list[str]): Tags to filter by
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            list[Pet]:
         """
 
         local_var_params = locals()
@@ -375,6 +410,7 @@ class PetApi(object):
         if ('tags' not in local_var_params or
                 local_var_params['tags'] is None):
             raise ValueError("Missing the required parameter `tags` when calling `find_pets_by_tags`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -423,11 +459,14 @@ class PetApi(object):
         >>> thread = api.get_pet_by_id(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param int pet_id: ID of pet to return (required)
-        :return: Pet
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            pet_id (int): ID of pet to return
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            Pet:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -445,11 +484,14 @@ class PetApi(object):
         >>> thread = api.get_pet_by_id_with_http_info(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param int pet_id: ID of pet to return (required)
-        :return: Pet
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            pet_id (int): ID of pet to return
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            Pet:
         """
 
         local_var_params = locals()
@@ -472,6 +514,7 @@ class PetApi(object):
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -518,11 +561,14 @@ class PetApi(object):
         >>> thread = api.update_pet(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param Pet body: Pet object that needs to be added to the store (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (Pet): Pet object that needs to be added to the store
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -539,11 +585,14 @@ class PetApi(object):
         >>> thread = api.update_pet_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param Pet body: Pet object that needs to be added to the store (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (Pet): Pet object that needs to be added to the store
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -566,6 +615,7 @@ class PetApi(object):
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `update_pet`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -612,13 +662,16 @@ class PetApi(object):
         >>> thread = api.update_pet_with_form(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param int pet_id: ID of pet that needs to be updated (required)
-        :param str name: Updated name of the pet
-        :param str status: Updated status of the pet
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            pet_id (int): ID of pet that needs to be updated
+
+        Keyword Args:
+            name (str): Updated name of the pet. [optional]
+            status (str): Updated status of the pet. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -635,13 +688,16 @@ class PetApi(object):
         >>> thread = api.update_pet_with_form_with_http_info(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param int pet_id: ID of pet that needs to be updated (required)
-        :param str name: Updated name of the pet
-        :param str status: Updated status of the pet
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            pet_id (int): ID of pet that needs to be updated
+
+        Keyword Args:
+            name (str): Updated name of the pet. [optional]
+            status (str): Updated status of the pet. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -664,6 +720,7 @@ class PetApi(object):
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -714,13 +771,16 @@ class PetApi(object):
         >>> thread = api.upload_file(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param int pet_id: ID of pet to update (required)
-        :param str additional_metadata: Additional data to pass to server
-        :param file file: file to upload
-        :return: ApiResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            pet_id (int): ID of pet to update
+
+        Keyword Args:
+            additional_metadata (str): Additional data to pass to server. [optional]
+            file (file): file to upload. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            ApiResponse:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -737,13 +797,16 @@ class PetApi(object):
         >>> thread = api.upload_file_with_http_info(pet_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param int pet_id: ID of pet to update (required)
-        :param str additional_metadata: Additional data to pass to server
-        :param file file: file to upload
-        :return: ApiResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            pet_id (int): ID of pet to update
+
+        Keyword Args:
+            additional_metadata (str): Additional data to pass to server. [optional]
+            file (file): file to upload. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            ApiResponse:
         """
 
         local_var_params = locals()
@@ -766,6 +829,7 @@ class PetApi(object):
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `upload_file`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -820,13 +884,16 @@ class PetApi(object):
         >>> thread = api.upload_file_with_required_file(pet_id, required_file, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param int pet_id: ID of pet to update (required)
-        :param file required_file: file to upload (required)
-        :param str additional_metadata: Additional data to pass to server
-        :return: ApiResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            pet_id (int): ID of pet to update
+            required_file (file): file to upload
+
+        Keyword Args:
+            additional_metadata (str): Additional data to pass to server. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            ApiResponse:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -843,13 +910,16 @@ class PetApi(object):
         >>> thread = api.upload_file_with_required_file_with_http_info(pet_id, required_file, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param int pet_id: ID of pet to update (required)
-        :param file required_file: file to upload (required)
-        :param str additional_metadata: Additional data to pass to server
-        :return: ApiResponse
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            pet_id (int): ID of pet to update
+            required_file (file): file to upload
+
+        Keyword Args:
+            additional_metadata (str): Additional data to pass to server. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            ApiResponse:
         """
 
         local_var_params = locals()
@@ -876,6 +946,7 @@ class PetApi(object):
         if ('required_file' not in local_var_params or
                 local_var_params['required_file'] is None):
             raise ValueError("Missing the required parameter `required_file` when calling `upload_file_with_required_file`")  # noqa: E501
+
 
         collection_formats = {}
 

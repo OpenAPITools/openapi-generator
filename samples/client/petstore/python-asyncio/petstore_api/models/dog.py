@@ -10,6 +10,7 @@
 """
 
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -31,21 +32,82 @@ class Dog(object):
                             and the value is json key in definition.
     """
     openapi_types = {
+        'class_name': 'str',
+        'color': 'str',
         'breed': 'str'
     }
 
     attribute_map = {
+        'class_name': 'className',
+        'color': 'color',
         'breed': 'breed'
     }
 
-    def __init__(self, breed=None):  # noqa: E501
-        """Dog - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, class_name, breed=None, color=None):  # noqa: E501
+        """Dog - a model defined in OpenAPI
 
+        Args:
+            class_name (str):
+
+        Keyword Args:
+            breed (str): [optional]  # noqa: E501
+            color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
+        """
+
+        self._class_name = None
+        self._color = None
         self._breed = None
         self.discriminator = None
 
+        self.class_name = class_name
+        if color is not None:
+            self.color = color
         if breed is not None:
             self.breed = breed
+
+    @property
+    def class_name(self):
+        """Gets the class_name of this Dog.  # noqa: E501
+
+
+        :return: The class_name of this Dog.  # noqa: E501
+        :rtype: str
+        """
+        return self._class_name
+
+    @class_name.setter
+    def class_name(self, class_name):
+        """Sets the class_name of this Dog.
+
+
+        :param class_name: The class_name of this Dog.  # noqa: E501
+        :type: str
+        """
+        if class_name is None:
+            raise ValueError("Invalid value for `class_name`, must not be `None`")  # noqa: E501
+
+        self._class_name = class_name
+
+    @property
+    def color(self):
+        """Gets the color of this Dog.  # noqa: E501
+
+
+        :return: The color of this Dog.  # noqa: E501
+        :rtype: str
+        """
+        return self._color
+
+    @color.setter
+    def color(self, color):
+        """Sets the color of this Dog.
+
+
+        :param color: The color of this Dog.  # noqa: E501
+        :type: str
+        """
+
+        self._color = color
 
     @property
     def breed(self):

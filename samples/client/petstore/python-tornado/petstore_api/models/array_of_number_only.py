@@ -10,6 +10,7 @@
 """
 
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -39,7 +40,13 @@ class ArrayOfNumberOnly(object):
     }
 
     def __init__(self, array_number=None):  # noqa: E501
-        """ArrayOfNumberOnly - a model defined in OpenAPI"""  # noqa: E501
+        """ArrayOfNumberOnly - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            array_number (list[float]): [optional]  # noqa: E501
+        """
 
         self._array_number = None
         self.discriminator = None

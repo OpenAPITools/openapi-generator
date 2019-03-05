@@ -10,6 +10,7 @@
 """
 
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -41,7 +42,14 @@ class HasOnlyReadOnly(object):
     }
 
     def __init__(self, bar=None, foo=None):  # noqa: E501
-        """HasOnlyReadOnly - a model defined in OpenAPI"""  # noqa: E501
+        """HasOnlyReadOnly - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            bar (str): [optional]  # noqa: E501
+            foo (str): [optional]  # noqa: E501
+        """
 
         self._bar = None
         self._foo = None

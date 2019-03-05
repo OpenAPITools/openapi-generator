@@ -10,6 +10,7 @@
 """
 
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -39,7 +40,13 @@ class NumberOnly(object):
     }
 
     def __init__(self, just_number=None):  # noqa: E501
-        """NumberOnly - a model defined in OpenAPI"""  # noqa: E501
+        """NumberOnly - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            just_number (float): [optional]  # noqa: E501
+        """
 
         self._just_number = None
         self.discriminator = None

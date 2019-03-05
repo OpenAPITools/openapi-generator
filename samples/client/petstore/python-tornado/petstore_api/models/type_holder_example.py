@@ -10,6 +10,7 @@
 """
 
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -35,6 +36,8 @@ class TypeHolderExample(object):
         'number_item': 'float',
         'integer_item': 'int',
         'bool_item': 'bool',
+        'date_item': 'date',
+        'datetime_item': 'datetime',
         'array_item': 'list[int]'
     }
 
@@ -43,16 +46,32 @@ class TypeHolderExample(object):
         'number_item': 'number_item',
         'integer_item': 'integer_item',
         'bool_item': 'bool_item',
+        'date_item': 'date_item',
+        'datetime_item': 'datetime_item',
         'array_item': 'array_item'
     }
 
-    def __init__(self, string_item=None, number_item=None, integer_item=None, bool_item=None, array_item=None):  # noqa: E501
-        """TypeHolderExample - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, string_item, number_item, integer_item, bool_item, date_item, datetime_item, array_item):  # noqa: E501
+        """TypeHolderExample - a model defined in OpenAPI
+
+        Args:
+            string_item (str):
+            number_item (float):
+            integer_item (int):
+            bool_item (bool):
+            date_item (date):
+            datetime_item (datetime):
+            array_item (list[int]):
+
+        Keyword Args:
+        """
 
         self._string_item = None
         self._number_item = None
         self._integer_item = None
         self._bool_item = None
+        self._date_item = None
+        self._datetime_item = None
         self._array_item = None
         self.discriminator = None
 
@@ -60,6 +79,8 @@ class TypeHolderExample(object):
         self.number_item = number_item
         self.integer_item = integer_item
         self.bool_item = bool_item
+        self.date_item = date_item
+        self.datetime_item = datetime_item
         self.array_item = array_item
 
     @property
@@ -82,6 +103,12 @@ class TypeHolderExample(object):
         """
         if string_item is None:
             raise ValueError("Invalid value for `string_item`, must not be `None`")  # noqa: E501
+        allowed_values = ["what"]  # noqa: E501
+        if string_item not in allowed_values:
+            raise ValueError(
+                "Invalid value for `string_item` ({0}), must be one of {1}"  # noqa: E501
+                .format(string_item, allowed_values)
+            )
 
         self._string_item = string_item
 
@@ -105,6 +132,12 @@ class TypeHolderExample(object):
         """
         if number_item is None:
             raise ValueError("Invalid value for `number_item`, must not be `None`")  # noqa: E501
+        allowed_values = [1.2339999675750732]  # noqa: E501
+        if number_item not in allowed_values:
+            raise ValueError(
+                "Invalid value for `number_item` ({0}), must be one of {1}"  # noqa: E501
+                .format(number_item, allowed_values)
+            )
 
         self._number_item = number_item
 
@@ -128,6 +161,12 @@ class TypeHolderExample(object):
         """
         if integer_item is None:
             raise ValueError("Invalid value for `integer_item`, must not be `None`")  # noqa: E501
+        allowed_values = [-2]  # noqa: E501
+        if integer_item not in allowed_values:
+            raise ValueError(
+                "Invalid value for `integer_item` ({0}), must be one of {1}"  # noqa: E501
+                .format(integer_item, allowed_values)
+            )
 
         self._integer_item = integer_item
 
@@ -153,6 +192,64 @@ class TypeHolderExample(object):
             raise ValueError("Invalid value for `bool_item`, must not be `None`")  # noqa: E501
 
         self._bool_item = bool_item
+
+    @property
+    def date_item(self):
+        """Gets the date_item of this TypeHolderExample.  # noqa: E501
+
+
+        :return: The date_item of this TypeHolderExample.  # noqa: E501
+        :rtype: date
+        """
+        return self._date_item
+
+    @date_item.setter
+    def date_item(self, date_item):
+        """Sets the date_item of this TypeHolderExample.
+
+
+        :param date_item: The date_item of this TypeHolderExample.  # noqa: E501
+        :type: date
+        """
+        if date_item is None:
+            raise ValueError("Invalid value for `date_item`, must not be `None`")  # noqa: E501
+        allowed_values = [Thu Jul 20 17:00:00 PDT 2017]  # noqa: E501
+        if date_item not in allowed_values:
+            raise ValueError(
+                "Invalid value for `date_item` ({0}), must be one of {1}"  # noqa: E501
+                .format(date_item, allowed_values)
+            )
+
+        self._date_item = date_item
+
+    @property
+    def datetime_item(self):
+        """Gets the datetime_item of this TypeHolderExample.  # noqa: E501
+
+
+        :return: The datetime_item of this TypeHolderExample.  # noqa: E501
+        :rtype: datetime
+        """
+        return self._datetime_item
+
+    @datetime_item.setter
+    def datetime_item(self, datetime_item):
+        """Sets the datetime_item of this TypeHolderExample.
+
+
+        :param datetime_item: The datetime_item of this TypeHolderExample.  # noqa: E501
+        :type: datetime
+        """
+        if datetime_item is None:
+            raise ValueError("Invalid value for `datetime_item`, must not be `None`")  # noqa: E501
+        allowed_values = [Fri Jul 21 10:32:28 PDT 2017]  # noqa: E501
+        if datetime_item not in allowed_values:
+            raise ValueError(
+                "Invalid value for `datetime_item` ({0}), must be one of {1}"  # noqa: E501
+                .format(datetime_item, allowed_values)
+            )
+
+        self._datetime_item = datetime_item
 
     @property
     def array_item(self):
