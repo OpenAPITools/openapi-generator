@@ -181,8 +181,8 @@
            {{/vars}}
         }',
         {{#vars}}
-		{{!AAPI Added the if else condition to handle null values}}
-		if (!is.null(self$`{{baseName}}`)) {
+        {{! Added the if else condition to handle null values}}
+        if (!is.null(self$`{{baseName}}`)) {
         {{#isListContainer}}
         {{#isPrimitiveType}}
         paste(unlist(lapply(self$`{{{baseName}}}`, function(x) paste0('"', x, '"'))), collapse=",")
@@ -199,10 +199,10 @@
         jsonlite::toJSON(self$`{{baseName}}`$toJSON(), auto_unbox=TRUE)
         {{/isPrimitiveType}}
         {{/isListContainer}}
-		}
-		else{
-		"null"
-		}{{#hasMore}},{{/hasMore}}
+	}
+	else{
+	  "null"
+	}{{#hasMore}},{{/hasMore}}
         {{/vars}}
       )
 	  outstring = gsub("[\r\n]| ", "", outstring)
