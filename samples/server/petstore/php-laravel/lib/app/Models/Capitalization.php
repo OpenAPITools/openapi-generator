@@ -9,22 +9,22 @@ namespace app\Models;
  */
 class Capitalization {
 
-    /** @var string $small_camel */
-    private $small_camel;
+    /** @var string $smallCamel */
+    private $smallCamel;
 
-    /** @var string $capital_camel */
-    private $capital_camel;
+    /** @var string $capitalCamel */
+    private $capitalCamel;
 
-    /** @var string $small_snake */
-    private $small_snake;
+    /** @var string $smallSnake */
+    private $smallSnake;
 
-    /** @var string $capital_snake */
-    private $capital_snake;
+    /** @var string $capitalSnake */
+    private $capitalSnake;
 
-    /** @var string $sca_eth_flow_points */
-    private $sca_eth_flow_points;
+    /** @var string $sCAETHFlowPoints */
+    private $sCAETHFlowPoints;
 
-    /** @var string $att_name Name of the pet*/
-    private $att_name;
+    /** @var string $aTTNAME Name of the pet*/
+    private $aTTNAME;
 
 }
