@@ -14,6 +14,8 @@ from __future__ import absolute_import
 
 import unittest
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
+
 import petstore_api
 from petstore_api.models.type_holder_example import TypeHolderExample  # noqa: E501
 from petstore_api.rest import ApiException
@@ -29,11 +31,20 @@ class TestTypeHolderExample(unittest.TestCase):
         pass
 
     def testTypeHolderExample(self):
-        """Test TypeHolderExample"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.models.type_holder_example.TypeHolderExample()  # noqa: E501
-        pass
-
+        """Test TypeHolderExample
+        Confirm that the enum of length one defualts are set when
+        an instance of the class is made, and those variables are omitted
+        """
+        # bool item and array item still need to be set
+        # swagger-parser does not see array enums yet https://github.com/swagger-api/swagger-parser/issues/985
+        # swagger-parser does not see bool enums yet https://github.com/swagger-api/swagger-parser/issues/985
+        assigned_variables = {}
+        model = TypeHolderExample(bool_item=True, array_item=[1])
+        self.assertEqual(model.string_item, 'what')
+        self.assertEqual(model.number_item, 1.2339999675750732)
+        self.assertEqual(model.integer_item, -2)
+        self.assertEqual(model.date_item, dateutil_parser('2017-07-21').date())
+        self.assertEqual(model.datetime_item, dateutil_parser('2017-07-21T17:32:28.000Z'))
 
 if __name__ == '__main__':
     unittest.main()

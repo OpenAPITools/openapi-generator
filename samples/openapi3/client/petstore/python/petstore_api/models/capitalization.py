@@ -49,7 +49,18 @@ class Capitalization(object):
     }
 
     def __init__(self, small_camel=None, capital_camel=None, small_snake=None, capital_snake=None, sca_eth_flow_points=None, att_name=None):  # noqa: E501
-        """Capitalization - a model defined in OpenAPI"""  # noqa: E501
+        """Capitalization - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            small_camel (str): [optional]  # noqa: E501
+            capital_camel (str): [optional]  # noqa: E501
+            small_snake (str): [optional]  # noqa: E501
+            capital_snake (str): [optional]  # noqa: E501
+            sca_eth_flow_points (str): [optional]  # noqa: E501
+            att_name (str): Name of the pet . [optional]  # noqa: E501
+        """
 
         self._small_camel = None
         self._capital_camel = None

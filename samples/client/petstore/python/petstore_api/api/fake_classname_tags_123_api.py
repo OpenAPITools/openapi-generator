@@ -41,11 +41,14 @@ class FakeClassnameTags123Api(object):
         >>> thread = api.test_classname(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param Client body: client model (required)
-        :return: Client
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (Client): client model
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            Client:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -63,11 +66,14 @@ class FakeClassnameTags123Api(object):
         >>> thread = api.test_classname_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param Client body: client model (required)
-        :return: Client
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (Client): client model
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            Client:
         """
 
         local_var_params = locals()
@@ -90,6 +96,7 @@ class FakeClassnameTags123Api(object):
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `test_classname`")  # noqa: E501
+
 
         collection_formats = {}
 

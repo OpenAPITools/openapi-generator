@@ -10,6 +10,7 @@
 """
 
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -41,7 +42,14 @@ class Model200Response(object):
     }
 
     def __init__(self, name=None, _class=None):  # noqa: E501
-        """Model200Response - a model defined in OpenAPI"""  # noqa: E501
+        """Model200Response - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            name (int): [optional]  # noqa: E501
+            _class (str): [optional]  # noqa: E501
+        """
 
         self._name = None
         self.__class = None

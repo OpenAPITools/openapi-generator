@@ -1035,6 +1035,50 @@ paths:
       responses:
         '200':
           description: Success
+  /fake/enums-of-length-one/{path_string}/{path_integer}:
+    put:
+      tags:
+        - fake
+      description: 'This route has required values with enums of 1'
+      operationId: testEndpointEnumsLengthOne
+      parameters:
+        - in: query
+          name: query_integer
+          required: true
+          type: integer
+          format: int32
+          enum:
+            -  3
+        - in: query
+          name: query_string
+          required: true
+          type: string
+          enum:
+            -  brillig
+        - in: path
+          name: path_string
+          required: true
+          type: string
+          enum:
+            -  hello
+        - in: path
+          name: path_integer
+          required: true
+          type: integer
+          enum:
+            -  34
+        - in: header
+          name: header_number
+          required: true
+          type: number
+          format: double
+          enum:
+            -  1.234
+      consumes:
+        - application/json
+      responses:
+        '200':
+          description: Success
   '/fake/{petId}/uploadImageWithRequiredFile':
     post:
       tags:
@@ -1608,64 +1652,104 @@ definitions:
         type: string
   TypeHolderDefault:
     type: object
+    description: a model to test option properties with server defaults
     required:
-      - string_item
-      - number_item
-      - integer_item
-      - bool_item
-      - array_item
     properties:
       string_item:
         type: string
         default: what
       number_item:
         type: number
+        format: float
         default: 1.234
       integer_item:
         type: integer
+        format: int32
         default: -2
       bool_item:
         type: boolean
         default: true
+      # swagger-parser does not see date defaults yet: https://github.com/swagger-api/swagger-parser/issues/971
+      date_item:
+        type: string
+        format: date
+        default: 2017-07-21
+      # swagger-parser does not see date-time defaults yet: https://github.com/swagger-api/swagger-parser/issues/971
+      datetime_item:
+        type: string
+        format: date-time
+        default: 2017-07-21T17:32:28Z
+      # swagger-parser does not see array defaults yet: https://github.com/swagger-api/swagger-parser/issues/971
       array_item:
           type: array
           items:
             type: integer
           default:
-            - 0
-            - 1
-            - 2
-            - 3
+            -
+              - 0
+              - 1
+              - 2
+              - 3
   TypeHolderExample:
     type: object
+    description: a model to test required properties with an example and length one enum
     required:
       - string_item
       - number_item
       - integer_item
       - bool_item
+      - date_item
+      - datetime_item
       - array_item
     properties:
       string_item:
         type: string
         example: what
+        enum: [what]
       number_item:
         type: number
+        format: float
         example: 1.234
+        enum: [1.234]
       integer_item:
         type: integer
+        format: int32
         example: -2
+        enum: [-2]
+      # swagger-parser does not see bool enums yet https://github.com/swagger-api/swagger-parser/issues/985
       bool_item:
         type: boolean
         example: true
+        enum:
+          - true
+      date_item:
+        type: string
+        format: date
+        example: 2017-07-21
+        enum: [2017-07-21]
+      datetime_item:
+        type: string
+        format: date-time
+        example: 2017-07-21T17:32:28Z
+        enum:
+          - 2017-07-21T17:32:28Z
+      # swagger-parser does not see array enums yet https://github.com/swagger-api/swagger-parser/issues/985
       array_item:
           type: array
           items:
             type: integer
           example:
-            - 0
-            - 1
-            - 2
-            - 3
+            -
+              - 0
+              - 1
+              - 2
+              - 3
+          enum:
+            -
+              - 0
+              - 1
+              - 2
+              - 3
   XmlItem:
     type: object
     xml:

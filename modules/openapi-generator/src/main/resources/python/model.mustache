@@ -2,6 +2,7 @@
 
 {{>partial_header}}
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -54,12 +55,12 @@ class {{classname}}(object):
     def __init__(self{{#requiredVars}}{{^defaultValue}}, {{name}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{#defaultValue}}, {{name}}={{{defaultValue}}}{{/defaultValue}}{{/requiredVars}}{{#optionalVars}}, {{name}}=None{{/optionalVars}}):  # noqa: E501
         """{{classname}} - a model defined in OpenAPI
 
-{{#requiredVars}}{{^hasMore}}    Args:{{/hasMore}}{{/requiredVars}}{{#requiredVars}}{{^defaultValue}}
-        {{name}} ({{dataType}}):{{#description}} {{description}}{{/description}}{{/defaultValue}}{{/requiredVars}}{{#requiredVars}}{{#defaultValue}}
+{{#requiredVars}}{{^hasMore}}        Args:{{/hasMore}}{{/requiredVars}}{{#requiredVars}}{{^defaultValue}}
+            {{name}} ({{dataType}}):{{#description}} {{description}}{{/description}}{{/defaultValue}}{{/requiredVars}}
 
-    Keyword Args:{{#requiredVars}}{{#defaultValue}}
-        {{name}} ({{dataType}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]{{/defaultValue}}{{/requiredVars}}{{#optionalVars}}
-        {{name}} ({{dataType}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}{{/optionalVars}}
+        Keyword Args:{{#requiredVars}}{{#defaultValue}}
+            {{name}} ({{dataType}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]{{/defaultValue}}{{/requiredVars}}{{#optionalVars}}
+            {{name}} ({{dataType}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}  # noqa: E501{{/optionalVars}}
         """
 {{#allVars}}{{#-first}}
 {{/-first}}

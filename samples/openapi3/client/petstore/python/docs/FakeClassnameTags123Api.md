@@ -33,12 +33,15 @@ configuration.api_key['api_key_query'] = 'YOUR_API_KEY'
 api_instance = petstore_api.FakeClassnameTags123Api(petstore_api.ApiClient(configuration))
 client = petstore_api.Client() # Client | client model
 
+# example passing only required values which don't have defaults set
 try:
     # To test class name in snake case
     api_response = api_instance.test_classname(client)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling FakeClassnameTags123Api->test_classname: %s\n" % e)
+
+
 ```
 
 ### Parameters

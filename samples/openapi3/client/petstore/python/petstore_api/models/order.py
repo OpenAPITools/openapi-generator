@@ -48,8 +48,19 @@ class Order(object):
         'complete': 'complete'
     }
 
-    def __init__(self, id=None, pet_id=None, quantity=None, ship_date=None, status=None, complete=False):  # noqa: E501
-        """Order - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, id=None, pet_id=None, quantity=None, ship_date=None, status=None, complete=None):  # noqa: E501
+        """Order - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            id (int): [optional]  # noqa: E501
+            pet_id (int): [optional]  # noqa: E501
+            quantity (int): [optional]  # noqa: E501
+            ship_date (datetime): [optional]  # noqa: E501
+            status (str): Order Status. [optional]  # noqa: E501
+            complete (bool): [optional] if omitted the server will use the default value of False  # noqa: E501
+        """
 
         self._id = None
         self._pet_id = None

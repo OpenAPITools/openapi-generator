@@ -39,7 +39,13 @@ class SpecialModelName(object):
     }
 
     def __init__(self, special_property_name=None):  # noqa: E501
-        """SpecialModelName - a model defined in OpenAPI"""  # noqa: E501
+        """SpecialModelName - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            special_property_name (int): [optional]  # noqa: E501
+        """
 
         self._special_property_name = None
         self.discriminator = None

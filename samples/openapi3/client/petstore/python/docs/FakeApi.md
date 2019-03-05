@@ -36,6 +36,9 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
 
+
+
+# example, this endpoint has no required or optional parameters
 try:
     # Health check endpoint
     api_response = api_instance.fake_health_get()
@@ -63,7 +66,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_boolean_serialize**
-> bool fake_outer_boolean_serialize(body=body)
+> bool fake_outer_boolean_serialize()
 
 
 
@@ -82,11 +85,15 @@ from pprint import pprint
 api_instance = petstore_api.FakeApi()
 body = True # bool | Input boolean as post body (optional)
 
+
+# example passing only required values which don't have defaults set
+# and optional values
 try:
     api_response = api_instance.fake_outer_boolean_serialize(body=body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling FakeApi->fake_outer_boolean_serialize: %s\n" % e)
+
 ```
 
 ### Parameters
@@ -111,7 +118,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_composite_serialize**
-> OuterComposite fake_outer_composite_serialize(outer_composite=outer_composite)
+> OuterComposite fake_outer_composite_serialize()
 
 
 
@@ -130,11 +137,15 @@ from pprint import pprint
 api_instance = petstore_api.FakeApi()
 outer_composite = petstore_api.OuterComposite() # OuterComposite | Input composite as post body (optional)
 
+
+# example passing only required values which don't have defaults set
+# and optional values
 try:
     api_response = api_instance.fake_outer_composite_serialize(outer_composite=outer_composite)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling FakeApi->fake_outer_composite_serialize: %s\n" % e)
+
 ```
 
 ### Parameters
@@ -159,7 +170,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_number_serialize**
-> float fake_outer_number_serialize(body=body)
+> float fake_outer_number_serialize()
 
 
 
@@ -178,11 +189,15 @@ from pprint import pprint
 api_instance = petstore_api.FakeApi()
 body = 3.4 # float | Input number as post body (optional)
 
+
+# example passing only required values which don't have defaults set
+# and optional values
 try:
     api_response = api_instance.fake_outer_number_serialize(body=body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling FakeApi->fake_outer_number_serialize: %s\n" % e)
+
 ```
 
 ### Parameters
@@ -207,7 +222,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_string_serialize**
-> str fake_outer_string_serialize(body=body)
+> str fake_outer_string_serialize()
 
 
 
@@ -226,11 +241,15 @@ from pprint import pprint
 api_instance = petstore_api.FakeApi()
 body = 'body_example' # str | Input string as post body (optional)
 
+
+# example passing only required values which don't have defaults set
+# and optional values
 try:
     api_response = api_instance.fake_outer_string_serialize(body=body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling FakeApi->fake_outer_string_serialize: %s\n" % e)
+
 ```
 
 ### Parameters
@@ -274,10 +293,13 @@ from pprint import pprint
 api_instance = petstore_api.FakeApi()
 file_schema_test_class = petstore_api.FileSchemaTestClass() # FileSchemaTestClass | 
 
+# example passing only required values which don't have defaults set
 try:
     api_instance.test_body_with_file_schema(file_schema_test_class)
 except ApiException as e:
     print("Exception when calling FakeApi->test_body_with_file_schema: %s\n" % e)
+
+
 ```
 
 ### Parameters
@@ -320,10 +342,13 @@ api_instance = petstore_api.FakeApi()
 query = 'query_example' # str | 
 user = petstore_api.User() # User | 
 
+# example passing only required values which don't have defaults set
 try:
     api_instance.test_body_with_query_params(query, user)
 except ApiException as e:
     print("Exception when calling FakeApi->test_body_with_query_params: %s\n" % e)
+
+
 ```
 
 ### Parameters
@@ -368,12 +393,15 @@ from pprint import pprint
 api_instance = petstore_api.FakeApi()
 client = petstore_api.Client() # Client | client model
 
+# example passing only required values which don't have defaults set
 try:
     # To test \"client\" model
     api_response = api_instance.test_client_model(client)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling FakeApi->test_client_model: %s\n" % e)
+
+
 ```
 
 ### Parameters
@@ -398,7 +426,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_endpoint_parameters**
-> test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, date=date, date_time=date_time, password=password, param_callback=param_callback)
+> test_endpoint_parameters(number, double, pattern_without_delimiter, byte)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -435,11 +463,21 @@ date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
 password = 'password_example' # str | None (optional)
 param_callback = 'param_callback_example' # str | None (optional)
 
+# example passing only required values which don't have defaults set
+try:
+    # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+    api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte)
+except ApiException as e:
+    print("Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e)
+
+# example passing only required values which don't have defaults set
+# and optional values
 try:
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, integer=integer, int32=int32, int64=int64, float=float, string=string, binary=binary, date=date, date_time=date_time, password=password, param_callback=param_callback)
 except ApiException as e:
     print("Exception when calling FakeApi->test_endpoint_parameters: %s\n" % e)
+
 ```
 
 ### Parameters
@@ -477,7 +515,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_enum_parameters**
-> test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
+> test_enum_parameters()
 
 To test enum parameters
 
@@ -495,19 +533,23 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
 enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
-enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (default to '-efg')
+enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (server default to '-efg' if omitted)
 enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Query parameter enum test (string array) (optional)
-enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) (default to '-efg')
+enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) (server default to '-efg' if omitted)
 enum_query_integer = 56 # int | Query parameter enum test (double) (optional)
 enum_query_double = 3.4 # float | Query parameter enum test (double) (optional)
-enum_form_string_array = '$' # list[str] | Form parameter enum test (string array) (optional) (default to '$')
-enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) (default to '-efg')
+enum_form_string_array = '$' # list[str] | Form parameter enum test (string array) (optional) (server default to '$' if omitted)
+enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) (server default to '-efg' if omitted)
 
+
+# example passing only required values which don't have defaults set
+# and optional values
 try:
     # To test enum parameters
     api_instance.test_enum_parameters(enum_header_string_array=enum_header_string_array, enum_header_string=enum_header_string, enum_query_string_array=enum_query_string_array, enum_query_string=enum_query_string, enum_query_integer=enum_query_integer, enum_query_double=enum_query_double, enum_form_string_array=enum_form_string_array, enum_form_string=enum_form_string)
 except ApiException as e:
     print("Exception when calling FakeApi->test_enum_parameters: %s\n" % e)
+
 ```
 
 ### Parameters
@@ -515,13 +557,13 @@ except ApiException as e:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enum_header_string_array** | [**list[str]**](str.md)| Header parameter enum test (string array) | [optional] 
- **enum_header_string** | **str**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
+ **enum_header_string** | **str**| Header parameter enum test (string) | [optional] 
  **enum_query_string_array** | [**list[str]**](str.md)| Query parameter enum test (string array) | [optional] 
- **enum_query_string** | **str**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
+ **enum_query_string** | **str**| Query parameter enum test (string) | [optional] 
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **float**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | [**list[str]**](str.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
- **enum_form_string** | **str**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
+ **enum_form_string_array** | [**list[str]**](str.md)| Form parameter enum test (string array) | [optional] 
+ **enum_form_string** | **str**| Form parameter enum test (string) | [optional] 
 
 ### Return type
 
@@ -539,7 +581,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_group_parameters**
-> test_group_parameters(required_string_group, required_boolean_group, required_int64_group, string_group=string_group, boolean_group=boolean_group, int64_group=int64_group)
+> test_group_parameters(required_string_group, required_boolean_group, required_int64_group)
 
 Fake endpoint to test group parameters (optional)
 
@@ -567,11 +609,21 @@ string_group = 56 # int | String in group parameters (optional)
 boolean_group = True # bool | Boolean in group parameters (optional)
 int64_group = 56 # int | Integer in group parameters (optional)
 
+# example passing only required values which don't have defaults set
+try:
+    # Fake endpoint to test group parameters (optional)
+    api_instance.test_group_parameters(required_string_group, required_boolean_group, required_int64_group)
+except ApiException as e:
+    print("Exception when calling FakeApi->test_group_parameters: %s\n" % e)
+
+# example passing only required values which don't have defaults set
+# and optional values
 try:
     # Fake endpoint to test group parameters (optional)
     api_instance.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, string_group=string_group, boolean_group=boolean_group, int64_group=int64_group)
 except ApiException as e:
     print("Exception when calling FakeApi->test_group_parameters: %s\n" % e)
+
 ```
 
 ### Parameters
@@ -618,11 +670,14 @@ from pprint import pprint
 api_instance = petstore_api.FakeApi()
 request_body = {'key': 'request_body_example'} # dict(str, str) | request body
 
+# example passing only required values which don't have defaults set
 try:
     # test inline additionalProperties
     api_instance.test_inline_additional_properties(request_body)
 except ApiException as e:
     print("Exception when calling FakeApi->test_inline_additional_properties: %s\n" % e)
+
+
 ```
 
 ### Parameters
@@ -665,11 +720,14 @@ api_instance = petstore_api.FakeApi()
 param = 'param_example' # str | field1
 param2 = 'param2_example' # str | field2
 
+# example passing only required values which don't have defaults set
 try:
     # test json serialization of form data
     api_instance.test_json_form_data(param, param2)
 except ApiException as e:
     print("Exception when calling FakeApi->test_json_form_data: %s\n" % e)
+
+
 ```
 
 ### Parameters

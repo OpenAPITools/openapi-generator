@@ -41,11 +41,14 @@ class UserApi(object):
         >>> thread = api.create_user(user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param User user: Created user object (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            user (User): Created user object
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -63,11 +66,14 @@ class UserApi(object):
         >>> thread = api.create_user_with_http_info(user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param User user: Created user object (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            user (User): Created user object
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -90,6 +96,7 @@ class UserApi(object):
         if ('user' not in local_var_params or
                 local_var_params['user'] is None):
             raise ValueError("Missing the required parameter `user` when calling `create_user`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -136,11 +143,14 @@ class UserApi(object):
         >>> thread = api.create_users_with_array_input(user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param list[User] user: List of user object (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            user (list[User]): List of user object
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -157,11 +167,14 @@ class UserApi(object):
         >>> thread = api.create_users_with_array_input_with_http_info(user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param list[User] user: List of user object (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            user (list[User]): List of user object
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -184,6 +197,7 @@ class UserApi(object):
         if ('user' not in local_var_params or
                 local_var_params['user'] is None):
             raise ValueError("Missing the required parameter `user` when calling `create_users_with_array_input`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -230,11 +244,14 @@ class UserApi(object):
         >>> thread = api.create_users_with_list_input(user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param list[User] user: List of user object (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            user (list[User]): List of user object
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -251,11 +268,14 @@ class UserApi(object):
         >>> thread = api.create_users_with_list_input_with_http_info(user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param list[User] user: List of user object (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            user (list[User]): List of user object
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -278,6 +298,7 @@ class UserApi(object):
         if ('user' not in local_var_params or
                 local_var_params['user'] is None):
             raise ValueError("Missing the required parameter `user` when calling `create_users_with_list_input`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -325,11 +346,14 @@ class UserApi(object):
         >>> thread = api.delete_user(username, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str username: The name that needs to be deleted (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): The name that needs to be deleted
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -347,11 +371,14 @@ class UserApi(object):
         >>> thread = api.delete_user_with_http_info(username, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str username: The name that needs to be deleted (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): The name that needs to be deleted
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -374,6 +401,7 @@ class UserApi(object):
         if ('username' not in local_var_params or
                 local_var_params['username'] is None):
             raise ValueError("Missing the required parameter `username` when calling `delete_user`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -416,11 +444,14 @@ class UserApi(object):
         >>> thread = api.get_user_by_name(username, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str username: The name that needs to be fetched. Use user1 for testing. (required)
-        :return: User
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): The name that needs to be fetched. Use user1 for testing.
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            User:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -437,11 +468,14 @@ class UserApi(object):
         >>> thread = api.get_user_by_name_with_http_info(username, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str username: The name that needs to be fetched. Use user1 for testing. (required)
-        :return: User
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): The name that needs to be fetched. Use user1 for testing.
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            User:
         """
 
         local_var_params = locals()
@@ -464,6 +498,7 @@ class UserApi(object):
         if ('username' not in local_var_params or
                 local_var_params['username'] is None):
             raise ValueError("Missing the required parameter `username` when calling `get_user_by_name`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -510,12 +545,15 @@ class UserApi(object):
         >>> thread = api.login_user(username, password, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str username: The user name for login (required)
-        :param str password: The password for login in clear text (required)
-        :return: str
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): The user name for login
+            password (str): The password for login in clear text
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            str:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -532,12 +570,15 @@ class UserApi(object):
         >>> thread = api.login_user_with_http_info(username, password, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str username: The user name for login (required)
-        :param str password: The password for login in clear text (required)
-        :return: str
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): The user name for login
+            password (str): The password for login in clear text
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            str:
         """
 
         local_var_params = locals()
@@ -564,6 +605,7 @@ class UserApi(object):
         if ('password' not in local_var_params or
                 local_var_params['password'] is None):
             raise ValueError("Missing the required parameter `password` when calling `login_user`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -612,10 +654,13 @@ class UserApi(object):
         >>> thread = api.logout_user(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -632,10 +677,13 @@ class UserApi(object):
         >>> thread = api.logout_user_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -654,6 +702,7 @@ class UserApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+
 
         collection_formats = {}
 
@@ -695,12 +744,15 @@ class UserApi(object):
         >>> thread = api.update_user(username, user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str username: name that need to be deleted (required)
-        :param User user: Updated user object (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): name that need to be deleted
+            user (User): Updated user object
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -718,12 +770,15 @@ class UserApi(object):
         >>> thread = api.update_user_with_http_info(username, user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str username: name that need to be deleted (required)
-        :param User user: Updated user object (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): name that need to be deleted
+            user (User): Updated user object
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -750,6 +805,7 @@ class UserApi(object):
         if ('user' not in local_var_params or
                 local_var_params['user'] is None):
             raise ValueError("Missing the required parameter `user` when calling `update_user`")  # noqa: E501
+
 
         collection_formats = {}
 

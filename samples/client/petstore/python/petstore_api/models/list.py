@@ -10,6 +10,7 @@
 """
 
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -39,7 +40,13 @@ class List(object):
     }
 
     def __init__(self, _123_list=None):  # noqa: E501
-        """List - a model defined in OpenAPI"""  # noqa: E501
+        """List - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            _123_list (str): [optional]  # noqa: E501
+        """
 
         self.__123_list = None
         self.discriminator = None

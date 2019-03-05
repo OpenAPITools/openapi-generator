@@ -13,9 +13,15 @@
 from __future__ import absolute_import
 
 import unittest
+try:
+    from unittest.mock import patch
+except ImportError:
+    # python2
+    from mock import patch
+import six
 
 import petstore_api
-from petstore_api.api.fake_api import FakeApi  # noqa: E501
+from petstore_api.api.fake_api import ApiClient, FakeApi  # noqa: E501
 from petstore_api.rest import ApiException
 
 
@@ -92,6 +98,72 @@ class TestFakeApi(unittest.TestCase):
         test json serialization of form data  # noqa: E501
         """
         pass
+
+    def test_test_endpoint_enums_length_one(self):
+        """Test case for test_endpoint_enums_length_one
+         """
+        with patch.object(ApiClient, 'call_api', return_value=None) as mock_method:
+            fake_api = FakeApi()
+            fake_api.test_endpoint_enums_length_one()
+            # defaults are used
+            mock_method.assert_called_with(
+                '/fake/enums-of-length-one/{path_string}/{path_integer}',
+                'PUT',
+                {'path_string': 'hello', 'path_integer': 34},
+                [('query_integer', 3), ('query_string', 'brillig')],
+                {'header_number': 1.234},
+                _preload_content=True,
+                _request_timeout=None,
+                _return_http_data_only=True,
+                async_req=None,
+                auth_settings=[],
+                body=None,
+                collection_formats={},
+                files={},
+                post_params=[],
+                response_type=None
+            )
+
+            # we can pass in valid enum values
+            fake_api.test_endpoint_enums_length_one(
+                path_string='hello',
+                path_integer=34,
+                query_integer=3,
+                query_string='brillig',
+                header_number=1.234
+            )
+            mock_method.assert_called_with(
+                '/fake/enums-of-length-one/{path_string}/{path_integer}',
+                'PUT',
+                {'path_string': 'hello', 'path_integer': 34},
+                [('query_integer', 3), ('query_string', 'brillig')],
+                {'header_number': 1.234},
+                _preload_content=True,
+                _request_timeout=None,
+                _return_http_data_only=True,
+                async_req=None,
+                auth_settings=[],
+                body=None,
+                collection_formats={},
+                files={},
+                post_params=[],
+                response_type=None
+            )
+
+            # we get value errors when we try to pass in invalid values
+            invalid_pairs = dict(
+                path_string='goodbye',
+                path_integer=-12,
+                query_integer=421,
+                query_string='gyre',
+                header_number=3.141
+            )
+            for param, value in six.iteritems(invalid_pairs):
+                with self.assertRaises(ValueError) as exc:
+                    keyword_args = {param: value}
+                    fake_api.test_endpoint_enums_length_one(**keyword_args)
+                self.assertIn("Invalid value", str(exc.exception))
+                self.assertIn("must be", str(exc.exception))
 
 
 if __name__ == '__main__':

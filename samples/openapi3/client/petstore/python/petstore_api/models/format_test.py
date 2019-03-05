@@ -66,8 +66,28 @@ class FormatTest(object):
         'pattern_with_digits_and_delimiter': 'pattern_with_digits_and_delimiter'
     }
 
-    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid=None, password=None, pattern_with_digits=None, pattern_with_digits_and_delimiter=None):  # noqa: E501
-        """FormatTest - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, number, byte, date, password, integer=None, int32=None, int64=None, float=None, double=None, string=None, binary=None, date_time=None, uuid=None, pattern_with_digits=None, pattern_with_digits_and_delimiter=None):  # noqa: E501
+        """FormatTest - a model defined in OpenAPI
+
+        Args:
+            number (float):
+            byte (str):
+            date (date):
+            password (str):
+
+        Keyword Args:
+            integer (int): [optional]  # noqa: E501
+            int32 (int): [optional]  # noqa: E501
+            int64 (int): [optional]  # noqa: E501
+            float (float): [optional]  # noqa: E501
+            double (float): [optional]  # noqa: E501
+            string (str): [optional]  # noqa: E501
+            binary (file): [optional]  # noqa: E501
+            date_time (datetime): [optional]  # noqa: E501
+            uuid (str): [optional]  # noqa: E501
+            pattern_with_digits (str): A string that is a 10 digit number. Can have leading zeros.. [optional]  # noqa: E501
+            pattern_with_digits_and_delimiter (str): A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.. [optional]  # noqa: E501
+        """
 
         self._integer = None
         self._int32 = None
@@ -279,7 +299,7 @@ class FormatTest(object):
         :param string: The string of this FormatTest.  # noqa: E501
         :type: str
         """
-        if string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE):  # noqa: E501
+        if string is not None and not re.search(r'', string):  # noqa: E501
             raise ValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
 
         self._string = string
@@ -440,7 +460,7 @@ class FormatTest(object):
         :param pattern_with_digits: The pattern_with_digits of this FormatTest.  # noqa: E501
         :type: str
         """
-        if pattern_with_digits is not None and not re.search(r'^\d{10}$', pattern_with_digits):  # noqa: E501
+        if pattern_with_digits is not None and not re.search(r'', pattern_with_digits):  # noqa: E501
             raise ValueError(r"Invalid value for `pattern_with_digits`, must be a follow pattern or equal to `/^\d{10}$/`")  # noqa: E501
 
         self._pattern_with_digits = pattern_with_digits
@@ -465,7 +485,7 @@ class FormatTest(object):
         :param pattern_with_digits_and_delimiter: The pattern_with_digits_and_delimiter of this FormatTest.  # noqa: E501
         :type: str
         """
-        if pattern_with_digits_and_delimiter is not None and not re.search(r'^image_\d{1,3}$', pattern_with_digits_and_delimiter, flags=re.IGNORECASE):  # noqa: E501
+        if pattern_with_digits_and_delimiter is not None and not re.search(r'', pattern_with_digits_and_delimiter):  # noqa: E501
             raise ValueError(r"Invalid value for `pattern_with_digits_and_delimiter`, must be a follow pattern or equal to `/^image_\d{1,3}$/i`")  # noqa: E501
 
         self._pattern_with_digits_and_delimiter = pattern_with_digits_and_delimiter

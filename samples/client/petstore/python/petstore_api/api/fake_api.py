@@ -41,11 +41,14 @@ class FakeApi(object):
         >>> thread = api.create_xml_item(xml_item, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param XmlItem xml_item: XmlItem Body (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            xml_item (XmlItem): XmlItem Body
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -63,11 +66,14 @@ class FakeApi(object):
         >>> thread = api.create_xml_item_with_http_info(xml_item, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param XmlItem xml_item: XmlItem Body (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            xml_item (XmlItem): XmlItem Body
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -90,6 +96,7 @@ class FakeApi(object):
         if ('xml_item' not in local_var_params or
                 local_var_params['xml_item'] is None):
             raise ValueError("Missing the required parameter `xml_item` when calling `create_xml_item`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -137,11 +144,14 @@ class FakeApi(object):
         >>> thread = api.fake_outer_boolean_serialize(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param bool body: Input boolean as post body
-        :return: bool
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            body (bool): Input boolean as post body. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            bool:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -159,11 +169,14 @@ class FakeApi(object):
         >>> thread = api.fake_outer_boolean_serialize_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param bool body: Input boolean as post body
-        :return: bool
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            body (bool): Input boolean as post body. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            bool:
         """
 
         local_var_params = locals()
@@ -182,6 +195,7 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+
 
         collection_formats = {}
 
@@ -229,11 +243,14 @@ class FakeApi(object):
         >>> thread = api.fake_outer_composite_serialize(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param OuterComposite body: Input composite as post body
-        :return: OuterComposite
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            body (OuterComposite): Input composite as post body. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            OuterComposite:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -251,11 +268,14 @@ class FakeApi(object):
         >>> thread = api.fake_outer_composite_serialize_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param OuterComposite body: Input composite as post body
-        :return: OuterComposite
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            body (OuterComposite): Input composite as post body. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            OuterComposite:
         """
 
         local_var_params = locals()
@@ -274,6 +294,7 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+
 
         collection_formats = {}
 
@@ -321,11 +342,14 @@ class FakeApi(object):
         >>> thread = api.fake_outer_number_serialize(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param float body: Input number as post body
-        :return: float
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            body (float): Input number as post body. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            float:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -343,11 +367,14 @@ class FakeApi(object):
         >>> thread = api.fake_outer_number_serialize_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param float body: Input number as post body
-        :return: float
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            body (float): Input number as post body. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            float:
         """
 
         local_var_params = locals()
@@ -366,6 +393,7 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+
 
         collection_formats = {}
 
@@ -413,11 +441,14 @@ class FakeApi(object):
         >>> thread = api.fake_outer_string_serialize(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str body: Input string as post body
-        :return: str
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            body (str): Input string as post body. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            str:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -435,11 +466,14 @@ class FakeApi(object):
         >>> thread = api.fake_outer_string_serialize_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str body: Input string as post body
-        :return: str
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            body (str): Input string as post body. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            str:
         """
 
         local_var_params = locals()
@@ -458,6 +492,7 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+
 
         collection_formats = {}
 
@@ -505,11 +540,14 @@ class FakeApi(object):
         >>> thread = api.test_body_with_file_schema(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param FileSchemaTestClass body: (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (FileSchemaTestClass):
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -527,11 +565,14 @@ class FakeApi(object):
         >>> thread = api.test_body_with_file_schema_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param FileSchemaTestClass body: (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (FileSchemaTestClass):
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -554,6 +595,7 @@ class FakeApi(object):
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `test_body_with_file_schema`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -600,12 +642,15 @@ class FakeApi(object):
         >>> thread = api.test_body_with_query_params(query, body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str query: (required)
-        :param User body: (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            query (str):
+            body (User):
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -622,12 +667,15 @@ class FakeApi(object):
         >>> thread = api.test_body_with_query_params_with_http_info(query, body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str query: (required)
-        :param User body: (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            query (str):
+            body (User):
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -654,6 +702,7 @@ class FakeApi(object):
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `test_body_with_query_params`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -703,11 +752,14 @@ class FakeApi(object):
         >>> thread = api.test_client_model(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param Client body: client model (required)
-        :return: Client
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (Client): client model
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            Client:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -725,11 +777,14 @@ class FakeApi(object):
         >>> thread = api.test_client_model_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param Client body: client model (required)
-        :return: Client
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (Client): client model
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            Client:
         """
 
         local_var_params = locals()
@@ -752,6 +807,7 @@ class FakeApi(object):
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `test_client_model`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -794,6 +850,172 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def test_endpoint_enums_length_one(self, query_integer=3, query_string='brillig', path_string='hello', path_integer=34, header_number=1.234, **kwargs):  # noqa: E501
+        """test_endpoint_enums_length_one  # noqa: E501
+
+        This route has required values with enums of 1  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.test_endpoint_enums_length_one(query_integer=3, query_string='brillig', path_string='hello', path_integer=34, header_number=1.234, async_req=True)
+        >>> result = thread.get()
+
+        Args:
+            query_integer (int): defaults to 3, must be one of [3]
+            query_string (str): defaults to 'brillig', must be one of ['brillig']
+            path_string (str): defaults to 'hello', must be one of ['hello']
+            path_integer (int): defaults to 34, must be one of [34]
+            header_number (float): defaults to 1.234, must be one of [1.234]
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.test_endpoint_enums_length_one_with_http_info(query_integer=query_integer, query_string=query_string, path_string=path_string, path_integer=path_integer, header_number=header_number, **kwargs)  # noqa: E501
+        else:
+            (data) = self.test_endpoint_enums_length_one_with_http_info(query_integer=query_integer, query_string=query_string, path_string=path_string, path_integer=path_integer, header_number=header_number, **kwargs)  # noqa: E501
+            return data
+
+    def test_endpoint_enums_length_one_with_http_info(self, query_integer=None, query_string=None, path_string=None, path_integer=None, header_number=None, **kwargs):  # noqa: E501
+        """test_endpoint_enums_length_one  # noqa: E501
+
+        This route has required values with enums of 1  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.test_endpoint_enums_length_one_with_http_info(async_req=True)
+        >>> result = thread.get()
+
+        Args:
+            query_integer (int): defaults to 3, must be one of [3]
+            query_string (str): defaults to 'brillig', must be one of ['brillig']
+            path_string (str): defaults to 'hello', must be one of ['hello']
+            path_integer (int): defaults to 34, must be one of [34]
+            header_number (float): defaults to 1.234, must be one of [1.234]
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
+        """
+
+        local_var_params = locals()
+
+        all_params = ['query_integer', 'query_string', 'path_string', 'path_integer', 'header_number']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise TypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method test_endpoint_enums_length_one" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'query_integer' is set
+        if ('query_integer' not in local_var_params or
+                local_var_params['query_integer'] is None):
+            raise ValueError("Missing the required parameter `query_integer` when calling `test_endpoint_enums_length_one`")  # noqa: E501
+        # verify the required parameter 'query_string' is set
+        if ('query_string' not in local_var_params or
+                local_var_params['query_string'] is None):
+            raise ValueError("Missing the required parameter `query_string` when calling `test_endpoint_enums_length_one`")  # noqa: E501
+        # verify the required parameter 'path_string' is set
+        if ('path_string' not in local_var_params or
+                local_var_params['path_string'] is None):
+            raise ValueError("Missing the required parameter `path_string` when calling `test_endpoint_enums_length_one`")  # noqa: E501
+        # verify the required parameter 'path_integer' is set
+        if ('path_integer' not in local_var_params or
+                local_var_params['path_integer'] is None):
+            raise ValueError("Missing the required parameter `path_integer` when calling `test_endpoint_enums_length_one`")  # noqa: E501
+        # verify the required parameter 'header_number' is set
+        if ('header_number' not in local_var_params or
+                local_var_params['header_number'] is None):
+            raise ValueError("Missing the required parameter `header_number` when calling `test_endpoint_enums_length_one`")  # noqa: E501
+
+        allowed_values = [3]  # noqa: E501
+        if ('query_integer' in local_var_params and
+                local_var_params['query_integer'] not in allowed_values):
+            raise ValueError(
+                "Invalid value for `query_integer` ({0}), must be one of {1}"  # noqa: E501
+                .format(local_var_params['query_integer'], allowed_values)
+            )
+        allowed_values = ["brillig"]  # noqa: E501
+        if ('query_string' in local_var_params and
+                local_var_params['query_string'] not in allowed_values):
+            raise ValueError(
+                "Invalid value for `query_string` ({0}), must be one of {1}"  # noqa: E501
+                .format(local_var_params['query_string'], allowed_values)
+            )
+        allowed_values = ["hello"]  # noqa: E501
+        if ('path_string' in local_var_params and
+                local_var_params['path_string'] not in allowed_values):
+            raise ValueError(
+                "Invalid value for `path_string` ({0}), must be one of {1}"  # noqa: E501
+                .format(local_var_params['path_string'], allowed_values)
+            )
+        allowed_values = [34]  # noqa: E501
+        if ('path_integer' in local_var_params and
+                local_var_params['path_integer'] not in allowed_values):
+            raise ValueError(
+                "Invalid value for `path_integer` ({0}), must be one of {1}"  # noqa: E501
+                .format(local_var_params['path_integer'], allowed_values)
+            )
+        allowed_values = [1.234]  # noqa: E501
+        if ('header_number' in local_var_params and
+                local_var_params['header_number'] not in allowed_values):
+            raise ValueError(
+                "Invalid value for `header_number` ({0}), must be one of {1}"  # noqa: E501
+                .format(local_var_params['header_number'], allowed_values)
+            )
+
+        collection_formats = {}
+
+        path_params = {}
+        if 'path_string' in local_var_params:
+            path_params['path_string'] = local_var_params['path_string']  # noqa: E501
+        if 'path_integer' in local_var_params:
+            path_params['path_integer'] = local_var_params['path_integer']  # noqa: E501
+
+        query_params = []
+        if 'query_integer' in local_var_params:
+            query_params.append(('query_integer', local_var_params['query_integer']))  # noqa: E501
+        if 'query_string' in local_var_params:
+            query_params.append(('query_string', local_var_params['query_string']))  # noqa: E501
+
+        header_params = {}
+        if 'header_number' in local_var_params:
+            header_params['header_number'] = local_var_params['header_number']  # noqa: E501
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        return self.api_client.call_api(
+            '/fake/enums-of-length-one/{path_string}/{path_integer}', 'PUT',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type=None,  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def test_endpoint_parameters(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
 
@@ -803,24 +1025,27 @@ class FakeApi(object):
         >>> thread = api.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param float number: None (required)
-        :param float double: None (required)
-        :param str pattern_without_delimiter: None (required)
-        :param str byte: None (required)
-        :param int integer: None
-        :param int int32: None
-        :param int int64: None
-        :param float float: None
-        :param str string: None
-        :param file binary: None
-        :param date date: None
-        :param datetime date_time: None
-        :param str password: None
-        :param str param_callback: None
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            number (float): None
+            double (float): None
+            pattern_without_delimiter (str): None
+            byte (str): None
+
+        Keyword Args:
+            integer (int): None. [optional]
+            int32 (int): None. [optional]
+            int64 (int): None. [optional]
+            float (float): None. [optional]
+            string (str): None. [optional]
+            binary (file): None. [optional]
+            date (date): None. [optional]
+            date_time (datetime): None. [optional]
+            password (str): None. [optional]
+            param_callback (str): None. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -838,24 +1063,27 @@ class FakeApi(object):
         >>> thread = api.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param float number: None (required)
-        :param float double: None (required)
-        :param str pattern_without_delimiter: None (required)
-        :param str byte: None (required)
-        :param int integer: None
-        :param int int32: None
-        :param int int64: None
-        :param float float: None
-        :param str string: None
-        :param file binary: None
-        :param date date: None
-        :param datetime date_time: None
-        :param str password: None
-        :param str param_callback: None
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            number (float): None
+            double (float): None
+            pattern_without_delimiter (str): None
+            byte (str): None
+
+        Keyword Args:
+            integer (int): None. [optional]
+            int32 (int): None. [optional]
+            int64 (int): None. [optional]
+            float (float): None. [optional]
+            string (str): None. [optional]
+            binary (file): None. [optional]
+            date (date): None. [optional]
+            date_time (datetime): None. [optional]
+            password (str): None. [optional]
+            param_callback (str): None. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -890,6 +1118,7 @@ class FakeApi(object):
         if ('byte' not in local_var_params or
                 local_var_params['byte'] is None):
             raise ValueError("Missing the required parameter `byte` when calling `test_endpoint_parameters`")  # noqa: E501
+
 
         if 'number' in local_var_params and local_var_params['number'] > 543.2:  # noqa: E501
             raise ValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value less than or equal to `543.2`")  # noqa: E501
@@ -991,18 +1220,21 @@ class FakeApi(object):
         >>> thread = api.test_enum_parameters(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param list[str] enum_header_string_array: Header parameter enum test (string array)
-        :param str enum_header_string: Header parameter enum test (string)
-        :param list[str] enum_query_string_array: Query parameter enum test (string array)
-        :param str enum_query_string: Query parameter enum test (string)
-        :param int enum_query_integer: Query parameter enum test (double)
-        :param float enum_query_double: Query parameter enum test (double)
-        :param list[str] enum_form_string_array: Form parameter enum test (string array)
-        :param str enum_form_string: Form parameter enum test (string)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            enum_header_string_array (list[str]): Header parameter enum test (string array). [optional]
+            enum_header_string (str): Header parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+            enum_query_string_array (list[str]): Query parameter enum test (string array). [optional]
+            enum_query_string (str): Query parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+            enum_query_integer (int): Query parameter enum test (double). [optional]
+            enum_query_double (float): Query parameter enum test (double). [optional]
+            enum_form_string_array (list[str]): Form parameter enum test (string array). [optional] if omitted the server will use the default value of '$'
+            enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -1020,18 +1252,21 @@ class FakeApi(object):
         >>> thread = api.test_enum_parameters_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param list[str] enum_header_string_array: Header parameter enum test (string array)
-        :param str enum_header_string: Header parameter enum test (string)
-        :param list[str] enum_query_string_array: Query parameter enum test (string array)
-        :param str enum_query_string: Query parameter enum test (string)
-        :param int enum_query_integer: Query parameter enum test (double)
-        :param float enum_query_double: Query parameter enum test (double)
-        :param list[str] enum_form_string_array: Form parameter enum test (string array)
-        :param str enum_form_string: Form parameter enum test (string)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            enum_header_string_array (list[str]): Header parameter enum test (string array). [optional]
+            enum_header_string (str): Header parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+            enum_query_string_array (list[str]): Query parameter enum test (string array). [optional]
+            enum_query_string (str): Query parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+            enum_query_integer (int): Query parameter enum test (double). [optional]
+            enum_query_double (float): Query parameter enum test (double). [optional]
+            enum_form_string_array (list[str]): Form parameter enum test (string array). [optional] if omitted the server will use the default value of '$'
+            enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -1050,6 +1285,66 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+
+        allowed_values = [">", "$"]  # noqa: E501
+        if ('enum_header_string_array' in local_var_params and
+                not set(local_var_params['enum_header_string_array']).issubset(set(allowed_values))):  # noqa: E501
+            raise ValueError(
+                "Invalid values for `enum_header_string_array` [{0}], must be a subset of [{1}]"  # noqa: E501
+                .format(", ".join(map(str, set(local_var_params['enum_header_string_array']) - set(allowed_values))),  # noqa: E501
+                        ", ".join(map(str, allowed_values)))
+            )
+        allowed_values = ["_abc", "-efg", "(xyz)"]  # noqa: E501
+        if ('enum_header_string' in local_var_params and
+                local_var_params['enum_header_string'] not in allowed_values):
+            raise ValueError(
+                "Invalid value for `enum_header_string` ({0}), must be one of {1}"  # noqa: E501
+                .format(local_var_params['enum_header_string'], allowed_values)
+            )
+        allowed_values = [">", "$"]  # noqa: E501
+        if ('enum_query_string_array' in local_var_params and
+                not set(local_var_params['enum_query_string_array']).issubset(set(allowed_values))):  # noqa: E501
+            raise ValueError(
+                "Invalid values for `enum_query_string_array` [{0}], must be a subset of [{1}]"  # noqa: E501
+                .format(", ".join(map(str, set(local_var_params['enum_query_string_array']) - set(allowed_values))),  # noqa: E501
+                        ", ".join(map(str, allowed_values)))
+            )
+        allowed_values = ["_abc", "-efg", "(xyz)"]  # noqa: E501
+        if ('enum_query_string' in local_var_params and
+                local_var_params['enum_query_string'] not in allowed_values):
+            raise ValueError(
+                "Invalid value for `enum_query_string` ({0}), must be one of {1}"  # noqa: E501
+                .format(local_var_params['enum_query_string'], allowed_values)
+            )
+        allowed_values = [1, -2]  # noqa: E501
+        if ('enum_query_integer' in local_var_params and
+                local_var_params['enum_query_integer'] not in allowed_values):
+            raise ValueError(
+                "Invalid value for `enum_query_integer` ({0}), must be one of {1}"  # noqa: E501
+                .format(local_var_params['enum_query_integer'], allowed_values)
+            )
+        allowed_values = [1.1, -1.2]  # noqa: E501
+        if ('enum_query_double' in local_var_params and
+                local_var_params['enum_query_double'] not in allowed_values):
+            raise ValueError(
+                "Invalid value for `enum_query_double` ({0}), must be one of {1}"  # noqa: E501
+                .format(local_var_params['enum_query_double'], allowed_values)
+            )
+        allowed_values = [">", "$"]  # noqa: E501
+        if ('enum_form_string_array' in local_var_params and
+                not set(local_var_params['enum_form_string_array']).issubset(set(allowed_values))):  # noqa: E501
+            raise ValueError(
+                "Invalid values for `enum_form_string_array` [{0}], must be a subset of [{1}]"  # noqa: E501
+                .format(", ".join(map(str, set(local_var_params['enum_form_string_array']) - set(allowed_values))),  # noqa: E501
+                        ", ".join(map(str, allowed_values)))
+            )
+        allowed_values = ["_abc", "-efg", "(xyz)"]  # noqa: E501
+        if ('enum_form_string' in local_var_params and
+                local_var_params['enum_form_string'] not in allowed_values):
+            raise ValueError(
+                "Invalid value for `enum_form_string` ({0}), must be one of {1}"  # noqa: E501
+                .format(local_var_params['enum_form_string'], allowed_values)
+            )
 
         collection_formats = {}
 
@@ -1114,16 +1409,19 @@ class FakeApi(object):
         >>> thread = api.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param int required_string_group: Required String in group parameters (required)
-        :param bool required_boolean_group: Required Boolean in group parameters (required)
-        :param int required_int64_group: Required Integer in group parameters (required)
-        :param int string_group: String in group parameters
-        :param bool boolean_group: Boolean in group parameters
-        :param int int64_group: Integer in group parameters
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            required_string_group (int): Required String in group parameters
+            required_boolean_group (bool): Required Boolean in group parameters
+            required_int64_group (int): Required Integer in group parameters
+
+        Keyword Args:
+            string_group (int): String in group parameters. [optional]
+            boolean_group (bool): Boolean in group parameters. [optional]
+            int64_group (int): Integer in group parameters. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -1141,16 +1439,19 @@ class FakeApi(object):
         >>> thread = api.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param int required_string_group: Required String in group parameters (required)
-        :param bool required_boolean_group: Required Boolean in group parameters (required)
-        :param int required_int64_group: Required Integer in group parameters (required)
-        :param int string_group: String in group parameters
-        :param bool boolean_group: Boolean in group parameters
-        :param int int64_group: Integer in group parameters
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            required_string_group (int): Required String in group parameters
+            required_boolean_group (bool): Required Boolean in group parameters
+            required_int64_group (int): Required Integer in group parameters
+
+        Keyword Args:
+            string_group (int): String in group parameters. [optional]
+            boolean_group (bool): Boolean in group parameters. [optional]
+            int64_group (int): Integer in group parameters. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -1181,6 +1482,7 @@ class FakeApi(object):
         if ('required_int64_group' not in local_var_params or
                 local_var_params['required_int64_group'] is None):
             raise ValueError("Missing the required parameter `required_int64_group` when calling `test_group_parameters`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -1233,11 +1535,14 @@ class FakeApi(object):
         >>> thread = api.test_inline_additional_properties(param, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param dict(str, str) param: request body (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            param (dict(str, str)): request body
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -1254,11 +1559,14 @@ class FakeApi(object):
         >>> thread = api.test_inline_additional_properties_with_http_info(param, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param dict(str, str) param: request body (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            param (dict(str, str)): request body
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -1281,6 +1589,7 @@ class FakeApi(object):
         if ('param' not in local_var_params or
                 local_var_params['param'] is None):
             raise ValueError("Missing the required parameter `param` when calling `test_inline_additional_properties`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -1327,12 +1636,15 @@ class FakeApi(object):
         >>> thread = api.test_json_form_data(param, param2, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str param: field1 (required)
-        :param str param2: field2 (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            param (str): field1
+            param2 (str): field2
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -1349,12 +1661,15 @@ class FakeApi(object):
         >>> thread = api.test_json_form_data_with_http_info(param, param2, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str param: field1 (required)
-        :param str param2: field2 (required)
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            param (str): field1
+            param2 (str): field2
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -1381,6 +1696,7 @@ class FakeApi(object):
         if ('param2' not in local_var_params or
                 local_var_params['param2'] is None):
             raise ValueError("Missing the required parameter `param2` when calling `test_json_form_data`")  # noqa: E501
+
 
         collection_formats = {}
 

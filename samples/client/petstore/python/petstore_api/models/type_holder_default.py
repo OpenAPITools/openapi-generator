@@ -10,6 +10,7 @@
 """
 
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -35,6 +36,8 @@ class TypeHolderDefault(object):
         'number_item': 'float',
         'integer_item': 'int',
         'bool_item': 'bool',
+        'date_item': 'date',
+        'datetime_item': 'datetime',
         'array_item': 'list[int]'
     }
 
@@ -43,24 +46,49 @@ class TypeHolderDefault(object):
         'number_item': 'number_item',
         'integer_item': 'integer_item',
         'bool_item': 'bool_item',
+        'date_item': 'date_item',
+        'datetime_item': 'datetime_item',
         'array_item': 'array_item'
     }
 
-    def __init__(self, string_item='what', number_item=None, integer_item=None, bool_item=True, array_item=None):  # noqa: E501
-        """TypeHolderDefault - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, string_item=None, number_item=None, integer_item=None, bool_item=None, date_item=None, datetime_item=None, array_item=None):  # noqa: E501
+        """TypeHolderDefault - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            string_item (str): [optional] if omitted the server will use the default value of 'what'  # noqa: E501
+            number_item (float): [optional] if omitted the server will use the default value of 1.234  # noqa: E501
+            integer_item (int): [optional] if omitted the server will use the default value of -2  # noqa: E501
+            bool_item (bool): [optional] if omitted the server will use the default value of True  # noqa: E501
+            date_item (date): [optional]  # noqa: E501
+            datetime_item (datetime): [optional]  # noqa: E501
+            array_item (list[int]): [optional]  # noqa: E501
+        """
 
         self._string_item = None
         self._number_item = None
         self._integer_item = None
         self._bool_item = None
+        self._date_item = None
+        self._datetime_item = None
         self._array_item = None
         self.discriminator = None
 
-        self.string_item = string_item
-        self.number_item = number_item
-        self.integer_item = integer_item
-        self.bool_item = bool_item
-        self.array_item = array_item
+        if string_item is not None:
+            self.string_item = string_item
+        if number_item is not None:
+            self.number_item = number_item
+        if integer_item is not None:
+            self.integer_item = integer_item
+        if bool_item is not None:
+            self.bool_item = bool_item
+        if date_item is not None:
+            self.date_item = date_item
+        if datetime_item is not None:
+            self.datetime_item = datetime_item
+        if array_item is not None:
+            self.array_item = array_item
 
     @property
     def string_item(self):
@@ -80,8 +108,6 @@ class TypeHolderDefault(object):
         :param string_item: The string_item of this TypeHolderDefault.  # noqa: E501
         :type: str
         """
-        if string_item is None:
-            raise ValueError("Invalid value for `string_item`, must not be `None`")  # noqa: E501
 
         self._string_item = string_item
 
@@ -103,8 +129,6 @@ class TypeHolderDefault(object):
         :param number_item: The number_item of this TypeHolderDefault.  # noqa: E501
         :type: float
         """
-        if number_item is None:
-            raise ValueError("Invalid value for `number_item`, must not be `None`")  # noqa: E501
 
         self._number_item = number_item
 
@@ -126,8 +150,6 @@ class TypeHolderDefault(object):
         :param integer_item: The integer_item of this TypeHolderDefault.  # noqa: E501
         :type: int
         """
-        if integer_item is None:
-            raise ValueError("Invalid value for `integer_item`, must not be `None`")  # noqa: E501
 
         self._integer_item = integer_item
 
@@ -149,10 +171,50 @@ class TypeHolderDefault(object):
         :param bool_item: The bool_item of this TypeHolderDefault.  # noqa: E501
         :type: bool
         """
-        if bool_item is None:
-            raise ValueError("Invalid value for `bool_item`, must not be `None`")  # noqa: E501
 
         self._bool_item = bool_item
+
+    @property
+    def date_item(self):
+        """Gets the date_item of this TypeHolderDefault.  # noqa: E501
+
+
+        :return: The date_item of this TypeHolderDefault.  # noqa: E501
+        :rtype: date
+        """
+        return self._date_item
+
+    @date_item.setter
+    def date_item(self, date_item):
+        """Sets the date_item of this TypeHolderDefault.
+
+
+        :param date_item: The date_item of this TypeHolderDefault.  # noqa: E501
+        :type: date
+        """
+
+        self._date_item = date_item
+
+    @property
+    def datetime_item(self):
+        """Gets the datetime_item of this TypeHolderDefault.  # noqa: E501
+
+
+        :return: The datetime_item of this TypeHolderDefault.  # noqa: E501
+        :rtype: datetime
+        """
+        return self._datetime_item
+
+    @datetime_item.setter
+    def datetime_item(self, datetime_item):
+        """Sets the datetime_item of this TypeHolderDefault.
+
+
+        :param datetime_item: The datetime_item of this TypeHolderDefault.  # noqa: E501
+        :type: datetime
+        """
+
+        self._datetime_item = datetime_item
 
     @property
     def array_item(self):
@@ -172,8 +234,6 @@ class TypeHolderDefault(object):
         :param array_item: The array_item of this TypeHolderDefault.  # noqa: E501
         :type: list[int]
         """
-        if array_item is None:
-            raise ValueError("Invalid value for `array_item`, must not be `None`")  # noqa: E501
 
         self._array_item = array_item
 

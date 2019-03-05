@@ -10,6 +10,7 @@
 """
 
 
+from dateutil.parser import parse as dateutil_parser  # noqa: F401
 import pprint
 import re  # noqa: F401
 
@@ -39,7 +40,13 @@ class ClassModel(object):
     }
 
     def __init__(self, _class=None):  # noqa: E501
-        """ClassModel - a model defined in OpenAPI"""  # noqa: E501
+        """ClassModel - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            _class (str): [optional]  # noqa: E501
+        """
 
         self.__class = None
         self.discriminator = None

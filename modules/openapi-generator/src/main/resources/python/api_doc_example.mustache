@@ -17,6 +17,8 @@ api_instance = {{{packageName}}}.{{{classname}}}()
 {{/defaultValue}}{{/requiredParams}}{{#optionalParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (server default to {{{defaultValue}}} if omitted){{/defaultValue}}
 {{/optionalParams}}
 
+{{#requiredParams}}
+{{^hasMore}}
 # example passing only required values which don't have defaults set
 try:
 {{#summary}}    # {{{.}}}
@@ -24,7 +26,11 @@ try:
     pprint(api_response){{/returnType}}
 except ApiException as e:
     print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
+{{/hasMore}}
+{{/requiredParams}}
 
+{{#optionalParams}}
+{{^hasMore}}
 # example passing only required values which don't have defaults set
 # and optional values
 try:
@@ -33,4 +39,18 @@ try:
     pprint(api_response){{/returnType}}
 except ApiException as e:
     print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
+{{/hasMore}}
+{{/optionalParams}}
+
+{{^requiredParams}}
+{{^optionalParams}}
+# example, this endpoint has no required or optional parameters
+try:
+{{#summary}}    # {{{.}}}
+{{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}(){{#returnType}}
+    pprint(api_response){{/returnType}}
+except ApiException as e:
+    print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
+{{/optionalParams}}
+{{/requiredParams}}
 ```

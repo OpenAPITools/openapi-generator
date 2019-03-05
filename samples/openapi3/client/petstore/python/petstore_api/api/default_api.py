@@ -40,10 +40,13 @@ class DefaultApi(object):
         >>> thread = api.foo_get(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :return: InlineResponseDefault
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            InlineResponseDefault:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -60,10 +63,13 @@ class DefaultApi(object):
         >>> thread = api.foo_get_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :return: InlineResponseDefault
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            InlineResponseDefault:
         """
 
         local_var_params = locals()
@@ -82,6 +88,7 @@ class DefaultApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+
 
         collection_formats = {}
 

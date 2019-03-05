@@ -31,21 +31,82 @@ class Cat(object):
                             and the value is json key in definition.
     """
     openapi_types = {
+        'class_name': 'str',
+        'color': 'str',
         'declawed': 'bool'
     }
 
     attribute_map = {
+        'class_name': 'className',
+        'color': 'color',
         'declawed': 'declawed'
     }
 
-    def __init__(self, declawed=None):  # noqa: E501
-        """Cat - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, class_name, declawed=None, color=None):  # noqa: E501
+        """Cat - a model defined in OpenAPI
 
+        Args:
+            class_name (str):
+
+        Keyword Args:
+            declawed (bool): [optional]  # noqa: E501
+            color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
+        """
+
+        self._class_name = None
+        self._color = None
         self._declawed = None
         self.discriminator = None
 
+        self.class_name = class_name
+        if color is not None:
+            self.color = color
         if declawed is not None:
             self.declawed = declawed
+
+    @property
+    def class_name(self):
+        """Gets the class_name of this Cat.  # noqa: E501
+
+
+        :return: The class_name of this Cat.  # noqa: E501
+        :rtype: str
+        """
+        return self._class_name
+
+    @class_name.setter
+    def class_name(self, class_name):
+        """Sets the class_name of this Cat.
+
+
+        :param class_name: The class_name of this Cat.  # noqa: E501
+        :type: str
+        """
+        if class_name is None:
+            raise ValueError("Invalid value for `class_name`, must not be `None`")  # noqa: E501
+
+        self._class_name = class_name
+
+    @property
+    def color(self):
+        """Gets the color of this Cat.  # noqa: E501
+
+
+        :return: The color of this Cat.  # noqa: E501
+        :rtype: str
+        """
+        return self._color
+
+    @color.setter
+    def color(self, color):
+        """Sets the color of this Cat.
+
+
+        :param color: The color of this Cat.  # noqa: E501
+        :type: str
+        """
+
+        self._color = color
 
     @property
     def declawed(self):

@@ -64,8 +64,27 @@ class InlineObject3(object):
         'callback': 'callback'
     }
 
-    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, pattern_without_delimiter=None, byte=None, binary=None, date=None, date_time=None, password=None, callback=None):  # noqa: E501
-        """InlineObject3 - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, number, double, pattern_without_delimiter, byte, integer=None, int32=None, int64=None, float=None, string=None, binary=None, date=None, date_time=None, password=None, callback=None):  # noqa: E501
+        """InlineObject3 - a model defined in OpenAPI
+
+        Args:
+            number (float): None
+            double (float): None
+            pattern_without_delimiter (str): None
+            byte (str): None
+
+        Keyword Args:
+            integer (int): None. [optional]  # noqa: E501
+            int32 (int): None. [optional]  # noqa: E501
+            int64 (int): None. [optional]  # noqa: E501
+            float (float): None. [optional]  # noqa: E501
+            string (str): None. [optional]  # noqa: E501
+            binary (file): None. [optional]  # noqa: E501
+            date (date): None. [optional]  # noqa: E501
+            date_time (datetime): None. [optional]  # noqa: E501
+            password (str): None. [optional]  # noqa: E501
+            callback (str): None. [optional]  # noqa: E501
+        """
 
         self._integer = None
         self._int32 = None
@@ -288,7 +307,7 @@ class InlineObject3(object):
         :param string: The string of this InlineObject3.  # noqa: E501
         :type: str
         """
-        if string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE):  # noqa: E501
+        if string is not None and not re.search(r'', string):  # noqa: E501
             raise ValueError(r"Invalid value for `string`, must be a follow pattern or equal to `/[a-z]/i`")  # noqa: E501
 
         self._string = string
@@ -315,7 +334,7 @@ class InlineObject3(object):
         """
         if pattern_without_delimiter is None:
             raise ValueError("Invalid value for `pattern_without_delimiter`, must not be `None`")  # noqa: E501
-        if pattern_without_delimiter is not None and not re.search(r'^[A-Z].*', pattern_without_delimiter):  # noqa: E501
+        if pattern_without_delimiter is not None and not re.search(r'', pattern_without_delimiter):  # noqa: E501
             raise ValueError(r"Invalid value for `pattern_without_delimiter`, must be a follow pattern or equal to `/^[A-Z].*/`")  # noqa: E501
 
         self._pattern_without_delimiter = pattern_without_delimiter

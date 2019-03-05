@@ -53,7 +53,20 @@ class User(object):
     }
 
     def __init__(self, id=None, username=None, first_name=None, last_name=None, email=None, password=None, phone=None, user_status=None):  # noqa: E501
-        """User - a model defined in OpenAPI"""  # noqa: E501
+        """User - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            id (int): [optional]  # noqa: E501
+            username (str): [optional]  # noqa: E501
+            first_name (str): [optional]  # noqa: E501
+            last_name (str): [optional]  # noqa: E501
+            email (str): [optional]  # noqa: E501
+            password (str): [optional]  # noqa: E501
+            phone (str): [optional]  # noqa: E501
+            user_status (int): User Status. [optional]  # noqa: E501
+        """
 
         self._id = None
         self._username = None
