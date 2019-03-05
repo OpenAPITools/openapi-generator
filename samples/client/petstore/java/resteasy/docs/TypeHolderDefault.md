@@ -4,11 +4,13 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**stringItem** | **String** |  | 
-**numberItem** | [**BigDecimal**](BigDecimal.md) |  | 
-**integerItem** | **Integer** |  | 
-**boolItem** | **Boolean** |  | 
-**arrayItem** | **List&lt;Integer&gt;** |  | 
+**stringItem** | **String** |  |  [optional]
+**numberItem** | **Float** |  |  [optional]
+**integerItem** | **Integer** |  |  [optional]
+**boolItem** | **Boolean** |  |  [optional]
+**dateItem** | [**LocalDate**](LocalDate.md) |  |  [optional]
+**datetimeItem** | [**OffsetDateTime**](OffsetDateTime.md) |  |  [optional]
+**arrayItem** | **List&lt;Integer&gt;** |  |  [optional]
 
 
 

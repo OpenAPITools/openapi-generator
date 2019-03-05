@@ -7,6 +7,8 @@ Name | Type | Description | Notes
 **number_item** | **Float** |  | 
 **integer_item** | **Integer** |  | 
 **bool_item** | **BOOLEAN** |  | 
+**date_item** | **Date** |  | 
+**datetime_item** | **DateTime** |  | 
 **array_item** | **Array&lt;Integer&gt;** |  | 
 
 ## Code Sample
@@ -18,7 +20,9 @@ instance = Petstore::TypeHolderExample.new(string_item: what,
                                  number_item: 1.234,
                                  integer_item: -2,
                                  bool_item: true,
-                                 array_item: [0, 1, 2, 3])
+                                 date_item: null,
+                                 datetime_item: null,
+                                 array_item: [[0, 1, 2, 3]])
 ```
 
 

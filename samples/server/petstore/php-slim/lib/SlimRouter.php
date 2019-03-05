@@ -210,6 +210,17 @@ class SlimRouter
             ],
         ],
         [
+            'httpMethod' => 'PUT',
+            'basePathWithoutHost' => '/v2',
+            'path' => '/fake/enums-of-length-one/{path_string}/{path_integer}',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractFakeApi',
+            'userClassname' => 'FakeApi',
+            'operationId' => 'testEndpointEnumsLengthOne',
+            'authMethods' => [
+            ],
+        ],
+        [
             'httpMethod' => 'PATCH',
             'basePathWithoutHost' => '/v2',
             'path' => '/fake_classname_test',

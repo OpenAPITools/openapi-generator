@@ -377,6 +377,77 @@ public class FakeApi {
     return apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
+   * 
+   * This route has required values with enums of 1
+   * @param queryInteger  (required)
+   * @param queryString  (required)
+   * @param pathString  (required)
+   * @param pathInteger  (required)
+   * @param headerNumber  (required)
+   * @throws ApiException if fails to make API call
+   */
+  public void testEndpointEnumsLengthOne(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'queryInteger' is set
+    if (queryInteger == null) {
+      throw new ApiException(400, "Missing the required parameter 'queryInteger' when calling testEndpointEnumsLengthOne");
+    }
+    
+    // verify the required parameter 'queryString' is set
+    if (queryString == null) {
+      throw new ApiException(400, "Missing the required parameter 'queryString' when calling testEndpointEnumsLengthOne");
+    }
+    
+    // verify the required parameter 'pathString' is set
+    if (pathString == null) {
+      throw new ApiException(400, "Missing the required parameter 'pathString' when calling testEndpointEnumsLengthOne");
+    }
+    
+    // verify the required parameter 'pathInteger' is set
+    if (pathInteger == null) {
+      throw new ApiException(400, "Missing the required parameter 'pathInteger' when calling testEndpointEnumsLengthOne");
+    }
+    
+    // verify the required parameter 'headerNumber' is set
+    if (headerNumber == null) {
+      throw new ApiException(400, "Missing the required parameter 'headerNumber' when calling testEndpointEnumsLengthOne");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake/enums-of-length-one/{path_string}/{path_integer}"
+      .replaceAll("\\{" + "path_string" + "\\}", apiClient.escapeString(pathString.toString()))
+      .replaceAll("\\{" + "path_integer" + "\\}", apiClient.escapeString(pathInteger.toString()));
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPair("query_integer", queryInteger));
+    localVarQueryParams.addAll(apiClient.parameterToPair("query_string", queryString));
+
+    if (headerNumber != null)
+      localVarHeaderParams.put("header_number", apiClient.parameterToString(headerNumber));
+
+    
+    final String[] localVarAccepts = {
+      
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+
+    apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
+  }
+  /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)

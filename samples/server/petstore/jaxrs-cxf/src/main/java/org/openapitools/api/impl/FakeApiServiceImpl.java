@@ -92,6 +92,12 @@ public class FakeApiServiceImpl implements FakeApi {
         return null;
     }
     
+    public void testEndpointEnumsLengthOne(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber) {
+        // TODO: Implement...
+        
+        
+    }
+    
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *

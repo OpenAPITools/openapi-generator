@@ -2075,6 +2075,290 @@ class FakeApi
     }
 
     /**
+     * Operation testEndpointEnumsLengthOne
+     *
+     * @param  int $query_integer query_integer (required)
+     * @param  string $query_string query_string (required)
+     * @param  string $path_string path_string (required)
+     * @param  int $path_integer path_integer (required)
+     * @param  double $header_number header_number (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return void
+     */
+    public function testEndpointEnumsLengthOne($query_integer, $query_string, $path_string, $path_integer, $header_number)
+    {
+        $this->testEndpointEnumsLengthOneWithHttpInfo($query_integer, $query_string, $path_string, $path_integer, $header_number);
+    }
+
+    /**
+     * Operation testEndpointEnumsLengthOneWithHttpInfo
+     *
+     * @param  int $query_integer (required)
+     * @param  string $query_string (required)
+     * @param  string $path_string (required)
+     * @param  int $path_integer (required)
+     * @param  double $header_number (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function testEndpointEnumsLengthOneWithHttpInfo($query_integer, $query_string, $path_string, $path_integer, $header_number)
+    {
+        $request = $this->testEndpointEnumsLengthOneRequest($query_integer, $query_string, $path_string, $path_integer, $header_number);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation testEndpointEnumsLengthOneAsync
+     *
+     * 
+     *
+     * @param  int $query_integer (required)
+     * @param  string $query_string (required)
+     * @param  string $path_string (required)
+     * @param  int $path_integer (required)
+     * @param  double $header_number (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function testEndpointEnumsLengthOneAsync($query_integer, $query_string, $path_string, $path_integer, $header_number)
+    {
+        return $this->testEndpointEnumsLengthOneAsyncWithHttpInfo($query_integer, $query_string, $path_string, $path_integer, $header_number)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation testEndpointEnumsLengthOneAsyncWithHttpInfo
+     *
+     * 
+     *
+     * @param  int $query_integer (required)
+     * @param  string $query_string (required)
+     * @param  string $path_string (required)
+     * @param  int $path_integer (required)
+     * @param  double $header_number (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function testEndpointEnumsLengthOneAsyncWithHttpInfo($query_integer, $query_string, $path_string, $path_integer, $header_number)
+    {
+        $returnType = '';
+        $request = $this->testEndpointEnumsLengthOneRequest($query_integer, $query_string, $path_string, $path_integer, $header_number);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'testEndpointEnumsLengthOne'
+     *
+     * @param  int $query_integer (required)
+     * @param  string $query_string (required)
+     * @param  string $path_string (required)
+     * @param  int $path_integer (required)
+     * @param  double $header_number (required)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function testEndpointEnumsLengthOneRequest($query_integer, $query_string, $path_string, $path_integer, $header_number)
+    {
+        // verify the required parameter 'query_integer' is set
+        if ($query_integer === null || (is_array($query_integer) && count($query_integer) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $query_integer when calling testEndpointEnumsLengthOne'
+            );
+        }
+        // verify the required parameter 'query_string' is set
+        if ($query_string === null || (is_array($query_string) && count($query_string) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $query_string when calling testEndpointEnumsLengthOne'
+            );
+        }
+        // verify the required parameter 'path_string' is set
+        if ($path_string === null || (is_array($path_string) && count($path_string) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $path_string when calling testEndpointEnumsLengthOne'
+            );
+        }
+        // verify the required parameter 'path_integer' is set
+        if ($path_integer === null || (is_array($path_integer) && count($path_integer) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $path_integer when calling testEndpointEnumsLengthOne'
+            );
+        }
+        // verify the required parameter 'header_number' is set
+        if ($header_number === null || (is_array($header_number) && count($header_number) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $header_number when calling testEndpointEnumsLengthOne'
+            );
+        }
+
+        $resourcePath = '/fake/enums-of-length-one/{path_string}/{path_integer}';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        if ($query_integer !== null) {
+            $queryParams['query_integer'] = ObjectSerializer::toQueryValue($query_integer);
+        }
+        // query params
+        if ($query_string !== null) {
+            $queryParams['query_string'] = ObjectSerializer::toQueryValue($query_string);
+        }
+        // header params
+        if ($header_number !== null) {
+            $headerParams['header_number'] = ObjectSerializer::toHeaderValue($header_number);
+        }
+
+        // path params
+        if ($path_string !== null) {
+            $resourcePath = str_replace(
+                '{' . 'path_string' . '}',
+                ObjectSerializer::toPathValue($path_string),
+                $resourcePath
+            );
+        }
+        // path params
+        if ($path_integer !== null) {
+            $resourcePath = str_replace(
+                '{' . 'path_integer' . '}',
+                ObjectSerializer::toPathValue($path_integer),
+                $resourcePath
+            );
+        }
+
+        // body params
+        $_tempBody = null;
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                []
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                [],
+                []
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            // $_tempBody is the method argument, if present
+            if ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+            } else {
+                $httpBody = $_tempBody;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        return new Request(
+            'PUT',
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation testEndpointParameters
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트

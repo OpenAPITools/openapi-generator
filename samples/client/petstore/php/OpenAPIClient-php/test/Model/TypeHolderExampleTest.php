@@ -35,7 +35,7 @@ use PHPUnit\Framework\TestCase;
  * TypeHolderExampleTest Class Doc Comment
  *
  * @category    Class
- * @description TypeHolderExample
+ * @description a model to test required properties with an example and length one enum
  * @package     OpenAPI\Client
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
@@ -103,6 +103,20 @@ class TypeHolderExampleTest extends TestCase
      * Test attribute "bool_item"
      */
     public function testPropertyBoolItem()
+    {
+    }
+
+    /**
+     * Test attribute "date_item"
+     */
+    public function testPropertyDateItem()
+    {
+    }
+
+    /**
+     * Test attribute "datetime_item"
+     */
+    public function testPropertyDatetimeItem()
     {
     }
 

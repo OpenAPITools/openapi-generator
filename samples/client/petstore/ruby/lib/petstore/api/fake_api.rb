@@ -419,6 +419,106 @@ module Petstore
       return data, status_code, headers
     end
 
+    # This route has required values with enums of 1
+    # @param query_integer 
+    # @param query_string 
+    # @param path_string 
+    # @param path_integer 
+    # @param header_number 
+    # @param [Hash] opts the optional parameters
+    # @return [nil]
+    def test_endpoint_enums_length_one(query_integer, query_string, path_string, path_integer, header_number, opts = {})
+      test_endpoint_enums_length_one_with_http_info(query_integer, query_string, path_string, path_integer, header_number, opts)
+      nil
+    end
+
+    # This route has required values with enums of 1
+    # @param query_integer 
+    # @param query_string 
+    # @param path_string 
+    # @param path_integer 
+    # @param header_number 
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    def test_endpoint_enums_length_one_with_http_info(query_integer, query_string, path_string, path_integer, header_number, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug 'Calling API: FakeApi.test_endpoint_enums_length_one ...'
+      end
+      # verify the required parameter 'query_integer' is set
+      if @api_client.config.client_side_validation && query_integer.nil?
+        fail ArgumentError, "Missing the required parameter 'query_integer' when calling FakeApi.test_endpoint_enums_length_one"
+      end
+      # verify enum value
+      allowable_values = [3]
+      if @api_client.config.client_side_validation && !allowable_values.include?(query_integer)
+        fail ArgumentError, "invalid value for \"query_integer\", must be one of #{allowable_values}"
+      end
+      # verify the required parameter 'query_string' is set
+      if @api_client.config.client_side_validation && query_string.nil?
+        fail ArgumentError, "Missing the required parameter 'query_string' when calling FakeApi.test_endpoint_enums_length_one"
+      end
+      # verify enum value
+      allowable_values = ["brillig"]
+      if @api_client.config.client_side_validation && !allowable_values.include?(query_string)
+        fail ArgumentError, "invalid value for \"query_string\", must be one of #{allowable_values}"
+      end
+      # verify the required parameter 'path_string' is set
+      if @api_client.config.client_side_validation && path_string.nil?
+        fail ArgumentError, "Missing the required parameter 'path_string' when calling FakeApi.test_endpoint_enums_length_one"
+      end
+      # verify enum value
+      allowable_values = ["hello"]
+      if @api_client.config.client_side_validation && !allowable_values.include?(path_string)
+        fail ArgumentError, "invalid value for \"path_string\", must be one of #{allowable_values}"
+      end
+      # verify the required parameter 'path_integer' is set
+      if @api_client.config.client_side_validation && path_integer.nil?
+        fail ArgumentError, "Missing the required parameter 'path_integer' when calling FakeApi.test_endpoint_enums_length_one"
+      end
+      # verify enum value
+      allowable_values = [34]
+      if @api_client.config.client_side_validation && !allowable_values.include?(path_integer)
+        fail ArgumentError, "invalid value for \"path_integer\", must be one of #{allowable_values}"
+      end
+      # verify the required parameter 'header_number' is set
+      if @api_client.config.client_side_validation && header_number.nil?
+        fail ArgumentError, "Missing the required parameter 'header_number' when calling FakeApi.test_endpoint_enums_length_one"
+      end
+      # verify enum value
+      allowable_values = [1.234]
+      if @api_client.config.client_side_validation && !allowable_values.include?(header_number)
+        fail ArgumentError, "invalid value for \"header_number\", must be one of #{allowable_values}"
+      end
+      # resource path
+      local_var_path = '/fake/enums-of-length-one/{path_string}/{path_integer}'.sub('{' + 'path_string' + '}', path_string.to_s).sub('{' + 'path_integer' + '}', path_integer.to_s)
+
+      # query parameters
+      query_params = {}
+      query_params[:'query_integer'] = query_integer
+      query_params[:'query_string'] = query_string
+
+      # header parameters
+      header_params = {}
+      header_params[:'header_number'] = header_number
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = nil
+      auth_names = []
+      data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: FakeApi#test_endpoint_enums_length_one\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     # @param number None

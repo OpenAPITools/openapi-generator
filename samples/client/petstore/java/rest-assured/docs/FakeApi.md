@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
+[**testEndpointEnumsLengthOne**](FakeApi.md#testEndpointEnumsLengthOne) | **PUT** /fake/enums-of-length-one/{path_string}/{path_integer} | 
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
@@ -350,6 +351,56 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: application/json
+
+<a name="testEndpointEnumsLengthOne"></a>
+# **testEndpointEnumsLengthOne**
+> testEndpointEnumsLengthOne(queryInteger, queryString, pathString, pathInteger, headerNumber)
+
+
+
+This route has required values with enums of 1
+
+### Example
+```java
+// Import classes:
+//import org.openapitools.client.ApiClient;
+//import io.restassured.builder.RequestSpecBuilder;
+//import io.restassured.filter.log.ErrorLoggingFilter;
+
+FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
+                () -> new RequestSpecBuilder()
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+
+api.testEndpointEnumsLengthOne()
+    .queryIntegerQuery(queryInteger)
+    .queryStringQuery(queryString)
+    .pathStringPath(pathString)
+    .pathIntegerPath(pathInteger)
+    .headerNumberHeader(headerNumber).execute(r -> r.prettyPeek());
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **queryInteger** | **Integer**|  | [enum: 3]
+ **queryString** | **String**|  | [enum: brillig]
+ **pathString** | **String**|  | [enum: hello]
+ **pathInteger** | **Integer**|  | [enum: 34]
+ **headerNumber** | **Double**|  | [enum: 1.234]
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 <a name="testEndpointParameters"></a>
 # **testEndpointParameters**

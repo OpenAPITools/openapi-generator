@@ -70,6 +70,12 @@ $router->put('/v2/fake/body-with-query-params', 'FakeApi@testBodyWithQueryParams
  */
 $router->post('/v2/fake/create_xml_item', 'FakeApi@createXmlItem');
 /**
+ * put testEndpointEnumsLengthOne
+ * Summary: 
+ * Notes: This route has required values with enums of 1
+ */
+$router->put('/v2/fake/enums-of-length-one/{path_string}/{path_integer}', 'FakeApi@testEndpointEnumsLengthOne');
+/**
  * post testInlineAdditionalProperties
  * Summary: test inline additionalProperties
  * Notes: 

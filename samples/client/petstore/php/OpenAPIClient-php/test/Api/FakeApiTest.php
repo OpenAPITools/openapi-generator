@@ -153,6 +153,16 @@ class FakeApiTest extends TestCase
     }
 
     /**
+     * Test case for testEndpointEnumsLengthOne
+     *
+     * .
+     *
+     */
+    public function testTestEndpointEnumsLengthOne()
+    {
+    }
+
+    /**
      * Test case for testEndpointParameters
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트.

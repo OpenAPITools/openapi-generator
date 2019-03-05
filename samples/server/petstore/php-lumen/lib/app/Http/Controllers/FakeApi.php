@@ -301,6 +301,27 @@ class FakeApi extends Controller
         return response('How about implementing createXmlItem as a post method ?');
     }
     /**
+     * Operation testEndpointEnumsLengthOne
+     *
+     * .
+     *
+     * @param string $path_string  (required)
+     * @param int $path_integer  (required)
+     *
+     * @return Http response
+     */
+    public function testEndpointEnumsLengthOne($path_string, $path_integer)
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing testEndpointEnumsLengthOne as a put method ?');
+    }
+    /**
      * Operation testInlineAdditionalProperties
      *
      * test inline additionalProperties.

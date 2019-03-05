@@ -132,6 +132,21 @@ public interface FakeApi {
   );
 
   /**
+   * 
+   * This route has required values with enums of 1
+   * @param pathString  (required)
+   * @param pathInteger  (required)
+   * @param queryInteger  (required)
+   * @param queryString  (required)
+   * @param headerNumber  (required)
+   * @return Call&lt;Void&gt;
+   */
+  @PUT("fake/enums-of-length-one/{path_string}/{path_integer}")
+  F.Promise<Response<Void>> testEndpointEnumsLengthOne(
+    @retrofit2.http.Path("path_string") String pathString, @retrofit2.http.Path("path_integer") Integer pathInteger, @retrofit2.http.Query("query_integer") Integer queryInteger, @retrofit2.http.Query("query_string") String queryString, @retrofit2.http.Header("header_number") Double headerNumber
+  );
+
+  /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)

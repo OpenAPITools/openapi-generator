@@ -202,6 +202,24 @@ public class FakeApiTest {
     }
     
     /**
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testEndpointEnumsLengthOneTest() {
+        Integer queryInteger = null;
+        String queryString = null;
+        String pathString = null;
+        Integer pathInteger = null;
+        Double headerNumber = null;
+        //api.testEndpointEnumsLengthOne(queryInteger, queryString, pathString, pathInteger, headerNumber);
+        
+        // TODO: test validations
+        
+        
+    }
+    
+    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 

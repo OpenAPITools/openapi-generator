@@ -13,6 +13,7 @@ OpenAPI Generator version: 4.0.0-SNAPSHOT
 require 'date'
 
 module Petstore
+  # a model to test required properties with an example and length one enum
   class TypeHolderExample
     attr_accessor :string_item
 
@@ -22,7 +23,33 @@ module Petstore
 
     attr_accessor :bool_item
 
+    attr_accessor :date_item
+
+    attr_accessor :datetime_item
+
     attr_accessor :array_item
+
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
@@ -31,6 +58,8 @@ module Petstore
         :'number_item' => :'number_item',
         :'integer_item' => :'integer_item',
         :'bool_item' => :'bool_item',
+        :'date_item' => :'date_item',
+        :'datetime_item' => :'datetime_item',
         :'array_item' => :'array_item'
       }
     end
@@ -42,6 +71,8 @@ module Petstore
         :'number_item' => :'Float',
         :'integer_item' => :'Integer',
         :'bool_item' => :'BOOLEAN',
+        :'date_item' => :'Date',
+        :'datetime_item' => :'DateTime',
         :'array_item' => :'Array<Integer>'
       }
     end
@@ -77,6 +108,14 @@ module Petstore
         self.bool_item = attributes[:'bool_item']
       end
 
+      if attributes.key?(:'date_item')
+        self.date_item = attributes[:'date_item']
+      end
+
+      if attributes.key?(:'datetime_item')
+        self.datetime_item = attributes[:'datetime_item']
+      end
+
       if attributes.key?(:'array_item')
         if (value = attributes[:'array_item']).is_a?(Array)
           self.array_item = value
@@ -104,6 +143,14 @@ module Petstore
         invalid_properties.push('invalid value for "bool_item", bool_item cannot be nil.')
       end
 
+      if @date_item.nil?
+        invalid_properties.push('invalid value for "date_item", date_item cannot be nil.')
+      end
+
+      if @datetime_item.nil?
+        invalid_properties.push('invalid value for "datetime_item", datetime_item cannot be nil.')
+      end
+
       if @array_item.nil?
         invalid_properties.push('invalid value for "array_item", array_item cannot be nil.')
       end
@@ -115,11 +162,73 @@ module Petstore
     # @return true if the model is valid
     def valid?
       return false if @string_item.nil?
+      string_item_validator = EnumAttributeValidator.new('String', ["what"])
+      return false unless string_item_validator.valid?(@string_item)
       return false if @number_item.nil?
+      number_item_validator = EnumAttributeValidator.new('Float', [1.2339999675750732])
+      return false unless number_item_validator.valid?(@number_item)
       return false if @integer_item.nil?
+      integer_item_validator = EnumAttributeValidator.new('Integer', [-2])
+      return false unless integer_item_validator.valid?(@integer_item)
       return false if @bool_item.nil?
+      return false if @date_item.nil?
+      date_item_validator = EnumAttributeValidator.new('Date', ["Thu Jul 20 17:00:00 PDT 2017"])
+      return false unless date_item_validator.valid?(@date_item)
+      return false if @datetime_item.nil?
+      datetime_item_validator = EnumAttributeValidator.new('DateTime', ["Fri Jul 21 10:32:28 PDT 2017"])
+      return false unless datetime_item_validator.valid?(@datetime_item)
       return false if @array_item.nil?
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] string_item Object to be assigned
+    def string_item=(string_item)
+      validator = EnumAttributeValidator.new('String', ["what"])
+      unless validator.valid?(string_item)
+        fail ArgumentError, "invalid value for \"string_item\", must be one of #{validator.allowable_values}."
+      end
+      @string_item = string_item
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] number_item Object to be assigned
+    def number_item=(number_item)
+      validator = EnumAttributeValidator.new('Float', [1.2339999675750732])
+      unless validator.valid?(number_item)
+        fail ArgumentError, "invalid value for \"number_item\", must be one of #{validator.allowable_values}."
+      end
+      @number_item = number_item
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] integer_item Object to be assigned
+    def integer_item=(integer_item)
+      validator = EnumAttributeValidator.new('Integer', [-2])
+      unless validator.valid?(integer_item)
+        fail ArgumentError, "invalid value for \"integer_item\", must be one of #{validator.allowable_values}."
+      end
+      @integer_item = integer_item
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] date_item Object to be assigned
+    def date_item=(date_item)
+      validator = EnumAttributeValidator.new('Date', ["Thu Jul 20 17:00:00 PDT 2017"])
+      unless validator.valid?(date_item)
+        fail ArgumentError, "invalid value for \"date_item\", must be one of #{validator.allowable_values}."
+      end
+      @date_item = date_item
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] datetime_item Object to be assigned
+    def datetime_item=(datetime_item)
+      validator = EnumAttributeValidator.new('DateTime', ["Fri Jul 21 10:32:28 PDT 2017"])
+      unless validator.valid?(datetime_item)
+        fail ArgumentError, "invalid value for \"datetime_item\", must be one of #{validator.allowable_values}."
+      end
+      @datetime_item = datetime_item
     end
 
     # Checks equality by comparing each attribute.
@@ -131,6 +240,8 @@ module Petstore
           number_item == o.number_item &&
           integer_item == o.integer_item &&
           bool_item == o.bool_item &&
+          date_item == o.date_item &&
+          datetime_item == o.datetime_item &&
           array_item == o.array_item
     end
 
@@ -143,7 +254,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [string_item, number_item, integer_item, bool_item, array_item].hash
+      [string_item, number_item, integer_item, bool_item, date_item, datetime_item, array_item].hash
     end
 
     # Builds the object from hash

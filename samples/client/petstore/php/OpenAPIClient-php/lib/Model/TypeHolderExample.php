@@ -36,6 +36,7 @@ use \OpenAPI\Client\ObjectSerializer;
  * TypeHolderExample Class Doc Comment
  *
  * @category Class
+ * @description a model to test required properties with an example and length one enum
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -61,6 +62,8 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
         'number_item' => 'float',
         'integer_item' => 'int',
         'bool_item' => 'bool',
+        'date_item' => '\DateTime',
+        'datetime_item' => '\DateTime',
         'array_item' => 'int[]'
     ];
 
@@ -71,9 +74,11 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
       */
     protected static $openAPIFormats = [
         'string_item' => null,
-        'number_item' => null,
-        'integer_item' => null,
+        'number_item' => 'float',
+        'integer_item' => 'int32',
         'bool_item' => null,
+        'date_item' => 'date',
+        'datetime_item' => 'date-time',
         'array_item' => null
     ];
 
@@ -108,6 +113,8 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
         'number_item' => 'number_item',
         'integer_item' => 'integer_item',
         'bool_item' => 'bool_item',
+        'date_item' => 'date_item',
+        'datetime_item' => 'datetime_item',
         'array_item' => 'array_item'
     ];
 
@@ -121,6 +128,8 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
         'number_item' => 'setNumberItem',
         'integer_item' => 'setIntegerItem',
         'bool_item' => 'setBoolItem',
+        'date_item' => 'setDateItem',
+        'datetime_item' => 'setDatetimeItem',
         'array_item' => 'setArrayItem'
     ];
 
@@ -134,6 +143,8 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
         'number_item' => 'getNumberItem',
         'integer_item' => 'getIntegerItem',
         'bool_item' => 'getBoolItem',
+        'date_item' => 'getDateItem',
+        'datetime_item' => 'getDatetimeItem',
         'array_item' => 'getArrayItem'
     ];
 
@@ -178,8 +189,73 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
         return self::$openAPIModelName;
     }
 
+    const STRING_ITEM_WHAT = 'what';
+    const NUMBER_ITEM_1_DOT_2339999675750732 = 1.2339999675750732;
+    const INTEGER_ITEM_MINUS_2 = -2;
+    const DATE_ITEM_THU_JUL_20_170000_PDT_2017 = 'Thu Jul 20 17:00:00 PDT 2017';
+    const DATETIME_ITEM_FRI_JUL_21_103228_PDT_2017 = 'Fri Jul 21 10:32:28 PDT 2017';
     
 
+    
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getStringItemAllowableValues()
+    {
+        return [
+            self::STRING_ITEM_WHAT,
+        ];
+    }
+    
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getNumberItemAllowableValues()
+    {
+        return [
+            self::NUMBER_ITEM_1_DOT_2339999675750732,
+        ];
+    }
+    
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getIntegerItemAllowableValues()
+    {
+        return [
+            self::INTEGER_ITEM_MINUS_2,
+        ];
+    }
+    
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getDateItemAllowableValues()
+    {
+        return [
+            self::DATE_ITEM_THU_JUL_20_170000_PDT_2017,
+        ];
+    }
+    
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getDatetimeItemAllowableValues()
+    {
+        return [
+            self::DATETIME_ITEM_FRI_JUL_21_103228_PDT_2017,
+        ];
+    }
     
 
     /**
@@ -201,6 +277,8 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
         $this->container['number_item'] = isset($data['number_item']) ? $data['number_item'] : null;
         $this->container['integer_item'] = isset($data['integer_item']) ? $data['integer_item'] : null;
         $this->container['bool_item'] = isset($data['bool_item']) ? $data['bool_item'] : null;
+        $this->container['date_item'] = isset($data['date_item']) ? $data['date_item'] : null;
+        $this->container['datetime_item'] = isset($data['datetime_item']) ? $data['datetime_item'] : null;
         $this->container['array_item'] = isset($data['array_item']) ? $data['array_item'] : null;
     }
 
@@ -216,15 +294,61 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
         if ($this->container['string_item'] === null) {
             $invalidProperties[] = "'string_item' can't be null";
         }
+        $allowedValues = $this->getStringItemAllowableValues();
+        if (!is_null($this->container['string_item']) && !in_array($this->container['string_item'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value for 'string_item', must be one of '%s'",
+                implode("', '", $allowedValues)
+            );
+        }
+
         if ($this->container['number_item'] === null) {
             $invalidProperties[] = "'number_item' can't be null";
         }
+        $allowedValues = $this->getNumberItemAllowableValues();
+        if (!is_null($this->container['number_item']) && !in_array($this->container['number_item'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value for 'number_item', must be one of '%s'",
+                implode("', '", $allowedValues)
+            );
+        }
+
         if ($this->container['integer_item'] === null) {
             $invalidProperties[] = "'integer_item' can't be null";
         }
+        $allowedValues = $this->getIntegerItemAllowableValues();
+        if (!is_null($this->container['integer_item']) && !in_array($this->container['integer_item'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value for 'integer_item', must be one of '%s'",
+                implode("', '", $allowedValues)
+            );
+        }
+
         if ($this->container['bool_item'] === null) {
             $invalidProperties[] = "'bool_item' can't be null";
         }
+        if ($this->container['date_item'] === null) {
+            $invalidProperties[] = "'date_item' can't be null";
+        }
+        $allowedValues = $this->getDateItemAllowableValues();
+        if (!is_null($this->container['date_item']) && !in_array($this->container['date_item'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value for 'date_item', must be one of '%s'",
+                implode("', '", $allowedValues)
+            );
+        }
+
+        if ($this->container['datetime_item'] === null) {
+            $invalidProperties[] = "'datetime_item' can't be null";
+        }
+        $allowedValues = $this->getDatetimeItemAllowableValues();
+        if (!is_null($this->container['datetime_item']) && !in_array($this->container['datetime_item'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value for 'datetime_item', must be one of '%s'",
+                implode("', '", $allowedValues)
+            );
+        }
+
         if ($this->container['array_item'] === null) {
             $invalidProperties[] = "'array_item' can't be null";
         }
@@ -262,6 +386,15 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
      */
     public function setStringItem($string_item)
     {
+        $allowedValues = $this->getStringItemAllowableValues();
+        if (!in_array($string_item, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'string_item', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
         $this->container['string_item'] = $string_item;
 
         return $this;
@@ -286,6 +419,15 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
      */
     public function setNumberItem($number_item)
     {
+        $allowedValues = $this->getNumberItemAllowableValues();
+        if (!in_array($number_item, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'number_item', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
         $this->container['number_item'] = $number_item;
 
         return $this;
@@ -310,6 +452,15 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
      */
     public function setIntegerItem($integer_item)
     {
+        $allowedValues = $this->getIntegerItemAllowableValues();
+        if (!in_array($integer_item, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'integer_item', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
         $this->container['integer_item'] = $integer_item;
 
         return $this;
@@ -335,6 +486,72 @@ class TypeHolderExample implements ModelInterface, ArrayAccess
     public function setBoolItem($bool_item)
     {
         $this->container['bool_item'] = $bool_item;
+
+        return $this;
+    }
+
+    /**
+     * Gets date_item
+     *
+     * @return \DateTime
+     */
+    public function getDateItem()
+    {
+        return $this->container['date_item'];
+    }
+
+    /**
+     * Sets date_item
+     *
+     * @param \DateTime $date_item date_item
+     *
+     * @return $this
+     */
+    public function setDateItem($date_item)
+    {
+        $allowedValues = $this->getDateItemAllowableValues();
+        if (!in_array($date_item, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'date_item', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['date_item'] = $date_item;
+
+        return $this;
+    }
+
+    /**
+     * Gets datetime_item
+     *
+     * @return \DateTime
+     */
+    public function getDatetimeItem()
+    {
+        return $this->container['datetime_item'];
+    }
+
+    /**
+     * Sets datetime_item
+     *
+     * @param \DateTime $datetime_item datetime_item
+     *
+     * @return $this
+     */
+    public function setDatetimeItem($datetime_item)
+    {
+        $allowedValues = $this->getDatetimeItemAllowableValues();
+        if (!in_array($datetime_item, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value for 'datetime_item', must be one of '%s'",
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['datetime_item'] = $datetime_item;
 
         return $this;
     }

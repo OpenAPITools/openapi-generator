@@ -8,11 +8,17 @@
  */
 
 package petstore
+import (
+	"time"
+)
 
+// a model to test required properties with an example and length one enum
 type TypeHolderExample struct {
 	StringItem string `json:"string_item"`
 	NumberItem float32 `json:"number_item"`
 	IntegerItem int32 `json:"integer_item"`
 	BoolItem bool `json:"bool_item"`
+	DateItem string `json:"date_item"`
+	DatetimeItem time.Time `json:"datetime_item"`
 	ArrayItem []int32 `json:"array_item"`
 }

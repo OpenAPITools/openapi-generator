@@ -67,6 +67,15 @@ public interface FakeApiDelegate {
     ResponseEntity<Client> testClientModel(Client body);
 
     /**
+     * @see FakeApi#testEndpointEnumsLengthOne
+     */
+    ResponseEntity<Void> testEndpointEnumsLengthOne(Integer queryInteger,
+        String queryString,
+        String pathString,
+        Integer pathInteger,
+        Double headerNumber);
+
+    /**
      * @see FakeApi#testEndpointParameters
      */
     ResponseEntity<Void> testEndpointParameters(BigDecimal number,

@@ -71,7 +71,7 @@ instance Arbitrary A.Value where
       sizedObject n =
         liftM (A.object . map mapF) $
         replicateM n $ (,) <$> (arbitrary :: Gen String) <*> simpleAndArrays
-    
+
 -- | Checks if a given list has no duplicates in _O(n log n)_.
 hasNoDups
   :: (Ord a)
@@ -86,7 +86,7 @@ hasNoDups = go Set.empty
 
 instance ApproxEq TI.Day where
   (=~) = (==)
-    
+
 arbitraryReduced :: Arbitrary a => Int -> Gen a
 arbitraryReduced n = resize (n `div` 2) arbitrary
 
@@ -103,7 +103,7 @@ arbitraryReducedMaybeValue n = do
     else return generated
 
 -- * Models
- 
+
 instance Arbitrary AdditionalPropertiesClass where
   arbitrary = sized genAdditionalPropertiesClass
 
@@ -112,7 +112,7 @@ genAdditionalPropertiesClass n =
   AdditionalPropertiesClass
     <$> arbitraryReducedMaybe n -- additionalPropertiesClassMapProperty :: Maybe (Map.Map String Text)
     <*> arbitraryReducedMaybe n -- additionalPropertiesClassMapOfMapProperty :: Maybe (Map.Map String (Map.Map String Text))
-  
+
 instance Arbitrary Animal where
   arbitrary = sized genAnimal
 
@@ -121,7 +121,7 @@ genAnimal n =
   Animal
     <$> arbitrary -- animalClassName :: Text
     <*> arbitraryReducedMaybe n -- animalColor :: Maybe Text
-  
+
 instance Arbitrary ApiResponse where
   arbitrary = sized genApiResponse
 
@@ -131,7 +131,7 @@ genApiResponse n =
     <$> arbitraryReducedMaybe n -- apiResponseCode :: Maybe Int
     <*> arbitraryReducedMaybe n -- apiResponseType :: Maybe Text
     <*> arbitraryReducedMaybe n -- apiResponseMessage :: Maybe Text
-  
+
 instance Arbitrary ArrayOfArrayOfNumberOnly where
   arbitrary = sized genArrayOfArrayOfNumberOnly
 
@@ -139,7 +139,7 @@ genArrayOfArrayOfNumberOnly :: Int -> Gen ArrayOfArrayOfNumberOnly
 genArrayOfArrayOfNumberOnly n =
   ArrayOfArrayOfNumberOnly
     <$> arbitraryReducedMaybe n -- arrayOfArrayOfNumberOnlyArrayArrayNumber :: Maybe [[Double]]
-  
+
 instance Arbitrary ArrayOfNumberOnly where
   arbitrary = sized genArrayOfNumberOnly
 
@@ -147,7 +147,7 @@ genArrayOfNumberOnly :: Int -> Gen ArrayOfNumberOnly
 genArrayOfNumberOnly n =
   ArrayOfNumberOnly
     <$> arbitraryReducedMaybe n -- arrayOfNumberOnlyArrayNumber :: Maybe [Double]
-  
+
 instance Arbitrary ArrayTest where
   arbitrary = sized genArrayTest
 
@@ -157,7 +157,7 @@ genArrayTest n =
     <$> arbitraryReducedMaybe n -- arrayTestArrayOfString :: Maybe [Text]
     <*> arbitraryReducedMaybe n -- arrayTestArrayArrayOfInteger :: Maybe [[Integer]]
     <*> arbitraryReducedMaybe n -- arrayTestArrayArrayOfModel :: Maybe [[ReadOnlyFirst]]
-  
+
 instance Arbitrary Capitalization where
   arbitrary = sized genCapitalization
 
@@ -170,7 +170,7 @@ genCapitalization n =
     <*> arbitraryReducedMaybe n -- capitalizationCapitalSnake :: Maybe Text
     <*> arbitraryReducedMaybe n -- capitalizationScaEthFlowPoints :: Maybe Text
     <*> arbitraryReducedMaybe n -- capitalizationAttName :: Maybe Text
-  
+
 instance Arbitrary Cat where
   arbitrary = sized genCat
 
@@ -180,7 +180,7 @@ genCat n =
     <$> arbitrary -- catClassName :: Text
     <*> arbitraryReducedMaybe n -- catColor :: Maybe Text
     <*> arbitraryReducedMaybe n -- catDeclawed :: Maybe Bool
-  
+
 instance Arbitrary Category where
   arbitrary = sized genCategory
 
@@ -189,7 +189,7 @@ genCategory n =
   Category
     <$> arbitraryReducedMaybe n -- categoryId :: Maybe Integer
     <*> arbitrary -- categoryName :: Text
-  
+
 instance Arbitrary ClassModel where
   arbitrary = sized genClassModel
 
@@ -197,7 +197,7 @@ genClassModel :: Int -> Gen ClassModel
 genClassModel n =
   ClassModel
     <$> arbitraryReducedMaybe n -- classModelClass :: Maybe Text
-  
+
 instance Arbitrary Client where
   arbitrary = sized genClient
 
@@ -205,7 +205,7 @@ genClient :: Int -> Gen Client
 genClient n =
   Client
     <$> arbitraryReducedMaybe n -- clientClient :: Maybe Text
-  
+
 instance Arbitrary Dog where
   arbitrary = sized genDog
 
@@ -215,7 +215,7 @@ genDog n =
     <$> arbitrary -- dogClassName :: Text
     <*> arbitraryReducedMaybe n -- dogColor :: Maybe Text
     <*> arbitraryReducedMaybe n -- dogBreed :: Maybe Text
-  
+
 instance Arbitrary EnumArrays where
   arbitrary = sized genEnumArrays
 
@@ -224,7 +224,7 @@ genEnumArrays n =
   EnumArrays
     <$> arbitraryReducedMaybe n -- enumArraysJustSymbol :: Maybe E'JustSymbol
     <*> arbitraryReducedMaybe n -- enumArraysArrayEnum :: Maybe [E'ArrayEnum]
-  
+
 instance Arbitrary EnumTest where
   arbitrary = sized genEnumTest
 
@@ -236,7 +236,7 @@ genEnumTest n =
     <*> arbitraryReducedMaybe n -- enumTestEnumInteger :: Maybe E'EnumInteger
     <*> arbitraryReducedMaybe n -- enumTestEnumNumber :: Maybe E'EnumNumber
     <*> arbitraryReducedMaybe n -- enumTestOuterEnum :: Maybe OuterEnum
-  
+
 instance Arbitrary File where
   arbitrary = sized genFile
 
@@ -244,7 +244,7 @@ genFile :: Int -> Gen File
 genFile n =
   File
     <$> arbitraryReducedMaybe n -- fileSourceUri :: Maybe Text
-  
+
 instance Arbitrary FileSchemaTestClass where
   arbitrary = sized genFileSchemaTestClass
 
@@ -253,7 +253,7 @@ genFileSchemaTestClass n =
   FileSchemaTestClass
     <$> arbitraryReducedMaybe n -- fileSchemaTestClassFile :: Maybe File
     <*> arbitraryReducedMaybe n -- fileSchemaTestClassFiles :: Maybe [File]
-  
+
 instance Arbitrary FormatTest where
   arbitrary = sized genFormatTest
 
@@ -273,7 +273,7 @@ genFormatTest n =
     <*> arbitraryReducedMaybe n -- formatTestDateTime :: Maybe DateTime
     <*> arbitraryReducedMaybe n -- formatTestUuid :: Maybe Text
     <*> arbitrary -- formatTestPassword :: Text
-  
+
 instance Arbitrary HasOnlyReadOnly where
   arbitrary = sized genHasOnlyReadOnly
 
@@ -282,7 +282,7 @@ genHasOnlyReadOnly n =
   HasOnlyReadOnly
     <$> arbitraryReducedMaybe n -- hasOnlyReadOnlyBar :: Maybe Text
     <*> arbitraryReducedMaybe n -- hasOnlyReadOnlyFoo :: Maybe Text
-  
+
 instance Arbitrary MapTest where
   arbitrary = sized genMapTest
 
@@ -293,7 +293,7 @@ genMapTest n =
     <*> arbitraryReducedMaybe n -- mapTestMapOfEnumString :: Maybe (Map.Map String E'Inner)
     <*> arbitraryReducedMaybe n -- mapTestDirectMap :: Maybe (Map.Map String Bool)
     <*> arbitraryReducedMaybe n -- mapTestIndirectMap :: Maybe (Map.Map String Bool)
-  
+
 instance Arbitrary MixedPropertiesAndAdditionalPropertiesClass where
   arbitrary = sized genMixedPropertiesAndAdditionalPropertiesClass
 
@@ -303,7 +303,7 @@ genMixedPropertiesAndAdditionalPropertiesClass n =
     <$> arbitraryReducedMaybe n -- mixedPropertiesAndAdditionalPropertiesClassUuid :: Maybe Text
     <*> arbitraryReducedMaybe n -- mixedPropertiesAndAdditionalPropertiesClassDateTime :: Maybe DateTime
     <*> arbitraryReducedMaybe n -- mixedPropertiesAndAdditionalPropertiesClassMap :: Maybe (Map.Map String Animal)
-  
+
 instance Arbitrary Model200Response where
   arbitrary = sized genModel200Response
 
@@ -312,7 +312,7 @@ genModel200Response n =
   Model200Response
     <$> arbitraryReducedMaybe n -- model200ResponseName :: Maybe Int
     <*> arbitraryReducedMaybe n -- model200ResponseClass :: Maybe Text
-  
+
 instance Arbitrary ModelList where
   arbitrary = sized genModelList
 
@@ -320,7 +320,7 @@ genModelList :: Int -> Gen ModelList
 genModelList n =
   ModelList
     <$> arbitraryReducedMaybe n -- modelList123list :: Maybe Text
-  
+
 instance Arbitrary ModelReturn where
   arbitrary = sized genModelReturn
 
@@ -328,7 +328,7 @@ genModelReturn :: Int -> Gen ModelReturn
 genModelReturn n =
   ModelReturn
     <$> arbitraryReducedMaybe n -- modelReturnReturn :: Maybe Int
-  
+
 instance Arbitrary Name where
   arbitrary = sized genName
 
@@ -339,7 +339,7 @@ genName n =
     <*> arbitraryReducedMaybe n -- nameSnakeCase :: Maybe Int
     <*> arbitraryReducedMaybe n -- nameProperty :: Maybe Text
     <*> arbitraryReducedMaybe n -- name123number :: Maybe Int
-  
+
 instance Arbitrary NumberOnly where
   arbitrary = sized genNumberOnly
 
@@ -347,7 +347,7 @@ genNumberOnly :: Int -> Gen NumberOnly
 genNumberOnly n =
   NumberOnly
     <$> arbitraryReducedMaybe n -- numberOnlyJustNumber :: Maybe Double
-  
+
 instance Arbitrary Order where
   arbitrary = sized genOrder
 
@@ -360,7 +360,7 @@ genOrder n =
     <*> arbitraryReducedMaybe n -- orderShipDate :: Maybe DateTime
     <*> arbitraryReducedMaybe n -- orderStatus :: Maybe E'Status
     <*> arbitraryReducedMaybe n -- orderComplete :: Maybe Bool
-  
+
 instance Arbitrary OuterComposite where
   arbitrary = sized genOuterComposite
 
@@ -370,7 +370,7 @@ genOuterComposite n =
     <$> arbitraryReducedMaybe n -- outerCompositeMyNumber :: Maybe Double
     <*> arbitraryReducedMaybe n -- outerCompositeMyString :: Maybe Text
     <*> arbitraryReducedMaybe n -- outerCompositeMyBoolean :: Maybe Bool
-  
+
 instance Arbitrary Pet where
   arbitrary = sized genPet
 
@@ -383,7 +383,7 @@ genPet n =
     <*> arbitrary -- petPhotoUrls :: [Text]
     <*> arbitraryReducedMaybe n -- petTags :: Maybe [Tag]
     <*> arbitraryReducedMaybe n -- petStatus :: Maybe E'Status2
-  
+
 instance Arbitrary ReadOnlyFirst where
   arbitrary = sized genReadOnlyFirst
 
@@ -392,7 +392,7 @@ genReadOnlyFirst n =
   ReadOnlyFirst
     <$> arbitraryReducedMaybe n -- readOnlyFirstBar :: Maybe Text
     <*> arbitraryReducedMaybe n -- readOnlyFirstBaz :: Maybe Text
-  
+
 instance Arbitrary SpecialModelName where
   arbitrary = sized genSpecialModelName
 
@@ -400,7 +400,7 @@ genSpecialModelName :: Int -> Gen SpecialModelName
 genSpecialModelName n =
   SpecialModelName
     <$> arbitraryReducedMaybe n -- specialModelNameSpecialPropertyName :: Maybe Integer
-  
+
 instance Arbitrary Tag where
   arbitrary = sized genTag
 
@@ -409,31 +409,29 @@ genTag n =
   Tag
     <$> arbitraryReducedMaybe n -- tagId :: Maybe Integer
     <*> arbitraryReducedMaybe n -- tagName :: Maybe Text
-  
+
 instance Arbitrary TypeHolderDefault where
-  arbitrary = sized genTypeHolderDefault
+  arbitrary =
+    TypeHolderDefault
+      <$> arbitrary -- typeHolderDefaultStringItem :: Maybe Text
+      <*> arbitrary -- typeHolderDefaultNumberItem :: Maybe Float
+      <*> arbitrary -- typeHolderDefaultIntegerItem :: Maybe Int
+      <*> arbitrary -- typeHolderDefaultBoolItem :: Maybe Bool
+      <*> arbitrary -- typeHolderDefaultDateItem :: Maybe Date
+      <*> arbitrary -- typeHolderDefaultDatetimeItem :: Maybe DateTime
+      <*> arbitrary -- typeHolderDefaultArrayItem :: Maybe [Int]
 
-genTypeHolderDefault :: Int -> Gen TypeHolderDefault
-genTypeHolderDefault n =
-  TypeHolderDefault
-    <$> arbitrary -- typeHolderDefaultStringItem :: Text
-    <*> arbitrary -- typeHolderDefaultNumberItem :: Double
-    <*> arbitrary -- typeHolderDefaultIntegerItem :: Int
-    <*> arbitrary -- typeHolderDefaultBoolItem :: Bool
-    <*> arbitrary -- typeHolderDefaultArrayItem :: [Int]
-  
 instance Arbitrary TypeHolderExample where
-  arbitrary = sized genTypeHolderExample
+  arbitrary =
+    TypeHolderExample
+      <$> arbitrary -- typeHolderExampleStringItem :: Text
+      <*> arbitrary -- typeHolderExampleNumberItem :: Float
+      <*> arbitrary -- typeHolderExampleIntegerItem :: Int
+      <*> arbitrary -- typeHolderExampleBoolItem :: Bool
+      <*> arbitrary -- typeHolderExampleDateItem :: Date
+      <*> arbitrary -- typeHolderExampleDatetimeItem :: DateTime
+      <*> arbitrary -- typeHolderExampleArrayItem :: [Int]
 
-genTypeHolderExample :: Int -> Gen TypeHolderExample
-genTypeHolderExample n =
-  TypeHolderExample
-    <$> arbitrary -- typeHolderExampleStringItem :: Text
-    <*> arbitrary -- typeHolderExampleNumberItem :: Double
-    <*> arbitrary -- typeHolderExampleIntegerItem :: Int
-    <*> arbitrary -- typeHolderExampleBoolItem :: Bool
-    <*> arbitrary -- typeHolderExampleArrayItem :: [Int]
-  
 instance Arbitrary User where
   arbitrary = sized genUser
 
@@ -448,7 +446,7 @@ genUser n =
     <*> arbitraryReducedMaybe n -- userPassword :: Maybe Text
     <*> arbitraryReducedMaybe n -- userPhone :: Maybe Text
     <*> arbitraryReducedMaybe n -- userUserStatus :: Maybe Int
-  
+
 instance Arbitrary XmlItem where
   arbitrary = sized genXmlItem
 
@@ -484,11 +482,17 @@ genXmlItem n =
     <*> arbitraryReducedMaybe n -- xmlItemPrefixNsBoolean :: Maybe Bool
     <*> arbitraryReducedMaybe n -- xmlItemPrefixNsArray :: Maybe [Int]
     <*> arbitraryReducedMaybe n -- xmlItemPrefixNsWrappedArray :: Maybe [Int]
-  
+
 
 
 
 instance Arbitrary E'ArrayEnum where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'DateItem where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'DatetimeItem where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary E'EnumFormString where
@@ -509,10 +513,31 @@ instance Arbitrary E'EnumQueryInteger where
 instance Arbitrary E'EnumString where
   arbitrary = arbitraryBoundedEnum
 
+instance Arbitrary E'HeaderNumber where
+  arbitrary = arbitraryBoundedEnum
+
 instance Arbitrary E'Inner where
   arbitrary = arbitraryBoundedEnum
 
+instance Arbitrary E'IntegerItem where
+  arbitrary = arbitraryBoundedEnum
+
 instance Arbitrary E'JustSymbol where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'NumberItem where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'PathInteger where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'PathString where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'QueryInteger where
+  arbitrary = arbitraryBoundedEnum
+
+instance Arbitrary E'QueryString where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary E'Status where
@@ -521,9 +546,11 @@ instance Arbitrary E'Status where
 instance Arbitrary E'Status2 where
   arbitrary = arbitraryBoundedEnum
 
+instance Arbitrary E'StringItem where
+  arbitrary = arbitraryBoundedEnum
+
 instance Arbitrary EnumClass where
   arbitrary = arbitraryBoundedEnum
 
 instance Arbitrary OuterEnum where
   arbitrary = arbitraryBoundedEnum
-

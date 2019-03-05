@@ -138,6 +138,16 @@ public class FakeApi {
         return new TestClientModelOper(reqSpec);
     }
 
+    @ApiOperation(value = "",
+            notes = "This route has required values with enums of 1",
+            nickname = "testEndpointEnumsLengthOne",
+            tags = { "fake" })
+    @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "Success")  })
+    public TestEndpointEnumsLengthOneOper testEndpointEnumsLengthOne() {
+        return new TestEndpointEnumsLengthOneOper(reqSpec);
+    }
+
     @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ",
             notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ",
             nickname = "testEndpointParameters",
@@ -743,6 +753,115 @@ public class FakeApi {
          * @return operation
          */
         public TestClientModelOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
+            consumer.accept(respSpec);
+            return this;
+        }
+    }
+    /**
+     * 
+     * This route has required values with enums of 1
+     *
+     * @see #queryIntegerQuery  (required)
+     * @see #queryStringQuery  (required)
+     * @see #pathStringPath  (required)
+     * @see #pathIntegerPath  (required)
+     * @see #headerNumberHeader  (required)
+     */
+    public static class TestEndpointEnumsLengthOneOper {
+
+        public static final Method REQ_METHOD = PUT;
+        public static final String REQ_URI = "/fake/enums-of-length-one/{path_string}/{path_integer}";
+
+        private RequestSpecBuilder reqSpec;
+        private ResponseSpecBuilder respSpec;
+
+        public TestEndpointEnumsLengthOneOper(RequestSpecBuilder reqSpec) {
+            this.reqSpec = reqSpec;
+            reqSpec.setAccept("application/json");
+            this.respSpec = new ResponseSpecBuilder();
+        }
+
+        /**
+         * PUT /fake/enums-of-length-one/{path_string}/{path_integer}
+         * @param handler handler
+         * @param <T> type
+         * @return type
+         */
+        public <T> T execute(Function<Response, T> handler) {
+            return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
+        }
+
+        public static final String HEADER_NUMBER_HEADER = "header_number";
+
+        /**
+         * @param headerNumber (Double)  (required)
+         * @return operation
+         */
+        public TestEndpointEnumsLengthOneOper headerNumberHeader(String headerNumber) {
+            reqSpec.addHeader(HEADER_NUMBER_HEADER, headerNumber);
+            return this;
+        }
+
+        public static final String PATH_STRING_PATH = "path_string";
+
+        /**
+         * @param pathString (String)  (required)
+         * @return operation
+         */
+        public TestEndpointEnumsLengthOneOper pathStringPath(Object pathString) {
+            reqSpec.addPathParam(PATH_STRING_PATH, pathString);
+            return this;
+        }
+
+        public static final String PATH_INTEGER_PATH = "path_integer";
+
+        /**
+         * @param pathInteger (Integer)  (required)
+         * @return operation
+         */
+        public TestEndpointEnumsLengthOneOper pathIntegerPath(Object pathInteger) {
+            reqSpec.addPathParam(PATH_INTEGER_PATH, pathInteger);
+            return this;
+        }
+
+        public static final String QUERY_INTEGER_QUERY = "query_integer";
+
+        /**
+         * @param queryInteger (Integer)  (required)
+         * @return operation
+         */
+        public TestEndpointEnumsLengthOneOper queryIntegerQuery(Object... queryInteger) {
+            reqSpec.addQueryParam(QUERY_INTEGER_QUERY, queryInteger);
+            return this;
+        }
+
+        public static final String QUERY_STRING_QUERY = "query_string";
+
+        /**
+         * @param queryString (String)  (required)
+         * @return operation
+         */
+        public TestEndpointEnumsLengthOneOper queryStringQuery(Object... queryString) {
+            reqSpec.addQueryParam(QUERY_STRING_QUERY, queryString);
+            return this;
+        }
+
+        /**
+         * Customise request specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public TestEndpointEnumsLengthOneOper reqSpec(Consumer<RequestSpecBuilder> consumer) {
+            consumer.accept(reqSpec);
+            return this;
+        }
+
+        /**
+         * Customise response specification
+         * @param consumer consumer
+         * @return operation
+         */
+        public TestEndpointEnumsLengthOneOper respSpec(Consumer<ResponseSpecBuilder> consumer) {
             consumer.accept(respSpec);
             return this;
         }

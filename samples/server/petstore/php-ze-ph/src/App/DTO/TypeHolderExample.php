@@ -6,6 +6,7 @@ namespace App\DTO;
 use Articus\DataTransfer\Annotation as DTA;
 
 /**
+ * a model to test required properties with an example and length one enum
  */
 class TypeHolderExample
 {
@@ -33,6 +34,20 @@ class TypeHolderExample
      * @var bool
      */
     public $bool_item;
+    /**
+     * @DTA\Data(field="date_item")
+     * @DTA\Strategy(name="Date")
+     * @DTA\Validator(name="Date")
+     * @var \DateTime
+     */
+    public $date_item;
+    /**
+     * @DTA\Data(field="datetime_item")
+     * @DTA\Strategy(name="DateTime")
+     * @DTA\Validator(name="Date", options={"format": \DateTime::RFC3339})
+     * @var \DateTime
+     */
+    public $datetime_item;
     /**
      * @DTA\Data(field="array_item")
      * TODO check validator and strategy are correct and can handle container item type

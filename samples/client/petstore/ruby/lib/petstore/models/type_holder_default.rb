@@ -13,6 +13,7 @@ OpenAPI Generator version: 4.0.0-SNAPSHOT
 require 'date'
 
 module Petstore
+  # a model to test option properties with server defaults
   class TypeHolderDefault
     attr_accessor :string_item
 
@@ -21,6 +22,10 @@ module Petstore
     attr_accessor :integer_item
 
     attr_accessor :bool_item
+
+    attr_accessor :date_item
+
+    attr_accessor :datetime_item
 
     attr_accessor :array_item
 
@@ -31,6 +36,8 @@ module Petstore
         :'number_item' => :'number_item',
         :'integer_item' => :'integer_item',
         :'bool_item' => :'bool_item',
+        :'date_item' => :'date_item',
+        :'datetime_item' => :'datetime_item',
         :'array_item' => :'array_item'
       }
     end
@@ -42,6 +49,8 @@ module Petstore
         :'number_item' => :'Float',
         :'integer_item' => :'Integer',
         :'bool_item' => :'BOOLEAN',
+        :'date_item' => :'Date',
+        :'datetime_item' => :'DateTime',
         :'array_item' => :'Array<Integer>'
       }
     end
@@ -69,16 +78,28 @@ module Petstore
 
       if attributes.key?(:'number_item')
         self.number_item = attributes[:'number_item']
+      else
+        self.number_item = 1.234
       end
 
       if attributes.key?(:'integer_item')
         self.integer_item = attributes[:'integer_item']
+      else
+        self.integer_item = -2
       end
 
       if attributes.key?(:'bool_item')
         self.bool_item = attributes[:'bool_item']
       else
         self.bool_item = true
+      end
+
+      if attributes.key?(:'date_item')
+        self.date_item = attributes[:'date_item']
+      end
+
+      if attributes.key?(:'datetime_item')
+        self.datetime_item = attributes[:'datetime_item']
       end
 
       if attributes.key?(:'array_item')
@@ -92,37 +113,12 @@ module Petstore
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if @string_item.nil?
-        invalid_properties.push('invalid value for "string_item", string_item cannot be nil.')
-      end
-
-      if @number_item.nil?
-        invalid_properties.push('invalid value for "number_item", number_item cannot be nil.')
-      end
-
-      if @integer_item.nil?
-        invalid_properties.push('invalid value for "integer_item", integer_item cannot be nil.')
-      end
-
-      if @bool_item.nil?
-        invalid_properties.push('invalid value for "bool_item", bool_item cannot be nil.')
-      end
-
-      if @array_item.nil?
-        invalid_properties.push('invalid value for "array_item", array_item cannot be nil.')
-      end
-
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @string_item.nil?
-      return false if @number_item.nil?
-      return false if @integer_item.nil?
-      return false if @bool_item.nil?
-      return false if @array_item.nil?
       true
     end
 
@@ -135,6 +131,8 @@ module Petstore
           number_item == o.number_item &&
           integer_item == o.integer_item &&
           bool_item == o.bool_item &&
+          date_item == o.date_item &&
+          datetime_item == o.datetime_item &&
           array_item == o.array_item
     end
 
@@ -147,7 +145,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [string_item, number_item, integer_item, bool_item, array_item].hash
+      [string_item, number_item, integer_item, bool_item, date_item, datetime_item, array_item].hash
     end
 
     # Builds the object from hash

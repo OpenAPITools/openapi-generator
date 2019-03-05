@@ -37,6 +37,12 @@ class TypeHolderDefault
     /** @var bool $boolItem */
     private $boolItem;
     
+    /** @var \DateTime $dateItem */
+    private $dateItem;
+    
+    /** @var \DateTime $datetimeItem */
+    private $datetimeItem;
+    
     /** @var int[] $arrayItem */
     private $arrayItem;
 }

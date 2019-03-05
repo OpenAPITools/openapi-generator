@@ -36,6 +36,7 @@ use \OpenAPI\Client\ObjectSerializer;
  * TypeHolderDefault Class Doc Comment
  *
  * @category Class
+ * @description a model to test option properties with server defaults
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -61,6 +62,8 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
         'number_item' => 'float',
         'integer_item' => 'int',
         'bool_item' => 'bool',
+        'date_item' => '\DateTime',
+        'datetime_item' => '\DateTime',
         'array_item' => 'int[]'
     ];
 
@@ -71,9 +74,11 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
       */
     protected static $openAPIFormats = [
         'string_item' => null,
-        'number_item' => null,
-        'integer_item' => null,
+        'number_item' => 'float',
+        'integer_item' => 'int32',
         'bool_item' => null,
+        'date_item' => 'date',
+        'datetime_item' => 'date-time',
         'array_item' => null
     ];
 
@@ -108,6 +113,8 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
         'number_item' => 'number_item',
         'integer_item' => 'integer_item',
         'bool_item' => 'bool_item',
+        'date_item' => 'date_item',
+        'datetime_item' => 'datetime_item',
         'array_item' => 'array_item'
     ];
 
@@ -121,6 +128,8 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
         'number_item' => 'setNumberItem',
         'integer_item' => 'setIntegerItem',
         'bool_item' => 'setBoolItem',
+        'date_item' => 'setDateItem',
+        'datetime_item' => 'setDatetimeItem',
         'array_item' => 'setArrayItem'
     ];
 
@@ -134,6 +143,8 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
         'number_item' => 'getNumberItem',
         'integer_item' => 'getIntegerItem',
         'bool_item' => 'getBoolItem',
+        'date_item' => 'getDateItem',
+        'datetime_item' => 'getDatetimeItem',
         'array_item' => 'getArrayItem'
     ];
 
@@ -198,9 +209,11 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['string_item'] = isset($data['string_item']) ? $data['string_item'] : 'what';
-        $this->container['number_item'] = isset($data['number_item']) ? $data['number_item'] : null;
-        $this->container['integer_item'] = isset($data['integer_item']) ? $data['integer_item'] : null;
+        $this->container['number_item'] = isset($data['number_item']) ? $data['number_item'] : 1.234;
+        $this->container['integer_item'] = isset($data['integer_item']) ? $data['integer_item'] : -2;
         $this->container['bool_item'] = isset($data['bool_item']) ? $data['bool_item'] : true;
+        $this->container['date_item'] = isset($data['date_item']) ? $data['date_item'] : null;
+        $this->container['datetime_item'] = isset($data['datetime_item']) ? $data['datetime_item'] : null;
         $this->container['array_item'] = isset($data['array_item']) ? $data['array_item'] : null;
     }
 
@@ -213,21 +226,6 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
 
-        if ($this->container['string_item'] === null) {
-            $invalidProperties[] = "'string_item' can't be null";
-        }
-        if ($this->container['number_item'] === null) {
-            $invalidProperties[] = "'number_item' can't be null";
-        }
-        if ($this->container['integer_item'] === null) {
-            $invalidProperties[] = "'integer_item' can't be null";
-        }
-        if ($this->container['bool_item'] === null) {
-            $invalidProperties[] = "'bool_item' can't be null";
-        }
-        if ($this->container['array_item'] === null) {
-            $invalidProperties[] = "'array_item' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -246,7 +244,7 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
     /**
      * Gets string_item
      *
-     * @return string
+     * @return string|null
      */
     public function getStringItem()
     {
@@ -256,7 +254,7 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
     /**
      * Sets string_item
      *
-     * @param string $string_item string_item
+     * @param string|null $string_item string_item
      *
      * @return $this
      */
@@ -270,7 +268,7 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
     /**
      * Gets number_item
      *
-     * @return float
+     * @return float|null
      */
     public function getNumberItem()
     {
@@ -280,7 +278,7 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
     /**
      * Sets number_item
      *
-     * @param float $number_item number_item
+     * @param float|null $number_item number_item
      *
      * @return $this
      */
@@ -294,7 +292,7 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
     /**
      * Gets integer_item
      *
-     * @return int
+     * @return int|null
      */
     public function getIntegerItem()
     {
@@ -304,7 +302,7 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
     /**
      * Sets integer_item
      *
-     * @param int $integer_item integer_item
+     * @param int|null $integer_item integer_item
      *
      * @return $this
      */
@@ -318,7 +316,7 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
     /**
      * Gets bool_item
      *
-     * @return bool
+     * @return bool|null
      */
     public function getBoolItem()
     {
@@ -328,7 +326,7 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
     /**
      * Sets bool_item
      *
-     * @param bool $bool_item bool_item
+     * @param bool|null $bool_item bool_item
      *
      * @return $this
      */
@@ -340,9 +338,57 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
     }
 
     /**
+     * Gets date_item
+     *
+     * @return \DateTime|null
+     */
+    public function getDateItem()
+    {
+        return $this->container['date_item'];
+    }
+
+    /**
+     * Sets date_item
+     *
+     * @param \DateTime|null $date_item date_item
+     *
+     * @return $this
+     */
+    public function setDateItem($date_item)
+    {
+        $this->container['date_item'] = $date_item;
+
+        return $this;
+    }
+
+    /**
+     * Gets datetime_item
+     *
+     * @return \DateTime|null
+     */
+    public function getDatetimeItem()
+    {
+        return $this->container['datetime_item'];
+    }
+
+    /**
+     * Sets datetime_item
+     *
+     * @param \DateTime|null $datetime_item datetime_item
+     *
+     * @return $this
+     */
+    public function setDatetimeItem($datetime_item)
+    {
+        $this->container['datetime_item'] = $datetime_item;
+
+        return $this;
+    }
+
+    /**
      * Gets array_item
      *
-     * @return int[]
+     * @return int[]|null
      */
     public function getArrayItem()
     {
@@ -352,7 +398,7 @@ class TypeHolderDefault implements ModelInterface, ArrayAccess
     /**
      * Sets array_item
      *
-     * @param int[] $array_item array_item
+     * @param int[]|null $array_item array_item
      *
      * @return $this
      */

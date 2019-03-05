@@ -160,6 +160,22 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testClientModel(body,securityContext);
     }
+    @PUT
+    @Path("/enums-of-length-one/{path_string}/{path_integer}")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "", notes = "This route has required values with enums of 1", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
+    public Response testEndpointEnumsLengthOne(@ApiParam(value = "",required=true, allowableValues="3") @QueryParam("query_integer") Integer queryInteger
+,@ApiParam(value = "",required=true, allowableValues="brillig") @QueryParam("query_string") String queryString
+,@ApiParam(value = "",required=true, allowableValues="hello") @PathParam("path_string") String pathString
+,@ApiParam(value = "",required=true, allowableValues="34") @PathParam("path_integer") Integer pathInteger
+,@ApiParam(value = "" ,required=true, allowableValues="1.234")@HeaderParam("header_number") Double headerNumber
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testEndpointEnumsLengthOne(queryInteger,queryString,pathString,pathInteger,headerNumber,securityContext);
+    }
     @POST
     
     @Consumes({ "application/x-www-form-urlencoded" })

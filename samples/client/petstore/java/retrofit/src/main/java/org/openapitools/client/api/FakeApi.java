@@ -217,6 +217,38 @@ public interface FakeApi {
     @retrofit.http.Body Client body, Callback<Client> cb
   );
   /**
+   * 
+   * Sync method
+   * This route has required values with enums of 1
+   * @param pathString  (required)
+   * @param pathInteger  (required)
+   * @param queryInteger  (required)
+   * @param queryString  (required)
+   * @param headerNumber  (required)
+   * @return Void
+   */
+  
+  @PUT("/fake/enums-of-length-one/{path_string}/{path_integer}")
+  Void testEndpointEnumsLengthOne(
+    @retrofit.http.Path("path_string") String pathString, @retrofit.http.Path("path_integer") Integer pathInteger, @retrofit.http.Query("query_integer") Integer queryInteger, @retrofit.http.Query("query_string") String queryString, @retrofit.http.Header("header_number") Double headerNumber
+  );
+
+  /**
+   * 
+   * Async method
+   * @param pathString  (required)
+   * @param pathInteger  (required)
+   * @param queryInteger  (required)
+   * @param queryString  (required)
+   * @param headerNumber  (required)
+   * @param cb callback method
+   */
+  
+  @PUT("/fake/enums-of-length-one/{path_string}/{path_integer}")
+  void testEndpointEnumsLengthOne(
+    @retrofit.http.Path("path_string") String pathString, @retrofit.http.Path("path_integer") Integer pathInteger, @retrofit.http.Query("query_integer") Integer queryInteger, @retrofit.http.Query("query_string") String queryString, @retrofit.http.Header("header_number") Double headerNumber, Callback<Void> cb
+  );
+  /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Sync method
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 

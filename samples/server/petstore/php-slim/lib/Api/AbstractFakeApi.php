@@ -224,6 +224,32 @@ abstract class AbstractFakeApi
     }
 
     /**
+     * PUT testEndpointEnumsLengthOne
+     * Notes: This route has required values with enums of 1
+     *
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
+     *
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
+     */
+    public function testEndpointEnumsLengthOne(ServerRequestInterface $request, ResponseInterface $response, array $args)
+    {
+        $headers = $request->getHeaders();
+        $headerNumber = $request->hasHeader('header_number') ? $headers['header_number'] : null;
+        $pathString = $args['path_string'];
+        $pathInteger = $args['path_integer'];
+        $queryParams = $request->getQueryParams();
+        $queryInteger = $request->getQueryParam('query_integer');
+        $queryString = $request->getQueryParam('query_string');
+        $message = "How about implementing testEndpointEnumsLengthOne as a PUT method in OpenAPIServer\Api\FakeApi class?";
+        throw new Exception($message);
+
+        return $response->write($message)->withStatus(501);
+    }
+
+    /**
      * POST testEndpointParameters
      * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트

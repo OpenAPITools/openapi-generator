@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**TestBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 [**TestBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 [**TestClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
+[**TestEndpointEnumsLengthOne**](FakeApi.md#testendpointenumslengthone) | **PUT** /fake/enums-of-length-one/{path_string}/{path_integer} | 
 [**TestEndpointParameters**](FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**TestEnumParameters**](FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
 [**TestGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
@@ -495,6 +496,73 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="testendpointenumslengthone"></a>
+# **TestEndpointEnumsLengthOne**
+> void TestEndpointEnumsLengthOne (int? queryInteger, string queryString, string pathString, int? pathInteger, double? headerNumber)
+
+
+
+This route has required values with enums of 1
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestEndpointEnumsLengthOneExample
+    {
+        public void main()
+        {
+            var apiInstance = new FakeApi();
+            var queryInteger = 56;  // int? | 
+            var queryString = queryString_example;  // string | 
+            var pathString = pathString_example;  // string | 
+            var pathInteger = 56;  // int? | 
+            var headerNumber = 1.2D;  // double? | 
+
+            try
+            {
+                apiInstance.TestEndpointEnumsLengthOne(queryInteger, queryString, pathString, pathInteger, headerNumber);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FakeApi.TestEndpointEnumsLengthOne: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **queryInteger** | **int?**|  | 
+ **queryString** | **string**|  | 
+ **pathString** | **string**|  | 
+ **pathInteger** | **int?**|  | 
+ **headerNumber** | **double?**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

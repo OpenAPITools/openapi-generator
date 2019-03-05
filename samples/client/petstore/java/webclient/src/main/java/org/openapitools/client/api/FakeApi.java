@@ -313,6 +313,71 @@ public class FakeApi {
         return apiClient.invokeAPI(path, HttpMethod.PATCH, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
+     * 
+     * This route has required values with enums of 1
+     * <p><b>200</b> - Success
+     * @param queryInteger The queryInteger parameter
+     * @param queryString The queryString parameter
+     * @param pathString The pathString parameter
+     * @param pathInteger The pathInteger parameter
+     * @param headerNumber The headerNumber parameter
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> testEndpointEnumsLengthOne(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber) throws RestClientException {
+        Object postBody = null;
+        
+        // verify the required parameter 'queryInteger' is set
+        if (queryInteger == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'queryInteger' when calling testEndpointEnumsLengthOne");
+        }
+        
+        // verify the required parameter 'queryString' is set
+        if (queryString == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'queryString' when calling testEndpointEnumsLengthOne");
+        }
+        
+        // verify the required parameter 'pathString' is set
+        if (pathString == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pathString' when calling testEndpointEnumsLengthOne");
+        }
+        
+        // verify the required parameter 'pathInteger' is set
+        if (pathInteger == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pathInteger' when calling testEndpointEnumsLengthOne");
+        }
+        
+        // verify the required parameter 'headerNumber' is set
+        if (headerNumber == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'headerNumber' when calling testEndpointEnumsLengthOne");
+        }
+        
+        // create path and map variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("path_string", pathString);
+        uriVariables.put("path_integer", pathInteger);
+        String path = UriComponentsBuilder.fromPath("/fake/enums-of-length-one/{path_string}/{path_integer}").buildAndExpand(uriVariables).toUriString();
+        
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+        
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_integer", queryInteger));
+        queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_string", queryString));
+        
+        if (headerNumber != null)
+        headerParams.add("header_number", apiClient.parameterToString(headerNumber));
+
+        final String[] accepts = { };
+        final List<MediaType> accept = apiClient.selectHeaderAccept(accepts);
+        final String[] contentTypes = { };
+        final MediaType contentType = apiClient.selectHeaderContentType(contentTypes);
+
+        String[] authNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> returnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+    }
+    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * <p><b>400</b> - Invalid username supplied

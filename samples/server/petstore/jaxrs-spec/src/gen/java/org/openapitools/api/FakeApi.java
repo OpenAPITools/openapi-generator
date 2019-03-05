@@ -115,6 +115,16 @@ public class FakeApi {
         return Response.ok().entity("magic!").build();
     }
 
+    @PUT
+    @Path("/enums-of-length-one/{path_string}/{path_integer}")
+    @ApiOperation(value = "", notes = "This route has required values with enums of 1", response = Void.class, tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success", response = Void.class)
+    })
+    public Response testEndpointEnumsLengthOne(@QueryParam("query_integer") @NotNull    Integer queryInteger,@QueryParam("query_string") @NotNull    String queryString,@PathParam("path_string") String pathString,@PathParam("path_integer") Integer pathInteger,@HeaderParam("header_number") @NotNull    Double headerNumber) {
+        return Response.ok().entity("magic!").build();
+    }
+
     @POST
     @Consumes({ "application/x-www-form-urlencoded" })
     @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", response = Void.class, authorizations = {

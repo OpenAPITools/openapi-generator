@@ -318,27 +318,33 @@ CREATE TABLE IF NOT EXISTS `Tag` (
 
 --
 -- Table structure for table `TypeHolderDefault` generated from model 'TypeHolderDefault'
+-- a model to test option properties with server defaults
 --
 
 CREATE TABLE IF NOT EXISTS `TypeHolderDefault` (
-  `string_item` TEXT NOT NULL,
-  `number_item` DECIMAL(20, 9) NOT NULL,
-  `integer_item` INT NOT NULL,
-  `bool_item` TINYINT(1) NOT NULL,
-  `array_item` JSON NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `string_item` TEXT,
+  `number_item` DECIMAL(20, 9) DEFAULT '1.234',
+  `integer_item` INT DEFAULT -2,
+  `bool_item` TINYINT(1) DEFAULT true,
+  `date_item` DATE DEFAULT NULL,
+  `datetime_item` DATETIME DEFAULT NULL,
+  `array_item` JSON DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='a model to test option properties with server defaults';
 
 --
 -- Table structure for table `TypeHolderExample` generated from model 'TypeHolderExample'
+-- a model to test required properties with an example and length one enum
 --
 
 CREATE TABLE IF NOT EXISTS `TypeHolderExample` (
-  `string_item` TEXT NOT NULL,
-  `number_item` DECIMAL(20, 9) NOT NULL,
-  `integer_item` INT NOT NULL,
+  `string_item` ENUM('what') NOT NULL,
+  `number_item` ENUM('1.2339999675750732') NOT NULL,
+  `integer_item` ENUM('-2') NOT NULL,
   `bool_item` TINYINT(1) NOT NULL,
+  `date_item` DATE NOT NULL,
+  `datetime_item` DATETIME NOT NULL,
   `array_item` JSON NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='a model to test required properties with an example and length one enum';
 
 --
 -- Table structure for table `User` generated from model 'User'

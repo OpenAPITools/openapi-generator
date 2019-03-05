@@ -1215,6 +1215,57 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: fake
+  /fake/enums-of-length-one/{path_string}/{path_integer}:
+    put:
+      description: This route has required values with enums of 1
+      operationId: testEndpointEnumsLengthOne
+      parameters:
+      - in: query
+        name: query_integer
+        required: true
+        schema:
+          enum:
+          - 3
+          format: int32
+          type: integer
+      - in: query
+        name: query_string
+        required: true
+        schema:
+          enum:
+          - brillig
+          type: string
+      - in: path
+        name: path_string
+        required: true
+        schema:
+          enum:
+          - hello
+          type: string
+      - in: path
+        name: path_integer
+        required: true
+        schema:
+          enum:
+          - 34
+          type: integer
+      - in: header
+        name: header_number
+        required: true
+        schema:
+          enum:
+          - 1.234
+          format: double
+          type: number
+      responses:
+        200:
+          content: {}
+          description: Success
+      tags:
+      - fake
+      x-accepts: application/json
+      x-tags:
+      - tag: fake
   /fake/{petId}/uploadImageWithRequiredFile:
     post:
       operationId: uploadFileWithRequiredFile
@@ -1816,54 +1867,80 @@ components:
           type: string
       type: object
     TypeHolderDefault:
+      description: a model to test option properties with server defaults
       properties:
         string_item:
           default: what
           type: string
         number_item:
+          default: 1.234
+          format: float
           type: number
         integer_item:
+          default: -2
+          format: int32
           type: integer
         bool_item:
           default: true
           type: boolean
+        date_item:
+          format: date
+          type: string
+        datetime_item:
+          format: date-time
+          type: string
         array_item:
           items:
             type: integer
           type: array
-      required:
-      - array_item
-      - bool_item
-      - integer_item
-      - number_item
-      - string_item
       type: object
     TypeHolderExample:
+      description: a model to test required properties with an example and length one enum
       properties:
         string_item:
+          enum:
+          - what
           example: what
           type: string
         number_item:
+          enum:
+          - 1.2339999675750732
           example: 1.234
+          format: float
           type: number
         integer_item:
+          enum:
+          - -2
           example: -2
+          format: int32
           type: integer
         bool_item:
           example: true
           type: boolean
+        date_item:
+          enum:
+          - 2017-07-21T00:00:00.000+0000
+          format: date
+          type: string
+        datetime_item:
+          enum:
+          - 2017-07-21T17:32:28.000+0000
+          format: date-time
+          type: string
         array_item:
           example:
-          - 0
-          - 1
-          - 2
-          - 3
+          - - 0
+            - 1
+            - 2
+            - 3
           items:
             type: integer
           type: array
       required:
       - array_item
       - bool_item
+      - date_item
+      - datetime_item
       - integer_item
       - number_item
       - string_item

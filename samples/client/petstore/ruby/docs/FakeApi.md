@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
+[**test_endpoint_enums_length_one**](FakeApi.md#test_endpoint_enums_length_one) | **PUT** /fake/enums-of-length-one/{path_string}/{path_integer} | 
 [**test_endpoint_parameters**](FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
@@ -375,6 +376,57 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: application/json
+
+
+
+# **test_endpoint_enums_length_one**
+> test_endpoint_enums_length_one(query_integer, query_string, path_string, path_integer, header_number)
+
+
+
+This route has required values with enums of 1
+
+### Example
+```ruby
+# load the gem
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+query_integer = 56 # Integer | 
+query_string = 'query_string_example' # String | 
+path_string = 'path_string_example' # String | 
+path_integer = 56 # Integer | 
+header_number = 3.4 # Float | 
+
+begin
+  api_instance.test_endpoint_enums_length_one(query_integer, query_string, path_string, path_integer, header_number)
+rescue Petstore::ApiError => e
+  puts "Exception when calling FakeApi->test_endpoint_enums_length_one: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query_integer** | **Integer**|  | 
+ **query_string** | **String**|  | 
+ **path_string** | **String**|  | 
+ **path_integer** | **Integer**|  | 
+ **header_number** | **Float**|  | 
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 
 

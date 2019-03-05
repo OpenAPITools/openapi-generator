@@ -302,6 +302,72 @@ public class FakeApiImpl implements FakeApi {
         apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
     }
     /**
+     * 
+     * This route has required values with enums of 1
+     * @param queryInteger  (required)
+     * @param queryString  (required)
+     * @param pathString  (required)
+     * @param pathInteger  (required)
+     * @param headerNumber  (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testEndpointEnumsLengthOne(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = null;
+        
+        // verify the required parameter 'queryInteger' is set
+        if (queryInteger == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'queryInteger' when calling testEndpointEnumsLengthOne"));
+            return;
+        }
+        
+        // verify the required parameter 'queryString' is set
+        if (queryString == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'queryString' when calling testEndpointEnumsLengthOne"));
+            return;
+        }
+        
+        // verify the required parameter 'pathString' is set
+        if (pathString == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'pathString' when calling testEndpointEnumsLengthOne"));
+            return;
+        }
+        
+        // verify the required parameter 'pathInteger' is set
+        if (pathInteger == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'pathInteger' when calling testEndpointEnumsLengthOne"));
+            return;
+        }
+        
+        // verify the required parameter 'headerNumber' is set
+        if (headerNumber == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'headerNumber' when calling testEndpointEnumsLengthOne"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/enums-of-length-one/{path_string}/{path_integer}".replaceAll("\\{" + "path_string" + "\\}", pathString.toString()).replaceAll("\\{" + "path_integer" + "\\}", pathInteger.toString());
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "query_integer", queryInteger));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("", "query_string", queryString));
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        if (headerNumber != null)
+        localVarHeaderParams.add("header_number", apiClient.parameterToString(headerNumber));
+
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = {  };
+        String[] localVarAuthNames = new String[] {  };
+
+        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+    }
+    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param number None (required)

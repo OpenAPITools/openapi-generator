@@ -200,6 +200,35 @@ public class FakeApi {
         }));
     }
     /**
+     * 
+     * This route has required values with enums of 1
+     * @param queryInteger  (required)
+     * @param queryString  (required)
+     * @param pathString  (required)
+     * @param pathInteger  (required)
+     * @param headerNumber  (required)
+     * @param resultHandler Asynchronous result handler
+     */
+    public void testEndpointEnumsLengthOne(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testEndpointEnumsLengthOne(queryInteger, queryString, pathString, pathInteger, headerNumber, resultHandler);
+    }
+
+    /**
+     * 
+     * This route has required values with enums of 1
+     * @param queryInteger  (required)
+     * @param queryString  (required)
+     * @param pathString  (required)
+     * @param pathInteger  (required)
+     * @param headerNumber  (required)
+     * @return Asynchronous result handler (RxJava Single)
+     */
+    public Single<Void> rxTestEndpointEnumsLengthOne(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
+            delegate.testEndpointEnumsLengthOne(queryInteger, queryString, pathString, pathInteger, headerNumber, fut);
+        }));
+    }
+    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param number None (required)

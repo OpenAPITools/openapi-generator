@@ -93,6 +93,11 @@ public class FakeApiController implements FakeApi {
 
     }
 
+    public ResponseEntity<Void> testEndpointEnumsLengthOne(@NotNull @ApiParam(value = "", required = true, allowableValues = "3") @Valid @RequestParam(value = "query_integer", required = true) Integer queryInteger,@NotNull @ApiParam(value = "", required = true, allowableValues = "brillig") @Valid @RequestParam(value = "query_string", required = true) String queryString,@ApiParam(value = "",required=true, allowableValues = "\"hello\"") @PathVariable("path_string") String pathString,@ApiParam(value = "",required=true, allowableValues = "34") @PathVariable("path_integer") Integer pathInteger,@ApiParam(value = "" ,required=true, allowableValues="1.234") @RequestHeader(value="header_number", required=true) Double headerNumber) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
     public ResponseEntity<Void> testEndpointParameters(@ApiParam(value = "None", required=true) @RequestParam(value="number", required=true)  BigDecimal number,@ApiParam(value = "None", required=true) @RequestParam(value="double", required=true)  Double _double,@ApiParam(value = "None", required=true) @RequestParam(value="pattern_without_delimiter", required=true)  String patternWithoutDelimiter,@ApiParam(value = "None", required=true) @RequestParam(value="byte", required=true)  byte[] _byte,@ApiParam(value = "None") @RequestParam(value="integer", required=false)  Integer integer,@ApiParam(value = "None") @RequestParam(value="int32", required=false)  Integer int32,@ApiParam(value = "None") @RequestParam(value="int64", required=false)  Long int64,@ApiParam(value = "None") @RequestParam(value="float", required=false)  Float _float,@ApiParam(value = "None") @RequestParam(value="string", required=false)  String string,@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile binary,@ApiParam(value = "None") @RequestParam(value="date", required=false)  LocalDate date,@ApiParam(value = "None") @RequestParam(value="dateTime", required=false)  OffsetDateTime dateTime,@ApiParam(value = "None") @RequestParam(value="password", required=false)  String password,@ApiParam(value = "None") @RequestParam(value="callback", required=false)  String paramCallback) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

@@ -15,6 +15,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"fmt"
 	"github.com/antihax/optional"
 	"os"
 )
@@ -714,6 +715,81 @@ func (a *FakeApiService) TestClientModel(ctx context.Context, body Client) (Clie
 	}
 
 	return localVarReturnValue, localVarHttpResponse, nil
+}
+
+/*
+FakeApiService
+This route has required values with enums of 1
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param queryInteger
+ * @param queryString
+ * @param pathString
+ * @param pathInteger
+ * @param headerNumber
+*/
+func (a *FakeApiService) TestEndpointEnumsLengthOne(ctx context.Context, queryInteger int32, queryString string, pathString string, pathInteger int32, headerNumber float64) (*http.Response, error) {
+	var (
+		localVarHttpMethod   = strings.ToUpper("Put")
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/fake/enums-of-length-one/{path_string}/{path_integer}"
+	localVarPath = strings.Replace(localVarPath, "{"+"path_string"+"}", fmt.Sprintf("%v", pathString), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"path_integer"+"}", fmt.Sprintf("%v", pathInteger), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	localVarQueryParams.Add("query_integer", parameterToString(queryInteger, ""))
+	localVarQueryParams.Add("query_string", parameterToString(queryString, ""))
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	localVarHeaderParams["header_number"] = parameterToString(headerNumber, "")
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHttpResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHttpResponse == nil {
+		return localVarHttpResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarHttpResponse, err
+	}
+
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		return localVarHttpResponse, newErr
+	}
+
+	return localVarHttpResponse, nil
 }
 
 /*

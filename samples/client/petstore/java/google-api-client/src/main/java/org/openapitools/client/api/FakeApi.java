@@ -748,6 +748,139 @@ public class FakeApi {
 
 
   /**
+    * This route has required values with enums of 1
+    * <p><b>200</b> - Success
+    * @param queryInteger The queryInteger parameter
+    * @param queryString The queryString parameter
+    * @param pathString The pathString parameter
+    * @param pathInteger The pathInteger parameter
+    * @param headerNumber The headerNumber parameter
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public void testEndpointEnumsLengthOne(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber) throws IOException {
+        testEndpointEnumsLengthOneForHttpResponse(queryInteger, queryString, pathString, pathInteger, headerNumber);
+    }
+
+  /**
+    * This route has required values with enums of 1
+    * <p><b>200</b> - Success
+    * @param queryInteger The queryInteger parameter
+    * @param queryString The queryString parameter
+    * @param pathString The pathString parameter
+    * @param pathInteger The pathInteger parameter
+    * @param headerNumber The headerNumber parameter
+    * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.
+    * @throws IOException if an error occurs while attempting to invoke the API
+    **/
+    public void testEndpointEnumsLengthOne(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber, Map<String, Object> params) throws IOException {
+        testEndpointEnumsLengthOneForHttpResponse(queryInteger, queryString, pathString, pathInteger, headerNumber, params);
+    }
+
+    public HttpResponse testEndpointEnumsLengthOneForHttpResponse(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber) throws IOException {
+        // verify the required parameter 'queryInteger' is set
+        if (queryInteger == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'queryInteger' when calling testEndpointEnumsLengthOne");
+        }// verify the required parameter 'queryString' is set
+        if (queryString == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'queryString' when calling testEndpointEnumsLengthOne");
+        }// verify the required parameter 'pathString' is set
+        if (pathString == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'pathString' when calling testEndpointEnumsLengthOne");
+        }// verify the required parameter 'pathInteger' is set
+        if (pathInteger == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'pathInteger' when calling testEndpointEnumsLengthOne");
+        }// verify the required parameter 'headerNumber' is set
+        if (headerNumber == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'headerNumber' when calling testEndpointEnumsLengthOne");
+        }
+        // create a map of path variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("path_string", pathString);
+        uriVariables.put("path_integer", pathInteger);
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/enums-of-length-one/{path_string}/{path_integer}");
+        if (queryInteger != null) {
+            String key = "query_integer";
+            Object value = queryInteger;
+            if (value instanceof Collection) {
+                uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+            } else if (value instanceof Object[]) {
+                uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+            } else {
+                uriBuilder = uriBuilder.queryParam(key, value);
+            }
+        }        if (queryString != null) {
+            String key = "query_string";
+            Object value = queryString;
+            if (value instanceof Collection) {
+                uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+            } else if (value instanceof Object[]) {
+                uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+            } else {
+                uriBuilder = uriBuilder.queryParam(key, value);
+            }
+        }
+
+        String url = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = apiClient.new JacksonJsonHttpContent(null);
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+    }
+
+    public HttpResponse testEndpointEnumsLengthOneForHttpResponse(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber, Map<String, Object> params) throws IOException {
+        // verify the required parameter 'queryInteger' is set
+        if (queryInteger == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'queryInteger' when calling testEndpointEnumsLengthOne");
+        }// verify the required parameter 'queryString' is set
+        if (queryString == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'queryString' when calling testEndpointEnumsLengthOne");
+        }// verify the required parameter 'pathString' is set
+        if (pathString == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'pathString' when calling testEndpointEnumsLengthOne");
+        }// verify the required parameter 'pathInteger' is set
+        if (pathInteger == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'pathInteger' when calling testEndpointEnumsLengthOne");
+        }// verify the required parameter 'headerNumber' is set
+        if (headerNumber == null) {
+            throw new IllegalArgumentException("Missing the required parameter 'headerNumber' when calling testEndpointEnumsLengthOne");
+        }
+        // create a map of path variables
+        final Map<String, Object> uriVariables = new HashMap<String, Object>();
+        uriVariables.put("path_string", pathString);
+        uriVariables.put("path_integer", pathInteger);
+        UriBuilder uriBuilder = UriBuilder.fromUri(apiClient.getBasePath() + "/fake/enums-of-length-one/{path_string}/{path_integer}");
+
+        // Copy the params argument if present, to allow passing in immutable maps
+        Map<String, Object> allParams = params == null ? new HashMap<String, Object>() : new HashMap<String, Object>(params);
+        // Add the required query param 'queryInteger' to the map of query params
+        allParams.put("queryInteger", queryInteger);
+        // Add the required query param 'queryString' to the map of query params
+        allParams.put("queryString", queryString);
+
+        for (Map.Entry<String, Object> entry: allParams.entrySet()) {
+            String key = entry.getKey();
+            Object value = entry.getValue();
+
+            if (key != null && value != null) {
+                if (value instanceof Collection) {
+                    uriBuilder = uriBuilder.queryParam(key, ((Collection) value).toArray());
+                } else if (value instanceof Object[]) {
+                    uriBuilder = uriBuilder.queryParam(key, (Object[]) value);
+                } else {
+                    uriBuilder = uriBuilder.queryParam(key, value);
+                }
+            }
+        }
+
+        String url = uriBuilder.buildFromMap(uriVariables).toString();
+        GenericUrl genericUrl = new GenericUrl(url);
+
+        HttpContent content = apiClient.new JacksonJsonHttpContent(null);
+        return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.PUT, genericUrl, content).execute();
+    }
+
+
+  /**
     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     * <p><b>400</b> - Invalid username supplied

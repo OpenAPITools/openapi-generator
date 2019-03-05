@@ -120,6 +120,9 @@ newtype EnumQueryStringArray = EnumQueryStringArray { unEnumQueryStringArray :: 
 -- ** File2
 newtype File2 = File2 { unFile2 :: FilePath } deriving (P.Eq, P.Show)
 
+-- ** HeaderNumber
+newtype HeaderNumber = HeaderNumber { unHeaderNumber :: E'HeaderNumber } deriving (P.Eq, P.Show)
+
 -- ** Int32
 newtype Int32 = Int32 { unInt32 :: Int } deriving (P.Eq, P.Show)
 
@@ -174,6 +177,12 @@ newtype ParamString = ParamString { unParamString :: Text } deriving (P.Eq, P.Sh
 -- ** Password
 newtype Password = Password { unPassword :: Text } deriving (P.Eq, P.Show)
 
+-- ** PathInteger
+newtype PathInteger = PathInteger { unPathInteger :: E'PathInteger } deriving (P.Eq, P.Show)
+
+-- ** PathString
+newtype PathString = PathString { unPathString :: E'PathString } deriving (P.Eq, P.Show)
+
 -- ** PatternWithoutDelimiter
 newtype PatternWithoutDelimiter = PatternWithoutDelimiter { unPatternWithoutDelimiter :: Text } deriving (P.Eq, P.Show)
 
@@ -182,6 +191,12 @@ newtype PetId = PetId { unPetId :: Integer } deriving (P.Eq, P.Show)
 
 -- ** Query
 newtype Query = Query { unQuery :: Text } deriving (P.Eq, P.Show)
+
+-- ** QueryInteger
+newtype QueryInteger = QueryInteger { unQueryInteger :: E'QueryInteger } deriving (P.Eq, P.Show)
+
+-- ** QueryString
+newtype QueryString = QueryString { unQueryString :: E'QueryString } deriving (P.Eq, P.Show)
 
 -- ** RequiredBooleanGroup
 newtype RequiredBooleanGroup = RequiredBooleanGroup { unRequiredBooleanGroup :: Bool } deriving (P.Eq, P.Show)
@@ -1332,23 +1347,28 @@ mkTag =
 
 -- ** TypeHolderDefault
 -- | TypeHolderDefault
+-- a model to test option properties with server defaults
 data TypeHolderDefault = TypeHolderDefault
-  { typeHolderDefaultStringItem :: !(Text) -- ^ /Required/ "string_item"
-  , typeHolderDefaultNumberItem :: !(Double) -- ^ /Required/ "number_item"
-  , typeHolderDefaultIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
-  , typeHolderDefaultBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
-  , typeHolderDefaultArrayItem :: !([Int]) -- ^ /Required/ "array_item"
+  { typeHolderDefaultStringItem :: !(Maybe Text) -- ^ "string_item"
+  , typeHolderDefaultNumberItem :: !(Maybe Float) -- ^ "number_item"
+  , typeHolderDefaultIntegerItem :: !(Maybe Int) -- ^ "integer_item"
+  , typeHolderDefaultBoolItem :: !(Maybe Bool) -- ^ "bool_item"
+  , typeHolderDefaultDateItem :: !(Maybe Date) -- ^ "date_item"
+  , typeHolderDefaultDatetimeItem :: !(Maybe DateTime) -- ^ "datetime_item"
+  , typeHolderDefaultArrayItem :: !(Maybe [Int]) -- ^ "array_item"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON TypeHolderDefault
 instance A.FromJSON TypeHolderDefault where
   parseJSON = A.withObject "TypeHolderDefault" $ \o ->
     TypeHolderDefault
-      <$> (o .:  "string_item")
-      <*> (o .:  "number_item")
-      <*> (o .:  "integer_item")
-      <*> (o .:  "bool_item")
-      <*> (o .:  "array_item")
+      <$> (o .:? "string_item")
+      <*> (o .:? "number_item")
+      <*> (o .:? "integer_item")
+      <*> (o .:? "bool_item")
+      <*> (o .:? "date_item")
+      <*> (o .:? "datetime_item")
+      <*> (o .:? "array_item")
 
 -- | ToJSON TypeHolderDefault
 instance A.ToJSON TypeHolderDefault where
@@ -1358,34 +1378,36 @@ instance A.ToJSON TypeHolderDefault where
       , "number_item" .= typeHolderDefaultNumberItem
       , "integer_item" .= typeHolderDefaultIntegerItem
       , "bool_item" .= typeHolderDefaultBoolItem
+      , "date_item" .= typeHolderDefaultDateItem
+      , "datetime_item" .= typeHolderDefaultDatetimeItem
       , "array_item" .= typeHolderDefaultArrayItem
       ]
 
 
 -- | Construct a value of type 'TypeHolderDefault' (by applying it's required fields, if any)
 mkTypeHolderDefault
-  :: Text -- ^ 'typeHolderDefaultStringItem' 
-  -> Double -- ^ 'typeHolderDefaultNumberItem' 
-  -> Int -- ^ 'typeHolderDefaultIntegerItem' 
-  -> Bool -- ^ 'typeHolderDefaultBoolItem' 
-  -> [Int] -- ^ 'typeHolderDefaultArrayItem' 
-  -> TypeHolderDefault
-mkTypeHolderDefault typeHolderDefaultStringItem typeHolderDefaultNumberItem typeHolderDefaultIntegerItem typeHolderDefaultBoolItem typeHolderDefaultArrayItem =
+  :: TypeHolderDefault
+mkTypeHolderDefault =
   TypeHolderDefault
-  { typeHolderDefaultStringItem
-  , typeHolderDefaultNumberItem
-  , typeHolderDefaultIntegerItem
-  , typeHolderDefaultBoolItem
-  , typeHolderDefaultArrayItem
+  { typeHolderDefaultStringItem = Nothing
+  , typeHolderDefaultNumberItem = Nothing
+  , typeHolderDefaultIntegerItem = Nothing
+  , typeHolderDefaultBoolItem = Nothing
+  , typeHolderDefaultDateItem = Nothing
+  , typeHolderDefaultDatetimeItem = Nothing
+  , typeHolderDefaultArrayItem = Nothing
   }
 
 -- ** TypeHolderExample
 -- | TypeHolderExample
+-- a model to test required properties with an example and length one enum
 data TypeHolderExample = TypeHolderExample
-  { typeHolderExampleStringItem :: !(Text) -- ^ /Required/ "string_item"
-  , typeHolderExampleNumberItem :: !(Double) -- ^ /Required/ "number_item"
-  , typeHolderExampleIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
+  { typeHolderExampleStringItem :: !(E'StringItem) -- ^ /Required/ "string_item"
+  , typeHolderExampleNumberItem :: !(E'NumberItem) -- ^ /Required/ "number_item"
+  , typeHolderExampleIntegerItem :: !(E'IntegerItem) -- ^ /Required/ "integer_item"
   , typeHolderExampleBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
+  , typeHolderExampleDateItem :: !(E'DateItem) -- ^ /Required/ "date_item"
+  , typeHolderExampleDatetimeItem :: !(E'DatetimeItem) -- ^ /Required/ "datetime_item"
   , typeHolderExampleArrayItem :: !([Int]) -- ^ /Required/ "array_item"
   } deriving (P.Show, P.Eq, P.Typeable)
 
@@ -1397,6 +1419,8 @@ instance A.FromJSON TypeHolderExample where
       <*> (o .:  "number_item")
       <*> (o .:  "integer_item")
       <*> (o .:  "bool_item")
+      <*> (o .:  "date_item")
+      <*> (o .:  "datetime_item")
       <*> (o .:  "array_item")
 
 -- | ToJSON TypeHolderExample
@@ -1407,24 +1431,30 @@ instance A.ToJSON TypeHolderExample where
       , "number_item" .= typeHolderExampleNumberItem
       , "integer_item" .= typeHolderExampleIntegerItem
       , "bool_item" .= typeHolderExampleBoolItem
+      , "date_item" .= typeHolderExampleDateItem
+      , "datetime_item" .= typeHolderExampleDatetimeItem
       , "array_item" .= typeHolderExampleArrayItem
       ]
 
 
 -- | Construct a value of type 'TypeHolderExample' (by applying it's required fields, if any)
 mkTypeHolderExample
-  :: Text -- ^ 'typeHolderExampleStringItem' 
-  -> Double -- ^ 'typeHolderExampleNumberItem' 
-  -> Int -- ^ 'typeHolderExampleIntegerItem' 
+  :: E'StringItem -- ^ 'typeHolderExampleStringItem' 
+  -> E'NumberItem -- ^ 'typeHolderExampleNumberItem' 
+  -> E'IntegerItem -- ^ 'typeHolderExampleIntegerItem' 
   -> Bool -- ^ 'typeHolderExampleBoolItem' 
+  -> E'DateItem -- ^ 'typeHolderExampleDateItem' 
+  -> E'DatetimeItem -- ^ 'typeHolderExampleDatetimeItem' 
   -> [Int] -- ^ 'typeHolderExampleArrayItem' 
   -> TypeHolderExample
-mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem typeHolderExampleIntegerItem typeHolderExampleBoolItem typeHolderExampleArrayItem =
+mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem typeHolderExampleIntegerItem typeHolderExampleBoolItem typeHolderExampleDateItem typeHolderExampleDatetimeItem typeHolderExampleArrayItem =
   TypeHolderExample
   { typeHolderExampleStringItem
   , typeHolderExampleNumberItem
   , typeHolderExampleIntegerItem
   , typeHolderExampleBoolItem
+  , typeHolderExampleDateItem
+  , typeHolderExampleDatetimeItem
   , typeHolderExampleArrayItem
   }
 
@@ -1656,6 +1686,56 @@ toE'ArrayEnum = \case
   s -> P.Left $ "toE'ArrayEnum: enum parse failure: " P.++ P.show s
 
 
+-- ** E'DateItem
+
+-- | Enum of 'Date'
+data E'DateItem
+  = E'DateItem'Thu_Jul_20_170000_PDT_2017 -- ^ @"Thu Jul 20 17:00:00 PDT 2017"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'DateItem where toJSON = A.toJSON . fromE'DateItem
+instance A.FromJSON E'DateItem where parseJSON o = P.either P.fail (pure . P.id) . toE'DateItem =<< A.parseJSON o
+instance WH.ToHttpApiData E'DateItem where toQueryParam = WH.toQueryParam . fromE'DateItem
+instance WH.FromHttpApiData E'DateItem where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'DateItem
+instance MimeRender MimeMultipartFormData E'DateItem where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'DateItem' enum
+fromE'DateItem :: E'DateItem -> Date
+fromE'DateItem = \case
+  E'DateItem'Thu_Jul_20_170000_PDT_2017 -> "Thu Jul 20 17:00:00 PDT 2017"
+
+-- | parse 'E'DateItem' enum
+toE'DateItem :: Date -> P.Either String E'DateItem
+toE'DateItem = \case
+  "Thu Jul 20 17:00:00 PDT 2017" -> P.Right E'DateItem'Thu_Jul_20_170000_PDT_2017
+  s -> P.Left $ "toE'DateItem: enum parse failure: " P.++ P.show s
+
+
+-- ** E'DatetimeItem
+
+-- | Enum of 'DateTime'
+data E'DatetimeItem
+  = E'DatetimeItem'Fri_Jul_21_103228_PDT_2017 -- ^ @"Fri Jul 21 10:32:28 PDT 2017"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'DatetimeItem where toJSON = A.toJSON . fromE'DatetimeItem
+instance A.FromJSON E'DatetimeItem where parseJSON o = P.either P.fail (pure . P.id) . toE'DatetimeItem =<< A.parseJSON o
+instance WH.ToHttpApiData E'DatetimeItem where toQueryParam = WH.toQueryParam . fromE'DatetimeItem
+instance WH.FromHttpApiData E'DatetimeItem where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'DatetimeItem
+instance MimeRender MimeMultipartFormData E'DatetimeItem where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'DatetimeItem' enum
+fromE'DatetimeItem :: E'DatetimeItem -> DateTime
+fromE'DatetimeItem = \case
+  E'DatetimeItem'Fri_Jul_21_103228_PDT_2017 -> "Fri Jul 21 10:32:28 PDT 2017"
+
+-- | parse 'E'DatetimeItem' enum
+toE'DatetimeItem :: DateTime -> P.Either String E'DatetimeItem
+toE'DatetimeItem = \case
+  "Fri Jul 21 10:32:28 PDT 2017" -> P.Right E'DatetimeItem'Fri_Jul_21_103228_PDT_2017
+  s -> P.Left $ "toE'DatetimeItem: enum parse failure: " P.++ P.show s
+
+
 -- ** E'EnumFormString
 
 -- | Enum of 'Text' . 
@@ -1831,6 +1911,31 @@ toE'EnumString = \case
   s -> P.Left $ "toE'EnumString: enum parse failure: " P.++ P.show s
 
 
+-- ** E'HeaderNumber
+
+-- | Enum of 'Double'
+data E'HeaderNumber
+  = E'HeaderNumber'Num1_Dot_234 -- ^ @1.234@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'HeaderNumber where toJSON = A.toJSON . fromE'HeaderNumber
+instance A.FromJSON E'HeaderNumber where parseJSON o = P.either P.fail (pure . P.id) . toE'HeaderNumber =<< A.parseJSON o
+instance WH.ToHttpApiData E'HeaderNumber where toQueryParam = WH.toQueryParam . fromE'HeaderNumber
+instance WH.FromHttpApiData E'HeaderNumber where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'HeaderNumber
+instance MimeRender MimeMultipartFormData E'HeaderNumber where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'HeaderNumber' enum
+fromE'HeaderNumber :: E'HeaderNumber -> Double
+fromE'HeaderNumber = \case
+  E'HeaderNumber'Num1_Dot_234 -> 1.234
+
+-- | parse 'E'HeaderNumber' enum
+toE'HeaderNumber :: Double -> P.Either String E'HeaderNumber
+toE'HeaderNumber = \case
+  1.234 -> P.Right E'HeaderNumber'Num1_Dot_234
+  s -> P.Left $ "toE'HeaderNumber: enum parse failure: " P.++ P.show s
+
+
 -- ** E'Inner
 
 -- | Enum of 'Text'
@@ -1859,6 +1964,31 @@ toE'Inner = \case
   s -> P.Left $ "toE'Inner: enum parse failure: " P.++ P.show s
 
 
+-- ** E'IntegerItem
+
+-- | Enum of 'Int'
+data E'IntegerItem
+  = E'IntegerItem'NumMinus_2 -- ^ @-2@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'IntegerItem where toJSON = A.toJSON . fromE'IntegerItem
+instance A.FromJSON E'IntegerItem where parseJSON o = P.either P.fail (pure . P.id) . toE'IntegerItem =<< A.parseJSON o
+instance WH.ToHttpApiData E'IntegerItem where toQueryParam = WH.toQueryParam . fromE'IntegerItem
+instance WH.FromHttpApiData E'IntegerItem where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'IntegerItem
+instance MimeRender MimeMultipartFormData E'IntegerItem where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'IntegerItem' enum
+fromE'IntegerItem :: E'IntegerItem -> Int
+fromE'IntegerItem = \case
+  E'IntegerItem'NumMinus_2 -> -2
+
+-- | parse 'E'IntegerItem' enum
+toE'IntegerItem :: Int -> P.Either String E'IntegerItem
+toE'IntegerItem = \case
+  -2 -> P.Right E'IntegerItem'NumMinus_2
+  s -> P.Left $ "toE'IntegerItem: enum parse failure: " P.++ P.show s
+
+
 -- ** E'JustSymbol
 
 -- | Enum of 'Text'
@@ -1885,6 +2015,131 @@ toE'JustSymbol = \case
   ">=" -> P.Right E'JustSymbol'Greater_Than_Or_Equal_To
   "$" -> P.Right E'JustSymbol'Dollar
   s -> P.Left $ "toE'JustSymbol: enum parse failure: " P.++ P.show s
+
+
+-- ** E'NumberItem
+
+-- | Enum of 'Float'
+data E'NumberItem
+  = E'NumberItem'Num1_Dot_2339999675750732 -- ^ @1.2339999675750732@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'NumberItem where toJSON = A.toJSON . fromE'NumberItem
+instance A.FromJSON E'NumberItem where parseJSON o = P.either P.fail (pure . P.id) . toE'NumberItem =<< A.parseJSON o
+instance WH.ToHttpApiData E'NumberItem where toQueryParam = WH.toQueryParam . fromE'NumberItem
+instance WH.FromHttpApiData E'NumberItem where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'NumberItem
+instance MimeRender MimeMultipartFormData E'NumberItem where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'NumberItem' enum
+fromE'NumberItem :: E'NumberItem -> Float
+fromE'NumberItem = \case
+  E'NumberItem'Num1_Dot_2339999675750732 -> 1.2339999675750732
+
+-- | parse 'E'NumberItem' enum
+toE'NumberItem :: Float -> P.Either String E'NumberItem
+toE'NumberItem = \case
+  1.2339999675750732 -> P.Right E'NumberItem'Num1_Dot_2339999675750732
+  s -> P.Left $ "toE'NumberItem: enum parse failure: " P.++ P.show s
+
+
+-- ** E'PathInteger
+
+-- | Enum of 'Int'
+data E'PathInteger
+  = E'PathInteger'Num34 -- ^ @34@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'PathInteger where toJSON = A.toJSON . fromE'PathInteger
+instance A.FromJSON E'PathInteger where parseJSON o = P.either P.fail (pure . P.id) . toE'PathInteger =<< A.parseJSON o
+instance WH.ToHttpApiData E'PathInteger where toQueryParam = WH.toQueryParam . fromE'PathInteger
+instance WH.FromHttpApiData E'PathInteger where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'PathInteger
+instance MimeRender MimeMultipartFormData E'PathInteger where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'PathInteger' enum
+fromE'PathInteger :: E'PathInteger -> Int
+fromE'PathInteger = \case
+  E'PathInteger'Num34 -> 34
+
+-- | parse 'E'PathInteger' enum
+toE'PathInteger :: Int -> P.Either String E'PathInteger
+toE'PathInteger = \case
+  34 -> P.Right E'PathInteger'Num34
+  s -> P.Left $ "toE'PathInteger: enum parse failure: " P.++ P.show s
+
+
+-- ** E'PathString
+
+-- | Enum of 'Text'
+data E'PathString
+  = E'PathString'Hello -- ^ @"hello"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'PathString where toJSON = A.toJSON . fromE'PathString
+instance A.FromJSON E'PathString where parseJSON o = P.either P.fail (pure . P.id) . toE'PathString =<< A.parseJSON o
+instance WH.ToHttpApiData E'PathString where toQueryParam = WH.toQueryParam . fromE'PathString
+instance WH.FromHttpApiData E'PathString where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'PathString
+instance MimeRender MimeMultipartFormData E'PathString where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'PathString' enum
+fromE'PathString :: E'PathString -> Text
+fromE'PathString = \case
+  E'PathString'Hello -> "hello"
+
+-- | parse 'E'PathString' enum
+toE'PathString :: Text -> P.Either String E'PathString
+toE'PathString = \case
+  "hello" -> P.Right E'PathString'Hello
+  s -> P.Left $ "toE'PathString: enum parse failure: " P.++ P.show s
+
+
+-- ** E'QueryInteger
+
+-- | Enum of 'Int'
+data E'QueryInteger
+  = E'QueryInteger'Num3 -- ^ @3@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'QueryInteger where toJSON = A.toJSON . fromE'QueryInteger
+instance A.FromJSON E'QueryInteger where parseJSON o = P.either P.fail (pure . P.id) . toE'QueryInteger =<< A.parseJSON o
+instance WH.ToHttpApiData E'QueryInteger where toQueryParam = WH.toQueryParam . fromE'QueryInteger
+instance WH.FromHttpApiData E'QueryInteger where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'QueryInteger
+instance MimeRender MimeMultipartFormData E'QueryInteger where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'QueryInteger' enum
+fromE'QueryInteger :: E'QueryInteger -> Int
+fromE'QueryInteger = \case
+  E'QueryInteger'Num3 -> 3
+
+-- | parse 'E'QueryInteger' enum
+toE'QueryInteger :: Int -> P.Either String E'QueryInteger
+toE'QueryInteger = \case
+  3 -> P.Right E'QueryInteger'Num3
+  s -> P.Left $ "toE'QueryInteger: enum parse failure: " P.++ P.show s
+
+
+-- ** E'QueryString
+
+-- | Enum of 'Text'
+data E'QueryString
+  = E'QueryString'Brillig -- ^ @"brillig"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'QueryString where toJSON = A.toJSON . fromE'QueryString
+instance A.FromJSON E'QueryString where parseJSON o = P.either P.fail (pure . P.id) . toE'QueryString =<< A.parseJSON o
+instance WH.ToHttpApiData E'QueryString where toQueryParam = WH.toQueryParam . fromE'QueryString
+instance WH.FromHttpApiData E'QueryString where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'QueryString
+instance MimeRender MimeMultipartFormData E'QueryString where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'QueryString' enum
+fromE'QueryString :: E'QueryString -> Text
+fromE'QueryString = \case
+  E'QueryString'Brillig -> "brillig"
+
+-- | parse 'E'QueryString' enum
+toE'QueryString :: Text -> P.Either String E'QueryString
+toE'QueryString = \case
+  "brillig" -> P.Right E'QueryString'Brillig
+  s -> P.Left $ "toE'QueryString: enum parse failure: " P.++ P.show s
 
 
 -- ** E'Status
@@ -1949,6 +2204,31 @@ toE'Status2 = \case
   "pending" -> P.Right E'Status2'Pending
   "sold" -> P.Right E'Status2'Sold
   s -> P.Left $ "toE'Status2: enum parse failure: " P.++ P.show s
+
+
+-- ** E'StringItem
+
+-- | Enum of 'Text'
+data E'StringItem
+  = E'StringItem'What -- ^ @"what"@
+  deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
+
+instance A.ToJSON E'StringItem where toJSON = A.toJSON . fromE'StringItem
+instance A.FromJSON E'StringItem where parseJSON o = P.either P.fail (pure . P.id) . toE'StringItem =<< A.parseJSON o
+instance WH.ToHttpApiData E'StringItem where toQueryParam = WH.toQueryParam . fromE'StringItem
+instance WH.FromHttpApiData E'StringItem where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . toE'StringItem
+instance MimeRender MimeMultipartFormData E'StringItem where mimeRender _ = mimeRenderDefaultMultipartFormData
+
+-- | unwrap 'E'StringItem' enum
+fromE'StringItem :: E'StringItem -> Text
+fromE'StringItem = \case
+  E'StringItem'What -> "what"
+
+-- | parse 'E'StringItem' enum
+toE'StringItem :: Text -> P.Either String E'StringItem
+toE'StringItem = \case
+  "what" -> P.Right E'StringItem'What
+  s -> P.Left $ "toE'StringItem: enum parse failure: " P.++ P.show s
 
 
 -- ** EnumClass

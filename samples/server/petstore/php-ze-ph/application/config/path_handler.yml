@@ -6,6 +6,7 @@ Articus\PathHandler\RouteInjection\Factory:
     - App\Handler\FakeBodyWithFileSchema
     - App\Handler\FakeBodyWithQueryParams
     - App\Handler\FakeCreateXmlItem
+    - App\Handler\FakeEnumsOfLengthOnePathStringPathInteger
     - App\Handler\FakeInlineAdditionalProperties
     - App\Handler\FakeJsonFormData
     - App\Handler\FakeOuterBoolean
@@ -47,6 +48,7 @@ Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
   App\Handler\FakeBodyWithFileSchema: []
   App\Handler\FakeBodyWithQueryParams: []
   App\Handler\FakeCreateXmlItem: []
+  App\Handler\FakeEnumsOfLengthOnePathStringPathInteger: []
   App\Handler\FakeInlineAdditionalProperties: []
   App\Handler\FakeJsonFormData: []
   App\Handler\FakeOuterBoolean: []

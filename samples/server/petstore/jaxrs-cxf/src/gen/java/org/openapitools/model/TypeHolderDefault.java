@@ -1,8 +1,10 @@
 package org.openapitools.model;
 
-import java.math.BigDecimal;
+import io.swagger.annotations.ApiModel;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import org.joda.time.LocalDate;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -16,29 +18,37 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+  * a model to test option properties with server defaults
+ **/
+@ApiModel(description="a model to test option properties with server defaults")
 public class TypeHolderDefault  {
   
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(value = "")
   private String stringItem = "what";
 
-  @ApiModelProperty(required = true, value = "")
-  @Valid
-  private BigDecimal numberItem;
+  @ApiModelProperty(value = "")
+  private Float numberItem = 1.234f;
 
-  @ApiModelProperty(required = true, value = "")
-  private Integer integerItem;
+  @ApiModelProperty(value = "")
+  private Integer integerItem = -2;
 
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(value = "")
   private Boolean boolItem = true;
 
-  @ApiModelProperty(required = true, value = "")
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  @ApiModelProperty(value = "")
+  private LocalDate dateItem;
+
+  @ApiModelProperty(value = "")
+  private Date datetimeItem;
+
+  @ApiModelProperty(value = "")
+  private List<Integer> arrayItem = null;
  /**
    * Get stringItem
    * @return stringItem
   **/
   @JsonProperty("string_item")
-  @NotNull
   public String getStringItem() {
     return stringItem;
   }
@@ -57,16 +67,15 @@ public class TypeHolderDefault  {
    * @return numberItem
   **/
   @JsonProperty("number_item")
-  @NotNull
-  public BigDecimal getNumberItem() {
+  public Float getNumberItem() {
     return numberItem;
   }
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(Float numberItem) {
     this.numberItem = numberItem;
   }
 
-  public TypeHolderDefault numberItem(BigDecimal numberItem) {
+  public TypeHolderDefault numberItem(Float numberItem) {
     this.numberItem = numberItem;
     return this;
   }
@@ -76,7 +85,6 @@ public class TypeHolderDefault  {
    * @return integerItem
   **/
   @JsonProperty("integer_item")
-  @NotNull
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -95,7 +103,6 @@ public class TypeHolderDefault  {
    * @return boolItem
   **/
   @JsonProperty("bool_item")
-  @NotNull
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -110,11 +117,46 @@ public class TypeHolderDefault  {
   }
 
  /**
+   * Get dateItem
+   * @return dateItem
+  **/
+  @JsonProperty("date_item")
+  public LocalDate getDateItem() {
+    return dateItem;
+  }
+
+  public void setDateItem(LocalDate dateItem) {
+    this.dateItem = dateItem;
+  }
+
+  public TypeHolderDefault dateItem(LocalDate dateItem) {
+    this.dateItem = dateItem;
+    return this;
+  }
+
+ /**
+   * Get datetimeItem
+   * @return datetimeItem
+  **/
+  @JsonProperty("datetime_item")
+  public Date getDatetimeItem() {
+    return datetimeItem;
+  }
+
+  public void setDatetimeItem(Date datetimeItem) {
+    this.datetimeItem = datetimeItem;
+  }
+
+  public TypeHolderDefault datetimeItem(Date datetimeItem) {
+    this.datetimeItem = datetimeItem;
+    return this;
+  }
+
+ /**
    * Get arrayItem
    * @return arrayItem
   **/
   @JsonProperty("array_item")
-  @NotNull
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
@@ -143,6 +185,8 @@ public class TypeHolderDefault  {
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
     sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
     sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
+    sb.append("    dateItem: ").append(toIndentedString(dateItem)).append("\n");
+    sb.append("    datetimeItem: ").append(toIndentedString(datetimeItem)).append("\n");
     sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");
     sb.append("}");
     return sb.toString();

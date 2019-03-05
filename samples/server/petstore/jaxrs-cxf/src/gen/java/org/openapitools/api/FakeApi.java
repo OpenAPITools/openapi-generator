@@ -115,6 +115,13 @@ public interface FakeApi  {
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     public Client testClientModel(@Valid Client body);
 
+    @PUT
+    @Path("/fake/enums-of-length-one/{path_string}/{path_integer}")
+    @ApiOperation(value = "", tags={ "fake",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success") })
+    public void testEndpointEnumsLengthOne(@QueryParam("query_integer") @NotNull  Integer queryInteger, @QueryParam("query_string") @NotNull  String queryString, @PathParam("path_string") String pathString, @PathParam("path_integer") Integer pathInteger, @HeaderParam("header_number")  @NotNull  Double headerNumber);
+
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *

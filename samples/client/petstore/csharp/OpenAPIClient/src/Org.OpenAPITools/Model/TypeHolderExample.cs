@@ -25,11 +25,102 @@ using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
-    /// TypeHolderExample
+    /// a model to test required properties with an example and length one enum
     /// </summary>
     [DataContract]
     public partial class TypeHolderExample :  IEquatable<TypeHolderExample>, IValidatableObject
     {
+        /// <summary>
+        /// Defines StringItem
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum StringItemEnum
+        {
+            /// <summary>
+            /// Enum What for value: what
+            /// </summary>
+            [EnumMember(Value = "what")]
+            What = 1
+
+        }
+
+        /// <summary>
+        /// Gets or Sets StringItem
+        /// </summary>
+        [DataMember(Name="string_item", EmitDefaultValue=false)]
+        public StringItemEnum StringItem { get; set; }
+        /// <summary>
+        /// Defines NumberItem
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum NumberItemEnum
+        {
+            /// <summary>
+            /// Enum NUMBER_1_DOT_2339999675750732 for value: 1.2339999675750732
+            /// </summary>
+            [EnumMember(Value = "1.2339999675750732")]
+            NUMBER_1_DOT_2339999675750732 = 1
+
+        }
+
+        /// <summary>
+        /// Gets or Sets NumberItem
+        /// </summary>
+        [DataMember(Name="number_item", EmitDefaultValue=false)]
+        public NumberItemEnum NumberItem { get; set; }
+        /// <summary>
+        /// Defines IntegerItem
+        /// </summary>
+        public enum IntegerItemEnum
+        {
+            /// <summary>
+            /// Enum NUMBER_MINUS_2 for value: -2
+            /// </summary>
+            NUMBER_MINUS_2 = -2
+
+        }
+
+        /// <summary>
+        /// Gets or Sets IntegerItem
+        /// </summary>
+        [DataMember(Name="integer_item", EmitDefaultValue=false)]
+        public IntegerItemEnum IntegerItem { get; set; }
+        /// <summary>
+        /// Defines DateItem
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum DateItemEnum
+        {
+            /// <summary>
+            /// Enum ThuJul20170000PDT2017 for value: Thu Jul 20 17:00:00 PDT 2017
+            /// </summary>
+            ThuJul20170000PDT2017 = Thu Jul 20 17:00:00 PDT 2017
+
+        }
+
+        /// <summary>
+        /// Gets or Sets DateItem
+        /// </summary>
+        [DataMember(Name="date_item", EmitDefaultValue=false)]
+        public DateItemEnum DateItem { get; set; }
+        /// <summary>
+        /// Defines DatetimeItem
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public enum DatetimeItemEnum
+        {
+            /// <summary>
+            /// Enum FriJul21103228PDT2017 for value: Fri Jul 21 10:32:28 PDT 2017
+            /// </summary>
+            FriJul21103228PDT2017 = Fri Jul 21 10:32:28 PDT 2017
+
+        }
+
+        /// <summary>
+        /// Gets or Sets DatetimeItem
+        /// </summary>
+        [DataMember(Name="datetime_item", EmitDefaultValue=false)]
+        public DatetimeItemEnum DatetimeItem { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeHolderExample" /> class.
         /// </summary>
@@ -42,8 +133,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="numberItem">numberItem (required).</param>
         /// <param name="integerItem">integerItem (required).</param>
         /// <param name="boolItem">boolItem (required).</param>
+        /// <param name="dateItem">dateItem (required).</param>
+        /// <param name="datetimeItem">datetimeItem (required).</param>
         /// <param name="arrayItem">arrayItem (required).</param>
-        public TypeHolderExample(string stringItem = default(string), decimal? numberItem = default(decimal?), int? integerItem = default(int?), bool? boolItem = default(bool?), List<int?> arrayItem = default(List<int?>))
+        public TypeHolderExample(StringItemEnum stringItem = default(StringItemEnum), NumberItemEnum numberItem = default(NumberItemEnum), IntegerItemEnum integerItem = default(IntegerItemEnum), bool? boolItem = default(bool?), DateItemEnum dateItem = default(DateItemEnum), DatetimeItemEnum datetimeItem = default(DatetimeItemEnum), List<int?> arrayItem = default(List<int?>))
         {
             // to ensure "stringItem" is required (not null)
             if (stringItem == null)
@@ -81,6 +174,24 @@ namespace Org.OpenAPITools.Model
             {
                 this.BoolItem = boolItem;
             }
+            // to ensure "dateItem" is required (not null)
+            if (dateItem == null)
+            {
+                throw new InvalidDataException("dateItem is a required property for TypeHolderExample and cannot be null");
+            }
+            else
+            {
+                this.DateItem = dateItem;
+            }
+            // to ensure "datetimeItem" is required (not null)
+            if (datetimeItem == null)
+            {
+                throw new InvalidDataException("datetimeItem is a required property for TypeHolderExample and cannot be null");
+            }
+            else
+            {
+                this.DatetimeItem = datetimeItem;
+            }
             // to ensure "arrayItem" is required (not null)
             if (arrayItem == null)
             {
@@ -92,29 +203,16 @@ namespace Org.OpenAPITools.Model
             }
         }
         
-        /// <summary>
-        /// Gets or Sets StringItem
-        /// </summary>
-        [DataMember(Name="string_item", EmitDefaultValue=false)]
-        public string StringItem { get; set; }
 
-        /// <summary>
-        /// Gets or Sets NumberItem
-        /// </summary>
-        [DataMember(Name="number_item", EmitDefaultValue=false)]
-        public decimal? NumberItem { get; set; }
 
-        /// <summary>
-        /// Gets or Sets IntegerItem
-        /// </summary>
-        [DataMember(Name="integer_item", EmitDefaultValue=false)]
-        public int? IntegerItem { get; set; }
 
         /// <summary>
         /// Gets or Sets BoolItem
         /// </summary>
         [DataMember(Name="bool_item", EmitDefaultValue=false)]
         public bool? BoolItem { get; set; }
+
+
 
         /// <summary>
         /// Gets or Sets ArrayItem
@@ -134,6 +232,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("  NumberItem: ").Append(NumberItem).Append("\n");
             sb.Append("  IntegerItem: ").Append(IntegerItem).Append("\n");
             sb.Append("  BoolItem: ").Append(BoolItem).Append("\n");
+            sb.Append("  DateItem: ").Append(DateItem).Append("\n");
+            sb.Append("  DatetimeItem: ").Append(DatetimeItem).Append("\n");
             sb.Append("  ArrayItem: ").Append(ArrayItem).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -190,6 +290,16 @@ namespace Org.OpenAPITools.Model
                     this.BoolItem.Equals(input.BoolItem))
                 ) && 
                 (
+                    this.DateItem == input.DateItem ||
+                    (this.DateItem != null &&
+                    this.DateItem.Equals(input.DateItem))
+                ) && 
+                (
+                    this.DatetimeItem == input.DatetimeItem ||
+                    (this.DatetimeItem != null &&
+                    this.DatetimeItem.Equals(input.DatetimeItem))
+                ) && 
+                (
                     this.ArrayItem == input.ArrayItem ||
                     this.ArrayItem != null &&
                     this.ArrayItem.SequenceEqual(input.ArrayItem)
@@ -213,6 +323,10 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.IntegerItem.GetHashCode();
                 if (this.BoolItem != null)
                     hashCode = hashCode * 59 + this.BoolItem.GetHashCode();
+                if (this.DateItem != null)
+                    hashCode = hashCode * 59 + this.DateItem.GetHashCode();
+                if (this.DatetimeItem != null)
+                    hashCode = hashCode * 59 + this.DatetimeItem.GetHashCode();
                 if (this.ArrayItem != null)
                     hashCode = hashCode * 59 + this.ArrayItem.GetHashCode();
                 return hashCode;

@@ -138,6 +138,21 @@ public interface FakeApiDelegate {
     }
 
     /**
+     * @see FakeApi#testEndpointEnumsLengthOne
+     */
+    default Mono<ResponseEntity<Void>> testEndpointEnumsLengthOne(Integer queryInteger,
+        String queryString,
+        String pathString,
+        Integer pathInteger,
+        Double headerNumber,
+        ServerWebExchange exchange) {
+        Mono<Void> result = Mono.empty();
+        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
+        return result.then(Mono.empty());
+
+    }
+
+    /**
      * @see FakeApi#testEndpointParameters
      */
     default Mono<ResponseEntity<Void>> testEndpointParameters(BigDecimal number,

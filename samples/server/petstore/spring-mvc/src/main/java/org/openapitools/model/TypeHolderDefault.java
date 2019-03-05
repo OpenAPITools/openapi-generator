@@ -5,33 +5,41 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * TypeHolderDefault
+ * a model to test option properties with server defaults
  */
+@ApiModel(description = "a model to test option properties with server defaults")
 
 public class TypeHolderDefault   {
   @JsonProperty("string_item")
   private String stringItem = "what";
 
   @JsonProperty("number_item")
-  private BigDecimal numberItem;
+  private Float numberItem = 1.234f;
 
   @JsonProperty("integer_item")
-  private Integer integerItem;
+  private Integer integerItem = -2;
 
   @JsonProperty("bool_item")
   private Boolean boolItem = true;
 
+  @JsonProperty("date_item")
+  private LocalDate dateItem;
+
+  @JsonProperty("datetime_item")
+  private OffsetDateTime datetimeItem;
+
   @JsonProperty("array_item")
   @Valid
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  private List<Integer> arrayItem = null;
 
   public TypeHolderDefault stringItem(String stringItem) {
     this.stringItem = stringItem;
@@ -42,8 +50,7 @@ public class TypeHolderDefault   {
    * Get stringItem
    * @return stringItem
   */
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
 
   public String getStringItem() {
@@ -54,7 +61,7 @@ public class TypeHolderDefault   {
     this.stringItem = stringItem;
   }
 
-  public TypeHolderDefault numberItem(BigDecimal numberItem) {
+  public TypeHolderDefault numberItem(Float numberItem) {
     this.numberItem = numberItem;
     return this;
   }
@@ -63,16 +70,14 @@ public class TypeHolderDefault   {
    * Get numberItem
    * @return numberItem
   */
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
-  @Valid
 
-  public BigDecimal getNumberItem() {
+  public Float getNumberItem() {
     return numberItem;
   }
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(Float numberItem) {
     this.numberItem = numberItem;
   }
 
@@ -85,8 +90,7 @@ public class TypeHolderDefault   {
    * Get integerItem
    * @return integerItem
   */
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
 
   public Integer getIntegerItem() {
@@ -106,8 +110,7 @@ public class TypeHolderDefault   {
    * Get boolItem
    * @return boolItem
   */
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
 
   public Boolean getBoolItem() {
@@ -118,12 +121,57 @@ public class TypeHolderDefault   {
     this.boolItem = boolItem;
   }
 
+  public TypeHolderDefault dateItem(LocalDate dateItem) {
+    this.dateItem = dateItem;
+    return this;
+  }
+
+  /**
+   * Get dateItem
+   * @return dateItem
+  */
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public LocalDate getDateItem() {
+    return dateItem;
+  }
+
+  public void setDateItem(LocalDate dateItem) {
+    this.dateItem = dateItem;
+  }
+
+  public TypeHolderDefault datetimeItem(OffsetDateTime datetimeItem) {
+    this.datetimeItem = datetimeItem;
+    return this;
+  }
+
+  /**
+   * Get datetimeItem
+   * @return datetimeItem
+  */
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public OffsetDateTime getDatetimeItem() {
+    return datetimeItem;
+  }
+
+  public void setDatetimeItem(OffsetDateTime datetimeItem) {
+    this.datetimeItem = datetimeItem;
+  }
+
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
     return this;
   }
 
   public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<Integer>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -132,8 +180,7 @@ public class TypeHolderDefault   {
    * Get arrayItem
    * @return arrayItem
   */
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
 
   public List<Integer> getArrayItem() {
@@ -158,12 +205,14 @@ public class TypeHolderDefault   {
         Objects.equals(this.numberItem, typeHolderDefault.numberItem) &&
         Objects.equals(this.integerItem, typeHolderDefault.integerItem) &&
         Objects.equals(this.boolItem, typeHolderDefault.boolItem) &&
+        Objects.equals(this.dateItem, typeHolderDefault.dateItem) &&
+        Objects.equals(this.datetimeItem, typeHolderDefault.datetimeItem) &&
         Objects.equals(this.arrayItem, typeHolderDefault.arrayItem);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
+    return Objects.hash(stringItem, numberItem, integerItem, boolItem, dateItem, datetimeItem, arrayItem);
   }
 
   @Override
@@ -175,6 +224,8 @@ public class TypeHolderDefault   {
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
     sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
     sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
+    sb.append("    dateItem: ").append(toIndentedString(dateItem)).append("\n");
+    sb.append("    datetimeItem: ").append(toIndentedString(datetimeItem)).append("\n");
     sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");
     sb.append("}");
     return sb.toString();

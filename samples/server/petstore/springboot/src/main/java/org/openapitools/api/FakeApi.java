@@ -158,6 +158,17 @@ public interface FakeApi {
     }
 
 
+    @ApiOperation(value = "", nickname = "testEndpointEnumsLengthOne", notes = "This route has required values with enums of 1", tags={ "fake", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Success") })
+    @RequestMapping(value = "/fake/enums-of-length-one/{path_string}/{path_integer}",
+        method = RequestMethod.PUT)
+    default ResponseEntity<Void> testEndpointEnumsLengthOne(@NotNull @ApiParam(value = "", required = true, allowableValues = "3") @Valid @RequestParam(value = "query_integer", required = true) Integer queryInteger,@NotNull @ApiParam(value = "", required = true, allowableValues = "brillig") @Valid @RequestParam(value = "query_string", required = true) String queryString,@ApiParam(value = "",required=true, allowableValues = "\"hello\"") @PathVariable("path_string") String pathString,@ApiParam(value = "",required=true, allowableValues = "34") @PathVariable("path_integer") Integer pathInteger,@ApiParam(value = "" ,required=true, allowableValues="1.234") @RequestHeader(value="header_number", required=true) Double headerNumber) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
     @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", nickname = "testEndpointParameters", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", authorizations = {
         @Authorization(value = "http_basic_test")
     }, tags={ "fake", })

@@ -115,6 +115,18 @@ public interface FakeApiDelegate {
     }
 
     /**
+     * @see FakeApi#testEndpointEnumsLengthOne
+     */
+    default ResponseEntity<Void> testEndpointEnumsLengthOne(Integer queryInteger,
+        String queryString,
+        String pathString,
+        Integer pathInteger,
+        Double headerNumber) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
      * @see FakeApi#testEndpointParameters
      */
     default ResponseEntity<Void> testEndpointParameters(BigDecimal number,

@@ -195,6 +195,35 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of ModelClient</returns>
         ApiResponse<ModelClient> TestClientModelWithHttpInfo (ModelClient body);
         /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// This route has required values with enums of 1
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="queryInteger"></param>
+        /// <param name="queryString"></param>
+        /// <param name="pathString"></param>
+        /// <param name="pathInteger"></param>
+        /// <param name="headerNumber"></param>
+        /// <returns></returns>
+        void TestEndpointEnumsLengthOne (int? queryInteger, string queryString, string pathString, int? pathInteger, double? headerNumber);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// This route has required values with enums of 1
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="queryInteger"></param>
+        /// <param name="queryString"></param>
+        /// <param name="pathString"></param>
+        /// <param name="pathInteger"></param>
+        /// <param name="headerNumber"></param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> TestEndpointEnumsLengthOneWithHttpInfo (int? queryInteger, string queryString, string pathString, int? pathInteger, double? headerNumber);
+        /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
         /// <remarks>
@@ -523,6 +552,35 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">client model</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
         System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClientModelAsyncWithHttpInfo (ModelClient body);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// This route has required values with enums of 1
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="queryInteger"></param>
+        /// <param name="queryString"></param>
+        /// <param name="pathString"></param>
+        /// <param name="pathInteger"></param>
+        /// <param name="headerNumber"></param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task TestEndpointEnumsLengthOneAsync (int? queryInteger, string queryString, string pathString, int? pathInteger, double? headerNumber);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// This route has required values with enums of 1
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="queryInteger"></param>
+        /// <param name="queryString"></param>
+        /// <param name="pathString"></param>
+        /// <param name="pathInteger"></param>
+        /// <param name="headerNumber"></param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointEnumsLengthOneAsyncWithHttpInfo (int? queryInteger, string queryString, string pathString, int? pathInteger, double? headerNumber);
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
@@ -1959,6 +2017,183 @@ namespace Org.OpenAPITools.Api
             return new ApiResponse<ModelClient>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (ModelClient) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(ModelClient)));
+        }
+
+        /// <summary>
+        ///  This route has required values with enums of 1
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="queryInteger"></param>
+        /// <param name="queryString"></param>
+        /// <param name="pathString"></param>
+        /// <param name="pathInteger"></param>
+        /// <param name="headerNumber"></param>
+        /// <returns></returns>
+        public void TestEndpointEnumsLengthOne (int? queryInteger, string queryString, string pathString, int? pathInteger, double? headerNumber)
+        {
+             TestEndpointEnumsLengthOneWithHttpInfo(queryInteger, queryString, pathString, pathInteger, headerNumber);
+        }
+
+        /// <summary>
+        ///  This route has required values with enums of 1
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="queryInteger"></param>
+        /// <param name="queryString"></param>
+        /// <param name="pathString"></param>
+        /// <param name="pathInteger"></param>
+        /// <param name="headerNumber"></param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<Object> TestEndpointEnumsLengthOneWithHttpInfo (int? queryInteger, string queryString, string pathString, int? pathInteger, double? headerNumber)
+        {
+            // verify the required parameter 'queryInteger' is set
+            if (queryInteger == null)
+                throw new ApiException(400, "Missing required parameter 'queryInteger' when calling FakeApi->TestEndpointEnumsLengthOne");
+            // verify the required parameter 'queryString' is set
+            if (queryString == null)
+                throw new ApiException(400, "Missing required parameter 'queryString' when calling FakeApi->TestEndpointEnumsLengthOne");
+            // verify the required parameter 'pathString' is set
+            if (pathString == null)
+                throw new ApiException(400, "Missing required parameter 'pathString' when calling FakeApi->TestEndpointEnumsLengthOne");
+            // verify the required parameter 'pathInteger' is set
+            if (pathInteger == null)
+                throw new ApiException(400, "Missing required parameter 'pathInteger' when calling FakeApi->TestEndpointEnumsLengthOne");
+            // verify the required parameter 'headerNumber' is set
+            if (headerNumber == null)
+                throw new ApiException(400, "Missing required parameter 'headerNumber' when calling FakeApi->TestEndpointEnumsLengthOne");
+
+            var localVarPath = "/fake/enums-of-length-one/{path_string}/{path_integer}";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (pathString != null) localVarPathParams.Add("path_string", this.Configuration.ApiClient.ParameterToString(pathString)); // path parameter
+            if (pathInteger != null) localVarPathParams.Add("path_integer", this.Configuration.ApiClient.ParameterToString(pathInteger)); // path parameter
+            if (queryInteger != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "query_integer", queryInteger)); // query parameter
+            if (queryString != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "query_string", queryString)); // query parameter
+            if (headerNumber != null) localVarHeaderParams.Add("header_number", this.Configuration.ApiClient.ParameterToString(headerNumber)); // header parameter
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestEndpointEnumsLengthOne", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                null);
+        }
+
+        /// <summary>
+        ///  This route has required values with enums of 1
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="queryInteger"></param>
+        /// <param name="queryString"></param>
+        /// <param name="pathString"></param>
+        /// <param name="pathInteger"></param>
+        /// <param name="headerNumber"></param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task TestEndpointEnumsLengthOneAsync (int? queryInteger, string queryString, string pathString, int? pathInteger, double? headerNumber)
+        {
+             await TestEndpointEnumsLengthOneAsyncWithHttpInfo(queryInteger, queryString, pathString, pathInteger, headerNumber);
+
+        }
+
+        /// <summary>
+        ///  This route has required values with enums of 1
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="queryInteger"></param>
+        /// <param name="queryString"></param>
+        /// <param name="pathString"></param>
+        /// <param name="pathInteger"></param>
+        /// <param name="headerNumber"></param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointEnumsLengthOneAsyncWithHttpInfo (int? queryInteger, string queryString, string pathString, int? pathInteger, double? headerNumber)
+        {
+            // verify the required parameter 'queryInteger' is set
+            if (queryInteger == null)
+                throw new ApiException(400, "Missing required parameter 'queryInteger' when calling FakeApi->TestEndpointEnumsLengthOne");
+            // verify the required parameter 'queryString' is set
+            if (queryString == null)
+                throw new ApiException(400, "Missing required parameter 'queryString' when calling FakeApi->TestEndpointEnumsLengthOne");
+            // verify the required parameter 'pathString' is set
+            if (pathString == null)
+                throw new ApiException(400, "Missing required parameter 'pathString' when calling FakeApi->TestEndpointEnumsLengthOne");
+            // verify the required parameter 'pathInteger' is set
+            if (pathInteger == null)
+                throw new ApiException(400, "Missing required parameter 'pathInteger' when calling FakeApi->TestEndpointEnumsLengthOne");
+            // verify the required parameter 'headerNumber' is set
+            if (headerNumber == null)
+                throw new ApiException(400, "Missing required parameter 'headerNumber' when calling FakeApi->TestEndpointEnumsLengthOne");
+
+            var localVarPath = "/fake/enums-of-length-one/{path_string}/{path_integer}";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (pathString != null) localVarPathParams.Add("path_string", this.Configuration.ApiClient.ParameterToString(pathString)); // path parameter
+            if (pathInteger != null) localVarPathParams.Add("path_integer", this.Configuration.ApiClient.ParameterToString(pathInteger)); // path parameter
+            if (queryInteger != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "query_integer", queryInteger)); // query parameter
+            if (queryString != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "query_string", queryString)); // query parameter
+            if (headerNumber != null) localVarHeaderParams.Add("header_number", this.Configuration.ApiClient.ParameterToString(headerNumber)); // header parameter
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestEndpointEnumsLengthOne", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                null);
         }
 
         /// <summary>

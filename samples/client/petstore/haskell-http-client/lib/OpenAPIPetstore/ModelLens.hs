@@ -616,27 +616,37 @@ tagNameL f Tag{..} = (\tagName -> Tag { tagName, ..} ) <$> f tagName
 -- * TypeHolderDefault
 
 -- | 'typeHolderDefaultStringItem' Lens
-typeHolderDefaultStringItemL :: Lens_' TypeHolderDefault (Text)
+typeHolderDefaultStringItemL :: Lens_' TypeHolderDefault (Maybe Text)
 typeHolderDefaultStringItemL f TypeHolderDefault{..} = (\typeHolderDefaultStringItem -> TypeHolderDefault { typeHolderDefaultStringItem, ..} ) <$> f typeHolderDefaultStringItem
 {-# INLINE typeHolderDefaultStringItemL #-}
 
 -- | 'typeHolderDefaultNumberItem' Lens
-typeHolderDefaultNumberItemL :: Lens_' TypeHolderDefault (Double)
+typeHolderDefaultNumberItemL :: Lens_' TypeHolderDefault (Maybe Float)
 typeHolderDefaultNumberItemL f TypeHolderDefault{..} = (\typeHolderDefaultNumberItem -> TypeHolderDefault { typeHolderDefaultNumberItem, ..} ) <$> f typeHolderDefaultNumberItem
 {-# INLINE typeHolderDefaultNumberItemL #-}
 
 -- | 'typeHolderDefaultIntegerItem' Lens
-typeHolderDefaultIntegerItemL :: Lens_' TypeHolderDefault (Int)
+typeHolderDefaultIntegerItemL :: Lens_' TypeHolderDefault (Maybe Int)
 typeHolderDefaultIntegerItemL f TypeHolderDefault{..} = (\typeHolderDefaultIntegerItem -> TypeHolderDefault { typeHolderDefaultIntegerItem, ..} ) <$> f typeHolderDefaultIntegerItem
 {-# INLINE typeHolderDefaultIntegerItemL #-}
 
 -- | 'typeHolderDefaultBoolItem' Lens
-typeHolderDefaultBoolItemL :: Lens_' TypeHolderDefault (Bool)
+typeHolderDefaultBoolItemL :: Lens_' TypeHolderDefault (Maybe Bool)
 typeHolderDefaultBoolItemL f TypeHolderDefault{..} = (\typeHolderDefaultBoolItem -> TypeHolderDefault { typeHolderDefaultBoolItem, ..} ) <$> f typeHolderDefaultBoolItem
 {-# INLINE typeHolderDefaultBoolItemL #-}
 
+-- | 'typeHolderDefaultDateItem' Lens
+typeHolderDefaultDateItemL :: Lens_' TypeHolderDefault (Maybe Date)
+typeHolderDefaultDateItemL f TypeHolderDefault{..} = (\typeHolderDefaultDateItem -> TypeHolderDefault { typeHolderDefaultDateItem, ..} ) <$> f typeHolderDefaultDateItem
+{-# INLINE typeHolderDefaultDateItemL #-}
+
+-- | 'typeHolderDefaultDatetimeItem' Lens
+typeHolderDefaultDatetimeItemL :: Lens_' TypeHolderDefault (Maybe DateTime)
+typeHolderDefaultDatetimeItemL f TypeHolderDefault{..} = (\typeHolderDefaultDatetimeItem -> TypeHolderDefault { typeHolderDefaultDatetimeItem, ..} ) <$> f typeHolderDefaultDatetimeItem
+{-# INLINE typeHolderDefaultDatetimeItemL #-}
+
 -- | 'typeHolderDefaultArrayItem' Lens
-typeHolderDefaultArrayItemL :: Lens_' TypeHolderDefault ([Int])
+typeHolderDefaultArrayItemL :: Lens_' TypeHolderDefault (Maybe [Int])
 typeHolderDefaultArrayItemL f TypeHolderDefault{..} = (\typeHolderDefaultArrayItem -> TypeHolderDefault { typeHolderDefaultArrayItem, ..} ) <$> f typeHolderDefaultArrayItem
 {-# INLINE typeHolderDefaultArrayItemL #-}
 
@@ -645,17 +655,17 @@ typeHolderDefaultArrayItemL f TypeHolderDefault{..} = (\typeHolderDefaultArrayIt
 -- * TypeHolderExample
 
 -- | 'typeHolderExampleStringItem' Lens
-typeHolderExampleStringItemL :: Lens_' TypeHolderExample (Text)
+typeHolderExampleStringItemL :: Lens_' TypeHolderExample (E'StringItem)
 typeHolderExampleStringItemL f TypeHolderExample{..} = (\typeHolderExampleStringItem -> TypeHolderExample { typeHolderExampleStringItem, ..} ) <$> f typeHolderExampleStringItem
 {-# INLINE typeHolderExampleStringItemL #-}
 
 -- | 'typeHolderExampleNumberItem' Lens
-typeHolderExampleNumberItemL :: Lens_' TypeHolderExample (Double)
+typeHolderExampleNumberItemL :: Lens_' TypeHolderExample (E'NumberItem)
 typeHolderExampleNumberItemL f TypeHolderExample{..} = (\typeHolderExampleNumberItem -> TypeHolderExample { typeHolderExampleNumberItem, ..} ) <$> f typeHolderExampleNumberItem
 {-# INLINE typeHolderExampleNumberItemL #-}
 
 -- | 'typeHolderExampleIntegerItem' Lens
-typeHolderExampleIntegerItemL :: Lens_' TypeHolderExample (Int)
+typeHolderExampleIntegerItemL :: Lens_' TypeHolderExample (E'IntegerItem)
 typeHolderExampleIntegerItemL f TypeHolderExample{..} = (\typeHolderExampleIntegerItem -> TypeHolderExample { typeHolderExampleIntegerItem, ..} ) <$> f typeHolderExampleIntegerItem
 {-# INLINE typeHolderExampleIntegerItemL #-}
 
@@ -663,6 +673,16 @@ typeHolderExampleIntegerItemL f TypeHolderExample{..} = (\typeHolderExampleInteg
 typeHolderExampleBoolItemL :: Lens_' TypeHolderExample (Bool)
 typeHolderExampleBoolItemL f TypeHolderExample{..} = (\typeHolderExampleBoolItem -> TypeHolderExample { typeHolderExampleBoolItem, ..} ) <$> f typeHolderExampleBoolItem
 {-# INLINE typeHolderExampleBoolItemL #-}
+
+-- | 'typeHolderExampleDateItem' Lens
+typeHolderExampleDateItemL :: Lens_' TypeHolderExample (E'DateItem)
+typeHolderExampleDateItemL f TypeHolderExample{..} = (\typeHolderExampleDateItem -> TypeHolderExample { typeHolderExampleDateItem, ..} ) <$> f typeHolderExampleDateItem
+{-# INLINE typeHolderExampleDateItemL #-}
+
+-- | 'typeHolderExampleDatetimeItem' Lens
+typeHolderExampleDatetimeItemL :: Lens_' TypeHolderExample (E'DatetimeItem)
+typeHolderExampleDatetimeItemL f TypeHolderExample{..} = (\typeHolderExampleDatetimeItem -> TypeHolderExample { typeHolderExampleDatetimeItem, ..} ) <$> f typeHolderExampleDatetimeItem
+{-# INLINE typeHolderExampleDatetimeItemL #-}
 
 -- | 'typeHolderExampleArrayItem' Lens
 typeHolderExampleArrayItemL :: Lens_' TypeHolderExample ([Int])

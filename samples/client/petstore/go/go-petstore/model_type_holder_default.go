@@ -8,11 +8,17 @@
  */
 
 package petstore
+import (
+	"time"
+)
 
+// a model to test option properties with server defaults
 type TypeHolderDefault struct {
-	StringItem string `json:"string_item"`
-	NumberItem float32 `json:"number_item"`
-	IntegerItem int32 `json:"integer_item"`
-	BoolItem bool `json:"bool_item"`
-	ArrayItem []int32 `json:"array_item"`
+	StringItem string `json:"string_item,omitempty"`
+	NumberItem float32 `json:"number_item,omitempty"`
+	IntegerItem int32 `json:"integer_item,omitempty"`
+	BoolItem bool `json:"bool_item,omitempty"`
+	DateItem string `json:"date_item,omitempty"`
+	DatetimeItem time.Time `json:"datetime_item,omitempty"`
+	ArrayItem []int32 `json:"array_item,omitempty"`
 }

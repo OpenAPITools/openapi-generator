@@ -159,6 +159,62 @@ public interface FakeApi extends ApiClient.Api {
   Client testClientModel(Client body);
 
   /**
+   * 
+   * This route has required values with enums of 1
+   * @param queryInteger  (required)
+   * @param queryString  (required)
+   * @param pathString  (required)
+   * @param pathInteger  (required)
+   * @param headerNumber  (required)
+   */
+  @RequestLine("PUT /fake/enums-of-length-one/{pathString}/{pathInteger}?query_integer={queryInteger}&query_string={queryString}")
+  @Headers({
+    "Accept: application/json",
+    "header_number: {headerNumber}"
+  })
+  void testEndpointEnumsLengthOne(@Param("queryInteger") Integer queryInteger, @Param("queryString") String queryString, @Param("pathString") String pathString, @Param("pathInteger") Integer pathInteger, @Param("headerNumber") Double headerNumber);
+
+  /**
+   * 
+   * This route has required values with enums of 1
+   * Note, this is equivalent to the other <code>testEndpointEnumsLengthOne</code> method,
+   * but with the query parameters collected into a single Map parameter. This
+   * is convenient for services with optional query parameters, especially when
+   * used with the {@link TestEndpointEnumsLengthOneQueryParams} class that allows for
+   * building up this map in a fluent style.
+   * @param pathString  (required)
+   * @param pathInteger  (required)
+   * @param headerNumber  (required)
+   * @param queryParams Map of query parameters as name-value pairs
+   *   <p>The following elements may be specified in the query map:</p>
+   *   <ul>
+   *   <li>queryInteger -  (required)</li>
+   *   <li>queryString -  (required)</li>
+   *   </ul>
+   */
+  @RequestLine("PUT /fake/enums-of-length-one/{pathString}/{pathInteger}?query_integer={queryInteger}&query_string={queryString}")
+  @Headers({
+  "Accept: application/json",
+      "header_number: {headerNumber}"
+  })
+  void testEndpointEnumsLengthOne(@Param("pathString") String pathString, @Param("pathInteger") Integer pathInteger, @Param("headerNumber") Double headerNumber, @QueryMap(encoded=true) Map<String, Object> queryParams);
+
+  /**
+   * A convenience class for generating query parameters for the
+   * <code>testEndpointEnumsLengthOne</code> method in a fluent style.
+   */
+  public static class TestEndpointEnumsLengthOneQueryParams extends HashMap<String, Object> {
+    public TestEndpointEnumsLengthOneQueryParams queryInteger(final Integer value) {
+      put("query_integer", EncodingUtils.encode(value));
+      return this;
+    }
+    public TestEndpointEnumsLengthOneQueryParams queryString(final String value) {
+      put("query_string", EncodingUtils.encode(value));
+      return this;
+    }
+  }
+
+  /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
    * @param number None (required)

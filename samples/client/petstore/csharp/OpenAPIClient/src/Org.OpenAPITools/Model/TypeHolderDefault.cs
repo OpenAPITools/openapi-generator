@@ -25,7 +25,7 @@ using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
-    /// TypeHolderDefault
+    /// a model to test option properties with server defaults
     /// </summary>
     [DataContract]
     public partial class TypeHolderDefault :  IEquatable<TypeHolderDefault>, IValidatableObject
@@ -33,63 +33,54 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeHolderDefault" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected TypeHolderDefault() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TypeHolderDefault" /> class.
-        /// </summary>
-        /// <param name="stringItem">stringItem (required) (default to &quot;what&quot;).</param>
-        /// <param name="numberItem">numberItem (required).</param>
-        /// <param name="integerItem">integerItem (required).</param>
-        /// <param name="boolItem">boolItem (required) (default to true).</param>
-        /// <param name="arrayItem">arrayItem (required).</param>
-        public TypeHolderDefault(string stringItem = "what", decimal? numberItem = default(decimal?), int? integerItem = default(int?), bool? boolItem = true, List<int?> arrayItem = default(List<int?>))
+        /// <param name="stringItem">stringItem (default to &quot;what&quot;).</param>
+        /// <param name="numberItem">numberItem (default to 1.234F).</param>
+        /// <param name="integerItem">integerItem (default to -2).</param>
+        /// <param name="boolItem">boolItem (default to true).</param>
+        /// <param name="dateItem">dateItem.</param>
+        /// <param name="datetimeItem">datetimeItem.</param>
+        /// <param name="arrayItem">arrayItem.</param>
+        public TypeHolderDefault(string stringItem = "what", float? numberItem = 1.234F, int? integerItem = -2, bool? boolItem = true, DateTime? dateItem = default(DateTime?), DateTime? datetimeItem = default(DateTime?), List<int?> arrayItem = default(List<int?>))
         {
-            // to ensure "stringItem" is required (not null)
+            // use default value if no "stringItem" provided
             if (stringItem == null)
             {
-                throw new InvalidDataException("stringItem is a required property for TypeHolderDefault and cannot be null");
+                this.StringItem = "what";
             }
             else
             {
                 this.StringItem = stringItem;
             }
-            // to ensure "numberItem" is required (not null)
+            // use default value if no "numberItem" provided
             if (numberItem == null)
             {
-                throw new InvalidDataException("numberItem is a required property for TypeHolderDefault and cannot be null");
+                this.NumberItem = 1.234F;
             }
             else
             {
                 this.NumberItem = numberItem;
             }
-            // to ensure "integerItem" is required (not null)
+            // use default value if no "integerItem" provided
             if (integerItem == null)
             {
-                throw new InvalidDataException("integerItem is a required property for TypeHolderDefault and cannot be null");
+                this.IntegerItem = -2;
             }
             else
             {
                 this.IntegerItem = integerItem;
             }
-            // to ensure "boolItem" is required (not null)
+            // use default value if no "boolItem" provided
             if (boolItem == null)
             {
-                throw new InvalidDataException("boolItem is a required property for TypeHolderDefault and cannot be null");
+                this.BoolItem = true;
             }
             else
             {
                 this.BoolItem = boolItem;
             }
-            // to ensure "arrayItem" is required (not null)
-            if (arrayItem == null)
-            {
-                throw new InvalidDataException("arrayItem is a required property for TypeHolderDefault and cannot be null");
-            }
-            else
-            {
-                this.ArrayItem = arrayItem;
-            }
+            this.DateItem = dateItem;
+            this.DatetimeItem = datetimeItem;
+            this.ArrayItem = arrayItem;
         }
         
         /// <summary>
@@ -102,7 +93,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NumberItem
         /// </summary>
         [DataMember(Name="number_item", EmitDefaultValue=false)]
-        public decimal? NumberItem { get; set; }
+        public float? NumberItem { get; set; }
 
         /// <summary>
         /// Gets or Sets IntegerItem
@@ -115,6 +106,19 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name="bool_item", EmitDefaultValue=false)]
         public bool? BoolItem { get; set; }
+
+        /// <summary>
+        /// Gets or Sets DateItem
+        /// </summary>
+        [DataMember(Name="date_item", EmitDefaultValue=false)]
+        [JsonConverter(typeof(OpenAPIDateConverter))]
+        public DateTime? DateItem { get; set; }
+
+        /// <summary>
+        /// Gets or Sets DatetimeItem
+        /// </summary>
+        [DataMember(Name="datetime_item", EmitDefaultValue=false)]
+        public DateTime? DatetimeItem { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayItem
@@ -134,6 +138,8 @@ namespace Org.OpenAPITools.Model
             sb.Append("  NumberItem: ").Append(NumberItem).Append("\n");
             sb.Append("  IntegerItem: ").Append(IntegerItem).Append("\n");
             sb.Append("  BoolItem: ").Append(BoolItem).Append("\n");
+            sb.Append("  DateItem: ").Append(DateItem).Append("\n");
+            sb.Append("  DatetimeItem: ").Append(DatetimeItem).Append("\n");
             sb.Append("  ArrayItem: ").Append(ArrayItem).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -190,6 +196,16 @@ namespace Org.OpenAPITools.Model
                     this.BoolItem.Equals(input.BoolItem))
                 ) && 
                 (
+                    this.DateItem == input.DateItem ||
+                    (this.DateItem != null &&
+                    this.DateItem.Equals(input.DateItem))
+                ) && 
+                (
+                    this.DatetimeItem == input.DatetimeItem ||
+                    (this.DatetimeItem != null &&
+                    this.DatetimeItem.Equals(input.DatetimeItem))
+                ) && 
+                (
                     this.ArrayItem == input.ArrayItem ||
                     this.ArrayItem != null &&
                     this.ArrayItem.SequenceEqual(input.ArrayItem)
@@ -213,6 +229,10 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.IntegerItem.GetHashCode();
                 if (this.BoolItem != null)
                     hashCode = hashCode * 59 + this.BoolItem.GetHashCode();
+                if (this.DateItem != null)
+                    hashCode = hashCode * 59 + this.DateItem.GetHashCode();
+                if (this.DatetimeItem != null)
+                    hashCode = hashCode * 59 + this.DatetimeItem.GetHashCode();
                 if (this.ArrayItem != null)
                     hashCode = hashCode * 59 + this.ArrayItem.GetHashCode();
                 return hashCode;

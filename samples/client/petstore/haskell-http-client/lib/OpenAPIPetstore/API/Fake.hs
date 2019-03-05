@@ -273,6 +273,29 @@ instance Consumes TestClientModel MimeJSON
 instance Produces TestClientModel MimeJSON
 
 
+-- *** testEndpointEnumsLengthOne
+
+-- | @PUT \/fake\/enums-of-length-one\/{path_string}\/{path_integer}@
+-- 
+-- This route has required values with enums of 1
+-- 
+testEndpointEnumsLengthOne 
+  :: QueryInteger -- ^ "queryInteger"
+  -> QueryString -- ^ "queryString"
+  -> PathString -- ^ "pathString"
+  -> PathInteger -- ^ "pathInteger"
+  -> HeaderNumber -- ^ "headerNumber"
+  -> OpenAPIPetstoreRequest TestEndpointEnumsLengthOne MimeNoContent NoContent MimeNoContent
+testEndpointEnumsLengthOne (QueryInteger queryInteger) (QueryString queryString) (PathString pathString) (PathInteger pathInteger) (HeaderNumber headerNumber) =
+  _mkRequest "PUT" ["/fake/enums-of-length-one/",toPath pathString,"/",toPath pathInteger]
+    `setQuery` toQuery ("query_integer", Just queryInteger)
+    `setQuery` toQuery ("query_string", Just queryString)
+    `setHeader` toHeader ("header_number", headerNumber)
+
+data TestEndpointEnumsLengthOne  
+instance Produces TestEndpointEnumsLengthOne MimeNoContent
+
+
 -- *** testEndpointParameters
 
 -- | @POST \/fake@

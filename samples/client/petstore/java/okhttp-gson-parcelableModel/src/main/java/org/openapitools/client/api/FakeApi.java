@@ -1012,6 +1012,173 @@ public class FakeApi {
         return localVarCall;
     }
     /**
+     * Build call for testEndpointEnumsLengthOne
+     * @param queryInteger  (required)
+     * @param queryString  (required)
+     * @param pathString  (required)
+     * @param pathInteger  (required)
+     * @param headerNumber  (required)
+     * @param _progressListener Progress listener
+     * @param _progressRequestListener Progress request listener
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call testEndpointEnumsLengthOneCall(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/fake/enums-of-length-one/{path_string}/{path_integer}"
+            .replaceAll("\\{" + "path_string" + "\\}", localVarApiClient.escapeString(pathString.toString()))
+            .replaceAll("\\{" + "path_integer" + "\\}", localVarApiClient.escapeString(pathInteger.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (queryInteger != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("query_integer", queryInteger));
+        }
+
+        if (queryString != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("query_string", queryString));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        if (headerNumber != null) {
+            localVarHeaderParams.put("header_number", localVarApiClient.parameterToString(headerNumber));
+        }
+
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        if (_progressListener != null) {
+            localVarApiClient.setHttpClient(localVarApiClient.getHttpClient().newBuilder().addNetworkInterceptor(new okhttp3.Interceptor() {
+                @Override
+                public okhttp3.Response intercept(okhttp3.Interceptor.Chain chain) throws IOException {
+                    okhttp3.Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                            .body(new ProgressResponseBody(originalResponse.body(), _progressListener))
+                            .build();
+                }
+            }).build());
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _progressRequestListener);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call testEndpointEnumsLengthOneValidateBeforeCall(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
+        
+        // verify the required parameter 'queryInteger' is set
+        if (queryInteger == null) {
+            throw new ApiException("Missing the required parameter 'queryInteger' when calling testEndpointEnumsLengthOne(Async)");
+        }
+        
+        // verify the required parameter 'queryString' is set
+        if (queryString == null) {
+            throw new ApiException("Missing the required parameter 'queryString' when calling testEndpointEnumsLengthOne(Async)");
+        }
+        
+        // verify the required parameter 'pathString' is set
+        if (pathString == null) {
+            throw new ApiException("Missing the required parameter 'pathString' when calling testEndpointEnumsLengthOne(Async)");
+        }
+        
+        // verify the required parameter 'pathInteger' is set
+        if (pathInteger == null) {
+            throw new ApiException("Missing the required parameter 'pathInteger' when calling testEndpointEnumsLengthOne(Async)");
+        }
+        
+        // verify the required parameter 'headerNumber' is set
+        if (headerNumber == null) {
+            throw new ApiException("Missing the required parameter 'headerNumber' when calling testEndpointEnumsLengthOne(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = testEndpointEnumsLengthOneCall(queryInteger, queryString, pathString, pathInteger, headerNumber, _progressListener, _progressRequestListener);
+        return localVarCall;
+
+    }
+
+    /**
+     * 
+     * This route has required values with enums of 1
+     * @param queryInteger  (required)
+     * @param queryString  (required)
+     * @param pathString  (required)
+     * @param pathInteger  (required)
+     * @param headerNumber  (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public void testEndpointEnumsLengthOne(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber) throws ApiException {
+        testEndpointEnumsLengthOneWithHttpInfo(queryInteger, queryString, pathString, pathInteger, headerNumber);
+    }
+
+    /**
+     * 
+     * This route has required values with enums of 1
+     * @param queryInteger  (required)
+     * @param queryString  (required)
+     * @param pathString  (required)
+     * @param pathInteger  (required)
+     * @param headerNumber  (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Void> testEndpointEnumsLengthOneWithHttpInfo(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber) throws ApiException {
+        okhttp3.Call localVarCall = testEndpointEnumsLengthOneValidateBeforeCall(queryInteger, queryString, pathString, pathInteger, headerNumber, null, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     *  (asynchronously)
+     * This route has required values with enums of 1
+     * @param queryInteger  (required)
+     * @param queryString  (required)
+     * @param pathString  (required)
+     * @param pathInteger  (required)
+     * @param headerNumber  (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call testEndpointEnumsLengthOneAsync(Integer queryInteger, String queryString, String pathString, Integer pathInteger, Double headerNumber, final ApiCallback<Void> _callback) throws ApiException {
+
+        ProgressResponseBody.ProgressListener _progressListener = null;
+        ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
+
+        if (_callback != null) {
+            _progressListener = new ProgressResponseBody.ProgressListener() {
+                @Override
+                public void update(long bytesRead, long contentLength, boolean done) {
+                    _callback.onDownloadProgress(bytesRead, contentLength, done);
+                }
+            };
+
+            _progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
+                @Override
+                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
+                    _callback.onUploadProgress(bytesWritten, contentLength, done);
+                }
+            };
+        }
+
+        okhttp3.Call localVarCall = testEndpointEnumsLengthOneValidateBeforeCall(queryInteger, queryString, pathString, pathInteger, headerNumber, _progressListener, _progressRequestListener);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
      * Build call for testEndpointParameters
      * @param number None (required)
      * @param _double None (required)

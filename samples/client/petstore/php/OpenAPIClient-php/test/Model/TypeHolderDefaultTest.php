@@ -35,7 +35,7 @@ use PHPUnit\Framework\TestCase;
  * TypeHolderDefaultTest Class Doc Comment
  *
  * @category    Class
- * @description TypeHolderDefault
+ * @description a model to test option properties with server defaults
  * @package     OpenAPI\Client
  * @author      OpenAPI Generator team
  * @link        https://openapi-generator.tech
@@ -103,6 +103,20 @@ class TypeHolderDefaultTest extends TestCase
      * Test attribute "bool_item"
      */
     public function testPropertyBoolItem()
+    {
+    }
+
+    /**
+     * Test attribute "date_item"
+     */
+    public function testPropertyDateItem()
+    {
+    }
+
+    /**
+     * Test attribute "datetime_item"
+     */
+    public function testPropertyDatetimeItem()
     {
     }
 
