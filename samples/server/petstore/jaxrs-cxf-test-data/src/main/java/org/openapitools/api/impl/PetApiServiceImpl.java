@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
-import org.openapitools.model.Tag;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -39,7 +38,7 @@ public class PetApiServiceImpl implements PetApi {
     {
         try {
             File cacheFile = new File(System.getProperty("jaxrs.test.server.json",
-                    "C:\\source\\GitHub\\demonfiddler\\openapi-generator\\samples\\server\\petstore\\jaxrs-cxf-test-data\\src\\main\\resources\\test-data.json"));
+                    "/Users/williamcheng/Code/demonfiddler/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
             cache = JsonCache.Factory.instance.get("test-data").load(cacheFile).child("/org.openapitools.api/PetApi");
         } catch (CacheException e) {
             e.printStackTrace();

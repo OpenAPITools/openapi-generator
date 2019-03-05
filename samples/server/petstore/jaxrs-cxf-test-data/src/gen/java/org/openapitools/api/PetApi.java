@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
-import org.openapitools.model.Tag;
 
 import java.io.InputStream;
 import java.io.OutputStream;
