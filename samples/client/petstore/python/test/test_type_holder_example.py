@@ -30,12 +30,9 @@ class TestTypeHolderExample(unittest.TestCase):
 
     def testTypeHolderExample(self):
         """Test TypeHolderExample"""
-        model = TypeHolderExample()
-        self.assertEqual(model.string_item, 'what')
-        self.assertEqual(model.number_item, 1.234)
-        self.assertEqual(model.integer_item, -2)
-        self.assertEqual(model.bool_item, True)
-        self.assertEqual(model.array_item, [0, 1, 2, 3])
+        # FIXME: construct object with mandatory attributes with example values
+        # model = petstore_api.models.type_holder_example.TypeHolderExample()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

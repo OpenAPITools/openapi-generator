@@ -17,48 +17,90 @@
     {{#vars}}
     `{{{baseName}}}` = NULL,
     {{/vars}}
-    initialize = function({{#vars}}`{{baseName}}`{{#hasMore}}, {{/hasMore}}{{/vars}}){
-      {{#vars}}
+    initialize = function({{#requiredVars}}`{{baseName}}`{{#hasMore}}, {{/hasMore}}{{/requiredVars}}{{#optionalVars}}{{#-first}}{{#requiredVars.0}}, {{/requiredVars.0}}{{/-first}}`{{baseName}}`={{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}NULL{{/defaultValue}}{{^-last}}, {{/-last}}{{/optionalVars}}, ...){
+      local.optional.var <- list(...)
+      {{#requiredVars}}
       if (!missing(`{{baseName}}`)) {
         {{^isListContainer}}
-            {{#isInteger}}
-                stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
-            {{/isInteger}}
-            {{#isLong}}
-                stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
-            {{/isLong}}
-            {{#isFloat}}
-                stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
-            {{/isFloat}}
-            {{#isDouble}}
-                stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
-            {{/isDouble}}
-            {{#isString}}
-                stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
-            {{/isString}}
-            {{#isDate}}
-                stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
-            {{/isDate}}
-            {{#isDateTime}}
-                stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
-            {{/isDateTime}}
-            {{^isPrimitiveType}}
-                stopifnot(R6::is.R6(`{{baseName}}`))
-            {{/isPrimitiveType}}
+        {{#isInteger}}
+        stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isInteger}}
+        {{#isLong}}
+        stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isLong}}
+        {{#isFloat}}
+        stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isFloat}}
+        {{#isDouble}}
+        stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isDouble}}
+        {{#isString}}
+        stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isString}}
+        {{#isDate}}
+        stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isDate}}
+        {{#isDateTime}}
+        stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isDateTime}}
+        {{^isPrimitiveType}}
+        stopifnot(R6::is.R6(`{{baseName}}`))
+        {{/isPrimitiveType}}
         {{/isListContainer}}
         {{#isListContainer}}
-            {{#isPrimitiveType}}
-                stopifnot(is.vector(`{{baseName}}`), length(`{{baseName}}`) != 0)
-                sapply(`{{baseName}}`, function(x) stopifnot(is.character(x)))
-            {{/isPrimitiveType}}
-            {{^isPrimitiveType}}
-                stopifnot(is.vector(`{{baseName}}`), length(`{{baseName}}`) != 0)
-                sapply(`{{baseName}}`, function(x) stopifnot(R6::is.R6(x)))
-            {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+        stopifnot(is.vector(`{{baseName}}`), length(`{{baseName}}`) != 0)
+        sapply(`{{baseName}}`, function(x) stopifnot(is.character(x)))
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        stopifnot(is.vector(`{{baseName}}`), length(`{{baseName}}`) != 0)
+        sapply(`{{baseName}}`, function(x) stopifnot(R6::is.R6(x)))
+        {{/isPrimitiveType}}
         {{/isListContainer}}
         self$`{{baseName}}` <- `{{baseName}}`
       }
-      {{/vars}}
+      {{/requiredVars}}
+      {{#optionalVars}}
+      if (!is.null(`{{baseName}}`)) {
+        {{^isListContainer}}
+        {{#isInteger}}
+        stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isInteger}}
+        {{#isLong}}
+        stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isLong}}
+        {{#isFloat}}
+        stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isFloat}}
+        {{#isDouble}}
+        stopifnot(is.numeric(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isDouble}}
+        {{#isString}}
+        stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isString}}
+        {{#isDate}}
+        stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isDate}}
+        {{#isDateTime}}
+        stopifnot(is.character(`{{baseName}}`), length(`{{baseName}}`) == 1)
+        {{/isDateTime}}
+        {{^isPrimitiveType}}
+        stopifnot(R6::is.R6(`{{baseName}}`))
+        {{/isPrimitiveType}}
+        {{/isListContainer}}
+        {{#isListContainer}}
+        {{#isPrimitiveType}}
+        stopifnot(is.vector(`{{baseName}}`), length(`{{baseName}}`) != 0)
+        sapply(`{{baseName}}`, function(x) stopifnot(is.character(x)))
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        stopifnot(is.vector(`{{baseName}}`), length(`{{baseName}}`) != 0)
+        sapply(`{{baseName}}`, function(x) stopifnot(R6::is.R6(x)))
+        {{/isPrimitiveType}}
+        {{/isListContainer}}
+        self$`{{baseName}}` <- `{{baseName}}`
+      }
+      {{/optionalVars}}
     },
     toJSON = function() {
       {{classname}}Object <- list()
@@ -66,20 +108,20 @@
       if (!is.null(self$`{{baseName}}`)) {
         {{classname}}Object[['{{baseName}}']] <-
         {{#isListContainer}}
-            {{#isPrimitiveType}}
-                self$`{{baseName}}`
-            {{/isPrimitiveType}}
-            {{^isPrimitiveType}}
-                sapply(self$`{{baseName}}`, function(x) x$toJSON())
-            {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+          self$`{{baseName}}`
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+          sapply(self$`{{baseName}}`, function(x) x$toJSON())
+        {{/isPrimitiveType}}
         {{/isListContainer}}
         {{^isListContainer}}
-            {{#isPrimitiveType}}
-                self$`{{baseName}}`
-            {{/isPrimitiveType}}
-            {{^isPrimitiveType}}
-                self$`{{baseName}}`$toJSON()
-            {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+          self$`{{baseName}}`
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+          self$`{{baseName}}`$toJSON()
+        {{/isPrimitiveType}}
         {{/isListContainer}}
       }
       {{/vars}}
@@ -91,94 +133,100 @@
       {{#vars}}
       if (!is.null({{classname}}Object$`{{baseName}}`)) {
         {{#isListContainer}}
-            {{#isPrimitiveType}}
-                self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
-            {{/isPrimitiveType}}
-            {{^isPrimitiveType}}
-                self$`{{baseName}}` <- sapply({{classname}}Object$`{{baseName}}`, function(x) {
-                  {{baseName}}Object <- {{dataType}}$new()
-                  {{baseName}}Object$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE))
-                  {{baseName}}Object
-            })
-            {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+        self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        self$`{{baseName}}` <- sapply({{classname}}Object$`{{baseName}}`, function(x) {
+          {{baseName}}Object <- {{dataType}}$new()
+          {{baseName}}Object$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE))
+          {{baseName}}Object
+        })
+        {{/isPrimitiveType}}
         {{/isListContainer}}
         {{^isListContainer}}
-            {{#isPrimitiveType}}
-                self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
-            {{/isPrimitiveType}}
-            {{^isPrimitiveType}}
-                {{baseName}}Object <- {{dataType}}$new()
-                {{baseName}}Object$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
-                self$`{{baseName}}` <- {{baseName}}Object
-            {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+        self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{baseName}}Object <- {{dataType}}$new()
+        {{baseName}}Object$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
+        self$`{{baseName}}` <- {{baseName}}Object
+        {{/isPrimitiveType}}
         {{/isListContainer}}
       }
       {{/vars}}
     },
     toJSONString = function() {
-       outstring <- sprintf(
+      sprintf(
         '{
            {{#vars}}
            "{{baseName}}":
-              {{#isListContainer}}
-                 {{#isPrimitiveType}}
-                      {{#isNumeric}}[%d]{{/isNumeric}}
-                      {{^isNumeric}}["%s"]{{/isNumeric}}
-                  {{/isPrimitiveType}}
-                  {{^isPrimitiveType}}["%s"]{{/isPrimitiveType}}
-              {{/isListContainer}}
-              {{^isListContainer}}
-                  {{#isPrimitiveType}}
-                      {{#isNumeric}}%d{{/isNumeric}}
-                      {{^isNumeric}}"%s"{{/isNumeric}}
-                  {{/isPrimitiveType}}
-                  {{^isPrimitiveType}}"%s"{{/isPrimitiveType}}
-              {{/isListContainer}}
-              {{#hasMore}},{{/hasMore}}
+           {{#isListContainer}}
+           {{#isPrimitiveType}}
+             {{#isNumeric}}[%d]{{/isNumeric}}{{^isNumeric}}[%s]{{/isNumeric}}{{#hasMore}},{{/hasMore}}
+           {{/isPrimitiveType}}
+           {{^isPrimitiveType}}
+             [%s]{{#hasMore}},{{/hasMore}}
+           {{/isPrimitiveType}}
+           {{/isListContainer}}
+           {{^isListContainer}}
+           {{#isPrimitiveType}}
+             {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}"%s"{{/isNumeric}}{{#hasMore}},{{/hasMore}}
+           {{/isPrimitiveType}}
+           {{^isPrimitiveType}}
+             %s{{#hasMore}},{{/hasMore}}
+           {{/isPrimitiveType}}
+           {{/isListContainer}}
            {{/vars}}
         }',
         {{#vars}}
         {{#isListContainer}}
-            {{#isPrimitiveType}}
-                paste0(self$`{{baseName}}`, collapse='","'){{#hasMore}},{{/hasMore}}
-            {{/isPrimitiveType}}
-            {{^isPrimitiveType}}
-                paste0(sapply(self$`{{baseName}}`, function(x) x$toJSON()), collapse='","'){{#hasMore}},{{/hasMore}}
-            {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+        paste(unlist(lapply(self$`{{{baseName}}}`, function(x) paste0('"', x, '"'))), collapse=","){{#hasMore}},{{/hasMore}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        paste(unlist(lapply(self$`{{{baseName}}}`, function(x) jsonlite::toJSON(x$toJSON(), auto_unbox=TRUE))), collapse=","){{#hasMore}},{{/hasMore}}
+        {{/isPrimitiveType}}
         {{/isListContainer}}
         {{^isListContainer}}
-            {{#isPrimitiveType}}
-                self$`{{baseName}}`{{#hasMore}},{{/hasMore}}
-            {{/isPrimitiveType}}
-            {{^isPrimitiveType}}
-                self$`{{baseName}}`$toJSON(){{#hasMore}},{{/hasMore}}
-            {{/isPrimitiveType}}
+        {{#isPrimitiveType}}
+        self$`{{baseName}}`{{#hasMore}},{{/hasMore}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        jsonlite::toJSON(self$`{{baseName}}`$toJSON(), auto_unbox=TRUE){{#hasMore}},{{/hasMore}}
+        {{/isPrimitiveType}}
         {{/isListContainer}}
         {{/vars}}
       )
-      gsub("[\r\n]| ", "", outstring)
     },
     fromJSONString = function({{classname}}Json) {
       {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
       {{#vars}}
       {{#isListContainer}}
-          {{#isPrimitiveType}}
-              self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
-          {{/isPrimitiveType}}
-          {{^isPrimitiveType}}
-              self$`{{baseName}}` <- sapply({{classname}}Object$`{{baseName}}`, function(x) {{dataType}}$new()$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE)))
-          {{/isPrimitiveType}}
+      {{#isPrimitiveType}}
+      self$`{{baseName}}` <- lapply({{classname}}Object$`{{baseName}}`, function (x) x)
+      {{/isPrimitiveType}}
+      {{^isPrimitiveType}}
+      data.frame <- {{classname}}Object$`{{baseName}}`
+      self$`{{baseName}}` <- vector("list", length = nrow(data.frame))
+      for (row in 1:nrow(data.frame)) {
+          {{baseName}}.node <- {{dataType}}$new()
+          {{baseName}}.node$fromJSON(jsonlite::toJSON(data.frame[row,,drop = TRUE], auto_unbox = TRUE))
+          self$`{{baseName}}`[[row]] <- {{baseName}}.node
+      }
+      {{/isPrimitiveType}}
       {{/isListContainer}}
       {{^isListContainer}}
-          {{#isPrimitiveType}}
-              self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
-          {{/isPrimitiveType}}
-          {{^isPrimitiveType}}
-              {{dataType}}Object <- {{dataType}}$new()
-              self$`{{baseName}}` <- {{dataType}}Object$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
-          {{/isPrimitiveType}}
+      {{#isPrimitiveType}}
+      self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
+      {{/isPrimitiveType}}
+      {{^isPrimitiveType}}
+      self$`{{baseName}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
+      {{/isPrimitiveType}}
       {{/isListContainer}}
       {{/vars}}
+      self
     }
   )
 )

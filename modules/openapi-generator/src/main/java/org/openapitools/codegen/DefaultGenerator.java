@@ -433,13 +433,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 } else if (ModelUtils.isMapSchema(schema)) { // check to see if it's a "map" model
                     if (!ModelUtils.isGenerateAliasAsModel() && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
                         // schema without property, i.e. alias to map
-                        LOGGER.info("Model " + name + " not generated since it's an alias to map (without property)");
+                        LOGGER.info("Model " + name + " not generated since it's an alias to map (without property) and `generateAliasAsModel` is set to false (default)");
                         continue;
                     }
                 } else if (ModelUtils.isArraySchema(schema)) { // check to see if it's an "array" model
                     if (!ModelUtils.isGenerateAliasAsModel() && (schema.getProperties() == null || schema.getProperties().isEmpty())) {
                         // schema without property, i.e. alias to array
-                        LOGGER.info("Model " + name + " not generated since it's an alias to array (without property)");
+                        LOGGER.info("Model " + name + " not generated since it's an alias to array (without property) and `generateAliasAsModel` is set to false (default)");
                         continue;
                     }
                 }

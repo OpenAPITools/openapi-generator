@@ -78,7 +78,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         importMapping.put("DateTime", "org.joda.time.DateTime");
         importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("Integer", "Int");
         typeMapping.put("enum", "NSString");
         typeMapping.put("array", "Seq");
@@ -91,7 +91,6 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         typeMapping.put("byte", "Byte");
         typeMapping.put("short", "Short");
         typeMapping.put("char", "Char");
-        typeMapping.put("long", "Long");
         typeMapping.put("double", "Double");
         typeMapping.put("object", "Any");
         typeMapping.put("file", "File");

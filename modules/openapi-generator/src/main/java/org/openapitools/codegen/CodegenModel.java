@@ -621,11 +621,15 @@ public class CodegenModel {
      */
     public void removeSelfReferenceImport() {
         for (CodegenProperty cp : allVars) {
-            // detect self import
-            if (cp.dataType.equalsIgnoreCase(this.classname) ||
-                    (cp.isContainer && cp.items.dataType.equalsIgnoreCase(this.classname))) {
-                this.imports.remove(this.classname); // remove self import
-                cp.isSelfReference = true;
+            if (cp == null) {
+                // TODO cp shouldn't be null. Show a warning message instead
+            } else {
+                // detect self import
+                if (this.classname.equalsIgnoreCase(cp.dataType) ||
+                        (cp.isContainer && cp.items != null && this.classname.equalsIgnoreCase(cp.items.dataType))) {
+                    this.imports.remove(this.classname); // remove self import
+                    cp.isSelfReference = true;
+                }
             }
         }
     }
