@@ -106,10 +106,9 @@ class ApiClient(object):
     {{#asyncio}}async {{/asyncio}}def __call_api(
             self, resource_path, method, path_params=None,
             query_params=None, header_params=None, body=None, post_params=None,
-            files=None, response_type=None, auth_settings=None,
+            files=None, response_types=None, auth_settings=None,
             _return_http_data_only=None, collection_formats=None,
-            _preload_content=True, _request_timeout=None, _host=None,
-            response_types=None):
+            _preload_content=True, _request_timeout=None, _host=None):
 
         config = self.configuration
         if response_types is None:
@@ -180,9 +179,9 @@ class ApiClient(object):
         return_data = response_data
         if _preload_content:
             # deserialize response data
-            if response_types and response_type:
-                _response_type = response_types.get(response_data.status, response_type)
-                return_data = self.deserialize(response_data, _response_type)
+            if response_types and response_data.status in response_types:
+                response_type = response_types[response_data.status]
+                return_data = self.deserialize(response_data, response_type)
             else:
                 return_data = None
 
@@ -307,10 +306,9 @@ class ApiClient(object):
     def call_api(self, resource_path, method,
                  path_params=None, query_params=None, header_params=None,
                  body=None, post_params=None, files=None,
-                 response_type=None, auth_settings=None, async_req=None,
+                 response_types=None, auth_settings=None, async_req=None,
                  _return_http_data_only=None, collection_formats=None,
-                 _preload_content=True, _request_timeout=None, _host=None,
-                 response_types=None):
+                 _preload_content=True, _request_timeout=None, _host=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
 
         To make an async_req request, set the async_req parameter.
@@ -351,21 +349,21 @@ class ApiClient(object):
             return self.__call_api(resource_path, method,
                                    path_params, query_params, header_params,
                                    body, post_params, files,
-                                   response_type, auth_settings,
+                                   response_types, auth_settings,
                                    _return_http_data_only, collection_formats,
                                    _preload_content, _request_timeout,
-                                   _host, response_types)
+                                   _host)
         else:
             thread = self.pool.apply_async(self.__call_api, (resource_path,
                                            method, path_params, query_params,
                                            header_params, body,
                                            post_params, files,
-                                           response_type, auth_settings,
+                                           response_types, auth_settings,
                                            _return_http_data_only,
                                            collection_formats,
                                            _preload_content,
                                            _request_timeout,
-                                           _host, response_types))
+                                           _host))
         return thread
 
     def request(self, method, url, query_params=None, headers=None,
