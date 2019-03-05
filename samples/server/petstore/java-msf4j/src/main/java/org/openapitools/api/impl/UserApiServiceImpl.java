@@ -20,19 +20,19 @@ import javax.ws.rs.core.SecurityContext;
 
 public class UserApiServiceImpl extends UserApiService {
     @Override
-    public Response createUser(User user
+    public Response createUser(User body
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response createUsersWithArrayInput(List<User> user
+    public Response createUsersWithArrayInput(List<User> body
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response createUsersWithListInput(List<User> user
+    public Response createUsersWithListInput(List<User> body
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
@@ -63,7 +63,7 @@ public class UserApiServiceImpl extends UserApiService {
     }
     @Override
     public Response updateUser(String username
-, User user
+, User body
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
