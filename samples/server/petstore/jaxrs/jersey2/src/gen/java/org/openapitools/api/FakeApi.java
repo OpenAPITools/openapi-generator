@@ -242,15 +242,16 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testInlineAdditionalProperties(param,securityContext);
     }
+
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
-    
+
     @io.swagger.annotations.ApiOperation(value = "test json serialization of form data", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response testJsonFormData(@ApiParam(value = "field1", required=true)  @FormParam("param")  String param
-,@ApiParam(value = "field2", required=true)  @FormParam("param2")  String param2
+    public Response testJsonFormData(@ApiParam(value = "field1", required=true)  String param
+,@ApiParam(value = "field2", required=true)   String param2
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testJsonFormData(param,param2,securityContext);
