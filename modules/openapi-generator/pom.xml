@@ -162,7 +162,6 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.0.1</version>
                 <configuration>
-                    <aggregate>true</aggregate>
                     <debug>true</debug>
                     <links>
                         <link>http://java.sun.com/javaee/5/docs/api</link>
