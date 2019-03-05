@@ -622,8 +622,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // convert datetime and date enums if they exist
-        DateFormat iso8601Date = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat iso8601DateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        DateFormat iso8601Date = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
+        DateFormat iso8601DateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
         TimeZone utc = TimeZone.getTimeZone("UTC");
         iso8601Date.setTimeZone(utc);
         iso8601DateTime.setTimeZone(utc);
