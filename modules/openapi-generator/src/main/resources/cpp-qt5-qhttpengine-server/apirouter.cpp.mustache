@@ -18,13 +18,17 @@ namespace {{this}} {
 }
 
 {{prefix}}ApiRouter::~{{prefix}}ApiRouter(){
-    {{#apiInfo}}{{#apis}}
-    delete {{classname}}ApiHandler;{{/apis}}{{/apiInfo}}
+
 }
 
 void {{prefix}}ApiRouter::createApiHandlers() { {{#apiInfo}}{{#apis}}
-    {{classname}}ApiHandler = new {{classname}}Handler();{{/apis}}{{/apiInfo}}
+    {{classname}}ApiHandler = QSharedPointer<{{classname}}Handler>::create();{{/apis}}{{/apiInfo}}
 }
+
+{{#apiInfo}}{{#apis}}
+void {{prefix}}ApiRouter::set{{classname}}ApiHandler(QSharedPointer<{{classname}}Handler> handler){
+    {{classname}}ApiHandler = handler;
+}{{/apis}}{{/apiInfo}}
 
 void {{prefix}}ApiRouter::setUpRoutes() {
     {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{^hasPathParams}}
