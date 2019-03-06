@@ -32,7 +32,7 @@ class OAIStoreApiRequest : public QObject
     Q_OBJECT
 
 public:
-    OAIStoreApiRequest(QHttpEngine::Socket *s, OAIStoreApiHandler* handler);
+    OAIStoreApiRequest(QHttpEngine::Socket *s, QSharedPointer<OAIStoreApiHandler> handler);
     virtual ~OAIStoreApiRequest();
 
     void deleteOrderRequest(const QString& order_id);
@@ -74,7 +74,7 @@ private:
     QMap<QString, QString> requestHeaders;
     QMap<QString, QString> responseHeaders;
     QHttpEngine::Socket  *socket;
-    OAIStoreApiHandler *handler;
+    QSharedPointer<OAIStoreApiHandler> handler;
 
     inline void writeResponseHeaders(){
         QHttpEngine::Socket::HeaderMap resHeaders;
