@@ -602,6 +602,17 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return underscore(packageName.replaceAll("[^\\w]+", ""));
     }
 
+    public String dateToString(Schema p, Date date, DateFormat dateFormatter, DateFormat dateTimeFormatter) {
+        // converts a date into a date or date-time python string
+        if (!(ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p))) {
+            throw new RuntimeException("passed schema must be of type Date or DateTime");
+        }
+        if (ModelUtils.isDateSchema(p)) {
+            return "dateutil_parser('" + dateFormatter.format(date) + "').date()";
+        }
+        return "dateutil_parser('" + dateTimeFormatter.format(date) + "')";
+    }
+
     /**
      * Return the default value of the property
      * @param p OpenAPI property object
@@ -631,15 +642,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
             List<Object> currentEnum = p.getEnum();
             List<String> fixedEnum = new ArrayList<String>();
-            String fixedValue=null;
+            String fixedValue = null;
+            Date date = null;
             if (currentEnum != null && !currentEnum.isEmpty()) {
                 for (Object enumItem : currentEnum) {
-                    Date date = (Date) enumItem;
-                    if (ModelUtils.isDateSchema(p)) {
-                        fixedValue = "dateutil_parser('" + iso8601Date.format(date) + "').date()";
-                    } else if (ModelUtils.isDateTimeSchema(p)) {
-                        fixedValue = "dateutil_parser('" + iso8601DateTime.format(date) + "')";
-                    }
+                    date = (Date) enumItem;
+                    fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
                     fixedEnum.add(fixedValue);
                 }
                 p.setEnum(fixedEnum);
@@ -648,16 +656,20 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             // convert the example if it exists
             Object currentExample = p.getExample();
             if (currentExample != null) {
-                Date date = (Date) currentExample;
-                if (ModelUtils.isDateSchema(p)) {
-                    fixedValue = "dateutil_parser('" + iso8601Date.format(date) + "').date()";
-                } else if (ModelUtils.isDateTimeSchema(p)) {
-                    fixedValue = "dateutil_parser('" + iso8601DateTime.format(date) + "')";
-                }
+                date = (Date) currentExample;
+                fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
+                fixedEnum.add(fixedValue);
                 p.setExample(fixedValue);
             }
-        }
 
+            // fix defaultObject
+            if (defaultObject != null) {
+                date = (Date) defaultObject;
+                fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
+                p.setDefault(fixedValue);
+                defaultObject = fixedValue;
+            }
+        }
 
         if (defaultObject == null) {
             return null;
@@ -665,17 +677,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         String defaultValue = null;
         if (ModelUtils.isStringSchema(p)) {
+            defaultValue = defaultObject.toString();
             if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
-                Date date = (Date) defaultObject;
-                if (ModelUtils.isDateSchema(p)) {
-                    defaultValue = "dateutil_parser('" + iso8601Date.format(date) + "').date()";
-                } else if (ModelUtils.isDateTimeSchema(p)) {
-                    defaultValue = "dateutil_parser('" + iso8601DateTime.format(date) + "')";
-                }
                 return defaultValue;
             }
 
-            defaultValue = defaultObject.toString();
             if (!ModelUtils.isByteArraySchema(p) && !ModelUtils.isBinarySchema(p) && !ModelUtils.isFileSchema(p) && !ModelUtils.isUUIDSchema(p) && !ModelUtils.isEmailSchema(p) && !ModelUtils.isDateTimeSchema(p) && !ModelUtils.isDateSchema(p)) {
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) defaultValue).find()) {
                     defaultValue = "'''" + defaultValue + "'''";

@@ -14,10 +14,11 @@ from __future__ import absolute_import
 
 import unittest
 
-from dateutil.parser import parse as dateutil_parser  # noqa: F401
+from dateutil.parser import parse as dateutil_parser
+import six
 
 import petstore_api
-from petstore_api.models.type_holder_example import TypeHolderExample  # noqa: E501
+from petstore_api.models.type_holder_example import TypeHolderExample
 from petstore_api.rest import ApiException
 
 
@@ -38,13 +39,46 @@ class TestTypeHolderExample(unittest.TestCase):
         # bool item and array item still need to be set
         # swagger-parser does not see array enums yet https://github.com/swagger-api/swagger-parser/issues/985
         # swagger-parser does not see bool enums yet https://github.com/swagger-api/swagger-parser/issues/985
-        assigned_variables = {}
-        model = TypeHolderExample(bool_item=True, array_item=[1])
-        self.assertEqual(model.string_item, 'what')
-        self.assertEqual(model.number_item, 1.2339999675750732)
-        self.assertEqual(model.integer_item, -2)
-        self.assertEqual(model.date_item, dateutil_parser('2017-07-21').date())
-        self.assertEqual(model.datetime_item, dateutil_parser('2017-07-21T17:32:28.000Z'))
+        required_keyword_args = dict(bool_item=True, array_item=[1])
+        instance = TypeHolderExample(**required_keyword_args)
+        self.assertEqual(instance.string_item, 'what')
+        self.assertEqual(instance.number_item, 1.2339999675750732)
+        self.assertEqual(instance.integer_item, -2)
+        self.assertEqual(instance.date_item, dateutil_parser('2017-07-21').date())
+        self.assertEqual(instance.datetime_item, dateutil_parser('2017-07-21T17:32:28.000Z'))
+
+        # one can pass the allowed values in to the constructor
+        keyword_args = dict(
+            string_item='what',
+            number_item=1.2339999675750732,
+            integer_item=-2,
+            date_item=dateutil_parser('2017-07-21').date(),
+            datetime_item=dateutil_parser('2017-07-21T17:32:28.000Z'),
+        )
+        keyword_args.update(required_keyword_args)
+        instance = TypeHolderExample(**required_keyword_args)
+        self.assertEqual(instance.string_item, 'what')
+        self.assertEqual(instance.number_item, 1.2339999675750732)
+        self.assertEqual(instance.integer_item, -2)
+        self.assertEqual(instance.date_item, dateutil_parser('2017-07-21').date())
+        self.assertEqual(instance.datetime_item, dateutil_parser('2017-07-21T17:32:28.000Z'))
+
+        # we get value errors when we try to pass in invalid values
+        keyword_args_invalid = dict(
+            string_item='wallaby',
+            number_item=-7.11,
+            integer_item=48,
+            date_item=dateutil_parser('1984-07-21').date(),
+            datetime_item=dateutil_parser('2001-07-21T17:32:28.000Z'),
+        )
+        for param, value in six.iteritems(keyword_args_invalid):
+            with self.assertRaises(ValueError) as exc:
+                keyword_args = {param: value}
+                keyword_args.update(required_keyword_args)
+                instance = TypeHolderExample(**keyword_args)
+            self.assertIn("Invalid value", str(exc.exception))
+            self.assertIn("must be", str(exc.exception))
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -26,6 +26,7 @@ Health check endpoint
 
 ### Example
 
+
 ```python
 from __future__ import print_function
 import time
@@ -74,6 +75,7 @@ Test serialization of outer boolean types
 
 ### Example
 
+
 ```python
 from __future__ import print_function
 import time
@@ -100,7 +102,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **bool**| Input boolean as post body | [optional] 
+ **body** | **bool**| Input boolean as post body | [optional]
 
 ### Return type
 
@@ -125,6 +127,7 @@ No authorization required
 Test serialization of object with outer number type
 
 ### Example
+
 
 ```python
 from __future__ import print_function
@@ -152,7 +155,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outer_composite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **outer_composite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
 
 ### Return type
 
@@ -177,6 +180,7 @@ No authorization required
 Test serialization of outer number types
 
 ### Example
+
 
 ```python
 from __future__ import print_function
@@ -204,7 +208,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **float**| Input number as post body | [optional] 
+ **body** | **float**| Input number as post body | [optional]
 
 ### Return type
 
@@ -229,6 +233,7 @@ No authorization required
 Test serialization of outer string types
 
 ### Example
+
 
 ```python
 from __future__ import print_function
@@ -256,7 +261,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **str**| Input string as post body | [optional] 
+ **body** | **str**| Input string as post body | [optional]
 
 ### Return type
 
@@ -282,6 +287,7 @@ For this test, the body for this request much reference a schema named `File`.
 
 ### Example
 
+
 ```python
 from __future__ import print_function
 import time
@@ -306,7 +312,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **file_schema_test_class** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **file_schema_test_class** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  |
 
 ### Return type
 
@@ -329,6 +335,7 @@ No authorization required
 
 
 ### Example
+
 
 ```python
 from __future__ import print_function
@@ -355,8 +362,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **str**|  | 
- **user** | [**User**](User.md)|  | 
+ **query** | **str**|  |
+ **user** | [**User**](User.md)|  |
 
 ### Return type
 
@@ -381,6 +388,7 @@ To test \"client\" model
 To test \"client\" model
 
 ### Example
+
 
 ```python
 from __future__ import print_function
@@ -408,7 +416,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md)| client model |
 
 ### Return type
 
@@ -435,6 +443,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Example
 
 * Basic Authentication (http_basic_test):
+
 ```python
 from __future__ import print_function
 import time
@@ -484,20 +493,20 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **float**| None | 
- **double** | **float**| None | 
- **pattern_without_delimiter** | **str**| None | 
- **byte** | **str**| None | 
- **integer** | **int**| None | [optional] 
- **int32** | **int**| None | [optional] 
- **int64** | **int**| None | [optional] 
- **float** | **float**| None | [optional] 
- **string** | **str**| None | [optional] 
- **binary** | **file**| None | [optional] 
- **date** | **date**| None | [optional] 
- **date_time** | **datetime**| None | [optional] 
- **password** | **str**| None | [optional] 
- **param_callback** | **str**| None | [optional] 
+ **number** | **float**| None |
+ **double** | **float**| None |
+ **pattern_without_delimiter** | **str**| None |
+ **byte** | **str**| None |
+ **integer** | **int**| None | [optional]
+ **int32** | **int**| None | [optional]
+ **int64** | **int**| None | [optional]
+ **float** | **float**| None | [optional]
+ **string** | **str**| None | [optional]
+ **binary** | **file**| None | [optional]
+ **date** | **date**| None | [optional]
+ **date_time** | **datetime**| None | [optional]
+ **password** | **str**| None | [optional]
+ **param_callback** | **str**| None | [optional]
 
 ### Return type
 
@@ -523,6 +532,7 @@ To test enum parameters
 
 ### Example
 
+
 ```python
 from __future__ import print_function
 import time
@@ -533,13 +543,13 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
 enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
-enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (server default to '-efg' if omitted)
+enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) if omitted the server will use the default value of '-efg'
 enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Query parameter enum test (string array) (optional)
-enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) (server default to '-efg' if omitted)
+enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) if omitted the server will use the default value of '-efg'
 enum_query_integer = 56 # int | Query parameter enum test (double) (optional)
 enum_query_double = 3.4 # float | Query parameter enum test (double) (optional)
-enum_form_string_array = '$' # list[str] | Form parameter enum test (string array) (optional) (server default to '$' if omitted)
-enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) (server default to '-efg' if omitted)
+enum_form_string_array = '$' # list[str] | Form parameter enum test (string array) (optional) if omitted the server will use the default value of '$'
+enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) if omitted the server will use the default value of '-efg'
 
 
 # example passing only required values which don't have defaults set
@@ -556,14 +566,14 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enum_header_string_array** | [**list[str]**](str.md)| Header parameter enum test (string array) | [optional] 
- **enum_header_string** | **str**| Header parameter enum test (string) | [optional] 
- **enum_query_string_array** | [**list[str]**](str.md)| Query parameter enum test (string array) | [optional] 
- **enum_query_string** | **str**| Query parameter enum test (string) | [optional] 
- **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
- **enum_query_double** | **float**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | [**list[str]**](str.md)| Form parameter enum test (string array) | [optional] 
- **enum_form_string** | **str**| Form parameter enum test (string) | [optional] 
+ **enum_header_string_array** | [**list[str]**](str.md)| Header parameter enum test (string array) | [optional]
+ **enum_header_string** | **str**| Header parameter enum test (string) | [optional] if omitted the server will use the default value of '-efg'
+ **enum_query_string_array** | [**list[str]**](str.md)| Query parameter enum test (string array) | [optional]
+ **enum_query_string** | **str**| Query parameter enum test (string) | [optional] if omitted the server will use the default value of '-efg'
+ **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
+ **enum_query_double** | **float**| Query parameter enum test (double) | [optional]
+ **enum_form_string_array** | [**list[str]**](str.md)| Form parameter enum test (string array) | [optional] if omitted the server will use the default value of '$'
+ **enum_form_string** | **str**| Form parameter enum test (string) | [optional] if omitted the server will use the default value of '-efg'
 
 ### Return type
 
@@ -590,6 +600,7 @@ Fake endpoint to test group parameters (optional)
 ### Example
 
 * Bearer (JWT) Authentication (bearer_test):
+
 ```python
 from __future__ import print_function
 import time
@@ -630,12 +641,12 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **required_string_group** | **int**| Required String in group parameters | 
- **required_boolean_group** | **bool**| Required Boolean in group parameters | 
- **required_int64_group** | **int**| Required Integer in group parameters | 
- **string_group** | **int**| String in group parameters | [optional] 
- **boolean_group** | **bool**| Boolean in group parameters | [optional] 
- **int64_group** | **int**| Integer in group parameters | [optional] 
+ **required_string_group** | **int**| Required String in group parameters |
+ **required_boolean_group** | **bool**| Required Boolean in group parameters |
+ **required_int64_group** | **int**| Required Integer in group parameters |
+ **string_group** | **int**| String in group parameters | [optional]
+ **boolean_group** | **bool**| Boolean in group parameters | [optional]
+ **int64_group** | **int**| Integer in group parameters | [optional]
 
 ### Return type
 
@@ -658,6 +669,7 @@ void (empty response body)
 test inline additionalProperties
 
 ### Example
+
 
 ```python
 from __future__ import print_function
@@ -684,7 +696,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**dict(str, str)**](str.md)| request body | 
+ **request_body** | [**dict(str, str)**](str.md)| request body |
 
 ### Return type
 
@@ -707,6 +719,7 @@ No authorization required
 test json serialization of form data
 
 ### Example
+
 
 ```python
 from __future__ import print_function
@@ -734,8 +747,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **str**| field1 | 
- **param2** | **str**| field2 | 
+ **param** | **str**| field1 |
+ **param2** | **str**| field2 |
 
 ### Return type
 

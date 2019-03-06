@@ -850,21 +850,21 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_endpoint_enums_length_one(self, query_integer, query_string, path_string, path_integer, header_number, **kwargs):  # noqa: E501
+    def test_endpoint_enums_length_one(self, query_integer=3, query_string='brillig', path_string='hello', path_integer=34, header_number=1.234, **kwargs):  # noqa: E501
         """test_endpoint_enums_length_one  # noqa: E501
 
         This route has required values with enums of 1  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_endpoint_enums_length_one(query_integer, query_string, path_string, path_integer, header_number, async_req=True)
+        >>> thread = api.test_endpoint_enums_length_one(query_integer=3, query_string='brillig', path_string='hello', path_integer=34, header_number=1.234, async_req=True)
         >>> result = thread.get()
 
         Args:
-            query_integer (int):
-            query_string (str):
-            path_string (str):
-            path_integer (int):
-            header_number (float):
+            query_integer (int): defaults to 3, must be one of [3]
+            query_string (str): defaults to 'brillig', must be one of ['brillig']
+            path_string (str): defaults to 'hello', must be one of ['hello']
+            path_integer (int): defaults to 34, must be one of [34]
+            header_number (float): defaults to 1.234, must be one of [1.234]
 
         Keyword Args:
             async_req (bool): if True, request will be asynchronous
@@ -874,26 +874,26 @@ class FakeApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.test_endpoint_enums_length_one_with_http_info(query_integer, query_string, path_string, path_integer, header_number, **kwargs)  # noqa: E501
+            return self.test_endpoint_enums_length_one_with_http_info(query_integer=query_integer, query_string=query_string, path_string=path_string, path_integer=path_integer, header_number=header_number, **kwargs)  # noqa: E501
         else:
-            (data) = self.test_endpoint_enums_length_one_with_http_info(query_integer, query_string, path_string, path_integer, header_number, **kwargs)  # noqa: E501
+            (data) = self.test_endpoint_enums_length_one_with_http_info(query_integer=query_integer, query_string=query_string, path_string=path_string, path_integer=path_integer, header_number=header_number, **kwargs)  # noqa: E501
             return data
 
-    def test_endpoint_enums_length_one_with_http_info(self, query_integer, query_string, path_string, path_integer, header_number, **kwargs):  # noqa: E501
+    def test_endpoint_enums_length_one_with_http_info(self, query_integer=None, query_string=None, path_string=None, path_integer=None, header_number=None, **kwargs):  # noqa: E501
         """test_endpoint_enums_length_one  # noqa: E501
 
         This route has required values with enums of 1  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_endpoint_enums_length_one_with_http_info(query_integer, query_string, path_string, path_integer, header_number, async_req=True)
+        >>> thread = api.test_endpoint_enums_length_one_with_http_info(async_req=True)
         >>> result = thread.get()
 
         Args:
-            query_integer (int):
-            query_string (str):
-            path_string (str):
-            path_integer (int):
-            header_number (float):
+            query_integer (int): defaults to 3, must be one of [3]
+            query_string (str): defaults to 'brillig', must be one of ['brillig']
+            path_string (str): defaults to 'hello', must be one of ['hello']
+            path_integer (int): defaults to 34, must be one of [34]
+            header_number (float): defaults to 1.234, must be one of [1.234]
 
         Keyword Args:
             async_req (bool): if True, request will be asynchronous

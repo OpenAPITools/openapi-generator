@@ -23,6 +23,7 @@ Add a new pet to the store
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 from __future__ import print_function
 import time
@@ -51,7 +52,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -76,6 +77,7 @@ Deletes a pet
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 from __future__ import print_function
 import time
@@ -112,8 +114,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| Pet id to delete | 
- **api_key** | **str**|  | [optional] 
+ **pet_id** | **int**| Pet id to delete |
+ **api_key** | **str**|  | [optional]
 
 ### Return type
 
@@ -140,6 +142,7 @@ Multiple status values can be provided with comma separated strings
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 from __future__ import print_function
 import time
@@ -169,7 +172,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**list[str]**](str.md)| Status values that need to be considered for filter | 
+ **status** | [**list[str]**](str.md)| Status values that need to be considered for filter |
 
 ### Return type
 
@@ -196,6 +199,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 from __future__ import print_function
 import time
@@ -225,7 +229,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**list[str]**](str.md)| Tags to filter by | 
+ **tags** | [**list[str]**](str.md)| Tags to filter by |
 
 ### Return type
 
@@ -252,6 +256,7 @@ Returns a single pet
 ### Example
 
 * Api Key Authentication (api_key):
+
 ```python
 from __future__ import print_function
 import time
@@ -283,7 +288,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to return | 
+ **pet_id** | **int**| ID of pet to return |
 
 ### Return type
 
@@ -308,6 +313,7 @@ Update an existing pet
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 from __future__ import print_function
 import time
@@ -336,7 +342,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -361,6 +367,7 @@ Updates a pet in the store with form data
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 from __future__ import print_function
 import time
@@ -398,9 +405,9 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet that needs to be updated | 
- **name** | **str**| Updated name of the pet | [optional] 
- **status** | **str**| Updated status of the pet | [optional] 
+ **pet_id** | **int**| ID of pet that needs to be updated |
+ **name** | **str**| Updated name of the pet | [optional]
+ **status** | **str**| Updated status of the pet | [optional]
 
 ### Return type
 
@@ -425,6 +432,7 @@ uploads an image
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 from __future__ import print_function
 import time
@@ -464,9 +472,9 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to update | 
- **additional_metadata** | **str**| Additional data to pass to server | [optional] 
- **file** | **file**| file to upload | [optional] 
+ **pet_id** | **int**| ID of pet to update |
+ **additional_metadata** | **str**| Additional data to pass to server | [optional]
+ **file** | **file**| file to upload | [optional]
 
 ### Return type
 
@@ -491,6 +499,7 @@ uploads an image (required)
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
 from __future__ import print_function
 import time
@@ -530,9 +539,9 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet_id** | **int**| ID of pet to update | 
- **required_file** | **file**| file to upload | 
- **additional_metadata** | **str**| Additional data to pass to server | [optional] 
+ **pet_id** | **int**| ID of pet to update |
+ **required_file** | **file**| file to upload |
+ **additional_metadata** | **str**| Additional data to pass to server | [optional]
 
 ### Return type
 

@@ -14,7 +14,7 @@ api_instance = {{{packageName}}}.{{{classname}}}({{{packageName}}}.ApiClient(con
 api_instance = {{{packageName}}}.{{{classname}}}()
 {{/hasAuthMethods}}
 {{#requiredParams}}{{^defaultValue}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}
-{{/defaultValue}}{{/requiredParams}}{{#optionalParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (server default to {{{defaultValue}}} if omitted){{/defaultValue}}
+{{/defaultValue}}{{/requiredParams}}{{#optionalParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}
 {{/optionalParams}}
 
 {{#requiredParams}}

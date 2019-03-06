@@ -17,6 +17,7 @@ To test class name in snake case
 ### Example
 
 * Api Key Authentication (api_key_query):
+
 ```python
 from __future__ import print_function
 import time
@@ -48,7 +49,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md)| client model |
 
 ### Return type
 
