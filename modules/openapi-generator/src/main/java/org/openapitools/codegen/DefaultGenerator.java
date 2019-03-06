@@ -153,7 +153,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         generateApiTests = GeneratorProperties.getProperty(CodegenConstants.API_TESTS) != null ? Boolean.valueOf(GeneratorProperties.getProperty(CodegenConstants.API_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_TESTS, true);
         generateApiDocumentation = GeneratorProperties.getProperty(CodegenConstants.API_DOCS) != null ? Boolean.valueOf(GeneratorProperties.getProperty(CodegenConstants.API_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
 
-
         // Additional properties added for tests to exclude references in project related files
         config.additionalProperties().put(CodegenConstants.GENERATE_API_TESTS, generateApiTests);
         config.additionalProperties().put(CodegenConstants.GENERATE_MODEL_TESTS, generateModelTests);
@@ -627,7 +626,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 }
 
-
                 if (generateApiDocumentation) {
                     // to generate api documentation files
                     for (String templateName : config.apiDocTemplateFiles().keySet()) {
@@ -678,7 +676,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (!of.isDirectory()) {
                     of.mkdirs();
                 }
-                String outputFilename = outputFolder + File.separator + support.destinationFilename.replace('/', File.separatorChar);
+                String outputFilename = new File(support.destinationFilename).isAbsolute() // split
+                        ? support.destinationFilename
+                        : outputFolder + File.separator + support.destinationFilename.replace('/', File.separatorChar);
                 if (!config.shouldOverwrite(outputFilename)) {
                     LOGGER.info("Skipped overwriting " + outputFilename);
                     continue;
@@ -910,7 +910,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return files;
     }
 
-
     protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {
         String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
         if (ignoreProcessor.allowsFile(new File(adjustedOutputFilename))) {
@@ -1059,7 +1058,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return parameter.getName() + ":" + parameter.getIn();
     }
 
-
     private Map<String, Object> processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops, List<Object> allModels) {
         Map<String, Object> operations = new HashMap<String, Object>();
         Map<String, Object> objs = new HashMap<String, Object>();
@@ -1124,7 +1122,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
         return operations;
     }
-
 
     private Map<String, Object> processModels(CodegenConfig config, Map<String, Schema> definitions) {
         Map<String, Object> objs = new HashMap<String, Object>();

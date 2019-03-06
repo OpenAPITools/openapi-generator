@@ -83,6 +83,7 @@ The following generators are available:
     - [java-vertx](generators/java-vertx.md)
     - [jaxrs-cxf](generators/jaxrs-cxf.md)
     - [jaxrs-cxf-cdi](generators/jaxrs-cxf-cdi.md)
+    - [jaxrs-cxf-extended](generators/jaxrs-cxf-extended.md)
     - [jaxrs-jersey](generators/jaxrs-jersey.md)
     - [jaxrs-resteasy](generators/jaxrs-resteasy.md)
     - [jaxrs-resteasy-eap](generators/jaxrs-resteasy-eap.md)
