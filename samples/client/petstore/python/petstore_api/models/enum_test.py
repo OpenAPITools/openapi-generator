@@ -53,7 +53,7 @@ class EnumTest(object):
         Args:
             enum_string_required (str):
 
-        Keyword Args:
+        Keyword Args:  # noqa: E501
             enum_string (str): [optional]  # noqa: E501
             enum_integer (int): [optional]  # noqa: E501
             enum_number (float): [optional]  # noqa: E501

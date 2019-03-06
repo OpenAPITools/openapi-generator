@@ -97,7 +97,6 @@ class AnotherFakeApi(object):
                 local_var_params['body'] is None):
             raise ValueError("Missing the required parameter `body` when calling `call_123_test_special_tags`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}

@@ -59,11 +59,11 @@ class TypeHolderExample(object):
             array_item (list[int]):
 
         Keyword Args:
-            string_item (str): defaults to 'what', must be one of ['what']
-            number_item (float): defaults to 1.2339999675750732, must be one of [1.2339999675750732]
-            integer_item (int): defaults to -2, must be one of [-2]
-            date_item (date): defaults to dateutil_parser('2017-07-21').date(), must be one of [dateutil_parser('2017-07-21').date()]
-            datetime_item (datetime): defaults to dateutil_parser('2017-07-21T17:32:28.000Z'), must be one of [dateutil_parser('2017-07-21T17:32:28.000Z')]
+            string_item (str): defaults to 'what', must be one of ['what']  # noqa: E501
+            number_item (float): defaults to 1.2339999675750732, must be one of [1.2339999675750732]  # noqa: E501
+            integer_item (int): defaults to -2, must be one of [-2]  # noqa: E501  # noqa: E501
+            date_item (date): defaults to dateutil_parser('2017-07-21').date(), must be one of [dateutil_parser('2017-07-21').date()]  # noqa: E501
+            datetime_item (datetime): defaults to dateutil_parser('2017-07-21T17:32:28.000Z'), must be one of [dateutil_parser('2017-07-21T17:32:28.000Z')]  # noqa: E501  # noqa: E501
         """
 
         self._string_item = None

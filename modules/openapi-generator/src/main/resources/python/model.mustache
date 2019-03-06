@@ -59,7 +59,7 @@ class {{classname}}(object):
             {{name}} ({{dataType}}):{{#description}} {{description}}{{/description}}{{/defaultValue}}{{/requiredVars}}
 
         Keyword Args:{{#requiredVars}}{{#defaultValue}}
-            {{name}} ({{dataType}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]{{/defaultValue}}{{/requiredVars}}{{#optionalVars}}
+            {{name}} ({{dataType}}):{{#description}} {{description}}.{{/description}} defaults to {{{defaultValue}}}, must be one of [{{{defaultValue}}}]{{/defaultValue}}  # noqa: E501{{/requiredVars}}{{#optionalVars}}
             {{name}} ({{dataType}}):{{#description}} {{description}}.{{/description}} [optional]{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}  # noqa: E501{{/optionalVars}}
         """
 {{#allVars}}{{#-first}}

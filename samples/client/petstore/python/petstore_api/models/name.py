@@ -51,7 +51,7 @@ class Name(object):
         Args:
             name (int):
 
-        Keyword Args:
+        Keyword Args:  # noqa: E501
             snake_case (int): [optional]  # noqa: E501
             _property (str): [optional]  # noqa: E501
             _123_number (int): [optional]  # noqa: E501
