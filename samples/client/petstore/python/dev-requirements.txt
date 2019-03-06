@@ -1,6 +1,0 @@
-nose
-tox
-coverage
-randomize
-flake8
-mock == 2.0.0 ; python_version == '2.7'
