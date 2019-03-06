@@ -1,12 +1,10 @@
  #!/bin/bash
 
-REQUIREMENTS_FILE=dev-requirements.txt
-REQUIREMENTS_OUT=dev-requirements.txt.log
+REQUIREMENTS_FILE=test-requirements.txt
 SETUP_OUT=*.egg-info
 VENV=.venv
 
 clean:
-		rm -rf $(REQUIREMENTS_OUT)
 		rm -rf $(SETUP_OUT)
 		rm -rf $(VENV)
 		rm -rf .tox

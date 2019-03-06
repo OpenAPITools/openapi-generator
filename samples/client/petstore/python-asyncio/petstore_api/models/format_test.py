@@ -72,7 +72,7 @@ class FormatTest(object):
             date (date):
             password (str):
 
-        Keyword Args:
+        Keyword Args:  # noqa: E501  # noqa: E501  # noqa: E501  # noqa: E501
             integer (int): [optional]  # noqa: E501
             int32 (int): [optional]  # noqa: E501
             int64 (int): [optional]  # noqa: E501
