@@ -1,5 +1,0 @@
-nose
-tox
-coverage
-randomize
-flake8

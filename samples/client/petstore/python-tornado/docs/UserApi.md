@@ -23,6 +23,7 @@ This can only be done by the logged in user.
 
 ### Example
 
+
 ```python
 from __future__ import print_function
 import time
@@ -48,7 +49,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md)| Created user object |
 
 ### Return type
 
@@ -71,6 +72,7 @@ No authorization required
 Creates list of users with given input array
 
 ### Example
+
 
 ```python
 from __future__ import print_function
@@ -97,7 +99,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**list[User]**](list.md)| List of user object | 
+ **body** | [**list[User]**](list.md)| List of user object |
 
 ### Return type
 
@@ -120,6 +122,7 @@ No authorization required
 Creates list of users with given input array
 
 ### Example
+
 
 ```python
 from __future__ import print_function
@@ -146,7 +149,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**list[User]**](list.md)| List of user object | 
+ **body** | [**list[User]**](list.md)| List of user object |
 
 ### Return type
 
@@ -171,6 +174,7 @@ Delete user
 This can only be done by the logged in user.
 
 ### Example
+
 
 ```python
 from __future__ import print_function
@@ -197,7 +201,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **str**| The name that needs to be deleted | 
+ **username** | **str**| The name that needs to be deleted |
 
 ### Return type
 
@@ -220,6 +224,7 @@ No authorization required
 Get user by user name
 
 ### Example
+
 
 ```python
 from __future__ import print_function
@@ -247,7 +252,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **str**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **str**| The name that needs to be fetched. Use user1 for testing. |
 
 ### Return type
 
@@ -270,6 +275,7 @@ No authorization required
 Logs user into the system
 
 ### Example
+
 
 ```python
 from __future__ import print_function
@@ -298,8 +304,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **str**| The user name for login | 
- **password** | **str**| The password for login in clear text | 
+ **username** | **str**| The user name for login |
+ **password** | **str**| The password for login in clear text |
 
 ### Return type
 
@@ -322,6 +328,7 @@ No authorization required
 Logs out current logged in user session
 
 ### Example
+
 
 ```python
 from __future__ import print_function
@@ -370,6 +377,7 @@ This can only be done by the logged in user.
 
 ### Example
 
+
 ```python
 from __future__ import print_function
 import time
@@ -396,8 +404,8 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **str**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | 
+ **username** | **str**| name that need to be deleted |
+ **body** | [**User**](User.md)| Updated user object |
 
 ### Return type
 

@@ -47,7 +47,7 @@ class Category(object):
         Args:
 
         Keyword Args:
-            name (str): defaults to 'default-name', must be one of ['default-name']
+            name (str): defaults to 'default-name', must be one of ['default-name']  # noqa: E501
             id (int): [optional]  # noqa: E501
         """
 

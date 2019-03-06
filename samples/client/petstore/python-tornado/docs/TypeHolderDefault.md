@@ -3,10 +3,10 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**string_item** | **str** |  | [optional] 
-**number_item** | **float** |  | [optional] 
-**integer_item** | **int** |  | [optional] 
-**bool_item** | **bool** |  | [optional] 
+**string_item** | **str** |  | [optional]  if omitted the server will use the default value of 'what'
+**number_item** | **float** |  | [optional]  if omitted the server will use the default value of 1.234
+**integer_item** | **int** |  | [optional]  if omitted the server will use the default value of -2
+**bool_item** | **bool** |  | [optional]  if omitted the server will use the default value of True
 **date_item** | **date** |  | [optional] 
 **datetime_item** | **datetime** |  | [optional] 
 **array_item** | **list[int]** |  | [optional] 

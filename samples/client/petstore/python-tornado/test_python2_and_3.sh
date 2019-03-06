@@ -1,7 +1,6 @@
 #!/bin/bash
 
-REQUIREMENTS_FILE=dev-requirements.txt
-REQUIREMENTS_OUT=dev-requirements.txt.log
+REQUIREMENTS_FILE=test-requirements.txt
 SETUP_OUT=*.egg-info
 VENV=.venv
 DEACTIVE=false
@@ -17,7 +16,7 @@ if [ -z "$VIRTUAL_ENV" ]; then
 fi
 
 ### install dependencies
-pip install -r $REQUIREMENTS_FILE | tee -a $REQUIREMENTS_OUT
+pip install -r $REQUIREMENTS_FILE
 python setup.py develop
 
 ### run tests

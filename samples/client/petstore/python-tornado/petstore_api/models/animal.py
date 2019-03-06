@@ -52,7 +52,7 @@ class Animal(object):
         Args:
             class_name (str):
 
-        Keyword Args:
+        Keyword Args:  # noqa: E501
             color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
         """
 

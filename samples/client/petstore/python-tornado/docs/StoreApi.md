@@ -19,6 +19,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ### Example
 
+
 ```python
 from __future__ import print_function
 import time
@@ -44,7 +45,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **str**| ID of the order that needs to be deleted | 
+ **order_id** | **str**| ID of the order that needs to be deleted |
 
 ### Return type
 
@@ -71,6 +72,7 @@ Returns a map of status codes to quantities
 ### Example
 
 * Api Key Authentication (api_key):
+
 ```python
 from __future__ import print_function
 import time
@@ -124,6 +126,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ### Example
 
+
 ```python
 from __future__ import print_function
 import time
@@ -150,7 +153,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **int**| ID of pet that needs to be fetched | 
+ **order_id** | **int**| ID of pet that needs to be fetched |
 
 ### Return type
 
@@ -173,6 +176,7 @@ No authorization required
 Place an order for a pet
 
 ### Example
+
 
 ```python
 from __future__ import print_function
@@ -200,7 +204,7 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
