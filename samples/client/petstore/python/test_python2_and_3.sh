@@ -10,8 +10,11 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 ### set virtualenv
+# on mac machines with python3, virtualenv is a python3 utility
+# so we need to find the python2 location and use it when making our VENV
+PY_LOC=$(which python)
 if [ -z "$VIRTUAL_ENV" ]; then
-		virtualenv $VENV --no-site-packages --always-copy
+		virtualenv $VENV --python=$PY_LOC --no-site-packages --always-copy
 		source $VENV/bin/activate
     DEACTIVE=true
 fi
