@@ -1652,7 +1652,7 @@ definitions:
         type: string
   TypeHolderDefault:
     type: object
-    description: a model to test option properties with server defaults
+    description: a model to test optional properties with server defaults
     required:
     properties:
       string_item:
