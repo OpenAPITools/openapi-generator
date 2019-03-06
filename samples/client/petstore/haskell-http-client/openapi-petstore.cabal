@@ -12,7 +12,7 @@ description:    .
                 .
                 OpenAPI version: 3.0.1
                 .
-                category:       Web
+category:       Web
 homepage:       https://openapi-generator.tech
 author:         Author Name Here
 maintainer:     author.name@email.com

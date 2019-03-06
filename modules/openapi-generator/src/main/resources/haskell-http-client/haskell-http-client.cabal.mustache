@@ -13,10 +13,9 @@ description:    .
                 {{/version}}
                 .
                 OpenAPI version: {{openApiVersion}}
-                .
-                {{^hideGenerationTimestamp}}Generated on: {{generatedDate}}
-                .
-                {{/hideGenerationTimestamp}}
+                .{{^hideGenerationTimestamp}}
+                Generated on: {{generatedDate}}
+                .{{/hideGenerationTimestamp}}
 category:       Web
 homepage:       https://openapi-generator.tech
 author:         Author Name Here
