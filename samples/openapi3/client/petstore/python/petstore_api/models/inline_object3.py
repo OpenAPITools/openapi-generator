@@ -74,7 +74,7 @@ class InlineObject3(object):
             pattern_without_delimiter (str): None
             byte (str): None
 
-        Keyword Args:
+        Keyword Args:  # noqa: E501  # noqa: E501  # noqa: E501  # noqa: E501
             integer (int): None. [optional]  # noqa: E501
             int32 (int): None. [optional]  # noqa: E501
             int64 (int): None. [optional]  # noqa: E501

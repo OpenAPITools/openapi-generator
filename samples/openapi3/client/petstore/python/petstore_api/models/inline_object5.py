@@ -47,7 +47,7 @@ class InlineObject5(object):
         Args:
             required_file (file): file to upload
 
-        Keyword Args:
+        Keyword Args:  # noqa: E501
             additional_metadata (str): Additional data to pass to server. [optional]  # noqa: E501
         """
 

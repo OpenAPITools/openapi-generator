@@ -101,7 +101,6 @@ class PetApi(object):
                 local_var_params['pet'] is None):
             raise ValueError("Missing the required parameter `pet` when calling `add_pet`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}
@@ -204,7 +203,6 @@ class PetApi(object):
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `delete_pet`")  # noqa: E501
-
 
         collection_formats = {}
 
@@ -314,7 +312,6 @@ class PetApi(object):
                 .format(", ".join(map(str, set(local_var_params['status']) - set(allowed_values))),  # noqa: E501
                         ", ".join(map(str, allowed_values)))
             )
-
         collection_formats = {}
 
         path_params = {}
@@ -418,7 +415,6 @@ class PetApi(object):
                 local_var_params['tags'] is None):
             raise ValueError("Missing the required parameter `tags` when calling `find_pets_by_tags`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}
@@ -521,7 +517,6 @@ class PetApi(object):
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")  # noqa: E501
-
 
         collection_formats = {}
 
@@ -629,7 +624,6 @@ class PetApi(object):
                 local_var_params['pet'] is None):
             raise ValueError("Missing the required parameter `pet` when calling `update_pet`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}
@@ -734,7 +728,6 @@ class PetApi(object):
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")  # noqa: E501
-
 
         collection_formats = {}
 
@@ -843,7 +836,6 @@ class PetApi(object):
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
             raise ValueError("Missing the required parameter `pet_id` when calling `upload_file`")  # noqa: E501
-
 
         collection_formats = {}
 
@@ -960,7 +952,6 @@ class PetApi(object):
         if ('required_file' not in local_var_params or
                 local_var_params['required_file'] is None):
             raise ValueError("Missing the required parameter `required_file` when calling `upload_file_with_required_file`")  # noqa: E501
-
 
         collection_formats = {}
 

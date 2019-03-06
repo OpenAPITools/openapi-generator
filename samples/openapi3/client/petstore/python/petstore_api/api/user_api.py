@@ -97,7 +97,6 @@ class UserApi(object):
                 local_var_params['user'] is None):
             raise ValueError("Missing the required parameter `user` when calling `create_user`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}
@@ -198,7 +197,6 @@ class UserApi(object):
                 local_var_params['user'] is None):
             raise ValueError("Missing the required parameter `user` when calling `create_users_with_array_input`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}
@@ -298,7 +296,6 @@ class UserApi(object):
         if ('user' not in local_var_params or
                 local_var_params['user'] is None):
             raise ValueError("Missing the required parameter `user` when calling `create_users_with_list_input`")  # noqa: E501
-
 
         collection_formats = {}
 
@@ -402,7 +399,6 @@ class UserApi(object):
                 local_var_params['username'] is None):
             raise ValueError("Missing the required parameter `username` when calling `delete_user`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}
@@ -498,7 +494,6 @@ class UserApi(object):
         if ('username' not in local_var_params or
                 local_var_params['username'] is None):
             raise ValueError("Missing the required parameter `username` when calling `get_user_by_name`")  # noqa: E501
-
 
         collection_formats = {}
 
@@ -606,7 +601,6 @@ class UserApi(object):
                 local_var_params['password'] is None):
             raise ValueError("Missing the required parameter `password` when calling `login_user`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}
@@ -702,7 +696,6 @@ class UserApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-
 
         collection_formats = {}
 
@@ -805,7 +798,6 @@ class UserApi(object):
         if ('user' not in local_var_params or
                 local_var_params['user'] is None):
             raise ValueError("Missing the required parameter `user` when calling `update_user`")  # noqa: E501
-
 
         collection_formats = {}
 

@@ -48,7 +48,7 @@ class InlineObject4(object):
             param (str): field1
             param2 (str): field2
 
-        Keyword Args:
+        Keyword Args:  # noqa: E501  # noqa: E501
         """
 
         self._param = None

@@ -42,11 +42,14 @@ class FakeApi(object):
         >>> thread = api.test_code_inject____end__rn_n_r(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str test_code_inject____end____rn_n_r: To test code injection */ ' \\\" =end -- \\\\r\\\\n \\\\n \\\\r
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            test_code_inject____end____rn_n_r (str): To test code injection */ &#39; \\\&quot; &#x3D;end -- \\\\r\\\\n \\\\n \\\\r. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
@@ -64,11 +67,14 @@ class FakeApi(object):
         >>> thread = api.test_code_inject____end__rn_n_r_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool
-        :param str test_code_inject____end____rn_n_r: To test code injection */ ' \\\" =end -- \\\\r\\\\n \\\\n \\\\r
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            test_code_inject____end____rn_n_r (str): To test code injection */ &#39; \\\&quot; &#x3D;end -- \\\\r\\\\n \\\\n \\\\r. [optional]
+            async_req (bool): if True, request will be asynchronous
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()

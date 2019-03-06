@@ -56,7 +56,7 @@ class Pet(object):
             name (str):
             photo_urls (list[str]):
 
-        Keyword Args:
+        Keyword Args:  # noqa: E501  # noqa: E501
             id (int): [optional]  # noqa: E501
             category (Category): [optional]  # noqa: E501
             tags (list[Tag]): [optional]  # noqa: E501
