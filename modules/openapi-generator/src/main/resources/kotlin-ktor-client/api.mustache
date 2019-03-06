@@ -1,0 +1,32 @@
+{{>licenseInfo}}
+package {{apiPackage}}
+
+import io.ktor.client.HttpClient
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.request.*
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{#operations}}
+class {{classname}}(basePath: kotlin.String = "{{{basePath}}}") {
+
+    private val httpClient: HttpClient = HttpClient {
+        install(JsonFeature) {
+            serializer = KotlinxSerializer().apply { {{#operation}}{{#returnType}}
+                setMapper({{{returnType}}}::class, {{{returnType}}}.serializer())
+            {{/returnType}}{{/operation}}
+            }
+        }
+    }
+
+    {{#operation}}
+    suspend fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
+    }
+    {{^-last}}
+
+    {{/-last}}
+    {{/operation}}
+}
+{{/operations}}
