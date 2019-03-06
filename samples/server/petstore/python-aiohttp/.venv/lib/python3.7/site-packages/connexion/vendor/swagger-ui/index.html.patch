@@ -1,0 +1,20 @@
+--- index.html	2016-09-26 21:25:42.000000000 +0200
++++ index.html.patched	2016-10-04 14:18:52.110478183 +0200
+@@ -37,7 +37,7 @@
+       if (url && url.length > 1) {
+         url = decodeURIComponent(url[1]);
+       } else {
+-        url = "http://petstore.swagger.io/v2/swagger.json";
++        url = "{{ api_url }}/swagger.json";
+       }
+
+       hljs.configure({
+@@ -50,6 +50,8 @@
+       }
+       window.swaggerUi = new SwaggerUi({
+         url: url,
++        // https://github.com/zalando/connexion/issues/110
++        validatorUrl: null,
+         dom_id: "swagger-ui-container",
+         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+         onComplete: function(swaggerApi, swaggerUi){

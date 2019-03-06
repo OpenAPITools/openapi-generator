@@ -1,0 +1,3 @@
+[console_scripts]
+openapi-spec-validator = openapi_spec_validator.__main__:main
+

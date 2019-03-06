@@ -1,0 +1,3 @@
+[nose.plugins.0.10]
+randomize = randomize:Randomize
+

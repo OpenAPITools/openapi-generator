@@ -1,0 +1,22 @@
+Metadata-Version: 2.0
+Name: randomize
+Version: 0.14
+Summary: Randomize the order of the tests within a unittest.TestCase class
+Home-page: https://github.com/nloadholtes/nose-randomize
+Author: Nick Loadholtes
+Author-email: nick@ironboundsoftware.com
+License: GNU LGPL
+Download-URL: https://github.com/nloadholtes/nose-randomize/archive/master.zip
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: Utilities
+
+UNKNOWN
+
+

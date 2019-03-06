@@ -1,0 +1,286 @@
+Metadata-Version: 2.1
+Name: aiohttp-jinja2
+Version: 1.1.0
+Summary: jinja2 template renderer for aiohttp.web (http server for asyncio)
+Home-page: https://github.com/aio-libs/aiohttp_jinja2/
+Author: Andrew Svetlov
+Author-email: andrew.svetlov@gmail.com
+License: Apache 2
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Framework :: AsyncIO
+Requires-Python: >=3.5.3
+Requires-Dist: aiohttp (>=3.2.0)
+Requires-Dist: jinja2 (>=2.7)
+
+aiohttp_jinja2
+==============
+.. image:: https://travis-ci.org/aio-libs/aiohttp-jinja2.svg?branch=master
+    :target: https://travis-ci.org/aio-libs/aiohttp-jinja2
+.. image:: https://codecov.io/gh/aio-libs/aiohttp-jinja2/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/aio-libs/aiohttp-jinja2
+.. image:: https://img.shields.io/pypi/v/aiohttp-jinja2.svg
+    :target: https://pypi.python.org/pypi/aiohttp-jinja2
+.. image:: https://readthedocs.org/projects/aiohttp-jinja2/badge/?version=latest
+    :target: http://aiohttp-jinja2.readthedocs.io/en/latest/?badge=latest
+
+
+jinja2_ template renderer for `aiohttp.web`__.
+
+
+.. _jinja2: http://jinja.pocoo.org
+
+.. _aiohttp_web: https://aiohttp.readthedocs.io/en/latest/web.html
+
+__ aiohttp_web_
+
+Installation
+------------
+Install from PyPI::
+
+    pip install aiohttp-jinja2
+
+
+Developing
+----------
+
+Install requirement and launch tests::
+
+    pip install -r requirements-dev.txt
+    py.test tests
+
+
+Usage
+-----
+
+Before template rendering you have to setup *jinja2 environment* first:
+
+.. code-block:: python
+
+    app = web.Application()
+    aiohttp_jinja2.setup(app,
+        loader=jinja2.FileSystemLoader('/path/to/templates/folder'))
+
+Import:
+
+.. code-block:: python
+
+    import aiohttp_jinja2
+    import jinja2
+
+After that you may to use template engine in your *web-handlers*. The
+most convenient way is to decorate a *web-handler*.
+
+Using the function based web handlers:
+
+.. code-block:: python
+
+    @aiohttp_jinja2.template('tmpl.jinja2')
+    def handler(request):
+        return {'name': 'Andrew', 'surname': 'Svetlov'}
+
+Or for `Class Based Views
+<https://aiohttp.readthedocs.io/en/stable/web_quickstart.html#class-based-views>`:
+
+.. code-block:: python
+
+    class Handler(web.View):
+        @aiohttp_jinja2.template('tmpl.jinja2')
+        async def get(self):
+            return {'name': 'Andrew', 'surname': 'Svetlov'}
+
+
+On handler call the ``aiohttp_jinja2.template`` decorator will pass
+returned dictionary ``{'name': 'Andrew', 'surname': 'Svetlov'}`` into
+template named ``tmpl.jinja2`` for getting resulting HTML text.
+
+If you need more complex processing (set response headers for example)
+you may call ``render_template`` function.
+
+Using a function based web handler:
+
+.. code-block:: python
+
+    async def handler(request):
+        context = {'name': 'Andrew', 'surname': 'Svetlov'}
+        response = aiohttp_jinja2.render_template('tmpl.jinja2',
+                                                  request,
+                                                  context)
+        response.headers['Content-Language'] = 'ru'
+        return response
+
+Or, again, a class based view:
+
+.. code-block:: python
+
+    class Handler(web.View):
+        async def get(self):
+            context = {'name': 'Andrew', 'surname': 'Svetlov'}
+            response = aiohttp_jinja2.render_template('tmpl.jinja2',
+                                                      self.request,
+                                                      context)
+            response.headers['Content-Language'] = 'ru'
+            return response
+
+
+License
+-------
+
+``aiohttp_jinja2`` is offered under the Apache 2 license.
+
+CHANGES
+=======
+
+1.1.0 (2018-09-05)
+------------------
+
+- Bump minimal supported ``aiohttp`` version to 3.2
+
+- Use ``request.config_dict`` for accessing ``jinja2`` environment. It
+  allows to reuse jinja rendering engine from parent application.
+
+1.0.0 (2018-03-12)
+-------------------
+
+- Allow context_processors to compose from parent apps #195
+
+0.17.0 (2018-03-12)
+-------------------
+
+- Auto-cast ``int`` values in ``url()`` jinja function to ``str`` #191
+
+0.16.0 (2018-02-12)
+-------------------
+
+- Pin to aiohttp 3.0+
+
+- Deprecate non-async handlers support
+
+0.15.0 (2018-01-30)
+-------------------
+
+- Upgrade middleware to new style from aiohttp 2.3+ #182
+
+- Autoescape all templates by default #179
+
+
+0.13.0 (2016-12-14)
+-------------------
+
+- Avoid subtle errors by copying context processor data #51
+
+0.12.0 (2016-12-02)
+-------------------
+
+- Add autodeploy script #46
+
+0.11.0 (2016-11-24)
+-------------------
+
+- Add jinja2 filters support #41
+
+0.10.0 (2016-10-20)
+-------------------
+
+- Rename package to aiohttp-jinja2 #31
+
+0.9.0 (2016-09-26)
+------------------
+
+- Fix reason parameter in HTTPInternalServerError when template is not
+  found #33
+
+0.8.0 (2016-07-12)
+------------------
+
+- Add ability to render template without context #28
+
+0.7.0 (2015-12-30)
+------------------
+
+- Add ability to decorate class based views (available in aiohttp 0.20) #18
+
+- Upgrade aiohttp requirement to version 0.20.0+
+
+0.6.2 (2015-11-22)
+------------------
+
+- Make app_key parameter from render_string coroutine optional
+
+0.6.0 (2015-10-29)
+------------------
+
+- Fix a bug in middleware (missed coroutine decorator) #16
+
+- Drop Python 3.3 support (switched to aiohttp version v0.18.0)
+
+- Simplify context processors initialization by adding parameter to `setup()`
+
+0.5.0 (2015-07-09)
+------------------
+
+- Introduce context processors #14
+
+- Bypass StreamResponse #15
+
+0.4.3 (2015-06-01)
+------------------
+
+- Fix distribution building: add manifest file
+
+0.4.2 (2015-05-21)
+------------------
+
+- Make HTTPInternalServerError exceptions more verbose on console
+  output
+
+0.4.1 (2015-04-05)
+------------------
+
+- Documentation update
+
+0.4.0 (2015-04-02)
+------------------
+
+- Add `render_string` method
+
+0.3.1 (2015-04-01)
+------------------
+
+- Don't allow non-mapping context
+
+- Fix tiny documentation issues
+
+- Change the library logo
+
+0.3.0 (2015-03-15)
+------------------
+
+- Documentation release
+
+0.2.1 (2015-02-15)
+------------------
+
+- Fix `render_template` function
+
+0.2.0 (2015-02-05)
+------------------
+
+- Migrate to aiohttp 0.14
+
+- Add `status` parameter to template decorator
+
+- Drop optional `response` parameter
+
+0.1.0 (2015-01-08)
+------------------
+
+- Initial release
+

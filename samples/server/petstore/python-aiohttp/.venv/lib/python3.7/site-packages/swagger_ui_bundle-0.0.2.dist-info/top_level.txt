@@ -1,0 +1,1 @@
+swagger_ui_bundle
