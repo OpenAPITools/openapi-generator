@@ -34,6 +34,7 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
 
         //TODO: change to something else
         typeMapping.put("file", "kotlin.String");
+        typeMapping.put("object", "kotlin.String"); //Using 'Any' fails on platforms without reflection
 
         importMapping = new HashMap<>();
     }
