@@ -1,0 +1,28 @@
+import kotlinx.serialization.Serializable
+{{#hasOptional}}import kotlinx.serialization.Optional{{/hasOptional}}
+
+/**
+ * {{{description}}}
+{{#vars}}
+ * @param {{name}} {{{description}}}
+{{/vars}}
+ */
+@Serializable
+data class {{classname}} (
+{{#requiredVars}}
+{{>data_class_req_var}}{{^-last}},
+{{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
+{{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_opt_var}}{{^-last}},
+{{/-last}}{{/optionalVars}}
+) {
+    {{#hasEnums}}{{#vars}}{{#isEnum}}
+    /**
+    * {{{description}}}
+    * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+    */
+    enum class {{nameInCamelCase}} {
+        {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},
+        {{/-last}}{{/enumVars}}{{/allowableValues}}
+    }
+    {{/isEnum}}{{/vars}}{{/hasEnums}}
+}
