@@ -16,6 +16,7 @@ declare -a scripts=(
 "./bin/ruby-client-petstore.sh"
 "./bin/java-petstore-all.sh"
 "./bin/java-jaxrs-petstore-server-all.sh"
+"./bin/java-msf4j-petstore-server.sh"
 "./bin/openapi3/jaxrs-jersey-petstore.sh"
 "./bin/spring-all-pestore.sh"
 "./bin/javascript-petstore-all.sh"

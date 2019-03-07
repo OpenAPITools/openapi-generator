@@ -12,6 +12,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;
@@ -27,13 +28,19 @@ import javax.ws.rs.core.SecurityContext;
 
 public class FakeApiServiceImpl extends FakeApiService {
     @Override
+    public Response createXmlItem(XmlItem xmlItem
+ ) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
     public Response fakeOuterBooleanSerialize(Boolean body
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response fakeOuterCompositeSerialize(OuterComposite outerComposite
+    public Response fakeOuterCompositeSerialize(OuterComposite body
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
@@ -51,20 +58,20 @@ public class FakeApiServiceImpl extends FakeApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass
+    public Response testBodyWithFileSchema(FileSchemaTestClass body
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
     public Response testBodyWithQueryParams(String query
-, User user
+, User body
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response testClientModel(Client client
+    public Response testClientModel(Client body
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
@@ -102,7 +109,18 @@ public class FakeApiServiceImpl extends FakeApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response testInlineAdditionalProperties(Map<String, String> requestBody
+    public Response testGroupParameters(Integer requiredStringGroup
+, Boolean requiredBooleanGroup
+, Long requiredInt64Group
+, Integer stringGroup
+, Boolean booleanGroup
+, Long int64Group
+ ) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response testInlineAdditionalProperties(Map<String, String> param
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
