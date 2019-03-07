@@ -101,6 +101,33 @@
       //Convert elements with "marked" class to markdown
       processMarked();
     });
+
+    function findNode(id, currentNode) {
+        var currentChild,
+            result;
+
+        if ( Object.keys(currentNode)[0] == id) {
+            return currentNode;
+        } else {
+            // Use a for loop instead of forEach to avoid nested functions
+            // Otherwise "return" will not work properly
+            for(var propt in currentNode){
+                currentChild = currentNode[propt]
+                if (id == propt) {
+                    return currentChild;
+                } else {
+                    // Search in the current child
+                    if (typeof(currentNode[propt]) === 'object') {
+                        result = findNode(id, currentChild);
+                        if (result != false)
+                            return result;
+                    }
+                }
+            }
+            // The node has not been found and we have no more options
+           return false;
+        }
+    }
   </script>
   <style type="text/css">
     {{>fonts}}
@@ -416,7 +443,11 @@
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {{{jsonSchema}}};
-                                        var schema = schemaWrapper.schema;
+
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                          schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
                                         } else {
@@ -505,8 +536,7 @@
   {{>js_json_stringify_safe}}
   {{>js_webfontloader}}
   <script>
-    var schemaWrapper = {};
-    schemaWrapper.definitions = Object.assign({}, defs);
+    var schemaWrapper = { "components": { "schemas" : defs}};
     defsParser = new $RefParser();
     defsParser.dereference(schemaWrapper).catch(function(err) {
       console.log(err);

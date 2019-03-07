@@ -4947,7 +4947,9 @@ public class DefaultCodegen implements CodegenConfig {
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
         }
-
+        // Adding JsonSchema for body request in case that is not present.
+        if(codegenParameter.jsonSchema == null)
+            codegenParameter.jsonSchema = Json.pretty(body);
         // set the parameter's example value
         // should be overridden by lang codegen
         setParameterExampleValue(codegenParameter, body);
