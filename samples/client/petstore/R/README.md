@@ -81,8 +81,6 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Category](docs/Category.md)
- - [InlineObject](docs/InlineObject.md)
- - [InlineObject1](docs/InlineObject1.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
