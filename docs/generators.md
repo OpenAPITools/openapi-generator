@@ -98,6 +98,7 @@ The following generators are available:
     - [php-symfony](generators/php-symfony.md)
     - [php-ze-ph](generators/php-ze-ph.md)
     - [python-aiohttp](generators/python-aiohttp.md)
+    - [python-blueplanet](generators/python-blueplanet.md)
     - [python-flask](generators/python-flask.md)
     - [ruby-on-rails](generators/ruby-on-rails.md)
     - [ruby-sinatra](generators/ruby-sinatra.md)
