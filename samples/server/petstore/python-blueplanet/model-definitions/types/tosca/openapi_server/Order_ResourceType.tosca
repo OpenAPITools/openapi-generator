@@ -1,0 +1,61 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server Order"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a Order"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  Order {
+    title = Order
+    description = Order
+    derivedFrom = Root
+    properties {
+        id {
+          type =  integer
+          description = ""
+          optional = false
+        }
+        pet_id {
+          type =  integer
+          description = ""
+          optional = false
+        }
+        quantity {
+          type =  integer
+          description = ""
+          optional = false
+        }
+        ship_date {
+          type =  string
+          description = ""
+          optional = false
+        }
+        status {
+          type =  string
+          description = "Order Status"
+          enum = ["placed", "approved", "delivered"]
+          optional = false
+        }
+        complete {
+          type =  boolean
+          description = ""
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  Order {
+    title = Order
+    description = Order
+    implements = openapi_server.resourceTypes.Order
+
+  }
+}
