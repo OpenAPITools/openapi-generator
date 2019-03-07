@@ -433,6 +433,7 @@ paths:
         name: username
         required: true
         schema:
+          pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
           type: string
         style: form
       - description: The password for login in clear text
@@ -641,6 +642,7 @@ components:
           format: int64
           type: integer
         name:
+          pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
           type: string
       title: Pet category
       type: object

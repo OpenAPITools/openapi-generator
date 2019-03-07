@@ -110,7 +110,7 @@ class ApiClient(object):
             query_params=None, header_params=None, body=None, post_params=None,
             files=None, response_type=None, auth_settings=None,
             _return_http_data_only=None, collection_formats=None,
-            _preload_content=True, _request_timeout=None):
+            _preload_content=True, _request_timeout=None, _host=None):
 
         config = self.configuration
 
@@ -157,7 +157,11 @@ class ApiClient(object):
             body = self.sanitize_for_serialization(body)
 
         # request url
-        url = self.configuration.host + resource_path
+        if _host is None:
+            url = self.configuration.host + resource_path
+        else:
+            # use server/host defined in path or operation instead
+            url = _host + resource_path
 
         # perform request and return response
         response_data = self.request(
@@ -290,7 +294,7 @@ class ApiClient(object):
                  body=None, post_params=None, files=None,
                  response_type=None, auth_settings=None, async_req=None,
                  _return_http_data_only=None, collection_formats=None,
-                 _preload_content=True, _request_timeout=None):
+                 _preload_content=True, _request_timeout=None, _host=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
 
         To make an async_req request, set the async_req parameter.
@@ -333,7 +337,7 @@ class ApiClient(object):
                                    body, post_params, files,
                                    response_type, auth_settings,
                                    _return_http_data_only, collection_formats,
-                                   _preload_content, _request_timeout)
+                                   _preload_content, _request_timeout, _host)
         else:
             thread = self.pool.apply_async(self.__call_api, (resource_path,
                                            method, path_params, query_params,
@@ -342,7 +346,9 @@ class ApiClient(object):
                                            response_type, auth_settings,
                                            _return_http_data_only,
                                            collection_formats,
-                                           _preload_content, _request_timeout))
+                                           _preload_content,
+                                           _request_timeout,
+                                           _host))
         return thread
 
     def request(self, method, url, query_params=None, headers=None,
