@@ -29,7 +29,7 @@ paths:
       operationId: testCodeInject */ ' " =end -- \r\n \n \r
       requestBody:
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
               properties:
                 test code inject */ ' " =end -- \r\n \n \r:
