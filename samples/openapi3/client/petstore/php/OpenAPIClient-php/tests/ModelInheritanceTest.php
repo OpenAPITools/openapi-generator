@@ -75,7 +75,7 @@ class ModelInheritanceTest extends TestCase
     public function testArrayStuff()
     {
         // create an array of Animal
-        $farm = new array();
+        $farm = array();
 
         // add some animals to the farm to make sure the ArrayAccess interface works
         $farm[] = new Dog();
