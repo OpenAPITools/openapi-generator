@@ -235,7 +235,7 @@
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
       self$`{{baseName}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
-      {{/isPrimitiveType}}  
+      {{/isPrimitiveType}}
       {{/isContainer}}
       {{/vars}}
       self
