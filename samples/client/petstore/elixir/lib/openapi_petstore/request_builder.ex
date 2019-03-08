@@ -90,7 +90,7 @@ defmodule OpenapiPetstore.RequestBuilder do
   end
   def add_param(request, :headers, key, value) do
     request
-    |> Map.update(:headers, %{key => value}, &(Map.put(&1, key, value)))
+    |> Tesla.put_header(key, value)
   end
   def add_param(request, :file, name, path) do
     request
