@@ -38,7 +38,7 @@ export class StoreApi extends BaseAPI {
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * Delete purchase order by ID
      */
-    deleteOrderRaw(requestParameters: DeleteOrderRequest): Observable<void> {
+    deleteOrder(requestParameters: DeleteOrderRequest): Observable<void> {
         if (requestParameters.orderId === null || requestParameters.orderId === undefined) {
             throw new RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling deleteOrder.');
         }
@@ -59,7 +59,7 @@ export class StoreApi extends BaseAPI {
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    getInventoryRaw(): Observable<{ [key: string]: number; }> {
+    getInventory(): Observable<{ [key: string]: number; }> {
         const queryParameters: HttpQuery = {};
 
         const headerParameters: HttpHeaders = {};
@@ -80,7 +80,7 @@ export class StoreApi extends BaseAPI {
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      */
-    getOrderByIdRaw(requestParameters: GetOrderByIdRequest): Observable<Order> {
+    getOrderById(requestParameters: GetOrderByIdRequest): Observable<Order> {
         if (requestParameters.orderId === null || requestParameters.orderId === undefined) {
             throw new RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling getOrderById.');
         }
@@ -100,7 +100,7 @@ export class StoreApi extends BaseAPI {
     /**
      * Place an order for a pet
      */
-    placeOrderRaw(requestParameters: PlaceOrderRequest): Observable<Order> {
+    placeOrder(requestParameters: PlaceOrderRequest): Observable<Order> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new RequiredError('body','Required parameter requestParameters.body was null or undefined when calling placeOrder.');
         }

@@ -56,7 +56,7 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Create user
      */
-    createUserRaw(requestParameters: CreateUserRequest): Observable<void> {
+    createUser(requestParameters: CreateUserRequest): Observable<void> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUser.');
         }
@@ -79,7 +79,7 @@ export class UserApi extends BaseAPI {
     /**
      * Creates list of users with given input array
      */
-    createUsersWithArrayInputRaw(requestParameters: CreateUsersWithArrayInputRequest): Observable<void> {
+    createUsersWithArrayInput(requestParameters: CreateUsersWithArrayInputRequest): Observable<void> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUsersWithArrayInput.');
         }
@@ -102,7 +102,7 @@ export class UserApi extends BaseAPI {
     /**
      * Creates list of users with given input array
      */
-    createUsersWithListInputRaw(requestParameters: CreateUsersWithListInputRequest): Observable<void> {
+    createUsersWithListInput(requestParameters: CreateUsersWithListInputRequest): Observable<void> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUsersWithListInput.');
         }
@@ -126,7 +126,7 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Delete user
      */
-    deleteUserRaw(requestParameters: DeleteUserRequest): Observable<void> {
+    deleteUser(requestParameters: DeleteUserRequest): Observable<void> {
         if (requestParameters.username === null || requestParameters.username === undefined) {
             throw new RequiredError('username','Required parameter requestParameters.username was null or undefined when calling deleteUser.');
         }
@@ -146,7 +146,7 @@ export class UserApi extends BaseAPI {
     /**
      * Get user by user name
      */
-    getUserByNameRaw(requestParameters: GetUserByNameRequest): Observable<User> {
+    getUserByName(requestParameters: GetUserByNameRequest): Observable<User> {
         if (requestParameters.username === null || requestParameters.username === undefined) {
             throw new RequiredError('username','Required parameter requestParameters.username was null or undefined when calling getUserByName.');
         }
@@ -166,7 +166,7 @@ export class UserApi extends BaseAPI {
     /**
      * Logs user into the system
      */
-    loginUserRaw(requestParameters: LoginUserRequest): Observable<string> {
+    loginUser(requestParameters: LoginUserRequest): Observable<string> {
         if (requestParameters.username === null || requestParameters.username === undefined) {
             throw new RequiredError('username','Required parameter requestParameters.username was null or undefined when calling loginUser.');
         }
@@ -198,7 +198,7 @@ export class UserApi extends BaseAPI {
     /**
      * Logs out current logged in user session
      */
-    logoutUserRaw(): Observable<void> {
+    logoutUser(): Observable<void> {
         const queryParameters: HttpQuery = {};
 
         const headerParameters: HttpHeaders = {};
@@ -215,7 +215,7 @@ export class UserApi extends BaseAPI {
      * This can only be done by the logged in user.
      * Updated user
      */
-    updateUserRaw(requestParameters: UpdateUserRequest): Observable<void> {
+    updateUser(requestParameters: UpdateUserRequest): Observable<void> {
         if (requestParameters.username === null || requestParameters.username === undefined) {
             throw new RequiredError('username','Required parameter requestParameters.username was null or undefined when calling updateUser.');
         }
