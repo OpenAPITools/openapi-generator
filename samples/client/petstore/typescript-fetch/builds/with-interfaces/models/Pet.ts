@@ -85,7 +85,7 @@ export function PetToJSON(value?: Pet): any {
         'category': CategoryToJSON(value.category),
         'name': value.name,
         'photoUrls': value.photoUrls,
-        'tags': (value.tags as Array<any>).map(TagToJSON),
+        'tags': value.tags === undefined ? undefined : (value.tags as Array<any>).map(TagToJSON),
         'status': value.status,
     };
 }
