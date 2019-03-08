@@ -11,7 +11,7 @@ defmodule OpenapiPetstore.Connection do
 
   # Add any middleware here (authentication)
   plug Tesla.Middleware.BaseUrl, "http://petstore.swagger.io:80/v2"
-  plug Tesla.Middleware.Headers, %{"User-Agent" => "Elixir"}
+  plug Tesla.Middleware.Headers, [{"user-agent", "Elixir"}]
   plug Tesla.Middleware.EncodeJson
 
   @doc """
@@ -51,7 +51,7 @@ defmodule OpenapiPetstore.Connection do
   @spec new(String.t) :: Tesla.Env.client
   def new(token) when is_binary(token) do
     Tesla.build_client([
-      {Tesla.Middleware.Headers,  %{"Authorization" => "Bearer #{token}"}}
+      {Tesla.Middleware.Headers,  [{"authorization", "Bearer #{token}"}]}
     ])
   end
 
