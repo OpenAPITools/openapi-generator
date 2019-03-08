@@ -12,7 +12,7 @@ defmodule OpenapiPetstore.Connection do
   # Add any middleware here (authentication)
   plug Tesla.Middleware.BaseUrl, "http://petstore.swagger.io:80/v2"
   plug Tesla.Middleware.Headers, [{"user-agent", "Elixir"}]
-  plug Tesla.Middleware.EncodeJson
+  plug Tesla.Middleware.EncodeJson, engine: Poison
 
   @doc """
   Configure a client connection using Basic authentication.
