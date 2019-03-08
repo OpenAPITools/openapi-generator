@@ -2,14 +2,14 @@ group 'org.openapitools'
 version '1.0.0'
 
 wrapper {
-gradleVersion = '4.9'
-distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+    gradleVersion = '4.9'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
     ext.kotlin_version = '1.3.21'
-ext.ktor_version = '1.1.3'
-ext.shadow_version = '2.0.3'
+    ext.ktor_version = '1.1.3'
+    ext.shadow_version = '2.0.3'
 
     repositories {
         mavenCentral()

@@ -49,14 +49,14 @@ fun Authentication.Configuration.apiKeyAuth(name: String? = null, configure: Api
         val cause = when {
             credentials == null -> AuthenticationFailedCause.NoCredentials
             principal == null -> AuthenticationFailedCause.InvalidCredentials
-        else -> null
+            else -> null
         }
 
         if (cause != null) {
             context.challenge(apiKeyName, cause) {
                 // TODO: Verify correct response structure here.
                 call.respond(UnauthorizedResponse(HttpAuthHeader.Parameterized("API_KEY", mapOf("key" to apiKeyName), HeaderValueEncoding.QUOTED_ALWAYS)))
-            it.complete()
+                it.complete()
             }
         }
 
