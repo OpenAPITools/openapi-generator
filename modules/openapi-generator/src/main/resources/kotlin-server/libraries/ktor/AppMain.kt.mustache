@@ -13,6 +13,10 @@ import io.ktor.locations.*
 import io.ktor.metrics.*
 import io.ktor.routing.*
 import java.util.concurrent.*
+{{#hasAuthMethods}}
+import io.ktor.auth.*
+import org.openapitools.server.infrastructure.*
+{{/hasAuthMethods}}
 {{#generateApis}}
 import {{apiPackage}}.*
 {{/generateApis}}
@@ -56,6 +60,49 @@ fun Application.main() {
     install(Compression, ApplicationCompressionConfiguration()) // see http://ktor.io/features/compression.html
     {{/featureCompression}}
     install(Locations) // see http://ktor.io/features/locations.html
+    {{#hasAuthMethods}}
+    install(Authentication) {
+    {{#authMethods}}
+        {{#isBasic}}
+        basic("{{{name}}}") {
+        validate { credentials ->
+            // TODO: "Apply your basic authentication functionality."
+            // Accessible in-method via call.principal<UserIdPrincipal>()
+            if (credentials.name == "Swagger" && "Codegen" == credentials.password) {
+                UserIdPrincipal(credentials.name)
+            } else {
+                null
+            }
+        }
+        {{/isBasic}}
+        {{#isApiKey}}
+        // "Implement API key auth ({{{name}}}) for parameter name '{{{keyParamName}}}'."
+        apiKeyAuth("{{{name}}}") {
+            validate { apikeyCredential: ApiKeyCredential ->
+                when {
+                    apikeyCredential.value == "keyboardcat" -> ApiPrincipal(apikeyCredential)
+                else -> null
+                }
+            }
+        }
+        {{/isApiKey}}
+        {{#isOAuth}}
+            {{#bodyAllowed}}
+            {{/bodyAllowed}}
+            {{^bodyAllowed}}
+        oauth("{{name}}") {
+            client = HttpClient(Apache)
+            providerLookup = { ApplicationAuthProviders["{{{name}}}"] }
+            urlProvider = { p ->
+            // TODO: define a callback url here.
+            "/"
+            }
+        }
+            {{/bodyAllowed}}
+        {{/isOAuth}}
+    {{/authMethods}}
+    }
+    {{/hasAuthMethods}}
     install(Routing) {
     {{#apiInfo}}
     {{#apis}}
@@ -65,6 +112,7 @@ fun Application.main() {
     {{/apis}}
     {{/apiInfo}}
     }
+
 {{/generateApis}}
 
     environment.monitor.subscribe(ApplicationStopping)

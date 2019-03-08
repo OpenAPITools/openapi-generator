@@ -15,8 +15,7 @@ import com.google.gson.Gson
 import io.ktor.application.call
 import io.ktor.auth.UserIdPrincipal
 import io.ktor.auth.authentication
-import io.ktor.auth.basicAuthentication
-import io.ktor.auth.oauth
+import io.ktor.auth.authenticate
 import io.ktor.auth.OAuthAccessTokenResponse
 import io.ktor.auth.OAuthServerSettings
 import io.ktor.http.ContentType
@@ -26,18 +25,9 @@ import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.*
 
-import kotlinx.coroutines.experimental.asCoroutineDispatcher
-
-import org.openapitools.server.ApplicationAuthProviders
 import org.openapitools.server.Paths
-import org.openapitools.server.ApplicationExecutors
-import org.openapitools.server.HTTP.client
 import org.openapitools.server.infrastructure.ApiPrincipal
-import org.openapitools.server.infrastructure.apiKeyAuth
 
-// ktor 0.9.x is missing io.ktor.locations.DELETE, this adds it.
-// see https://github.com/ktorio/ktor/issues/288
-import org.openapitools.server.delete
 
 import org.openapitools.server.models.Order
 
@@ -48,7 +38,7 @@ fun Route.StoreApi() {
     delete<Paths.deleteOrder> {  it: Paths.deleteOrder ->
         call.respond(HttpStatusCode.NotImplemented)
     }
-    
+
 
     get<Paths.getInventory> {  it: Paths.getInventory ->
         val principal = call.authentication.principal<ApiPrincipal>()
@@ -59,27 +49,7 @@ fun Route.StoreApi() {
             call.respond(HttpStatusCode.NotImplemented)
         }
     }
-    .apply {
-      // TODO: ktor doesn't allow different authentication registrations for endpoints sharing the same path but different methods.
-      //       It could be the authentication block is being abused here. Until this is resolved, swallow duplicate exceptions.
 
-        try {
-            authentication {
-                // "Implement API key auth (api_key) for parameter name 'api_key'."
-                apiKeyAuth("api_key", "header") {
-                    // TODO: "Verify key here , accessible as it.value"
-                    if (it.value == "keyboardcat") {
-                         ApiPrincipal(it)
-                    } else {
-                        null
-                    }
-                }
-            }
-        } catch(e: io.ktor.application.DuplicateApplicationFeatureException){
-            application.environment.log.warn("authentication block for '/store/inventory' is duplicated in code. " +
-            "Generated endpoints may need to be merged under a 'route' entry.")
-        }
-    }
 
     get<Paths.getOrderById> {  it: Paths.getOrderById ->
         val exampleContentType = "application/json"
@@ -98,7 +68,7 @@ fun Route.StoreApi() {
             else -> call.respondText(exampleContentString)
         }
     }
-    
+
 
     route("/store/order") {
         post {
@@ -119,5 +89,5 @@ fun Route.StoreApi() {
             }
         }
     }
-    
+
 }

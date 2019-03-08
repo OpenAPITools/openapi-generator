@@ -15,8 +15,7 @@ import com.google.gson.Gson
 import io.ktor.application.call
 import io.ktor.auth.UserIdPrincipal
 import io.ktor.auth.authentication
-import io.ktor.auth.basicAuthentication
-import io.ktor.auth.oauth
+import io.ktor.auth.authenticate
 import io.ktor.auth.OAuthAccessTokenResponse
 import io.ktor.auth.OAuthServerSettings
 import io.ktor.http.ContentType
@@ -26,18 +25,9 @@ import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.*
 
-import kotlinx.coroutines.experimental.asCoroutineDispatcher
-
-import org.openapitools.server.ApplicationAuthProviders
 import org.openapitools.server.Paths
-import org.openapitools.server.ApplicationExecutors
-import org.openapitools.server.HTTP.client
 import org.openapitools.server.infrastructure.ApiPrincipal
-import org.openapitools.server.infrastructure.apiKeyAuth
 
-// ktor 0.9.x is missing io.ktor.locations.DELETE, this adds it.
-// see https://github.com/ktorio/ktor/issues/288
-import org.openapitools.server.delete
 
 import org.openapitools.server.models.User
 
@@ -50,26 +40,26 @@ fun Route.UserApi() {
             call.respond(HttpStatusCode.NotImplemented)
         }
     }
-    
+
 
     route("/user/createWithArray") {
         post {
             call.respond(HttpStatusCode.NotImplemented)
         }
     }
-    
+
 
     route("/user/createWithList") {
         post {
             call.respond(HttpStatusCode.NotImplemented)
         }
     }
-    
+
 
     delete<Paths.deleteUser> {  it: Paths.deleteUser ->
         call.respond(HttpStatusCode.NotImplemented)
     }
-    
+
 
     get<Paths.getUserByName> {  it: Paths.getUserByName ->
         val exampleContentType = "application/json"
@@ -90,22 +80,22 @@ fun Route.UserApi() {
             else -> call.respondText(exampleContentString)
         }
     }
-    
+
 
     get<Paths.loginUser> {  it: Paths.loginUser ->
         call.respond(HttpStatusCode.NotImplemented)
     }
-    
+
 
     get<Paths.logoutUser> {  it: Paths.logoutUser ->
         call.respond(HttpStatusCode.NotImplemented)
     }
-    
+
 
     route("/user/{username}") {
         put {
             call.respond(HttpStatusCode.NotImplemented)
         }
     }
-    
+
 }

@@ -13,6 +13,8 @@ import io.ktor.locations.*
 import io.ktor.metrics.*
 import io.ktor.routing.*
 import java.util.concurrent.*
+import io.ktor.auth.*
+import org.openapitools.server.infrastructure.*
 import org.openapitools.server.apis.*
 
 
@@ -39,11 +41,31 @@ fun Application.main() {
     install(HSTS, ApplicationHstsConfiguration()) // see http://ktor.io/features/hsts.html
     install(Compression, ApplicationCompressionConfiguration()) // see http://ktor.io/features/compression.html
     install(Locations) // see http://ktor.io/features/locations.html
+    install(Authentication) {
+        // "Implement API key auth (api_key) for parameter name 'api_key'."
+        apiKeyAuth("api_key") {
+            validate { apikeyCredential: ApiKeyCredential ->
+                when {
+                    apikeyCredential.value == "keyboardcat" -> ApiPrincipal(apikeyCredential)
+                else -> null
+                }
+            }
+        }
+        oauth("petstore_auth") {
+            client = HttpClient(Apache)
+            providerLookup = { ApplicationAuthProviders["petstore_auth"] }
+            urlProvider = { p ->
+            // TODO: define a callback url here.
+            "/"
+            }
+        }
+    }
     install(Routing) {
         PetApi()
         StoreApi()
         UserApi()
     }
+
 
     environment.monitor.subscribe(ApplicationStopping)
     {
