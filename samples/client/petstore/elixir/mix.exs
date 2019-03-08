@@ -30,7 +30,7 @@ defmodule OpenapiPetstore.Mixfile do
   defp deps do
     [
       {:tesla, "~> 1.0.0"},
-      {:jason, ">= 1.1"}
+      {:jason, ">= 1.0.0"}
     ]
   end
 end
