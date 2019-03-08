@@ -12,13 +12,13 @@ class Name {
     /** @var int $name */
     private $name;
 
-    /** @var int $snake_case */
-    private $snake_case;
+    /** @var int $snakeCase */
+    private $snakeCase;
 
     /** @var string $property */
     private $property;
 
-    /** @var int $_123_number */
-    private $_123_number;
+    /** @var int $_123number */
+    private $_123number;
 
 }

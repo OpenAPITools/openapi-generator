@@ -13,10 +13,9 @@ description:    .
                 {{/version}}
                 .
                 OpenAPI version: {{openApiVersion}}
-                .
-                {{^hideGenerationTimestamp}}Generated on: {{generatedDate}}
-                .
-                {{/hideGenerationTimestamp}}
+                .{{^hideGenerationTimestamp}}
+                Generated on: {{generatedDate}}
+                .{{/hideGenerationTimestamp}}
 category:       Web
 homepage:       https://openapi-generator.tech
 author:         Author Name Here
@@ -79,7 +78,7 @@ library
   default-language: Haskell2010
 
   if flag(UseKatip)
-      build-depends: katip >=0.6 && < 1.0
+      build-depends: katip >=0.8 && < 1.0
       other-modules: {{baseModule}}.LoggingKatip
       cpp-options: -DUSE_KATIP
   else

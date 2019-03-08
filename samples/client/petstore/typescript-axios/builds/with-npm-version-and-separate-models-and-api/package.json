@@ -1,0 +1,32 @@
+{
+  "name": "@swagger/typescript-axios-petstore",
+  "version": "1.0.0",
+  "description": "OpenAPI client for @swagger/typescript-axios-petstore",
+  "author": "OpenAPI-Generator Contributors",
+  "keywords": [
+    "axios",
+    "typescript",
+    "openapi-client",
+    "openapi-generator",
+    "@swagger/typescript-axios-petstore"
+  ],
+  "license": "Unlicense",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts" : {
+    "build": "tsc --outDir dist/",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "axios": "^0.18.0"
+  },
+  "peerDependencies": {    
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.9",
+    "typescript": "^2.4"
+  },
+  "publishConfig":{
+    "registry":"https://skimdb.npmjs.com/registry"
+  }
+}

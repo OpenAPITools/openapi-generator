@@ -34,8 +34,6 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
 
-    private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
-    private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 

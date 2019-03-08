@@ -373,7 +373,7 @@ public class ModelUtils {
         return false;
     }
 
-    public static boolean isShortchema(Schema schema) {
+    public static boolean isShortSchema(Schema schema) {
         if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) // type: integer
                 && SchemaTypeUtil.INTEGER32_FORMAT.equals(schema.getFormat())) { // format: short (int32)
             return true;

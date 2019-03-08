@@ -39,8 +39,8 @@ class FormatTest {
     /** @var \DateTime $date */
     private $date;
 
-    /** @var \DateTime $date_time */
-    private $date_time;
+    /** @var \DateTime $dateTime */
+    private $dateTime;
 
     /** @var string $uuid */
     private $uuid;
