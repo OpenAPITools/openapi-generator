@@ -29,8 +29,8 @@ defmodule OpenapiPetstore.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:tesla, "~> 0.8"},
-      {:poison, ">= 1.0.0"}
+      {:tesla, "~> 1.0.0"},
+      {:jason, ">= 1.1"}
     ]
   end
 end
