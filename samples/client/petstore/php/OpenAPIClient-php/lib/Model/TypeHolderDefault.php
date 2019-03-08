@@ -36,7 +36,7 @@ use \OpenAPI\Client\ObjectSerializer;
  * TypeHolderDefault Class Doc Comment
  *
  * @category Class
- * @description a model to test option properties with server defaults
+ * @description a model to test optional properties with server defaults
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech

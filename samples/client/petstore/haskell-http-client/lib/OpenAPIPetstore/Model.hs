@@ -1347,7 +1347,7 @@ mkTag =
 
 -- ** TypeHolderDefault
 -- | TypeHolderDefault
--- a model to test option properties with server defaults
+-- a model to test optional properties with server defaults
 data TypeHolderDefault = TypeHolderDefault
   { typeHolderDefaultStringItem :: !(Maybe Text) -- ^ "string_item"
   , typeHolderDefaultNumberItem :: !(Maybe Float) -- ^ "number_item"

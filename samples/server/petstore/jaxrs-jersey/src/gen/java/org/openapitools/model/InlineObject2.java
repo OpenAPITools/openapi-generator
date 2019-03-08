@@ -33,9 +33,9 @@ public class InlineObject2   {
    * Gets or Sets enumFormStringArray
    */
   public enum EnumFormStringArrayEnum {
-    GREATER_THAN(">"),
+    GREATER_THAN(String.valueOf(">")),
     
-    DOLLAR("$");
+    DOLLAR(String.valueOf("$"));
 
     private String value;
 
@@ -67,11 +67,11 @@ public class InlineObject2   {
    * Form parameter enum test (string)
    */
   public enum EnumFormStringEnum {
-    _ABC("_abc"),
+    _ABC(String.valueOf("_abc")),
     
-    _EFG("-efg"),
+    _EFG(String.valueOf("-efg")),
     
-    _XYZ_("(xyz)");
+    _XYZ_(String.valueOf("(xyz)"));
 
     private String value;
 

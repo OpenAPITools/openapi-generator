@@ -28,9 +28,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
- * a model to test option properties with server defaults
+ * a model to test optional properties with server defaults
  */
-@ApiModel(description = "a model to test option properties with server defaults")
+@ApiModel(description = "a model to test optional properties with server defaults")
 
 @XmlRootElement(name = "TypeHolderDefault")
 @XmlAccessorType(XmlAccessType.FIELD)

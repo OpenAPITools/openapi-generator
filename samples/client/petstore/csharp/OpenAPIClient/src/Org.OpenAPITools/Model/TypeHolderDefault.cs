@@ -25,7 +25,7 @@ using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
-    /// a model to test option properties with server defaults
+    /// a model to test optional properties with server defaults
     /// </summary>
     [DataContract]
     public partial class TypeHolderDefault :  IEquatable<TypeHolderDefault>, IValidatableObject

@@ -17,9 +17,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * a model to test option properties with server defaults
+ * a model to test optional properties with server defaults
  **/
-@ApiModel(description = "a model to test option properties with server defaults")
+@ApiModel(description = "a model to test optional properties with server defaults")
 public class TypeHolderDefault  implements Serializable {
   
   private @Valid String stringItem = "what";

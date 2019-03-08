@@ -29,9 +29,9 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 /**
- * a model to test option properties with server defaults
+ * a model to test optional properties with server defaults
  */
-@ApiModel(description = "a model to test option properties with server defaults")
+@ApiModel(description = "a model to test optional properties with server defaults")
 
 public class TypeHolderDefault {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";

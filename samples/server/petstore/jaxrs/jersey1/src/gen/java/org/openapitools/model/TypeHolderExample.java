@@ -35,7 +35,7 @@ public class TypeHolderExample   {
    * Gets or Sets stringItem
    */
   public enum StringItemEnum {
-    WHAT("what");
+    WHAT(String.valueOf("what"));
 
     private String value;
 
@@ -67,7 +67,7 @@ public class TypeHolderExample   {
    * Gets or Sets numberItem
    */
   public enum NumberItemEnum {
-    NUMBER_1_DOT_2339999675750732(1.2339999675750732f);
+    NUMBER_1_DOT_2339999675750732(Float.valueOf(1.2339999675750732f));
 
     private Float value;
 
@@ -99,7 +99,7 @@ public class TypeHolderExample   {
    * Gets or Sets integerItem
    */
   public enum IntegerItemEnum {
-    NUMBER_MINUS_2(-2);
+    NUMBER_MINUS_2(Integer.valueOf(-2));
 
     private Integer value;
 
@@ -134,7 +134,7 @@ public class TypeHolderExample   {
    * Gets or Sets dateItem
    */
   public enum DateItemEnum {
-    THU_JUL_20_17_00_00_PDT_2017("Thu Jul 20 17:00:00 PDT 2017");
+    THU_JUL_20_17_00_00_PDT_2017(Date.valueOf("Thu Jul 20 17:00:00 PDT 2017"));
 
     private Date value;
 
@@ -166,7 +166,7 @@ public class TypeHolderExample   {
    * Gets or Sets datetimeItem
    */
   public enum DatetimeItemEnum {
-    FRI_JUL_21_10_32_28_PDT_2017("Fri Jul 21 10:32:28 PDT 2017");
+    FRI_JUL_21_10_32_28_PDT_2017(Date.valueOf("Fri Jul 21 10:32:28 PDT 2017"));
 
     private Date value;
 

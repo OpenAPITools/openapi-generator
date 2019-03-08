@@ -13,7 +13,7 @@ OpenAPI Generator version: 4.0.0-SNAPSHOT
 require 'date'
 
 module Petstore
-  # a model to test option properties with server defaults
+  # a model to test optional properties with server defaults
   class TypeHolderDefault
     attr_accessor :string_item
 

@@ -31,9 +31,9 @@ import android.os.Parcelable;
 import android.os.Parcel;
 
 /**
- * a model to test option properties with server defaults
+ * a model to test optional properties with server defaults
  */
-@ApiModel(description = "a model to test option properties with server defaults")
+@ApiModel(description = "a model to test optional properties with server defaults")
 
 public class TypeHolderDefault implements Parcelable {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";

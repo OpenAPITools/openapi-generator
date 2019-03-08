@@ -19,9 +19,9 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
-  * a model to test option properties with server defaults
+  * a model to test optional properties with server defaults
  **/
-@ApiModel(description="a model to test option properties with server defaults")
+@ApiModel(description="a model to test optional properties with server defaults")
 public class TypeHolderDefault  {
   
   @ApiModelProperty(value = "")

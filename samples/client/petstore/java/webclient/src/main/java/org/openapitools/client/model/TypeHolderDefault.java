@@ -26,9 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * a model to test option properties with server defaults
+ * a model to test optional properties with server defaults
  */
-@ApiModel(description = "a model to test option properties with server defaults")
+@ApiModel(description = "a model to test optional properties with server defaults")
 
 public class TypeHolderDefault {
   @JsonProperty("string_item")

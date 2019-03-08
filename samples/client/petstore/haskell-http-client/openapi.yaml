@@ -1730,7 +1730,7 @@ components:
           type: string
       type: object
     TypeHolderDefault:
-      description: a model to test option properties with server defaults
+      description: a model to test optional properties with server defaults
       properties:
         string_item:
           default: what

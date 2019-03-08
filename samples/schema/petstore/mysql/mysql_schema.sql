@@ -318,7 +318,7 @@ CREATE TABLE IF NOT EXISTS `Tag` (
 
 --
 -- Table structure for table `TypeHolderDefault` generated from model 'TypeHolderDefault'
--- a model to test option properties with server defaults
+-- a model to test optional properties with server defaults
 --
 
 CREATE TABLE IF NOT EXISTS `TypeHolderDefault` (
@@ -329,7 +329,7 @@ CREATE TABLE IF NOT EXISTS `TypeHolderDefault` (
   `date_item` DATE DEFAULT NULL,
   `datetime_item` DATETIME DEFAULT NULL,
   `array_item` JSON DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='a model to test option properties with server defaults';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='a model to test optional properties with server defaults';
 
 --
 -- Table structure for table `TypeHolderExample` generated from model 'TypeHolderExample'

@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-// a model to test option properties with server defaults
+// a model to test optional properties with server defaults
 type TypeHolderDefault struct {
 	StringItem string `json:"string_item,omitempty"`
 	NumberItem float32 `json:"number_item,omitempty"`
