@@ -11,16 +11,18 @@ export class Category {
 
     static readonly discriminator: string | undefined = undefined;
 
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {
             "name": "id",
             "baseName": "id",
-            "type": "number"
+            "type": "number",
+            "format": "int64"
         },
         {
             "name": "name",
             "baseName": "name",
-            "type": "string"
+            "type": "string",
+            "format": ""
         }    ];
 
     static getAttributeTypeMap() {

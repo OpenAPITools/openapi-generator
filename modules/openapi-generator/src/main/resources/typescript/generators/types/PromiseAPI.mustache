@@ -16,9 +16,9 @@ import { Observable{{classname}} } from './ObservableAPI';
 import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}";
 export class Promise{{classname}} {
     private api: Observable{{classname}}
-
-	public constructor(configuration: Configuration) {
-        this.api = new Observable{{classname}}(configuration);
+ 
+    public constructor(configuration: Configuration, requestFactory?: {{classname}}RequestFactory, responseProcessor?: {{classname}}ResponseProcessor) {
+        this.api = new Observable{{classname}}(configuration, requestFactory, responseProcessor);
 	}
 
 {{#operation}}

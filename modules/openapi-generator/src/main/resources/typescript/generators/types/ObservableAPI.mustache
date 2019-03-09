@@ -17,10 +17,12 @@ import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../a
 export class Observable{{classname}} {
 	private requestFactory: {{classname}}RequestFactory;
 	private responseProcessor: {{classname}}ResponseProcessor;
-
-	public constructor(private configuration: Configuration) {
-		this.requestFactory = new {{classname}}RequestFactory(configuration);
-		this.responseProcessor = new {{classname}}ResponseProcessor();
+    private configuration: Configuration;
+    
+	public constructor(configuration: Configuration, requestFactory?: {{classname}}RequestFactory, responseProcessor?: {{classname}}ResponseProcessor) {
+	    this.configuration = configuration;
+		this.requestFactory = requestFactory || new {{classname}}RequestFactory(configuration);
+		this.responseProcessor = responseProcessor || new {{classname}}ResponseProcessor();
 	}
 
 {{#operation}}

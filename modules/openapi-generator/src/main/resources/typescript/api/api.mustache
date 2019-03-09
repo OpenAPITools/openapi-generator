@@ -40,13 +40,13 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         // Query Params
 		{{#queryParams}}
         if ({{paramName}} !== undefined) {
-        	requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}"));
+        	requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
         }
 		{{/queryParams}}
 	
 		// Header Params
 		{{#headerParams}}
-		requestContext.setHeaderParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}"));
+		requestContext.setHeaderParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
 		{{/headerParams}}
 	
 		// Form Params
@@ -133,7 +133,7 @@ export class {{classname}}ResponseProcessor {
         if (isCodeInRange("{{code}}", response.httpStatusCode)) {
             {{#dataType}}
             const jsonBody = JSON.parse(response.body);
-            const body: {{{dataType}}} = ObjectSerializer.deserialize(jsonBody, "{{{dataType}}}") as {{{dataType}}};            
+            const body: {{{dataType}}} = ObjectSerializer.deserialize(jsonBody, "{{{dataType}}}", "{{returnFormat}}") as {{{dataType}}};            
             {{#isSuccessCode}}
             return body;
             {{/isSuccessCode}}
@@ -156,7 +156,7 @@ export class {{classname}}ResponseProcessor {
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
         	{{#returnType}}
             const jsonBody = JSON.parse(response.body);
-            const body: {{{returnType}}} = ObjectSerializer.deserialize(jsonBody, "{{{returnType}}}") as {{{returnType}}};            
+            const body: {{{returnType}}} = ObjectSerializer.deserialize(jsonBody, "{{{returnType}}}", "{{returnFormat}}") as {{{returnType}}};            
 			return body;        		
         	{{/returnType}}
         	{{^returnType}}

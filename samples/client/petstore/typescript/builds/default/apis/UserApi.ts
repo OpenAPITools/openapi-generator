@@ -203,10 +203,10 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (username !== undefined) {
-        	requestContext.setQueryParam("username", ObjectSerializer.serialize(username, "string"));
+        	requestContext.setQueryParam("username", ObjectSerializer.serialize(username, "string", ""));
         }
         if (password !== undefined) {
-        	requestContext.setQueryParam("password", ObjectSerializer.serialize(password, "string"));
+        	requestContext.setQueryParam("password", ObjectSerializer.serialize(password, "string", ""));
         }
 	
 		// Header Params
@@ -373,7 +373,7 @@ export class UserApiResponseProcessor {
     public getUserByName(response: ResponseContext):  User  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
-            const body: User = ObjectSerializer.deserialize(jsonBody, "User") as User;            
+            const body: User = ObjectSerializer.deserialize(jsonBody, "User", "") as User;            
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -386,7 +386,7 @@ export class UserApiResponseProcessor {
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             const jsonBody = JSON.parse(response.body);
-            const body: User = ObjectSerializer.deserialize(jsonBody, "User") as User;            
+            const body: User = ObjectSerializer.deserialize(jsonBody, "User", "") as User;            
 			return body;        		
         }
         let body = response.body || "";
@@ -400,7 +400,7 @@ export class UserApiResponseProcessor {
     public loginUser(response: ResponseContext):  string  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
-            const body: string = ObjectSerializer.deserialize(jsonBody, "string") as string;            
+            const body: string = ObjectSerializer.deserialize(jsonBody, "string", "") as string;            
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -410,7 +410,7 @@ export class UserApiResponseProcessor {
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             const jsonBody = JSON.parse(response.body);
-            const body: string = ObjectSerializer.deserialize(jsonBody, "string") as string;            
+            const body: string = ObjectSerializer.deserialize(jsonBody, "string", "") as string;            
 			return body;        		
         }
         let body = response.body || "";

@@ -173,14 +173,14 @@ export class StoreApiResponseProcessor {
     public getInventory(response: ResponseContext):  { [key: string]: number; }  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
-            const body: { [key: string]: number; } = ObjectSerializer.deserialize(jsonBody, "{ [key: string]: number; }") as { [key: string]: number; };            
+            const body: { [key: string]: number; } = ObjectSerializer.deserialize(jsonBody, "{ [key: string]: number; }", "int32") as { [key: string]: number; };            
             return body;
         }
         
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             const jsonBody = JSON.parse(response.body);
-            const body: { [key: string]: number; } = ObjectSerializer.deserialize(jsonBody, "{ [key: string]: number; }") as { [key: string]: number; };            
+            const body: { [key: string]: number; } = ObjectSerializer.deserialize(jsonBody, "{ [key: string]: number; }", "int32") as { [key: string]: number; };            
 			return body;        		
         }
         let body = response.body || "";
@@ -194,7 +194,7 @@ export class StoreApiResponseProcessor {
     public getOrderById(response: ResponseContext):  Order  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
-            const body: Order = ObjectSerializer.deserialize(jsonBody, "Order") as Order;            
+            const body: Order = ObjectSerializer.deserialize(jsonBody, "Order", "") as Order;            
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -207,7 +207,7 @@ export class StoreApiResponseProcessor {
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             const jsonBody = JSON.parse(response.body);
-            const body: Order = ObjectSerializer.deserialize(jsonBody, "Order") as Order;            
+            const body: Order = ObjectSerializer.deserialize(jsonBody, "Order", "") as Order;            
 			return body;        		
         }
         let body = response.body || "";
@@ -221,7 +221,7 @@ export class StoreApiResponseProcessor {
     public placeOrder(response: ResponseContext):  Order  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
-            const body: Order = ObjectSerializer.deserialize(jsonBody, "Order") as Order;            
+            const body: Order = ObjectSerializer.deserialize(jsonBody, "Order", "") as Order;            
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -231,7 +231,7 @@ export class StoreApiResponseProcessor {
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             const jsonBody = JSON.parse(response.body);
-            const body: Order = ObjectSerializer.deserialize(jsonBody, "Order") as Order;            
+            const body: Order = ObjectSerializer.deserialize(jsonBody, "Order", "") as Order;            
 			return body;        		
         }
         let body = response.body || "";

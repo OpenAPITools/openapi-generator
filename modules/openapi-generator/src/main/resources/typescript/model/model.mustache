@@ -28,12 +28,13 @@ export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
     {{/discriminator}}
 
     {{^isArrayModel}}
-    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string, format: string}> = [
         {{#vars}}
         {
             "name": "{{name}}",
             "baseName": "{{baseName}}",
-            "type": "{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}"
+            "type": "{{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}",
+            "format": "{{dataFormat}}"
         }{{#hasMore}},
         {{/hasMore}}
         {{/vars}}

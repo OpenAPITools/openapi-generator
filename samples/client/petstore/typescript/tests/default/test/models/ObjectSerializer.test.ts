@@ -12,44 +12,50 @@ describe("ObjectSerializer", () => {
     describe("Serialize", () => {
         it("String", () => {
             const input = "test string"
-            expect(ObjectSerializer.serialize(input, "string")).to.equal("test string")
+            expect(ObjectSerializer.serialize(input, "string", "")).to.equal("test string")
         });
 
         it("Number", () => {
             const input = 1337
-            expect(ObjectSerializer.serialize(input, "number")).to.equal(1337)
+            expect(ObjectSerializer.serialize(input, "number", "")).to.equal(1337)
         });
 
         it("String Array", () => {
             const input = ["a", "b", "c"]
-            expect(ObjectSerializer.serialize(input, "Array<string>")).to.deep.equal(["a", "b", "c"])
+            expect(ObjectSerializer.serialize(input, "Array<string>", "")).to.deep.equal(["a", "b", "c"])
         })
 
         it("Number Array", () => {
             const input = [ 1337, 42, 0]
-            expect(ObjectSerializer.serialize(input, "Array<number>")).to.deep.equal([1337, 42, 0]) 
+            expect(ObjectSerializer.serialize(input, "Array<number>", "")).to.deep.equal([1337, 42, 0]) 
         })
 
-        it("Date", () => {
+        it("Date-Time", () => {
             const input = new Date(1543777609696)
-            expect(ObjectSerializer.serialize(input, "Date")).to.equal(input.toISOString())
+            expect(ObjectSerializer.serialize(input, "Date", "date-time")).to.equal(input.toISOString())
         })
+
+        it("Date-Time", () => {
+            const input = new Date(1543777609696)
+            expect(ObjectSerializer.serialize(input, "Date", "date")).to.equal("2018-12-02")
+        })
+
 
         it("Object", () => {
             const input = {"a": "test", "b": { "test": 5}}
-            expect(ObjectSerializer.serialize(input, "Object")).to.deep.equal({ a: "test", "b": { "test": 5}})
+            expect(ObjectSerializer.serialize(input, "Object", "")).to.deep.equal({ a: "test", "b": { "test": 5}})
         })
 
         it("Class", () => {
             const input = new petstore.models.Category()
             input.id = 4
             input.name = "Test"
-            expect(ObjectSerializer.serialize(input, "Category")).to.deep.equal({ "id": input.id, "name": input.name})
+            expect(ObjectSerializer.serialize(input, "Category", "")).to.deep.equal({ "id": input.id, "name": input.name})
         });
 
         it ("Enum", () => {
             const input = "available"
-            expect(ObjectSerializer.serialize(input, "Pet.StatusEnum")).to.equal("available")
+            expect(ObjectSerializer.serialize(input, "Pet.StatusEnum", "")).to.equal("available")
         })
 
         it("Complex Class", () => {
@@ -77,7 +83,7 @@ describe("ObjectSerializer", () => {
             pet.status = "available"
             pet.tags = tags
 
-            expect(ObjectSerializer.serialize(pet, "Pet")).to.deep.equal({
+            expect(ObjectSerializer.serialize(pet, "Pet", "")).to.deep.equal({
                 "id": pet.id,
                 "name": pet.name,
                 "category": {
@@ -103,39 +109,45 @@ describe("ObjectSerializer", () => {
                 })
             }
 
-            expect(ObjectSerializer.serialize(categories, "Array<Category>")).to.deep.equal(result)
+            expect(ObjectSerializer.serialize(categories, "Array<Category>", "")).to.deep.equal(result)
         })
     })
 
     describe("Deserialize", () => {
         it("String", () => {
             const input = "test string"
-            expect(ObjectSerializer.deserialize(input, "string")).to.equal("test string")
+            expect(ObjectSerializer.deserialize(input, "string", "")).to.equal("test string")
         });
 
         it("Number", () => {
             const input = 1337
-            expect(ObjectSerializer.deserialize(input, "number")).to.equal(1337)
+            expect(ObjectSerializer.deserialize(input, "number", "")).to.equal(1337)
         });
 
         it("String Array", () => {
             const input = ["a", "b", "c"]
-            expect(ObjectSerializer.deserialize(input, "Array<string>")).to.deep.equal(["a", "b", "c"])
+            expect(ObjectSerializer.deserialize(input, "Array<string>", "")).to.deep.equal(["a", "b", "c"])
         })
 
         it("Number Array", () => {
             const input = [ 1337, 42, 0]
-            expect(ObjectSerializer.deserialize(input, "Array<number>")).to.deep.equal([1337, 42, 0]) 
+            expect(ObjectSerializer.deserialize(input, "Array<number>", "")).to.deep.equal([1337, 42, 0]) 
+        })
+
+        it("DateTime", () => {
+            const input = new Date(1543777609696)
+            expect(ObjectSerializer.deserialize(input.toISOString(), "Date", "date-time").getTime()).to.equal(input.getTime())
         })
 
         it("Date", () => {
-            const input = new Date(1543777609696)
-            expect(ObjectSerializer.deserialize(input.toISOString(), "Date").getTime()).to.equal(input.getTime())
+            let dateString = "2019-02-01"
+            const input = new Date(dateString);
+            expect(ObjectSerializer.deserialize(dateString, "Date", "date").getTime()).to.equal(input.getTime())
         })
 
         it("Object", () => {
             const input = {"a": "test", "b": { "test": 5}}
-            expect(ObjectSerializer.deserialize(input, "Object")).to.deep.equal({ a: "test", "b": { "test": 5}})
+            expect(ObjectSerializer.deserialize(input, "Object", "")).to.deep.equal({ a: "test", "b": { "test": 5}})
         })
 
         it("Class", () => {
@@ -150,7 +162,7 @@ describe("ObjectSerializer", () => {
 
         it ("Enum", () => {
             const input = "available"
-            expect(ObjectSerializer.deserialize("available", "Pet.StatusEnum")).to.equal(input)
+            expect(ObjectSerializer.deserialize("available", "Pet.StatusEnum", "")).to.equal(input)
         })
 
         it("Complex Class", () => {
@@ -188,7 +200,7 @@ describe("ObjectSerializer", () => {
                 "photoUrls": [ "url", "other url"],
                 "status": "available",
                 "tags": tagResult
-            }, "Pet") as petstore.models.Pet
+            }, "Pet", "") as petstore.models.Pet
 
             expect(deserialized.constructor.name).to.equal("Pet")
             expect(deserialized.category.constructor.name).to.equal("Category")
@@ -212,7 +224,7 @@ describe("ObjectSerializer", () => {
                 })
             }
 
-            const deserialized = ObjectSerializer.deserialize(result, "Array<Category>")
+            const deserialized = ObjectSerializer.deserialize(result, "Array<Category>", "")
             for (let i = 0; i < categories.length; i++) {
                 expect(deserialized[i].constructor.name).to.equal("Category")
             }

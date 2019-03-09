@@ -80,7 +80,7 @@ export class ObjectSerializer {
         }
     }
 
-    public static serialize(data: any, type: string) {
+    public static serialize(data: any, type: string, format: string) {
         if (data == undefined) {
             return data;
         } else if (primitives.indexOf(type.toLowerCase()) !== -1) {
@@ -91,11 +91,20 @@ export class ObjectSerializer {
             let transformedData: any[] = [];
             for (let index in data) {
                 let date = data[index];
-                transformedData.push(ObjectSerializer.serialize(date, subType));
+                transformedData.push(ObjectSerializer.serialize(date, subType, format));
             }
             return transformedData;
         } else if (type === "Date") {
-            return data.toISOString();
+            if (format == "date") {
+                let month = data.getMonth()+1
+                month = month < 10 ? "0" + month.toString() : month.toString()
+                let day = data.getDate();
+                day = day < 10 ? "0" + day.toString() : day.toString();
+
+                return data.getFullYear() + "-" + month + "-" + day;
+            } else {
+                return data.toISOString();
+            }
         } else {
             if (enumsMap.has(type)) {
                 return data;
@@ -112,13 +121,13 @@ export class ObjectSerializer {
             let instance: {[index: string]: any} = {};
             for (let index in attributeTypes) {
                 let attributeType = attributeTypes[index];
-                instance[attributeType.baseName] = ObjectSerializer.serialize(data[attributeType.name], attributeType.type);
+                instance[attributeType.baseName] = ObjectSerializer.serialize(data[attributeType.name], attributeType.type, attributeType.format);
             }
             return instance;
         }
     }
 
-    public static deserialize(data: any, type: string) {
+    public static deserialize(data: any, type: string, format: string) {
         // polymorphism may change the actual type.
         type = ObjectSerializer.findCorrectType(data, type);
         if (data == undefined) {
@@ -131,7 +140,7 @@ export class ObjectSerializer {
             let transformedData: any[] = [];
             for (let index in data) {
                 let date = data[index];
-                transformedData.push(ObjectSerializer.deserialize(date, subType));
+                transformedData.push(ObjectSerializer.deserialize(date, subType, format));
             }
             return transformedData;
         } else if (type === "Date") {
@@ -148,7 +157,7 @@ export class ObjectSerializer {
             let attributeTypes = typeMap[type].getAttributeTypeMap();
             for (let index in attributeTypes) {
                 let attributeType = attributeTypes[index];
-                instance[attributeType.name] = ObjectSerializer.deserialize(data[attributeType.baseName], attributeType.type);
+                instance[attributeType.name] = ObjectSerializer.deserialize(data[attributeType.baseName], attributeType.type, attributeType.format);
             }
             return instance;
         }
