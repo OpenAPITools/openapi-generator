@@ -2,32 +2,30 @@
 	TODO: LICENSE INFO
 */
 
-/**
-* A tag for a pet
-*/
-export class Tag {
-    'id'?: number;
-    'name'?: string;
+export class Pet2 {
+    'name': string;
+    'petType': string;
 
-    static readonly discriminator: string | undefined = undefined;
+    static readonly discriminator: string | undefined = "petType";
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
-        {
-            "name": "id",
-            "baseName": "id",
-            "type": "number"
-        },
         {
             "name": "name",
             "baseName": "name",
             "type": "string"
+        },
+        {
+            "name": "petType",
+            "baseName": "petType",
+            "type": "string"
         }    ];
 
     static getAttributeTypeMap() {
-        return Tag.attributeTypeMap;
+        return Pet2.attributeTypeMap;
     }
     
     public constructor() {
+        this.petType = "Pet2";
     }
 }
 

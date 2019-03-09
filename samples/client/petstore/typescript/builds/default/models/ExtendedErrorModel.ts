@@ -1,33 +1,26 @@
 /*
 	TODO: LICENSE INFO
 */
+import { ErrorModel } from './ErrorModel';
 
-/**
-* A tag for a pet
-*/
-export class Tag {
-    'id'?: number;
-    'name'?: string;
+export class ExtendedErrorModel extends ErrorModel {
+    'rootCause': string;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {
-            "name": "id",
-            "baseName": "id",
-            "type": "number"
-        },
-        {
-            "name": "name",
-            "baseName": "name",
+            "name": "rootCause",
+            "baseName": "rootCause",
             "type": "string"
         }    ];
 
     static getAttributeTypeMap() {
-        return Tag.attributeTypeMap;
+        return super.getAttributeTypeMap().concat(ExtendedErrorModel.attributeTypeMap);
     }
     
     public constructor() {
+        super();
     }
 }
 

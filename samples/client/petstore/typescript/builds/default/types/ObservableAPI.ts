@@ -5,9 +5,14 @@ import { Observable, of } from 'rxjs';
 import {mergeMap, map} from  'rxjs/operators';
 
 import { ApiResponse } from '../models/ApiResponse';
+import { Cat } from '../models/Cat';
 import { Category } from '../models/Category';
+import { Dog } from '../models/Dog';
+import { ErrorModel } from '../models/ErrorModel';
+import { ExtendedErrorModel } from '../models/ExtendedErrorModel';
 import { Order } from '../models/Order';
 import { Pet } from '../models/Pet';
+import { Pet2 } from '../models/Pet2';
 import { Tag } from '../models/Tag';
 import { User } from '../models/User';
 

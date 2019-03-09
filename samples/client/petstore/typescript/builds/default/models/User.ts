@@ -20,7 +20,7 @@ export class User {
 
     static readonly discriminator: string | undefined = undefined;
 
-    private static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {
             "name": "id",
             "baseName": "id",
@@ -64,6 +64,9 @@ export class User {
 
     static getAttributeTypeMap() {
         return User.attributeTypeMap;
+    }
+    
+    public constructor() {
     }
 }
 
