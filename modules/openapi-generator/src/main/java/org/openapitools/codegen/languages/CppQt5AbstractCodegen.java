@@ -283,17 +283,17 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
         Map<String, CodegenModel> codegenModels = new HashMap<String, CodegenModel> ();
         for(Object moObj : allModels) {
-        	CodegenModel mo = ((Map<String, CodegenModel>) moObj).get("model");
-        	if(mo.isEnum) {
-        		codegenModels.put(mo.classname, mo);
-        	}
+            CodegenModel mo = ((Map<String, CodegenModel>) moObj).get("model");
+            if(mo.isEnum) {
+                codegenModels.put(mo.classname, mo);
+            }
         }
         for (CodegenOperation operation : operations) {
-        	if(operation.returnType != null) {
-        		if(codegenModels.containsKey(operation.returnType)){
-        			operation.vendorExtensions.put("returnsEnum", true);
-        		}
-        	}
+            if(operation.returnType != null) {
+                if(codegenModels.containsKey(operation.returnType)){
+                    operation.vendorExtensions.put("returnsEnum", true);
+                }
+            }
             // Check all return parameter baseType if there is a necessity to include, include it if not 
             // already done
             if (operation.returnBaseType != null && needToImport(operation.returnBaseType)) {
