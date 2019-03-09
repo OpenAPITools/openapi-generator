@@ -1,0 +1,54 @@
+import { ResponseContext, RequestContext, HttpFile } from '../http/http';
+import * as models from '../models/all';
+import { Configuration} from '../configuration'
+import { Observable, of } from 'rxjs';
+import {mergeMap, map} from  'rxjs/operators';
+
+{{#models}}
+{{#model}}
+import { {{name}} } from '../models/{{name}}';
+{{/model}}
+{{/models}}
+{{#apiInfo}}
+{{#apis}}
+
+{{#operations}}
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}";
+export class Observable{{classname}} {
+	private requestFactory: {{classname}}RequestFactory;
+	private responseProcessor: {{classname}}ResponseProcessor;
+
+	public constructor(private configuration: Configuration) {
+		this.requestFactory = new {{classname}}RequestFactory(configuration);
+		this.responseProcessor = new {{classname}}ResponseProcessor();
+	}
+
+{{#operation}}
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+    	const requestContext = this.requestFactory.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
+
+		// build promise chain
+    	let middlewarePreObservable = of(requestContext);
+    	for (let middleware of this.configuration.middleware) {
+    		middlewarePreObservable = middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => middleware.pre(ctx)));
+    	}
+
+    	return middlewarePreObservable.pipe(mergeMap((ctx: RequestContext) => this.configuration.httpApi.send(ctx))).
+	    	pipe(mergeMap((response: ResponseContext) => {
+	    		let middlewarePostObservable = of(response);
+	    		for (let middleware of this.configuration.middleware) {
+	    			middlewarePostObservable = middlewarePostObservable.pipe(mergeMap((rsp: ResponseContext) => middleware.post(rsp)));
+	    		}
+	    		return middlewarePostObservable.pipe(map((rsp: ResponseContext) => this.responseProcessor.{{nickname}}(rsp)));
+	    	}));
+    }
+	
+{{/operation}}
+
+}
+
+{{/operations}}
+
+
+{{/apis}}
+{{/apiInfo}}
