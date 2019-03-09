@@ -119,11 +119,25 @@ defmodule OpenapiPetstore.RequestBuilder do
   {:error, term} on failure
   """
   @spec decode(Tesla.Env.t | term()) :: {:ok, struct()} | {:error, Tesla.Env.t} | {:error, term()}
-  def decode(%Tesla.Env{status: 200, body: body}), do: Poison.decode(body)
+  def decode(%Tesla.Env{status: status, body: body}) when is_success(status), do: Poison.decode(body)
   def decode(response), do: {:error, response}
 
   @spec decode(Tesla.Env.t | term(), :false | struct() | [struct()]) :: {:ok, struct()} | {:error, Tesla.Env.t} | {:error, term()}
-  def decode(%Tesla.Env{status: 200} = env, false), do: {:ok, env}
-  def decode(%Tesla.Env{status: 200, body: body}, struct), do: Poison.decode(body, as: struct)
+  def decode(%Tesla.Env{status: status} = env, false) when is_success(status), do: {:ok, env}
+  def decode(%Tesla.Env{status: status, body: body}, struct) when is_success(status), do: Poison.decode(body, as: struct)
   def decode(response, _struct), do: {:error, response}
+
+  @doc """
+  Macro to check if the status code of the response is [succesful](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#2xx_Success).
+
+  ## Parameters
+
+  - status_code (integer) - The status code
+
+  ## Returns
+
+  `true` when status code is 2xx
+  """
+  @spec is_success(integer()) :: boolean()
+  defmacrop is_success(status), do: status >= 200 and status < 300
 end
