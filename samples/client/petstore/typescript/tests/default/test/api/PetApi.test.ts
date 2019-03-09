@@ -4,7 +4,7 @@ import { expect, assert } from "chai";
 import * as fs from 'fs';
 
 const configuration = new petstore.Configuration()
-const petApi = new petstore.apis.PetApi(configuration)
+const petApi = new petstore.apis.PromisePetApi(configuration)
 
 const tag = new petstore.models.Tag();
 tag.name = "tag1"
@@ -22,7 +22,7 @@ describe("PetApi", () =>{
     it("addPet", (done) => {
         petApi.addPet(pet).then(() => {
             return petApi.getPetById(pet.id)
-        }).then((createdPet) => {
+        }).then((createdPet: petstore.models.Pet) => {
             expect(createdPet).to.deep.equal(pet);
             done()
         }).catch((err) => {

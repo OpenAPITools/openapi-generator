@@ -1,15 +1,16 @@
 import {HttpLibrary, RequestContext, ResponseContext} from './http';
 import * as e6p from 'es6-promise'
+import { from, Observable } from 'rxjs';
 e6p.polyfill();
 import 'isomorphic-fetch';
 
 export class IsomorphicFetchHttpLibrary implements HttpLibrary {
 
-    public send(request: RequestContext): Promise<ResponseContext> {
+    public send(request: RequestContext): Observable<ResponseContext> {
         let method = request.getHttpMethod().toString();
         let body = request.getBody();
         
-        return fetch(request.getUrl(), {
+        const resultPromise = fetch(request.getUrl(), {
             method: method,
             body: body as any,
             headers: request.getHeaders(),
@@ -25,6 +26,8 @@ export class IsomorphicFetchHttpLibrary implements HttpLibrary {
                 return new ResponseContext(resp.status, headers, body)
             });
         });
+        
+        return from(resultPromise);
 
     }
 }

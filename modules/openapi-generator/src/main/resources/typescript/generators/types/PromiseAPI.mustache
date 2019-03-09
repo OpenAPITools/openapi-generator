@@ -1,0 +1,38 @@
+import { ResponseContext, RequestContext, HttpFile } from '../http/http';
+import * as models from '../models/all';
+import { Configuration} from '../configuration'
+
+{{#models}}
+{{#model}}
+import { {{name}} } from '../models/{{name}}';
+{{/model}}
+{{/models}}
+{{#apiInfo}}
+{{#apis}}
+import { Observable{{classname}} } from './ObservableAPI';
+
+
+{{#operations}}
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}";
+export class Promise{{classname}} {
+    private api: Observable{{classname}}
+
+	public constructor(configuration: Configuration) {
+        this.api = new Observable{{classname}}(configuration);
+	}
+
+{{#operation}}
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+    	const result = this.api.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
+        return result.toPromise();
+    }
+	
+{{/operation}}
+
+}
+
+{{/operations}}
+
+
+{{/apis}}
+{{/apiInfo}}

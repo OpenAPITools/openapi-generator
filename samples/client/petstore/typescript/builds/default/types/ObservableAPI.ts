@@ -1,18 +1,18 @@
-import { ResponseContext, RequestContext, HttpFile } from './http/http';
-import * as models from './models/all';
-import { Configuration} from './configuration'
+import { ResponseContext, RequestContext, HttpFile } from '../http/http';
+import * as models from '../models/all';
+import { Configuration} from '../configuration'
 import { Observable, of } from 'rxjs';
 import {mergeMap, map} from  'rxjs/operators';
 
-import { ApiResponse } from './models/ApiResponse';
-import { Category } from './models/Category';
-import { Order } from './models/Order';
-import { Pet } from './models/Pet';
-import { Tag } from './models/Tag';
-import { User } from './models/User';
+import { ApiResponse } from '../models/ApiResponse';
+import { Category } from '../models/Category';
+import { Order } from '../models/Order';
+import { Pet } from '../models/Pet';
+import { Tag } from '../models/Tag';
+import { User } from '../models/User';
 
-import { PetApiRequestFactory, PetApiResponseProcessor} from "./apis/PetApi";
-export class PetApi {
+import { PetApiRequestFactory, PetApiResponseProcessor} from "../apis/PetApi";
+export class ObservablePetApi {
 	private requestFactory: PetApiRequestFactory;
 	private responseProcessor: PetApiResponseProcessor;
 
@@ -179,8 +179,8 @@ export class PetApi {
 
 
 
-import { StoreApiRequestFactory, StoreApiResponseProcessor} from "./apis/StoreApi";
-export class StoreApi {
+import { StoreApiRequestFactory, StoreApiResponseProcessor} from "../apis/StoreApi";
+export class ObservableStoreApi {
 	private requestFactory: StoreApiRequestFactory;
 	private responseProcessor: StoreApiResponseProcessor;
 
@@ -271,8 +271,8 @@ export class StoreApi {
 
 
 
-import { UserApiRequestFactory, UserApiResponseProcessor} from "./apis/UserApi";
-export class UserApi {
+import { UserApiRequestFactory, UserApiResponseProcessor} from "../apis/UserApi";
+export class ObservableUserApi {
 	private requestFactory: UserApiRequestFactory;
 	private responseProcessor: UserApiResponseProcessor;
 
