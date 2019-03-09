@@ -74,7 +74,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         // Query Params
 	
 		// Header Params
-		requestContext.setHeaderParam("api_key", ObjectSerializer.serialize(apiKey, "string"));
+		requestContext.setHeaderParam("api_key", ObjectSerializer.serialize(apiKey, "string", ""));
 	
 		// Form Params
 
@@ -109,7 +109,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (status !== undefined) {
-        	requestContext.setQueryParam("status", ObjectSerializer.serialize(status, "Array<'available' | 'pending' | 'sold'>"));
+        	requestContext.setQueryParam("status", ObjectSerializer.serialize(status, "Array<'available' | 'pending' | 'sold'>", ""));
         }
 	
 		// Header Params
@@ -147,7 +147,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
         // Query Params
         if (tags !== undefined) {
-        	requestContext.setQueryParam("tags", ObjectSerializer.serialize(tags, "Array<string>"));
+        	requestContext.setQueryParam("tags", ObjectSerializer.serialize(tags, "Array<string>", ""));
         }
 	
 		// Header Params
@@ -388,7 +388,7 @@ export class PetApiResponseProcessor {
     public findPetsByStatus(response: ResponseContext):  Array<Pet>  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
-            const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>") as Array<Pet>;            
+            const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>", "") as Array<Pet>;            
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -398,7 +398,7 @@ export class PetApiResponseProcessor {
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             const jsonBody = JSON.parse(response.body);
-            const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>") as Array<Pet>;            
+            const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>", "") as Array<Pet>;            
 			return body;        		
         }
         let body = response.body || "";
@@ -412,7 +412,7 @@ export class PetApiResponseProcessor {
     public findPetsByTags(response: ResponseContext):  Array<Pet>  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
-            const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>") as Array<Pet>;            
+            const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>", "") as Array<Pet>;            
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -422,7 +422,7 @@ export class PetApiResponseProcessor {
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             const jsonBody = JSON.parse(response.body);
-            const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>") as Array<Pet>;            
+            const body: Array<Pet> = ObjectSerializer.deserialize(jsonBody, "Array<Pet>", "") as Array<Pet>;            
 			return body;        		
         }
         let body = response.body || "";
@@ -436,7 +436,7 @@ export class PetApiResponseProcessor {
     public getPetById(response: ResponseContext):  Pet  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
-            const body: Pet = ObjectSerializer.deserialize(jsonBody, "Pet") as Pet;            
+            const body: Pet = ObjectSerializer.deserialize(jsonBody, "Pet", "") as Pet;            
             return body;
         }
         if (isCodeInRange("400", response.httpStatusCode)) {
@@ -449,7 +449,7 @@ export class PetApiResponseProcessor {
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             const jsonBody = JSON.parse(response.body);
-            const body: Pet = ObjectSerializer.deserialize(jsonBody, "Pet") as Pet;            
+            const body: Pet = ObjectSerializer.deserialize(jsonBody, "Pet", "") as Pet;            
 			return body;        		
         }
         let body = response.body || "";
@@ -503,14 +503,14 @@ export class PetApiResponseProcessor {
     public uploadFile(response: ResponseContext):  ApiResponse  {      
         if (isCodeInRange("200", response.httpStatusCode)) {
             const jsonBody = JSON.parse(response.body);
-            const body: ApiResponse = ObjectSerializer.deserialize(jsonBody, "ApiResponse") as ApiResponse;            
+            const body: ApiResponse = ObjectSerializer.deserialize(jsonBody, "ApiResponse", "") as ApiResponse;            
             return body;
         }
         
         // Work around for incorrect api specification in petstore.yaml
         if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
             const jsonBody = JSON.parse(response.body);
-            const body: ApiResponse = ObjectSerializer.deserialize(jsonBody, "ApiResponse") as ApiResponse;            
+            const body: ApiResponse = ObjectSerializer.deserialize(jsonBody, "ApiResponse", "") as ApiResponse;            
 			return body;        		
         }
         let body = response.body || "";

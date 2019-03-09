@@ -15,10 +15,12 @@ import { PetApiRequestFactory, PetApiResponseProcessor} from "../apis/PetApi";
 export class ObservablePetApi {
 	private requestFactory: PetApiRequestFactory;
 	private responseProcessor: PetApiResponseProcessor;
-
-	public constructor(private configuration: Configuration) {
-		this.requestFactory = new PetApiRequestFactory(configuration);
-		this.responseProcessor = new PetApiResponseProcessor();
+    private configuration: Configuration;
+    
+	public constructor(configuration: Configuration, requestFactory?: PetApiRequestFactory, responseProcessor?: PetApiResponseProcessor) {
+	    this.configuration = configuration;
+		this.requestFactory = requestFactory || new PetApiRequestFactory(configuration);
+		this.responseProcessor = responseProcessor || new PetApiResponseProcessor();
 	}
 
     public addPet(pet: Pet, options?: Configuration): Observable<void> {
@@ -183,10 +185,12 @@ import { StoreApiRequestFactory, StoreApiResponseProcessor} from "../apis/StoreA
 export class ObservableStoreApi {
 	private requestFactory: StoreApiRequestFactory;
 	private responseProcessor: StoreApiResponseProcessor;
-
-	public constructor(private configuration: Configuration) {
-		this.requestFactory = new StoreApiRequestFactory(configuration);
-		this.responseProcessor = new StoreApiResponseProcessor();
+    private configuration: Configuration;
+    
+	public constructor(configuration: Configuration, requestFactory?: StoreApiRequestFactory, responseProcessor?: StoreApiResponseProcessor) {
+	    this.configuration = configuration;
+		this.requestFactory = requestFactory || new StoreApiRequestFactory(configuration);
+		this.responseProcessor = responseProcessor || new StoreApiResponseProcessor();
 	}
 
     public deleteOrder(orderId: string, options?: Configuration): Observable<void> {
@@ -275,10 +279,12 @@ import { UserApiRequestFactory, UserApiResponseProcessor} from "../apis/UserApi"
 export class ObservableUserApi {
 	private requestFactory: UserApiRequestFactory;
 	private responseProcessor: UserApiResponseProcessor;
-
-	public constructor(private configuration: Configuration) {
-		this.requestFactory = new UserApiRequestFactory(configuration);
-		this.responseProcessor = new UserApiResponseProcessor();
+    private configuration: Configuration;
+    
+	public constructor(configuration: Configuration, requestFactory?: UserApiRequestFactory, responseProcessor?: UserApiResponseProcessor) {
+	    this.configuration = configuration;
+		this.requestFactory = requestFactory || new UserApiRequestFactory(configuration);
+		this.responseProcessor = responseProcessor || new UserApiResponseProcessor();
 	}
 
     public createUser(user: User, options?: Configuration): Observable<void> {

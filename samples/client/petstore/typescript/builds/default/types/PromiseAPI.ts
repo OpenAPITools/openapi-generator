@@ -14,9 +14,9 @@ import { ObservablePetApi } from './ObservableAPI';
 import { PetApiRequestFactory, PetApiResponseProcessor} from "../apis/PetApi";
 export class PromisePetApi {
     private api: ObservablePetApi
-
-	public constructor(configuration: Configuration) {
-        this.api = new ObservablePetApi(configuration);
+ 
+    public constructor(configuration: Configuration, requestFactory?: PetApiRequestFactory, responseProcessor?: PetApiResponseProcessor) {
+        this.api = new ObservablePetApi(configuration, requestFactory, responseProcessor);
 	}
 
     public addPet(pet: Pet, options?: Configuration): Promise<void> {
@@ -70,9 +70,9 @@ import { ObservableStoreApi } from './ObservableAPI';
 import { StoreApiRequestFactory, StoreApiResponseProcessor} from "../apis/StoreApi";
 export class PromiseStoreApi {
     private api: ObservableStoreApi
-
-	public constructor(configuration: Configuration) {
-        this.api = new ObservableStoreApi(configuration);
+ 
+    public constructor(configuration: Configuration, requestFactory?: StoreApiRequestFactory, responseProcessor?: StoreApiResponseProcessor) {
+        this.api = new ObservableStoreApi(configuration, requestFactory, responseProcessor);
 	}
 
     public deleteOrder(orderId: string, options?: Configuration): Promise<void> {
@@ -106,9 +106,9 @@ import { ObservableUserApi } from './ObservableAPI';
 import { UserApiRequestFactory, UserApiResponseProcessor} from "../apis/UserApi";
 export class PromiseUserApi {
     private api: ObservableUserApi
-
-	public constructor(configuration: Configuration) {
-        this.api = new ObservableUserApi(configuration);
+ 
+    public constructor(configuration: Configuration, requestFactory?: UserApiRequestFactory, responseProcessor?: UserApiResponseProcessor) {
+        this.api = new ObservableUserApi(configuration, requestFactory, responseProcessor);
 	}
 
     public createUser(user: User, options?: Configuration): Promise<void> {
