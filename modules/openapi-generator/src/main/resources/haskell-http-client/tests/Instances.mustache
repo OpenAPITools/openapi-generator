@@ -87,9 +87,12 @@ hasNoDups = go Set.empty
 instance ApproxEq TI.Day where
   (=~) = (==)
     
-arbitraryMaybe :: Arbitrary a => Int -> Gen (Maybe a)
-arbitraryMaybe 0 = elements [Nothing]
-arbitraryMaybe n = resize (n `div` 2) arbitrary
+arbitraryReduced :: Arbitrary a => Int -> Gen a
+arbitraryReduced n = resize (n `div` 2) arbitrary
+
+arbitraryReducedMaybe :: Arbitrary a => Int -> Gen (Maybe a)
+arbitraryReducedMaybe 0 = elements [Nothing]
+arbitraryReducedMaybe n = arbitraryReduced n
 
 -- * Models
  
@@ -103,7 +106,7 @@ gen{{classname}} :: Int -> Gen {{classname}}
 gen{{classname}} n =
   {{#isAlias}}{{classname}} <$> arbitrary{{/isAlias}}{{^isAlias}}{{^hasVars}}
   pure {{/hasVars}}{{classname}}
-  {{#hasVars}}  <$>{{/hasVars}} {{#vars}}{{#required}}arbitrary{{/required}}{{^required}}arbitraryMaybe n{{/required}} -- {{name}} :: {{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}
+  {{#hasVars}}  <$>{{/hasVars}} {{#vars}}{{#required}}{{#isPrimitiveType}}arbitrary{{/isPrimitiveType}}{{^isPrimitiveType}}arbitraryReduced n{{/isPrimitiveType}}{{/required}}{{^required}}arbitraryReducedMaybe n{{/required}} -- {{name}} :: {{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}
   {{#hasMore}}  <*> {{/hasMore}}{{/vars}}{{/isAlias}}
 {{/isEnum}}
 {{/model}}
