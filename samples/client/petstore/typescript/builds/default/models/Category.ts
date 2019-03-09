@@ -11,7 +11,7 @@ export class Category {
 
     static readonly discriminator: string | undefined = undefined;
 
-    private static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {
             "name": "id",
             "baseName": "id",
@@ -25,6 +25,9 @@ export class Category {
 
     static getAttributeTypeMap() {
         return Category.attributeTypeMap;
+    }
+    
+    public constructor() {
     }
 }
 

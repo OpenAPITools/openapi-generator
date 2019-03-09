@@ -12,7 +12,7 @@ export class ApiResponse {
 
     static readonly discriminator: string | undefined = undefined;
 
-    private static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {
             "name": "code",
             "baseName": "code",
@@ -31,6 +31,9 @@ export class ApiResponse {
 
     static getAttributeTypeMap() {
         return ApiResponse.attributeTypeMap;
+    }
+    
+    public constructor() {
     }
 }
 

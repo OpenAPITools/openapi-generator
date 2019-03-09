@@ -18,7 +18,7 @@ export class Order {
 
     static readonly discriminator: string | undefined = undefined;
 
-    private static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
+    static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {
             "name": "id",
             "baseName": "id",
@@ -52,6 +52,9 @@ export class Order {
 
     static getAttributeTypeMap() {
         return Order.attributeTypeMap;
+    }
+    
+    public constructor() {
     }
 }
 

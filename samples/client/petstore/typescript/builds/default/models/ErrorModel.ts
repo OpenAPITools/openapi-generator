@@ -2,29 +2,26 @@
 	TODO: LICENSE INFO
 */
 
-/**
-* A tag for a pet
-*/
-export class Tag {
-    'id'?: number;
-    'name'?: string;
+export class ErrorModel {
+    'message': string;
+    'code': number;
 
     static readonly discriminator: string | undefined = undefined;
 
     static readonly attributeTypeMap: Array<{name: string, baseName: string, type: string}> = [
         {
-            "name": "id",
-            "baseName": "id",
-            "type": "number"
+            "name": "message",
+            "baseName": "message",
+            "type": "string"
         },
         {
-            "name": "name",
-            "baseName": "name",
-            "type": "string"
+            "name": "code",
+            "baseName": "code",
+            "type": "number"
         }    ];
 
     static getAttributeTypeMap() {
-        return Tag.attributeTypeMap;
+        return ErrorModel.attributeTypeMap;
     }
     
     public constructor() {

@@ -1,14 +1,24 @@
 export * from './ApiResponse';
+export * from './Cat';
 export * from './Category';
+export * from './Dog';
+export * from './ErrorModel';
+export * from './ExtendedErrorModel';
 export * from './Order';
 export * from './Pet';
+export * from './Pet2';
 export * from './Tag';
 export * from './User';
 
 import { ApiResponse } from './ApiResponse';
+import { Cat, CatHuntingSkillEnum   } from './Cat';
 import { Category } from './Category';
+import { Dog } from './Dog';
+import { ErrorModel } from './ErrorModel';
+import { ExtendedErrorModel } from './ExtendedErrorModel';
 import { Order    , OrderStatusEnum    } from './Order';
 import { Pet     , PetStatusEnum   } from './Pet';
+import { Pet2 } from './Pet2';
 import { Tag } from './Tag';
 import { User } from './User';
 
@@ -25,15 +35,21 @@ let primitives = [
                  ];
                  
 let enumsMap: Set<string> = new Set<string>([
+					"CatHuntingSkillEnum",
 					"OrderStatusEnum",
 					"PetStatusEnum",
 ]);
 
 let typeMap: {[index: string]: any} = {
     "ApiResponse": ApiResponse,
+    "Cat": Cat,
     "Category": Category,
+    "Dog": Dog,
+    "ErrorModel": ErrorModel,
+    "ExtendedErrorModel": ExtendedErrorModel,
     "Order": Order,
     "Pet": Pet,
+    "Pet2": Pet2,
     "Tag": Tag,
     "User": User,
 }
