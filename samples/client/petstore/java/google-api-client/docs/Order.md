@@ -16,9 +16,9 @@ Name | Type | Description | Notes
 ## Enum: StatusEnum
 Name | Value
 ---- | -----
-PLACED | &quot;placed&quot;
-APPROVED | &quot;approved&quot;
-DELIVERED | &quot;delivered&quot;
+PLACED | String.valueOf(&quot;placed&quot;)
+APPROVED | String.valueOf(&quot;approved&quot;)
+DELIVERED | String.valueOf(&quot;delivered&quot;)
 
 
 

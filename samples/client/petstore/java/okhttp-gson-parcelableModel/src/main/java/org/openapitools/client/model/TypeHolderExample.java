@@ -41,7 +41,7 @@ public class TypeHolderExample implements Parcelable {
    */
   @JsonAdapter(StringItemEnum.Adapter.class)
   public enum StringItemEnum {
-    WHAT("what");
+    WHAT(String.valueOf("what"));
 
     private String value;
 
@@ -90,7 +90,7 @@ public class TypeHolderExample implements Parcelable {
    */
   @JsonAdapter(NumberItemEnum.Adapter.class)
   public enum NumberItemEnum {
-    NUMBER_1_DOT_2339999675750732(1.2339999675750732f);
+    NUMBER_1_DOT_2339999675750732(Float.valueOf("1.2339999675750732"));
 
     private Float value;
 
@@ -139,7 +139,7 @@ public class TypeHolderExample implements Parcelable {
    */
   @JsonAdapter(IntegerItemEnum.Adapter.class)
   public enum IntegerItemEnum {
-    NUMBER_MINUS_2(-2);
+    NUMBER_MINUS_2(Integer.valueOf(-2));
 
     private Integer value;
 
@@ -192,7 +192,7 @@ public class TypeHolderExample implements Parcelable {
    */
   @JsonAdapter(DateItemEnum.Adapter.class)
   public enum DateItemEnum {
-    THU_JUL_20_17_00_00_PDT_2017("Thu Jul 20 17:00:00 PDT 2017");
+    THU_JUL_20_17_00_00_PDT_2017(LocalDate.valueOf("Thu Jul 20 17:00:00 PDT 2017"));
 
     private LocalDate value;
 
@@ -241,7 +241,7 @@ public class TypeHolderExample implements Parcelable {
    */
   @JsonAdapter(DatetimeItemEnum.Adapter.class)
   public enum DatetimeItemEnum {
-    FRI_JUL_21_10_32_28_PDT_2017("Fri Jul 21 10:32:28 PDT 2017");
+    FRI_JUL_21_10_32_28_PDT_2017(OffsetDateTime.valueOf("Fri Jul 21 10:32:28 PDT 2017"));
 
     private OffsetDateTime value;
 

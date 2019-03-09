@@ -99,7 +99,7 @@ public class TypeHolderExample   {
    * Gets or Sets integerItem
    */
   public enum IntegerItemEnum {
-    NUMBER_MINUS_2(Integer.valueOf("-2"));
+    NUMBER_MINUS_2(Integer.valueOf(-2));
 
     private Integer value;
 
@@ -134,7 +134,7 @@ public class TypeHolderExample   {
    * Gets or Sets dateItem
    */
   public enum DateItemEnum {
-    THU_JUL_20_17_00_00_PDT_2017(Date(1500595200000));
+    THU_JUL_20_17_00_00_PDT_2017(Date(1500595200000L));
 
     private Date value;
 
@@ -166,7 +166,7 @@ public class TypeHolderExample   {
    * Gets or Sets datetimeItem
    */
   public enum DatetimeItemEnum {
-    FRI_JUL_21_10_32_28_PDT_2017(Date(1500658348000));
+    FRI_JUL_21_10_32_28_PDT_2017(Date(1500658348000L));
 
     private Date value;
 

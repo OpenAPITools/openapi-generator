@@ -16,9 +16,9 @@ Name | Type | Description | Notes
 ## Enum: StatusEnum
 Name | Value
 ---- | -----
-AVAILABLE | &quot;available&quot;
-PENDING | &quot;pending&quot;
-SOLD | &quot;sold&quot;
+AVAILABLE | String.valueOf(&quot;available&quot;)
+PENDING | String.valueOf(&quot;pending&quot;)
+SOLD | String.valueOf(&quot;sold&quot;)
 
 
 

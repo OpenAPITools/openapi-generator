@@ -101,7 +101,7 @@ public class TypeHolderExample  implements Serializable {
    * Gets or Sets integerItem
    */
   public enum IntegerItemEnum {
-    NUMBER_MINUS_2(Integer.valueOf("-2"));
+    NUMBER_MINUS_2(Integer.valueOf(-2));
 
     private Integer value;
 

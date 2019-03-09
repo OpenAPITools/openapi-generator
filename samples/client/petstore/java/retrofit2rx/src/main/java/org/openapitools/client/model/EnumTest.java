@@ -35,11 +35,11 @@ public class EnumTest {
    */
   @JsonAdapter(EnumStringEnum.Adapter.class)
   public enum EnumStringEnum {
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
-    LOWER("lower"),
+    LOWER(String.valueOf("lower")),
     
-    EMPTY("");
+    EMPTY(String.valueOf(""));
 
     private String value;
 
@@ -88,11 +88,11 @@ public class EnumTest {
    */
   @JsonAdapter(EnumStringRequiredEnum.Adapter.class)
   public enum EnumStringRequiredEnum {
-    UPPER("UPPER"),
+    UPPER(String.valueOf("UPPER")),
     
-    LOWER("lower"),
+    LOWER(String.valueOf("lower")),
     
-    EMPTY("");
+    EMPTY(String.valueOf(""));
 
     private String value;
 
@@ -141,9 +141,9 @@ public class EnumTest {
    */
   @JsonAdapter(EnumIntegerEnum.Adapter.class)
   public enum EnumIntegerEnum {
-    NUMBER_1(1),
+    NUMBER_1(Integer.valueOf(1)),
     
-    NUMBER_MINUS_1(-1);
+    NUMBER_MINUS_1(Integer.valueOf(-1));
 
     private Integer value;
 
@@ -192,9 +192,9 @@ public class EnumTest {
    */
   @JsonAdapter(EnumNumberEnum.Adapter.class)
   public enum EnumNumberEnum {
-    NUMBER_1_DOT_1(1.1),
+    NUMBER_1_DOT_1(Double.valueOf(1.1)),
     
-    NUMBER_MINUS_1_DOT_2(-1.2);
+    NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
 
     private Double value;
 

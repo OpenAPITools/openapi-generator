@@ -190,7 +190,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.mmmmm");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.mmmmm");
     }
-    
+
     @Test
     public void testGetSchemaTypeWithComposedSchemaWithAllOf() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/composed-allof.yaml");
@@ -214,7 +214,7 @@ public class JavaClientCodegenTest {
         Map<String, String> testedEnumVar = enumVars.get(0);
         Assert.assertNotNull(testedEnumVar);
         Assert.assertEquals(testedEnumVar.getOrDefault("name", ""),"NUMBER_1");
-        Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
+        Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "Integer.valueOf(1)");
     }
 
     @Test
@@ -230,7 +230,7 @@ public class JavaClientCodegenTest {
         Map<String, String> testedEnumVar = enumVars.get(0);
         Assert.assertNotNull(testedEnumVar);
         Assert.assertEquals(testedEnumVar.getOrDefault("name", ""),"ONE");
-        Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
+        Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "Integer.valueOf(1)");
     }
 
     @Test
@@ -293,7 +293,7 @@ public class JavaClientCodegenTest {
 
         String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/DefaultApi.java").getAbsolutePath().replace("\\", "/");
         String defaultApiConent = generatedFiles.get(defaultApiFilename);
-        Assert.assertTrue(defaultApiConent.contains("public class DefaultApi")); 
+        Assert.assertTrue(defaultApiConent.contains("public class DefaultApi"));
 
         WrittenTemplateBasedFile templateBasedFile = TestUtils.getTemplateBasedFile(generator, output, "src/main/java/xyz/abcdef/api/DefaultApi.java");
         Assert.assertEquals(templateBasedFile.getTemplateData().get("classname"), "DefaultApi");
@@ -353,7 +353,7 @@ public class JavaClientCodegenTest {
         File file = new File(root, filename);
         String absoluteFilename = file.getAbsolutePath().replace("\\", "/");
         if(!generatedFiles.containsKey(absoluteFilename)) {
-            Assert.fail("Could not find '" + absoluteFilename + "' file in list:\n" + 
+            Assert.fail("Could not find '" + absoluteFilename + "' file in list:\n" +
                     generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
         }
         Assert.assertTrue(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was not fould in the list of generated files");

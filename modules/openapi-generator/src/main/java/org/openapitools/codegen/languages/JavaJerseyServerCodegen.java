@@ -224,9 +224,9 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
         if (datatype == "Date" && ( (typeMapping.containsKey("date") && typeMapping.get("date") == "Date" && importMapping.containsKey("Date") && importMapping.get("Date") == "java.util.Date") ||
                 (typeMapping.containsKey("DateTime") && typeMapping.get("DateTime") == "Date" && importMapping.containsKey("Date") && importMapping.get("Date") == "java.util.Date") ) ) {
             Date date = (Date) value;
-            Long numSeconds = date.getTime();
-            return datatype + "(" + numSeconds.toString() + ")";
-        } else if ("number".equalsIgnoreCase(datatype)) {
+            Long numMilliSeconds = date.getTime();
+            return datatype + "(" + numMilliSeconds.toString() + "L)";
+        } else if ("number".equalsIgnoreCase(datatype) || "integer".equalsIgnoreCase(datatype) || "double".equalsIgnoreCase(datatype)) {
             return datatype + ".valueOf(" + value.toString() + ")";
         } else {
             return datatype + ".valueOf(" + "\"" + escapeText(value.toString()) + "\"" + ")";

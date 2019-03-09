@@ -15,34 +15,34 @@ Name | Type | Description | Notes
 ## Enum: EnumStringEnum
 Name | Value
 ---- | -----
-UPPER | &quot;UPPER&quot;
-LOWER | &quot;lower&quot;
-EMPTY | &quot;&quot;
+UPPER | String.valueOf(&quot;UPPER&quot;)
+LOWER | String.valueOf(&quot;lower&quot;)
+EMPTY | String.valueOf(&quot;&quot;)
 
 
 <a name="EnumStringRequiredEnum"></a>
 ## Enum: EnumStringRequiredEnum
 Name | Value
 ---- | -----
-UPPER | &quot;UPPER&quot;
-LOWER | &quot;lower&quot;
-EMPTY | &quot;&quot;
+UPPER | String.valueOf(&quot;UPPER&quot;)
+LOWER | String.valueOf(&quot;lower&quot;)
+EMPTY | String.valueOf(&quot;&quot;)
 
 
 <a name="EnumIntegerEnum"></a>
 ## Enum: EnumIntegerEnum
 Name | Value
 ---- | -----
-NUMBER_1 | 1
-NUMBER_MINUS_1 | -1
+NUMBER_1 | Integer.valueOf(1)
+NUMBER_MINUS_1 | Integer.valueOf(-1)
 
 
 <a name="EnumNumberEnum"></a>
 ## Enum: EnumNumberEnum
 Name | Value
 ---- | -----
-NUMBER_1_DOT_1 | 1.1
-NUMBER_MINUS_1_DOT_2 | -1.2
+NUMBER_1_DOT_1 | Double.valueOf(1.1)
+NUMBER_MINUS_1_DOT_2 | Double.valueOf(-1.2)
 
 
 

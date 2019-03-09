@@ -12,16 +12,16 @@ Name | Type | Description | Notes
 ## Enum: JustSymbolEnum
 Name | Value
 ---- | -----
-GREATER_THAN_OR_EQUAL_TO | &quot;&gt;&#x3D;&quot;
-DOLLAR | &quot;$&quot;
+GREATER_THAN_OR_EQUAL_TO | String.valueOf(&quot;&gt;&#x3D;&quot;)
+DOLLAR | String.valueOf(&quot;$&quot;)
 
 
 <a name="List<ArrayEnumEnum>"></a>
 ## Enum: List&lt;ArrayEnumEnum&gt;
 Name | Value
 ---- | -----
-FISH | &quot;fish&quot;
-CRAB | &quot;crab&quot;
+FISH | String.valueOf(&quot;fish&quot;)
+CRAB | String.valueOf(&quot;crab&quot;)
 
 
 
