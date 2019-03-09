@@ -544,6 +544,7 @@ public class CodegenConfigurator implements Serializable {
             config.setLibrary(library);
         }
 
+        // Built-in templates are mustache, but allow users to use a simplified handlebars engine for their custom templates.
         if (isEmpty(templatingEngineName) || templatingEngineName.equals("mustache")) {
             config.setTemplatingEngine(new MustacheEngineAdapter());
         } else if (templatingEngineName.equals("handlebars")) {
