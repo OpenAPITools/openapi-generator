@@ -95,7 +95,7 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
             supportingFiles.add(new SupportingFile("HttpRequest.h.mustache", sourceFolder, modelNamePrefix + "HttpRequest.h"));
             supportingFiles.add(new SupportingFile("HttpRequest.cpp.mustache", sourceFolder, modelNamePrefix + "HttpRequest.cpp"));
             supportingFiles.add(new SupportingFile("object.mustache", sourceFolder, modelNamePrefix + "Object.h"));
-            supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, PREFIX + "Object.h"));            
+            supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder, modelNamePrefix + "Object.h"));            
 
             typeMapping.put("file", modelNamePrefix + "HttpRequestInputFileElement");
             typeMapping.put("binary", modelNamePrefix + "HttpRequestInputFileElement");
