@@ -105,9 +105,9 @@ public class EnumTest  implements Serializable {
    * Gets or Sets enumInteger
    */
   public enum EnumIntegerEnum {
-    NUMBER_1(Integer.valueOf(1)),
+    NUMBER_1(Integer.valueOf("1")),
     
-    NUMBER_MINUS_1(Integer.valueOf(-1));
+    NUMBER_MINUS_1(Integer.valueOf("-1"));
 
     private Integer value;
 
@@ -139,9 +139,9 @@ public class EnumTest  implements Serializable {
    * Gets or Sets enumNumber
    */
   public enum EnumNumberEnum {
-    NUMBER_1_DOT_1(Double.valueOf(1.1)),
+    NUMBER_1_DOT_1(Double.valueOf("1.1")),
     
-    NUMBER_MINUS_1_DOT_2(Double.valueOf(-1.2));
+    NUMBER_MINUS_1_DOT_2(Double.valueOf("-1.2"));
 
     private Double value;
 

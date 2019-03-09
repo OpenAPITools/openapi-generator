@@ -44,6 +44,12 @@ public abstract class FakeApiService {
  ) throws NotFoundException;
     public abstract Response testClientModel(Client body
  ) throws NotFoundException;
+    public abstract Response testEndpointEnumsLengthOne(Integer queryInteger
+ ,String queryString
+ ,String pathString
+ ,Integer pathInteger
+ ,Double headerNumber
+ ) throws NotFoundException;
     public abstract Response testEndpointParameters(BigDecimal number
  ,Double _double
  ,String patternWithoutDelimiter

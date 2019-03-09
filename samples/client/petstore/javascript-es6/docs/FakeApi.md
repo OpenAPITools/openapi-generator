@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
+[**testEndpointEnumsLengthOne**](FakeApi.md#testEndpointEnumsLengthOne) | **PUT** /fake/enums-of-length-one/{path_string}/{path_integer} | 
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
@@ -362,6 +363,56 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: application/json
+
+<a name="testEndpointEnumsLengthOne"></a>
+# **testEndpointEnumsLengthOne**
+> testEndpointEnumsLengthOne(queryInteger, queryString, pathString, pathInteger, headerNumber)
+
+
+
+This route has required values with enums of 1
+
+### Example
+```javascript
+import OpenApiPetstore from 'open_api_petstore';
+
+let apiInstance = new OpenApiPetstore.FakeApi();
+let queryInteger = 56; // Number | 
+let queryString = "queryString_example"; // String | 
+let pathString = "pathString_example"; // String | 
+let pathInteger = 56; // Number | 
+let headerNumber = 3.4; // Number | 
+apiInstance.testEndpointEnumsLengthOne(queryInteger, queryString, pathString, pathInteger, headerNumber, (error, data, response) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+});
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **queryInteger** | **Number**|  | 
+ **queryString** | **String**|  | 
+ **pathString** | **String**|  | 
+ **pathInteger** | **Number**|  | 
+ **headerNumber** | **Number**|  | 
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 <a name="testEndpointParameters"></a>
 # **testEndpointParameters**

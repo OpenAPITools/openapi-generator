@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -129,6 +130,70 @@ public class TypeHolderExample   {
   @JsonProperty("bool_item")
   private Boolean boolItem;
 
+  /**
+   * Gets or Sets dateItem
+   */
+  public enum DateItemEnum {
+    THU_JUL_20_17_00_00_PDT_2017(Date(1500595200000));
+
+    private Date value;
+
+    DateItemEnum(Date value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static DateItemEnum fromValue(String text) {
+      for (DateItemEnum b : DateItemEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    }
+  }
+
+  @JsonProperty("date_item")
+  private DateItemEnum dateItem;
+
+  /**
+   * Gets or Sets datetimeItem
+   */
+  public enum DatetimeItemEnum {
+    FRI_JUL_21_10_32_28_PDT_2017(Date(1500658348000));
+
+    private Date value;
+
+    DatetimeItemEnum(Date value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static DatetimeItemEnum fromValue(String text) {
+      for (DatetimeItemEnum b : DatetimeItemEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    }
+  }
+
+  @JsonProperty("datetime_item")
+  private DatetimeItemEnum datetimeItem;
+
   @JsonProperty("array_item")
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
@@ -212,6 +277,46 @@ public class TypeHolderExample   {
     this.boolItem = boolItem;
   }
 
+  public TypeHolderExample dateItem(DateItemEnum dateItem) {
+    this.dateItem = dateItem;
+    return this;
+  }
+
+  /**
+   * Get dateItem
+   * @return dateItem
+   **/
+  @JsonProperty("date_item")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull 
+  public DateItemEnum getDateItem() {
+    return dateItem;
+  }
+
+  public void setDateItem(DateItemEnum dateItem) {
+    this.dateItem = dateItem;
+  }
+
+  public TypeHolderExample datetimeItem(DatetimeItemEnum datetimeItem) {
+    this.datetimeItem = datetimeItem;
+    return this;
+  }
+
+  /**
+   * Get datetimeItem
+   * @return datetimeItem
+   **/
+  @JsonProperty("datetime_item")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull 
+  public DatetimeItemEnum getDatetimeItem() {
+    return datetimeItem;
+  }
+
+  public void setDatetimeItem(DatetimeItemEnum datetimeItem) {
+    this.datetimeItem = datetimeItem;
+  }
+
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
     return this;
@@ -251,12 +356,14 @@ public class TypeHolderExample   {
         Objects.equals(this.numberItem, typeHolderExample.numberItem) &&
         Objects.equals(this.integerItem, typeHolderExample.integerItem) &&
         Objects.equals(this.boolItem, typeHolderExample.boolItem) &&
+        Objects.equals(this.dateItem, typeHolderExample.dateItem) &&
+        Objects.equals(this.datetimeItem, typeHolderExample.datetimeItem) &&
         Objects.equals(this.arrayItem, typeHolderExample.arrayItem);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
+    return Objects.hash(stringItem, numberItem, integerItem, boolItem, dateItem, datetimeItem, arrayItem);
   }
 
 
@@ -269,6 +376,8 @@ public class TypeHolderExample   {
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
     sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
     sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
+    sb.append("    dateItem: ").append(toIndentedString(dateItem)).append("\n");
+    sb.append("    datetimeItem: ").append(toIndentedString(datetimeItem)).append("\n");
     sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");
     sb.append("}");
     return sb.toString();

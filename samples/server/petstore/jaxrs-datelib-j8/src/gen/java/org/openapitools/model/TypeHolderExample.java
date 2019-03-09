@@ -69,7 +69,7 @@ public class TypeHolderExample  implements Serializable {
    * Gets or Sets numberItem
    */
   public enum NumberItemEnum {
-    NUMBER_1_DOT_2339999675750732(Float.valueOf(1.2339999675750732f));
+    NUMBER_1_DOT_2339999675750732(Float.valueOf("1.2339999675750732"));
 
     private Float value;
 
@@ -101,7 +101,7 @@ public class TypeHolderExample  implements Serializable {
    * Gets or Sets integerItem
    */
   public enum IntegerItemEnum {
-    NUMBER_MINUS_2(Integer.valueOf(-2));
+    NUMBER_MINUS_2(Integer.valueOf("-2"));
 
     private Integer value;
 

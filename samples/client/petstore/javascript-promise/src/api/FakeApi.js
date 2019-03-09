@@ -443,6 +443,88 @@
 
 
     /**
+     * This route has required values with enums of 1
+     * @param {module:model/Number} queryInteger 
+     * @param {module:model/String} queryString 
+     * @param {module:model/String} pathString 
+     * @param {module:model/Number} pathInteger 
+     * @param {module:model/Number} headerNumber 
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    this.testEndpointEnumsLengthOneWithHttpInfo = function(queryInteger, queryString, pathString, pathInteger, headerNumber) {
+      var postBody = null;
+
+      // verify the required parameter 'queryInteger' is set
+      if (queryInteger === undefined || queryInteger === null) {
+        throw new Error("Missing the required parameter 'queryInteger' when calling testEndpointEnumsLengthOne");
+      }
+
+      // verify the required parameter 'queryString' is set
+      if (queryString === undefined || queryString === null) {
+        throw new Error("Missing the required parameter 'queryString' when calling testEndpointEnumsLengthOne");
+      }
+
+      // verify the required parameter 'pathString' is set
+      if (pathString === undefined || pathString === null) {
+        throw new Error("Missing the required parameter 'pathString' when calling testEndpointEnumsLengthOne");
+      }
+
+      // verify the required parameter 'pathInteger' is set
+      if (pathInteger === undefined || pathInteger === null) {
+        throw new Error("Missing the required parameter 'pathInteger' when calling testEndpointEnumsLengthOne");
+      }
+
+      // verify the required parameter 'headerNumber' is set
+      if (headerNumber === undefined || headerNumber === null) {
+        throw new Error("Missing the required parameter 'headerNumber' when calling testEndpointEnumsLengthOne");
+      }
+
+
+      var pathParams = {
+        'path_string': pathString,
+        'path_integer': pathInteger
+      };
+      var queryParams = {
+        'query_integer': queryInteger,
+        'query_string': queryString,
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+        'header_number': headerNumber
+      };
+      var formParams = {
+      };
+
+      var authNames = [];
+      var contentTypes = [];
+      var accepts = [];
+      var returnType = null;
+      return this.apiClient.callApi(
+        '/fake/enums-of-length-one/{path_string}/{path_integer}', 'PUT',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * This route has required values with enums of 1
+     * @param {module:model/Number} queryInteger 
+     * @param {module:model/String} queryString 
+     * @param {module:model/String} pathString 
+     * @param {module:model/Number} pathInteger 
+     * @param {module:model/Number} headerNumber 
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    this.testEndpointEnumsLengthOne = function(queryInteger, queryString, pathString, pathInteger, headerNumber) {
+      return this.testEndpointEnumsLengthOneWithHttpInfo(queryInteger, queryString, pathString, pathInteger, headerNumber)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      * @param {Number} _number None

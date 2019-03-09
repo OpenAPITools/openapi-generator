@@ -3,33 +3,186 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
- * TypeHolderExample
+ * a model to test required properties with an example and length one enum
  */
+@ApiModel(description = "a model to test required properties with an example and length one enum")
 
 public class TypeHolderExample   {
+  /**
+   * Gets or Sets stringItem
+   */
+  public enum StringItemEnum {
+    WHAT("what");
+
+    private String value;
+
+    StringItemEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static StringItemEnum fromValue(String text) {
+      for (StringItemEnum b : StringItemEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    }
+  }
+
   @JsonProperty("string_item")
-  private String stringItem;
+  private StringItemEnum stringItem;
+
+  /**
+   * Gets or Sets numberItem
+   */
+  public enum NumberItemEnum {
+    NUMBER_1_DOT_2339999675750732(1.2339999675750732f);
+
+    private Float value;
+
+    NumberItemEnum(Float value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static NumberItemEnum fromValue(String text) {
+      for (NumberItemEnum b : NumberItemEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    }
+  }
 
   @JsonProperty("number_item")
-  private BigDecimal numberItem;
+  private NumberItemEnum numberItem;
+
+  /**
+   * Gets or Sets integerItem
+   */
+  public enum IntegerItemEnum {
+    NUMBER_MINUS_2(-2);
+
+    private Integer value;
+
+    IntegerItemEnum(Integer value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static IntegerItemEnum fromValue(String text) {
+      for (IntegerItemEnum b : IntegerItemEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    }
+  }
 
   @JsonProperty("integer_item")
-  private Integer integerItem;
+  private IntegerItemEnum integerItem;
 
   @JsonProperty("bool_item")
   private Boolean boolItem;
 
+  /**
+   * Gets or Sets dateItem
+   */
+  public enum DateItemEnum {
+    THU_JUL_20_17_00_00_PDT_2017("Thu Jul 20 17:00:00 PDT 2017");
+
+    private Date value;
+
+    DateItemEnum(Date value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static DateItemEnum fromValue(String text) {
+      for (DateItemEnum b : DateItemEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    }
+  }
+
+  @JsonProperty("date_item")
+  private DateItemEnum dateItem;
+
+  /**
+   * Gets or Sets datetimeItem
+   */
+  public enum DatetimeItemEnum {
+    FRI_JUL_21_10_32_28_PDT_2017("Fri Jul 21 10:32:28 PDT 2017");
+
+    private Date value;
+
+    DatetimeItemEnum(Date value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static DatetimeItemEnum fromValue(String text) {
+      for (DatetimeItemEnum b : DatetimeItemEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    }
+  }
+
+  @JsonProperty("datetime_item")
+  private DatetimeItemEnum datetimeItem;
+
   @JsonProperty("array_item")
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
-  public TypeHolderExample stringItem(String stringItem) {
+  public TypeHolderExample stringItem(StringItemEnum stringItem) {
     this.stringItem = stringItem;
     return this;
   }
@@ -39,15 +192,15 @@ public class TypeHolderExample   {
    * @return stringItem
   **/
   @ApiModelProperty(example = "what", required = true, value = "")
-  public String getStringItem() {
+  public StringItemEnum getStringItem() {
     return stringItem;
   }
 
-  public void setStringItem(String stringItem) {
+  public void setStringItem(StringItemEnum stringItem) {
     this.stringItem = stringItem;
   }
 
-  public TypeHolderExample numberItem(BigDecimal numberItem) {
+  public TypeHolderExample numberItem(NumberItemEnum numberItem) {
     this.numberItem = numberItem;
     return this;
   }
@@ -57,15 +210,15 @@ public class TypeHolderExample   {
    * @return numberItem
   **/
   @ApiModelProperty(example = "1.234", required = true, value = "")
-  public BigDecimal getNumberItem() {
+  public NumberItemEnum getNumberItem() {
     return numberItem;
   }
 
-  public void setNumberItem(BigDecimal numberItem) {
+  public void setNumberItem(NumberItemEnum numberItem) {
     this.numberItem = numberItem;
   }
 
-  public TypeHolderExample integerItem(Integer integerItem) {
+  public TypeHolderExample integerItem(IntegerItemEnum integerItem) {
     this.integerItem = integerItem;
     return this;
   }
@@ -75,11 +228,11 @@ public class TypeHolderExample   {
    * @return integerItem
   **/
   @ApiModelProperty(example = "-2", required = true, value = "")
-  public Integer getIntegerItem() {
+  public IntegerItemEnum getIntegerItem() {
     return integerItem;
   }
 
-  public void setIntegerItem(Integer integerItem) {
+  public void setIntegerItem(IntegerItemEnum integerItem) {
     this.integerItem = integerItem;
   }
 
@@ -101,6 +254,42 @@ public class TypeHolderExample   {
     this.boolItem = boolItem;
   }
 
+  public TypeHolderExample dateItem(DateItemEnum dateItem) {
+    this.dateItem = dateItem;
+    return this;
+  }
+
+   /**
+   * Get dateItem
+   * @return dateItem
+  **/
+  @ApiModelProperty(required = true, value = "")
+  public DateItemEnum getDateItem() {
+    return dateItem;
+  }
+
+  public void setDateItem(DateItemEnum dateItem) {
+    this.dateItem = dateItem;
+  }
+
+  public TypeHolderExample datetimeItem(DatetimeItemEnum datetimeItem) {
+    this.datetimeItem = datetimeItem;
+    return this;
+  }
+
+   /**
+   * Get datetimeItem
+   * @return datetimeItem
+  **/
+  @ApiModelProperty(required = true, value = "")
+  public DatetimeItemEnum getDatetimeItem() {
+    return datetimeItem;
+  }
+
+  public void setDatetimeItem(DatetimeItemEnum datetimeItem) {
+    this.datetimeItem = datetimeItem;
+  }
+
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
     return this;
@@ -115,7 +304,7 @@ public class TypeHolderExample   {
    * Get arrayItem
    * @return arrayItem
   **/
-  @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
+  @ApiModelProperty(example = "[[0, 1, 2, 3]]", required = true, value = "")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
@@ -138,12 +327,14 @@ public class TypeHolderExample   {
         Objects.equals(this.numberItem, typeHolderExample.numberItem) &&
         Objects.equals(this.integerItem, typeHolderExample.integerItem) &&
         Objects.equals(this.boolItem, typeHolderExample.boolItem) &&
+        Objects.equals(this.dateItem, typeHolderExample.dateItem) &&
+        Objects.equals(this.datetimeItem, typeHolderExample.datetimeItem) &&
         Objects.equals(this.arrayItem, typeHolderExample.arrayItem);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
+    return Objects.hash(stringItem, numberItem, integerItem, boolItem, dateItem, datetimeItem, arrayItem);
   }
 
   @Override
@@ -155,6 +346,8 @@ public class TypeHolderExample   {
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
     sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
     sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
+    sb.append("    dateItem: ").append(toIndentedString(dateItem)).append("\n");
+    sb.append("    datetimeItem: ").append(toIndentedString(datetimeItem)).append("\n");
     sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");
     sb.append("}");
     return sb.toString();

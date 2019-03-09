@@ -21,16 +21,19 @@ import ApiClient from '../ApiClient';
 class TypeHolderExample {
     /**
      * Constructs a new <code>TypeHolderExample</code>.
+     * a model to test required properties with an example and length one enum
      * @alias module:model/TypeHolderExample
-     * @param stringItem {String} 
-     * @param numberItem {Number} 
-     * @param integerItem {Number} 
+     * @param stringItem {module:model/TypeHolderExample.StringItemEnum} 
+     * @param numberItem {module:model/TypeHolderExample.NumberItemEnum} 
+     * @param integerItem {module:model/TypeHolderExample.IntegerItemEnum} 
      * @param boolItem {Boolean} 
+     * @param dateItem {module:model/TypeHolderExample.DateItemEnum} 
+     * @param datetimeItem {module:model/TypeHolderExample.DatetimeItemEnum} 
      * @param arrayItem {Array.<Number>} 
      */
-    constructor(stringItem, numberItem, integerItem, boolItem, arrayItem) { 
+    constructor(stringItem, numberItem, integerItem, boolItem, dateItem, datetimeItem, arrayItem) { 
         
-        TypeHolderExample.initialize(this, stringItem, numberItem, integerItem, boolItem, arrayItem);
+        TypeHolderExample.initialize(this, stringItem, numberItem, integerItem, boolItem, dateItem, datetimeItem, arrayItem);
     }
 
     /**
@@ -38,11 +41,13 @@ class TypeHolderExample {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, stringItem, numberItem, integerItem, boolItem, arrayItem) { 
+    static initialize(obj, stringItem, numberItem, integerItem, boolItem, dateItem, datetimeItem, arrayItem) { 
         obj['string_item'] = stringItem;
         obj['number_item'] = numberItem;
         obj['integer_item'] = integerItem;
         obj['bool_item'] = boolItem;
+        obj['date_item'] = dateItem;
+        obj['datetime_item'] = datetimeItem;
         obj['array_item'] = arrayItem;
     }
 
@@ -69,6 +74,12 @@ class TypeHolderExample {
             if (data.hasOwnProperty('bool_item')) {
                 obj['bool_item'] = ApiClient.convertToType(data['bool_item'], 'Boolean');
             }
+            if (data.hasOwnProperty('date_item')) {
+                obj['date_item'] = ApiClient.convertToType(data['date_item'], 'Date');
+            }
+            if (data.hasOwnProperty('datetime_item')) {
+                obj['datetime_item'] = ApiClient.convertToType(data['datetime_item'], 'Date');
+            }
             if (data.hasOwnProperty('array_item')) {
                 obj['array_item'] = ApiClient.convertToType(data['array_item'], ['Number']);
             }
@@ -80,17 +91,17 @@ class TypeHolderExample {
 }
 
 /**
- * @member {String} string_item
+ * @member {module:model/TypeHolderExample.StringItemEnum} string_item
  */
 TypeHolderExample.prototype['string_item'] = undefined;
 
 /**
- * @member {Number} number_item
+ * @member {module:model/TypeHolderExample.NumberItemEnum} number_item
  */
 TypeHolderExample.prototype['number_item'] = undefined;
 
 /**
- * @member {Number} integer_item
+ * @member {module:model/TypeHolderExample.IntegerItemEnum} integer_item
  */
 TypeHolderExample.prototype['integer_item'] = undefined;
 
@@ -100,12 +111,97 @@ TypeHolderExample.prototype['integer_item'] = undefined;
 TypeHolderExample.prototype['bool_item'] = undefined;
 
 /**
+ * @member {module:model/TypeHolderExample.DateItemEnum} date_item
+ */
+TypeHolderExample.prototype['date_item'] = undefined;
+
+/**
+ * @member {module:model/TypeHolderExample.DatetimeItemEnum} datetime_item
+ */
+TypeHolderExample.prototype['datetime_item'] = undefined;
+
+/**
  * @member {Array.<Number>} array_item
  */
 TypeHolderExample.prototype['array_item'] = undefined;
 
 
 
+
+
+/**
+ * Allowed values for the <code>string_item</code> property.
+ * @enum {String}
+ * @readonly
+ */
+TypeHolderExample['StringItemEnum'] = {
+
+    /**
+     * value: "what"
+     * @const
+     */
+    "what": "what"
+};
+
+
+/**
+ * Allowed values for the <code>number_item</code> property.
+ * @enum {Number}
+ * @readonly
+ */
+TypeHolderExample['NumberItemEnum'] = {
+
+    /**
+     * value: 1.2339999675750732
+     * @const
+     */
+    "1.2339999675750732": 1.2339999675750732
+};
+
+
+/**
+ * Allowed values for the <code>integer_item</code> property.
+ * @enum {Number}
+ * @readonly
+ */
+TypeHolderExample['IntegerItemEnum'] = {
+
+    /**
+     * value: -2
+     * @const
+     */
+    "-2": -2
+};
+
+
+/**
+ * Allowed values for the <code>date_item</code> property.
+ * @enum {Date}
+ * @readonly
+ */
+TypeHolderExample['DateItemEnum'] = {
+
+    /**
+     * value: "Thu Jul 20 17:00:00 PDT 2017"
+     * @const
+     */
+    "Thu Jul 20 17:00:00 PDT 2017": "Thu Jul 20 17:00:00 PDT 2017"
+};
+
+
+/**
+ * Allowed values for the <code>datetime_item</code> property.
+ * @enum {Date}
+ * @readonly
+ */
+TypeHolderExample['DatetimeItemEnum'] = {
+
+    /**
+     * value: "Fri Jul 21 10:32:28 PDT 2017"
+     * @const
+     */
+    "Fri Jul 21 10:32:28 PDT 2017": "Fri Jul 21 10:32:28 PDT 2017"
+};
 
 
 

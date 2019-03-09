@@ -40,22 +40,13 @@
 
   /**
    * Constructs a new <code>TypeHolderDefault</code>.
+   * a model to test optional properties with server defaults
    * @alias module:model/TypeHolderDefault
    * @class
-   * @param stringItem {String} 
-   * @param numberItem {Number} 
-   * @param integerItem {Number} 
-   * @param boolItem {Boolean} 
-   * @param arrayItem {Array.<Number>} 
    */
-  var exports = function(stringItem, numberItem, integerItem, boolItem, arrayItem) {
+  var exports = function() {
     var _this = this;
 
-    _this['string_item'] = stringItem;
-    _this['number_item'] = numberItem;
-    _this['integer_item'] = integerItem;
-    _this['bool_item'] = boolItem;
-    _this['array_item'] = arrayItem;
   };
 
   /**
@@ -80,6 +71,12 @@
       if (data.hasOwnProperty('bool_item')) {
         obj['bool_item'] = ApiClient.convertToType(data['bool_item'], 'Boolean');
       }
+      if (data.hasOwnProperty('date_item')) {
+        obj['date_item'] = ApiClient.convertToType(data['date_item'], 'Date');
+      }
+      if (data.hasOwnProperty('datetime_item')) {
+        obj['datetime_item'] = ApiClient.convertToType(data['datetime_item'], 'Date');
+      }
       if (data.hasOwnProperty('array_item')) {
         obj['array_item'] = ApiClient.convertToType(data['array_item'], ['Number']);
       }
@@ -94,17 +91,27 @@
   exports.prototype['string_item'] = 'what';
   /**
    * @member {Number} number_item
+   * @default 1.234
    */
-  exports.prototype['number_item'] = undefined;
+  exports.prototype['number_item'] = 1.234;
   /**
    * @member {Number} integer_item
+   * @default -2
    */
-  exports.prototype['integer_item'] = undefined;
+  exports.prototype['integer_item'] = -2;
   /**
    * @member {Boolean} bool_item
    * @default true
    */
   exports.prototype['bool_item'] = true;
+  /**
+   * @member {Date} date_item
+   */
+  exports.prototype['date_item'] = undefined;
+  /**
+   * @member {Date} datetime_item
+   */
+  exports.prototype['datetime_item'] = undefined;
   /**
    * @member {Array.<Number>} array_item
    */

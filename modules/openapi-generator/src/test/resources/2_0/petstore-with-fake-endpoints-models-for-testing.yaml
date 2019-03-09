@@ -1722,17 +1722,17 @@ definitions:
         example: true
         enum:
           - true
-      # date_item:
-      #   type: string
-      #   format: date
-      #   example: 2017-07-21
-      #   enum: [2017-07-21]
-      # datetime_item:
-      #   type: string
-      #   format: date-time
-      #   example: 2017-07-21T17:32:28Z
-      #   enum:
-      #     - 2017-07-21T17:32:28Z
+      date_item:
+        type: string
+        format: date
+        example: 2017-07-21
+        enum: [2017-07-21]
+      datetime_item:
+        type: string
+        format: date-time
+        example: 2017-07-21T17:32:28Z
+        enum:
+          - 2017-07-21T17:32:28Z
       # swagger-parser does not see array enums yet https://github.com/swagger-api/swagger-parser/issues/985
       array_item:
           type: array

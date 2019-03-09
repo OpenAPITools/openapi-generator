@@ -40,21 +40,26 @@
 
   /**
    * Constructs a new <code>TypeHolderExample</code>.
+   * a model to test required properties with an example and length one enum
    * @alias module:model/TypeHolderExample
    * @class
-   * @param stringItem {String} 
-   * @param numberItem {Number} 
-   * @param integerItem {Number} 
+   * @param stringItem {module:model/TypeHolderExample.StringItemEnum} 
+   * @param numberItem {module:model/TypeHolderExample.NumberItemEnum} 
+   * @param integerItem {module:model/TypeHolderExample.IntegerItemEnum} 
    * @param boolItem {Boolean} 
+   * @param dateItem {module:model/TypeHolderExample.DateItemEnum} 
+   * @param datetimeItem {module:model/TypeHolderExample.DatetimeItemEnum} 
    * @param arrayItem {Array.<Number>} 
    */
-  var exports = function(stringItem, numberItem, integerItem, boolItem, arrayItem) {
+  var exports = function(stringItem, numberItem, integerItem, boolItem, dateItem, datetimeItem, arrayItem) {
     var _this = this;
 
     _this['string_item'] = stringItem;
     _this['number_item'] = numberItem;
     _this['integer_item'] = integerItem;
     _this['bool_item'] = boolItem;
+    _this['date_item'] = dateItem;
+    _this['datetime_item'] = datetimeItem;
     _this['array_item'] = arrayItem;
   };
 
@@ -80,6 +85,12 @@
       if (data.hasOwnProperty('bool_item')) {
         obj['bool_item'] = ApiClient.convertToType(data['bool_item'], 'Boolean');
       }
+      if (data.hasOwnProperty('date_item')) {
+        obj['date_item'] = ApiClient.convertToType(data['date_item'], 'Date');
+      }
+      if (data.hasOwnProperty('datetime_item')) {
+        obj['datetime_item'] = ApiClient.convertToType(data['datetime_item'], 'Date');
+      }
       if (data.hasOwnProperty('array_item')) {
         obj['array_item'] = ApiClient.convertToType(data['array_item'], ['Number']);
       }
@@ -88,15 +99,15 @@
   }
 
   /**
-   * @member {String} string_item
+   * @member {module:model/TypeHolderExample.StringItemEnum} string_item
    */
   exports.prototype['string_item'] = undefined;
   /**
-   * @member {Number} number_item
+   * @member {module:model/TypeHolderExample.NumberItemEnum} number_item
    */
   exports.prototype['number_item'] = undefined;
   /**
-   * @member {Number} integer_item
+   * @member {module:model/TypeHolderExample.IntegerItemEnum} integer_item
    */
   exports.prototype['integer_item'] = undefined;
   /**
@@ -104,10 +115,78 @@
    */
   exports.prototype['bool_item'] = undefined;
   /**
+   * @member {module:model/TypeHolderExample.DateItemEnum} date_item
+   */
+  exports.prototype['date_item'] = undefined;
+  /**
+   * @member {module:model/TypeHolderExample.DatetimeItemEnum} datetime_item
+   */
+  exports.prototype['datetime_item'] = undefined;
+  /**
    * @member {Array.<Number>} array_item
    */
   exports.prototype['array_item'] = undefined;
 
+
+  /**
+   * Allowed values for the <code>string_item</code> property.
+   * @enum {String}
+   * @readonly
+   */
+  exports.StringItemEnum = {
+    /**
+     * value: "what"
+     * @const
+     */
+    "what": "what"  };
+
+  /**
+   * Allowed values for the <code>number_item</code> property.
+   * @enum {Number}
+   * @readonly
+   */
+  exports.NumberItemEnum = {
+    /**
+     * value: 1.2339999675750732
+     * @const
+     */
+    "1.2339999675750732": 1.2339999675750732  };
+
+  /**
+   * Allowed values for the <code>integer_item</code> property.
+   * @enum {Number}
+   * @readonly
+   */
+  exports.IntegerItemEnum = {
+    /**
+     * value: -2
+     * @const
+     */
+    "-2": -2  };
+
+  /**
+   * Allowed values for the <code>date_item</code> property.
+   * @enum {Date}
+   * @readonly
+   */
+  exports.DateItemEnum = {
+    /**
+     * value: "Thu Jul 20 17:00:00 PDT 2017"
+     * @const
+     */
+    "Thu Jul 20 17:00:00 PDT 2017": "Thu Jul 20 17:00:00 PDT 2017"  };
+
+  /**
+   * Allowed values for the <code>datetime_item</code> property.
+   * @enum {Date}
+   * @readonly
+   */
+  exports.DatetimeItemEnum = {
+    /**
+     * value: "Fri Jul 21 10:32:28 PDT 2017"
+     * @const
+     */
+    "Fri Jul 21 10:32:28 PDT 2017": "Fri Jul 21 10:32:28 PDT 2017"  };
 
 
   return exports;

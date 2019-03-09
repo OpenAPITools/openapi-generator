@@ -21,16 +21,12 @@ import ApiClient from '../ApiClient';
 class TypeHolderDefault {
     /**
      * Constructs a new <code>TypeHolderDefault</code>.
+     * a model to test optional properties with server defaults
      * @alias module:model/TypeHolderDefault
-     * @param stringItem {String} 
-     * @param numberItem {Number} 
-     * @param integerItem {Number} 
-     * @param boolItem {Boolean} 
-     * @param arrayItem {Array.<Number>} 
      */
-    constructor(stringItem, numberItem, integerItem, boolItem, arrayItem) { 
+    constructor() { 
         
-        TypeHolderDefault.initialize(this, stringItem, numberItem, integerItem, boolItem, arrayItem);
+        TypeHolderDefault.initialize(this);
     }
 
     /**
@@ -38,12 +34,7 @@ class TypeHolderDefault {
      * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
      * Only for internal use.
      */
-    static initialize(obj, stringItem, numberItem, integerItem, boolItem, arrayItem) { 
-        obj['string_item'] = stringItem;
-        obj['number_item'] = numberItem;
-        obj['integer_item'] = integerItem;
-        obj['bool_item'] = boolItem;
-        obj['array_item'] = arrayItem;
+    static initialize(obj) { 
     }
 
     /**
@@ -69,6 +60,12 @@ class TypeHolderDefault {
             if (data.hasOwnProperty('bool_item')) {
                 obj['bool_item'] = ApiClient.convertToType(data['bool_item'], 'Boolean');
             }
+            if (data.hasOwnProperty('date_item')) {
+                obj['date_item'] = ApiClient.convertToType(data['date_item'], 'Date');
+            }
+            if (data.hasOwnProperty('datetime_item')) {
+                obj['datetime_item'] = ApiClient.convertToType(data['datetime_item'], 'Date');
+            }
             if (data.hasOwnProperty('array_item')) {
                 obj['array_item'] = ApiClient.convertToType(data['array_item'], ['Number']);
             }
@@ -87,19 +84,31 @@ TypeHolderDefault.prototype['string_item'] = 'what';
 
 /**
  * @member {Number} number_item
+ * @default 1.234
  */
-TypeHolderDefault.prototype['number_item'] = undefined;
+TypeHolderDefault.prototype['number_item'] = 1.234;
 
 /**
  * @member {Number} integer_item
+ * @default -2
  */
-TypeHolderDefault.prototype['integer_item'] = undefined;
+TypeHolderDefault.prototype['integer_item'] = -2;
 
 /**
  * @member {Boolean} bool_item
  * @default true
  */
 TypeHolderDefault.prototype['bool_item'] = true;
+
+/**
+ * @member {Date} date_item
+ */
+TypeHolderDefault.prototype['date_item'] = undefined;
+
+/**
+ * @member {Date} datetime_item
+ */
+TypeHolderDefault.prototype['datetime_item'] = undefined;
 
 /**
  * @member {Array.<Number>} array_item

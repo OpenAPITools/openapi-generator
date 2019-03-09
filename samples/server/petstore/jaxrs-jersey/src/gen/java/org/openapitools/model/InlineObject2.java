@@ -97,7 +97,7 @@ public class InlineObject2   {
   }
 
   @JsonProperty("enum_form_string")
-  private EnumFormStringEnum enumFormString = EnumFormStringEnum._EFG;
+  private EnumFormStringEnum enumFormString = -efg;
 
   public InlineObject2 enumFormStringArray(List<EnumFormStringArrayEnum> enumFormStringArray) {
     this.enumFormStringArray = enumFormStringArray;
