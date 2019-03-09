@@ -634,7 +634,7 @@ public class JavaJAXRSCXFExtServerCodegenTest {
         assertEquals(group5List.get(1).subresourceOperation, true);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGenerateOperationBodyWithCodedTestData() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -680,7 +680,7 @@ public class JavaJAXRSCXFExtServerCodegenTest {
         checkFile(generator, outputPath + "/test-data-control.json", false);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testGenerateOperationBodyWithJsonTestData() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
