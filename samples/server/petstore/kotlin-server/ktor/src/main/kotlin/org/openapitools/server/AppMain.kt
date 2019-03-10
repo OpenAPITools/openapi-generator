@@ -47,7 +47,7 @@ fun Application.main() {
             validate { apikeyCredential: ApiKeyCredential ->
                 when {
                     apikeyCredential.value == "keyboardcat" -> ApiPrincipal(apikeyCredential)
-                else -> null
+                    else -> null
                 }
             }
         }
