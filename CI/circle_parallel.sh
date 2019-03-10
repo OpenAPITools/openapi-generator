@@ -20,10 +20,10 @@ elif [ "$NODE_INDEX" = "2" ]; then
     java -version
     ./bin/utils/ensure-up-to-date
   fi
-elif [ "$NODE_INDEX" = "3" ]; then
+#elif [ "$NODE_INDEX" = "3" ]; then
   echo "Running node $NODE_INDEX to test haskell"
   # install haskell
-  url -sSL https://get.haskellstack.org/ | sh
+  curl -sSL https://get.haskellstack.org/ | sh
   stack upgrade
   stack --version:w
   # install r
