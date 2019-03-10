@@ -83,4 +83,19 @@ public class AbstractKotlinCodegenTest {
         assertTrue(codegen.isDataTypeString("kotlin.String"));
         assertTrue(codegen.isDataTypeString("String"));
     }
+
+    @Test
+    public void toModelNameShouldUseProvidedMapping() throws Exception {
+        codegen.importMapping().put("json_myclass", "com.test.MyClass");
+        assertEquals("com.test.MyClass", codegen.toModelName("json_myclass"));
+    }
+
+    @Test
+    public void convertModelName() throws Exception {
+        assertEquals(codegen.toModelName("name"), "Name");
+        assertEquals(codegen.toModelName("$name"), "Dollarname");
+        assertEquals(codegen.toModelName("nam#e"), "NamHashe");
+        assertEquals(codegen.toModelName("$another-fake?"), "DollaranotherMinusfakeQuestionMark");
+    }
+
 }
