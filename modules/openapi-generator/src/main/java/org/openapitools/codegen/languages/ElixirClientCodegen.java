@@ -54,7 +54,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
             "{:tesla, \"~> 1.0.0\"}",
-            "{:poison, \">= 1.0.0\"}"
+            "{:poison, \"~> 3.0.0\"}"
     );
 
     public ElixirClientCodegen() {
