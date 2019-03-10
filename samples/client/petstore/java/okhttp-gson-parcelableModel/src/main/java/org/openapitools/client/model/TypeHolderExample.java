@@ -90,7 +90,7 @@ public class TypeHolderExample implements Parcelable {
    */
   @JsonAdapter(NumberItemEnum.Adapter.class)
   public enum NumberItemEnum {
-    NUMBER_1_DOT_2339999675750732(Float.valueOf("1.2339999675750732"));
+    NUMBER_1_DOT_2339999675750732(Float.valueOf(1.2339999675750732));
 
     private Float value;
 

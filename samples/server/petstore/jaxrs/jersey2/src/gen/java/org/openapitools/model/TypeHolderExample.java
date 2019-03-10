@@ -67,7 +67,7 @@ public class TypeHolderExample   {
    * Gets or Sets numberItem
    */
   public enum NumberItemEnum {
-    NUMBER_1_DOT_2339999675750732(Float.valueOf("1.2339999675750732"));
+    NUMBER_1_DOT_2339999675750732(Float.valueOf(1.2339999675750732));
 
     private Float value;
 
@@ -134,7 +134,7 @@ public class TypeHolderExample   {
    * Gets or Sets dateItem
    */
   public enum DateItemEnum {
-    THU_JUL_20_17_00_00_PDT_2017(Date(1500595200000L));
+    THU_JUL_20_17_00_00_PDT_2017(new Date(1500595200000L));
 
     private Date value;
 
@@ -166,7 +166,7 @@ public class TypeHolderExample   {
    * Gets or Sets datetimeItem
    */
   public enum DatetimeItemEnum {
-    FRI_JUL_21_10_32_28_PDT_2017(Date(1500658348000L));
+    FRI_JUL_21_10_32_28_PDT_2017(new Date(1500658348000L));
 
     private Date value;
 
