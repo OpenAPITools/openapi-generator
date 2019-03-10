@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="testCodeInjectEndRnNR"></a>
 # **testCodeInjectEndRnNR**
-> testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE)
+> testCodeInjectEndRnNR(testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR)
 
 To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
@@ -23,9 +23,9 @@ To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
 
 
 FakeApi apiInstance = new FakeApi();
-UNKNOWN_BASE_TYPE UNKNOWN_BASE_TYPE = new UNKNOWN_BASE_TYPE(); // UNKNOWN_BASE_TYPE | 
+String testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR = "testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR_example"; // String | To test code injection *_/ ' \\\" =end -- \\\\r\\\\n \\\\n \\\\r
 try {
-    apiInstance.testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE);
+    apiInstance.testCodeInjectEndRnNR(testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR);
 } catch (ApiException e) {
     System.err.println("Exception when calling FakeApi#testCodeInjectEndRnNR");
     e.printStackTrace();
@@ -36,7 +36,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_BASE_TYPE** | [**UNKNOWN_BASE_TYPE**](UNKNOWN_BASE_TYPE.md)|  | [optional]
+ **testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR** | **String**| To test code injection *_/ &#39; \\\&quot; &#x3D;end -- \\\\r\\\\n \\\\n \\\\r | [optional]
 
 ### Return type
 
@@ -48,6 +48,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, *_/ '  =end --       
+ - **Content-Type**: application/x-www-form-urlencoded, *_/ '  =end --       
  - **Accept**: Not defined
 

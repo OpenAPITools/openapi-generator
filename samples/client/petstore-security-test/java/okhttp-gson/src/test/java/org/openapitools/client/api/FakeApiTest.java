@@ -34,15 +34,15 @@ public class FakeApiTest {
     /**
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      *
-     * 
+     * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void testCodeInjectEndRnNRTest() throws ApiException {
-        Object UNKNOWN_BASE_TYPE = null;
-        api.testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE);
+        String testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR = null;
+        api.testCodeInjectEndRnNR(testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR);
 
         // TODO: test validations
     }
