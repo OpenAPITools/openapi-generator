@@ -25,7 +25,7 @@ elif [ "$NODE_INDEX" = "2" ]; then
   # install haskell
   curl -sSL https://get.haskellstack.org/ | sh
   stack upgrade
-  stack --version:w
+  stack --version
   # install r
   sudo apt-get install r-base
   sudo apt-get install libopenblas-base r-base
