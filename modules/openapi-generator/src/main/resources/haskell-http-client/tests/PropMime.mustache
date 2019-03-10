@@ -32,14 +32,14 @@ type Arbitrary' a = (Arbitrary a, Show a, Typeable a)
 propMime
   :: forall a b mime.
      (ArbitraryMime mime a, Testable b)
-  => String -> (a -> a -> b) -> mime -> Proxy a -> Spec
+  => String -> (BL8.ByteString -> BL8.ByteString -> b) -> mime -> Proxy a -> Spec
 propMime eqDescr eq m _ =
   prop
     (show (typeOf (undefined :: a)) <> " " <> show (typeOf (undefined :: mime)) <> " roundtrip " <> eqDescr) $
   \(x :: a) ->
      let rendered = mimeRender' m x
-         actual = mimeUnrender' m rendered
-         expected = Right x
+         actual = fmap (mimeRender' m) (mimeUnrender' m rendered :: Either String a)
+         expected = Right rendered
          failMsg =
            "ACTUAL: " <> show actual <> "\nRENDERED: " <> BL8.unpack rendered
      in counterexample failMsg $
