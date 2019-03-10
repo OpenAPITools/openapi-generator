@@ -19,17 +19,10 @@ using System.Runtime.Serialization.Formatters;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-{{#netStandard}}
-using RestSharp.Portable;
-using RestSharp.Portable.HttpClient;
-using RestSharpMethod = RestSharp.Portable.Method;
-{{/netStandard}}
-{{^netStandard}}
 using RestSharp;
 using RestSharp.Deserializers;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 using RestSharpMethod = RestSharp.Method;
-{{/netStandard}}
 
 namespace {{packageName}}.Client
 {
