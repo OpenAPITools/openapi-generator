@@ -90,7 +90,7 @@ defmodule OpenapiPetstore.RequestBuilder do
   end
   def add_param(request, :headers, key, value) do
     request
-    |> Map.update(:headers, %{key => value}, &(Map.put(&1, key, value)))
+    |> Tesla.put_header(key, value)
   end
   def add_param(request, :file, name, path) do
     request
@@ -110,7 +110,7 @@ defmodule OpenapiPetstore.RequestBuilder do
 
   ## Parameters
 
-  - arg1 (Tesla.Env.t | term) - The response object
+  - arg1 ({:ok, Tesla.Env.t} | term) - The response object
   - arg2 (:false | struct | [struct]) - The shape of the struct to deserialize into
 
   ## Returns
@@ -118,12 +118,14 @@ defmodule OpenapiPetstore.RequestBuilder do
   {:ok, struct} on success
   {:error, term} on failure
   """
-  @spec decode(Tesla.Env.t | term()) :: {:ok, struct()} | {:error, Tesla.Env.t} | {:error, term()}
-  def decode(%Tesla.Env{status: 200, body: body}), do: Poison.decode(body)
+  @spec decode({:ok, Tesla.Env.t} | term()) :: {:ok, struct()} | {:error, Tesla.Env.t} | {:error, term()}
+  def decode({:ok, %Tesla.Env{status: 200, body: body}}), do: Poison.decode(body)
   def decode(response), do: {:error, response}
+  def decode({:error, _} = error), do: error
 
-  @spec decode(Tesla.Env.t | term(), :false | struct() | [struct()]) :: {:ok, struct()} | {:error, Tesla.Env.t} | {:error, term()}
-  def decode(%Tesla.Env{status: 200} = env, false), do: {:ok, env}
-  def decode(%Tesla.Env{status: 200, body: body}, struct), do: Poison.decode(body, as: struct)
+  @spec decode({:ok, Tesla.Env.t} | term(), :false | struct() | [struct()]) :: {:ok, struct()} | {:error, Tesla.Env.t} | {:error, term()}
+  def decode({:ok, %Tesla.Env{status: 200}} = env, false), do: {:ok, env}
+  def decode({:ok, %Tesla.Env{status: 200, body: body}}, struct), do: Poison.decode(body, as: struct)
+  def decode({:error, _} = error, _struct), do: error
   def decode(response, _struct), do: {:error, response}
 end
