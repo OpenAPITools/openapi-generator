@@ -27,7 +27,7 @@
 
             <dependency id="NewtonSoft.Json" version="12.0.1" />
             <dependency id="JsonSubTypes" version="1.5.1" />
-            <dependency id="RestSharp" version="106.5.4" />
+            <dependency id="RestSharp" version="106.6.7" />
 
         </dependencies>
     </metadata>
