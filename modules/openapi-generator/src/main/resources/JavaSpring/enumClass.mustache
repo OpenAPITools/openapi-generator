@@ -26,6 +26,13 @@
       this.value = value;
     }
 
+    {{#jackson}}
+    @JsonValue
+    {{/jackson}}
+    public {{{dataType}}} getValue() {
+      return value;
+    }
+
     @Override
     @JsonValue
     public String toString() {
