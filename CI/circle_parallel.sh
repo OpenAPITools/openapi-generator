@@ -26,6 +26,11 @@ elif [ "$NODE_INDEX" = "3" ]; then
   url -sSL https://get.haskellstack.org/ | sh
   stack upgrade
   stack --version:w
+  # install r
+  sudo apt-get install r-base
+  sudo apt-get install libopenblas-base r-base
+  R --version
+  # run integration tests
   mvn --quiet verify -Psamples.misc
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.jdk7' defined in pom.xml ..."
