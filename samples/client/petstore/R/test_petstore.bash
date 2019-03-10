@@ -2,14 +2,13 @@
 
 set -e
 
-sudo Rscript -e 'install.packages("jsonlite", repos="https://cran.cnr.berkeley.edu/")'
-sudo Rscript -e 'install.packages("httr", repos="https://cran.cnr.berkeley.edu/")'
-sudo Rscript -e 'install.packages("testthat", repos="https://cran.cnr.berkeley.edu/")'
-sudo Rscript -e 'install.packages("R6", repos="https://cran.cnr.berkeley.edu/")'
-sudo Rscript -e 'install.packages("caTools", repos="https://cran.cnr.berkeley.edu/")'
+REPO=http://cran.revolutionanalytics.com
 
-#Packages required but not available: ‘jsonlite’ ‘httr’ ‘R6’ ‘caTools’
-#Package suggested but not available: ‘testthat’
+sudo Rscript -e "install.packages('jsonlite', repos='$REPO')"
+sudo Rscript -e "install.packages('httr', repos='$REPO')"
+sudo Rscript -e "install.packages('testthat', repos='$REPO')"
+sudo Rscript -e "install.packages('R6', repos='$REPO')"
+sudo Rscript -e "install.packages('caTools', repos='$REPO')"
 
 R CMD build .
 R CMD check *tar.gz
