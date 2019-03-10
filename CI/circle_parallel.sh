@@ -34,8 +34,8 @@ elif [ "$NODE_INDEX" = "2" ]; then
   sudo apt-get -y install r-base
   R --version
   # install curl
-  apt-get -y build-dep libcurl4-gnutls-dev
-  apt-get -y install libcurl4-gnutls-dev
+  sudo apt-get -y build-dep libcurl4-gnutls-dev
+  sudo apt-get -y install libcurl4-gnutls-dev
   # run integration tests
   mvn --quiet verify -Psamples.misc
 else
