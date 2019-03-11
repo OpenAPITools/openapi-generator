@@ -56,7 +56,30 @@
 
       @Override
       public {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} read(final JsonReader jsonReader) throws IOException {
-        {{{dataType}}} value = jsonReader.{{#isInteger}}nextInt(){{/isInteger}}{{^isInteger}}next{{{dataType}}}(){{/isInteger}};
+        {{#isInteger}}
+        Integer value = jsonReader.nextInt();
+        {{/isInteger}}
+        {{#isLong}}
+        Long value = jsonReader.nextLong();
+        {{/isLong}}
+        {{#isFloat}}
+        Float value = (Float) jsonReader.nextDouble();
+        {{/isFloat}}
+        {{#isDouble}}
+        Double value = jsonReader.nextDouble();
+        {{/isDouble}}
+        {{#isBoolean}}
+        Boolean value = jsonReader.nextBoolean();
+        {{/isBoolean}}
+        {{#isString}}
+        String value = jsonReader.nextString();
+        {{/isString}}
+        {{#isDate}}
+        String value = jsonReader.nextString();
+        {{/isDate}}
+        {{#isDateTime}}
+        String value = jsonReader.nextString();
+        {{/isDateTime}}
         return {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.fromValue(String.valueOf(value));
       }
     }

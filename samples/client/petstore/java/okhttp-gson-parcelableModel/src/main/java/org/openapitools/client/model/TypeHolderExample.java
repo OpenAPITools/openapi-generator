@@ -124,7 +124,7 @@ public class TypeHolderExample implements Parcelable {
 
       @Override
       public NumberItemEnum read(final JsonReader jsonReader) throws IOException {
-        Float value = jsonReader.nextFloat();
+        Float value = (Float) jsonReader.nextDouble();
         return NumberItemEnum.fromValue(String.valueOf(value));
       }
     }
@@ -226,7 +226,7 @@ public class TypeHolderExample implements Parcelable {
 
       @Override
       public DateItemEnum read(final JsonReader jsonReader) throws IOException {
-        LocalDate value = jsonReader.nextLocalDate();
+        String value = jsonReader.nextString();
         return DateItemEnum.fromValue(String.valueOf(value));
       }
     }
@@ -275,7 +275,7 @@ public class TypeHolderExample implements Parcelable {
 
       @Override
       public DatetimeItemEnum read(final JsonReader jsonReader) throws IOException {
-        OffsetDateTime value = jsonReader.nextOffsetDateTime();
+        String value = jsonReader.nextString();
         return DatetimeItemEnum.fromValue(String.valueOf(value));
       }
     }
