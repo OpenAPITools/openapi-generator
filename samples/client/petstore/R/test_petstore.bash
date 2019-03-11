@@ -4,7 +4,9 @@ set -e
 
 REPO=http://cran.revolutionanalytics.com
 
-R_LIBS_USER=$HOME/R
+export R_LIBS_USER=$HOME/R
+
+echo "R lib directory: $R_LIBS_USER"
 
 Rscript -e "install.packages('jsonlite', repos='$REPO')"
 Rscript -e "install.packages('httr', repos='$REPO')"
