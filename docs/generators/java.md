@@ -15,8 +15,8 @@ sidebar_label: java
 |apiPackage|package for generated api classes| |null|
 |invokerPackage|root package for generated code| |null|
 |groupId|groupId in generated pom.xml| |null|
-|artifactId|artifactId in generated pom.xml| |null|
-|artifactVersion|artifact version in generated pom.xml| |null|
+|artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename (default value 'openapi-java-client')| |null|
+|artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename (default value ('1.0.0')| |null|
 |artifactUrl|artifact URL in generated pom.xml| |null|
 |artifactDescription|artifact description in generated pom.xml| |null|
 |scmConnection|SCM connection in generated pom.xml| |null|
