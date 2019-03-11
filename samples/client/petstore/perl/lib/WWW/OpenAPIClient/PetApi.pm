@@ -53,17 +53,17 @@ sub new {
 #
 # Add a new pet to the store
 # 
-# @param Pet $pet Pet object that needs to be added to the store (required)
+# @param Pet $body Pet object that needs to be added to the store (required)
 {
     my $params = {
-    'pet' => {
+    'body' => {
         data_type => 'Pet',
         description => 'Pet object that needs to be added to the store',
         required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ 'add_pet' } = { 
-    	summary => 'Add a new pet to the store',
+        summary => 'Add a new pet to the store',
         params => $params,
         returns => undef,
         };
@@ -73,9 +73,9 @@ sub new {
 sub add_pet {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'pet' is set
-    unless (exists $args{'pet'}) {
-      croak("Missing the required parameter 'pet' when calling add_pet");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling add_pet");
     }
 
     # parse inputs
@@ -95,8 +95,8 @@ sub add_pet {
 
     my $_body_data;
     # body params
-    if ( exists $args{'pet'}) {
-        $_body_data = $args{'pet'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -130,7 +130,7 @@ sub add_pet {
     },
     };
     __PACKAGE__->method_documentation->{ 'delete_pet' } = { 
-    	summary => 'Deletes a pet',
+        summary => 'Deletes a pet',
         params => $params,
         returns => undef,
         };
@@ -198,7 +198,7 @@ sub delete_pet {
     },
     };
     __PACKAGE__->method_documentation->{ 'find_pets_by_status' } = { 
-    	summary => 'Finds Pets by status',
+        summary => 'Finds Pets by status',
         params => $params,
         returns => 'ARRAY[Pet]',
         };
@@ -263,7 +263,7 @@ sub find_pets_by_status {
     },
     };
     __PACKAGE__->method_documentation->{ 'find_pets_by_tags' } = { 
-    	summary => 'Finds Pets by tags',
+        summary => 'Finds Pets by tags',
         params => $params,
         returns => 'ARRAY[Pet]',
         };
@@ -328,7 +328,7 @@ sub find_pets_by_tags {
     },
     };
     __PACKAGE__->method_documentation->{ 'get_pet_by_id' } = { 
-    	summary => 'Find pet by ID',
+        summary => 'Find pet by ID',
         params => $params,
         returns => 'Pet',
         };
@@ -385,17 +385,17 @@ sub get_pet_by_id {
 #
 # Update an existing pet
 # 
-# @param Pet $pet Pet object that needs to be added to the store (required)
+# @param Pet $body Pet object that needs to be added to the store (required)
 {
     my $params = {
-    'pet' => {
+    'body' => {
         data_type => 'Pet',
         description => 'Pet object that needs to be added to the store',
         required => '1',
     },
     };
     __PACKAGE__->method_documentation->{ 'update_pet' } = { 
-    	summary => 'Update an existing pet',
+        summary => 'Update an existing pet',
         params => $params,
         returns => undef,
         };
@@ -405,9 +405,9 @@ sub get_pet_by_id {
 sub update_pet {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'pet' is set
-    unless (exists $args{'pet'}) {
-      croak("Missing the required parameter 'pet' when calling update_pet");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling update_pet");
     }
 
     # parse inputs
@@ -427,8 +427,8 @@ sub update_pet {
 
     my $_body_data;
     # body params
-    if ( exists $args{'pet'}) {
-        $_body_data = $args{'pet'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -468,7 +468,7 @@ sub update_pet {
     },
     };
     __PACKAGE__->method_documentation->{ 'update_pet_with_form' } = { 
-    	summary => 'Updates a pet in the store with form data',
+        summary => 'Updates a pet in the store with form data',
         params => $params,
         returns => undef,
         };
@@ -553,7 +553,7 @@ sub update_pet_with_form {
     },
     };
     __PACKAGE__->method_documentation->{ 'upload_file' } = { 
-    	summary => 'uploads an image',
+        summary => 'uploads an image',
         params => $params,
         returns => 'ApiResponse',
         };
@@ -643,7 +643,7 @@ sub upload_file {
     },
     };
     __PACKAGE__->method_documentation->{ 'upload_file_with_required_file' } = { 
-    	summary => 'uploads an image (required)',
+        summary => 'uploads an image (required)',
         params => $params,
         returns => 'ApiResponse',
         };

@@ -17,26 +17,18 @@
 
 package org.openapitools.codegen;
 
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
-
 import java.util.*;
-
-import io.swagger.v3.oas.models.media.XML;
 
 public class InlineModelResolver {
     private OpenAPI openapi;
@@ -106,6 +98,7 @@ public class InlineModelResolver {
 
                     // create request body
                     RequestBody rb = new RequestBody();
+                    rb.setRequired(requestBody.getRequired());
                     Content content = new Content();
                     MediaType mt = new MediaType();
                     Schema schema = new Schema();
@@ -420,6 +413,7 @@ public class InlineModelResolver {
         }
         int count = 0;
         boolean done = false;
+        key = key.replaceAll("/", "_"); // e.g. /me/videos => _me_videos
         key = key.replaceAll("[^a-z_\\.A-Z0-9 ]", ""); // FIXME: a parameter
         // should not be assigned. Also declare the methods parameters as 'final'.
         while (!done) {
@@ -537,6 +531,7 @@ public class InlineModelResolver {
         model.setName(object.getName());
         model.setXml(xml);
         model.setRequired(object.getRequired());
+        model.setNullable(object.getNullable());
         if (properties != null) {
             flattenProperties(properties, path);
             model.setProperties(properties);

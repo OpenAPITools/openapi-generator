@@ -1,6 +1,7 @@
 # {{packageName}} - PHP Slim Server library for {{appName}}
 
-[Slim Framework Documentation](https://www.slimframework.com/docs/)
+* [OpenAPI Generator](https://openapi-generator.tech)
+* [Slim Framework Documentation](https://www.slimframework.com/docs/)
 
 ## Requirements
 
@@ -79,10 +80,15 @@ $ composer phplint
 
 ## Show errors
 
-Change line in `./index.php`:
+Switch on option in `./index.php`:
 ```diff
---- $router = new SlimRouter();
-+++ $router = new SlimRouter(['settings' => ['displayErrorDetails' => true]]);
+    /**
+     * When true, additional information about exceptions are displayed by the default
+     * error handler.
+     * Default: false
+     */
+--- // 'displayErrorDetails' => false,
++++ 'displayErrorDetails' => true,
 ```
 
 {{#generateApiDocs}}
@@ -130,6 +136,7 @@ No model defined in this package
 {{/modelPackage}}
 {{/generateModelDocs}}
 
+{{#hasAuthMethods}}
 {{#authMethods}}
 {{^hasMore}}
 ## Authentication
@@ -138,7 +145,26 @@ No model defined in this package
 {{/authMethods}}
 {{#authMethods}}
 {{#isBasic}}
-> Important! To make Basic Authentication work you need to implement `authenticator` function in [SlimRouter]({{srcBasePath}}/SlimRouter.php) class.
-> Documentation [tuupola/slim-basic-auth](https://github.com/tuupola/slim-basic-auth#readme)
+### Security schema `{{name}}`
+> Important! To make Basic authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{authSrcPath}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\BasicAuthenticator](./src/Auth/BasicAuthenticator.php) class.
+
 {{/isBasic}}
+{{#isApiKey}}
+### Security schema `{{name}}`
+> Important! To make ApiKey authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{authSrcPath}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
+
+{{/isApiKey}}
+{{#isOAuth}}
+### Security schema `{{name}}`
+> Important! To make OAuth authentication work you need to extend [\{{authPackage}}\{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}]({{authSrcPath}}/{{abstractNamePrefix}}Authenticator{{abstractNameSuffix}}.php) class by [\{{authPackage}}\OAuthAuthenticator](./src/Auth/OAuthAuthenticator.php) class.
+
+Scope list:
+{{#scopes}}
+* `{{scope}}`{{#description}} - {{description}}{{/description}}
+{{/scopes}}
+
+{{/isOAuth}}
 {{/authMethods}}
+### Advanced middleware configuration
+Ref to used Slim Token Middleware [dyorg/slim-token-authentication](https://github.com/dyorg/slim-token-authentication/tree/1.x#readme)
+{{/hasAuthMethods}}

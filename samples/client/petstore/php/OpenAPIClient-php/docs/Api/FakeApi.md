@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**createXmlItem**](FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -18,6 +19,55 @@ Method | HTTP request | Description
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 
 
+# **createXmlItem**
+> createXmlItem($xml_item)
+
+creates an XmlItem
+
+this route creates an XmlItem
+
+### Example
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$xml_item = new \OpenAPI\Client\Model\XmlItem(); // \OpenAPI\Client\Model\XmlItem | XmlItem Body
+
+try {
+    $apiInstance->createXmlItem($xml_item);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->createXmlItem: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **xml_item** | [**\OpenAPI\Client\Model\XmlItem**](../Model/XmlItem.md)| XmlItem Body |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
 # **fakeOuterBooleanSerialize**
 > bool fakeOuterBooleanSerialize($body)
 
@@ -29,6 +79,7 @@ Test serialization of outer boolean types
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -79,6 +130,7 @@ Test serialization of object with outer number type
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -127,6 +179,7 @@ Test serialization of outer number types
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -177,6 +230,7 @@ Test serialization of outer string types
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -226,6 +280,7 @@ For this test, the body for this request much reference a schema named `File`.
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -271,6 +326,7 @@ No authorization required
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -321,6 +377,7 @@ To test \"client\" model
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -375,6 +432,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 $config = OpenAPI\Client\Configuration::getDefaultConfiguration()
               ->setUsername('YOUR_USERNAME')
               ->setPassword('YOUR_PASSWORD');
+
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
@@ -451,6 +509,7 @@ To test enum parameters
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -513,6 +572,7 @@ Fake endpoint to test group parameters (optional)
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -571,6 +631,7 @@ test inline additionalProperties
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -616,6 +677,7 @@ test json serialization of form data
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.

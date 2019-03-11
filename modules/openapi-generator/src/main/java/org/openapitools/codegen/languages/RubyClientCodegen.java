@@ -17,9 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.examples.Example;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -37,6 +37,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class RubyClientCodegen extends AbstractRubyCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
+    private static final String NUMERIC_ENUM_PREFIX = "N";
     public static final String GEM_NAME = "gemName";
     public static final String MODULE_NAME = "moduleName";
     public static final String GEM_VERSION = "gemVersion";
@@ -225,6 +226,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("Gemfile.lock.mustache", "", "Gemfile.lock"));
         supportingFiles.add(new SupportingFile("rubocop.mustache", "", ".rubocop.yml"));
+        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
 
         // test files should not be overwritten
         writeOptional(outputFolder, new SupportingFile("rspec.mustache", "", ".rspec"));
@@ -400,7 +402,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
         } else {
-            return "'" + escapeText(value) + "'";
+            return "\"" + escapeText(value) + "\"";
         }
     }
 
@@ -416,7 +418,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
             varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
+            return NUMERIC_ENUM_PREFIX + varName;
         }
 
         // string
@@ -425,7 +427,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         enumName = enumName.replaceFirst("_$", "");
 
         if (enumName.matches("\\d.*")) { // starts with number
-            return "N" + enumName;
+            return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;
         }
@@ -438,7 +440,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         enumName = enumName.replaceFirst("_$", "");
 
         if (enumName.matches("\\d.*")) { // starts with number
-            return "N" + enumName;
+            return NUMERIC_ENUM_PREFIX + enumName;
         } else {
             return enumName;
         }
@@ -610,14 +612,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     public void setGemAuthorEmail(String gemAuthorEmail) {
         this.gemAuthorEmail = gemAuthorEmail;
-    }
-
-    @Override
-    public boolean shouldOverwrite(String filename) {
-        // skip spec file as the file might have been updated with new test cases
-        return !(skipOverwrite && new File(filename).exists());
-        //
-        //return super.shouldOverwrite(filename) && !filename.endsWith("_spec.rb");
     }
 
     @Override

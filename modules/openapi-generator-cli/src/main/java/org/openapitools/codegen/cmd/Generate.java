@@ -50,7 +50,7 @@ public class Generate implements Runnable {
     private Boolean verbose;
 
     @Option(name = {"-g", "--generator-name"}, title = "generator name",
-            description = "generator to use (see langs command for list)")
+            description = "generator to use (see list command for list)")
     private String generatorName;
 
     @Option(name = {"-o", "--output"}, title = "output directory",
@@ -120,7 +120,7 @@ public class Generate implements Runnable {
             name = {"--type-mappings"},
             title = "type mappings",
             description = "sets mappings between OpenAPI spec types and generated code types "
-                    + "in the format of OpenaAPIType=generatedType,OpenAPIType=generatedType. For example: array=List,map=Map,string=String."
+                    + "in the format of OpenAPIType=generatedType,OpenAPIType=generatedType. For example: array=List,map=Map,string=String."
                     + " You can also have multiple occurrences of this option.")
     private List<String> typeMappings = new ArrayList<>();
 

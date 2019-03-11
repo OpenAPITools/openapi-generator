@@ -31,9 +31,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        void AddPet (Pet pet);
+        void AddPet (Pet body);
 
         /// <summary>
         /// Add a new pet to the store
@@ -42,9 +42,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> AddPetWithHttpInfo (Pet pet);
+        ApiResponse<Object> AddPetWithHttpInfo (Pet body);
         /// <summary>
         /// Deletes a pet
         /// </summary>
@@ -138,9 +138,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        void UpdatePet (Pet pet);
+        void UpdatePet (Pet body);
 
         /// <summary>
         /// Update an existing pet
@@ -149,9 +149,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdatePetWithHttpInfo (Pet pet);
+        ApiResponse<Object> UpdatePetWithHttpInfo (Pet body);
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -342,24 +342,24 @@ namespace Org.OpenAPITools.Api
         /// Add a new pet to the store 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        public void AddPet (Pet pet)
+        public void AddPet (Pet body)
         {
-             AddPetWithHttpInfo(pet);
+             AddPetWithHttpInfo(body);
         }
 
         /// <summary>
         /// Add a new pet to the store 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> AddPetWithHttpInfo (Pet pet)
+        public ApiResponse<Object> AddPetWithHttpInfo (Pet body)
         {
-            // verify the required parameter 'pet' is set
-            if (pet == null)
-                throw new ApiException(400, "Missing required parameter 'pet' when calling PetApi->AddPet");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new ApiException(400, "Missing required parameter 'body' when calling PetApi->AddPet");
 
             var localVarPath = "/pet";
             var localVarPathParams = new Dictionary<String, String>();
@@ -383,13 +383,13 @@ namespace Org.OpenAPITools.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (pet != null && pet.GetType() != typeof(byte[]))
+            if (body != null && body.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(pet); // http body (model) parameter
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
             else
             {
-                localVarPostBody = pet; // byte array
+                localVarPostBody = body; // byte array
             }
 
             // authentication (petstore_auth) required
@@ -712,24 +712,24 @@ namespace Org.OpenAPITools.Api
         /// Update an existing pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        public void UpdatePet (Pet pet)
+        public void UpdatePet (Pet body)
         {
-             UpdatePetWithHttpInfo(pet);
+             UpdatePetWithHttpInfo(body);
         }
 
         /// <summary>
         /// Update an existing pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> UpdatePetWithHttpInfo (Pet pet)
+        public ApiResponse<Object> UpdatePetWithHttpInfo (Pet body)
         {
-            // verify the required parameter 'pet' is set
-            if (pet == null)
-                throw new ApiException(400, "Missing required parameter 'pet' when calling PetApi->UpdatePet");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new ApiException(400, "Missing required parameter 'body' when calling PetApi->UpdatePet");
 
             var localVarPath = "/pet";
             var localVarPathParams = new Dictionary<String, String>();
@@ -753,13 +753,13 @@ namespace Org.OpenAPITools.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (pet != null && pet.GetType() != typeof(byte[]))
+            if (body != null && body.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(pet); // http body (model) parameter
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
             else
             {
-                localVarPostBody = pet; // byte array
+                localVarPostBody = body; // byte array
             }
 
             // authentication (petstore_auth) required

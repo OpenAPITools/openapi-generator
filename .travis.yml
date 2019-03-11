@@ -3,7 +3,6 @@ language: java
 jdk:
   - openjdk8
 
-
 cache:
   directories:
   - $HOME/.m2
@@ -29,11 +28,11 @@ cache:
   - $HOME/samples/server/petstore/rust-server/target
   - $HOME/perl5
   - $HOME/.cargo
-  - $HOME/.stack
   - $HOME/.pub-cache
   - $HOME/samples/server/petstore/cpp-pistache/pistache
   - $HOME/.npm  
   - $HOME/.rvm/gems/ruby-2.4.1
+  - $HOME/website/node_modules/
 
 services:
   - docker
@@ -50,10 +49,6 @@ addons:
     - petstore.swagger.io
 
 before_install:
-  # install haskell
-  - curl -sSL https://get.haskellstack.org/ | sh
-  - stack upgrade
-  - stack --version
   # install rust
   - curl https://sh.rustup.rs -sSf | sh -s -- -y -v
   # required when sudo: required for the Ruby petstore tests
@@ -69,10 +64,10 @@ before_install:
   - docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
   - docker ps -a
   # Add bats test framework and cURL for Bash script integration tests
-  - sudo add-apt-repository ppa:duggan/bats --yes
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq bats
-  - sudo apt-get install -qq curl
+  #- sudo add-apt-repository ppa:duggan/bats --yes
+  #- sudo apt-get update -qq
+  #- sudo apt-get install -qq bats
+  #- sudo apt-get install -qq curl
   # install dart
   #- sudo apt-get update
   #- sudo apt-get install apt-transport-https
@@ -102,6 +97,7 @@ before_install:
       gpg --keyserver keyserver.ubuntu.com --recv-key $SIGNING_KEY ;
       gpg --check-trustdb ;
     fi;
+  - pushd .; cd website; npm install; popd
 
 install:
   # Add Godeps dependencies to GOPATH and PATH
@@ -152,6 +148,15 @@ after_success:
   - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && docker build -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_GENERATOR_IMAGE_NAME && echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME"; fi; fi
   ## docker: build cli image and push to Docker Hub
   - if [ $DOCKER_HUB_USERNAME ]; then echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin && cp docker-entrypoint.sh ./modules/openapi-generator-cli && docker build -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli && if [ ! -z "$TRAVIS_TAG" ]; then docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest $DOCKER_CODEGEN_CLI_IMAGE_NAME:$TRAVIS_TAG; fi && if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME && echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME"; fi; fi
+  ## publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
+  - if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      cd website;
+      git config --global user.name "${GH_NAME}";
+      git config --global user.email "${GH_EMAIL}";
+      echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc;
+      npm install;
+      GIT_USER="${GH_NAME}" npm run-script publish-gh-pages;
+    fi;
 
 env:
   - DOCKER_GENERATOR_IMAGE_NAME=openapitools/openapi-generator-online DOCKER_CODEGEN_CLI_IMAGE_NAME=openapitools/openapi-generator-cli NODE_ENV=test CC=gcc-5 CXX=g++-5

@@ -84,7 +84,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected !== undefined) {
@@ -142,7 +142,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected !== undefined) {
@@ -194,7 +194,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
             'application/xml',
             'application/json'
         ];
@@ -249,7 +249,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
             'application/xml',
             'application/json'
         ];
@@ -296,7 +296,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
             'application/xml',
             'application/json'
         ];
@@ -345,7 +345,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected !== undefined) {
@@ -401,7 +401,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected !== undefined) {
@@ -425,10 +425,10 @@ export class PetService {
         }
 
         if (name !== undefined) {
-            formParams = formParams.append('name', <any>name) || formParams;
+            formParams = formParams.append('name', <any>name) as any || formParams;
         }
         if (status !== undefined) {
-            formParams = formParams.append('status', <any>status) || formParams;
+            formParams = formParams.append('status', <any>status) as any || formParams;
         }
 
         return this.httpClient.post<any>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
@@ -470,7 +470,7 @@ export class PetService {
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -498,10 +498,10 @@ export class PetService {
         }
 
         if (additionalMetadata !== undefined) {
-            formParams = formParams.append('additionalMetadata', <any>additionalMetadata) || formParams;
+            formParams = formParams.append('additionalMetadata', <any>additionalMetadata) as any || formParams;
         }
         if (file !== undefined) {
-            formParams = formParams.append('file', <any>file) || formParams;
+            formParams = formParams.append('file', <any>file) as any || formParams;
         }
 
         return this.httpClient.post<ApiResponse>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`,

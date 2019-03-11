@@ -17,27 +17,18 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.openapitools.codegen.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.net.URLEncoder;
-import org.apache.commons.lang3.StringEscapeUtils;
 import java.io.UnsupportedEncodingException;
-
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.Schema;
+import java.net.URLEncoder;
+import java.util.*;
 
 public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
@@ -46,6 +37,8 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-server";
+    protected String authDirName = "Auth";
+    protected String authPackage = "";
 
     public PhpSlimServerCodegen() {
         super();
@@ -59,6 +52,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         setInvokerPackage("OpenAPIServer");
         apiPackage = invokerPackage + "\\" + apiDirName;
         modelPackage = invokerPackage + "\\" + modelDirName;
+        authPackage = invokerPackage + "\\" + authDirName;
         outputFolder = "generated-code" + File.separator + "slim";
 
         modelTestTemplateFiles.put("model_test.mustache", ".php");
@@ -118,6 +112,15 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public void processOpts() {
         super.processOpts();
 
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            // Update the invokerPackage for the default authPackage
+            authPackage = invokerPackage + "\\" + authDirName;
+        }
+
+        // make auth src path available in mustache template
+        additionalProperties.put("authPackage", authPackage);
+        additionalProperties.put("authSrcPath", "./" + toSrcPath(authPackage, srcBasePath));
+
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("composer.mustache", "", "composer.json"));
         supportingFiles.add(new SupportingFile("index.mustache", "", "index.php"));
@@ -156,6 +159,15 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
             });
         }
         return objs;
+    }
+
+    @Override
+    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
+        List<CodegenSecurity> codegenSecurities = super.fromSecurity(securitySchemeMap);
+        if (Boolean.FALSE.equals(codegenSecurities.isEmpty())) {
+            supportingFiles.add(new SupportingFile("abstract_authenticator.mustache", toSrcPath(authPackage, srcBasePath), toAbstractName("Authenticator") + ".php"));
+        }
+        return codegenSecurities;
     }
 
     @Override
@@ -232,9 +244,8 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     public CodegenOperation fromOperation(String path,
                                           String httpMethod,
                                           Operation operation,
-                                          Map<String, Schema> schemas,
-                                          OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, schemas, openAPI);
+                                          List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         op.path = encodePath(path);
         return op;
     }

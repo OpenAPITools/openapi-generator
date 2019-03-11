@@ -50,7 +50,6 @@ public class OpenAPIGenerator {
                                 ListGenerators.class,
                                 Generate.class,
                                 Meta.class,
-                                Langs.class,
                                 Help.class,
                                 ConfigHelp.class,
                                 Validate.class,

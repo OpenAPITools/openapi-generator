@@ -28,7 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.lang.IllegalArgumentException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Locale;
@@ -40,6 +39,14 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     public static final String USE_SWASHBUCKLE = "useSwashbuckle";
     public static final String ASPNET_CORE_VERSION = "aspnetCoreVersion";
+    public static final String CLASS_MODIFIER = "classModifier";
+    public static final String OPERATION_MODIFIER = "operationModifier";
+    public static final String GENERATE_BODY = "generateBody";
+    public static final String BUILD_TARGET = "buildTarget";
+
+    public static final String PROJECT_SDK = "projectSdk";
+    public static final String SDK_WEB = "Microsoft.NET.Sdk.Web";
+    public static final String SDK_LIB = "Microsoft.NET.Sdk";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
@@ -50,6 +57,12 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
     protected String aspnetCoreVersion= "2.1"; // default to 2.1
+    // TODO Make next two enums toensure fixed list.
+    private String classModifier = "";
+    private String operationModifier = "virtual";
+    private boolean generateBody = true;
+    private String buildTarget = "program";
+    private String projectSdk = SDK_WEB;
 
     public AspNetCoreServerCodegen() {
         super();
@@ -70,6 +83,26 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         cliOptions.clear();
 
         // CLI options
+        addOption(CodegenConstants.LICENSE_URL,
+                CodegenConstants.LICENSE_URL_DESC,
+                licenseUrl);
+
+        addOption(CodegenConstants.LICENSE_NAME,
+                CodegenConstants.LICENSE_NAME_DESC,
+                licenseName);
+
+        addOption(CodegenConstants.PACKAGE_COPYRIGHT,
+                CodegenConstants.PACKAGE_COPYRIGHT_DESC,
+                packageCopyright);
+
+        addOption(CodegenConstants.PACKAGE_AUTHORS,
+                CodegenConstants.PACKAGE_AUTHORS_DESC,
+                packageAuthors);
+
+        addOption(CodegenConstants.PACKAGE_TITLE,
+                CodegenConstants.PACKAGE_TITLE_DESC,
+                packageTitle);
+
         addOption(CodegenConstants.PACKAGE_NAME,
                 "C# package name (convention: Title.Case).",
                 packageName);
@@ -111,6 +144,22 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 "Uses the Swashbuckle.AspNetCore NuGet package for documentation.",
                 useSwashbuckle);
 
+        addOption(CLASS_MODIFIER,
+                "Class modifiers such as abstract or partial",
+                classModifier);
+
+        addOption(OPERATION_MODIFIER,
+                "Operation modifiers such as virtual or abstract.",
+                operationModifier);
+
+        addSwitch(GENERATE_BODY,
+                "Generates method body.",
+                generateBody);
+
+        addOption(BUILD_TARGET,
+                "Target the build for a program or library.",
+                buildTarget);
+
     }
 
     @Override
@@ -139,6 +188,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+        boolean isLibrary = false;
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_GUID)) {
             setPackageGuid((String) additionalProperties.get(CodegenConstants.OPTIONAL_PROJECT_GUID));
@@ -155,6 +205,50 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if (additionalProperties.containsKey(ASPNET_CORE_VERSION)) {
             setAspnetCoreVersion((String) additionalProperties.get(ASPNET_CORE_VERSION));
         }
+
+        // CHeck for class modifier if not present set the default value.
+        if (additionalProperties.containsKey(CLASS_MODIFIER)) {
+             classModifier = additionalProperties.get(CLASS_MODIFIER).toString();
+        } else {
+            additionalProperties.put(CLASS_MODIFIER, classModifier);
+        }
+
+        // TODO Validate modifier values
+        // If class modifierier is abstract then the methods need to be abstrat too.
+        if ("abstract".equals(classModifier)) {
+            operationModifier = classModifier;
+            additionalProperties.put(OPERATION_MODIFIER, operationModifier);
+        }
+
+        if (additionalProperties.containsKey(OPERATION_MODIFIER)) {
+            operationModifier = additionalProperties.get(OPERATION_MODIFIER).toString();
+        } else {
+            additionalProperties.put(OPERATION_MODIFIER, operationModifier);
+        }
+
+        // TODO Validate modifier values
+        // If operation modifier is abstract then dont generate any body
+        if ("abstract".equals(operationModifier)) {
+            generateBody = false;
+            additionalProperties.put(GENERATE_BODY, generateBody);
+        }
+        if (additionalProperties.containsKey(GENERATE_BODY)) {
+            generateBody = convertPropertyToBooleanAndWriteBack(GENERATE_BODY);
+        } else {
+            additionalProperties.put(GENERATE_BODY, generateBody);
+        }
+
+        // CHeck for class modifier if not present set the default value.
+        if (additionalProperties.containsKey(BUILD_TARGET)) {
+            buildTarget = additionalProperties.get(BUILD_TARGET).toString();
+        } else {
+            additionalProperties.put(BUILD_TARGET, buildTarget);
+        }
+        if ("library".equals(buildTarget)) {
+            isLibrary = true;
+            projectSdk = SDK_LIB;
+        }
+        additionalProperties.put(PROJECT_SDK, projectSdk);
 
         additionalProperties.put("dockerTag", packageName.toLowerCase(Locale.ROOT));
 
@@ -174,21 +268,53 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             throw new IllegalArgumentException("aspnetCoreVersion must be '2.1', '2.0' but found " + aspnetCoreVersion);
         }
 
+
         supportingFiles.add(new SupportingFile("build.sh.mustache", "", "build.sh"));
         supportingFiles.add(new SupportingFile("build.bat.mustache", "", "build.bat"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
-        supportingFiles.add(new SupportingFile("Dockerfile.mustache", packageFolder, "Dockerfile"));
         supportingFiles.add(new SupportingFile("gitignore", packageFolder, ".gitignore"));
-        supportingFiles.add(new SupportingFile("appsettings.json", packageFolder, "appsettings.json"));
-
-        supportingFiles.add(new SupportingFile("Startup.mustache", packageFolder, "Startup.cs"));
-        supportingFiles.add(new SupportingFile("Program.mustache", packageFolder, "Program.cs"));
         supportingFiles.add(new SupportingFile("validateModel.mustache", packageFolder + File.separator + "Attributes", "ValidateModelStateAttribute.cs"));
         supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, packageName + ".csproj"));
+        if (!isLibrary) {
+            supportingFiles.add(new SupportingFile("Dockerfile.mustache", packageFolder, "Dockerfile"));
+            supportingFiles.add(new SupportingFile("appsettings.json", packageFolder, "appsettings.json"));
 
-        supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json",
-                packageFolder + File.separator + "Properties", "launchSettings.json"));
+            supportingFiles.add(new SupportingFile("Startup.mustache", packageFolder, "Startup.cs"));
+            supportingFiles.add(new SupportingFile("Program.mustache", packageFolder, "Program.cs"));
+            supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json",
+                    packageFolder + File.separator + "Properties", "launchSettings.json"));
+        } else {
+            supportingFiles.add(new SupportingFile("Project.nuspec.mustache", packageFolder, packageName + ".nuspec"));
+            // wwwroot files.
+            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "README.md", packageFolder + File.separator + "wwwroot", "README.md"));
+            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "index.html", packageFolder + File.separator + "wwwroot", "index.html"));
+            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "web.config", packageFolder + File.separator + "wwwroot", "web.config"));
+
+            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache",
+                    packageFolder + File.separator + "wwwroot", "openapi-original.json"));
+        }
+        supportingFiles.add(new SupportingFile("validateModel.mustache", packageFolder + File.separator + "Attributes", "ValidateModelStateAttribute.cs"));
+        supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, packageName + ".csproj"));
+        if (!isLibrary) {
+            supportingFiles.add(new SupportingFile("Dockerfile.mustache", packageFolder, "Dockerfile"));
+            supportingFiles.add(new SupportingFile("appsettings.json", packageFolder, "appsettings.json"));
+
+            supportingFiles.add(new SupportingFile("Startup.mustache", packageFolder, "Startup.cs"));
+            supportingFiles.add(new SupportingFile("Program.mustache", packageFolder, "Program.cs"));
+            supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json",
+                    packageFolder + File.separator + "Properties", "launchSettings.json"));
+        } else {
+            supportingFiles.add(new SupportingFile("Project.nuspec.mustache", packageFolder, packageName + ".nuspec"));
+            // wwwroot files.
+            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "README.md", packageFolder + File.separator + "wwwroot", "README.md"));
+            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "index.html", packageFolder + File.separator + "wwwroot", "index.html"));
+            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "web.config", packageFolder + File.separator + "wwwroot", "web.config"));
+
+            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache",
+                    packageFolder + File.separator + "wwwroot", "openapi-original.json"));
+        }
+
 
         if (useSwashbuckle) {
             supportingFiles.add(new SupportingFile("Filters" + File.separator + "BasePathFilter.mustache",
@@ -196,13 +322,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("Filters" + File.separator + "GeneratePathParamsValidationFilter.mustache",
                     packageFolder + File.separator + "Filters", "GeneratePathParamsValidationFilter.cs"));
         }
-
-        supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "README.md", packageFolder + File.separator + "wwwroot", "README.md"));
-        supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "index.html", packageFolder + File.separator + "wwwroot", "index.html"));
-        supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "web.config", packageFolder + File.separator + "wwwroot", "web.config"));
-
-        supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache",
-                packageFolder + File.separator + "wwwroot", "openapi-original.json"));
     }
 
     public void setPackageGuid(String packageGuid) {

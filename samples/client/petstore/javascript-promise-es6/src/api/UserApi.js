@@ -38,17 +38,15 @@ export default class UserApi {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {module:model/User} user Created user object
+     * @param {module:model/User} body Created user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    createUserWithHttpInfo(user) {
-      let postBody = user;
-
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUser");
+    createUserWithHttpInfo(body) {
+      let postBody = body;
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createUser");
       }
-
 
       let pathParams = {
       };
@@ -63,22 +61,21 @@ export default class UserApi {
       let contentTypes = [];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/user', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param {module:model/User} user Created user object
+     * @param {module:model/User} body Created user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    createUser(user) {
-      return this.createUserWithHttpInfo(user)
+    createUser(body) {
+      return this.createUserWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -87,17 +84,15 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} user List of user object
+     * @param {Array.<User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    createUsersWithArrayInputWithHttpInfo(user) {
-      let postBody = user;
-
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUsersWithArrayInput");
+    createUsersWithArrayInputWithHttpInfo(body) {
+      let postBody = body;
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createUsersWithArrayInput");
       }
-
 
       let pathParams = {
       };
@@ -112,21 +107,20 @@ export default class UserApi {
       let contentTypes = [];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/user/createWithArray', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} user List of user object
+     * @param {Array.<User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    createUsersWithArrayInput(user) {
-      return this.createUsersWithArrayInputWithHttpInfo(user)
+    createUsersWithArrayInput(body) {
+      return this.createUsersWithArrayInputWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -135,17 +129,15 @@ export default class UserApi {
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} user List of user object
+     * @param {Array.<User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    createUsersWithListInputWithHttpInfo(user) {
-      let postBody = user;
-
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling createUsersWithListInput");
+    createUsersWithListInputWithHttpInfo(body) {
+      let postBody = body;
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling createUsersWithListInput");
       }
-
 
       let pathParams = {
       };
@@ -160,21 +152,20 @@ export default class UserApi {
       let contentTypes = [];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/user/createWithList', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} user List of user object
+     * @param {Array.<User>} body List of user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    createUsersWithListInput(user) {
-      return this.createUsersWithListInputWithHttpInfo(user)
+    createUsersWithListInput(body) {
+      return this.createUsersWithListInputWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -189,12 +180,10 @@ export default class UserApi {
      */
     deleteUserWithHttpInfo(username) {
       let postBody = null;
-
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling deleteUser");
       }
-
 
       let pathParams = {
         'username': username
@@ -210,11 +199,10 @@ export default class UserApi {
       let contentTypes = [];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/user/{username}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -239,12 +227,10 @@ export default class UserApi {
      */
     getUserByNameWithHttpInfo(username) {
       let postBody = null;
-
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling getUserByName");
       }
-
 
       let pathParams = {
         'username': username
@@ -260,11 +246,10 @@ export default class UserApi {
       let contentTypes = [];
       let accepts = ['application/xml', 'application/json'];
       let returnType = User;
-
       return this.apiClient.callApi(
         '/user/{username}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -289,17 +274,14 @@ export default class UserApi {
      */
     loginUserWithHttpInfo(username, password) {
       let postBody = null;
-
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling loginUser");
       }
-
       // verify the required parameter 'password' is set
       if (password === undefined || password === null) {
         throw new Error("Missing the required parameter 'password' when calling loginUser");
       }
-
 
       let pathParams = {
       };
@@ -316,11 +298,10 @@ export default class UserApi {
       let contentTypes = [];
       let accepts = ['application/xml', 'application/json'];
       let returnType = 'String';
-
       return this.apiClient.callApi(
         '/user/login', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -345,7 +326,6 @@ export default class UserApi {
     logoutUserWithHttpInfo() {
       let postBody = null;
 
-
       let pathParams = {
       };
       let queryParams = {
@@ -359,11 +339,10 @@ export default class UserApi {
       let contentTypes = [];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/user/logout', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -383,22 +362,19 @@ export default class UserApi {
      * Updated user
      * This can only be done by the logged in user.
      * @param {String} username name that need to be deleted
-     * @param {module:model/User} user Updated user object
+     * @param {module:model/User} body Updated user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
-    updateUserWithHttpInfo(username, user) {
-      let postBody = user;
-
+    updateUserWithHttpInfo(username, body) {
+      let postBody = body;
       // verify the required parameter 'username' is set
       if (username === undefined || username === null) {
         throw new Error("Missing the required parameter 'username' when calling updateUser");
       }
-
-      // verify the required parameter 'user' is set
-      if (user === undefined || user === null) {
-        throw new Error("Missing the required parameter 'user' when calling updateUser");
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling updateUser");
       }
-
 
       let pathParams = {
         'username': username
@@ -414,11 +390,10 @@ export default class UserApi {
       let contentTypes = [];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/user/{username}', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -426,11 +401,11 @@ export default class UserApi {
      * Updated user
      * This can only be done by the logged in user.
      * @param {String} username name that need to be deleted
-     * @param {module:model/User} user Updated user object
+     * @param {module:model/User} body Updated user object
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
-    updateUser(username, user) {
-      return this.updateUserWithHttpInfo(username, user)
+    updateUser(username, body) {
+      return this.updateUserWithHttpInfo(username, body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

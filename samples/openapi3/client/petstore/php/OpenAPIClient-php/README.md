@@ -56,6 +56,8 @@ Please follow the [installation procedure](#installation--usage) and then run th
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
+
 $apiInstance = new OpenAPI\Client\Api\AnotherFakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
@@ -81,6 +83,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123TestSpecialTags**](docs/Api/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](docs/Api/DefaultApi.md#fooget) | **GET** /foo | 
+*FakeApi* | [**fakeHealthGet**](docs/Api/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/Api/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/Api/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/Api/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -139,6 +142,7 @@ Class | Method | HTTP request | Description
  - [Foo](docs/Model/Foo.md)
  - [FormatTest](docs/Model/FormatTest.md)
  - [HasOnlyReadOnly](docs/Model/HasOnlyReadOnly.md)
+ - [HealthCheckResult](docs/Model/HealthCheckResult.md)
  - [InlineObject](docs/Model/InlineObject.md)
  - [InlineObject1](docs/Model/InlineObject1.md)
  - [InlineObject2](docs/Model/InlineObject2.md)
@@ -156,6 +160,9 @@ Class | Method | HTTP request | Description
  - [Order](docs/Model/Order.md)
  - [OuterComposite](docs/Model/OuterComposite.md)
  - [OuterEnum](docs/Model/OuterEnum.md)
+ - [OuterEnumDefaultValue](docs/Model/OuterEnumDefaultValue.md)
+ - [OuterEnumInteger](docs/Model/OuterEnumInteger.md)
+ - [OuterEnumIntegerDefaultValue](docs/Model/OuterEnumIntegerDefaultValue.md)
  - [Pet](docs/Model/Pet.md)
  - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
  - [SpecialModelName](docs/Model/SpecialModelName.md)
@@ -172,15 +179,23 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
+
 ## api_key_query
 
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
+
+## bearer_test
+
+- **Type**: Bearer authentication (JWT)
+
+
 ## http_basic_test
 
 - **Type**: HTTP basic authentication
+
 
 ## petstore_auth
 
@@ -188,8 +203,8 @@ Class | Method | HTTP request | Description
 - **Flow**: implicit
 - **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
 - **Scopes**: 
- - **write:pets**: modify pets in your account
- - **read:pets**: read your pets
+- **write:pets**: modify pets in your account
+- **read:pets**: read your pets
 
 
 ## Author

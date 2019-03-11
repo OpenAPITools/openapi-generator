@@ -2,12 +2,11 @@
 /**
  * SlimRouter
  *
- * PHP version 5
+ * PHP version 7
  *
- * @category Class
- * @package  OpenAPIServer
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package OpenAPIServer
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 
 /**
@@ -26,26 +25,25 @@
 namespace OpenAPIServer;
 
 use Slim\App;
+use Slim\Interfaces\RouteInterface;
 use Psr\Container\ContainerInterface;
 use InvalidArgumentException;
-use Tuupola\Middleware\HttpBasicAuthentication;
+use Dyorg\TokenAuthentication;
+use Dyorg\TokenAuthentication\TokenSearch;
+use Psr\Http\Message\ServerRequestInterface;
+use Exception;
 
 /**
  * SlimRouter Class Doc Comment
  *
- * PHP version 5
- *
- * @category Class
- * @package  OpenAPIServer
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package OpenAPIServer
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 class SlimRouter
 {
 
-    /**
-     * @var $slimApp Slim\App instance
-     */
+    /** @var App instance */
     private $slimApp;
 
     /** @var array[] list of all api operations */
@@ -58,6 +56,17 @@ class SlimRouter
             'classname' => 'AbstractAnotherFakeApi',
             'userClassname' => 'AnotherFakeApi',
             'operationId' => 'call123TestSpecialTags',
+            'authMethods' => [
+            ],
+        ],
+        [
+            'httpMethod' => 'POST',
+            'basePathWithoutHost' => '/v2',
+            'path' => '/fake/create_xml_item',
+            'apiPackage' => 'OpenAPIServer\Api',
+            'classname' => 'AbstractFakeApi',
+            'userClassname' => 'FakeApi',
+            'operationId' => 'createXmlItem',
             'authMethods' => [
             ],
         ],
@@ -147,9 +156,12 @@ class SlimRouter
             'userClassname' => 'FakeApi',
             'operationId' => 'testEndpointParameters',
             'authMethods' => [
+                // http security schema named 'http_basic_test'
                 [
                     'type' => 'http',
                     'isBasic' => true,
+                    'isApiKey' => false,
+                    'isOAuth' => false,
                 ],
             ],
         ],
@@ -206,6 +218,17 @@ class SlimRouter
             'userClassname' => 'FakeClassnameTags123Api',
             'operationId' => 'testClassname',
             'authMethods' => [
+                // apiKey security schema named 'api_key_query'
+                [
+                    'type' => 'apiKey',
+                    'isBasic' => false,
+                    'isApiKey' => true,
+                    'isOAuth' => false,
+                    'keyParamName' => 'api_key_query',
+                    'isKeyInHeader' => false,
+                    'isKeyInQuery' => true,
+                    'isKeyInCookie' => false,
+                ],
             ],
         ],
         [
@@ -217,6 +240,17 @@ class SlimRouter
             'userClassname' => 'PetApi',
             'operationId' => 'addPet',
             'authMethods' => [
+                // oauth2 security schema named 'petstore_auth'
+                [
+                    'type' => 'oauth2',
+                    'isBasic' => false,
+                    'isApiKey' => false,
+                    'isOAuth' => true,
+                    'scopes' => [
+                        'write:pets', // modify pets in your account
+                        'read:pets', // read your pets
+                    ],
+                ],
             ],
         ],
         [
@@ -228,6 +262,17 @@ class SlimRouter
             'userClassname' => 'PetApi',
             'operationId' => 'findPetsByStatus',
             'authMethods' => [
+                // oauth2 security schema named 'petstore_auth'
+                [
+                    'type' => 'oauth2',
+                    'isBasic' => false,
+                    'isApiKey' => false,
+                    'isOAuth' => true,
+                    'scopes' => [
+                        'write:pets', // modify pets in your account
+                        'read:pets', // read your pets
+                    ],
+                ],
             ],
         ],
         [
@@ -239,6 +284,17 @@ class SlimRouter
             'userClassname' => 'PetApi',
             'operationId' => 'findPetsByTags',
             'authMethods' => [
+                // oauth2 security schema named 'petstore_auth'
+                [
+                    'type' => 'oauth2',
+                    'isBasic' => false,
+                    'isApiKey' => false,
+                    'isOAuth' => true,
+                    'scopes' => [
+                        'write:pets', // modify pets in your account
+                        'read:pets', // read your pets
+                    ],
+                ],
             ],
         ],
         [
@@ -250,6 +306,17 @@ class SlimRouter
             'userClassname' => 'PetApi',
             'operationId' => 'updatePet',
             'authMethods' => [
+                // oauth2 security schema named 'petstore_auth'
+                [
+                    'type' => 'oauth2',
+                    'isBasic' => false,
+                    'isApiKey' => false,
+                    'isOAuth' => true,
+                    'scopes' => [
+                        'write:pets', // modify pets in your account
+                        'read:pets', // read your pets
+                    ],
+                ],
             ],
         ],
         [
@@ -261,6 +328,17 @@ class SlimRouter
             'userClassname' => 'PetApi',
             'operationId' => 'deletePet',
             'authMethods' => [
+                // oauth2 security schema named 'petstore_auth'
+                [
+                    'type' => 'oauth2',
+                    'isBasic' => false,
+                    'isApiKey' => false,
+                    'isOAuth' => true,
+                    'scopes' => [
+                        'write:pets', // modify pets in your account
+                        'read:pets', // read your pets
+                    ],
+                ],
             ],
         ],
         [
@@ -272,6 +350,17 @@ class SlimRouter
             'userClassname' => 'PetApi',
             'operationId' => 'getPetById',
             'authMethods' => [
+                // apiKey security schema named 'api_key'
+                [
+                    'type' => 'apiKey',
+                    'isBasic' => false,
+                    'isApiKey' => true,
+                    'isOAuth' => false,
+                    'keyParamName' => 'api_key',
+                    'isKeyInHeader' => true,
+                    'isKeyInQuery' => false,
+                    'isKeyInCookie' => false,
+                ],
             ],
         ],
         [
@@ -283,6 +372,17 @@ class SlimRouter
             'userClassname' => 'PetApi',
             'operationId' => 'updatePetWithForm',
             'authMethods' => [
+                // oauth2 security schema named 'petstore_auth'
+                [
+                    'type' => 'oauth2',
+                    'isBasic' => false,
+                    'isApiKey' => false,
+                    'isOAuth' => true,
+                    'scopes' => [
+                        'write:pets', // modify pets in your account
+                        'read:pets', // read your pets
+                    ],
+                ],
             ],
         ],
         [
@@ -294,6 +394,17 @@ class SlimRouter
             'userClassname' => 'PetApi',
             'operationId' => 'uploadFile',
             'authMethods' => [
+                // oauth2 security schema named 'petstore_auth'
+                [
+                    'type' => 'oauth2',
+                    'isBasic' => false,
+                    'isApiKey' => false,
+                    'isOAuth' => true,
+                    'scopes' => [
+                        'write:pets', // modify pets in your account
+                        'read:pets', // read your pets
+                    ],
+                ],
             ],
         ],
         [
@@ -305,6 +416,17 @@ class SlimRouter
             'userClassname' => 'PetApi',
             'operationId' => 'uploadFileWithRequiredFile',
             'authMethods' => [
+                // oauth2 security schema named 'petstore_auth'
+                [
+                    'type' => 'oauth2',
+                    'isBasic' => false,
+                    'isApiKey' => false,
+                    'isOAuth' => true,
+                    'scopes' => [
+                        'write:pets', // modify pets in your account
+                        'read:pets', // read your pets
+                    ],
+                ],
             ],
         ],
         [
@@ -316,6 +438,17 @@ class SlimRouter
             'userClassname' => 'StoreApi',
             'operationId' => 'getInventory',
             'authMethods' => [
+                // apiKey security schema named 'api_key'
+                [
+                    'type' => 'apiKey',
+                    'isBasic' => false,
+                    'isApiKey' => true,
+                    'isOAuth' => false,
+                    'keyParamName' => 'api_key',
+                    'isKeyInHeader' => true,
+                    'isKeyInQuery' => false,
+                    'isKeyInCookie' => false,
+                ],
             ],
         ],
         [
@@ -445,25 +578,32 @@ class SlimRouter
      * Class constructor
      *
      * @param ContainerInterface|array $container Either a ContainerInterface or an associative array of app settings
-     * @throws InvalidArgumentException when no container is provided that implements ContainerInterface
+     *
+     * @throws InvalidArgumentException When no container is provided that implements ContainerInterface
+     * @throws Exception When implementation class doesn't exists
      */
     public function __construct($container = [])
     {
         $this->slimApp = new App($container);
 
-        $basicAuth = new HttpBasicAuthentication([
-            "secure" => false,
-            "authenticator" => function ($arguments) {
-                $user = $arguments["user"];
-                $password = $arguments["password"];
-                return false;
-            }
-        ]);
+        $authPackage = 'OpenAPIServer\Auth';
+        $basicAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
+            $message = "How about extending AbstractAuthenticator class by {$authPackage}\BasicAuthenticator?";
+            throw new Exception($message);
+        };
+        $apiKeyAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
+            $message = "How about extending AbstractAuthenticator class by {$authPackage}\ApiKeyAuthenticator?";
+            throw new Exception($message);
+        };
+        $oAuthAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
+            $message = "How about extending AbstractAuthenticator class by {$authPackage}\OAuthAuthenticator?";
+            throw new Exception($message);
+        };
 
         foreach ($this->operations as $operation) {
             $callback = function ($request, $response, $arguments) use ($operation) {
                 $message = "How about extending {$operation['classname']} by {$operation['apiPackage']}\\{$operation['userClassname']} class implementing {$operation['operationId']} as a {$operation['httpMethod']} method?";
-                throw new \Exception($message);
+                throw new Exception($message);
                 return $response->withStatus(501)->write($message);
             };
             $middlewares = [];
@@ -472,10 +612,55 @@ class SlimRouter
                 $callback = "\\{$operation['apiPackage']}\\{$operation['userClassname']}:{$operation['operationId']}";
             }
 
-
             foreach ($operation['authMethods'] as $authMethod) {
-                if ($authMethod['type'] === 'http') {
-                    $middlewares[] = $basicAuth;
+                switch ($authMethod['type']) {
+                    case 'http':
+                        $authenticatorClassname = "\\{$authPackage}\\BasicAuthenticator";
+                        if (class_exists($authenticatorClassname)) {
+                            $basicAuthenticator = new $authenticatorClassname($container);
+                        }
+
+                        $middlewares[] = new TokenAuthentication($this->getTokenAuthenticationOptions([
+                            'authenticator' => $basicAuthenticator,
+                            'regex' => '/Basic\s+(.*)$/i',
+                            'header' => 'Authorization',
+                            'parameter' => null,
+                            'cookie' => null,
+                            'argument' => null,
+                        ]));
+                        break;
+                    case 'apiKey':
+                        $authenticatorClassname = "\\{$authPackage}\\ApiKeyAuthenticator";
+                        if (class_exists($authenticatorClassname)) {
+                            $apiKeyAuthenticator = new $authenticatorClassname($container);
+                        }
+
+                        $middlewares[] = new TokenAuthentication($this->getTokenAuthenticationOptions([
+                            'authenticator' => $apiKeyAuthenticator,
+                            'regex' => '/^(.*)$/i',
+                            'header' => $authMethod['isKeyInHeader'] ? $authMethod['keyParamName'] : null,
+                            'parameter' => $authMethod['isKeyInQuery'] ? $authMethod['keyParamName'] : null,
+                            'cookie' => $authMethod['isKeyInCookie'] ? $authMethod['keyParamName'] : null,
+                            'argument' => null,
+                        ]));
+                        break;
+                    case 'oauth2':
+                        $authenticatorClassname = "\\{$authPackage}\\OAuthAuthenticator";
+                        if (class_exists($authenticatorClassname)) {
+                            $oAuthAuthenticator = new $authenticatorClassname($container, $authMethod['scopes']);
+                        }
+
+                        $middlewares[] = new TokenAuthentication($this->getTokenAuthenticationOptions([
+                            'authenticator' => $oAuthAuthenticator,
+                            'regex' => '/Bearer\s+(.*)$/i',
+                            'header' => 'Authorization',
+                            'parameter' => null,
+                            'cookie' => null,
+                            'argument' => null,
+                        ]));
+                        break;
+                    default:
+                        throw new Exception('Unknown authorization schema type');
                 }
             }
 
@@ -489,6 +674,22 @@ class SlimRouter
     }
 
     /**
+     * Merges user defined options with dynamic params
+     *
+     * @param array $options Params which need to merge into user options
+     *
+     * @return array Merged array
+     */
+    private function getTokenAuthenticationOptions(array $options)
+    {
+        if (is_array($this->slimApp->getContainer()['tokenAuthenticationOptions']) === false) {
+            return $options;
+        }
+
+        return array_merge($this->slimApp->getContainer()['tokenAuthenticationOptions'], $options);
+    }
+
+    /**
      * Add route with multiple methods
      *
      * @param string[]        $methods     Numeric array of HTTP method names
@@ -496,11 +697,11 @@ class SlimRouter
      * @param callable|string $callable    The route callback routine
      * @param array|null      $middlewares List of middlewares
      *
-     * @return Slim\Interfaces\RouteInterface
+     * @return RouteInterface
      *
-     * @throws InvalidArgumentException if the route pattern isn't a string
+     * @throws InvalidArgumentException If the route pattern isn't a string
      */
-    public function addRoute($methods, $pattern, $callable, $middlewares = [])
+    public function addRoute(array $methods, string $pattern, $callable, $middlewares = [])
     {
         $route = $this->slimApp->map($methods, $pattern, $callable);
         foreach ($middlewares as $middleware) {
@@ -511,6 +712,7 @@ class SlimRouter
 
     /**
      * Returns Slim Framework instance
+     *
      * @return App
      */
     public function getSlimApp()

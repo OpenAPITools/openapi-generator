@@ -53,6 +53,7 @@ namespace Org.OpenAPITools.Model
             {
                 this._Name = name;
             }
+
             this.Property = property;
         }
         

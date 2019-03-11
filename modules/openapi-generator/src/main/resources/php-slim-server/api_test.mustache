@@ -1,12 +1,12 @@
 <?php
 {{#operations}}/**
  * {{userClassname}}Test
- * PHP version 5
  *
- * @category Class
- * @package  {{apiPackage}}
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * PHP version 7
+ *
+ * @package {{apiPackage}}
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 
 /**
@@ -39,11 +39,10 @@ use {{apiPackage}}\{{userClassname}};
 /**
  * {{userClassname}}Test Class Doc Comment
  *
- * @category Class
- * @description {{#description}}{{description}}{{/description}}{{^description}}{{userClassname}}{{/description}}
- * @package  {{apiPackage}}
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package {{apiPackage}}
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
+ *
  * @coversDefaultClass \{{apiPackage}}\{{userClassname}}
  */
 class {{userClassname}}Test extends TestCase
@@ -82,6 +81,7 @@ class {{userClassname}}Test extends TestCase
      * Test case for {{{operationId}}}
      *
      * {{{summary}}}.
+     *
      * @covers ::{{{operationId}}}
      */
     public function test{{operationIdCamelCase}}()

@@ -53,5 +53,8 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy ReadOnlyFirst)
       propMimeEq MimeJSON (Proxy :: Proxy SpecialModelName)
       propMimeEq MimeJSON (Proxy :: Proxy Tag)
+      propMimeEq MimeJSON (Proxy :: Proxy TypeHolderDefault)
+      propMimeEq MimeJSON (Proxy :: Proxy TypeHolderExample)
       propMimeEq MimeJSON (Proxy :: Proxy User)
+      propMimeEq MimeJSON (Proxy :: Proxy XmlItem)
       

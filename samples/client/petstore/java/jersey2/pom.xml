@@ -24,9 +24,9 @@
 
     <developers>
         <developer>
-            <name>OpenAPI</name>
+            <name>OpenAPI-Generator Contributors</name>
             <email>team@openapitools.org</email>
-            <organization>OpenAPI</organization>
+            <organization>OpenAPITools.org</organization>
             <organizationUrl>http://openapitools.org</organizationUrl>
         </developer>
     </developers>
@@ -258,7 +258,7 @@
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
         <jersey-version>2.27</jersey-version>
         <jackson-version>2.8.11</jackson-version>
-        <jackson-databind-version>2.8.11.2</jackson-databind-version>
+        <jackson-databind-version>2.8.11.3</jackson-databind-version>
         <threetenbp-version>2.6.4</threetenbp-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.12</junit-version>

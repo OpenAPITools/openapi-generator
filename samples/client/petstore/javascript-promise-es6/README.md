@@ -72,8 +72,8 @@ var OpenApiPetstore = require('open_api_petstore');
 
 
 var api = new OpenApiPetstore.AnotherFakeApi()
-var client = new OpenApiPetstore.Client(); // {Client} client model
-api.call123testSpecialTags(client).then(function(data) {
+var body = new OpenApiPetstore.Client(); // {Client} client model
+api.call123testSpecialTags(body).then(function(data) {
   console.log('API called successfully. Returned data: ' + data);
 }, function(error) {
   console.error(error);
@@ -89,6 +89,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *OpenApiPetstore.AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+*OpenApiPetstore.FakeApi* | [**createXmlItem**](docs/FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
 *OpenApiPetstore.FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -160,7 +161,10 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
+ - [OpenApiPetstore.TypeHolderDefault](docs/TypeHolderDefault.md)
+ - [OpenApiPetstore.TypeHolderExample](docs/TypeHolderExample.md)
  - [OpenApiPetstore.User](docs/User.md)
+ - [OpenApiPetstore.XmlItem](docs/XmlItem.md)
 
 
 ## Documentation for Authorization
@@ -172,15 +176,18 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
+
 ### api_key_query
 
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
+
 ### http_basic_test
 
 - **Type**: HTTP basic authentication
+
 
 ### petstore_auth
 

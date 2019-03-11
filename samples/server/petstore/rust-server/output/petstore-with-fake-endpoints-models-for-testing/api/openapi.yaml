@@ -1501,7 +1501,7 @@ components:
     OuterComposite:
       example:
         my_string: my_string
-        my_number: 0.80082819046101150206595775671303272247314453125
+        my_number: 0.8008281904610115
         my_boolean: true
       properties:
         my_number:

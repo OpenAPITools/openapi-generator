@@ -68,11 +68,11 @@ __PACKAGE__->mk_classdata('class_documentation' => {});
 sub new { 
     my ($class, %args) = @_; 
 
-	my $self = bless {}, $class;
+    my $self = bless {}, $class;
 
-	$self->init(%args);
-	
-	return $self;
+    $self->init(%args);
+    
+    return $self;
 }
 
 # initialize the object
@@ -80,10 +80,10 @@ sub init
 {
     my ($self, %args) = @_;
 
-	foreach my $attribute (keys %{$self->attribute_map}) {
-		my $args_key = $self->attribute_map->{$attribute};
-		$self->$attribute( $args{ $args_key } );
-	}
+    foreach my $attribute (keys %{$self->attribute_map}) {
+        my $args_key = $self->attribute_map->{$attribute};
+        $self->$attribute( $args{ $args_key } );
+    }
 }
 
 # return perl hash
@@ -113,7 +113,7 @@ sub from_hash {
 
     # loop through attributes and use openapi_types to deserialize the data
     while ( my ($_key, $_type) = each %{$self->openapi_types} ) {
-    	my $_json_attribute = $self->attribute_map->{$_key}; 
+        my $_json_attribute = $self->attribute_map->{$_key}; 
         if ($_type =~ /^array\[/i) { # array
             my $_subclass = substr($_type, 6, -1);
             my @_array = ();
@@ -124,7 +124,7 @@ sub from_hash {
         } elsif (exists $hash->{$_json_attribute}) { #hash(model), primitive, datetime
             $self->{$_key} = $self->_deserialize($_type, $hash->{$_json_attribute});
         } else {
-        	$log->debugf("Warning: %s (%s) does not exist in input hash\n", $_key, $_json_attribute);
+            $log->debugf("Warning: %s (%s) does not exist in input hash\n", $_key, $_json_attribute);
         }
     }
   
@@ -155,33 +155,33 @@ __PACKAGE__->class_documentation({description => 'Model for testing model name s
 
 __PACKAGE__->method_documentation({
     'name' => {
-    	datatype => 'int',
-    	base_name => 'name',
-    	description => '',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'int',
+        base_name => 'name',
+        description => '',
+        format => '',
+        read_only => '',
+            },
     'snake_case' => {
-    	datatype => 'int',
-    	base_name => 'snake_case',
-    	description => '',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'int',
+        base_name => 'snake_case',
+        description => '',
+        format => '',
+        read_only => '',
+            },
     'property' => {
-    	datatype => 'string',
-    	base_name => 'property',
-    	description => '',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'string',
+        base_name => 'property',
+        description => '',
+        format => '',
+        read_only => '',
+            },
     '_123_number' => {
-    	datatype => 'int',
-    	base_name => '123Number',
-    	description => '',
-    	format => '',
-    	read_only => '',
-    		},
+        datatype => 'int',
+        base_name => '123Number',
+        description => '',
+        format => '',
+        read_only => '',
+            },
 });
 
 __PACKAGE__->openapi_types( {

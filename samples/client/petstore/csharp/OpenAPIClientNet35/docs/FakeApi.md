@@ -80,7 +80,7 @@ No authorization required
 
 <a name="fakeoutercompositeserialize"></a>
 # **FakeOuterCompositeSerialize**
-> OuterComposite FakeOuterCompositeSerialize (OuterComposite outerComposite = null)
+> OuterComposite FakeOuterCompositeSerialize (OuterComposite body = null)
 
 
 
@@ -101,11 +101,11 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var outerComposite = new OuterComposite(); // OuterComposite | Input composite as post body (optional) 
+            var body = new OuterComposite(); // OuterComposite | Input composite as post body (optional) 
 
             try
             {
-                OuterComposite result = apiInstance.FakeOuterCompositeSerialize(outerComposite);
+                OuterComposite result = apiInstance.FakeOuterCompositeSerialize(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -121,7 +121,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
 
 ### Return type
 
@@ -260,7 +260,7 @@ No authorization required
 
 <a name="testbodywithfileschema"></a>
 # **TestBodyWithFileSchema**
-> void TestBodyWithFileSchema (FileSchemaTestClass fileSchemaTestClass)
+> void TestBodyWithFileSchema (FileSchemaTestClass body)
 
 
 
@@ -281,11 +281,11 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
+            var body = new FileSchemaTestClass(); // FileSchemaTestClass | 
 
             try
             {
-                apiInstance.TestBodyWithFileSchema(fileSchemaTestClass);
+                apiInstance.TestBodyWithFileSchema(body);
             }
             catch (Exception e)
             {
@@ -300,7 +300,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
 
 ### Return type
 
@@ -319,7 +319,7 @@ No authorization required
 
 <a name="testbodywithqueryparams"></a>
 # **TestBodyWithQueryParams**
-> void TestBodyWithQueryParams (string query, User user)
+> void TestBodyWithQueryParams (string query, User body)
 
 
 
@@ -339,11 +339,11 @@ namespace Example
         {
             var apiInstance = new FakeApi();
             var query = query_example;  // string | 
-            var user = new User(); // User | 
+            var body = new User(); // User | 
 
             try
             {
-                apiInstance.TestBodyWithQueryParams(query, user);
+                apiInstance.TestBodyWithQueryParams(query, body);
             }
             catch (Exception e)
             {
@@ -359,7 +359,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **string**|  | 
- **user** | [**User**](User.md)|  | 
+ **body** | [**User**](User.md)|  | 
 
 ### Return type
 
@@ -378,7 +378,7 @@ No authorization required
 
 <a name="testclientmodel"></a>
 # **TestClientModel**
-> ModelClient TestClientModel (ModelClient modelClient)
+> ModelClient TestClientModel (ModelClient body)
 
 To test \"client\" model
 
@@ -399,12 +399,12 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var modelClient = new ModelClient(); // ModelClient | client model
+            var body = new ModelClient(); // ModelClient | client model
 
             try
             {
                 // To test \"client\" model
-                ModelClient result = apiInstance.TestClientModel(modelClient);
+                ModelClient result = apiInstance.TestClientModel(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -420,7 +420,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
+ **body** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 
@@ -673,7 +673,7 @@ No authorization required
 
 <a name="testinlineadditionalproperties"></a>
 # **TestInlineAdditionalProperties**
-> void TestInlineAdditionalProperties (Dictionary<string, string> requestBody)
+> void TestInlineAdditionalProperties (Dictionary<string, string> param)
 
 test inline additionalProperties
 
@@ -692,12 +692,12 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var requestBody = new Dictionary<string, string>(); // Dictionary<string, string> | request body
+            var param = new Dictionary<string, string>(); // Dictionary<string, string> | request body
 
             try
             {
                 // test inline additionalProperties
-                apiInstance.TestInlineAdditionalProperties(requestBody);
+                apiInstance.TestInlineAdditionalProperties(param);
             }
             catch (Exception e)
             {
@@ -712,7 +712,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | [**Dictionary&lt;string, string&gt;**](string.md)| request body | 
+ **param** | [**Dictionary&lt;string, string&gt;**](string.md)| request body | 
 
 ### Return type
 

@@ -12,8 +12,7 @@
   "module": "dist/index.js",  
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "ngc",
-    "postinstall": "npm run build"
+    "build": "ngc && npm pack"
   },
   "peerDependencies": {
     "@angular/core": "^2.0.0",

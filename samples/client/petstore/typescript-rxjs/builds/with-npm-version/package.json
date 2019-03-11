@@ -1,0 +1,21 @@
+{
+  "name": "@swagger/typescript-rxjs-petstore",
+  "version": "1.0.0",
+  "description": "OpenAPI client for @swagger/typescript-rxjs-petstore",
+  "author": "OpenAPI-Generator",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts" : {
+    "build": "tsc --outDir dist/",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "rxjs": "^6.3.3",
+  },
+  "devDependencies": {
+    "typescript": "^2.4"
+  },
+  "publishConfig":{
+    "registry":"https://skimdb.npmjs.com/registry"
+  }
+}

@@ -1,0 +1,89 @@
+/* your custom css */
+
+dd {
+    margin-bottom: 0.5em;
+}
+dd {
+    margin-inline-start: 2em;
+}
+
+.blockElement.imageAlignSide .blockImage {
+    text-align: center;
+}
+
+.edit-this-page p.link {
+    float: right;
+    position: relative;
+    top: -3.5em;
+}
+
+.member-container {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: baseline;
+}
+.member-container .member {
+    width: 300px;
+    margin: 1em;
+    text-align: center;
+}
+
+.member-container .member .avatar {
+    width: 80px;
+    margin: auto;
+    order: 1
+}
+
+.member-container .member .member-info {
+    order: 2
+}
+
+.features .blockImage > img {
+    opacity: 0.6;
+}
+
+.nav-footer .attribution {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto 1em;
+    max-width: 1080px;
+}
+
+.splashLogo {
+    display: block;
+    margin: 0;
+    min-height: 100px;
+    height: auto;
+}
+
+.splashLogo img {
+    height: 100px;
+    max-height: 150px;
+}
+
+#try .blockImage,
+#tryHomebrew .blockImage,
+#tryDocker .blockImage {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+}
+
+@media only screen and (min-width: 1024px) {
+}
+
+@media only screen and (min-width: 1200px) {
+
+}
+
+@media only screen and (max-width: 1023px) {
+}
+
+@media only screen and (min-width: 1400px) {
+}
+
+@media only screen and (min-width: 1500px) {
+}

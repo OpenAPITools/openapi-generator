@@ -157,11 +157,11 @@ public class ApiClientTest {
     public void testGetAndSetConnectTimeout() {
         // connect timeout defaults to 10 seconds
         assertEquals(10000, apiClient.getConnectTimeout());
-        assertEquals(10000, apiClient.getHttpClient().getConnectTimeout());
+        assertEquals(10000, apiClient.getHttpClient().connectTimeoutMillis());
 
         apiClient.setConnectTimeout(0);
         assertEquals(0, apiClient.getConnectTimeout());
-        assertEquals(0, apiClient.getHttpClient().getConnectTimeout());
+        assertEquals(0, apiClient.getHttpClient().connectTimeoutMillis());
 
         apiClient.setConnectTimeout(10000);
     }
@@ -170,11 +170,11 @@ public class ApiClientTest {
     public void testGetAndSetReadTimeout() {
         // read timeout defaults to 10 seconds
         assertEquals(10000, apiClient.getReadTimeout());
-        assertEquals(10000, apiClient.getHttpClient().getReadTimeout());
+        assertEquals(10000, apiClient.getHttpClient().readTimeoutMillis());
 
         apiClient.setReadTimeout(0);
         assertEquals(0, apiClient.getReadTimeout());
-        assertEquals(0, apiClient.getHttpClient().getReadTimeout());
+        assertEquals(0, apiClient.getHttpClient().readTimeoutMillis());
 
         apiClient.setReadTimeout(10000);
     }
@@ -183,11 +183,11 @@ public class ApiClientTest {
     public void testGetAndSetWriteTimeout() {
         // write timeout defaults to 10 seconds
         assertEquals(10000, apiClient.getWriteTimeout());
-        assertEquals(10000, apiClient.getHttpClient().getWriteTimeout());
+        assertEquals(10000, apiClient.getHttpClient().writeTimeoutMillis());
 
         apiClient.setWriteTimeout(0);
         assertEquals(0, apiClient.getWriteTimeout());
-        assertEquals(0, apiClient.getHttpClient().getWriteTimeout());
+        assertEquals(0, apiClient.getHttpClient().writeTimeoutMillis());
 
         apiClient.setWriteTimeout(10000);
     }

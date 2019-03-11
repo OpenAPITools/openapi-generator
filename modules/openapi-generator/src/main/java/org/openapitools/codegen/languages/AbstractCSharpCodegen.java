@@ -20,20 +20,13 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.*;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.mustache.*;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.core.util.Yaml;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +47,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean netCoreProjectFileFlag = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
+
+    protected String licenseUrl = "http://localhost";
+    protected String licenseName = "NoLicense";
 
     protected String packageVersion = "1.0.0";
     protected String packageName = "Org.OpenAPITools";
@@ -233,6 +229,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -240,6 +237,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (StringUtils.isEmpty(System.getenv("CSHARP_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable CSHARP_POST_PROCESS_FILE not defined so the C# code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export CSHARP_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
+        // License info
+        if (additionalProperties.containsKey(CodegenConstants.LICENSE_URL)) {
+            setLicenseUrl((String) additionalProperties.get(CodegenConstants.LICENSE_URL));
+        } else {
+            additionalProperties.put(CodegenConstants.LICENSE_URL, this.licenseUrl);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.LICENSE_NAME)) {
+            setLicenseName((String) additionalProperties.get(CodegenConstants.LICENSE_NAME));
+        } else {
+            additionalProperties.put(CodegenConstants.LICENSE_NAME, this.licenseName);
         }
 
         // {{packageVersion}}
@@ -759,7 +769,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     /**
      * Return the default value of the property
-     *
      * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
@@ -783,8 +792,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     return p.getDefault().toString() + "F";
                 } else if (ModelUtils.isDoubleSchema(p)) { // double
                     return p.getDefault().toString() + "D";
-                } else {
-                    return p.getDefault().toString();
+                } else {    // decimal
+                    return p.getDefault().toString() + "M";
                 }
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
@@ -934,6 +943,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public String toModelTestFilename(String name) {
         return toModelName(name) + "Tests";
     }
+
+    public void setLicenseUrl(String licenseUrl) {this.licenseUrl = licenseUrl;}
+
+    public void setLicenseName(String licenseName) {this.licenseName = licenseName;}
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;

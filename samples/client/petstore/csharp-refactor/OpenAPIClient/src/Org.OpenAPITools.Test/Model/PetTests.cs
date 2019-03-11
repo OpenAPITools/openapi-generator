@@ -117,6 +117,17 @@ namespace Org.OpenAPITools.Test
         }
 
         /// <summary>
+        /// Test serialization
+        /// </summary>
+        [Test()]
+        public void TestSerialization()
+        {
+            // create pet
+            Pet p1 = new Pet(name: "Csharp test", photoUrls: new List<string> { "http://petstore.com/csharp_test" });
+            Assert.AreEqual("{\"name\":\"Csharp test\",\"photoUrls\":[\"http://petstore.com/csharp_test\"]}", JsonConvert.SerializeObject(p1));
+        }
+
+        /// <summary>
         /// Test Equal
         /// </summary>
         [Test()]

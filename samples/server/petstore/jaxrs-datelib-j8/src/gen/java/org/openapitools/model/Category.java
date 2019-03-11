@@ -64,8 +64,7 @@ public class Category  implements Serializable {
    **/
   @JsonProperty("name")
   @ApiModelProperty(required = true, value = "")
-    @NotNull
-
+  @NotNull 
   public String getName() {
     return name;
   }

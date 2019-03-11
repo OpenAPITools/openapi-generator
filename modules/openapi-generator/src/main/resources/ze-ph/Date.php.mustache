@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace {{invokerPackage}}\Strategy;
 
@@ -7,8 +8,7 @@ class Date extends DateTime
     const DATE_TIME_FORMAT = 'Y-m-d';
 
     /**
-     * @param $arrayValue
-     * @return \DateTime
+     * @inheritdoc
      */
     protected function parseDateString($arrayValue)
     {

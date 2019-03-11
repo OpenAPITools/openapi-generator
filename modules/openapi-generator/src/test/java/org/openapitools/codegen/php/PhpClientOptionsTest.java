@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.php;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PhpClientCodegen;
 import org.openapitools.codegen.options.PhpClientOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class PhpClientOptionsTest extends AbstractOptionsTest {
 
@@ -57,11 +56,7 @@ public class PhpClientOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setSrcBasePath(PhpClientOptionsProvider.SRC_BASE_PATH_VALUE);
             times = 1;
-            clientCodegen.setComposerVendorName(PhpClientOptionsProvider.COMPOSER_VENDOR_NAME_VALUE);
-            times = 1;
             clientCodegen.setGitUserId(PhpClientOptionsProvider.GIT_USER_ID_VALUE);
-            times = 1;
-            clientCodegen.setComposerProjectName(PhpClientOptionsProvider.COMPOSER_PROJECT_NAME_VALUE);
             times = 1;
             clientCodegen.setGitRepoId(PhpClientOptionsProvider.GIT_REPO_ID_VALUE);
             times = 1;
