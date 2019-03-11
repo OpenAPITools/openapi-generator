@@ -11,5 +11,5 @@ sudo Rscript -e "install.packages('R6', repos='$REPO')"
 sudo Rscript -e "install.packages('caTools', repos='$REPO')"
 
 R CMD build .
-R CMD check *tar.gz
+R CMD check *tar.gz --no-manual
 R CMD INSTALL *tar.gz
