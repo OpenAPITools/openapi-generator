@@ -94,6 +94,14 @@ arbitraryReducedMaybe :: Arbitrary a => Int -> Gen (Maybe a)
 arbitraryReducedMaybe 0 = elements [Nothing]
 arbitraryReducedMaybe n = arbitraryReduced n
 
+arbitraryReducedMaybeValue :: Int -> Gen (Maybe A.Value)
+arbitraryReducedMaybeValue 0 = elements [Nothing]
+arbitraryReducedMaybeValue n = do
+  generated <- arbitraryReduced n
+  if generated == Just A.Null
+    then return Nothing
+    else return generated
+
 -- * Models
  
 instance Arbitrary AdditionalPropertiesClass where

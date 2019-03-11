@@ -94,6 +94,14 @@ arbitraryReducedMaybe :: Arbitrary a => Int -> Gen (Maybe a)
 arbitraryReducedMaybe 0 = elements [Nothing]
 arbitraryReducedMaybe n = arbitraryReduced n
 
+arbitraryReducedMaybeValue :: Int -> Gen (Maybe A.Value)
+arbitraryReducedMaybeValue 0 = elements [Nothing]
+arbitraryReducedMaybeValue n = do
+  generated <- arbitraryReduced n
+  if generated == Just A.Null
+    then return Nothing
+    else return generated
+
 -- * Models
  
 {{#models}}
@@ -106,7 +114,7 @@ gen{{classname}} :: Int -> Gen {{classname}}
 gen{{classname}} n =
   {{#isAlias}}{{classname}} <$> arbitrary{{/isAlias}}{{^isAlias}}{{^hasVars}}
   pure {{/hasVars}}{{classname}}
-  {{#hasVars}}  <$>{{/hasVars}} {{#vars}}{{#required}}{{#isPrimitiveType}}arbitrary{{/isPrimitiveType}}{{^isPrimitiveType}}arbitraryReduced n{{/isPrimitiveType}}{{/required}}{{^required}}arbitraryReducedMaybe n{{/required}} -- {{name}} :: {{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}
+  {{#hasVars}}  <$>{{/hasVars}} {{#vars}}{{#required}}{{#isPrimitiveType}}arbitrary{{/isPrimitiveType}}{{^isPrimitiveType}}arbitraryReduced n{{/isPrimitiveType}}{{/required}}{{^required}}{{^isFreeFormObject}}arbitraryReducedMaybe n{{/isFreeFormObject}}{{#isFreeFormObject}}arbitraryReducedMaybeValue n{{/isFreeFormObject}}{{/required}} -- {{name}} :: {{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}
   {{#hasMore}}  <*> {{/hasMore}}{{/vars}}{{/isAlias}}
 {{/isEnum}}
 {{/model}}
