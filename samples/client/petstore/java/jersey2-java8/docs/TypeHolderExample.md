@@ -24,7 +24,7 @@ WHAT | String.valueOf(&quot;what&quot;)
 ## Enum: NumberItemEnum
 Name | Value
 ---- | -----
-NUMBER_1_DOT_2339999675750732 | Float.valueOf(1.2339999675750732)
+NUMBER_1_DOT_2339999675750732 | Float.valueOf(&quot;1.2339999675750732&quot;)
 
 
 <a name="IntegerItemEnum"></a>

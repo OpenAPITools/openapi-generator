@@ -31,8 +31,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
 
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
@@ -687,15 +691,28 @@ public class JavaClientCodegen extends AbstractJavaCodegen
      * @return the sanitized value for enum
      */
     public String toEnumValue(Object value, String datatype) {
+        TimeZone utc = TimeZone.getTimeZone("UTC");
         if (datatype == "Date" && ( (typeMapping.containsKey("date") && typeMapping.get("date") == "Date" && importMapping.containsKey("Date") && importMapping.get("Date") == "java.util.Date") ||
                 (typeMapping.containsKey("DateTime") && typeMapping.get("DateTime") == "Date" && importMapping.containsKey("Date") && importMapping.get("Date") == "java.util.Date") ) ) {
             Date date = (Date) value;
             Long numMilliSeconds = date.getTime();
             return "new " + datatype + "(" + numMilliSeconds.toString() + "L)";
-        } else if ("number".equalsIgnoreCase(datatype) || "integer".equalsIgnoreCase(datatype) || "double".equalsIgnoreCase(datatype) || "float".equalsIgnoreCase(datatype)) {
+        } else if (datatype == "LocalDate" && typeMapping.containsKey("date") && typeMapping.get("date") == "LocalDate" && importMapping.containsKey("LocalDate") && importMapping.get("LocalDate") == "org.threeten.bp.LocalDate") {
+            Date date = (Date) value;
+            DateFormat iso8601Date = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
+            iso8601Date.setTimeZone(utc);
+            String dateString = iso8601Date.format(date);
+            return datatype + ".parse(\"" + dateString + "\")";
+        } else if (datatype == "OffsetDateTime" && typeMapping.containsKey("DateTime") && typeMapping.get("DateTime") == "OffsetDateTime" && importMapping.containsKey("OffsetDateTime") && importMapping.get("OffsetDateTime") == "org.threeten.bp.OffsetDateTime") {
+            Date date = (Date) value;
+            DateFormat iso8601DateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
+            iso8601DateTime.setTimeZone(utc);
+            String dateString = iso8601DateTime.format(date);
+            return datatype + ".parse(\"" + dateString + "\")";
+        } else if ("number".equalsIgnoreCase(datatype) || "integer".equalsIgnoreCase(datatype) || "double".equalsIgnoreCase(datatype)) {
             return datatype + ".valueOf(" + value.toString() + ")";
         } else {
-            return datatype + ".valueOf(" + "\"" + escapeText(value.toString()) + "\"" + ")";
+            return datatype + ".valueOf(\"" + escapeText(value.toString()) + "\")";
         }
     }
 

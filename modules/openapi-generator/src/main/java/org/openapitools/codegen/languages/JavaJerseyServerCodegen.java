@@ -226,7 +226,7 @@ public class JavaJerseyServerCodegen extends AbstractJavaJAXRSServerCodegen {
             Date date = (Date) value;
             Long numMilliSeconds = date.getTime();
             return "new " + datatype + "(" + numMilliSeconds.toString() + "L)";
-        } else if ("number".equalsIgnoreCase(datatype) || "integer".equalsIgnoreCase(datatype) || "double".equalsIgnoreCase(datatype) || "float".equalsIgnoreCase(datatype)) {
+        } else if ("number".equalsIgnoreCase(datatype) || "integer".equalsIgnoreCase(datatype) || "double".equalsIgnoreCase(datatype)) {
             return datatype + ".valueOf(" + value.toString() + ")";
         } else {
             return datatype + ".valueOf(" + "\"" + escapeText(value.toString()) + "\"" + ")";
