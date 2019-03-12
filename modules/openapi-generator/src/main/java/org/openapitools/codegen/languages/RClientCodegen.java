@@ -85,6 +85,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives.add("numeric");
         languageSpecificPrimitives.add("character");
         languageSpecificPrimitives.add("data.frame");
+        languageSpecificPrimitives.add("list")
         languageSpecificPrimitives.add("object");
 
         typeMapping.clear();
@@ -102,7 +103,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "data.frame");
         typeMapping.put("binary", "data.frame");
         typeMapping.put("ByteArray", "character");
-        typeMapping.put("map", "object");
+        typeMapping.put("map", "list");
+        typeMapping.put("object", "object");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "R package name (convention: lowercase).")
@@ -287,10 +289,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return getTypeDeclaration(inner);
+            return getSchemaType(p) + "[" + getTypeDeclaration(inner)+ "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getTypeDeclaration(inner);
+            return getSchemaType(p) + "(" + getTypeDeclaration(inner) + ")";
         }
 
         // Not using the supertype invocation, because we want to UpperCamelize
