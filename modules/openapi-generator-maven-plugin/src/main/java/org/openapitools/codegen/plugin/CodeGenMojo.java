@@ -32,10 +32,14 @@ import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyRese
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.validator.routines.UrlValidator;
 
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
@@ -390,9 +394,14 @@ public class CodeGenMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         File inputSpecFile = new File(inputSpec);
-        addCompileSourceRootIfConfigured();
-
         try {
+            if(UrlValidator.getInstance().isValid(inputSpec)) {
+                inputSpecFile = new File("api.yaml");
+                FileUtils.copyURLToFile(new URL(inputSpec), inputSpecFile);
+            }
+
+            addCompileSourceRootIfConfigured();
+
             if (skip) {
                 getLog().info("Code generation is skipped.");
                 return;
