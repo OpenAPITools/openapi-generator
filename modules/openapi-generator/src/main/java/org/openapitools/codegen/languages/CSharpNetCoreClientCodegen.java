@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +34,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 @SuppressWarnings("Duplicates")
-public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
+public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
     protected static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
     protected static final String SUPPORTS_UWP = "supportsUWP";
@@ -79,7 +78,7 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
 
-    public CSharpRefactorClientCodegen() {
+    public CSharpNetCoreClientCodegen() {
         super();
 
         // mapped non-nullable type without ?
@@ -109,7 +108,7 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
         apiTemplateFiles.put("api.mustache", ".cs");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        embeddedTemplateDir = templateDir = "csharp-refactor";
+        embeddedTemplateDir = templateDir = "csharp-netcore";
 
         cliOptions.clear();
 
@@ -286,7 +285,7 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a CSharp client library.";
+        return "Generates a C# client library (.NET Standard, .NET Core).";
     }
 
 //    private void syncStringProperty(Map<String, Object> properties, String key)
@@ -308,7 +307,7 @@ public class CSharpRefactorClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String getName() {
-        return "csharp-refactor";
+        return "csharp-netcore";
     }
 
     public String getNameUsingModelPropertyNaming(String name) {
