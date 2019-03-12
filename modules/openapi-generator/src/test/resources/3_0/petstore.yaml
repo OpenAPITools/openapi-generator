@@ -374,6 +374,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+        - auth_cookie: []
       requestBody:
         content:
           application/json:
@@ -391,6 +393,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+        - auth_cookie: []
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
   /user/createWithList:
@@ -403,6 +407,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+        - auth_cookie: []
       requestBody:
         $ref: '#/components/requestBodies/UserArray'
   /user/login:
@@ -430,6 +436,13 @@ paths:
         '200':
           description: successful operation
           headers:
+            Set-Cookie:
+              description: >-
+                Cookie authentication key for use with the `auth_cookie`
+                apiKey authentication.
+              schema:
+                type: string
+                example: AUTH_KEY=abcde12345; Path=/; HttpOnly
             X-Rate-Limit:
               description: calls per hour allowed by the user
               schema:
@@ -459,6 +472,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+        - auth_cookie: []
   '/user/{username}':
     get:
       tags:
@@ -505,6 +520,8 @@ paths:
           description: Invalid user supplied
         '404':
           description: User not found
+      security:
+        - auth_cookie: []
       requestBody:
         content:
           application/json:
@@ -530,6 +547,8 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+      security:
+        - auth_cookie: []
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -567,6 +586,10 @@ components:
       type: apiKey
       name: api_key
       in: header
+    auth_cookie:
+      type: apiKey
+      name: AUTH_KEY
+      in: cookie
   schemas:
     Order:
       title: Pet Order
