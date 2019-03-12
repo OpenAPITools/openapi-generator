@@ -15,6 +15,8 @@ use std::collections::HashMap;
 {{/usesXml}}
 use models;
 use swagger;
+use std::string::ParseError;
+
 
 {{#models}}{{#model}}
 {{#description}}/// {{{description}}}
@@ -56,6 +58,15 @@ impl ::std::convert::From<{{{dataType}}}> for {{{classname}}} {
         {{{classname}}}(x)
     }
 }
+
+{{#vendorExtensions.isString}}
+impl std::str::FromStr for {{{classname}}} {
+    type Err = ParseError;
+    fn from_str(x: &str) -> Result<Self, Self::Err> {
+        Ok({{{classname}}}(x.to_string()))
+    }
+}
+{{/vendorExtensions.isString}}
 
 impl ::std::convert::From<{{{classname}}}> for {{{dataType}}} {
     fn from(x: {{{classname}}}) -> Self {

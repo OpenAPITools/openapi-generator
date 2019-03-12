@@ -8,6 +8,8 @@ use serde::ser::Serializer;
 use std::collections::{HashMap, BTreeMap};
 use models;
 use swagger;
+use std::string::ParseError;
+
 
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -995,6 +997,7 @@ impl ::std::convert::From<bool> for OuterBoolean {
     }
 }
 
+
 impl ::std::convert::From<OuterBoolean> for bool {
     fn from(x: OuterBoolean) -> Self {
         x.0
@@ -1115,6 +1118,7 @@ impl ::std::convert::From<f64> for OuterNumber {
     }
 }
 
+
 impl ::std::convert::From<OuterNumber> for f64 {
     fn from(x: OuterNumber) -> Self {
         x.0
@@ -1151,6 +1155,13 @@ pub struct OuterString(String);
 impl ::std::convert::From<String> for OuterString {
     fn from(x: String) -> Self {
         OuterString(x)
+    }
+}
+
+impl std::str::FromStr for OuterString {
+    type Err = ParseError;
+    fn from_str(x: &str) -> Result<Self, Self::Err> {
+        Ok(OuterString(x.to_string()))
     }
 }
 

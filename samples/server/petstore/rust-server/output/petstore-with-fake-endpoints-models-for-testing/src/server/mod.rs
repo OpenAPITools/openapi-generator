@@ -1350,7 +1350,7 @@ where
                 let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
                 };
@@ -1613,7 +1613,7 @@ where
                 let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
                 };
@@ -1843,7 +1843,7 @@ where
                 let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
                 };
@@ -1936,7 +1936,7 @@ where
                 let param_pet_id = match percent_encoding::percent_decode(path_params["petId"].as_bytes()).decode_utf8() {
                     Ok(param_pet_id) => match param_pet_id.parse::<i64>() {
                         Ok(param_pet_id) => param_pet_id,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter petId: {:?}", e)))),
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["petId"]))))
                 };
@@ -2010,7 +2010,7 @@ where
                 let param_order_id = match percent_encoding::percent_decode(path_params["order_id"].as_bytes()).decode_utf8() {
                     Ok(param_order_id) => match param_order_id.parse::<String>() {
                         Ok(param_order_id) => param_order_id,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter order_id: {}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter order_id: {:?}", e)))),
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"]))))
                 };
@@ -2142,7 +2142,7 @@ where
                 let param_order_id = match percent_encoding::percent_decode(path_params["order_id"].as_bytes()).decode_utf8() {
                     Ok(param_order_id) => match param_order_id.parse::<i64>() {
                         Ok(param_order_id) => param_order_id,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter order_id: {}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter order_id: {:?}", e)))),
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["order_id"]))))
                 };
@@ -2557,7 +2557,7 @@ where
                 let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
                     Ok(param_username) => match param_username.parse::<String>() {
                         Ok(param_username) => param_username,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter username: {}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter username: {:?}", e)))),
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"]))))
                 };
@@ -2626,7 +2626,7 @@ where
                 let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
                     Ok(param_username) => match param_username.parse::<String>() {
                         Ok(param_username) => param_username,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter username: {}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter username: {:?}", e)))),
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"]))))
                 };
@@ -2849,7 +2849,7 @@ where
                 let param_username = match percent_encoding::percent_decode(path_params["username"].as_bytes()).decode_utf8() {
                     Ok(param_username) => match param_username.parse::<String>() {
                         Ok(param_username) => param_username,
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter username: {}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter username: {:?}", e)))),
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["username"]))))
                 };
