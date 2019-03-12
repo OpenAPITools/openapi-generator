@@ -88,6 +88,39 @@ ApiClient  <- R6::R6Class(
       } else {
         stop("http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`.")
       }
-    }
+    },
+    
+    deserialize = function(obj, returnType, pkgEnv){
+		returnObj <- NULL
+		primitiveTypes <- c("character", "numeric", "integer","logical","complex")
+		if (startsWith(returnType, "list(")) {
+			innerReturnType <- regmatches(returnType, regexec(pattern = "list\\((.*)\\)", returnType))[[1]][2]
+			returnObj <- lapply(names(obj), function (name) {
+			self$deserializeObj(obj[[name]], innerReturnType, pkgEnv)
+			})
+			names(returnObj) <- names(obj)
+		} else if (startsWith(returnType, "array[")){
+			innerReturnType <- regmatches(returnType, regexec(pattern = "array\\[(.*)\\]", returnType))[[1]][2]
+			if(c(innerReturnType) %in% primitiveTypes){
+				returnObj <- vector("list", length = length(obj))
+				for(row in 1: length(obj)){
+				returnObj[[row]] <- self$deserializeObj(obj[row], innerReturnType, pkgEnv)
+				}
+			}else {
+				returnObj <- vector("list", length = nrow(obj))
+				for (row in 1:nrow(obj)) {
+				returnObj[[row]] <- self$deserializeObj(obj[row,,drop = F], innerReturnType, pkgEnv)
+				}		
+			}
+		}
+		else if(exists(returnType, pkgEnv) && !(c(returnType) %in% primitiveTypes) ){
+			returnType <- get(returnType, envir = as.environment(pkgEnv))
+			returnObj <- returnType$new()
+			returnObj$fromJSON(jsonlite::toJSON(obj))
+		} else {
+			returnObj <- obj
+		}
+		returnObj
+	}
   )
 )
