@@ -29,7 +29,7 @@ async def test_{{operationId}}(client):
     {{paramName}} = {{{example}}}
     {{/bodyParam}}
     {{#queryParams}}
-    {{#-first}}params = [{{/-first}}{{^-first}}                {{/-first}}('{{paramName}}', {{{example}}}){{#hasMore}},{{/hasMore}}{{#-last}}]{{/-last}}
+    {{#-first}}params = [{{/-first}}{{^-first}}                {{/-first}}('{{^vendorExtensions.x-python-connexion-openapi-name}}{{paramName}}{{/vendorExtensions.x-python-connexion-openapi-name}}{{#vendorExtensions.x-python-connexion-openapi-name}}{{vendorExtensions.x-python-connexion-openapi-name}}{{/vendorExtensions.x-python-connexion-openapi-name}}', {{{example}}}){{#hasMore}},{{/hasMore}}{{#-last}}]{{/-last}}
     {{/queryParams}}
     headers = { {{#vendorExtensions.x-prefered-produce}}
         'Accept': '{{mediaType}}',{{/vendorExtensions.x-prefered-produce}}{{#vendorExtensions.x-prefered-consume}}
