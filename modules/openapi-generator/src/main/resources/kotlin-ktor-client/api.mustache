@@ -61,8 +61,8 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}") {
             }
         } catch (exception: BadResponseStatusException) {
             when(exception.statusCode.value) {
-                {{#responses}}{{#dataType}}{{{code}}} -> throw wrapErrorObject<{{{baseType}}}>(exception){{^-last}}
-                {{/-last}}{{/dataType}}{{/responses}}
+                {{#responses}}{{#dataType}}{{^isDefault}}{{{code}}} -> throw wrapErrorObject<{{{baseType}}}>(exception){{^-last}}
+                {{/-last}}{{/isDefault}}{{/dataType}}{{/responses}}
                 else -> throw exception
             }
         } catch (exception: Exception) {
