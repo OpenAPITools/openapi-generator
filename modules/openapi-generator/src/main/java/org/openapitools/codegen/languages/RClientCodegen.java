@@ -85,7 +85,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         languageSpecificPrimitives.add("numeric");
         languageSpecificPrimitives.add("character");
         languageSpecificPrimitives.add("data.frame");
-        languageSpecificPrimitives.add("list")
+        languageSpecificPrimitives.add("list");
         languageSpecificPrimitives.add("object");
 
         typeMapping.clear();
