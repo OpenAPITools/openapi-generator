@@ -11,7 +11,8 @@ import io.ktor.client.call.typeInfo
 
 import {{packageName}}.infrastructure.*
 
-{{#imports}}import {{import}}
+{{#imports}}
+import {{import}}
 {{/imports}}
 
 {{#operations}}
@@ -34,12 +35,14 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}") {
     /**
     * {{summary}}
     * {{notes}}
-    {{#allParams}}* @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
-    {{/allParams}}* @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+    {{#allParams}}
+    * @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    {{/allParams}}
+    * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
     */
     suspend fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
         {{#hasQueryParams}}
-        var queryParameters = Parameters.build {
+        val queryParameters = Parameters.build {
             {{#queryParams}}
             append("{{{baseName}}}", {{paramName}})
             {{/queryParams}}
@@ -49,18 +52,25 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}") {
         val url = "$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}}{{#hasQueryParams}} + "?$queryParameters"{{/hasQueryParams}}
         val httpMethod = HttpMethod.parse("{{httpMethod}}")
 
-        mySerializer.apply { {{#allResponseDataTypes}}
-            register({{{dataType}}}.serializer()){{/allResponseDataTypes}}
+
+        mySerializer.apply {
+            {{#allResponseDataTypes}}
+            register({{{dataType}}}.serializer())
+            {{/allResponseDataTypes}}
         }
         try {
             return httpClient.request(url) {
                 method = httpMethod
-                {{#headerParams}}header("{{baseName}}", {{paramName}}){{#hasMore}}
-                {{/hasMore}}{{/headerParams}}
-                {{#hasFormParams}}body = FormDataContent(Parameters.build {
-                    {{#formParams}}append("{{{baseName}}}", {{paramName}}){{#hasMore}}
-                    {{/hasMore}}{{/formParams}}
-                }){{/hasFormParams}}
+                {{#headerParams}}
+                header("{{baseName}}", {{paramName}})
+                {{/headerParams}}
+                {{#hasFormParams}}
+                body = FormDataContent(Parameters.build {
+                    {{#formParams}}
+                    append("{{{baseName}}}", {{paramName}})
+                    {{/formParams}}
+                })
+                {{/hasFormParams}}
 
                 //TODO: Handle other body types
             }
