@@ -96,7 +96,7 @@ ApiClient  <- R6::R6Class(
 		if (startsWith(returnType, "list(")) {
 			innerReturnType <- regmatches(returnType, regexec(pattern = "list\\((.*)\\)", returnType))[[1]][2]
 			returnObj <- lapply(names(obj), function (name) {
-			self$deserializeObj(obj[[name]], innerReturnType, pkgEnv)
+			self$deserialize(obj[[name]], innerReturnType, pkgEnv)
 			})
 			names(returnObj) <- names(obj)
 		} else if (startsWith(returnType, "array[")){
@@ -104,12 +104,12 @@ ApiClient  <- R6::R6Class(
 			if(c(innerReturnType) %in% primitiveTypes){
 				returnObj <- vector("list", length = length(obj))
 				for(row in 1: length(obj)){
-				returnObj[[row]] <- self$deserializeObj(obj[row], innerReturnType, pkgEnv)
+				returnObj[[row]] <- self$deserialize(obj[row], innerReturnType, pkgEnv)
 				}
 			}else {
 				returnObj <- vector("list", length = nrow(obj))
 				for (row in 1:nrow(obj)) {
-				returnObj[[row]] <- self$deserializeObj(obj[row,,drop = F], innerReturnType, pkgEnv)
+				returnObj[[row]] <- self$deserialize(obj[row,,drop = F], innerReturnType, pkgEnv)
 				}		
 			}
 		}
