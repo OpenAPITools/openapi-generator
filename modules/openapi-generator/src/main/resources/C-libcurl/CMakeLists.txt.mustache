@@ -10,13 +10,6 @@ set(CMAKE_BUILD_TYPE Debug)
 
 set(pkgName "{{projectName}}")
 
-find_program(VALGRIND valgrind)
-if(VALGRIND)
-	set(CMAKE_MEMORYCHECK_COMMAND valgrind)
-	set(CMAKE_MEMORYCHECK_COMMAND_OPTIONS "--leak-check=full --track-origins=yes --read-var-info=yes --show-leak-kinds=all --error-exitcode=1")
-	set(VALGRIND_LIST "")
-endif()
-
 find_package(CURL 7.58.0 REQUIRED)
 if(CURL_FOUND)
 	include_directories(${CURL_INCLUDE_DIR})
@@ -68,24 +61,3 @@ set(HDRS
 add_library(${pkgName} SHARED ${SRCS} ${HDRS})
 target_link_libraries(${pkgName} ${CURL_LIBRARIES} )
 install(TARGETS ${pkgName} DESTINATION ${CMAKE_INSTALL_PREFIX})
-
-#For common coding standard (code beautifier/pretty printing)
-find_program(UNCRUSTIFY uncrustify)
-if(UNCRUSTIFY)
-	add_custom_target(
-		uncrustify
-	)
-
-	foreach(ELEMENT ${ALL_SRC_LIST})
-		string(REGEX REPLACE "/" "_" ELEMENT_NAME ${ELEMENT})
-		set(DEP_NAME "uncrustify-${ELEMENT_NAME}")
-		add_custom_target(
-			${DEP_NAME}
-			uncrustify -c uncrustify-rules.cfg --no-backup ${ELEMENT}
-			DEPENDS ${ELEMENT}
-			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-			VERBATIM
-		)
-		add_dependencies(uncrustify ${DEP_NAME})
-	endforeach()
-endif()
