@@ -692,6 +692,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
      */
     public String toEnumValue(Object value, String datatype) {
         TimeZone utc = TimeZone.getTimeZone("UTC");
+        DateFormat iso8601Date = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
+        DateFormat iso8601DateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
+        iso8601Date.setTimeZone(utc);
+        iso8601DateTime.setTimeZone(utc);
         if (datatype == "Date" && ( (typeMapping.containsKey("date") && typeMapping.get("date") == "Date" && importMapping.containsKey("Date") && importMapping.get("Date") == "java.util.Date") ||
                 (typeMapping.containsKey("DateTime") && typeMapping.get("DateTime") == "Date" && importMapping.containsKey("Date") && importMapping.get("Date") == "java.util.Date") ) ) {
             Date date = (Date) value;
@@ -699,14 +703,18 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             return "new " + datatype + "(" + numMilliSeconds.toString() + "L)";
         } else if (datatype == "LocalDate" && typeMapping.containsKey("date") && typeMapping.get("date") == "LocalDate" && importMapping.containsKey("LocalDate") && importMapping.get("LocalDate") == "org.threeten.bp.LocalDate") {
             Date date = (Date) value;
-            DateFormat iso8601Date = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
-            iso8601Date.setTimeZone(utc);
             String dateString = iso8601Date.format(date);
             return datatype + ".parse(\"" + dateString + "\")";
         } else if (datatype == "OffsetDateTime" && typeMapping.containsKey("DateTime") && typeMapping.get("DateTime") == "OffsetDateTime" && importMapping.containsKey("OffsetDateTime") && importMapping.get("OffsetDateTime") == "org.threeten.bp.OffsetDateTime") {
             Date date = (Date) value;
-            DateFormat iso8601DateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
-            iso8601DateTime.setTimeZone(utc);
+            String dateString = iso8601DateTime.format(date);
+            return datatype + ".parse(\"" + dateString + "\")";
+        } else if (datatype == "LocalDate" && typeMapping.containsKey("date") && typeMapping.get("date") == "LocalDate" && importMapping.containsKey("LocalDate") && importMapping.get("LocalDate") == "org.joda.time.LocalDate") {
+            Date date = (Date) value;
+            String dateString = iso8601Date.format(date);
+            return datatype + ".parse(\"" + dateString + "\")";
+        } else if (datatype == "DateTime" && typeMapping.containsKey("DateTime") && typeMapping.get("DateTime") == "DateTime" && importMapping.containsKey("DateTime") && importMapping.get("DateTime") == "org.joda.time.DateTime") {
+            Date date = (Date) value;
             String dateString = iso8601DateTime.format(date);
             return datatype + ".parse(\"" + dateString + "\")";
         } else if ("number".equalsIgnoreCase(datatype) || "integer".equalsIgnoreCase(datatype) || "double".equalsIgnoreCase(datatype)) {

@@ -193,7 +193,7 @@ public class TypeHolderExample {
    */
   @JsonAdapter(DateItemEnum.Adapter.class)
   public enum DateItemEnum {
-    THU_JUL_20_17_00_00_PDT_2017(LocalDate.valueOf("Thu Jul 20 17:00:00 PDT 2017"));
+    THU_JUL_20_17_00_00_PDT_2017(LocalDate.parse("2017-07-21"));
 
     private LocalDate value;
 
@@ -243,7 +243,7 @@ public class TypeHolderExample {
    */
   @JsonAdapter(DatetimeItemEnum.Adapter.class)
   public enum DatetimeItemEnum {
-    FRI_JUL_21_10_32_28_PDT_2017(DateTime.valueOf("Fri Jul 21 10:32:28 PDT 2017"));
+    FRI_JUL_21_10_32_28_PDT_2017(DateTime.parse("2017-07-21T17:32:28.000Z"));
 
     private DateTime value;
 
