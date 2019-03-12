@@ -132,19 +132,10 @@
       {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
       {{#vars}}
       if (!is.null({{classname}}Object$`{{baseName}}`)) {
-        {{#isListContainer}}
-        {{#isPrimitiveType}}
-        self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}
-        self$`{{baseName}}` <- sapply({{classname}}Object$`{{baseName}}`, function(x) {
-          {{baseName}}Object <- {{dataType}}$new()
-          {{baseName}}Object$fromJSON(jsonlite::toJSON(x, auto_unbox = TRUE))
-          {{baseName}}Object
-        })
-        {{/isPrimitiveType}}
-        {{/isListContainer}}
-        {{^isListContainer}}
+        {{#isContainer}}
+        self$`{{baseName}}` <- ApiClient$new()$deserialize({{classname}}Object$`{{baseName}}`, "{{dataType}}","package:{{packageName}}")
+        {{/isContainer}}
+        {{^isContainer}}
         {{#isPrimitiveType}}
         self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
         {{/isPrimitiveType}}
@@ -153,7 +144,7 @@
         {{baseName}}Object$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
         self$`{{baseName}}` <- {{baseName}}Object
         {{/isPrimitiveType}}
-        {{/isListContainer}}
+        {{/isContainer}}
       }
       {{/vars}}
     },
@@ -203,28 +194,17 @@
     fromJSONString = function({{classname}}Json) {
       {{classname}}Object <- jsonlite::fromJSON({{classname}}Json)
       {{#vars}}
-      {{#isListContainer}}
-      {{#isPrimitiveType}}
-      self$`{{baseName}}` <- lapply({{classname}}Object$`{{baseName}}`, function (x) x)
-      {{/isPrimitiveType}}
-      {{^isPrimitiveType}}
-      data.frame <- {{classname}}Object$`{{baseName}}`
-      self$`{{baseName}}` <- vector("list", length = nrow(data.frame))
-      for (row in 1:nrow(data.frame)) {
-          {{baseName}}.node <- {{dataType}}$new()
-          {{baseName}}.node$fromJSON(jsonlite::toJSON(data.frame[row,,drop = TRUE], auto_unbox = TRUE))
-          self$`{{baseName}}`[[row]] <- {{baseName}}.node
-      }
-      {{/isPrimitiveType}}
-      {{/isListContainer}}
-      {{^isListContainer}}
+      {{#isContainer}}
+      self$`{{baseName}}` <- ApiClient$new()$deserialize({{classname}}Object$`{{baseName}}`, "{{dataType}}","package:{{packageName}}")  
+      {{/isContainer}}
+      {{^isContainer}}
       {{#isPrimitiveType}}
       self$`{{baseName}}` <- {{classname}}Object$`{{baseName}}`
       {{/isPrimitiveType}}
       {{^isPrimitiveType}}
       self$`{{baseName}}` <- {{dataType}}$new()$fromJSON(jsonlite::toJSON({{classname}}Object${{baseName}}, auto_unbox = TRUE))
       {{/isPrimitiveType}}
-      {{/isListContainer}}
+      {{/isContainer}}
       {{/vars}}
       self
     }
