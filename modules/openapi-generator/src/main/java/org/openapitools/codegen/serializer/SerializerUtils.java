@@ -3,10 +3,8 @@ package org.openapitools.codegen.serializer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-
 import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

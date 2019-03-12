@@ -21,10 +21,12 @@ public class ImplementationVersion {
     public static String read() {
         // Assumes this version is required at runtime. This could be modified to use a properties file like the CLI.
         String compiledVersion = ImplementationVersion.class.getPackage().getImplementationVersion();
-        if(compiledVersion != null) {
+        if (compiledVersion != null) {
             return compiledVersion;
         }
 
-        return "unset";
+        // When running non-JARed class within an IDE the implementation version is not available, so we provide a means
+        // to set it externally via a system property so that generated artefacts contain the correct version.
+        return System.getProperty("openapitools.implementation.version", "unset");
     }
 }

@@ -20,6 +20,4 @@ sidebar_label: php
 |gitUserId|Git user ID, e.g. openapitools.| |null|
 |gitRepoId|Git repo ID, e.g. openapi-generator.| |null|
 |artifactVersion|The version to use in the composer package version field. e.g. 1.2.3| |null|
-|composerVendorName|The vendor name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets. IMPORTANT NOTE (2016/03): composerVendorName will be deprecated and replaced by gitUserId in the next openapi-generator release| |null|
-|composerProjectName|The project name used in the composer package name. The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client. IMPORTANT NOTE (2016/03): composerProjectName will be deprecated and replaced by gitRepoId in the next openapi-generator release| |null|
 |hideGenerationTimestamp|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |true|

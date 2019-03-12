@@ -63,7 +63,7 @@ export class PetApi extends BaseAPI {
     /**
      * Add a new pet to the store
      */
-    addPetRaw(requestParameters: AddPetRequest): Observable<void> {
+    addPet(requestParameters: AddPetRequest): Observable<void> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new RequiredError('body','Required parameter requestParameters.body was null or undefined when calling addPet.');
         }
@@ -93,16 +93,9 @@ export class PetApi extends BaseAPI {
     }
 
     /**
-     * Add a new pet to the store
-     */
-    addPet(requestParameters: AddPetRequest): Observable<void> {
-        return this.addPetRaw(requestParameters);
-    }
-
-    /**
      * Deletes a pet
      */
-    deletePetRaw(requestParameters: DeletePetRequest): Observable<void> {
+    deletePet(requestParameters: DeletePetRequest): Observable<void> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling deletePet.');
         }
@@ -133,17 +126,10 @@ export class PetApi extends BaseAPI {
     }
 
     /**
-     * Deletes a pet
-     */
-    deletePet(requestParameters: DeletePetRequest): Observable<void> {
-        return this.deletePetRaw(requestParameters);
-    }
-
-    /**
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
      */
-    findPetsByStatusRaw(requestParameters: FindPetsByStatusRequest): Observable<Array<Pet>> {
+    findPetsByStatus(requestParameters: FindPetsByStatusRequest): Observable<Array<Pet>> {
         if (requestParameters.status === null || requestParameters.status === undefined) {
             throw new RequiredError('status','Required parameter requestParameters.status was null or undefined when calling findPetsByStatus.');
         }
@@ -174,18 +160,10 @@ export class PetApi extends BaseAPI {
     }
 
     /**
-     * Multiple status values can be provided with comma separated strings
-     * Finds Pets by status
-     */
-    findPetsByStatus(requestParameters: FindPetsByStatusRequest): Observable<Array<Pet>> {
-        return this.findPetsByStatusRaw(requestParameters);
-    }
-
-    /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      */
-    findPetsByTagsRaw(requestParameters: FindPetsByTagsRequest): Observable<Array<Pet>> {
+    findPetsByTags(requestParameters: FindPetsByTagsRequest): Observable<Array<Pet>> {
         if (requestParameters.tags === null || requestParameters.tags === undefined) {
             throw new RequiredError('tags','Required parameter requestParameters.tags was null or undefined when calling findPetsByTags.');
         }
@@ -216,18 +194,10 @@ export class PetApi extends BaseAPI {
     }
 
     /**
-     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     * Finds Pets by tags
-     */
-    findPetsByTags(requestParameters: FindPetsByTagsRequest): Observable<Array<Pet>> {
-        return this.findPetsByTagsRaw(requestParameters);
-    }
-
-    /**
      * Returns a single pet
      * Find pet by ID
      */
-    getPetByIdRaw(requestParameters: GetPetByIdRequest): Observable<Pet> {
+    getPetById(requestParameters: GetPetByIdRequest): Observable<Pet> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling getPetById.');
         }
@@ -249,17 +219,9 @@ export class PetApi extends BaseAPI {
     }
 
     /**
-     * Returns a single pet
-     * Find pet by ID
-     */
-    getPetById(requestParameters: GetPetByIdRequest): Observable<Pet> {
-        return this.getPetByIdRaw(requestParameters);
-    }
-
-    /**
      * Update an existing pet
      */
-    updatePetRaw(requestParameters: UpdatePetRequest): Observable<void> {
+    updatePet(requestParameters: UpdatePetRequest): Observable<void> {
         if (requestParameters.body === null || requestParameters.body === undefined) {
             throw new RequiredError('body','Required parameter requestParameters.body was null or undefined when calling updatePet.');
         }
@@ -289,16 +251,9 @@ export class PetApi extends BaseAPI {
     }
 
     /**
-     * Update an existing pet
-     */
-    updatePet(requestParameters: UpdatePetRequest): Observable<void> {
-        return this.updatePetRaw(requestParameters);
-    }
-
-    /**
      * Updates a pet in the store with form data
      */
-    updatePetWithFormRaw(requestParameters: UpdatePetWithFormRequest): Observable<void> {
+    updatePetWithForm(requestParameters: UpdatePetWithFormRequest): Observable<void> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling updatePetWithForm.');
         }
@@ -335,16 +290,9 @@ export class PetApi extends BaseAPI {
     }
 
     /**
-     * Updates a pet in the store with form data
-     */
-    updatePetWithForm(requestParameters: UpdatePetWithFormRequest): Observable<void> {
-        return this.updatePetWithFormRaw(requestParameters);
-    }
-
-    /**
      * uploads an image
      */
-    uploadFileRaw(requestParameters: UploadFileRequest): Observable<ApiResponse> {
+    uploadFile(requestParameters: UploadFileRequest): Observable<ApiResponse> {
         if (requestParameters.petId === null || requestParameters.petId === undefined) {
             throw new RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling uploadFile.');
         }
@@ -378,13 +326,6 @@ export class PetApi extends BaseAPI {
             query: queryParameters,
             body: formData,
         });
-    }
-
-    /**
-     * uploads an image
-     */
-    uploadFile(requestParameters: UploadFileRequest): Observable<ApiResponse> {
-        return this.uploadFileRaw(requestParameters);
     }
 
 }

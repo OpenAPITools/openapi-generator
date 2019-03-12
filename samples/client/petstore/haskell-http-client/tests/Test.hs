@@ -17,7 +17,7 @@ import OpenAPIPetstore.MimeTypes
 
 main :: IO ()
 main =
-  hspec $ modifyMaxSize (const 5) $ do
+  hspec $ modifyMaxSize (const 10) $ do
     describe "JSON instances" $ do
       pure ()
       propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesClass)
@@ -56,4 +56,5 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy TypeHolderDefault)
       propMimeEq MimeJSON (Proxy :: Proxy TypeHolderExample)
       propMimeEq MimeJSON (Proxy :: Proxy User)
+      propMimeEq MimeJSON (Proxy :: Proxy XmlItem)
       

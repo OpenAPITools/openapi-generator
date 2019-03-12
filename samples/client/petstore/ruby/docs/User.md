@@ -12,4 +12,19 @@ Name | Type | Description | Notes
 **phone** | **String** |  | [optional] 
 **user_status** | **Integer** | User Status | [optional] 
 
+## Code Sample
+
+```ruby
+require 'Petstore'
+
+instance = Petstore::User.new(id: null,
+                                 username: null,
+                                 first_name: null,
+                                 last_name: null,
+                                 email: null,
+                                 password: null,
+                                 phone: null,
+                                 user_status: null)
+```
+
 

@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 
 # **AddPet**
-> AddPet(ctx, pet)
+> AddPet(ctx, body)
 Add a new pet to the store
 
 ### Required Parameters
@@ -24,7 +24,7 @@ Add a new pet to the store
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+  **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -161,7 +161,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **UpdatePet**
-> UpdatePet(ctx, pet)
+> UpdatePet(ctx, body)
 Update an existing pet
 
 ### Required Parameters
@@ -169,7 +169,7 @@ Update an existing pet
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+  **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 

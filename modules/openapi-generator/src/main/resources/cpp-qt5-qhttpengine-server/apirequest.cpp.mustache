@@ -75,10 +75,15 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     {{/isListContainer}}
     {{^isListContainer}}
     {{^isMapContainer}}
-    {{#isPrimitiveType}}
+    {{#isPrimitiveType}}{{^isFreeFormObject}}
     {{{dataType}}} {{paramName}};
     ::{{cppNamespace}}::fromStringValue(QString(socket->readAll()), {{paramName}});
-    {{/isPrimitiveType}}
+    {{/isFreeFormObject}}{{/isPrimitiveType}}
+    {{#isFreeFormObject}}
+    {{{dataType}}} {{paramName}};
+    QJsonDocument resObject = QJsonDocument::fromJson(socket->readAll());
+    ::{{cppNamespace}}::fromJsonValue({{paramName}}, resObject.object());
+    {{/isFreeFormObject}}
     {{/isMapContainer}}
     {{#isMapContainer}}
     QJsonDocument doc;

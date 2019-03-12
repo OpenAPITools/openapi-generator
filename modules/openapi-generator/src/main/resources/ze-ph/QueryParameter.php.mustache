@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace {{invokerPackage}}\Strategy;
 
@@ -31,7 +32,7 @@ class QueryParameter implements StrategyInterface
         if (empty($options['type'])) {
             throw new \InvalidArgumentException('Option "type" is required.');
         } elseif (!isset(self::TYPE_MAP[$options['type']])) {
-            throw new \InvalidArgumentException(sprintf('Unknown type "%s".', $options['type']));
+            throw new \InvalidArgumentException(\sprintf('Unknown type "%s".', $options['type']));
         }
         $this->type = $options['type'];
     }

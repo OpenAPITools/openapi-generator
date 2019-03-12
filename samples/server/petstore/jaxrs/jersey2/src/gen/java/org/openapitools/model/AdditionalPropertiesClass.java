@@ -82,7 +82,7 @@ public class AdditionalPropertiesClass   {
    **/
   @JsonProperty("map_of_map_property")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public Map<String, Map<String, String>> getMapOfMapProperty() {
     return mapOfMapProperty;
   }

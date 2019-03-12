@@ -18,7 +18,6 @@
 package org.openapitools.codegen;
 
 import com.samskivert.mustache.Mustache.Compiler;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
@@ -27,7 +26,6 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -111,11 +109,9 @@ public interface CodegenConfig {
 
     void setOutputDir(String dir);
 
-    CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions);
+    CodegenModel fromModel(String name, Schema schema);
 
-    CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI);
-
-    CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> definitions);
+    CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers);
 
     List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemas);
 
@@ -178,14 +174,6 @@ public interface CodegenConfig {
     Map<String, Object> postProcessAllModels(Map<String, Object> objs);
 
     Map<String, Object> postProcessModels(Map<String, Object> objs);
-
-    /**
-     * @deprecated use {@link #postProcessOperationsWithModels(Map, List)} instead. This method will be removed
-     * @param objs the objects map that will be passed to the templating engine
-     * @return the the objects map instance.
-     */
-    @Deprecated
-    Map<String, Object> postProcessOperations(Map<String, Object> objs);
 
     Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels);
 
@@ -266,9 +254,10 @@ public interface CodegenConfig {
 
     void setEnablePostProcessFile(boolean isEnablePostProcessFile);
 
-    // set OpenAPI and schemas
-    void setGlobalOpenAPI(OpenAPI openAPI);
-
-    void setGlobalSchemas(OpenAPI openAPI);
+    /**
+     * Set the OpenAPI instance. This method needs to be called right after the instantiation of the Codegen class.
+     * @param openAPI specification being generated
+     */
+    void setOpenAPI(OpenAPI openAPI);
 
 }

@@ -84,9 +84,9 @@ public class FakeApiExample {
     public static void main(String[] args) {
         
         FakeApi apiInstance = new FakeApi();
-        Object UNKNOWN_BASE_TYPE = new UNKNOWN_BASE_TYPE(); // Object | 
+        String testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR = "testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR_example"; // String | To test code injection *_/ ' \\\" =end -- \\\\r\\\\n \\\\n \\\\r
         try {
-            apiInstance.testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE);
+            apiInstance.testCodeInjectEndRnNR(testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testCodeInjectEndRnNR");
             e.printStackTrace();
@@ -98,7 +98,7 @@ public class FakeApiExample {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
+All URIs are relative to *http://petstore.swagger.io *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r/v2 *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

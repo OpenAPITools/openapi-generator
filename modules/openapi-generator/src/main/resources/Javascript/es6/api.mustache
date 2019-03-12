@@ -43,15 +43,19 @@ export default class <classname> {
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with an object containing data of type {@link <&vendorExtensions.x-jsdoc-type>} and HTTP response</returnType><^returnType>, with an object containing HTTP response</returnType></usePromises>
      */
-</emitJSDoc>    <operationId><#usePromises>WithHttpInfo</usePromises>(<vendorExtensions.x-codegen-argList>) {<#hasOptionalParams>
-      opts = opts || {};</hasOptionalParams>
+</emitJSDoc>    <operationId><#usePromises>WithHttpInfo</usePromises>(<vendorExtensions.x-codegen-argList>) {
+      <#vendorExtensions.x-codegen-hasOptionalParams>
+      opts = opts || {};
+      </vendorExtensions.x-codegen-hasOptionalParams>
       let postBody = <#bodyParam><#required><paramName></required><^required>opts['<paramName>']</required></bodyParam><^bodyParam>null</bodyParam>;
-<#allParams><#required>
+<#allParams>
+<#required>
       // verify the required parameter '<paramName>' is set
       if (<paramName> === undefined || <paramName> === null) {
         throw new Error("Missing the required parameter '<paramName>' when calling <operationId>");
       }
-</required></allParams>
+</required>
+</allParams>
 
       let pathParams = {<#pathParams>
         '<baseName>': <#required><paramName></required><^required>opts['<paramName>']</required><#hasMore>,</hasMore></pathParams>
@@ -70,15 +74,25 @@ export default class <classname> {
       let contentTypes = [<#consumes>'<& mediaType>'<#hasMore>, </hasMore></consumes>];
       let accepts = [<#produces>'<& mediaType>'<#hasMore>, </hasMore></produces>];
       let returnType = <#vendorExtensions.x-return-type><&vendorExtensions.x-return-type></vendorExtensions.x-return-type><^vendorExtensions.x-return-type>null</vendorExtensions.x-return-type>;
+      <#servers.0>
+      let basePaths = [<#servers>'<url>'<^-last>, </-last></servers>];
+      let basePath = basePaths[0]; // by default use the first one in "servers" defined in OpenAPI
+      if (typeof opts['_base_path_index'] !== 'undefined') {
+        if (opts['_base_path_index']  >= basePaths.length || opts['_base_path_index'] <  0) {
+          throw new Error("Invalid index " + opts['_base_path_index'] + " when selecting the host settings. Must be less than " + basePaths.length);
+        }
+        basePath = basePaths[opts['_base_path_index']];
+      }
 
+      </servers.0>
       return this.apiClient.callApi(
         '<&path>', '<httpMethod>',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType<^usePromises>, callback</usePromises>
+        authNames, contentTypes, accepts, returnType, <#servers.0>basePath</servers.0><^servers.0>null</servers.0><^usePromises>, callback</usePromises>
       );
     }
 <#usePromises>
-    <#emitJSDoc>
+<#emitJSDoc>
 
     /**<#summary>
      * <summary></summary><#notes>
@@ -90,7 +104,8 @@ export default class <classname> {
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with data of type {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises>
      */
-</emitJSDoc>    <operationId>(<vendorExtensions.x-codegen-argList>) {
+</emitJSDoc>
+    <operationId>(<vendorExtensions.x-codegen-argList>) {
       return this.<operationId>WithHttpInfo(<vendorExtensions.x-codegen-argList>)
         .then(function(response_and_data) {
           return response_and_data.data;

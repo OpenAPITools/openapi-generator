@@ -29,12 +29,13 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.util.*;
 
@@ -198,13 +199,13 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             additionalProperties.put(SUPPORT_PYTHON2, Boolean.TRUE);
             typeMapping.put("long", "long");
         }
-        supportingFiles.add(new SupportingFile("__main__.mustache", packageName, "__main__.py"));
-        supportingFiles.add(new SupportingFile("util.mustache", packageName, "util.py"));
-        supportingFiles.add(new SupportingFile("__init__.mustache", packageName + File.separatorChar + controllerPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("security_controller_.mustache", packageName + File.separatorChar + controllerPackage, "security_controller_.py"));
-        supportingFiles.add(new SupportingFile("__init__model.mustache", packageName + File.separatorChar + modelPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("base_model_.mustache", packageName + File.separatorChar + modelPackage, "base_model_.py"));
-        supportingFiles.add(new SupportingFile("openapi.mustache", packageName + File.separatorChar + "openapi", "openapi.yaml"));
+        supportingFiles.add(new SupportingFile("__main__.mustache", packagePath(), "__main__.py"));
+        supportingFiles.add(new SupportingFile("util.mustache", packagePath(), "util.py"));
+        supportingFiles.add(new SupportingFile("__init__.mustache", packagePath() + File.separatorChar + controllerPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("security_controller_.mustache", packagePath() + File.separatorChar + controllerPackage, "security_controller_.py"));
+        supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + modelPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("base_model_.mustache", packagePath() + File.separatorChar + modelPackage, "base_model_.py"));
+        supportingFiles.add(new SupportingFile("openapi.mustache", packagePath() + File.separatorChar + "openapi", "openapi.yaml"));
         addSupportingFiles();
 
         modelPackage = packageName + "." + modelPackage;
@@ -580,7 +581,6 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
 
     /**
      * Return the default value of the property
-     *
      * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
@@ -714,6 +714,9 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
         this.packageVersion = packageVersion;
     }
 
+    public String packagePath() {
+        return packageName.replace('.', File.separatorChar);
+    }
 
     @Override
     public String escapeQuotationMark(String input) {
@@ -903,6 +906,15 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+    }
+
+    /*
+     * We don't want to run `escapeText` on the pattern
+     * but forward it directly to the Python implementation.
+     */
+    @Override
+    public String toRegularExpression(String pattern) {
+        return addRegularExpressionDelimiter(pattern);
     }
 
 }

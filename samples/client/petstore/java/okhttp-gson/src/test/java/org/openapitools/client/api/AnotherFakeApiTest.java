@@ -42,8 +42,8 @@ public class AnotherFakeApiTest {
      */
     @Test
     public void call123testSpecialTagsTest() throws ApiException {
-        Client client = null;
-        Client response = api.call123testSpecialTags(client);
+        Client body = null;
+        Client response = api.call123testSpecialTags(body);
 
         // TODO: test validations
     }

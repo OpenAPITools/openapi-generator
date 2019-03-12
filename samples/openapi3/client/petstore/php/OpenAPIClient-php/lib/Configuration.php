@@ -56,7 +56,7 @@ class Configuration
     protected $apiKeyPrefixes = [];
 
     /**
-     * Access token for OAuth
+     * Access token for OAuth/Bearer authentication
      *
      * @var string
      */
@@ -491,7 +491,7 @@ class Configuration
         $hosts = $this->getHostSettings();
 
         // check array index out of bound
-        if ($index < 0 || $index > sizeof($hosts)) {
+        if ($index < 0 || $index >= sizeof($hosts)) {
             throw new \InvalidArgumentException("Invalid index $index when selecting the host. Must be less than ".sizeof($hosts));
         }
 

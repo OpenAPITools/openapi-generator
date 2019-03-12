@@ -1,24 +1,16 @@
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.utils.ModelUtils;
 
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.io.File;
+import java.util.*;
 
 public class CppQt5AbstractCodegen extends AbstractCppCodegen implements CodegenConfig {
 
@@ -212,7 +204,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
 
     @Override
     public String toModelFilename(String name) {
-        return modelNamePrefix + sanitizeName(initialCaps(name));
+        return toModelName(name);
     }
     
     /**
@@ -283,7 +275,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
 
     @Override
     @SuppressWarnings("unchecked")
-    public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         
