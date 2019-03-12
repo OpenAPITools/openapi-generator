@@ -2394,6 +2394,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             op.responses.get(op.responses.size() - 1).hasMore = false;
+            op.updateAllResponseDataTypes();
 
             if (methodResponse != null) {
                 Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse));

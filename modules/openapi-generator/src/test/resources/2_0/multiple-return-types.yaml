@@ -1,0 +1,49 @@
+swagger: '2.0'
+info:
+  description: "This example shows an api referencing return types dependant on the response code"
+host: api.example.com
+schemes:
+  - http
+basePath: /v1
+
+paths:
+  /lookup/person:
+    post:
+      tags:
+        - PersonFinder
+      summary: Finds a person by social security number
+      operationId: findPersonByName
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: socialId
+          in: formData
+          type: number
+          description: A person's social security number
+      responses:
+        '200':
+          description: '**Success.**'
+          schema:
+            $ref: '#/definitions/Person'
+        '400':
+          schema:
+            $ref: '#/definitions/PersonLookupError'
+        '401':
+          schema:
+            $ref: '#/definitions/PersonLookupError'
+
+definitions:
+  Person:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+  PersonLookupError:
+    properties:
+      error:
+        type: string
+      error_description:
+        type: string
+        description: Description of the error.
+

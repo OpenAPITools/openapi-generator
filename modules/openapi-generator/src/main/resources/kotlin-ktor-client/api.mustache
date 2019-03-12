@@ -49,9 +49,8 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}") {
         val url = "$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}}{{#hasQueryParams}} + "?$queryParameters"{{/hasQueryParams}}
         val httpMethod = HttpMethod.parse("{{httpMethod}}")
 
-        mySerializer.apply {
-            {{#responses}}{{#dataType}}register({{{baseType}}}.serializer()){{^-last}}
-            {{/-last}}{{/dataType}}{{/responses}}
+        mySerializer.apply { {{#allResponseDataTypes}}
+            register({{{dataType}}}.serializer()){{/allResponseDataTypes}}
         }
         try {
             return httpClient.request(url) {

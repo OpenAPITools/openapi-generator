@@ -61,6 +61,11 @@ public class CodegenOperation {
     public String operationIdSnakeCase;
 
     /**
+     * A list of all response data types without duplicates.
+     */
+    public List<Map<String, String>> allResponseDataTypes = new ArrayList<>();
+
+    /**
      * Check if there's at least one parameter
      *
      * @return true if parameter exists, false otherwise
@@ -240,6 +245,28 @@ public class CodegenOperation {
         if (pathParams.size() != 1) return false;
         String id = pathParams.get(0).baseName;
         return ("/{" + id + "}").equals(pathWithoutBaseName());
+    }
+
+    /**
+     * Makes sure that the 'allResponseDataTypes' property is updated.
+     */
+    public void updateAllResponseDataTypes() {
+        List<String> dataTypes = new ArrayList<>();
+        for (CodegenResponse response : responses) {
+            String dataType = response.dataType;
+            if (dataType != null && !dataTypes.contains(dataType)) {
+                dataTypes.add(dataType);
+            }
+        }
+
+        List<Map<String, String>> taggedDataTypes = new ArrayList<>();
+        for (String dataType : dataTypes) {
+            Map<String, String> entries = new HashMap<>();
+            entries.put("dataType", dataType);
+            taggedDataTypes.add(entries);
+        }
+
+        allResponseDataTypes = taggedDataTypes;
     }
 
     @Override
