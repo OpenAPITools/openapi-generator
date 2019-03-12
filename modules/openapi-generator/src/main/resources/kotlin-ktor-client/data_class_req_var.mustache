@@ -1,4 +1,5 @@
 {{#description}}
     /* {{{description}}} */
 {{/description}}
+    @SerialName("{{{baseName}}}")
     val {{{name}}}: {{#isEnum}}{{classname}}.{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}

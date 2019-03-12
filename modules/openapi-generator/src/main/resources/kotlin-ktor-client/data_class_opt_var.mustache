@@ -1,4 +1,5 @@
 {{#description}}
     /* {{{description}}} */
 {{/description}}
-    @Optional val {{{name}}}: {{#isEnum}}{{classname}}.{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = {{#defaultvalue}}{{defaultvalue}}{{/defaultvalue}}{{^defaultvalue}}null{{/defaultvalue}}
+    @SerialName("{{{baseName}}}") @Optional
+    val {{{name}}}: {{#isEnum}}{{classname}}.{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = {{#defaultvalue}}{{defaultvalue}}{{/defaultvalue}}{{^defaultvalue}}null{{/defaultvalue}}

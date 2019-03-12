@@ -6,6 +6,8 @@ import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
 
@@ -63,9 +65,7 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
-//        final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", "/");
-
-        //TODO: Add infrastructure classes
-
+        final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", "/");
+        supportingFiles.add(new SupportingFile("infrastructure/ErrorWrapper.kt.mustache", infrastructureFolder, "ErrorWrapper.kt"));
     }
 }
