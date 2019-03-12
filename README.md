@@ -226,7 +226,7 @@ Here is an example usage to generate a Ruby client:
 openapi-generator generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g ruby -o /tmp/test/
 ```
 
-To reinstall with the latest master, run `brew reinstall --HEAD openapi-generator`
+To reinstall with the latest master, run `brew uninstall openapi-generator && brew install --HEAD openapi-generator`
 
 ### [1.6 - Docker](#table-of-contents)
 
