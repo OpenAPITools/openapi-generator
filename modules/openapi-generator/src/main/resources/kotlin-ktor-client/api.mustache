@@ -8,6 +8,8 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.*
 import io.ktor.client.features.BadResponseStatusException
 import io.ktor.client.call.typeInfo
+{{#hasFormParams}}import io.ktor.client.request.forms.FormDataContent
+import io.ktor.http.Parameters{{/hasFormParams}}
 
 import {{packageName}}.infrastructure.*
 
@@ -50,14 +52,12 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}") {
                 method = httpMethod
                 {{#headerParams}}header("{{baseName}}", {{paramName}}){{#hasMore}}
                 {{/hasMore}}{{/headerParams}}
-                {{#hasFormParams}}body = FormDataContent(formData {
+                {{#hasFormParams}}body = FormDataContent(Parameters.build {
                     {{#formParams}}append("{{{baseName}}}", {{paramName}}){{#hasMore}}
                     {{/hasMore}}{{/formParams}}
                 }){{/hasFormParams}}
-                {{#hasBodyParam}}body = FormDataContent(Parameters.build {
-                    {{#bodyParams}}append("{{{baseName}}}", {{paramName}}){{#hasMore}}
-                    {{/hasMore}}{{/bodyParams}}
-                }){{/hasBodyParam}}
+
+                //TODO: Handle other body types
             }
         } catch (exception: BadResponseStatusException) {
             when(exception.statusCode.value) {
