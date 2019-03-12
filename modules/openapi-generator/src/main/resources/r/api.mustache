@@ -122,7 +122,10 @@
         httr::content(resp, "text", encoding = "UTF-8"
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{returnType}}$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
+        #{{returnType}}$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
+        respObj <- jsonlite::fromJSON(httr::content(resp, "text", encoding = "UTF-8"))
+        deserializedRespObj <- self$apiClient$deserialize(resp,"{{returnType}}","package:{{packageName}}")
+		    ApiResponse$new(deserializedRespObj, resp)
         {{/isPrimitiveType}}
         {{/returnType}}
         {{^returnType}}
