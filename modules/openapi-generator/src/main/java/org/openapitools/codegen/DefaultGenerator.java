@@ -1033,36 +1033,38 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (authMethods != null && !authMethods.isEmpty()) {
                     codegenOperation.authMethods = config.fromSecurity(authMethods);
                     List<Map<String, Object>> scopes = new ArrayList<Map<String, Object>>();
-                    for (CodegenSecurity security : codegenOperation.authMethods){
-                        if (security != null && security.isBasicBearer != null && security.isBasicBearer){
-                            for (SecurityRequirement req : securities){
-                                if (req == null) continue;
-                                for (String key : req.keySet()){
-                                    if (security.name != null && key.equals(security.name)){
-                                        int count = 0;
-                                        for (String sc : req.get(key)){
-                                            Map<String, Object> scope = new HashMap<String, Object>();
-                                            scope.put("scope", sc);
-                                            scope.put("description", "");
-                                            count++;
-                                            if (req.get(key) != null && count < req.get(key).size()){
-                                                scope.put("hasMore", "true");
-                                            } else {
-                                                scope.put("hasMore", null);
+                    if (odegenOperation.authMethods != null){
+                        for (CodegenSecurity security : codegenOperation.authMethods){
+                            if (security != null && security.isBasicBearer != null && security.isBasicBearer &&
+                               securities != null){
+                                for (SecurityRequirement req : securities){
+                                    if (req == null) continue;
+                                    for (String key : req.keySet()){
+                                        if (security.name != null && key.equals(security.name)){
+                                            int count = 0;
+                                            for (String sc : req.get(key)){
+                                                Map<String, Object> scope = new HashMap<String, Object>();
+                                                scope.put("scope", sc);
+                                                scope.put("description", "");
+                                                count++;
+                                                if (req.get(key) != null && count < req.get(key).size()){
+                                                    scope.put("hasMore", "true");
+                                                } else {
+                                                    scope.put("hasMore", null);
+                                                }
+                                                scopes.add(scope);
                                             }
-                                            scopes.add(scope);
+                                            //end this inner for 
+                                            break;
                                         }
-                                        //end this inner for 
-                                        break;
                                     }
+
                                 }
-                                
+                                security.hasScopes = scopes.size() > 0;
+                                security.scopes = scopes;
                             }
-                            security.hasScopes = scopes.size() > 0;
-                            security.scopes = scopes;
                         }
                     }
-                    
                     codegenOperation.hasAuthMethods = true;
                 }
 
