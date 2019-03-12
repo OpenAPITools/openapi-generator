@@ -47,7 +47,7 @@ The following generators are available:
     - [rust](generators/rust.md)
     - [scala-akka](generators/scala-akka.md)
     - [scala-gatling](generators/scala-gatling.md)
-    - [scala-httpclient](generators/scala-httpclient.md)
+    - [scala-httpclient-deprecated](generators/scala-httpclient-deprecated.md)
     - [scalaz](generators/scalaz.md)
     - [swift2-deprecated](generators/swift2-deprecated.md)
     - [swift3-deprecated](generators/swift3-deprecated.md)
