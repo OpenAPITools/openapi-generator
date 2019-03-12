@@ -21,7 +21,7 @@ module Petstore
     end
     # Delete purchase order by ID
     # For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-    # @param order_id ID of the order that needs to be deleted
+    # @param order_id [String] ID of the order that needs to be deleted
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def delete_order(order_id, opts = {})
@@ -31,7 +31,7 @@ module Petstore
 
     # Delete purchase order by ID
     # For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-    # @param order_id ID of the order that needs to be deleted
+    # @param order_id [String] ID of the order that needs to be deleted
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def delete_order_with_http_info(order_id, opts = {})
@@ -118,7 +118,7 @@ module Petstore
 
     # Find purchase order by ID
     # For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-    # @param order_id ID of pet that needs to be fetched
+    # @param order_id [Integer] ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
     # @return [Order]
     def get_order_by_id(order_id, opts = {})
@@ -128,7 +128,7 @@ module Petstore
 
     # Find purchase order by ID
     # For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-    # @param order_id ID of pet that needs to be fetched
+    # @param order_id [Integer] ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
     # @return [Array<(Order, Fixnum, Hash)>] Order data, response status code and response headers
     def get_order_by_id_with_http_info(order_id, opts = {})
@@ -178,7 +178,7 @@ module Petstore
     end
 
     # Place an order for a pet
-    # @param order order placed for purchasing the pet
+    # @param order [Order] order placed for purchasing the pet
     # @param [Hash] opts the optional parameters
     # @return [Order]
     def place_order(order, opts = {})
@@ -187,7 +187,7 @@ module Petstore
     end
 
     # Place an order for a pet
-    # @param order order placed for purchasing the pet
+    # @param order [Order] order placed for purchasing the pet
     # @param [Hash] opts the optional parameters
     # @return [Array<(Order, Fixnum, Hash)>] Order data, response status code and response headers
     def place_order_with_http_info(order, opts = {})

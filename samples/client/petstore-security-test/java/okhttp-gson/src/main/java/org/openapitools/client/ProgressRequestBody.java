@@ -13,8 +13,8 @@
 
 package org.openapitools.client;
 
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 import java.io.IOException;
 
@@ -26,17 +26,13 @@ import okio.Sink;
 
 public class ProgressRequestBody extends RequestBody {
 
-    public interface ProgressRequestListener {
-        void onRequestProgress(long bytesWritten, long contentLength, boolean done);
-    }
-
     private final RequestBody requestBody;
 
-    private final ProgressRequestListener progressListener;
+    private final ApiCallback callback;
 
-    public ProgressRequestBody(RequestBody requestBody, ProgressRequestListener progressListener) {
+    public ProgressRequestBody(RequestBody requestBody, ApiCallback callback) {
         this.requestBody = requestBody;
-        this.progressListener = progressListener;
+        this.callback = callback;
     }
 
     @Override
@@ -70,7 +66,7 @@ public class ProgressRequestBody extends RequestBody {
                 }
 
                 bytesWritten += byteCount;
-                progressListener.onRequestProgress(bytesWritten, contentLength, bytesWritten == contentLength);
+                callback.onUploadProgress(bytesWritten, contentLength, bytesWritten == contentLength);
             }
         };
     }
