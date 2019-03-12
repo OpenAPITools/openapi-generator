@@ -69,7 +69,8 @@ public class EnumArrays implements Parcelable {
     public static class Adapter extends TypeAdapter<JustSymbolEnum> {
       @Override
       public void write(final JsonWriter jsonWriter, final JustSymbolEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
+        String value = enumeration.getValue();
+        jsonWriter.value(value);
       }
 
       @Override
@@ -120,7 +121,8 @@ public class EnumArrays implements Parcelable {
     public static class Adapter extends TypeAdapter<ArrayEnumEnum> {
       @Override
       public void write(final JsonWriter jsonWriter, final ArrayEnumEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
+        String value = enumeration.getValue();
+        jsonWriter.value(value);
       }
 
       @Override

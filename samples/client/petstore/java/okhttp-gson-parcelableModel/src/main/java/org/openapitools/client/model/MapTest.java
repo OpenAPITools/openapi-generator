@@ -74,7 +74,8 @@ public class MapTest implements Parcelable {
     public static class Adapter extends TypeAdapter<InnerEnum> {
       @Override
       public void write(final JsonWriter jsonWriter, final InnerEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
+        String value = enumeration.getValue();
+        jsonWriter.value(value);
       }
 
       @Override

@@ -51,7 +51,31 @@
     public static class Adapter extends TypeAdapter<{{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}> {
       @Override
       public void write(final JsonWriter jsonWriter, final {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
+        {{#isInteger}}
+        Integer value = enumeration.getValue();
+        {{/isInteger}}
+        {{#isLong}}
+        Long value = enumeration.getValue();
+        {{/isLong}}
+        {{#isFloat}}
+        Double value = Double.valueOf(enumeration.getValue().toString());
+        {{/isFloat}}
+        {{#isDouble}}
+        Double value = enumeration.getValue();
+        {{/isDouble}}
+        {{#isBoolean}}
+        Boolean value = enumeration.getValue();
+        {{/isBoolean}}
+        {{#isString}}
+        String value = enumeration.getValue();
+        {{/isString}}
+        {{#isDate}}
+        String value = enumeration.getValue().toString();
+        {{/isDate}}
+        {{#isDateTime}}
+        String value = enumeration.getValue().toString();
+        {{/isDateTime}}
+        jsonWriter.value(value);
       }
 
       @Override

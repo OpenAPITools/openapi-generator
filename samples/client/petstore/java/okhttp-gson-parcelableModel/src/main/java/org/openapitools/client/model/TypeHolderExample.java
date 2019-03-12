@@ -70,7 +70,8 @@ public class TypeHolderExample implements Parcelable {
     public static class Adapter extends TypeAdapter<StringItemEnum> {
       @Override
       public void write(final JsonWriter jsonWriter, final StringItemEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
+        String value = enumeration.getValue();
+        jsonWriter.value(value);
       }
 
       @Override
@@ -119,7 +120,8 @@ public class TypeHolderExample implements Parcelable {
     public static class Adapter extends TypeAdapter<NumberItemEnum> {
       @Override
       public void write(final JsonWriter jsonWriter, final NumberItemEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
+        Double value = Double.valueOf(enumeration.getValue().toString());
+        jsonWriter.value(value);
       }
 
       @Override
@@ -168,7 +170,8 @@ public class TypeHolderExample implements Parcelable {
     public static class Adapter extends TypeAdapter<IntegerItemEnum> {
       @Override
       public void write(final JsonWriter jsonWriter, final IntegerItemEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
+        Integer value = enumeration.getValue();
+        jsonWriter.value(value);
       }
 
       @Override
@@ -221,7 +224,8 @@ public class TypeHolderExample implements Parcelable {
     public static class Adapter extends TypeAdapter<DateItemEnum> {
       @Override
       public void write(final JsonWriter jsonWriter, final DateItemEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
+        String value = enumeration.getValue().toString();
+        jsonWriter.value(value);
       }
 
       @Override
@@ -270,7 +274,8 @@ public class TypeHolderExample implements Parcelable {
     public static class Adapter extends TypeAdapter<DatetimeItemEnum> {
       @Override
       public void write(final JsonWriter jsonWriter, final DatetimeItemEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
+        String value = enumeration.getValue().toString();
+        jsonWriter.value(value);
       }
 
       @Override

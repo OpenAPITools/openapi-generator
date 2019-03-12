@@ -68,7 +68,8 @@ public class EnumTest {
     public static class Adapter extends TypeAdapter<EnumStringEnum> {
       @Override
       public void write(final JsonWriter jsonWriter, final EnumStringEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
+        String value = enumeration.getValue();
+        jsonWriter.value(value);
       }
 
       @Override
@@ -121,7 +122,8 @@ public class EnumTest {
     public static class Adapter extends TypeAdapter<EnumStringRequiredEnum> {
       @Override
       public void write(final JsonWriter jsonWriter, final EnumStringRequiredEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
+        String value = enumeration.getValue();
+        jsonWriter.value(value);
       }
 
       @Override
@@ -172,7 +174,8 @@ public class EnumTest {
     public static class Adapter extends TypeAdapter<EnumIntegerEnum> {
       @Override
       public void write(final JsonWriter jsonWriter, final EnumIntegerEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
+        Integer value = enumeration.getValue();
+        jsonWriter.value(value);
       }
 
       @Override
@@ -223,7 +226,8 @@ public class EnumTest {
     public static class Adapter extends TypeAdapter<EnumNumberEnum> {
       @Override
       public void write(final JsonWriter jsonWriter, final EnumNumberEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
+        Double value = enumeration.getValue();
+        jsonWriter.value(value);
       }
 
       @Override

@@ -93,7 +93,8 @@ public class Pet implements Parcelable {
     public static class Adapter extends TypeAdapter<StatusEnum> {
       @Override
       public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
+        String value = enumeration.getValue();
+        jsonWriter.value(value);
       }
 
       @Override
