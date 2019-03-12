@@ -31,16 +31,17 @@ import org.openapitools.server.infrastructure.ApiPrincipal
 
 import org.openapitools.server.models.Order
 
+@KtorExperimentalLocationsAPI
 fun Route.StoreApi() {
     val gson = Gson()
     val empty = mutableMapOf<String, Any?>()
 
-    delete<Paths.deleteOrder> {  it: Paths.deleteOrder ->
+    delete<Paths.deleteOrder> {  _: Paths.deleteOrder ->
         call.respond(HttpStatusCode.NotImplemented)
     }
 
 
-    get<Paths.getInventory> {  it: Paths.getInventory ->
+    get<Paths.getInventory> {  _: Paths.getInventory ->
         val principal = call.authentication.principal<ApiPrincipal>()
         
         if (principal == null) {
@@ -51,7 +52,7 @@ fun Route.StoreApi() {
     }
 
 
-    get<Paths.getOrderById> {  it: Paths.getOrderById ->
+    get<Paths.getOrderById> {  _: Paths.getOrderById ->
         val exampleContentType = "application/json"
         val exampleContentString = """{
           "petId" : 6,

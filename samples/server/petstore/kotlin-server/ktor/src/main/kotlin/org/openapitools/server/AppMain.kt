@@ -14,16 +14,20 @@ import io.ktor.metrics.*
 import io.ktor.routing.*
 import java.util.concurrent.*
 import io.ktor.auth.*
+import io.ktor.util.KtorExperimentalAPI
 import org.openapitools.server.infrastructure.*
 import org.openapitools.server.apis.*
 
 
+@KtorExperimentalAPI
 internal val settings = HoconApplicationConfig(ConfigFactory.defaultApplication(HTTP::class.java.classLoader))
 
 object HTTP {
     val client = HttpClient(Apache)
 }
 
+@KtorExperimentalAPI
+@KtorExperimentalLocationsAPI
 fun Application.main() {
     install(DefaultHeaders)
     install(Metrics) {
@@ -54,7 +58,7 @@ fun Application.main() {
         oauth("petstore_auth") {
             client = HttpClient(Apache)
             providerLookup = { ApplicationAuthProviders["petstore_auth"] }
-            urlProvider = { p ->
+            urlProvider = { _ ->
             // TODO: define a callback url here.
             "/"
             }

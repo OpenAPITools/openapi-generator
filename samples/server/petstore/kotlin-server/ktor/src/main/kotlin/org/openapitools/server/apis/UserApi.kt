@@ -31,6 +31,7 @@ import org.openapitools.server.infrastructure.ApiPrincipal
 
 import org.openapitools.server.models.User
 
+@KtorExperimentalLocationsAPI
 fun Route.UserApi() {
     val gson = Gson()
     val empty = mutableMapOf<String, Any?>()
@@ -56,12 +57,12 @@ fun Route.UserApi() {
     }
 
 
-    delete<Paths.deleteUser> {  it: Paths.deleteUser ->
+    delete<Paths.deleteUser> {  _: Paths.deleteUser ->
         call.respond(HttpStatusCode.NotImplemented)
     }
 
 
-    get<Paths.getUserByName> {  it: Paths.getUserByName ->
+    get<Paths.getUserByName> {  _: Paths.getUserByName ->
         val exampleContentType = "application/json"
         val exampleContentString = """{
           "firstName" : "firstName",
@@ -82,12 +83,12 @@ fun Route.UserApi() {
     }
 
 
-    get<Paths.loginUser> {  it: Paths.loginUser ->
+    get<Paths.loginUser> {  _: Paths.loginUser ->
         call.respond(HttpStatusCode.NotImplemented)
     }
 
 
-    get<Paths.logoutUser> {  it: Paths.logoutUser ->
+    get<Paths.logoutUser> {  _: Paths.logoutUser ->
         call.respond(HttpStatusCode.NotImplemented)
     }
 

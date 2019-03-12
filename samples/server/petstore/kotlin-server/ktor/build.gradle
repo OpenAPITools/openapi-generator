@@ -43,12 +43,6 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}
-
 shadowJar {
     baseName = 'kotlin-server'
     classifier = null

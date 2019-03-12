@@ -32,6 +32,7 @@ import org.openapitools.server.infrastructure.ApiPrincipal
 import org.openapitools.server.models.ApiResponse
 import org.openapitools.server.models.Pet
 
+@KtorExperimentalLocationsAPI
 fun Route.PetApi() {
     val gson = Gson()
     val empty = mutableMapOf<String, Any?>()
@@ -51,7 +52,7 @@ fun Route.PetApi() {
     }
 
 
-    delete<Paths.deletePet> {  it: Paths.deletePet ->
+    delete<Paths.deletePet> {  _: Paths.deletePet ->
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
         if (principal == null) {
@@ -62,7 +63,7 @@ fun Route.PetApi() {
     }
 
 
-    get<Paths.findPetsByStatus> {  it: Paths.findPetsByStatus ->
+    get<Paths.findPetsByStatus> {  _: Paths.findPetsByStatus ->
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
         if (principal == null) {
@@ -96,7 +97,7 @@ fun Route.PetApi() {
     }
 
 
-    get<Paths.findPetsByTags> {  it: Paths.findPetsByTags ->
+    get<Paths.findPetsByTags> {  _: Paths.findPetsByTags ->
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
         if (principal == null) {
@@ -130,7 +131,7 @@ fun Route.PetApi() {
     }
 
 
-    get<Paths.getPetById> {  it: Paths.getPetById ->
+    get<Paths.getPetById> {  _: Paths.getPetById ->
         val principal = call.authentication.principal<ApiPrincipal>()
         
         if (principal == null) {
