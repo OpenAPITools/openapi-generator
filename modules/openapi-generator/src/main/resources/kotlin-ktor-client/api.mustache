@@ -8,8 +8,6 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.*
 import io.ktor.client.features.BadResponseStatusException
 import io.ktor.client.call.typeInfo
-{{#hasFormParams}}import io.ktor.client.request.forms.FormDataContent
-import io.ktor.http.Parameters{{/hasFormParams}}
 
 import {{packageName}}.infrastructure.*
 
@@ -40,7 +38,15 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}") {
     {{/allParams}}* @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
     */
     suspend fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
-        val url = "$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}}
+        {{#hasQueryParams}}
+        var queryParameters = Parameters.build {
+            {{#queryParams}}
+            append("{{{baseName}}}", {{paramName}})
+            {{/queryParams}}
+        }.formUrlEncode()
+        {{/hasQueryParams}}
+
+        val url = "$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}}{{#hasQueryParams}} + "?$queryParameters"{{/hasQueryParams}}
         val httpMethod = HttpMethod.parse("{{httpMethod}}")
 
         mySerializer.apply {

@@ -1,13 +1,15 @@
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
 
@@ -67,5 +69,31 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
 
         final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", "/");
         supportingFiles.add(new SupportingFile("infrastructure/ErrorWrapper.kt.mustache", infrastructureFolder, "ErrorWrapper.kt"));
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
+
+        if (op.getHasQueryParams() || op.getHasFormParams()) {
+            op.imports.add("io.ktor.http.Parameters");
+        }
+        if (op.getHasFormParams()) {
+            op.imports.add("io.ktor.client.request.forms.FormDataContent");
+        }
+        if (op.getHasQueryParams()) {
+            op.imports.add("io.ktor.http.formUrlEncode");
+        }
+
+        return op;
+    }
+
+    @Override
+    public String toModelImport(String name) {
+        if (name.startsWith("io.ktor.")) {
+            return name;
+        }
+
+        return super.toModelImport(name);
     }
 }
