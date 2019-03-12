@@ -63,7 +63,7 @@
         Long value = jsonReader.nextLong();
         {{/isLong}}
         {{#isFloat}}
-        Float value = (Float) jsonReader.nextDouble();
+        Double value = jsonReader.nextDouble();
         {{/isFloat}}
         {{#isDouble}}
         Double value = jsonReader.nextDouble();

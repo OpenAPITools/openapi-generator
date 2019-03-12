@@ -122,7 +122,7 @@ public class TypeHolderExample {
 
       @Override
       public NumberItemEnum read(final JsonReader jsonReader) throws IOException {
-        Float value = (Float) jsonReader.nextDouble();
+        Double value = jsonReader.nextDouble();
         return NumberItemEnum.fromValue(String.valueOf(value));
       }
     }
