@@ -90,7 +90,7 @@ class TestPetController(BaseTestCase):
         Finds Pets by tags
         """
         query_string = [('tags', 'tags_example'),
-                        ('max_count', 56)]
+                        ('maxCount', 56)]
         headers = { 
             'Accept': 'application/json',
             'Authorization': 'Bearer special-key',
