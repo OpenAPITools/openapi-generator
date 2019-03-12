@@ -1033,7 +1033,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (authMethods != null && !authMethods.isEmpty()) {
                     codegenOperation.authMethods = config.fromSecurity(authMethods);
                     List<Map<String, Object>> scopes = new ArrayList<Map<String, Object>>();
-                    if (odegenOperation.authMethods != null){
+                    if (codegenOperation.authMethods != null){
                         for (CodegenSecurity security : codegenOperation.authMethods){
                             if (security != null && security.isBasicBearer != null && security.isBasicBearer &&
                                securities != null){
