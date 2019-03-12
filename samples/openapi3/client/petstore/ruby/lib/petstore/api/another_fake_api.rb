@@ -21,7 +21,7 @@ module Petstore
     end
     # To test special tags
     # To test special tags and operation ID starting with number
-    # @param client client model
+    # @param client [Client] client model
     # @param [Hash] opts the optional parameters
     # @return [Client]
     def call_123_test_special_tags(client, opts = {})
@@ -31,7 +31,7 @@ module Petstore
 
     # To test special tags
     # To test special tags and operation ID starting with number
-    # @param client client model
+    # @param client [Client] client model
     # @param [Hash] opts the optional parameters
     # @return [Array<(Client, Fixnum, Hash)>] Client data, response status code and response headers
     def call_123_test_special_tags_with_http_info(client, opts = {})
