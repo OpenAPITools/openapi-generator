@@ -257,7 +257,7 @@ public class DefaultCodegen implements CodegenConfig {
                 for (CodegenProperty cp : cm.allVars) {
                     // detect self import
                     if (cp.dataType.equalsIgnoreCase(cm.classname) ||
-                            (cp.isContainer && cp.items.dataType.equalsIgnoreCase(cm.classname))) {
+                            (cp.isContainer && cp.items != null && cp.items.dataType.equalsIgnoreCase(cm.classname))) {
                         cm.imports.remove(cm.classname); // remove self import
                         cp.isSelfReference = true;
                     }
@@ -1251,23 +1251,7 @@ public class DefaultCodegen implements CodegenConfig {
             return schema.getExample().toString();
         }
 
-        if (ModelUtils.isBooleanSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isDateSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isDateTimeSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isNumberSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isIntegerSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isStringSchema(schema)) {
-            return "null";
-        } else if (ModelUtils.isObjectSchema(schema)) {
-            return "null";
-        } else {
-            return "null";
-        }
+        return getPropertyDefaultValue(schema);
     }
 
     /**
@@ -1282,6 +1266,16 @@ public class DefaultCodegen implements CodegenConfig {
             return schema.getDefault().toString();
         }
 
+        return getPropertyDefaultValue(schema);
+    }
+
+    /**
+     * Return property value depending on property type
+     * @param schema property type
+     * @return property value
+     */
+    private String getPropertyDefaultValue(Schema schema) {
+        //NOSONAR
         if (ModelUtils.isBooleanSchema(schema)) {
             return "null";
         } else if (ModelUtils.isDateSchema(schema)) {
@@ -1507,10 +1501,16 @@ public class DefaultCodegen implements CodegenConfig {
      * @return a string presentation of the property type
      */
     public String getTypeDeclaration(Schema schema) {
+        if (schema == null) {
+            LOGGER.warn("Null schema found. Default type to `NULL_SCHMEA_ERR`");
+            return "NULL_SCHMEA_ERR";
+        }
+
         String oasType = getSchemaType(schema);
         if (typeMapping.containsKey(oasType)) {
             return typeMapping.get(oasType);
         }
+
         return oasType;
     }
 
@@ -1875,7 +1875,6 @@ public class DefaultCodegen implements CodegenConfig {
         return camelize(toVarName(name));
     }
 
-
     /**
      * Convert OAS Property object to Codegen Property object
      *
@@ -2216,7 +2215,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         return currentProperty == null ? new HashMap<String, Object>() : currentProperty.allowableValues;
     }
-
 
     /**
      * Update datatypeWithEnum for array container
@@ -2881,7 +2879,6 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.isContainer = true;
                 codegenParameter.isListContainer = true;
 
-
                 // recursively add import
                 while (codegenProperty != null) {
                     imports.add(codegenProperty.baseType);
@@ -3095,7 +3092,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.paramName = "UNKNOWN_PARAMETER_NAME";
         }
 
-        // set the parameter excample value
+        // set the parameter example value
         // should be overridden by lang codegen
         setParameterExampleValue(codegenParameter, parameter);
 
@@ -3309,8 +3306,8 @@ public class DefaultCodegen implements CodegenConfig {
                 Header header = ModelUtils.getReferencedHeader(this.openAPI, headerEntry.getValue());
 
                 Schema schema;
-                if(header.getSchema() == null) {
-                    LOGGER.warn("No schema defined for Header '" + headerEntry.getKey() +"', using a String schema");
+                if (header.getSchema() == null) {
+                    LOGGER.warn("No schema defined for Header '" + headerEntry.getKey() + "', using a String schema");
                     schema = new StringSchema();
                 } else {
                     schema = header.getSchema();
@@ -3373,7 +3370,6 @@ public class DefaultCodegen implements CodegenConfig {
         opList.add(co);
         co.baseName = tag;
     }
-
 
     private void addParentContainer(CodegenModel model, String name, Schema schema) {
         final CodegenProperty property = fromProperty(name, schema);
@@ -3770,7 +3766,6 @@ public class DefaultCodegen implements CodegenConfig {
         this.docExtension = userDocExtension;
     }
 
-
     /**
      * Set HTTP user agent.
      *
@@ -3976,7 +3971,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-
     /**
      * Update codegen property's enum by adding "enumVars" (with name and value)
      *
@@ -4029,7 +4023,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
         Map<String, Object> extensions = var.mostInnerItems != null ? var.mostInnerItems.getVendorExtensions() : var.getVendorExtensions();
-        if(referencedSchema.isPresent()) {
+        if (referencedSchema.isPresent()) {
             extensions = referencedSchema.get().getExtensions();
         }
         updateEnumVarsWithExtensions(enumVars, extensions);
@@ -4039,7 +4033,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (var.defaultValue != null) {
             String enumName = null;
             final String enumDefaultValue;
-            if("string".equalsIgnoreCase(dataType)) {
+            if ("string".equalsIgnoreCase(dataType)) {
                 enumDefaultValue = toEnumValue(var.defaultValue, dataType);
             } else {
                 enumDefaultValue = var.defaultValue;
@@ -4500,6 +4494,7 @@ public class DefaultCodegen implements CodegenConfig {
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
         if (body == null) {
             LOGGER.error("body in fromRequestBody cannot be null!");
+            throw new RuntimeException("body in fromRequestBody cannot be null!");
         }
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegenParameter.baseName = "UNKNOWN_BASE_NAME";

@@ -39,9 +39,9 @@ public class FakeClassnameTestApi  {
     }, tags={ "fake_classname_tags 123#$%^", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Response testClassname(@ApiParam(value = "client model" ,required=true) Client client
+    public Response testClassname(@ApiParam(value = "client model" ,required=true) Client body
 )
     throws NotFoundException {
-        return delegate.testClassname(client);
+        return delegate.testClassname(body);
     }
 }

@@ -3,7 +3,6 @@
 namespace OpenAPI\Client;
 
 use OpenAPI\Client\Model\Animal;
-use OpenAPI\Client\Model\AnimalFarm;
 use OpenAPI\Client\Model\Cat;
 use OpenAPI\Client\Model\Dog;
 use PHPUnit\Framework\TestCase;
@@ -75,8 +74,8 @@ class ModelInheritanceTest extends TestCase
      */
     public function testArrayStuff()
     {
-        // create an AnimalFarm which is an object implementing the ArrayAccess interface
-        $farm = new AnimalFarm();
+        // create an array of Animal
+        $farm = array();
 
         // add some animals to the farm to make sure the ArrayAccess interface works
         $farm[] = new Dog();

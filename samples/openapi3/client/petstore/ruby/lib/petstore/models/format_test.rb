@@ -91,68 +91,75 @@ module Petstore
     # Initializes the object
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
-      return unless attributes.is_a?(Hash)
+      if (!attributes.is_a?(Hash))
+        fail ArgumentError, "The input argument (attributes) must be a hash in `Petstore::FormatTest` initialize method"
+      end
 
-      # convert string to symbol for hash key
-      attributes = attributes.each_with_object({}) { |(k, v), h| h[k.to_sym] = v }
+      # check to see if the attribute exists and convert string to symbol for hash key
+      attributes = attributes.each_with_object({}) { |(k, v), h|
+        if (!self.class.attribute_map.key?(k.to_sym))
+          fail ArgumentError, "`#{k}` is not a valid attribute in `Petstore::FormatTest`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+        end
+        h[k.to_sym] = v
+      }
 
-      if attributes.has_key?(:'integer')
+      if attributes.key?(:'integer')
         self.integer = attributes[:'integer']
       end
 
-      if attributes.has_key?(:'int32')
+      if attributes.key?(:'int32')
         self.int32 = attributes[:'int32']
       end
 
-      if attributes.has_key?(:'int64')
+      if attributes.key?(:'int64')
         self.int64 = attributes[:'int64']
       end
 
-      if attributes.has_key?(:'number')
+      if attributes.key?(:'number')
         self.number = attributes[:'number']
       end
 
-      if attributes.has_key?(:'float')
+      if attributes.key?(:'float')
         self.float = attributes[:'float']
       end
 
-      if attributes.has_key?(:'double')
+      if attributes.key?(:'double')
         self.double = attributes[:'double']
       end
 
-      if attributes.has_key?(:'string')
+      if attributes.key?(:'string')
         self.string = attributes[:'string']
       end
 
-      if attributes.has_key?(:'byte')
+      if attributes.key?(:'byte')
         self.byte = attributes[:'byte']
       end
 
-      if attributes.has_key?(:'binary')
+      if attributes.key?(:'binary')
         self.binary = attributes[:'binary']
       end
 
-      if attributes.has_key?(:'date')
+      if attributes.key?(:'date')
         self.date = attributes[:'date']
       end
 
-      if attributes.has_key?(:'dateTime')
-        self.date_time = attributes[:'dateTime']
+      if attributes.key?(:'date_time')
+        self.date_time = attributes[:'date_time']
       end
 
-      if attributes.has_key?(:'uuid')
+      if attributes.key?(:'uuid')
         self.uuid = attributes[:'uuid']
       end
 
-      if attributes.has_key?(:'password')
+      if attributes.key?(:'password')
         self.password = attributes[:'password']
       end
 
-      if attributes.has_key?(:'pattern_with_digits')
+      if attributes.key?(:'pattern_with_digits')
         self.pattern_with_digits = attributes[:'pattern_with_digits']
       end
 
-      if attributes.has_key?(:'pattern_with_digits_and_delimiter')
+      if attributes.key?(:'pattern_with_digits_and_delimiter')
         self.pattern_with_digits_and_delimiter = attributes[:'pattern_with_digits_and_delimiter']
       end
     end

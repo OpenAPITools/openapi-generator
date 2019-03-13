@@ -8,4 +8,15 @@ Name | Type | Description | Notes
 **direct_map** | **Hash&lt;String, BOOLEAN&gt;** |  | [optional] 
 **indirect_map** | **Hash&lt;String, BOOLEAN&gt;** |  | [optional] 
 
+## Code Sample
+
+```ruby
+require 'Petstore'
+
+instance = Petstore::MapTest.new(map_map_of_string: null,
+                                 map_of_enum_string: null,
+                                 direct_map: null,
+                                 indirect_map: null)
+```
+
 

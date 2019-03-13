@@ -19,7 +19,7 @@ require 'json'
 describe 'FakeApi' do
   before do
     # run before each test
-    @instance = Petstore::FakeApi.new
+    @api_instance = Petstore::FakeApi.new
   end
 
   after do
@@ -28,7 +28,17 @@ describe 'FakeApi' do
 
   describe 'test an instance of FakeApi' do
     it 'should create an instance of FakeApi' do
-      expect(@instance).to be_instance_of(Petstore::FakeApi)
+      expect(@api_instance).to be_instance_of(Petstore::FakeApi)
+    end
+  end
+
+  # unit tests for fake_health_get
+  # Health check endpoint
+  # @param [Hash] opts the optional parameters
+  # @return [HealthCheckResult]
+  describe 'fake_health_get test' do
+    it 'should work' do
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 

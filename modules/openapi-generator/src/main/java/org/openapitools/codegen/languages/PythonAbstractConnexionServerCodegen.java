@@ -908,4 +908,13 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
         }
     }
 
+    /*
+     * We don't want to run `escapeText` on the pattern
+     * but forward it directly to the Python implementation.
+     */
+    @Override
+    public String toRegularExpression(String pattern) {
+        return addRegularExpressionDelimiter(pattern);
+    }
+
 }

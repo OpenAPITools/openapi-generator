@@ -34,5 +34,24 @@ module Petstore
         super arg
       end
     end
+
+    # Override to_s to display a friendly error message
+    def to_s
+      message
+    end
+
+    def message
+      if @message.nil?
+        msg = "Error message: the server returns an error"
+      else
+        msg = @message
+      end
+
+      msg += "\nHTTP status code: #{code}" if code
+      msg += "\nResponse headers: #{response_headers}" if response_headers
+      msg += "\nResponse body: #{response_body}" if response_body
+
+      msg
+    end
   end
 end

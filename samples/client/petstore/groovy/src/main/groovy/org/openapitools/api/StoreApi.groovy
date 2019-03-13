@@ -72,7 +72,7 @@ class StoreApi {
 
     }
 
-    def placeOrder ( Order order, Closure onSuccess, Closure onFailure)  {
+    def placeOrder ( Order body, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/store/order"
 
@@ -81,8 +81,8 @@ class StoreApi {
         def headerParams = [:]
 
         // verify required params are set
-        if (order == null) {
-            throw new RuntimeException("missing required params order")
+        if (body == null) {
+            throw new RuntimeException("missing required params body")
         }
 
         // TODO: form params, body param not yet support

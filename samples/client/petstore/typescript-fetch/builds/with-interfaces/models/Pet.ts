@@ -62,7 +62,7 @@ export interface Pet {
      * @type {string}
      * @memberof Pet
      */
-    status?: Pet.StatusEnum;
+    status?: PetStatusEnum;
 }
 
 export function PetFromJSON(json: any): Pet {
@@ -85,24 +85,19 @@ export function PetToJSON(value?: Pet): any {
         'category': CategoryToJSON(value.category),
         'name': value.name,
         'photoUrls': value.photoUrls,
-        'tags': (value.tags as Array<any>).map(TagToJSON),
+        'tags': value.tags === undefined ? undefined : (value.tags as Array<any>).map(TagToJSON),
         'status': value.status,
     };
 }
 
 /**
- * @export
- * @namespace Pet
- */
-export namespace Pet {
-    /**
-     * @export
-     * @enum {string}
-     */
-    export enum StatusEnum {
-        Available = 'available',
-        Pending = 'pending',
-        Sold = 'sold'
-    }
+* @export
+* @enum {string}
+*/
+export enum PetStatusEnum {
+    Available = 'available',
+    Pending = 'pending',
+    Sold = 'sold'
 }
+
 

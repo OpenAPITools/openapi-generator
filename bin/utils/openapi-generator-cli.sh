@@ -29,7 +29,11 @@ done
 
 function latest.tag {
   local uri="https://api.github.com/repos/${1}/releases"
-  curl -s ${uri} | jq -r 'first(.[]|select(.prerelease==false)).tag_name'
+  local ver=$(curl -s ${uri} | jq -r 'first(.[]|select(.prerelease==false)).tag_name')
+  if [[ $ver == v* ]]; then
+    ver=${ver:1}
+  fi
+  echo $ver
 }
 
 ghrepo=openapitools/openapi-generator

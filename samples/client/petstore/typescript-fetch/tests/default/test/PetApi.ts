@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { PetApi, Pet, Category } from '@swagger/typescript-fetch-petstore';
+import { PetApi, Pet, PetStatusEnum, Category } from '@swagger/typescript-fetch-petstore';
 import { config } from '../configuration';
 
 describe('PetApi', () => {
@@ -67,7 +67,7 @@ function createTestFixture(ts = Date.now()) {
         'name': `pet${ts}`,
         'category': category,
         'photoUrls': ['http://foo.bar.com/1', 'http://foo.bar.com/2'],
-        'status': Pet.StatusEnum.Available,
+        'status': PetStatusEnum.Available,
         'tags': []
     };
 

@@ -12,7 +12,7 @@ sidebar_label: csharp-refactor
 |sourceFolder|source folder for generated code| |src|
 |packageGuid|The GUID that will be associated with the C# project| |null|
 |interfacePrefix|Prefix interfaces with a community standard or widely accepted prefix.| |I|
-|targetFramework|The target .NET framework version.|<dl><dt>**v3.5**</dt><dd>.NET Framework 3.5 compatible</dd><dt>**v4.0**</dt><dd>.NET Framework 4.0 compatible</dd><dt>**v4.5.2**</dt><dd>.NET Framework 4.5.2+ compatible</dd><dt>**v5.0**</dt><dd>.NET Standard 1.3 compatible</dd><dt>**uwp**</dt><dd>Universal Windows Platform (IMPORTANT: this will be decommissioned and replaced by v5.0)</dd><dl>|v4.5.2|
+|targetFramework|The target .NET framework version.|<dl><dt>**netstandard1.3**</dt><dd>.NET Standard 1.3 compatible</dd><dt>**netstandard1.4**</dt><dd>.NET Standard 1.4 compatible</dd><dt>**netstandard1.5**</dt><dd>.NET Standard 1.5 compatible</dd><dt>**netstandard1.6**</dt><dd>.NET Standard 1.6 compatible</dd><dt>**netstandard2.0**</dt><dd>.NET Standard 2.0 compatible</dd><dt>**netcoreapp2.0**</dt><dd>.NET Core 2.0 compatible</dd><dl>|v4.6.1|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |PascalCase|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
@@ -23,7 +23,6 @@ sidebar_label: csharp-refactor
 |optionalAssemblyInfo|Generate AssemblyInfo.cs.| |true|
 |optionalProjectFile|Generate {PackageName}.csproj.| |true|
 |optionalEmitDefaultValues|Set DataMember's EmitDefaultValue.| |false|
-|generatePropertyChanged|Specifies a AssemblyDescription for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |false|
 |nonPublicApi|Generates code with reduced access modifiers; allows embedding elsewhere without exposing non-public API calls to consumers.| |false|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |netCoreProjectFile|Use the new format (.NET Core) for .NET project files (.csproj).| |false|
