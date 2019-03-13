@@ -226,6 +226,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("Gemfile.mustache", "", "Gemfile"));
         supportingFiles.add(new SupportingFile("Gemfile.lock.mustache", "", "Gemfile.lock"));
         supportingFiles.add(new SupportingFile("rubocop.mustache", "", ".rubocop.yml"));
+        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
 
         // test files should not be overwritten
         writeOptional(outputFolder, new SupportingFile("rspec.mustache", "", ".rspec"));
@@ -401,7 +402,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
         } else {
-            return "'" + escapeText(value) + "'";
+            return "\"" + escapeText(value) + "\"";
         }
     }
 

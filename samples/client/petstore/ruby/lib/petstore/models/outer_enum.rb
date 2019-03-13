@@ -14,10 +14,9 @@ require 'date'
 
 module Petstore
   class OuterEnum
-    
-    PLACED = 'placed'.freeze
-    APPROVED = 'approved'.freeze
-    DELIVERED = 'delivered'.freeze
+    PLACED = "placed".freeze
+    APPROVED = "approved".freeze
+    DELIVERED = "delivered".freeze
 
     # Builds the enum from string
     # @param [String] The enum value in the form of the string
@@ -35,5 +34,4 @@ module Petstore
       value
     end
   end
-
 end

@@ -29,7 +29,6 @@ sidebar_label: java
 |licenseName|The name of the license| |null|
 |licenseUrl|The URL of the license| |null|
 |sourceFolder|source folder for generated code| |null|
-|localVariablePrefix|prefix for generated code members and local variables| |null|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|
@@ -42,6 +41,7 @@ sidebar_label: java
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
+|snapshotVersion|Uses a SNAPSHOT version.| |null|
 |useRxJava|Whether to use the RxJava adapter with the retrofit2 library.| |false|
 |useRxJava2|Whether to use the RxJava2 adapter with the retrofit2 library.| |false|
 |parcelableModel|Whether to generate models for Android that implement Parcelable with the okhttp-gson library.| |false|

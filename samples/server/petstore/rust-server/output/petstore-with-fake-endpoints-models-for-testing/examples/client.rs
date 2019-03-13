@@ -138,7 +138,7 @@ fn main() {
          },
 
         Some("FakeOuterNumberSerialize") => {
-            let result = core.run(client.fake_outer_number_serialize(Some(1.2)));
+            let result = core.run(client.fake_outer_number_serialize(Some(8.14)));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 

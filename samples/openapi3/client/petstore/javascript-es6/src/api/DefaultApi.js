@@ -49,7 +49,6 @@ export default class DefaultApi {
     fooGet(callback) {
       let postBody = null;
 
-
       let pathParams = {
       };
       let queryParams = {
@@ -63,11 +62,10 @@ export default class DefaultApi {
       let contentTypes = [];
       let accepts = ['application/json'];
       let returnType = InlineResponseDefault;
-
       return this.apiClient.callApi(
         '/foo', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 

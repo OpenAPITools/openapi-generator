@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.URLPathUtils;
 
@@ -193,9 +194,9 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation) {
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         CodegenOperation codegenOperation =
-                super.fromOperation(path, httpMethod, operation);
+                super.fromOperation(path, httpMethod, operation, servers);
         codegenOperation.imports.add("MainApiException");
         return codegenOperation;
     }

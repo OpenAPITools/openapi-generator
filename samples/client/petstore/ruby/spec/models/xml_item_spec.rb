@@ -170,37 +170,37 @@ describe 'XmlItem' do
     end
   end
 
-  describe 'test attribute "prefix_namespace_string"' do
+  describe 'test attribute "prefix_ns_string"' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
-  describe 'test attribute "prefix_namespace_number"' do
+  describe 'test attribute "prefix_ns_number"' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
-  describe 'test attribute "prefix_namespace_integer"' do
+  describe 'test attribute "prefix_ns_integer"' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
-  describe 'test attribute "prefix_namespace_boolean"' do
+  describe 'test attribute "prefix_ns_boolean"' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
-  describe 'test attribute "prefix_namespace_array"' do
+  describe 'test attribute "prefix_ns_array"' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
   end
 
-  describe 'test attribute "prefix_namespace_wrapped_array"' do
+  describe 'test attribute "prefix_ns_wrapped_array"' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end

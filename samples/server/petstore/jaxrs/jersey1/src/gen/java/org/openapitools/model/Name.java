@@ -50,8 +50,7 @@ public class Name   {
    **/
   @JsonProperty("name")
   @ApiModelProperty(required = true, value = "")
-    @NotNull
-
+  @NotNull 
   public Integer getName() {
     return name;
   }

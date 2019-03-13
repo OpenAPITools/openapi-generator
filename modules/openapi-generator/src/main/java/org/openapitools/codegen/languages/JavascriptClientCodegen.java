@@ -215,7 +215,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey(USE_ES6)) {
             setUseES6(convertPropertyToBooleanAndWriteBack(USE_ES6));
         } else {
-            setUseES6(false); // default to ES5
+            setUseES6(true); // default to ES6
         }
         super.processOpts();
 
@@ -978,13 +978,21 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                         hasOptionalParams = true;
                     }
                 }
+
+                if (operation.servers != null && !operation.servers.isEmpty()) {
+                    // add optional parameter for servers (e.g. index)
+                    hasOptionalParams = true;
+                }
+
                 if (hasOptionalParams) {
                     argList.add("opts");
-                }
+                } 
+
                 if (!usePromises) {
                     argList.add("callback");
                 }
                 operation.vendorExtensions.put("x-codegen-argList", StringUtils.join(argList, ", "));
+                operation.vendorExtensions.put("x-codegen-hasOptionalParams", hasOptionalParams);
 
                 // Store JSDoc type specification into vendor-extension: x-jsdoc-type.
                 for (CodegenParameter cp : operation.allParams) {

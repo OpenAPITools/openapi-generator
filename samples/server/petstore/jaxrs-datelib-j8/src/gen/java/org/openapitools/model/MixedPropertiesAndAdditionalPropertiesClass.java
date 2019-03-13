@@ -101,7 +101,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
    **/
   @JsonProperty("map")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public Map<String, Animal> getMap() {
     return map;
   }

@@ -1,5 +1,5 @@
 {
-    "name": "{{#composerVendorName}}{{.}}{{/composerVendorName}}{{^composerVendorName}}{{gitUserId}}{{/composerVendorName}}/{{#composerProjectName}}{{.}}{{/composerProjectName}}{{^composerProjectName}}{{gitRepoId}}{{/composerProjectName}}",
+    "name": "{{gitUserId}}/{{gitRepoId}}",
     {{#artifactVersion}}
     "version": "{{artifactVersion}}",
     {{/artifactVersion}}
@@ -24,7 +24,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "symfony/validator": "*",
-        "jms/serializer-bundle": "*",
+        "jms/serializer-bundle": "^2.0",
         "symfony/framework-bundle": "^2.3|^3.0|^4.1"
     },
     "require-dev": {

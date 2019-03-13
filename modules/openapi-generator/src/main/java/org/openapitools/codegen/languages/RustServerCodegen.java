@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.XML;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -53,6 +54,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected int serverPort = 8080;
     protected String projectName = "openapi-server";
     protected String apiPath = "rust-server";
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
     protected String packageName;
     protected String packageVersion;
     protected String externCrateName;
@@ -81,6 +84,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
          * class
          */
         apiTemplateFiles.clear();
+
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
         /*
          * Template Location.  This is the location which templates will be read from.  The generator
@@ -126,7 +132,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                         "usize",
                         "f32",
                         "f64",
-                        "str")
+                        "str",
+                        "String")
         );
 
         instantiationTypes.clear();
@@ -198,15 +205,14 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
-            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        } else {
-            setPackageName("openapi_client");
-        }
+        setPackageName((String) additionalProperties.getOrDefault(CodegenConstants.PACKAGE_NAME, "openapi_client"));
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
         }
+
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
@@ -281,7 +287,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toApiName(String name) {
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "default";
         }
         return underscore(name);
@@ -390,7 +396,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toEnumVarName(String value, String datatype) {
         String var = null;
-        if (value.length() == 0) {
+        if (value.isEmpty()) {
             var = "EMPTY";
         }
 
@@ -439,6 +445,26 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
+    }
+
+    @Override
+    public String toApiDocFilename(String name) {
+        return toApiName(name) + "_api";
+    }
+
+    @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
         return input.replace("\"", "");
@@ -466,9 +492,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation) {
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         Map<String, Schema> definitions = ModelUtils.getSchemas(this.openAPI);
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation);
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         // The Rust code will need to contain a series of regular expressions.
         // For performance, we'll construct these at start-of-day and re-use
@@ -753,18 +779,20 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return super.getTypeDeclaration(p);
     }
 
-    @Override
-    public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
-        CodegenParameter parameter = super.fromParameter(param, imports);
-        if (!parameter.isString && !parameter.isNumeric && !parameter.isByteArray &&
+    private boolean isNonPrimitive(CodegenParameter parameter) {
+        return !parameter.isString && !parameter.isNumeric && !parameter.isByteArray &&
             !parameter.isBinary && !parameter.isFile && !parameter.isBoolean &&
             !parameter.isDate && !parameter.isDateTime && !parameter.isUuid &&
             !parameter.isListContainer && !parameter.isMapContainer &&
-            !languageSpecificPrimitives.contains(parameter.dataType)) {
+            !languageSpecificPrimitives.contains(parameter.dataType);
+    }
 
+    @Override
+    public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
+        CodegenParameter parameter = super.fromParameter(param, imports);
+        if (isNonPrimitive(parameter)) {
             String name = "models::" + getTypeDeclaration(parameter.dataType);
             parameter.dataType = name;
-            parameter.baseType = name;
         }
 
         return parameter;
@@ -774,15 +802,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     public void postProcessParameter(CodegenParameter parameter) {
         // If this parameter is not a primitive type, prefix it with "models::"
         // to ensure it's namespaced correctly in the Rust code.
-        if (!parameter.isString && !parameter.isNumeric && !parameter.isByteArray &&
-            !parameter.isBinary && !parameter.isFile && !parameter.isBoolean &&
-            !parameter.isDate && !parameter.isDateTime && !parameter.isUuid &&
-            !parameter.isListContainer && !parameter.isMapContainer &&
-            !languageSpecificPrimitives.contains(parameter.dataType)) {
-
+        if (isNonPrimitive(parameter)) {
             String name = "models::" + getTypeDeclaration(parameter.dataType);
             parameter.dataType = name;
-            parameter.baseType = name;
         }
     }
 
@@ -927,6 +949,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             } else {
                 property.dataType = camelize(property.dataType, false);
             }
+            property.isPrimitiveType = property.isContainer && languageSpecificPrimitives.contains(typeMapping.get(property.complexType));
+        } else {
+            property.isPrimitiveType = true;
         }
 
         if ("integer".equals(property.baseType)) {

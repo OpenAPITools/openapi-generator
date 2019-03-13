@@ -47,12 +47,10 @@ export default class FakeApi {
      */
     createXmlItemWithHttpInfo(xmlItem) {
       let postBody = xmlItem;
-
       // verify the required parameter 'xmlItem' is set
       if (xmlItem === undefined || xmlItem === null) {
         throw new Error("Missing the required parameter 'xmlItem' when calling createXmlItem");
       }
-
 
       let pathParams = {
       };
@@ -67,11 +65,10 @@ export default class FakeApi {
       let contentTypes = ['application/xml', 'application/xml; charset=utf-8', 'application/xml; charset=utf-16', 'text/xml', 'text/xml; charset=utf-8', 'text/xml; charset=utf-16'];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/fake/create_xml_item', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -99,7 +96,6 @@ export default class FakeApi {
       opts = opts || {};
       let postBody = opts['body'];
 
-
       let pathParams = {
       };
       let queryParams = {
@@ -113,11 +109,10 @@ export default class FakeApi {
       let contentTypes = [];
       let accepts = ['*/*'];
       let returnType = 'Boolean';
-
       return this.apiClient.callApi(
         '/fake/outer/boolean', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -145,7 +140,6 @@ export default class FakeApi {
       opts = opts || {};
       let postBody = opts['body'];
 
-
       let pathParams = {
       };
       let queryParams = {
@@ -159,11 +153,10 @@ export default class FakeApi {
       let contentTypes = [];
       let accepts = ['*/*'];
       let returnType = OuterComposite;
-
       return this.apiClient.callApi(
         '/fake/outer/composite', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -191,7 +184,6 @@ export default class FakeApi {
       opts = opts || {};
       let postBody = opts['body'];
 
-
       let pathParams = {
       };
       let queryParams = {
@@ -205,11 +197,10 @@ export default class FakeApi {
       let contentTypes = [];
       let accepts = ['*/*'];
       let returnType = 'Number';
-
       return this.apiClient.callApi(
         '/fake/outer/number', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -237,7 +228,6 @@ export default class FakeApi {
       opts = opts || {};
       let postBody = opts['body'];
 
-
       let pathParams = {
       };
       let queryParams = {
@@ -251,11 +241,10 @@ export default class FakeApi {
       let contentTypes = [];
       let accepts = ['*/*'];
       let returnType = 'String';
-
       return this.apiClient.callApi(
         '/fake/outer/string', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -280,12 +269,10 @@ export default class FakeApi {
      */
     testBodyWithFileSchemaWithHttpInfo(body) {
       let postBody = body;
-
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling testBodyWithFileSchema");
       }
-
 
       let pathParams = {
       };
@@ -300,11 +287,10 @@ export default class FakeApi {
       let contentTypes = ['application/json'];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/fake/body-with-file-schema', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -328,17 +314,14 @@ export default class FakeApi {
      */
     testBodyWithQueryParamsWithHttpInfo(query, body) {
       let postBody = body;
-
       // verify the required parameter 'query' is set
       if (query === undefined || query === null) {
         throw new Error("Missing the required parameter 'query' when calling testBodyWithQueryParams");
       }
-
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling testBodyWithQueryParams");
       }
-
 
       let pathParams = {
       };
@@ -354,11 +337,10 @@ export default class FakeApi {
       let contentTypes = ['application/json'];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/fake/body-with-query-params', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -383,12 +365,10 @@ export default class FakeApi {
      */
     testClientModelWithHttpInfo(body) {
       let postBody = body;
-
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling testClientModel");
       }
-
 
       let pathParams = {
       };
@@ -403,11 +383,10 @@ export default class FakeApi {
       let contentTypes = ['application/json'];
       let accepts = ['application/json'];
       let returnType = Client;
-
       return this.apiClient.callApi(
         '/fake', 'PATCH',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -448,27 +427,22 @@ export default class FakeApi {
     testEndpointParametersWithHttpInfo(_number, _double, patternWithoutDelimiter, _byte, opts) {
       opts = opts || {};
       let postBody = null;
-
       // verify the required parameter '_number' is set
       if (_number === undefined || _number === null) {
         throw new Error("Missing the required parameter '_number' when calling testEndpointParameters");
       }
-
       // verify the required parameter '_double' is set
       if (_double === undefined || _double === null) {
         throw new Error("Missing the required parameter '_double' when calling testEndpointParameters");
       }
-
       // verify the required parameter 'patternWithoutDelimiter' is set
       if (patternWithoutDelimiter === undefined || patternWithoutDelimiter === null) {
         throw new Error("Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters");
       }
-
       // verify the required parameter '_byte' is set
       if (_byte === undefined || _byte === null) {
         throw new Error("Missing the required parameter '_byte' when calling testEndpointParameters");
       }
-
 
       let pathParams = {
       };
@@ -497,11 +471,10 @@ export default class FakeApi {
       let contentTypes = ['application/x-www-form-urlencoded'];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/fake', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -551,7 +524,6 @@ export default class FakeApi {
       opts = opts || {};
       let postBody = null;
 
-
       let pathParams = {
       };
       let queryParams = {
@@ -573,11 +545,10 @@ export default class FakeApi {
       let contentTypes = ['application/x-www-form-urlencoded'];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/fake', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -618,22 +589,18 @@ export default class FakeApi {
     testGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts) {
       opts = opts || {};
       let postBody = null;
-
       // verify the required parameter 'requiredStringGroup' is set
       if (requiredStringGroup === undefined || requiredStringGroup === null) {
         throw new Error("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
       }
-
       // verify the required parameter 'requiredBooleanGroup' is set
       if (requiredBooleanGroup === undefined || requiredBooleanGroup === null) {
         throw new Error("Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
       }
-
       // verify the required parameter 'requiredInt64Group' is set
       if (requiredInt64Group === undefined || requiredInt64Group === null) {
         throw new Error("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
       }
-
 
       let pathParams = {
       };
@@ -654,11 +621,10 @@ export default class FakeApi {
       let contentTypes = [];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/fake', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -689,12 +655,10 @@ export default class FakeApi {
      */
     testInlineAdditionalPropertiesWithHttpInfo(param) {
       let postBody = param;
-
       // verify the required parameter 'param' is set
       if (param === undefined || param === null) {
         throw new Error("Missing the required parameter 'param' when calling testInlineAdditionalProperties");
       }
-
 
       let pathParams = {
       };
@@ -709,11 +673,10 @@ export default class FakeApi {
       let contentTypes = ['application/json'];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/fake/inline-additionalProperties', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -738,17 +701,14 @@ export default class FakeApi {
      */
     testJsonFormDataWithHttpInfo(param, param2) {
       let postBody = null;
-
       // verify the required parameter 'param' is set
       if (param === undefined || param === null) {
         throw new Error("Missing the required parameter 'param' when calling testJsonFormData");
       }
-
       // verify the required parameter 'param2' is set
       if (param2 === undefined || param2 === null) {
         throw new Error("Missing the required parameter 'param2' when calling testJsonFormData");
       }
-
 
       let pathParams = {
       };
@@ -765,11 +725,10 @@ export default class FakeApi {
       let contentTypes = ['application/x-www-form-urlencoded'];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/fake/jsonFormData', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 

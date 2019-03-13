@@ -10,4 +10,17 @@ Name | Type | Description | Notes
 **status** | **String** | Order Status | [optional] 
 **complete** | **BOOLEAN** |  | [optional] [default to false]
 
+## Code Sample
+
+```ruby
+require 'Petstore'
+
+instance = Petstore::Order.new(id: null,
+                                 pet_id: null,
+                                 quantity: null,
+                                 ship_date: null,
+                                 status: null,
+                                 complete: null)
+```
+
 

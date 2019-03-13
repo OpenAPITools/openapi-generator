@@ -18,7 +18,6 @@
 package org.openapitools.codegen.java;
 
 import com.google.common.collect.Sets;
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -28,7 +27,6 @@ import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.junit.rules.TemporaryFolder;
 import org.openapitools.codegen.*;
@@ -227,7 +225,7 @@ public class JavaModelTest {
         Assert.assertTrue(property.isContainer);
     }
 
-    @Test(description = "convert a model with restriced characters")
+    @Test(description = "convert a model with restricted characters")
     public void restrictedCharactersPropertiesTest() {
         final Schema schema = new Schema()
                 .description("a sample model")
@@ -468,8 +466,8 @@ public class JavaModelTest {
 
         final CodegenProperty property = cm.vars.get(0);
         Assert.assertEquals(property.baseName, "pId");
-        Assert.assertEquals(property.getter, "getPId");
-        Assert.assertEquals(property.setter, "setPId");
+        Assert.assertEquals(property.getter, "getpId");
+        Assert.assertEquals(property.setter, "setpId");
         Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "pId");
         Assert.assertEquals(property.defaultValue, null);
@@ -500,6 +498,34 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setAtTName");
         Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "atTName");
+        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertEquals(property.baseType, "String");
+        Assert.assertFalse(property.hasMore);
+        Assert.assertTrue(property.required);
+        Assert.assertFalse(property.isContainer);
+    }
+
+    @Test(description = "convert a model with an all upper-case letter and one non letter property names")
+    public void allUpperCaseOneNonLetterNamesTest() {
+        final Schema schema = new Schema()
+                .description("a model with a property name starting with two upper-case letters")
+                .addProperties("ATT_NAME", new StringSchema())
+                .addRequiredItem("ATT_NAME");
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "ATT_NAME");
+        Assert.assertEquals(property.getter, "getATTNAME");
+        Assert.assertEquals(property.setter, "setATTNAME");
+        Assert.assertEquals(property.dataType, "String");
+        Assert.assertEquals(property.name, "ATT_NAME");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
         Assert.assertFalse(property.hasMore);
@@ -1059,7 +1085,7 @@ public class JavaModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
-        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation);
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, null);
 
         Assert.assertEquals(co.bodyParams.size(), 1);
         CodegenParameter cp1 = co.bodyParams.get(0);
@@ -1090,7 +1116,7 @@ public class JavaModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
-        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation);
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, null);
 
         Assert.assertEquals(co.responses.size(), 1);
         CodegenResponse cr = co.responses.get(0);
@@ -1139,7 +1165,7 @@ public class JavaModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
-        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation);
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, null);
 
         Assert.assertEquals(co.bodyParams.size(), 1);
         CodegenParameter cp1 = co.bodyParams.get(0);
@@ -1174,7 +1200,7 @@ public class JavaModelTest {
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
-        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation);
+        final CodegenOperation co = codegen.fromOperation("testSchema", "GET", operation, null);
 
         Assert.assertEquals(co.responses.size(), 1);
         CodegenResponse cr = co.responses.get(0);
@@ -1222,9 +1248,7 @@ public class JavaModelTest {
         config.setHideGenerationTimestamp(true);
         config.setOutputDir(output.getAbsolutePath());
 
-        final OpenAPIParser openApiParser = new OpenAPIParser();
-        final ParseOptions options = new ParseOptions();
-        final OpenAPI openAPI = openApiParser.readLocation(inputSpec, null, options).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec(inputSpec);
 
         final ClientOptInput opts = new ClientOptInput();
         opts.setConfig(config);

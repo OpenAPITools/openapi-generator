@@ -6,10 +6,10 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Canonical
 class ModelApiResponse {
-    Integer code = null
+    Integer code
 
-    String type = null
+    String type
 
-    String message = null
+    String message
 
 }

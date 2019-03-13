@@ -18,12 +18,10 @@
 package org.openapitools.codegen.objc;
 
 import com.google.common.collect.Sets;
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.ObjcClientCodegen;
@@ -304,7 +302,7 @@ public class ObjcModelTest {
 
     @Test(description = "test udid")
     public void udidAndPasswordDataModelTest() {
-        final OpenAPI openAPI =  new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI =  TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("format_test");
@@ -319,7 +317,7 @@ public class ObjcModelTest {
 
     @Test(description = "test mixedProperties")
     public void mixedPropertiesDataModelTest() {
-        final OpenAPI openAPI =  new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI =  TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Schema definition = openAPI.getComponents().getSchemas().get("MixedPropertiesAndAdditionalPropertiesClass");
@@ -331,7 +329,7 @@ public class ObjcModelTest {
 
     @Test(description = "test isArrayModel")
     public void isArrayModelModelTest() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final Schema definition = openAPI.getComponents().getSchemas().get("AnimalFarm");
         codegen.setOpenAPI(openAPI);
@@ -344,12 +342,12 @@ public class ObjcModelTest {
 
     @Test(description = "test binary data")
     public void binaryDataModelTest() {
-        final OpenAPI openAPI =  new OpenAPIParser().readLocation("src/test/resources/2_0/binaryDataTest.json", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI =  TestUtils.parseSpec("src/test/resources/2_0/binaryDataTest.json");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final String path = "/tests/binaryResponse";
         final Operation p = openAPI.getPaths().get(path).getPost();
         codegen.setOpenAPI(openAPI);
-        final CodegenOperation op = codegen.fromOperation(path, "post", p);
+        final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
         Assert.assertTrue(op.bodyParam.isBinary);
         Assert.assertTrue(op.responses.get(0).isBinary);
@@ -359,7 +357,7 @@ public class ObjcModelTest {
 
     @Test(description = "create proper imports per #316")
     public void issue316Test() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/postBodyTest.json", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/postBodyTest.json");
         final DefaultCodegen codegen = new ObjcClientCodegen();
         codegen.setOpenAPI(openAPI);
 
@@ -368,7 +366,7 @@ public class ObjcModelTest {
         final PathItem animalOps = animalPaths.get("/animals");
         Assert.assertNotNull(animalOps.getPost());
 
-        final CodegenOperation animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost());
+        final CodegenOperation animalCo = codegen.fromOperation("/animals", "POST", animalOps.getPost(), null);
         Assert.assertEquals(animalCo.imports.size(), 1);
         Assert.assertTrue(animalCo.imports.contains("OAIAnimal"));
 
@@ -376,7 +374,7 @@ public class ObjcModelTest {
         final PathItem insectOps = insectPaths.get("/insects");
         Assert.assertNotNull(insectOps.getPost());
 
-        final CodegenOperation insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost());
+        final CodegenOperation insectCo = codegen.fromOperation("/insects", "POST", insectOps.getPost(), null);
         Assert.assertEquals(insectCo.imports.size(), 1);
         Assert.assertTrue(insectCo.imports.contains("OAIInsect"));
     }
