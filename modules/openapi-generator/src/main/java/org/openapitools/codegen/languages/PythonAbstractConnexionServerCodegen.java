@@ -802,7 +802,8 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             if (operation.consumes != null ) {
                 if (operation.consumes.size() == 1) {
                     Map<String, String> consume = operation.consumes.get(0);
-                    if (! "application/json".equals(consume.get(MEDIA_TYPE))) {
+                    if (!("application/json".equals(consume.get(MEDIA_TYPE))
+                            || consume.get(MEDIA_TYPE).endsWith("+json"))) {
                         skipTests.put("reason", consume.get(MEDIA_TYPE) + " not supported by Connexion");
                         if ("multipart/form-data".equals(consume.get(MEDIA_TYPE))) {
                             operation.isMultipart = Boolean.TRUE;
