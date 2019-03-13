@@ -200,12 +200,12 @@ export function querystring(params: HTTPQuery, prefix: string = '') {
             const fullKey = prefix + (prefix.length ? `[${key}]` : key);
             const value = params[key];
             if (value instanceof Array) {
-                const multiValue = value.map(singleValue => encodeURIComponent(singleValue))
+                const multiValue = value.map(singleValue => encodeURIComponent(String(singleValue)))
                     .join(`&${encodeURIComponent(fullKey)}=`);
                 return `${encodeURIComponent(fullKey)}=${multiValue}`;
             }
             if (value instanceof Object) {
-                return querystring(value, fullKey);
+                return querystring(value as HTTPQuery, fullKey);
             }
             return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
         })
