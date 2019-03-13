@@ -187,7 +187,7 @@ module Petstore
         data.to_i
       when 'Float'
         data.to_f
-      when 'BOOLEAN'
+      when 'Boolean'
         data == true
       when 'DateTime'
         # parse date time (expecting ISO 8601 format)
