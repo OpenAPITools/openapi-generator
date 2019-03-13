@@ -249,10 +249,10 @@ namespace {{packageName}}.{{apiPackage}}
                 {{/produces}}
             };
 
-            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+            var localVarContentType = {{packageName}}.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
+            var localVarAccept = {{packageName}}.Client.ClientUtils.SelectHeaderAccept(@accepts);
             if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
             {{#pathParams}}
