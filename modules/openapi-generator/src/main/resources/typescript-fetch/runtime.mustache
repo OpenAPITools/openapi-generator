@@ -194,7 +194,7 @@ export function querystring(params: HTTPQuery, prefix: string = '') {
                 return `${encodeURIComponent(fullKey)}=${multiValue}`;
             }
             if (value instanceof Object) {
-                return querystring(value, fullKey);
+                return querystring(value as HTTPQuery, fullKey);
             }
             return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
         })
