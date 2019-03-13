@@ -35,6 +35,7 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -84,10 +85,13 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
     // vendor extensions
     static final String X_ALL_UNIQUE_PARAMS = "x-allUniqueParams";
+    static final String X_ALL_IMPORT_MAPPINGS = "x-allImportMappings";
+    static final String X_ALL_UNIQUE_IMPORT_PATHS = "x-allUniqueImportPaths";
     static final String X_COLLECTION_FORMAT = "x-collectionFormat";
     static final String X_HADDOCK_PATH = "x-haddockPath";
     static final String X_HAS_BODY_OR_FORM_PARAM = "x-hasBodyOrFormParam";
     static final String X_HAS_ENUM_SECTION = "x-hasEnumSection";
+    static final String X_HAS_IMPORT_MAPPINGS = "x-hasImportMappings";
     static final String X_HAS_MIME_FORM_URL_ENCODED = "x-hasMimeFormUrlEncoded";
     static final String X_HAS_NEW_TAG = "x-hasNewTag";
     static final String X_HAS_OPTIONAL_PARAMS = "x-hasOptionalParams";
@@ -543,12 +547,29 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         additionalProperties.put("configType", getStringProp(PROP_CONFIG_TYPE));
         additionalProperties.put("openApiVersion", openAPI.getOpenapi());
 
+        List<String> allUniqueImportPaths = this.importMapping.values().stream().distinct().collect(Collectors.toList());
+        if (allUniqueImportPaths.size() > 0) {
+            additionalProperties.put(X_ALL_UNIQUE_IMPORT_PATHS, allUniqueImportPaths);
+            supportingFiles.add(new SupportingFile("ImportMappings.mustache", modulePath, "ImportMappings.hs"));
+
+            List<Map<String, String>> allImportMappings = new ArrayList<>();
+            for (Map.Entry<String, String> entry : this.importMapping.entrySet()) {
+                Map<String, String> importMappingEntry = new HashMap<>();
+                importMappingEntry.put("dataType", entry.getKey());
+                importMappingEntry.put("importPath", entry.getValue());
+                allImportMappings.add(importMappingEntry);
+            }
+            additionalProperties.put(X_ALL_IMPORT_MAPPINGS, allImportMappings);
+            additionalProperties.put(X_HAS_IMPORT_MAPPINGS, true);
+        }
+
         super.preprocessOpenAPI(openAPI);
     }
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
+
         return super.postProcessSupportingFileData(objs);
     }
 
