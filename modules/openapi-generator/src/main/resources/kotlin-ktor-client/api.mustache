@@ -40,11 +40,16 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}") {
     {{/allParams}}
     * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
     */
-    suspend fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
+    suspend fun {{operationId}}({{#allParams}}{{#required}}{{>api_req_param}}{{/required}}{{^required}}{{>api_opt_param}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
         {{#hasQueryParams}}
         val queryParameters = Parameters.build {
             {{#queryParams}}
+            {{#required}}
             append("{{{baseName}}}", {{paramName}})
+            {{/required}}
+            {{^required}}
+            if({{paramName}} != null) append("{{{baseName}}}", {{paramName}})
+            {{/required}}
             {{/queryParams}}
         }.formUrlEncode()
         {{/hasQueryParams}}
@@ -67,7 +72,12 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}") {
                 {{#hasFormParams}}
                 body = FormDataContent(Parameters.build {
                     {{#formParams}}
+                    {{#required}}
                     append("{{{baseName}}}", {{paramName}})
+                    {{/required}}
+                    {{^required}}
+                    if({{paramName}} != null) append("{{{baseName}}}", {{paramName}})
+                    {{/required}}
                     {{/formParams}}
                 })
                 {{/hasFormParams}}
