@@ -21,7 +21,7 @@ module Petstore
     end
     # creates an XmlItem
     # this route creates an XmlItem
-    # @param xml_item XmlItem Body
+    # @param xml_item [XmlItem] XmlItem Body
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def create_xml_item(xml_item, opts = {})
@@ -31,7 +31,7 @@ module Petstore
 
     # creates an XmlItem
     # this route creates an XmlItem
-    # @param xml_item XmlItem Body
+    # @param xml_item [XmlItem] XmlItem Body
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def create_xml_item_with_http_info(xml_item, opts = {})
@@ -260,7 +260,7 @@ module Petstore
     end
 
     # For this test, the body for this request much reference a schema named `File`.
-    # @param body 
+    # @param body [FileSchemaTestClass] 
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def test_body_with_file_schema(body, opts = {})
@@ -269,7 +269,7 @@ module Petstore
     end
 
     # For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-    # @param body 
+    # @param body [FileSchemaTestClass] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def test_body_with_file_schema_with_http_info(body, opts = {})
@@ -309,8 +309,8 @@ module Petstore
       return data, status_code, headers
     end
 
-    # @param query 
-    # @param body 
+    # @param query [String] 
+    # @param body [User] 
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def test_body_with_query_params(query, body, opts = {})
@@ -318,8 +318,8 @@ module Petstore
       nil
     end
 
-    # @param query 
-    # @param body 
+    # @param query [String] 
+    # @param body [User] 
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def test_body_with_query_params_with_http_info(query, body, opts = {})
@@ -366,7 +366,7 @@ module Petstore
 
     # To test \"client\" model
     # To test \"client\" model
-    # @param body client model
+    # @param body [Client] client model
     # @param [Hash] opts the optional parameters
     # @return [Client]
     def test_client_model(body, opts = {})
@@ -376,7 +376,7 @@ module Petstore
 
     # To test \&quot;client\&quot; model
     # To test \&quot;client\&quot; model
-    # @param body client model
+    # @param body [Client] client model
     # @param [Hash] opts the optional parameters
     # @return [Array<(Client, Fixnum, Hash)>] Client data, response status code and response headers
     def test_client_model_with_http_info(body, opts = {})
@@ -421,10 +421,10 @@ module Petstore
 
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    # @param number None
-    # @param double None
-    # @param pattern_without_delimiter None
-    # @param byte None
+    # @param number [Float] None
+    # @param double [Float] None
+    # @param pattern_without_delimiter [String] None
+    # @param byte [String] None
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :integer None
     # @option opts [Integer] :int32 None
@@ -444,10 +444,10 @@ module Petstore
 
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    # @param number None
-    # @param double None
-    # @param pattern_without_delimiter None
-    # @param byte None
+    # @param number [Float] None
+    # @param double [Float] None
+    # @param pattern_without_delimiter [String] None
+    # @param byte [String] None
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :integer None
     # @option opts [Integer] :int32 None
@@ -681,9 +681,9 @@ module Petstore
 
     # Fake endpoint to test group parameters (optional)
     # Fake endpoint to test group parameters (optional)
-    # @param required_string_group Required String in group parameters
-    # @param required_boolean_group Required Boolean in group parameters
-    # @param required_int64_group Required Integer in group parameters
+    # @param required_string_group [Integer] Required String in group parameters
+    # @param required_boolean_group [BOOLEAN] Required Boolean in group parameters
+    # @param required_int64_group [Integer] Required Integer in group parameters
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :string_group String in group parameters
     # @option opts [BOOLEAN] :boolean_group Boolean in group parameters
@@ -696,9 +696,9 @@ module Petstore
 
     # Fake endpoint to test group parameters (optional)
     # Fake endpoint to test group parameters (optional)
-    # @param required_string_group Required String in group parameters
-    # @param required_boolean_group Required Boolean in group parameters
-    # @param required_int64_group Required Integer in group parameters
+    # @param required_string_group [Integer] Required String in group parameters
+    # @param required_boolean_group [BOOLEAN] Required Boolean in group parameters
+    # @param required_int64_group [Integer] Required Integer in group parameters
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :string_group String in group parameters
     # @option opts [BOOLEAN] :boolean_group Boolean in group parameters
@@ -754,7 +754,7 @@ module Petstore
     end
 
     # test inline additionalProperties
-    # @param param request body
+    # @param param [Hash<String, String>] request body
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def test_inline_additional_properties(param, opts = {})
@@ -763,7 +763,7 @@ module Petstore
     end
 
     # test inline additionalProperties
-    # @param param request body
+    # @param param [Hash<String, String>] request body
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def test_inline_additional_properties_with_http_info(param, opts = {})
@@ -804,8 +804,8 @@ module Petstore
     end
 
     # test json serialization of form data
-    # @param param field1
-    # @param param2 field2
+    # @param param [String] field1
+    # @param param2 [String] field2
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def test_json_form_data(param, param2, opts = {})
@@ -814,8 +814,8 @@ module Petstore
     end
 
     # test json serialization of form data
-    # @param param field1
-    # @param param2 field2
+    # @param param [String] field1
+    # @param param2 [String] field2
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def test_json_form_data_with_http_info(param, param2, opts = {})

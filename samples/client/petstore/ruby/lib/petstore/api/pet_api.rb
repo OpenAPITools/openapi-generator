@@ -20,7 +20,7 @@ module Petstore
       @api_client = api_client
     end
     # Add a new pet to the store
-    # @param body Pet object that needs to be added to the store
+    # @param body [Pet] Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def add_pet(body, opts = {})
@@ -29,7 +29,7 @@ module Petstore
     end
 
     # Add a new pet to the store
-    # @param body Pet object that needs to be added to the store
+    # @param body [Pet] Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def add_pet_with_http_info(body, opts = {})
@@ -70,7 +70,7 @@ module Petstore
     end
 
     # Deletes a pet
-    # @param pet_id Pet id to delete
+    # @param pet_id [Integer] Pet id to delete
     # @param [Hash] opts the optional parameters
     # @option opts [String] :api_key 
     # @return [nil]
@@ -80,7 +80,7 @@ module Petstore
     end
 
     # Deletes a pet
-    # @param pet_id Pet id to delete
+    # @param pet_id [Integer] Pet id to delete
     # @param [Hash] opts the optional parameters
     # @option opts [String] :api_key 
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
@@ -122,7 +122,7 @@ module Petstore
 
     # Finds Pets by status
     # Multiple status values can be provided with comma separated strings
-    # @param status Status values that need to be considered for filter
+    # @param status [Array<String>] Status values that need to be considered for filter
     # @param [Hash] opts the optional parameters
     # @return [Array<Pet>]
     def find_pets_by_status(status, opts = {})
@@ -132,7 +132,7 @@ module Petstore
 
     # Finds Pets by status
     # Multiple status values can be provided with comma separated strings
-    # @param status Status values that need to be considered for filter
+    # @param status [Array<String>] Status values that need to be considered for filter
     # @param [Hash] opts the optional parameters
     # @return [Array<(Array<Pet>, Fixnum, Hash)>] Array<Pet> data, response status code and response headers
     def find_pets_by_status_with_http_info(status, opts = {})
@@ -176,7 +176,7 @@ module Petstore
 
     # Finds Pets by tags
     # Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-    # @param tags Tags to filter by
+    # @param tags [Array<String>] Tags to filter by
     # @param [Hash] opts the optional parameters
     # @return [Array<Pet>]
     def find_pets_by_tags(tags, opts = {})
@@ -186,7 +186,7 @@ module Petstore
 
     # Finds Pets by tags
     # Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-    # @param tags Tags to filter by
+    # @param tags [Array<String>] Tags to filter by
     # @param [Hash] opts the optional parameters
     # @return [Array<(Array<Pet>, Fixnum, Hash)>] Array<Pet> data, response status code and response headers
     def find_pets_by_tags_with_http_info(tags, opts = {})
@@ -230,7 +230,7 @@ module Petstore
 
     # Find pet by ID
     # Returns a single pet
-    # @param pet_id ID of pet to return
+    # @param pet_id [Integer] ID of pet to return
     # @param [Hash] opts the optional parameters
     # @return [Pet]
     def get_pet_by_id(pet_id, opts = {})
@@ -240,7 +240,7 @@ module Petstore
 
     # Find pet by ID
     # Returns a single pet
-    # @param pet_id ID of pet to return
+    # @param pet_id [Integer] ID of pet to return
     # @param [Hash] opts the optional parameters
     # @return [Array<(Pet, Fixnum, Hash)>] Pet data, response status code and response headers
     def get_pet_by_id_with_http_info(pet_id, opts = {})
@@ -282,7 +282,7 @@ module Petstore
     end
 
     # Update an existing pet
-    # @param body Pet object that needs to be added to the store
+    # @param body [Pet] Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def update_pet(body, opts = {})
@@ -291,7 +291,7 @@ module Petstore
     end
 
     # Update an existing pet
-    # @param body Pet object that needs to be added to the store
+    # @param body [Pet] Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def update_pet_with_http_info(body, opts = {})
@@ -332,7 +332,7 @@ module Petstore
     end
 
     # Updates a pet in the store with form data
-    # @param pet_id ID of pet that needs to be updated
+    # @param pet_id [Integer] ID of pet that needs to be updated
     # @param [Hash] opts the optional parameters
     # @option opts [String] :name Updated name of the pet
     # @option opts [String] :status Updated status of the pet
@@ -343,7 +343,7 @@ module Petstore
     end
 
     # Updates a pet in the store with form data
-    # @param pet_id ID of pet that needs to be updated
+    # @param pet_id [Integer] ID of pet that needs to be updated
     # @param [Hash] opts the optional parameters
     # @option opts [String] :name Updated name of the pet
     # @option opts [String] :status Updated status of the pet
@@ -388,7 +388,7 @@ module Petstore
     end
 
     # uploads an image
-    # @param pet_id ID of pet to update
+    # @param pet_id [Integer] ID of pet to update
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server
     # @option opts [File] :file file to upload
@@ -399,7 +399,7 @@ module Petstore
     end
 
     # uploads an image
-    # @param pet_id ID of pet to update
+    # @param pet_id [Integer] ID of pet to update
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server
     # @option opts [File] :file file to upload
@@ -447,8 +447,8 @@ module Petstore
     end
 
     # uploads an image (required)
-    # @param pet_id ID of pet to update
-    # @param required_file file to upload
+    # @param pet_id [Integer] ID of pet to update
+    # @param required_file [File] file to upload
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server
     # @return [ApiResponse]
@@ -458,8 +458,8 @@ module Petstore
     end
 
     # uploads an image (required)
-    # @param pet_id ID of pet to update
-    # @param required_file file to upload
+    # @param pet_id [Integer] ID of pet to update
+    # @param required_file [File] file to upload
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server
     # @return [Array<(ApiResponse, Fixnum, Hash)>] ApiResponse data, response status code and response headers
