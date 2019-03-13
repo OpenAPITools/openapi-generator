@@ -110,7 +110,7 @@ No authorization required
 
 <a name="fakeOuterCompositeSerialize"></a>
 # **fakeOuterCompositeSerialize**
-> OuterComposite fakeOuterCompositeSerialize(body)
+> OuterComposite fakeOuterCompositeSerialize(outerComposite)
 
 
 
@@ -124,9 +124,9 @@ Test serialization of object with outer number type
 
 
 FakeApi apiInstance = new FakeApi();
-OuterComposite body = new OuterComposite(); // OuterComposite | Input composite as post body
+OuterComposite outerComposite = new OuterComposite(); // OuterComposite | Input composite as post body
 try {
-    OuterComposite result = apiInstance.fakeOuterCompositeSerialize(body);
+    OuterComposite result = apiInstance.fakeOuterCompositeSerialize(outerComposite);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling FakeApi#fakeOuterCompositeSerialize");
@@ -138,7 +138,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
+ **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
 
 ### Return type
 
@@ -245,7 +245,7 @@ No authorization required
 
 <a name="testBodyWithFileSchema"></a>
 # **testBodyWithFileSchema**
-> testBodyWithFileSchema(body)
+> testBodyWithFileSchema(fileSchemaTestClass)
 
 
 
@@ -259,9 +259,9 @@ For this test, the body for this request much reference a schema named &#x60;Fil
 
 
 FakeApi apiInstance = new FakeApi();
-FileSchemaTestClass body = new FileSchemaTestClass(); // FileSchemaTestClass | 
+FileSchemaTestClass fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
 try {
-    apiInstance.testBodyWithFileSchema(body);
+    apiInstance.testBodyWithFileSchema(fileSchemaTestClass);
 } catch (ApiException e) {
     System.err.println("Exception when calling FakeApi#testBodyWithFileSchema");
     e.printStackTrace();
@@ -272,7 +272,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  |
+ **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  |
 
 ### Return type
 
@@ -289,7 +289,7 @@ No authorization required
 
 <a name="testBodyWithQueryParams"></a>
 # **testBodyWithQueryParams**
-> testBodyWithQueryParams(query, body)
+> testBodyWithQueryParams(query, user)
 
 
 
@@ -302,9 +302,9 @@ No authorization required
 
 FakeApi apiInstance = new FakeApi();
 String query = "query_example"; // String | 
-User body = new User(); // User | 
+User user = new User(); // User | 
 try {
-    apiInstance.testBodyWithQueryParams(query, body);
+    apiInstance.testBodyWithQueryParams(query, user);
 } catch (ApiException e) {
     System.err.println("Exception when calling FakeApi#testBodyWithQueryParams");
     e.printStackTrace();
@@ -316,7 +316,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **String**|  |
- **body** | [**User**](User.md)|  |
+ **user** | [**User**](User.md)|  |
 
 ### Return type
 
@@ -333,7 +333,7 @@ No authorization required
 
 <a name="testClientModel"></a>
 # **testClientModel**
-> Client testClientModel(body)
+> Client testClientModel(client)
 
 To test \&quot;client\&quot; model
 
@@ -347,9 +347,9 @@ To test \&quot;client\&quot; model
 
 
 FakeApi apiInstance = new FakeApi();
-Client body = new Client(); // Client | client model
+Client client = new Client(); // Client | client model
 try {
-    Client result = apiInstance.testClientModel(body);
+    Client result = apiInstance.testClientModel(client);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling FakeApi#testClientModel");
@@ -361,7 +361,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model |
+ **client** | [**Client**](Client.md)| client model |
 
 ### Return type
 
@@ -573,7 +573,7 @@ No authorization required
 
 <a name="testInlineAdditionalProperties"></a>
 # **testInlineAdditionalProperties**
-> testInlineAdditionalProperties(param)
+> testInlineAdditionalProperties(requestBody)
 
 test inline additionalProperties
 
@@ -585,9 +585,9 @@ test inline additionalProperties
 
 
 FakeApi apiInstance = new FakeApi();
-Map<String, String> param = new HashMap(); // Map<String, String> | request body
+Map<String, String> requestBody = new HashMap(); // Map<String, String> | request body
 try {
-    apiInstance.testInlineAdditionalProperties(param);
+    apiInstance.testInlineAdditionalProperties(requestBody);
 } catch (ApiException e) {
     System.err.println("Exception when calling FakeApi#testInlineAdditionalProperties");
     e.printStackTrace();
@@ -598,7 +598,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**Map&lt;String, String&gt;**](String.md)| request body |
+ **requestBody** | [**Map&lt;String, String&gt;**](String.md)| request body |
 
 ### Return type
 

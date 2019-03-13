@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createUser"></a>
 # **createUser**
-> createUser(body)
+> createUser(user)
 
 Create user
 
@@ -30,9 +30,9 @@ This can only be done by the logged in user.
 
 
 UserApi apiInstance = new UserApi();
-User body = new User(); // User | Created user object
+User user = new User(); // User | Created user object
 try {
-    apiInstance.createUser(body);
+    apiInstance.createUser(user);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#createUser");
     e.printStackTrace();
@@ -43,7 +43,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object |
+ **user** | [**User**](User.md)| Created user object |
 
 ### Return type
 
@@ -60,7 +60,7 @@ No authorization required
 
 <a name="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(body)
+> createUsersWithArrayInput(user)
 
 Creates list of users with given input array
 
@@ -72,9 +72,9 @@ Creates list of users with given input array
 
 
 UserApi apiInstance = new UserApi();
-List<User> body = Arrays.asList(null); // List<User> | List of user object
+List<User> user = Arrays.asList(null); // List<User> | List of user object
 try {
-    apiInstance.createUsersWithArrayInput(body);
+    apiInstance.createUsersWithArrayInput(user);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
     e.printStackTrace();
@@ -85,7 +85,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](List.md)| List of user object |
+ **user** | [**List&lt;User&gt;**](List.md)| List of user object |
 
 ### Return type
 
@@ -102,7 +102,7 @@ No authorization required
 
 <a name="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> createUsersWithListInput(body)
+> createUsersWithListInput(user)
 
 Creates list of users with given input array
 
@@ -114,9 +114,9 @@ Creates list of users with given input array
 
 
 UserApi apiInstance = new UserApi();
-List<User> body = Arrays.asList(null); // List<User> | List of user object
+List<User> user = Arrays.asList(null); // List<User> | List of user object
 try {
-    apiInstance.createUsersWithListInput(body);
+    apiInstance.createUsersWithListInput(user);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#createUsersWithListInput");
     e.printStackTrace();
@@ -127,7 +127,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](List.md)| List of user object |
+ **user** | [**List&lt;User&gt;**](List.md)| List of user object |
 
 ### Return type
 
@@ -314,7 +314,7 @@ No authorization required
 
 <a name="updateUser"></a>
 # **updateUser**
-> updateUser(username, body)
+> updateUser(username, user)
 
 Updated user
 
@@ -329,9 +329,9 @@ This can only be done by the logged in user.
 
 UserApi apiInstance = new UserApi();
 String username = "username_example"; // String | name that need to be deleted
-User body = new User(); // User | Updated user object
+User user = new User(); // User | Updated user object
 try {
-    apiInstance.updateUser(username, body);
+    apiInstance.updateUser(username, user);
 } catch (ApiException e) {
     System.err.println("Exception when calling UserApi#updateUser");
     e.printStackTrace();
@@ -343,7 +343,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted |
- **body** | [**User**](User.md)| Updated user object |
+ **user** | [**User**](User.md)| Updated user object |
 
 ### Return type
 

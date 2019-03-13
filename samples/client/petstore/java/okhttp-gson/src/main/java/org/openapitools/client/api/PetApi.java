@@ -58,13 +58,13 @@ public class PetApi {
 
     /**
      * Build call for addPet
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call addPetCall(Pet body, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = body;
+    public okhttp3.Call addPetCall(Pet pet, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = pet;
 
         // create path and map variables
         String localVarPath = "/pet";
@@ -92,15 +92,15 @@ public class PetApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call addPetValidateBeforeCall(Pet body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call addPetValidateBeforeCall(Pet pet, final ApiCallback _callback) throws ApiException {
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling addPet(Async)");
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            throw new ApiException("Missing the required parameter 'pet' when calling addPet(Async)");
         }
         
 
-        okhttp3.Call localVarCall = addPetCall(body, _callback);
+        okhttp3.Call localVarCall = addPetCall(pet, _callback);
         return localVarCall;
 
     }
@@ -108,36 +108,36 @@ public class PetApi {
     /**
      * Add a new pet to the store
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public void addPet(Pet body) throws ApiException {
-        addPetWithHttpInfo(body);
+    public void addPet(Pet pet) throws ApiException {
+        addPetWithHttpInfo(pet);
     }
 
     /**
      * Add a new pet to the store
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
-        okhttp3.Call localVarCall = addPetValidateBeforeCall(body, null);
+    public ApiResponse<Void> addPetWithHttpInfo(Pet pet) throws ApiException {
+        okhttp3.Call localVarCall = addPetValidateBeforeCall(pet, null);
         return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Add a new pet to the store (asynchronously)
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call addPetAsync(Pet body, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call addPetAsync(Pet pet, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = addPetValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = addPetValidateBeforeCall(pet, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
@@ -522,13 +522,13 @@ public class PetApi {
     }
     /**
      * Build call for updatePet
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call updatePetCall(Pet body, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = body;
+    public okhttp3.Call updatePetCall(Pet pet, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = pet;
 
         // create path and map variables
         String localVarPath = "/pet";
@@ -556,15 +556,15 @@ public class PetApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call updatePetValidateBeforeCall(Pet body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call updatePetValidateBeforeCall(Pet pet, final ApiCallback _callback) throws ApiException {
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling updatePet(Async)");
+        // verify the required parameter 'pet' is set
+        if (pet == null) {
+            throw new ApiException("Missing the required parameter 'pet' when calling updatePet(Async)");
         }
         
 
-        okhttp3.Call localVarCall = updatePetCall(body, _callback);
+        okhttp3.Call localVarCall = updatePetCall(pet, _callback);
         return localVarCall;
 
     }
@@ -572,36 +572,36 @@ public class PetApi {
     /**
      * Update an existing pet
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public void updatePet(Pet body) throws ApiException {
-        updatePetWithHttpInfo(body);
+    public void updatePet(Pet pet) throws ApiException {
+        updatePetWithHttpInfo(pet);
     }
 
     /**
      * Update an existing pet
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
-        okhttp3.Call localVarCall = updatePetValidateBeforeCall(body, null);
+    public ApiResponse<Void> updatePetWithHttpInfo(Pet pet) throws ApiException {
+        okhttp3.Call localVarCall = updatePetValidateBeforeCall(pet, null);
         return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * Update an existing pet (asynchronously)
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param pet Pet object that needs to be added to the store (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call updatePetAsync(Pet body, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call updatePetAsync(Pet pet, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = updatePetValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = updatePetValidateBeforeCall(pet, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }

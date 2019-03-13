@@ -233,13 +233,13 @@ public class FakeApi {
     }
     /**
      * Build call for fakeOuterCompositeSerialize
-     * @param body Input composite as post body (optional)
+     * @param outerComposite Input composite as post body (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call fakeOuterCompositeSerializeCall(OuterComposite body, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = body;
+    public okhttp3.Call fakeOuterCompositeSerializeCall(OuterComposite outerComposite, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = outerComposite;
 
         // create path and map variables
         String localVarPath = "/fake/outer/composite";
@@ -267,10 +267,10 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call fakeOuterCompositeSerializeValidateBeforeCall(OuterComposite body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call fakeOuterCompositeSerializeValidateBeforeCall(OuterComposite outerComposite, final ApiCallback _callback) throws ApiException {
         
 
-        okhttp3.Call localVarCall = fakeOuterCompositeSerializeCall(body, _callback);
+        okhttp3.Call localVarCall = fakeOuterCompositeSerializeCall(outerComposite, _callback);
         return localVarCall;
 
     }
@@ -278,24 +278,24 @@ public class FakeApi {
     /**
      * 
      * Test serialization of object with outer number type
-     * @param body Input composite as post body (optional)
+     * @param outerComposite Input composite as post body (optional)
      * @return OuterComposite
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws ApiException {
-        ApiResponse<OuterComposite> localVarResp = fakeOuterCompositeSerializeWithHttpInfo(body);
+    public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws ApiException {
+        ApiResponse<OuterComposite> localVarResp = fakeOuterCompositeSerializeWithHttpInfo(outerComposite);
         return localVarResp.getData();
     }
 
     /**
      * 
      * Test serialization of object with outer number type
-     * @param body Input composite as post body (optional)
+     * @param outerComposite Input composite as post body (optional)
      * @return ApiResponse&lt;OuterComposite&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite body) throws ApiException {
-        okhttp3.Call localVarCall = fakeOuterCompositeSerializeValidateBeforeCall(body, null);
+    public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite) throws ApiException {
+        okhttp3.Call localVarCall = fakeOuterCompositeSerializeValidateBeforeCall(outerComposite, null);
         Type localVarReturnType = new TypeToken<OuterComposite>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -303,14 +303,14 @@ public class FakeApi {
     /**
      *  (asynchronously)
      * Test serialization of object with outer number type
-     * @param body Input composite as post body (optional)
+     * @param outerComposite Input composite as post body (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call fakeOuterCompositeSerializeAsync(OuterComposite body, final ApiCallback<OuterComposite> _callback) throws ApiException {
+    public okhttp3.Call fakeOuterCompositeSerializeAsync(OuterComposite outerComposite, final ApiCallback<OuterComposite> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = fakeOuterCompositeSerializeValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = fakeOuterCompositeSerializeValidateBeforeCall(outerComposite, _callback);
         Type localVarReturnType = new TypeToken<OuterComposite>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -485,13 +485,13 @@ public class FakeApi {
     }
     /**
      * Build call for testBodyWithFileSchema
-     * @param body  (required)
+     * @param fileSchemaTestClass  (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call testBodyWithFileSchemaCall(FileSchemaTestClass body, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = body;
+    public okhttp3.Call testBodyWithFileSchemaCall(FileSchemaTestClass fileSchemaTestClass, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = fileSchemaTestClass;
 
         // create path and map variables
         String localVarPath = "/fake/body-with-file-schema";
@@ -519,15 +519,15 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testBodyWithFileSchemaValidateBeforeCall(FileSchemaTestClass body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testBodyWithFileSchemaValidateBeforeCall(FileSchemaTestClass fileSchemaTestClass, final ApiCallback _callback) throws ApiException {
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling testBodyWithFileSchema(Async)");
+        // verify the required parameter 'fileSchemaTestClass' is set
+        if (fileSchemaTestClass == null) {
+            throw new ApiException("Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema(Async)");
         }
         
 
-        okhttp3.Call localVarCall = testBodyWithFileSchemaCall(body, _callback);
+        okhttp3.Call localVarCall = testBodyWithFileSchemaCall(fileSchemaTestClass, _callback);
         return localVarCall;
 
     }
@@ -535,49 +535,49 @@ public class FakeApi {
     /**
      * 
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param body  (required)
+     * @param fileSchemaTestClass  (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public void testBodyWithFileSchema(FileSchemaTestClass body) throws ApiException {
-        testBodyWithFileSchemaWithHttpInfo(body);
+    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
+        testBodyWithFileSchemaWithHttpInfo(fileSchemaTestClass);
     }
 
     /**
      * 
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param body  (required)
+     * @param fileSchemaTestClass  (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass body) throws ApiException {
-        okhttp3.Call localVarCall = testBodyWithFileSchemaValidateBeforeCall(body, null);
+    public ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
+        okhttp3.Call localVarCall = testBodyWithFileSchemaValidateBeforeCall(fileSchemaTestClass, null);
         return localVarApiClient.execute(localVarCall);
     }
 
     /**
      *  (asynchronously)
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param body  (required)
+     * @param fileSchemaTestClass  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call testBodyWithFileSchemaAsync(FileSchemaTestClass body, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call testBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = testBodyWithFileSchemaValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = testBodyWithFileSchemaValidateBeforeCall(fileSchemaTestClass, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
     /**
      * Build call for testBodyWithQueryParams
      * @param query  (required)
-     * @param body  (required)
+     * @param user  (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call testBodyWithQueryParamsCall(String query, User body, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = body;
+    public okhttp3.Call testBodyWithQueryParamsCall(String query, User user, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = user;
 
         // create path and map variables
         String localVarPath = "/fake/body-with-query-params";
@@ -609,20 +609,20 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testBodyWithQueryParamsValidateBeforeCall(String query, User body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testBodyWithQueryParamsValidateBeforeCall(String query, User user, final ApiCallback _callback) throws ApiException {
         
         // verify the required parameter 'query' is set
         if (query == null) {
             throw new ApiException("Missing the required parameter 'query' when calling testBodyWithQueryParams(Async)");
         }
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling testBodyWithQueryParams(Async)");
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            throw new ApiException("Missing the required parameter 'user' when calling testBodyWithQueryParams(Async)");
         }
         
 
-        okhttp3.Call localVarCall = testBodyWithQueryParamsCall(query, body, _callback);
+        okhttp3.Call localVarCall = testBodyWithQueryParamsCall(query, user, _callback);
         return localVarCall;
 
     }
@@ -631,23 +631,23 @@ public class FakeApi {
      * 
      * 
      * @param query  (required)
-     * @param body  (required)
+     * @param user  (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public void testBodyWithQueryParams(String query, User body) throws ApiException {
-        testBodyWithQueryParamsWithHttpInfo(query, body);
+    public void testBodyWithQueryParams(String query, User user) throws ApiException {
+        testBodyWithQueryParamsWithHttpInfo(query, user);
     }
 
     /**
      * 
      * 
      * @param query  (required)
-     * @param body  (required)
+     * @param user  (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(String query, User body) throws ApiException {
-        okhttp3.Call localVarCall = testBodyWithQueryParamsValidateBeforeCall(query, body, null);
+    public ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(String query, User user) throws ApiException {
+        okhttp3.Call localVarCall = testBodyWithQueryParamsValidateBeforeCall(query, user, null);
         return localVarApiClient.execute(localVarCall);
     }
 
@@ -655,26 +655,26 @@ public class FakeApi {
      *  (asynchronously)
      * 
      * @param query  (required)
-     * @param body  (required)
+     * @param user  (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call testBodyWithQueryParamsAsync(String query, User body, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call testBodyWithQueryParamsAsync(String query, User user, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = testBodyWithQueryParamsValidateBeforeCall(query, body, _callback);
+        okhttp3.Call localVarCall = testBodyWithQueryParamsValidateBeforeCall(query, user, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
     /**
      * Build call for testClientModel
-     * @param body client model (required)
+     * @param client client model (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call testClientModelCall(Client body, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = body;
+    public okhttp3.Call testClientModelCall(Client client, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = client;
 
         // create path and map variables
         String localVarPath = "/fake";
@@ -702,15 +702,15 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testClientModelValidateBeforeCall(Client body, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testClientModelValidateBeforeCall(Client client, final ApiCallback _callback) throws ApiException {
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new ApiException("Missing the required parameter 'body' when calling testClientModel(Async)");
+        // verify the required parameter 'client' is set
+        if (client == null) {
+            throw new ApiException("Missing the required parameter 'client' when calling testClientModel(Async)");
         }
         
 
-        okhttp3.Call localVarCall = testClientModelCall(body, _callback);
+        okhttp3.Call localVarCall = testClientModelCall(client, _callback);
         return localVarCall;
 
     }
@@ -718,24 +718,24 @@ public class FakeApi {
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
-     * @param body client model (required)
+     * @param client client model (required)
      * @return Client
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public Client testClientModel(Client body) throws ApiException {
-        ApiResponse<Client> localVarResp = testClientModelWithHttpInfo(body);
+    public Client testClientModel(Client client) throws ApiException {
+        ApiResponse<Client> localVarResp = testClientModelWithHttpInfo(client);
         return localVarResp.getData();
     }
 
     /**
      * To test \&quot;client\&quot; model
      * To test \&quot;client\&quot; model
-     * @param body client model (required)
+     * @param client client model (required)
      * @return ApiResponse&lt;Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Client> testClientModelWithHttpInfo(Client body) throws ApiException {
-        okhttp3.Call localVarCall = testClientModelValidateBeforeCall(body, null);
+    public ApiResponse<Client> testClientModelWithHttpInfo(Client client) throws ApiException {
+        okhttp3.Call localVarCall = testClientModelValidateBeforeCall(client, null);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -743,14 +743,14 @@ public class FakeApi {
     /**
      * To test \&quot;client\&quot; model (asynchronously)
      * To test \&quot;client\&quot; model
-     * @param body client model (required)
+     * @param client client model (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call testClientModelAsync(Client body, final ApiCallback<Client> _callback) throws ApiException {
+    public okhttp3.Call testClientModelAsync(Client client, final ApiCallback<Client> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = testClientModelValidateBeforeCall(body, _callback);
+        okhttp3.Call localVarCall = testClientModelValidateBeforeCall(client, _callback);
         Type localVarReturnType = new TypeToken<Client>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -1288,13 +1288,13 @@ public class FakeApi {
     }
     /**
      * Build call for testInlineAdditionalProperties
-     * @param param request body (required)
+     * @param requestBody request body (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call testInlineAdditionalPropertiesCall(Map<String, String> param, final ApiCallback _callback) throws ApiException {
-        Object localVarPostBody = param;
+    public okhttp3.Call testInlineAdditionalPropertiesCall(Map<String, String> requestBody, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = requestBody;
 
         // create path and map variables
         String localVarPath = "/fake/inline-additionalProperties";
@@ -1322,15 +1322,15 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testInlineAdditionalPropertiesValidateBeforeCall(Map<String, String> param, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testInlineAdditionalPropertiesValidateBeforeCall(Map<String, String> requestBody, final ApiCallback _callback) throws ApiException {
         
-        // verify the required parameter 'param' is set
-        if (param == null) {
-            throw new ApiException("Missing the required parameter 'param' when calling testInlineAdditionalProperties(Async)");
+        // verify the required parameter 'requestBody' is set
+        if (requestBody == null) {
+            throw new ApiException("Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties(Async)");
         }
         
 
-        okhttp3.Call localVarCall = testInlineAdditionalPropertiesCall(param, _callback);
+        okhttp3.Call localVarCall = testInlineAdditionalPropertiesCall(requestBody, _callback);
         return localVarCall;
 
     }
@@ -1338,36 +1338,36 @@ public class FakeApi {
     /**
      * test inline additionalProperties
      * 
-     * @param param request body (required)
+     * @param requestBody request body (required)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public void testInlineAdditionalProperties(Map<String, String> param) throws ApiException {
-        testInlineAdditionalPropertiesWithHttpInfo(param);
+    public void testInlineAdditionalProperties(Map<String, String> requestBody) throws ApiException {
+        testInlineAdditionalPropertiesWithHttpInfo(requestBody);
     }
 
     /**
      * test inline additionalProperties
      * 
-     * @param param request body (required)
+     * @param requestBody request body (required)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> param) throws ApiException {
-        okhttp3.Call localVarCall = testInlineAdditionalPropertiesValidateBeforeCall(param, null);
+    public ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody) throws ApiException {
+        okhttp3.Call localVarCall = testInlineAdditionalPropertiesValidateBeforeCall(requestBody, null);
         return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * test inline additionalProperties (asynchronously)
      * 
-     * @param param request body (required)
+     * @param requestBody request body (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call testInlineAdditionalPropertiesAsync(Map<String, String> param, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call testInlineAdditionalPropertiesAsync(Map<String, String> requestBody, final ApiCallback<Void> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = testInlineAdditionalPropertiesValidateBeforeCall(param, _callback);
+        okhttp3.Call localVarCall = testInlineAdditionalPropertiesValidateBeforeCall(requestBody, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }
