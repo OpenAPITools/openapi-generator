@@ -1079,6 +1079,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         operations.put("operations", objs);
         operations.put("package", config.apiPackage());
+        operations.put("tag", tag);
 
         Set<String> allImports = new TreeSet<String>();
         for (CodegenOperation op : ops) {
