@@ -53,8 +53,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useSwashbuckle = true;
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
-    protected String aspnetCoreVersion= "2.1"; // default to 2.1
-    // TODO Make next two enums toensure fixed list.
+    protected CliOption aspnetCoreVersion= new CliOption(ASPNET_CORE_VERSION,"ASP.NET Core version: 2.2 (default), 2.1, 2.0 (deprecated)");; // default to 2.1
     private CliOption classModifier = new CliOption(CLASS_MODIFIER,"Class Modifier");
     private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier");
     private boolean generateBody = true;
@@ -116,9 +115,12 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.SOURCE_FOLDER_DESC,
                 sourceFolder);
 
-        addOption(ASPNET_CORE_VERSION,
-                "ASP.NET Core version: 2.1 (default), 2.0 (deprecated)",
-                aspnetCoreVersion);
+        aspnetCoreVersion.addEnum("2.0", "ASP.NET COre V2.0");
+        aspnetCoreVersion.addEnum("2.1", "ASP.NET COre V2.1");
+        aspnetCoreVersion.addEnum("2.2", "ASP.NET COre V2.2");
+        aspnetCoreVersion.setDefault("2.2");
+        aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
+        addOption(aspnetCoreVersion.getOpt(),aspnetCoreVersion.getDescription(),aspnetCoreVersion.getOptValue());
 
         // CLI Switches
         addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
@@ -205,9 +207,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         }
 
         // determine the ASP.NET core version setting
-        if (additionalProperties.containsKey(ASPNET_CORE_VERSION)) {
-            setAspnetCoreVersion((String) additionalProperties.get(ASPNET_CORE_VERSION));
-        }
+        setCliOption(aspnetCoreVersion);
 
         // CHeck for class modifier if not present set the default value.
         setCliOption(classModifier);
@@ -245,15 +245,13 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         String packageFolder = sourceFolder + File.separator + packageName;
 
-        if ("2.0".equals(aspnetCoreVersion)) {
+        if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
             embeddedTemplateDir = templateDir = "aspnetcore/2.0";
             supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
             LOGGER.info("ASP.NET core version: 2.0");
-        } else if ("2.1".equals(aspnetCoreVersion)) {
-            // default, do nothing
-            LOGGER.info("ASP.NET core version: 2.1");
         } else {
-            throw new IllegalArgumentException("aspnetCoreVersion must be '2.1', '2.0' but found " + aspnetCoreVersion);
+            // default, do nothing
+            LOGGER.info("ASP.NET core version: " + aspnetCoreVersion.getOptValue());
         }
 
 
@@ -316,10 +314,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         this.packageGuid = packageGuid;
     }
 
-    public void setAspnetCoreVersion(String aspnetCoreVersion) {
-        this.aspnetCoreVersion= aspnetCoreVersion;
-    }
-
     @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + packageName + File.separator + "Controllers";
@@ -364,12 +358,12 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         return escapeText(pattern);
     }
 
-    private void  setCliOption(CliOption cliOption) {
+    private void  setCliOption(CliOption cliOption) throws IllegalArgumentException {
         if (additionalProperties.containsKey(cliOption.getOpt())) {
             cliOption.setOptValue(additionalProperties.get(cliOption.getOpt()).toString());
             if (classModifier.getOptValue() == null) {
-                LOGGER.warn(cliOption.getOpt() + ": Invlaid option " + additionalProperties.get(cliOption.getOpt()).toString() + " setting to default value " + cliOption.getDefault());
-                cliOption.setOptValue((cliOption.getDefault()));
+                cliOption.setOptValue(cliOption.getDefault());
+                throw new IllegalArgumentException(cliOption.getOpt() + ": Invlaid option " + additionalProperties.get(cliOption.getOpt()).toString() + " setting to default value " + cliOption.getDefault());
             }
         } else {
             additionalProperties.put(cliOption.getOpt(), cliOption.getOptValue());
