@@ -351,6 +351,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if ("abstract".equals(classModifier.getOptValue())) {
             operationModifier.setOptValue(classModifier.getOptValue());
             additionalProperties.put(OPERATION_MODIFIER, operationModifier.getOptValue());
+            LOGGER.warn("classModifier is " + classModifier.getOptValue() + " so forcing operatonModifier to "+ operationModifier.getOptValue());
         } else {
             setCliOption(operationModifier);
         }
@@ -363,6 +364,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if ("abstract".equals(operationModifier.getOptValue())) {
             generateBody = false;
             additionalProperties.put(GENERATE_BODY, generateBody);
+            LOGGER.warn("operationModifier is " + operationModifier.getOptValue() + " so forcing generateBody to "+ generateBody);
         } else  if (additionalProperties.containsKey(GENERATE_BODY)) {
             generateBody = convertPropertyToBooleanAndWriteBack(GENERATE_BODY);
         } else {
