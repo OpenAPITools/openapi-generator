@@ -112,4 +112,25 @@ class EnumTestTest extends TestCase
     public function testPropertyOuterEnum()
     {
     }
+
+    /**
+     * Test attribute "outer_enum_integer"
+     */
+    public function testPropertyOuterEnumInteger()
+    {
+    }
+
+    /**
+     * Test attribute "outer_enum_default_value"
+     */
+    public function testPropertyOuterEnumDefaultValue()
+    {
+    }
+
+    /**
+     * Test attribute "outer_enum_integer_default_value"
+     */
+    public function testPropertyOuterEnumIntegerDefaultValue()
+    {
+    }
 }

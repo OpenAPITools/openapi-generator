@@ -51,12 +51,10 @@ export default class AnotherFakeApi {
      */
     call123testSpecialTags(client, callback) {
       let postBody = client;
-
       // verify the required parameter 'client' is set
       if (client === undefined || client === null) {
         throw new Error("Missing the required parameter 'client' when calling call123testSpecialTags");
       }
-
 
       let pathParams = {
       };
@@ -71,11 +69,10 @@ export default class AnotherFakeApi {
       let contentTypes = ['application/json'];
       let accepts = ['application/json'];
       let returnType = Client;
-
       return this.apiClient.callApi(
         '/another-fake/dummy', 'PATCH',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 

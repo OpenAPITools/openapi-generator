@@ -35,7 +35,10 @@ class EnumTest(object):
         'enum_string_required': 'str',
         'enum_integer': 'int',
         'enum_number': 'float',
-        'outer_enum': 'OuterEnum'
+        'outer_enum': 'OuterEnum',
+        'outer_enum_integer': 'OuterEnumInteger',
+        'outer_enum_default_value': 'OuterEnumDefaultValue',
+        'outer_enum_integer_default_value': 'OuterEnumIntegerDefaultValue'
     }
 
     attribute_map = {
@@ -43,10 +46,13 @@ class EnumTest(object):
         'enum_string_required': 'enum_string_required',
         'enum_integer': 'enum_integer',
         'enum_number': 'enum_number',
-        'outer_enum': 'outerEnum'
+        'outer_enum': 'outerEnum',
+        'outer_enum_integer': 'outerEnumInteger',
+        'outer_enum_default_value': 'outerEnumDefaultValue',
+        'outer_enum_integer_default_value': 'outerEnumIntegerDefaultValue'
     }
 
-    def __init__(self, enum_string=None, enum_string_required=None, enum_integer=None, enum_number=None, outer_enum=None):  # noqa: E501
+    def __init__(self, enum_string=None, enum_string_required=None, enum_integer=None, enum_number=None, outer_enum=None, outer_enum_integer=None, outer_enum_default_value=None, outer_enum_integer_default_value=None):  # noqa: E501
         """EnumTest - a model defined in OpenAPI"""  # noqa: E501
 
         self._enum_string = None
@@ -54,6 +60,9 @@ class EnumTest(object):
         self._enum_integer = None
         self._enum_number = None
         self._outer_enum = None
+        self._outer_enum_integer = None
+        self._outer_enum_default_value = None
+        self._outer_enum_integer_default_value = None
         self.discriminator = None
 
         if enum_string is not None:
@@ -65,6 +74,12 @@ class EnumTest(object):
             self.enum_number = enum_number
         if outer_enum is not None:
             self.outer_enum = outer_enum
+        if outer_enum_integer is not None:
+            self.outer_enum_integer = outer_enum_integer
+        if outer_enum_default_value is not None:
+            self.outer_enum_default_value = outer_enum_default_value
+        if outer_enum_integer_default_value is not None:
+            self.outer_enum_integer_default_value = outer_enum_integer_default_value
 
     @property
     def enum_string(self):
@@ -196,6 +211,69 @@ class EnumTest(object):
         """
 
         self._outer_enum = outer_enum
+
+    @property
+    def outer_enum_integer(self):
+        """Gets the outer_enum_integer of this EnumTest.  # noqa: E501
+
+
+        :return: The outer_enum_integer of this EnumTest.  # noqa: E501
+        :rtype: OuterEnumInteger
+        """
+        return self._outer_enum_integer
+
+    @outer_enum_integer.setter
+    def outer_enum_integer(self, outer_enum_integer):
+        """Sets the outer_enum_integer of this EnumTest.
+
+
+        :param outer_enum_integer: The outer_enum_integer of this EnumTest.  # noqa: E501
+        :type: OuterEnumInteger
+        """
+
+        self._outer_enum_integer = outer_enum_integer
+
+    @property
+    def outer_enum_default_value(self):
+        """Gets the outer_enum_default_value of this EnumTest.  # noqa: E501
+
+
+        :return: The outer_enum_default_value of this EnumTest.  # noqa: E501
+        :rtype: OuterEnumDefaultValue
+        """
+        return self._outer_enum_default_value
+
+    @outer_enum_default_value.setter
+    def outer_enum_default_value(self, outer_enum_default_value):
+        """Sets the outer_enum_default_value of this EnumTest.
+
+
+        :param outer_enum_default_value: The outer_enum_default_value of this EnumTest.  # noqa: E501
+        :type: OuterEnumDefaultValue
+        """
+
+        self._outer_enum_default_value = outer_enum_default_value
+
+    @property
+    def outer_enum_integer_default_value(self):
+        """Gets the outer_enum_integer_default_value of this EnumTest.  # noqa: E501
+
+
+        :return: The outer_enum_integer_default_value of this EnumTest.  # noqa: E501
+        :rtype: OuterEnumIntegerDefaultValue
+        """
+        return self._outer_enum_integer_default_value
+
+    @outer_enum_integer_default_value.setter
+    def outer_enum_integer_default_value(self, outer_enum_integer_default_value):
+        """Sets the outer_enum_integer_default_value of this EnumTest.
+
+
+        :param outer_enum_integer_default_value: The outer_enum_integer_default_value of this EnumTest.  # noqa: E501
+        :type: OuterEnumIntegerDefaultValue
+        """
+
+        self._outer_enum_integer_default_value = outer_enum_integer_default_value
 
     def to_dict(self):
         """Returns the model properties as a dict"""

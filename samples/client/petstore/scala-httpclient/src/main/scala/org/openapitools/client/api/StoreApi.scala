@@ -153,11 +153,11 @@ class StoreApi(
    * Place an order for a pet
    * 
    *
-   * @param order order placed for purchasing the pet 
+   * @param body order placed for purchasing the pet 
    * @return Order
    */
-  def placeOrder(order: Order): Option[Order] = {
-    val await = Try(Await.result(placeOrderAsync(order), Duration.Inf))
+  def placeOrder(body: Order): Option[Order] = {
+    val await = Try(Await.result(placeOrderAsync(body), Duration.Inf))
     await match {
       case Success(i) => Some(await.get)
       case Failure(t) => None
@@ -168,11 +168,11 @@ class StoreApi(
    * Place an order for a pet asynchronously
    * 
    *
-   * @param order order placed for purchasing the pet 
+   * @param body order placed for purchasing the pet 
    * @return Future(Order)
    */
-  def placeOrderAsync(order: Order): Future[Order] = {
-      helper.placeOrder(order)
+  def placeOrderAsync(body: Order): Future[Order] = {
+      helper.placeOrder(body)
   }
 
 }
@@ -228,7 +228,7 @@ class StoreApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extend
     }
   }
 
-  def placeOrder(order: Order)(implicit reader: ClientResponseReader[Order], writer: RequestWriter[Order]): Future[Order] = {
+  def placeOrder(body: Order)(implicit reader: ClientResponseReader[Order], writer: RequestWriter[Order]): Future[Order] = {
     // create path and map variables
     val path = (addFmt("/store/order"))
 
@@ -236,9 +236,9 @@ class StoreApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extend
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
 
-    if (order == null) throw new Exception("Missing required parameter 'order' when calling StoreApi->placeOrder")
+    if (body == null) throw new Exception("Missing required parameter 'body' when calling StoreApi->placeOrder")
 
-    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(order))
+    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(body))
     resFuture flatMap { resp =>
       process(reader.read(resp))
     }

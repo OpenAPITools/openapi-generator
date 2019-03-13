@@ -88,9 +88,9 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         setInvokerPackage("OpenAPI\\Server");
         setBundleName("OpenAPIServer");
         modelDirName = "Model";
-        docsBasePath = "Resources" + File.separator + "docs";
-        apiDocPath = docsBasePath + File.separator + apiDirName;
-        modelDocPath = docsBasePath + File.separator + modelDirName;
+        docsBasePath = "Resources" + "/" + "docs";
+        apiDocPath = docsBasePath + "/" + apiDirName;
+        modelDocPath = docsBasePath + "/" + modelDirName;
         outputFolder = "generated-code" + File.separator + "php";
         apiTemplateFiles.put("api_controller.mustache", ".php");
         modelTestTemplateFiles.put("testing/model_test.mustache", ".php");
@@ -275,13 +275,13 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         additionalProperties.put("bundleAlias", bundleAlias);
 
         // make api and model src path available in mustache template
-        additionalProperties.put("apiSrcPath", "." + File.separator + toSrcPath(apiPackage, srcBasePath));
-        additionalProperties.put("modelSrcPath", "." + File.separator + toSrcPath(modelPackage, srcBasePath));
-        additionalProperties.put("testsSrcPath", "." + File.separator + toSrcPath(testsPackage, srcBasePath));
-        additionalProperties.put("apiTestsSrcPath", "." + File.separator + toSrcPath(apiTestsPackage, srcBasePath));
-        additionalProperties.put("modelTestsSrcPath", "." + File.separator + toSrcPath(modelTestsPackage, srcBasePath));
-        additionalProperties.put("apiTestPath", "." + File.separator + testsDirName + File.separator + apiDirName);
-        additionalProperties.put("modelTestPath", "." + File.separator + testsDirName + File.separator + modelDirName);
+        additionalProperties.put("apiSrcPath", "." + "/" + toSrcPath(apiPackage, srcBasePath));
+        additionalProperties.put("modelSrcPath", "." + "/" + toSrcPath(modelPackage, srcBasePath));
+        additionalProperties.put("testsSrcPath", "." + "/" + toSrcPath(testsPackage, srcBasePath));
+        additionalProperties.put("apiTestsSrcPath", "." + "/" + toSrcPath(apiTestsPackage, srcBasePath));
+        additionalProperties.put("modelTestsSrcPath", "." + "/" + toSrcPath(modelTestsPackage, srcBasePath));
+        additionalProperties.put("apiTestPath", "." + "/" + testsDirName + "/" + apiDirName);
+        additionalProperties.put("modelTestPath", "." + "/" + testsDirName + "/" + modelDirName);
 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);

@@ -74,7 +74,7 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isContainer}}
-        '{{baseName}}': (value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
+        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}(value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
         {{/isContainer}}
         {{^isContainer}}
         '{{baseName}}': {{datatype}}ToJSON(value.{{name}}),
@@ -88,26 +88,22 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
     return value;
     {{/hasVars}}
 }
-{{#hasEnums}}
 
-/**
- * @export
- * @namespace {{classname}}
- */
-export namespace {{classname}} {
+{{#hasEnums}}
 {{#vars}}
-    {{#isEnum}}
-    /**
-     * @export
-     * @enum {string}
-     */
-    export enum {{enumName}} {
-    {{#allowableValues}}
-        {{#enumVars}}
-        {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
-        {{/enumVars}}
-    {{/allowableValues}}
-    }
-    {{/isEnum}}
+{{#isEnum}}
+/**
+* @export
+* @enum {string}
+*/
+export enum {{classname}}{{enumName}} {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+}
+{{/isEnum}}
 {{/vars}}
-}{{/hasEnums}}
+
+{{/hasEnums}}

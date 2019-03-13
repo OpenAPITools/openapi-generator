@@ -10,4 +10,17 @@ Name | Type | Description | Notes
 **tags** | [**Array&lt;Tag&gt;**](Tag.md) |  | [optional] 
 **status** | **String** | pet status in the store | [optional] 
 
+## Code Sample
+
+```ruby
+require 'Petstore'
+
+instance = Petstore::Pet.new(id: null,
+                                 category: null,
+                                 name: doggie,
+                                 photo_urls: null,
+                                 tags: null,
+                                 status: null)
+```
+
 

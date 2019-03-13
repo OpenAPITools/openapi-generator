@@ -18,10 +18,8 @@
 package org.openapitools.codegen.typescript.fetch;
 
 import com.google.common.collect.Sets;
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
@@ -227,7 +225,7 @@ public class TypeScriptFetchModelTest {
     @Test(description = "test enum array model")
     public void enumArrayMdoelTest() {
         // TODO: update yaml file.
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Schema schema = openAPI.getComponents().getSchemas().get("EnumArrays");
@@ -264,7 +262,7 @@ public class TypeScriptFetchModelTest {
 
     @Test(description = "test enum model for values (numeric, string, etc)")
     public void enumMdoelValueTest() {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new TypeScriptFetchClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Schema schema = openAPI.getComponents().getSchemas().get("Enum_Test");

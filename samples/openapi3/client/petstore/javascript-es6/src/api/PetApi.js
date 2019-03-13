@@ -48,14 +48,13 @@ export default class PetApi {
      * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @param {module:api/PetApi~addPetCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    addPet(pet, callback) {
+    addPet(pet, opts, callback) {
+      opts = opts || {};
       let postBody = pet;
-
       // verify the required parameter 'pet' is set
       if (pet === undefined || pet === null) {
         throw new Error("Missing the required parameter 'pet' when calling addPet");
       }
-
 
       let pathParams = {
       };
@@ -70,11 +69,19 @@ export default class PetApi {
       let contentTypes = ['application/json', 'application/xml'];
       let accepts = [];
       let returnType = null;
+      let basePaths = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2'];
+      let basePath = basePaths[0]; // by default use the first one in "servers" defined in OpenAPI
+      if (typeof opts['_base_path_index'] !== 'undefined') {
+        if (opts['_base_path_index']  >= basePaths.length || opts['_base_path_index'] <  0) {
+          throw new Error("Invalid index " + opts['_base_path_index'] + " when selecting the host settings. Must be less than " + basePaths.length);
+        }
+        basePath = basePaths[opts['_base_path_index']];
+      }
 
       return this.apiClient.callApi(
         '/pet', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, basePath, callback
       );
     }
 
@@ -96,12 +103,10 @@ export default class PetApi {
     deletePet(petId, opts, callback) {
       opts = opts || {};
       let postBody = null;
-
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {
         throw new Error("Missing the required parameter 'petId' when calling deletePet");
       }
-
 
       let pathParams = {
         'petId': petId
@@ -118,11 +123,10 @@ export default class PetApi {
       let contentTypes = [];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/pet/{petId}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 
@@ -143,12 +147,10 @@ export default class PetApi {
      */
     findPetsByStatus(status, callback) {
       let postBody = null;
-
       // verify the required parameter 'status' is set
       if (status === undefined || status === null) {
         throw new Error("Missing the required parameter 'status' when calling findPetsByStatus");
       }
-
 
       let pathParams = {
       };
@@ -164,11 +166,10 @@ export default class PetApi {
       let contentTypes = [];
       let accepts = ['application/xml', 'application/json'];
       let returnType = [Pet];
-
       return this.apiClient.callApi(
         '/pet/findByStatus', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 
@@ -189,12 +190,10 @@ export default class PetApi {
      */
     findPetsByTags(tags, callback) {
       let postBody = null;
-
       // verify the required parameter 'tags' is set
       if (tags === undefined || tags === null) {
         throw new Error("Missing the required parameter 'tags' when calling findPetsByTags");
       }
-
 
       let pathParams = {
       };
@@ -210,11 +209,10 @@ export default class PetApi {
       let contentTypes = [];
       let accepts = ['application/xml', 'application/json'];
       let returnType = [Pet];
-
       return this.apiClient.callApi(
         '/pet/findByTags', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 
@@ -235,12 +233,10 @@ export default class PetApi {
      */
     getPetById(petId, callback) {
       let postBody = null;
-
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {
         throw new Error("Missing the required parameter 'petId' when calling getPetById");
       }
-
 
       let pathParams = {
         'petId': petId
@@ -256,11 +252,10 @@ export default class PetApi {
       let contentTypes = [];
       let accepts = ['application/xml', 'application/json'];
       let returnType = Pet;
-
       return this.apiClient.callApi(
         '/pet/{petId}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 
@@ -277,14 +272,13 @@ export default class PetApi {
      * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @param {module:api/PetApi~updatePetCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    updatePet(pet, callback) {
+    updatePet(pet, opts, callback) {
+      opts = opts || {};
       let postBody = pet;
-
       // verify the required parameter 'pet' is set
       if (pet === undefined || pet === null) {
         throw new Error("Missing the required parameter 'pet' when calling updatePet");
       }
-
 
       let pathParams = {
       };
@@ -299,11 +293,19 @@ export default class PetApi {
       let contentTypes = ['application/json', 'application/xml'];
       let accepts = [];
       let returnType = null;
+      let basePaths = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2'];
+      let basePath = basePaths[0]; // by default use the first one in "servers" defined in OpenAPI
+      if (typeof opts['_base_path_index'] !== 'undefined') {
+        if (opts['_base_path_index']  >= basePaths.length || opts['_base_path_index'] <  0) {
+          throw new Error("Invalid index " + opts['_base_path_index'] + " when selecting the host settings. Must be less than " + basePaths.length);
+        }
+        basePath = basePaths[opts['_base_path_index']];
+      }
 
       return this.apiClient.callApi(
         '/pet', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, basePath, callback
       );
     }
 
@@ -326,12 +328,10 @@ export default class PetApi {
     updatePetWithForm(petId, opts, callback) {
       opts = opts || {};
       let postBody = null;
-
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {
         throw new Error("Missing the required parameter 'petId' when calling updatePetWithForm");
       }
-
 
       let pathParams = {
         'petId': petId
@@ -349,11 +349,10 @@ export default class PetApi {
       let contentTypes = ['application/x-www-form-urlencoded'];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/pet/{petId}', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 
@@ -377,12 +376,10 @@ export default class PetApi {
     uploadFile(petId, opts, callback) {
       opts = opts || {};
       let postBody = null;
-
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {
         throw new Error("Missing the required parameter 'petId' when calling uploadFile");
       }
-
 
       let pathParams = {
         'petId': petId
@@ -400,11 +397,10 @@ export default class PetApi {
       let contentTypes = ['multipart/form-data'];
       let accepts = ['application/json'];
       let returnType = ApiResponse;
-
       return this.apiClient.callApi(
         '/pet/{petId}/uploadImage', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 
@@ -428,17 +424,14 @@ export default class PetApi {
     uploadFileWithRequiredFile(petId, requiredFile, opts, callback) {
       opts = opts || {};
       let postBody = null;
-
       // verify the required parameter 'petId' is set
       if (petId === undefined || petId === null) {
         throw new Error("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
       }
-
       // verify the required parameter 'requiredFile' is set
       if (requiredFile === undefined || requiredFile === null) {
         throw new Error("Missing the required parameter 'requiredFile' when calling uploadFileWithRequiredFile");
       }
-
 
       let pathParams = {
         'petId': petId
@@ -456,11 +449,10 @@ export default class PetApi {
       let contentTypes = ['multipart/form-data'];
       let accepts = ['application/json'];
       let returnType = ApiResponse;
-
       return this.apiClient.callApi(
         '/fake/{petId}/uploadImageWithRequiredFile', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 

@@ -63,8 +63,7 @@ public class Category   {
    **/
   @JsonProperty("name")
   @ApiModelProperty(required = true, value = "")
-    @NotNull
-
+  @NotNull 
   public String getName() {
     return name;
   }

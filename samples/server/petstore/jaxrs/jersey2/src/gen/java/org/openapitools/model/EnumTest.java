@@ -202,8 +202,7 @@ public class EnumTest   {
    **/
   @JsonProperty("enum_string_required")
   @ApiModelProperty(required = true, value = "")
-    @NotNull
-
+  @NotNull 
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -263,7 +262,7 @@ public class EnumTest   {
    **/
   @JsonProperty("outerEnum")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

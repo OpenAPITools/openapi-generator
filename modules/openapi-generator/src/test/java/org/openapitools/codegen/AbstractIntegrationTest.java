@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.openapitools.codegen.testutils.IntegrationTestPathsConfig;
 import org.testng.annotations.Test;
@@ -53,7 +52,7 @@ public abstract class AbstractIntegrationTest {
         IntegrationTestPathsConfig integrationTestPathsConfig = getIntegrationTestPathsConfig();
 
         String specContent = Files.readFile(integrationTestPathsConfig.getSpecPath().toFile());
-        OpenAPI openAPI = new OpenAPIParser().readContents(specContent, null, null).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseContent(specContent);
 
 
         CodegenConfig codegenConfig = getCodegenConfig();

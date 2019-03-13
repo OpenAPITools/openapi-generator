@@ -85,11 +85,21 @@
       var contentTypes = [<#consumes>'<& mediaType>'<#hasMore>, </hasMore></consumes>];
       var accepts = [<#produces>'<& mediaType>'<#hasMore>, </hasMore></produces>];
       var returnType = <#vendorExtensions.x-return-type><&vendorExtensions.x-return-type></vendorExtensions.x-return-type><^vendorExtensions.x-return-type>null</vendorExtensions.x-return-type>;
+      <#servers.0>
+      let basePaths = [<#servers>'<url>'<^-last>, </-last></servers>];
+      let basePath = basePaths[0]; // by default use the first one in "servers" defined in OpenAPI
+      if (typeof opts['_base_path_index'] !== 'undefined') {
+        if (opts['_base_path_index'] < 0 || opts['_base_path_index'] >= basePaths.length) {
+          throw new Error("Invalid index " + opts['_base_path_index'] + " when selecting the host settings. Must be less than " + basePaths.length);
+        }
+        basePath = basePaths[opts['_base_path_index']];
+      }
 
+      </servers.0>
       return this.apiClient.callApi(
         '<&path>', '<httpMethod>',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType<^usePromises>, callback</usePromises>
+        authNames, contentTypes, accepts, returnType, <#servers.0>basePath</servers.0><^servers.0>null</servers.0><^usePromises>, callback</usePromises>
       );
     }
 <#usePromises>

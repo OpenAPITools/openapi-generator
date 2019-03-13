@@ -8,6 +8,6 @@ Name | Type | Description | Notes
 **direct_map** | **map[string,bool]** |  | [optional] 
 **indirect_map** | **map[string,bool]** |  | [optional] 
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 
 

@@ -1494,6 +1494,7 @@ components:
           format: date-time
           type: string
         uuid:
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
           format: uuid
           type: string
         password:
@@ -1708,7 +1709,7 @@ components:
     OuterComposite:
       example:
         my_string: my_string
-        my_number: 0.80082819046101150206595775671303272247314453125
+        my_number: 0.8008281904610115
         my_boolean: true
       properties:
         my_number:

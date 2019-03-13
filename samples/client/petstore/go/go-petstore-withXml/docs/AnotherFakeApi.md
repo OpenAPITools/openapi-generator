@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **Call123TestSpecialTags**
-> Client Call123TestSpecialTags(ctx, client)
+> Client Call123TestSpecialTags(ctx, body)
 To test special tags
 
 To test special tags and operation ID starting with number
@@ -18,7 +18,7 @@ To test special tags and operation ID starting with number
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **client** | [**Client**](Client.md)| client model | 
+  **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

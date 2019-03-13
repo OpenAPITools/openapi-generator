@@ -51,12 +51,10 @@ export default class FakeClassnameTags123Api {
      */
     testClassname(client, callback) {
       let postBody = client;
-
       // verify the required parameter 'client' is set
       if (client === undefined || client === null) {
         throw new Error("Missing the required parameter 'client' when calling testClassname");
       }
-
 
       let pathParams = {
       };
@@ -71,11 +69,10 @@ export default class FakeClassnameTags123Api {
       let contentTypes = ['application/json'];
       let accepts = ['application/json'];
       let returnType = Client;
-
       return this.apiClient.callApi(
         '/fake_classname_test', 'PATCH',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+        authNames, contentTypes, accepts, returnType, null, callback
       );
     }
 

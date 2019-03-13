@@ -30,6 +30,9 @@ paths:
                   string:
                     $ref: '#/components/schemas/Foo'
   /pet:
+    servers:
+    - url: 'http://petstore.swagger.io/v2'
+    - url: 'http://path-server-test.petstore.local/v2'
     post:
       tags:
         - pet
@@ -1027,6 +1030,18 @@ paths:
                   format: binary
               required:
                 - requiredFile
+  /fake/health:
+    get:
+      tags:
+        - fake
+      summary: Health check endpoint
+      responses:
+        200:
+          description: The instance started successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheckResult'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1358,6 +1373,7 @@ components:
         uuid:
           type: string
           format: uuid
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
         password:
           type: string
           format: password
@@ -1409,6 +1425,12 @@ components:
             - -1.2
         outerEnum:
           $ref: '#/components/schemas/OuterEnum'
+        outerEnumInteger:
+          $ref: '#/components/schemas/OuterEnumInteger'
+        outerEnumDefaultValue:
+          $ref: '#/components/schemas/OuterEnumDefaultValue'
+        outerEnumIntegerDefaultValue:
+          $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
     AdditionalPropertiesClass:
       type: object
       properties:
@@ -1563,6 +1585,26 @@ components:
         - placed
         - approved
         - delivered
+    OuterEnumInteger:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+    OuterEnumDefaultValue:
+      type: string
+      enum:
+      - placed
+      - approved
+      - delivered
+      default: placed
+    OuterEnumIntegerDefaultValue:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      default: 0
     OuterComposite:
       type: object
       properties:
@@ -1605,3 +1647,10 @@ components:
           format: int64
       xml:
         name: '$special[model.name]'
+    HealthCheckResult:
+      type: object
+      properties:
+        NullableMessage:
+          nullable: true
+          type: string
+      description: Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.

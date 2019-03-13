@@ -33,6 +33,7 @@ import FileSchemaTestClass from './model/FileSchemaTestClass';
 import Foo from './model/Foo';
 import FormatTest from './model/FormatTest';
 import HasOnlyReadOnly from './model/HasOnlyReadOnly';
+import HealthCheckResult from './model/HealthCheckResult';
 import InlineObject from './model/InlineObject';
 import InlineObject1 from './model/InlineObject1';
 import InlineObject2 from './model/InlineObject2';
@@ -221,6 +222,12 @@ export {
      * @property {module:model/HasOnlyReadOnly}
      */
     HasOnlyReadOnly,
+
+    /**
+     * The HealthCheckResult model constructor.
+     * @property {module:model/HealthCheckResult}
+     */
+    HealthCheckResult,
 
     /**
      * The InlineObject model constructor.

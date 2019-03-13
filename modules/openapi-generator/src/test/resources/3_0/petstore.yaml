@@ -419,6 +419,7 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$'
         - name: password
           in: query
           description: The password for login in clear text
@@ -606,6 +607,7 @@ components:
           format: int64
         name:
           type: string
+          pattern: '^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$'
       xml:
         name: Category
     User:

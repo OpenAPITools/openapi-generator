@@ -1,8 +1,6 @@
 package org.openapitools.codegen;
 
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.testng.annotations.Test;
 
@@ -14,8 +12,7 @@ import static org.testng.AssertJUnit.assertNull;
 public class ExampleGeneratorTest {
     @Test
     public void generateFromResponseSchemaWithPrimitiveType() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/example_generator_test.yaml", null, new
-                ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/example_generator_test.yaml");
 
         new InlineModelResolver().flatten(openAPI);
 
@@ -44,8 +41,7 @@ public class ExampleGeneratorTest {
 
     @Test
     public void generateFromResponseSchemaWithNoExample() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/example_generator_test.yaml", null, new
-                ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/example_generator_test.yaml");
 
         new InlineModelResolver().flatten(openAPI);
 
@@ -71,8 +67,7 @@ public class ExampleGeneratorTest {
 
     @Test
     public void generateFromResponseSchemaWithArrayOfModel() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/example_generator_test.yaml", null, new
-                ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/example_generator_test.yaml");
 
         new InlineModelResolver().flatten(openAPI);
 
@@ -101,8 +96,7 @@ public class ExampleGeneratorTest {
 
     @Test
     public void generateFromResponseSchemaWithArrayOfPrimitiveTypes() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/example_generator_test.yaml", null, new
-                ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/example_generator_test.yaml");
 
         new InlineModelResolver().flatten(openAPI);
 
@@ -131,8 +125,7 @@ public class ExampleGeneratorTest {
 
     @Test
     public void generateFromResponseSchemaWithModel() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/example_generator_test.yaml", null, new
-                ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/example_generator_test.yaml");
 
         new InlineModelResolver().flatten(openAPI);
 

@@ -31,7 +31,7 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
  * @export
  * @enum {string}
  */
-export enum {{enumName}} {
+export enum {{classname}}{{enumName}} {
 {{#allowableValues}}
     {{#enumVars}}
     {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
