@@ -202,6 +202,8 @@ typedef struct {{classname}}_t {
     {{/vars}}
 );
 
+void {{classname}}_free({{classname}}_t *{{classname}});
+
 {{classname}}_t *{{classname}}_parseFromJSON(cJSON *{{classname}}JSON);
 
 cJSON *{{classname}}_convertToJSON({{classname}}_t *{{classname}});

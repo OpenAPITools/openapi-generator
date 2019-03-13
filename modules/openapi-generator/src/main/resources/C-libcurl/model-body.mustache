@@ -121,29 +121,6 @@ return 0;
     {{/isContainer}}
     {{/vars}}
 
-
-{{#vars}}
-{{#isEnum}}
-char* {{baseName}}{{classname}}_ToString({{baseName}}_e {{baseName}}){
-    char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
-    return {{baseName}}Array[{{baseName}}];
-
-}
-
-{{baseName}}_e {{baseName}}{{classname}}_FromString(char* {{baseName}}){
-    int stringToReturn = 0;
-    char *{{baseName}}Array[] =  { {{#allowableValues}}{{#enumVars}}"{{{value}}}"{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}} };
-    size_t sizeofArray = sizeof({{baseName}}Array) / sizeof({{baseName}}Array[0]);
-    while(stringToReturn < sizeofArray) {
-        if(strcmp({{baseName}}, {{baseName}}Array[stringToReturn]) == 0) {
-            return stringToReturn;
-        }
-        stringToReturn++;
-    }
-}
-{{/isEnum}}
-{{/vars}}
-
 {{classname}}_t *{{classname}}_create(
     {{#vars}}
     {{^isContainer}}
@@ -226,43 +203,6 @@ char* {{baseName}}{{classname}}_ToString({{baseName}}_e {{baseName}}){
 
 void {{classname}}_free({{classname}}_t *{{classname}}) {
     listEntry_t *listEntry;
-	{{#vars}}
-	{{^isContainer}}
-	{{^isPrimitiveType}}
-	{{{complexType}}}_free({{{classname}}}->{{{baseName}}});
-	{{/isPrimitiveType}}
-	{{#isPrimitiveType}}
-    {{^isEnum}}
-    {{#isString}}
-    free({{{classname}}}->{{{baseName}}});
-    {{/isString}}
-    {{/isEnum}}
-    {{#isDateTime}}
-    free({{{classname}}}->{{{baseName}}});
-    {{/isDateTime}}
-	{{/isPrimitiveType}}
-	{{/isContainer}}
-	{{#isContainer}}
-	{{#isListContainer}}
-	{{#isPrimitiveType}}
-	list_ForEach(listEntry, {{classname}}->{{baseName}}) {
-		free(listEntry->data);
-	}
-	list_free({{classname}}->{{baseName}});
-	{{/isPrimitiveType}}
-	{{^isPrimitiveType}}
-		list_ForEach(listEntry, {{classname}}->{{baseName}}) {
-		{{complexType}}_free(listEntry->data);
-	}
-	list_free({{classname}}->{{baseName}});
-	{{/isPrimitiveType}}
-	{{/isListContainer}}
-	{{#isMapContainer}}
-	// TODO map/hash not supported at the moment
-	{{/isMapContainer}}
-	{{/isContainer}}
-	{{/vars}}
-
     {{#vars}}
     {{^isContainer}}
     {{^isPrimitiveType}}
@@ -806,6 +746,6 @@ end:
     return NULL;
 
 }
-
+{{/isEnum}}
 {{/model}}
 {{/models}}
