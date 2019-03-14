@@ -70,6 +70,8 @@ int main() {
 		           status);
 
 	PetAPI_addPet(apiClient, pet);
+	cJSON *JSONR_local = pet_convertToJSON(pet);
+	printf("Data is:%s\n", cJSON_Print(JSONR_local));
 	pet_free(pet);
 
 
@@ -115,15 +117,26 @@ int main() {
 // Pet upload file Test
 	apiClient_t *apiClient3 = apiClient_create();
 	FILE *file = fopen("/opt/image.png", "r");
+	char *buff;
+	int read_size,len;
+	binary_t * data;
+	if (file) {
+	fseek(file,0,SEEK_END);
+	read_size = ftell(file);
+	rewind(file);
+	data->data = (char*) malloc(sizeof(char) * (read_size + 1));
+	data->len = fread(data->data,sizeof(char),read_size,file);
+	data->data[read_size] = '\0';
+	}
 	if(file != NULL) {
 		api_response_t *respo = PetAPI_uploadFile(apiClient3,
 		                                          EXAMPLE_PET_ID,
 		                                          "dec",
-		                                          file);
+		                                          data);
 
 		api_response_free(respo);
 		fclose(file);
 	} else {
-    apiClient_free(apiClient3);
+    //apiClient_free(apiClient3);
     }
 }

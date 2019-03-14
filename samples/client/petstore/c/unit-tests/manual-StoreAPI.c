@@ -88,7 +88,7 @@ int main() {
 	listEntry_t *listEntry;
     list_ForEach(listEntry, elementToReturn) {
     keyValuePair_t *pair = (keyValuePair_t*)listEntry->data;
-    printf("%s - %s\n",pair->key,pair->value );
+    printf("%s - %s\n",pair->key,(char*)pair->value );
     }
 	list_ForEach(listEntry, elementToReturn) {
     keyValuePair_t *pair = (keyValuePair_t*)listEntry->data;

@@ -25,7 +25,7 @@ int main() {
 
 	printf("Created Order is: \n%s\n", dataToPrint);
 
-	order_t *parsedOrder = order_parseFromJSON(dataToPrint);
+	order_t *parsedOrder = order_parseFromJSON(JSONNODE);
 
 	cJSON *fromJSON = order_convertToJSON(parsedOrder);
 

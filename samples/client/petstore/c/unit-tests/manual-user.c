@@ -25,7 +25,7 @@ int main() {
 
 	printf("Created User is: \n%s\n", dataToPrint);
 
-	user_t *pasrsedUser = user_parseFromJSON(dataToPrint);
+	user_t *pasrsedUser = user_parseFromJSON(JSONNODE);
 
 	cJSON *fromJSON = user_convertToJSON(pasrsedUser);
 
