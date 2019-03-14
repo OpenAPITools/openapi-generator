@@ -17,7 +17,7 @@ The following generators are available:
     - [cpp-tizen](generators/cpp-tizen.md)
     - [csharp](generators/csharp.md)
     - [csharp-dotnet2](generators/csharp-dotnet2.md)
-    - [csharp-netcore](generators/csharp-netcore.md)
+    - [csharp-refactor](generators/csharp-refactor.md)
     - [dart](generators/dart.md)
     - [dart-jaguar](generators/dart-jaguar.md)
     - [eiffel](generators/eiffel.md)
