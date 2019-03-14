@@ -78,7 +78,7 @@
       {{#hasPathParams}}
       {{#pathParams}}
       if (!missing(`{{paramName}}`)) {
-        urlPath <- gsub(paste0("\\{", "{{baseName}}", "\\}"), `{{paramName}}`, urlPath)
+        urlPath <- gsub(paste0("\\{", "{{baseName}}", "\\}"), URLencode(as.character(`{{paramName}}`), reserved = TRUE), urlPath)
       }
 
       {{/pathParams}}
