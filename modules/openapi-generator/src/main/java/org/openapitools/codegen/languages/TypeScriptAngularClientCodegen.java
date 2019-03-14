@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -458,7 +459,20 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                     }
                 }
                 // Add additional filename information for imports
-                mo.put("tsImports", toTsImports(cm, cm.imports));
+                Set<String> newImports = new HashSet<String>();
+                System.out.println(cm.imports);
+                if (cm.imports.size() > 0) {
+                    for (String name : cm.imports) {
+                        if (name.indexOf(" | ") >= 0) {
+                            String[] parts = name.split(" \\| ");
+                            System.out.println("-->" + Arrays.toString(parts));
+                            for (String s : parts) {
+                                newImports.add(s);
+                            }
+                        }
+                    }
+                }
+                mo.put("tsImports", toTsImports(cm, newImports.size() > 0 ? newImports : cm.imports));
             }
         }
         return result;
