@@ -18,6 +18,10 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
+from petstore_api.exceptions import (
+    ApiTypeError,
+    ApiValueError
+)
 
 
 class FakeClassnameTags123Api(object):
@@ -80,7 +84,7 @@ class FakeClassnameTags123Api(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_classname" % key
                 )
@@ -89,7 +93,7 @@ class FakeClassnameTags123Api(object):
         # verify the required parameter 'body' is set
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `test_classname`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `body` when calling `test_classname`")  # noqa: E501
 
         collection_formats = {}
 
