@@ -81,6 +81,9 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
+    servers:
+    - url: http://petstore.swagger.io/v2
+    - url: http://path-server-test.petstore.local/v2
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
@@ -650,6 +653,8 @@ paths:
       responses:
         400:
           description: Someting wrong
+      security:
+      - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)
       tags:
       - fake
@@ -1460,6 +1465,7 @@ components:
           format: date-time
           type: string
         uuid:
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
           format: uuid
           type: string
         password:
@@ -1516,6 +1522,12 @@ components:
           type: number
         outerEnum:
           $ref: '#/components/schemas/OuterEnum'
+        outerEnumInteger:
+          $ref: '#/components/schemas/OuterEnumInteger'
+        outerEnumDefaultValue:
+          $ref: '#/components/schemas/OuterEnumDefaultValue'
+        outerEnumIntegerDefaultValue:
+          $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
       required:
       - enum_string_required
       type: object
@@ -1676,10 +1688,32 @@ components:
       - approved
       - delivered
       type: string
+    OuterEnumInteger:
+      enum:
+      - 0
+      - 1
+      - 2
+      format: int32
+      type: integer
+    OuterEnumDefaultValue:
+      default: placed
+      enum:
+      - placed
+      - approved
+      - delivered
+      type: string
+    OuterEnumIntegerDefaultValue:
+      default: 0
+      enum:
+      - 0
+      - 1
+      - 2
+      format: int32
+      type: integer
     OuterComposite:
       example:
         my_string: my_string
-        my_number: 0.80082819046101150206595775671303272247314453125
+        my_number: 0.8008281904610115
         my_boolean: true
       properties:
         my_number:
@@ -1902,4 +1936,8 @@ components:
       type: apiKey
     http_basic_test:
       scheme: basic
+      type: http
+    bearer_test:
+      bearerFormat: JWT
+      scheme: bearer
       type: http
