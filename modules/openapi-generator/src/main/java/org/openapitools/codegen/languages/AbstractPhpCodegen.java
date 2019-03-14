@@ -1,4 +1,4 @@
-/*ap Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+/* Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
  * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -132,8 +132,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay\\Pets"));
         cliOptions.add(new CliOption(PACKAGE_NAME, "The main package name for classes. e.g. GeneratedPetstore"));
         cliOptions.add(new CliOption(SRC_BASE_PATH, "The directory to serve as source root."));
-        cliOptions.add(new CliOption(CodegenConstants.GIT_USER_ID, CodegenConstants.GIT_USER_ID_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.GIT_REPO_ID, CodegenConstants.GIT_REPO_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "The version to use in the composer package version field. e.g. 1.2.3"));
     }
 
@@ -179,18 +177,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             apiPackage = invokerPackage + "\\" + (String) additionalProperties.get(CodegenConstants.API_PACKAGE);
         }
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
-
-        if (additionalProperties.containsKey(CodegenConstants.GIT_USER_ID)) {
-            this.setGitUserId((String) additionalProperties.get(CodegenConstants.GIT_USER_ID));
-        } else {
-            additionalProperties.put(CodegenConstants.GIT_USER_ID, gitUserId);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.GIT_REPO_ID)) {
-            this.setGitRepoId((String) additionalProperties.get(CodegenConstants.GIT_REPO_ID));
-        } else {
-            additionalProperties.put(CodegenConstants.GIT_REPO_ID, gitRepoId);
-        }
 
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
             this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
