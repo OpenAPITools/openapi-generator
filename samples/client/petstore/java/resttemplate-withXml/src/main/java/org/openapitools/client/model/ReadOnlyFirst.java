@@ -41,6 +41,16 @@ public class ReadOnlyFirst {
   @XmlElement(name = "baz")
   private String baz;
 
+  public ReadOnlyFirst() {
+    super();
+  }
+
+  public ReadOnlyFirst(ReadOnlyFirst copy) {
+    super();
+    this.bar = copy.getBar();
+    this.baz = copy.getBaz();
+  }
+
    /**
    * Get bar
    * @return bar

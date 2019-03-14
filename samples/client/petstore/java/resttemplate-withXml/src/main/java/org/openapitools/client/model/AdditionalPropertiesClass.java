@@ -48,6 +48,16 @@ public class AdditionalPropertiesClass {
   @XmlElement(name = "inner")
   private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<String, Map<String, String>>();
 
+  public AdditionalPropertiesClass() {
+    super();
+  }
+
+  public AdditionalPropertiesClass(AdditionalPropertiesClass copy) {
+    super();
+    this.mapProperty = copy.getMapProperty();
+    this.mapOfMapProperty = copy.getMapOfMapProperty();
+  }
+
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
     return this;

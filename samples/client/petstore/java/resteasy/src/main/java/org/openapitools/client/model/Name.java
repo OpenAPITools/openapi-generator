@@ -39,6 +39,18 @@ public class Name {
   @JsonProperty("123Number")
   private Integer _123number;
 
+  public Name() {
+    super();
+  }
+
+  public Name(Name copy) {
+    super();
+    this.name = copy.getName();
+    this.snakeCase = copy.getSnakeCase();
+    this.property = copy.getProperty();
+    this._123number = copy.get123number();
+  }
+
   public Name name(Integer name) {
     this.name = name;
     return this;

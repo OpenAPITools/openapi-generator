@@ -34,6 +34,15 @@ public class ClassModel {
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
   private String propertyClass;
 
+  public ClassModel() {
+    super();
+  }
+
+  public ClassModel(ClassModel copy) {
+    super();
+    this.propertyClass = copy.getPropertyClass();
+  }
+
   public ClassModel propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
     return this;

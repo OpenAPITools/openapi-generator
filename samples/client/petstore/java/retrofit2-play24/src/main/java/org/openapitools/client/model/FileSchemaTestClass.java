@@ -36,6 +36,16 @@ public class FileSchemaTestClass {
   @JsonProperty("files")
   private List<java.io.File> files = new ArrayList<>();
 
+  public FileSchemaTestClass() {
+    super();
+  }
+
+  public FileSchemaTestClass(FileSchemaTestClass copy) {
+    super();
+    this.file = copy.getFile();
+    this.files = copy.getFiles();
+  }
+
   public FileSchemaTestClass file(java.io.File file) {
     this.file = file;
     return this;

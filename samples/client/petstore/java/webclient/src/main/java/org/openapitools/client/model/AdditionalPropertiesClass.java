@@ -35,6 +35,16 @@ public class AdditionalPropertiesClass {
   @JsonProperty("map_of_map_property")
   private Map<String, Map<String, String>> mapOfMapProperty = new HashMap<>();
 
+  public AdditionalPropertiesClass() {
+    super();
+  }
+
+  public AdditionalPropertiesClass(AdditionalPropertiesClass copy) {
+    super();
+    this.mapProperty = copy.getMapProperty();
+    this.mapOfMapProperty = copy.getMapOfMapProperty();
+  }
+
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
     return this;

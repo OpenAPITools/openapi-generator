@@ -39,6 +39,12 @@ public class Cat extends Animal implements Parcelable {
   public Cat() {
     super();
   }
+
+  public Cat(Cat copy) {
+    super(copy);
+    this.declawed = copy.getDeclawed();
+  }
+
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
     return this;

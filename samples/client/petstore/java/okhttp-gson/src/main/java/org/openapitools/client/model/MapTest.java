@@ -95,6 +95,18 @@ public class MapTest {
   @SerializedName(SERIALIZED_NAME_INDIRECT_MAP)
   private Map<String, Boolean> indirectMap = new HashMap<String, Boolean>();
 
+  public MapTest() {
+    super();
+  }
+
+  public MapTest(MapTest copy) {
+    super();
+    this.mapMapOfString = copy.getMapMapOfString();
+    this.mapOfEnumString = copy.getMapOfEnumString();
+    this.directMap = copy.getDirectMap();
+    this.indirectMap = copy.getIndirectMap();
+  }
+
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
     return this;

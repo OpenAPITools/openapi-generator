@@ -40,7 +40,15 @@ public class HasOnlyReadOnly implements Parcelable {
   private String foo;
 
   public HasOnlyReadOnly() {
+    super();
   }
+
+  public HasOnlyReadOnly(HasOnlyReadOnly copy) {
+    super();
+    this.bar = copy.getBar();
+    this.foo = copy.getFoo();
+  }
+
    /**
    * Get bar
    * @return bar

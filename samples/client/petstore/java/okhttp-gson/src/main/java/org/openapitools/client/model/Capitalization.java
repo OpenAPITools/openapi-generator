@@ -53,6 +53,20 @@ public class Capitalization {
   @SerializedName(SERIALIZED_NAME_A_T_T_N_A_M_E)
   private String ATT_NAME;
 
+  public Capitalization() {
+    super();
+  }
+
+  public Capitalization(Capitalization copy) {
+    super();
+    this.smallCamel = copy.getSmallCamel();
+    this.capitalCamel = copy.getCapitalCamel();
+    this.smallSnake = copy.getSmallSnake();
+    this.capitalSnake = copy.getCapitalSnake();
+    this.scAETHFlowPoints = copy.getScAETHFlowPoints();
+    this.ATT_NAME = copy.getATTNAME();
+  }
+
   public Capitalization smallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
     return this;

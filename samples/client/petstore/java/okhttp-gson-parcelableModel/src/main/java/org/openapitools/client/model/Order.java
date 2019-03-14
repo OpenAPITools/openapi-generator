@@ -106,7 +106,19 @@ public class Order implements Parcelable {
   private Boolean complete = false;
 
   public Order() {
+    super();
   }
+
+  public Order(Order copy) {
+    super();
+    this.id = copy.getId();
+    this.petId = copy.getPetId();
+    this.quantity = copy.getQuantity();
+    this.shipDate = copy.getShipDate();
+    this.status = copy.getStatus();
+    this.complete = copy.getComplete();
+  }
+
   public Order id(Long id) {
     this.id = id;
     return this;

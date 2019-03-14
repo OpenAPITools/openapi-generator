@@ -41,6 +41,15 @@ public class ArrayOfNumberOnly {
   @XmlElement(name = "arrayNumber")
   private List<BigDecimal> arrayNumber = new ArrayList<BigDecimal>();
 
+  public ArrayOfNumberOnly() {
+    super();
+  }
+
+  public ArrayOfNumberOnly(ArrayOfNumberOnly copy) {
+    super();
+    this.arrayNumber = copy.getArrayNumber();
+  }
+
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
     return this;

@@ -115,6 +115,16 @@ public class EnumArrays {
   @XmlElement(name = "arrayEnum")
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
 
+  public EnumArrays() {
+    super();
+  }
+
+  public EnumArrays(EnumArrays copy) {
+    super();
+    this.justSymbol = copy.getJustSymbol();
+    this.arrayEnum = copy.getArrayEnum();
+  }
+
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
     return this;

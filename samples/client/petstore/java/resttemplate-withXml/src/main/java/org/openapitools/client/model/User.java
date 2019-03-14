@@ -71,6 +71,22 @@ public class User {
   @XmlElement(name = "userStatus")
   private Integer userStatus;
 
+  public User() {
+    super();
+  }
+
+  public User(User copy) {
+    super();
+    this.id = copy.getId();
+    this.username = copy.getUsername();
+    this.firstName = copy.getFirstName();
+    this.lastName = copy.getLastName();
+    this.email = copy.getEmail();
+    this.password = copy.getPassword();
+    this.phone = copy.getPhone();
+    this.userStatus = copy.getUserStatus();
+  }
+
   public User id(Long id) {
     this.id = id;
     return this;

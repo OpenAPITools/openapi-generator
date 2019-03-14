@@ -42,6 +42,17 @@ public class OuterComposite {
   @SerializedName(SERIALIZED_NAME_MY_BOOLEAN)
   private Boolean myBoolean;
 
+  public OuterComposite() {
+    super();
+  }
+
+  public OuterComposite(OuterComposite copy) {
+    super();
+    this.myNumber = copy.getMyNumber();
+    this.myString = copy.getMyString();
+    this.myBoolean = copy.isMyBoolean();
+  }
+
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
     return this;

@@ -34,6 +34,15 @@ public class Dog extends Animal {
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
+  public Dog() {
+    super();
+  }
+
+  public Dog(Dog copy) {
+    super(copy);
+    this.breed = copy.getBreed();
+  }
+
   public Dog breed(String breed) {
     this.breed = breed;
     return this;

@@ -61,27 +61,22 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#parcela
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
 
   {{/vars}}
-  {{#parcelableModel}}
   public {{classname}}() {
-  {{#parent}}
     super();
-  {{/parent}}
   {{#gson}}
   {{#discriminator}}
     this.{{{discriminatorName}}} = this.getClass().getSimpleName();
   {{/discriminator}}
   {{/gson}}
   }
-  {{/parcelableModel}}
-  {{^parcelableModel}}
-  {{#gson}}
-  {{#discriminator}}
-  public {{classname}}() {
-    this.{{{discriminatorName}}} = this.getClass().getSimpleName();
+
+  public {{classname}}({{classname}} copy) {
+    super({{#parent}}copy{{/parent}});
+{{#vars}}
+    this.{{name}} = copy.{{getter}}();
+{{/vars}}
   }
-  {{/discriminator}}
-  {{/gson}}
-  {{/parcelableModel}}
+
   {{#vars}}
   {{^isReadOnly}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {

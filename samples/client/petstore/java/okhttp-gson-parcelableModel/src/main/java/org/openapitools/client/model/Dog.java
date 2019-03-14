@@ -39,6 +39,12 @@ public class Dog extends Animal implements Parcelable {
   public Dog() {
     super();
   }
+
+  public Dog(Dog copy) {
+    super(copy);
+    this.breed = copy.getBreed();
+  }
+
   public Dog breed(String breed) {
     this.breed = breed;
     return this;

@@ -28,6 +28,15 @@ public class SpecialModelName {
   @JsonProperty("$special[property.name]")
   private Long $specialPropertyName;
 
+  public SpecialModelName() {
+    super();
+  }
+
+  public SpecialModelName(SpecialModelName copy) {
+    super();
+    this.$specialPropertyName = copy.get$SpecialPropertyName();
+  }
+
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
     return this;

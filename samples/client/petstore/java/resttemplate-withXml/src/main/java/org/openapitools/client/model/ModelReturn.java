@@ -37,6 +37,15 @@ public class ModelReturn {
   @XmlElement(name = "return")
   private Integer _return;
 
+  public ModelReturn() {
+    super();
+  }
+
+  public ModelReturn(ModelReturn copy) {
+    super();
+    this._return = copy.getReturn();
+  }
+
   public ModelReturn _return(Integer _return) {
     this._return = _return;
     return this;

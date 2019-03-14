@@ -31,6 +31,15 @@ public class ArrayOfArrayOfNumberOnly {
   @JsonProperty("ArrayArrayNumber")
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<List<BigDecimal>>();
 
+  public ArrayOfArrayOfNumberOnly() {
+    super();
+  }
+
+  public ArrayOfArrayOfNumberOnly(ArrayOfArrayOfNumberOnly copy) {
+    super();
+    this.arrayArrayNumber = copy.getArrayArrayNumber();
+  }
+
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;

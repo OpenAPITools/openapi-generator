@@ -41,8 +41,16 @@ public class Animal implements Parcelable {
   private String color = "red";
 
   public Animal() {
+    super();
     this.className = this.getClass().getSimpleName();
   }
+
+  public Animal(Animal copy) {
+    super();
+    this.className = copy.getClassName();
+    this.color = copy.getColor();
+  }
+
   public Animal className(String className) {
     this.className = className;
     return this;

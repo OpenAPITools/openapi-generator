@@ -31,6 +31,16 @@ public class Tag {
   @JsonProperty("name")
   private String name;
 
+  public Tag() {
+    super();
+  }
+
+  public Tag(Tag copy) {
+    super();
+    this.id = copy.getId();
+    this.name = copy.getName();
+  }
+
   public Tag id(Long id) {
     this.id = id;
     return this;

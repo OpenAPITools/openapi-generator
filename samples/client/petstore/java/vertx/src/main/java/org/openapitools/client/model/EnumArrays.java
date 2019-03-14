@@ -104,6 +104,16 @@ public class EnumArrays {
   @JsonProperty("array_enum")
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
+  public EnumArrays() {
+    super();
+  }
+
+  public EnumArrays(EnumArrays copy) {
+    super();
+    this.justSymbol = copy.getJustSymbol();
+    this.arrayEnum = copy.getArrayEnum();
+  }
+
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
     return this;
