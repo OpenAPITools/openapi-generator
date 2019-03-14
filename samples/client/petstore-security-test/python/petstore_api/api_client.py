@@ -517,6 +517,8 @@ class ApiClient(object):
             if auth_setting:
                 if not auth_setting['value']:
                     continue
+                elif auth_setting['in'] == 'cookie':
+                    headers['Cookie'] = auth_setting['value']
                 elif auth_setting['in'] == 'header':
                     headers[auth_setting['key']] = auth_setting['value']
                 elif auth_setting['in'] == 'query':
