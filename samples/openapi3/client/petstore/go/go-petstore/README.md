@@ -108,6 +108,9 @@ Class | Method | HTTP request | Description
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)
  - [OuterEnum](docs/OuterEnum.md)
+ - [OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
+ - [OuterEnumInteger](docs/OuterEnumInteger.md)
+ - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Return](docs/Return.md)
@@ -137,6 +140,17 @@ Example
 auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
 	Key: "APIKEY",
 	Prefix: "Bearer", // Omit if not necessary.
+})
+r, err := client.Service.Operation(auth, args)
+```
+## bearer_test
+- **Type**: HTTP basic authentication
+
+Example
+```golang
+auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
+	UserName: "username",
+	Password: "password",
 })
 r, err := client.Service.Operation(auth, args)
 ```

@@ -31,11 +31,11 @@ FakeApiService To test code injection *_/ ' \" =end -- \\r\\n \\n \\r
 To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *TestCodeInjectEndRnNROpts - Optional Parameters:
- * @param "UNKNOWNBASETYPE" (optional.Interface of UNKNOWN_BASE_TYPE) - 
+ * @param "TestCodeInjectEndRnNR" (optional.String) -  To test code injection *_/ ' \\\" =end -- \\\\r\\\\n \\\\n \\\\r
 */
 
 type TestCodeInjectEndRnNROpts struct {
-	UNKNOWNBASETYPE optional.Interface
+	TestCodeInjectEndRnNR optional.String
 }
 
 func (a *FakeApiService) TestCodeInjectEndRnNR(ctx context.Context, localVarOptionals *TestCodeInjectEndRnNROpts) (*http.Response, error) {
@@ -55,7 +55,7 @@ func (a *FakeApiService) TestCodeInjectEndRnNR(ctx context.Context, localVarOpti
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{"application/json", "*_/ '  =end --       "}
+	localVarHttpContentTypes := []string{"application/x-www-form-urlencoded", "*_/ '  =end --       "}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -71,15 +71,9 @@ func (a *FakeApiService) TestCodeInjectEndRnNR(ctx context.Context, localVarOpti
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	// body params
-	if localVarOptionals != nil && localVarOptionals.UNKNOWNBASETYPE.IsSet() {
-		localVarOptionalUNKNOWNBASETYPE, localVarOptionalUNKNOWNBASETYPEok := localVarOptionals.UNKNOWNBASETYPE.Value().(UNKNOWN_BASE_TYPE)
-		if !localVarOptionalUNKNOWNBASETYPEok {
-			return nil, reportError("uNKNOWNBASETYPE should be UNKNOWN_BASE_TYPE")
-		}
-		localVarPostBody = &localVarOptionalUNKNOWNBASETYPE
+	if localVarOptionals != nil && localVarOptionals.TestCodeInjectEndRnNR.IsSet() {
+		localVarFormParams.Add("test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r", parameterToString(localVarOptionals.TestCodeInjectEndRnNR.Value(), ""))
 	}
-
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
