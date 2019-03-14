@@ -22,7 +22,7 @@ sidebar_label: aspnetcore
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
-|classModifier|Class Modifier| ||
-|operationModifier|Operation Modifier| |virtual|
+|classModifier|Class Modifier can be empty, abstract| ||
+|operationModifier|Operation Modifier can be virtual, abstract or partial| |virtual|
 |buildTarget|Target to build an application or library| |program|
 |generateBody|Generates method body.| |true|
