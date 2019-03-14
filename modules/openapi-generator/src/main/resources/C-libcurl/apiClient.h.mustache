@@ -43,8 +43,8 @@ void apiClient_invoke(apiClient_t *apiClient,char* operationParameter, list_t *q
 
 char *strReplace(char *orig, char *rep, char *with);
 
-char *base64encode(cont void *b64_encode_this, int encode_this_many_bytes);
+char *base64encode(const void *b64_encode_this, int encode_this_many_bytes);
 
-char *base64decode(cont void *b64_decode_this, int decode_this_many_bytes);
+char *base64decode(const void *b64_decode_this, int decode_this_many_bytes);
 
 #endif // INCLUDE_API_CLIENT_H

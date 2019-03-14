@@ -173,7 +173,7 @@ void apiClient_invoke(apiClient_t    *apiClient,
         struct curl_slist *headers = NULL;
         char *buffContent = NULL;
         char *buffHeader = NULL;
-        FileStruct *fileVar = NULL;
+        binary_t *fileVar = NULL;
         char *formString = NULL;
 
         if(headerType != NULL) {
@@ -289,8 +289,8 @@ void apiClient_invoke(apiClient_t    *apiClient,
                                    keyValuePair->value,
                                    sizeof(fileVar));
                             curl_mime_data(part,
-                                           fileVar->fileData,
-                                           fileVar->fileSize);
+                                           fileVar->data,
+                                           fileVar->len);
                             curl_mime_filename(part,
                                                "image.png");
                         } else {
@@ -515,7 +515,7 @@ char *sbi_base64encode (const void *b64_encode_this, int encode_this_many_bytes)
 #endif
 }
 
-char *sbi_base64decode (phoenix_mem_t* mem_pool,const void *b64_decode_this, int decode_this_many_bytes){
+char *sbi_base64decode (const void *b64_decode_this, int decode_this_many_bytes){
 #ifdef OPENSSL
     BIO *b64_bio, *mem_bio;      //Declares two OpenSSL BIOs: a base64 filter and a memory BIO.
     char *base64_decoded = calloc( (decode_this_many_bytes*3)/4+1, sizeof(char) ); //+1 = null.
