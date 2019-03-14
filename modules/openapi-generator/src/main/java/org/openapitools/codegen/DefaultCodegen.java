@@ -1270,12 +1270,15 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Return property value depending on property type
+     * Return property value depending on property type.
      * @param schema property type
      * @return property value
      */
     @SuppressWarnings("squid:S3923")
     private String getPropertyDefaultValue(Schema schema) {
+        /**
+         * Although all branches return null, this is left intentionally as examples for new contributors
+         */
         if (ModelUtils.isBooleanSchema(schema)) {
             return "null";
         } else if (ModelUtils.isDateSchema(schema)) {
