@@ -47,6 +47,7 @@ sidebar_label: spring
 |basePackage|base package (invokerPackage) for generated code| |null|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |delegatePattern|Whether to generate the server files using the delegate pattern| |false|
+|groupApisInSubpackages|Group APIs in subpackages (grouping interface and Controller, Delegate, or Client in a subpackage of apiPackage).| |false|
 |singleContentTypes|Whether to select only one produces/consumes content-type by operation.| |false|
 |java8|use java8 default interface| |true|
 |async|use async Callable controllers| |false|
