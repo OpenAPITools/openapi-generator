@@ -25,8 +25,15 @@ then
   mvn clean package
 fi
 
+SPEC="modules/openapi-generator/src/test/resources/2_0/petstore-security-test.yaml"
+GENERATOR="go"
+STUB_DIR="samples/client/petstore-security-test/go"
+
+echo "Removing files and folders under $STUB_DIR"
+rm -rf $STUB_DIR
+
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/go -i modules/openapi-generator/src/test/resources/2_0/petstore-security-test.yaml -g go -o samples/client/petstore-security-test/go $@"
+ags="generate -t modules/openapi-generator/src/main/resources/go -i $SPEC -g $GENERATOR -o $STUB_DIR $@"
 
 java $JAVA_OPTS -jar $executable $ags
