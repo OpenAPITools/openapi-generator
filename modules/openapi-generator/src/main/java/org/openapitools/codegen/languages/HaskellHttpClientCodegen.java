@@ -63,6 +63,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     public static final String PROP_CABAL_VERSION = "cabalVersion";
     public static final String PROP_CONFIG_TYPE = "configType";
     public static final String PROP_DATETIME_FORMAT = "dateTimeFormat";
+    public static final String PROP_CUSTOM_TEST_INSTANCE_MODULE = "customTestInstanceModule";
     public static final String PROP_DATE_FORMAT = "dateFormat";
     public static final String PROP_GENERATE_ENUMS = "generateEnums";
     public static final String PROP_GENERATE_FORM_URLENCODED_INSTANCES = "generateFormUrlEncodedInstances";
@@ -270,6 +271,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         cliOptions.add(CliOption.newString(PROP_DATETIME_FORMAT, "format string used to parse/render a datetime"));
         cliOptions.add(CliOption.newString(PROP_DATE_FORMAT, "format string used to parse/render a date").defaultValue(defaultDateFormat));
 
+        cliOptions.add(CliOption.newString(PROP_CUSTOM_TEST_INSTANCE_MODULE, "test module used to provide typeclass instances for types not known by the generator"));
+
         cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).defaultValue(Boolean.TRUE.toString()));
 
     }
@@ -320,9 +323,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         setStringProp(PROP_DATETIME_FORMAT, value);
     }
 
-    public void setDateFormat(String value) {
-        setStringProp(PROP_DATE_FORMAT, value);
-    }
+    public void setDateFormat(String value) { setStringProp(PROP_DATE_FORMAT, value); }
 
     public void setCabalPackage(String value) {
         setStringProp(PROP_CABAL_PACKAGE, value);
@@ -352,6 +353,8 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         additionalProperties.put(X_USE_KATIP, value);
         this.useKatip = value;
     }
+
+    public void setCustomTestInstanceModule(String value) { setStringProp(PROP_CUSTOM_TEST_INSTANCE_MODULE, value); }
 
     private void setStringProp(String key, String value) {
         if (StringUtils.isBlank(value)) {
@@ -466,6 +469,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         }
         if (additionalProperties.containsKey(PROP_CONFIG_TYPE)) {
             setConfigType(additionalProperties.get(PROP_CONFIG_TYPE).toString());
+        }
+        if (additionalProperties.containsKey(PROP_CUSTOM_TEST_INSTANCE_MODULE)) {
+            setCustomTestInstanceModule(additionalProperties.get(PROP_CUSTOM_TEST_INSTANCE_MODULE).toString());
         }
     }
 
