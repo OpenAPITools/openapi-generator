@@ -43,7 +43,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.config.GeneratorProperties;
 import org.openapitools.codegen.examples.ExampleGenerator;
-import org.openapitools.codegen.languages.options.Options;
+import org.openapitools.codegen.languages.rules.LanguageRules;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -119,7 +119,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Boolean prependFormOrBodyParameters = false;
     // The extension of the generated documentation files (defaults to markdown .md)
     protected String docExtension;
-    protected Options options;
+    protected LanguageRules languageRules;
 
     protected String ignoreFilePathOverride;
     // flag to indicate whether to use environment variable to post process file
@@ -559,22 +559,23 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public Map<String, String> specialCharReplacements() {
-        return options !=null ? options.getSpecialCharReplacements() : specialCharReplacements;
+        return languageRules !=null ? languageRules.getSpecialCharReplacements() : specialCharReplacements;
     }
+
     public boolean supportsMultipleInheritance() {
-        return options!=null ? options.getSupportsMultipleInheritance() : supportsMultipleInheritance;
+        return languageRules !=null ? languageRules.getSupportsMultipleInheritance() : supportsMultipleInheritance;
     }
 
     public boolean supportsInheritance() {
-        return options!=null ? options.getSupportsInheritance() : supportsInheritance;
+        return languageRules !=null ? languageRules.getSupportsInheritance() : supportsInheritance;
     }
 
     private boolean allowUnicodeIdentifiers() {
-        return options != null ? options.getAllowUnicodeIdentifiers() : allowUnicodeIdentifiers;
+        return languageRules != null ? languageRules.getAllowUnicodeIdentifiers() : allowUnicodeIdentifiers;
     }
 
     public boolean supportsMixins() {
-        return options!=null ? options.getSupportsMixins() : supportsMixins;
+        return languageRules !=null ? languageRules.getSupportsMixins() : supportsMixins;
     }
 
     public Map<String, String> typeMapping() {
@@ -586,11 +587,11 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public Set<String> reservedWords() {
-        return options!=null ? options.getReservedWords() : reservedWords;
+        return languageRules !=null ? languageRules.getReservedWords() : reservedWords;
     }
 
     public Set<String> languageSpecificPrimitives() {
-        return options!=null ? options.getLanguageSpecificPrimitives(): languageSpecificPrimitives;
+        return languageRules !=null ? languageRules.getLanguageSpecificPrimitives(): languageSpecificPrimitives;
     }
 
     public Map<String, String> importMapping() {

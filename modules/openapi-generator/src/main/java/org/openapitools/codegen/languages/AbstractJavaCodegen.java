@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -30,7 +29,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.options.JavaOptions;
+import org.openapitools.codegen.languages.rules.JavaLanguageRules;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,7 +97,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public AbstractJavaCodegen() {
         super();
 
-        options = new JavaOptions();
+        languageRules = new JavaLanguageRules();
 
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
@@ -477,17 +476,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // Sanitize any config options here. We also have to update the additionalProperties because
         // the whole additionalProperties object is injected into the main object passed to the mustache layer
 
-        this.setApiPackage(options.sanitizePackageName(apiPackage));
+        this.setApiPackage(languageRules.sanitizePackageName(apiPackage));
         if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         }
 
-        this.setModelPackage(options.sanitizePackageName(modelPackage));
+        this.setModelPackage(languageRules.sanitizePackageName(modelPackage));
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
 
-        this.setInvokerPackage(options.sanitizePackageName(invokerPackage));
+        this.setInvokerPackage(languageRules.sanitizePackageName(invokerPackage));
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
@@ -498,7 +497,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return options.escapeReservedWord(name);
+        return languageRules.escapeReservedWord(name);
     }
 
     @Override
@@ -566,12 +565,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toVarName(String name) {
-        return options.toVarName(name);
+        return languageRules.toVarName(name);
     }
 
     @Override
     public String toParamName(String name) {
-        return options.toParamName(name);
+        return languageRules.toParamName(name);
     }
 
     @Override
@@ -738,7 +737,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     // override with any special text escaping logic
     @SuppressWarnings("static-method")
     public String escapeText(String input) {
-        return options.escapeText(input);
+        return languageRules.escapeText(input);
     }
 
     @Override
@@ -1013,17 +1012,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return options.toEnumName(property.name);
+        return languageRules.toEnumName(property.name);
     }
 
     @Override
     public String toEnumVarName(String value, String datatype) {
-        return options.toEnumVarName(value, datatype);
+        return languageRules.toEnumVarName(value, datatype);
     }
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        return options.toEnumValue(value, datatype);
+        return languageRules.toEnumValue(value, datatype);
     }
 
     @Override
@@ -1210,7 +1209,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return options.escapeUnsafeCharacters(input);
+        return languageRules.escapeUnsafeCharacters(input);
     }
 
     /*
@@ -1291,7 +1290,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String sanitizeTag(String tag) {
-        return options.sanitizeTag(tag);
+        return languageRules.sanitizeTag(tag);
     }
 
     /**

@@ -1,9 +1,9 @@
-package org.openapitools.codegen.languages.options;
+package org.openapitools.codegen.languages.rules;
 
 import java.util.Map;
 import java.util.Set;
 
-public interface Options {
+public interface LanguageRules {
     Set<String> getReservedWords();
 
     Set<String> getLanguageSpecificPrimitives();

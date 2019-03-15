@@ -1,4 +1,4 @@
-package org.openapitools.codegen.languages.options;
+package org.openapitools.codegen.languages.rules;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -6,9 +6,9 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
-public class JavaOptions extends DefaultOptions implements Options {
+public class JavaLanguageRules extends DefaultLanguageRules implements LanguageRules {
 
-    public JavaOptions() {
+    public JavaLanguageRules() {
         super();
 
         supportsInheritance = true;

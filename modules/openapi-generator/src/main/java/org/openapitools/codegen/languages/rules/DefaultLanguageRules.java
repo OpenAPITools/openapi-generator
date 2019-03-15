@@ -1,16 +1,15 @@
-package org.openapitools.codegen.languages.options;
+package org.openapitools.codegen.languages.rules;
 
 import com.google.common.base.Strings;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.languages.rules.LanguageRules;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.regex.Pattern;
 
-public abstract class DefaultOptions implements Options {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultOptions.class);
+public abstract class DefaultLanguageRules implements LanguageRules {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultLanguageRules.class);
 
     protected Set<String> reservedWords;
     protected Set<String> languageSpecificPrimitives;
@@ -20,7 +19,7 @@ public abstract class DefaultOptions implements Options {
     protected boolean supportsMultipleInheritance = false;
     protected boolean supportsMixins;
 
-    public DefaultOptions() {
+    public DefaultLanguageRules() {
         reservedWords = new HashSet<String>();
 
         // Initialize special characters
