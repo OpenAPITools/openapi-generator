@@ -19,17 +19,17 @@ class ApiResponse {
     if (json['code'] == null) {
       code = null;
     } else {
-      code = json['code'];
+          code = json['code'];
     }
     if (json['type'] == null) {
       type = null;
     } else {
-      type = json['type'];
+          type = json['type'];
     }
     if (json['message'] == null) {
       message = null;
     } else {
-      message = json['message'];
+          message = json['message'];
     }
   }
 
