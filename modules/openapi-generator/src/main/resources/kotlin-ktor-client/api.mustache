@@ -8,6 +8,10 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.*
 import io.ktor.client.features.BadResponseStatusException
 import io.ktor.client.call.typeInfo
+import io.ktor.client.features.logging.LogLevel
+import io.ktor.client.features.logging.Logger
+import io.ktor.client.features.logging.Logging
+import io.ktor.client.features.logging.SIMPLE
 
 import {{packageName}}.infrastructure.*
 
@@ -16,13 +20,17 @@ import {{import}}
 {{/imports}}
 
 {{#operations}}
-class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}") {
+class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}", private val logger: Logger = Logger.SIMPLE, private val logLevel: LogLevel = LogLevel.NONE) {
 
     private val mySerializer = KotlinxSerializer()
 
     private val httpClient: HttpClient = HttpClient {
         install(JsonFeature) {
             serializer = mySerializer
+        }
+        install(Logging) {
+            logger = this@{{classname}}.logger
+            level = this@{{classname}}.logLevel
         }
     }
 
