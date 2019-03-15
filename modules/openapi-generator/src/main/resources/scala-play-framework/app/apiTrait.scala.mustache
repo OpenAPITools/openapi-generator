@@ -1,0 +1,17 @@
+package {{package}}
+
+{{#apiFutures}}import scala.concurrent.Future
+{{/apiFutures}}{{#imports}}import {{import}}
+{{/imports}}
+{{#operations}}
+
+{{>generatedAnnotation}}trait {{classname}} {
+{{#operation}}  /**
+    * {{notes}}{{#allParams}}{{#description}}
+    * @param {{paramName}} {{.}}{{/description}}{{/allParams}}
+    */
+  {{>app/defOperationSignature}}{{#hasMore}}
+
+{{/hasMore}}{{/operation}}
+}
+{{/operations}}

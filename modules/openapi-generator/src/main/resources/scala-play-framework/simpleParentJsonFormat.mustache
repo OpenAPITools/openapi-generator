@@ -1,0 +1,7 @@
+{{! Keep indentation at 4 spaces for proper formatting of the output. }}
+    val innerFormat = Format.of[{{parent}}]
+
+    Format(
+      innerFormat.map(inner => {{classname}}(inner)),
+      {{classVarName}} => innerFormat.writes({{classVarName}}.{{parentPropName}})
+    )

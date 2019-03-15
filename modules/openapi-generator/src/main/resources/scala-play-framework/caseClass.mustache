@@ -1,0 +1,18 @@
+case class {{classname}}({{#vars}}
+  {{&name}}: {{^required}}Option[{{/required}}{{#isEnum}}{{classname}}.{{enumName}}.Value{{/isEnum}}{{^isEnum}}{{datatype}}{{/isEnum}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}{{^hasMore}}{{#isExtensibleObject}},{{/isExtensibleObject}}{{/hasMore}}{{/vars}}
+{{#parent}}  {{#isExtensibleObject}}{{parentPropName}}{{/isExtensibleObject}}: {{parent}}
+{{/parent}})
+
+object {{classname}} {
+  implicit lazy val {{classVarName}}JsonFormat: Format[{{classname}}] = {{^isExtensibleObject}}Json.format[{{classname}}]{{/isExtensibleObject}}{{#isExtensibleObject}}{
+{{>extensibleObjectJsonFormat}}
+  }{{/isExtensibleObject}}{{#vars}}{{#isEnum}}
+
+  // noinspection TypeAnnotation
+  object {{enumName}} extends Enumeration { {{#allowableValues}}{{#values}}
+    val {{.}} = Value{{/values}}{{/allowableValues}}
+
+    type {{enumName}} = Value
+    implicit lazy val {{enumName}}JsonFormat: Format[Value] = Format(Reads.enumNameReads(this), Writes.enumNameWrites[this.type])
+  }{{/isEnum}}{{/vars}}
+}

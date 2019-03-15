@@ -1,0 +1,13 @@
+import {{apiPackage}}._
+import play.api.inject.{Binding, Module => PlayModule}
+import play.api.{Configuration, Environment}
+
+class Module extends PlayModule {
+  override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] = Seq(
+    {{#apiInfo}}
+    {{#apis}}
+    bind[{{classname}}].to[{{classname}}Impl]{{#hasMore}},{{/hasMore}}
+    {{/apis}}
+    {{/apiInfo}}
+  )
+}

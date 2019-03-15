@@ -1,0 +1,23 @@
+package {{package}}
+
+{{#apiFutures}}import scala.concurrent.Future
+{{/apiFutures}}{{#imports}}import {{import}}
+{{/imports}}
+{{#operations}}
+
+/**
+  * Provides a default implementation for [[{{classname}}]].
+  */
+{{>generatedAnnotation}}class {{classname}}Impl extends {{classname}} {
+{{#operation}}  /**
+    * @inheritdoc
+    */
+  override {{>app/defOperationSignature}} = {
+    // TODO: Implement better logic
+
+    {{#apiFutures}}Future.successful({{/apiFutures}}{{^returnType}}{{#apiFutures}}(): Unit{{/apiFutures}}{{/returnType}}{{#returnType}}{{defaultResponse}}{{/returnType}}{{#apiFutures}}){{/apiFutures}}
+  }{{#hasMore}}
+
+{{/hasMore}}{{/operation}}
+}
+{{/operations}}
