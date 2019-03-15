@@ -56,17 +56,17 @@ UserApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    CreateUser = function(user, ...){
+    CreateUser = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`user`)) {
-        stop("Missing required parameter `user`.")
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
       }
 
-      if (!missing(`user`)) {
-        body <- `user`$toJSONString()
+      if (!missing(`body`)) {
+        body <- `body`$toJSONString()
       } else {
         body <- NULL
       }
@@ -89,17 +89,17 @@ UserApi <- R6::R6Class(
       }
 
     },
-    CreateUsersWithArrayInput = function(user, ...){
+    CreateUsersWithArrayInput = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`user`)) {
-        stop("Missing required parameter `user`.")
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
       }
 
-      if (!missing(`user`)) {
-        body <- `user`$toJSONString()
+      if (!missing(`body`)) {
+        body <- `body`$toJSONString()
       } else {
         body <- NULL
       }
@@ -122,17 +122,17 @@ UserApi <- R6::R6Class(
       }
 
     },
-    CreateUsersWithListInput = function(user, ...){
+    CreateUsersWithListInput = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`user`)) {
-        stop("Missing required parameter `user`.")
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
       }
 
-      if (!missing(`user`)) {
-        body <- `user`$toJSONString()
+      if (!missing(`body`)) {
+        body <- `body`$toJSONString()
       } else {
         body <- NULL
       }
@@ -166,7 +166,7 @@ UserApi <- R6::R6Class(
 
       urlPath <- "/user/{username}"
       if (!missing(`username`)) {
-        urlPath <- gsub(paste0("\\{", "username", "\\}"), `username`, urlPath)
+        urlPath <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), urlPath)
       }
 
 
@@ -197,7 +197,7 @@ UserApi <- R6::R6Class(
 
       urlPath <- "/user/{username}"
       if (!missing(`username`)) {
-        urlPath <- gsub(paste0("\\{", "username", "\\}"), `username`, urlPath)
+        urlPath <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), urlPath)
       }
 
 
@@ -275,7 +275,7 @@ UserApi <- R6::R6Class(
       }
 
     },
-    UpdateUser = function(username, user, ...){
+    UpdateUser = function(username, body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
@@ -284,19 +284,19 @@ UserApi <- R6::R6Class(
         stop("Missing required parameter `username`.")
       }
 
-      if (missing(`user`)) {
-        stop("Missing required parameter `user`.")
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
       }
 
-      if (!missing(`user`)) {
-        body <- `user`$toJSONString()
+      if (!missing(`body`)) {
+        body <- `body`$toJSONString()
       } else {
         body <- NULL
       }
 
       urlPath <- "/user/{username}"
       if (!missing(`username`)) {
-        urlPath <- gsub(paste0("\\{", "username", "\\}"), `username`, urlPath)
+        urlPath <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), urlPath)
       }
 
 

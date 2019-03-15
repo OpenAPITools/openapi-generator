@@ -159,7 +159,7 @@
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <testNGArtifactName>none:none</testNGArtifactName>
                     <argLine>-XX:+StartAttachListener</argLine>
-                    <argLine>-javaagent:${settings.localRepository}/org/jmockit/jmockit/${jmockit-version}/jmockit-${jmockit-version}.jar</argLine>
+                    <argLine>-javaagent:"${settings.localRepository}/org/jmockit/jmockit/${jmockit-version}/jmockit-${jmockit-version}.jar"</argLine>
                 </configuration>
                 <executions>
                     <execution>
@@ -228,12 +228,11 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.0.1</version>
                 <configuration>
-                    <aggregate>true</aggregate>
                     <source>1.8</source>
                     <encoding>UTF-8</encoding>
                     <maxmemory>1g</maxmemory>
                     <failOnWarnings>true</failOnWarnings>
-                    <excludePackageNames>${javadoc.package.exclude}</excludePackageNames>
+                    <excludePackageNames></excludePackageNames>
                 </configuration>
                 <executions>
                     <execution>
@@ -537,7 +536,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/okhttp-gson/parcelableModel</module>
+                <module>samples/client/petstore/java/okhttp-gson-parcelableModel</module>
             </modules>
         </profile>
         <profile>
@@ -657,7 +656,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/java-msf4/</module>
+                <module>samples/server/petstore/java-msf4j</module>
             </modules>
         </profile>
         <profile>
@@ -850,7 +849,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/typescript-angularjs/npm</module>
+                <module>samples/client/petstore/typescript-angularjs</module>
             </modules>
         </profile>
         <profile>
@@ -877,6 +876,7 @@
                 <module>samples/client/petstore/python</module>
             </modules>
         </profile>
+        <!--
         <profile>
             <id>ruby-client</id>
             <activation>
@@ -889,6 +889,7 @@
                 <module>samples/client/petstore/ruby</module>
             </modules>
         </profile>
+        -->
         <profile>
             <id>go-client</id>
             <activation>
@@ -1249,6 +1250,7 @@
             </activation>
             <modules>
                 <!-- clients -->
+                <module>samples/client/petstore/R</module>
                 <module>samples/client/petstore/haskell-http-client</module>
                 <!-- servers -->
                 <module>samples/server/petstore/haskell-servant</module>

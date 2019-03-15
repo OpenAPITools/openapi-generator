@@ -20,12 +20,23 @@ elif [ "$NODE_INDEX" = "2" ]; then
     java -version
     ./bin/utils/ensure-up-to-date
   fi
-elif [ "$NODE_INDEX" = "3" ]; then
+#elif [ "$NODE_INDEX" = "3" ]; then
   echo "Running node $NODE_INDEX to test haskell"
   # install haskell
-  url -sSL https://get.haskellstack.org/ | sh
+  curl -sSL https://get.haskellstack.org/ | sh
   stack upgrade
-  stack --version:w
+  stack --version
+  # install r
+  sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu trusty/" >> /etc/apt/sources.list'
+  gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
+  gpg -a --export E084DAB9 | sudo apt-key add -
+  sudo apt-get update
+  sudo apt-get -y install r-base
+  R --version
+  # install curl
+  sudo apt-get -y build-dep libcurl4-gnutls-dev
+  sudo apt-get -y install libcurl4-gnutls-dev
+  # run integration tests
   mvn --quiet verify -Psamples.misc
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.jdk7' defined in pom.xml ..."

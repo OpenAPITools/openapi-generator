@@ -395,6 +395,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+      - auth_cookie: []
       summary: Create user
       tags:
       - user
@@ -407,6 +409,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+      - auth_cookie: []
       summary: Creates list of users with given input array
       tags:
       - user
@@ -419,6 +423,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+      - auth_cookie: []
       summary: Creates list of users with given input array
       tags:
       - user
@@ -433,6 +439,7 @@ paths:
         name: username
         required: true
         schema:
+          pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
           type: string
         style: form
       - description: The password for login in clear text
@@ -454,6 +461,13 @@ paths:
                 type: string
           description: successful operation
           headers:
+            Set-Cookie:
+              description: Cookie authentication key for use with the `auth_cookie` apiKey authentication.
+              explode: false
+              schema:
+                example: AUTH_KEY=abcde12345; Path=/; HttpOnly
+                type: string
+              style: simple
             X-Rate-Limit:
               description: calls per hour allowed by the user
               explode: false
@@ -480,6 +494,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+      - auth_cookie: []
       summary: Logs out current logged in user session
       tags:
       - user
@@ -502,6 +518,8 @@ paths:
           description: Invalid username supplied
         404:
           description: User not found
+      security:
+      - auth_cookie: []
       summary: Delete user
       tags:
       - user
@@ -559,6 +577,8 @@ paths:
           description: Invalid user supplied
         404:
           description: User not found
+      security:
+      - auth_cookie: []
       summary: Updated user
       tags:
       - user
@@ -641,6 +661,7 @@ components:
           format: int64
           type: integer
         name:
+          pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
           type: string
       title: Pet category
       type: object
@@ -801,3 +822,8 @@ components:
       name: api_key
       type: apiKey
       x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_api_key
+    auth_cookie:
+      in: cookie
+      name: AUTH_KEY
+      type: apiKey
+      x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_auth_cookie

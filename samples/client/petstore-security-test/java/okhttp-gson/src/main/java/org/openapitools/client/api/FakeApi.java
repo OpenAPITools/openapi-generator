@@ -27,7 +27,6 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
-import org.openapitools.client.model.UNKNOWN_BASE_TYPE;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -36,34 +35,33 @@ import java.util.List;
 import java.util.Map;
 
 public class FakeApi {
-    private ApiClient apiClient;
+    private ApiClient localVarApiClient;
 
     public FakeApi() {
         this(Configuration.getDefaultApiClient());
     }
 
     public FakeApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return apiClient;
+        return localVarApiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        this.localVarApiClient = apiClient;
     }
 
     /**
      * Build call for testCodeInjectEndRnNR
-     * @param UNKNOWN_BASE_TYPE  (optional)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
+     * @param testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR To test code injection *_/ &#39; \\\&quot; &#x3D;end -- \\\\r\\\\n \\\\n \\\\r (optional)
+     * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call testCodeInjectEndRnNRCall(UNKNOWN_BASE_TYPE UNKNOWN_BASE_TYPE, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = UNKNOWN_BASE_TYPE;
+    public okhttp3.Call testCodeInjectEndRnNRCall(String testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
 
         // create path and map variables
         String localVarPath = "/fake";
@@ -72,98 +70,71 @@ public class FakeApi {
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        if (testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR != null) {
+            localVarFormParams.put("test code inject */ &#39; &quot; &#x3D;end -- \r\n \n \r", testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR);
+        }
+
         final String[] localVarAccepts = {
             
         };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
             localVarHeaderParams.put("Accept", localVarAccept);
         }
 
         final String[] localVarContentTypes = {
-            "application/json", "*_/ '  =end --       "
+            "application/x-www-form-urlencoded", "*_/ '  =end --       "
         };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
 
-        if (progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
         String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        return localVarApiClient.buildCall(localVarPath, "PUT", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call testCodeInjectEndRnNRValidateBeforeCall(UNKNOWN_BASE_TYPE UNKNOWN_BASE_TYPE, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private okhttp3.Call testCodeInjectEndRnNRValidateBeforeCall(String testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR, final ApiCallback _callback) throws ApiException {
         
 
-        com.squareup.okhttp.Call call = testCodeInjectEndRnNRCall(UNKNOWN_BASE_TYPE, progressListener, progressRequestListener);
-        return call;
+        okhttp3.Call localVarCall = testCodeInjectEndRnNRCall(testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR, _callback);
+        return localVarCall;
 
     }
 
     /**
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
-     * @param UNKNOWN_BASE_TYPE  (optional)
+     * @param testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR To test code injection *_/ &#39; \\\&quot; &#x3D;end -- \\\\r\\\\n \\\\n \\\\r (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public void testCodeInjectEndRnNR(UNKNOWN_BASE_TYPE UNKNOWN_BASE_TYPE) throws ApiException {
-        testCodeInjectEndRnNRWithHttpInfo(UNKNOWN_BASE_TYPE);
+    public void testCodeInjectEndRnNR(String testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR) throws ApiException {
+        testCodeInjectEndRnNRWithHttpInfo(testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR);
     }
 
     /**
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
-     * @param UNKNOWN_BASE_TYPE  (optional)
+     * @param testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR To test code injection *_/ &#39; \\\&quot; &#x3D;end -- \\\\r\\\\n \\\\n \\\\r (optional)
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Void> testCodeInjectEndRnNRWithHttpInfo(UNKNOWN_BASE_TYPE UNKNOWN_BASE_TYPE) throws ApiException {
-        com.squareup.okhttp.Call call = testCodeInjectEndRnNRValidateBeforeCall(UNKNOWN_BASE_TYPE, null, null);
-        return apiClient.execute(call);
+    public ApiResponse<Void> testCodeInjectEndRnNRWithHttpInfo(String testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR) throws ApiException {
+        okhttp3.Call localVarCall = testCodeInjectEndRnNRValidateBeforeCall(testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR, null);
+        return localVarApiClient.execute(localVarCall);
     }
 
     /**
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r (asynchronously)
      * To test code injection *_/ &#39; \&quot; &#x3D;end -- \\r\\n \\n \\r
-     * @param UNKNOWN_BASE_TYPE  (optional)
-     * @param callback The callback to be executed when the API call finishes
+     * @param testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR To test code injection *_/ &#39; \\\&quot; &#x3D;end -- \\\\r\\\\n \\\\n \\\\r (optional)
+     * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call testCodeInjectEndRnNRAsync(UNKNOWN_BASE_TYPE UNKNOWN_BASE_TYPE, final ApiCallback<Void> callback) throws ApiException {
+    public okhttp3.Call testCodeInjectEndRnNRAsync(String testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR, final ApiCallback<Void> _callback) throws ApiException {
 
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = testCodeInjectEndRnNRValidateBeforeCall(UNKNOWN_BASE_TYPE, progressListener, progressRequestListener);
-        apiClient.executeAsync(call, callback);
-        return call;
+        okhttp3.Call localVarCall = testCodeInjectEndRnNRValidateBeforeCall(testCodeInjectStarSlashQuoteDoubleQuoteEqualEndBackSlashRBackSlashNBackSlashNBackSlashR, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
     }
 }

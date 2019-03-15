@@ -10,7 +10,7 @@ By using the [OpenAPI-Spec](https://github.com/OAI/OpenAPI-Specification) from a
 
 To see how to make this your own, look here:
 
-[README]((https://openapi-generator.tech))
+[README](https://openapi-generator.tech)
 
 - API version: 1.0.0
 

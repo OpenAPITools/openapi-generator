@@ -30,6 +30,7 @@ class TestUserController(BaseTestCase):
 }
         headers = { 
             'Content-Type': 'application/json',
+            'auth_cookie': 'special-key',
         }
         response = self.client.open(
             '/v2/user',
@@ -48,6 +49,7 @@ class TestUserController(BaseTestCase):
         user = []
         headers = { 
             'Content-Type': 'application/json',
+            'auth_cookie': 'special-key',
         }
         response = self.client.open(
             '/v2/user/createWithArray',
@@ -66,6 +68,7 @@ class TestUserController(BaseTestCase):
         user = []
         headers = { 
             'Content-Type': 'application/json',
+            'auth_cookie': 'special-key',
         }
         response = self.client.open(
             '/v2/user/createWithList',
@@ -82,6 +85,7 @@ class TestUserController(BaseTestCase):
         Delete user
         """
         headers = { 
+            'auth_cookie': 'special-key',
         }
         response = self.client.open(
             '/v2/user/{username}'.format(username='username_example'),
@@ -129,6 +133,7 @@ class TestUserController(BaseTestCase):
         Logs out current logged in user session
         """
         headers = { 
+            'auth_cookie': 'special-key',
         }
         response = self.client.open(
             '/v2/user/logout',
@@ -154,6 +159,7 @@ class TestUserController(BaseTestCase):
 }
         headers = { 
             'Content-Type': 'application/json',
+            'auth_cookie': 'special-key',
         }
         response = self.client.open(
             '/v2/user/{username}'.format(username='username_example'),

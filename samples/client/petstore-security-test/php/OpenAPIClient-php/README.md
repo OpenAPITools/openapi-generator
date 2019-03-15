@@ -56,15 +56,17 @@ Please follow the [installation procedure](#installation--usage) and then run th
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$unknown_base_type = new \OpenAPI\Client\Model\UNKNOWN_BASE_TYPE(); // \OpenAPI\Client\Model\UNKNOWN_BASE_TYPE | 
+$test_code_inject____end____rn_n_r = 'test_code_inject____end____rn_n_r_example'; // string | To test code injection *_/ ' \\\" =end -- \\\\r\\\\n \\\\n \\\\r
 
 try {
-    $apiInstance->testCodeInjectEndRnNR($unknown_base_type);
+    $apiInstance->testCodeInjectEndRnNR($test_code_inject____end____rn_n_r);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testCodeInjectEndRnNR: ', $e->getMessage(), PHP_EOL;
 }
@@ -95,14 +97,15 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key  */ ' " =end -- \r\n \n \r
 - **Location**: HTTP header
 
+
 ## petstore_auth
 
 - **Type**: OAuth
 - **Flow**: implicit
 - **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
 - **Scopes**: 
- - **write:pets**: modify pets in your account  *_/ ' \" =end -- \\r\\n \\n \\r
- - **read:pets**: read your pets  *_/ ' \" =end -- \\r\\n \\n \\r
+- **write:pets**: modify pets in your account  *_/ ' \" =end -- \\r\\n \\n \\r
+- **read:pets**: read your pets  *_/ ' \" =end -- \\r\\n \\n \\r
 
 
 ## Author

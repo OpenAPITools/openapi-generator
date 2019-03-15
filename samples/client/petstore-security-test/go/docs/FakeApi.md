@@ -25,7 +25,7 @@ Optional parameters are passed through a pointer to a TestCodeInjectEndRnNROpts 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **uNKNOWNBASETYPE** | [**optional.Interface of UNKNOWN_BASE_TYPE**](UNKNOWN_BASE_TYPE.md)|  | 
+ **testCodeInjectEndRnNR** | **optional.String**| To test code injection *_/ &#39; \\\&quot; &#x3D;end -- \\\\r\\\\n \\\\n \\\\r | 
 
 ### Return type
 
@@ -37,7 +37,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, *_/ '  =end --       
+ - **Content-Type**: application/x-www-form-urlencoded, *_/ '  =end --       
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

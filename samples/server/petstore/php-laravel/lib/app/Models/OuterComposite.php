@@ -9,13 +9,13 @@ namespace app\Models;
  */
 class OuterComposite {
 
-    /** @var float $my_number */
-    private $my_number;
+    /** @var float $myNumber */
+    private $myNumber;
 
-    /** @var string $my_string */
-    private $my_string;
+    /** @var string $myString */
+    private $myString;
 
-    /** @var bool $my_boolean */
-    private $my_boolean;
+    /** @var bool $myBoolean */
+    private $myBoolean;
 
 }

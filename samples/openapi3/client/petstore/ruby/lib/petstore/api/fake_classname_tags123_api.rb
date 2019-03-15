@@ -21,7 +21,7 @@ module Petstore
     end
     # To test class name in snake case
     # To test class name in snake case
-    # @param client client model
+    # @param client [Client] client model
     # @param [Hash] opts the optional parameters
     # @return [Client]
     def test_classname(client, opts = {})
@@ -31,7 +31,7 @@ module Petstore
 
     # To test class name in snake case
     # To test class name in snake case
-    # @param client client model
+    # @param client [Client] client model
     # @param [Hash] opts the optional parameters
     # @return [Array<(Client, Fixnum, Hash)>] Client data, response status code and response headers
     def test_classname_with_http_info(client, opts = {})

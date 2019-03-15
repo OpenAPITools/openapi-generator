@@ -18,6 +18,6 @@ import javax.ws.rs.core.SecurityContext;
 
 
 public abstract class FakeClassnameTestApiService {
-    public abstract Response testClassname(Client client
+    public abstract Response testClassname(Client body
  ) throws NotFoundException;
 }
