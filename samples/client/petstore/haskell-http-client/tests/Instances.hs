@@ -142,9 +142,9 @@ genAdditionalPropertiesClass n =
     <*> arbitraryReducedMaybe n -- additionalPropertiesClassMapArrayAnytype :: Maybe (Map.Map String [A.Value])
     <*> arbitraryReducedMaybe n -- additionalPropertiesClassMapMapString :: Maybe (Map.Map String (Map.Map String Text))
     <*> arbitraryReducedMaybe n -- additionalPropertiesClassMapMapAnytype :: Maybe (Map.Map String (Map.Map String A.Value))
-    <*> arbitraryReducedMaybe n -- additionalPropertiesClassAnytype1 :: Maybe A.Value
-    <*> arbitraryReducedMaybe n -- additionalPropertiesClassAnytype2 :: Maybe A.Value
-    <*> arbitraryReducedMaybe n -- additionalPropertiesClassAnytype3 :: Maybe A.Value
+    <*> arbitraryReducedMaybeValue n -- additionalPropertiesClassAnytype1 :: Maybe A.Value
+    <*> arbitraryReducedMaybeValue n -- additionalPropertiesClassAnytype2 :: Maybe A.Value
+    <*> arbitraryReducedMaybeValue n -- additionalPropertiesClassAnytype3 :: Maybe A.Value
   
 instance Arbitrary AdditionalPropertiesInteger where
   arbitrary = sized genAdditionalPropertiesInteger
