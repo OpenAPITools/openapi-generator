@@ -70,6 +70,11 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}", private val 
             {{#allResponseDataTypes}}
             register({{{dataType}}}.serializer())
             {{/allResponseDataTypes}}
+            {{#hasBodyParam}}
+            {{#bodyParam}}
+            register({{{dataType}}}.serializer())
+            {{/bodyParam}}
+            {{/hasBodyParam}}
         }
         try {
             return httpClient.request(url) {
@@ -89,8 +94,11 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}", private val 
                     {{/formParams}}
                 })
                 {{/hasFormParams}}
-
-                //TODO: Handle other body types
+                {{#hasBodyParam}}
+                {{#bodyParam}}
+                body = {{paramName}}
+                {{/bodyParam}}
+                {{/hasBodyParam}}
             }
         } catch (exception: BadResponseStatusException) {
             when(exception.statusCode.value) {
