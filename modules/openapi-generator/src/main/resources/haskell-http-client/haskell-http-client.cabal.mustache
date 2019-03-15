@@ -113,5 +113,6 @@ test-suite tests
   other-modules:
       ApproxEq
       Instances
-      PropMime
+      PropMime{{#customTestInstanceModule}}
+      {{.}}{{/customTestInstanceModule}}
   default-language: Haskell2010

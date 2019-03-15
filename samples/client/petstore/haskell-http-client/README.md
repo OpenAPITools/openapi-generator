@@ -62,6 +62,7 @@ These options allow some customization of the code generation process.
 | baseModule                      | Set the base module namespace                                                                                                 |          | OpenAPIPetstore                      |
 | cabalPackage                    | Set the cabal package name, which consists of one or more alphanumeric words separated by hyphens                             |          | openapi-petstore                    |
 | cabalVersion                    | Set the cabal version number, consisting of a sequence of one or more integers separated by dots                              | 0.1.0.0  | 0.1.0.0                    |
+| customTestInstanceModule        | test module used to provide typeclass instances for types not known by the generator                                          |          |         |
 | configType                      | Set the name of the type used for configuration                                                                               |          | OpenAPIPetstoreConfig                      |
 | dateFormat                      | format string used to parse/render a date                                                                                     | %Y-%m-%d | %Y-%m-%d                      |
 | dateTimeFormat                  | format string used to parse/render a datetime. (Defaults to [formatISO8601Millis][1] when not provided)                       |          |                   |
