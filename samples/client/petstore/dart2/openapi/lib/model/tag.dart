@@ -17,12 +17,12 @@ class Tag {
     if (json['id'] == null) {
       id = null;
     } else {
-      id = json['id'];
+          id = json['id'];
     }
     if (json['name'] == null) {
       name = null;
     } else {
-      name = json['name'];
+          name = json['name'];
     }
   }
 
