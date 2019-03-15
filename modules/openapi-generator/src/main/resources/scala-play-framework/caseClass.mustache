@@ -1,5 +1,5 @@
 case class {{classname}}({{#vars}}
-  {{&name}}: {{^required}}Option[{{/required}}{{#isEnum}}{{classname}}.{{enumName}}.Value{{/isEnum}}{{^isEnum}}{{datatype}}{{/isEnum}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}{{^hasMore}}{{#isExtensibleObject}},{{/isExtensibleObject}}{{/hasMore}}{{/vars}}
+  {{&name}}: {{^required}}Option[{{/required}}{{#isEnum}}{{classname}}.{{enumName}}.Value{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}{{^hasMore}}{{#isExtensibleObject}},{{/isExtensibleObject}}{{/hasMore}}{{/vars}}
 {{#parent}}  {{#isExtensibleObject}}{{parentPropName}}{{/isExtensibleObject}}: {{parent}}
 {{/parent}})
 

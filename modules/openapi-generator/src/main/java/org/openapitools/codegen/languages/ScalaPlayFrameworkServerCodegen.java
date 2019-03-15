@@ -1,7 +1,9 @@
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -145,80 +147,56 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         return toModelName(openAPIType);
     }
 
-//    @Override
-//    public String toDefaultValue(Schema p) {
-//        if (p.getDefault() != null) {
-//            return p.getDefault().toString();
-//        }
-//
-//        if (ModelUtils.isBooleanSchema(p)) {
-//            return "false";
-//        }
-//
-//        if (ModelUtils.isDateSchema(p)) {
-//            return "LocalDate.now";
-//        }
-//
-//        if (ModelUtils.isDateTimeSchema(p)) {
-//            return "OffsetDateTime.now";
-//        }
-//
-//        if (ModelUtils.isDoubleSchema(p)) {
-//            return "0.0";
-//        }
-//
-//        if (ModelUtils.isFloatSchema(p)) {
-//            return "0.0F";
-//        }
-//
-//        if (ModelUtils.isIntegerSchema(p)) {
-//            return "0";
-//        }
-//
-//        if (ModelUtils.isLongSchema(p)) {
-//            return "0L";
-//        }
-//
-//        if (ModelUtils.isMapSchema(p)) {
-//            Schema ap = ModelUtils.getAdditionalProperties(p);
-//            String inner = getSchemaType(ap);
-//            return "Map.empty[String, " + inner + "]";
-//        }
-//
-//        if (ModelUtils.isArraySchema(p)) {
-//            Schema ap =
-//        }
-//        if (!p.getRequired()) {
-//            return "None";
-//        }
-//        if (p instanceof StringProperty) {
-//            return "null";
-//        } else if (p instanceof BooleanProperty) {
-//            return "null";
-//        } else if (p instanceof DateProperty) {
-//            return "null";
-//        } else if (p instanceof DateTimeProperty) {
-//            return "null";
-//        } else if (p instanceof DoubleProperty) {
-//            return "null";
-//        } else if (p instanceof FloatProperty) {
-//            return "null";
-//        } else if (p instanceof IntegerProperty) {
-//            return "null";
-//        } else if (p instanceof LongProperty) {
-//            return "null";
-//        } else if (p instanceof MapProperty) {
-//            MapProperty ap = (MapProperty) p;
-//            String inner = getSwaggerType(ap.getAdditionalProperties());
-//            return "Map.empty[String, " + inner + "]";
-//        } else if (p instanceof ArrayProperty) {
-//            ArrayProperty ap = (ArrayProperty) p;
-//            String inner = getSwaggerType(ap.getItems());
-//            return "List.empty[" + inner + "]";
-//        } else {
-//            return "null";
-//        }
-//    }
+    @Override
+    public String toDefaultValue(Schema p) {
+        // TODO: Check if required...
+
+        if (p.getDefault() != null) {
+            return p.getDefault().toString();
+        }
+
+        if (ModelUtils.isBooleanSchema(p)) {
+            return "false";
+        }
+
+        if (ModelUtils.isDateSchema(p)) {
+            return "LocalDate.now";
+        }
+
+        if (ModelUtils.isDateTimeSchema(p)) {
+            return "OffsetDateTime.now";
+        }
+
+        if (ModelUtils.isDoubleSchema(p)) {
+            return "0.0";
+        }
+
+        if (ModelUtils.isFloatSchema(p)) {
+            return "0.0F";
+        }
+
+        if (ModelUtils.isIntegerSchema(p)) {
+            return "0";
+        }
+
+        if (ModelUtils.isLongSchema(p)) {
+            return "0L";
+        }
+
+        if (ModelUtils.isMapSchema(p)) {
+            Schema ap = ModelUtils.getAdditionalProperties(p);
+            String inner = getSchemaType(ap);
+            return "Map.empty[String, " + inner + "]";
+        }
+
+        if (ModelUtils.isArraySchema(p)) {
+            Schema items = ((ArraySchema)p).getItems();
+            String inner = getSchemaType(items);
+            return "List.empty[" + inner + "]";
+        }
+
+        return "null";
+    }
 
     @SuppressWarnings("unchecked")
     @Override
