@@ -32,7 +32,7 @@ class OAIUserApiRequest : public QObject
     Q_OBJECT
 
 public:
-    OAIUserApiRequest(QHttpEngine::Socket *s, OAIUserApiHandler* handler);
+    OAIUserApiRequest(QHttpEngine::Socket *s, QSharedPointer<OAIUserApiHandler> handler);
     virtual ~OAIUserApiRequest();
 
     void createUserRequest();
@@ -90,7 +90,7 @@ private:
     QMap<QString, QString> requestHeaders;
     QMap<QString, QString> responseHeaders;
     QHttpEngine::Socket  *socket;
-    OAIUserApiHandler *handler;
+    QSharedPointer<OAIUserApiHandler> handler;
 
     inline void writeResponseHeaders(){
         QHttpEngine::Socket::HeaderMap resHeaders;
