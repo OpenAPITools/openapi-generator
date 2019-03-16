@@ -81,6 +81,7 @@ public class CodegenConfigurator implements Serializable {
     private String apiPackage;
     private String modelPackage;
     private String invokerPackage;
+    private String packageName;
     private String modelNamePrefix;
     private String modelNameSuffix;
     private String groupId;
@@ -316,6 +317,15 @@ public class CodegenConfigurator implements Serializable {
         return this;
     }
 
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public CodegenConfigurator setPackageName(String packageName) {
+        this.packageName = packageName;
+        return this;
+    }
+
     public String getGroupId() {
         return groupId;
     }
@@ -521,6 +531,7 @@ public class CodegenConfigurator implements Serializable {
         checkAndSetAdditionalProperty(apiPackage, CodegenConstants.API_PACKAGE);
         checkAndSetAdditionalProperty(modelPackage, CodegenConstants.MODEL_PACKAGE);
         checkAndSetAdditionalProperty(invokerPackage, CodegenConstants.INVOKER_PACKAGE);
+        checkAndSetAdditionalProperty(packageName, CodegenConstants.PACKAGE_NAME);
         checkAndSetAdditionalProperty(groupId, CodegenConstants.GROUP_ID);
         checkAndSetAdditionalProperty(artifactId, CodegenConstants.ARTIFACT_ID);
         checkAndSetAdditionalProperty(artifactVersion, CodegenConstants.ARTIFACT_VERSION);

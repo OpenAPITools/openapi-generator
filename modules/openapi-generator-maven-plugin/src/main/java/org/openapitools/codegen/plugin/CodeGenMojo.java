@@ -164,6 +164,12 @@ public class CodeGenMojo extends AbstractMojo {
     private String invokerPackage;
 
     /**
+     * The default package to use for the generated objects
+     */
+    @Parameter(name = "packageName")
+    private String packageName;
+
+    /**
      * groupId in generated pom.xml
      */
     @Parameter(name = "groupId")
@@ -508,6 +514,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (isNotEmpty(invokerPackage)) {
                 configurator.setInvokerPackage(invokerPackage);
+            }
+
+            if (isNotEmpty(packageName)) {
+                configurator.setPackageName(packageName);
             }
 
             if (isNotEmpty(groupId)) {
