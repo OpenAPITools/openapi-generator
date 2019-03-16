@@ -87,6 +87,12 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
     public void processOpts() {
         super.processOpts();
 
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
+            setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_PROJECT_FILE, optionalProjectFileFlag);
+        }
+        
         if (additionalProperties.containsKey("modelNamePrefix")) {
             supportingFiles.clear();
             supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder, modelNamePrefix + "Helpers.h"));
@@ -98,12 +104,9 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
             typeMapping.put("file", modelNamePrefix + "HttpRequestInputFileElement");
             typeMapping.put("binary", modelNamePrefix + "HttpRequestInputFileElement");
             importMapping.put(modelNamePrefix + "HttpRequestInputFileElement", "#include \"" + modelNamePrefix + "HttpRequest.h\"");
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
-            setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
-        } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_PROJECT_FILE, optionalProjectFileFlag);
+            if (optionalProjectFileFlag) {
+                supportingFiles.add(new SupportingFile("Project.mustache", sourceFolder, modelNamePrefix + "client.pri"));
+            }
         }
     }
 
