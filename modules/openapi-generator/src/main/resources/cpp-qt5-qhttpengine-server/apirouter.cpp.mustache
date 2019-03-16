@@ -18,18 +18,22 @@ namespace {{this}} {
 }
 
 {{prefix}}ApiRouter::~{{prefix}}ApiRouter(){
-    {{#apiInfo}}{{#apis}}
-    delete {{classname}}ApiHandler;{{/apis}}{{/apiInfo}}
+
 }
 
 void {{prefix}}ApiRouter::createApiHandlers() { {{#apiInfo}}{{#apis}}
-    {{classname}}ApiHandler = new {{classname}}Handler();{{/apis}}{{/apiInfo}}
+    m{{classname}}Handler = QSharedPointer<{{classname}}Handler>::create();{{/apis}}{{/apiInfo}}
 }
+
+{{#apiInfo}}{{#apis}}
+void {{prefix}}ApiRouter::set{{classname}}Handler(QSharedPointer<{{classname}}Handler> handler){
+    m{{classname}}Handler = handler;
+}{{/apis}}{{/apiInfo}}
 
 void {{prefix}}ApiRouter::setUpRoutes() {
     {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{^hasPathParams}}
     Routes.insert(QString("%1 %2").arg("{{httpMethod}}").arg("{{{basePathWithoutHost}}}{{{path}}}").toLower(), [this](QHttpEngine::Socket *socket) {
-            auto reqObj = new {{classname}}Request(socket, {{classname}}ApiHandler);
+            auto reqObj = new {{classname}}Request(socket, m{{classname}}Handler);
             reqObj->{{nickname}}Request();
     });{{/hasPathParams}}{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
 }
@@ -67,7 +71,7 @@ bool {{prefix}}ApiRouter::handleRequestAndExtractPathParam(QHttpEngine::Socket *
                 {{#pathParams}}
                 QString {{baseName}} = match.captured(QString("{{baseName}}").toLower());
                 {{/pathParams}}
-                auto reqObj = new {{classname}}Request(socket, {{classname}}ApiHandler);
+                auto reqObj = new {{classname}}Request(socket, m{{classname}}Handler);
                 reqObj->{{nickname}}Request({{#pathParams}}{{baseName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}});
                 return true;
             }
