@@ -16,15 +16,15 @@ import com.squareup.moshi.Json
 
 /**
 * 
-* Values: abc,minusEfg,leftParenthesisXyzRightParenthesis
+* Values: placed,approved,delivered
 */
-enum class EnumClass(val value: kotlin.String){
+enum class OuterEnumDefaultValue(val value: kotlin.String){
 
-    @Json(name = "_abc") abc("_abc"),
+    @Json(name = "placed") placed("placed"),
 
-    @Json(name = "-efg") minusEfg("-efg"),
+    @Json(name = "approved") approved("approved"),
 
-    @Json(name = "(xyz)") leftParenthesisXyzRightParenthesis("(xyz)");
+    @Json(name = "delivered") delivered("delivered");
 
 }
 

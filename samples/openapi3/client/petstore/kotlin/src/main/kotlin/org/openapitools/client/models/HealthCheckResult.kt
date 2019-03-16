@@ -12,19 +12,13 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
-
 /**
-* 
-* Values: abc,minusEfg,leftParenthesisXyzRightParenthesis
-*/
-enum class EnumClass(val value: kotlin.String){
-
-    @Json(name = "_abc") abc("_abc"),
-
-    @Json(name = "-efg") minusEfg("-efg"),
-
-    @Json(name = "(xyz)") leftParenthesisXyzRightParenthesis("(xyz)");
+ * Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
+ * @param nullableMessage 
+ */
+data class HealthCheckResult (
+    val nullableMessage: kotlin.String? = null
+) {
 
 }
 
