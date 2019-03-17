@@ -22,8 +22,8 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
 
     static Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
 
-    protected boolean skipStubs = true;
-    protected boolean supportAsync = true;
+    protected boolean skipStubs = false;
+    protected boolean supportAsync = false;
 
     public ScalaPlayFrameworkServerCodegen() {
         super();
@@ -95,7 +95,6 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         apiTemplateFiles.put("app/apiTrait.scala.mustache", ".scala");
         apiTemplateFiles.put("app/apiController.scala.mustache", "Controller.scala");
 
-        supportingFiles.add(new SupportingFile("LICENSE.mustache", "", "LICENSE"));
         supportingFiles.add(new SupportingFile("README.md.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         supportingFiles.add(new SupportingFile("conf/application.conf.mustache", "conf", "application.conf"));

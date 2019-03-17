@@ -65,10 +65,11 @@ class {{classname}}Controller @Inject()(cc: ControllerComponents, api: {{classna
   {{/hasMore}}
   {{/operation}}
 
+
   private def splitCollectionParam(paramValues: String, collectionFormat: String): List[String] = {
     {{! Note: `+` is used to filter empty values when splitting }}
     val splitBy =
-      (collectionFormat: @scala.annotation.switch) match {
+      collectionFormat match {
         case "csv" => ",+"
         case "tsv" => "\t+"
         case "ssv" => " +"
