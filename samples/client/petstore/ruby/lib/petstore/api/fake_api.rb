@@ -73,8 +73,8 @@ module Petstore
 
     # Test serialization of outer boolean types
     # @param [Hash] opts the optional parameters
-    # @option opts [BOOLEAN] :body Input boolean as post body
-    # @return [BOOLEAN]
+    # @option opts [Boolean] :body Input boolean as post body
+    # @return [Boolean]
     def fake_outer_boolean_serialize(opts = {})
       data, _status_code, _headers = fake_outer_boolean_serialize_with_http_info(opts)
       data
@@ -82,8 +82,8 @@ module Petstore
 
     # Test serialization of outer boolean types
     # @param [Hash] opts the optional parameters
-    # @option opts [BOOLEAN] :body Input boolean as post body
-    # @return [Array<(BOOLEAN, Fixnum, Hash)>] BOOLEAN data, response status code and response headers
+    # @option opts [Boolean] :body Input boolean as post body
+    # @return [Array<(Boolean, Fixnum, Hash)>] Boolean data, response status code and response headers
     def fake_outer_boolean_serialize_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.fake_outer_boolean_serialize ...'
@@ -111,7 +111,7 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => 'BOOLEAN')
+        :return_type => 'Boolean')
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_outer_boolean_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -682,11 +682,11 @@ module Petstore
     # Fake endpoint to test group parameters (optional)
     # Fake endpoint to test group parameters (optional)
     # @param required_string_group [Integer] Required String in group parameters
-    # @param required_boolean_group [BOOLEAN] Required Boolean in group parameters
+    # @param required_boolean_group [Boolean] Required Boolean in group parameters
     # @param required_int64_group [Integer] Required Integer in group parameters
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :string_group String in group parameters
-    # @option opts [BOOLEAN] :boolean_group Boolean in group parameters
+    # @option opts [Boolean] :boolean_group Boolean in group parameters
     # @option opts [Integer] :int64_group Integer in group parameters
     # @return [nil]
     def test_group_parameters(required_string_group, required_boolean_group, required_int64_group, opts = {})
@@ -697,11 +697,11 @@ module Petstore
     # Fake endpoint to test group parameters (optional)
     # Fake endpoint to test group parameters (optional)
     # @param required_string_group [Integer] Required String in group parameters
-    # @param required_boolean_group [BOOLEAN] Required Boolean in group parameters
+    # @param required_boolean_group [Boolean] Required Boolean in group parameters
     # @param required_int64_group [Integer] Required Integer in group parameters
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :string_group String in group parameters
-    # @option opts [BOOLEAN] :boolean_group Boolean in group parameters
+    # @option opts [Boolean] :boolean_group Boolean in group parameters
     # @option opts [Integer] :int64_group Integer in group parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, opts = {})

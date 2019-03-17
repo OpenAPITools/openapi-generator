@@ -113,30 +113,30 @@ module Petstore
         :'attribute_string' => :'String',
         :'attribute_number' => :'Float',
         :'attribute_integer' => :'Integer',
-        :'attribute_boolean' => :'BOOLEAN',
+        :'attribute_boolean' => :'Boolean',
         :'wrapped_array' => :'Array<Integer>',
         :'name_string' => :'String',
         :'name_number' => :'Float',
         :'name_integer' => :'Integer',
-        :'name_boolean' => :'BOOLEAN',
+        :'name_boolean' => :'Boolean',
         :'name_array' => :'Array<Integer>',
         :'name_wrapped_array' => :'Array<Integer>',
         :'prefix_string' => :'String',
         :'prefix_number' => :'Float',
         :'prefix_integer' => :'Integer',
-        :'prefix_boolean' => :'BOOLEAN',
+        :'prefix_boolean' => :'Boolean',
         :'prefix_array' => :'Array<Integer>',
         :'prefix_wrapped_array' => :'Array<Integer>',
         :'namespace_string' => :'String',
         :'namespace_number' => :'Float',
         :'namespace_integer' => :'Integer',
-        :'namespace_boolean' => :'BOOLEAN',
+        :'namespace_boolean' => :'Boolean',
         :'namespace_array' => :'Array<Integer>',
         :'namespace_wrapped_array' => :'Array<Integer>',
         :'prefix_ns_string' => :'String',
         :'prefix_ns_number' => :'Float',
         :'prefix_ns_integer' => :'Integer',
-        :'prefix_ns_boolean' => :'BOOLEAN',
+        :'prefix_ns_boolean' => :'Boolean',
         :'prefix_ns_array' => :'Array<Integer>',
         :'prefix_ns_wrapped_array' => :'Array<Integer>'
       }
@@ -396,7 +396,7 @@ module Petstore
         value.to_i
       when :Float
         value.to_f
-      when :BOOLEAN
+      when :Boolean
         if value.to_s =~ /\A(true|t|yes|y|1)\z/i
           true
         else
