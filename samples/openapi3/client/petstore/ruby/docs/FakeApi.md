@@ -72,7 +72,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  body: nil # Boolean | Input boolean as post body
+  body: true # Boolean | Input boolean as post body
 }
 
 begin
@@ -531,11 +531,11 @@ end
 
 api_instance = Petstore::FakeApi.new
 required_string_group = 56 # Integer | Required String in group parameters
-required_boolean_group = nil # Boolean | Required Boolean in group parameters
+required_boolean_group = true # Boolean | Required Boolean in group parameters
 required_int64_group = 56 # Integer | Required Integer in group parameters
 opts = {
   string_group: 56, # Integer | String in group parameters
-  boolean_group: nil, # Boolean | Boolean in group parameters
+  boolean_group: true, # Boolean | Boolean in group parameters
   int64_group: 56 # Integer | Integer in group parameters
 }
 
