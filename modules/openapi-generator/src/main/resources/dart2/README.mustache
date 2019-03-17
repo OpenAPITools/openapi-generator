@@ -63,13 +63,13 @@ import 'package:{{pubName}}/api.dart';
 {{/isBasic}}
 {{#isApiKey}}
 // TODO Configure API key authorization: {{{name}}}
-//{{pubName}}.api.Configuration.apiKey{'{{{keyParamName}}}'} = 'YOUR_API_KEY';
+//defaultApiClient.getAuthentication<ApiKeyAuth>('{{{name}}}').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//{{pubName}}.api.Configuration.apiKeyPrefix{'{{{keyParamName}}}'} = "Bearer";
+//defaultApiClient.getAuthentication<ApiKeyAuth>('{{{name}}}').apiKeyPrefix = 'Bearer';
 {{/isApiKey}}
 {{#isOAuth}}
 // TODO Configure OAuth2 access token for authorization: {{{name}}}
-//{{pubName}}.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
+//defaultApiClient.getAuthentication<OAuth>('{{{name}}}').accessToken = 'YOUR_ACCESS_TOKEN';
 {{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}
