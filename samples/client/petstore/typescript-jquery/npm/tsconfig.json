@@ -8,7 +8,10 @@
         "removeComments": true,
         "sourceMap": true,
         "noLib": false,
-        "declaration": true
+        "declaration": true,
+        "typeRoots": [
+            "node_modules/@types"
+        ]
     },
     "files": [
         "index.ts",
