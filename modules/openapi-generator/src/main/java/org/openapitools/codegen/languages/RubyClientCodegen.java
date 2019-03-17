@@ -102,9 +102,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         languageSpecificPrimitives.add("array");
         languageSpecificPrimitives.add("map");
         languageSpecificPrimitives.add("string");
-        // primitives in the typeMapping
-        languageSpecificPrimitives.add("BOOLEAN");
-        typeMapping.put("boolean", "BOOLEAN");
 
         // remove modelPackage and apiPackage added by default
         Iterator<CliOption> itr = cliOptions.iterator();
