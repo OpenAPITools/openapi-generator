@@ -2,9 +2,13 @@ package {{package}}
 
 import javax.inject.{Inject, Singleton}
 import play.api.libs.json._
-import play.api.mvc._{{#apiFutures}}
-import scala.concurrent.{ExecutionContext, Future}{{/apiFutures}}{{#imports}}
-import {{import}}{{/imports}}
+import play.api.mvc._
+{{#apiFutures}}
+import scala.concurrent.{ExecutionContext, Future}
+{{/apiFutures}}
+{{#imports}}
+import {{import}}
+{{/imports}}
 {{#operations}}
 
 {{>generatedAnnotation}}@Singleton
@@ -23,12 +27,14 @@ class {{classname}}Controller @Inject()(cc: ControllerComponents, api: {{classna
       }{{/required}}
       {{/bodyParams}}
       {{#headerParams}}
-      val {{paramName}} = request.headers.get("{{baseName}}"){{^isString}}.map(value => {{>convertHeaderParam}}){{/isString}}{{#required}}.getOrElse {
-        throw new IllegalArgumentException("Missing header `{{baseName}}`.")
-      }{{/required}}
+      val {{paramName}} = request.headers.get("{{baseName}}")
+      {{! TODO: Indentation }}
+      {{>app/transformParamValues}}
       {{/headerParams}}
       {{#queryParams}}
-      val {{paramName}}: {{>dataTypeOption}} = null // TODO [query]
+      val {{paramName}} = request.{{#isCollectionFormatMulti}}queryString.get("{{baseName}}"){{/isCollectionFormatMulti}}{{^isCollectionFormatMulti}}getQueryString("{{baseName}}"){{/isCollectionFormatMulti}}
+      {{! TODO: Indentation }}
+      {{>app/transformParamValues}}
       {{/queryParams}}
       {{#formParams}}
       val {{paramName}}: {{>dataTypeOption}} = null // TODO [form]
@@ -36,17 +42,40 @@ class {{classname}}Controller @Inject()(cc: ControllerComponents, api: {{classna
       api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     }
 
+    {{#apiFutures}}
+    executeApi().map { {{#returnType}}result{{/returnType}}{{^returnType}}_{{/returnType}} =>
+    {{/apiFutures}}
+    {{^apiFutures}}
     {{#returnType}}
-    val apiExecutionResultJson = Json.toJson(apiExecutionResult)
-    Ok(apiExecutionResultJson)
+    val result = executeApi()
+    {{/returnType}}
+    {{/apiFutures}}
+    {{#returnType}}
+    {{#apiFutures}}  {{/apiFutures}}val json = Json.toJson(result)
+    {{#apiFutures}}  {{/apiFutures}}Ok(json)
     {{/returnType}}
     {{^returnType}}
-    Ok
+    {{#apiFutures}}  {{/apiFutures}}Ok
     {{/returnType}}
+    {{#apiFutures}}
+    }
+    {{/apiFutures}}
   }{{#hasMore}}
 
   {{/hasMore}}
   {{/operation}}
 
+  private def splitCollectionParam(paramValues: String, collectionFormat: String): List[String] = {
+    {{! Note: `+` is used to filter empty values when splitting }}
+    val splitBy =
+      (collectionFormat: @scala.annotation.switch) match {
+        case "csv" => ",+"
+        case "tsv" => "\t+"
+        case "ssv" => " +"
+        case "pipes" => "|+"
+      }
+
+    paramValues.split(splitBy).toList
+  }
 }
 {{/operations}}

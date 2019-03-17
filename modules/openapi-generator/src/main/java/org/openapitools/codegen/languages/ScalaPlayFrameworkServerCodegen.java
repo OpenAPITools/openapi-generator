@@ -4,6 +4,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +23,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     static Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
 
     protected boolean implStubs = true;
-    protected boolean apiFutures = false;
+    protected boolean apiFutures = true;
 
     public ScalaPlayFrameworkServerCodegen() {
         super();
@@ -41,7 +42,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         typeMapping.put("Integer", "Int");
         typeMapping.put("binary", "Array[Byte]");
         typeMapping.put("ByteArray", "Array[Byte]");
-        typeMapping.put("ArrayByte", "Array[Byte]");
+        typeMapping.put("object", "JsObject");
 
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalDate", "java.time.LocalDate");
@@ -198,64 +199,42 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         return "null";
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> postProcessAllModels(Map<String, Object> allModels) {
-        Set<String> aliasModels = new HashSet<>();
-
-        for (String modelKey : allModels.keySet()) {
-            Map<String, Object> outerModel = (Map<String, Object>) allModels.get(modelKey);
-            List<Object> innerModels = (List<Object>) outerModel.get("models");
-
-            for (Object innerModelObj : innerModels) {
-                Map<String, Object> innerModel = (Map<String, Object>) innerModelObj;
-                CodegenModel model = (CodegenModel) innerModel.get("model");
-                boolean isExtensibleObject = "Object".equals(model.dataType) && model.parent != null;
-                boolean isCaseObject = !model.hasVars && !model.isArrayModel && !isExtensibleObject;
-
-                if (model.isAlias) {
-                    aliasModels.add(model.name);
-                    continue;
-                }
-
-                fixEnumNames(model);
-                makeMultilineComments(model);
-                model.classVarName = camelize(model.classVarName, true);
-                innerModel.put("isExtensibleObject", isExtensibleObject);
-                innerModel.put("isCaseObject", isCaseObject);
-                innerModel.put("parentPropName", isExtensibleObject ? "additionalProperties" : model.isArrayModel ? "items" : null);
-            }
-        }
-
-        // Retain the original map, which uses a custom comparator
-        for (String aliasModel : aliasModels) {
-            allModels.remove(aliasModel);
-        }
-
-        return allModels;
+    public String toEnumName(CodegenProperty property) {
+        return StringUtils.camelize(property.name);
     }
 
-    @SuppressWarnings("unchecked")
-    private void fixEnumNames(CodegenModel model) {
-        for (CodegenProperty var : model.vars) {
-            if (var.isEnum) {
-                var.enumName = camelize(var.baseName);
-                List<Object> values = (List<Object>) var.allowableValues.get("values");
-                List<String> camelizedValues = new ArrayList<>(values.size());
+    @Override
+    public String toEnumVarName(String value, String datatype) {
+        if (value.length() == 0) {
+            return "EMPTY";
+        }
 
-                for (Object value : values) {
-                    camelizedValues.add(camelize((String) value));
-                }
-
-                var.allowableValues.put("values", camelizedValues);
-            }
+        String var = StringUtils.camelize(value.replaceAll("\\W+", "_"));
+        if (var.matches("\\d.*")) {
+            return "_" + var;
+        } else {
+            return var;
         }
     }
 
-    private void makeMultilineComments(CodegenModel model) {
-        if (model.description != null) {
-            model.description = model.description.replaceAll("(.{80}[^\\s]*)\\s*", "$1\n  * ");
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        super.postProcessModels(objs);
+
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            boolean isCaseObject = !cm.hasVars && !cm.isArrayModel && !cm.isMapModel;
+
+            postProcessModelsEnum(objs);
+            cm.classVarName = camelize(cm.classVarName, true);
+            mo.put("isCaseObject", isCaseObject);
+            mo.put("parentPropName", cm.isMapModel ? "additionalProperties" : cm.isArrayModel ? "items" : null);
         }
+
+        return objs;
     }
 
     private void addCliOptionWithDefault(String name, String description, boolean defaultValue) {
