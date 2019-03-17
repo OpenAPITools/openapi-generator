@@ -1,8 +1,8 @@
 package {{package}}
 
-{{#apiFutures}}
+{{#supportAsync}}
 import scala.concurrent.Future
-{{/apiFutures}}
+{{/supportAsync}}
 {{#imports}}
 import {{import}}
 {{/imports}}
@@ -19,7 +19,7 @@ import {{import}}
   override {{>app/defOperationSignature}} = {
     // TODO: Implement better logic
 
-    {{#apiFutures}}Future.successful({{/apiFutures}}{{^returnType}}{{#apiFutures}}(): Unit{{/apiFutures}}{{/returnType}}{{#returnType}}{{defaultResponse}}{{/returnType}}{{#apiFutures}}){{/apiFutures}}
+    {{#supportAsync}}Future.successful({{/supportAsync}}{{^returnType}}{{#supportAsync}}(): Unit{{/supportAsync}}{{/returnType}}{{#returnType}}{{defaultResponse}}{{/returnType}}{{#supportAsync}}){{/supportAsync}}
   }
 {{#hasMore}}
 

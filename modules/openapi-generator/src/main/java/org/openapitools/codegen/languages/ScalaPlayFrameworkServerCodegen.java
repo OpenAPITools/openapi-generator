@@ -17,13 +17,13 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
     public static final String TITLE = "title";
-    public static final String IMPL_STUBS = "implStubs";
-    public static final String API_FUTURES = "apiFutures";
+    public static final String SKIP_STUBS = "skipStubs";
+    public static final String SUPPORT_ASYNC = "supportAsync";
 
     static Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
 
-    protected boolean implStubs = true;
-    protected boolean apiFutures = true;
+    protected boolean skipStubs = true;
+    protected boolean supportAsync = true;
 
     public ScalaPlayFrameworkServerCodegen() {
         super();
@@ -48,8 +48,8 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         importMapping.put("LocalDate", "java.time.LocalDate");
         importMapping.remove("BigDecimal");
 
-        addCliOptionWithDefault(IMPL_STUBS, "Whether or not to generate a default implementation class.", implStubs);
-        addCliOptionWithDefault(API_FUTURES, "Whether or not to wrap API return types with Futures.", apiFutures);
+        addCliOptionWithDefault(SKIP_STUBS, "If set, skips generation of stub classes.", skipStubs);
+        addCliOptionWithDefault(SUPPORT_ASYNC, "Whether or not to wrap API return types with Futures.", supportAsync);
     }
 
     public CodegenType getTag() {
@@ -64,31 +64,31 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         return "Generates a Scala server application with Play Framework.";
     }
 
-    public void setApiFutures(boolean apiFutures) {
-        this.apiFutures = apiFutures;
+    public void setSupportAsync(boolean supportAsync) {
+        this.supportAsync = supportAsync;
     }
 
-    public void setImplStubs(boolean implStubs) {
-        this.implStubs = implStubs;
+    public void setSkipStubs(boolean skipStubs) {
+        this.skipStubs = skipStubs;
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(IMPL_STUBS)) {
-            this.setImplStubs(convertPropertyToBoolean(IMPL_STUBS));
+        if (additionalProperties.containsKey(SKIP_STUBS)) {
+            this.setSkipStubs(convertPropertyToBoolean(SKIP_STUBS));
         }
-        writePropertyBack(IMPL_STUBS, implStubs);
+        writePropertyBack(SKIP_STUBS, skipStubs);
 
-        if (additionalProperties.containsKey(API_FUTURES)) {
-            this.setApiFutures(convertPropertyToBoolean(API_FUTURES));
+        if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
+            this.setSupportAsync(convertPropertyToBoolean(SUPPORT_ASYNC));
         }
-        writePropertyBack(API_FUTURES, apiFutures);
+        writePropertyBack(SUPPORT_ASYNC, supportAsync);
 
         apiTemplateFiles.remove("api.mustache");
 
-        if (implStubs) {
+        if (!skipStubs) {
             apiTemplateFiles.put("app/apiImplStubs.scala.mustache", "Impl.scala");
         }
 

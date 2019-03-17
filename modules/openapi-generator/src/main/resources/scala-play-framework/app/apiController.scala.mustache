@@ -3,22 +3,22 @@ package {{package}}
 import javax.inject.{Inject, Singleton}
 import play.api.libs.json._
 import play.api.mvc._
-{{#apiFutures}}
+{{#supportAsync}}
 import scala.concurrent.{ExecutionContext, Future}
-{{/apiFutures}}
+{{/supportAsync}}
 {{#imports}}
 import {{import}}
 {{/imports}}
 {{#operations}}
 
 {{>generatedAnnotation}}@Singleton
-class {{classname}}Controller @Inject()(cc: ControllerComponents, api: {{classname}}){{#apiFutures}}(implicit executionContext: ExecutionContext){{/apiFutures}} extends AbstractController(cc) {
+class {{classname}}Controller @Inject()(cc: ControllerComponents, api: {{classname}}){{#supportAsync}}(implicit executionContext: ExecutionContext){{/supportAsync}} extends AbstractController(cc) {
   {{#operation}}
   /**
     * {{httpMethod}} {{path}}{{#queryParams.0}}?{{/queryParams.0}}{{#queryParams}}{{paramName}}=[value]{{#hasMore}}&{{/hasMore}}{{/queryParams}} {{#pathParams}}{{#description}}
     * @param {{paramName}} {{description}}{{/description}}{{/pathParams}}
     */
-  def {{operationId}}({{#pathParams}}{{paramName}}: {{dataType}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}): Action[AnyContent] = Action{{#apiFutures}}.async{{/apiFutures}} { request =>
+  def {{operationId}}({{#pathParams}}{{paramName}}: {{dataType}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}): Action[AnyContent] = Action{{#supportAsync}}.async{{/supportAsync}} { request =>
     {{! Keep the execution result in its own block to prevent redeclaration of parameter names (however unlikely that might be). }}
     def executeApi(): {{>returnTypeOrUnit}} = {
       {{#bodyParams}}
@@ -42,24 +42,24 @@ class {{classname}}Controller @Inject()(cc: ControllerComponents, api: {{classna
       api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     }
 
-    {{#apiFutures}}
+    {{#supportAsync}}
     executeApi().map { {{#returnType}}result{{/returnType}}{{^returnType}}_{{/returnType}} =>
-    {{/apiFutures}}
-    {{^apiFutures}}
+    {{/supportAsync}}
+    {{^supportAsync}}
     {{#returnType}}
     val result = executeApi()
     {{/returnType}}
-    {{/apiFutures}}
+    {{/supportAsync}}
     {{#returnType}}
-    {{#apiFutures}}  {{/apiFutures}}val json = Json.toJson(result)
-    {{#apiFutures}}  {{/apiFutures}}Ok(json)
+    {{#supportAsync}}  {{/supportAsync}}val json = Json.toJson(result)
+    {{#supportAsync}}  {{/supportAsync}}Ok(json)
     {{/returnType}}
     {{^returnType}}
-    {{#apiFutures}}  {{/apiFutures}}Ok
+    {{#supportAsync}}  {{/supportAsync}}Ok
     {{/returnType}}
-    {{#apiFutures}}
+    {{#supportAsync}}
     }
-    {{/apiFutures}}
+    {{/supportAsync}}
   }{{#hasMore}}
 
   {{/hasMore}}
