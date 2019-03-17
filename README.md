@@ -417,9 +417,12 @@ SYNOPSIS
                 [--artifact-version <artifact version>]
                 [(-c <configuration file> | --config <configuration file>)]
                 [-D <system properties>...]
+                [(-e <templating engine> | --engine <templating engine>)]
+                [--enable-post-process-file]
                 [(-g <generator name> | --generator-name <generator name>)]
-                [--git-repo-id <git repo id>] [--git-user-id <git user id>]
-                [--group-id <group id>] [--http-user-agent <http user agent>]
+                [--generate-alias-as-model] [--git-repo-id <git repo id>]
+                [--git-user-id <git user id>] [--group-id <group id>]
+                [--http-user-agent <http user agent>]
                 (-i <spec file> | --input-spec <spec file>)
                 [--ignore-file-override <ignore file override location>]
                 [--import-mappings <import mappings>...]
@@ -567,6 +570,9 @@ OpenAPI Generator core team members are contributors who have been making signif
 :heart: = Link to support the contributor directly 
 
 #### Template Creator
+
+**NOTE**: Embedded templates are only supported in _Mustache_ format. Support for all other formats is experimental and subject to change at any time.
+
 Here is a list of template creators:
  * API Clients:
    * Ada: @stcarrez
