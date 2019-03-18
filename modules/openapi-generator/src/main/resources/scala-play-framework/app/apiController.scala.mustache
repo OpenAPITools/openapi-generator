@@ -37,7 +37,21 @@ class {{classname}}Controller @Inject()(cc: ControllerComponents, api: {{classna
       {{>app/transformParamValues}}
       {{/queryParams}}
       {{#formParams}}
-      val {{paramName}}: {{>dataTypeOption}} = null // TODO [form]
+      {{#isFile}}
+      val {{paramName}} = request.body.asMultipartFormData.flatMap(_.file("{{baseName}}").map(_.ref: {{dataType}}))
+      {{! TODO: Indentation }}
+      {{>app/transformParamValues}}
+      {{/isFile}}
+      {{^isFile}}
+      {{! TODO: Check if this fallback is required }}
+      val {{paramName}} = (request.body.asMultipartFormData.map(_.asFormUrlEncoded) orElse request.body.asFormUrlEncoded)
+        .flatMap(_.get("{{baseName}}"))
+        {{^isCollectionFormatMulti}}
+        .flatMap(_.headOption)
+        {{/isCollectionFormatMulti}}
+      {{! TODO: Indentation }}
+      {{>app/transformParamValues}}
+      {{/isFile}}
       {{/formParams}}
       api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     }

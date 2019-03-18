@@ -149,7 +149,9 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
 
     @Override
     public String toDefaultValue(Schema p) {
-        // TODO: Check if required...
+        if (p.getRequired() != null && p.getRequired().contains(p.getName())) {
+            return "None";
+        }
 
         if (p.getDefault() != null) {
             return p.getDefault().toString();
@@ -228,6 +230,8 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
             boolean isCaseObject = !cm.hasVars && !cm.isArrayModel && !cm.isMapModel;
 
             postProcessModelsEnum(objs);
+
+            // TODO: due to the way aliases are handled, we may be able to remove isCaseObject and parentPropName
             cm.classVarName = camelize(cm.classVarName, true);
             mo.put("isCaseObject", isCaseObject);
             mo.put("parentPropName", cm.isMapModel ? "additionalProperties" : cm.isArrayModel ? "items" : null);

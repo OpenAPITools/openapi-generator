@@ -1,9 +1,4 @@
-{{!
-  Input if isCollectionFormatMulti:
-    val extracted: Option[Seq[String]]
-  Input if !isCollectionFormatMulti:
-    val extracted: Option[String]
-}}
+{{^isFile}}
 {{#collectionFormat}}
 {{^isCollectionFormatMulti}}
   .map(values => splitCollectionParam(values, "{{collectionFormat}}"))
@@ -22,6 +17,7 @@
   .map(value => {{>convertParam}})
 {{/isString}}
 {{/collectionFormat}}
+{{/isFile}}
 {{#required}}
   .getOrElse {
     throw new IllegalArgumentException("Missing {{#isHeaderParam}}header{{/isHeaderParam}}{{#isQueryParam}}query string{{/isQueryParam}}{{#isFormParam}}form{{/isFormParam}} parameter `{{baseName}}`.")
