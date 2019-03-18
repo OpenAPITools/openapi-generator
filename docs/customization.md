@@ -217,9 +217,13 @@ and `config.json` contains the following as an example:
   "apiPackage" : "petstore"
 }
 ```
+You can use also `config.yml` with following equivalent example:
+```yaml
+apiPackage: "petstore"
+```
 
 Supported config options can be different per language. Running `config-help -g {lang}` will show available options.
-**These options are applied via configuration file (e.g. config.json) or by passing them with `-D{optionName}={optionValue}`**. (If `-D{optionName}` does not work, please open a [ticket](https://github.com/openapitools/openapi-generator/issues/new) and we'll look into it)
+**These options are applied via configuration file (e.g. config.json or config.yml) or by passing them with `-D{optionName}={optionValue}`**. (If `-D{optionName}` does not work, please open a [ticket](https://github.com/openapitools/openapi-generator/issues/new) and we'll look into it)
 
 ```sh
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar config-help -g java
@@ -256,6 +260,15 @@ Your config file for Java can look like
   "artifactVersion":"1.2.0",
   "library":"feign"
 }
+```
+
+Or if you preffer yaml format it can look like
+
+```yaml
+groupId: "com.my.company"
+artifactId: "MyClient"
+artifactVersion: "1.2.0"
+library: "feign"
 ```
 
 For all the unspecified options default values will be used.
