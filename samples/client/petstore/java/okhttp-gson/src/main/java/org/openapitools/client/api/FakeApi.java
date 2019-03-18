@@ -1238,8 +1238,7 @@ public class FakeApi {
 
         /**
          * Build call for testGroupParameters
-         * @param _progressListener Progress listener
-         * @param _progressRequestListener Progress request listener
+         * @param _callback ApiCallback API callback
          * @return Call to execute
          * @throws ApiException If fail to serialize the request body object
          */
