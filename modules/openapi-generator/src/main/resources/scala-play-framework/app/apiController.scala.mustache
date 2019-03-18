@@ -63,6 +63,9 @@ class {{classname}}Controller @Inject()(cc: ControllerComponents, api: {{classna
     {{#returnType}}
     val result = executeApi()
     {{/returnType}}
+    {{^returnType}}
+    executeApi()
+    {{/returnType}}
     {{/supportAsync}}
     {{#returnType}}
     {{#supportAsync}}  {{/supportAsync}}val json = Json.toJson(result)
