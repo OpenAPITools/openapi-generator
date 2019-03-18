@@ -78,7 +78,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     protected String invokerPackage;
     protected String sourceFolder = "src";
-    protected String localVariablePrefix = "";
     protected boolean usePromises;
     protected boolean emitModelMethods;
     protected boolean emitJSDoc = true;
@@ -161,7 +160,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         importMapping.clear();
 
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue("src"));
-        cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
@@ -238,9 +236,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         if (additionalProperties.containsKey(CodegenConstants.LICENSE_NAME)) {
             setLicenseName(((String) additionalProperties.get(CodegenConstants.LICENSE_NAME)));
-        }
-        if (additionalProperties.containsKey(CodegenConstants.LOCAL_VARIABLE_PREFIX)) {
-            setLocalVariablePrefix((String) additionalProperties.get(CodegenConstants.LOCAL_VARIABLE_PREFIX));
         }
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
@@ -322,7 +317,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         additionalProperties.put(CodegenConstants.LICENSE_NAME, licenseName);
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-        additionalProperties.put(CodegenConstants.LOCAL_VARIABLE_PREFIX, localVariablePrefix);
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
         additionalProperties.put(USE_PROMISES, usePromises);
@@ -411,10 +405,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
-    }
-
-    public void setLocalVariablePrefix(String localVariablePrefix) {
-        this.localVariablePrefix = localVariablePrefix;
     }
 
     public void setModuleName(String moduleName) {
