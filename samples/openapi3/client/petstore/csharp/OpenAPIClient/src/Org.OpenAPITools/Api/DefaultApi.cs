@@ -87,6 +87,17 @@ namespace Org.OpenAPITools.Api
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultApi"/> class
+        /// </summary>
+        /// <returns></returns>
+        public DefaultApi()
+        {
+            this.Configuration = Org.OpenAPITools.Client.Configuration.Default;
+
+            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DefaultApi"/> class
         /// using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
@@ -220,7 +231,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<InlineResponseDefault>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (InlineResponseDefault) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(InlineResponseDefault)));
         }
 
@@ -281,7 +292,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<InlineResponseDefault>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (InlineResponseDefault) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(InlineResponseDefault)));
         }
 
