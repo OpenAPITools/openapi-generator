@@ -174,7 +174,7 @@ public class ApiClient {
      * @param newHttpClient An instance of OkHttpClient
      * @return Api Client
      */
-     public ApiClient setHttpClient(OkHttpClient newHttpClient) {
+    public ApiClient setHttpClient(OkHttpClient newHttpClient) {
         if(!httpClient.equals(newHttpClient)) {
             OkHttpClient.Builder builder = newHttpClient.newBuilder();
             Iterator<Interceptor> networkInterceptorIterator = httpClient.networkInterceptors().iterator();
