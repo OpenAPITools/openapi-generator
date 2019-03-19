@@ -217,6 +217,11 @@ public class Generate implements Runnable {
     @Option(name = {"--generate-alias-as-model"}, title = "generate alias (array, map) as model", description = CodegenConstants.GENERATE_ALIAS_AS_MODEL_DESC)
     private Boolean generateAliasAsModel;
 
+    @Option(name = {"--minimal-update"},
+        title = "Minimal update",
+        description = "Only write output files that have changed.")
+    private Boolean minimalUpdate;
+
     @Override
     public void run() {
         if (logToStderr != null) {
@@ -345,6 +350,8 @@ public class Generate implements Runnable {
 
         if (generateAliasAsModel != null) {
             configurator.setGenerateAliasAsModel(generateAliasAsModel);
+        if (minimalUpdate != null) {
+            configurator.setEnableMinimalUpdate(minimalUpdate);
         }
 
         applySystemPropertiesKvpList(systemProperties, configurator);
