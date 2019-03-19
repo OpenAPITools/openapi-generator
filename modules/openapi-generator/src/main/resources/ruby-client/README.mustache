@@ -33,6 +33,7 @@ Then either install the gem locally:
 ```shell
 gem install ./{{{gemName}}}-{{{gemVersion}}}.gem
 ```
+
 (for development, run `gem install --dev ./{{{gemName}}}-{{{gemVersion}}}.gem` to install the development dependencies)
 
 or publish the gem to a gem hosting service, e.g. [RubyGems](https://rubygems.org/).
@@ -58,6 +59,7 @@ ruby -Ilib script.rb
 ## Getting Started
 
 Please follow the [installation](#installation) procedure and then run the following code:
+
 ```ruby
 # Load the gem
 require '{{{gemName}}}'
@@ -120,13 +122,17 @@ Class | Method | HTTP request | Description
 {{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
 {{#authMethods}}### {{name}}
 
-{{#isApiKey}}- **Type**: API key
+{{#isApiKey}}
+
+- **Type**: API key
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
 {{#isBasic}}- **Type**: HTTP basic authentication
 {{/isBasic}}
-{{#isOAuth}}- **Type**: OAuth
+{{#isOAuth}}
+
+- **Type**: OAuth
 - **Flow**: {{flow}}
 - **Authorization URL**: {{authorizationUrl}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}
