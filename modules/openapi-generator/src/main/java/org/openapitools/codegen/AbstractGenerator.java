@@ -100,12 +100,10 @@ public abstract class AbstractGenerator {
         // Use Paths.get here to normalize path (for Windows file separator, space escaping on Linux/Mac, etc)
         File output = Paths.get(filename).toFile();
         if (output.getParent() != null && !new File(output.getParent()).exists()) {
-            File parent = output.getParent();
+            File parent = Paths.get(output.getParent()).toFile();
             parent.mkdirs();
         }
         Files.write(output.toPath(), contents);
-
-        }
         return output;
     }
 
