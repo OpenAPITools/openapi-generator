@@ -16,6 +16,7 @@ sidebar_label: aspnetcore
 |packageVersion|C# package version.| |1.0.0|
 |packageGuid|The GUID that will be associated with the C# project| |null|
 |sourceFolder|source folder for generated code| |src|
+|compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_1|
 |aspnetCoreVersion|ASP.NET Core version: 2.2 (default), 2.1, 2.0 (deprecated)| |2.2|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
