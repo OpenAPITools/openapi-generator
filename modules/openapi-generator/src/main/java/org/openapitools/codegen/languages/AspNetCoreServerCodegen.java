@@ -44,6 +44,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String PROJECT_SDK = "projectSdk";
     public static final String SDK_WEB = "Microsoft.NET.Sdk.Web";
     public static final String SDK_LIB = "Microsoft.NET.Sdk";
+    public static final String COMPATIBILITY_VERSION = "compatibilityVersion";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
@@ -59,6 +60,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean generateBody = true;
     private CliOption buildTarget = new CliOption("buildTarget", "Target to build an application or library");
     private String projectSdk = SDK_WEB;
+    private String compatibilityVersion = "Version_2_1";
 
     public AspNetCoreServerCodegen() {
         super();
@@ -114,6 +116,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         addOption(CodegenConstants.SOURCE_FOLDER,
                 CodegenConstants.SOURCE_FOLDER_DESC,
                 sourceFolder);
+
+        addOption(COMPATIBILITY_VERSION, "ASP.Net Core CompatibilityVersion", compatibilityVersion);
 
         aspnetCoreVersion.addEnum("2.0", "ASP.NET COre V2.0");
         aspnetCoreVersion.addEnum("2.1", "ASP.NET COre V2.1");
@@ -389,9 +393,12 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             embeddedTemplateDir = templateDir = "aspnetcore/2.0";
             supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
             LOGGER.info("ASP.NET core version: 2.0");
+            compatibilityVersion = null;
         } else {
             // default, do nothing
             LOGGER.info("ASP.NET core version: " + aspnetCoreVersion.getOptValue());
+            compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".","_");
         }
+        additionalProperties.put(COMPATIBILITY_VERSION, compatibilityVersion);
     }
 }
