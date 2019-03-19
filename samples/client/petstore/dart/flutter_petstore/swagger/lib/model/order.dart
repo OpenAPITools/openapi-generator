@@ -26,17 +26,17 @@ class Order {
     if (json['id'] == null) {
       id = null;
     } else {
-      id = json['id'];
+          id = json['id'];
     }
     if (json['petId'] == null) {
       petId = null;
     } else {
-      petId = json['petId'];
+          petId = json['petId'];
     }
     if (json['quantity'] == null) {
       quantity = null;
     } else {
-      quantity = json['quantity'];
+          quantity = json['quantity'];
     }
     if (json['shipDate'] == null) {
       shipDate = null;
@@ -46,12 +46,12 @@ class Order {
     if (json['status'] == null) {
       status = null;
     } else {
-      status = json['status'];
+          status = json['status'];
     }
     if (json['complete'] == null) {
       complete = null;
     } else {
-      complete = json['complete'];
+          complete = json['complete'];
     }
   }
 
