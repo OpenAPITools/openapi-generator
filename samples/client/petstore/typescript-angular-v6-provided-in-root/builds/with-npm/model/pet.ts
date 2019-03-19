@@ -35,3 +35,4 @@ export namespace Pet {
         Sold: 'sold' as StatusEnum
     };
 }
+

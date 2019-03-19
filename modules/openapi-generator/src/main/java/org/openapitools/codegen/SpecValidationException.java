@@ -1,5 +1,6 @@
 package org.openapitools.codegen;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class SpecValidationException extends RuntimeException {
@@ -36,7 +37,7 @@ public class SpecValidationException extends RuntimeException {
      * @param message the detail message (which is saved for later retrieval
      *                by the {@link #getMessage()} method).
      * @param cause   the cause (which is saved for later retrieval by the
-     *                {@link #getCause()} method).  (A <tt>null</tt> value is
+     *                {@link #getCause()} method).  (A <code>null</code> value is
      *                permitted, and indicates that the cause is nonexistent or
      *                unknown.)
      * @since 1.4
@@ -47,13 +48,13 @@ public class SpecValidationException extends RuntimeException {
 
     /**
      * Constructs a new runtime exception with the specified cause and a
-     * detail message of <tt>(cause==null ? null : cause.toString())</tt>
+     * detail message of <code>(cause==null ? null : cause.toString())</code>
      * (which typically contains the class and detail message of
-     * <tt>cause</tt>).  This constructor is useful for runtime exceptions
+     * <code>cause</code>).  This constructor is useful for runtime exceptions
      * that are little more than wrappers for other throwables.
      *
      * @param cause the cause (which is saved for later retrieval by the
-     *              {@link #getCause()} method).  (A <tt>null</tt> value is
+     *              {@link #getCause()} method).  (A <code>null</code> value is
      *              permitted, and indicates that the cause is nonexistent or
      *              unknown.)
      * @since 1.4
@@ -105,28 +106,28 @@ public class SpecValidationException extends RuntimeException {
     @Override
     public String getMessage() {
         int errorCount = 0;
-        if (errors != null) {
-            errorCount = errors.size();
-        }
+        if (errors != null) errorCount = errors.size();
         int warningCount = 0;
-        if (warnings != null) {
-            warningCount = warnings.size();
-        }
+        if (warnings != null) warningCount = warnings.size();
 
         StringBuilder sb = new StringBuilder();
         sb.append(System.lineSeparator())
             .append("Errors: ")
             .append(System.lineSeparator());
-        errors.forEach(msg ->
-            sb.append("\t-").append(msg).append(System.lineSeparator())
-        );
 
-        if (!warnings.isEmpty()) {
+        Optional.ofNullable(errors).ifPresent(_errors -> {
+            for (String msg : errors) {
+                sb.append("\t-").append(msg).append(System.lineSeparator());
+            }
+        });
+
+        Optional.ofNullable(warnings).filter(warnings -> !warnings.isEmpty()).ifPresent(_errors -> {
             sb.append("Warnings: ").append(System.lineSeparator());
-            warnings.forEach(msg ->
-                    sb.append("\t-").append(msg).append(System.lineSeparator())
-            );
-        }
+            for (String msg : errors) {
+                sb.append("\t-").append(msg).append(System.lineSeparator());
+            }
+        });
+
         return super.getMessage() + " | " +
                 "Error count: " + errorCount + ", Warning count: " + warningCount + sb.toString();
     }

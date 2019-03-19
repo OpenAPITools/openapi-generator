@@ -32,7 +32,7 @@ class OAIUserApiRequest : public QObject
     Q_OBJECT
 
 public:
-    OAIUserApiRequest(QHttpEngine::Socket *s, OAIUserApiHandler* handler);
+    OAIUserApiRequest(QHttpEngine::Socket *s, QSharedPointer<OAIUserApiHandler> handler);
     virtual ~OAIUserApiRequest();
 
     void createUserRequest();
@@ -76,21 +76,21 @@ public:
     void setResponseHeaders(const QMultiMap<QString,QString>& headers);
 
 signals:
-    void createUser(OAIUser oai_user);
-    void createUsersWithArrayInput(QList<OAIUser> oai_user);
-    void createUsersWithListInput(QList<OAIUser> oai_user);
+    void createUser(OAIUser body);
+    void createUsersWithArrayInput(QList<OAIUser> body);
+    void createUsersWithListInput(QList<OAIUser> body);
     void deleteUser(QString username);
     void getUserByName(QString username);
     void loginUser(QString username, QString password);
     void logoutUser();
-    void updateUser(QString username, OAIUser oai_user);
+    void updateUser(QString username, OAIUser body);
     
 
 private:
     QMap<QString, QString> requestHeaders;
     QMap<QString, QString> responseHeaders;
     QHttpEngine::Socket  *socket;
-    OAIUserApiHandler *handler;
+    QSharedPointer<OAIUserApiHandler> handler;
 
     inline void writeResponseHeaders(){
         QHttpEngine::Socket::HeaderMap resHeaders;

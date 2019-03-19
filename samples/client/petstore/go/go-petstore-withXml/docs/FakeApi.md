@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**CreateXmlItem**](FakeApi.md#CreateXmlItem) | **Post** /fake/create_xml_item | creates an XmlItem
 [**FakeOuterBooleanSerialize**](FakeApi.md#FakeOuterBooleanSerialize) | **Post** /fake/outer/boolean | 
 [**FakeOuterCompositeSerialize**](FakeApi.md#FakeOuterCompositeSerialize) | **Post** /fake/outer/composite | 
 [**FakeOuterNumberSerialize**](FakeApi.md#FakeOuterNumberSerialize) | **Post** /fake/outer/number | 
@@ -13,9 +14,38 @@ Method | HTTP request | Description
 [**TestClientModel**](FakeApi.md#TestClientModel) | **Patch** /fake | To test \&quot;client\&quot; model
 [**TestEndpointParameters**](FakeApi.md#TestEndpointParameters) | **Post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**TestEnumParameters**](FakeApi.md#TestEnumParameters) | **Get** /fake | To test enum parameters
+[**TestGroupParameters**](FakeApi.md#TestGroupParameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
 [**TestInlineAdditionalProperties**](FakeApi.md#TestInlineAdditionalProperties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 [**TestJsonFormData**](FakeApi.md#TestJsonFormData) | **Get** /fake/jsonFormData | test json serialization of form data
 
+
+# **CreateXmlItem**
+> CreateXmlItem(ctx, xmlItem)
+creates an XmlItem
+
+this route creates an XmlItem
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **xmlItem** | [**XmlItem**](XmlItem.md)| XmlItem Body | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **FakeOuterBooleanSerialize**
 > bool FakeOuterBooleanSerialize(ctx, optional)
@@ -70,7 +100,7 @@ Optional parameters are passed through a pointer to a FakeOuterCompositeSerializ
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outerComposite** | [**optional.Interface of OuterComposite**](OuterComposite.md)| Input composite as post body | 
+ **body** | [**optional.Interface of OuterComposite**](OuterComposite.md)| Input composite as post body | 
 
 ### Return type
 
@@ -158,7 +188,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **TestBodyWithFileSchema**
-> TestBodyWithFileSchema(ctx, fileSchemaTestClass)
+> TestBodyWithFileSchema(ctx, body)
 
 
 For this test, the body for this request much reference a schema named `File`.
@@ -168,7 +198,7 @@ For this test, the body for this request much reference a schema named `File`.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+  **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
 
 ### Return type
 
@@ -186,7 +216,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **TestBodyWithQueryParams**
-> TestBodyWithQueryParams(ctx, query, user)
+> TestBodyWithQueryParams(ctx, query, body)
 
 
 ### Required Parameters
@@ -195,7 +225,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
   **query** | **string**|  | 
-  **user** | [**User**](User.md)|  | 
+  **body** | [**User**](User.md)|  | 
 
 ### Return type
 
@@ -213,7 +243,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **TestClientModel**
-> Client TestClientModel(ctx, client)
+> Client TestClientModel(ctx, body)
 To test \"client\" model
 
 To test \"client\" model
@@ -223,7 +253,7 @@ To test \"client\" model
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **client** | [**Client**](Client.md)| client model | 
+  **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
@@ -334,8 +364,51 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **TestGroupParameters**
+> TestGroupParameters(ctx, requiredStringGroup, requiredBooleanGroup, requiredInt64Group, optional)
+Fake endpoint to test group parameters (optional)
+
+Fake endpoint to test group parameters (optional)
+
+### Required Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **requiredStringGroup** | **int32**| Required String in group parameters | 
+  **requiredBooleanGroup** | **bool**| Required Boolean in group parameters | 
+  **requiredInt64Group** | **int64**| Required Integer in group parameters | 
+ **optional** | ***TestGroupParametersOpts** | optional parameters | nil if no parameters
+
+### Optional Parameters
+Optional parameters are passed through a pointer to a TestGroupParametersOpts struct
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+ **stringGroup** | **optional.Int32**| String in group parameters | 
+ **booleanGroup** | **optional.Bool**| Boolean in group parameters | 
+ **int64Group** | **optional.Int64**| Integer in group parameters | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **TestInlineAdditionalProperties**
-> TestInlineAdditionalProperties(ctx, requestBody)
+> TestInlineAdditionalProperties(ctx, param)
 test inline additionalProperties
 
 ### Required Parameters
@@ -343,7 +416,7 @@ test inline additionalProperties
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-  **requestBody** | [**map[string]string**](string.md)| request body | 
+  **param** | [**map[string]string**](string.md)| request body | 
 
 ### Return type
 

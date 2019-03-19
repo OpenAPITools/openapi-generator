@@ -11,6 +11,7 @@ import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,18 @@ import feign.*;
 
 public interface FakeApi extends ApiClient.Api {
 
+
+  /**
+   * creates an XmlItem
+   * this route creates an XmlItem
+   * @param xmlItem XmlItem Body (required)
+   */
+  @RequestLine("POST /fake/create_xml_item")
+  @Headers({
+    "Content-Type: application/xml",
+    "Accept: application/json",
+  })
+  void createXmlItem(XmlItem xmlItem);
 
   /**
    * 
@@ -38,7 +51,7 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * 
    * Test serialization of object with outer number type
-   * @param outerComposite Input composite as post body (optional)
+   * @param body Input composite as post body (optional)
    * @return OuterComposite
    */
   @RequestLine("POST /fake/outer/composite")
@@ -46,7 +59,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: */*",
     "Accept: */*",
   })
-  OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite);
+  OuterComposite fakeOuterCompositeSerialize(OuterComposite body);
 
   /**
    * 
@@ -77,27 +90,27 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * 
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-   * @param fileSchemaTestClass  (required)
+   * @param body  (required)
    */
   @RequestLine("PUT /fake/body-with-file-schema")
   @Headers({
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass);
+  void testBodyWithFileSchema(FileSchemaTestClass body);
 
   /**
    * 
    * 
    * @param query  (required)
-   * @param user  (required)
+   * @param body  (required)
    */
   @RequestLine("PUT /fake/body-with-query-params?query={query}")
   @Headers({
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  void testBodyWithQueryParams(@Param("query") String query, User user);
+  void testBodyWithQueryParams(@Param("query") String query, User body);
 
   /**
    * 
@@ -107,7 +120,7 @@ public interface FakeApi extends ApiClient.Api {
    * is convenient for services with optional query parameters, especially when
    * used with the {@link TestBodyWithQueryParamsQueryParams} class that allows for
    * building up this map in a fluent style.
-   * @param user  (required)
+   * @param body  (required)
    * @param queryParams Map of query parameters as name-value pairs
    *   <p>The following elements may be specified in the query map:</p>
    *   <ul>
@@ -119,7 +132,7 @@ public interface FakeApi extends ApiClient.Api {
   "Content-Type: application/json",
   "Accept: application/json",
   })
-  void testBodyWithQueryParams(User user, @QueryMap(encoded=true) Map<String, Object> queryParams);
+  void testBodyWithQueryParams(User body, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
   /**
    * A convenience class for generating query parameters for the
@@ -135,7 +148,7 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * To test \&quot;client\&quot; model
    * To test \&quot;client\&quot; model
-   * @param client client model (required)
+   * @param body client model (required)
    * @return Client
    */
   @RequestLine("PATCH /fake")
@@ -143,7 +156,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  Client testClientModel(Client client);
+  Client testClientModel(Client body);
 
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -319,14 +332,14 @@ public interface FakeApi extends ApiClient.Api {
   /**
    * test inline additionalProperties
    * 
-   * @param requestBody request body (required)
+   * @param param request body (required)
    */
   @RequestLine("POST /fake/inline-additionalProperties")
   @Headers({
     "Content-Type: application/json",
     "Accept: application/json",
   })
-  void testInlineAdditionalProperties(Map<String, String> requestBody);
+  void testInlineAdditionalProperties(Map<String, String> param);
 
   /**
    * test json serialization of form data

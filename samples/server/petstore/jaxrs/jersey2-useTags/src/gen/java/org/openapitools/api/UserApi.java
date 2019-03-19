@@ -63,10 +63,10 @@ public class UserApi  {
     @io.swagger.annotations.ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response createUser(@ApiParam(value = "Created user object" ,required=true) @Valid User user
+    public Response createUser(@ApiParam(value = "Created user object" ,required=true) @NotNull @Valid User body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.createUser(user,securityContext);
+        return delegate.createUser(body,securityContext);
     }
     @POST
     @Path("/createWithArray")
@@ -75,10 +75,10 @@ public class UserApi  {
     @io.swagger.annotations.ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true) @Valid List<User> user
+    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true) @NotNull @Valid List<User> body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.createUsersWithArrayInput(user,securityContext);
+        return delegate.createUsersWithArrayInput(body,securityContext);
     }
     @POST
     @Path("/createWithList")
@@ -87,10 +87,10 @@ public class UserApi  {
     @io.swagger.annotations.ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true) @Valid List<User> user
+    public Response createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true) @NotNull @Valid List<User> body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.createUsersWithListInput(user,securityContext);
+        return delegate.createUsersWithListInput(body,securityContext);
     }
     @DELETE
     @Path("/{username}")
@@ -158,9 +158,9 @@ public class UserApi  {
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "User not found", response = Void.class) })
     public Response updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathParam("username") String username
-,@ApiParam(value = "Updated user object" ,required=true) @Valid User user
+,@ApiParam(value = "Updated user object" ,required=true) @NotNull @Valid User body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.updateUser(username,user,securityContext);
+        return delegate.updateUser(username,body,securityContext);
     }
 }

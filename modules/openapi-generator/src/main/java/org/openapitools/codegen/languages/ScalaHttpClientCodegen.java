@@ -26,7 +26,12 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/*
+ * This generator has been deprecated. Please use scala-akka instead.
+ */
 public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScalaHttpClientCodegen.class);
 
@@ -129,6 +134,9 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public void processOpts() {
+        LOGGER.warn("IMPORTANT: This generator (scala-http-client-deprecated) is no longer actively maintained and will be deprecated. " +
+                "PLease use 'scala-akka' generator instead.");
+
         super.processOpts();
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
@@ -185,11 +193,11 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
             case original:
                 return name;
             case camelCase:
-                return org.openapitools.codegen.utils.StringUtils.camelize(name, true);
+                return camelize(name, true);
             case PascalCase:
-                return org.openapitools.codegen.utils.StringUtils.camelize(name);
+                return camelize(name);
             case snake_case:
-                return org.openapitools.codegen.utils.StringUtils.underscore(name);
+                return underscore(name);
             default:
                 throw new IllegalArgumentException("Invalid model property naming '" +
                         name + "'. Must be 'original', 'camelCase', " +
@@ -205,7 +213,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String getName() {
-        return "scala-httpclient";
+        return "scala-httpclient-deprecated";
     }
 
     @Override
@@ -227,7 +235,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
-        return org.openapitools.codegen.utils.StringUtils.camelize(operationId, true);
+        return camelize(operationId, true);
     }
 
     @Override
@@ -236,7 +244,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
 
         // camelize the model name
         // phone_number => PhoneNumber
-        final String camelizedName = org.openapitools.codegen.utils.StringUtils.camelize(sanitizedName);
+        final String camelizedName = camelize(sanitizedName);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {

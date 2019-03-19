@@ -15,7 +15,6 @@
 import ApiClient from './ApiClient';
 import AdditionalPropertiesClass from './model/AdditionalPropertiesClass';
 import Animal from './model/Animal';
-import AnimalFarm from './model/AnimalFarm';
 import ApiResponse from './model/ApiResponse';
 import ArrayOfArrayOfNumberOnly from './model/ArrayOfArrayOfNumberOnly';
 import ArrayOfNumberOnly from './model/ArrayOfNumberOnly';
@@ -46,9 +45,11 @@ import OuterEnum from './model/OuterEnum';
 import Pet from './model/Pet';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
 import SpecialModelName from './model/SpecialModelName';
-import StringBooleanMap from './model/StringBooleanMap';
 import Tag from './model/Tag';
+import TypeHolderDefault from './model/TypeHolderDefault';
+import TypeHolderExample from './model/TypeHolderExample';
 import User from './model/User';
+import XmlItem from './model/XmlItem';
 import AnotherFakeApi from './api/AnotherFakeApi';
 import FakeApi from './api/FakeApi';
 import FakeClassnameTags123Api from './api/FakeClassnameTags123Api';
@@ -106,12 +107,6 @@ export {
      * @property {module:model/Animal}
      */
     Animal,
-
-    /**
-     * The AnimalFarm model constructor.
-     * @property {module:model/AnimalFarm}
-     */
-    AnimalFarm,
 
     /**
      * The ApiResponse model constructor.
@@ -294,22 +289,34 @@ export {
     SpecialModelName,
 
     /**
-     * The StringBooleanMap model constructor.
-     * @property {module:model/StringBooleanMap}
-     */
-    StringBooleanMap,
-
-    /**
      * The Tag model constructor.
      * @property {module:model/Tag}
      */
     Tag,
 
     /**
+     * The TypeHolderDefault model constructor.
+     * @property {module:model/TypeHolderDefault}
+     */
+    TypeHolderDefault,
+
+    /**
+     * The TypeHolderExample model constructor.
+     * @property {module:model/TypeHolderExample}
+     */
+    TypeHolderExample,
+
+    /**
      * The User model constructor.
      * @property {module:model/User}
      */
     User,
+
+    /**
+     * The XmlItem model constructor.
+     * @property {module:model/XmlItem}
+     */
+    XmlItem,
 
     /**
     * The AnotherFakeApi service constructor.

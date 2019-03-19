@@ -5,8 +5,10 @@ namespace OpenAPI\Client;
 use OpenAPI\Client\Api\PetApi;
 use OpenAPI\Client\Model\ApiResponse;
 use OpenAPI\Client\Model\Pet;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Assert;
 
-class PetApiTest extends \PHPUnit_Framework_TestCase
+class PetApiTest extends TestCase
 {
 
     /** @var  PetApi */
@@ -45,7 +47,7 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
 
         // add a new pet (model)
         list(, $status) = $petApi->addPetWithHttpInfo($newPet);
-        \PHPUnit_Framework_Assert::assertEquals(200, $status);
+        Assert::assertEquals(200, $status);
     }
 
     public function setUp()
@@ -321,9 +323,8 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
     // test if ArrayAccess interface works
     public function testArrayStuff()
     {
-        // create an AnimalFarm which is an object implementing the
-        // ArrayAccess interface
-        $farm = new Model\AnimalFarm();
+        // create an array of Animal
+        $farm = array();
 
         // add some animals to the farm to make sure the ArrayAccess
         // interface works

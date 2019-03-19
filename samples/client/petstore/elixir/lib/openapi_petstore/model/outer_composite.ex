@@ -15,9 +15,9 @@ defmodule OpenapiPetstore.Model.OuterComposite do
   ]
 
   @type t :: %__MODULE__{
-    :"my_number" => Float,
-    :"my_string" => String,
-    :"my_boolean" => Boolean
+    :"my_number" => float() | nil,
+    :"my_string" => String.t | nil,
+    :"my_boolean" => boolean() | nil
   }
 end
 

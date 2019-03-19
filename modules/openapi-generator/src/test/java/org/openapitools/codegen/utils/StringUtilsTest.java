@@ -3,7 +3,8 @@ package org.openapitools.codegen.utils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.dashize;
 
 public class StringUtilsTest {
     // we'll assume that <i>underscore</i> (Twitter elephant bird) works fine

@@ -30,6 +30,7 @@
 namespace OpenAPI\Server\Controller;
 
 use \Exception;
+use JMS\Serializer\Exception\RuntimeException as SerializerRuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -67,33 +68,29 @@ class PetController extends Controller
             return new Response('', 415);
         }
 
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
         // Authentication 'petstore_auth' required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $pet = $request->getContent();
+        $body = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $pet = $this->deserialize($pet, 'OpenAPI\Server\Model\Pet', $inputFormat);
+        try {
+            $body = $this->deserialize($body, 'OpenAPI\Server\Model\Pet', $inputFormat);
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Pet");
-        $response = $this->validate($pet, $asserts);
+        $asserts[] = new Assert\Valid();
+        $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -108,7 +105,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->addPet($pet, $responseCode, $responseHeaders);
+            $result = $handler->addPet($body, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';
@@ -121,12 +118,11 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -146,15 +142,6 @@ class PetController extends Controller
      */
     public function deletePetAction(Request $request, $petId)
     {
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
         // Authentication 'petstore_auth' required
         // Oauth required
@@ -166,8 +153,12 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $petId = $this->deserialize($petId, 'int', 'string');
-        $apiKey = $this->deserialize($apiKey, 'string', 'string');
+        try {
+            $petId = $this->deserialize($petId, 'int', 'string');
+            $apiKey = $this->deserialize($apiKey, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -207,12 +198,11 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -252,7 +242,11 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $status = $this->deserialize($status, 'array<csv,string>', 'string');
+        try {
+            $status = $this->deserialize($status, 'array<csv,string>', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -261,7 +255,7 @@ class PetController extends Controller
             new Assert\Choice([ "available", "pending", "sold" ])
         ]);
         $asserts[] = new Assert\All([
-            new Assert\Type("string")
+            new Assert\Type("string"),
         ]);
         $response = $this->validate($status, $asserts);
         if ($response instanceof Response) {
@@ -294,7 +288,7 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -339,13 +333,17 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $tags = $this->deserialize($tags, 'array<csv,string>', 'string');
+        try {
+            $tags = $this->deserialize($tags, 'array<csv,string>', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\All([
-            new Assert\Type("string")
+            new Assert\Type("string"),
         ]);
         $response = $this->validate($tags, $asserts);
         if ($response instanceof Response) {
@@ -378,7 +376,7 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -422,7 +420,11 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $petId = $this->deserialize($petId, 'int', 'string');
+        try {
+            $petId = $this->deserialize($petId, 'int', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -462,7 +464,7 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -495,33 +497,29 @@ class PetController extends Controller
             return new Response('', 415);
         }
 
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
         // Authentication 'petstore_auth' required
         // Oauth required
         $securitypetstore_auth = $request->headers->get('authorization');
 
         // Read out all input parameter values into variables
-        $pet = $request->getContent();
+        $body = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $pet = $this->deserialize($pet, 'OpenAPI\Server\Model\Pet', $inputFormat);
+        try {
+            $body = $this->deserialize($body, 'OpenAPI\Server\Model\Pet', $inputFormat);
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Pet");
-        $response = $this->validate($pet, $asserts);
+        $asserts[] = new Assert\Valid();
+        $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -536,7 +534,7 @@ class PetController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->updatePet($pet, $responseCode, $responseHeaders);
+            $result = $handler->updatePet($body, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';
@@ -555,12 +553,11 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -580,15 +577,6 @@ class PetController extends Controller
      */
     public function updatePetWithFormAction(Request $request, $petId)
     {
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
         // Authentication 'petstore_auth' required
         // Oauth required
@@ -601,9 +589,13 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $petId = $this->deserialize($petId, 'int', 'string');
-        $name = $this->deserialize($name, 'string', 'string');
-        $status = $this->deserialize($status, 'string', 'string');
+        try {
+            $petId = $this->deserialize($petId, 'int', 'string');
+            $name = $this->deserialize($name, 'string', 'string');
+            $status = $this->deserialize($status, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -649,12 +641,11 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -695,8 +686,12 @@ class PetController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $petId = $this->deserialize($petId, 'int', 'string');
-        $additionalMetadata = $this->deserialize($additionalMetadata, 'string', 'string');
+        try {
+            $petId = $this->deserialize($petId, 'int', 'string');
+            $additionalMetadata = $this->deserialize($additionalMetadata, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -742,7 +737,7 @@ class PetController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,

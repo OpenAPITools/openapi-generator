@@ -12,7 +12,7 @@
 namespace {{this}} {
 {{/cppNamespaceDeclarations}}
 
-{{classname}}Request::{{classname}}Request(QHttpEngine::Socket *s, {{classname}}Handler* hdl) : QObject(s), socket(s), handler(hdl) {
+{{classname}}Request::{{classname}}Request(QHttpEngine::Socket *s, QSharedPointer<{{classname}}Handler> hdl) : QObject(s), socket(s), handler(hdl) {
     auto headers = s->headers();
     for(auto itr = headers.begin(); itr != headers.end(); itr++) {
         requestHeaders.insert(QString(itr.key()), QString(itr.value()));
@@ -43,7 +43,7 @@ QHttpEngine::Socket* {{classname}}Request::getRawSocket(){
 {{#operations}}{{#operation}}
 void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}const QString& {{{paramName}}}str{{#hasMore}}, {{/hasMore}}{{/pathParams}}{{/hasPathParams}}){
     qDebug() << "{{{basePathWithoutHost}}}{{{path}}}";
-    connect(this, &{{classname}}Request::{{nickname}}, handler, &{{classname}}Handler::{{nickname}});
+    connect(this, &{{classname}}Request::{{nickname}}, handler.data(), &{{classname}}Handler::{{nickname}});
 
     {{#queryParams}}{{queryParam}}
     {{{dataType}}} {{paramName}};
@@ -75,10 +75,15 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     {{/isListContainer}}
     {{^isListContainer}}
     {{^isMapContainer}}
-    {{#isPrimitiveType}}
+    {{#isPrimitiveType}}{{^isFreeFormObject}}
     {{{dataType}}} {{paramName}};
-    ::{{cppNamespace}}::fromStringValue((QString(socket->readAll()), {{paramName}});
-    {{/isPrimitiveType}}
+    ::{{cppNamespace}}::fromStringValue(QString(socket->readAll()), {{paramName}});
+    {{/isFreeFormObject}}{{/isPrimitiveType}}
+    {{#isFreeFormObject}}
+    {{{dataType}}} {{paramName}};
+    QJsonDocument resObject = QJsonDocument::fromJson(socket->readAll());
+    ::{{cppNamespace}}::fromJsonValue({{paramName}}, resObject.object());
+    {{/isFreeFormObject}}
     {{/isMapContainer}}
     {{#isMapContainer}}
     QJsonDocument doc;
@@ -140,13 +145,19 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
 
 {{/operation}}{{/operations}}
 void {{classname}}Request::sendCustomResponse(QByteArray & res, QNetworkReply::NetworkError error_type){
-    Q_UNUSED(res);  // TODO
     Q_UNUSED(error_type); // TODO
+    socket->write(res);
+    if(socket->isOpen()){
+        socket->close();
+    }    
 }
 
 void {{classname}}Request::sendCustomResponse(QIODevice *res, QNetworkReply::NetworkError error_type){
-    Q_UNUSED(res);  // TODO
-    Q_UNUSED(error_type); // TODO
+    Q_UNUSED(error_type);  // TODO
+    socket->write(res->readAll());
+    if(socket->isOpen()){
+        socket->close();
+    }
 }
 
 {{#cppNamespaceDeclarations}}

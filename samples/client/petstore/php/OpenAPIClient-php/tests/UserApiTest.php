@@ -3,8 +3,9 @@
 namespace OpenAPI\Client;
 
 use OpenAPI\Client\Api\UserApi;
+use PHPUnit\Framework\TestCase;
 
-class UserApiTest extends \PHPUnit_Framework_TestCase
+class UserApiTest extends TestCase
 {
 
     /** @var UserApi*/

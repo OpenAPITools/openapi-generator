@@ -28,7 +28,7 @@ paths:
       description: To test code injection */ ' " =end -- \r\n \n \r
       operationId: testCodeInject */ ' " =end -- \r\n \n \r
       consumes:
-        - application/json
+        - application/x-www-form-urlencoded
         - "*/ ' \" =end -- \r\n \n \r"
       produces:
         - application/json

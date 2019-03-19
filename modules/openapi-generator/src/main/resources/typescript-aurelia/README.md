@@ -20,7 +20,7 @@ It can be used in both TypeScript and JavaScript. In TypeScript, the definition 
 
 ### Installation ###
 
-`swagger-codegen` does not generate JavaScript directly. The generated Node module comes with `package.json` that bundles `typescript` and `typings` so it can self-compile during `prepublish` stage. The should be run automatically during `npm install` or `npm publish`. 
+`openapi-generator` does not generate JavaScript directly. The generated Node module comes with `package.json` that bundles `typescript` and `typings` so it can self-compile during `prepublish` stage. The should be run automatically during `npm install` or `npm publish`. 
 
 CAVEAT: Due to [privilege implications](https://docs.npmjs.com/misc/scripts#user), `npm` would skip all scripts if the user is `root`. You would need to manually run it with `npm run prepublish` or run `npm install --unsafe-perm`. 
 

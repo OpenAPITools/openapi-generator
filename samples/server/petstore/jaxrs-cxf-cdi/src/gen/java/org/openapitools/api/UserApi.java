@@ -42,8 +42,8 @@ public class UserApi  {
     @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response createUser(@ApiParam(value = "Created user object" ,required=true) User user) {
-        return delegate.createUser(user, securityContext);
+    public Response createUser(@ApiParam(value = "Created user object" ,required=true) User body) {
+        return delegate.createUser(body, securityContext);
     }
 
     @POST
@@ -53,8 +53,8 @@ public class UserApi  {
     @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true) List<User> user) {
-        return delegate.createUsersWithArrayInput(user, securityContext);
+    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true) List<User> body) {
+        return delegate.createUsersWithArrayInput(body, securityContext);
     }
 
     @POST
@@ -64,8 +64,8 @@ public class UserApi  {
     @ApiOperation(value = "Creates list of users with given input array", notes = "", response = Void.class, tags={ "user",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true) List<User> user) {
-        return delegate.createUsersWithListInput(user, securityContext);
+    public Response createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true) List<User> body) {
+        return delegate.createUsersWithListInput(body, securityContext);
     }
 
     @DELETE
@@ -124,7 +124,7 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid user supplied", response = Void.class),
         @ApiResponse(code = 404, message = "User not found", response = Void.class) })
-    public Response updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathParam("username") String username, @ApiParam(value = "Updated user object" ,required=true) User user) {
-        return delegate.updateUser(username, user, securityContext);
+    public Response updateUser(@ApiParam(value = "name that need to be deleted",required=true) @PathParam("username") String username, @ApiParam(value = "Updated user object" ,required=true) User body) {
+        return delegate.updateUser(username, body, securityContext);
     }
 }

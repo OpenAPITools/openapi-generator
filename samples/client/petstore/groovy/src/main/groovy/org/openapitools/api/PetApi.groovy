@@ -15,7 +15,7 @@ class PetApi {
     String basePath = "http://petstore.swagger.io/v2"
     String versionPath = "/api/v1"
 
-    def addPet ( Pet pet, Closure onSuccess, Closure onFailure)  {
+    def addPet ( Pet body, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/pet"
 
@@ -24,8 +24,8 @@ class PetApi {
         def headerParams = [:]
 
         // verify required params are set
-        if (pet == null) {
-            throw new RuntimeException("missing required params pet")
+        if (body == null) {
+            throw new RuntimeException("missing required params body")
         }
 
         // TODO: form params, body param not yet support
@@ -128,7 +128,7 @@ class PetApi {
 
     }
 
-    def updatePet ( Pet pet, Closure onSuccess, Closure onFailure)  {
+    def updatePet ( Pet body, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/pet"
 
@@ -137,8 +137,8 @@ class PetApi {
         def headerParams = [:]
 
         // verify required params are set
-        if (pet == null) {
-            throw new RuntimeException("missing required params pet")
+        if (body == null) {
+            throw new RuntimeException("missing required params body")
         }
 
         // TODO: form params, body param not yet support

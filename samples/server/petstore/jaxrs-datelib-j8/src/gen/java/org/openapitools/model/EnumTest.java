@@ -170,7 +170,7 @@ public class EnumTest  implements Serializable {
   private EnumNumberEnum enumNumber;
 
   @JsonProperty("outerEnum")
-  private OuterEnum outerEnum = null;
+  private OuterEnum outerEnum;
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -203,8 +203,7 @@ public class EnumTest  implements Serializable {
    **/
   @JsonProperty("enum_string_required")
   @ApiModelProperty(required = true, value = "")
-    @NotNull
-
+  @NotNull 
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -264,7 +263,7 @@ public class EnumTest  implements Serializable {
    **/
   @JsonProperty("outerEnum")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

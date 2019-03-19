@@ -24,6 +24,7 @@
  */
 namespace OpenAPIServer\Api;
 
+use PHPUnit\Framework\TestCase;
 use OpenAPIServer\Api\FakeApi;
 
 /**
@@ -34,9 +35,9 @@ use OpenAPIServer\Api\FakeApi;
  * @package  OpenAPIServer\Api
  * @author   OpenAPI Generator team
  * @link     https://github.com/openapitools/openapi-generator
- * @coversDefaultClass \OpenAPIServer\Model\FakeApi
+ * @coversDefaultClass \OpenAPIServer\Api\FakeApi
  */
-class FakeApiTest extends \PHPUnit_Framework_TestCase
+class FakeApiTest extends TestCase
 {
 
     /**
@@ -154,6 +155,16 @@ class FakeApiTest extends \PHPUnit_Framework_TestCase
      * @covers ::testEnumParameters
      */
     public function testTestEnumParameters()
+    {
+    }
+
+    /**
+     * Test case for testGroupParameters
+     *
+     * Fake endpoint to test group parameters (optional).
+     * @covers ::testGroupParameters
+     */
+    public function testTestGroupParameters()
     {
     }
 

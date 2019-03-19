@@ -17,11 +17,18 @@
 
 package org.openapitools.codegen.python;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.StringSchema;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.languages.PythonClientCodegen;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PythonClientCodegenTest {
 
@@ -54,4 +61,35 @@ public class PythonClientCodegenTest {
         Assert.assertEquals(codegen.isHideGenerationTimestamp(), false);
     }
 
+    @Test(description = "test enum null/nullable patterns")
+    public void testEnumNull() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue_1997.yaml");
+
+        StringSchema prop = (StringSchema) openAPI.getComponents().getSchemas().get("Type").getProperties().get("prop");
+        ArrayList<Object> expected = new ArrayList<>(Arrays.asList("A", "B", "C"));
+        assert prop.getNullable();
+        assert prop.getEnum().equals(expected);
+    }
+
+    @Test(description = "test regex patterns")
+    public void testRegularExpressionOpenAPISchemaVersion3() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue_1517.yaml");
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        final String path = "/ping";
+        final Operation p = openAPI.getPaths().get(path).getGet();
+        final CodegenOperation op = codegen.fromOperation(path, "get", p, null);
+        // pattern_no_forward_slashes '^pattern$'
+        Assert.assertEquals(op.allParams.get(0).pattern, "/^pattern$/");
+        // pattern_two_slashes '/^pattern$/'
+        Assert.assertEquals(op.allParams.get(1).pattern, "/^pattern$/");
+        // pattern_dont_escape_backslash '/^pattern\d{3}$/'
+        Assert.assertEquals(op.allParams.get(2).pattern, "/^pattern\\d{3}$/");
+        // pattern_dont_escape_escaped_forward_slash '/^pattern\/\d{3}$/'
+        Assert.assertEquals(op.allParams.get(3).pattern, "/^pattern\\/\\d{3}$/");
+        // pattern_escape_unescaped_forward_slash '^pattern/\d{3}$'
+        Assert.assertEquals(op.allParams.get(4).pattern, "/^pattern\\/\\d{3}$/");
+        // pattern_with_modifiers '/^pattern\d{3}$/i
+        Assert.assertEquals(op.allParams.get(5).pattern, "/^pattern\\d{3}$/i");
+    }
 }

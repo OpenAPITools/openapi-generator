@@ -64,8 +64,7 @@ public class InlineObject5   {
    **/
   @JsonProperty("requiredFile")
   @ApiModelProperty(required = true, value = "file to upload")
-    @NotNull
-
+  @NotNull 
   public File getRequiredFile() {
     return requiredFile;
   }

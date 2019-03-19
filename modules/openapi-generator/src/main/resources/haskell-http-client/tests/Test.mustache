@@ -10,14 +10,15 @@ import Test.Hspec
 import Test.Hspec.QuickCheck
 
 import PropMime
-import Instances ()
+import Instances (){{#customTestInstanceModule}}
+import {{.}} (){{/customTestInstanceModule}}
 
 import {{baseModule}}.Model
 import {{baseModule}}.MimeTypes
 
 main :: IO ()
 main =
-  hspec $ modifyMaxSize (const 5) $ do
+  hspec $ modifyMaxSize (const 10) $ do
     describe "JSON instances" $ do
       pure ()
       {{#models}}{{#model}}propMimeEq MimeJSON (Proxy :: Proxy {{classname}})

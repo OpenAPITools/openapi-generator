@@ -71,10 +71,10 @@ int main(int argc, char * argv[])
     quint16 port = static_cast<quint16>(parser.value(portOption).toInt());
 
     QSharedPointer<{{cppNamespace}}::{{prefix}}ApiRequestHandler> handler(new {{cppNamespace}}::{{prefix}}ApiRequestHandler());
-    {{cppNamespace}}::{{prefix}}ApiRouter  router;
-    router.setUpRoutes();
+    auto router = QSharedPointer<{{cppNamespace}}::{{prefix}}ApiRouter>::create();
+    router->setUpRoutes();
     QObject::connect(handler.data(), &{{cppNamespace}}::{{prefix}}ApiRequestHandler::requestReceived, [&](QHttpEngine::Socket *socket) {
-        router.processRequest(socket);
+        router->processRequest(socket);
     });
 
     QHttpEngine::Server server(handler.data());

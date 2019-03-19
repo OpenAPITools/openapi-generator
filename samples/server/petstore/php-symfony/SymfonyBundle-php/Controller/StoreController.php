@@ -30,6 +30,7 @@
 namespace OpenAPI\Server\Controller;
 
 use \Exception;
+use JMS\Serializer\Exception\RuntimeException as SerializerRuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -58,15 +59,6 @@ class StoreController extends Controller
      */
     public function deleteOrderAction(Request $request, $orderId)
     {
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
 
         // Read out all input parameter values into variables
@@ -74,7 +66,11 @@ class StoreController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $orderId = $this->deserialize($orderId, 'string', 'string');
+        try {
+            $orderId = $this->deserialize($orderId, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -109,12 +105,11 @@ class StoreController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -152,8 +147,6 @@ class StoreController extends Controller
 
         // Use the default value if no value was provided
 
-        // Deserialize the input values that needs it
-
         // Validate the input values
 
 
@@ -179,7 +172,7 @@ class StoreController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -220,7 +213,11 @@ class StoreController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $orderId = $this->deserialize($orderId, 'int', 'string');
+        try {
+            $orderId = $this->deserialize($orderId, 'int', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -260,7 +257,7 @@ class StoreController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -305,18 +302,23 @@ class StoreController extends Controller
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $order = $request->getContent();
+        $body = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $order = $this->deserialize($order, 'OpenAPI\Server\Model\Order', $inputFormat);
+        try {
+            $body = $this->deserialize($body, 'OpenAPI\Server\Model\Order', $inputFormat);
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\Order");
-        $response = $this->validate($order, $asserts);
+        $asserts[] = new Assert\Valid();
+        $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -329,7 +331,7 @@ class StoreController extends Controller
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
-            $result = $handler->placeOrder($order, $responseCode, $responseHeaders);
+            $result = $handler->placeOrder($body, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'successful operation';
@@ -345,7 +347,7 @@ class StoreController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,

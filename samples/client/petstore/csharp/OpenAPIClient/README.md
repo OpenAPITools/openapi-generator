@@ -71,12 +71,12 @@ namespace Example
         {
 
             var apiInstance = new AnotherFakeApi();
-            var modelClient = new ModelClient(); // ModelClient | client model
+            var body = new ModelClient(); // ModelClient | client model
 
             try
             {
                 // To test special tags
-                ModelClient result = apiInstance.Call123TestSpecialTags(modelClient);
+                ModelClient result = apiInstance.Call123TestSpecialTags(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -97,6 +97,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+*FakeApi* | [**CreateXmlItem**](docs/FakeApi.md#createxmlitem) | **POST** /fake/create_xml_item | creates an XmlItem
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -138,7 +139,6 @@ Class | Method | HTTP request | Description
 
  - [Model.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Model.Animal](docs/Animal.md)
- - [Model.AnimalFarm](docs/AnimalFarm.md)
  - [Model.ApiResponse](docs/ApiResponse.md)
  - [Model.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [Model.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -169,9 +169,11 @@ Class | Method | HTTP request | Description
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Model.Return](docs/Return.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
- - [Model.StringBooleanMap](docs/StringBooleanMap.md)
  - [Model.Tag](docs/Tag.md)
+ - [Model.TypeHolderDefault](docs/TypeHolderDefault.md)
+ - [Model.TypeHolderExample](docs/TypeHolderExample.md)
  - [Model.User](docs/User.md)
+ - [Model.XmlItem](docs/XmlItem.md)
 
 
 <a name="documentation-for-authorization"></a>

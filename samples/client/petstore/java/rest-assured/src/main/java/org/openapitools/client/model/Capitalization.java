@@ -189,7 +189,6 @@ public class Capitalization {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Capitalization {\n");
-    
     sb.append("    smallCamel: ").append(toIndentedString(smallCamel)).append("\n");
     sb.append("    capitalCamel: ").append(toIndentedString(capitalCamel)).append("\n");
     sb.append("    smallSnake: ").append(toIndentedString(smallSnake)).append("\n");

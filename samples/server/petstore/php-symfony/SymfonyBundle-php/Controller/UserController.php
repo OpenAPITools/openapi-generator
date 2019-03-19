@@ -30,6 +30,7 @@
 namespace OpenAPI\Server\Controller;
 
 use \Exception;
+use JMS\Serializer\Exception\RuntimeException as SerializerRuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -66,30 +67,26 @@ class UserController extends Controller
             return new Response('', 415);
         }
 
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $user = $request->getContent();
+        $body = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $user = $this->deserialize($user, 'OpenAPI\Server\Model\User', $inputFormat);
+        try {
+            $body = $this->deserialize($body, 'OpenAPI\Server\Model\User', $inputFormat);
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\User");
-        $response = $this->validate($user, $asserts);
+        $asserts[] = new Assert\Valid();
+        $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -102,7 +99,7 @@ class UserController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->createUser($user, $responseCode, $responseHeaders);
+            $result = $handler->createUser($body, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'successful operation';
@@ -115,12 +112,11 @@ class UserController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -148,32 +144,28 @@ class UserController extends Controller
             return new Response('', 415);
         }
 
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $user = $request->getContent();
+        $body = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $user = $this->deserialize($user, 'array<OpenAPI\Server\Model\User>', $inputFormat);
+        try {
+            $body = $this->deserialize($body, 'array<OpenAPI\Server\Model\User>', $inputFormat);
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\All([
-            new Assert\Type("OpenAPI\Server\Model\User")
+            new Assert\Type("OpenAPI\Server\Model\User"),
+            new Assert\Valid(),
         ]);
-        $response = $this->validate($user, $asserts);
+        $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -186,7 +178,7 @@ class UserController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->createUsersWithArrayInput($user, $responseCode, $responseHeaders);
+            $result = $handler->createUsersWithArrayInput($body, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'successful operation';
@@ -199,12 +191,11 @@ class UserController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -232,32 +223,28 @@ class UserController extends Controller
             return new Response('', 415);
         }
 
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $user = $request->getContent();
+        $body = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $user = $this->deserialize($user, 'array<OpenAPI\Server\Model\User>', $inputFormat);
+        try {
+            $body = $this->deserialize($body, 'array<OpenAPI\Server\Model\User>', $inputFormat);
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\All([
-            new Assert\Type("OpenAPI\Server\Model\User")
+            new Assert\Type("OpenAPI\Server\Model\User"),
+            new Assert\Valid(),
         ]);
-        $response = $this->validate($user, $asserts);
+        $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -270,7 +257,7 @@ class UserController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->createUsersWithListInput($user, $responseCode, $responseHeaders);
+            $result = $handler->createUsersWithListInput($body, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = 'successful operation';
@@ -283,12 +270,11 @@ class UserController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -308,15 +294,6 @@ class UserController extends Controller
      */
     public function deleteUserAction(Request $request, $username)
     {
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
 
         // Read out all input parameter values into variables
@@ -324,7 +301,11 @@ class UserController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $username = $this->deserialize($username, 'string', 'string');
+        try {
+            $username = $this->deserialize($username, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -359,12 +340,11 @@ class UserController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -400,7 +380,11 @@ class UserController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $username = $this->deserialize($username, 'string', 'string');
+        try {
+            $username = $this->deserialize($username, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -438,7 +422,7 @@ class UserController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -481,8 +465,12 @@ class UserController extends Controller
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $username = $this->deserialize($username, 'string', 'string');
-        $password = $this->deserialize($password, 'string', 'string');
+        try {
+            $username = $this->deserialize($username, 'string', 'string');
+            $password = $this->deserialize($password, 'string', 'string');
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -524,7 +512,7 @@ class UserController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                $result !== null ?$this->serialize($result, $responseFormat):'',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
@@ -549,22 +537,11 @@ class UserController extends Controller
      */
     public function logoutUserAction(Request $request)
     {
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
 
         // Read out all input parameter values into variables
 
         // Use the default value if no value was provided
-
-        // Deserialize the input values that needs it
 
         // Validate the input values
 
@@ -589,12 +566,11 @@ class UserController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )
@@ -622,25 +598,20 @@ class UserController extends Controller
             return new Response('', 415);
         }
 
-        // Figure out what data format to return to the client
-        $produces = [];
-        // Figure out what the client accepts
-        $clientAccepts = $request->headers->has('Accept')?$request->headers->get('Accept'):'*/*';
-        $responseFormat = $this->getOutputFormat($clientAccepts, $produces);
-        if ($responseFormat === null) {
-            return new Response('', 406);
-        }
-
         // Handle authentication
 
         // Read out all input parameter values into variables
-        $user = $request->getContent();
+        $body = $request->getContent();
 
         // Use the default value if no value was provided
 
         // Deserialize the input values that needs it
-        $username = $this->deserialize($username, 'string', 'string');
-        $user = $this->deserialize($user, 'OpenAPI\Server\Model\User', $inputFormat);
+        try {
+            $username = $this->deserialize($username, 'string', 'string');
+            $body = $this->deserialize($body, 'OpenAPI\Server\Model\User', $inputFormat);
+        } catch (SerializerRuntimeException $exception) {
+            return $this->createBadRequestResponse($exception->getMessage());
+        }
 
         // Validate the input values
         $asserts = [];
@@ -653,7 +624,8 @@ class UserController extends Controller
         $asserts = [];
         $asserts[] = new Assert\NotNull();
         $asserts[] = new Assert\Type("OpenAPI\Server\Model\User");
-        $response = $this->validate($user, $asserts);
+        $asserts[] = new Assert\Valid();
+        $response = $this->validate($body, $asserts);
         if ($response instanceof Response) {
             return $response;
         }
@@ -666,7 +638,7 @@ class UserController extends Controller
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
-            $result = $handler->updateUser($username, $user, $responseCode, $responseHeaders);
+            $result = $handler->updateUser($username, $body, $responseCode, $responseHeaders);
 
             // Find default response message
             $message = '';
@@ -682,12 +654,11 @@ class UserController extends Controller
             }
 
             return new Response(
-                $result?$this->serialize($result, $responseFormat):'',
+                '',
                 $responseCode,
                 array_merge(
                     $responseHeaders,
                     [
-                        'Content-Type' => $responseFormat,
                         'X-OpenAPI-Message' => $message
                     ]
                 )

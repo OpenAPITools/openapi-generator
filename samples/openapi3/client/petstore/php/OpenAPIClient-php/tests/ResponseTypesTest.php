@@ -5,10 +5,11 @@ namespace OpenAPI\Client;
 use GuzzleHttp\Psr7\Response;
 use OpenAPI\Client\Api\PetApi;
 use OpenAPI\Client\Model\Pet;
+use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/FakeHttpClient.php';
 
-class ResponseTypesTest extends \PHPUnit_Framework_TestCase
+class ResponseTypesTest extends TestCase
 {
     /** @var PetApi */
     private $api;

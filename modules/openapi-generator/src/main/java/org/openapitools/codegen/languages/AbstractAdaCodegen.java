@@ -19,33 +19,21 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Escapers;
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenSecurity;
-import org.openapitools.codegen.DefaultCodegen;
+import io.swagger.v3.oas.models.servers.Server;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 abstract public class AbstractAdaCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAdaCodegen.class);
@@ -402,9 +390,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation,
-                                          Map<String, Schema> definitions, OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, definitions, openAPI);
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
 
         if (operation.getResponses() != null && !operation.getResponses().isEmpty()) {
             ApiResponse methodResponse = findMethodResponse(operation.getResponses());
@@ -423,8 +410,8 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
         // the scopes required by the operation.
         final List<SecurityRequirement> securities = operation.getSecurity();
         if (securities != null && securities.size() > 0) {
-            final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
-            final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
+            final Map<String, SecurityScheme> securitySchemes = this.openAPI.getComponents() != null ? this.openAPI.getComponents().getSecuritySchemes() : null;
+            final List<SecurityRequirement> globalSecurities = this.openAPI.getSecurity();
 
             Map<String, List<String>> scopes = getAuthScopes(securities, securitySchemes);
             if (scopes.isEmpty() && globalSecurities != null) {
@@ -666,7 +653,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                 // method with only the scope that it requires.  We have to create a new auth method
                 // instance because the original object must not be modified.
                 List<String> opScopes = (scopes == null) ? null : scopes.get(authMethod.name);
-                authMethod.name = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(authMethod.name), true);
+                authMethod.name = camelize(sanitizeName(authMethod.name), true);
                 if (opScopes != null) {
                     CodegenSecurity opSecurity = new CodegenSecurity();
                     opSecurity.name = authMethod.name;

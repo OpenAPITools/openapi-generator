@@ -73,10 +73,13 @@ newtype AdditionalMetadata = AdditionalMetadata { unAdditionalMetadata :: Text }
 newtype ApiKey = ApiKey { unApiKey :: Text } deriving (P.Eq, P.Show)
 
 -- ** Body
-newtype Body = Body { unBody :: Double } deriving (P.Eq, P.Show, A.ToJSON)
+newtype Body = Body { unBody :: [User] } deriving (P.Eq, P.Show, A.ToJSON)
 
 -- ** BodyBool
 newtype BodyBool = BodyBool { unBodyBool :: Bool } deriving (P.Eq, P.Show, A.ToJSON)
+
+-- ** BodyDouble
+newtype BodyDouble = BodyDouble { unBodyDouble :: Double } deriving (P.Eq, P.Show, A.ToJSON)
 
 -- ** BodyText
 newtype BodyText = BodyText { unBodyText :: Text } deriving (P.Eq, P.Show, A.ToJSON)
@@ -162,6 +165,9 @@ newtype ParamFloat = ParamFloat { unParamFloat :: Float } deriving (P.Eq, P.Show
 -- ** ParamInteger
 newtype ParamInteger = ParamInteger { unParamInteger :: Int } deriving (P.Eq, P.Show)
 
+-- ** ParamMapMapStringText
+newtype ParamMapMapStringText = ParamMapMapStringText { unParamMapMapStringText :: (Map.Map String Text) } deriving (P.Eq, P.Show, A.ToJSON)
+
 -- ** ParamString
 newtype ParamString = ParamString { unParamString :: Text } deriving (P.Eq, P.Show)
 
@@ -176,9 +182,6 @@ newtype PetId = PetId { unPetId :: Integer } deriving (P.Eq, P.Show)
 
 -- ** Query
 newtype Query = Query { unQuery :: Text } deriving (P.Eq, P.Show)
-
--- ** RequestBody
-newtype RequestBody = RequestBody { unRequestBody :: (Map.Map String Text) } deriving (P.Eq, P.Show, A.ToJSON)
 
 -- ** RequiredBooleanGroup
 newtype RequiredBooleanGroup = RequiredBooleanGroup { unRequiredBooleanGroup :: Bool } deriving (P.Eq, P.Show)
@@ -203,9 +206,6 @@ newtype StringGroup = StringGroup { unStringGroup :: Int } deriving (P.Eq, P.Sho
 
 -- ** Tags
 newtype Tags = Tags { unTags :: [Text] } deriving (P.Eq, P.Show)
-
--- ** User2
-newtype User2 = User2 { unUser2 :: [User] } deriving (P.Eq, P.Show, A.ToJSON)
 
 -- ** Username
 newtype Username = Username { unUsername :: Text } deriving (P.Eq, P.Show)
@@ -276,34 +276,6 @@ mkAnimal animalClassName =
   Animal
   { animalClassName
   , animalColor = Nothing
-  }
-
--- ** AnimalFarm
--- | AnimalFarm
-data AnimalFarm = AnimalFarm
-  { 
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON AnimalFarm
-instance A.FromJSON AnimalFarm where
-  parseJSON = A.withObject "AnimalFarm" $ \o ->
-    pure AnimalFarm
-      
-
--- | ToJSON AnimalFarm
-instance A.ToJSON AnimalFarm where
-  toJSON AnimalFarm  =
-   _omitNulls
-      [ 
-      ]
-
-
--- | Construct a value of type 'AnimalFarm' (by applying it's required fields, if any)
-mkAnimalFarm
-  :: AnimalFarm
-mkAnimalFarm =
-  AnimalFarm
-  { 
   }
 
 -- ** ApiResponse
@@ -1326,34 +1298,6 @@ mkSpecialModelName =
   { specialModelNameSpecialPropertyName = Nothing
   }
 
--- ** StringBooleanMap
--- | StringBooleanMap
-data StringBooleanMap = StringBooleanMap
-  { 
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON StringBooleanMap
-instance A.FromJSON StringBooleanMap where
-  parseJSON = A.withObject "StringBooleanMap" $ \o ->
-    pure StringBooleanMap
-      
-
--- | ToJSON StringBooleanMap
-instance A.ToJSON StringBooleanMap where
-  toJSON StringBooleanMap  =
-   _omitNulls
-      [ 
-      ]
-
-
--- | Construct a value of type 'StringBooleanMap' (by applying it's required fields, if any)
-mkStringBooleanMap
-  :: StringBooleanMap
-mkStringBooleanMap =
-  StringBooleanMap
-  { 
-  }
-
 -- ** Tag
 -- | Tag
 data Tag = Tag
@@ -1384,6 +1328,104 @@ mkTag =
   Tag
   { tagId = Nothing
   , tagName = Nothing
+  }
+
+-- ** TypeHolderDefault
+-- | TypeHolderDefault
+data TypeHolderDefault = TypeHolderDefault
+  { typeHolderDefaultStringItem :: !(Text) -- ^ /Required/ "string_item"
+  , typeHolderDefaultNumberItem :: !(Double) -- ^ /Required/ "number_item"
+  , typeHolderDefaultIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
+  , typeHolderDefaultBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
+  , typeHolderDefaultArrayItem :: !([Int]) -- ^ /Required/ "array_item"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON TypeHolderDefault
+instance A.FromJSON TypeHolderDefault where
+  parseJSON = A.withObject "TypeHolderDefault" $ \o ->
+    TypeHolderDefault
+      <$> (o .:  "string_item")
+      <*> (o .:  "number_item")
+      <*> (o .:  "integer_item")
+      <*> (o .:  "bool_item")
+      <*> (o .:  "array_item")
+
+-- | ToJSON TypeHolderDefault
+instance A.ToJSON TypeHolderDefault where
+  toJSON TypeHolderDefault {..} =
+   _omitNulls
+      [ "string_item" .= typeHolderDefaultStringItem
+      , "number_item" .= typeHolderDefaultNumberItem
+      , "integer_item" .= typeHolderDefaultIntegerItem
+      , "bool_item" .= typeHolderDefaultBoolItem
+      , "array_item" .= typeHolderDefaultArrayItem
+      ]
+
+
+-- | Construct a value of type 'TypeHolderDefault' (by applying it's required fields, if any)
+mkTypeHolderDefault
+  :: Text -- ^ 'typeHolderDefaultStringItem' 
+  -> Double -- ^ 'typeHolderDefaultNumberItem' 
+  -> Int -- ^ 'typeHolderDefaultIntegerItem' 
+  -> Bool -- ^ 'typeHolderDefaultBoolItem' 
+  -> [Int] -- ^ 'typeHolderDefaultArrayItem' 
+  -> TypeHolderDefault
+mkTypeHolderDefault typeHolderDefaultStringItem typeHolderDefaultNumberItem typeHolderDefaultIntegerItem typeHolderDefaultBoolItem typeHolderDefaultArrayItem =
+  TypeHolderDefault
+  { typeHolderDefaultStringItem
+  , typeHolderDefaultNumberItem
+  , typeHolderDefaultIntegerItem
+  , typeHolderDefaultBoolItem
+  , typeHolderDefaultArrayItem
+  }
+
+-- ** TypeHolderExample
+-- | TypeHolderExample
+data TypeHolderExample = TypeHolderExample
+  { typeHolderExampleStringItem :: !(Text) -- ^ /Required/ "string_item"
+  , typeHolderExampleNumberItem :: !(Double) -- ^ /Required/ "number_item"
+  , typeHolderExampleIntegerItem :: !(Int) -- ^ /Required/ "integer_item"
+  , typeHolderExampleBoolItem :: !(Bool) -- ^ /Required/ "bool_item"
+  , typeHolderExampleArrayItem :: !([Int]) -- ^ /Required/ "array_item"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON TypeHolderExample
+instance A.FromJSON TypeHolderExample where
+  parseJSON = A.withObject "TypeHolderExample" $ \o ->
+    TypeHolderExample
+      <$> (o .:  "string_item")
+      <*> (o .:  "number_item")
+      <*> (o .:  "integer_item")
+      <*> (o .:  "bool_item")
+      <*> (o .:  "array_item")
+
+-- | ToJSON TypeHolderExample
+instance A.ToJSON TypeHolderExample where
+  toJSON TypeHolderExample {..} =
+   _omitNulls
+      [ "string_item" .= typeHolderExampleStringItem
+      , "number_item" .= typeHolderExampleNumberItem
+      , "integer_item" .= typeHolderExampleIntegerItem
+      , "bool_item" .= typeHolderExampleBoolItem
+      , "array_item" .= typeHolderExampleArrayItem
+      ]
+
+
+-- | Construct a value of type 'TypeHolderExample' (by applying it's required fields, if any)
+mkTypeHolderExample
+  :: Text -- ^ 'typeHolderExampleStringItem' 
+  -> Double -- ^ 'typeHolderExampleNumberItem' 
+  -> Int -- ^ 'typeHolderExampleIntegerItem' 
+  -> Bool -- ^ 'typeHolderExampleBoolItem' 
+  -> [Int] -- ^ 'typeHolderExampleArrayItem' 
+  -> TypeHolderExample
+mkTypeHolderExample typeHolderExampleStringItem typeHolderExampleNumberItem typeHolderExampleIntegerItem typeHolderExampleBoolItem typeHolderExampleArrayItem =
+  TypeHolderExample
+  { typeHolderExampleStringItem
+  , typeHolderExampleNumberItem
+  , typeHolderExampleIntegerItem
+  , typeHolderExampleBoolItem
+  , typeHolderExampleArrayItem
   }
 
 -- ** User
@@ -1440,6 +1482,146 @@ mkUser =
   , userPassword = Nothing
   , userPhone = Nothing
   , userUserStatus = Nothing
+  }
+
+-- ** XmlItem
+-- | XmlItem
+data XmlItem = XmlItem
+  { xmlItemAttributeString :: !(Maybe Text) -- ^ "attribute_string"
+  , xmlItemAttributeNumber :: !(Maybe Double) -- ^ "attribute_number"
+  , xmlItemAttributeInteger :: !(Maybe Int) -- ^ "attribute_integer"
+  , xmlItemAttributeBoolean :: !(Maybe Bool) -- ^ "attribute_boolean"
+  , xmlItemWrappedArray :: !(Maybe [Int]) -- ^ "wrapped_array"
+  , xmlItemNameString :: !(Maybe Text) -- ^ "name_string"
+  , xmlItemNameNumber :: !(Maybe Double) -- ^ "name_number"
+  , xmlItemNameInteger :: !(Maybe Int) -- ^ "name_integer"
+  , xmlItemNameBoolean :: !(Maybe Bool) -- ^ "name_boolean"
+  , xmlItemNameArray :: !(Maybe [Int]) -- ^ "name_array"
+  , xmlItemNameWrappedArray :: !(Maybe [Int]) -- ^ "name_wrapped_array"
+  , xmlItemPrefixString :: !(Maybe Text) -- ^ "prefix_string"
+  , xmlItemPrefixNumber :: !(Maybe Double) -- ^ "prefix_number"
+  , xmlItemPrefixInteger :: !(Maybe Int) -- ^ "prefix_integer"
+  , xmlItemPrefixBoolean :: !(Maybe Bool) -- ^ "prefix_boolean"
+  , xmlItemPrefixArray :: !(Maybe [Int]) -- ^ "prefix_array"
+  , xmlItemPrefixWrappedArray :: !(Maybe [Int]) -- ^ "prefix_wrapped_array"
+  , xmlItemNamespaceString :: !(Maybe Text) -- ^ "namespace_string"
+  , xmlItemNamespaceNumber :: !(Maybe Double) -- ^ "namespace_number"
+  , xmlItemNamespaceInteger :: !(Maybe Int) -- ^ "namespace_integer"
+  , xmlItemNamespaceBoolean :: !(Maybe Bool) -- ^ "namespace_boolean"
+  , xmlItemNamespaceArray :: !(Maybe [Int]) -- ^ "namespace_array"
+  , xmlItemNamespaceWrappedArray :: !(Maybe [Int]) -- ^ "namespace_wrapped_array"
+  , xmlItemPrefixNsString :: !(Maybe Text) -- ^ "prefix_ns_string"
+  , xmlItemPrefixNsNumber :: !(Maybe Double) -- ^ "prefix_ns_number"
+  , xmlItemPrefixNsInteger :: !(Maybe Int) -- ^ "prefix_ns_integer"
+  , xmlItemPrefixNsBoolean :: !(Maybe Bool) -- ^ "prefix_ns_boolean"
+  , xmlItemPrefixNsArray :: !(Maybe [Int]) -- ^ "prefix_ns_array"
+  , xmlItemPrefixNsWrappedArray :: !(Maybe [Int]) -- ^ "prefix_ns_wrapped_array"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON XmlItem
+instance A.FromJSON XmlItem where
+  parseJSON = A.withObject "XmlItem" $ \o ->
+    XmlItem
+      <$> (o .:? "attribute_string")
+      <*> (o .:? "attribute_number")
+      <*> (o .:? "attribute_integer")
+      <*> (o .:? "attribute_boolean")
+      <*> (o .:? "wrapped_array")
+      <*> (o .:? "name_string")
+      <*> (o .:? "name_number")
+      <*> (o .:? "name_integer")
+      <*> (o .:? "name_boolean")
+      <*> (o .:? "name_array")
+      <*> (o .:? "name_wrapped_array")
+      <*> (o .:? "prefix_string")
+      <*> (o .:? "prefix_number")
+      <*> (o .:? "prefix_integer")
+      <*> (o .:? "prefix_boolean")
+      <*> (o .:? "prefix_array")
+      <*> (o .:? "prefix_wrapped_array")
+      <*> (o .:? "namespace_string")
+      <*> (o .:? "namespace_number")
+      <*> (o .:? "namespace_integer")
+      <*> (o .:? "namespace_boolean")
+      <*> (o .:? "namespace_array")
+      <*> (o .:? "namespace_wrapped_array")
+      <*> (o .:? "prefix_ns_string")
+      <*> (o .:? "prefix_ns_number")
+      <*> (o .:? "prefix_ns_integer")
+      <*> (o .:? "prefix_ns_boolean")
+      <*> (o .:? "prefix_ns_array")
+      <*> (o .:? "prefix_ns_wrapped_array")
+
+-- | ToJSON XmlItem
+instance A.ToJSON XmlItem where
+  toJSON XmlItem {..} =
+   _omitNulls
+      [ "attribute_string" .= xmlItemAttributeString
+      , "attribute_number" .= xmlItemAttributeNumber
+      , "attribute_integer" .= xmlItemAttributeInteger
+      , "attribute_boolean" .= xmlItemAttributeBoolean
+      , "wrapped_array" .= xmlItemWrappedArray
+      , "name_string" .= xmlItemNameString
+      , "name_number" .= xmlItemNameNumber
+      , "name_integer" .= xmlItemNameInteger
+      , "name_boolean" .= xmlItemNameBoolean
+      , "name_array" .= xmlItemNameArray
+      , "name_wrapped_array" .= xmlItemNameWrappedArray
+      , "prefix_string" .= xmlItemPrefixString
+      , "prefix_number" .= xmlItemPrefixNumber
+      , "prefix_integer" .= xmlItemPrefixInteger
+      , "prefix_boolean" .= xmlItemPrefixBoolean
+      , "prefix_array" .= xmlItemPrefixArray
+      , "prefix_wrapped_array" .= xmlItemPrefixWrappedArray
+      , "namespace_string" .= xmlItemNamespaceString
+      , "namespace_number" .= xmlItemNamespaceNumber
+      , "namespace_integer" .= xmlItemNamespaceInteger
+      , "namespace_boolean" .= xmlItemNamespaceBoolean
+      , "namespace_array" .= xmlItemNamespaceArray
+      , "namespace_wrapped_array" .= xmlItemNamespaceWrappedArray
+      , "prefix_ns_string" .= xmlItemPrefixNsString
+      , "prefix_ns_number" .= xmlItemPrefixNsNumber
+      , "prefix_ns_integer" .= xmlItemPrefixNsInteger
+      , "prefix_ns_boolean" .= xmlItemPrefixNsBoolean
+      , "prefix_ns_array" .= xmlItemPrefixNsArray
+      , "prefix_ns_wrapped_array" .= xmlItemPrefixNsWrappedArray
+      ]
+
+
+-- | Construct a value of type 'XmlItem' (by applying it's required fields, if any)
+mkXmlItem
+  :: XmlItem
+mkXmlItem =
+  XmlItem
+  { xmlItemAttributeString = Nothing
+  , xmlItemAttributeNumber = Nothing
+  , xmlItemAttributeInteger = Nothing
+  , xmlItemAttributeBoolean = Nothing
+  , xmlItemWrappedArray = Nothing
+  , xmlItemNameString = Nothing
+  , xmlItemNameNumber = Nothing
+  , xmlItemNameInteger = Nothing
+  , xmlItemNameBoolean = Nothing
+  , xmlItemNameArray = Nothing
+  , xmlItemNameWrappedArray = Nothing
+  , xmlItemPrefixString = Nothing
+  , xmlItemPrefixNumber = Nothing
+  , xmlItemPrefixInteger = Nothing
+  , xmlItemPrefixBoolean = Nothing
+  , xmlItemPrefixArray = Nothing
+  , xmlItemPrefixWrappedArray = Nothing
+  , xmlItemNamespaceString = Nothing
+  , xmlItemNamespaceNumber = Nothing
+  , xmlItemNamespaceInteger = Nothing
+  , xmlItemNamespaceBoolean = Nothing
+  , xmlItemNamespaceArray = Nothing
+  , xmlItemNamespaceWrappedArray = Nothing
+  , xmlItemPrefixNsString = Nothing
+  , xmlItemPrefixNsNumber = Nothing
+  , xmlItemPrefixNsInteger = Nothing
+  , xmlItemPrefixNsBoolean = Nothing
+  , xmlItemPrefixNsArray = Nothing
+  , xmlItemPrefixNsWrappedArray = Nothing
   }
 
 
@@ -1885,4 +2067,5 @@ instance AuthMethod AuthOAuthPetstoreAuth where
       then req `setHeader` toHeader ("Authorization", "Bearer " <> secret) 
            & L.over rAuthTypesL (P.filter (/= P.typeOf a))
       else req
+
 

@@ -19,11 +19,11 @@ package org.openapitools.codegen.online.service;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.online.api.GenApiDelegate;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.online.api.GenApiDelegate;
 import org.openapitools.codegen.online.model.Generated;
 import org.openapitools.codegen.online.model.GeneratorInput;
 import org.openapitools.codegen.online.model.ResponseCode;
@@ -36,8 +36,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -68,12 +69,8 @@ public class GenApiService implements GenApiDelegate {
         servers.sort(String.CASE_INSENSITIVE_ORDER);
     }
 
-    private final NativeWebRequest request;
-
     @Autowired
-    public GenApiService(NativeWebRequest request) {
-        this.request = request;
-    }
+    private NativeWebRequest request;
 
     @Override
     public Optional<NativeWebRequest> getRequest() {
@@ -114,33 +111,7 @@ public class GenApiService implements GenApiDelegate {
     @Override
     public ResponseEntity<ResponseCode> generateClient(String language, GeneratorInput generatorInput) {
         String filename = Generator.generateClient(language, generatorInput);
-        String host = System.getenv("GENERATOR_HOST");
-        HttpServletRequest servletRequest = request.getNativeRequest(HttpServletRequest.class);
-
-        if (StringUtils.isBlank(host)) {
-            String scheme = servletRequest.getHeader("X-SSL");
-            String port = "";
-            if ("1".equals(scheme)) {
-                scheme = "https";
-            } else {
-                scheme = servletRequest.getScheme();
-                port = ":" + servletRequest.getServerPort();
-            }
-            host = scheme + "://" + servletRequest.getServerName() + port;
-        }
-
-        if (filename != null) {
-            String code = String.valueOf(UUID.randomUUID().toString());
-            Generated g = new Generated();
-            g.setFilename(filename);
-            g.setFriendlyName(language + "-client");
-            fileMap.put(code, g);
-            System.out.println(code + ", " + filename);
-            String link = host + "/api/gen/download/" + code;
-            return ResponseEntity.ok().body(new ResponseCode(code, link));
-        } else {
-            return ResponseEntity.status(500).build();
-        }
+        return getResponse(filename, language + "-client");
     }
 
     @Override
@@ -183,20 +154,27 @@ public class GenApiService implements GenApiDelegate {
         String filename = Generator.generateServer(framework, generatorInput);
         System.out.println("generated name: " + filename);
 
-        HttpServletRequest servletRequest = request.getNativeRequest(HttpServletRequest.class);
+        return getResponse(filename, framework + "-server");
+    }
 
-        String host =
-                servletRequest.getScheme() + "://" + servletRequest.getServerName() + ":"
-                        + servletRequest.getServerPort();
+    private ResponseEntity<ResponseCode> getResponse(String filename, String friendlyName) {
+        String host = System.getenv("GENERATOR_HOST");
+
+        UriComponentsBuilder uriBuilder;
+        if (!StringUtils.isBlank(host)) {
+            uriBuilder = UriComponentsBuilder.fromUriString(host);
+        } else {
+            uriBuilder = ServletUriComponentsBuilder.fromCurrentContextPath();
+        }
 
         if (filename != null) {
-            String code = String.valueOf(UUID.randomUUID().toString());
+            String code = UUID.randomUUID().toString();
             Generated g = new Generated();
             g.setFilename(filename);
-            g.setFriendlyName(framework + "-server");
+            g.setFriendlyName(friendlyName);
             fileMap.put(code, g);
             System.out.println(code + ", " + filename);
-            String link = host + "/api/gen/download/" + code;
+            String link = uriBuilder.path("/api/gen/download/").path(code).toUriString();
             return ResponseEntity.ok().body(new ResponseCode(code, link));
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

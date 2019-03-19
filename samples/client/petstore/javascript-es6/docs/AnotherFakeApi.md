@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 <a name="call123testSpecialTags"></a>
 # **call123testSpecialTags**
-> Client call123testSpecialTags(client)
+> Client call123testSpecialTags(body)
 
 To test special tags
 
@@ -20,8 +20,8 @@ To test special tags and operation ID starting with number
 import OpenApiPetstore from 'open_api_petstore';
 
 let apiInstance = new OpenApiPetstore.AnotherFakeApi();
-let client = new OpenApiPetstore.Client(); // Client | client model
-apiInstance.call123testSpecialTags(client, (error, data, response) => {
+let body = new OpenApiPetstore.Client(); // Client | client model
+apiInstance.call123testSpecialTags(body, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -34,7 +34,7 @@ apiInstance.call123testSpecialTags(client, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

@@ -68,16 +68,19 @@ import qualified Prelude as P
 createUser 
   :: (Consumes CreateUser contentType, MimeRender contentType User)
   => ContentType contentType -- ^ request content-type ('MimeType')
-  -> User -- ^ "user" -  Created user object
+  -> User -- ^ "body" -  Created user object
   -> OpenAPIPetstoreRequest CreateUser contentType NoContent MimeNoContent
-createUser _ user =
+createUser _ body =
   _mkRequest "POST" ["/user"]
-    `setBodyParam` user
+    `setBodyParam` body
 
 data CreateUser 
 
--- | /Body Param/ "User" - Created user object
+-- | /Body Param/ "body" - Created user object
 instance HasBodyParam CreateUser User 
+    
+-- | @*/*@
+instance MimeType mtype => Consumes CreateUser mtype
 
 instance Produces CreateUser MimeNoContent
 
@@ -89,18 +92,21 @@ instance Produces CreateUser MimeNoContent
 -- Creates list of users with given input array
 -- 
 createUsersWithArrayInput 
-  :: (Consumes CreateUsersWithArrayInput contentType, MimeRender contentType User2)
+  :: (Consumes CreateUsersWithArrayInput contentType, MimeRender contentType Body)
   => ContentType contentType -- ^ request content-type ('MimeType')
-  -> User2 -- ^ "user" -  List of user object
+  -> Body -- ^ "body" -  List of user object
   -> OpenAPIPetstoreRequest CreateUsersWithArrayInput contentType NoContent MimeNoContent
-createUsersWithArrayInput _ user =
+createUsersWithArrayInput _ body =
   _mkRequest "POST" ["/user/createWithArray"]
-    `setBodyParam` user
+    `setBodyParam` body
 
 data CreateUsersWithArrayInput 
 
--- | /Body Param/ "User" - List of user object
-instance HasBodyParam CreateUsersWithArrayInput User2 
+-- | /Body Param/ "body" - List of user object
+instance HasBodyParam CreateUsersWithArrayInput Body 
+    
+-- | @*/*@
+instance MimeType mtype => Consumes CreateUsersWithArrayInput mtype
 
 instance Produces CreateUsersWithArrayInput MimeNoContent
 
@@ -112,18 +118,21 @@ instance Produces CreateUsersWithArrayInput MimeNoContent
 -- Creates list of users with given input array
 -- 
 createUsersWithListInput 
-  :: (Consumes CreateUsersWithListInput contentType, MimeRender contentType User2)
+  :: (Consumes CreateUsersWithListInput contentType, MimeRender contentType Body)
   => ContentType contentType -- ^ request content-type ('MimeType')
-  -> User2 -- ^ "user" -  List of user object
+  -> Body -- ^ "body" -  List of user object
   -> OpenAPIPetstoreRequest CreateUsersWithListInput contentType NoContent MimeNoContent
-createUsersWithListInput _ user =
+createUsersWithListInput _ body =
   _mkRequest "POST" ["/user/createWithList"]
-    `setBodyParam` user
+    `setBodyParam` body
 
 data CreateUsersWithListInput 
 
--- | /Body Param/ "User" - List of user object
-instance HasBodyParam CreateUsersWithListInput User2 
+-- | /Body Param/ "body" - List of user object
+instance HasBodyParam CreateUsersWithListInput Body 
+    
+-- | @*/*@
+instance MimeType mtype => Consumes CreateUsersWithListInput mtype
 
 instance Produces CreateUsersWithListInput MimeNoContent
 
@@ -143,7 +152,6 @@ deleteUser (Username username) =
   _mkRequest "DELETE" ["/user/",toPath username]
 
 data DeleteUser  
-
 instance Produces DeleteUser MimeNoContent
 
 
@@ -161,7 +169,6 @@ getUserByName  _ (Username username) =
   _mkRequest "GET" ["/user/",toPath username]
 
 data GetUserByName  
-
 -- | @application/xml@
 instance Produces GetUserByName MimeXML
 -- | @application/json@
@@ -185,7 +192,6 @@ loginUser  _ (Username username) (Password password) =
     `setQuery` toQuery ("password", Just password)
 
 data LoginUser  
-
 -- | @application/xml@
 instance Produces LoginUser MimeXML
 -- | @application/json@
@@ -204,7 +210,6 @@ logoutUser =
   _mkRequest "GET" ["/user/logout"]
 
 data LogoutUser  
-
 instance Produces LogoutUser MimeNoContent
 
 
@@ -219,17 +224,20 @@ instance Produces LogoutUser MimeNoContent
 updateUser 
   :: (Consumes UpdateUser contentType, MimeRender contentType User)
   => ContentType contentType -- ^ request content-type ('MimeType')
-  -> User -- ^ "user" -  Updated user object
+  -> User -- ^ "body" -  Updated user object
   -> Username -- ^ "username" -  name that need to be deleted
   -> OpenAPIPetstoreRequest UpdateUser contentType NoContent MimeNoContent
-updateUser _ user (Username username) =
+updateUser _ body (Username username) =
   _mkRequest "PUT" ["/user/",toPath username]
-    `setBodyParam` user
+    `setBodyParam` body
 
 data UpdateUser 
 
--- | /Body Param/ "User" - Updated user object
+-- | /Body Param/ "body" - Updated user object
 instance HasBodyParam UpdateUser User 
+    
+-- | @*/*@
+instance MimeType mtype => Consumes UpdateUser mtype
 
 instance Produces UpdateUser MimeNoContent
 

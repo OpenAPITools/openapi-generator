@@ -83,17 +83,17 @@ namespace {{packageName}}.Models
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return {{#vars}}{{#isNotContainer}}
+            return {{#vars}}{{^isContainer}}
                 (
                     {{name}} == other.{{name}} ||
                     {{name}} != null &&
                     {{name}}.Equals(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{^isNotContainer}}
+                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{#isContainer}}
                 (
                     {{name}} == other.{{name}} ||
                     {{name}} != null &&
                     {{name}}.SequenceEqual(other.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{/vars}}{{^vars}}false{{/vars}};
+                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}false{{/vars}};
         }
 
         /// <summary>

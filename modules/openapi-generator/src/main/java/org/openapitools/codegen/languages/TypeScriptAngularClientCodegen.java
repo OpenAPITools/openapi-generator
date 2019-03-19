@@ -29,12 +29,11 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
 
-    private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
-    private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
@@ -92,7 +91,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(PROVIDED_IN_ROOT,
                 "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).",
                 SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '4.3'"));
+        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '7.0.0'"));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service. Default is 'Service'."));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts). Default is '.service'."));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model. Default is ''."));
@@ -113,7 +112,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular (2.x - 5.x) client library.";
+        return "Generates a TypeScript Angular (2.x - 7.x) client library.";
     }
 
     @Override
@@ -137,7 +136,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(NG_VERSION)) {
             ngVersion = new SemVer(additionalProperties.get(NG_VERSION).toString());
         } else {
-            ngVersion = new SemVer("4.3.0");
+            ngVersion = new SemVer("7.0.0");
             LOGGER.info("generating code for Angular {} ...", ngVersion);
             LOGGER.info("  (you can select the angular version by setting the additionalProperty ngVersion)");
         }
@@ -205,6 +204,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         if (additionalProperties.containsKey(NPM_VERSION)) {
             this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
+        } else if (this.getVersionFromApi() != null) {
+            this.setNpmVersion(this.getVersionFromApi());
         }
 
         if (additionalProperties.containsKey(SNAPSHOT)
@@ -215,6 +216,33 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
+        }
+
+        // Set the typescript version compatible to the Angular version
+        if (ngVersion.atLeast("7.0.0")) {
+            // Angular v7 requires typescript ">=3.1.1 <3.2.0"
+            additionalProperties.put("tsVersion", ">=3.1.1 <3.2.0");
+        } else if (ngVersion.atLeast("6.0.0")) {
+            additionalProperties.put("tsVersion", ">=2.7.2 and <2.10.0");
+        } else if (ngVersion.atLeast("5.0.0")) {
+            additionalProperties.put("tsVersion", ">=2.1.5 <2.7.0");
+        } else {
+            // Angular v2-v4 requires typescript ">=2.1.5 <2.8"
+            additionalProperties.put("tsVersion", ">=2.1.5 <2.8.0");
+        }
+
+        // Set the rxJS version compatible to the Angular version
+        if (ngVersion.atLeast("7.0.0")) {
+            additionalProperties.put("rxjsVersion", "6.3.0");
+        } else if (ngVersion.atLeast("6.0.0")) {
+            additionalProperties.put("rxjsVersion", "6.1.0");
+        } else {
+            // Angular prior to v6
+            additionalProperties.put("rxjsVersion", "5.4.0");
+        }
+
+        if (!ngVersion.atLeast("4.3.0")) {
+            supportingFiles.add(new SupportingFile("rxjs-operators.mustache", getIndexDirectory(), "rxjs-operators.ts"));
         }
 
         // for Angular 2 AOT support we will use good-old ngc,
@@ -230,6 +258,33 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         // Libraries generated with v1.x of ng-packagr will ship with AoT metadata in v3, which is intended for Angular v4.
         // Libraries generated with v2.x of ng-packagr will ship with AoT metadata in v4, which is intended for Angular v5 (and Angular v6).
         additionalProperties.put("useOldNgPackagr", !ngVersion.atLeast("5.0.0"));
+
+        // Specific ng-packagr configuration
+        if (ngVersion.atLeast("7.0.0")) {
+            // compatible versions with typescript version
+            additionalProperties.put("ngPackagrVersion", "4.4.5");
+            additionalProperties.put("tsickleVersion", "0.34.0");
+        } else if (ngVersion.atLeast("6.0.0")) {
+            // compatible versions with typescript version
+            additionalProperties.put("ngPackagrVersion", "3.0.6");
+            additionalProperties.put("tsickleVersion", "0.32.1");
+        } else if (ngVersion.atLeast("5.0.0")) {
+            // compatible versions with typescript version
+            additionalProperties.put("ngPackagrVersion", "2.4.5");
+            additionalProperties.put("tsickleVersion", "0.27.5");
+        } else {
+            // Angular versions prior to v5
+            additionalProperties.put("ngPackagrVersion", "1.6.0");
+        }
+
+        // set zone.js version
+        if (ngVersion.atLeast("5.0.0")) {
+            // compatible versions to Angular 5+
+            additionalProperties.put("zonejsVersion", "0.8.26");
+        } else {
+            // Angular versions prior to v5
+            additionalProperties.put("zonejsVersion", "0.7.6");
+        }
 
         //Files for building our lib
         supportingFiles.add(new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
@@ -472,7 +527,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toModelFilename(String name) {
-        return this.convertUsingFileNamingConvention(this.sanitizeName(name) + modelFileSuffix);
+        return this.convertUsingFileNamingConvention(this.sanitizeName(name)) + modelFileSuffix;
     }
 
     @Override
@@ -517,7 +572,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (modelFileSuffix.length() > 0) {
             name = name.substring(0, name.length() - modelFileSuffix.length());
         }
-        return org.openapitools.codegen.utils.StringUtils.camelize(name) + modelSuffix;
+        return camelize(name) + modelSuffix;
     }
 
     @Override
@@ -539,8 +594,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     /**
      * Validates that the given string value only contains '-', '.' and alpha numeric characters.
      * Throws an IllegalArgumentException, if the string contains any other characters.
+     *
      * @param argument The name of the argument being validated. This is only used for displaying an error message.
-     * @param value The value that is being validated.
+     * @param value    The value that is being validated.
      */
     private void validateFileSuffixArgument(String argument, String value) {
         if (!value.matches(FILE_NAME_SUFFIX_PATTERN)) {
@@ -553,8 +609,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     /**
      * Validates that the given string value only contains alpha numeric characters.
      * Throws an IllegalArgumentException, if the string contains any other characters.
+     *
      * @param argument The name of the argument being validated. This is only used for displaying an error message.
-     * @param value The value that is being validated.
+     * @param value    The value that is being validated.
      */
     private void validateClassSuffixArgument(String argument, String value) {
         if (!value.matches(CLASS_NAME_SUFFIX_PATTERN)) {
@@ -566,6 +623,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     /**
      * Set the file naming type.
+     *
      * @param fileNaming the file naming to use
      */
     private void setFileNaming(String fileNaming) {
@@ -578,7 +636,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     /**
-     * Converts the original name according to the current <tt>fileNaming</tt> strategy.
+     * Converts the original name according to the current <code>fileNaming</code> strategy.
+     *
      * @param originalName the original name to transform
      * @return the transformed name
      */
@@ -590,5 +649,18 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             name = camelize(name, true);
         }
         return name;
+    }
+
+    /**
+     * Returns version from OpenAPI info.
+     *
+     * @return
+     */
+    private String getVersionFromApi() {
+        if (this.openAPI != null && this.openAPI.getInfo() != null) {
+            return this.openAPI.getInfo().getVersion();
+        } else {
+            return null;
+        }
     }
 }

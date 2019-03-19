@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> addPet(pet)
+> addPet(body)
 
 Add a new pet to the store
 
@@ -37,9 +37,9 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
 try {
-    apiInstance.addPet(pet);
+    apiInstance.addPet(body);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#addPet");
     e.printStackTrace();
@@ -50,7 +50,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -280,7 +280,7 @@ Name | Type | Description  | Notes
 
 <a name="updatePet"></a>
 # **updatePet**
-> updatePet(pet)
+> updatePet(body)
 
 Update an existing pet
 
@@ -300,9 +300,9 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
 try {
-    apiInstance.updatePet(pet);
+    apiInstance.updatePet(body);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#updatePet");
     e.printStackTrace();
@@ -313,7 +313,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 

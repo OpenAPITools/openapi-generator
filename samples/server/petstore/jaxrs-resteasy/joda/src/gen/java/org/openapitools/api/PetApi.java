@@ -47,9 +47,9 @@ public class PetApi  {
     }, tags={ "pet", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
-    public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) @NotNull @Valid Pet pet,@Context SecurityContext securityContext)
+    public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) @NotNull @Valid Pet body,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return service.addPet(pet,securityContext);
+        return service.addPet(body,securityContext);
     }
     @DELETE
     @Path("/{petId}")
@@ -63,7 +63,7 @@ public class PetApi  {
     }, tags={ "pet", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
-    public Response deletePet( @PathParam("petId") Long petId,@ApiParam(value = "" )@HeaderParam("api_key") String apiKey,@Context SecurityContext securityContext)
+    public Response deletePet( @PathParam("petId") Long petId,  @ApiParam(value = "" ) @HeaderParam("api_key") String apiKey,@Context SecurityContext securityContext)
     throws NotFoundException {
         return service.deletePet(petId,apiKey,securityContext);
     }
@@ -136,9 +136,9 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
-    public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) @NotNull @Valid Pet pet,@Context SecurityContext securityContext)
+    public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) @NotNull @Valid Pet body,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return service.updatePet(pet,securityContext);
+        return service.updatePet(body,securityContext);
     }
     @POST
     @Path("/{petId}")
@@ -152,7 +152,7 @@ public class PetApi  {
     }, tags={ "pet", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
-    public Response updatePetWithForm( @PathParam("petId") Long petId,@ApiParam(value = "Updated name of the pet")@FormParam("name")  String name,@ApiParam(value = "Updated status of the pet")@FormParam("status")  String status,@Context SecurityContext securityContext)
+    public Response updatePetWithForm( @PathParam("petId") Long petId,@ApiParam(value = "Updated name of the pet") @FormParam("name") String name,@ApiParam(value = "Updated status of the pet") @FormParam("status") String status,@Context SecurityContext securityContext)
     throws NotFoundException {
         return service.updatePetWithForm(petId,name,status,securityContext);
     }

@@ -14,7 +14,8 @@ use rust_server_test::{Api, ApiError,
                       DummyGetResponse,
                       DummyPutResponse,
                       FileResponseGetResponse,
-                      HtmlPostResponse
+                      HtmlPostResponse,
+                      RawJsonGetResponse
 };
 use rust_server_test::models;
 
@@ -39,9 +40,9 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
 
-    fn dummy_put(&self, inline_object: Option<models::InlineObject>, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
+    fn dummy_put(&self, nested_response: models::InlineObject, context: &C) -> Box<Future<Item=DummyPutResponse, Error=ApiError>> {
         let context = context.clone();
-        println!("dummy_put({:?}) - X-Span-ID: {:?}", inline_object, context.get().0.clone());
+        println!("dummy_put({:?}) - X-Span-ID: {:?}", nested_response, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
@@ -56,6 +57,13 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     fn html_post(&self, body: String, context: &C) -> Box<Future<Item=HtmlPostResponse, Error=ApiError>> {
         let context = context.clone();
         println!("html_post(\"{}\") - X-Span-ID: {:?}", body, context.get().0.clone());
+        Box::new(futures::failed("Generic failure".into()))
+    }
+
+    /// Get an arbitrary JSON blob.
+    fn raw_json_get(&self, context: &C) -> Box<Future<Item=RawJsonGetResponse, Error=ApiError>> {
+        let context = context.clone();
+        println!("raw_json_get() - X-Span-ID: {:?}", context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 

@@ -18,10 +18,10 @@ import java.util.Date;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
 public class Order   {
   
-  private Long id = null;
-  private Long petId = null;
-  private Integer quantity = null;
-  private Date shipDate = null;
+  private Long id;
+  private Long petId;
+  private Integer quantity;
+  private Date shipDate;
 
 
   public enum StatusEnum {
@@ -42,7 +42,7 @@ public class Order   {
     }
   }
 
-  private StatusEnum status = null;
+  private StatusEnum status;
   private Boolean complete = false;
 
   /**
@@ -141,7 +141,7 @@ public class Order   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("complete")
-  public Boolean isComplete() {
+  public Boolean getComplete() {
     return complete;
   }
   public void setComplete(Boolean complete) {

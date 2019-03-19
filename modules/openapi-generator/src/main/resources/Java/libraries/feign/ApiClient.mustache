@@ -29,7 +29,9 @@ import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
 import {{invokerPackage}}.auth.*;
+{{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth.AccessTokenListener;
+{{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
 public class ApiClient {
@@ -104,6 +106,7 @@ public class ApiClient {
     this.setCredentials(username,  password);
   }
 
+  {{#hasOAuthMethods}}
   /**
    * Helper constructor for single password oauth2
    * @param authName
@@ -112,15 +115,16 @@ public class ApiClient {
    * @param username
    * @param password
    */
-   public ApiClient(String authName, String clientId, String secret, String username, String password) {
-     this(authName);
-     this.getTokenEndPoint()
-            .setClientId(clientId)
-            .setClientSecret(secret)
-            .setUsername(username)
-            .setPassword(password);
-   }
+  public ApiClient(String authName, String clientId, String secret, String username, String password) {
+    this(authName);
+    this.getTokenEndPoint()
+           .setClientId(clientId)
+           .setClientSecret(secret)
+           .setUsername(username)
+           .setPassword(password);
+  }
 
+  {{/hasOAuthMethods}}
   public String getBasePath() {
     return basePath;
   }
@@ -248,15 +252,18 @@ public class ApiClient {
         basicAuth.setCredentials(username, password);
         return;
       }
+      {{#hasOAuthMethods}}
       if (apiAuthorization instanceof OAuth) {
         OAuth oauth = (OAuth) apiAuthorization;
         oauth.getTokenRequestBuilder().setUsername(username).setPassword(password);
         return;
       }
+      {{/hasOAuthMethods}}
     }
     throw new RuntimeException("No Basic authentication or OAuth configured!");
   }
 
+  {{#hasOAuthMethods}}
   /**
    * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
    * @return Token request builder
@@ -336,6 +343,7 @@ public class ApiClient {
     }
   }
 
+  {{/hasOAuthMethods}}
   /**
    * Gets request interceptor based on authentication name
    * @param authName Authentiation name

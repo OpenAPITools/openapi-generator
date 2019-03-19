@@ -28,6 +28,7 @@ import org.gradle.kotlin.dsl.property
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
+import org.openapitools.codegen.config.GeneratorProperties
 
 
 /**
@@ -317,13 +318,41 @@ open class GenerateTask : DefaultTask() {
     @get:Internal
     val withXml = project.objects.property<Boolean>()
 
+
+    /**
+     * To write all log messages (not just errors) to STDOUT
+     */
+    @get:Internal
+    val logToStderr = project.objects.property<Boolean>()
+
+    /**
+     * To enable the file post-processing hook. This enables executing an external post-processor (usually a linter program).
+     * This only enables the post-processor. To define the post-processing command, define an environment variable such as
+     * LANG_POST_PROCESS_FILE (e.g. GO_POST_PROCESS_FILE, SCALA_POST_PROCESS_FILE). Please open an issue if your target
+     * generator does not support this functionality.
+     */
+    @get:Internal
+    val enablePostProcessFile = project.objects.property<Boolean>()
+
+    /**
+     * To skip spec validation. When true, we will skip the default behavior of validating a spec before generation.
+     */
+    @get:Internal
+    val skipValidateSpec = project.objects.property<Boolean>()
+
+    /**
+     * To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those
+     * definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions.
+     * When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
+     */
+    @get:Internal
+    val generateAliasAsModel = project.objects.property<Boolean>()
+
     /**
      * A dynamic map of options specific to a generator.
      */
     @get:Internal
     val configOptions = project.objects.property<Map<String, String>>()
-
-    private val originalEnvironmentVariables = mutableMapOf<String, String?>()
 
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
@@ -352,36 +381,47 @@ open class GenerateTask : DefaultTask() {
         try {
             if (systemProperties.isPresent) {
                 systemProperties.get().forEach { (key, value) ->
-                    // System.setProperty returns the original value for a key, or null.
-                    // Cache the original value or null…we will late put the properties back in their original state.
-                    originalEnvironmentVariables[key] = System.setProperty(key, value)
                     configurator.addSystemProperty(key, value)
                 }
             }
 
             if (supportingFilesConstrainedTo.isPresent && supportingFilesConstrainedTo.get().isNotEmpty()) {
-                System.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesConstrainedTo.get().joinToString(","))
+                GeneratorProperties.setProperty(CodegenConstants.SUPPORTING_FILES, supportingFilesConstrainedTo.get().joinToString(","))
             } else {
-                System.clearProperty(CodegenConstants.SUPPORTING_FILES)
+                GeneratorProperties.clearProperty(CodegenConstants.SUPPORTING_FILES)
             }
 
             if (modelFilesConstrainedTo.isPresent && modelFilesConstrainedTo.get().isNotEmpty()) {
-                System.setProperty(CodegenConstants.MODELS, modelFilesConstrainedTo.get().joinToString(","))
+                GeneratorProperties.setProperty(CodegenConstants.MODELS, modelFilesConstrainedTo.get().joinToString(","))
             } else {
-                System.clearProperty(CodegenConstants.MODELS)
+                GeneratorProperties.clearProperty(CodegenConstants.MODELS)
             }
 
             if (apiFilesConstrainedTo.isPresent && apiFilesConstrainedTo.get().isNotEmpty()) {
-                System.setProperty(CodegenConstants.APIS, apiFilesConstrainedTo.get().joinToString(","))
+                GeneratorProperties.setProperty(CodegenConstants.APIS, apiFilesConstrainedTo.get().joinToString(","))
             } else {
-                System.clearProperty(CodegenConstants.APIS)
+                GeneratorProperties.clearProperty(CodegenConstants.APIS)
             }
 
-            System.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.get().toString())
-            System.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
-            System.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.get().toString())
-            System.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
-            System.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
+            if (generateApiDocumentation.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.API_DOCS, generateApiDocumentation.get().toString())
+            }
+
+            if (generateModelDocumentation.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.MODEL_DOCS, generateModelDocumentation.get().toString())
+            }
+
+            if (generateModelTests.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.MODEL_TESTS, generateModelTests.get().toString())
+            }
+
+            if (generateApiTests.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.API_TESTS, generateApiTests.get().toString())
+            }
+
+            if (withXml.isPresent) {
+                GeneratorProperties.setProperty(CodegenConstants.WITH_XML, withXml.get().toString())
+            }
 
             // now override with any specified parameters
             verbose.ifNotEmpty { value ->
@@ -476,6 +516,22 @@ open class GenerateTask : DefaultTask() {
                 configurator.removeOperationIdPrefix = value!!
             }
 
+            logToStderr.ifNotEmpty { value ->
+                configurator.logToStderr = value
+            }
+
+            enablePostProcessFile.ifNotEmpty { value ->
+                configurator.enablePostProcessFile = value
+            }
+
+            skipValidateSpec.ifNotEmpty { value ->
+                configurator.setValidateSpec(value)
+            }
+
+            generateAliasAsModel.ifNotEmpty { value ->
+                configurator.setGenerateAliasAsModel(value)
+            }
+
             if (systemProperties.isPresent) {
                 systemProperties.get().forEach { entry ->
                     configurator.addSystemProperty(entry.key, entry.value)
@@ -541,14 +597,7 @@ open class GenerateTask : DefaultTask() {
                 throw GradleException("Code generation failed.", e)
             }
         } finally {
-            // Reset all modified system properties back to their original state
-            originalEnvironmentVariables.forEach {
-                when {
-                    it.value == null -> System.clearProperty(it.key)
-                    else -> System.setProperty(it.key, it.value)
-                }
-            }
-            originalEnvironmentVariables.clear()
+            GeneratorProperties.reset()
         }
     }
 }

@@ -21,28 +21,17 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
@@ -205,7 +194,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
-            generateSourceCodeOnly = true;
+            generateSourceCodeOnly = Boolean.valueOf(additionalProperties.get(CodegenConstants.SOURCECODEONLY_GENERATION).toString());
         }
 
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
@@ -214,10 +203,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (generateSourceCodeOnly) {
             // tests in <package>/test
-            testFolder = packageName + File.separatorChar + testFolder;
+            testFolder = packagePath() + File.separatorChar + testFolder;
             // api/model docs in <package>/docs
-            apiDocPath = packageName + File.separatorChar + apiDocPath;
-            modelDocPath = packageName + File.separatorChar + modelDocPath;
+            apiDocPath = packagePath() + File.separatorChar + apiDocPath;
+            modelDocPath = packagePath() + File.separatorChar + modelDocPath;
         }
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
@@ -230,7 +219,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         String readmePath = "README.md";
         String readmeTemplate = "README.mustache";
         if (generateSourceCodeOnly) {
-            readmePath = packageName + "_" + readmePath;
+            readmePath = packagePath() + "_" + readmePath;
             readmeTemplate = "README_onlypackage.mustache";
         }
         supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
@@ -245,25 +234,25 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
             supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
         }
-        supportingFiles.add(new SupportingFile("configuration.mustache", packageName, "configuration.py"));
-        supportingFiles.add(new SupportingFile("__init__package.mustache", packageName, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__model.mustache", packageName + File.separatorChar + modelPackage, "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__api.mustache", packageName + File.separatorChar + apiPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
+        supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + modelPackage, "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + apiPackage, "__init__.py"));
 
         if (Boolean.FALSE.equals(excludeTests)) {
             supportingFiles.add(new SupportingFile("__init__test.mustache", testFolder, "__init__.py"));
         }
 
-        supportingFiles.add(new SupportingFile("api_client.mustache", packageName, "api_client.py"));
+        supportingFiles.add(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
 
         if ("asyncio".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packageName, "rest.py"));
+            supportingFiles.add(new SupportingFile("asyncio/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("asyncio", "true");
         } else if ("tornado".equals(getLibrary())) {
-            supportingFiles.add(new SupportingFile("tornado/rest.mustache", packageName, "rest.py"));
+            supportingFiles.add(new SupportingFile("tornado/rest.mustache", packagePath(), "rest.py"));
             additionalProperties.put("tornado", "true");
         } else {
-            supportingFiles.add(new SupportingFile("rest.mustache", packageName, "rest.py"));
+            supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
         }
 
         modelPackage = packageName + "." + modelPackage;
@@ -379,6 +368,19 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return toApiName(name);
     }
 
+    @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        if (StringUtils.isEmpty(pattern)) {
+            return pattern;
+        }
+
+        if (!pattern.matches("^/.*")) {
+            // Perform a negative lookbehind on each `/` to ensure that it is escaped.
+            return "/" + pattern.replaceAll("(?<!\\\\)\\/", "\\\\/") + "/";
+        }
+
+        return pattern;
+    }
 
     @Override
     public String apiFileFolder() {
@@ -444,7 +446,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // underscore the variable name
         // petId => pet_id
-        name = org.openapitools.codegen.utils.StringUtils.underscore(name);
+        name = underscore(name);
 
         // remove leading underscore
         name = name.replaceAll("^_*", "");
@@ -476,13 +478,13 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
@@ -496,14 +498,14 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return org.openapitools.codegen.utils.StringUtils.camelize(name);
+        return camelize(name);
     }
 
     @Override
     public String toModelFilename(String name) {
         // underscore the model file name
         // PhoneNumber => phone_number
-        return org.openapitools.codegen.utils.StringUtils.underscore(dropDots(toModelName(name)));
+        return underscore(dropDots(toModelName(name)));
     }
 
     @Override
@@ -517,7 +519,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         name = name.replaceAll("-", "_");
 
         // e.g. PhoneNumberApi.py => phone_number_api.py
-        return org.openapitools.codegen.utils.StringUtils.underscore(name) + "_api";
+        return underscore(name) + "_api";
     }
 
     @Override
@@ -531,7 +533,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             return "DefaultApi";
         }
         // e.g. phone_number_api => PhoneNumberApi
-        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
+        return camelize(name) + "Api";
     }
 
     @Override
@@ -539,7 +541,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         if (name.length() == 0) {
             return "default_api";
         }
-        return org.openapitools.codegen.utils.StringUtils.underscore(name) + "_api";
+        return underscore(name) + "_api";
     }
 
     @Override
@@ -551,17 +553,17 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + underscore(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
-        return org.openapitools.codegen.utils.StringUtils.underscore(sanitizeName(operationId));
+        return underscore(sanitizeName(operationId));
     }
 
     public void setPackageName(String packageName) {
@@ -580,6 +582,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         this.packageUrl = packageUrl;
     }
 
+    public String packagePath() {
+        return packageName.replace('.', File.separatorChar);
+    }
+
     /**
      * Generate Python package name from String `packageName`
      * <p>
@@ -591,12 +597,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     @SuppressWarnings("static-method")
     public String generatePackageName(String packageName) {
-        return org.openapitools.codegen.utils.StringUtils.underscore(packageName.replaceAll("[^\\w]+", ""));
+        return underscore(packageName.replaceAll("[^\\w]+", ""));
     }
 
     /**
      * Return the default value of the property
-     *
      * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
@@ -604,7 +609,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                if (p.getDefault().toString().equalsIgnoreCase("false"))
+                if (Boolean.valueOf(p.getDefault().toString()) == false)
                     return "False";
                 else
                     return "True";
@@ -628,9 +633,18 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 else
                     return "'" + p.getDefault() + "'";
             }
+        } else if (ModelUtils.isArraySchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
         }
 
         return null;
+    }
+
+    @Override
+    public String toRegularExpression(String pattern) {
+        return addRegularExpressionDelimiter(pattern);
     }
 
     @Override
@@ -742,5 +756,4 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             }
         }
     }
-
 }

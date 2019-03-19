@@ -28,7 +28,7 @@ public class StoreApiServiceImpl implements StoreApi {
       // do some magic!
       return Response.ok().build();
   }
-      public Response placeOrder(Order order,SecurityContext securityContext) {
+      public Response placeOrder(Order body,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }

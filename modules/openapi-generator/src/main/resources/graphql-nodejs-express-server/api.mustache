@@ -1,0 +1,55 @@
+{{>partial_header_graphql}}
+# package {{packageName}}
+
+# {{classname}}
+
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions.x-is-mutation}}{{#hasParams}}
+
+input {{operationId}}Input {
+    {{#allParams}}
+    {{#description}}# {{description}}{{/description}}
+    {{paramName}}: {{#isContainer}}[{{/isContainer}}{{dataType}}{{#isListContainer}}Input{{/isListContainer}}{{#isModel}}Input{{/isModel}}{{#isContainer}}]{{/isContainer}}{{#hasMore}}, {{/hasMore}}
+    {{/allParams}}
+}{{/hasParams}}{{/vendorExtensions.x-is-mutation}}{{/operation}}
+
+type Mutation {
+{{#operation}}
+{{#vendorExtensions.x-is-mutation}}
+  {{#summary}}
+  # {{summary}}
+  {{/summary}}
+  {{#notes}}
+  # {{notes}}
+  {{/notes}}
+  {{#allParams}}
+  # @param {{dataType}} {{paramName}} {{description}}
+  {{/allParams}}
+  # @return [{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}]
+  {{operationId}}{{#hasParams}}(input: {{operationId}}Input!){{/hasParams}}: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}
+{{/vendorExtensions.x-is-mutation}}
+{{/operation}}
+}
+
+{{/operations}}
+{{#operations}}
+type Query {
+{{#operation}}
+{{^vendorExtensions.x-is-mutation}}
+  {{#summary}}
+  # {{summary}}
+  {{/summary}}
+  {{#notes}}
+  # {{notes}}
+  {{/notes}}
+  {{#allParams}}
+  # @param {{dataType}} {{paramName}} {{description}}
+  {{/allParams}}
+  # @return [{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}]
+  {{operationId}}{{#hasParams}}({{#allParams}}{{paramName}}: {{dataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{/hasParams}}: {{#returnType}}{{.}}{{/returnType}}{{^returnType}}Boolean{{/returnType}}
+{{/vendorExtensions.x-is-mutation}}
+{{/operation}}
+}
+
+{{/operations}}

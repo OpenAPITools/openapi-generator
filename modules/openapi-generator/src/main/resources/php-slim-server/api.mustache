@@ -2,12 +2,11 @@
 /**
  * {{classname}}
  *
- * PHP version 5
+ * PHP version 7
  *
- * @category Class
- * @package  {{apiPackage}}
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package {{apiPackage}}
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
 
 /**
@@ -34,20 +33,36 @@
  */
 namespace {{apiPackage}};
 
-use {{invokerPackage}}\{{abstractNamePrefix}}ApiController{{abstractNameSuffix}};
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Exception;
 
 /**
  * {{classname}} Class Doc Comment
  *
- * PHP version 5
- *
- * @category Class
- * @package  {{apiPackage}}
- * @author   OpenAPI Generator team
- * @link     https://github.com/openapitools/openapi-generator
+ * @package {{apiPackage}}
+ * @author  OpenAPI Generator team
+ * @link    https://github.com/openapitools/openapi-generator
  */
-class {{classname}} extends {{abstractNamePrefix}}ApiController{{abstractNameSuffix}}
+abstract class {{classname}}
 {
+
+    /**
+     * @var ContainerInterface Slim app container instance
+     */
+    protected $container;
+
+    /**
+     * Route Controller constructor receives container
+     *
+     * @param ContainerInterface $container Slim app container instance
+     */
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
     {{#operations}}
     {{#operation}}
 
@@ -63,11 +78,14 @@ class {{classname}} extends {{abstractNamePrefix}}ApiController{{abstractNameSuf
      * Output-Formats: [{{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}]
      {{/hasProduces}}
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request  Request
-     * @param \Psr\Http\Message\ResponseInterface      $response Response
-     * @param array|null                               $args     Path arguments
+     * @param ServerRequestInterface $request  Request
+     * @param ResponseInterface      $response Response
+     * @param array|null             $args     Path arguments
+     *
+     * @return ResponseInterface
+     * @throws Exception to force implementation class to override this method
      */
-    public function {{operationId}}($request, $response, $args)
+    public function {{operationId}}(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         {{#hasHeaderParams}}
         $headers = $request->getHeaders();
@@ -99,8 +117,10 @@ class {{classname}} extends {{abstractNamePrefix}}ApiController{{abstractNameSuf
         {{#hasBodyParam}}
         $body = $request->getParsedBody();
         {{/hasBodyParam}}
-        $response->write('How about implementing {{nickname}} as a {{httpMethod}} method ?');
-        return $response;
+        $message = "How about implementing {{nickname}} as a {{httpMethod}} method in {{apiPackage}}\{{userClassname}} class?";
+        throw new Exception($message);
+
+        return $response->write($message)->withStatus(501);
     }
     {{/operation}}
     {{/operations}}

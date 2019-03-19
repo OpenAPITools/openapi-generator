@@ -188,27 +188,27 @@ public class StoreApi {
   /**
    * Place an order for a pet
    * 
-   * @param order order placed for purchasing the pet (required)
+   * @param body order placed for purchasing the pet (required)
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order placeOrder(Order order) throws ApiException {
-    return placeOrderWithHttpInfo(order).getData();
+  public Order placeOrder(Order body) throws ApiException {
+    return placeOrderWithHttpInfo(body).getData();
       }
 
   /**
    * Place an order for a pet
    * 
-   * @param order order placed for purchasing the pet (required)
+   * @param body order placed for purchasing the pet (required)
    * @return ApiResponse&lt;Order&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Order> placeOrderWithHttpInfo(Order order) throws ApiException {
-    Object localVarPostBody = order;
+  public ApiResponse<Order> placeOrderWithHttpInfo(Order body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'order' is set
-    if (order == null) {
-      throw new ApiException(400, "Missing the required parameter 'order' when calling placeOrder");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling placeOrder");
     }
     
     // create path and map variables

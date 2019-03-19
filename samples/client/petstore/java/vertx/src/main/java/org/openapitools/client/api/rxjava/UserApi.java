@@ -24,64 +24,64 @@ public class UserApi {
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param user Created user object (required)
+     * @param body Created user object (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void createUser(User user, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.createUser(user, resultHandler);
+    public void createUser(User body, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.createUser(body, resultHandler);
     }
 
     /**
      * Create user
      * This can only be done by the logged in user.
-     * @param user Created user object (required)
+     * @param body Created user object (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Void> rxCreateUser(User user) {
+    public Single<Void> rxCreateUser(User body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.createUser(user, fut);
+            delegate.createUser(body, fut);
         }));
     }
     /**
      * Creates list of users with given input array
      * 
-     * @param user List of user object (required)
+     * @param body List of user object (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void createUsersWithArrayInput(List<User> user, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.createUsersWithArrayInput(user, resultHandler);
+    public void createUsersWithArrayInput(List<User> body, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.createUsersWithArrayInput(body, resultHandler);
     }
 
     /**
      * Creates list of users with given input array
      * 
-     * @param user List of user object (required)
+     * @param body List of user object (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Void> rxCreateUsersWithArrayInput(List<User> user) {
+    public Single<Void> rxCreateUsersWithArrayInput(List<User> body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.createUsersWithArrayInput(user, fut);
+            delegate.createUsersWithArrayInput(body, fut);
         }));
     }
     /**
      * Creates list of users with given input array
      * 
-     * @param user List of user object (required)
+     * @param body List of user object (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void createUsersWithListInput(List<User> user, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.createUsersWithListInput(user, resultHandler);
+    public void createUsersWithListInput(List<User> body, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.createUsersWithListInput(body, resultHandler);
     }
 
     /**
      * Creates list of users with given input array
      * 
-     * @param user List of user object (required)
+     * @param body List of user object (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Void> rxCreateUsersWithListInput(List<User> user) {
+    public Single<Void> rxCreateUsersWithListInput(List<User> body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.createUsersWithListInput(user, fut);
+            delegate.createUsersWithListInput(body, fut);
         }));
     }
     /**
@@ -172,23 +172,23 @@ public class UserApi {
      * Updated user
      * This can only be done by the logged in user.
      * @param username name that need to be deleted (required)
-     * @param user Updated user object (required)
+     * @param body Updated user object (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void updateUser(String username, User user, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.updateUser(username, user, resultHandler);
+    public void updateUser(String username, User body, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.updateUser(username, body, resultHandler);
     }
 
     /**
      * Updated user
      * This can only be done by the logged in user.
      * @param username name that need to be deleted (required)
-     * @param user Updated user object (required)
+     * @param body Updated user object (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Void> rxUpdateUser(String username, User user) {
+    public Single<Void> rxUpdateUser(String username, User body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.updateUser(username, user, fut);
+            delegate.updateUser(username, body, fut);
         }));
     }
 

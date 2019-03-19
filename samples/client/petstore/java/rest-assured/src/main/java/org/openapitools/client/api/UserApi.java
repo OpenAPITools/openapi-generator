@@ -177,11 +177,11 @@ public class UserApi {
         }
 
          /**
-         * @param user (User) Created user object (required)
+         * @param body (User) Created user object (required)
          * @return operation
          */
-        public CreateUserOper body(User user) {
-            reqSpec.setBody(user);
+        public CreateUserOper body(User body) {
+            reqSpec.setBody(body);
             return this;
         }
 
@@ -237,11 +237,11 @@ public class UserApi {
         }
 
          /**
-         * @param user (List&lt;User&gt;) List of user object (required)
+         * @param body (List&lt;User&gt;) List of user object (required)
          * @return operation
          */
-        public CreateUsersWithArrayInputOper body(List<User> user) {
-            reqSpec.setBody(user);
+        public CreateUsersWithArrayInputOper body(List<User> body) {
+            reqSpec.setBody(body);
             return this;
         }
 
@@ -297,11 +297,11 @@ public class UserApi {
         }
 
          /**
-         * @param user (List&lt;User&gt;) List of user object (required)
+         * @param body (List&lt;User&gt;) List of user object (required)
          * @return operation
          */
-        public CreateUsersWithListInputOper body(List<User> user) {
-            reqSpec.setBody(user);
+        public CreateUsersWithListInputOper body(List<User> body) {
+            reqSpec.setBody(body);
             return this;
         }
 
@@ -624,11 +624,11 @@ public class UserApi {
         }
 
          /**
-         * @param user (User) Updated user object (required)
+         * @param body (User) Updated user object (required)
          * @return operation
          */
-        public UpdateUserOper body(User user) {
-            reqSpec.setBody(user);
+        public UpdateUserOper body(User body) {
+            reqSpec.setBody(body);
             return this;
         }
 

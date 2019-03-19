@@ -38,26 +38,26 @@ public class UserApi {
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param user Created user object (required)
+   * @param body Created user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUser(User user) throws ApiException {
+  public void createUser(User body) throws ApiException {
 
-    createUserWithHttpInfo(user);
+    createUserWithHttpInfo(body);
   }
 
   /**
    * Create user
    * This can only be done by the logged in user.
-   * @param user Created user object (required)
+   * @param body Created user object (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> createUserWithHttpInfo(User user) throws ApiException {
-    Object localVarPostBody = user;
+  public ApiResponse<Void> createUserWithHttpInfo(User body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'user' is set
-    if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling createUser");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling createUser");
     }
     
     // create path and map variables
@@ -89,26 +89,26 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param user List of user object (required)
+   * @param body List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUsersWithArrayInput(List<User> user) throws ApiException {
+  public void createUsersWithArrayInput(List<User> body) throws ApiException {
 
-    createUsersWithArrayInputWithHttpInfo(user);
+    createUsersWithArrayInputWithHttpInfo(body);
   }
 
   /**
    * Creates list of users with given input array
    * 
-   * @param user List of user object (required)
+   * @param body List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> user) throws ApiException {
-    Object localVarPostBody = user;
+  public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'user' is set
-    if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithArrayInput");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
     }
     
     // create path and map variables
@@ -140,26 +140,26 @@ public class UserApi {
   /**
    * Creates list of users with given input array
    * 
-   * @param user List of user object (required)
+   * @param body List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void createUsersWithListInput(List<User> user) throws ApiException {
+  public void createUsersWithListInput(List<User> body) throws ApiException {
 
-    createUsersWithListInputWithHttpInfo(user);
+    createUsersWithListInputWithHttpInfo(body);
   }
 
   /**
    * Creates list of users with given input array
    * 
-   * @param user List of user object (required)
+   * @param body List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> user) throws ApiException {
-    Object localVarPostBody = user;
+  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'user' is set
-    if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithListInput");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithListInput");
     }
     
     // create path and map variables
@@ -402,32 +402,32 @@ public class UserApi {
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param user Updated user object (required)
+   * @param body Updated user object (required)
    * @throws ApiException if fails to make API call
    */
-  public void updateUser(String username, User user) throws ApiException {
+  public void updateUser(String username, User body) throws ApiException {
 
-    updateUserWithHttpInfo(username, user);
+    updateUserWithHttpInfo(username, body);
   }
 
   /**
    * Updated user
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
-   * @param user Updated user object (required)
+   * @param body Updated user object (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> updateUserWithHttpInfo(String username, User user) throws ApiException {
-    Object localVarPostBody = user;
+  public ApiResponse<Void> updateUserWithHttpInfo(String username, User body) throws ApiException {
+    Object localVarPostBody = body;
     
     // verify the required parameter 'username' is set
     if (username == null) {
       throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser");
     }
     
-    // verify the required parameter 'user' is set
-    if (user == null) {
-      throw new ApiException(400, "Missing the required parameter 'user' when calling updateUser");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling updateUser");
     }
     
     // create path and map variables

@@ -1,11 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-#include "apiClient.h"
-#include "cJSON.h"
-#include "keyValuePair.h"
-{{#imports}}{{{import}}}
-{{/imports}}
+#include "{{classname}}.h"
+
 
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \
@@ -313,7 +310,9 @@
     {{/returnContainer}}
     //return type
     {{/returnTypeIsPrimitive}}
-    apiClient_free(apiClient);
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+    }
     {{#hasQueryParams}}list_free(localVarQueryParameters);{{/hasQueryParams}}
     {{#hasHeaderParams}}list_free(localVarHeaderParameters);{{/hasHeaderParams}}
     {{#hasFormParams}}list_free(localVarFormParameters);{{/hasFormParams}}
@@ -383,7 +382,10 @@ end:
     {{/returnType}}
     {{^returnType}}
     //No return type
-end:    apiClient_free(apiClient);
+end:
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+    }
     {{#hasQueryParams}}list_free(localVarQueryParameters);{{/hasQueryParams}}
     {{#hasHeaderParams}}list_free(localVarHeaderParameters);{{/hasHeaderParams}}
     {{#hasFormParams}}list_free(localVarFormParameters);{{/hasFormParams}}

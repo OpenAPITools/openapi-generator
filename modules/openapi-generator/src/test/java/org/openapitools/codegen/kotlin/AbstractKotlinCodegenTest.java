@@ -2,13 +2,10 @@ package org.openapitools.codegen.kotlin;
 
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.*;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class AbstractKotlinCodegenTest {
 
@@ -86,4 +83,19 @@ public class AbstractKotlinCodegenTest {
         assertTrue(codegen.isDataTypeString("kotlin.String"));
         assertTrue(codegen.isDataTypeString("String"));
     }
+
+    @Test
+    public void toModelNameShouldUseProvidedMapping() throws Exception {
+        codegen.importMapping().put("json_myclass", "com.test.MyClass");
+        assertEquals("com.test.MyClass", codegen.toModelName("json_myclass"));
+    }
+
+    @Test
+    public void convertModelName() throws Exception {
+        assertEquals(codegen.toModelName("name"), "Name");
+        assertEquals(codegen.toModelName("$name"), "Dollarname");
+        assertEquals(codegen.toModelName("nam#e"), "NamHashe");
+        assertEquals(codegen.toModelName("$another-fake?"), "DollaranotherMinusfakeQuestionMark");
+    }
+
 }
