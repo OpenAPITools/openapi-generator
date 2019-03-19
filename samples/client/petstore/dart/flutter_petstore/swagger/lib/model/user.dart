@@ -29,42 +29,42 @@ class User {
     if (json['id'] == null) {
       id = null;
     } else {
-      id = json['id'];
+          id = json['id'];
     }
     if (json['username'] == null) {
       username = null;
     } else {
-      username = json['username'];
+          username = json['username'];
     }
     if (json['firstName'] == null) {
       firstName = null;
     } else {
-      firstName = json['firstName'];
+          firstName = json['firstName'];
     }
     if (json['lastName'] == null) {
       lastName = null;
     } else {
-      lastName = json['lastName'];
+          lastName = json['lastName'];
     }
     if (json['email'] == null) {
       email = null;
     } else {
-      email = json['email'];
+          email = json['email'];
     }
     if (json['password'] == null) {
       password = null;
     } else {
-      password = json['password'];
+          password = json['password'];
     }
     if (json['phone'] == null) {
       phone = null;
     } else {
-      phone = json['phone'];
+          phone = json['phone'];
     }
     if (json['userStatus'] == null) {
       userStatus = null;
     } else {
-      userStatus = json['userStatus'];
+          userStatus = json['userStatus'];
     }
   }
 
