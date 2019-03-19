@@ -1,13 +1,14 @@
 package org.openapitools.api
 
 import org.openapitools.model.ModelApiResponse
+import org.openapitools.model.OrgspringframeworkcoreioResource
 import org.openapitools.model.Pet
 
 interface PetApiService {
 
-    fun addPet(pet: Pet): Unit
+    fun addPet(body: Pet): Unit
 
-    fun deletePet(petId: Long,apiKey: String?): Unit
+    fun deletePet(petId: Long,apiKey: String): Unit
 
     fun findPetsByStatus(status: List<String>): List<Pet>
 
@@ -15,7 +16,7 @@ interface PetApiService {
 
     fun getPetById(petId: Long): Pet
 
-    fun updatePet(pet: Pet): Unit
+    fun updatePet(body: Pet): Unit
 
     fun updatePetWithForm(petId: Long,name: String,status: String): Unit
 

@@ -4,11 +4,11 @@ import org.openapitools.model.User
 
 interface UserApiService {
 
-    fun createUser(user: User): Unit
+    fun createUser(body: User): Unit
 
-    fun createUsersWithArrayInput(user: List<User>): Unit
+    fun createUsersWithArrayInput(body: List<User>): Unit
 
-    fun createUsersWithListInput(user: List<User>): Unit
+    fun createUsersWithListInput(body: List<User>): Unit
 
     fun deleteUser(username: String): Unit
 
@@ -18,5 +18,5 @@ interface UserApiService {
 
     fun logoutUser(): Unit
 
-    fun updateUser(username: String,user: User): Unit
+    fun updateUser(username: String,body: User): Unit
 }
