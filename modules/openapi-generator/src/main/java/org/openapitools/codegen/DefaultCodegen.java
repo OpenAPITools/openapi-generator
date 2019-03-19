@@ -2844,8 +2844,15 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.vendorExtensions.putAll(parameter.getExtensions());
         }
 
-        if (parameter.getSchema() != null) {
-            Schema parameterSchema = ModelUtils.unaliasSchema(this.openAPI, parameter.getSchema());
+        if (parameter.getSchema() != null || parameter.getContent() != null) {
+            Schema parameterSchema = null;
+            if (parameter.getSchema() != null) {
+                parameterSchema = ModelUtils.unaliasSchema(this.openAPI, parameter.getSchema());
+            } else if (parameter.getContent().values().stream().findFirst().isPresent()) {
+                MediaType mediaType = parameter.getContent().values().stream().findFirst().get();
+                parameterSchema = ModelUtils.getReferencedSchema(openAPI, mediaType.getSchema());
+            }
+            
             if (parameterSchema == null) {
                 LOGGER.warn("warning!  Schema not found for parameter \"" + parameter.getName() + "\", using String");
                 parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");

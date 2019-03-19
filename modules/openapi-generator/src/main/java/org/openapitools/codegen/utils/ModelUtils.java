@@ -37,7 +37,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
 import java.util.stream.Collectors;
+
+import java.util.regex.Pattern;
 
 
 public class ModelUtils {
@@ -227,6 +230,7 @@ public class ModelUtils {
         }
     }
 
+    
     private static void visitSchema(OpenAPI openAPI, Schema schema, String mimeType, List<String> visitedSchemas, OpenAPISchemaVisitor visitor) {
         visitor.visit(schema, mimeType);
         if (schema.get$ref() != null) {
@@ -287,9 +291,8 @@ public class ModelUtils {
     }
 
     public static String getSimpleRef(String ref) {
-        if (ref.startsWith("#/components/")) {
-            ref = ref.substring(ref.lastIndexOf("/") + 1);
-        } else if (ref.startsWith("#/definitions/")) {
+        Pattern refPattern = Pattern.compile("((\\./)?.*)?#/(components|definitions)/.*");
+        if (refPattern.matcher(ref).matches()) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else {
             LOGGER.warn("Failed to get the schema name: {}", ref);
