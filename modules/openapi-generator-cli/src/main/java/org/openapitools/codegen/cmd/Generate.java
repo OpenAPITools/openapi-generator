@@ -350,6 +350,7 @@ public class Generate implements Runnable {
 
         if (generateAliasAsModel != null) {
             configurator.setGenerateAliasAsModel(generateAliasAsModel);
+		}
         if (minimalUpdate != null) {
             configurator.setEnableMinimalUpdate(minimalUpdate);
         }
