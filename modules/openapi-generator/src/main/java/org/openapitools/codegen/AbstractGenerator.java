@@ -62,17 +62,20 @@ public abstract class AbstractGenerator {
         throw new RuntimeException("can't load template " + name);
     }
 
+    @SuppressWarnings("squid:S2095")
+    // ignored rule as used in the CLI and it's required to return a reader
     public Reader getTemplateReader(String name) {
+        InputStream is = null;
         try {
-            InputStream is = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(name));
+            is = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(name));
             if (is == null) {
                 is = new FileInputStream(new File(name)); // May throw but never return a null value
             }
             return new InputStreamReader(is, "UTF-8");
-        } catch (Exception e) {
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
             LOGGER.error(e.getMessage());
+            throw new RuntimeException("can't load template " + name);
         }
-        throw new RuntimeException("can't load template " + name);
     }
 
     private String buildLibraryFilePath(String dir, String library, String file) {

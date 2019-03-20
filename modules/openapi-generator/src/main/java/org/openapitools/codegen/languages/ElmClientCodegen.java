@@ -584,7 +584,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         String mapResult = "";
         if (maybeMapResult != null) {
-            if (mapFn == "") {
+            if ("".equals(mapFn)) {
                 mapResult = maybeMapResult;
             } else {
                 mapResult = maybeMapResult + (param.required ? " <|" : " <<");
