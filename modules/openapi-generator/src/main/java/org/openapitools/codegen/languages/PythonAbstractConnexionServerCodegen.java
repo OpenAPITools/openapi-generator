@@ -327,7 +327,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                     for (String token: pathname.substring(1).split("/")) {
                         if (token.startsWith("{")) {
                             String snake_case_token = "{" + this.toParamName(token.substring(1, token.length()-1)) + "}";
-                            if(token != snake_case_token) {
+                            if(!token.equals(snake_case_token)) {
                                 token = snake_case_token;
                             }
                         }

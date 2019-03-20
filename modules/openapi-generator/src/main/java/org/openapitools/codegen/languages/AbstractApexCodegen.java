@@ -75,10 +75,10 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
     public String sanitizeName(String name) {
         name = super.sanitizeName(name);
         if (name.contains("__")) { // Preventing namespacing
-            name.replaceAll("__", "_");
+            name = name.replaceAll("__", "_");
         }
         if (name.matches("^\\d.*")) {  // Prevent named credentials with leading number
-            name.replaceAll("^\\d.*", "");
+            name = name.replaceAll("^\\d.*", "");
         }
         return name;
     }
@@ -293,7 +293,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
         } else if (Boolean.TRUE.equals(p.isString)) {
             p.example = "'" + p.example + "'";
-        } else if ("".equals(p.example) || p.example == null && p.dataType != "Object") {
+        } else if ("".equals(p.example) || p.example == null && "Object".equals(p.dataType)) {
             // Get an example object from the generated model
             if (!isReservedWord(p.dataType.toLowerCase(Locale.ROOT))) {
                 p.example = p.dataType + ".getExample()";

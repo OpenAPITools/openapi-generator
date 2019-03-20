@@ -86,10 +86,9 @@ public class ConfigHelp implements Runnable {
                 //noinspection ResultOfMethodCallIgnored
                 out.getParentFile().mkdirs();
 
-                Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(out), StandardCharsets.UTF_8));
-
-                writer.write(sb.toString());
-                writer.close();
+                try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(out), StandardCharsets.UTF_8))) {
+                    writer.write(sb.toString());
+                }
             } else {
                 System.out.print(sb.toString());
             }
