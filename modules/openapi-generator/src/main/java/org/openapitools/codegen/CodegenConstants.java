@@ -64,10 +64,10 @@ public class CodegenConstants {
     public static final String GROUP_ID_DESC = "groupId in generated pom.xml";
 
     public static final String ARTIFACT_ID = "artifactId";
-    public static final String ARTIFACT_ID_DESC = "artifactId in generated pom.xml";
+    public static final String ARTIFACT_ID_DESC = "artifactId in generated pom.xml. This also becomes part of the generated library's filename (default value 'openapi-java-client')";
 
     public static final String ARTIFACT_VERSION = "artifactVersion";
-    public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml";
+    public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml. This also becomes part of the generated library's filename (default value ('1.0.0')";
 
     public static final String ARTIFACT_URL = "artifactUrl";
     public static final String ARTIFACT_URL_DESC = "artifact URL in generated pom.xml";
