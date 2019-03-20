@@ -46,10 +46,12 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         typeMapping.put("binary", "Array[Byte]");
         typeMapping.put("ByteArray", "Array[Byte]");
         typeMapping.put("object", "JsObject");
+        typeMapping.put("file", "TemporaryFile");
 
         importMapping.put("OffsetDateTime", "java.time.OffsetDateTime");
         importMapping.put("LocalDate", "java.time.LocalDate");
         importMapping.remove("BigDecimal");
+        importMapping.put("TemporaryFile", "play.api.libs.Files.TemporaryFile");
 
         addCliOptionWithDefault(SKIP_STUBS, "If set, skips generation of stub classes.", skipStubs);
         addCliOptionWithDefault(SUPPORT_ASYNC, "Whether or not to wrap API return types with Futures.", supportAsync);
@@ -154,6 +156,8 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
                 postProcessModelsEnum(outer);
                 cm.classVarName = camelize(cm.classVarName, true);
                 modelsByClassName.put(cm.classname, cm);
+                boolean hasFiles = cm.vars.stream().anyMatch(var -> var.isFile);
+                cm.vendorExtensions.put("hasFiles", hasFiles);
             }
         }
 

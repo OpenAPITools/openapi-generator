@@ -1,7 +1,11 @@
 package {{package}}
 
-import play.api.libs.json._{{#imports}}
-import {{import}}{{/imports}}{{#models}}{{#model}}
+import play.api.libs.json._
+{{#imports}}
+import {{import}}
+{{/imports}}
+{{#models}}
+{{#model}}
 
 /**
   * {{#description}}{{&.}}{{/description}}{{^description}}Represents the Swagger definition for {{name}}.{{/description}}{{#vars}}{{#description}}
