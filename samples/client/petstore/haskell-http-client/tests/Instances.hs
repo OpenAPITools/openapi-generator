@@ -104,14 +104,79 @@ arbitraryReducedMaybeValue n = do
 
 -- * Models
  
+instance Arbitrary AdditionalPropertiesAnyType where
+  arbitrary = sized genAdditionalPropertiesAnyType
+
+genAdditionalPropertiesAnyType :: Int -> Gen AdditionalPropertiesAnyType
+genAdditionalPropertiesAnyType n =
+  AdditionalPropertiesAnyType
+    <$> arbitraryReducedMaybe n -- additionalPropertiesAnyTypeName :: Maybe Text
+  
+instance Arbitrary AdditionalPropertiesArray where
+  arbitrary = sized genAdditionalPropertiesArray
+
+genAdditionalPropertiesArray :: Int -> Gen AdditionalPropertiesArray
+genAdditionalPropertiesArray n =
+  AdditionalPropertiesArray
+    <$> arbitraryReducedMaybe n -- additionalPropertiesArrayName :: Maybe Text
+  
+instance Arbitrary AdditionalPropertiesBoolean where
+  arbitrary = sized genAdditionalPropertiesBoolean
+
+genAdditionalPropertiesBoolean :: Int -> Gen AdditionalPropertiesBoolean
+genAdditionalPropertiesBoolean n =
+  AdditionalPropertiesBoolean
+    <$> arbitraryReducedMaybe n -- additionalPropertiesBooleanName :: Maybe Text
+  
 instance Arbitrary AdditionalPropertiesClass where
   arbitrary = sized genAdditionalPropertiesClass
 
 genAdditionalPropertiesClass :: Int -> Gen AdditionalPropertiesClass
 genAdditionalPropertiesClass n =
   AdditionalPropertiesClass
-    <$> arbitraryReducedMaybe n -- additionalPropertiesClassMapProperty :: Maybe (Map.Map String Text)
-    <*> arbitraryReducedMaybe n -- additionalPropertiesClassMapOfMapProperty :: Maybe (Map.Map String (Map.Map String Text))
+    <$> arbitraryReducedMaybe n -- additionalPropertiesClassMapString :: Maybe (Map.Map String Text)
+    <*> arbitraryReducedMaybe n -- additionalPropertiesClassMapNumber :: Maybe (Map.Map String Double)
+    <*> arbitraryReducedMaybe n -- additionalPropertiesClassMapInteger :: Maybe (Map.Map String Int)
+    <*> arbitraryReducedMaybe n -- additionalPropertiesClassMapBoolean :: Maybe (Map.Map String Bool)
+    <*> arbitraryReducedMaybe n -- additionalPropertiesClassMapArrayInteger :: Maybe (Map.Map String [Int])
+    <*> arbitraryReducedMaybe n -- additionalPropertiesClassMapArrayAnytype :: Maybe (Map.Map String [A.Value])
+    <*> arbitraryReducedMaybe n -- additionalPropertiesClassMapMapString :: Maybe (Map.Map String (Map.Map String Text))
+    <*> arbitraryReducedMaybe n -- additionalPropertiesClassMapMapAnytype :: Maybe (Map.Map String (Map.Map String A.Value))
+    <*> arbitraryReducedMaybeValue n -- additionalPropertiesClassAnytype1 :: Maybe A.Value
+    <*> arbitraryReducedMaybeValue n -- additionalPropertiesClassAnytype2 :: Maybe A.Value
+    <*> arbitraryReducedMaybeValue n -- additionalPropertiesClassAnytype3 :: Maybe A.Value
+  
+instance Arbitrary AdditionalPropertiesInteger where
+  arbitrary = sized genAdditionalPropertiesInteger
+
+genAdditionalPropertiesInteger :: Int -> Gen AdditionalPropertiesInteger
+genAdditionalPropertiesInteger n =
+  AdditionalPropertiesInteger
+    <$> arbitraryReducedMaybe n -- additionalPropertiesIntegerName :: Maybe Text
+  
+instance Arbitrary AdditionalPropertiesNumber where
+  arbitrary = sized genAdditionalPropertiesNumber
+
+genAdditionalPropertiesNumber :: Int -> Gen AdditionalPropertiesNumber
+genAdditionalPropertiesNumber n =
+  AdditionalPropertiesNumber
+    <$> arbitraryReducedMaybe n -- additionalPropertiesNumberName :: Maybe Text
+  
+instance Arbitrary AdditionalPropertiesObject where
+  arbitrary = sized genAdditionalPropertiesObject
+
+genAdditionalPropertiesObject :: Int -> Gen AdditionalPropertiesObject
+genAdditionalPropertiesObject n =
+  AdditionalPropertiesObject
+    <$> arbitraryReducedMaybe n -- additionalPropertiesObjectName :: Maybe Text
+  
+instance Arbitrary AdditionalPropertiesString where
+  arbitrary = sized genAdditionalPropertiesString
+
+genAdditionalPropertiesString :: Int -> Gen AdditionalPropertiesString
+genAdditionalPropertiesString n =
+  AdditionalPropertiesString
+    <$> arbitraryReducedMaybe n -- additionalPropertiesStringName :: Maybe Text
   
 instance Arbitrary Animal where
   arbitrary = sized genAnimal
