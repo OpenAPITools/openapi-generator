@@ -83,6 +83,7 @@ class RESTClientObject(object):
                 cert_file=configuration.cert_file,
                 key_file=configuration.key_file,
                 proxy_url=configuration.proxy,
+                proxy_headers=configuration.proxy_headers,
                 **addition_pool_args
             )
         else:
