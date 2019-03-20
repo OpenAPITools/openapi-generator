@@ -15,17 +15,12 @@
 
 
 typedef struct api_response_t {
-    int code; //numeric
-    char *type; // string
-    char *message; // string
-
+	int code; // numeric
+	char *type; // string
+	char *message; // string
 } api_response_t;
 
-api_response_t *api_response_create(
-    int code,
-    char *type,
-    char *message
-);
+api_response_t *api_response_create(int code, char *type, char *message);
 
 void api_response_free(api_response_t *api_response);
 
@@ -34,4 +29,3 @@ api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON);
 cJSON *api_response_convertToJSON(api_response_t *api_response);
 
 #endif /* _api_response_H_ */
-
