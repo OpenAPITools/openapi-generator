@@ -2,13 +2,13 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule OpenapiPetstore.Api.User do
+defmodule OpenAPIPetstore.Api.User do
   @moduledoc """
   API calls for all endpoints tagged `User`.
   """
 
-  alias OpenapiPetstore.Connection
-  import OpenapiPetstore.RequestBuilder
+  alias OpenAPIPetstore.Connection
+  import OpenAPIPetstore.RequestBuilder
 
 
   @doc """
@@ -17,20 +17,20 @@ defmodule OpenapiPetstore.Api.User do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
-  - body (User): Created user object
+  - connection (OpenAPIPetstore.Connection): Connection to server
+  - user (User): Created user object
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
   {:ok, %{}} on success
   {:error, info} on failure
   """
-  @spec create_user(Tesla.Env.client, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def create_user(connection, body, _opts \\ []) do
+  @spec create_user(Tesla.Env.client, OpenAPIPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def create_user(connection, user, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/user")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -43,20 +43,20 @@ defmodule OpenapiPetstore.Api.User do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
-  - body ([User]): List of user object
+  - connection (OpenAPIPetstore.Connection): Connection to server
+  - user ([User]): List of user object
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
   {:ok, %{}} on success
   {:error, info} on failure
   """
-  @spec create_users_with_array_input(Tesla.Env.client, list(OpenapiPetstore.Model.User.t), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def create_users_with_array_input(connection, body, _opts \\ []) do
+  @spec create_users_with_array_input(Tesla.Env.client, list(OpenAPIPetstore.Model.User.t), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def create_users_with_array_input(connection, user, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/user/createWithArray")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -69,20 +69,20 @@ defmodule OpenapiPetstore.Api.User do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
-  - body ([User]): List of user object
+  - connection (OpenAPIPetstore.Connection): Connection to server
+  - user ([User]): List of user object
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
   {:ok, %{}} on success
   {:error, info} on failure
   """
-  @spec create_users_with_list_input(Tesla.Env.client, list(OpenapiPetstore.Model.User.t), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def create_users_with_list_input(connection, body, _opts \\ []) do
+  @spec create_users_with_list_input(Tesla.Env.client, list(OpenAPIPetstore.Model.User.t), keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def create_users_with_list_input(connection, user, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/user/createWithList")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -96,7 +96,7 @@ defmodule OpenapiPetstore.Api.User do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - username (String.t): The name that needs to be deleted
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -122,15 +122,15 @@ defmodule OpenapiPetstore.Api.User do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - username (String.t): The name that needs to be fetched. Use user1 for testing.
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.User{}} on success
+  {:ok, %OpenAPIPetstore.Model.User{}} on success
   {:error, info} on failure
   """
-  @spec get_user_by_name(Tesla.Env.client, String.t, keyword()) :: {:ok, OpenapiPetstore.Model.User.t} | {:error, Tesla.Env.t}
+  @spec get_user_by_name(Tesla.Env.client, String.t, keyword()) :: {:ok, OpenAPIPetstore.Model.User.t} | {:error, Tesla.Env.t}
   def get_user_by_name(connection, username, _opts \\ []) do
     %{}
     |> method(:get)
@@ -138,7 +138,7 @@ defmodule OpenapiPetstore.Api.User do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %OpenapiPetstore.Model.User{}},
+      { 200, %OpenAPIPetstore.Model.User{}},
       { 400, false},
       { 404, false}
     ])
@@ -149,13 +149,13 @@ defmodule OpenapiPetstore.Api.User do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - username (String.t): The user name for login
   - password (String.t): The password for login in clear text
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.String.t{}} on success
+  {:ok, %OpenAPIPetstore.Model.String.t{}} on success
   {:error, info} on failure
   """
   @spec login_user(Tesla.Env.client, String.t, String.t, keyword()) :: {:ok, String.t} | {:error, Tesla.Env.t}
@@ -178,7 +178,7 @@ defmodule OpenapiPetstore.Api.User do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -203,21 +203,21 @@ defmodule OpenapiPetstore.Api.User do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - username (String.t): name that need to be deleted
-  - body (User): Updated user object
+  - user (User): Updated user object
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
   {:ok, %{}} on success
   {:error, info} on failure
   """
-  @spec update_user(Tesla.Env.client, String.t, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def update_user(connection, username, body, _opts \\ []) do
+  @spec update_user(Tesla.Env.client, String.t, OpenAPIPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def update_user(connection, username, user, _opts \\ []) do
     %{}
     |> method(:put)
     |> url("/user/#{username}")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([

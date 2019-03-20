@@ -2,13 +2,13 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule OpenapiPetstore.Api.FakeClassnameTags123 do
+defmodule OpenAPIPetstore.Api.FakeClassnameTags123 do
   @moduledoc """
   API calls for all endpoints tagged `FakeClassnameTags123`.
   """
 
-  alias OpenapiPetstore.Connection
-  import OpenapiPetstore.RequestBuilder
+  alias OpenAPIPetstore.Connection
+  import OpenAPIPetstore.RequestBuilder
 
 
   @doc """
@@ -17,24 +17,24 @@ defmodule OpenapiPetstore.Api.FakeClassnameTags123 do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
-  - body (Client): client model
+  - connection (OpenAPIPetstore.Connection): Connection to server
+  - client (Client): client model
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.Client{}} on success
+  {:ok, %OpenAPIPetstore.Model.Client{}} on success
   {:error, info} on failure
   """
-  @spec test_classname(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
-  def test_classname(connection, body, _opts \\ []) do
+  @spec test_classname(Tesla.Env.client, OpenAPIPetstore.Model.Client.t, keyword()) :: {:ok, OpenAPIPetstore.Model.Client.t} | {:error, Tesla.Env.t}
+  def test_classname(connection, client, _opts \\ []) do
     %{}
     |> method(:patch)
     |> url("/fake_classname_test")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, client)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %OpenapiPetstore.Model.Client{}}
+      { 200, %OpenAPIPetstore.Model.Client{}}
     ])
   end
 end

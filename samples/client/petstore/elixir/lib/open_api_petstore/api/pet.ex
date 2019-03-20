@@ -2,13 +2,13 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule OpenapiPetstore.Api.Pet do
+defmodule OpenAPIPetstore.Api.Pet do
   @moduledoc """
   API calls for all endpoints tagged `Pet`.
   """
 
-  alias OpenapiPetstore.Connection
-  import OpenapiPetstore.RequestBuilder
+  alias OpenAPIPetstore.Connection
+  import OpenAPIPetstore.RequestBuilder
 
 
   @doc """
@@ -16,20 +16,20 @@ defmodule OpenapiPetstore.Api.Pet do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
-  - body (Pet): Pet object that needs to be added to the store
+  - connection (OpenAPIPetstore.Connection): Connection to server
+  - pet (Pet): Pet object that needs to be added to the store
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
   {:ok, %{}} on success
   {:error, info} on failure
   """
-  @spec add_pet(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def add_pet(connection, body, _opts \\ []) do
+  @spec add_pet(Tesla.Env.client, OpenAPIPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def add_pet(connection, pet, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/pet")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, pet)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -42,7 +42,7 @@ defmodule OpenapiPetstore.Api.Pet do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - pet_id (integer()): Pet id to delete
   - opts (KeywordList): [optional] Optional parameters
     - :api_key (String.t): 
@@ -73,7 +73,7 @@ defmodule OpenapiPetstore.Api.Pet do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - status ([String.t]): Status values that need to be considered for filter
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -81,7 +81,7 @@ defmodule OpenapiPetstore.Api.Pet do
   {:ok, [%Pet{}, ...]} on success
   {:error, info} on failure
   """
-  @spec find_pets_by_status(Tesla.Env.client, list(String.t), keyword()) :: {:ok, list(OpenapiPetstore.Model.Pet.t)} | {:error, Tesla.Env.t}
+  @spec find_pets_by_status(Tesla.Env.client, list(String.t), keyword()) :: {:ok, list(OpenAPIPetstore.Model.Pet.t)} | {:error, Tesla.Env.t}
   def find_pets_by_status(connection, status, _opts \\ []) do
     %{}
     |> method(:get)
@@ -90,7 +90,7 @@ defmodule OpenapiPetstore.Api.Pet do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%OpenapiPetstore.Model.Pet{}]},
+      { 200, [%OpenAPIPetstore.Model.Pet{}]},
       { 400, false}
     ])
   end
@@ -101,7 +101,7 @@ defmodule OpenapiPetstore.Api.Pet do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - tags ([String.t]): Tags to filter by
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
@@ -109,7 +109,7 @@ defmodule OpenapiPetstore.Api.Pet do
   {:ok, [%Pet{}, ...]} on success
   {:error, info} on failure
   """
-  @spec find_pets_by_tags(Tesla.Env.client, list(String.t), keyword()) :: {:ok, list(OpenapiPetstore.Model.Pet.t)} | {:error, Tesla.Env.t}
+  @spec find_pets_by_tags(Tesla.Env.client, list(String.t), keyword()) :: {:ok, list(OpenAPIPetstore.Model.Pet.t)} | {:error, Tesla.Env.t}
   def find_pets_by_tags(connection, tags, _opts \\ []) do
     %{}
     |> method(:get)
@@ -118,7 +118,7 @@ defmodule OpenapiPetstore.Api.Pet do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, [%OpenapiPetstore.Model.Pet{}]},
+      { 200, [%OpenAPIPetstore.Model.Pet{}]},
       { 400, false}
     ])
   end
@@ -129,15 +129,15 @@ defmodule OpenapiPetstore.Api.Pet do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - pet_id (integer()): ID of pet to return
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.Pet{}} on success
+  {:ok, %OpenAPIPetstore.Model.Pet{}} on success
   {:error, info} on failure
   """
-  @spec get_pet_by_id(Tesla.Env.client, integer(), keyword()) :: {:ok, OpenapiPetstore.Model.Pet.t} | {:error, Tesla.Env.t}
+  @spec get_pet_by_id(Tesla.Env.client, integer(), keyword()) :: {:ok, OpenAPIPetstore.Model.Pet.t} | {:error, Tesla.Env.t}
   def get_pet_by_id(connection, pet_id, _opts \\ []) do
     %{}
     |> method(:get)
@@ -145,7 +145,7 @@ defmodule OpenapiPetstore.Api.Pet do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %OpenapiPetstore.Model.Pet{}},
+      { 200, %OpenAPIPetstore.Model.Pet{}},
       { 400, false},
       { 404, false}
     ])
@@ -156,20 +156,20 @@ defmodule OpenapiPetstore.Api.Pet do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
-  - body (Pet): Pet object that needs to be added to the store
+  - connection (OpenAPIPetstore.Connection): Connection to server
+  - pet (Pet): Pet object that needs to be added to the store
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
   {:ok, %{}} on success
   {:error, info} on failure
   """
-  @spec update_pet(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def update_pet(connection, body, _opts \\ []) do
+  @spec update_pet(Tesla.Env.client, OpenAPIPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def update_pet(connection, pet, _opts \\ []) do
     %{}
     |> method(:put)
     |> url("/pet")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, pet)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -184,7 +184,7 @@ defmodule OpenapiPetstore.Api.Pet do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - pet_id (integer()): ID of pet that needs to be updated
   - opts (KeywordList): [optional] Optional parameters
     - :name (String.t): Updated name of the pet
@@ -216,17 +216,17 @@ defmodule OpenapiPetstore.Api.Pet do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - pet_id (integer()): ID of pet to update
   - opts (KeywordList): [optional] Optional parameters
     - :additional_metadata (String.t): Additional data to pass to server
     - :file (String.t): file to upload
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.ApiResponse{}} on success
+  {:ok, %OpenAPIPetstore.Model.ApiResponse{}} on success
   {:error, info} on failure
   """
-  @spec upload_file(Tesla.Env.client, integer(), keyword()) :: {:ok, OpenapiPetstore.Model.ApiResponse.t} | {:error, Tesla.Env.t}
+  @spec upload_file(Tesla.Env.client, integer(), keyword()) :: {:ok, OpenAPIPetstore.Model.ApiResponse.t} | {:error, Tesla.Env.t}
   def upload_file(connection, pet_id, opts \\ []) do
     optional_params = %{
       :"additionalMetadata" => :form,
@@ -239,7 +239,7 @@ defmodule OpenapiPetstore.Api.Pet do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %OpenapiPetstore.Model.ApiResponse{}}
+      { 200, %OpenAPIPetstore.Model.ApiResponse{}}
     ])
   end
 
@@ -248,17 +248,17 @@ defmodule OpenapiPetstore.Api.Pet do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - pet_id (integer()): ID of pet to update
   - required_file (String.t): file to upload
   - opts (KeywordList): [optional] Optional parameters
     - :additional_metadata (String.t): Additional data to pass to server
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.ApiResponse{}} on success
+  {:ok, %OpenAPIPetstore.Model.ApiResponse{}} on success
   {:error, info} on failure
   """
-  @spec upload_file_with_required_file(Tesla.Env.client, integer(), String.t, keyword()) :: {:ok, OpenapiPetstore.Model.ApiResponse.t} | {:error, Tesla.Env.t}
+  @spec upload_file_with_required_file(Tesla.Env.client, integer(), String.t, keyword()) :: {:ok, OpenAPIPetstore.Model.ApiResponse.t} | {:error, Tesla.Env.t}
   def upload_file_with_required_file(connection, pet_id, required_file, opts \\ []) do
     optional_params = %{
       :"additionalMetadata" => :form
@@ -271,7 +271,7 @@ defmodule OpenapiPetstore.Api.Pet do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %OpenapiPetstore.Model.ApiResponse{}}
+      { 200, %OpenAPIPetstore.Model.ApiResponse{}}
     ])
   end
 end

@@ -2,39 +2,36 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule OpenapiPetstore.Api.Fake do
+defmodule OpenAPIPetstore.Api.Fake do
   @moduledoc """
   API calls for all endpoints tagged `Fake`.
   """
 
-  alias OpenapiPetstore.Connection
-  import OpenapiPetstore.RequestBuilder
+  alias OpenAPIPetstore.Connection
+  import OpenAPIPetstore.RequestBuilder
 
 
   @doc """
-  creates an XmlItem
-  this route creates an XmlItem
+  Health check endpoint
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
-  - xml_item (XmlItem): XmlItem Body
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, %{}} on success
+  {:ok, %OpenAPIPetstore.Model.HealthCheckResult{}} on success
   {:error, info} on failure
   """
-  @spec create_xml_item(Tesla.Env.client, OpenapiPetstore.Model.XmlItem.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def create_xml_item(connection, xml_item, _opts \\ []) do
+  @spec fake_health_get(Tesla.Env.client, keyword()) :: {:ok, OpenAPIPetstore.Model.HealthCheckResult.t} | {:error, Tesla.Env.t}
+  def fake_health_get(connection, _opts \\ []) do
     %{}
-    |> method(:post)
-    |> url("/fake/create_xml_item")
-    |> add_param(:body, :body, xml_item)
+    |> method(:get)
+    |> url("/fake/health")
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, false}
+      { 200, %OpenAPIPetstore.Model.HealthCheckResult{}}
     ])
   end
 
@@ -43,12 +40,12 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
     - :body (boolean()): Input boolean as post body
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.boolean(){}} on success
+  {:ok, %OpenAPIPetstore.Model.boolean(){}} on success
   {:error, info} on failure
   """
   @spec fake_outer_boolean_serialize(Tesla.Env.client, keyword()) :: {:ok, Boolean.t} | {:error, Tesla.Env.t}
@@ -72,18 +69,18 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
-    - :body (OuterComposite): Input composite as post body
+    - :outer_composite (OuterComposite): Input composite as post body
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.OuterComposite{}} on success
+  {:ok, %OpenAPIPetstore.Model.OuterComposite{}} on success
   {:error, info} on failure
   """
-  @spec fake_outer_composite_serialize(Tesla.Env.client, keyword()) :: {:ok, OpenapiPetstore.Model.OuterComposite.t} | {:error, Tesla.Env.t}
+  @spec fake_outer_composite_serialize(Tesla.Env.client, keyword()) :: {:ok, OpenAPIPetstore.Model.OuterComposite.t} | {:error, Tesla.Env.t}
   def fake_outer_composite_serialize(connection, opts \\ []) do
     optional_params = %{
-      :"body" => :body
+      :"OuterComposite" => :body
     }
     %{}
     |> method(:post)
@@ -92,7 +89,7 @@ defmodule OpenapiPetstore.Api.Fake do
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %OpenapiPetstore.Model.OuterComposite{}}
+      { 200, %OpenAPIPetstore.Model.OuterComposite{}}
     ])
   end
 
@@ -101,12 +98,12 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
     - :body (float()): Input number as post body
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.float(){}} on success
+  {:ok, %OpenAPIPetstore.Model.float(){}} on success
   {:error, info} on failure
   """
   @spec fake_outer_number_serialize(Tesla.Env.client, keyword()) :: {:ok, Float.t} | {:error, Tesla.Env.t}
@@ -130,12 +127,12 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
     - :body (String.t): Input string as post body
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.String.t{}} on success
+  {:ok, %OpenAPIPetstore.Model.String.t{}} on success
   {:error, info} on failure
   """
   @spec fake_outer_string_serialize(Tesla.Env.client, keyword()) :: {:ok, String.t} | {:error, Tesla.Env.t}
@@ -159,20 +156,20 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
-  - body (FileSchemaTestClass): 
+  - connection (OpenAPIPetstore.Connection): Connection to server
+  - file_schema_test_class (FileSchemaTestClass): 
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
   {:ok, %{}} on success
   {:error, info} on failure
   """
-  @spec test_body_with_file_schema(Tesla.Env.client, OpenapiPetstore.Model.FileSchemaTestClass.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def test_body_with_file_schema(connection, body, _opts \\ []) do
+  @spec test_body_with_file_schema(Tesla.Env.client, OpenAPIPetstore.Model.FileSchemaTestClass.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_body_with_file_schema(connection, file_schema_test_class, _opts \\ []) do
     %{}
     |> method(:put)
     |> url("/fake/body-with-file-schema")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, file_schema_test_class)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -184,22 +181,22 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - query (String.t): 
-  - body (User): 
+  - user (User): 
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
   {:ok, %{}} on success
   {:error, info} on failure
   """
-  @spec test_body_with_query_params(Tesla.Env.client, String.t, OpenapiPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def test_body_with_query_params(connection, query, body, _opts \\ []) do
+  @spec test_body_with_query_params(Tesla.Env.client, String.t, OpenAPIPetstore.Model.User.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_body_with_query_params(connection, query, user, _opts \\ []) do
     %{}
     |> method(:put)
     |> url("/fake/body-with-query-params")
     |> add_param(:query, :"query", query)
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, user)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -213,24 +210,24 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
-  - body (Client): client model
+  - connection (OpenAPIPetstore.Connection): Connection to server
+  - client (Client): client model
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.Client{}} on success
+  {:ok, %OpenAPIPetstore.Model.Client{}} on success
   {:error, info} on failure
   """
-  @spec test_client_model(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
-  def test_client_model(connection, body, _opts \\ []) do
+  @spec test_client_model(Tesla.Env.client, OpenAPIPetstore.Model.Client.t, keyword()) :: {:ok, OpenAPIPetstore.Model.Client.t} | {:error, Tesla.Env.t}
+  def test_client_model(connection, client, _opts \\ []) do
     %{}
     |> method(:patch)
     |> url("/fake")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, client)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %OpenapiPetstore.Model.Client{}}
+      { 200, %OpenAPIPetstore.Model.Client{}}
     ])
   end
 
@@ -240,7 +237,7 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - number (float()): None
   - double (float()): None
   - pattern_without_delimiter (String.t): None
@@ -297,7 +294,7 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - opts (KeywordList): [optional] Optional parameters
     - :enum_header_string_array ([String.t]): Header parameter enum test (string array)
     - :enum_header_string (String.t): Header parameter enum test (string)
@@ -342,7 +339,7 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - required_string_group (integer()): Required String in group parameters
   - required_boolean_group (boolean()): Required Boolean in group parameters
   - required_int64_group (integer()): Required Integer in group parameters
@@ -381,8 +378,8 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
-  - param (%{optional(String.t) &#x3D;&gt; String.t}): request body
+  - connection (OpenAPIPetstore.Connection): Connection to server
+  - request_body (%{optional(String.t) &#x3D;&gt; String.t}): request body
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -390,11 +387,11 @@ defmodule OpenapiPetstore.Api.Fake do
   {:error, info} on failure
   """
   @spec test_inline_additional_properties(Tesla.Env.client, %{optional(String.t) => String.t}, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def test_inline_additional_properties(connection, param, _opts \\ []) do
+  def test_inline_additional_properties(connection, request_body, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/fake/inline-additionalProperties")
-    |> add_param(:body, :body, param)
+    |> add_param(:body, :body, request_body)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -407,7 +404,7 @@ defmodule OpenapiPetstore.Api.Fake do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
+  - connection (OpenAPIPetstore.Connection): Connection to server
   - param (String.t): field1
   - param2 (String.t): field2
   - opts (KeywordList): [optional] Optional parameters
