@@ -379,7 +379,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean setBuildTarget() {
         boolean isLibrary = false;
         setCliOption(buildTarget);
-        if ("library".equals(buildTarget)) {
+        if ("library".equals(buildTarget.getOptValue())) {
             isLibrary = true;
             projectSdk = SDK_LIB;
             additionalProperties.put(CLASS_MODIFIER, "abstract");
