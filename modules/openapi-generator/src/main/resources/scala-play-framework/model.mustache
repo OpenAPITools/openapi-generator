@@ -5,8 +5,20 @@ import {{import}}{{/imports}}{{#models}}{{#model}}
 
 /**
   * {{#description}}{{&.}}{{/description}}{{^description}}Represents the Swagger definition for {{name}}.{{/description}}{{#vars}}{{#description}}
-  * @param {{&name}} {{&description}}{{/description}}{{/vars}}{{#isArrayModel}}
-  * @param {{parentPropName}} The items of this array-like object.{{/isArrayModel}}{{#isMapModel}}
-  * @param {{parentPropName}} Any additional properties this model may have.{{/isMapModel}}
+  * @param {{&name}} {{&description}}{{/description}}{{/vars}}
+  {{#isArrayModel}}
+  * @param items The items of this array-like object.
+  {{/isArrayModel}}
+  {{#isMapModel}}
+  * @param additionalProperties Any additional properties this model may have.
+  {{/isMapModel}}
   */
-{{>generatedAnnotation}}{{#isCaseObject}}{{>caseObject}}{{/isCaseObject}}{{^isCaseObject}}{{#isArrayModel}}{{>arrayCaseClass}}{{/isArrayModel}}{{^isArrayModel}}{{>caseClass}}{{/isArrayModel}}{{/isCaseObject}}{{/model}}{{/models}}
+{{>generatedAnnotation}}
+{{^isArrayModel}}
+{{>caseClass}}
+{{/isArrayModel}}
+{{#isArrayModel}}
+{{>arrayCaseClass}}
+{{/isArrayModel}}
+{{/model}}
+{{/models}}

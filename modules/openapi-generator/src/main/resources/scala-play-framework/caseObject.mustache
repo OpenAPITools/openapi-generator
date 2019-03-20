@@ -1,3 +1,0 @@
-case object {{classname}} {
-  implicit lazy val {{classVarName}}JsonFormat: Format[this.type] = Format(Reads.pure({{classname}}), OWrites(_ => Json.obj()))
-}

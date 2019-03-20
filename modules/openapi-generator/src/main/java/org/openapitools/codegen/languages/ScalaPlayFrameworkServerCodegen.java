@@ -4,15 +4,18 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.StringUtils.rightPad;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
@@ -102,21 +105,22 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("project/plugins.sbt.mustache", "project", "plugins.sbt"));
         supportingFiles.add(new SupportingFile("app/module.scala.mustache", sourceFolder, "Module.scala"));
+        supportingFiles.add(new SupportingFile("conf/routes.mustache", "conf", "routes"));
     }
 
-    @Override
-    public String getAlias(String name) {
-        if (typeAliases != null && typeAliases.containsKey(name)) {
-            return typeAliases.get(name);
-        }
-        return name;
-    }
-
+    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        Map<String, CodegenModel> models = new HashMap<>();
+
+        for (Object _mo : allModels) {
+            CodegenModel model = (CodegenModel)((Map<String, Object>)_mo).get("model");
+            models.put(model.classname, model);
+        }
+
+        Map<String, Object> operations = (Map<String, Object>)objs.get("operations");
         if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            List<CodegenOperation> ops = (List<CodegenOperation>)operations.get("operation");
             for (CodegenOperation operation : ops) {
                 Pattern pathVariableMatcher = Pattern.compile("\\{([^}]+)}");
                 Matcher match = pathVariableMatcher.matcher(operation.path);
@@ -125,8 +129,57 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
                     String replacement = ":" + camelize(match.group(1), true);
                     operation.path = operation.path.replace(completeMatch, replacement);
                 }
+
+                if ("null".equals(operation.defaultResponse) && models.containsKey(operation.returnType)) {
+                    operation.defaultResponse = models.get(operation.returnType).defaultValue;
+                }
             }
         }
+
+        return objs;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        objs = super.postProcessAllModels(objs);
+        Map<String, CodegenModel> modelsByClassName = new HashMap<>();
+
+        for (Object _outer : objs.values()) {
+            Map<String, Object> outer = (Map<String, Object>)_outer;
+            List<Map<String, Object>> models = (List<Map<String, Object>>)outer.get("models");
+
+            for (Map<String, Object> mo : models) {
+                CodegenModel cm = (CodegenModel)mo.get("model");
+                postProcessModelsEnum(outer);
+                cm.classVarName = camelize(cm.classVarName, true);
+                modelsByClassName.put(cm.classname, cm);
+            }
+        }
+
+        for (CodegenModel model : modelsByClassName.values()) {
+            model.defaultValue = generateModelDefaultValue(model, modelsByClassName);
+        }
+
+        return objs;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        objs = super.postProcessSupportingFileData(objs);
+
+        // Prettify routes file
+        Map<String, Object> apiInfo = (Map<String, Object>)objs.get("apiInfo");
+        List<Map<String, Object>> apis = (List<Map<String, Object>>)apiInfo.get("apis");
+        List<CodegenOperation> ops = apis.stream()
+            .map(api -> (Map<String, Object>)api.get("operations"))
+            .flatMap(operations -> ((List<CodegenOperation>)operations.get("operation")).stream())
+            .collect(Collectors.toList());
+        int maxPathLength = ops.stream()
+            .mapToInt(op -> op.httpMethod.length() + op.path.length())
+            .reduce(0, Integer::max);
+        ops.forEach(op -> op.vendorExtensions.put("paddedPath", rightPad(op.path, maxPathLength - op.httpMethod.length())));
 
         return objs;
     }
@@ -185,6 +238,10 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
             return "0L";
         }
 
+        if (ModelUtils.isStringSchema(p)) {
+            return "\"\"";
+        }
+
         if (ModelUtils.isMapSchema(p)) {
             Schema ap = ModelUtils.getAdditionalProperties(p);
             String inner = getSchemaType(ap);
@@ -202,7 +259,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return StringUtils.camelize(property.name);
+        return camelize(property.name);
     }
 
     @Override
@@ -211,7 +268,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
             return "EMPTY";
         }
 
-        String var = StringUtils.camelize(value.replaceAll("\\W+", "_"));
+        String var = camelize(value.replaceAll("\\W+", "_"));
         if (var.matches("\\d.*")) {
             return "_" + var;
         } else {
@@ -219,28 +276,39 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         }
     }
 
-    @Override
-    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        super.postProcessModels(objs);
-
-        List<Object> models = (List<Object>) objs.get("models");
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
-            boolean isCaseObject = !cm.hasVars && !cm.isArrayModel && !cm.isMapModel;
-
-            postProcessModelsEnum(objs);
-
-            // TODO: due to the way aliases are handled, we may be able to remove isCaseObject and parentPropName
-            cm.classVarName = camelize(cm.classVarName, true);
-            mo.put("isCaseObject", isCaseObject);
-            mo.put("parentPropName", cm.isMapModel ? "additionalProperties" : cm.isArrayModel ? "items" : null);
-        }
-
-        return objs;
-    }
-
     private void addCliOptionWithDefault(String name, String description, boolean defaultValue) {
         cliOptions.add(CliOption.newBoolean(name, description).defaultValue(Boolean.toString(defaultValue)));
+    }
+
+    private String generateModelDefaultValue(CodegenModel cm, Map<String, CodegenModel> models) {
+        StringBuilder defaultValue = new StringBuilder();
+        defaultValue.append(cm.classname).append('(');
+
+        for (CodegenProperty var : cm.vars) {
+            if (!var.required) {
+                defaultValue.append("None");
+            } else if (models.containsKey(var.dataType)) {
+                defaultValue.append(generateModelDefaultValue(models.get(var.dataType), models));
+            } else if (var.defaultValue != null) {
+                defaultValue.append(var.defaultValue);
+            } else if (var.isEnum) {
+                defaultValue.append(cm.classname).append('.').append(var.enumName).append(".values.head");
+            } else {
+                LOGGER.warn("Unknown default value for var {0} in class {1}", var.name, cm.classname);
+                defaultValue.append("null");
+            }
+
+            if (var.hasMore) {
+                defaultValue.append(", ");
+            }
+        }
+
+        if (cm.isMapModel) {
+            defaultValue.append(", Map.empty");
+        }
+
+        defaultValue.append(')');
+
+        return defaultValue.toString();
     }
 }

@@ -11,7 +11,8 @@ import {{import}}
 /**
   * Provides a default implementation for [[{{classname}}]].
   */
-{{>generatedAnnotation}}class {{classname}}Impl extends {{classname}} {
+{{>generatedAnnotation}}
+class {{classname}}Impl extends {{classname}} {
 {{#operation}}
   /**
     * @inheritdoc
@@ -19,7 +20,7 @@ import {{import}}
   override {{>app/defOperationSignature}} = {
     // TODO: Implement better logic
 
-    {{#supportAsync}}Future.successful({{/supportAsync}}{{^returnType}}{{#supportAsync}}(): Unit{{/supportAsync}}{{/returnType}}{{#returnType}}{{defaultResponse}}{{/returnType}}{{#supportAsync}}){{/supportAsync}}
+    {{#supportAsync}}Future.successful({{/supportAsync}}{{^returnType}}{{#supportAsync}}(): Unit{{/supportAsync}}{{/returnType}}{{#returnType}}{{&defaultResponse}}{{/returnType}}{{#supportAsync}}){{/supportAsync}}
   }
 {{#hasMore}}
 

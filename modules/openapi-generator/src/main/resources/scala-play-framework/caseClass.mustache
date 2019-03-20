@@ -3,7 +3,7 @@ case class {{classname}}(
   {{&name}}: {{^required}}Option[{{/required}}{{#isEnum}}{{classname}}.{{enumName}}.Value{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}{{^hasMore}}{{#isMapModel}},{{/isMapModel}}{{/hasMore}}
 {{/vars}}
 {{#isMapModel}}
-  {{parentPropName}}: {{parent}}
+  additionalProperties: {{parent}}
 {{/isMapModel}}
 )
 
