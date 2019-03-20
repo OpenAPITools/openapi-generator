@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
 @Command(name = "generate", description = "Generate code with the specified generator.")
 public class Generate implements Runnable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
+    // private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;
