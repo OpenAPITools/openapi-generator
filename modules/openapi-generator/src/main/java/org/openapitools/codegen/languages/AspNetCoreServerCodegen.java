@@ -256,26 +256,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache",
                     packageFolder + File.separator + "wwwroot", "openapi-original.json"));
         }
-        supportingFiles.add(new SupportingFile("validateModel.mustache", packageFolder + File.separator + "Attributes", "ValidateModelStateAttribute.cs"));
-        supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, packageName + ".csproj"));
-        if (!isLibrary) {
-            supportingFiles.add(new SupportingFile("Dockerfile.mustache", packageFolder, "Dockerfile"));
-            supportingFiles.add(new SupportingFile("appsettings.json", packageFolder, "appsettings.json"));
-
-            supportingFiles.add(new SupportingFile("Startup.mustache", packageFolder, "Startup.cs"));
-            supportingFiles.add(new SupportingFile("Program.mustache", packageFolder, "Program.cs"));
-            supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json",
-                    packageFolder + File.separator + "Properties", "launchSettings.json"));
-        } else {
-            supportingFiles.add(new SupportingFile("Project.nuspec.mustache", packageFolder, packageName + ".nuspec"));
-            // wwwroot files.
-            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "README.md", packageFolder + File.separator + "wwwroot", "README.md"));
-            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "index.html", packageFolder + File.separator + "wwwroot", "index.html"));
-            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "web.config", packageFolder + File.separator + "wwwroot", "web.config"));
-
-            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache",
-                    packageFolder + File.separator + "wwwroot", "openapi-original.json"));
-        }
 
 
         if (useSwashbuckle) {
