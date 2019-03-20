@@ -267,9 +267,6 @@ public class CodeGenMojo extends AbstractMojo {
 
     /**
      * A map of additional properties that can be referenced by the mustache templates
-     * <additionalProperties>
-     *     <additionalProperty>key=value</additionalProperty>
-     * </additionalProperties>
      */
     @Parameter(name = "additionalProperties")
     private List<String> additionalProperties;
