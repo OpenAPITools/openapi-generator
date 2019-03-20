@@ -52,7 +52,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     String supportedElixirVersion = "1.4";
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
-            "{:tesla, \"~> 0.8\"}",
+            "{:tesla, \"~> 1.0.0\"}",
             "{:poison, \">= 1.0.0\"}"
     );
 
