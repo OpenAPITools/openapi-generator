@@ -113,7 +113,14 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [Petstore::AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
+ - [Petstore::AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
+ - [Petstore::AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [Petstore::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [Petstore::AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
+ - [Petstore::AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
+ - [Petstore::AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
+ - [Petstore::AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [Petstore::Animal](docs/Animal.md)
  - [Petstore::ApiResponse](docs/ApiResponse.md)
  - [Petstore::ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)

@@ -1476,16 +1476,112 @@ components:
       type: object
     AdditionalPropertiesClass:
       properties:
-        map_property:
+        map_string:
           additionalProperties:
             type: string
           type: object
-        map_of_map_property:
+        map_number:
+          additionalProperties:
+            type: number
+          type: object
+        map_integer:
+          additionalProperties:
+            type: integer
+          type: object
+        map_boolean:
+          additionalProperties:
+            type: boolean
+          type: object
+        map_array_integer:
+          additionalProperties:
+            items:
+              type: integer
+            type: array
+          type: object
+        map_array_anytype:
+          additionalProperties:
+            items:
+              properties: {}
+              type: object
+            type: array
+          type: object
+        map_map_string:
           additionalProperties:
             additionalProperties:
               type: string
             type: object
           type: object
+        map_map_anytype:
+          additionalProperties:
+            additionalProperties:
+              properties: {}
+              type: object
+            type: object
+          type: object
+        anytype_1:
+          properties: {}
+          type: object
+        anytype_2:
+          type: object
+        anytype_3:
+          properties: {}
+          type: object
+      type: object
+    AdditionalPropertiesString:
+      additionalProperties:
+        type: string
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesInteger:
+      additionalProperties:
+        type: integer
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesNumber:
+      additionalProperties:
+        type: number
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesBoolean:
+      additionalProperties:
+        type: boolean
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesArray:
+      additionalProperties:
+        items:
+          properties: {}
+          type: object
+        type: array
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesObject:
+      additionalProperties:
+        additionalProperties:
+          properties: {}
+          type: object
+        type: object
+      properties:
+        name:
+          type: string
+      type: object
+    AdditionalPropertiesAnyType:
+      additionalProperties:
+        properties: {}
+        type: object
+      properties:
+        name:
+          type: string
       type: object
     MixedPropertiesAndAdditionalPropertiesClass:
       properties:
