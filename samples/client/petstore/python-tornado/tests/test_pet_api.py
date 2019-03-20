@@ -119,7 +119,7 @@ class PetApiTests(AsyncTestCase):
 
         self.assertEquals(response1.id, self.pet.id)
         self.assertIsNotNone(response2.id, self.pet.id)
- 
+
     @gen_test
     def test_add_pet_and_get_pet_by_id(self):
         yield self.pet_api.add_pet(self.pet)
@@ -134,7 +134,10 @@ class PetApiTests(AsyncTestCase):
     def test_add_pet_and_get_pet_by_id_with_http_info(self):
         yield self.pet_api.add_pet(self.pet)
 
-        fetched = yield self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
+        fetched = yield self.pet_api.get_pet_by_id(
+            pet_id=self.pet.id,
+            _return_http_data_only=False
+        )
         self.assertIsNotNone(fetched)
         self.assertEqual(self.pet.id, fetched[0].id)
         self.assertIsNotNone(fetched[0].category)

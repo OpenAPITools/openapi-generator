@@ -3,6 +3,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.HashMap;
 import java.util.Map;
+import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 

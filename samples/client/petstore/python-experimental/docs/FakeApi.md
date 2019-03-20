@@ -1,4 +1,4 @@
-# petstore_api.FakeApi
+# openapi_client.FakeApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**create_xml_item**](FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
 [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
+[**fake_outer_enum_serialize**](FakeApi.md#fake_outer_enum_serialize) | **POST** /fake/outer/enum | 
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
@@ -32,13 +33,13 @@ this route creates an XmlItem
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-xml_item = petstore_api.XmlItem() # XmlItem | XmlItem Body
+api_instance = openapi_client.FakeApi()
+xml_item = openapi_client.XmlItem() # XmlItem | XmlItem Body
 
 try:
     # creates an XmlItem
@@ -85,12 +86,12 @@ Test serialization of outer boolean types
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 body = True # bool | Input boolean as post body (optional)
 
 try:
@@ -138,13 +139,13 @@ Test serialization of object with outer number type
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-body = petstore_api.OuterComposite() # OuterComposite | Input composite as post body (optional)
+api_instance = openapi_client.FakeApi()
+body = openapi_client.OuterComposite() # OuterComposite | Input composite as post body (optional)
 
 try:
     api_response = api_instance.fake_outer_composite_serialize(body=body)
@@ -179,8 +180,61 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **fake_outer_enum_serialize**
+> OuterEnum fake_outer_enum_serialize()
+
+
+
+Test serialization of outer enum
+
+### Example
+
+```python
+from __future__ import print_function
+import time
+import openapi_client
+from openapi_client.rest import ApiException
+from pprint import pprint
+
+# Create an instance of the API class
+api_instance = openapi_client.FakeApi()
+body = OuterEnum("placed") # OuterEnum | Input enum as post body (optional)
+
+try:
+    api_response = api_instance.fake_outer_enum_serialize(body=body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling FakeApi->fake_outer_enum_serialize: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**OuterEnum**](str.md)| Input enum as post body | [optional]
+
+### Return type
+
+[**OuterEnum**](OuterEnum.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Output enum |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **fake_outer_number_serialize**
-> float fake_outer_number_serialize()
+> OuterNumber fake_outer_number_serialize()
 
 
 
@@ -191,13 +245,13 @@ Test serialization of outer number types
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-body = 3.4 # float | Input number as post body (optional)
+api_instance = openapi_client.FakeApi()
+body = OuterNumber(3.4) # OuterNumber | Input number as post body (optional)
 
 try:
     api_response = api_instance.fake_outer_number_serialize(body=body)
@@ -210,11 +264,11 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **float**| Input number as post body | [optional]
+ **body** | [**OuterNumber**](float.md)| Input number as post body | [optional]
 
 ### Return type
 
-**float**
+[**OuterNumber**](OuterNumber.md)
 
 ### Authorization
 
@@ -244,12 +298,12 @@ Test serialization of outer string types
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 body = 'body_example' # str | Input string as post body (optional)
 
 try:
@@ -297,13 +351,13 @@ For this test, the body for this request much reference a schema named `File`.
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-body = petstore_api.FileSchemaTestClass() # FileSchemaTestClass | 
+api_instance = openapi_client.FakeApi()
+body = openapi_client.FileSchemaTestClass() # FileSchemaTestClass | 
 
 try:
     api_instance.test_body_with_file_schema(body)
@@ -347,14 +401,14 @@ No authorization required
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 query = 'query_example' # str | 
-body = petstore_api.User() # User | 
+body = openapi_client.User() # User | 
 
 try:
     api_instance.test_body_with_query_params(query, body)
@@ -401,13 +455,13 @@ To test \"client\" model
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
-body = petstore_api.Client() # Client | client model
+api_instance = openapi_client.FakeApi()
+body = openapi_client.Client() # Client | client model
 
 try:
     # To test \"client\" model
@@ -455,12 +509,12 @@ This route has required values with enums of 1
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 query_integer = 3 # int |  (default to 3)
 query_string = 'brillig' # str |  (default to 'brillig')
 path_string = 'hello' # str |  (default to 'hello')
@@ -516,10 +570,10 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
-configuration = petstore_api.Configuration()
+configuration = openapi_client.Configuration()
 # Configure HTTP basic authorization: http_basic_test
 configuration.username = 'YOUR_USERNAME'
 configuration.password = 'YOUR_PASSWORD'
@@ -527,7 +581,7 @@ configuration.password = 'YOUR_PASSWORD'
 # Defining host is optional and default to http://petstore.swagger.io:80/v2
 configuration.host = "http://petstore.swagger.io:80/v2"
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi(petstore_api.ApiClient(configuration))
+api_instance = openapi_client.FakeApi(openapi_client.ApiClient(configuration))
 number = 3.4 # float | None
 double = 3.4 # float | None
 pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
@@ -602,12 +656,12 @@ To test enum parameters
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
 enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (default to '-efg')
 enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Query parameter enum test (string array) (optional)
@@ -670,12 +724,12 @@ Fake endpoint to test group parameters (optional)
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 required_string_group = 56 # int | Required String in group parameters
 required_boolean_group = True # bool | Required Boolean in group parameters
 required_int64_group = 56 # int | Required Integer in group parameters
@@ -731,12 +785,12 @@ test inline additionalProperties
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 param = {'key': 'param_example'} # dict(str, str) | request body
 
 try:
@@ -782,12 +836,12 @@ test json serialization of form data
 ```python
 from __future__ import print_function
 import time
-import petstore_api
-from petstore_api.rest import ApiException
+import openapi_client
+from openapi_client.rest import ApiException
 from pprint import pprint
 
 # Create an instance of the API class
-api_instance = petstore_api.FakeApi()
+api_instance = openapi_client.FakeApi()
 param = 'param_example' # str | field1
 param2 = 'param2_example' # str | field2
 

@@ -42,13 +42,19 @@ class DeserializationTests(unittest.TestCase):
 
         deserialized = self.deserialize(response, 'dict(str, EnumTest)')
         self.assertTrue(isinstance(deserialized, dict))
-        self.assertTrue(isinstance(deserialized['enum_test'], petstore_api.EnumTest))
-        self.assertEqual(deserialized['enum_test'],
-                         petstore_api.EnumTest(enum_string="UPPER",
-                                               enum_string_required="lower",
-                                               enum_integer=1,
-                                               enum_number=1.1,
-                                               outer_enum=petstore_api.OuterEnum.PLACED))
+        self.assertTrue(
+            isinstance(deserialized['enum_test'], petstore_api.EnumTest))
+        outer_enum_value = (
+            petstore_api.OuterEnum.allowed_values[('value',)]["PLACED"])
+        outer_enum = petstore_api.OuterEnum(outer_enum_value)
+        sample_instance = petstore_api.EnumTest(
+            enum_string="UPPER",
+            enum_string_required="lower",
+            enum_integer=1,
+            enum_number=1.1,
+            outer_enum=outer_enum
+        )
+        self.assertEqual(deserialized['enum_test'], sample_instance)
 
     def test_deserialize_dict_str_pet(self):
         """ deserialize dict(str, Pet) """

@@ -122,7 +122,10 @@ class TestPetApiTests(unittest.TestCase):
     async def test_add_pet_and_get_pet_by_id_with_http_info(self):
         await self.pet_api.add_pet(self.pet)
 
-        fetched = await self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
+        fetched = await self.pet_api.get_pet_by_id(
+            pet_id=self.pet.id,
+            _return_http_data_only=False
+        )
         self.assertIsNotNone(fetched)
         self.assertEqual(self.pet.id, fetched[0].id)
         self.assertIsNotNone(fetched[0].category)

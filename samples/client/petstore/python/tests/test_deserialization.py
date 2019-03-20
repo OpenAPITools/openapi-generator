@@ -238,4 +238,49 @@ class DeserializationTests(unittest.TestCase):
         response = MockResponse(data=json.dumps(None))
 
         deserialized = self.deserialize(response, "datetime")
+<<<<<<< HEAD
         self.assertIsNone(deserialized)
+=======
+        self.assertIsNone(deserialized)
+
+    def test_deserialize_OuterEnum(self):
+        """ deserialize OuterEnum """
+        # make sure that an exception is thrown on an invalid value
+        with self.assertRaises(petstore_api.ApiValueError):
+            self.deserialize(
+                MockResponse(data=json.dumps("test str")),
+                "OuterEnum"
+            )
+
+        # valid value works
+        placed_str = (
+            petstore_api.OuterEnum.allowed_values[('value',)]["PLACED"]
+        )
+        response = MockResponse(data=json.dumps(placed_str))
+        outer_enum = self.deserialize(response, "OuterEnum")
+        self.assertTrue(isinstance(outer_enum, petstore_api.OuterEnum))
+        self.assertTrue(outer_enum.value == placed_str)
+
+    def test_deserialize_OuterNumber(self):
+        """ deserialize OuterNumber """
+        # make sure that an exception is thrown on an invalid type value
+        with self.assertRaises(petstore_api.ApiValueError):
+            deserialized = self.deserialize(
+                MockResponse(data=json.dumps("test str")),
+                "OuterNumber"
+            )
+
+        # make sure that an exception is thrown on an invalid value
+        with self.assertRaises(petstore_api.ApiValueError):
+            deserialized = self.deserialize(
+                MockResponse(data=json.dumps(21)),
+                "OuterNumber"
+            )
+
+        # valid value works
+        number_val = 11
+        response = MockResponse(data=json.dumps(number_val))
+        outer_number = self.deserialize(response, "OuterNumber")
+        self.assertTrue(isinstance(outer_number, petstore_api.OuterNumber))
+        self.assertTrue(outer_number.value == number_val)
+>>>>>>> b9d5dbd868... DefaultCodegen.java adds handleMethodResponse, PythonClientCodegen.java adds postProcessModelProperty, fromProperty, updateCodegenPropertyEnum, handleMethodResponse, fromModel
