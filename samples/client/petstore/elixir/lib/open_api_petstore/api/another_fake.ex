@@ -2,13 +2,13 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule OpenapiPetstore.Api.AnotherFake do
+defmodule OpenAPIPetstore.Api.AnotherFake do
   @moduledoc """
   API calls for all endpoints tagged `AnotherFake`.
   """
 
-  alias OpenapiPetstore.Connection
-  import OpenapiPetstore.RequestBuilder
+  alias OpenAPIPetstore.Connection
+  import OpenAPIPetstore.RequestBuilder
 
 
   @doc """
@@ -17,24 +17,24 @@ defmodule OpenapiPetstore.Api.AnotherFake do
 
   ## Parameters
 
-  - connection (OpenapiPetstore.Connection): Connection to server
-  - body (Client): client model
+  - connection (OpenAPIPetstore.Connection): Connection to server
+  - client (Client): client model
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
-  {:ok, %OpenapiPetstore.Model.Client{}} on success
+  {:ok, %OpenAPIPetstore.Model.Client{}} on success
   {:error, info} on failure
   """
-  @spec call_123_test_special_tags(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
-  def call_123_test_special_tags(connection, body, _opts \\ []) do
+  @spec call_123_test_special_tags(Tesla.Env.client, OpenAPIPetstore.Model.Client.t, keyword()) :: {:ok, OpenAPIPetstore.Model.Client.t} | {:error, Tesla.Env.t}
+  def call_123_test_special_tags(connection, client, _opts \\ []) do
     %{}
     |> method(:patch)
     |> url("/another-fake/dummy")
-    |> add_param(:body, :body, body)
+    |> add_param(:body, :body, client)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
-      { 200, %OpenapiPetstore.Model.Client{}}
+      { 200, %OpenAPIPetstore.Model.Client{}}
     ])
   end
 end
