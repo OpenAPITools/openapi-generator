@@ -1182,7 +1182,7 @@
                 <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
-                <module>samples/client/petstore/kotlin/</module>
+                <!-- <module>samples/client/petstore/kotlin/</module> -->
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
