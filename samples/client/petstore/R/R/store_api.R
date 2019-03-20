@@ -55,7 +55,7 @@ StoreApi <- R6::R6Class(
 
       urlPath <- "/store/order/{orderId}"
       if (!missing(`order.id`)) {
-        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), `order.id`, urlPath)
+        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), URLencode(as.character(`order.id`), reserved = TRUE), urlPath)
       }
 
 
@@ -113,7 +113,7 @@ StoreApi <- R6::R6Class(
 
       urlPath <- "/store/order/{orderId}"
       if (!missing(`order.id`)) {
-        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), `order.id`, urlPath)
+        urlPath <- gsub(paste0("\\{", "orderId", "\\}"), URLencode(as.character(`order.id`), reserved = TRUE), urlPath)
       }
 
 

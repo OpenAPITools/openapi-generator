@@ -49,7 +49,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Org.OpenAPITools.Client";
-    protected String localVariablePrefix = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 

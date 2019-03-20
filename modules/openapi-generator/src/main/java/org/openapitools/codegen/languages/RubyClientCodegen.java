@@ -102,9 +102,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         languageSpecificPrimitives.add("array");
         languageSpecificPrimitives.add("map");
         languageSpecificPrimitives.add("string");
-        // primitives in the typeMapping
-        languageSpecificPrimitives.add("BOOLEAN");
-        typeMapping.put("boolean", "BOOLEAN");
 
         // remove modelPackage and apiPackage added by default
         Iterator<CliOption> itr = cliOptions.iterator();
@@ -498,34 +495,34 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             type = p.dataType;
         }
 
-        if ("String".equals(type)) {
+        if ("String".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = p.paramName + "_example";
             }
             example = "'" + escapeText(example) + "'";
-        } else if ("Integer".equals(type)) {
+        } else if ("Integer".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "56";
             }
-        } else if ("Float".equals(type)) {
+        } else if ("Float".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "3.4";
             }
-        } else if ("BOOLEAN".equals(type)) {
+        } else if ("BOOLEAN".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "true";
             }
-        } else if ("File".equals(type)) {
+        } else if ("File".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "/path/to/file";
             }
             example = "File.new('" + escapeText(example) + "')";
-        } else if ("Date".equals(type)) {
+        } else if ("Date".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20";
             }
             example = "Date.parse('" + escapeText(example) + "')";
-        } else if ("DateTime".equals(type)) {
+        } else if ("DateTime".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20T19:20:30+01:00";
             }

@@ -64,7 +64,8 @@ library
     , unordered-containers
     , vector >=0.10.9 && <0.13
   other-modules:
-      Paths_{{pathsName}}
+      Paths_{{pathsName}}{{#x-hasImportMappings}}
+      {{baseModule}}.ImportMappings{{/x-hasImportMappings}}
   exposed-modules:
       {{baseModule}}{{^x-allowNonUniqueOperationIds}}
       {{baseModule}}.API{{/x-allowNonUniqueOperationIds}}{{#apiInfo}}{{#apis}}
@@ -73,8 +74,9 @@ library
       {{baseModule}}.Core
       {{baseModule}}.Logging
       {{baseModule}}.MimeTypes
-      {{baseModule}}.Model
-      {{baseModule}}.ModelLens
+      {{baseModule}}.Model{{#generateLenses}}
+      {{baseModule}}.ModelLens{{/generateLenses}}{{#x-allUniqueImportPaths}}
+      {{.}}{{/x-allUniqueImportPaths}}
   default-language: Haskell2010
 
   if flag(UseKatip)
@@ -111,5 +113,6 @@ test-suite tests
   other-modules:
       ApproxEq
       Instances
-      PropMime
+      PropMime{{#customTestInstanceModule}}
+      {{.}}{{/customTestInstanceModule}}
   default-language: Haskell2010

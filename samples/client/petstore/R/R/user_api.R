@@ -166,7 +166,7 @@ UserApi <- R6::R6Class(
 
       urlPath <- "/user/{username}"
       if (!missing(`username`)) {
-        urlPath <- gsub(paste0("\\{", "username", "\\}"), `username`, urlPath)
+        urlPath <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), urlPath)
       }
 
 
@@ -197,7 +197,7 @@ UserApi <- R6::R6Class(
 
       urlPath <- "/user/{username}"
       if (!missing(`username`)) {
-        urlPath <- gsub(paste0("\\{", "username", "\\}"), `username`, urlPath)
+        urlPath <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), urlPath)
       }
 
 
@@ -296,7 +296,7 @@ UserApi <- R6::R6Class(
 
       urlPath <- "/user/{username}"
       if (!missing(`username`)) {
-        urlPath <- gsub(paste0("\\{", "username", "\\}"), `username`, urlPath)
+        urlPath <- gsub(paste0("\\{", "username", "\\}"), URLencode(as.character(`username`), reserved = TRUE), urlPath)
       }
 
 
