@@ -5,7 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **integer_prop** | **Integer** |  | [optional] 
 **number_prop** | **Float** |  | [optional] 
-**boolean_prop** | **BOOLEAN** |  | [optional] 
+**boolean_prop** | **Boolean** |  | [optional] 
 **string_prop** | **String** |  | [optional] 
 **date_prop** | **Date** |  | [optional] 
 **datetime_prop** | **DateTime** |  | [optional] 
