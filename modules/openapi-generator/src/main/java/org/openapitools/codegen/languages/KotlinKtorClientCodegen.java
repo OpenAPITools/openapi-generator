@@ -73,23 +73,6 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
-        CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
-
-        if (op.getHasQueryParams() || op.getHasFormParams()) {
-            op.imports.add("io.ktor.http.Parameters");
-        }
-        if (op.getHasFormParams()) {
-            op.imports.add("io.ktor.client.request.forms.FormDataContent");
-        }
-        if (op.getHasQueryParams()) {
-            op.imports.add("io.ktor.http.formUrlEncode");
-        }
-
-        return op;
-    }
-
-    @Override
     public String toModelImport(String name) {
         if (name.startsWith("io.ktor.")) {
             return name;

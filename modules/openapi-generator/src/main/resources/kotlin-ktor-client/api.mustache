@@ -1,11 +1,9 @@
 {{>licenseInfo}}
 package {{apiPackage}}
 
-import io.ktor.http.HttpMethod
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.request.*
 import io.ktor.client.features.BadResponseStatusException
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
