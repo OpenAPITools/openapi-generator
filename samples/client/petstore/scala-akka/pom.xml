@@ -15,12 +15,12 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <java.version>1.8</java.version>
-    <scala.version>2.11.12</scala.version>
-    <json4s.jackson.version>3.5.4</json4s.jackson.version>
+    <scala.version>2.12.8</scala.version>
+    <json4s.jackson.version>3.5.3</json4s.jackson.version>
     <json4s.ext.version>3.2.11</json4s.ext.version>
-    <spray.version>1.3.1</spray.version>
-    <akka.version>2.5.17</akka.version>
-    <joda.time.version>2.9.9</joda.time.version>
+    <spray.version>1.3.4</spray.version>
+    <akka.version>2.5.21</akka.version>
+    <joda.time.version>2.10.1</joda.time.version>
 
     <junit.version>4.12</junit.version>
     <scala.test.version>3.0.5</scala.test.version>

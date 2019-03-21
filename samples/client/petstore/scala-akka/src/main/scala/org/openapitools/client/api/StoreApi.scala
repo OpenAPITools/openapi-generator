@@ -18,6 +18,11 @@ import org.openapitools.client.core.ApiKeyLocations._
 
 object StoreApi {
 
+  def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new StoreApi(baseUrl)
+}
+
+class StoreApi(baseUrl: String) {
+  
   /**
    * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
    * 
@@ -66,11 +71,11 @@ object StoreApi {
    *   code 200 : Order (successful operation)
    *   code 400 :  (Invalid Order)
    * 
-   * @param order order placed for purchasing the pet
+   * @param body order placed for purchasing the pet
    */
-  def placeOrder(order: Order): ApiRequest[Unit] =
+  def placeOrder(body: Order): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/store/order", "application/json")
-      .withBody(order)
+      .withBody(body)
       .withSuccessResponse[Order](200)
       .withErrorResponse[Unit](400)
       
