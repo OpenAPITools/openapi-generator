@@ -7,7 +7,6 @@ import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.*
 import io.ktor.client.features.BadResponseStatusException
-import io.ktor.client.call.typeInfo
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
@@ -32,11 +31,6 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}", private val 
             logger = this@{{classname}}.logger
             level = this@{{classname}}.logLevel
         }
-    }
-
-    private suspend inline fun <reified E>wrapErrorObject(exception: BadResponseStatusException): ErrorWrapper {
-        val error = mySerializer.read(typeInfo<E>(), exception.response)
-        return ErrorWrapper(exception, error)
     }
 
     {{#operation}}
@@ -101,7 +95,7 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}", private val 
             }
         } catch (exception: BadResponseStatusException) {
             when(exception.statusCode.value) {
-                {{#responses}}{{#dataType}}{{^isDefault}}{{{code}}} -> throw wrapErrorObject<{{{baseType}}}>(exception){{^-last}}
+                {{#responses}}{{#dataType}}{{^isDefault}}{{{code}}} -> throw mySerializer.parseAndWrapErrorResponse<{{{baseType}}}>(exception){{^-last}}
                 {{/-last}}{{/isDefault}}{{/dataType}}{{/responses}}
                 else -> throw exception
             }
