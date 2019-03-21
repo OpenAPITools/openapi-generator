@@ -1,15 +1,11 @@
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 
 public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
 
