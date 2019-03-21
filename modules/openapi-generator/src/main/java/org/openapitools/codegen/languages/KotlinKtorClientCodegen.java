@@ -69,6 +69,7 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
 
         final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", "/");
         supportingFiles.add(new SupportingFile("infrastructure/ErrorWrapper.kt.mustache", infrastructureFolder, "ErrorWrapper.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/HttpClientConvenience.kt.mustache", infrastructureFolder, "HttpClientConvenience.kt"));
     }
 
     @Override

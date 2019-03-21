@@ -43,21 +43,27 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}", private val 
     * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
     */
     suspend fun {{operationId}}({{#allParams}}{{#required}}{{>api_req_param}}{{/required}}{{^required}}{{>api_opt_param}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
-        {{#hasQueryParams}}
-        val queryParameters = Parameters.build {
-            {{#queryParams}}
-            {{#required}}
-            append("{{{baseName}}}", {{paramName}})
-            {{/required}}
-            {{^required}}
-            if({{paramName}} != null) append("{{{baseName}}}", {{paramName}})
-            {{/required}}
-            {{/queryParams}}
-        }.formUrlEncode()
-        {{/hasQueryParams}}
+        val queryParameters = mutableListOf<Pair<String, Any?>>()
+        {{#queryParams}}
+        {{#required}}
+        queryParameters += "{{{baseName}}}" to {{paramName}}
+        {{/required}}
+        {{^required}}
+        if({{paramName}} != null) queryParameters += "{{{baseName}}}" to {{paramName}}
+        {{/required}}
+        {{/queryParams}}
 
-        val url = "$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}}{{#hasQueryParams}} + "?$queryParameters"{{/hasQueryParams}}
-        val httpMethod = HttpMethod.parse("{{httpMethod}}")
+        val headerParameters = listOf<Pair<String, Any?>>(
+            {{#headerParams}}
+            "{{{baseName}}}" to {{paramName}}{{#hasMore}}, {{/hasMore}}
+            {{/headerParams}}
+        )
+
+        val formParameters = listOf<Pair<String, String?>>(
+            {{#formParams}}
+            "{{{baseName}}}" to {{paramName}}{{#hasMore}}, {{/hasMore}}
+            {{/formParams}}
+        )
 
         mySerializer.apply {
             {{#allResponseDataTypes}}
@@ -69,38 +75,22 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}", private val 
             {{/bodyParam}}
             {{/hasBodyParam}}
         }
+
         try {
-            return httpClient.request(url) {
-                method = httpMethod
-                {{#headerParams}}
-                header("{{baseName}}", {{paramName}})
-                {{/headerParams}}
-                {{#hasFormParams}}
-                body = FormDataContent(Parameters.build {
-                    {{#formParams}}
-                    {{#required}}
-                    append("{{{baseName}}}", {{paramName}})
-                    {{/required}}
-                    {{^required}}
-                    if({{paramName}} != null) append("{{{baseName}}}", {{paramName}})
-                    {{/required}}
-                    {{/formParams}}
-                })
-                {{/hasFormParams}}
-                {{#hasBodyParam}}
-                {{#bodyParam}}
-                body = {{paramName}}
-                {{/bodyParam}}
-                {{/hasBodyParam}}
-            }
+            return httpClient.request(
+                url = "$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
+                methodString =  "{{httpMethod}}",
+                queryParameters = queryParameters,
+                headerParameters = headerParameters,
+                formParameters = formParameters{{#hasBodyParam}}{{#bodyParam}},
+                body = {{paramName}}{{/bodyParam}}{{/hasBodyParam}}
+            )
         } catch (exception: BadResponseStatusException) {
             when(exception.statusCode.value) {
                 {{#responses}}{{#dataType}}{{^isDefault}}{{{code}}} -> throw mySerializer.parseAndWrapErrorResponse<{{{baseType}}}>(exception){{^-last}}
                 {{/-last}}{{/isDefault}}{{/dataType}}{{/responses}}
                 else -> throw exception
             }
-        } catch (exception: Exception) {
-            throw exception
         }
     }
     {{^-last}}

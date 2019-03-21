@@ -1,0 +1,49 @@
+package {{packageName}}.infrastructure
+
+import io.ktor.client.HttpClient
+import io.ktor.client.request.forms.FormDataContent
+import io.ktor.client.request.header
+import io.ktor.client.request.parameter
+import io.ktor.client.request.request
+import io.ktor.http.HttpMethod
+import io.ktor.http.Parameters
+
+internal fun List<Pair<String, String?>>.whereSecondNotNull(): List<Pair<String, String>> {
+    return mapNotNull {
+        val key = it.first
+        val value = it.second
+        if (value == null) {
+            null
+        } else {
+            key to value
+        }
+    }
+}
+
+internal suspend inline fun <reified T> HttpClient.request(
+    url: String,
+    methodString: String,
+    queryParameters: List<Pair<String, Any?>>,
+    headerParameters: List<Pair<String, Any?>>,
+    formParameters: List<Pair<String, String?>>,
+    bodyObject: Any? = null): T
+{
+    return request(url) {
+        method = HttpMethod.parse(methodString)
+        queryParameters.forEach {
+            parameter(it.first, it.second)
+        }
+        headerParameters.forEach {
+            header(it.first, it.second)
+        }
+        if (!formParameters.isEmpty()) {
+            body = FormDataContent(Parameters.build {
+                formParameters
+                    .whereSecondNotNull()
+                    .forEach { append(it.first, it.second) }
+            })
+        } else if (bodyObject != null) {
+            body = bodyObject
+        }
+    }
+}
