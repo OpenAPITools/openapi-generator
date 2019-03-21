@@ -1100,9 +1100,6 @@
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
                 <module>samples/client/petstore/java/rest-assured</module>
-                <!-- <module>samples/client/petstore/kotlin/</module>
-                <module>samples/client/petstore/kotlin-threetenbp/</module>
-                <module>samples/client/petstore/kotlin-string/</module> -->
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1229,13 +1226,15 @@
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
                 <!-- servers -->
-                <!-- disable erlang server test due to dependency issues -->
                 <module>samples/server/petstore/erlang-server</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
+                <module>samples/client/petstore/kotlin/</module>
+                <module>samples/client/petstore/kotlin-threetenbp/</module>
+                <module>samples/client/petstore/kotlin-string/</module>
             </modules>
         </profile>
         <!-- test with Haskell -->
