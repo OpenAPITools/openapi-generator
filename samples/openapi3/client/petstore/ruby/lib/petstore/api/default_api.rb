@@ -27,7 +27,7 @@ module Petstore
     end
 
     # @param [Hash] opts the optional parameters
-    # @return [Array<(InlineResponseDefault, Fixnum, Hash)>] InlineResponseDefault data, response status code and response headers
+    # @return [Array<(InlineResponseDefault, Integer, Hash)>] InlineResponseDefault data, response status code and response headers
     def foo_get_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: DefaultApi.foo_get ...'
