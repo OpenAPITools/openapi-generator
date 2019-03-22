@@ -44,13 +44,16 @@ public class ApiClient {
     for(String authName : authNames) {
       RequestInterceptor auth;
       if ("api_key".equals(authName)) {
+      
         auth = new ApiKeyAuth("header", "api_key");
       } else if ("api_key_query".equals(authName)) {
+      
         auth = new ApiKeyAuth("query", "api_key_query");
       } else if ("http_basic_test".equals(authName)) {
+      
         auth = new HttpBasicAuth();
-      } else if ("petstore_auth".equals(authName)) {
-        auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
+            } else if ("petstore_auth".equals(authName)) {
+              auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
@@ -194,6 +197,21 @@ public class ApiClient {
     if (contentTypes.length == 0) return "application/json";
     if (StringUtil.containsIgnoreCase(contentTypes, "application/json")) return "application/json";
     return contentTypes[0];
+  }
+
+
+  /**
+   * Helper method to configure the bearer token.
+   * @param bearerToken the bearer token.
+   */
+  public void setBearerToken(String bearerToken) {
+    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof HttpBearerAuth) {
+        ((HttpBearerAuth) apiAuthorization).setBearerToken(bearerToken);
+        return;
+      }
+    }
+    throw new RuntimeException("No Bearer authentication configured!");
   }
 
   /**

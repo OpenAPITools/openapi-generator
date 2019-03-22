@@ -26,6 +26,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import {{invokerPackage}}.auth.HttpBasicAuth;
+import {{invokerPackage}}.auth.HttpBearerAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
 {{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
@@ -62,9 +63,11 @@ public class ApiClient {
       {{#hasAuthMethods}}
       Interceptor auth;
       {{#authMethods}}if ("{{name}}".equals(authName)) {
-        {{#isBasic}}
+        {{#isBasic}}{{#isBasicBasic}}
         auth = new HttpBasicAuth();
-        {{/isBasic}}
+        {{/isBasicBasic}}{{^isBasicBasic}}
+        auth = new HttpBearerAuth("{{scheme}}");
+        {{/isBasicBasic}}{{/isBasic}}
         {{#isApiKey}}
         auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");
         {{/isApiKey}}
@@ -203,6 +206,21 @@ public class ApiClient {
       if (apiAuthorization instanceof ApiKeyAuth) {
         ApiKeyAuth keyAuth = (ApiKeyAuth) apiAuthorization;
         keyAuth.setApiKey(apiKey);
+        return this;
+      }
+    }
+    return this;
+  }
+
+  /**
+   * Helper method to set token for the first Http Bearer authentication found.
+   * @param bearerToken Bearer token
+   * @return ApiClient
+   */
+  public ApiClient setBearerToken(String bearerToken) {
+    for (Interceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof HttpBearerAuth) {
+        ((HttpBearerAuth) apiAuthorization).setBearerToken(bearerToken);
         return this;
       }
     }
