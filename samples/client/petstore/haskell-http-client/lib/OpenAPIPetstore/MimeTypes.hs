@@ -223,33 +223,33 @@ instance MimeType MimeXmlCharsetutf8 where
 -- instance MimeRender MimeXmlCharsetutf8 T.Text where mimeRender _ = undefined
 -- instance MimeUnrender MimeXmlCharsetutf8 T.Text where mimeUnrender _ = undefined
 
--- ** MimeTextxml
+-- ** MimeTextXml
 
-data MimeTextxml = MimeTextxml deriving (P.Typeable)
+data MimeTextXml = MimeTextXml deriving (P.Typeable)
 
 -- | @text/xml@
-instance MimeType MimeTextxml where
+instance MimeType MimeTextXml where
   mimeType _ = Just $ P.fromString "text/xml"
--- instance MimeRender MimeTextxml T.Text where mimeRender _ = undefined
--- instance MimeUnrender MimeTextxml T.Text where mimeUnrender _ = undefined
+-- instance MimeRender MimeTextXml T.Text where mimeRender _ = undefined
+-- instance MimeUnrender MimeTextXml T.Text where mimeUnrender _ = undefined
 
--- ** MimeTextxmlCharsetutf16
+-- ** MimeTextXmlCharsetutf16
 
-data MimeTextxmlCharsetutf16 = MimeTextxmlCharsetutf16 deriving (P.Typeable)
+data MimeTextXmlCharsetutf16 = MimeTextXmlCharsetutf16 deriving (P.Typeable)
 
 -- | @text/xml; charset=utf-16@
-instance MimeType MimeTextxmlCharsetutf16 where
+instance MimeType MimeTextXmlCharsetutf16 where
   mimeType _ = Just $ P.fromString "text/xml; charset=utf-16"
--- instance MimeRender MimeTextxmlCharsetutf16 T.Text where mimeRender _ = undefined
--- instance MimeUnrender MimeTextxmlCharsetutf16 T.Text where mimeUnrender _ = undefined
+-- instance MimeRender MimeTextXmlCharsetutf16 T.Text where mimeRender _ = undefined
+-- instance MimeUnrender MimeTextXmlCharsetutf16 T.Text where mimeUnrender _ = undefined
 
--- ** MimeTextxmlCharsetutf8
+-- ** MimeTextXmlCharsetutf8
 
-data MimeTextxmlCharsetutf8 = MimeTextxmlCharsetutf8 deriving (P.Typeable)
+data MimeTextXmlCharsetutf8 = MimeTextXmlCharsetutf8 deriving (P.Typeable)
 
 -- | @text/xml; charset=utf-8@
-instance MimeType MimeTextxmlCharsetutf8 where
+instance MimeType MimeTextXmlCharsetutf8 where
   mimeType _ = Just $ P.fromString "text/xml; charset=utf-8"
--- instance MimeRender MimeTextxmlCharsetutf8 T.Text where mimeRender _ = undefined
--- instance MimeUnrender MimeTextxmlCharsetutf8 T.Text where mimeUnrender _ = undefined
+-- instance MimeRender MimeTextXmlCharsetutf8 T.Text where mimeRender _ = undefined
+-- instance MimeUnrender MimeTextXmlCharsetutf8 T.Text where mimeUnrender _ = undefined
 
