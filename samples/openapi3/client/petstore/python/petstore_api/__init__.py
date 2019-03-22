@@ -28,6 +28,11 @@ from petstore_api.api.user_api import UserApi
 # import ApiClient
 from petstore_api.api_client import ApiClient
 from petstore_api.configuration import Configuration
+from petstore_api.exceptions import OpenApiException
+from petstore_api.exceptions import ApiTypeError
+from petstore_api.exceptions import ApiValueError
+from petstore_api.exceptions import ApiKeyError
+from petstore_api.exceptions import ApiException
 # import models into sdk package
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
 from petstore_api.models.animal import Animal
@@ -76,3 +81,4 @@ from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.tag import Tag
 from petstore_api.models.user import User
+
