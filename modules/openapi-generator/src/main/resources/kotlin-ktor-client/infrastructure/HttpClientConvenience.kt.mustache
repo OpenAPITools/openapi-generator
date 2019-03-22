@@ -13,6 +13,7 @@ import io.ktor.client.request.request
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
 import kotlinx.io.core.use
+import {{packageName}}.infrastructure.authentication.AuthProvider
 
 internal fun List<Pair<String, String?>>.whereSecondNotNull(): List<Pair<String, String>> {
     return mapNotNull {
@@ -33,10 +34,14 @@ internal suspend inline fun <reified T> request(
     headerParameters: List<Pair<String, Any?>>,
     formParameters: List<Pair<String, String?>>,
     serializer: KotlinxSerializer,
+    authProviders: List<AuthProvider>,
     logger: Logger,
     logLevel: LogLevel,
     bodyObject: Any? = null): T
 {
+    val queryParameters = queryParameters.toMutableList()
+    val headerParameters = headerParameters.toMutableList()
+
     val httpClient = HttpClient {
         install(JsonFeature) {
             this.serializer = serializer
@@ -45,6 +50,10 @@ internal suspend inline fun <reified T> request(
             this.logger = logger
             this.level = logLevel
         }
+    }
+
+    authProviders.forEach {
+        it.applyToParams(queryParameters = queryParameters, headerParameters = headerParameters)
     }
 
     return httpClient.use {

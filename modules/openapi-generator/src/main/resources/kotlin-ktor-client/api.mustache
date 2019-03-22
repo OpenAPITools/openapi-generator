@@ -8,6 +8,7 @@ import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.SIMPLE
 
 import {{packageName}}.infrastructure.*
+import {{packageName}}.infrastructure.authentication.AuthProvider
 
 {{#imports}}
 import {{import}}
@@ -62,6 +63,8 @@ import {{import}}
             {{/hasBodyParam}}
         }
 
+        val authProviders = listOf<AuthProvider>()
+
         try {
             return request(
                 url = "$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
@@ -70,6 +73,7 @@ import {{import}}
                 headerParameters = headerParameters,
                 formParameters = formParameters,
                 serializer = mySerializer,
+                authProviders = authProviders,
                 logger = this@{{classname}}.logger,
                 logLevel = this@{{classname}}.logLevel{{#hasBodyParam}}{{#bodyParam}},
                 body = {{paramName}}{{/bodyParam}}{{/hasBodyParam}}
