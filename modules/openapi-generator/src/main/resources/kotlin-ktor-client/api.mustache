@@ -18,7 +18,7 @@ import {{import}}
 {{/imports}}
 
 {{#operations}}
-class {{classname}}(
+{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(
     val basePath: kotlin.String = "{{{basePath}}}",
     private val logger: Logger = Logger.SIMPLE,
     private val logLevel: LogLevel = LogLevel.NONE

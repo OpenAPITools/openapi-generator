@@ -9,7 +9,7 @@ import kotlinx.serialization.SerialName
 {{/vars}}
  */
 @Serializable
-data class {{classname}} (
+{{#nonPublicApi}}internal {{/nonPublicApi}}data class {{classname}} (
 {{#requiredVars}}
 {{>data_class_req_var}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},

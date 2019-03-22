@@ -9,6 +9,9 @@ import java.util.HashMap;
 
 public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
 
+    // By default, generated code is considered public
+    private boolean nonPublicApi = Boolean.FALSE;
+
     public KotlinKtorClientCodegen() {
         super();
 
@@ -32,11 +35,13 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
         typeMapping.put("Date", "kotlin.String");
         typeMapping.put("DateTime", "kotlin.String");
 
-        //TODO: change to something else
+        //TODO: change to something else that works with kotlin native (without reflection)
         typeMapping.put("file", "kotlin.String");
         typeMapping.put("object", "kotlin.String"); //Using 'Any' fails on platforms without reflection
 
         importMapping = new HashMap<>();
+
+        addSwitch(CodegenConstants.NON_PUBLIC_API, CodegenConstants.NON_PUBLIC_API_DESC, this.nonPublicApi);
     }
 
     @Override
@@ -57,6 +62,12 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.NON_PUBLIC_API)) {
+            nonPublicApi = convertPropertyToBooleanAndWriteBack(CodegenConstants.NON_PUBLIC_API);
+        } else {
+            additionalProperties.put(CodegenConstants.NON_PUBLIC_API, nonPublicApi);
+        }
 
         //At the point of writing this plugin kotlinx serialization does not yet support enum names that aren't exact matches.
         enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original;
