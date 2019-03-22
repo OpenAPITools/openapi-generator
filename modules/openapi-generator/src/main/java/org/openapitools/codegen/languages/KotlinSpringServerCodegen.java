@@ -567,21 +567,21 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return m;
     }
 
-	/**
-	 * Output the proper model name (capitalized).
-	 * In case the name belongs to the TypeSystem it won't be renamed.
-	 *
-	 * @param name the name of the model
-	 * @return capitalized model name
-	 */
-	@Override
-	public String toModelName(final String name) {
-		// Allow for explicitly configured spring.*
-		if (name.startsWith("org.springframework.") ) {
-			return name;
-		}
-		return super.toModelName(name);
-	}
+    /**
+     * Output the proper model name (capitalized).
+     * In case the name belongs to the TypeSystem it won't be renamed.
+     *
+     * @param name the name of the model
+     * @return capitalized model name
+     */
+    @Override
+    public String toModelName(final String name) {
+        // Allow for explicitly configured spring.*
+        if (name.startsWith("org.springframework.") ) {
+            return name;
+        }
+        return super.toModelName(name);
+    }
 
     /**
      * Check the type to see if it needs import the library/module/package
