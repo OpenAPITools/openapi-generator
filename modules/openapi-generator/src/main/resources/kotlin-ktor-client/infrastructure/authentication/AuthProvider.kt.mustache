@@ -1,5 +1,5 @@
 package {{packageName}}.infrastructure.authentication
 
 interface AuthProvider {
-    fun applyToParams(queryParameters: List<Pair<String, Any?>>, headerParameters: List<Pair<String, Any?>>)
+    fun applyToParams(queryParameters: MutableList<Pair<String, Any?>>, headerParameters: MutableList<Pair<String, Any?>>)
 }

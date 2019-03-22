@@ -1,0 +1,15 @@
+package {{packageName}}.infrastructure.authentication
+import kotlinx.io.core.toByteArray
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}class HttpBasicAuth(
+    private val username: String,
+    private val password: String
+): AuthProvider
+{
+    override fun applyToParams(queryParameters: MutableList<Pair<String, Any?>>, headerParameters: MutableList<Pair<String, Any?>>) {
+        val authString = "$username:$password"
+        val authBuf = Base64Encoder.encode(authString.toByteArray())
+
+        headerParameters += "Authorization" to "Basic $authBuf"
+    }
+}
