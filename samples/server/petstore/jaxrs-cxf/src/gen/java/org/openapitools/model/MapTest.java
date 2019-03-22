@@ -44,13 +44,13 @@ public enum InnerEnum {
         return String.valueOf(value);
     }
 
-    public static InnerEnum fromValue(String v) {
+    public static InnerEnum fromValue(String value) {
         for (InnerEnum b : InnerEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
