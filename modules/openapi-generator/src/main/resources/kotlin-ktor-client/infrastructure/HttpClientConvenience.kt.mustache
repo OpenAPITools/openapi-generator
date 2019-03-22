@@ -1,12 +1,18 @@
 package {{packageName}}.infrastructure
 
 import io.ktor.client.HttpClient
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.features.logging.LogLevel
+import io.ktor.client.features.logging.Logger
+import io.ktor.client.features.logging.Logging
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.request.request
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
+import kotlinx.io.core.use
 
 internal fun List<Pair<String, String?>>.whereSecondNotNull(): List<Pair<String, String>> {
     return mapNotNull {
@@ -20,30 +26,45 @@ internal fun List<Pair<String, String?>>.whereSecondNotNull(): List<Pair<String,
     }
 }
 
-internal suspend inline fun <reified T> HttpClient.request(
+internal suspend inline fun <reified T> request(
     url: String,
     methodString: String,
     queryParameters: List<Pair<String, Any?>>,
     headerParameters: List<Pair<String, Any?>>,
     formParameters: List<Pair<String, String?>>,
+    serializer: KotlinxSerializer,
+    logger: Logger,
+    logLevel: LogLevel,
     bodyObject: Any? = null): T
 {
-    return request(url) {
-        method = HttpMethod.parse(methodString)
-        queryParameters.forEach {
-            parameter(it.first, it.second)
+    val httpClient = HttpClient {
+        install(JsonFeature) {
+            this.serializer = serializer
         }
-        headerParameters.forEach {
-            header(it.first, it.second)
+        install(Logging) {
+            this.logger = logger
+            this.level = logLevel
         }
-        if (!formParameters.isEmpty()) {
-            body = FormDataContent(Parameters.build {
-                formParameters
-                    .whereSecondNotNull()
-                    .forEach { append(it.first, it.second) }
-            })
-        } else if (bodyObject != null) {
-            body = bodyObject
+    }
+
+    return httpClient.use {
+        it.request(url) {
+            method = HttpMethod.parse(methodString)
+            queryParameters.forEach {
+                parameter(it.first, it.second)
+            }
+            headerParameters.forEach {
+                header(it.first, it.second)
+            }
+            if (!formParameters.isEmpty()) {
+                body = FormDataContent(Parameters.build {
+                    formParameters
+                        .whereSecondNotNull()
+                        .forEach { append(it.first, it.second) }
+                })
+            } else if (bodyObject != null) {
+                body = bodyObject
+            }
         }
     }
 }

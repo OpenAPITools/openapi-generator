@@ -1,14 +1,10 @@
 {{>licenseInfo}}
 package {{apiPackage}}
 
-import kotlinx.io.core.use
-import io.ktor.client.HttpClient
-import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.features.BadResponseStatusException
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
-import io.ktor.client.features.logging.Logging
 import io.ktor.client.features.logging.SIMPLE
 
 import {{packageName}}.infrastructure.*
@@ -65,27 +61,19 @@ import {{import}}
             {{/bodyParam}}
             {{/hasBodyParam}}
         }
-        val httpClient = HttpClient {
-            install(JsonFeature) {
-                serializer = mySerializer
-            }
-            install(Logging) {
-                logger = this@{{classname}}.logger
-                level = this@{{classname}}.logLevel
-            }
-        }
 
         try {
-            return httpClient.use {
-                it.request(
-                    url = "$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
-                    methodString =  "{{httpMethod}}",
-                    queryParameters = queryParameters,
-                    headerParameters = headerParameters,
-                    formParameters = formParameters{{#hasBodyParam}}{{#bodyParam}},
-                    body = {{paramName}}{{/bodyParam}}{{/hasBodyParam}}
-                )
-            }
+            return request(
+                url = "$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
+                methodString =  "{{httpMethod}}",
+                queryParameters = queryParameters,
+                headerParameters = headerParameters,
+                formParameters = formParameters,
+                serializer = mySerializer,
+                logger = this@{{classname}}.logger,
+                logLevel = this@{{classname}}.logLevel{{#hasBodyParam}}{{#bodyParam}},
+                body = {{paramName}}{{/bodyParam}}{{/hasBodyParam}}
+            )
         } catch (exception: BadResponseStatusException) {
             when(exception.statusCode.value) {
                 {{#responses}}{{#dataType}}{{^isDefault}}{{{code}}} -> throw mySerializer.parseAndWrapErrorResponse<{{{baseType}}}>(exception){{^-last}}
