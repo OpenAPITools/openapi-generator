@@ -3,7 +3,6 @@ package org.openapitools.api
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
 import org.springframework.stereotype.Service
-
 @Service
 class PetApiServiceImpl : PetApiService {
 
