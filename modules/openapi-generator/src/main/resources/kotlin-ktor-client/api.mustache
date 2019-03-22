@@ -1,6 +1,7 @@
 {{>licenseInfo}}
 package {{apiPackage}}
 
+import kotlinx.io.core.use
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -17,20 +18,11 @@ import {{import}}
 {{/imports}}
 
 {{#operations}}
-class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}", private val logger: Logger = Logger.SIMPLE, private val logLevel: LogLevel = LogLevel.NONE) {
-
-    private val mySerializer = KotlinxSerializer()
-
-    private val httpClient: HttpClient = HttpClient {
-        install(JsonFeature) {
-            serializer = mySerializer
-        }
-        install(Logging) {
-            logger = this@{{classname}}.logger
-            level = this@{{classname}}.logLevel
-        }
-    }
-
+class {{classname}}(
+    val basePath: kotlin.String = "{{{basePath}}}",
+    private val logger: Logger = Logger.SIMPLE,
+    private val logLevel: LogLevel = LogLevel.NONE
+) {
     {{#operation}}
     /**
     * {{summary}}
@@ -51,19 +43,19 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}", private val 
         {{/required}}
         {{/queryParams}}
 
-        val headerParameters = listOf<Pair<String, Any?>>(
+        val headerParameters = listOf<Pair<String, Any?>>({{#hasHeaderParams}}
             {{#headerParams}}
             "{{{baseName}}}" to {{paramName}}{{#hasMore}}, {{/hasMore}}
             {{/headerParams}}
-        )
+        {{/hasHeaderParams}})
 
-        val formParameters = listOf<Pair<String, String?>>(
+        val formParameters = listOf<Pair<String, String?>>({{#hasFormParams}}
             {{#formParams}}
             "{{{baseName}}}" to {{paramName}}{{#hasMore}}, {{/hasMore}}
             {{/formParams}}
-        )
+        {{/hasFormParams}})
 
-        mySerializer.apply {
+        val mySerializer = KotlinxSerializer().apply {
             {{#allResponseDataTypes}}
             register({{{dataType}}}.serializer())
             {{/allResponseDataTypes}}
@@ -73,16 +65,27 @@ class {{classname}}(val basePath: kotlin.String = "{{{basePath}}}", private val 
             {{/bodyParam}}
             {{/hasBodyParam}}
         }
+        val httpClient = HttpClient {
+            install(JsonFeature) {
+                serializer = mySerializer
+            }
+            install(Logging) {
+                logger = this@{{classname}}.logger
+                level = this@{{classname}}.logLevel
+            }
+        }
 
         try {
-            return httpClient.request(
-                url = "$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
-                methodString =  "{{httpMethod}}",
-                queryParameters = queryParameters,
-                headerParameters = headerParameters,
-                formParameters = formParameters{{#hasBodyParam}}{{#bodyParam}},
-                body = {{paramName}}{{/bodyParam}}{{/hasBodyParam}}
-            )
+            return httpClient.use {
+                it.request(
+                    url = "$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
+                    methodString =  "{{httpMethod}}",
+                    queryParameters = queryParameters,
+                    headerParameters = headerParameters,
+                    formParameters = formParameters{{#hasBodyParam}}{{#bodyParam}},
+                    body = {{paramName}}{{/bodyParam}}{{/hasBodyParam}}
+                )
+            }
         } catch (exception: BadResponseStatusException) {
             when(exception.statusCode.value) {
                 {{#responses}}{{#dataType}}{{^isDefault}}{{{code}}} -> throw mySerializer.parseAndWrapErrorResponse<{{{baseType}}}>(exception){{^-last}}
