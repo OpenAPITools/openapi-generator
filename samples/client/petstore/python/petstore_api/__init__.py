@@ -27,6 +27,11 @@ from petstore_api.api.user_api import UserApi
 # import ApiClient
 from petstore_api.api_client import ApiClient
 from petstore_api.configuration import Configuration
+from petstore_api.exceptions import OpenApiException
+from petstore_api.exceptions import ApiTypeError
+from petstore_api.exceptions import ApiValueError
+from petstore_api.exceptions import ApiKeyError
+from petstore_api.exceptions import ApiException
 # import models into sdk package
 from petstore_api.models.additional_properties_any_type import AdditionalPropertiesAnyType
 from petstore_api.models.additional_properties_array import AdditionalPropertiesArray
@@ -72,3 +77,4 @@ from petstore_api.models.type_holder_default import TypeHolderDefault
 from petstore_api.models.type_holder_example import TypeHolderExample
 from petstore_api.models.user import User
 from petstore_api.models.xml_item import XmlItem
+
