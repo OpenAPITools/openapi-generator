@@ -32,9 +32,8 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <!-- specify the swagger yaml -->
-                            <!--<inputSpec>${project.basedir}/swagger.yaml</inputSpec>-->
-                            <inputSpec>swagger.yaml</inputSpec>
+                            <!-- specify the OpenAPI spec -->
+                            <inputSpec>openapi.yaml</inputSpec>
 
                             <!-- target to generate java client code -->
                             <generatorName>java</generatorName>
