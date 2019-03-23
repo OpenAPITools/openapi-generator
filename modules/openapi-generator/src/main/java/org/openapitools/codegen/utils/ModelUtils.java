@@ -1004,7 +1004,7 @@ public class ModelUtils {
      * @param body request body of the operation
      * @return map of param name and encoding object
      */
-    public Map<String, Encoding> getEncodingFromRequestBody(RequestBody body) {
+    public static Map<String, Encoding> getEncodingFromRequestBody(RequestBody body) {
         return getEncodingFromContent(body.getContent());
     }
 
@@ -1014,11 +1014,11 @@ public class ModelUtils {
      * @param response api response of the operation
      * @return map of param name and encoding object
      */
-    public Map<String, Encoding> getEncodingFromResponse(ApiResponse response) {
+    public static Map<String, Encoding> getEncodingFromResponse(ApiResponse response) {
         return getEncodingFromContent(response.getContent());
     }
 
-    private Map<String, Encoding> getEncodingFromContent(Content content) {
+    private static Map<String, Encoding> getEncodingFromContent(Content content) {
         if (content == null || content.isEmpty()) {
             return null;
         }
