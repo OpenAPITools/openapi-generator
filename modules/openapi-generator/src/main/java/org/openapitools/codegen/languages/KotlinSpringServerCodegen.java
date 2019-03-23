@@ -503,6 +503,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return objs;
     }
 
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        parameter.isNullable |= !parameter.required && "null".equals(String.valueOf(parameter.defaultValue));
+    }
+
     private interface DataTypeAssigner {
         void setReturnType(String returnType);
 
