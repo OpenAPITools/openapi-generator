@@ -18,7 +18,7 @@ class StoreApiServiceImpl : StoreApiService {
         TODO("Implement me")
     }
 
-    override fun placeOrder(order: Order): Order {
+    override fun placeOrder(body: Order): Order {
         TODO("Implement me")
     }
 }
