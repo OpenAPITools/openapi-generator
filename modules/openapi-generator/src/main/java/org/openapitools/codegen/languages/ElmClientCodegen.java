@@ -417,8 +417,9 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
 
-        boolean hasDateTime = false;
         boolean hasDate = false;
+        boolean hasDateTime = false;
+        boolean hasUuid = false;
         final Map<String, Set<String>> dependencies = new HashMap<>();
 
         for (CodegenOperation op : ops) {
@@ -427,8 +428,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 for (CodegenParameter param : op.pathParams) {
                     final String var = paramToString("params", param, false, null);
                     path = path.replace("{" + param.paramName + "}", "\" ++ " + var + " ++ \"");
-                    hasDateTime = hasDateTime || param.isDateTime;
-                    hasDate = hasDate || param.isDate;
                 }
                 op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
             } else {
@@ -437,8 +436,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 for (CodegenParameter param : op.pathParams) {
                     String str = paramToString("params", param, false, null);
                     path = path.replace("{" + param.paramName + "}", str);
-                    hasDateTime = hasDateTime || param.isDateTime;
-                    hasDate = hasDate || param.isDate;
                 }
                 op.path = path;
 
@@ -474,6 +471,19 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                     }
                 }
             }
+
+            hasDate = hasDate
+                || op.queryParams.stream().filter(param -> param.isDate).findAny().isPresent()
+                || op.pathParams.stream().filter(param -> param.isDate).findAny().isPresent()
+                || op.headerParams.stream().filter(param -> param.isDate).findAny().isPresent();
+            hasDateTime = hasDate
+                || op.queryParams.stream().filter(param -> param.isDateTime).findAny().isPresent()
+                || op.pathParams.stream().filter(param -> param.isDateTime).findAny().isPresent()
+                || op.headerParams.stream().filter(param -> param.isDateTime).findAny().isPresent();
+            hasUuid = hasUuid
+                || op.queryParams.stream().filter(param -> param.isUuid).findAny().isPresent()
+                || op.pathParams.stream().filter(param -> param.isUuid).findAny().isPresent()
+                || op.headerParams.stream().filter(param -> param.isUuid).findAny().isPresent();
         }
 
         final List<ElmImport> elmImports = new ArrayList<>();
@@ -500,6 +510,14 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             elmImport.moduleName = "DateTime";
             elmImport.exposures = new TreeSet<>();
             elmImport.exposures.add("DateTime");
+            elmImport.hasExposures = true;
+            elmImports.add(elmImport);
+        }
+        if (hasUuid) {
+            final ElmImport elmImport = new ElmImport();
+            elmImport.moduleName = "Uuid";
+            elmImport.exposures = new TreeSet<>();
+            elmImport.exposures.add("Uuid");
             elmImport.hasExposures = true;
             elmImports.add(elmImport);
         }
@@ -553,7 +571,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         String mapFn = null;
-        if (param.isString || param.isUuid || param.isBinary || param.isByteArray) {
+        if (param.isString || param.isBinary || param.isByteArray) {
             mapFn = "";
         } else if (param.isBoolean) {
             mapFn = "(\\val -> if val then \"true\" else \"false\")";
@@ -561,6 +579,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             mapFn = "DateTime.toString";
         } else if (param.isDate) {
             mapFn = "DateOnly.toString";
+        } else if (param.isUuid) {
+            mapFn = "Uuid.toString";
         } else if (ElmVersion.ELM_018.equals(elmVersion)) {
             mapFn = "toString";
         } else if (param.isInteger || param.isLong) {
