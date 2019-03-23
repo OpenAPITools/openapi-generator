@@ -4240,7 +4240,7 @@ public class DefaultCodegen implements CodegenConfig {
             return false;
         }
 
-        Schema schema = ModelUtils.getSchemaFromRequestBody(requestBody);
+        Schema schema = ModelUtils.getSchemaFromRequestBody(requestBody,"body");
         return ModelUtils.getReferencedSchema(openAPI, schema) != null;
     }
 
@@ -4345,7 +4345,7 @@ public class DefaultCodegen implements CodegenConfig {
     public List<CodegenParameter> fromRequestBodyToFormParameters(RequestBody body, Set<String> imports) {
         List<CodegenParameter> parameters = new ArrayList<CodegenParameter>();
         LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
-        Schema schema = ModelUtils.getSchemaFromRequestBody(body);
+        Schema schema = ModelUtils.getSchemaFromRequestBody(body,"form");
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             Map<String, Schema> properties = schema.getProperties();
@@ -4510,7 +4510,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         String name = null;
         LOGGER.debug("Request body = " + body);
-        Schema schema = ModelUtils.getSchemaFromRequestBody(body);
+        Schema schema = ModelUtils.getSchemaFromRequestBody(body,"body");
         if (schema == null) {
             throw new RuntimeException("Request body cannot be null. Possible cause: missing schema in body parameter (OAS v2): " + body);
         }
