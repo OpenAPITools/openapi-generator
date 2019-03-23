@@ -133,8 +133,7 @@ public class ModelUtils {
         visitOpenAPI(openAPI, (s, t) -> {
             if (s.get$ref() != null) {
                 String ref = getSimpleRef(s.get$ref());
-                if ("application/x-www-form-urlencoded".equalsIgnoreCase(t) ||
-                        "multipart/form-data".equalsIgnoreCase(t)) {
+                if (isTypeFormParam(t)) {
                     schemasUsedInFormParam.add(ref);
                 } else {
                     schemasUsedInOtherCases.add(ref);
