@@ -944,4 +944,21 @@ public class ModelUtils {
 
         return false;
     }
+
+    /*
+     * Check if the contentType is for form parameters or not.
+     *
+     * @param String contentType
+     * @return true if contentType is of formparameters else false
+     */
+    public static boolean isTypeFormParam(String contentType) {
+        if ("application/x-www-form-urlencoded".equalsIgnoreCase(contentType) ||
+                  "multipart/form-data".equalsIgnoreCase(contentType) ||
+                        "multipart/related".equalsIgnoreCase(contentType)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
