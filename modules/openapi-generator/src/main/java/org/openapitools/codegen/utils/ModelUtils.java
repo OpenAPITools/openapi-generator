@@ -998,4 +998,39 @@ public class ModelUtils {
         }
     }
 
+    /**
+     * Return the map of parameter name,encoding variables from a RequestBody
+     *
+     * @param body request body of the operation
+     * @return map of param name and encoding object
+     */
+    public Map<String, Encoding> getEncodingFromRequestBody(RequestBody body) {
+        return getEncodingFromContent(body.getContent());
+    }
+
+    /**
+     * Return the map of parameter name,encoding variables from a ApiResponse
+     *
+     * @param response api response of the operation
+     * @return map of param name and encoding object
+     */
+    public Map<String, Encoding> getEncodingFromResponse(ApiResponse response) {
+        return getEncodingFromContent(response.getContent());
+    }
+
+    private Map<String, Encoding> getEncodingFromContent(Content content) {
+        if (content == null || content.isEmpty()) {
+            return null;
+        }
+
+        for (String type : content.keySet()) {
+            if (isTypeFormParam(type)) {
+                 MediaType media = content.get(type);
+                 return media.getEncoding();
+            }
+        }
+        LOGGER.warn("Warning! No encoding param present in \n"+ content);
+        return null;
+    }
+
 }
