@@ -44,6 +44,7 @@ public class CodegenParameter {
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation;
     public boolean isNullable;
+    public Object encoding; //Encoding Object OAS3
 
     /**
      * Determines whether this parameter is mandatory. If the parameter is in "path",
@@ -173,6 +174,7 @@ public class CodegenParameter {
         output.isFreeFormObject = this.isFreeFormObject;
         output.isListContainer = this.isListContainer;
         output.isMapContainer = this.isMapContainer;
+        output.encoding = this.encoding;
 
         return output;
     }
@@ -236,6 +238,7 @@ public class CodegenParameter {
             Objects.equals(vendorExtensions, that.vendorExtensions) &&
             Objects.equals(hasValidation, that.hasValidation) &&
             Objects.equals(isNullable, that.isNullable) &&
+            Objects.equals(encoding, that.encoding) &&
             Objects.equals(required, that.required) &&
             Objects.equals(maximum, that.maximum) &&
             Objects.equals(exclusiveMaximum, that.exclusiveMaximum) &&
@@ -305,6 +308,7 @@ public class CodegenParameter {
             vendorExtensions,
             hasValidation,
             isNullable,
+            encoding,
             required,
             maximum,
             exclusiveMaximum,
