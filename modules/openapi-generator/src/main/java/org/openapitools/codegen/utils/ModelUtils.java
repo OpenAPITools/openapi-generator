@@ -760,6 +760,44 @@ public class ModelUtils {
     }
 
     /**
+     * Return the Schema according to type request from a RequestBody
+     *
+     * @param requestBody request body of the operation
+     * @return requested Schema
+     */
+    public static Schema getSchemaFromResponse(ApiResponse response,String type) {
+        return getSchemaFromContent(response.getContent(),type);
+    }
+
+    /**
+     * Return the Schema according to type requested from a ApiResponse
+     *
+     * @param response api response of the operation
+     * @return requested schema
+     */
+    public static Schema getSchemaFromRequestBody(RequestBody body,String type) {
+        return getSchemaFromContent(body.getContent(),type);
+    }
+
+    private static Schema getSchemaFromContent(Content content, String reqType) {
+        if (content == null || content.isEmpty()) {
+            return null;
+        }
+
+        for (String type : content.keySet()) {
+            if (isTypeFormParam(type) && "form".equalsIgnoreCase(reqType)) {
+                MediaType media = content.get(type);
+                return media.getSchema();
+            } else if (!isTypeFormParam(type) && "body".equalsIgnoreCase(reqType) ) {
+                MediaType media = content.get(type);
+                return media.getSchema();
+            }
+        }
+        LOGGER.warn("warning! Returning \"null\" due to wrong request type or Request/Response body doesnot contain the requested data type");
+        return null;
+    }
+
+    /**
      * Get the actual schema from aliases. If the provided schema is not an alias, the schema itself will be returned.
      *
      * @param openAPI specification being checked
