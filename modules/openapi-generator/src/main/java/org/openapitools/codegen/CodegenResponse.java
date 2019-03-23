@@ -22,6 +22,8 @@ import java.util.*;
 public class CodegenResponse {
     public final List<CodegenProperty> headers = new ArrayList<CodegenProperty>();
     public String code, message;
+    public CodegenParameter bodyParam;
+    public final List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
     public boolean hasMore;
     public List<Map<String, Object>> examples;
     public String dataType, baseType, containerType;
@@ -49,6 +51,8 @@ public class CodegenResponse {
                 "headers=" + headers +
                 ", code='" + code + '\'' +
                 ", message='" + message + '\'' +
+                ", bodyParam='" + bodyParam +
+                ", formParams='" + formParams +
                 ", hasMore=" + hasMore +
                 ", examples=" + examples +
                 ", dataType='" + dataType + '\'' +
@@ -115,6 +119,8 @@ public class CodegenResponse {
                 Objects.equals(headers, that.headers) &&
                 Objects.equals(code, that.code) &&
                 Objects.equals(message, that.message) &&
+                Objects.equals(bodyParam, that.bodyParam) &&
+                Objects.equals(formParams, that.formParams) &&
                 Objects.equals(examples, that.examples) &&
                 Objects.equals(dataType, that.dataType) &&
                 Objects.equals(baseType, that.baseType) &&
@@ -126,7 +132,7 @@ public class CodegenResponse {
 
     @Override
     public int hashCode() {
-        return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders,
+        return Objects.hash(headers, code, message, bodyParam, formParams, hasMore, examples, dataType, baseType, containerType, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isFreeFormObject, isModel, isDefault, simpleType, primitiveType, isMapContainer,
                 isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions);
