@@ -2484,6 +2484,7 @@ public class DefaultCodegen implements CodegenConfig {
             RequestBody bodyVar = ModelUtils.getReferencedRequestBody(this.openAPI, operation.getRequestBody());
             Set<String> contentTypes = bodyVar.getContent().keySet();
             boolean bodyParamTracker = false;
+            // loop over different content types present in request body
             for (String contentType : contentTypes) {
                 if (ModelUtils.isTypeFormParam(contentType)) {
                     // process form parameters
@@ -2525,7 +2526,6 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
             }
-
         }
 
         if (parameters != null) {
@@ -4413,6 +4413,14 @@ public class DefaultCodegen implements CodegenConfig {
                 // Set 'required' flag defined in the schema element
                 if (!codegenParameter.required && schema.getRequired() != null) {
                     codegenParameter.required = schema.getRequired().contains(entry.getKey());
+                }
+
+                // Get Encoding object from request body for indiviual parameter
+                Map<String, Encoding> encoding = ModelUtils.getEncodingFromRequestBody(body);
+                if (encoding != null) {
+                        codegenParameter.encoding = encoding.get(entry.getKey());
+                        codegenParameter.isMultipartParam = true;
+                        //cp.isFormParam = false;
                 }
 
                 parameters.add(codegenParameter);
