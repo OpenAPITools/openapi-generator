@@ -2481,42 +2481,51 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody != null) {
-            if ("application/x-www-form-urlencoded".equalsIgnoreCase(getContentType(requestBody)) ||
-                    "multipart/form-data".equalsIgnoreCase(getContentType(requestBody))) {
-                // process form parameters
-                formParams = fromRequestBodyToFormParameters(requestBody, imports);
-                for (CodegenParameter cp : formParams) {
-                    postProcessParameter(cp);
-                }
-                // add form parameters to the beginning of all parameter list
-                if (prependFormOrBodyParameters) {
+            RequestBody bodyVar = ModelUtils.getReferencedRequestBody(this.openAPI, operation.getRequestBody());
+            Set<String> contentTypes = bodyVar.getContent().keySet();
+            boolean bodyParamTracker = false;
+            for (String contentType : contentTypes) {
+                if (ModelUtils.isTypeFormParam(contentType)) {
+                    // process form parameters
+                    formParams = fromRequestBodyToFormParameters(requestBody, imports);
                     for (CodegenParameter cp : formParams) {
-                        allParams.add(cp.copy());
+                        postProcessParameter(cp);
+                    }
+                    // add form parameters to the beginning of all parameter list
+                    if (prependFormOrBodyParameters) {
+                        for (CodegenParameter cp : formParams) {
+                            allParams.add(cp.copy());
+                        }
+                    }
+                } else {
+                    // to process body param only once
+                    if (!bodyParamTracker) {
+                        // process body parameter
+                        requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, requestBody);
+
+                        String bodyParameterName = "";
+                        if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
+                            bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
+                        }
+                        bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
+                        bodyParam.description = escapeText(requestBody.getDescription());
+                        postProcessParameter(bodyParam);
+
+                        bodyParams.add(bodyParam);
+
+                        if (prependFormOrBodyParameters) {
+                            allParams.add(bodyParam);
+                        }
+
+                        // add example
+                        if (schemas != null) {
+                            op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<String>(getConsumesInfo(this.openAPI, operation)), bodyParam.baseType);
+                        }
+                        bodyParamTracker = true;
                     }
                 }
-            } else {
-                // process body parameter
-                requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, requestBody);
-
-                String bodyParameterName = "";
-                if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
-                    bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
-                }
-                bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
-                bodyParam.description = escapeText(requestBody.getDescription());
-                postProcessParameter(bodyParam);
-
-                bodyParams.add(bodyParam);
-
-                if (prependFormOrBodyParameters) {
-                    allParams.add(bodyParam);
-                }
-
-                // add example
-                if (schemas != null) {
-                    op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<String>(getConsumesInfo(this.openAPI, operation)), bodyParam.baseType);
-                }
             }
+
         }
 
         if (parameters != null) {
