@@ -98,7 +98,7 @@ module Petstore
     end
 
     # Calculates hash code according to all attributes.
-    # @return [Fixnum] Hash code
+    # @return [Integer] Hash code
     def hash
       [uuid, date_time, map].hash
     end
