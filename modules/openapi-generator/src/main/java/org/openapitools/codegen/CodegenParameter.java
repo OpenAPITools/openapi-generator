@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CodegenParameter {
-    public boolean isFormParam, isQueryParam, isPathParam, isHeaderParam,
+    public boolean isFormParam, isMultipartParam, isQueryParam, isPathParam, isHeaderParam,
             isCookieParam, isBodyParam, hasMore, isContainer,
             secondaryParam, isCollectionFormatMulti, isPrimitiveType, isModel;
     public String baseName, paramName, dataType, datatypeWithEnum, dataFormat,
@@ -117,6 +117,7 @@ public class CodegenParameter {
         output.unescapedDescription = this.unescapedDescription;
         output.baseType = this.baseType;
         output.isFormParam = this.isFormParam;
+        output.isMultipartParam = this.isMultipartParam;
         output.isQueryParam = this.isQueryParam;
         output.isPathParam = this.isPathParam;
         output.isHeaderParam = this.isHeaderParam;
@@ -185,6 +186,7 @@ public class CodegenParameter {
 
         return Objects.equals(isEnum, that.isEnum) &&
             Objects.equals(isFormParam, that.isFormParam) &&
+            Objects.equals(isMultipartParam, that.isMultipartParam) &&
             Objects.equals(isQueryParam, that.isQueryParam) &&
             Objects.equals(isPathParam, that.isPathParam) &&
             Objects.equals(isHeaderParam, that.isHeaderParam) &&
@@ -252,6 +254,7 @@ public class CodegenParameter {
     public int hashCode() {
         return Objects.hash(
             isFormParam,
+            isMultipartParam,
             isQueryParam,
             isPathParam,
             isHeaderParam,
@@ -320,6 +323,7 @@ public class CodegenParameter {
     public java.lang.String toString() {
         return "CodegenParameter{" +
                 "isFormParam=" + isFormParam +
+                ", isMultipartParam=" + isMultipartParam +
                 ", isQueryParam=" + isQueryParam +
                 ", isPathParam=" + isPathParam +
                 ", isHeaderParam=" + isHeaderParam +
@@ -385,4 +389,3 @@ public class CodegenParameter {
                 '}';
     }
 }
-
