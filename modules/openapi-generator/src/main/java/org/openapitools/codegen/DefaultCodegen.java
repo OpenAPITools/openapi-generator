@@ -4536,18 +4536,35 @@ public class DefaultCodegen implements CodegenConfig {
             throw new RuntimeException("body in fromRequestBody cannot be null!");
         }
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
-        codegenParameter.baseName = "UNKNOWN_BASE_NAME";
-        codegenParameter.paramName = "UNKNOWN_PARAM_NAME";
         codegenParameter.description = escapeText(body.getDescription());
         codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
-        codegenParameter.isBodyParam = Boolean.TRUE;
 
-        String name = null;
         LOGGER.debug("Request body = " + body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body,"body");
         if (schema == null) {
             throw new RuntimeException("Request body cannot be null. Possible cause: missing schema in body parameter (OAS v2): " + body);
         }
+
+        fromBodyProperty(codegenParameter,schema,imports,bodyParameterName);
+
+        // set the parameter's example value
+        // should be overridden by lang codegen
+        setParameterExampleValue(codegenParameter, body);
+
+        return codegenParameter;
+    }
+
+    public void fromBodyProperty(CodegenParameter codegenParameter, Schema schema, Set<String> imports, String bodyParameterName) {
+
+        if(codegenParameter == null) {
+            codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+        }
+
+        codegenParameter.baseName = "UNKNOWN_BASE_NAME";
+        codegenParameter.paramName = "UNKNOWN_PARAM_NAME";
+        codegenParameter.isBodyParam = Boolean.TRUE;
+
+        String name = null;
 
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
@@ -4734,12 +4751,6 @@ public class DefaultCodegen implements CodegenConfig {
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
         }
-
-        // set the parameter's example value
-        // should be overridden by lang codegen
-        setParameterExampleValue(codegenParameter, body);
-
-        return codegenParameter;
     }
 
     protected void addOption(String key, String description, String defaultValue) {
