@@ -336,6 +336,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                     if (!fixedPath.equals(pathname)) {
                         LOGGER.warn("Path '" + pathname + "' is not consistant with Python variable names. It will be replaced by '" + fixedPath + "'");
                         paths.remove(pathname);
+                        path.addExtension("x-python-connexion-openapi-name", pathname);
                         paths.put(fixedPath, path);
                     }
                 }
@@ -364,6 +365,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                                 String pythonParameterName = this.toParamName(swaggerParameterName);
                                 if (!swaggerParameterName.equals(pythonParameterName)) {
                                     LOGGER.warn("Parameter name '" + swaggerParameterName + "' is not consistant with Python variable names. It will be replaced by '" + pythonParameterName + "'");
+                                    parameter.addExtension("x-python-connexion-openapi-name", swaggerParameterName);
                                     parameter.setName(pythonParameterName);
                                 }
                                 if (swaggerParameterName.isEmpty()) {
@@ -474,6 +476,70 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        // XXX - Revert the original parameter (and path) names to make sure we have
+        //       a consistent REST interface across other server/client languages:
+        //
+        // XXX - Reverts `x-python-connexion-openapi-name` back to the original (query/path) parameter name.
+        //       We do not want to have our REST API itself being converted to pythonic params.
+        //       This would be incompatible with other server implementations.
+        OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
+        //OpenAPI openAPI = (OpenAPI) objs.remove("openAPI");
+        Map<String, PathItem> paths = openAPI.getPaths();
+        if (paths != null) {
+            List<String> pathnames = new ArrayList(paths.keySet());
+            for (String pythonPathname : pathnames) {
+                PathItem path = paths.get(pythonPathname);
+
+                // Fix path parameters back to original casing
+                Map<String, Object> pathExtensions = path.getExtensions();
+                if (pathExtensions != null) {
+                    // Get and remove the (temporary) vendor extension
+                    String openapiPathname = (String) pathExtensions.remove("x-python-connexion-openapi-name");
+                    if (openapiPathname != null && openapiPathname != pythonPathname) {
+                        LOGGER.info("Path '" + pythonPathname + "' is not consistant with the original OpenAPI definition. It will be replaced back by '" + openapiPathname + "'");
+                        paths.remove(pythonPathname);
+                        paths.put(openapiPathname, path);
+                    }
+                }
+
+                Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
+                if (operationMap != null) {
+                    for (HttpMethod method : operationMap.keySet()) {
+                        Operation operation = operationMap.get(method);
+                        if (operation.getParameters() != null) {
+                            for (Parameter parameter: operation.getParameters()) {
+                                Map<String, Object> parameterExtensions = parameter.getExtensions();
+                                if (parameterExtensions != null) {
+                                    // Get and remove the (temporary) vendor extension
+                                    String swaggerParameterName = (String) parameterExtensions.remove("x-python-connexion-openapi-name");
+                                    if (swaggerParameterName != null) {
+                                        String pythonParameterName = parameter.getName();
+                                        if (swaggerParameterName != pythonParameterName) {
+                                            LOGGER.info("Reverting name of parameter '" + pythonParameterName + "' of operation '" + operation.getOperationId() + "' back to '" + swaggerParameterName + "'");
+                                            parameter.setName(swaggerParameterName);
+                                        } else {
+                                            LOGGER.debug("Name of parameter '" + pythonParameterName + "' of operation '" + operation.getOperationId() + "' was unchanged.");
+                                        }
+                                    } else {
+                                        LOGGER.debug("x-python-connexion-openapi-name was not set on parameter '" + parameter.getName() + "' of operation '" + operation.getOperationId() + "'");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Sort path names after variable name fix
+            List<String> recoveredPathnames = new ArrayList(paths.keySet());
+            Collections.sort(recoveredPathnames);
+            for (String pathname: recoveredPathnames) {
+                PathItem pathItem = paths.remove(pathname);
+                paths.put(pathname, pathItem);
+            }
+        }
+        //objs.put("openAPI", openAPI);
+
         generateYAMLSpecFile(objs);
 
         for (Map<String, Object> operations : getOperations(objs)) {
