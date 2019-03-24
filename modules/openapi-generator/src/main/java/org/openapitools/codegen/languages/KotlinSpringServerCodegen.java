@@ -506,7 +506,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
-        parameter.isNullable |= !parameter.required && "null".equals(String.valueOf(parameter.defaultValue));
+        parameter.defaultValue = "null".equals(String.valueOf(parameter.defaultValue)) ? null : parameter.defaultValue;
+        parameter.isNullable |= !parameter.required && parameter.defaultValue == null;
     }
 
     private interface DataTypeAssigner {
