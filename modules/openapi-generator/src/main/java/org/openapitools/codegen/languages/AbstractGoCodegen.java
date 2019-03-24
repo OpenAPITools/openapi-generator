@@ -487,6 +487,19 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         addedOSImport = true;
                     }
                 }
+                if (model.isEnum) {
+                    // For enum values prepend with var name to help prevent namespace collision
+                    String enumPrefix = toEnumVarName(model.name, model.dataType) + "_";
+                    List<Map<String, Object>> enumVars = (List<Map<String, Object>>) model.allowableValues.get("enumVars");
+                    if (enumVars != null) {
+                        for (Map<String, Object> enumVar : enumVars) {
+                            String enumName = (String) enumVar.get("name");
+                            if (enumName != null) {
+                                enumVar.put("name", enumPrefix + enumName);
+                            }
+                        }
+                    }
+                }
             }
         }
         // recursively add import for mapping one type to multiple imports

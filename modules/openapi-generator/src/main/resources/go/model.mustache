@@ -35,9 +35,32 @@ type {{classname}} struct {
 {{#description}}
 	// {{{description}}}
 {{/description}}
-	{{name}} {{#isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+	{{name}} {{#isNullable}}*{{/isNullable}}{{#isEnum}}{{classname}}{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
 }
 {{/isEnum}}
+{{! Define any inline enums from above}}
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+
+{{#description}}
+// {{{name}}} : {{{description}}}
+{{/description}}
+type {{classname}}{{nameInCamelCase}} {{^format}}{{datatype}}{{/format}}{{#format}}{{{format}}}{{/format}}
+
+// List of {{classname}}{{nameInCamelCase}}
+const (
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{^-first}}
+	{{/-first}}
+	{{datatypeWithEnum}}_{{name}} {{classname}}{{nameInCamelCase}} = "{{{value}}}"
+	{{/enumVars}}
+	{{/allowableValues}}
+)
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
 {{/model}}
 {{/models}}
