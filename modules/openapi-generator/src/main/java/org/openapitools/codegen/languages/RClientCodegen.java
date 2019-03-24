@@ -621,7 +621,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
-
         if (codegenParameter.isListContainer) { // array
             return "list(" + constructExampleCode(codegenParameter.items, modelMaps) + ")";
         } else if (codegenParameter.isMapContainer) { // TODO: map
@@ -678,7 +677,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         example = codegenModel.name + "$new(";
         List<String> propertyExamples = new ArrayList<>();
         for (CodegenProperty codegenProperty : codegenModel.vars) {
-             propertyExamples.add(constructExampleCode(codegenProperty, modelMaps));
+            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps));
         }
         example += StringUtils.join(propertyExamples, ", ");
         example += ")";
