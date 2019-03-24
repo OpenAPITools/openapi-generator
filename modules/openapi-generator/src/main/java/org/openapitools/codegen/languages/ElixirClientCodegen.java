@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -52,8 +53,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     String supportedElixirVersion = "1.4";
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
-            "{:tesla, \"~> 0.8\"}",
-            "{:poison, \">= 1.0.0\"}"
+            "{:tesla, \"~> 1.0.0\"}",
+            "{:poison, \"~> 3.0.0\"}"
     );
 
     public ElixirClientCodegen() {
@@ -310,6 +311,11 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         return new ExtendedCodegenModel(cm);
     }
 
+    @Override
+    public CodegenResponse fromResponse(String responseCode, ApiResponse resp) {
+        return new ExtendedCodegenResponse(super.fromResponse(responseCode, resp));
+    }
+
     // We should use String.join if we can use Java8
     String join(CharSequence charSequence, Iterable<String> iterable) {
         StringBuilder buf = new StringBuilder();
@@ -515,6 +521,91 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         return toModelName(type);
     }
 
+    class ExtendedCodegenResponse extends CodegenResponse {
+        public boolean isDefinedDefault;
+
+        public ExtendedCodegenResponse(CodegenResponse o) {
+            super();
+
+            this.headers.addAll(o.headers);
+            this.code = o.code;
+            this.message = o.message;
+            this.hasMore = o.hasMore;
+            this.examples = o.examples;
+            this.dataType = o.dataType;
+            this.baseType = o.baseType;
+            this.containerType = o.containerType;
+            this.hasHeaders = o.hasHeaders;
+            this.isString = o.isString;
+            this.isNumeric = o.isNumeric;
+            this.isInteger = o.isInteger;
+            this.isLong = o.isLong;
+            this.isNumber = o.isNumber;
+            this.isFloat = o.isFloat;
+            this.isDouble = o.isDouble;
+            this.isByteArray = o.isByteArray;
+            this.isBoolean = o.isBoolean;
+            this.isDate = o.isDate;
+            this.isDateTime = o.isDateTime;
+            this.isUuid = o.isUuid;
+            this.isEmail = o.isEmail;
+            this.isModel = o.isModel;
+            this.isFreeFormObject = o.isFreeFormObject;
+            this.isDefault = o.isDefault;
+            this.simpleType = o.simpleType;
+            this.primitiveType = o.primitiveType;
+            this.isMapContainer = o.isMapContainer;
+            this.isListContainer = o.isListContainer;
+            this.isBinary = o.isBinary;
+            this.isFile = o.isFile;
+            this.schema = o.schema;
+            this.jsonSchema = o.jsonSchema;
+            this.vendorExtensions = o.vendorExtensions;
+
+            this.isDefinedDefault = (this.code.equals("0") || this.code.equals("default"));
+        }
+
+        public String codeMappingKey(){
+            if(this.isDefinedDefault) {
+                return ":default";
+            }
+
+            if(code.matches("^\\d{3}$")){
+                return code;
+            }
+
+            LOGGER.warn("Unknown HTTP status code: " + this.code);
+            return "\"" + code + "\"";
+        }
+
+        public String decodedStruct() {
+            // Let Poison decode the entire response into a generic blob
+            if (isMapContainer) {
+                return "%{}";
+            }
+            // Primitive return type, don't even try to decode
+            if (baseType == null || (simpleType && primitiveType)) {
+                return "false";
+            } else if (isListContainer && languageSpecificPrimitives().contains(baseType)) {
+                return "[]";
+            }
+            StringBuilder sb = new StringBuilder();
+            if (isListContainer) {
+                sb.append("[");
+            }
+            sb.append("%");
+            sb.append(moduleName);
+            sb.append(".Model.");
+            sb.append(baseType);
+            sb.append("{}");
+            if (isListContainer) {
+                sb.append("]");
+            }
+            return sb.toString();
+        }
+
+    }
+
     class ExtendedCodegenOperation extends CodegenOperation {
         private List<String> pathTemplateNames = new ArrayList<String>();
         private String replacedPathName;
@@ -687,32 +778,6 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 sb.append(property.baseType);
                 sb.append(".t");
             }
-        }
-
-        public String decodedStruct() {
-            // Let Poison decode the entire response into a generic blob
-            if (isMapContainer) {
-                return "";
-            }
-            // Primitive return type, don't even try to decode
-            if (returnBaseType == null || (returnSimpleType && returnTypeIsPrimitive)) {
-                return "false";
-            } else if (isListContainer && languageSpecificPrimitives().contains(returnBaseType)) {
-                return "[]";
-            }
-            StringBuilder sb = new StringBuilder();
-            if (isListContainer) {
-                sb.append("[");
-            }
-            sb.append("%");
-            sb.append(moduleName);
-            sb.append(".Model.");
-            sb.append(returnBaseType);
-            sb.append("{}");
-            if (isListContainer) {
-                sb.append("]");
-            }
-            return sb.toString();
         }
     }
 

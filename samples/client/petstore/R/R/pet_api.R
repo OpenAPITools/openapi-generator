@@ -56,17 +56,17 @@ PetApi <- R6::R6Class(
         self$apiClient <- ApiClient$new()
       }
     },
-    AddPet = function(pet, ...){
+    AddPet = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`pet`)) {
-        stop("Missing required parameter `pet`.")
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
       }
 
-      if (!missing(`pet`)) {
-        body <- `pet`$toJSONString()
+      if (!missing(`body`)) {
+        body <- `body`$toJSONString()
       } else {
         body <- NULL
       }
@@ -104,7 +104,7 @@ PetApi <- R6::R6Class(
 
       urlPath <- "/pet/{petId}"
       if (!missing(`pet.id`)) {
-        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
+        urlPath <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), urlPath)
       }
 
       # OAuth token
@@ -199,7 +199,7 @@ PetApi <- R6::R6Class(
 
       urlPath <- "/pet/{petId}"
       if (!missing(`pet.id`)) {
-        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
+        urlPath <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), urlPath)
       }
 
       # API key authentication
@@ -223,17 +223,17 @@ PetApi <- R6::R6Class(
       }
 
     },
-    UpdatePet = function(pet, ...){
+    UpdatePet = function(body, ...){
       args <- list(...)
       queryParams <- list()
       headerParams <- c()
 
-      if (missing(`pet`)) {
-        stop("Missing required parameter `pet`.")
+      if (missing(`body`)) {
+        stop("Missing required parameter `body`.")
       }
 
-      if (!missing(`pet`)) {
-        body <- `pet`$toJSONString()
+      if (!missing(`body`)) {
+        body <- `body`$toJSONString()
       } else {
         body <- NULL
       }
@@ -274,7 +274,7 @@ PetApi <- R6::R6Class(
 
       urlPath <- "/pet/{petId}"
       if (!missing(`pet.id`)) {
-        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
+        urlPath <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), urlPath)
       }
 
       # OAuth token
@@ -312,7 +312,7 @@ PetApi <- R6::R6Class(
 
       urlPath <- "/pet/{petId}/uploadImage"
       if (!missing(`pet.id`)) {
-        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
+        urlPath <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), urlPath)
       }
 
       # OAuth token

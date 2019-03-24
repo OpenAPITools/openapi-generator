@@ -21,7 +21,7 @@
 
 namespace OpenAPI {
 
-OAIStoreApiRequest::OAIStoreApiRequest(QHttpEngine::Socket *s, OAIStoreApiHandler* hdl) : QObject(s), socket(s), handler(hdl) {
+OAIStoreApiRequest::OAIStoreApiRequest(QHttpEngine::Socket *s, QSharedPointer<OAIStoreApiHandler> hdl) : QObject(s), socket(s), handler(hdl) {
     auto headers = s->headers();
     for(auto itr = headers.begin(); itr != headers.end(); itr++) {
         requestHeaders.insert(QString(itr.key()), QString(itr.value()));
@@ -52,7 +52,7 @@ QHttpEngine::Socket* OAIStoreApiRequest::getRawSocket(){
 
 void OAIStoreApiRequest::deleteOrderRequest(const QString& order_idstr){
     qDebug() << "/v2/store/order/{orderId}";
-    connect(this, &OAIStoreApiRequest::deleteOrder, handler, &OAIStoreApiHandler::deleteOrder);
+    connect(this, &OAIStoreApiRequest::deleteOrder, handler.data(), &OAIStoreApiHandler::deleteOrder);
 
     
     QString order_id;
@@ -65,7 +65,7 @@ void OAIStoreApiRequest::deleteOrderRequest(const QString& order_idstr){
 
 void OAIStoreApiRequest::getInventoryRequest(){
     qDebug() << "/v2/store/inventory";
-    connect(this, &OAIStoreApiRequest::getInventory, handler, &OAIStoreApiHandler::getInventory);
+    connect(this, &OAIStoreApiRequest::getInventory, handler.data(), &OAIStoreApiHandler::getInventory);
 
     
 
@@ -76,7 +76,7 @@ void OAIStoreApiRequest::getInventoryRequest(){
 
 void OAIStoreApiRequest::getOrderByIdRequest(const QString& order_idstr){
     qDebug() << "/v2/store/order/{orderId}";
-    connect(this, &OAIStoreApiRequest::getOrderById, handler, &OAIStoreApiHandler::getOrderById);
+    connect(this, &OAIStoreApiRequest::getOrderById, handler.data(), &OAIStoreApiHandler::getOrderById);
 
     
     qint64 order_id;
@@ -89,10 +89,11 @@ void OAIStoreApiRequest::getOrderByIdRequest(const QString& order_idstr){
 
 void OAIStoreApiRequest::placeOrderRequest(){
     qDebug() << "/v2/store/order";
-    connect(this, &OAIStoreApiRequest::placeOrder, handler, &OAIStoreApiHandler::placeOrder);
+    connect(this, &OAIStoreApiRequest::placeOrder, handler.data(), &OAIStoreApiHandler::placeOrder);
 
     
  
+    
     QJsonDocument doc;
     socket->readJson(doc);
     QJsonObject obj = doc.object();

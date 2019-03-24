@@ -128,7 +128,14 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [OpenApiPetstore.AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
+ - [OpenApiPetstore.AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
+ - [OpenApiPetstore.AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [OpenApiPetstore.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [OpenApiPetstore.AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
+ - [OpenApiPetstore.AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
+ - [OpenApiPetstore.AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
+ - [OpenApiPetstore.AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [OpenApiPetstore.Animal](docs/Animal.md)
  - [OpenApiPetstore.ApiResponse](docs/ApiResponse.md)
  - [OpenApiPetstore.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)

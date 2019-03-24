@@ -72,7 +72,6 @@ deleteOrder (OrderIdText orderId) =
   _mkRequest "DELETE" ["/store/order/",toPath orderId]
 
 data DeleteOrder  
-
 instance Produces DeleteOrder MimeNoContent
 
 
@@ -93,7 +92,6 @@ getInventory =
     `_hasAuthType` (P.Proxy :: P.Proxy AuthApiKeyApiKey)
 
 data GetInventory  
-
 -- | @application/json@
 instance Produces GetInventory MimeJSON
 
@@ -114,7 +112,6 @@ getOrderById  _ (OrderId orderId) =
   _mkRequest "GET" ["/store/order/",toPath orderId]
 
 data GetOrderById  
-
 -- | @application/xml@
 instance Produces GetOrderById MimeXML
 -- | @application/json@
@@ -141,6 +138,9 @@ data PlaceOrder
 
 -- | /Body Param/ "body" - order placed for purchasing the pet
 instance HasBodyParam PlaceOrder Order 
+    
+-- | @*/*@
+instance MimeType mtype => Consumes PlaceOrder mtype
 
 -- | @application/xml@
 instance Produces PlaceOrder MimeXML

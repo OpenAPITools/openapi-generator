@@ -54,10 +54,6 @@ public class PhpSlimServerOptionsTest extends AbstractOptionsTest {
             times = 1;
             clientCodegen.setSrcBasePath(PhpSlimServerOptionsProvider.SRC_BASE_PATH_VALUE);
             times = 1;
-            clientCodegen.setGitUserId(PhpSlimServerOptionsProvider.GIT_USER_ID_VALUE);
-            times = 1;
-            clientCodegen.setGitRepoId(PhpSlimServerOptionsProvider.GIT_REPO_ID_VALUE);
-            times = 1;
             clientCodegen.setArtifactVersion(PhpSlimServerOptionsProvider.ARTIFACT_VERSION_VALUE);
             times = 1;
             clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(PhpSlimServerOptionsProvider.SORT_PARAMS_VALUE));

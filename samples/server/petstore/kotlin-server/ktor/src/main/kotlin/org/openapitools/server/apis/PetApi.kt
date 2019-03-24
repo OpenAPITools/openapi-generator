@@ -15,8 +15,7 @@ import com.google.gson.Gson
 import io.ktor.application.call
 import io.ktor.auth.UserIdPrincipal
 import io.ktor.auth.authentication
-import io.ktor.auth.basicAuthentication
-import io.ktor.auth.oauth
+import io.ktor.auth.authenticate
 import io.ktor.auth.OAuthAccessTokenResponse
 import io.ktor.auth.OAuthServerSettings
 import io.ktor.http.ContentType
@@ -26,27 +25,20 @@ import io.ktor.response.respond
 import io.ktor.response.respondText
 import io.ktor.routing.*
 
-import kotlinx.coroutines.experimental.asCoroutineDispatcher
-
-import org.openapitools.server.ApplicationAuthProviders
 import org.openapitools.server.Paths
-import org.openapitools.server.ApplicationExecutors
-import org.openapitools.server.HTTP.client
 import org.openapitools.server.infrastructure.ApiPrincipal
-import org.openapitools.server.infrastructure.apiKeyAuth
 
-// ktor 0.9.x is missing io.ktor.locations.DELETE, this adds it.
-// see https://github.com/ktorio/ktor/issues/288
-import org.openapitools.server.delete
 
 import org.openapitools.server.models.ApiResponse
 import org.openapitools.server.models.Pet
 
+@KtorExperimentalLocationsAPI
 fun Route.PetApi() {
     val gson = Gson()
     val empty = mutableMapOf<String, Any?>()
 
     route("/pet") {
+            authenticate("petstore_auth") {
         post {
             val principal = call.authentication.principal<OAuthAccessTokenResponse>()
             
@@ -56,25 +48,11 @@ fun Route.PetApi() {
                 call.respond(HttpStatusCode.NotImplemented)
             }
         }
-    }
-    .apply {
-      // TODO: ktor doesn't allow different authentication registrations for endpoints sharing the same path but different methods.
-      //       It could be the authentication block is being abused here. Until this is resolved, swallow duplicate exceptions.
-
-        try {
-            authentication {
-                oauth(client, ApplicationExecutors.asCoroutineDispatcher(), { ApplicationAuthProviders["petstore_auth"] }, {
-                    // TODO: define a callback url here.
-                    "/"
-                })
             }
-        } catch(e: io.ktor.application.DuplicateApplicationFeatureException){
-            application.environment.log.warn("authentication block for '/pet' is duplicated in code. " +
-            "Generated endpoints may need to be merged under a 'route' entry.")
-        }
     }
 
-    delete<Paths.deletePet> {  it: Paths.deletePet ->
+
+    delete<Paths.deletePet> {  _: Paths.deletePet ->
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
         if (principal == null) {
@@ -83,26 +61,9 @@ fun Route.PetApi() {
             call.respond(HttpStatusCode.NotImplemented)
         }
     }
-    .apply {
-      // TODO: ktor doesn't allow different authentication registrations for endpoints sharing the same path but different methods.
-      //       It could be the authentication block is being abused here. Until this is resolved, swallow duplicate exceptions.
 
-        try {
-            authentication {
-                oauthAtLocation<Paths.deletePet>(client, ApplicationExecutors.asCoroutineDispatcher(),
-                        providerLookup = { ApplicationAuthProviders["petstore_auth"] },
-                        urlProvider = { currentLocation, provider ->
-                           // TODO: define a callback url here.
-                           "/"
-                        })
-            }
-        } catch(e: io.ktor.application.DuplicateApplicationFeatureException){
-            application.environment.log.warn("authentication block for '/pet/{petId}' is duplicated in code. " +
-            "Generated endpoints may need to be merged under a 'route' entry.")
-        }
-    }
 
-    get<Paths.findPetsByStatus> {  it: Paths.findPetsByStatus ->
+    get<Paths.findPetsByStatus> {  _: Paths.findPetsByStatus ->
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
         if (principal == null) {
@@ -134,26 +95,9 @@ fun Route.PetApi() {
             }
         }
     }
-    .apply {
-      // TODO: ktor doesn't allow different authentication registrations for endpoints sharing the same path but different methods.
-      //       It could be the authentication block is being abused here. Until this is resolved, swallow duplicate exceptions.
 
-        try {
-            authentication {
-                oauthAtLocation<Paths.findPetsByStatus>(client, ApplicationExecutors.asCoroutineDispatcher(),
-                        providerLookup = { ApplicationAuthProviders["petstore_auth"] },
-                        urlProvider = { currentLocation, provider ->
-                           // TODO: define a callback url here.
-                           "/"
-                        })
-            }
-        } catch(e: io.ktor.application.DuplicateApplicationFeatureException){
-            application.environment.log.warn("authentication block for '/pet/findByStatus' is duplicated in code. " +
-            "Generated endpoints may need to be merged under a 'route' entry.")
-        }
-    }
 
-    get<Paths.findPetsByTags> {  it: Paths.findPetsByTags ->
+    get<Paths.findPetsByTags> {  _: Paths.findPetsByTags ->
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()
         
         if (principal == null) {
@@ -185,26 +129,9 @@ fun Route.PetApi() {
             }
         }
     }
-    .apply {
-      // TODO: ktor doesn't allow different authentication registrations for endpoints sharing the same path but different methods.
-      //       It could be the authentication block is being abused here. Until this is resolved, swallow duplicate exceptions.
 
-        try {
-            authentication {
-                oauthAtLocation<Paths.findPetsByTags>(client, ApplicationExecutors.asCoroutineDispatcher(),
-                        providerLookup = { ApplicationAuthProviders["petstore_auth"] },
-                        urlProvider = { currentLocation, provider ->
-                           // TODO: define a callback url here.
-                           "/"
-                        })
-            }
-        } catch(e: io.ktor.application.DuplicateApplicationFeatureException){
-            application.environment.log.warn("authentication block for '/pet/findByTags' is duplicated in code. " +
-            "Generated endpoints may need to be merged under a 'route' entry.")
-        }
-    }
 
-    get<Paths.getPetById> {  it: Paths.getPetById ->
+    get<Paths.getPetById> {  _: Paths.getPetById ->
         val principal = call.authentication.principal<ApiPrincipal>()
         
         if (principal == null) {
@@ -236,29 +163,10 @@ fun Route.PetApi() {
             }
         }
     }
-    .apply {
-      // TODO: ktor doesn't allow different authentication registrations for endpoints sharing the same path but different methods.
-      //       It could be the authentication block is being abused here. Until this is resolved, swallow duplicate exceptions.
 
-        try {
-            authentication {
-                // "Implement API key auth (api_key) for parameter name 'api_key'."
-                apiKeyAuth("api_key", "header") {
-                    // TODO: "Verify key here , accessible as it.value"
-                    if (it.value == "keyboardcat") {
-                         ApiPrincipal(it)
-                    } else {
-                        null
-                    }
-                }
-            }
-        } catch(e: io.ktor.application.DuplicateApplicationFeatureException){
-            application.environment.log.warn("authentication block for '/pet/{petId}' is duplicated in code. " +
-            "Generated endpoints may need to be merged under a 'route' entry.")
-        }
-    }
 
     route("/pet") {
+            authenticate("petstore_auth") {
         put {
             val principal = call.authentication.principal<OAuthAccessTokenResponse>()
             
@@ -268,25 +176,12 @@ fun Route.PetApi() {
                 call.respond(HttpStatusCode.NotImplemented)
             }
         }
-    }
-    .apply {
-      // TODO: ktor doesn't allow different authentication registrations for endpoints sharing the same path but different methods.
-      //       It could be the authentication block is being abused here. Until this is resolved, swallow duplicate exceptions.
-
-        try {
-            authentication {
-                oauth(client, ApplicationExecutors.asCoroutineDispatcher(), { ApplicationAuthProviders["petstore_auth"] }, {
-                    // TODO: define a callback url here.
-                    "/"
-                })
             }
-        } catch(e: io.ktor.application.DuplicateApplicationFeatureException){
-            application.environment.log.warn("authentication block for '/pet' is duplicated in code. " +
-            "Generated endpoints may need to be merged under a 'route' entry.")
-        }
     }
+
 
     route("/pet/{petId}") {
+            authenticate("petstore_auth") {
         post {
             val principal = call.authentication.principal<OAuthAccessTokenResponse>()
             
@@ -296,25 +191,12 @@ fun Route.PetApi() {
                 call.respond(HttpStatusCode.NotImplemented)
             }
         }
-    }
-    .apply {
-      // TODO: ktor doesn't allow different authentication registrations for endpoints sharing the same path but different methods.
-      //       It could be the authentication block is being abused here. Until this is resolved, swallow duplicate exceptions.
-
-        try {
-            authentication {
-                oauth(client, ApplicationExecutors.asCoroutineDispatcher(), { ApplicationAuthProviders["petstore_auth"] }, {
-                    // TODO: define a callback url here.
-                    "/"
-                })
             }
-        } catch(e: io.ktor.application.DuplicateApplicationFeatureException){
-            application.environment.log.warn("authentication block for '/pet/{petId}' is duplicated in code. " +
-            "Generated endpoints may need to be merged under a 'route' entry.")
-        }
     }
+
 
     route("/pet/{petId}/uploadImage") {
+            authenticate("petstore_auth") {
         post {
             val principal = call.authentication.principal<OAuthAccessTokenResponse>()
             
@@ -335,21 +217,7 @@ fun Route.PetApi() {
                 }
             }
         }
-    }
-    .apply {
-      // TODO: ktor doesn't allow different authentication registrations for endpoints sharing the same path but different methods.
-      //       It could be the authentication block is being abused here. Until this is resolved, swallow duplicate exceptions.
-
-        try {
-            authentication {
-                oauth(client, ApplicationExecutors.asCoroutineDispatcher(), { ApplicationAuthProviders["petstore_auth"] }, {
-                    // TODO: define a callback url here.
-                    "/"
-                })
             }
-        } catch(e: io.ktor.application.DuplicateApplicationFeatureException){
-            application.environment.log.warn("authentication block for '/pet/{petId}/uploadImage' is duplicated in code. " +
-            "Generated endpoints may need to be merged under a 'route' entry.")
-        }
     }
+
 }

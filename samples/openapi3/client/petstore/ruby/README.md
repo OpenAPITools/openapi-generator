@@ -142,6 +142,7 @@ Class | Method | HTTP request | Description
  - [Petstore::Model200Response](docs/Model200Response.md)
  - [Petstore::ModelReturn](docs/ModelReturn.md)
  - [Petstore::Name](docs/Name.md)
+ - [Petstore::NullableClass](docs/NullableClass.md)
  - [Petstore::NumberOnly](docs/NumberOnly.md)
  - [Petstore::Order](docs/Order.md)
  - [Petstore::OuterComposite](docs/OuterComposite.md)

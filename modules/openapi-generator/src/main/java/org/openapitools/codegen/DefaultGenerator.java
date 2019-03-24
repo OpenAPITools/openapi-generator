@@ -68,6 +68,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     private Map<String, String> generatorPropertyDefaults = new HashMap<>();
 
     @Override
+    public boolean getEnableMinimalUpdate() {
+        return config.isEnableMinimalUpdate();
+    }
+
+    @Override
     public Generator opts(ClientOptInput opts) {
         this.opts = opts;
         this.openAPI = opts.getOpenAPI();
@@ -152,7 +157,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         generateModelDocumentation = GeneratorProperties.getProperty(CodegenConstants.MODEL_DOCS) != null ? Boolean.valueOf(GeneratorProperties.getProperty(CodegenConstants.MODEL_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODEL_DOCS, true);
         generateApiTests = GeneratorProperties.getProperty(CodegenConstants.API_TESTS) != null ? Boolean.valueOf(GeneratorProperties.getProperty(CodegenConstants.API_TESTS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_TESTS, true);
         generateApiDocumentation = GeneratorProperties.getProperty(CodegenConstants.API_DOCS) != null ? Boolean.valueOf(GeneratorProperties.getProperty(CodegenConstants.API_DOCS)) : getGeneratorPropertyDefaultSwitch(CodegenConstants.API_DOCS, true);
-
 
         // Additional properties added for tests to exclude references in project related files
         config.additionalProperties().put(CodegenConstants.GENERATE_API_TESTS, generateApiTests);
@@ -627,7 +631,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                     }
                 }
 
-
                 if (generateApiDocumentation) {
                     // to generate api documentation files
                     for (String templateName : config.apiDocTemplateFiles().keySet()) {
@@ -678,7 +681,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (!of.isDirectory()) {
                     of.mkdirs();
                 }
-                String outputFilename = outputFolder + File.separator + support.destinationFilename.replace('/', File.separatorChar);
+                String outputFilename = new File(support.destinationFilename).isAbsolute() // split
+                        ? support.destinationFilename
+                        : outputFolder + File.separator + support.destinationFilename.replace('/', File.separatorChar);
                 if (!config.shouldOverwrite(outputFilename)) {
                     LOGGER.info("Skipped overwriting " + outputFilename);
                     continue;
@@ -797,16 +802,13 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     }
 
     protected File writeInputStreamToFile(String filename, InputStream in, String templateFile) throws FileNotFoundException, IOException {
-        File outputFile = java.nio.file.Paths.get(filename).toFile();
         if (in != null) {
-            OutputStream out = new FileOutputStream(outputFile, false);
-            LOGGER.info("writing file " + outputFile);
-            IOUtils.copy(in, out);
-            out.close();
+            byte bytes[] = IOUtils.toByteArray(in);
+            return writeToFile(filename, bytes);
         } else {
             LOGGER.error("can't open '" + templateFile + "' for input; cannot write '" + filename + "'");
+            return null;
         }
-        return outputFile;
     }
 
     private Map<String, Object> buildSupportFileBundle(List<Object> allOperations, List<Object> allModels) {
@@ -909,7 +911,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         return files;
     }
-
 
     protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {
         String adjustedOutputFilename = outputFilename.replaceAll("//", "/").replace('/', File.separatorChar);
@@ -1059,7 +1060,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         return parameter.getName() + ":" + parameter.getIn();
     }
 
-
     private Map<String, Object> processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops, List<Object> allModels) {
         Map<String, Object> operations = new HashMap<String, Object>();
         Map<String, Object> objs = new HashMap<String, Object>();
@@ -1124,7 +1124,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
         return operations;
     }
-
 
     private Map<String, Object> processModels(CodegenConfig config, Map<String, Schema> definitions) {
         Map<String, Object> objs = new HashMap<String, Object>();

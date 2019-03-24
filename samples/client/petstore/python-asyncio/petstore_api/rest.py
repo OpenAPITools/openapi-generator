@@ -22,6 +22,8 @@ import asyncio
 # python 2 and python 3 compatibility library
 from six.moves.urllib.parse import urlencode
 
+from petstore_api.exceptions import ApiException, ApiValueError
+
 logger = logging.getLogger(__name__)
 
 
@@ -108,7 +110,7 @@ class RESTClientObject(object):
                           'PATCH', 'OPTIONS']
 
         if post_params and body:
-            raise ValueError(
+            raise ApiValueError(
                 "body parameter cannot be used with post_params parameter."
             )
 
@@ -246,30 +248,3 @@ class RESTClientObject(object):
                                    _preload_content=_preload_content,
                                    _request_timeout=_request_timeout,
                                    body=body))
-
-
-class ApiException(Exception):
-
-    def __init__(self, status=None, reason=None, http_resp=None):
-        if http_resp:
-            self.status = http_resp.status
-            self.reason = http_resp.reason
-            self.body = http_resp.data
-            self.headers = http_resp.getheaders()
-        else:
-            self.status = status
-            self.reason = reason
-            self.body = None
-            self.headers = None
-
-    def __str__(self):
-        """Custom error messages for exception"""
-        error_message = "({0})\nReason: {1}\n".format(self.status, self.reason)
-        if self.headers:
-            error_message += "HTTP response headers: {0}\n".format(
-                self.headers)
-
-        if self.body:
-            error_message += "HTTP response body: {0}\n".format(self.body)
-
-        return error_message

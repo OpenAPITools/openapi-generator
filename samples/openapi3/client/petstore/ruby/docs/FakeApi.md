@@ -59,7 +59,7 @@ No authorization required
 
 
 # **fake_outer_boolean_serialize**
-> BOOLEAN fake_outer_boolean_serialize(opts)
+> Boolean fake_outer_boolean_serialize(opts)
 
 
 
@@ -72,7 +72,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  body: true # BOOLEAN | Input boolean as post body
+  body: true # Boolean | Input boolean as post body
 }
 
 begin
@@ -87,11 +87,11 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **BOOLEAN**| Input boolean as post body | [optional] 
+ **body** | **Boolean**| Input boolean as post body | [optional] 
 
 ### Return type
 
-**BOOLEAN**
+**Boolean**
 
 ### Authorization
 
@@ -531,11 +531,11 @@ end
 
 api_instance = Petstore::FakeApi.new
 required_string_group = 56 # Integer | Required String in group parameters
-required_boolean_group = true # BOOLEAN | Required Boolean in group parameters
+required_boolean_group = true # Boolean | Required Boolean in group parameters
 required_int64_group = 56 # Integer | Required Integer in group parameters
 opts = {
   string_group: 56, # Integer | String in group parameters
-  boolean_group: true, # BOOLEAN | Boolean in group parameters
+  boolean_group: true, # Boolean | Boolean in group parameters
   int64_group: 56 # Integer | Integer in group parameters
 }
 
@@ -552,10 +552,10 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **required_string_group** | **Integer**| Required String in group parameters | 
- **required_boolean_group** | **BOOLEAN**| Required Boolean in group parameters | 
+ **required_boolean_group** | **Boolean**| Required Boolean in group parameters | 
  **required_int64_group** | **Integer**| Required Integer in group parameters | 
  **string_group** | **Integer**| String in group parameters | [optional] 
- **boolean_group** | **BOOLEAN**| Boolean in group parameters | [optional] 
+ **boolean_group** | **Boolean**| Boolean in group parameters | [optional] 
  **int64_group** | **Integer**| Integer in group parameters | [optional] 
 
 ### Return type

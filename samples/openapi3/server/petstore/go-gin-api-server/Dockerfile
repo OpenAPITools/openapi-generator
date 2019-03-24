@@ -9,6 +9,7 @@ RUN go get -d -v ./...
 RUN go build -a -installsuffix cgo -o petstoreserver .
 
 FROM scratch AS runtime
+ENV GIN_MODE=release
 COPY --from=build /go/src/petstoreserver ./
 EXPOSE 8080/tcp
 ENTRYPOINT ["./petstoreserver"]

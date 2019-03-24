@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 **string_item** | **String** |  | 
 **number_item** | **Float** |  | 
 **integer_item** | **Integer** |  | 
-**bool_item** | **BOOLEAN** |  | 
+**bool_item** | **Boolean** |  | 
 **array_item** | **Array&lt;Integer&gt;** |  | 
 
 ## Code Sample

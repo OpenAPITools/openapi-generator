@@ -12,6 +12,6 @@ Name | Type | Description | Notes
 **outer_enum_default_value** | [**\OpenAPI\Client\Model\OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] 
 **outer_enum_integer_default_value** | [**\OpenAPI\Client\Model\OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  | [optional] 
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 
 

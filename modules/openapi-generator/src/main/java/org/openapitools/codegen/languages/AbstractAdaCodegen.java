@@ -424,14 +424,14 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     private Map<String, List<String>> getAuthScopes(List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {
         final Map<String, List<String>> scopes = new HashMap<>();
-        for (SecurityRequirement requirement : securities) {
-            for (String key : requirement.keySet()) {
-                SecurityScheme securityScheme = securitySchemes.get(key);
-                if (securityScheme != null) {
-                    scopes.put(key, requirement.get(key));
+        Optional.ofNullable(securitySchemes).ifPresent(_securitySchemes -> {
+            for (SecurityRequirement requirement : securities) {
+                for (String key : requirement.keySet()) {
+                    Optional.ofNullable(securitySchemes.get(key))
+                            .ifPresent(securityScheme -> scopes.put(key, requirement.get(key)));
                 }
             }
-        }
+        });
         return scopes;
     }
 
@@ -618,7 +618,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
      * Collect the scopes to generate a unique identifier for each of them.
      *
      * @param authMethods the auth methods with their scopes.
-     * @param scopes the optional auth methods and scopes required by an operation
+     * @param scopes      the optional auth methods and scopes required by an operation
      * @return the authMethods to be used by the operation with its required scopes.
      */
     private List<CodegenSecurity> postProcessAuthMethod(List<CodegenSecurity> authMethods, Map<String, List<String>> scopes) {

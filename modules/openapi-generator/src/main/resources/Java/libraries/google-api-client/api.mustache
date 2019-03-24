@@ -24,22 +24,22 @@ import java.util.ArrayList;
 {{>generatedAnnotation}}
 {{#operations}}
 public class {{classname}} {
-    private ApiClient {{localVariablePrefix}}apiClient;
+    private ApiClient apiClient;
 
     public {{classname}}() {
         this(new ApiClient());
     }
 
     public {{classname}}(ApiClient apiClient) {
-        this.{{localVariablePrefix}}apiClient = apiClient;
+        this.apiClient = apiClient;
     }
 
     public ApiClient getApiClient() {
-        return {{localVariablePrefix}}apiClient;
+        return apiClient;
     }
 
     public void setApiClient(ApiClient apiClient) {
-        this.{{localVariablePrefix}}apiClient = apiClient;
+        this.apiClient = apiClient;
     }
 
     {{#operation}}
