@@ -2757,6 +2757,23 @@ public class DefaultCodegen implements CodegenConfig {
             r.simpleType = true;
         }
 
+        Schema schema = ModelUtils.getSchemaFromResponse(response,"form");
+        if (schema != null) {
+            Map<String, Encoding> encoding = ModelUtils.getEncodingFromResponse(response);
+            Set<String> imports = new HashSet<String>();
+            Map<String, Schema> properties = schema.getProperties();
+            for (Map.Entry<String, Schema> entry : properties.entrySet()) {
+                CodegenParameter cp = fromFormProperty(entry.getKey(), entry.getValue(),imports);
+                if (encoding != null && (encoding.get(entry.getKey()) != null) ) {
+                    //Encoding eo = getEncodingObject(encoding.get(entry.getKey()));
+                    cp.encoding = encoding.get(entry.getKey());
+                    cp.isMultipartParam = Boolean.TRUE;
+                    //cp.isFormParam = Boolean.FALSE;
+                }
+                r.formParams.add(cp);
+            }
+        }
+
         return r;
     }
 
