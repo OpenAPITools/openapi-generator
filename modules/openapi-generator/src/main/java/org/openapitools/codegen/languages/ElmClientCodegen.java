@@ -30,7 +30,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.text.Collator;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -411,15 +413,26 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         return postProcessModelsEnum(objs);
     }
 
+    private static boolean anyOperationParam(final List<CodegenOperation> operations, final Predicate<CodegenParameter> predicate) {
+      return operations.stream()
+          .flatMap(operation -> Stream.of(
+                operation.bodyParams.stream(),
+                operation.queryParams.stream(),
+                operation.pathParams.stream(),
+                operation.headerParams.stream()
+          ))
+          .flatMap(a -> a)
+          .filter(predicate)
+          .findAny()
+          .isPresent();
+    }
+
     @Override
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
 
-        boolean hasDate = false;
-        boolean hasDateTime = false;
-        boolean hasUuid = false;
         final Map<String, Set<String>> dependencies = new HashMap<>();
 
         for (CodegenOperation op : ops) {
@@ -471,19 +484,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                     }
                 }
             }
-
-            hasDate = hasDate
-                || op.queryParams.stream().filter(param -> param.isDate).findAny().isPresent()
-                || op.pathParams.stream().filter(param -> param.isDate).findAny().isPresent()
-                || op.headerParams.stream().filter(param -> param.isDate).findAny().isPresent();
-            hasDateTime = hasDate
-                || op.queryParams.stream().filter(param -> param.isDateTime).findAny().isPresent()
-                || op.pathParams.stream().filter(param -> param.isDateTime).findAny().isPresent()
-                || op.headerParams.stream().filter(param -> param.isDateTime).findAny().isPresent();
-            hasUuid = hasUuid
-                || op.queryParams.stream().filter(param -> param.isUuid).findAny().isPresent()
-                || op.pathParams.stream().filter(param -> param.isUuid).findAny().isPresent()
-                || op.headerParams.stream().filter(param -> param.isUuid).findAny().isPresent();
         }
 
         final List<ElmImport> elmImports = new ArrayList<>();
@@ -497,6 +497,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             elmImport.hasExposures = true;
             elmImports.add(elmImport);
         }
+        final boolean hasDate = anyOperationParam(ops, param -> param.isDate);
         if (hasDate) {
             final ElmImport elmImport = new ElmImport();
             elmImport.moduleName = "DateOnly";
@@ -505,6 +506,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             elmImport.hasExposures = true;
             elmImports.add(elmImport);
         }
+        final boolean hasDateTime = anyOperationParam(ops, param -> param.isDateTime);
         if (hasDateTime) {
             final ElmImport elmImport = new ElmImport();
             elmImport.moduleName = "DateTime";
@@ -513,6 +515,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             elmImport.hasExposures = true;
             elmImports.add(elmImport);
         }
+        final boolean hasUuid = anyOperationParam(ops, param -> param.isUuid);
         if (hasUuid) {
             final ElmImport elmImport = new ElmImport();
             elmImport.moduleName = "Uuid";
