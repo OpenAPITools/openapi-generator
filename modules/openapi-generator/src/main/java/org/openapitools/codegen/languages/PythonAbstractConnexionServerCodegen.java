@@ -324,10 +324,10 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                 // Fix path parameters to be in snake_case
                 if (pathname.contains("{")) {
                     String fixedPath = new String();
-                    for (String token: pathname.substring(1).split("/")) {
+                    for (String token : pathname.substring(1).split("/")) {
                         if (token.startsWith("{")) {
-                            String snake_case_token = "{" + this.toParamName(token.substring(1, token.length()-1)) + "}";
-                            if(!token.equals(snake_case_token)) {
+                            String snake_case_token = "{" + this.toParamName(token.substring(1, token.length() - 1)) + "}";
+                            if (!token.equals(snake_case_token)) {
                                 token = snake_case_token;
                             }
                         }
@@ -360,7 +360,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                             );
                         }
                         if (operation.getParameters() != null) {
-                            for (Parameter parameter: operation.getParameters()) {
+                            for (Parameter parameter : operation.getParameters()) {
                                 String swaggerParameterName = parameter.getName();
                                 String pythonParameterName = this.toParamName(swaggerParameterName);
                                 if (!swaggerParameterName.equals(pythonParameterName)) {
@@ -379,8 +379,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                                 String bodyParameterName = "body";
                                 if (operation.getExtensions() != null && operation.getExtensions().containsKey("x-codegen-request-body-name")) {
                                     bodyParameterName = (String) operation.getExtensions().get("x-codegen-request-body-name");
-                                }
-                                else {
+                                } else {
                                     // Used by code generator
                                     operation.addExtension("x-codegen-request-body-name", bodyParameterName);
                                 }
@@ -394,7 +393,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             // Sort path names after variable name fix
             List<String> fixedPathnames = new ArrayList(paths.keySet());
             Collections.sort(fixedPathnames);
-            for (String pathname: fixedPathnames) {
+            for (String pathname : fixedPathnames) {
                 PathItem pathItem = paths.remove(pathname);
                 paths.put(pathname, pathItem);
             }
@@ -403,7 +402,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
     }
 
     private void addSecurityExtension(SecurityScheme securityScheme, String extensionName, String functionName) {
-        if (securityScheme.getExtensions() == null || ! securityScheme.getExtensions().containsKey(extensionName)) {
+        if (securityScheme.getExtensions() == null || !securityScheme.getExtensions().containsKey(extensionName)) {
             securityScheme.addExtension(extensionName, functionName);
         }
     }
@@ -412,18 +411,17 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
         Components components = openAPI.getComponents();
         if (components != null && components.getSecuritySchemes() != null) {
             Map<String, SecurityScheme> securitySchemes = components.getSecuritySchemes();
-            for(String securityName: securitySchemes.keySet()) {
+            for (String securityName : securitySchemes.keySet()) {
                 SecurityScheme securityScheme = securitySchemes.get(securityName);
                 String baseFunctionName = controllerPackage + ".security_controller_.";
-                switch(securityScheme.getType()) {
+                switch (securityScheme.getType()) {
                     case APIKEY:
                         addSecurityExtension(securityScheme, "x-apikeyInfoFunc", baseFunctionName + "info_from_" + securityName);
                         break;
                     case HTTP:
                         if ("basic".equals(securityScheme.getScheme())) {
                             addSecurityExtension(securityScheme, "x-basicInfoFunc", baseFunctionName + "info_from_" + securityName);
-                        }
-                        else if ("bearer".equals(securityScheme.getScheme())) {
+                        } else if ("bearer".equals(securityScheme.getScheme())) {
                             addSecurityExtension(securityScheme, "x-bearerInfoFunc", baseFunctionName + "info_from_" + securityName);
                         }
                         break;
@@ -483,7 +481,6 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
         //       We do not want to have our REST API itself being converted to pythonic params.
         //       This would be incompatible with other server implementations.
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
-        //OpenAPI openAPI = (OpenAPI) objs.remove("openAPI");
         Map<String, PathItem> paths = openAPI.getPaths();
         if (paths != null) {
             List<String> pathnames = new ArrayList(paths.keySet());
@@ -507,7 +504,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                     for (HttpMethod method : operationMap.keySet()) {
                         Operation operation = operationMap.get(method);
                         if (operation.getParameters() != null) {
-                            for (Parameter parameter: operation.getParameters()) {
+                            for (Parameter parameter : operation.getParameters()) {
                                 Map<String, Object> parameterExtensions = parameter.getExtensions();
                                 if (parameterExtensions != null) {
                                     // Get and remove the (temporary) vendor extension
@@ -533,12 +530,11 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             // Sort path names after variable name fix
             List<String> recoveredPathnames = new ArrayList(paths.keySet());
             Collections.sort(recoveredPathnames);
-            for (String pathname: recoveredPathnames) {
+            for (String pathname : recoveredPathnames) {
                 PathItem pathItem = paths.remove(pathname);
                 paths.put(pathname, pathItem);
             }
         }
-        //objs.put("openAPI", openAPI);
 
         generateYAMLSpecFile(objs);
 
@@ -647,6 +643,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
 
     /**
      * Return the default value of the property
+     *
      * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
@@ -757,8 +754,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
         if (example == null) {
             if (Boolean.TRUE.equals(p.isListContainer)) {
                 example = "[]";
-            }
-            else {
+            } else {
                 example = "None";
             }
         } else if (Boolean.TRUE.equals(p.isListContainer)) {
@@ -865,7 +861,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
         for (CodegenOperation operation : operationList) {
             Map<String, String> skipTests = new HashMap<>();
             // Set flag to deactivate tests due to connexion issue.
-            if (operation.consumes != null ) {
+            if (operation.consumes != null) {
                 if (operation.consumes.size() == 1) {
                     Map<String, String> consume = operation.consumes.get(0);
                     if (!("application/json".equals(consume.get(MEDIA_TYPE))
@@ -876,8 +872,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                         }
                     }
                     operation.vendorExtensions.put("x-prefered-consume", consume);
-                }
-                else if (operation.consumes.size() > 1) {
+                } else if (operation.consumes.size() > 1) {
                     Map<String, String> consume = operation.consumes.get(0);
                     skipTests.put("reason", "Connexion does not support multiple consummes. See https://github.com/zalando/connexion/pull/760");
                     operation.vendorExtensions.put("x-prefered-consume", consume);
@@ -885,8 +880,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                         operation.isMultipart = Boolean.TRUE;
                     }
                 }
-            }
-            else {
+            } else {
                 // A body without consumes means '*/*' has been used instead of application/json
                 if (operation.bodyParam != null) {
                     Map<String, String> consume = new HashMap<>();
@@ -896,19 +890,19 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                 }
             }
             // Choose to consume 'application/json' if available, else choose the last one.
-            if (operation.produces != null ) {
-                for (Map<String, String> produce: operation.produces) {
+            if (operation.produces != null) {
+                for (Map<String, String> produce : operation.produces) {
                     operation.vendorExtensions.put("x-prefered-produce", produce);
                     if (produce.get(MEDIA_TYPE).equals("application/json")) {
                         break;
                     }
                 }
             }
-            if (! skipTests.isEmpty()) {
+            if (!skipTests.isEmpty()) {
                 operation.vendorExtensions.put("x-skip-test", skipTests);
             }
             if (operation.requestBodyExamples != null) {
-                for (Map<String, String> example: operation.requestBodyExamples) {
+                for (Map<String, String> example : operation.requestBodyExamples) {
                     if (example.get("contentType") != null && example.get("contentType").equals("application/json")) {
                         operation.bodyParam.example = example.get("example");
                     }
