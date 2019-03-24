@@ -1,0 +1,65 @@
+namespace {{packageName}}.Tests
+
+open System
+open System.Net
+open System.Net.Http
+open System.IO
+open Microsoft.AspNetCore.Builder
+open Microsoft.AspNetCore.Hosting
+open Microsoft.AspNetCore.TestHost
+open Microsoft.Extensions.DependencyInjection
+open FSharp.Control.Tasks.V2.ContextInsensitive
+open Xunit
+open System.Text
+open Newtonsoft
+open TestHelper
+open {{classname}}HandlerTestsHelper
+open {{packageName}}.{{classname}}Handler
+open {{packageName}}.{{classname}}HandlerParams
+{{#imports}}
+open {{import}}
+{{/imports}}
+
+module {{classname}}HandlerTests =
+
+  // ---------------------------------
+  // Tests
+  // ---------------------------------
+
+  {{#operations}}
+  {{#operation}}
+  {{#responses}}
+  [<Fact>]
+  let ``{{operationId}} - {{summary}} returns {{code}} {{#message}}where {{.}}{{/message}}`` () =
+    task {
+      use server = new TestServer(createHost())
+      use client = server.CreateClient()
+
+      // add your setup code here
+
+      let path = "{{contextPath}}{{path}}"{{#pathParams}}.Replace("{{paramName}}", "ADDME"){{/pathParams}}{{#hasQueryParams}} + "?{{#queryParams}}{{paramName}}=ADDME{{#hasMore}}&{{/hasMore}}{{#-last}}"{{/-last}}{{/queryParams}}{{/hasQueryParams}}
+
+      {{#hasConsumes}}
+      // use an example requestBody provided by the spec
+      let examples = Map.empty{{#consumes}}.Add("{{mediaType}}", get{{operationId}}Example "{{mediaType}}"){{/consumes}}
+      // or pass a {{#bodyParams}}body of type {{dataType}}{{/bodyParams}}{{#formParams}}form{{/formParams}}
+      let body = obj() {{#bodyParams}}:?> {{dataType}}{{/bodyParams}} |> Newtonsoft.Json.JsonConvert.SerializeObject |> Encoding.UTF8.GetBytes |> MemoryStream |> StreamContent
+
+      body
+        |> {{httpMethod}} client path
+        |> isStatus (enum<HttpStatusCode>({{code}}))
+        |> readText
+        |> shouldEqual "TESTME"
+      {{/hasConsumes}}
+      {{^hasConsumes}}
+      {{httpMethod}} client path
+        |> isStatus (enum<HttpStatusCode>({{code}}))
+        |> readText
+        |> shouldEqual "TESTME"
+        |> ignore
+      {{/hasConsumes}}
+      }
+
+  {{/responses}}
+  {{/operation}}
+  {{/operations}}

@@ -1,0 +1,147 @@
+namespace {{packageName}}
+
+{{#imports}}
+{{#import}}
+open {{import}}
+{{/import}}
+{{/imports}}
+open System.Collections.Generic
+open System
+
+module {{classname}}HandlerParams = 
+
+    {{#operations}}
+    {{#operation}}
+    {{#pathParams}}
+    {{#-first}}
+    //#region Path parameters
+    [<CLIMutable>]
+    type {{operationId}}PathParams = {
+    {{/-first}}
+      {{paramName}} : {{dataType}} {{^required}}option{{/required}};
+    {{#-last}}
+    }
+    {{/-last}}  
+    //#endregion
+    {{/pathParams}}
+    {{#queryParams}}
+
+    {{#-first}}
+    //#region Query parameters
+    [<CLIMutable>]
+    type {{operationId}}QueryParams = {
+    {{/-first}}
+      {{paramName}} : {{dataType}} {{^required}}option{{/required}};
+      
+    {{#-last}}
+    }
+    //#endregion
+    {{/-last}}  
+    {{/queryParams}}
+    {{#bodyParams}}
+
+    {{#-first}}
+    //#region Body parameters
+    [<CLIMutable>]
+    {{^hasMore}}
+    type {{operationId}}BodyParams = {{dataType}} 
+    {{/hasMore}}
+    {{#hasMore}}
+    type {{operationId}}BodyParams = { 
+      {{paramName}} : {{dataType}};
+    {{/hasMore}}
+    {{/-first}}
+    {{^-first}}
+      {{paramName}} : {{dataType}};
+    {{/-first}}
+    {{#-last}}
+    {{^-first}}
+    }
+    {{/-first}}
+    //#endregion
+    {{/-last}}  
+    {{/bodyParams}}
+    {{#formParams}}
+
+    //#region Form parameters
+    {{#-first}}
+    [<CLIMutable>]
+    type {{operationId}}FormParams = {
+    {{/-first}}
+      {{paramName}} : {{dataType}} {{^required}}option{{/required}};
+    {{#-last}}
+    }
+    {{/-last}}  
+    //#endregion
+    {{/formParams}}
+    {{#headerParams}}
+
+    //#region Header parameters
+    {{#-first}}
+    [<CLIMutable>]
+    type {{operationId}}HeaderParams = {
+    {{/-first}}
+      {{paramName}} : {{dataType}} {{^required}}option{{/required}};
+    {{#-last}}
+    }
+    {{/-last}}  
+    //#endregion
+    {{/headerParams}}
+    {{#cookieParams}}
+    
+    //#region Cookie parameters
+    {{#-first}}
+    type {{operationId}}CookieParams = {
+    {{/-first}}
+      {{paramName}} : {{dataType}} {{^required}}option{{/required}};
+    {{#-last}}
+    }
+    {{/-last}}  
+    //#endregion
+    {{/cookieParams}}
+
+    {{#responses}}
+    
+    type {{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}}Response = {
+      content:{{#dataType}}{{{.}}}{{/dataType}}{{^dataType}}string{{/dataType}};
+      {{^code}}code:int{{/code}}
+    }
+    {{/responses}}
+    type {{operationId}}Result = {{#responses}}{{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}} of {{operationId}}{{#isDefault}}Default{{/isDefault}}StatusCode{{^isDefault}}{{code}}{{/isDefault}}Response{{#hasMore}}|{{/hasMore}}{{/responses}}
+
+    {{#allParams}}
+    {{#-first}}
+    type {{operationId}}Args = {
+    {{/-first}}
+    {{/allParams}}
+      {{#hasHeaderParams}}
+      headerParams:{{operationId}}HeaderParams;
+      {{/hasHeaderParams}}
+      {{#pathParams}}
+      {{#-first}}
+      pathParams:{{operationId}}PathParams;
+      {{/-first}}
+      {{/pathParams}}
+      {{#queryParams}}
+      {{#-first}}
+      queryParams:Result<{{operationId}}QueryParams,string>;
+      {{/-first}}
+      {{/queryParams}}
+      {{#bodyParams}}
+      {{#-first}}
+      bodyParams:{{operationId}}BodyParams
+      {{/-first}}
+      {{/bodyParams}}
+      {{#formParams}}
+      {{#-first}}
+      formParams:Result<{{operationId}}FormParams,string>
+      {{/-first}}
+      {{/formParams}}
+    {{#allParams}}
+    {{#-first}}
+    }
+    {{/-first}}
+    {{/allParams}}
+    {{/operation}}
+    {{/operations}}
+    
