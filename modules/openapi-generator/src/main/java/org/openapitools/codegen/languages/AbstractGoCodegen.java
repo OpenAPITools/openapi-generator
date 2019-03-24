@@ -487,19 +487,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                         addedOSImport = true;
                     }
                 }
-                if (model.isEnum) {
-                    // For enum values prepend with var name to help prevent namespace collision
-                    String enumPrefix = toEnumVarName(model.name, model.dataType) + "_";
-                    List<Map<String, Object>> enumVars = (List<Map<String, Object>>) model.allowableValues.get("enumVars");
-                    if (enumVars != null) {
-                        for (Map<String, Object> enumVar : enumVars) {
-                            String enumName = (String) enumVar.get("name");
-                            if (enumName != null) {
-                                enumVar.put("name", enumPrefix + enumName);
-                            }
-                        }
-                    }
-                }
             }
         }
         // recursively add import for mapping one type to multiple imports
@@ -518,6 +505,32 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         return postProcessModelsEnum(objs);
+    }
+
+    @Override
+    public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
+        objs = super.postProcessModelsEnum(objs);
+        
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+                // For enum values prepend names with enum type name to help prevent namespace collision
+                String enumPrefix = toEnumVarName(cm.name, cm.dataType) + "_";
+                if (cm.allowableValues.get("enumVars") != null) {
+                    List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cm.allowableValues.get("enumVars");
+                    for (Map<String, Object> enumVar : enumVars) {
+                        String enumName = (String) enumVar.get("name");
+                        if (enumName != null) {
+                            enumVar.put("name", enumPrefix + enumName);
+                        }
+                    }
+                }
+            }
+        }
+        return objs;
     }
 
     @Override
