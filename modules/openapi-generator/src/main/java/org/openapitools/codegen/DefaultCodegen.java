@@ -2758,9 +2758,9 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Schema schema = ModelUtils.getSchemaFromResponse(response,"form");
+        Set<String> imports = new HashSet<String>();
         if (schema != null) {
             Map<String, Encoding> encoding = ModelUtils.getEncodingFromResponse(response);
-            Set<String> imports = new HashSet<String>();
             Map<String, Schema> properties = schema.getProperties();
             for (Map.Entry<String, Schema> entry : properties.entrySet()) {
                 CodegenParameter cp = fromFormProperty(entry.getKey(), entry.getValue(),imports);
@@ -2772,6 +2772,13 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 r.formParams.add(cp);
             }
+        }
+
+        Schema schemaBody = ModelUtils.getSchemaFromResponse(response,"body");
+        if (schemaBody != null) {
+            CodegenParameter cp = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+            fromBodyProperty(cp,schemaBody,imports,null);
+            r.bodyParam = cp;
         }
 
         return r;
