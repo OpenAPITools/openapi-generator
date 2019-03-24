@@ -516,21 +516,35 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
+            // For enum var names prepend with this model's name to help prevent namespace collision
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
-                // For enum values prepend names with enum type name to help prevent namespace collision
-                String enumPrefix = toEnumVarName(cm.name, cm.dataType) + "_";
-                if (cm.allowableValues.get("enumVars") != null) {
-                    List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cm.allowableValues.get("enumVars");
-                    for (Map<String, Object> enumVar : enumVars) {
-                        String enumName = (String) enumVar.get("name");
-                        if (enumName != null) {
-                            enumVar.put("name", enumPrefix + enumName);
-                        }
+                String prefix = toEnumVarName(cm.name, cm.dataType) + "_";
+                cm.allowableValues = prefixAllowableValues(cm.allowableValues, prefix);
+            }
+            // Also prepend var names used for defining inline enums with inline enum's name
+            if (Boolean.TRUE.equals(cm.hasEnums)) {
+                for (CodegenProperty param : cm.vars) {
+                    if (param.isEnum && param.allowableValues != null) {
+                        String prefix = toEnumVarName(param.name, param.dataType) + "_";
+                        param.allowableValues = prefixAllowableValues(param.allowableValues, prefix);
                     }
                 }
             }
         }
         return objs;
+    }
+
+    public Map<String, Object> prefixAllowableValues(Map<String, Object> allowableValues, String prefix) {
+        if (allowableValues.get("enumVars") != null) {
+            List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
+            for (Map<String, Object> enumVar : enumVars) {
+                String enumName = (String) enumVar.get("name");
+                if (enumName != null) {
+                    enumVar.put("name", prefix + enumName);
+                }
+            }
+        }
+        return allowableValues;
     }
 
     @Override

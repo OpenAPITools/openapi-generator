@@ -10,9 +10,43 @@
 package petstore
 
 type EnumTest struct {
-	EnumString string `json:"enum_string,omitempty"`
-	EnumStringRequired string `json:"enum_string_required"`
-	EnumInteger int32 `json:"enum_integer,omitempty"`
-	EnumNumber float64 `json:"enum_number,omitempty"`
+	EnumString EnumTestEnumString `json:"enum_string,omitempty"`
+	EnumStringRequired EnumTestEnumStringRequired `json:"enum_string_required"`
+	EnumInteger EnumTestEnumInteger `json:"enum_integer,omitempty"`
+	EnumNumber EnumTestEnumNumber `json:"enum_number,omitempty"`
 	OuterEnum OuterEnum `json:"outerEnum,omitempty"`
 }
+
+type EnumTestEnumString string
+
+// List of EnumTestEnumString
+const (
+	ENUM_STRING_UPPER EnumTestEnumString = "UPPER"
+	ENUM_STRING_LOWER EnumTestEnumString = "lower"
+	ENUM_STRING_EMPTY EnumTestEnumString = ""
+)
+
+type EnumTestEnumStringRequired string
+
+// List of EnumTestEnumStringRequired
+const (
+	ENUM_STRING_REQUIRED_UPPER EnumTestEnumStringRequired = "UPPER"
+	ENUM_STRING_REQUIRED_LOWER EnumTestEnumStringRequired = "lower"
+	ENUM_STRING_REQUIRED_EMPTY EnumTestEnumStringRequired = ""
+)
+
+type EnumTestEnumInteger int32
+
+// List of EnumTestEnumInteger
+const (
+	ENUM_INTEGER__1 EnumTestEnumInteger = "1"
+	ENUM_INTEGER__1 EnumTestEnumInteger = "-1"
+)
+
+type EnumTestEnumNumber float64
+
+// List of EnumTestEnumNumber
+const (
+	ENUM_NUMBER__1_1 EnumTestEnumNumber = "1.1"
+	ENUM_NUMBER__1_2 EnumTestEnumNumber = "-1.2"
+)

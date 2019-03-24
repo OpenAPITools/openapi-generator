@@ -11,7 +11,15 @@ package petstore
 
 type MapTest struct {
 	MapMapOfString map[string]map[string]string `json:"map_map_of_string,omitempty"`
-	MapOfEnumString map[string]string `json:"map_of_enum_string,omitempty"`
+	MapOfEnumString MapTestMapOfEnumString `json:"map_of_enum_string,omitempty"`
 	DirectMap map[string]bool `json:"direct_map,omitempty"`
 	IndirectMap map[string]bool `json:"indirect_map,omitempty"`
 }
+
+type MapTestMapOfEnumString map[string]string
+
+// List of MapTestMapOfEnumString
+const (
+	MAP_OF_ENUM_STRING_UPPER MapTestMapOfEnumString = "UPPER"
+	MAP_OF_ENUM_STRING_LOWER MapTestMapOfEnumString = "lower"
+)
