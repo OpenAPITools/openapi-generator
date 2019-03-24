@@ -55,3 +55,27 @@ set(HDRS
 add_library(${pkgName} SHARED ${SRCS} ${HDRS})
 target_link_libraries(${pkgName} ${CURL_LIBRARIES} )
 install(TARGETS ${pkgName} DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+set(SRCS "")
+set(HDRS "")
+
+set(SRCS
+    unit-tests/manual-PetAPI.c
+    unit-tests/manual-StoreAPI.c
+    unit-tests/manual-UserAPI.c
+    unit-tests/manual-order.c
+    unit-tests/manual-user.c
+)
+
+set(HDRS
+
+)
+
+
+
+foreach(SOURCE_FILE ${SRCS})
+    get_filename_component(FILE_NAME_ONLY ${SOURCE_FILE} NAME_WE)
+    string( REPLACE ".c" "" EXECUTABLE_FILE ${FILE_NAME_ONLY})
+    add_executable(unit-${EXECUTABLE_FILE} ${SOURCE_FILE})
+    target_link_libraries(unit-${EXECUTABLE_FILE} ${CURL_LIBRARIES} ${pkgName} )
+endforeach(SOURCE_FILE ${SRCS})

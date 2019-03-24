@@ -1,8 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "cJSON.h"
-#include "user.h"
+#include "../model/user.h"
 
 
 #define USER_ID 1234

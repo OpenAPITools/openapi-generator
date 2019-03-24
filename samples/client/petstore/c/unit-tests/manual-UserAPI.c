@@ -2,11 +2,7 @@
     #include <stdlib.h>
     #include <string.h>
     #include <assert.h>
-    #include "apiClient.h"
-    #include "cJSON.h"
-    #include "keyValuePair.h"
-    #include "user.h"
-    #include "UserAPI.h"
+    #include "../api/UserAPI.h"
 
     #define USER_ID 1234
     #define USER_NAME "example123"

@@ -2,11 +2,8 @@
     #include <stdlib.h>
     #include <string.h>
     #include <assert.h>
-    #include "apiClient.h"
-    #include "cJSON.h"
-    #include "order.h"
-    #include "StoreAPI.h"
-    #include "keyValuePair.h"
+    #include "../api/StoreAPI.h"
+
 
     #define ORDER_ID 1234
     #define PET_ID 12345

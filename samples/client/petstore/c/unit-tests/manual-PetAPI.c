@@ -2,13 +2,8 @@
     #include <stdlib.h>
     #include <string.h>
     #include <assert.h>
-    #include "apiClient.h"
-    #include "cJSON.h"
-    #include "pet.h"
-    #include "PetAPI.h"
-    #include "category.h"
-    #include "tag.h"
-    #include "keyValuePair.h"
+    #include "../api/PetAPI.h"
+
 
     #define EXAMPLE_CATEGORY_NAME "Example Category"
     #define EXAMPLE_CATEGORY_ID 5
