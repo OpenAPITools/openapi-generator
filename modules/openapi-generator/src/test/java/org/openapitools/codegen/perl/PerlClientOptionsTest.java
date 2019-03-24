@@ -17,13 +17,12 @@
 
 package org.openapitools.codegen.perl;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PerlClientCodegen;
 import org.openapitools.codegen.options.PerlClientOptionsProvider;
-
-import mockit.Expectations;
-import mockit.Tested;
 
 public class PerlClientOptionsTest extends AbstractOptionsTest {
 

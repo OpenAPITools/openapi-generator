@@ -17,13 +17,14 @@
 
 package org.openapitools.codegen;
 
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
-import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
@@ -274,7 +275,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void resolveInlineRequestBodyWhenNoComponents() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_request_body_no_components.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_request_body_no_components.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         assertNotNull(openAPI.getComponents());
@@ -283,7 +284,7 @@ public class InlineModelResolverTest {
     
     @Test
     public void resolveInlineArraySchemaWithTitle() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         assertTrue(openAPI.getComponents().getSchemas().get("Users") instanceof ArraySchema);
@@ -299,7 +300,7 @@ public class InlineModelResolverTest {
     
     @Test
     public void resolveInlineRequestBody() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         RequestBody requestBodyReference = openAPI
@@ -323,16 +324,19 @@ public class InlineModelResolverTest {
 
     @Test
     public void resolveInlineRequestBodyWithRequired() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body_with_required").getPost().getRequestBody();
         assertTrue(requestBodyReference.getRequired());
+
+        RequestBody referencedRequestBody = ModelUtils.getReferencedRequestBody(openAPI, requestBodyReference);
+        assertTrue(referencedRequestBody.getRequired());
     }
 
     @Test
     public void resolveInlineRequestBodyWithTitle() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         RequestBody requestBodyReference = openAPI.getPaths().get("/resolve_inline_request_body_with_title").getPost().getRequestBody();
@@ -341,7 +345,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void nonModelRequestBody() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
@@ -359,7 +363,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void resolveInlineArrayRequestBody() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
@@ -383,7 +387,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void resolveInlineArrayRequestBodyWithTitle() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         ArraySchema requestBodySchema = (ArraySchema) openAPI
@@ -401,7 +405,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void resolveInlineArrayResponse() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
@@ -424,7 +428,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void resolveInlineArrayResponseWithTitle() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
@@ -442,7 +446,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void resolveInlineObjectResponseWithAdditionalProperties() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
@@ -463,7 +467,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void arbitraryObjectRequestBody() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
@@ -479,7 +483,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void arbitraryObjectRequestBodyProperty() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
@@ -498,7 +502,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void arbitraryRequestBodyArray() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
@@ -518,7 +522,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void arbitraryRequestBodyArrayProperty() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
@@ -540,7 +544,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void arbitraryObjectResponse() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
@@ -558,7 +562,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void arbitraryObjectResponseArray() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
@@ -577,7 +581,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void arbitraryObjectResponseArrayInline() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
@@ -602,7 +606,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void arbitraryObjectResponseWithAdditionalProperty() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
@@ -623,7 +627,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void arbitraryObjectModelInline() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         ObjectSchema model = (ObjectSchema) openAPI.getComponents().getSchemas().get("ArbitraryObjectModelInline");
@@ -635,7 +639,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void arbitraryObjectModelWithArrayInlineWithoutTitle() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         assertTrue(openAPI.getComponents().getSchemas().get("ArbitraryObjectModelWithArrayInlineWithoutTitle") instanceof ArraySchema);
@@ -652,7 +656,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void arbitraryObjectModelWithArrayInlineWithTitle() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         assertTrue(openAPI.getComponents().getSchemas().get("ArbitraryObjectModelWithArrayInlineWithTitle") instanceof ArraySchema);
@@ -671,7 +675,7 @@ public class InlineModelResolverTest {
 
     @Test
     public void emptyExampleOnStringTypeModels() {
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
 
         MediaType mediaType = openAPI
@@ -690,5 +694,29 @@ public class InlineModelResolverTest {
 
         assertTrue(ModelUtils.getReferencedSchema(openAPI, schema.getItems()) instanceof StringSchema);
         assertNull(ModelUtils.getReferencedSchema(openAPI, schema.getItems()).getExample());
+    }
+
+    @Test
+    public void nullable() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        Schema nullablePropertyReference = (Schema) openAPI.getComponents().getSchemas().get("InlinePropertyIsNullable").getProperties().get("nullable_property");
+        Schema nullablePropertySchema = ModelUtils.getReferencedSchema(openAPI, nullablePropertyReference);
+        assertTrue(nullablePropertySchema.getNullable());
+
+
+        Schema nullableRequestBodyReference = (Schema) openAPI
+                .getPaths()
+                .get("/nullable_properties")
+                .getPost()
+                .getRequestBody()
+                .getContent()
+                .get("application/json")
+                .getSchema()
+                .getProperties()
+                .get("nullable_request_body_property");
+        Schema nullableRequestBodySchema = ModelUtils.getReferencedSchema(openAPI, nullableRequestBodyReference);
+        assertTrue(nullableRequestBodySchema.getNullable());
     }
 }

@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFramework>{{targetFramework}}</TargetFramework>
+    <TargetFrameworkVersion>{{targetFrameworkVersion}}</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>{{targetFrameworkIdentifier}}</TargetFrameworkIdentifier>
+    <AssemblyName>{{packageName}}</AssemblyName>
+    <PackageId>{{packageName}}</PackageId>
+    <OutputType>Library</OutputType>
+    <Authors>{{packageAuthors}}</Authors>
+    <Company>{{packageCompany}}</Company>
+    <AssemblyTitle>{{packageTitle}}</AssemblyTitle>
+    <Description>{{packageDescription}}</Description>
+    <Copyright>{{packageCopyright}}</Copyright>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <RootNamespace>{{packageName}}</RootNamespace>
+    <Version>{{packageVersion}}</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+      <PackageReference Include="CompareNETObjects" Version="4.57.0" />
+      <PackageReference Include="JsonSubTypes" Version="1.5.2" />
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+      <PackageReference Include="RestSharp" Version="106.6.7" />
+      <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
+  </ItemGroup>
+
+  {{^netStandard}}
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  {{/netStandard}}
+
+</Project>

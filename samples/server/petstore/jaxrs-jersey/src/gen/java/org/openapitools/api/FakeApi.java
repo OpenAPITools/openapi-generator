@@ -12,6 +12,7 @@ import org.openapitools.model.Client;
 import java.util.Date;
 import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
+import org.openapitools.model.HealthCheckResult;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
@@ -63,6 +64,17 @@ public class FakeApi  {
       this.delegate = delegate;
    }
 
+    @GET
+    @Path("/health")
+    
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Health check endpoint", notes = "", response = HealthCheckResult.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "The instance started successfully", response = HealthCheckResult.class) })
+    public Response fakeHealthGet(@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.fakeHealthGet(securityContext);
+    }
     @POST
     @Path("/outer/boolean")
     @Consumes({ "application/json" })
@@ -70,7 +82,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
-    public Response fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body" ) @Valid Boolean body
+    public Response fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body" ) Boolean body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterBooleanSerialize(body,securityContext);
@@ -94,7 +106,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
-    public Response fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body" ) @Valid BigDecimal body
+    public Response fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body" ) BigDecimal body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterNumberSerialize(body,securityContext);
@@ -106,7 +118,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output string", response = String.class) })
-    public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body" ) @Valid String body
+    public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body" ) String body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterStringSerialize(body,securityContext);
@@ -118,7 +130,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
-    public Response testBodyWithFileSchema(@ApiParam(value = "" ,required=true) @Valid FileSchemaTestClass fileSchemaTestClass
+    public Response testBodyWithFileSchema(@ApiParam(value = "" ,required=true) @NotNull @Valid FileSchemaTestClass fileSchemaTestClass
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithFileSchema(fileSchemaTestClass,securityContext);
@@ -131,7 +143,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
     public Response testBodyWithQueryParams(@ApiParam(value = "",required=true) @QueryParam("query") String query
-,@ApiParam(value = "" ,required=true) @Valid User user
+,@ApiParam(value = "" ,required=true) @NotNull @Valid User user
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithQueryParams(query,user,securityContext);
@@ -143,7 +155,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Response testClientModel(@ApiParam(value = "client model" ,required=true) @Valid Client client
+    public Response testClientModel(@ApiParam(value = "client model" ,required=true) @NotNull @Valid Client client
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testClientModel(client,securityContext);
@@ -204,7 +216,9 @@ public class FakeApi  {
     
     
     
-    @io.swagger.annotations.ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiOperation(value = "Fake endpoint to test group parameters (optional)", notes = "Fake endpoint to test group parameters (optional)", response = Void.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "bearer_test")
+    }, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 400, message = "Someting wrong", response = Void.class) })
     public Response testGroupParameters(@ApiParam(value = "Required String in group parameters",required=true) @QueryParam("required_string_group") Integer requiredStringGroup
@@ -224,7 +238,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "test inline additionalProperties", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true) @Valid Map<String, String> requestBody
+    public Response testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true) @NotNull @Valid Map<String, String> requestBody
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testInlineAdditionalProperties(requestBody,securityContext);

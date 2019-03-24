@@ -77,11 +77,10 @@
       var contentTypes = ['application/json', 'application/xml'];
       var accepts = [];
       var returnType = null;
-
       return this.apiClient.callApi(
         '/pet', 'POST',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -132,11 +131,10 @@
       var contentTypes = [];
       var accepts = [];
       var returnType = null;
-
       return this.apiClient.callApi(
         '/pet/{petId}', 'DELETE',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -189,11 +187,10 @@
       var contentTypes = [];
       var accepts = ['application/xml', 'application/json'];
       var returnType = [Pet];
-
       return this.apiClient.callApi(
         '/pet/findByStatus', 'GET',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -245,11 +242,10 @@
       var contentTypes = [];
       var accepts = ['application/xml', 'application/json'];
       var returnType = [Pet];
-
       return this.apiClient.callApi(
         '/pet/findByTags', 'GET',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -298,11 +294,10 @@
       var contentTypes = [];
       var accepts = ['application/xml', 'application/json'];
       var returnType = Pet;
-
       return this.apiClient.callApi(
         '/pet/{petId}', 'GET',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -349,11 +344,10 @@
       var contentTypes = ['application/json', 'application/xml'];
       var accepts = [];
       var returnType = null;
-
       return this.apiClient.callApi(
         '/pet', 'PUT',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -406,11 +400,10 @@
       var contentTypes = ['application/x-www-form-urlencoded'];
       var accepts = [];
       var returnType = null;
-
       return this.apiClient.callApi(
         '/pet/{petId}', 'POST',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -466,11 +459,10 @@
       var contentTypes = ['multipart/form-data'];
       var accepts = ['application/json'];
       var returnType = ApiResponse;
-
       return this.apiClient.callApi(
         '/pet/{petId}/uploadImage', 'POST',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -531,11 +523,10 @@
       var contentTypes = ['multipart/form-data'];
       var accepts = ['application/json'];
       var returnType = ApiResponse;
-
       return this.apiClient.callApi(
         '/fake/{petId}/uploadImageWithRequiredFile', 'POST',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 

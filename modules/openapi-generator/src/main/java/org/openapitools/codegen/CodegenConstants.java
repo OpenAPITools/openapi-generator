@@ -108,9 +108,6 @@ public class CodegenConstants {
     public static final String IMPL_FOLDER = "implFolder";
     public static final String IMPL_FOLDER_DESC = "folder for generated implementation code";
 
-    public static final String LOCAL_VARIABLE_PREFIX = "localVariablePrefix";
-    public static final String LOCAL_VARIABLE_PREFIX_DESC = "prefix for generated code members and local variables";
-
     public static final String SERIALIZABLE_MODEL = "serializableModel";
     public static final String SERIALIZABLE_MODEL_DESC = "boolean - toggle \"implements Serializable\" for generated models";
 
@@ -283,10 +280,14 @@ public class CodegenConstants {
     public static final String ENABLE_POST_PROCESS_FILE_DESC = "Enable post-processing file using environment variables.";
 
     public static final String OPEN_API_SPEC_NAME = "openAPISpecName";
-
+  
     public static final String GENERATE_ALIAS_AS_MODEL = "generateAliasAsModel";
     public static final String GENERATE_ALIAS_AS_MODEL_DESC = "Generate alias to map, array as models";
 
     public static final String USE_COMPARE_NET_OBJECTS = "useCompareNetObjects";
     public static final String USE_COMPARE_NET_OBJECTS_DESC = "Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.";
+  
+    public static final String SNAPSHOT_VERSION = "snapshotVersion";
+    public static final String SNAPSHOT_VERSION_DESC = "Uses a SNAPSHOT version.";
+
 }

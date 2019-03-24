@@ -4,6 +4,7 @@ package org.openapitools.server
 import io.ktor.auth.OAuthServerSettings
 import io.ktor.features.*
 import io.ktor.http.*
+import io.ktor.util.KtorExperimentalAPI
 import java.time.Duration
 import java.util.concurrent.Executors
 
@@ -50,6 +51,7 @@ internal fun ApplicationCompressionConfiguration(): Compression.Configuration.()
 }
 
 // Defines authentication mechanisms used throughout the application.
+@KtorExperimentalAPI
 val ApplicationAuthProviders: Map<String, OAuthServerSettings> = listOf<OAuthServerSettings>(
         OAuthServerSettings.OAuth2ServerSettings(
             name = "petstore_auth",

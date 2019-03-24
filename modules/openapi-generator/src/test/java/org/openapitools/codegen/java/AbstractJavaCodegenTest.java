@@ -17,15 +17,15 @@
 
 package org.openapitools.codegen.java;
 
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.parser.core.models.ParseOptions;
-
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.File;
 
 public class AbstractJavaCodegenTest {
 
@@ -58,7 +58,7 @@ public class AbstractJavaCodegenTest {
  
     @Test
     public void testPreprocessOpenAPI() throws Exception {
-        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
         final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
         codegen.preprocessOpenAPI(openAPI);
@@ -156,6 +156,95 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.toEnumValue("3.14", "Float"), "3.14f");
     }
 
+    @Test
+    public void apiFileFolder() {
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOutputDir("/User/open.api.tools");
+        codegen.setSourceFolder("source.folder");
+        codegen.setApiPackage("org.openapitools.codegen.api");
+        Assert.assertEquals(codegen.apiFileFolder(), "/User/open.api.tools/source.folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+    }
+
+    @Test
+    public void apiTestFileFolder() {
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOutputDir("/User/open.api.tools");
+        codegen.setTestFolder("test.folder");
+        codegen.setApiPackage("org.openapitools.codegen.api");
+        Assert.assertEquals(codegen.apiTestFileFolder(), "/User/open.api.tools/test.folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+    }
+
+    @Test
+    public void modelTestFileFolder() {
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOutputDir("/User/open.api.tools");
+        codegen.setTestFolder("test.folder");
+        codegen.setModelPackage("org.openapitools.codegen.model");
+        Assert.assertEquals(codegen.modelTestFileFolder(), "/User/open.api.tools/test.folder/org/openapitools/codegen/model".replace('/', File.separatorChar));
+    }
+
+    @Test
+    public void modelFileFolder() {
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOutputDir("/User/open.api.tools");
+        codegen.setSourceFolder("source.folder");
+        codegen.setModelPackage("org.openapitools.codegen.model");
+        Assert.assertEquals(codegen.modelFileFolder(), "/User/open.api.tools/source.folder/org/openapitools/codegen/model".replace('/', File.separatorChar));
+    }
+
+    @Test
+    public void apiDocFileFolder() {
+        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOutputDir("/User/open.api.tools");
+        Assert.assertEquals(codegen.apiDocFileFolder(), "/User/open.api.tools/docs/".replace('/', File.separatorChar));
+    }
+  
+    @Test(description = "tests if API version specification is used if no version is provided in additional properties")
+    public void openApiversionTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        codegen.setOpenAPI(api);
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.getArtifactVersion(), "1.0.7");
+    }
+
+    @Test(description = "tests if artifactVersion additional property is used")
+    public void additionalPropertyArtifactVersionTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        codegen.additionalProperties().put("artifactVersion", "1.1.1");
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        codegen.setOpenAPI(api);
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.getArtifactVersion(), "1.1.1");
+    }
+
+    @Test(description = "tests if default version is used when neither OpenAPI version nor artifactVersion additional property has been provided")
+    public void defautlVersionTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.getArtifactVersion(), "1.0.0");
+    }
+
+    @Test(description = "tests if default version is used when neither OpenAPI version nor artifactVersion additional property has been provided")
+    public void snapshotVersionTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        codegen.additionalProperties().put("snapshotVersion", "true");
+
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.getArtifactVersion(), "1.0.0-SNAPSHOT");
+    }
+
     private static class P_AbstractJavaCodegen extends AbstractJavaCodegen {
         @Override
         public CodegenType getTag() {
@@ -171,5 +260,11 @@ public class AbstractJavaCodegenTest {
         public String getHelp() {
             return null;
         }
+
+        /**
+         * Gets artifact version.
+         * Only for testing purposes.
+         */
+        public String getArtifactVersion () { return this.artifactVersion; }
     }
 }

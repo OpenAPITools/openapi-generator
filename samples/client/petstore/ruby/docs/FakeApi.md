@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**create_xml_item**](FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
 [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -18,8 +19,52 @@ Method | HTTP request | Description
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 
 
+# **create_xml_item**
+> create_xml_item(xml_item)
+
+creates an XmlItem
+
+this route creates an XmlItem
+
+### Example
+```ruby
+# load the gem
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+xml_item = Petstore::XmlItem.new # XmlItem | XmlItem Body
+
+begin
+  #creates an XmlItem
+  api_instance.create_xml_item(xml_item)
+rescue Petstore::ApiError => e
+  puts "Exception when calling FakeApi->create_xml_item: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **xml_item** | [**XmlItem**](XmlItem.md)| XmlItem Body | 
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+ - **Accept**: Not defined
+
+
+
 # **fake_outer_boolean_serialize**
-> BOOLEAN fake_outer_boolean_serialize(opts)
+> Boolean fake_outer_boolean_serialize(opts)
 
 
 
@@ -32,7 +77,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  body: true # BOOLEAN | Input boolean as post body
+  body: true # Boolean | Input boolean as post body
 }
 
 begin
@@ -47,11 +92,11 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **BOOLEAN**| Input boolean as post body | [optional] 
+ **body** | **Boolean**| Input boolean as post body | [optional] 
 
 ### Return type
 
-**BOOLEAN**
+**Boolean**
 
 ### Authorization
 
@@ -485,11 +530,11 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 required_string_group = 56 # Integer | Required String in group parameters
-required_boolean_group = true # BOOLEAN | Required Boolean in group parameters
+required_boolean_group = true # Boolean | Required Boolean in group parameters
 required_int64_group = 56 # Integer | Required Integer in group parameters
 opts = {
   string_group: 56, # Integer | String in group parameters
-  boolean_group: true, # BOOLEAN | Boolean in group parameters
+  boolean_group: true, # Boolean | Boolean in group parameters
   int64_group: 56 # Integer | Integer in group parameters
 }
 
@@ -506,10 +551,10 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **required_string_group** | **Integer**| Required String in group parameters | 
- **required_boolean_group** | **BOOLEAN**| Required Boolean in group parameters | 
+ **required_boolean_group** | **Boolean**| Required Boolean in group parameters | 
  **required_int64_group** | **Integer**| Required Integer in group parameters | 
  **string_group** | **Integer**| String in group parameters | [optional] 
- **boolean_group** | **BOOLEAN**| Boolean in group parameters | [optional] 
+ **boolean_group** | **Boolean**| Boolean in group parameters | [optional] 
  **int64_group** | **Integer**| Integer in group parameters | [optional] 
 
 ### Return type

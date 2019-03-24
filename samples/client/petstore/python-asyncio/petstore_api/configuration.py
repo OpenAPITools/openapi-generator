@@ -59,10 +59,8 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         self.username = ""
         # Password for HTTP basic authentication
         self.password = ""
-
-        # access token for OAuth
+        # access token for OAuth/Bearer
         self.access_token = ""
-
         # Logging Settings
         self.logger = {}
         self.logger["package_logger"] = logging.getLogger("petstore_api")
@@ -100,8 +98,12 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
 
         # Proxy URL
         self.proxy = None
+        # Proxy headers
+        self.proxy_headers = None
         # Safe chars for path_param
         self.safe_chars_for_path_param = ''
+        # Adding retries to override urllib3 default value 3
+        self.retries = None
 
     @property
     def logger_file(self):
@@ -236,7 +238,6 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                     'key': 'Authorization',
                     'value': self.get_basic_auth_token()
                 },
-
             'petstore_auth':
                 {
                     'type': 'oauth2',
@@ -244,7 +245,6 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                     'key': 'Authorization',
                     'value': 'Bearer ' + self.access_token
                 },
-
         }
 
     def to_debug_report(self):
@@ -258,3 +258,54 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
                "Version of the API: 1.0.0\n"\
                "SDK Package Version: 1.0.0".\
                format(env=sys.platform, pyversion=sys.version)
+
+    def get_host_settings(self):
+        """Gets an array of host settings
+
+        :return: An array of host settings
+        """
+        return [
+            {
+                'url': "http://petstore.swagger.io:80/v2",
+                'description': "No description provided",
+            }
+        ]
+
+    def get_host_from_settings(self, index, variables={}):
+        """Gets host URL based on the index and variables
+        :param index: array index of the host settings
+        :param variables: hash of variable and the corresponding value
+        :return: URL based on host settings
+        """
+
+        servers = self.get_host_settings()
+
+        # check array index out of bound
+        if index < 0 or index >= len(servers):
+            raise ValueError(
+                "Invalid index {} when selecting the host settings. Must be less than {}"  # noqa: E501
+                .format(index, len(servers)))
+
+        server = servers[index]
+        url = server['url']
+
+        # go through variable and assign a value
+        for variable_name in server['variables']:
+            if variable_name in variables:
+                if variables[variable_name] in server['variables'][
+                        variable_name]['enum_values']:
+                    url = url.replace("{" + variable_name + "}",
+                                      variables[variable_name])
+                else:
+                    raise ValueError(
+                        "The variable `{}` in the host URL has invalid value {}. Must be {}."  # noqa: E501
+                        .format(
+                            variable_name, variables[variable_name],
+                            server['variables'][variable_name]['enum_values']))
+            else:
+                # use default value
+                url = url.replace(
+                    "{" + variable_name + "}",
+                    server['variables'][variable_name]['default_value'])
+
+        return url

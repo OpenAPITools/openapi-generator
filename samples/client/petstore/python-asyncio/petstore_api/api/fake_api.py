@@ -18,6 +18,10 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
+from petstore_api.exceptions import (
+    ApiTypeError,
+    ApiValueError
+)
 
 
 class FakeApi(object):
@@ -31,6 +35,102 @@ class FakeApi(object):
         if api_client is None:
             api_client = ApiClient()
         self.api_client = api_client
+
+    def create_xml_item(self, xml_item, **kwargs):  # noqa: E501
+        """creates an XmlItem  # noqa: E501
+
+        this route creates an XmlItem  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_xml_item(xml_item, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param XmlItem xml_item: XmlItem Body (required)
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        if kwargs.get('async_req'):
+            return self.create_xml_item_with_http_info(xml_item, **kwargs)  # noqa: E501
+        else:
+            (data) = self.create_xml_item_with_http_info(xml_item, **kwargs)  # noqa: E501
+            return data
+
+    def create_xml_item_with_http_info(self, xml_item, **kwargs):  # noqa: E501
+        """creates an XmlItem  # noqa: E501
+
+        this route creates an XmlItem  # noqa: E501
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.create_xml_item_with_http_info(xml_item, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool
+        :param XmlItem xml_item: XmlItem Body (required)
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = ['xml_item']  # noqa: E501
+        all_params.append('async_req')
+        all_params.append('_return_http_data_only')
+        all_params.append('_preload_content')
+        all_params.append('_request_timeout')
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method create_xml_item" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'xml_item' is set
+        if ('xml_item' not in local_var_params or
+                local_var_params['xml_item'] is None):
+            raise ApiValueError("Missing the required parameter `xml_item` when calling `create_xml_item`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+
+        header_params = {}
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'xml_item' in local_var_params:
+            body_params = local_var_params['xml_item']
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/xml', 'application/xml; charset=utf-8', 'application/xml; charset=utf-16', 'text/xml', 'text/xml; charset=utf-8', 'text/xml; charset=utf-16'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = []  # noqa: E501
+
+        return self.api_client.call_api(
+            '/fake/create_xml_item', 'POST',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type=None,  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
 
     def fake_outer_boolean_serialize(self, **kwargs):  # noqa: E501
         """fake_outer_boolean_serialize  # noqa: E501
@@ -80,7 +180,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_boolean_serialize" % key
                 )
@@ -134,7 +234,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param OuterComposite outer_composite: Input composite as post body
+        :param OuterComposite body: Input composite as post body
         :return: OuterComposite
                  If the method is called asynchronously,
                  returns the request thread.
@@ -156,7 +256,7 @@ class FakeApi(object):
         >>> result = thread.get()
 
         :param async_req bool
-        :param OuterComposite outer_composite: Input composite as post body
+        :param OuterComposite body: Input composite as post body
         :return: OuterComposite
                  If the method is called asynchronously,
                  returns the request thread.
@@ -164,7 +264,7 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = ['outer_composite']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -172,7 +272,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_composite_serialize" % key
                 )
@@ -191,8 +291,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'outer_composite' in local_var_params:
-            body_params = local_var_params['outer_composite']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['*/*'])  # noqa: E501
@@ -264,7 +364,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_number_serialize" % key
                 )
@@ -356,7 +456,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_string_serialize" % key
                 )
@@ -400,39 +500,39 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_body_with_file_schema(self, file_schema_test_class, **kwargs):  # noqa: E501
+    def test_body_with_file_schema(self, body, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
         For this test, the body for this request much reference a schema named `File`.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_body_with_file_schema(file_schema_test_class, async_req=True)
+        >>> thread = api.test_body_with_file_schema(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param FileSchemaTestClass file_schema_test_class: (required)
+        :param FileSchemaTestClass body: (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.test_body_with_file_schema_with_http_info(file_schema_test_class, **kwargs)  # noqa: E501
+            return self.test_body_with_file_schema_with_http_info(body, **kwargs)  # noqa: E501
         else:
-            (data) = self.test_body_with_file_schema_with_http_info(file_schema_test_class, **kwargs)  # noqa: E501
+            (data) = self.test_body_with_file_schema_with_http_info(body, **kwargs)  # noqa: E501
             return data
 
-    def test_body_with_file_schema_with_http_info(self, file_schema_test_class, **kwargs):  # noqa: E501
+    def test_body_with_file_schema_with_http_info(self, body, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
 
         For this test, the body for this request much reference a schema named `File`.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_body_with_file_schema_with_http_info(file_schema_test_class, async_req=True)
+        >>> thread = api.test_body_with_file_schema_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param FileSchemaTestClass file_schema_test_class: (required)
+        :param FileSchemaTestClass body: (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -440,7 +540,7 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = ['file_schema_test_class']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -448,16 +548,16 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_body_with_file_schema" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'file_schema_test_class' is set
-        if ('file_schema_test_class' not in local_var_params or
-                local_var_params['file_schema_test_class'] is None):
-            raise ValueError("Missing the required parameter `file_schema_test_class` when calling `test_body_with_file_schema`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ApiValueError("Missing the required parameter `body` when calling `test_body_with_file_schema`")  # noqa: E501
 
         collection_formats = {}
 
@@ -471,8 +571,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'file_schema_test_class' in local_var_params:
-            body_params = local_var_params['file_schema_test_class']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json'])  # noqa: E501
@@ -496,39 +596,39 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_body_with_query_params(self, query, user, **kwargs):  # noqa: E501
+    def test_body_with_query_params(self, query, body, **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_body_with_query_params(query, user, async_req=True)
+        >>> thread = api.test_body_with_query_params(query, body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str query: (required)
-        :param User user: (required)
+        :param User body: (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.test_body_with_query_params_with_http_info(query, user, **kwargs)  # noqa: E501
+            return self.test_body_with_query_params_with_http_info(query, body, **kwargs)  # noqa: E501
         else:
-            (data) = self.test_body_with_query_params_with_http_info(query, user, **kwargs)  # noqa: E501
+            (data) = self.test_body_with_query_params_with_http_info(query, body, **kwargs)  # noqa: E501
             return data
 
-    def test_body_with_query_params_with_http_info(self, query, user, **kwargs):  # noqa: E501
+    def test_body_with_query_params_with_http_info(self, query, body, **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_body_with_query_params_with_http_info(query, user, async_req=True)
+        >>> thread = api.test_body_with_query_params_with_http_info(query, body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str query: (required)
-        :param User user: (required)
+        :param User body: (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -536,7 +636,7 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = ['query', 'user']  # noqa: E501
+        all_params = ['query', 'body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -544,7 +644,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_body_with_query_params" % key
                 )
@@ -553,11 +653,11 @@ class FakeApi(object):
         # verify the required parameter 'query' is set
         if ('query' not in local_var_params or
                 local_var_params['query'] is None):
-            raise ValueError("Missing the required parameter `query` when calling `test_body_with_query_params`")  # noqa: E501
-        # verify the required parameter 'user' is set
-        if ('user' not in local_var_params or
-                local_var_params['user'] is None):
-            raise ValueError("Missing the required parameter `user` when calling `test_body_with_query_params`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `query` when calling `test_body_with_query_params`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ApiValueError("Missing the required parameter `body` when calling `test_body_with_query_params`")  # noqa: E501
 
         collection_formats = {}
 
@@ -573,8 +673,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'user' in local_var_params:
-            body_params = local_var_params['user']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json'])  # noqa: E501
@@ -598,39 +698,39 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_client_model(self, client, **kwargs):  # noqa: E501
+    def test_client_model(self, body, **kwargs):  # noqa: E501
         """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_client_model(client, async_req=True)
+        >>> thread = api.test_client_model(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Client client: client model (required)
+        :param Client body: client model (required)
         :return: Client
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.test_client_model_with_http_info(client, **kwargs)  # noqa: E501
+            return self.test_client_model_with_http_info(body, **kwargs)  # noqa: E501
         else:
-            (data) = self.test_client_model_with_http_info(client, **kwargs)  # noqa: E501
+            (data) = self.test_client_model_with_http_info(body, **kwargs)  # noqa: E501
             return data
 
-    def test_client_model_with_http_info(self, client, **kwargs):  # noqa: E501
+    def test_client_model_with_http_info(self, body, **kwargs):  # noqa: E501
         """To test \"client\" model  # noqa: E501
 
         To test \"client\" model  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_client_model_with_http_info(client, async_req=True)
+        >>> thread = api.test_client_model_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Client client: client model (required)
+        :param Client body: client model (required)
         :return: Client
                  If the method is called asynchronously,
                  returns the request thread.
@@ -638,7 +738,7 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = ['client']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -646,16 +746,16 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_client_model" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'client' is set
-        if ('client' not in local_var_params or
-                local_var_params['client'] is None):
-            raise ValueError("Missing the required parameter `client` when calling `test_client_model`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ApiValueError("Missing the required parameter `body` when calling `test_client_model`")  # noqa: E501
 
         collection_formats = {}
 
@@ -669,8 +769,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'client' in local_var_params:
-            body_params = local_var_params['client']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501
@@ -772,7 +872,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_endpoint_parameters" % key
                 )
@@ -781,48 +881,48 @@ class FakeApi(object):
         # verify the required parameter 'number' is set
         if ('number' not in local_var_params or
                 local_var_params['number'] is None):
-            raise ValueError("Missing the required parameter `number` when calling `test_endpoint_parameters`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `number` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'double' is set
         if ('double' not in local_var_params or
                 local_var_params['double'] is None):
-            raise ValueError("Missing the required parameter `double` when calling `test_endpoint_parameters`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `double` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'pattern_without_delimiter' is set
         if ('pattern_without_delimiter' not in local_var_params or
                 local_var_params['pattern_without_delimiter'] is None):
-            raise ValueError("Missing the required parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'byte' is set
         if ('byte' not in local_var_params or
                 local_var_params['byte'] is None):
-            raise ValueError("Missing the required parameter `byte` when calling `test_endpoint_parameters`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `byte` when calling `test_endpoint_parameters`")  # noqa: E501
 
         if 'number' in local_var_params and local_var_params['number'] > 543.2:  # noqa: E501
-            raise ValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value less than or equal to `543.2`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value less than or equal to `543.2`")  # noqa: E501
         if 'number' in local_var_params and local_var_params['number'] < 32.1:  # noqa: E501
-            raise ValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value greater than or equal to `32.1`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value greater than or equal to `32.1`")  # noqa: E501
         if 'double' in local_var_params and local_var_params['double'] > 123.4:  # noqa: E501
-            raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value less than or equal to `123.4`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value less than or equal to `123.4`")  # noqa: E501
         if 'double' in local_var_params and local_var_params['double'] < 67.8:  # noqa: E501
-            raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value greater than or equal to `67.8`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value greater than or equal to `67.8`")  # noqa: E501
         if 'pattern_without_delimiter' in local_var_params and not re.search(r'^[A-Z].*', local_var_params['pattern_without_delimiter']):  # noqa: E501
-            raise ValueError("Invalid value for parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`, must conform to the pattern `/^[A-Z].*/`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`, must conform to the pattern `/^[A-Z].*/`")  # noqa: E501
         if 'integer' in local_var_params and local_var_params['integer'] > 100:  # noqa: E501
-            raise ValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value less than or equal to `100`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value less than or equal to `100`")  # noqa: E501
         if 'integer' in local_var_params and local_var_params['integer'] < 10:  # noqa: E501
-            raise ValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value greater than or equal to `10`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value greater than or equal to `10`")  # noqa: E501
         if 'int32' in local_var_params and local_var_params['int32'] > 200:  # noqa: E501
-            raise ValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value less than or equal to `200`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value less than or equal to `200`")  # noqa: E501
         if 'int32' in local_var_params and local_var_params['int32'] < 20:  # noqa: E501
-            raise ValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value greater than or equal to `20`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value greater than or equal to `20`")  # noqa: E501
         if 'float' in local_var_params and local_var_params['float'] > 987.6:  # noqa: E501
-            raise ValueError("Invalid value for parameter `float` when calling `test_endpoint_parameters`, must be a value less than or equal to `987.6`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `float` when calling `test_endpoint_parameters`, must be a value less than or equal to `987.6`")  # noqa: E501
         if 'string' in local_var_params and not re.search(r'[a-z]', local_var_params['string'], flags=re.IGNORECASE):  # noqa: E501
-            raise ValueError("Invalid value for parameter `string` when calling `test_endpoint_parameters`, must conform to the pattern `/[a-z]/i`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `string` when calling `test_endpoint_parameters`, must conform to the pattern `/[a-z]/i`")  # noqa: E501
         if ('password' in local_var_params and
                 len(local_var_params['password']) > 64):
-            raise ValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be less than or equal to `64`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be less than or equal to `64`")  # noqa: E501
         if ('password' in local_var_params and
                 len(local_var_params['password']) < 10):
-            raise ValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be greater than or equal to `10`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be greater than or equal to `10`")  # noqa: E501
         collection_formats = {}
 
         path_params = {}
@@ -948,7 +1048,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_enum_parameters" % key
                 )
@@ -1067,7 +1167,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_group_parameters" % key
                 )
@@ -1076,15 +1176,15 @@ class FakeApi(object):
         # verify the required parameter 'required_string_group' is set
         if ('required_string_group' not in local_var_params or
                 local_var_params['required_string_group'] is None):
-            raise ValueError("Missing the required parameter `required_string_group` when calling `test_group_parameters`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `required_string_group` when calling `test_group_parameters`")  # noqa: E501
         # verify the required parameter 'required_boolean_group' is set
         if ('required_boolean_group' not in local_var_params or
                 local_var_params['required_boolean_group'] is None):
-            raise ValueError("Missing the required parameter `required_boolean_group` when calling `test_group_parameters`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `required_boolean_group` when calling `test_group_parameters`")  # noqa: E501
         # verify the required parameter 'required_int64_group' is set
         if ('required_int64_group' not in local_var_params or
                 local_var_params['required_int64_group'] is None):
-            raise ValueError("Missing the required parameter `required_int64_group` when calling `test_group_parameters`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `required_int64_group` when calling `test_group_parameters`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1129,37 +1229,37 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def test_inline_additional_properties(self, request_body, **kwargs):  # noqa: E501
+    def test_inline_additional_properties(self, param, **kwargs):  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_inline_additional_properties(request_body, async_req=True)
+        >>> thread = api.test_inline_additional_properties(param, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param dict(str, str) request_body: request body (required)
+        :param dict(str, str) param: request body (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.test_inline_additional_properties_with_http_info(request_body, **kwargs)  # noqa: E501
+            return self.test_inline_additional_properties_with_http_info(param, **kwargs)  # noqa: E501
         else:
-            (data) = self.test_inline_additional_properties_with_http_info(request_body, **kwargs)  # noqa: E501
+            (data) = self.test_inline_additional_properties_with_http_info(param, **kwargs)  # noqa: E501
             return data
 
-    def test_inline_additional_properties_with_http_info(self, request_body, **kwargs):  # noqa: E501
+    def test_inline_additional_properties_with_http_info(self, param, **kwargs):  # noqa: E501
         """test inline additionalProperties  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.test_inline_additional_properties_with_http_info(request_body, async_req=True)
+        >>> thread = api.test_inline_additional_properties_with_http_info(param, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param dict(str, str) request_body: request body (required)
+        :param dict(str, str) param: request body (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1167,7 +1267,7 @@ class FakeApi(object):
 
         local_var_params = locals()
 
-        all_params = ['request_body']  # noqa: E501
+        all_params = ['param']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -1175,16 +1275,16 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_inline_additional_properties" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'request_body' is set
-        if ('request_body' not in local_var_params or
-                local_var_params['request_body'] is None):
-            raise ValueError("Missing the required parameter `request_body` when calling `test_inline_additional_properties`")  # noqa: E501
+        # verify the required parameter 'param' is set
+        if ('param' not in local_var_params or
+                local_var_params['param'] is None):
+            raise ApiValueError("Missing the required parameter `param` when calling `test_inline_additional_properties`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1198,8 +1298,8 @@ class FakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'request_body' in local_var_params:
-            body_params = local_var_params['request_body']
+        if 'param' in local_var_params:
+            body_params = local_var_params['param']
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json'])  # noqa: E501
@@ -1271,7 +1371,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_json_form_data" % key
                 )
@@ -1280,11 +1380,11 @@ class FakeApi(object):
         # verify the required parameter 'param' is set
         if ('param' not in local_var_params or
                 local_var_params['param'] is None):
-            raise ValueError("Missing the required parameter `param` when calling `test_json_form_data`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `param` when calling `test_json_form_data`")  # noqa: E501
         # verify the required parameter 'param2' is set
         if ('param2' not in local_var_params or
                 local_var_params['param2'] is None):
-            raise ValueError("Missing the required parameter `param2` when calling `test_json_form_data`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `param2` when calling `test_json_form_data`")  # noqa: E501
 
         collection_formats = {}
 

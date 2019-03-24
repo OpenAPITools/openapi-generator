@@ -45,8 +45,7 @@ public class Animal   {
    **/
   @JsonProperty("className")
   @ApiModelProperty(required = true, value = "")
-    @NotNull
-
+  @NotNull 
   public String getClassName() {
     return className;
   }

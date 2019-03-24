@@ -1,8 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace {{package}};
 
-use Articus\PathHandler\Operation;
 use Articus\PathHandler\Annotation as PHA;
 use Articus\PathHandler\Consumer as PHConsumer;
 use Articus\PathHandler\Producer as PHProducer;
@@ -17,7 +17,7 @@ use Psr\Http\Message\ServerRequestInterface;
 {{/description}}
  * @PHA\Route(pattern="{{pathPattern}}")
  */
-class {{classname}} implements {{interfacesToImplement}}
+class {{classname}}
 {
 {{#operation}}
     /**
@@ -27,6 +27,7 @@ class {{classname}} implements {{interfacesToImplement}}
 {{#description}}
      * {{description}}
 {{/description}}
+     * @PHA\{{httpMethod}}
 {{#vendorExtensions}}
 {{#internal.ze-ph.hasQueryData}}
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={
@@ -44,8 +45,11 @@ class {{classname}} implements {{interfacesToImplement}}
 {{^isPrimitiveType}}
 {{#isContainer}}
      * TODO check if attribute is valid and can handle your container type
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":"{{dataType}}","objectAttr":"bodyData"})
 {{/isContainer}}
+{{^isContainer}}
      * @PHA\Attribute(name=PHAttribute\Transfer::class, options={"type":{{dataType}}::class,"objectAttr":"bodyData"})
+{{/isContainer}}
 {{/isPrimitiveType}}
 {{/bodyParam}}
 {{#produces}}
@@ -54,13 +58,16 @@ class {{classname}} implements {{interfacesToImplement}}
 {{/produces}}
      * @param ServerRequestInterface $request
      *
-     * @throws PHException\HttpCode 500 if the method is not implemented
+     * @throws PHException\HttpCode 501 if the method is not implemented
 {{#returnType}}
      *
+{{#returnContainer}}
+     * TODO check if generated return container type is valid
+{{/returnContainer}}
      * @return {{returnType}}
 {{/returnType}}
      */
-    public function {{httpMethod}}(ServerRequestInterface $request)
+    public function {{operationId}}(ServerRequestInterface $request){{#returnType}}: {{#returnContainer}}array{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}}{{/returnType}}
     {
         //TODO implement method
 {{#vendorExtensions}}
@@ -75,7 +82,7 @@ class {{classname}} implements {{interfacesToImplement}}
         $bodyData = $request->getAttribute("bodyData");
 {{/isPrimitiveType}}
 {{/bodyParam}}
-        throw new PHException\HttpCode(500, "Not implemented");
+        throw new PHException\HttpCode(501, "Not implemented");
     }
 {{/operation}}
 }

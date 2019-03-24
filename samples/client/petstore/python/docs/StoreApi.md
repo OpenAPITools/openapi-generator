@@ -18,6 +18,7 @@ Delete purchase order by ID
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -66,16 +67,15 @@ Returns a map of status codes to quantities
 
 ### Example
 
-* Api Key Authentication (api_key): 
+* Api Key Authentication (api_key):
 ```python
 from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
-
-# Configure API key authorization: api_key
 configuration = petstore_api.Configuration()
+# Configure API key authorization: api_key
 configuration.api_key['api_key'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
@@ -117,6 +117,7 @@ Find purchase order by ID
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time
@@ -163,6 +164,7 @@ No authorization required
 Place an order for a pet
 
 ### Example
+
 ```python
 from __future__ import print_function
 import time

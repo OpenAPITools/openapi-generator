@@ -23,12 +23,12 @@ class UserApi extends _$UserApiClient implements ApiClient {
     @PostReq(path: "/user")
     Future<void> createUser(
             
-              @AsJson() User user
+              @AsJson() User body
         ) {
         return super.createUser(
 
         
-        user
+        body
         ).timeout(timeout);
     }
 
@@ -38,12 +38,12 @@ class UserApi extends _$UserApiClient implements ApiClient {
     @PostReq(path: "/user/createWithArray")
     Future<void> createUsersWithArrayInput(
             
-              @AsJson() List<User> user
+              @AsJson() List<User> body
         ) {
         return super.createUsersWithArrayInput(
 
         
-        user
+        body
         ).timeout(timeout);
     }
 
@@ -53,12 +53,12 @@ class UserApi extends _$UserApiClient implements ApiClient {
     @PostReq(path: "/user/createWithList")
     Future<void> createUsersWithListInput(
             
-              @AsJson() List<User> user
+              @AsJson() List<User> body
         ) {
         return super.createUsersWithListInput(
 
         
-        user
+        body
         ).timeout(timeout);
     }
 
@@ -125,13 +125,13 @@ class UserApi extends _$UserApiClient implements ApiClient {
     Future<void> updateUser(
             @PathParam("username") String username
             ,
-              @AsJson() User user
+              @AsJson() User body
         ) {
         return super.updateUser(
         username
 
         ,
-        user
+        body
         ).timeout(timeout);
     }
 

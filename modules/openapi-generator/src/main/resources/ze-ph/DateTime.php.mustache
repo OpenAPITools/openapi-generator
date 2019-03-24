@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace {{invokerPackage}}\Strategy;
 
@@ -9,7 +10,7 @@ class DateTime implements StrategyInterface
     const DATE_TIME_FORMAT = \DateTime::RFC3339;
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function extract($objectValue, $object = null)
     {
@@ -21,7 +22,7 @@ class DateTime implements StrategyInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function hydrate($arrayValue, $objectValue, array $array = null)
     {
@@ -37,7 +38,7 @@ class DateTime implements StrategyInterface
 
     /**
      * @param $arrayValue
-     * @return \DateTime
+     * @return bool|\DateTime
      */
     protected function parseDateString($arrayValue)
     {

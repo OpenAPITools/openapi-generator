@@ -1,19 +1,14 @@
 
-CONFIG OPTIONS for c
+---
+id: generator-opts-client-c
+title: Config Options for c
+sidebar_label: c
+---
 
-	sortParamsByRequiredFlag
-	    Sort method arguments to place required parameters before optional parameters. (Default: true)
-
-	ensureUniqueParams
-	    Whether to ensure parameter names are unique in an operation (rename parameters that are not). (Default: true)
-
-	allowUnicodeIdentifiers
-	    boolean, toggles whether unicode identifiers are allowed in names or not, default is false (Default: false)
-
-	prependFormOrBodyParameters
-	    Add form or body parameters to the beginning of the parameter list. (Default: false)
-
-	hideGenerationTimestamp
-	    Hides the generation timestamp when files are generated. (Default: true)
-
-Back to the [generators list](README.md)
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
+|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
+|allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
+|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
+|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|

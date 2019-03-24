@@ -42,7 +42,7 @@ public class NumberOnly  implements Serializable {
    **/
   @JsonProperty("JustNumber")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public BigDecimal getJustNumber() {
     return justNumber;
   }

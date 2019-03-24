@@ -32,9 +32,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.escape;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
@@ -491,6 +489,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toModelName(final String name) {
+
         // Allow for explicitly configured kotlin.* and java.* types
         if (name.startsWith("kotlin.") || name.startsWith("java.")) {
             return name;
@@ -502,10 +501,21 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         String modifiedName = name.replaceAll("\\.", "");
-        modifiedName = sanitizeKotlinSpecificNames(modifiedName);
+        String sanitizedName = sanitizeKotlinSpecificNames(modifiedName);
+
+        String nameWithPrefixSuffix = sanitizedName;
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            // add '_' so that model name can be camelized correctly
+            nameWithPrefixSuffix = modelNamePrefix + "_" + nameWithPrefixSuffix;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            // add '_' so that model name can be camelized correctly
+            nameWithPrefixSuffix = nameWithPrefixSuffix + "_" + modelNameSuffix;
+        }
 
         // Camelize name of nested properties
-        modifiedName = camelize(modifiedName);
+        modifiedName = camelize(nameWithPrefixSuffix);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(modifiedName)) {

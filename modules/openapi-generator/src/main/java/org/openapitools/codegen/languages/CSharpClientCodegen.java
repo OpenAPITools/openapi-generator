@@ -17,29 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
-import static org.apache.commons.lang3.StringUtils.isEmpty;
-
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -62,7 +50,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Org.OpenAPITools.Client";
-    protected String localVariablePrefix = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
@@ -537,12 +524,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        CodegenModel codegenModel = super.fromModel(name, model);
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null) {
             final Schema parentModel = allDefinitions.get(toModelName(codegenModel.parent));
             if (parentModel != null) {
-                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
+                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
                 if (codegenModel.hasEnums) {
                     codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
                 }
@@ -553,7 +541,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 }
 
                 for (final CodegenProperty property : codegenModel.readWriteVars) {
-                    if (property.defaultValue == null && property.baseName.equals(parentCodegenModel.discriminator)) {
+                    if (property.defaultValue == null && property.baseName.equals(parentCodegenModel.discriminator.getPropertyName())) {
                         property.defaultValue = "\"" + name + "\"";
                     }
                 }
@@ -849,5 +837,29 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
         // To avoid unexpected behaviors when options are passed programmatically such as { "supportsAsync": "" }
         return super.processCompiler(compiler).emptyStringIsFalse(true);
+    }
+
+    /**
+     * Return the instantiation type of the property, especially for map and array
+     *
+     * @param schema property schema
+     * @return string presentation of the instantiation type of the property
+     */
+    @Override
+    public String toInstantiationType(Schema schema) {
+        if (ModelUtils.isMapSchema(schema)) {
+            Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+            String inner = getSchemaType(additionalProperties);
+            if (ModelUtils.isMapSchema(additionalProperties)) {
+                inner = toInstantiationType(additionalProperties);
+            }
+            return instantiationTypes.get("map") + "<String, " + inner + ">";
+        } else if (ModelUtils.isArraySchema(schema)) {
+            ArraySchema arraySchema = (ArraySchema) schema;
+            String inner = getSchemaType(arraySchema.getItems());
+            return instantiationTypes.get("array") + "<" + inner + ">";
+        } else {
+            return null;
+        }
     }
 }

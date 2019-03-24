@@ -64,6 +64,9 @@ The `MyclientcodegenGenerator.java` has comments in it--lots of comments.  There
 for reading the code more, though.  See how the `MyclientcodegenGenerator` implements `CodegenConfig`.
 That class has the signature of all values that can be overridden.
 
+You can also step through MyclientcodegenGenerator.java in a debugger.  Just debug the JUnit
+test in DebugCodegenLauncher.  That runs the command line tool and lets you inspect what the code is doing.  
+
 For the templates themselves, you have a number of values available to you for generation.
 You can execute the `java` command from above while passing different debug flags to show
 the object you have available during client generation:

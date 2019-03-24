@@ -9,7 +9,7 @@ namespace app\Models;
  */
 class NumberOnly {
 
-    /** @var float $just_number */
-    private $just_number;
+    /** @var float $justNumber */
+    private $justNumber;
 
 }

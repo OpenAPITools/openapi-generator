@@ -21,30 +21,16 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -473,8 +459,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
 
     @Override
-    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, Map<String, Schema> definitions, OpenAPI openAPI) {
-        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, definitions, openAPI);
+    public CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers) {
+        CodegenOperation op = super.fromOperation(resourcePath, httpMethod, operation, servers);
 
         List<String> path = pathToServantRoute(op.path, op.pathParams);
         List<String> type = pathToClientType(op.path, op.pathParams);
@@ -599,8 +585,8 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
     // Override fromModel to create the appropriate model namings
     @Override
-    public CodegenModel fromModel(String name, Schema mod, Map<String, Schema> allDefinitions) {
-        CodegenModel model = super.fromModel(name, mod, allDefinitions);
+    public CodegenModel fromModel(String name, Schema mod) {
+        CodegenModel model = super.fromModel(name, mod);
 
         setGenerateToSchema(model);
 

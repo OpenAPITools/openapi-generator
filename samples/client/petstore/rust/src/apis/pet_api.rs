@@ -1,4 +1,4 @@
-/* 
+/*
  * OpenAPI Petstore
  *
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -31,22 +31,22 @@ impl<C: hyper::client::Connect> PetApiClient<C> {
 }
 
 pub trait PetApi {
-    fn add_pet(&self, pet: ::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn add_pet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
     fn delete_pet(&self, pet_id: i64, api_key: &str) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
     fn find_pets_by_status(&self, status: Vec<String>) -> Box<Future<Item = Vec<::models::Pet>, Error = Error<serde_json::Value>>>;
     fn find_pets_by_tags(&self, tags: Vec<String>) -> Box<Future<Item = Vec<::models::Pet>, Error = Error<serde_json::Value>>>;
     fn get_pet_by_id(&self, pet_id: i64) -> Box<Future<Item = ::models::Pet, Error = Error<serde_json::Value>>>;
-    fn update_pet(&self, pet: ::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
+    fn update_pet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
     fn update_pet_with_form(&self, pet_id: i64, name: &str, status: &str) -> Box<Future<Item = (), Error = Error<serde_json::Value>>>;
-    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: ::models::File) -> Box<Future<Item = ::models::ApiResponse, Error = Error<serde_json::Value>>>;
+    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: &std::path::Path) -> Box<Future<Item = ::models::ApiResponse, Error = Error<serde_json::Value>>>;
 }
 
 
 impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
-    fn add_pet(&self, pet: ::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn add_pet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         __internal_request::Request::new(hyper::Method::Post, "/pet".to_string())
             .with_auth(__internal_request::Auth::Oauth)
-            .with_body_param(pet)
+            .with_body_param(body)
             .returns_nothing()
             .execute(self.configuration.borrow())
     }
@@ -85,10 +85,10 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
             .execute(self.configuration.borrow())
     }
 
-    fn update_pet(&self, pet: ::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
+    fn update_pet(&self, body: ::models::Pet) -> Box<Future<Item = (), Error = Error<serde_json::Value>>> {
         __internal_request::Request::new(hyper::Method::Put, "/pet".to_string())
             .with_auth(__internal_request::Auth::Oauth)
-            .with_body_param(pet)
+            .with_body_param(body)
             .returns_nothing()
             .execute(self.configuration.borrow())
     }
@@ -103,7 +103,7 @@ impl<C: hyper::client::Connect>PetApi for PetApiClient<C> {
             .execute(self.configuration.borrow())
     }
 
-    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: ::models::File) -> Box<Future<Item = ::models::ApiResponse, Error = Error<serde_json::Value>>> {
+    fn upload_file(&self, pet_id: i64, additional_metadata: &str, file: &std::path::Path) -> Box<Future<Item = ::models::ApiResponse, Error = Error<serde_json::Value>>> {
         __internal_request::Request::new(hyper::Method::Post, "/pet/{petId}/uploadImage".to_string())
             .with_auth(__internal_request::Auth::Oauth)
             .with_path_param("petId".to_string(), pet_id.to_string())

@@ -89,6 +89,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *OpenApiPetstore.AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+*OpenApiPetstore.FakeApi* | [**createXmlItem**](docs/FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
 *OpenApiPetstore.FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -127,7 +128,14 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [OpenApiPetstore.AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
+ - [OpenApiPetstore.AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
+ - [OpenApiPetstore.AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [OpenApiPetstore.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [OpenApiPetstore.AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
+ - [OpenApiPetstore.AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
+ - [OpenApiPetstore.AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
+ - [OpenApiPetstore.AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [OpenApiPetstore.Animal](docs/Animal.md)
  - [OpenApiPetstore.ApiResponse](docs/ApiResponse.md)
  - [OpenApiPetstore.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
@@ -160,7 +168,10 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
+ - [OpenApiPetstore.TypeHolderDefault](docs/TypeHolderDefault.md)
+ - [OpenApiPetstore.TypeHolderExample](docs/TypeHolderExample.md)
  - [OpenApiPetstore.User](docs/User.md)
+ - [OpenApiPetstore.XmlItem](docs/XmlItem.md)
 
 
 ## Documentation for Authorization
@@ -172,15 +183,18 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
+
 ### api_key_query
 
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
+
 ### http_basic_test
 
 - **Type**: HTTP basic authentication
+
 
 ### petstore_auth
 

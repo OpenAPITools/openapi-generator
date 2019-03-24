@@ -1,17 +1,9 @@
 package org.openapitools.codegen.java.jaxrs;
 
-import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
-
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.MockDefaultGenerator;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
-import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -92,7 +84,7 @@ public class JavaJerseyServerCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/tags.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/tags.yaml");
         JavaJerseyServerCodegen codegen = new JavaJerseyServerCodegen();
         codegen.setUseTags(false);
         codegen.setOutputDir(output.getAbsolutePath());
@@ -172,7 +164,7 @@ public class JavaJerseyServerCodegenTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/tags.yaml", null, new ParseOptions()).getOpenAPI();
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/tags.yaml");
         JavaJerseyServerCodegen codegen = new JavaJerseyServerCodegen();
         codegen.setUseTags(true);
         codegen.setOutputDir(output.getAbsolutePath());

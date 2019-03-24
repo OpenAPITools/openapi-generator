@@ -18,6 +18,10 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
+from petstore_api.exceptions import (
+    ApiTypeError,
+    ApiValueError
+)
 
 
 class AnotherFakeApi(object):
@@ -32,39 +36,39 @@ class AnotherFakeApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def call_123_test_special_tags(self, client, **kwargs):  # noqa: E501
+    def call_123_test_special_tags(self, body, **kwargs):  # noqa: E501
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.call_123_test_special_tags(client, async_req=True)
+        >>> thread = api.call_123_test_special_tags(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Client client: client model (required)
+        :param Client body: client model (required)
         :return: Client
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.call_123_test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
+            return self.call_123_test_special_tags_with_http_info(body, **kwargs)  # noqa: E501
         else:
-            (data) = self.call_123_test_special_tags_with_http_info(client, **kwargs)  # noqa: E501
+            (data) = self.call_123_test_special_tags_with_http_info(body, **kwargs)  # noqa: E501
             return data
 
-    def call_123_test_special_tags_with_http_info(self, client, **kwargs):  # noqa: E501
+    def call_123_test_special_tags_with_http_info(self, body, **kwargs):  # noqa: E501
         """To test special tags  # noqa: E501
 
         To test special tags and operation ID starting with number  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.call_123_test_special_tags_with_http_info(client, async_req=True)
+        >>> thread = api.call_123_test_special_tags_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Client client: client model (required)
+        :param Client body: client model (required)
         :return: Client
                  If the method is called asynchronously,
                  returns the request thread.
@@ -72,7 +76,7 @@ class AnotherFakeApi(object):
 
         local_var_params = locals()
 
-        all_params = ['client']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -80,16 +84,16 @@ class AnotherFakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method call_123_test_special_tags" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'client' is set
-        if ('client' not in local_var_params or
-                local_var_params['client'] is None):
-            raise ValueError("Missing the required parameter `client` when calling `call_123_test_special_tags`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ApiValueError("Missing the required parameter `body` when calling `call_123_test_special_tags`")  # noqa: E501
 
         collection_formats = {}
 
@@ -103,8 +107,8 @@ class AnotherFakeApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'client' in local_var_params:
-            body_params = local_var_params['client']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
             ['application/json'])  # noqa: E501

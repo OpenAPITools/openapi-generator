@@ -17,13 +17,14 @@
 
 package org.openapitools.codegen.python;
 
+import mockit.Expectations;
+import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 import org.openapitools.codegen.options.PythonClientOptionsProvider;
 
-import mockit.Expectations;
-import mockit.Tested;
+import java.io.File;
 
 public class PythonClientOptionsTest extends AbstractOptionsTest {
 
@@ -44,11 +45,20 @@ public class PythonClientOptionsTest extends AbstractOptionsTest {
     protected void setExpectations() {
         new Expectations(clientCodegen) {{
             clientCodegen.setPackageName(PythonClientOptionsProvider.PACKAGE_NAME_VALUE);
-            clientCodegen.setProjectName(PythonClientOptionsProvider.PROJECT_NAME_VALUE);
-            clientCodegen.setPackageVersion(PythonClientOptionsProvider.PACKAGE_VERSION_VALUE);
-            clientCodegen.setPackageUrl(PythonClientOptionsProvider.PACKAGE_URL_VALUE);
-            // clientCodegen.setLibrary(PythonClientCodegen.DEFAULT_LIBRARY);
             times = 1;
+
+            clientCodegen.setProjectName(PythonClientOptionsProvider.PROJECT_NAME_VALUE);
+            times = 1;
+
+            clientCodegen.setPackageVersion(PythonClientOptionsProvider.PACKAGE_VERSION_VALUE);
+            times = 1;
+
+            clientCodegen.setPackageUrl(PythonClientOptionsProvider.PACKAGE_URL_VALUE);
+            times = 1;
+
+            clientCodegen.packagePath();
+            result = PythonClientOptionsProvider.PACKAGE_NAME_VALUE.replace('.', File.separatorChar);
+            minTimes = 1;
         }};
     }
 }

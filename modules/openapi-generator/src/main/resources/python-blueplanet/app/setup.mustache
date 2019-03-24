@@ -1,0 +1,35 @@
+# coding: utf-8
+
+import sys
+from setuptools import setup, find_packages
+
+NAME = "{{packageName}}"
+VERSION = "{{packageVersion}}"
+{{#apiInfo}}{{#apis}}{{^hasMore}}
+# To install the library, run the following
+#
+# python setup.py install
+#
+# prerequisite: setuptools
+# http://pypi.python.org/pypi/setuptools
+
+REQUIRES = ["connexion"]
+
+setup(
+    name=NAME,
+    version=VERSION,
+    description="{{appName}}",
+    author_email="{{infoEmail}}",
+    url="{{packageUrl}}",
+    keywords=["Swagger", "{{appName}}"],
+    install_requires=REQUIRES,
+    packages=find_packages(),
+    package_data={'': ['swagger/swagger.yaml']},
+    include_package_data=True,
+    entry_points={
+        'console_scripts': ['{{packageName}}={{packageName}}.__main__:main']},
+    long_description="""\
+    {{appDescription}}
+    """
+)
+{{/hasMore}}{{/apis}}{{/apiInfo}}
