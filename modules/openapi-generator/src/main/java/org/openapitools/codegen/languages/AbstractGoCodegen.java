@@ -524,7 +524,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             // Also prepend var names used for defining inline enums with inline enum's name
             if (Boolean.TRUE.equals(cm.hasEnums)) {
                 for (CodegenProperty param : cm.vars) {
-                    if (param.isEnum && param.allowableValues != null) {
+                    if (Boolean.TRUE.equals(param.isEnum) && param.allowableValues != null) {
                         String prefix = toEnumVarName(param.name, param.dataType) + "_";
                         param.allowableValues = prefixAllowableValues(param.allowableValues, prefix);
                     }
