@@ -9,6 +9,9 @@ Name | Type | Description | Notes
 **enumInteger** | [**inline**](#EnumIntegerEnum) |  |  [optional]
 **enumNumber** | [**inline**](#EnumNumberEnum) |  |  [optional]
 **outerEnum** | [**OuterEnum**](OuterEnum.md) |  |  [optional]
+**outerEnumInteger** | [**OuterEnumInteger**](OuterEnumInteger.md) |  |  [optional]
+**outerEnumDefaultValue** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  |  [optional]
+**outerEnumIntegerDefaultValue** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  |  [optional]
 
 
 <a name="EnumStringEnum"></a>

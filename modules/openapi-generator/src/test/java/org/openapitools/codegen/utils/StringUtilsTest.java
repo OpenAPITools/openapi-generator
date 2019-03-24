@@ -5,9 +5,15 @@ import org.testng.annotations.Test;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.dashize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class StringUtilsTest {
     // we'll assume that <i>underscore</i> (Twitter elephant bird) works fine
+    @Test
+    public void testUnderscore() {
+        Assert.assertEquals(underscore("abcd"), "abcd");
+        Assert.assertEquals(underscore("abCd"), "ab_cd");
+    }
 
     @Test
     public void testCamelize() throws Exception {
