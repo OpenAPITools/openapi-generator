@@ -35,7 +35,9 @@ class UserApi(baseUrl: String) {
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user", "application/json")
       .withBody(body)
       .withDefaultSuccessResponse[Unit]
-        /**
+      
+
+  /**
    * Expected answers:
    *   code 0 :  (successful operation)
    * 
@@ -45,7 +47,9 @@ class UserApi(baseUrl: String) {
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user/createWithArray", "application/json")
       .withBody(body)
       .withDefaultSuccessResponse[Unit]
-        /**
+      
+
+  /**
    * Expected answers:
    *   code 0 :  (successful operation)
    * 
@@ -55,7 +59,9 @@ class UserApi(baseUrl: String) {
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user/createWithList", "application/json")
       .withBody(body)
       .withDefaultSuccessResponse[Unit]
-        /**
+      
+
+  /**
    * This can only be done by the logged in user.
    * 
    * Expected answers:
@@ -69,7 +75,9 @@ class UserApi(baseUrl: String) {
       .withPathParam("username", username)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
-        /**
+      
+
+  /**
    * Expected answers:
    *   code 200 : User (successful operation)
    *   code 400 :  (Invalid username supplied)
@@ -83,7 +91,9 @@ class UserApi(baseUrl: String) {
       .withSuccessResponse[User](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
-        /**
+      
+
+  /**
    * Expected answers:
    *   code 200 : String (successful operation)
    *              Headers :
@@ -101,10 +111,11 @@ class UserApi(baseUrl: String) {
       .withSuccessResponse[String](200)
       .withErrorResponse[Unit](400)
       
-  object LoginUserHeaders { 
+  object LoginUserHeaders {
     def xRateLimit(r: ApiReturnWithHeaders) = r.getIntHeader("X-Rate-Limit")
     def xExpiresAfter(r: ApiReturnWithHeaders) = r.getDateTimeHeader("X-Expires-After")
   }
+
   /**
    * Expected answers:
    *   code 0 :  (successful operation)
@@ -112,7 +123,9 @@ class UserApi(baseUrl: String) {
   def logoutUser(): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.GET, "http://petstore.swagger.io/v2", "/user/logout", "application/json")
       .withDefaultSuccessResponse[Unit]
-        /**
+      
+
+  /**
    * This can only be done by the logged in user.
    * 
    * Expected answers:
@@ -129,6 +142,8 @@ class UserApi(baseUrl: String) {
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
       
+
+
 
 }
 

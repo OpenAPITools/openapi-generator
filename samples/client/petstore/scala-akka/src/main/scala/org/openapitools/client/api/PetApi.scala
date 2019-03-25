@@ -35,7 +35,9 @@ class PetApi(baseUrl: String) {
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/pet", "application/json")
       .withBody(body)
       .withErrorResponse[Unit](405)
-        /**
+      
+
+  /**
    * Expected answers:
    *   code 400 :  (Invalid pet value)
    * 
@@ -47,7 +49,9 @@ class PetApi(baseUrl: String) {
       .withPathParam("petId", petId)
       .withHeaderParam("api_key", apiKey)
       .withErrorResponse[Unit](400)
-        /**
+      
+
+  /**
    * Multiple status values can be provided with comma separated strings
    * 
    * Expected answers:
@@ -61,7 +65,9 @@ class PetApi(baseUrl: String) {
       .withQueryParam("status", ArrayValues(status, CSV))
       .withSuccessResponse[Seq[Pet]](200)
       .withErrorResponse[Unit](400)
-        /**
+      
+
+  /**
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * 
    * Expected answers:
@@ -75,7 +81,9 @@ class PetApi(baseUrl: String) {
       .withQueryParam("tags", ArrayValues(tags, CSV))
       .withSuccessResponse[Seq[Pet]](200)
       .withErrorResponse[Unit](400)
-        /**
+      
+
+  /**
    * Returns a single pet
    * 
    * Expected answers:
@@ -95,7 +103,9 @@ class PetApi(baseUrl: String) {
       .withSuccessResponse[Pet](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
-        /**
+      
+
+  /**
    * Expected answers:
    *   code 400 :  (Invalid ID supplied)
    *   code 404 :  (Pet not found)
@@ -109,7 +119,9 @@ class PetApi(baseUrl: String) {
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](405)
-        /**
+      
+
+  /**
    * Expected answers:
    *   code 405 :  (Invalid input)
    * 
@@ -123,7 +135,9 @@ class PetApi(baseUrl: String) {
       .withFormParam("status", status)
       .withPathParam("petId", petId)
       .withErrorResponse[Unit](405)
-        /**
+      
+
+  /**
    * Expected answers:
    *   code 200 : ApiResponse (successful operation)
    * 
@@ -138,6 +152,8 @@ class PetApi(baseUrl: String) {
       .withPathParam("petId", petId)
       .withSuccessResponse[ApiResponse](200)
       
+
+
 
 }
 

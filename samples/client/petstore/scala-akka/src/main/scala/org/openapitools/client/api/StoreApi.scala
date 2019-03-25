@@ -37,7 +37,9 @@ class StoreApi(baseUrl: String) {
       .withPathParam("orderId", orderId)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
-        /**
+      
+
+  /**
    * Returns a map of status codes to quantities
    * 
    * Expected answers:
@@ -50,7 +52,9 @@ class StoreApi(baseUrl: String) {
     ApiRequest[Map[String, Int]](ApiMethods.GET, "http://petstore.swagger.io/v2", "/store/inventory", "application/json")
       .withApiKey(apiKey, "api_key", HEADER)
       .withSuccessResponse[Map[String, Int]](200)
-        /**
+      
+
+  /**
    * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
    * 
    * Expected answers:
@@ -66,7 +70,9 @@ class StoreApi(baseUrl: String) {
       .withSuccessResponse[Order](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
-        /**
+      
+
+  /**
    * Expected answers:
    *   code 200 : Order (successful operation)
    *   code 400 :  (Invalid Order)
@@ -79,6 +85,8 @@ class StoreApi(baseUrl: String) {
       .withSuccessResponse[Order](200)
       .withErrorResponse[Unit](400)
       
+
+
 
 }
 
