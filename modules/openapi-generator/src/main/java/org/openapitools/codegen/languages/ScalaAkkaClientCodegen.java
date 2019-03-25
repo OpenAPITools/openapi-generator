@@ -236,16 +236,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public String toOperationId(String operationId) {
-        // throw exception if method name is empty
-        if (StringUtils.isEmpty(operationId)) {
-            throw new RuntimeException("Empty method name (operationId) not allowed");
-        }
-
-        return super.toOperationId(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, operationId));
-    }
-
-    @Override
     public String toParamName(String name) {
         return formatIdentifier(name, false);
     }
