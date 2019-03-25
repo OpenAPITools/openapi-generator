@@ -1,6 +1,7 @@
 # Petstore::NullableClass
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **integer_prop** | **Integer** |  | [optional] 

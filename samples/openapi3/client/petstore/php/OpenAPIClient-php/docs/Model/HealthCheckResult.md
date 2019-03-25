@@ -1,6 +1,7 @@
-# HealthCheckResult
+# # HealthCheckResult
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **nullable_message** | **string** |  | [optional] 
