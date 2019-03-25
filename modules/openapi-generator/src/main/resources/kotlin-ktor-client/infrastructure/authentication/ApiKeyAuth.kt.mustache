@@ -1,0 +1,29 @@
+package {{packageName}}.infrastructure.authentication
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}class ApiKeyAuth(
+    private val location: Location,
+    private val paramName: String,
+    private val apiKey: String,
+    private val apiKeyPrefix: String?
+): AuthProvider
+{
+    enum class Location {
+        query, header
+    }
+
+    override fun applyToParams(
+        queryParameters: MutableList<Pair<String, Any?>>,
+        headerParameters: MutableList<Pair<String, Any?>>
+    ) {
+        val value = if (apiKeyPrefix == null) {
+            apiKey
+        } else {
+            "$apiKeyPrefix $apiKey"
+        }
+
+        when (location) {
+            Location.query -> queryParameters += paramName to value
+            Location.header -> headerParameters += paramName to value
+        }
+    }
+}

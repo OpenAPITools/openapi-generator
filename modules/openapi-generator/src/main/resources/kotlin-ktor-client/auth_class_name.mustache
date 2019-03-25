@@ -1,1 +1,1 @@
-{{#isBasic}}HttpBasicAuth{{/isBasic}}{{^isBasic}}AuthProvider{{/isBasic}}
+{{#isBasic}}HttpBasicAuth{{/isBasic}}{{^isBasic}}{{#isApiKey}}ApiKeyAuth{{/isApiKey}}{{^isApiKey}}AuthProvider{{/isApiKey}}{{/isBasic}}
