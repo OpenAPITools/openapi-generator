@@ -213,17 +213,15 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
                 // name enum with model name, e.g. StatusEnum => PetStatusEnum
                 for (CodegenProperty var : cm.vars) {
                     if (Boolean.TRUE.equals(var.isEnum)) {
-                        String oldEnum=var.enumName;
-                        var.datatypeWithEnum = var.datatypeWithEnum.replace(oldEnum, cm.classname + var.enumName);
-                        var.enumName = var.enumName.replace(oldEnum, cm.classname + var.enumName);
+                        var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+                        var.enumName = var.enumName.replace(var.enumName, cm.classname + var.enumName);
                     }
                 }
                 if (cm.parent != null) {
                     for (CodegenProperty var : cm.allVars) {
                         if (Boolean.TRUE.equals(var.isEnum)) {
-                            String oldEnum=var.enumName;
-                            var.datatypeWithEnum = var.datatypeWithEnum.replace(oldEnum, cm.classname + var.enumName);
-                            var.enumName = var.enumName.replace(oldEnum, cm.classname + var.enumName);
+                            var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+                            var.enumName = var.enumName.replace(var.enumName, cm.classname + var.enumName);
                         }
                     }
                 }
