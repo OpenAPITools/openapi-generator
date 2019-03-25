@@ -762,7 +762,8 @@ public class ModelUtils {
     /**
      * Return the Schema according to type request from a RequestBody
      *
-     * @param requestBody request body of the operation
+     * @param response response body of the operation
+     * @param type requested schema type from request body
      * @return requested Schema
      */
     public static Schema getSchemaFromResponse(ApiResponse response,String type) {
@@ -772,7 +773,8 @@ public class ModelUtils {
     /**
      * Return the Schema according to type requested from a ApiResponse
      *
-     * @param response api response of the operation
+     * @param body request body of the operation
+     * @param type requested schema type from request body
      * @return requested schema
      */
     public static Schema getSchemaFromRequestBody(RequestBody body,String type) {
