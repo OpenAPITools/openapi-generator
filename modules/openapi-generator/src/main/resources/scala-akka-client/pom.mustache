@@ -15,13 +15,14 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <java.version>1.8</java.version>
-    <scala.version>2.11.12</scala.version>
-    <json4s.jackson.version>3.5.4</json4s.jackson.version>
+    <scala.version>2.12.8</scala.version>
+    <json4s.jackson.version>3.5.3</json4s.jackson.version>
     <json4s.ext.version>3.2.11</json4s.ext.version>
-    <spray.version>1.3.1</spray.version>
-    <akka.version>2.5.17</akka.version>
-    <joda.time.version>2.9.9</joda.time.version>
-
+    <akka.version>2.5.21</akka.version>
+    <akka.http.version>10.1.7</akka.http.version>
+    <joda.time.version>2.10.1</joda.time.version>
+    <typesafeconfig.version>1.3.3</typesafeconfig.version>
+    <akka.http.json4s.version>1.25.2</akka.http.json4s.version>
     <junit.version>4.12</junit.version>
     <scala.test.version>3.0.5</scala.test.version>
 
@@ -43,28 +44,43 @@
     <dependency>
       <groupId>com.typesafe</groupId>
       <artifactId>config</artifactId>
-      <version>1.3.2</version>
+      <version>${typesafeconfig.version}</version>
     </dependency>
     <dependency>
       <groupId>com.typesafe.akka</groupId>
-      <artifactId>akka-actor_2.11</artifactId>
+      <artifactId>akka-actor_2.12</artifactId>
       <version>${akka.version}</version>
     </dependency>
     <dependency>
-      <groupId>io.spray</groupId>
-      <artifactId>spray-client</artifactId>
-      <version>${spray.version}</version>
+      <groupId>com.typesafe.akka</groupId>
+      <artifactId>akka-stream_2.12</artifactId>
+      <version>${akka.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.typesafe.akka</groupId>
+      <artifactId>akka-http_2.12</artifactId>
+      <version>${akka.http.version}</version>
     </dependency>
     <dependency>
       <groupId>org.json4s</groupId>
-      <artifactId>json4s-jackson_2.11</artifactId>
+      <artifactId>json4s-jackson_2.12</artifactId>
       <version>${json4s.jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.json4s</groupId>
+      <artifactId>json4s-ext_2.12</artifactId>
+      <version>${json4s.jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>de.heikoseeberger</groupId>
+      <artifactId>akka-http-json4s_2.12</artifactId>
+      <version>${akka.http.json4s.version}</version>
     </dependency>
 
     <!--test dependencies-->
     <dependency>
       <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_2.11</artifactId>
+      <artifactId>scalatest_2.12</artifactId>
       <version>${scala.test.version}</version>
       <scope>test</scope>
     </dependency>

@@ -18,37 +18,42 @@ import org.openapitools.client.core.ApiKeyLocations._
 
 object UserApi {
 
+  def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new UserApi(baseUrl)
+}
+
+class UserApi(baseUrl: String) {
+  
   /**
    * This can only be done by the logged in user.
    * 
    * Expected answers:
    *   code 0 :  (successful operation)
    * 
-   * @param user Created user object
+   * @param body Created user object
    */
-  def createUser(user: User): ApiRequest[Unit] =
+  def createUser(body: User): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user", "application/json")
-      .withBody(user)
+      .withBody(body)
       .withDefaultSuccessResponse[Unit]
         /**
    * Expected answers:
    *   code 0 :  (successful operation)
    * 
-   * @param user List of user object
+   * @param body List of user object
    */
-  def createUsersWithArrayInput(user: Seq[User]): ApiRequest[Unit] =
+  def createUsersWithArrayInput(body: Seq[User]): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user/createWithArray", "application/json")
-      .withBody(user)
+      .withBody(body)
       .withDefaultSuccessResponse[Unit]
         /**
    * Expected answers:
    *   code 0 :  (successful operation)
    * 
-   * @param user List of user object
+   * @param body List of user object
    */
-  def createUsersWithListInput(user: Seq[User]): ApiRequest[Unit] =
+  def createUsersWithListInput(body: Seq[User]): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/user/createWithList", "application/json")
-      .withBody(user)
+      .withBody(body)
       .withDefaultSuccessResponse[Unit]
         /**
    * This can only be done by the logged in user.
@@ -115,11 +120,11 @@ object UserApi {
    *   code 404 :  (User not found)
    * 
    * @param username name that need to be deleted
-   * @param user Updated user object
+   * @param body Updated user object
    */
-  def updateUser(username: String, user: User): ApiRequest[Unit] =
+  def updateUser(username: String, body: User): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.PUT, "http://petstore.swagger.io/v2", "/user/{username}", "application/json")
-      .withBody(user)
+      .withBody(body)
       .withPathParam("username", username)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)

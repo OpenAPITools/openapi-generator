@@ -20,15 +20,20 @@ import org.openapitools.client.core.ApiKeyLocations._
 
 object PetApi {
 
+  def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new PetApi(baseUrl)
+}
+
+class PetApi(baseUrl: String) {
+  
   /**
    * Expected answers:
    *   code 405 :  (Invalid input)
    * 
-   * @param pet Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store
    */
-  def addPet(pet: Pet): ApiRequest[Unit] =
+  def addPet(body: Pet): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/pet", "application/json")
-      .withBody(pet)
+      .withBody(body)
       .withErrorResponse[Unit](405)
         /**
    * Expected answers:
@@ -96,11 +101,11 @@ object PetApi {
    *   code 404 :  (Pet not found)
    *   code 405 :  (Validation exception)
    * 
-   * @param pet Pet object that needs to be added to the store
+   * @param body Pet object that needs to be added to the store
    */
-  def updatePet(pet: Pet): ApiRequest[Unit] =
+  def updatePet(body: Pet): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.PUT, "http://petstore.swagger.io/v2", "/pet", "application/json")
-      .withBody(pet)
+      .withBody(body)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](405)
