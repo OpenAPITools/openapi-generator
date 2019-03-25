@@ -1,6 +1,7 @@
 # {{appName}} Bash client
 
 ## Overview
+
 This is a Bash client script for accessing {{appName}} service.
 
 The script uses cURL underneath for making all REST calls.
@@ -43,6 +44,7 @@ $ {{scriptName}} --host http://<hostname>:<port> --dry-run <operationid>
 ```
 
 ## Docker image
+
 You can easily create a Docker image containing a preconfigured environment
 for using the REST Bash client including working autocompletion and short
 welcome message with basic instructions, using the generated Dockerfile:
@@ -59,6 +61,7 @@ is also available.
 ## Shell completion
 
 ### Bash
+
 The generated bash-completion script can be either directly loaded to the current Bash session using:
 
 ```shell
@@ -72,10 +75,13 @@ sudo cp {{scriptName}}.bash-completion /etc/bash-completion.d/{{scriptName}}
 ```
 
 #### OS X
+
 On OSX you might need to install bash-completion using Homebrew:
+
 ```shell
 brew install bash-completion
 ```
+
 and add the following to the `~/.bashrc`:
 
 ```shell
@@ -85,8 +91,8 @@ fi
 ```
 
 ### Zsh
-In Zsh, the generated `_{{scriptName}}` Zsh completion file must be copied to one of the folders under `$FPATH` variable.
 
+In Zsh, the generated `_{{scriptName}}` Zsh completion file must be copied to one of the folders under `$FPATH` variable.
 
 ## Documentation for API Endpoints
 
@@ -108,13 +114,17 @@ Class | Method | HTTP request | Description
 {{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
 {{#authMethods}}## {{{name}}}
 
-{{#isApiKey}}- **Type**: API key
+{{#isApiKey}}
+
+- **Type**: API key
 - **API key parameter name**: {{{keyParamName}}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
 {{#isBasic}}- **Type**: HTTP basic authentication
 {{/isBasic}}
-{{#isOAuth}}- **Type**: OAuth
+{{#isOAuth}}
+
+- **Type**: OAuth
 - **Flow**: {{{flow}}}{{#authorizationUrl}}
 - **Authorization URL**: {{{authorizationUrl}}}{{/authorizationUrl}}{{#tokenUrl}}
 - **Token URL**: {{{tokenUrl}}}{{/tokenUrl}}
