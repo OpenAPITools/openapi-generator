@@ -488,7 +488,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_group_parameters**
-> test_group_parameters(string_group=string_group, boolean_group=boolean_group, int64_group=int64_group)
+> test_group_parameters(required_string_group, required_boolean_group, required_int64_group, string_group=string_group, boolean_group=boolean_group, int64_group=int64_group)
 
 Fake endpoint to test group parameters (optional)
 
@@ -504,13 +504,16 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.FakeApi()
+required_string_group = 56 # int | Required String in group parameters
+required_boolean_group = True # bool | Required Boolean in group parameters
+required_int64_group = 56 # int | Required Integer in group parameters
 string_group = 56 # int | String in group parameters (optional)
 boolean_group = True # bool | Boolean in group parameters (optional)
 int64_group = 56 # int | Integer in group parameters (optional)
 
 try:
     # Fake endpoint to test group parameters (optional)
-    api_instance.test_group_parameters(string_group=string_group, boolean_group=boolean_group, int64_group=int64_group)
+    api_instance.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, string_group=string_group, boolean_group=boolean_group, int64_group=int64_group)
 except ApiException as e:
     print("Exception when calling FakeApi->test_group_parameters: %s\n" % e)
 ```
@@ -519,6 +522,9 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **required_string_group** | **int**| Required String in group parameters | 
+ **required_boolean_group** | **bool**| Required Boolean in group parameters | 
+ **required_int64_group** | **int**| Required Integer in group parameters | 
  **string_group** | **int**| String in group parameters | [optional] 
  **boolean_group** | **bool**| Boolean in group parameters | [optional] 
  **int64_group** | **int**| Integer in group parameters | [optional] 

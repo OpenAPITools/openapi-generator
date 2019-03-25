@@ -32,15 +32,7 @@ class RESTResponse(io.IOBase):
         self.tornado_response = resp
         self.status = resp.code
         self.reason = resp.reason
-
-        if resp.body:
-            # In Python 3, the response body is utf-8 encoded bytes.
-            if six.PY3:
-                self.data = resp.body.decode('utf-8')
-            else:
-                self.data = resp.body
-        else:
-            self.data = None
+        self.data = resp.body
 
     def getheaders(self):
         """Returns a CIMultiDictProxy of the response headers."""
