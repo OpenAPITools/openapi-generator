@@ -25,7 +25,17 @@ type Order struct {
 	ShipDate time.Time `json:"shipDate,omitempty"`
 
 	// Order Status
-	Status string `json:"status,omitempty"`
+	Status OrderStatus `json:"status,omitempty"`
 
 	Complete bool `json:"complete,omitempty"`
 }
+
+// Status : Order Status
+type OrderStatus string
+
+// List of OrderStatus
+const (
+	STATUS_PLACED OrderStatus = "placed"
+	STATUS_APPROVED OrderStatus = "approved"
+	STATUS_DELIVERED OrderStatus = "delivered"
+)

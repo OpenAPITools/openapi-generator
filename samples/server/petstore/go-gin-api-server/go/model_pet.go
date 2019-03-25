@@ -23,5 +23,15 @@ type Pet struct {
 	Tags []Tag `json:"tags,omitempty"`
 
 	// pet status in the store
-	Status string `json:"status,omitempty"`
+	Status PetStatus `json:"status,omitempty"`
 }
+
+// Status : pet status in the store
+type PetStatus string
+
+// List of PetStatus
+const (
+	STATUS_AVAILABLE PetStatus = "available"
+	STATUS_PENDING PetStatus = "pending"
+	STATUS_SOLD PetStatus = "sold"
+)

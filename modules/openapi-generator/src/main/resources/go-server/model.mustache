@@ -11,7 +11,7 @@ type {{{name}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/form
 const (
 	{{#allowableValues}}
 	{{#enumVars}}
-	{{name}} {{{classname}}} = "{{{value}}}"
+	{{name}} {{{classname}}} = {{{value}}}
 	{{/enumVars}}
 	{{/allowableValues}}
 ){{/isEnum}}{{^isEnum}}{{#description}}
@@ -19,6 +19,29 @@ const (
 type {{classname}} struct {
 {{#vars}}{{#description}}
 	// {{{description}}}{{/description}}
-	{{name}} {{#isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+	{{name}} {{#isNullable}}*{{/isNullable}}{{#isEnum}}{{classname}}{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
-}{{/isEnum}}{{/model}}{{/models}}
+}{{/isEnum}}
+{{! Define any inline enums from above}}
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+
+{{#description}}
+// {{{name}}} : {{{description}}}
+{{/description}}
+type {{classname}}{{nameInCamelCase}} {{^format}}{{datatype}}{{/format}}{{#format}}{{{format}}}{{/format}}
+
+// List of {{classname}}{{nameInCamelCase}}
+const (
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{^-first}}
+	{{/-first}}
+	{{name}} {{classname}}{{nameInCamelCase}} = {{{value}}}
+	{{/enumVars}}
+	{{/allowableValues}}
+)
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}{{/model}}{{/models}}

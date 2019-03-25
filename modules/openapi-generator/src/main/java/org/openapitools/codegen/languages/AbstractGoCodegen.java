@@ -582,10 +582,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
-            return value;
-        } else {
+        if ("string".equals(datatype)) {
             return "\"" + escapeText(value) + "\"";
+        } else {
+            return value;
         }
     }
 
