@@ -44,7 +44,7 @@ public class CodegenParameter {
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation;
     public boolean isNullable;
-    public Object encoding; //Encoding Object OAS3
+    public CodegenEncoding encoding; //Encoding Object OAS3
 
     /**
      * Determines whether this parameter is mandatory. If the parameter is in "path",
