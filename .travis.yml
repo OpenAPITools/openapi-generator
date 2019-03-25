@@ -131,6 +131,8 @@ after_success:
         echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
         pushd .;
         cd modules/openapi-generator-gradle-plugin;
+        ./gradlew clean publishPlugins;
+        echo "Finished ./gradlew publishPlugins (plugin portal)";
         ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="${TRAVIS_BUILD_DIR}/sec.gpg" -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" uploadArchives --no-daemon;
         echo "Finished ./gradlew uploadArchives";
         popd;
@@ -139,6 +141,8 @@ after_success:
         echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
         pushd .;
         cd modules/openapi-generator-gradle-plugin;
+        ./gradlew clean publishPlugins;
+        echo "Finished ./gradlew publishPlugins (plugin portal)";
         ./gradlew -PossrhUsername="${SONATYPE_USERNAME}" -PossrhPassword="${SONATYPE_PASSWORD}" uploadArchives --no-daemon;
         echo "Finished ./gradlew uploadArchives";
         popd;
