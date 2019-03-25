@@ -5,6 +5,13 @@ package {{packageName}}.infrastructure.authentication
     private val scheme: String? = null
 ): AuthProvider {
 
+    data class Config(
+        val token: String
+    )
+
+    constructor(scheme: String, config: Config)
+            : this(scheme = scheme, bearerToken = config.token)
+
     override fun applyToParams(
         queryParameters: MutableList<Pair<String, Any?>>,
         headerParameters: MutableList<Pair<String, Any?>>

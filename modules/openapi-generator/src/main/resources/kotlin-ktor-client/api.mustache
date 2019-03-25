@@ -81,7 +81,15 @@ import {{import}}
             ){{#hasMore}},{{/hasMore}}
             {{/isApiKey}}
             {{^isApiKey}}
+            {{#isBasicBearer}}
+            HttpBasicBearerAuth(
+                scheme = "{{scheme}}",
+                config = {{name}}
+            ){{#hasMore}},{{/hasMore}}
+            {{/isBasicBearer}}
+            {{^isBasicBearer}}
             {{name}}{{#hasMore}}, {{/hasMore}}
+            {{/isBasicBearer}}
             {{/isApiKey}}
         {{/authMethods}}
         {{/hasAuthMethods}})
