@@ -28,7 +28,16 @@ import {{import}}
     {{/allParams}}
     * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
     */
-    suspend fun {{operationId}}({{#allParams}}{{#required}}{{>api_req_param}}{{/required}}{{^required}}{{>api_opt_param}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasAuthMethods}}, {{>auth_params}}{{/hasAuthMethods}}) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
+    suspend fun {{operationId}}(
+        {{#hasParams}}
+        {{#allParams}}
+        {{#required}}{{>api_req_param}}{{/required}}{{^required}}{{>api_opt_param}}{{/required}}{{#hasMore}},{{/hasMore}}{{^hasMore}}{{#hasAuthMethods}},{{/hasAuthMethods}}{{/hasMore}}
+        {{/allParams}}
+        {{/hasParams}}
+        {{#authMethods}}
+        {{name}}: {{>auth_class_name}}{{#hasMore}},{{/hasMore}}
+        {{/authMethods}}
+    ) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
         val queryParameters = mutableListOf<Pair<String, Any?>>()
         {{#queryParams}}
         {{#required}}
