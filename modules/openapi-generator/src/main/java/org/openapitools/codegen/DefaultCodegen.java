@@ -2765,8 +2765,7 @@ public class DefaultCodegen implements CodegenConfig {
             for (Map.Entry<String, Schema> entry : properties.entrySet()) {
                 CodegenParameter cp = fromFormProperty(entry.getKey(), entry.getValue(),imports);
                 if (encoding != null && (encoding.get(entry.getKey()) != null) ) {
-                    //Encoding eo = getEncodingObject(encoding.get(entry.getKey()));
-                    cp.encoding = encoding.get(entry.getKey());
+                    cp.encoding = fromEncodingProperty(encoding.get(entry.getKey()));
                     cp.isMultipartParam = Boolean.TRUE;
                     //cp.isFormParam = Boolean.FALSE;
                 }
@@ -4454,7 +4453,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // Get Encoding object from request body for indiviual parameter
                 Map<String, Encoding> encoding = ModelUtils.getEncodingFromRequestBody(body);
                 if (encoding != null) {
-                        codegenParameter.encoding = encoding.get(entry.getKey());
+                        codegenParameter.encoding = fromEncodingProperty(encoding.get(entry.getKey()));
                         codegenParameter.isMultipartParam = true;
                         //cp.isFormParam = false;
                 }
@@ -4866,6 +4865,39 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
         parameter.isNullable = property.isNullable;
+    }
+
+    public CodegenEncoding fromEncodingProperty(Encoding en) {
+        if (en == null) {
+            return null;
+        }
+        CodegenEncoding e = new CodegenEncoding();
+        e.contentType = en.getContentType();
+        if (en.getHeaders() != null) {
+            for (Map.Entry<String, Header> headerEntry : en.getHeaders().entrySet()) {
+                String description = headerEntry.getValue().getDescription();
+                // follow the $ref
+                Header header = ModelUtils.getReferencedHeader(this.openAPI, headerEntry.getValue());
+
+                Schema schema;
+                if (header.getSchema() == null) {
+                 LOGGER.warn("No schema defined for Header '" + headerEntry.getKey() + "', using a String schema");
+                 schema = new StringSchema();
+                } else {
+                 schema = header.getSchema();
+                }
+                CodegenProperty cp = fromProperty(headerEntry.getKey(), schema);
+                cp.setDescription(escapeText(description));
+                cp.setUnescapedDescription(description);
+                e.headerParams.add(cp);
+            }
+        }
+        e.style = en.getStyle().toString();
+        e.explode = en.getExplode();
+        e.allowReserved = en.getAllowReserved();
+        e.extensions = en.getExtensions();
+        return e;
+
     }
 
     /**
