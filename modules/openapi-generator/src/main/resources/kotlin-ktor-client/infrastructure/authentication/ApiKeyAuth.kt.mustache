@@ -5,8 +5,8 @@ package {{packageName}}.infrastructure.authentication
     private val paramName: String,
     private val apiKey: String,
     private val apiKeyPrefix: String?
-): AuthProvider
-{
+): AuthProvider {
+
     enum class Location {
         query, header
     }

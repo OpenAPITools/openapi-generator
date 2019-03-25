@@ -2,8 +2,8 @@ package {{packageName}}.infrastructure.authentication
 
 class OAuth(
     private val accessToken: String
-): AuthProvider
-{
+): AuthProvider {
+
     override fun applyToParams(
         queryParameters: MutableList<Pair<String, Any?>>,
         headerParameters: MutableList<Pair<String, Any?>>
