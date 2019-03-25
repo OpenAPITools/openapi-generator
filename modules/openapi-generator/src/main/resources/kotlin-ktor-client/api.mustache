@@ -6,10 +6,9 @@ import io.ktor.client.features.BadResponseStatusException
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.SIMPLE
-
 import {{packageName}}.infrastructure.*
 import {{packageName}}.infrastructure.authentication.AuthProvider
-
+{{>auth_imports}}
 {{#imports}}
 import {{import}}
 {{/imports}}
@@ -29,7 +28,7 @@ import {{import}}
     {{/allParams}}
     * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
     */
-    suspend fun {{operationId}}({{#allParams}}{{#required}}{{>api_req_param}}{{/required}}{{^required}}{{>api_opt_param}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
+    suspend fun {{operationId}}({{#allParams}}{{#required}}{{>api_req_param}}{{/required}}{{^required}}{{>api_opt_param}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#hasAuthMethods}}, {{>auth_params}}{{/hasAuthMethods}}) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
         val queryParameters = mutableListOf<Pair<String, Any?>>()
         {{#queryParams}}
         {{#required}}
@@ -63,7 +62,10 @@ import {{import}}
             {{/hasBodyParam}}
         }
 
-        val authProviders = listOf<AuthProvider>()
+        val authProviders = mutableListOf<AuthProvider>()
+        {{#authMethods}}
+        authProviders += {{name}}
+        {{/authMethods}}
 
         try {
             return request(
