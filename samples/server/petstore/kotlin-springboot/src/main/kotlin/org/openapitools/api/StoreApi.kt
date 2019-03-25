@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
-import org.springframework.web.multipart.MultipartFile
 import org.springframework.beans.factory.annotation.Autowired
 
 import javax.validation.Valid
@@ -54,7 +53,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
             value = [ApiResponse(code = 200, message = "successful operation", response = Map::class, responseContainer = "Map")])
     @RequestMapping(
             value = ["/store/inventory"],
-            produces = ["application/json"], 
+            produces = ["application/json"],
             method = [RequestMethod.GET])
     fun getInventory(): ResponseEntity<Map<String, Int>> {
         return ResponseEntity(service.getInventory(), HttpStatus.OK)
@@ -69,7 +68,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
             value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
     @RequestMapping(
             value = ["/store/order/{orderId}"],
-            produces = ["application/xml", "application/json"], 
+            produces = ["application/xml", "application/json"],
             method = [RequestMethod.GET])
     fun getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required=true, defaultValue="null") @PathVariable("orderId") orderId: Long): ResponseEntity<Order> {
         return ResponseEntity(service.getOrderById(orderId), HttpStatus.OK)
@@ -84,7 +83,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
             value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid Order")])
     @RequestMapping(
             value = ["/store/order"],
-            produces = ["application/xml", "application/json"], 
+            produces = ["application/xml", "application/json"],
             method = [RequestMethod.POST])
     fun placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @Valid @RequestBody body: Order): ResponseEntity<Order> {
         return ResponseEntity(service.placeOrder(body), HttpStatus.OK)
