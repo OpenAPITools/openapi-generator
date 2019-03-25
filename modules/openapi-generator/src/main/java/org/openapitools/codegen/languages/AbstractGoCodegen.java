@@ -585,7 +585,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
             return value;
         } else {
-            return escapeText(value);
+            return "\"" + escapeText(value) + "\"";
         }
     }
 

@@ -23,7 +23,7 @@ const (
 	{{#enumVars}}
 	{{^-first}}
 	{{/-first}}
-	{{name}} {{{classname}}} = "{{{value}}}"
+	{{name}} {{{classname}}} = {{{value}}}
 	{{/enumVars}}
 	{{/allowableValues}}
 ){{/isEnum}}{{^isEnum}}{{#description}}
@@ -55,7 +55,7 @@ const (
 	{{#enumVars}}
 	{{^-first}}
 	{{/-first}}
-	{{name}} {{classname}}{{nameInCamelCase}} = "{{{value}}}"
+	{{name}} {{classname}}{{nameInCamelCase}} = {{{value}}}
 	{{/enumVars}}
 	{{/allowableValues}}
 )
