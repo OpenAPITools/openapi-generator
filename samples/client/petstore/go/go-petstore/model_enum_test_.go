@@ -39,14 +39,14 @@ type EnumTestEnumInteger int32
 
 // List of EnumTestEnumInteger
 const (
-	ENUM_INTEGER__1 EnumTestEnumInteger = 1
-	ENUM_INTEGER__1 EnumTestEnumInteger = -1
+	ENUM_INTEGER_1 EnumTestEnumInteger = 1
+	ENUM_INTEGER_MINUS_1 EnumTestEnumInteger = -1
 )
 
 type EnumTestEnumNumber float64
 
 // List of EnumTestEnumNumber
 const (
-	ENUM_NUMBER__1_1 EnumTestEnumNumber = 1.1
-	ENUM_NUMBER__1_2 EnumTestEnumNumber = -1.2
+	ENUM_NUMBER_1_DOT_1 EnumTestEnumNumber = 1.1
+	ENUM_NUMBER_MINUS_1_DOT_2 EnumTestEnumNumber = -1.2
 )

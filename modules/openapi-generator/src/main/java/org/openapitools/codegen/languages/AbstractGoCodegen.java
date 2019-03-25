@@ -518,14 +518,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
             // For enum var names prepend with this model's name to help prevent namespace collision
             if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
-                String prefix = toEnumVarName(cm.name, cm.dataType) + "_";
+                String prefix = toEnumVarName(cm.name, "string") + "_";
                 cm.allowableValues = prefixAllowableValues(cm.allowableValues, prefix);
             }
             // Also prepend var names used for defining inline enums with inline enum's name
             if (Boolean.TRUE.equals(cm.hasEnums)) {
                 for (CodegenProperty param : cm.vars) {
                     if (Boolean.TRUE.equals(param.isEnum) && param.allowableValues != null) {
-                        String prefix = toEnumVarName(param.name, param.dataType) + "_";
+                        String prefix = toEnumVarName(param.name, "string") + "_";
                         param.allowableValues = prefixAllowableValues(param.allowableValues, prefix);
                     }
                 }
@@ -601,7 +601,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         }
 
         // number
-        if ("int".equals(datatype) || "double".equals(datatype) || "float".equals(datatype)) {
+        if (datatype.startsWith("float") || datatype.startsWith("int") || datatype.startsWith("uint")) {
             String varName = name;
             varName = varName.replaceAll("-", "MINUS_");
             varName = varName.replaceAll("\\+", "PLUS_");
@@ -622,7 +622,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if (isReservedWord(enumName)) { // reserved word
             return escapeReservedWord(enumName);
         } else if (enumName.matches("\\d.*")) { // starts with a number
-            return "_" + enumName;
+            return "NUM_" + enumName;
         } else {
             return enumName;
         }
