@@ -101,6 +101,7 @@ public class CodegenConfigurator implements Serializable {
     private boolean logToStderr;
     private boolean validateSpec;
     private boolean enablePostProcessFile;
+    private boolean enableMinimalUpdate;
     private String templateDir;
     private String auth;
     private String apiPackage;
@@ -236,6 +237,15 @@ public class CodegenConfigurator implements Serializable {
 
     public CodegenConfigurator setLogToStderr(boolean logToStderrte) {
         this.logToStderr = logToStderr;
+        return this;
+    }
+
+    public boolean getEnableMinimalUpdate() {
+        return enableMinimalUpdate;
+    }
+
+    public CodegenConfigurator setEnableMinimalUpdate(boolean enableMinimalUpdate) {
+        this.enableMinimalUpdate = enableMinimalUpdate;
         return this;
     }
 
@@ -545,6 +555,7 @@ public class CodegenConfigurator implements Serializable {
         config.setIgnoreFilePathOverride(ignoreFileOverride);
         config.setRemoveOperationIdPrefix(removeOperationIdPrefix);
         config.setEnablePostProcessFile(enablePostProcessFile);
+        config.setEnableMinimalUpdate(enableMinimalUpdate);
 
         config.instantiationTypes().putAll(instantiationTypes);
         config.typeMapping().putAll(typeMappings);

@@ -124,7 +124,7 @@ module Petstore
     end
 
     # Calculates hash code according to all attributes.
-    # @return [Fixnum] Hash code
+    # @return [Integer] Hash code
     def hash
       [small_camel, capital_camel, small_snake, capital_snake, sca_eth_flow_points, att_name].hash
     end

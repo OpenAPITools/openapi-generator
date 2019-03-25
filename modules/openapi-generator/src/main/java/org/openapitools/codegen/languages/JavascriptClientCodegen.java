@@ -848,17 +848,17 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         if (ModelUtils.isArraySchema(model)) {
             ArraySchema am = (ArraySchema) model;
-            if (am.getItems() != null) {
+            if (codegenModel != null && am.getItems() != null) {
                 codegenModel.getVendorExtensions().put("x-isArray", true);
                 codegenModel.getVendorExtensions().put("x-itemType", getSchemaType(am.getItems()));
             }
         } else if (ModelUtils.isMapSchema(model)) {
-            if (ModelUtils.getAdditionalProperties(model) != null) {
+            if (codegenModel != null && ModelUtils.getAdditionalProperties(model) != null) {
                 codegenModel.getVendorExtensions().put("x-isMap", true);
                 codegenModel.getVendorExtensions().put("x-itemType", getSchemaType(ModelUtils.getAdditionalProperties(model)));
             } else {
                 String type = model.getType();
-                if (isPrimitiveType(type)) {
+                if (codegenModel != null && isPrimitiveType(type)) {
                     codegenModel.vendorExtensions.put("x-isPrimitive", true);
                 }
             }
@@ -1054,11 +1054,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 }
             }
             for (CodegenProperty var : cm.vars) {
-                if (var == lastRequired) {
-                    var.vendorExtensions.put("x-codegen-hasMoreRequired", false);
-                } else if (var.required) {
-                    var.vendorExtensions.put("x-codegen-hasMoreRequired", true);
-                }
+                Optional.ofNullable(lastRequired).ifPresent(_lastRequired -> {
+                    if (var == _lastRequired) {
+                        var.vendorExtensions.put("x-codegen-hasMoreRequired", false);
+                    } else if (var.required) {
+                        var.vendorExtensions.put("x-codegen-hasMoreRequired", true);
+                    }
+                });
             }
         }
         return objs;

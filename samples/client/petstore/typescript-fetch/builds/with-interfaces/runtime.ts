@@ -194,7 +194,7 @@ export function exists(json: any, key: string) {
     return value !== null && value !== undefined;
 }
 
-export function querystring(params: HTTPQuery, prefix: string = '') {
+export function querystring(params: HTTPQuery, prefix: string = ''): string {
     return Object.keys(params)
         .map((key) => {
             const fullKey = prefix + (prefix.length ? `[${key}]` : key);

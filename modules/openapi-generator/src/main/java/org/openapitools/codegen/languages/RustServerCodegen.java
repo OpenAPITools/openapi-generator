@@ -1012,10 +1012,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             if (bound < 0) {
                 throw new RuntimeException("Unsigned bound is negative: " + bound);
             }
-            return 65 - Long.numberOfLeadingZeros(bound >> 1);
+            return 65L - Long.numberOfLeadingZeros(bound >> 1);
         }
 
-        return 65 - Long.numberOfLeadingZeros(
+        return 65L - Long.numberOfLeadingZeros(
                 // signed bounds go from (-n) to (n - 1), i.e. i8 goes from -128 to 127
                 bound < 0 ? Math.abs(bound) - 1 : bound);
     }
