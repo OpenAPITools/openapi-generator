@@ -1,1 +1,1 @@
-{{#authMethods}}{{name}}: {{#isBasic}}HttpBasicAuth{{/isBasic}}{{^isBasic}}AuthProvider{{/isBasic}}{{#hasMore}}, {{/hasMore}}{{/authMethods}}
+{{#authMethods}}{{name}}: {{>auth_class_name}}{{#hasMore}}, {{/hasMore}}{{/authMethods}}
