@@ -4226,6 +4226,12 @@ public class DefaultCodegen implements CodegenConfig {
                 mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
             }
 
+            if(ModelUtils.isTypeFormParam(key)) {
+                mediaType.put("isForm", "true");
+            } else {
+                mediaType.put("isBody", "true");
+            }
+
             count += 1;
             if (count < consumes.size()) {
                 mediaType.put("hasMore", "true");
@@ -4307,6 +4313,12 @@ public class DefaultCodegen implements CodegenConfig {
                     mediaType.put("hasMore", "true");
                 } else {
                     mediaType.put("hasMore", null);
+                }
+
+                if(ModelUtils.isTypeFormParam(key)) {
+                    mediaType.put("isForm", "true");
+                } else {
+                    mediaType.put("isBody", "true");
                 }
 
                 if (!codegenOperation.produces.isEmpty()) {
