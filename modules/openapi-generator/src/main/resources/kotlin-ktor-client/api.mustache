@@ -6,9 +6,9 @@ import io.ktor.client.features.BadResponseStatusException
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.SIMPLE
+
 import {{packageName}}.infrastructure.*
-import {{packageName}}.infrastructure.authentication.AuthProvider
-{{>auth_imports}}
+import {{packageName}}.infrastructure.authentication.*
 {{#imports}}
 import {{import}}
 {{/imports}}
