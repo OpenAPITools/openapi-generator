@@ -81,6 +81,7 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/authentication/Base64.kt.mustache", infrastructureFolder+"/authentication", "Base64.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/authentication/HttpBasicAuth.kt.mustache", infrastructureFolder+"/authentication", "HttpBasicAuth.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/authentication/ApiKeyAuth.kt.mustache", infrastructureFolder+"/authentication", "ApiKeyAuth.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/authentication/OAuth.kt.mustache", infrastructureFolder+"/authentication", "OAuth.kt"));
     }
 
     @Override

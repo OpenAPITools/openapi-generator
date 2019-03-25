@@ -5,5 +5,8 @@ import {{packageName}}.infrastructure.authentication.HttpBasicAuth
 {{#isApiKey}}
 import {{packageName}}.infrastructure.authentication.ApiKeyAuth
 {{/isApiKey}}
+{{#isOAuth}}
+import {{packageName}}.infrastructure.authentication.OAuth
+{{/isOAuth}}
 {{/authMethods}}
 
