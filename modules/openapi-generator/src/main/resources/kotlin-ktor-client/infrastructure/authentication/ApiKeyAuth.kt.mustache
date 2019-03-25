@@ -11,6 +11,14 @@ package {{packageName}}.infrastructure.authentication
         query, header
     }
 
+    data class Config(
+        val apiKey: String,
+        val apiKeyPrefix: String?
+    )
+
+    constructor(location: Location, paramName: String, config: Config)
+            : this(location, paramName, config.apiKey, config.apiKeyPrefix)
+
     override fun applyToParams(
         queryParameters: MutableList<Pair<String, Any?>>,
         headerParameters: MutableList<Pair<String, Any?>>

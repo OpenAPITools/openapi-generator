@@ -73,7 +73,16 @@ import {{import}}
 
         val authProviders = listOf<AuthProvider>({{#hasAuthMethods}}
         {{#authMethods}}
+            {{#isApiKey}}
+            ApiKeyAuth(
+                location = ApiKeyAuth.Location.{{#isKeyInHeader}}header{{/isKeyInHeader}}{{^isKeyInHeader}}query{{/isKeyInHeader}},
+                paramName = "{{keyParamName}}",
+                config = {{name}}
+            ){{#hasMore}},{{/hasMore}}
+            {{/isApiKey}}
+            {{^isApiKey}}
             {{name}}{{#hasMore}}, {{/hasMore}}
+            {{/isApiKey}}
         {{/authMethods}}
         {{/hasAuthMethods}})
 
