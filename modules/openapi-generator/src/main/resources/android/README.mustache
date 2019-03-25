@@ -106,8 +106,9 @@ Class | Method | HTTP request | Description
 {{/isApiKey}}
 {{#isBasic}}- **Type**: HTTP basic authentication
 {{/isBasic}}
-{{#isOAuth}}- **Type**: OAuth
+{{#isOAuth}}
 
+- **Type**: OAuth
 - **Flow**: {{flow}}
 - **Authorization URL**: {{authorizationUrl}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}
