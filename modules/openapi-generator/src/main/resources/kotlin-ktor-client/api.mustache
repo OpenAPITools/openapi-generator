@@ -62,10 +62,11 @@ import {{import}}
             {{/hasBodyParam}}
         }
 
-        val authProviders = mutableListOf<AuthProvider>()
+        val authProviders = listOf<AuthProvider>({{#hasAuthMethods}}
         {{#authMethods}}
-        authProviders += {{name}}
+            {{name}}{{#hasMore}}, {{/hasMore}}
         {{/authMethods}}
+        {{/hasAuthMethods}})
 
         try {
             return request(
