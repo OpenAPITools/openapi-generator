@@ -16,8 +16,12 @@ import {{import}}
 class {{classname}}Controller @Inject()(cc: ControllerComponents, api: {{classname}}){{#supportAsync}}(implicit executionContext: ExecutionContext){{/supportAsync}} extends AbstractController(cc) {
   {{#operation}}
   /**
-    * {{httpMethod}} {{path}}{{#queryParams.0}}?{{/queryParams.0}}{{#queryParams}}{{paramName}}=[value]{{#hasMore}}&{{/hasMore}}{{/queryParams}} {{#pathParams}}{{#description}}
-    * @param {{paramName}} {{description}}{{/description}}{{/pathParams}}
+    * {{httpMethod}} {{path}}{{#queryParams.0}}?{{/queryParams.0}}{{#queryParams}}{{paramName}}=[value]{{#hasMore}}&{{/hasMore}}{{/queryParams}}
+    {{#pathParams}}
+    {{#description}}
+    * @param {{paramName}} {{description}}
+    {{/description}}
+    {{/pathParams}}
     */
   def {{operationId}}({{#pathParams}}{{paramName}}: {{dataType}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}): Action[AnyContent] = Action{{#supportAsync}}.async{{/supportAsync}} { request =>
     {{! Keep the execution result in its own block to prevent redeclaration of parameter names (however unlikely that might be). }}
