@@ -13,7 +13,7 @@ package {{packageName}}.infrastructure.authentication
 
     data class Config(
         val apiKey: String,
-        val apiKeyPrefix: String?
+        val apiKeyPrefix: String? = null
     )
 
     constructor(location: Location, paramName: String, config: Config)
@@ -23,7 +23,7 @@ package {{packageName}}.infrastructure.authentication
         queryParameters: MutableList<Pair<String, Any?>>,
         headerParameters: MutableList<Pair<String, Any?>>
     ) {
-        val value = if (apiKeyPrefix == null) {
+        val value = if (apiKeyPrefix.isNullOrBlank()) {
             apiKey
         } else {
             "$apiKeyPrefix $apiKey"
