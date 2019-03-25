@@ -4,6 +4,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**FakeHealthGet**](FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 [**FakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 [**FakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 [**FakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -17,6 +18,61 @@ Method | HTTP request | Description
 [**TestInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**TestJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 
+
+<a name="fakehealthget"></a>
+# **FakeHealthGet**
+> HealthCheckResult FakeHealthGet ()
+
+Health check endpoint
+
+### Example
+```csharp
+using System;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class FakeHealthGetExample
+    {
+        public void main()
+        {
+            var apiInstance = new FakeApi();
+
+            try
+            {
+                // Health check endpoint
+                HealthCheckResult result = apiInstance.FakeHealthGet();
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling FakeApi.FakeHealthGet: " + e.Message );
+            }
+        }
+    }
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**HealthCheckResult**](HealthCheckResult.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="fakeouterbooleanserialize"></a>
 # **FakeOuterBooleanSerialize**
@@ -73,14 +129,14 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="fakeoutercompositeserialize"></a>
 # **FakeOuterCompositeSerialize**
-> OuterComposite FakeOuterCompositeSerialize (OuterComposite body = null)
+> OuterComposite FakeOuterCompositeSerialize (OuterComposite outerComposite = null)
 
 
 
@@ -101,11 +157,11 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var body = new OuterComposite(); // OuterComposite | Input composite as post body (optional) 
+            var outerComposite = new OuterComposite(); // OuterComposite | Input composite as post body (optional) 
 
             try
             {
-                OuterComposite result = apiInstance.FakeOuterCompositeSerialize(body);
+                OuterComposite result = apiInstance.FakeOuterCompositeSerialize(outerComposite);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -121,7 +177,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **outerComposite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
 
 ### Return type
 
@@ -133,7 +189,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -161,7 +217,7 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var body = 1.2D;  // decimal? | Input number as post body (optional) 
+            var body = 8.14;  // decimal? | Input number as post body (optional) 
 
             try
             {
@@ -193,7 +249,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -253,14 +309,14 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 <a name="testbodywithfileschema"></a>
 # **TestBodyWithFileSchema**
-> void TestBodyWithFileSchema (FileSchemaTestClass body)
+> void TestBodyWithFileSchema (FileSchemaTestClass fileSchemaTestClass)
 
 
 
@@ -281,11 +337,11 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var body = new FileSchemaTestClass(); // FileSchemaTestClass | 
+            var fileSchemaTestClass = new FileSchemaTestClass(); // FileSchemaTestClass | 
 
             try
             {
-                apiInstance.TestBodyWithFileSchema(body);
+                apiInstance.TestBodyWithFileSchema(fileSchemaTestClass);
             }
             catch (Exception e)
             {
@@ -300,7 +356,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **fileSchemaTestClass** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
 
 ### Return type
 
@@ -319,7 +375,7 @@ No authorization required
 
 <a name="testbodywithqueryparams"></a>
 # **TestBodyWithQueryParams**
-> void TestBodyWithQueryParams (string query, User body)
+> void TestBodyWithQueryParams (string query, User user)
 
 
 
@@ -339,11 +395,11 @@ namespace Example
         {
             var apiInstance = new FakeApi();
             var query = query_example;  // string | 
-            var body = new User(); // User | 
+            var user = new User(); // User | 
 
             try
             {
-                apiInstance.TestBodyWithQueryParams(query, body);
+                apiInstance.TestBodyWithQueryParams(query, user);
             }
             catch (Exception e)
             {
@@ -359,7 +415,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **string**|  | 
- **body** | [**User**](User.md)|  | 
+ **user** | [**User**](User.md)|  | 
 
 ### Return type
 
@@ -378,7 +434,7 @@ No authorization required
 
 <a name="testclientmodel"></a>
 # **TestClientModel**
-> ModelClient TestClientModel (ModelClient body)
+> ModelClient TestClientModel (ModelClient modelClient)
 
 To test \"client\" model
 
@@ -399,12 +455,12 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var body = new ModelClient(); // ModelClient | client model
+            var modelClient = new ModelClient(); // ModelClient | client model
 
             try
             {
                 // To test \"client\" model
-                ModelClient result = apiInstance.TestClientModel(body);
+                ModelClient result = apiInstance.TestClientModel(modelClient);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -420,7 +476,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**ModelClient**](ModelClient.md)| client model | 
+ **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 
@@ -623,6 +679,10 @@ namespace Example
     {
         public void main()
         {
+            // Configure HTTP basic authorization: bearer_test
+            Configuration.Default.Username = "YOUR_USERNAME";
+            Configuration.Default.Password = "YOUR_PASSWORD";
+
             var apiInstance = new FakeApi();
             var requiredStringGroup = 56;  // int? | Required String in group parameters
             var requiredBooleanGroup = true;  // bool? | Required Boolean in group parameters
@@ -662,7 +722,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearer_test](../README.md#bearer_test)
 
 ### HTTP request headers
 
@@ -673,7 +733,7 @@ No authorization required
 
 <a name="testinlineadditionalproperties"></a>
 # **TestInlineAdditionalProperties**
-> void TestInlineAdditionalProperties (Dictionary<string, string> param)
+> void TestInlineAdditionalProperties (Dictionary<string, string> requestBody)
 
 test inline additionalProperties
 
@@ -692,12 +752,12 @@ namespace Example
         public void main()
         {
             var apiInstance = new FakeApi();
-            var param = new Dictionary<string, string>(); // Dictionary<string, string> | request body
+            var requestBody = new Dictionary<string, string>(); // Dictionary<string, string> | request body
 
             try
             {
                 // test inline additionalProperties
-                apiInstance.TestInlineAdditionalProperties(param);
+                apiInstance.TestInlineAdditionalProperties(requestBody);
             }
             catch (Exception e)
             {
@@ -712,7 +772,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**Dictionary&lt;string, string&gt;**](string.md)| request body | 
+ **requestBody** | [**Dictionary&lt;string, string&gt;**](string.md)| request body | 
 
 ### Return type
 

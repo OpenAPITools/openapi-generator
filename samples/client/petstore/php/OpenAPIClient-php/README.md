@@ -121,7 +121,14 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AdditionalPropertiesAnyType](docs/Model/AdditionalPropertiesAnyType.md)
+ - [AdditionalPropertiesArray](docs/Model/AdditionalPropertiesArray.md)
+ - [AdditionalPropertiesBoolean](docs/Model/AdditionalPropertiesBoolean.md)
  - [AdditionalPropertiesClass](docs/Model/AdditionalPropertiesClass.md)
+ - [AdditionalPropertiesInteger](docs/Model/AdditionalPropertiesInteger.md)
+ - [AdditionalPropertiesNumber](docs/Model/AdditionalPropertiesNumber.md)
+ - [AdditionalPropertiesObject](docs/Model/AdditionalPropertiesObject.md)
+ - [AdditionalPropertiesString](docs/Model/AdditionalPropertiesString.md)
  - [Animal](docs/Model/Animal.md)
  - [ApiResponse](docs/Model/ApiResponse.md)
  - [ArrayOfArrayOfNumberOnly](docs/Model/ArrayOfArrayOfNumberOnly.md)

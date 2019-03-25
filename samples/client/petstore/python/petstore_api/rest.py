@@ -22,11 +22,9 @@ import certifi
 # python 2 and python 3 compatibility library
 import six
 from six.moves.urllib.parse import urlencode
+import urllib3
 
-try:
-    import urllib3
-except ImportError:
-    raise ImportError('OpenAPI Python client requires urllib3.')
+from petstore_api.exceptions import ApiException, ApiValueError
 
 
 logger = logging.getLogger(__name__)
@@ -75,6 +73,9 @@ class RESTClientObject(object):
         if configuration.assert_hostname is not None:
             addition_pool_args['assert_hostname'] = configuration.assert_hostname  # noqa: E501
 
+        if configuration.retries is not None:
+            addition_pool_args['retries'] = configuration.retries
+
         if maxsize is None:
             if configuration.connection_pool_maxsize is not None:
                 maxsize = configuration.connection_pool_maxsize
@@ -91,6 +92,7 @@ class RESTClientObject(object):
                 cert_file=configuration.cert_file,
                 key_file=configuration.key_file,
                 proxy_url=configuration.proxy,
+                proxy_headers=configuration.proxy_headers,
                 **addition_pool_args
             )
         else:
@@ -130,7 +132,7 @@ class RESTClientObject(object):
                           'PATCH', 'OPTIONS']
 
         if post_params and body:
-            raise ValueError(
+            raise ApiValueError(
                 "body parameter cannot be used with post_params parameter."
             )
 
@@ -292,31 +294,3 @@ class RESTClientObject(object):
                             _preload_content=_preload_content,
                             _request_timeout=_request_timeout,
                             body=body)
-
-
-class ApiException(Exception):
-
-    def __init__(self, status=None, reason=None, http_resp=None):
-        if http_resp:
-            self.status = http_resp.status
-            self.reason = http_resp.reason
-            self.body = http_resp.data
-            self.headers = http_resp.getheaders()
-        else:
-            self.status = status
-            self.reason = reason
-            self.body = None
-            self.headers = None
-
-    def __str__(self):
-        """Custom error messages for exception"""
-        error_message = "({0})\n"\
-                        "Reason: {1}\n".format(self.status, self.reason)
-        if self.headers:
-            error_message += "HTTP response headers: {0}\n".format(
-                self.headers)
-
-        if self.body:
-            error_message += "HTTP response body: {0}\n".format(self.body)
-
-        return error_message

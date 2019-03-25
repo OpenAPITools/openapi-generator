@@ -156,6 +156,7 @@ Class | Method | HTTP request | Description
  - [ModelList](docs/Model/ModelList.md)
  - [ModelReturn](docs/Model/ModelReturn.md)
  - [Name](docs/Model/Name.md)
+ - [NullableClass](docs/Model/NullableClass.md)
  - [NumberOnly](docs/Model/NumberOnly.md)
  - [Order](docs/Model/Order.md)
  - [OuterComposite](docs/Model/OuterComposite.md)

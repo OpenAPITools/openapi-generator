@@ -102,7 +102,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
 
         importMapping.put("DateTime", "org.joda.time.DateTime");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("array", "Seq");
         typeMapping.put("set", "Set");
         typeMapping.put("boolean", "Boolean");
@@ -114,7 +114,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         typeMapping.put("byte", "Byte");
         typeMapping.put("short", "Short");
         typeMapping.put("char", "Char");
-        typeMapping.put("long", "Long");
         typeMapping.put("double", "Double");
         typeMapping.put("object", "Any");
         typeMapping.put("file", "File");
@@ -234,16 +233,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
             return null;
         }
         return codegenSecurities;
-    }
-
-    @Override
-    public String toOperationId(String operationId) {
-        // throw exception if method name is empty
-        if (StringUtils.isEmpty(operationId)) {
-            throw new RuntimeException("Empty method name (operationId) not allowed");
-        }
-
-        return super.toOperationId(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, operationId));
     }
 
     @Override

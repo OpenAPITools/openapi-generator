@@ -1380,7 +1380,7 @@ components:
           maxLength: 64
           minLength: 10
         pattern_with_digits:
-          description: A string that is a 10 digit number. Can have leading zeros. 
+          description: A string that is a 10 digit number. Can have leading zeros.
           type: string
           pattern: '^\d{10}$'
         pattern_with_digits_and_delimiter:
@@ -1654,3 +1654,61 @@ components:
           nullable: true
           type: string
       description: Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
+    NullableClass:
+      type: object
+      properties:
+        integer_prop:
+          type: integer
+          nullable: true
+        number_prop:
+          type: number
+          nullable: true
+        boolean_prop:
+          type: boolean
+          nullable: true
+        string_prop:
+          type: string
+          nullable: true
+        date_prop:
+          type: string
+          format: date
+          nullable: true
+        datetime_prop:
+          type: string
+          format: date-time
+          nullable: true
+        array_nullable_prop:
+          type: array
+          nullable: true
+          items:
+            type: object
+        array_and_items_nullable_prop:
+          type: array
+          nullable: true
+          items:
+            type: object
+            nullable: true
+        array_items_nullable:
+          type: array
+          items:
+            type: object
+            nullable: true
+        object_nullable_prop:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: object
+        object_and_items_nullable_prop:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: object
+            nullable: true
+        object_items_nullable:
+          type: object
+          additionalProperties:
+            type: object
+            nullable: true
+      additionalProperties:
+        type: object
+        nullable: true

@@ -260,4 +260,8 @@ public interface CodegenConfig {
      */
     void setOpenAPI(OpenAPI openAPI);
 
+    public boolean isEnableMinimalUpdate();
+
+    public void setEnableMinimalUpdate(boolean isEnableMinimalUpdate);
+
 }

@@ -25,7 +25,7 @@ This can only be done by the logged in user.
 ```R
 library(petstore)
 
-var.body <- User$new() # User | Created user object
+var.body <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Created user object
 
 #Create user
 api.instance <- UserApi$new()
@@ -62,7 +62,7 @@ Creates list of users with given input array
 ```R
 library(petstore)
 
-var.body <- [array$new()] # User | List of user object
+var.body <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # User | List of user object
 
 #Creates list of users with given input array
 api.instance <- UserApi$new()
@@ -99,7 +99,7 @@ Creates list of users with given input array
 ```R
 library(petstore)
 
-var.body <- [array$new()] # User | List of user object
+var.body <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # User | List of user object
 
 #Creates list of users with given input array
 api.instance <- UserApi$new()
@@ -289,7 +289,7 @@ This can only be done by the logged in user.
 library(petstore)
 
 var.username <- 'username_example' # character | name that need to be deleted
-var.body <- User$new() # User | Updated user object
+var.body <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object
 
 #Updated user
 api.instance <- UserApi$new()
