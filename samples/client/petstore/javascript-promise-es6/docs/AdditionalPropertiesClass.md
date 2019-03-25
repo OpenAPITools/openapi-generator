@@ -1,6 +1,7 @@
 # OpenApiPetstore.AdditionalPropertiesClass
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **mapString** | **{String: String}** |  | [optional] 

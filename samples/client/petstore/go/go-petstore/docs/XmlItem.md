@@ -1,6 +1,7 @@
 # XmlItem
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AttributeString** | **string** |  | [optional] 

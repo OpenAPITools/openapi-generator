@@ -1,6 +1,7 @@
 # OpenApiPetstore.Order
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **Number** |  | [optional] 
@@ -11,7 +12,7 @@ Name | Type | Description | Notes
 **complete** | **Boolean** |  | [optional] [default to false]
 
 
-<a name="StatusEnum"></a>
+
 ## Enum: StatusEnum
 
 

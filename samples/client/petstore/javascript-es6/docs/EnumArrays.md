@@ -1,13 +1,14 @@
 # OpenApiPetstore.EnumArrays
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **justSymbol** | **String** |  | [optional] 
 **arrayEnum** | **[String]** |  | [optional] 
 
 
-<a name="JustSymbolEnum"></a>
+
 ## Enum: JustSymbolEnum
 
 
@@ -18,7 +19,7 @@ Name | Type | Description | Notes
 
 
 
-<a name="[ArrayEnumEnum]"></a>
+
 ## Enum: [ArrayEnumEnum]
 
 
