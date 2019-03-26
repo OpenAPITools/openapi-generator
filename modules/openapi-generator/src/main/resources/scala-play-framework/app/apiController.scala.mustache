@@ -19,7 +19,7 @@ import {{import}}
 class {{classname}}Controller @Inject()(cc: ControllerComponents, api: {{classname}}){{#supportAsync}}(implicit executionContext: ExecutionContext){{/supportAsync}} extends AbstractController(cc) {
   {{#operation}}
   /**
-    * {{httpMethod}} {{path}}{{#queryParams.0}}?{{/queryParams.0}}{{#queryParams}}{{paramName}}=[value]{{#hasMore}}&{{/hasMore}}{{/queryParams}}
+    * {{httpMethod}} {{contextPath}}{{path}}{{#queryParams.0}}?{{/queryParams.0}}{{#queryParams}}{{paramName}}=[value]{{#hasMore}}&{{/hasMore}}{{/queryParams}}
     {{#pathParams}}
     {{#description}}
     * @param {{paramName}} {{description}}
