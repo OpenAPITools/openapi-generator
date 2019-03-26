@@ -14,10 +14,10 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD.
-    define(['expect.js', '../../src/index'], factory);
+    define(['expect.js', process.cwd()+'/src/index'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    factory(require('expect.js'), require('../../src/index'));
+    factory(require('expect.js'), require(process.cwd()+'/src/index'));
   } else {
     // Browser globals (root is window)
     factory(root.expect, root.OpenApiPetstore);
@@ -62,6 +62,18 @@
 
     it('should have the property mapOfEnumString (base name: "map_of_enum_string")', function() {
       // uncomment below and update the code to test the property mapOfEnumString
+      //var instane = new OpenApiPetstore.MapTest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property directMap (base name: "direct_map")', function() {
+      // uncomment below and update the code to test the property directMap
+      //var instane = new OpenApiPetstore.MapTest();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property indirectMap (base name: "indirect_map")', function() {
+      // uncomment below and update the code to test the property indirectMap
       //var instane = new OpenApiPetstore.MapTest();
       //expect(instance).to.be();
     });
