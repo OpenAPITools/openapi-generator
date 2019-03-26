@@ -272,6 +272,13 @@
                                 <requireMavenVersion>
                                     <version>3.2.5</version>
                                 </requireMavenVersion>
+                                <requireReleaseDeps>
+                                    <message>No Snapshots Allowed!</message>
+                                    <failWhenParentIsSnapshot>false</failWhenParentIsSnapshot>
+                                    <excludes>
+                                        <exclude>org.openapitools:*</exclude>
+                                    </excludes>
+                                </requireReleaseDeps>
                             </rules>
                         </configuration>
                     </execution>
