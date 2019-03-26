@@ -11,6 +11,7 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 
+
 public class TypeScriptAngularClientCodegenTest {
     @Test
     public void testModelFileSuffix() {
@@ -19,7 +20,7 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.additionalProperties().put("modelSuffix", "MySuffix");
         codegen.processOpts();
 
-        Assert.assertEquals(codegen.toModelFilename("testName"), "testNameMySuffix");
+        Assert.assertEquals("testNameMySuffix", codegen.toModelFilename("testName"));
     }
 
     @Test
@@ -32,6 +33,46 @@ public class TypeScriptAngularClientCodegenTest {
 
         CodegenOperation co1 = codegen.fromOperation("/another-fake/dummy/", "get", operation1, null);
         org.testng.Assert.assertEquals(co1.operationId, "_123testSpecialTags");
+
+    }
+
+    @Test
+    public void testSnapshotVersion() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
+        codegen.additionalProperties().put("snapshot", true);
+        codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
+        codegen.processOpts();
+
+        Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT.[0-9]{12}$"));
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
+        codegen.additionalProperties().put("snapshot", true);
+        codegen.additionalProperties().put("npmVersion", "3.0.0-M1");
+        codegen.processOpts();
+
+        Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
+
+    }
+
+    @Test
+    public void testWithoutSnapshotVersion() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
+        codegen.additionalProperties().put("snapshot", false);
+        codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
+        codegen.processOpts();
+
+        Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT$"));
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
+        codegen.additionalProperties().put("snapshot", false);
+        codegen.additionalProperties().put("npmVersion", "3.0.0-M1");
+        codegen.processOpts();
+
+        Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
 
     }
 
