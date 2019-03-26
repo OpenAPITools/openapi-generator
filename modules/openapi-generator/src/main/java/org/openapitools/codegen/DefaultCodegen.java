@@ -2526,6 +2526,7 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
             }
+            op.hasRequiredRequestBody = requestBody.getRequired() != null ? requestBody.getRequired() : Boolean.FALSE;
         }
 
         if (parameters != null) {
@@ -4555,7 +4556,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegenParameter.description = escapeText(body.getDescription());
-        codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
 
         LOGGER.debug("Request body = " + body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body,"body");
