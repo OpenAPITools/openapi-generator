@@ -25,7 +25,7 @@ import java.util.*;
 public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
     public boolean hasAuthMethods, hasConsumes, hasProduces, hasParams, hasOptionalParams, hasRequiredParams,
-            returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMapContainer,
+            hasRequiredRequestBody, returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMapContainer,
             isListContainer, isMultipart, hasMore = true,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
@@ -309,7 +309,8 @@ public class CodegenOperation {
             Objects.equals(prioritizedContentTypes, that.prioritizedContentTypes) &&
             Objects.equals(operationIdOriginal, that.operationIdOriginal) &&
             Objects.equals(operationIdLowerCase, that.operationIdLowerCase) &&
-            Objects.equals(operationIdCamelCase, that.operationIdCamelCase);
+            Objects.equals(operationIdCamelCase, that.operationIdCamelCase) &&
+            Objects.equals(hasRequiredRequestBody, that.hasRequiredRequestBody);
     }
 
     @Override
@@ -370,7 +371,8 @@ public class CodegenOperation {
             prioritizedContentTypes,
             operationIdOriginal,
             operationIdLowerCase,
-            operationIdCamelCase);
+            operationIdCamelCase,
+            hasRequiredRequestBody);
     }
 
 
