@@ -1,3 +1,19 @@
+/*
+ * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
@@ -42,10 +58,10 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
 
     public ScalaPlayFrameworkServerCodegen() {
         super();
-        outputFolder = "generated-code" + File.separator + "scala-play-framework";
+        outputFolder = "generated-code" + File.separator + "scala-play-server";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
-        embeddedTemplateDir = templateDir = "scala-play-framework";
+        embeddedTemplateDir = templateDir = "scala-play-server";
         hideGenerationTimestamp = false;
         sourceFolder = "app";
         apiPackage = "api";
@@ -81,11 +97,11 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     }
 
     public String getName() {
-        return "scala-play-framework";
+        return "scala-play-server";
     }
 
     public String getHelp() {
-        return "Generates a Scala server application with Play Framework.";
+        return "Generates a Scala server application (beta) with Play Framework.";
     }
 
     public void setSupportAsync(boolean supportAsync) {
@@ -137,13 +153,13 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         writePropertyBack(USE_SWAGGER_UI, useSwaggerUI);
 
         if (additionalProperties.containsKey(ROUTES_FILE_NAME)) {
-            this.setRoutesFileName((String)additionalProperties.get(ROUTES_FILE_NAME));
+            this.setRoutesFileName((String) additionalProperties.get(ROUTES_FILE_NAME));
         } else {
             additionalProperties.put(ROUTES_FILE_NAME, routesFileName);
         }
 
         if (additionalProperties.containsKey(BASE_PACKAGE)) {
-            this.setBasePackage((String)additionalProperties.get(BASE_PACKAGE));
+            this.setBasePackage((String) additionalProperties.get(BASE_PACKAGE));
         } else {
             additionalProperties.put(BASE_PACKAGE, basePackage);
         }
@@ -181,9 +197,9 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
 
     private void addMustacheLambdas(Map<String, Object> objs) {
         Map<String, Mustache.Lambda> lambdas = new ImmutableMap.Builder<String, Mustache.Lambda>()
-            .put("indented_4", new IndentedLambda(4, " "))
-            .put("indented_8", new IndentedLambda(8, " "))
-            .build();
+                .put("indented_4", new IndentedLambda(4, " "))
+                .put("indented_8", new IndentedLambda(8, " "))
+                .build();
         objs.put("lambda", lambdas);
     }
 
@@ -193,13 +209,13 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         Map<String, CodegenModel> models = new HashMap<>();
 
         for (Object _mo : allModels) {
-            CodegenModel model = (CodegenModel)((Map<String, Object>)_mo).get("model");
+            CodegenModel model = (CodegenModel) ((Map<String, Object>) _mo).get("model");
             models.put(model.classname, model);
         }
 
-        Map<String, Object> operations = (Map<String, Object>)objs.get("operations");
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         if (operations != null) {
-            List<CodegenOperation> ops = (List<CodegenOperation>)operations.get("operation");
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
                 Pattern pathVariableMatcher = Pattern.compile("\\{([^}]+)}");
                 Matcher match = pathVariableMatcher.matcher(operation.path);
@@ -225,11 +241,11 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         Map<String, CodegenModel> modelsByClassName = new HashMap<>();
 
         for (Object _outer : objs.values()) {
-            Map<String, Object> outer = (Map<String, Object>)_outer;
-            List<Map<String, Object>> models = (List<Map<String, Object>>)outer.get("models");
+            Map<String, Object> outer = (Map<String, Object>) _outer;
+            List<Map<String, Object>> models = (List<Map<String, Object>>) outer.get("models");
 
             for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel)mo.get("model");
+                CodegenModel cm = (CodegenModel) mo.get("model");
                 postProcessModelsEnum(outer);
                 cm.classVarName = camelize(cm.classVarName, true);
                 modelsByClassName.put(cm.classname, cm);
@@ -252,15 +268,15 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         generateJSONSpecFile(objs);
 
         // Prettify routes file
-        Map<String, Object> apiInfo = (Map<String, Object>)objs.get("apiInfo");
-        List<Map<String, Object>> apis = (List<Map<String, Object>>)apiInfo.get("apis");
+        Map<String, Object> apiInfo = (Map<String, Object>) objs.get("apiInfo");
+        List<Map<String, Object>> apis = (List<Map<String, Object>>) apiInfo.get("apis");
         List<CodegenOperation> ops = apis.stream()
-            .map(api -> (Map<String, Object>)api.get("operations"))
-            .flatMap(operations -> ((List<CodegenOperation>)operations.get("operation")).stream())
-            .collect(Collectors.toList());
+                .map(api -> (Map<String, Object>) api.get("operations"))
+                .flatMap(operations -> ((List<CodegenOperation>) operations.get("operation")).stream())
+                .collect(Collectors.toList());
         int maxPathLength = ops.stream()
-            .mapToInt(op -> op.httpMethod.length() + op.path.length())
-            .reduce(0, Integer::max);
+                .mapToInt(op -> op.httpMethod.length() + op.path.length())
+                .reduce(0, Integer::max);
         ops.forEach(op -> op.vendorExtensions.put("paddedPath", rightPad(op.path, maxPathLength - op.httpMethod.length())));
         ops.forEach(op -> op.vendorExtensions.put("hasPathParams", op.getHasPathParams()));
 
@@ -332,7 +348,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         }
 
         if (ModelUtils.isArraySchema(p)) {
-            Schema items = ((ArraySchema)p).getItems();
+            Schema items = ((ArraySchema) p).getItems();
             String inner = getSchemaType(items);
             return "List.empty[" + inner + "]";
         }
