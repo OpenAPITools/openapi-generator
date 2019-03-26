@@ -34,7 +34,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     static Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
 
     protected boolean skipStubs = false;
-    protected boolean supportAsync = true;
+    protected boolean supportAsync = false;
     protected boolean generateCustomExceptions = true;
     protected boolean useSwaggerUI = true;
     protected String routesFileName = "routes";
