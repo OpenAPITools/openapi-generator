@@ -81,6 +81,14 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/authentication/ApiKeyAuth.kt.mustache", infrastructureFolder+"/authentication", "ApiKeyAuth.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/authentication/OAuth.kt.mustache", infrastructureFolder+"/authentication", "OAuth.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/authentication/HttpBasicBearerAuth.kt.mustache", infrastructureFolder+"/authentication", "HttpBasicBearerAuth.kt"));
+
+        //gradle files
+        supportingFiles.add(new SupportingFile("gradle/settings.gradle.mustache", "settings.gradle"));
+        supportingFiles.add(new SupportingFile("gradle/build.gradle.mustache", "build.gradle"));
+        supportingFiles.add(new SupportingFile("gradle/gradlew", "gradlew"));
+        supportingFiles.add(new SupportingFile("gradle/gradlew.bat", "gradlew.bat"));
+        supportingFiles.add(new SupportingFile("gradle/gradle/wrapper/gradle-wrapper.jar", "gradle/wrapper", "gradle-wrapper.jar"));
+        supportingFiles.add(new SupportingFile("gradle/gradle/wrapper/gradle-wrapper.properties", "gradle/wrapper", "gradle-wrapper.properties"));
     }
 
     @Override
