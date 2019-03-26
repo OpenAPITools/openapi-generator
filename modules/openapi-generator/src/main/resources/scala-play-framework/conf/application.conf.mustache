@@ -3,12 +3,11 @@
 
 play {
   filters.headers.contentSecurityPolicy = null
+  modules.enabled += "{{basePackage}}.Module"
 
   http {
     secret.key = "changeme"
-    {{#handleExceptions}}
-    errorHandlers="openapitools.ErrorHandler"
-    {{/handleExceptions}}
+    errorHandler = "{{basePackage}}.ErrorHandler"
   }
 
   assets {

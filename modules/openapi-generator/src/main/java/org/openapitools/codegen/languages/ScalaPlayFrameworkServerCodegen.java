@@ -1,8 +1,11 @@
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,11 +26,19 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     public static final String TITLE = "title";
     public static final String SKIP_STUBS = "skipStubs";
     public static final String SUPPORT_ASYNC = "supportAsync";
+    public static final String GENERATE_CUSTOM_EXCEPTIONS = "generateCustomExceptions";
+    public static final String USE_SWAGGER_UI = "useSwaggerUI";
+    public static final String ROUTES_FILE_NAME = "routesFileName";
+    public static final String BASE_PACKAGE = "basePackage";
 
     static Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
 
     protected boolean skipStubs = false;
-    protected boolean supportAsync = false;
+    protected boolean supportAsync = true;
+    protected boolean generateCustomExceptions = true;
+    protected boolean useSwaggerUI = true;
+    protected String routesFileName = "routes";
+    protected String basePackage = "org.openapitools";
 
     public ScalaPlayFrameworkServerCodegen() {
         super();
@@ -53,8 +65,13 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         importMapping.remove("BigDecimal");
         importMapping.put("TemporaryFile", "play.api.libs.Files.TemporaryFile");
 
+        cliOptions.add(new CliOption(ROUTES_FILE_NAME, "Name of the routes file to generate.").defaultValue(routesFileName));
+        cliOptions.add(new CliOption(ROUTES_FILE_NAME, "Base package in which supporting classes are generated.").defaultValue(basePackage));
+
         addCliOptionWithDefault(SKIP_STUBS, "If set, skips generation of stub classes.", skipStubs);
-        addCliOptionWithDefault(SUPPORT_ASYNC, "Whether or not to wrap API return types with Futures.", supportAsync);
+        addCliOptionWithDefault(SUPPORT_ASYNC, "If set, wraps API return types with Futures and generates async actions.", supportAsync);
+        addCliOptionWithDefault(GENERATE_CUSTOM_EXCEPTIONS, "If set, generates custom exception types.", generateCustomExceptions);
+        addCliOptionWithDefault(USE_SWAGGER_UI, "Add a route to /api which show your documentation in swagger-ui. Will also import needed dependencies", useSwaggerUI);
     }
 
     public CodegenType getTag() {
@@ -77,6 +94,22 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         this.skipStubs = skipStubs;
     }
 
+    public void setGenerateCustomExceptions(boolean generateCustomExceptions) {
+        this.generateCustomExceptions = generateCustomExceptions;
+    }
+
+    public void setRoutesFileName(String routesFileName) {
+        this.routesFileName = routesFileName;
+    }
+
+    public void setBasePackage(String basePackage) {
+        this.basePackage = basePackage;
+    }
+
+    public void setUseSwaggerUI(boolean useSwaggerUI) {
+        this.useSwaggerUI = useSwaggerUI;
+    }
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -90,6 +123,28 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
             this.setSupportAsync(convertPropertyToBoolean(SUPPORT_ASYNC));
         }
         writePropertyBack(SUPPORT_ASYNC, supportAsync);
+
+        if (additionalProperties.containsKey(GENERATE_CUSTOM_EXCEPTIONS)) {
+            this.setGenerateCustomExceptions(convertPropertyToBoolean(GENERATE_CUSTOM_EXCEPTIONS));
+        }
+        writePropertyBack(GENERATE_CUSTOM_EXCEPTIONS, generateCustomExceptions);
+
+        if (additionalProperties.containsKey(USE_SWAGGER_UI)) {
+            this.setUseSwaggerUI(convertPropertyToBoolean(USE_SWAGGER_UI));
+        }
+        writePropertyBack(USE_SWAGGER_UI, useSwaggerUI);
+
+        if (additionalProperties.containsKey(ROUTES_FILE_NAME)) {
+            this.setRoutesFileName((String)additionalProperties.get(ROUTES_FILE_NAME));
+        } else {
+            additionalProperties.put(ROUTES_FILE_NAME, routesFileName);
+        }
+
+        if (additionalProperties.containsKey(BASE_PACKAGE)) {
+            this.setBasePackage((String)additionalProperties.get(BASE_PACKAGE));
+        } else {
+            additionalProperties.put(BASE_PACKAGE, basePackage);
+        }
 
         apiTemplateFiles.remove("api.mustache");
 
@@ -106,8 +161,28 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         supportingFiles.add(new SupportingFile("conf/logback.xml.mustache", "conf", "logback.xml"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("project/plugins.sbt.mustache", "project", "plugins.sbt"));
-        supportingFiles.add(new SupportingFile("app/module.scala.mustache", sourceFolder, "Module.scala"));
-        supportingFiles.add(new SupportingFile("conf/routes.mustache", "conf", "routes"));
+        supportingFiles.add(new SupportingFile("conf/routes.mustache", "conf", routesFileName));
+        supportingFiles.add(new SupportingFile("app/module.scala.mustache", getBasePackagePath(), "Module.scala"));
+        supportingFiles.add(new SupportingFile("app/errorHandler.scala.mustache", getBasePackagePath(), "ErrorHandler.scala"));
+
+        if (generateCustomExceptions) {
+            supportingFiles.add(new SupportingFile("app/exceptions.scala.mustache", getBasePackagePath(), "OpenApiExceptions.scala"));
+        }
+
+        if (this.useSwaggerUI) {
+            //App/Controllers
+            supportingFiles.add(new SupportingFile("public/openapi.json.mustache", "public", "openapi.json"));
+            supportingFiles.add(new SupportingFile("app/apiDocController.scala.mustache", String.format(Locale.ROOT, "app/%s", apiPackage.replace(".", File.separator)), "ApiDocController.scala"));
+        }
+        addMustacheLambdas(additionalProperties);
+    }
+
+    private void addMustacheLambdas(Map<String, Object> objs) {
+        Map<String, Mustache.Lambda> lambdas = new ImmutableMap.Builder<String, Mustache.Lambda>()
+            .put("indented_4", new IndentedLambda(4, " "))
+            .put("indented_8", new IndentedLambda(8, " "))
+            .build();
+        objs.put("lambda", lambdas);
     }
 
     @SuppressWarnings("unchecked")
@@ -172,6 +247,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         objs = super.postProcessSupportingFileData(objs);
+        generateJSONSpecFile(objs);
 
         // Prettify routes file
         Map<String, Object> apiInfo = (Map<String, Object>)objs.get("apiInfo");
@@ -184,6 +260,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
             .mapToInt(op -> op.httpMethod.length() + op.path.length())
             .reduce(0, Integer::max);
         ops.forEach(op -> op.vendorExtensions.put("paddedPath", rightPad(op.path, maxPathLength - op.httpMethod.length())));
+        ops.forEach(op -> op.vendorExtensions.put("hasPathParams", op.getHasPathParams()));
 
         return objs;
     }
@@ -282,6 +359,10 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
 
     private void addCliOptionWithDefault(String name, String description, boolean defaultValue) {
         cliOptions.add(CliOption.newBoolean(name, description).defaultValue(Boolean.toString(defaultValue)));
+    }
+
+    private String getBasePackagePath() {
+        return String.format(Locale.ROOT, "%s/%s", sourceFolder, basePackage.replace(".", File.separator));
     }
 
     private String generateModelDefaultValue(CodegenModel cm, Map<String, CodegenModel> models) {

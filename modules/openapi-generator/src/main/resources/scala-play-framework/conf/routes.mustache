@@ -5,10 +5,21 @@
 {{#apiInfo}}
 {{#apis}}
 
-# Functions for {{{baseName}}} API
+# Routes for {{{baseName}}} API
+{{! Note: operations with path parameters are emitted last to give them lower priority than operations with possibly more specific paths. }}
+
 {{#operations}}
 {{#operation}}
+{{^vendorExtensions.hasPathParams}}
+{{httpMethod}} {{{contextPath}}}{{{vendorExtensions.paddedPath}}}    {{apiPackage}}.{{classname}}Controller.{{operationId}}()
+{{/vendorExtensions.hasPathParams}}
+{{/operation}}
+{{/operations}}
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions.hasPathParams}}
 {{httpMethod}} {{{contextPath}}}{{{vendorExtensions.paddedPath}}}    {{apiPackage}}.{{classname}}Controller.{{operationId}}({{#pathParams}}{{paramName}}: {{#isUuid}}java.util.UUID{{/isUuid}}{{^isUuid}}{{{dataType}}}{{/isUuid}}{{#hasMore}}, {{/hasMore}}{{/pathParams}})
+{{/vendorExtensions.hasPathParams}}
 {{/operation}}
 {{/operations}}
 {{/apis}}
@@ -17,3 +28,8 @@
 # Map static resources from the /public folder to the /assets URL path
 GET /assets/*file           controllers.Assets.at(file)
 GET /versionedAssets/*file  controllers.Assets.versioned(file)
+
+{{#useSwaggerUI}}
+# Swagger UI
+GET /api                    {{apiPackage}}.ApiDocController.api
+{{/useSwaggerUI}}

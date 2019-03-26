@@ -1,5 +1,8 @@
 package {{package}}
 
+{{#generateCustomExceptions}}
+import {{basePackage}}.OpenApiExceptions
+{{/generateCustomExceptions}}
 import javax.inject.{Inject, Singleton}
 import play.api.libs.json._
 import play.api.mvc._
@@ -28,24 +31,26 @@ class {{classname}}Controller @Inject()(cc: ControllerComponents, api: {{classna
     def executeApi(): {{>returnTypeOrUnit}} = {
       {{#bodyParams}}
       val {{paramName}} = request.body.asJson.map(_.as[{{dataType}}]){{#required}}.getOrElse {
+        {{#generateCustomExceptions}}
+        throw new OpenApiExceptions.MissingRequiredParameterException("body", "{{paramName}}")
+        {{/generateCustomExceptions}}
+        {{^generateCustomExceptions}}
         throw new IllegalArgumentException("Missing required body parameter.")
+        {{/generateCustomExceptions}}
       }{{/required}}
       {{/bodyParams}}
       {{#headerParams}}
       val {{paramName}} = request.headers.get("{{baseName}}")
-      {{! TODO: Indentation }}
-      {{>app/transformParamValues}}
+        {{#lambda.indented_8}}{{>app/transformParamValues}}{{/lambda.indented_8}}
       {{/headerParams}}
       {{#queryParams}}
       val {{paramName}} = request.{{#isCollectionFormatMulti}}queryString.get("{{baseName}}"){{/isCollectionFormatMulti}}{{^isCollectionFormatMulti}}getQueryString("{{baseName}}"){{/isCollectionFormatMulti}}
-      {{! TODO: Indentation }}
-      {{>app/transformParamValues}}
+        {{#lambda.indented_8}}{{>app/transformParamValues}}{{/lambda.indented_8}}
       {{/queryParams}}
       {{#formParams}}
       {{#isFile}}
       val {{paramName}} = request.body.asMultipartFormData.flatMap(_.file("{{baseName}}").map(_.ref: {{dataType}}))
-      {{! TODO: Indentation }}
-      {{>app/transformParamValues}}
+        {{#lambda.indented_8}}{{>app/transformParamValues}}{{/lambda.indented_8}}
       {{/isFile}}
       {{^isFile}}
       {{! TODO: Check if this fallback is required }}
@@ -54,8 +59,7 @@ class {{classname}}Controller @Inject()(cc: ControllerComponents, api: {{classna
         {{^isCollectionFormatMulti}}
         .flatMap(_.headOption)
         {{/isCollectionFormatMulti}}
-      {{! TODO: Indentation }}
-      {{>app/transformParamValues}}
+        {{#lambda.indented_8}}{{>app/transformParamValues}}{{/lambda.indented_8}}
       {{/isFile}}
       {{/formParams}}
       api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
