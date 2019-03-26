@@ -4,7 +4,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **MapMapOfString** | [**map[string]map[string]string**](map.md) |  | [optional] 
-**MapOfEnumString** | **map[string]string** |  | [optional] 
+**MapOfEnumString** | **MapTestMapOfEnumString** |  | [optional] 
 **DirectMap** | **map[string]bool** |  | [optional] 
 **IndirectMap** | **map[string]bool** |  | [optional] 
 

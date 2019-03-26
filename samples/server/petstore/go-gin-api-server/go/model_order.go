@@ -30,7 +30,7 @@ type Order struct {
 	Complete bool `json:"complete,omitempty"`
 }
 
-// Status : Order Status
+// OrderStatus : Order Status
 type OrderStatus string
 
 // List of OrderStatus

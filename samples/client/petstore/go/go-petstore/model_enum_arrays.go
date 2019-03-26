@@ -11,7 +11,7 @@ package petstore
 
 type EnumArrays struct {
 	JustSymbol EnumArraysJustSymbol `json:"just_symbol,omitempty"`
-	ArrayEnum EnumArraysArrayEnum `json:"array_enum,omitempty"`
+	ArrayEnum []EnumArraysArrayEnum `json:"array_enum,omitempty"`
 }
 
 type EnumArraysJustSymbol string
@@ -22,7 +22,7 @@ const (
 	JUST_SYMBOL_DOLLAR EnumArraysJustSymbol = "$"
 )
 
-type EnumArraysArrayEnum []string
+type EnumArraysArrayEnum string
 
 // List of EnumArraysArrayEnum
 const (

@@ -510,7 +510,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     @Override
     public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
         objs = super.postProcessModelsEnum(objs);
-        
+
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
@@ -527,6 +527,17 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     if (Boolean.TRUE.equals(param.isEnum) && param.allowableValues != null) {
                         String prefix = toEnumVarName(param.name, "string") + "_";
                         param.allowableValues = prefixAllowableValues(param.allowableValues, prefix);
+                        // Form datatype for this field: use ClassNameFieldName syntax 
+                        param.dataType = cm.classname + param.nameInCamelCase;
+                        if (Boolean.TRUE.equals(param.isListContainer)) {
+                            // Special case: slice of enums, use []ClassNameFieldName
+                            param.datatypeWithEnum = "[]" + param.dataType;
+                        } else if (Boolean.TRUE.equals(param.isMapContainer)) {
+                            // Special case: map of enums, use map[string]ClassNameFieldName
+                            param.datatypeWithEnum = "map[string]" + param.dataType;
+                        } else {
+                            param.datatypeWithEnum = param.dataType;
+                        }
                     }
                 }
             }

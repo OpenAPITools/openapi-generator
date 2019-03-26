@@ -35,7 +35,7 @@ type {{classname}} struct {
 {{#description}}
 	// {{{description}}}
 {{/description}}
-	{{name}} {{#isNullable}}*{{/isNullable}}{{#isEnum}}{{classname}}{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+	{{name}} {{#isNullable}}*{{/isNullable}}{{#isEnum}}{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
 }
 {{/isEnum}}
@@ -45,17 +45,17 @@ type {{classname}} struct {
 {{#isEnum}}
 
 {{#description}}
-// {{{name}}} : {{{description}}}
+// {{datatype}} : {{{description}}}
 {{/description}}
-type {{classname}}{{nameInCamelCase}} {{^format}}{{datatype}}{{/format}}{{#format}}{{{format}}}{{/format}}
+type {{datatype}} {{#items}}{{baseType}}{{/items}}{{^items}}{{baseType}}{{/items}}
 
-// List of {{classname}}{{nameInCamelCase}}
+// List of {{datatype}}
 const (
 	{{#allowableValues}}
 	{{#enumVars}}
 	{{^-first}}
 	{{/-first}}
-	{{name}} {{classname}}{{nameInCamelCase}} = {{{value}}}
+	{{name}} {{datatype}} = {{{value}}}
 	{{/enumVars}}
 	{{/allowableValues}}
 )

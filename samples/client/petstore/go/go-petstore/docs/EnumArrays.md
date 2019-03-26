@@ -3,8 +3,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**JustSymbol** | **string** |  | [optional] 
-**ArrayEnum** | **[]string** |  | [optional] 
+**JustSymbol** | **EnumArraysJustSymbol** |  | [optional] 
+**ArrayEnum** | **EnumArraysArrayEnum** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
