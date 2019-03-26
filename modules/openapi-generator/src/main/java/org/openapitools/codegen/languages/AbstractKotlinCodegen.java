@@ -360,7 +360,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
-            this.setParcelizeModels(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.PARCELIZE_MODELS)));
+            this.setParcelizeModels(Boolean.valueOf((String) additionalProperties.get(CodegenConstants.PARCELIZE_MODELS)));
             LOGGER.info(CodegenConstants.PARCELIZE_MODELS + " depends on the android framework and " +
                     "experimental parcelize feature. Make sure your build applies the android plugin:\n" +
                     "apply plugin: 'com.android.library' OR apply plugin: 'com.android.application'.\n" +
@@ -615,8 +615,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     private String replaceSpecialCharacters(String word, Map.Entry<String, String> specialCharacters) {
-            String specialChar = specialCharacters.getKey();
-            String replacementChar = specialCharacters.getValue();
+        String specialChar = specialCharacters.getKey();
+        String replacementChar = specialCharacters.getValue();
         // Underscore is the only special character we'll allow
         if (!specialChar.equals("_") && word.contains(specialChar)) {
             return replaceCharacters(word, specialChar, replacementChar);
@@ -628,7 +628,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (!word.contains(oldValue)) {
             return word;
         }
-        if ( word.equals(oldValue)) {
+        if (word.equals(oldValue)) {
             return newValue;
         }
         int i = word.indexOf(oldValue);

@@ -1,6 +1,7 @@
-# InlineObject1
+# # InlineObject1
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **additional_metadata** | **string** | Additional data to pass to server | [optional] 

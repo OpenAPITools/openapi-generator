@@ -1,4 +1,5 @@
 # {{moduleName}}.{{classname}}{{#description}}
+
 {{description}}{{/description}}
 
 All URIs are relative to *{{basePath}}*
@@ -10,8 +11,9 @@ Method | HTTP request | Description
 
 {{#operations}}
 {{#operation}}
-<a name="{{operationId}}"></a>
-# **{{operationId}}**
+
+## {{operationId}}
+
 > {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/requiredParams}}{{#optionalParams}}{{#-last}}{{#hasRequiredParams}}, {{/hasRequiredParams}}opts{{/-last}}{{/optionalParams}})
 
 {{summary}}{{#notes}}
@@ -19,6 +21,7 @@ Method | HTTP request | Description
 {{notes}}{{/notes}}
 
 ### Example
+
 ```javascript
 import {{{moduleName}}} from '{{{projectName}}}';
 {{#hasAuthMethods}}
@@ -85,6 +88,7 @@ apiInstance.{{{operationId}}}({{#requiredParams}}{{{paramName}}}{{^-last}}, {{/-
 ```
 
 ### Parameters
+
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
@@ -101,8 +105,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
- - **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
+- **Content-Type**: {{#consumes}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/consumes}}{{^consumes}}Not defined{{/consumes}}
+- **Accept**: {{#produces}}{{{mediaType}}}{{#hasMore}}, {{/hasMore}}{{/produces}}{{^produces}}Not defined{{/produces}}
 
 {{/operation}}
 {{/operations}}

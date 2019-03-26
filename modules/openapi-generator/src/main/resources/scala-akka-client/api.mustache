@@ -11,6 +11,11 @@ import {{mainPackage}}.core.ApiKeyLocations._
 {{#operations}}
 object {{classname}} {
 
+  def apply(baseUrl: String = "{{{basePath}}}") = new {{classname}}(baseUrl)
+}
+
+class {{classname}}(baseUrl: String) {
+  
 {{#operation}}
 {{#javadocRenderer}}
 {{>javadoc}}
@@ -28,16 +33,20 @@ object {{classname}} {
       {{/dataType}}{{^dataType}}.with{{>responseState}}Response[Unit]({{code}})
       {{/dataType}}{{/isWildcard}}{{/responses}}{{#responses}}{{#isWildcard}}{{#dataType}}.withDefault{{>responseState}}Response[{{dataType}}]
       {{/dataType}}{{^dataType}}.withDefault{{>responseState}}Response[Unit]
-      {{/dataType}}{{/isWildcard}}{{/responses}}{{^responseHeaders.isEmpty}}
-  object {{#fnCapitalize}}{{operationId}}{{/fnCapitalize}}Headers { {{#responseHeaders}}
-    def {{{name}}}(r: ApiReturnWithHeaders) = r.get{{^isContainer}}{{baseType}}{{/isContainer}}{{#isContainer}}String{{/isContainer}}Header("{{baseName}}"){{/responseHeaders}}
+      {{/dataType}}{{/isWildcard}}{{/responses}}
+  {{^responseHeaders.isEmpty}}
+  object {{#fnCapitalize}}{{operationId}}{{/fnCapitalize}}Headers {
+  {{#responseHeaders}}
+    def {{{name}}}(r: ApiReturnWithHeaders) = r.get{{^isContainer}}{{baseType}}{{/isContainer}}{{#isContainer}}String{{/isContainer}}Header("{{baseName}}")
+  {{/responseHeaders}}
   }
   {{/responseHeaders.isEmpty}}
+
 {{/operation}}
 
-{{#unknownStatusCodes}}
+  {{#unknownStatusCodes}}
   ApiInvoker.addCustomStatusCode({{{value}}}, isSuccess = false)
-{{/unknownStatusCodes}}
+  {{/unknownStatusCodes}}
 
 }
 

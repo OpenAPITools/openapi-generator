@@ -539,6 +539,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     /**
      * Return the default value of the property
+     *
      * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
@@ -581,7 +582,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String apiTestFileFolder() {
-        return outputFolder + File.separator + testFolder; 
+        return outputFolder + File.separator + testFolder;
     }
 
     @Override
@@ -597,5 +598,89 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toModelTestFilename(String name) {
         return "test_" + toModelFilename(name);
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
+
+        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
+        for (Object o : allModels) {
+            HashMap<String, Object> h = (HashMap<String, Object>) o;
+            CodegenModel m = (CodegenModel) h.get("model");
+            modelMaps.put(m.classname, m);
+        }
+
+        List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
+        for (CodegenOperation operation : operations) {
+            for (CodegenParameter cp : operation.allParams) {
+                cp.vendorExtensions.put("x-r-example", constructExampleCode(cp, modelMaps));
+            }
+        }
+        return objs;
+    }
+
+    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
+        if (codegenParameter.isListContainer) { // array
+            return "list(" + constructExampleCode(codegenParameter.items, modelMaps) + ")";
+        } else if (codegenParameter.isMapContainer) { // TODO: map
+            return "TODO";
+        } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
+            if ("character".equals(codegenParameter.dataType)) {
+                return codegenParameter.example;
+            } else {
+                return codegenParameter.example;
+            }
+        } else { // model
+            // look up the model
+            if (modelMaps.containsKey(codegenParameter.dataType)) {
+                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps);
+            } else {
+                LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
+                return "TODO";
+            }
+        }
+    }
+
+    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps) {
+        if (codegenProperty.isListContainer) { // array
+            return "list(" + constructExampleCode(codegenProperty.items, modelMaps) + ")";
+        } else if (codegenProperty.isMapContainer) { // TODO: map
+            return "TODO";
+        } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
+            if ("character".equals(codegenProperty.dataType)) {
+                if (StringUtils.isEmpty(codegenProperty.example)) {
+                    return "\"" + codegenProperty.example + "\"";
+                } else {
+                    return "\"" + codegenProperty.name + "_example\"";
+                }
+            } else { // numeric
+                if (StringUtils.isEmpty(codegenProperty.example)) {
+                    return codegenProperty.example;
+                } else {
+                    return "123";
+                }
+            }
+        } else {
+            // look up the model
+            if (modelMaps.containsKey(codegenProperty.dataType)) {
+                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps);
+            } else {
+                LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
+                return "TODO";
+            }
+        }
+    }
+
+    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps) {
+        String example;
+        example = codegenModel.name + "$new(";
+        List<String> propertyExamples = new ArrayList<>();
+        for (CodegenProperty codegenProperty : codegenModel.vars) {
+            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps));
+        }
+        example += StringUtils.join(propertyExamples, ", ");
+        example += ")";
+        return example;
     }
 }
