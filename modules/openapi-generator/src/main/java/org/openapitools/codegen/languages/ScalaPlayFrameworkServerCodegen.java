@@ -48,6 +48,8 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         embeddedTemplateDir = templateDir = "scala-play-framework";
         hideGenerationTimestamp = false;
         sourceFolder = "app";
+        apiPackage = "api";
+        modelPackage = "model";
 
         instantiationTypes.put("map", "Map");
         instantiationTypes.put("array", "List");
