@@ -732,6 +732,14 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 }
                 header.nameInCamelCase = toModelName(header.baseName);
             }
+
+            if (op.authMethods != null) {
+                for (CodegenSecurity s : op.authMethods) {
+                    if (s.isApiKey && s.isKeyInHeader) {
+                        s.vendorExtensions.put("x-apiKeyName", toModelName(s.keyParamName));
+                    }
+                }
+            }
         }
 
         return objs;
