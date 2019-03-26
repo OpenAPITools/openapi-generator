@@ -85,8 +85,8 @@ class UserApi(baseUrl: String) {
    * 
    * @param username The name that needs to be fetched. Use user1 for testing.
    */
-  def getUserByName(username: String): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.GET, "http://petstore.swagger.io/v2", "/user/{username}", "application/json")
+  def getUserByName(username: String): ApiRequest[User] =
+    ApiRequest[User](ApiMethods.GET, "http://petstore.swagger.io/v2", "/user/{username}", "application/json")
       .withPathParam("username", username)
       .withSuccessResponse[User](200)
       .withErrorResponse[Unit](400)
@@ -104,8 +104,8 @@ class UserApi(baseUrl: String) {
    * @param username The user name for login
    * @param password The password for login in clear text
    */
-  def loginUser(username: String, password: String): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.GET, "http://petstore.swagger.io/v2", "/user/login", "application/json")
+  def loginUser(username: String, password: String): ApiRequest[String] =
+    ApiRequest[String](ApiMethods.GET, "http://petstore.swagger.io/v2", "/user/login", "application/json")
       .withQueryParam("username", username)
       .withQueryParam("password", password)
       .withSuccessResponse[String](200)

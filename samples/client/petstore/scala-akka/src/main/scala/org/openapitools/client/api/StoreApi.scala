@@ -64,8 +64,8 @@ class StoreApi(baseUrl: String) {
    * 
    * @param orderId ID of pet that needs to be fetched
    */
-  def getOrderById(orderId: Long): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.GET, "http://petstore.swagger.io/v2", "/store/order/{orderId}", "application/json")
+  def getOrderById(orderId: Long): ApiRequest[Order] =
+    ApiRequest[Order](ApiMethods.GET, "http://petstore.swagger.io/v2", "/store/order/{orderId}", "application/json")
       .withPathParam("orderId", orderId)
       .withSuccessResponse[Order](200)
       .withErrorResponse[Unit](400)
@@ -79,8 +79,8 @@ class StoreApi(baseUrl: String) {
    * 
    * @param body order placed for purchasing the pet
    */
-  def placeOrder(body: Order): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/store/order", "application/json")
+  def placeOrder(body: Order): ApiRequest[Order] =
+    ApiRequest[Order](ApiMethods.POST, "http://petstore.swagger.io/v2", "/store/order", "application/json")
       .withBody(body)
       .withSuccessResponse[Order](200)
       .withErrorResponse[Unit](400)
