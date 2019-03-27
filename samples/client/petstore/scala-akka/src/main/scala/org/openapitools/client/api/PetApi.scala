@@ -96,8 +96,8 @@ class PetApi(baseUrl: String) {
    * 
    * @param petId ID of pet to return
    */
-  def getPetById(petId: Long)(implicit apiKey: ApiKeyValue): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.GET, "http://petstore.swagger.io/v2", "/pet/{petId}", "application/json")
+  def getPetById(petId: Long)(implicit apiKey: ApiKeyValue): ApiRequest[Pet] =
+    ApiRequest[Pet](ApiMethods.GET, "http://petstore.swagger.io/v2", "/pet/{petId}", "application/json")
       .withApiKey(apiKey, "api_key", HEADER)
       .withPathParam("petId", petId)
       .withSuccessResponse[Pet](200)
@@ -145,8 +145,8 @@ class PetApi(baseUrl: String) {
    * @param additionalMetadata Additional data to pass to server
    * @param file file to upload
    */
-  def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/pet/{petId}/uploadImage", "multipart/form-data")
+  def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None): ApiRequest[ApiResponse] =
+    ApiRequest[ApiResponse](ApiMethods.POST, "http://petstore.swagger.io/v2", "/pet/{petId}/uploadImage", "multipart/form-data")
       .withFormParam("additionalMetadata", additionalMetadata)
       .withFormParam("file", file)
       .withPathParam("petId", petId)

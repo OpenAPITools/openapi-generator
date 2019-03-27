@@ -33,6 +33,7 @@ import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 
 import {{invokerPackage}}.auth.HttpBasicAuth;
+import {{invokerPackage}}.auth.HttpBearerAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
 {{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
@@ -57,9 +58,11 @@ public class ApiClient {
             {{#hasAuthMethods}}
             Interceptor auth;
             {{#authMethods}}if ("{{name}}".equals(authName)) {
-            {{#isBasic}}
-                auth = new HttpBasicAuth();
-            {{/isBasic}}
+            {{#isBasic}}{{#isBasicBasic}}
+              auth = new HttpBasicAuth();
+            {{/isBasicBasic}}{{^isBasicBasic}}
+              auth = new HttpBearerAuth("{{scheme}}");
+            {{/isBasicBasic}}{{/isBasic}}
             {{#isApiKey}}
                 auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");{{/isApiKey}}
             {{#isOAuth}}
@@ -154,6 +157,19 @@ public class ApiClient {
             if (apiAuthorization instanceof ApiKeyAuth) {
                 ApiKeyAuth keyAuth = (ApiKeyAuth) apiAuthorization;
                 keyAuth.setApiKey(apiKey);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Helper method to set token for the first Http Bearer authentication found.
+     * @param bearerToken Bearer token
+     */
+    public void setBearerToken(String bearerToken) {
+        for (Interceptor apiAuthorization : apiAuthorizations.values()) {
+            if (apiAuthorization instanceof HttpBearerAuth) {
+                ((HttpBearerAuth) apiAuthorization).setBearerToken(bearerToken);
                 return;
             }
         }
