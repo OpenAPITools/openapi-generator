@@ -617,10 +617,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         for (CodegenParameter param : op.headerParams) {
-            // If a header uses UUIDs, we need to import the UUID package.
-            if (param.dataType.equals(uuidType)) {
-                additionalProperties.put("apiUsesUuid", true);
-            }
             processParam(param, op);
 
             // Give header params a name in camel case. CodegenParameters don't have a nameInCamelCase property.
@@ -927,7 +923,15 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             String modelName = entry.getKey();
             CodegenModel model = entry.getValue();
 
+            if (uuidType.equals(model.dataType)) {
+                additionalProperties.put("apiUsesUuid", true);
+            }
+
             for (CodegenProperty prop : model.vars) {
+                if (prop.dataType.equals(uuidType)) {
+                    additionalProperties.put("apiUsesUuid", true);
+                }
+
                 String xmlName = modelXmlNames.get(prop.dataType);
                 if (xmlName != null) {
                     prop.vendorExtensions.put("itemXmlName", xmlName);
@@ -1133,6 +1137,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private void processParam(CodegenParameter param, CodegenOperation op) {
         String example = null;
+
+        // If a parameter uses UUIDs, we need to import the UUID package.
+        if (param.dataType.equals(uuidType)) {
+            additionalProperties.put("apiUsesUuid", true);
+        }
 
         if (param.isString) {
             param.vendorExtensions.put("formatString", "\\\"{}\\\"");
