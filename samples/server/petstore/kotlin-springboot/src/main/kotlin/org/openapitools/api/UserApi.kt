@@ -38,7 +38,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
             value = ["/user"],
             method = [RequestMethod.POST])
-    fun createUser(@ApiParam(value = "Created user object" ,required=true ) @Valid @RequestBody body: User): ResponseEntity<Unit> {
+    fun createUser(@ApiParam(value = "Created user object" ,required=true ) @Valid @RequestBody body: User
+): ResponseEntity<Unit> {
         return ResponseEntity(service.createUser(body), HttpStatus.OK)
     }
 
@@ -51,7 +52,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
             value = ["/user/createWithArray"],
             method = [RequestMethod.POST])
-    fun createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: List<User>): ResponseEntity<Unit> {
+    fun createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: List<User>
+): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithArrayInput(body), HttpStatus.OK)
     }
 
@@ -64,7 +66,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
             value = ["/user/createWithList"],
             method = [RequestMethod.POST])
-    fun createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: List<User>): ResponseEntity<Unit> {
+    fun createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody body: List<User>
+): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithListInput(body), HttpStatus.OK)
     }
 
@@ -77,7 +80,8 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
             value = ["/user/{username}"],
             method = [RequestMethod.DELETE])
-    fun deleteUser(@ApiParam(value = "The name that needs to be deleted", required=true) @PathVariable("username") username: String): ResponseEntity<Unit> {
+    fun deleteUser(@ApiParam(value = "The name that needs to be deleted", required=true) @PathVariable("username") username: String
+): ResponseEntity<Unit> {
         return ResponseEntity(service.deleteUser(username), HttpStatus.OK)
     }
 
@@ -90,9 +94,10 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
             value = [ApiResponse(code = 200, message = "successful operation", response = User::class),ApiResponse(code = 400, message = "Invalid username supplied"),ApiResponse(code = 404, message = "User not found")])
     @RequestMapping(
             value = ["/user/{username}"],
-            produces = ["application/xml", "application/json"],
+            produces = ["application/xml", "application/json"], 
             method = [RequestMethod.GET])
-    fun getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required=true) @PathVariable("username") username: String): ResponseEntity<User> {
+    fun getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.", required=true) @PathVariable("username") username: String
+): ResponseEntity<User> {
         return ResponseEntity(service.getUserByName(username), HttpStatus.OK)
     }
 
@@ -105,9 +110,11 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
             value = [ApiResponse(code = 200, message = "successful operation", response = String::class),ApiResponse(code = 400, message = "Invalid username/password supplied")])
     @RequestMapping(
             value = ["/user/login"],
-            produces = ["application/xml", "application/json"],
+            produces = ["application/xml", "application/json"], 
             method = [RequestMethod.GET])
-    fun loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: String,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: String): ResponseEntity<String> {
+    fun loginUser(@NotNull @ApiParam(value = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: String
+,@NotNull @ApiParam(value = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: String
+): ResponseEntity<String> {
         return ResponseEntity(service.loginUser(username, password), HttpStatus.OK)
     }
 
@@ -133,7 +140,9 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @RequestMapping(
             value = ["/user/{username}"],
             method = [RequestMethod.PUT])
-    fun updateUser(@ApiParam(value = "name that need to be deleted", required=true) @PathVariable("username") username: String,@ApiParam(value = "Updated user object" ,required=true ) @Valid @RequestBody body: User): ResponseEntity<Unit> {
+    fun updateUser(@ApiParam(value = "name that need to be deleted", required=true) @PathVariable("username") username: String
+,@ApiParam(value = "Updated user object" ,required=true ) @Valid @RequestBody body: User
+): ResponseEntity<Unit> {
         return ResponseEntity(service.updateUser(username, body), HttpStatus.OK)
     }
 }
