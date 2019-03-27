@@ -38,7 +38,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     @RequestMapping(
             value = ["/store/order/{orderId}"],
             method = [RequestMethod.DELETE])
-    fun deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required=true) @PathVariable("orderId") orderId: String): ResponseEntity<Unit> {
+    fun deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required=true) @PathVariable("orderId") orderId: String
+): ResponseEntity<Unit> {
         return ResponseEntity(service.deleteOrder(orderId), HttpStatus.OK)
     }
 
@@ -53,7 +54,7 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
             value = [ApiResponse(code = 200, message = "successful operation", response = Map::class, responseContainer = "Map")])
     @RequestMapping(
             value = ["/store/inventory"],
-            produces = ["application/json"],
+            produces = ["application/json"], 
             method = [RequestMethod.GET])
     fun getInventory(): ResponseEntity<Map<String, Int>> {
         return ResponseEntity(service.getInventory(), HttpStatus.OK)
@@ -68,9 +69,10 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
             value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Order not found")])
     @RequestMapping(
             value = ["/store/order/{orderId}"],
-            produces = ["application/xml", "application/json"],
+            produces = ["application/xml", "application/json"], 
             method = [RequestMethod.GET])
-    fun getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required=true) @PathVariable("orderId") orderId: Long): ResponseEntity<Order> {
+    fun getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required=true) @PathVariable("orderId") orderId: Long
+): ResponseEntity<Order> {
         return ResponseEntity(service.getOrderById(orderId), HttpStatus.OK)
     }
 
@@ -83,9 +85,10 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
             value = [ApiResponse(code = 200, message = "successful operation", response = Order::class),ApiResponse(code = 400, message = "Invalid Order")])
     @RequestMapping(
             value = ["/store/order"],
-            produces = ["application/xml", "application/json"],
+            produces = ["application/xml", "application/json"], 
             method = [RequestMethod.POST])
-    fun placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @Valid @RequestBody body: Order): ResponseEntity<Order> {
+    fun placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @Valid @RequestBody body: Order
+): ResponseEntity<Order> {
         return ResponseEntity(service.placeOrder(body), HttpStatus.OK)
     }
 }
