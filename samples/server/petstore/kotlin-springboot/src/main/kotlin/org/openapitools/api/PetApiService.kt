@@ -19,5 +19,5 @@ interface PetApiService {
 
     fun updatePetWithForm(petId: Long,name: String?,status: String?): Unit
 
-    fun uploadFile(petId: Long,additionalMetadata: String?,file: org.springframework.web.multipart.MultipartFile): ModelApiResponse
+    fun uploadFile(petId: Long,additionalMetadata: String,file: org.springframework.core.io.Resource): ModelApiResponse
 }
