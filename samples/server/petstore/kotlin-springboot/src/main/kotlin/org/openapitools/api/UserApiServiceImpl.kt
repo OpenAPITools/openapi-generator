@@ -2,7 +2,6 @@ package org.openapitools.api
 
 import org.openapitools.model.User
 import org.springframework.stereotype.Service
-
 @Service
 class UserApiServiceImpl : UserApiService {
 

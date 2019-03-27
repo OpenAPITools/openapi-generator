@@ -7,7 +7,7 @@ package {{package}}
 interface {{classname}}Service {
 {{#operation}}
 
-    fun {{operationId}}({{#allParams}}{{paramName}}: {{^isFile}}{{>optionalDataType}}{{/isFile}}{{#isFile}}org.springframework.web.multipart.MultipartFile{{/isFile}}{{#hasMore}},{{/hasMore}}{{/allParams}}): {{>returnTypes}}
+    fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}},{{/hasMore}}{{/allParams}}): {{>returnTypes}}
 {{/operation}}
 }
 {{/operations}}
