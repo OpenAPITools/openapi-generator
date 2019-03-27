@@ -57,11 +57,15 @@ public class ApiClient {
       {{#hasAuthMethods}}
       RequestInterceptor auth;
       {{#authMethods}}if ("{{name}}".equals(authName)) {
-      {{#isBasic}}{{#isBasicBasic}}
+      {{#isBasic}}
+      {{#isBasicBasic}}
         auth = new HttpBasicAuth();
-      {{/isBasicBasic}}{{^isBasicBasic}}
+      {{/isBasicBasic}}
+      {{^isBasicBasic}}
         auth = new HttpBearerAuth("{{scheme}}");
-      {{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+      {{/isBasicBasic}}
+      {{/isBasic}}
+      {{#isApiKey}}
         auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");
       {{/isApiKey}}
       {{#isOAuth}}

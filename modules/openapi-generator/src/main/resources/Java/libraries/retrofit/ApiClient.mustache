@@ -58,13 +58,17 @@ public class ApiClient {
             {{#hasAuthMethods}}
             Interceptor auth;
             {{#authMethods}}if ("{{name}}".equals(authName)) {
-            {{#isBasic}}{{#isBasicBasic}}
-              auth = new HttpBasicAuth();
-            {{/isBasicBasic}}{{^isBasicBasic}}
-              auth = new HttpBearerAuth("{{scheme}}");
-            {{/isBasicBasic}}{{/isBasic}}
+            {{#isBasic}}
+            {{#isBasicBasic}}
+                auth = new HttpBasicAuth();
+            {{/isBasicBasic}}
+            {{^isBasicBasic}}
+                auth = new HttpBearerAuth("{{scheme}}");
+            {{/isBasicBasic}}
+            {{/isBasic}}
             {{#isApiKey}}
-                auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");{{/isApiKey}}
+                auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");
+            {{/isApiKey}}
             {{#isOAuth}}
                 auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");
             {{/isOAuth}}
