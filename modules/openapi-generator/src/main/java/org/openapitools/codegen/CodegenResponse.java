@@ -22,6 +22,7 @@ import java.util.*;
 public class CodegenResponse {
     public final List<CodegenProperty> headers = new ArrayList<CodegenProperty>();
     public String code, message;
+    public boolean hasBodyParam, hasFormParam;
     public CodegenParameter bodyParam;
     public final List<CodegenParameter> formParams = new ArrayList<CodegenParameter>();
     public boolean hasMore;
@@ -51,6 +52,8 @@ public class CodegenResponse {
                 "headers=" + headers +
                 ", code='" + code + '\'' +
                 ", message='" + message + '\'' +
+                ", hasBodyParam='" + hasBodyParam + '\'' +
+                ", hasFormParam='" + hasFormParam + '\'' +
                 ", bodyParam='" + bodyParam +
                 ", formParams='" + formParams +
                 ", hasMore=" + hasMore +
@@ -116,6 +119,8 @@ public class CodegenResponse {
                 isListContainer == that.isListContainer &&
                 isBinary == that.isBinary &&
                 isFile == that.isFile &&
+                hasBodyParam == that.hasBodyParam &&
+                hasFormParam == that.hasFormParam &&
                 Objects.equals(headers, that.headers) &&
                 Objects.equals(code, that.code) &&
                 Objects.equals(message, that.message) &&
@@ -132,7 +137,7 @@ public class CodegenResponse {
 
     @Override
     public int hashCode() {
-        return Objects.hash(headers, code, message, bodyParam, formParams, hasMore, examples, dataType, baseType, containerType, hasHeaders,
+        return Objects.hash(headers, code, message, hasBodyParam, hasFormParam, bodyParam, formParams, hasMore, examples, dataType, baseType, containerType, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isFreeFormObject, isModel, isDefault, simpleType, primitiveType, isMapContainer,
                 isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions);

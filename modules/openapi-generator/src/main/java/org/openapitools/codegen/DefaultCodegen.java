@@ -2781,6 +2781,9 @@ public class DefaultCodegen implements CodegenConfig {
             r.bodyParam = cp;
         }
 
+        r.hasFormParam = r.formParams.size() > 0;
+        r.hasBodyParam = r.bodyParam != null ? Boolean.TRUE : Boolean.FALSE;
+
         return r;
     }
 
