@@ -1,6 +1,7 @@
 # OpenApiPetstore.FormatTest
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **integer** | **Number** |  | [optional] 

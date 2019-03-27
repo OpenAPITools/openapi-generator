@@ -272,6 +272,13 @@
                                 <requireMavenVersion>
                                     <version>3.2.5</version>
                                 </requireMavenVersion>
+                                <requireReleaseDeps>
+                                    <message>No Snapshots Allowed!</message>
+                                    <failWhenParentIsSnapshot>false</failWhenParentIsSnapshot>
+                                    <excludes>
+                                        <exclude>org.openapitools:*</exclude>
+                                    </excludes>
+                                </requireReleaseDeps>
                             </rules>
                         </configuration>
                     </execution>
@@ -1145,6 +1152,7 @@
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
                 <module>samples/server/petstore/java-msf4j</module>
                 <module>samples/server/petstore/scala-lagom-server</module>
+                <module>samples/server/petstore/scala-play-server</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/finch</module>
                 <module>samples/server/petstore/kotlin-springboot</module>

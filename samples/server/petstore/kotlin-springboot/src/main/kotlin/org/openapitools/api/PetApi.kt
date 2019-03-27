@@ -55,7 +55,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     @RequestMapping(
             value = ["/pet/{petId}"],
             method = [RequestMethod.DELETE])
-    fun deletePet(@ApiParam(value = "Pet id to delete", required=true, defaultValue="null") @PathVariable("petId") petId: Long,@ApiParam(value = "" , defaultValue="null") @RequestHeader(value="api_key", required=false) apiKey: String): ResponseEntity<Unit> {
+    fun deletePet(@ApiParam(value = "Pet id to delete", required=true) @PathVariable("petId") petId: Long,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) apiKey: String?): ResponseEntity<Unit> {
         return ResponseEntity(service.deletePet(petId, apiKey), HttpStatus.OK)
     }
 
@@ -72,7 +72,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             value = ["/pet/findByStatus"],
             produces = ["application/xml", "application/json"],
             method = [RequestMethod.GET])
-    fun findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold", defaultValue = "null") @Valid @RequestParam(value = "status", required = true, defaultValue="null") status: List<String>): ResponseEntity<List<Pet>> {
+    fun findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) status: List<String>): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.findPetsByStatus(status), HttpStatus.OK)
     }
 
@@ -89,7 +89,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             value = ["/pet/findByTags"],
             produces = ["application/xml", "application/json"],
             method = [RequestMethod.GET])
-    fun findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true, defaultValue = "null") @Valid @RequestParam(value = "tags", required = true, defaultValue="null") tags: List<String>): ResponseEntity<List<Pet>> {
+    fun findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: List<String>): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.findPetsByTags(tags), HttpStatus.OK)
     }
 
@@ -105,7 +105,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             value = ["/pet/{petId}"],
             produces = ["application/xml", "application/json"],
             method = [RequestMethod.GET])
-    fun getPetById(@ApiParam(value = "ID of pet to return", required=true, defaultValue="null") @PathVariable("petId") petId: Long): ResponseEntity<Pet> {
+    fun getPetById(@ApiParam(value = "ID of pet to return", required=true) @PathVariable("petId") petId: Long): ResponseEntity<Pet> {
         return ResponseEntity(service.getPetById(petId), HttpStatus.OK)
     }
 

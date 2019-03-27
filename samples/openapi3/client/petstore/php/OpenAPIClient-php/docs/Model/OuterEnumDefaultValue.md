@@ -1,6 +1,7 @@
-# OuterEnumDefaultValue
+# # OuterEnumDefaultValue
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 

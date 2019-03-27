@@ -1,6 +1,7 @@
-# InlineObject
+# # InlineObject
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **string** | Updated name of the pet | [optional] 
