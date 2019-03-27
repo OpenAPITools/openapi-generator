@@ -6,11 +6,11 @@ import play.api.libs.json._
 import play.api.mvc._
 import model.User
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-03-26T02:45:22.426+02:00[Asia/Jerusalem]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-03-26T16:21:58.590+08:00[Asia/Hong_Kong]")
 @Singleton
 class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extends AbstractController(cc) {
   /**
-    * POST /user
+    * POST /v2/user
     */
   def createUser(): Action[AnyContent] = Action { request =>
     def executeApi(): Unit = {
@@ -25,7 +25,7 @@ class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extend
   }
 
   /**
-    * POST /user/createWithArray
+    * POST /v2/user/createWithArray
     */
   def createUsersWithArrayInput(): Action[AnyContent] = Action { request =>
     def executeApi(): Unit = {
@@ -40,7 +40,7 @@ class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extend
   }
 
   /**
-    * POST /user/createWithList
+    * POST /v2/user/createWithList
     */
   def createUsersWithListInput(): Action[AnyContent] = Action { request =>
     def executeApi(): Unit = {
@@ -55,7 +55,7 @@ class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extend
   }
 
   /**
-    * DELETE /user/:username
+    * DELETE /v2/user/:username
     * @param username The name that needs to be deleted
     */
   def deleteUser(username: String): Action[AnyContent] = Action { request =>
@@ -68,7 +68,7 @@ class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extend
   }
 
   /**
-    * GET /user/:username
+    * GET /v2/user/:username
     * @param username The name that needs to be fetched. Use user1 for testing.
     */
   def getUserByName(username: String): Action[AnyContent] = Action { request =>
@@ -82,7 +82,7 @@ class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extend
   }
 
   /**
-    * GET /user/login?username=[value]&password=[value]
+    * GET /v2/user/login?username=[value]&password=[value]
     */
   def loginUser(): Action[AnyContent] = Action { request =>
     def executeApi(): String = {
@@ -103,7 +103,7 @@ class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extend
   }
 
   /**
-    * GET /user/logout
+    * GET /v2/user/logout
     */
   def logoutUser(): Action[AnyContent] = Action { request =>
     def executeApi(): Unit = {
@@ -115,7 +115,7 @@ class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extend
   }
 
   /**
-    * PUT /user/:username
+    * PUT /v2/user/:username
     * @param username name that need to be deleted
     */
   def updateUser(username: String): Action[AnyContent] = Action { request =>
