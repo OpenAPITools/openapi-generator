@@ -105,6 +105,7 @@ The following generators are available:
     - [rust-server](generators/rust-server.md)
     - [scala-finch](generators/scala-finch.md)
     - [scala-lagom-server](generators/scala-lagom-server.md)
+    - [scala-play-server](generators/scala-play-server.md)
     - [scalatra](generators/scalatra.md)
     - [spring](generators/spring.md)
 

@@ -53,7 +53,7 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
     * Deletes a pet
     * 
     * @param petId Pet id to delete 
-    * @param apiKey  (optional, default to null)
+    * @param apiKey  (optional)
     * @return void
     */
     fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?) : Unit {
@@ -207,8 +207,8 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
     * Updates a pet in the store with form data
     * 
     * @param petId ID of pet that needs to be updated 
-    * @param name Updated name of the pet (optional, default to null)
-    * @param status Updated status of the pet (optional, default to null)
+    * @param name Updated name of the pet (optional)
+    * @param status Updated status of the pet (optional)
     * @return void
     */
     fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : Unit {
@@ -239,8 +239,8 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
     * uploads an image
     * 
     * @param petId ID of pet to update 
-    * @param additionalMetadata Additional data to pass to server (optional, default to null)
-    * @param file file to upload (optional, default to null)
+    * @param additionalMetadata Additional data to pass to server (optional)
+    * @param file file to upload (optional)
     * @return ApiResponse
     */
     @Suppress("UNCHECKED_CAST")
