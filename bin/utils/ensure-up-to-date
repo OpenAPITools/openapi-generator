@@ -34,6 +34,7 @@ declare -a scripts=(
 "./bin/php-slim-server-petstore.sh"
 "./bin/php-ze-ph-petstore-server.sh"
 "./bin/openapi3/php-petstore.sh"
+"./bin/typescript-angularjs-petstore.sh"
 "./bin/typescript-angular-petstore-all.sh"
 "./bin/typescript-axios-petstore-all.sh"
 "./bin/typescript-fetch-petstore-all.sh"
