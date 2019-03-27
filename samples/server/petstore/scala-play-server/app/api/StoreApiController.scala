@@ -6,11 +6,11 @@ import play.api.libs.json._
 import play.api.mvc._
 import model.Order
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-03-26T02:45:22.426+02:00[Asia/Jerusalem]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-03-26T16:21:58.590+08:00[Asia/Hong_Kong]")
 @Singleton
 class StoreApiController @Inject()(cc: ControllerComponents, api: StoreApi) extends AbstractController(cc) {
   /**
-    * DELETE /store/order/:orderId
+    * DELETE /v2/store/order/:orderId
     * @param orderId ID of the order that needs to be deleted
     */
   def deleteOrder(orderId: String): Action[AnyContent] = Action { request =>
@@ -23,7 +23,7 @@ class StoreApiController @Inject()(cc: ControllerComponents, api: StoreApi) exte
   }
 
   /**
-    * GET /store/inventory
+    * GET /v2/store/inventory
     */
   def getInventory(): Action[AnyContent] = Action { request =>
     def executeApi(): Map[String, Int] = {
@@ -36,7 +36,7 @@ class StoreApiController @Inject()(cc: ControllerComponents, api: StoreApi) exte
   }
 
   /**
-    * GET /store/order/:orderId
+    * GET /v2/store/order/:orderId
     * @param orderId ID of pet that needs to be fetched
     */
   def getOrderById(orderId: Long): Action[AnyContent] = Action { request =>
@@ -50,7 +50,7 @@ class StoreApiController @Inject()(cc: ControllerComponents, api: StoreApi) exte
   }
 
   /**
-    * POST /store/order
+    * POST /v2/store/order
     */
   def placeOrder(): Action[AnyContent] = Action { request =>
     def executeApi(): Order = {

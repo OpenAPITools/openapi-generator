@@ -8,11 +8,11 @@ import model.ApiResponse
 import model.Pet
 import play.api.libs.Files.TemporaryFile
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-03-26T02:45:22.426+02:00[Asia/Jerusalem]")
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-03-26T16:21:58.590+08:00[Asia/Hong_Kong]")
 @Singleton
 class PetApiController @Inject()(cc: ControllerComponents, api: PetApi) extends AbstractController(cc) {
   /**
-    * POST /pet
+    * POST /v2/pet
     */
   def addPet(): Action[AnyContent] = Action { request =>
     def executeApi(): Unit = {
@@ -27,7 +27,7 @@ class PetApiController @Inject()(cc: ControllerComponents, api: PetApi) extends 
   }
 
   /**
-    * DELETE /pet/:petId
+    * DELETE /v2/pet/:petId
     * @param petId Pet id to delete
     */
   def deletePet(petId: Long): Action[AnyContent] = Action { request =>
@@ -42,7 +42,7 @@ class PetApiController @Inject()(cc: ControllerComponents, api: PetApi) extends 
   }
 
   /**
-    * GET /pet/findByStatus?status=[value]
+    * GET /v2/pet/findByStatus?status=[value]
     */
   def findPetsByStatus(): Action[AnyContent] = Action { request =>
     def executeApi(): List[Pet] = {
@@ -60,7 +60,7 @@ class PetApiController @Inject()(cc: ControllerComponents, api: PetApi) extends 
   }
 
   /**
-    * GET /pet/findByTags?tags=[value]
+    * GET /v2/pet/findByTags?tags=[value]
     */
   def findPetsByTags(): Action[AnyContent] = Action { request =>
     def executeApi(): List[Pet] = {
@@ -78,7 +78,7 @@ class PetApiController @Inject()(cc: ControllerComponents, api: PetApi) extends 
   }
 
   /**
-    * GET /pet/:petId
+    * GET /v2/pet/:petId
     * @param petId ID of pet to return
     */
   def getPetById(petId: Long): Action[AnyContent] = Action { request =>
@@ -92,7 +92,7 @@ class PetApiController @Inject()(cc: ControllerComponents, api: PetApi) extends 
   }
 
   /**
-    * PUT /pet
+    * PUT /v2/pet
     */
   def updatePet(): Action[AnyContent] = Action { request =>
     def executeApi(): Unit = {
@@ -107,7 +107,7 @@ class PetApiController @Inject()(cc: ControllerComponents, api: PetApi) extends 
   }
 
   /**
-    * POST /pet/:petId
+    * POST /v2/pet/:petId
     * @param petId ID of pet that needs to be updated
     */
   def updatePetWithForm(petId: Long): Action[AnyContent] = Action { request =>
@@ -128,7 +128,7 @@ class PetApiController @Inject()(cc: ControllerComponents, api: PetApi) extends 
   }
 
   /**
-    * POST /pet/:petId/uploadImage
+    * POST /v2/pet/:petId/uploadImage
     * @param petId ID of pet to update
     */
   def uploadFile(petId: Long): Action[AnyContent] = Action { request =>
