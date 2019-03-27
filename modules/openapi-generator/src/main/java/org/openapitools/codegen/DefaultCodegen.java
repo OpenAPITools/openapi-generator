@@ -2759,6 +2759,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         Schema schema = ModelUtils.getSchemaFromResponse(response,"form");
+        schema = ModelUtils.getReferencedSchema(openAPI, schema);
         Set<String> imports = new HashSet<String>();
         if (schema != null) {
             Map<String, Encoding> encoding = ModelUtils.getEncodingFromResponse(response);
