@@ -74,7 +74,7 @@ public class EnumTest {
       @Override
       public EnumStringEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return EnumStringEnum.fromValue(String.valueOf(value));
+        return EnumStringEnum.fromValue(value);
       }
     }
   }
@@ -127,7 +127,7 @@ public class EnumTest {
       @Override
       public EnumStringRequiredEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return EnumStringRequiredEnum.fromValue(String.valueOf(value));
+        return EnumStringRequiredEnum.fromValue(value);
       }
     }
   }
@@ -178,7 +178,7 @@ public class EnumTest {
       @Override
       public EnumIntegerEnum read(final JsonReader jsonReader) throws IOException {
         Integer value = jsonReader.nextInt();
-        return EnumIntegerEnum.fromValue(String.valueOf(value));
+        return EnumIntegerEnum.fromValue(value);
       }
     }
   }
@@ -229,7 +229,7 @@ public class EnumTest {
       @Override
       public EnumNumberEnum read(final JsonReader jsonReader) throws IOException {
         Double value = jsonReader.nextDouble();
-        return EnumNumberEnum.fromValue(String.valueOf(value));
+        return EnumNumberEnum.fromValue(value);
       }
     }
   }

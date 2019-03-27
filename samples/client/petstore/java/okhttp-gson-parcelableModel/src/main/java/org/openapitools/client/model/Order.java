@@ -92,7 +92,7 @@ public class Order implements Parcelable {
       @Override
       public StatusEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return StatusEnum.fromValue(String.valueOf(value));
+        return StatusEnum.fromValue(value);
       }
     }
   }

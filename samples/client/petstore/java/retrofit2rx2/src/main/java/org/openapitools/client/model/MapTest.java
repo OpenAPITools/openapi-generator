@@ -78,7 +78,7 @@ public class MapTest {
       @Override
       public InnerEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return InnerEnum.fromValue(String.valueOf(value));
+        return InnerEnum.fromValue(value);
       }
     }
   }
