@@ -1,9 +1,12 @@
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.*;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
 
@@ -59,6 +62,9 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
 
     @Override
     public void processOpts() {
+        //Right now we can't handle other source folders because commonMain is used by the sourceSets
+        additionalProperties.put(CodegenConstants.SOURCE_FOLDER, "src/commonMain/kotlin");
+
         super.processOpts();
 
         if (additionalProperties.containsKey(CodegenConstants.NON_PUBLIC_API)) {
@@ -85,8 +91,9 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
         //gradle files
         supportingFiles.add(new SupportingFile("gradle/settings.gradle.mustache", "settings.gradle"));
         supportingFiles.add(new SupportingFile("gradle/build.gradle.mustache", "build.gradle"));
-        supportingFiles.add(new SupportingFile("gradle/gradlew", "gradlew"));
-        supportingFiles.add(new SupportingFile("gradle/gradlew.bat", "gradlew.bat"));
+        supportingFiles.add(new SupportingFile("gradle/gradle.properties.mustache", "gradle.properties"));
+        supportingFiles.add(new SupportingFile("gradle/gradlew.mustache", "gradlew"));
+        supportingFiles.add(new SupportingFile("gradle/gradlew.bat.mustache", "gradlew.bat"));
         supportingFiles.add(new SupportingFile("gradle/gradle/wrapper/gradle-wrapper.jar", "gradle/wrapper", "gradle-wrapper.jar"));
         supportingFiles.add(new SupportingFile("gradle/gradle/wrapper/gradle-wrapper.properties", "gradle/wrapper", "gradle-wrapper.properties"));
     }

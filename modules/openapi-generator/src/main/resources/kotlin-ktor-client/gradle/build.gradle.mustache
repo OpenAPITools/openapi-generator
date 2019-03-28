@@ -1,0 +1,112 @@
+group = '{{groupId}}'
+version = '{{artifactVersion}}'
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+    }
+}
+
+repositories {
+    maven { url "https://kotlin.bintray.com/kotlinx" }
+    maven { url "https://dl.bintray.com/kotlin/ktor" }
+
+    mavenLocal()
+    jcenter()
+}
+
+apply plugin: 'kotlin-multiplatform'
+apply plugin: 'kotlinx-serialization'
+
+// workaround for https://youtrack.jetbrains.com/issue/KT-27170
+configurations {
+    compileClasspath
+}
+
+def frameworkName = 'Petstore' //TODO: Template me
+
+kotlin {
+    targets {
+        fromPreset(presets.jvm, 'jvm')
+        fromPreset(presets.iosX64, 'iosX64') {
+            binaries {
+                framework(frameworkName)
+            }
+        }
+        fromPreset(presets.iosArm64, 'iosArm64') {
+            binaries {
+                framework(frameworkName)
+            }
+        }
+    }
+
+    sourceSets {
+        commonMain
+        jvmMain
+        iosMain
+        iosArm64Main
+        iosX64Main
+
+        configure([jvmMain, iosMain]) {
+            dependsOn commonMain
+        }
+
+        configure([iosX64Main, iosArm64Main]) {
+            dependsOn iosMain
+        }
+    }
+}
+
+dependencies {
+    commonMainImplementation "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
+    commonMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutines_version"
+    commonMainImplementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization_version"
+    commonMainImplementation "io.ktor:ktor-client-core:$ktor_version"
+    commonMainImplementation "io.ktor:ktor-client-json:$ktor_version"
+    commonMainImplementation "io.ktor:ktor-client-logging:$ktor_version"
+
+    jvmMainImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    jvmMainImplementation "io.ktor:ktor-client-okhttp:$ktor_version"
+    jvmMainImplementation "io.ktor:ktor-client-json-jvm:$ktor_version"
+    jvmMainImplementation "io.ktor:ktor-client-logging-jvm:$ktor_version"
+    jvmMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+
+    iosMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutines_version"
+    iosMainImplementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serialization_version"
+    iosMainImplementation "io.ktor:ktor-client-ios:$ktor_version"
+    iosMainImplementation "io.ktor:ktor-client-core-native:$ktor_version"
+    iosMainImplementation "io.ktor:ktor-client-json-native:$ktor_version"
+    iosMainImplementation "io.ktor:ktor-client-logging-native:$ktor_version"
+
+    iosArm64MainImplementation "io.ktor:ktor-client-ios-iosarm64:$ktor_version"
+
+    iosX64MainImplementation "io.ktor:ktor-client-ios-iosx64:$ktor_version"
+}
+
+task packForXCode(type: Sync) {
+    final File frameworkDir = new File(buildDir, "xcode-frameworks")
+    final String mode = project.findProperty("XCODE_CONFIGURATION")?.toUpperCase() ?: 'DEBUG'
+    final String sdkName = System.getenv('SDK_NAME') ?: 'iphonesimulator'
+
+    def frameworkArm64 = kotlin.targets.iosArm64.binaries.getFramework(frameworkName, mode)
+    def frameworkX64 = kotlin.targets.iosX64.binaries.getFramework(frameworkName, mode)
+
+    def framework
+    if (sdkName.startsWith("iphoneos")) {
+        framework = frameworkArm64
+    } else {
+        framework = frameworkX64
+    }
+
+    inputs.property "mode", mode
+    dependsOn framework.linkTask
+
+    from { framework.outputFile.parentFile }
+    into frameworkDir
+}
