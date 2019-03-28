@@ -25,7 +25,7 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override fun loginUser(username: String,password: String): String {
+    override fun loginUser(username: String, password: String): String {
         TODO("Implement me")
     }
 
@@ -33,7 +33,7 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override fun updateUser(username: String,body: User): Unit {
+    override fun updateUser(username: String, body: User): Unit {
         TODO("Implement me")
     }
 }
