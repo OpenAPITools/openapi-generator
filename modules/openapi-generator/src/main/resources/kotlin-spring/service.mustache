@@ -7,7 +7,7 @@ package {{package}}
 interface {{classname}}Service {
 {{#operation}}
 
-    fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}},{{/hasMore}}{{/allParams}}): {{>returnTypes}}
+    fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{^required}}?{{/required}}{{#hasMore}},{{/hasMore}}{{/allParams}}): {{>returnTypes}}
 {{/operation}}
 }
 {{/operations}}

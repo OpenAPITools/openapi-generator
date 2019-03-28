@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 class {{classname}}ServiceImpl : {{classname}}Service {
 {{#operation}}
 
-    override fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{#hasMore}},{{/hasMore}}{{/allParams}}): {{>returnTypes}} {
+    override fun {{operationId}}({{#allParams}}{{paramName}}: {{{dataType}}}{{^required}}?{{/required}}{{#hasMore}},{{/hasMore}}{{/allParams}}): {{>returnTypes}} {
         TODO("Implement me")
     }
 {{/operation}}

@@ -7,7 +7,7 @@ interface PetApiService {
 
     fun addPet(body: Pet): Unit
 
-    fun deletePet(petId: Long,apiKey: String): Unit
+    fun deletePet(petId: Long,apiKey: String?): Unit
 
     fun findPetsByStatus(status: List<String>): List<Pet>
 
@@ -17,7 +17,7 @@ interface PetApiService {
 
     fun updatePet(body: Pet): Unit
 
-    fun updatePetWithForm(petId: Long,name: String,status: String): Unit
+    fun updatePetWithForm(petId: Long,name: String?,status: String?): Unit
 
-    fun uploadFile(petId: Long,additionalMetadata: String,file: org.springframework.core.io.Resource): ModelApiResponse
+    fun uploadFile(petId: Long,additionalMetadata: String?,file: org.springframework.core.io.Resource?): ModelApiResponse
 }
