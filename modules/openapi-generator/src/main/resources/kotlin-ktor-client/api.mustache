@@ -96,7 +96,7 @@ import {{import}}
 
         try {
             return request(
-                url = "$basePath{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
+                url = "$basePath{{{path}}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
                 methodString =  "{{httpMethod}}",
                 queryParameters = queryParameters,
                 headerParameters = headerParameters,

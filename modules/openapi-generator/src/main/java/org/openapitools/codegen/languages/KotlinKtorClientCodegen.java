@@ -99,6 +99,17 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+        path = escapeText(path);
+        return super.fromOperation(path, httpMethod, operation, servers);
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        return super.escapeUnsafeCharacters(input).replace("$", "${'$'}");
+    }
+
+    @Override
     public String toModelImport(String name) {
         if (name.startsWith("io.ktor.")) {
             return name;
