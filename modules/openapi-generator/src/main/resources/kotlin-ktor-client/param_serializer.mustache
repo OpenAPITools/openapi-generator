@@ -1,1 +1,1 @@
-{{#isListContainer}}{{baseType}}.serializer().list{{/isListContainer}}{{^isListContainer}}{{{dataType}}}.serializer(){{/isListContainer}}
+{{#isListContainer}}{{baseType}}.serializer().list{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}(kotlin.String.serializer() to {{baseType}}.serializer()).map{{/isMapContainer}}{{^isMapContainer}}{{{dataType}}}.serializer(){{/isMapContainer}}{{/isListContainer}}

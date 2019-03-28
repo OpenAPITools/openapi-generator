@@ -101,6 +101,21 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
+    protected void updatePropertyForMap(CodegenProperty property, CodegenProperty innerProperty) {
+        super.updatePropertyForMap(property, innerProperty);
+        //Working around an issue where if a Map maps to Int, the baseType will falsely report Map instead of Int
+        property.baseType = innerProperty.baseType;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        if (parameter.isListContainer) {
+            parameter.baseType = parameter.items.dataType;
+        }
+    }
+
+    @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         path = escapeText(path);
         return super.fromOperation(path, httpMethod, operation, servers);

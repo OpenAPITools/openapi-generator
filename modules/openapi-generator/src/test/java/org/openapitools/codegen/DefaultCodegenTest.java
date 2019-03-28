@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import io.swagger.models.properties.IntegerProperty;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -549,6 +550,24 @@ public class DefaultCodegenTest {
         CodegenResponse cr = codegen.fromResponse("2XX", response2XX);
         Assert.assertNotNull(cr);
         Assert.assertTrue(cr.hasHeaders);
+    }
+
+    @Test
+    public void testResponseWithMapBaseType() {
+        MapSchema mapSchema = new MapSchema();
+        mapSchema.setAdditionalProperties(new IntegerSchema());
+        ApiResponse response = new ApiResponse()
+                .content(new Content().addMediaType("application/json", new MediaType().schema(mapSchema)));
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Operation operation1 = new Operation().operationId("op1").responses(new ApiResponses().addApiResponse("200", response));
+        openAPI.path("/here", new PathItem().get(operation1));
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenResponse cr = codegen.fromResponse("200", response);
+
+        Assert.assertEquals(cr.baseType, "integer");
     }
 
     @Test

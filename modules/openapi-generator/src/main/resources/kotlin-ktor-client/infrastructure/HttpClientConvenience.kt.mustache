@@ -39,8 +39,8 @@ internal suspend inline fun <reified T> request(
     logLevel: LogLevel,
     bodyObject: Any? = null): T
 {
-    val queryParameters = queryParameters.toMutableList()
-    val headerParameters = headerParameters.toMutableList()
+    @Suppress("NAME_SHADOWING") val queryParameters = queryParameters.toMutableList()
+    @Suppress("NAME_SHADOWING") val headerParameters = headerParameters.toMutableList()
 
     val httpClient = HttpClient {
         install(JsonFeature) {
