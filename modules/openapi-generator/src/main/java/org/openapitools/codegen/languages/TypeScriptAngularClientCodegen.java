@@ -459,22 +459,31 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                     }
                 }
                 // Add additional filename information for imports
-                Set<String> newImports = new HashSet<String>();
-                System.out.println(cm.imports);
-                if (cm.imports.size() > 0) {
-                    for (String name : cm.imports) {
-                        if (name.indexOf(" | ") >= 0) {
-                            String[] parts = name.split(" \\| ");
-                            for (String s : parts) {
-                                newImports.add(s);
-                            }
-                        }
-                    }
-                }
-                mo.put("tsImports", toTsImports(cm, newImports.size() > 0 ? newImports : cm.imports));
+                Set<String> parsedImports = parseImports(cm);
+                mo.put("tsImports", toTsImports(cm, parsedImports));
             }
         }
         return result;
+    }
+
+    /**
+     * Parse imports 
+     */
+    private Set<String> parseImports(CodegenModel cm) {
+        Set<String> newImports = new HashSet<String>();
+        if (cm.imports.size() > 0) {
+            for (String name : cm.imports) {
+                if (name.indexOf(" | ") >= 0) {
+                    String[] parts = name.split(" \\| ");
+                    for (String s : parts) {
+                        newImports.add(s);
+                    }
+                } else {
+                    newImports.add(name);
+                }
+            }
+        }
+        return newImports;
     }
 
     private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
