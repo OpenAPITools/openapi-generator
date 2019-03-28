@@ -47,8 +47,8 @@ describe 'FakeApi' do
   # unit tests for fake_outer_boolean_serialize
   # Test serialization of outer boolean types
   # @param [Hash] opts the optional parameters
-  # @option opts [BOOLEAN] :body Input boolean as post body
-  # @return [BOOLEAN]
+  # @option opts [Boolean] :body Input boolean as post body
+  # @return [Boolean]
   describe 'fake_outer_boolean_serialize test' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
@@ -174,7 +174,7 @@ describe 'FakeApi' do
   # @param required_int64_group Required Integer in group parameters
   # @param [Hash] opts the optional parameters
   # @option opts [Integer] :string_group String in group parameters
-  # @option opts [BOOLEAN] :boolean_group Boolean in group parameters
+  # @option opts [Boolean] :boolean_group Boolean in group parameters
   # @option opts [Integer] :int64_group Integer in group parameters
   # @return [nil]
   describe 'test_group_parameters test' do

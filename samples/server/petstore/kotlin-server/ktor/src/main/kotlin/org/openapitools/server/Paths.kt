@@ -11,31 +11,18 @@
 */
 package org.openapitools.server
 
-import io.ktor.application.ApplicationCall
-import io.ktor.http.HttpMethod
 import io.ktor.locations.*
-import io.ktor.pipeline.PipelineContext
-import io.ktor.routing.Route
-import io.ktor.routing.method
 import org.openapitools.server.models.*
 
-
-// NOTE: ktor-location@0.9.0 is missing extension for Route.delete. This includes it.
-inline fun <reified T : Any> Route.delete(noinline body: suspend PipelineContext<Unit, ApplicationCall>.(T) -> Unit): Route {
-    return location(T::class) {
-        method(HttpMethod.Delete) {
-            handle(body)
-        }
-    }
-}
 
 object Paths {
     /**
      * Deletes a pet
      * 
      * @param petId Pet id to delete 
-     * @param apiKey  (optional, default to null)
+     * @param apiKey  (optional)
      */
+    @KtorExperimentalLocationsAPI
     @Location("/pet/{petId}") class deletePet(val petId: kotlin.Long, val apiKey: kotlin.String)
 
     /**
@@ -43,6 +30,7 @@ object Paths {
      * Multiple status values can be provided with comma separated strings
      * @param status Status values that need to be considered for filter 
      */
+    @KtorExperimentalLocationsAPI
     @Location("/pet/findByStatus") class findPetsByStatus(val status: kotlin.Array<kotlin.String>)
 
     /**
@@ -50,6 +38,7 @@ object Paths {
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * @param tags Tags to filter by 
      */
+    @KtorExperimentalLocationsAPI
     @Location("/pet/findByTags") class findPetsByTags(val tags: kotlin.Array<kotlin.String>)
 
     /**
@@ -57,6 +46,7 @@ object Paths {
      * Returns a single pet
      * @param petId ID of pet to return 
      */
+    @KtorExperimentalLocationsAPI
     @Location("/pet/{petId}") class getPetById(val petId: kotlin.Long)
 
     /**
@@ -64,12 +54,14 @@ object Paths {
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      * @param orderId ID of the order that needs to be deleted 
      */
+    @KtorExperimentalLocationsAPI
     @Location("/store/order/{orderId}") class deleteOrder(val orderId: kotlin.String)
 
     /**
      * Returns pet inventories by status
      * Returns a map of status codes to quantities
      */
+    @KtorExperimentalLocationsAPI
     @Location("/store/inventory") class getInventory()
 
     /**
@@ -77,6 +69,7 @@ object Paths {
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      * @param orderId ID of pet that needs to be fetched 
      */
+    @KtorExperimentalLocationsAPI
     @Location("/store/order/{orderId}") class getOrderById(val orderId: kotlin.Long)
 
     /**
@@ -84,6 +77,7 @@ object Paths {
      * This can only be done by the logged in user.
      * @param username The name that needs to be deleted 
      */
+    @KtorExperimentalLocationsAPI
     @Location("/user/{username}") class deleteUser(val username: kotlin.String)
 
     /**
@@ -91,6 +85,7 @@ object Paths {
      * 
      * @param username The name that needs to be fetched. Use user1 for testing. 
      */
+    @KtorExperimentalLocationsAPI
     @Location("/user/{username}") class getUserByName(val username: kotlin.String)
 
     /**
@@ -99,12 +94,14 @@ object Paths {
      * @param username The user name for login 
      * @param password The password for login in clear text 
      */
+    @KtorExperimentalLocationsAPI
     @Location("/user/login") class loginUser(val username: kotlin.String, val password: kotlin.String)
 
     /**
      * Logs out current logged in user session
      * 
      */
+    @KtorExperimentalLocationsAPI
     @Location("/user/logout") class logoutUser()
 
 }

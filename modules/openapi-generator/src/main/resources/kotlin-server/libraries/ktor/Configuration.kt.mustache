@@ -4,6 +4,7 @@ package {{packageName}}
 import io.ktor.auth.OAuthServerSettings
 import io.ktor.features.*
 import io.ktor.http.*
+import io.ktor.util.KtorExperimentalAPI
 import java.time.Duration
 import java.util.concurrent.Executors
 
@@ -77,6 +78,7 @@ internal fun ApplicationCompressionConfiguration(): Compression.Configuration.()
 {{/featureCompression}}
 
 // Defines authentication mechanisms used throughout the application.
+@KtorExperimentalAPI
 val ApplicationAuthProviders: Map<String, OAuthServerSettings> = listOf<OAuthServerSettings>(
 {{#authMethods}}
     {{#isOAuth}}

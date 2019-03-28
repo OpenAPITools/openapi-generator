@@ -26,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -209,9 +208,13 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             this.setNpmVersion(this.getVersionFromApi());
         }
 
-        if (additionalProperties.containsKey(SNAPSHOT)
-                && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
-            this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+        if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
+            if (npmVersion.toUpperCase(Locale.ROOT).matches("^.*-SNAPSHOT$")) {
+                this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+            }
+            else {
+                this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+            }
         }
         additionalProperties.put(NPM_VERSION, npmVersion);
 
@@ -446,9 +449,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     /**
      * Finds and returns a path parameter of an operation by its name
      *
-     * @param operation
-     * @param parameterName
-     * @return
+     * @param operation the operation
+     * @param parameterName the name of the parameter
+     * @return param
      */
     private CodegenParameter findPathParameterByName(CodegenOperation operation, String parameterName) {
         for (CodegenParameter param : operation.pathParams) {
@@ -586,6 +589,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         return toApiFilename(name);
     }
 
+    /*
     private String getModelnameFromModelFilename(String filename) {
         String name = filename.substring((modelPackage() + "/").length());
         // Remove the file suffix and add the class suffix.
@@ -596,6 +600,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
         return camelize(name) + modelSuffix;
     }
+    */
 
     @Override
     public String toModelName(String name) {
@@ -676,7 +681,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     /**
      * Returns version from OpenAPI info.
      *
-     * @return
+     * @return version
      */
     private String getVersionFromApi() {
         if (this.openAPI != null && this.openAPI.getInfo() != null) {

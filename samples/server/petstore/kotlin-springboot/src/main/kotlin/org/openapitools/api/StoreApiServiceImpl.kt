@@ -2,7 +2,6 @@ package org.openapitools.api
 
 import org.openapitools.model.Order
 import org.springframework.stereotype.Service
-
 @Service
 class StoreApiServiceImpl : StoreApiService {
 
@@ -18,7 +17,7 @@ class StoreApiServiceImpl : StoreApiService {
         TODO("Implement me")
     }
 
-    override fun placeOrder(order: Order): Order {
+    override fun placeOrder(body: Order): Order {
         TODO("Implement me")
     }
 }

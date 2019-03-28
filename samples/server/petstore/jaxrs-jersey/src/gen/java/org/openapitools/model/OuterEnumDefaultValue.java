@@ -49,13 +49,13 @@ public enum OuterEnumDefaultValue {
   }
 
   @JsonCreator
-  public static OuterEnumDefaultValue fromValue(String text) {
+  public static OuterEnumDefaultValue fromValue(String value) {
     for (OuterEnumDefaultValue b : OuterEnumDefaultValue.values()) {
-      if (String.valueOf(b.value).equals(text)) {
+      if (b.value.equals(value)) {
         return b;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 }
 

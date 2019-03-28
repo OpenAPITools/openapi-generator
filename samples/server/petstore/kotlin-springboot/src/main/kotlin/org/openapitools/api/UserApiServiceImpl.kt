@@ -2,19 +2,18 @@ package org.openapitools.api
 
 import org.openapitools.model.User
 import org.springframework.stereotype.Service
-
 @Service
 class UserApiServiceImpl : UserApiService {
 
-    override fun createUser(user: User): Unit {
+    override fun createUser(body: User): Unit {
         TODO("Implement me")
     }
 
-    override fun createUsersWithArrayInput(user: List<User>): Unit {
+    override fun createUsersWithArrayInput(body: List<User>): Unit {
         TODO("Implement me")
     }
 
-    override fun createUsersWithListInput(user: List<User>): Unit {
+    override fun createUsersWithListInput(body: List<User>): Unit {
         TODO("Implement me")
     }
 
@@ -34,7 +33,7 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override fun updateUser(username: String,user: User): Unit {
+    override fun updateUser(username: String,body: User): Unit {
         TODO("Implement me")
     }
 }

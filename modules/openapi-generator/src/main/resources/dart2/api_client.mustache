@@ -157,11 +157,9 @@ class ApiClient {
     });
   }
 
-  void setAccessToken(String accessToken) {
-    _authentications.forEach((key, auth) {
-      if (auth is OAuth) {
-        auth.setAccessToken(accessToken);
-      }
-    });
+  T getAuthentication<T extends Authentication>(String name) {
+    var authentication = _authentications[name];
+
+    return authentication is T ? authentication : null;
   }
 }

@@ -226,13 +226,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.1.0</version>
                 <configuration>
                     <source>1.8</source>
                     <encoding>UTF-8</encoding>
                     <maxmemory>1g</maxmemory>
                     <failOnWarnings>true</failOnWarnings>
-                    <excludePackageNames></excludePackageNames>
                 </configuration>
                 <executions>
                     <execution>
@@ -273,6 +272,13 @@
                                 <requireMavenVersion>
                                     <version>3.2.5</version>
                                 </requireMavenVersion>
+                                <requireReleaseDeps>
+                                    <message>No Snapshots Allowed!</message>
+                                    <failWhenParentIsSnapshot>false</failWhenParentIsSnapshot>
+                                    <excludes>
+                                        <exclude>org.openapitools:*</exclude>
+                                    </excludes>
+                                </requireReleaseDeps>
                             </rules>
                         </configuration>
                     </execution>
@@ -1101,9 +1107,6 @@
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
                 <module>samples/client/petstore/java/rest-assured</module>
-                <module>samples/client/petstore/kotlin/</module>
-                <module>samples/client/petstore/kotlin-threetenbp/</module>
-                <module>samples/client/petstore/kotlin-string/</module>
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1149,6 +1152,7 @@
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
                 <module>samples/server/petstore/java-msf4j</module>
                 <module>samples/server/petstore/scala-lagom-server</module>
+                <module>samples/server/petstore/scala-play-server</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/finch</module>
                 <module>samples/server/petstore/kotlin-springboot</module>
@@ -1183,7 +1187,7 @@
                 <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
-                <module>samples/client/petstore/kotlin/</module>
+                <!-- <module>samples/client/petstore/kotlin/</module> -->
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1230,13 +1234,15 @@
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
                 <!-- servers -->
-                <!-- disable erlang server test due to dependency issues -->
                 <module>samples/server/petstore/erlang-server</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
+                <module>samples/client/petstore/kotlin/</module>
+                <module>samples/client/petstore/kotlin-threetenbp/</module>
+                <module>samples/client/petstore/kotlin-string/</module>
             </modules>
         </profile>
         <!-- test with Haskell -->

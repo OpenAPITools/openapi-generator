@@ -18,6 +18,10 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
+from petstore_api.exceptions import (
+    ApiTypeError,
+    ApiValueError
+)
 
 
 class FakeApi(object):
@@ -80,7 +84,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method create_xml_item" % key
                 )
@@ -89,7 +93,7 @@ class FakeApi(object):
         # verify the required parameter 'xml_item' is set
         if ('xml_item' not in local_var_params or
                 local_var_params['xml_item'] is None):
-            raise ValueError("Missing the required parameter `xml_item` when calling `create_xml_item`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `xml_item` when calling `create_xml_item`")  # noqa: E501
 
         collection_formats = {}
 
@@ -176,7 +180,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_boolean_serialize" % key
                 )
@@ -268,7 +272,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_composite_serialize" % key
                 )
@@ -360,7 +364,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_number_serialize" % key
                 )
@@ -452,7 +456,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method fake_outer_string_serialize" % key
                 )
@@ -544,7 +548,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_body_with_file_schema" % key
                 )
@@ -553,7 +557,7 @@ class FakeApi(object):
         # verify the required parameter 'body' is set
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `test_body_with_file_schema`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `body` when calling `test_body_with_file_schema`")  # noqa: E501
 
         collection_formats = {}
 
@@ -640,7 +644,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_body_with_query_params" % key
                 )
@@ -649,11 +653,11 @@ class FakeApi(object):
         # verify the required parameter 'query' is set
         if ('query' not in local_var_params or
                 local_var_params['query'] is None):
-            raise ValueError("Missing the required parameter `query` when calling `test_body_with_query_params`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `query` when calling `test_body_with_query_params`")  # noqa: E501
         # verify the required parameter 'body' is set
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `test_body_with_query_params`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `body` when calling `test_body_with_query_params`")  # noqa: E501
 
         collection_formats = {}
 
@@ -742,7 +746,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_client_model" % key
                 )
@@ -751,7 +755,7 @@ class FakeApi(object):
         # verify the required parameter 'body' is set
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `test_client_model`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `body` when calling `test_client_model`")  # noqa: E501
 
         collection_formats = {}
 
@@ -868,7 +872,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_endpoint_parameters" % key
                 )
@@ -877,48 +881,48 @@ class FakeApi(object):
         # verify the required parameter 'number' is set
         if ('number' not in local_var_params or
                 local_var_params['number'] is None):
-            raise ValueError("Missing the required parameter `number` when calling `test_endpoint_parameters`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `number` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'double' is set
         if ('double' not in local_var_params or
                 local_var_params['double'] is None):
-            raise ValueError("Missing the required parameter `double` when calling `test_endpoint_parameters`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `double` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'pattern_without_delimiter' is set
         if ('pattern_without_delimiter' not in local_var_params or
                 local_var_params['pattern_without_delimiter'] is None):
-            raise ValueError("Missing the required parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`")  # noqa: E501
         # verify the required parameter 'byte' is set
         if ('byte' not in local_var_params or
                 local_var_params['byte'] is None):
-            raise ValueError("Missing the required parameter `byte` when calling `test_endpoint_parameters`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `byte` when calling `test_endpoint_parameters`")  # noqa: E501
 
         if 'number' in local_var_params and local_var_params['number'] > 543.2:  # noqa: E501
-            raise ValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value less than or equal to `543.2`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value less than or equal to `543.2`")  # noqa: E501
         if 'number' in local_var_params and local_var_params['number'] < 32.1:  # noqa: E501
-            raise ValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value greater than or equal to `32.1`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value greater than or equal to `32.1`")  # noqa: E501
         if 'double' in local_var_params and local_var_params['double'] > 123.4:  # noqa: E501
-            raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value less than or equal to `123.4`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value less than or equal to `123.4`")  # noqa: E501
         if 'double' in local_var_params and local_var_params['double'] < 67.8:  # noqa: E501
-            raise ValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value greater than or equal to `67.8`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `double` when calling `test_endpoint_parameters`, must be a value greater than or equal to `67.8`")  # noqa: E501
         if 'pattern_without_delimiter' in local_var_params and not re.search(r'^[A-Z].*', local_var_params['pattern_without_delimiter']):  # noqa: E501
-            raise ValueError("Invalid value for parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`, must conform to the pattern `/^[A-Z].*/`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `pattern_without_delimiter` when calling `test_endpoint_parameters`, must conform to the pattern `/^[A-Z].*/`")  # noqa: E501
         if 'integer' in local_var_params and local_var_params['integer'] > 100:  # noqa: E501
-            raise ValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value less than or equal to `100`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value less than or equal to `100`")  # noqa: E501
         if 'integer' in local_var_params and local_var_params['integer'] < 10:  # noqa: E501
-            raise ValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value greater than or equal to `10`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `integer` when calling `test_endpoint_parameters`, must be a value greater than or equal to `10`")  # noqa: E501
         if 'int32' in local_var_params and local_var_params['int32'] > 200:  # noqa: E501
-            raise ValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value less than or equal to `200`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value less than or equal to `200`")  # noqa: E501
         if 'int32' in local_var_params and local_var_params['int32'] < 20:  # noqa: E501
-            raise ValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value greater than or equal to `20`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `int32` when calling `test_endpoint_parameters`, must be a value greater than or equal to `20`")  # noqa: E501
         if 'float' in local_var_params and local_var_params['float'] > 987.6:  # noqa: E501
-            raise ValueError("Invalid value for parameter `float` when calling `test_endpoint_parameters`, must be a value less than or equal to `987.6`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `float` when calling `test_endpoint_parameters`, must be a value less than or equal to `987.6`")  # noqa: E501
         if 'string' in local_var_params and not re.search(r'[a-z]', local_var_params['string'], flags=re.IGNORECASE):  # noqa: E501
-            raise ValueError("Invalid value for parameter `string` when calling `test_endpoint_parameters`, must conform to the pattern `/[a-z]/i`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `string` when calling `test_endpoint_parameters`, must conform to the pattern `/[a-z]/i`")  # noqa: E501
         if ('password' in local_var_params and
                 len(local_var_params['password']) > 64):
-            raise ValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be less than or equal to `64`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be less than or equal to `64`")  # noqa: E501
         if ('password' in local_var_params and
                 len(local_var_params['password']) < 10):
-            raise ValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be greater than or equal to `10`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be greater than or equal to `10`")  # noqa: E501
         collection_formats = {}
 
         path_params = {}
@@ -1044,7 +1048,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_enum_parameters" % key
                 )
@@ -1163,7 +1167,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_group_parameters" % key
                 )
@@ -1172,15 +1176,15 @@ class FakeApi(object):
         # verify the required parameter 'required_string_group' is set
         if ('required_string_group' not in local_var_params or
                 local_var_params['required_string_group'] is None):
-            raise ValueError("Missing the required parameter `required_string_group` when calling `test_group_parameters`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `required_string_group` when calling `test_group_parameters`")  # noqa: E501
         # verify the required parameter 'required_boolean_group' is set
         if ('required_boolean_group' not in local_var_params or
                 local_var_params['required_boolean_group'] is None):
-            raise ValueError("Missing the required parameter `required_boolean_group` when calling `test_group_parameters`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `required_boolean_group` when calling `test_group_parameters`")  # noqa: E501
         # verify the required parameter 'required_int64_group' is set
         if ('required_int64_group' not in local_var_params or
                 local_var_params['required_int64_group'] is None):
-            raise ValueError("Missing the required parameter `required_int64_group` when calling `test_group_parameters`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `required_int64_group` when calling `test_group_parameters`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1271,7 +1275,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_inline_additional_properties" % key
                 )
@@ -1280,7 +1284,7 @@ class FakeApi(object):
         # verify the required parameter 'param' is set
         if ('param' not in local_var_params or
                 local_var_params['param'] is None):
-            raise ValueError("Missing the required parameter `param` when calling `test_inline_additional_properties`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `param` when calling `test_inline_additional_properties`")  # noqa: E501
 
         collection_formats = {}
 
@@ -1367,7 +1371,7 @@ class FakeApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method test_json_form_data" % key
                 )
@@ -1376,11 +1380,11 @@ class FakeApi(object):
         # verify the required parameter 'param' is set
         if ('param' not in local_var_params or
                 local_var_params['param'] is None):
-            raise ValueError("Missing the required parameter `param` when calling `test_json_form_data`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `param` when calling `test_json_form_data`")  # noqa: E501
         # verify the required parameter 'param2' is set
         if ('param2' not in local_var_params or
                 local_var_params['param2'] is None):
-            raise ValueError("Missing the required parameter `param2` when calling `test_json_form_data`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `param2` when calling `test_json_form_data`")  # noqa: E501
 
         collection_formats = {}
 

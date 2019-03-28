@@ -322,6 +322,8 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
 
     protected File testDataControlFile = null;
 
+    protected String localVariablePrefix = "";
+
     public JavaCXFExtServerCodegen() {
         super();
 

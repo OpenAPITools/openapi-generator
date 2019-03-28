@@ -51,8 +51,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Go package version.")
-                .defaultValue("1.0.0"));
         cliOptions.add(CliOption.newBoolean(WITH_GO_CODEGEN_COMMENT, "whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs"));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
 

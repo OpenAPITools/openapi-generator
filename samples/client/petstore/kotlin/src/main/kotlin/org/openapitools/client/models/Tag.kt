@@ -12,13 +12,16 @@
 package org.openapitools.client.models
 
 
+import com.squareup.moshi.Json
 /**
  * A tag for a pet
  * @param id 
  * @param name 
  */
 data class Tag (
+    @Json(name = "id")
     val id: kotlin.Long? = null,
+    @Json(name = "name")
     val name: kotlin.String? = null
 ) {
 

@@ -112,6 +112,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected String ignoreFilePathOverride;
     // flag to indicate whether to use environment variable to post process file
     protected boolean enablePostProcessFile = false;
+    // flag to indicate whether to only update files whose contents have changed
+    protected boolean enableMinimalUpdate = false;
 
     // make openapi available to all methods
     protected OpenAPI openAPI;
@@ -1271,12 +1273,15 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Return property value depending on property type
+     * Return property value depending on property type.
      * @param schema property type
      * @return property value
      */
+    @SuppressWarnings("squid:S3923")
     private String getPropertyDefaultValue(Schema schema) {
-        //NOSONAR
+        /**
+         * Although all branches return null, this is left intentionally as examples for new contributors
+         */
         if (ModelUtils.isBooleanSchema(schema)) {
             return "null";
         } else if (ModelUtils.isDateSchema(schema)) {
@@ -1896,6 +1901,11 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
         property.name = toVarName(name);
         property.baseName = name;
+        if (p.getType() == null) {
+            property.openApiType = getSchemaType(p);
+        } else {
+            property.openApiType = p.getType();
+        }
         property.nameInCamelCase = camelize(property.name, false);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
         property.description = escapeText(p.getDescription());
@@ -3865,6 +3875,11 @@ public class DefaultCodegen implements CodegenConfig {
         // input name and age => input_name_and_age
         name = this.sanitizeValue(name, " ", "_", exceptionList);
 
+        // /api/films/get => _api_films_get
+        // \api\films\get => _api_films_get
+        name = name.replaceAll("/", "_");
+        name = name.replaceAll("\\\\", "_");
+
         // remove everything else other than word, number and _
         // $php_variable => php_variable
         if (allowUnicodeIdentifiers) { //could be converted to a single line with ?: operator
@@ -4814,6 +4829,9 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
+        if(parameter == null || property == null) {
+            return;
+        }
         parameter.isNullable = property.isNullable;
     }
 
@@ -4847,6 +4865,24 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public void setEnablePostProcessFile(boolean enablePostProcessFile) {
         this.enablePostProcessFile = enablePostProcessFile;
+    }
+
+    /**
+     * Get the boolean value indicating the state of the option for updating only changed files
+     */
+    @Override
+    public boolean isEnableMinimalUpdate() {
+        return enableMinimalUpdate;
+    }
+
+    /**
+     * Set the boolean value indicating the state of the option for updating only changed files
+     *
+     * @param enableMinimalUpdate    true to enable minimal update
+     */
+    @Override
+    public void setEnableMinimalUpdate(boolean enableMinimalUpdate) {
+        this.enableMinimalUpdate = enableMinimalUpdate;
     }
 
 }

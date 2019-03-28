@@ -30,7 +30,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.text.Collator;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -411,14 +413,26 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         return postProcessModelsEnum(objs);
     }
 
+    private static boolean anyOperationParam(final List<CodegenOperation> operations, final Predicate<CodegenParameter> predicate) {
+      return operations.stream()
+          .flatMap(operation -> Stream.of(
+                operation.bodyParams.stream(),
+                operation.queryParams.stream(),
+                operation.pathParams.stream(),
+                operation.headerParams.stream()
+          ))
+          .flatMap(a -> a)
+          .filter(predicate)
+          .findAny()
+          .isPresent();
+    }
+
     @Override
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
 
-        boolean hasDateTime = false;
-        boolean hasDate = false;
         final Map<String, Set<String>> dependencies = new HashMap<>();
 
         for (CodegenOperation op : ops) {
@@ -427,8 +441,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 for (CodegenParameter param : op.pathParams) {
                     final String var = paramToString("params", param, false, null);
                     path = path.replace("{" + param.paramName + "}", "\" ++ " + var + " ++ \"");
-                    hasDateTime = hasDateTime || param.isDateTime;
-                    hasDate = hasDate || param.isDate;
                 }
                 op.path = ("\"" + path + "\"").replaceAll(" \\+\\+ \"\"", "");
             } else {
@@ -437,8 +449,6 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 for (CodegenParameter param : op.pathParams) {
                     String str = paramToString("params", param, false, null);
                     path = path.replace("{" + param.paramName + "}", str);
-                    hasDateTime = hasDateTime || param.isDateTime;
-                    hasDate = hasDate || param.isDate;
                 }
                 op.path = path;
 
@@ -487,6 +497,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             elmImport.hasExposures = true;
             elmImports.add(elmImport);
         }
+        final boolean hasDate = anyOperationParam(ops, param -> param.isDate);
         if (hasDate) {
             final ElmImport elmImport = new ElmImport();
             elmImport.moduleName = "DateOnly";
@@ -495,11 +506,21 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             elmImport.hasExposures = true;
             elmImports.add(elmImport);
         }
+        final boolean hasDateTime = anyOperationParam(ops, param -> param.isDateTime);
         if (hasDateTime) {
             final ElmImport elmImport = new ElmImport();
             elmImport.moduleName = "DateTime";
             elmImport.exposures = new TreeSet<>();
             elmImport.exposures.add("DateTime");
+            elmImport.hasExposures = true;
+            elmImports.add(elmImport);
+        }
+        final boolean hasUuid = anyOperationParam(ops, param -> param.isUuid);
+        if (hasUuid) {
+            final ElmImport elmImport = new ElmImport();
+            elmImport.moduleName = "Uuid";
+            elmImport.exposures = new TreeSet<>();
+            elmImport.exposures.add("Uuid");
             elmImport.hasExposures = true;
             elmImports.add(elmImport);
         }
@@ -553,7 +574,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         String mapFn = null;
-        if (param.isString || param.isUuid || param.isBinary || param.isByteArray) {
+        if (param.isString || param.isBinary || param.isByteArray) {
             mapFn = "";
         } else if (param.isBoolean) {
             mapFn = "(\\val -> if val then \"true\" else \"false\")";
@@ -561,6 +582,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             mapFn = "DateTime.toString";
         } else if (param.isDate) {
             mapFn = "DateOnly.toString";
+        } else if (param.isUuid) {
+            mapFn = "Uuid.toString";
         } else if (ElmVersion.ELM_018.equals(elmVersion)) {
             mapFn = "toString";
         } else if (param.isInteger || param.isLong) {
@@ -584,7 +607,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         String mapResult = "";
         if (maybeMapResult != null) {
-            if (mapFn == "") {
+            if ("".equals(mapFn)) {
                 mapResult = maybeMapResult;
             } else {
                 mapResult = maybeMapResult + (param.required ? " <|" : " <<");

@@ -17,10 +17,23 @@
 
 package org.openapitools.codegen.cmd;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyAdditionalPropertiesKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyImportMappingsKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyInstantiationTypesKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyLanguageSpecificPrimitivesCsvList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyReservedWordsMappingsKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applySystemPropertiesKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyTypeMappingsKvpList;
+
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.spi.FilterAttachable;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
@@ -29,14 +42,6 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
 /**
  * User: lanwen Date: 24.03.15 Time: 20:22
  */
@@ -44,7 +49,7 @@ import java.util.stream.Stream;
 @Command(name = "generate", description = "Generate code with the specified generator.")
 public class Generate implements Runnable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
+    // private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;
@@ -82,8 +87,9 @@ public class Generate implements Runnable {
     @Option(
             name = {"-c", "--config"},
             title = "configuration file",
-            description = "Path to json configuration file. "
-                    + "File content should be in a json format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...} "
+            description = "Path to configuration file configuration file. It can be json or yaml."
+                    + "If file is json, the content should have the format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...}."
+                    + "If file is yaml, the content should have the format optionKey: optionValue"
                     + "Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.")
     private String configFile;
 
@@ -210,6 +216,11 @@ public class Generate implements Runnable {
 
     @Option(name = {"--generate-alias-as-model"}, title = "generate alias (array, map) as model", description = CodegenConstants.GENERATE_ALIAS_AS_MODEL_DESC)
     private Boolean generateAliasAsModel;
+
+    @Option(name = {"--minimal-update"},
+        title = "Minimal update",
+        description = "Only write output files that have changed.")
+    private Boolean minimalUpdate;
 
     @Override
     public void run() {
@@ -339,6 +350,9 @@ public class Generate implements Runnable {
 
         if (generateAliasAsModel != null) {
             configurator.setGenerateAliasAsModel(generateAliasAsModel);
+        }
+        if (minimalUpdate != null) {
+            configurator.setEnableMinimalUpdate(minimalUpdate);
         }
 
         applySystemPropertiesKvpList(systemProperties, configurator);
