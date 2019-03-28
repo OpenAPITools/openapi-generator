@@ -1900,6 +1900,11 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
         property.name = toVarName(name);
         property.baseName = name;
+        if (p.getType() == null) {
+            property.openApiType = getSchemaType(p);
+        } else {
+            property.openApiType = p.getType();
+        }
         property.nameInCamelCase = camelize(property.name, false);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
         property.description = escapeText(p.getDescription());

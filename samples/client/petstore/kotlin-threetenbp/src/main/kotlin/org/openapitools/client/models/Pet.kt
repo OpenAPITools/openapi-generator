@@ -26,12 +26,18 @@ import com.squareup.moshi.Json
  * @param status pet status in the store
  */
 data class Pet (
+    @Json(name = "name")
     val name: kotlin.String,
+    @Json(name = "photoUrls")
     val photoUrls: kotlin.Array<kotlin.String>,
+    @Json(name = "id")
     val id: kotlin.Long? = null,
+    @Json(name = "category")
     val category: Category? = null,
+    @Json(name = "tags")
     val tags: kotlin.Array<Tag>? = null,
     /* pet status in the store */
+    @Json(name = "status")
     val status: Pet.Status? = null
 ) {
 
@@ -41,11 +47,14 @@ data class Pet (
     */
     enum class Status(val value: kotlin.String){
     
-        @Json(name = "available") available("available"),
+        @Json(name = "available")
+        available("available"),
     
-        @Json(name = "pending") pending("pending"),
+        @Json(name = "pending")
+        pending("pending"),
     
-        @Json(name = "sold") sold("sold");
+        @Json(name = "sold")
+        sold("sold");
     
     }
 

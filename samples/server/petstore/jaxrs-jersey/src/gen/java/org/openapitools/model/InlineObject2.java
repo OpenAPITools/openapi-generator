@@ -50,13 +50,13 @@ public class InlineObject2   {
     }
 
     @JsonCreator
-    public static EnumFormStringArrayEnum fromValue(String text) {
+    public static EnumFormStringArrayEnum fromValue(String value) {
       for (EnumFormStringArrayEnum b : EnumFormStringArrayEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
  
@@ -86,13 +86,13 @@ public class InlineObject2   {
     }
 
     @JsonCreator
-    public static EnumFormStringEnum fromValue(String text) {
+    public static EnumFormStringEnum fromValue(String value) {
       for (EnumFormStringEnum b : EnumFormStringEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
