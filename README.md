@@ -511,6 +511,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [FormAPI](https://formapi.io/)
 - [GenFlow](https://github.com/RepreZen/GenFlow)
 - [GMO Pepabo](https://pepabo.com/en/)
+- [GoDaddy](https://godaddy.com)
 - [JustStar](https://www.juststarinfo.com)
 - [Klarna](https://www.klarna.com/)
 - [Metaswitch](https://www.metaswitch.com/)
