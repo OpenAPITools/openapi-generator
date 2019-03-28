@@ -1430,7 +1430,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isDateTimeSchema(schema)) {
             return "DateTime";
         } else if (ModelUtils.isNumberSchema(schema)) {
-            if (schema.getFormat() == null) { // no format defined
+            if (schema.getFormat() == null || schema.getFormat().equals("decimal")) { // no format defined
                 return "number";
             } else if (ModelUtils.isFloatSchema(schema)) {
                 return SchemaTypeUtil.FLOAT_FORMAT;
