@@ -14,9 +14,9 @@ interface UserApiService {
 
     fun getUserByName(username: String): User
 
-    fun loginUser(username: String,password: String): String
+    fun loginUser(username: String, password: String): String
 
     fun logoutUser(): Unit
 
-    fun updateUser(username: String,body: User): Unit
+    fun updateUser(username: String, body: User): Unit
 }
