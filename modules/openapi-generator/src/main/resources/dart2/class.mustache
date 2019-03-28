@@ -16,9 +16,7 @@ class {{classname}} {
   {{classname}}.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
   {{#vars}}
-    if (json['{{baseName}}'] == null) {
-      {{name}} = null;
-    } else {
+    if (json['{{baseName}}'] != null) {
   {{#isDateTime}}
       {{name}} = DateTime.parse(json['{{baseName}}']);
   {{/isDateTime}}
@@ -60,13 +58,13 @@ class {{classname}} {
   }
 
   Map<String, dynamic> toJson() {
-    return {
+    var json = {
     {{#vars}}
       {{#isDateTime}}
-      '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
+      '{{baseName}}': {{name}} == null ? null : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
       {{/isDateTime}}
       {{#isDate}}
-      '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
+      '{{baseName}}': {{name}} == null ? null : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
       {{/isDate}}
       {{^isDateTime}}
       {{^isDate}}
@@ -75,6 +73,8 @@ class {{classname}} {
       {{/isDateTime}}
     {{/vars}}
     };
+    json.removeWhere((key, value) => value == null);
+    return json;
   }
 
   static List<{{classname}}> listFromJson(List<dynamic> json) {
