@@ -29,6 +29,8 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
         apiPackage = packageName + ".apis";
         modelPackage = packageName + ".models";
 
+        // Arrays need to map to List because kotlinx serialization doesn't support deserialization to arrays.
+        typeMapping.put("array", "kotlin.collections.List");
         typeMapping.put("number", "kotlin.Double");
         //TODO: find a date library/solution for kotlin native
         typeMapping.put("date-time", "kotlin.String");

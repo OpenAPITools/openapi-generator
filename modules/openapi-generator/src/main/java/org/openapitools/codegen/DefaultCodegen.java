@@ -2394,7 +2394,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             op.responses.get(op.responses.size() - 1).hasMore = false;
-            op.updateAllResponseDataTypes();
+            op.updateUniquedResponses();
 
             if (methodResponse != null) {
                 Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse));
@@ -2615,6 +2615,8 @@ public class DefaultCodegen implements CodegenConfig {
         op.isRestfulUpdate = op.isRestfulUpdate();
         op.isRestfulDestroy = op.isRestfulDestroy();
         op.isRestful = op.isRestful();
+        op.hasResponseDataTypes = op.hasResponseDataTypes();
+        op.hasErrorResponseDataTypes = op.hasErrorResponseDataTypes();
 
         return op;
     }

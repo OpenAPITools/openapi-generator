@@ -19,7 +19,6 @@ package org.openapitools.codegen.kotlin;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.KotlinKtorClientCodegen;
 import org.testng.Assert;
@@ -45,8 +44,8 @@ public class KotlinKtorClientCodegenTest {
         }
 
         Assert.assertEquals(operationsWithResponseType, 3);
-        Assert.assertEquals(op.allResponseDataTypes.size(), 2);
-        Assert.assertEquals(op.allResponseDataTypes.get(0).get("dataType"), "Person");
-        Assert.assertEquals(op.allResponseDataTypes.get(1).get("dataType"), "PersonLookupError");
+        Assert.assertEquals(op.uniquedResponses.size(), 2);
+        Assert.assertEquals(op.uniquedResponses.get(0).dataType, "Person");
+        Assert.assertEquals(op.uniquedResponses.get(1).dataType, "PersonLookupError");
     }
 }

@@ -6,6 +6,7 @@ import io.ktor.client.features.BadResponseStatusException
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.SIMPLE
+import kotlinx.serialization.*
 
 import {{packageName}}.infrastructure.*
 import {{packageName}}.infrastructure.authentication.*
@@ -15,7 +16,7 @@ import {{import}}
 
 {{#operations}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(
-    val basePath: kotlin.String = "{{{basePath}}}",
+    private val basePath: kotlin.String = "{{{basePath}}}",
     private val logger: Logger = Logger.SIMPLE,
     private val logLevel: LogLevel = LogLevel.NONE
 ) {
@@ -37,7 +38,7 @@ import {{import}}
         {{#authMethods}}
         {{name}}: {{>auth_class_name}}{{#hasMore}},{{/hasMore}}
         {{/authMethods}}
-    ) : {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
+    ){{#returnType}} : {{{returnType}}}{{/returnType}} {
         val queryParameters = mutableListOf<Pair<String, Any?>>()
         {{#queryParams}}
         {{#required}}
@@ -61,12 +62,12 @@ import {{import}}
         {{/hasFormParams}})
 
         val mySerializer = KotlinxSerializer().apply {
-            {{#allResponseDataTypes}}
-            register({{{dataType}}}.serializer())
-            {{/allResponseDataTypes}}
+            {{#uniquedResponses}}
+            register({{>param_serializer}})
+            {{/uniquedResponses}}
             {{#hasBodyParam}}
             {{#bodyParam}}
-            register({{{dataType}}}.serializer())
+            register({{>param_serializer}})
             {{/bodyParam}}
             {{/hasBodyParam}}
         }
@@ -94,6 +95,7 @@ import {{import}}
         {{/authMethods}}
         {{/hasAuthMethods}})
 
+        {{#hasErrorResponseDataTypes}}
         try {
             return request(
                 url = "$basePath{{{path}}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
@@ -114,6 +116,21 @@ import {{import}}
                 else -> throw exception
             }
         }
+        {{/hasErrorResponseDataTypes}}
+        {{^hasErrorResponseDataTypes}}
+        return request(
+            url = "$basePath{{{path}}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
+            methodString =  "{{httpMethod}}",
+            queryParameters = queryParameters,
+            headerParameters = headerParameters,
+            formParameters = formParameters,
+            serializer = mySerializer,
+            authProviders = authProviders,
+            logger = this@{{classname}}.logger,
+            logLevel = this@{{classname}}.logLevel{{#hasBodyParam}}{{#bodyParam}},
+            bodyObject = {{paramName}}{{/bodyParam}}{{/hasBodyParam}}
+        )
+        {{/hasErrorResponseDataTypes}}
     }
     {{^-last}}
 

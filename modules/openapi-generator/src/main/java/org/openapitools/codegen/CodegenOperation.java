@@ -29,7 +29,7 @@ public class CodegenOperation {
             isListContainer, isMultipart, hasMore = true,
             isResponseBinary = false, isResponseFile = false, hasReference = false,
             isRestfulIndex, isRestfulShow, isRestfulCreate, isRestfulUpdate, isRestfulDestroy,
-            isRestful, isDeprecated, isCallbackRequest;
+            isRestful, isDeprecated, isCallbackRequest, hasResponseDataTypes, hasErrorResponseDataTypes;
     public String path, operationId, returnType, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse; 
     public CodegenDiscriminator discriminator;
@@ -63,7 +63,7 @@ public class CodegenOperation {
     /**
      * A list of all response data types without duplicates.
      */
-    public List<Map<String, String>> allResponseDataTypes = new ArrayList<>();
+    public List<CodegenResponse> uniquedResponses = new ArrayList<>();
 
     /**
      * Check if there's at least one parameter
@@ -248,25 +248,30 @@ public class CodegenOperation {
     }
 
     /**
-     * Makes sure that the 'allResponseDataTypes' property is updated.
+     * Makes sure that the 'uniquedResponses' property is updated.
      */
-    public void updateAllResponseDataTypes() {
-        List<String> dataTypes = new ArrayList<>();
-        for (CodegenResponse response : responses) {
-            String dataType = response.dataType;
-            if (dataType != null && !dataTypes.contains(dataType)) {
-                dataTypes.add(dataType);
+    public void updateUniquedResponses() {
+        Map<String, CodegenResponse> uniquedResponses = new LinkedHashMap<>();
+            for (CodegenResponse response : responses) {
+            if (response.dataType != null) {
+                uniquedResponses.put(response.dataType, response);
             }
         }
 
-        List<Map<String, String>> taggedDataTypes = new ArrayList<>();
-        for (String dataType : dataTypes) {
-            Map<String, String> entries = new HashMap<>();
-            entries.put("dataType", dataType);
-            taggedDataTypes.add(entries);
-        }
+        this.uniquedResponses = new ArrayList<>(uniquedResponses.values());
+    }
 
-        allResponseDataTypes = taggedDataTypes;
+    public boolean hasResponseDataTypes() {
+        return !uniquedResponses.isEmpty();
+    }
+
+    public boolean hasErrorResponseDataTypes() {
+        for (CodegenResponse response : responses) {
+            if (!response.isDefault && response.dataType != null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
