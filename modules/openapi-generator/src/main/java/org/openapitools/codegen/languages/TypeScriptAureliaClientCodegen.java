@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.StringUtils;
 
 import java.util.*;
 

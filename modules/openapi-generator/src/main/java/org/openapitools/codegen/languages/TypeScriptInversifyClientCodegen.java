@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.StringUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
