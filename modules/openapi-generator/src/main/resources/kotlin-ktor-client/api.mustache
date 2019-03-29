@@ -107,7 +107,8 @@ import {{import}}
                 authProviders = authProviders,
                 logger = this@{{classname}}.logger,
                 logLevel = this@{{classname}}.logLevel{{#hasBodyParam}}{{#bodyParam}},
-                bodyObject = {{paramName}}{{/bodyParam}}{{/hasBodyParam}}
+                bodyObject = {{paramName}},
+                bodySerializer = {{>param_serializer}}{{/bodyParam}}{{/hasBodyParam}}
             )
         } catch (exception: BadResponseStatusException) {
             when(exception.statusCode.value) {
@@ -128,7 +129,8 @@ import {{import}}
             authProviders = authProviders,
             logger = this@{{classname}}.logger,
             logLevel = this@{{classname}}.logLevel{{#hasBodyParam}}{{#bodyParam}},
-            bodyObject = {{paramName}}{{/bodyParam}}{{/hasBodyParam}}
+            bodyObject = {{paramName}},
+            bodySerializer = {{>param_serializer}}{{/bodyParam}}{{/hasBodyParam}}
         )
         {{/hasErrorResponseDataTypes}}
     }

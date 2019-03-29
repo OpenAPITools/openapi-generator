@@ -10,9 +10,13 @@ import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.request.request
+import io.ktor.content.TextContent
 import io.ktor.http.HttpMethod
 import io.ktor.http.Parameters
+import io.ktor.http.ContentType
 import kotlinx.io.core.use
+import kotlinx.serialization.SerializationStrategy
+import kotlinx.serialization.json.Json
 import {{packageName}}.infrastructure.authentication.AuthProvider
 
 internal fun List<Pair<String, String?>>.whereSecondNotNull(): List<Pair<String, String>> {
@@ -27,6 +31,38 @@ internal fun List<Pair<String, String?>>.whereSecondNotNull(): List<Pair<String,
     }
 }
 
+
+internal suspend inline fun <reified T, B> request(
+    url: String,
+    methodString: String,
+    queryParameters: List<Pair<String, Any?>>,
+    headerParameters: List<Pair<String, Any?>>,
+    formParameters: List<Pair<String, String?>>,
+    serializer: KotlinxSerializer,
+    authProviders: List<AuthProvider>,
+    logger: Logger,
+    logLevel: LogLevel,
+    bodyObject: B,
+    bodySerializer: SerializationStrategy<B>
+): T {
+    val serializedBody = TextContent(
+        text = Json.stringify(bodySerializer, bodyObject),
+        contentType = ContentType.parse("application/json")
+    )
+    return request(
+        url = url,
+        methodString = methodString,
+        queryParameters = queryParameters,
+        headerParameters = headerParameters,
+        formParameters = formParameters,
+        serializer = serializer,
+        authProviders = authProviders,
+        logger = logger,
+        logLevel = logLevel,
+        bodyObject = serializedBody
+    )
+}
+
 internal suspend inline fun <reified T> request(
     url: String,
     methodString: String,
@@ -37,8 +73,8 @@ internal suspend inline fun <reified T> request(
     authProviders: List<AuthProvider>,
     logger: Logger,
     logLevel: LogLevel,
-    bodyObject: Any? = null): T
-{
+    bodyObject: Any? = null
+): T {
     @Suppress("NAME_SHADOWING") val queryParameters = queryParameters.toMutableList()
     @Suppress("NAME_SHADOWING") val headerParameters = headerParameters.toMutableList()
 
