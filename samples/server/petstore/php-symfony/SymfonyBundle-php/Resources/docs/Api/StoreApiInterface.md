@@ -18,7 +18,7 @@ services:
     acme.my_bundle.api.store:
         class: Acme\MyBundle\Api\StoreApi
         tags:
-            - { name: "open_apiserver.api", api: "store" }
+            - { name: "open_api_server.api", api: "store" }
     # ...
 ```
 
