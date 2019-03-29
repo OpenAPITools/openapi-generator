@@ -31,6 +31,16 @@ internal fun List<Pair<String, String?>>.whereSecondNotNull(): List<Pair<String,
     }
 }
 
+//Until kotlinx serialization supports stripping nulls, we have to work around it
+internal fun <T>Json.stringify(serializer: SerializationStrategy<T>, obj: T, stripNull: Boolean): String {
+    val nonStrippedJsonString = stringify(serializer, obj)
+    if (!stripNull) {
+        return nonStrippedJsonString
+    }
+
+    val nullPropertyRegex = Regex(",?\"[^\"]*\":null")
+    return nonStrippedJsonString.replace(nullPropertyRegex, "")
+}
 
 internal suspend inline fun <reified T, B> request(
     url: String,
@@ -46,7 +56,7 @@ internal suspend inline fun <reified T, B> request(
     bodySerializer: SerializationStrategy<B>
 ): T {
     val serializedBody = TextContent(
-        text = Json.stringify(bodySerializer, bodyObject),
+        text = Json.plain.stringify(bodySerializer, bodyObject, stripNull = true),
         contentType = ContentType.parse("application/json")
     )
     return request(
