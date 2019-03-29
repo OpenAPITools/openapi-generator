@@ -22,10 +22,9 @@ apiClient_t *apiClient_create() {
 }
 
 void apiClient_free(apiClient_t *apiClient) {
-	if(apiClient->basePath) {
-		free(apiClient->basePath);
+	if(apiClient->apiKeys) {
+		list_free(apiClient->apiKeys);
 	}
-	list_free(apiClient->apiKeys);
 	if(apiClient->accessToken) {
 		free(apiClient->accessToken);
 	}
