@@ -35,6 +35,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSymfonyServerCodegen.class);
 
     public static final String BUNDLE_NAME = "bundleName";
+    public static final String BUNDLE_ALIAS = "bundleAlias";
     public static final String COMPOSER_VENDOR_NAME = "composerVendorName";
     public static final String COMPOSER_PROJECT_NAME = "composerProjectName";
     public static final String PHP_LEGACY_SUPPORT = "phpLegacySupport";
@@ -87,6 +88,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         srcBasePath = ".";
         setInvokerPackage("OpenAPI\\Server");
         setBundleName("OpenAPIServer");
+        setBundleAlias("open_api_server");
         modelDirName = "Model";
         docsBasePath = "Resources" + "/" + "docs";
         apiDocPath = docsBasePath + "/" + apiDirName;
@@ -190,7 +192,10 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         this.bundleName = bundleName;
         this.bundleClassName = bundleName + "Bundle";
         this.bundleExtensionName = bundleName + "Extension";
-        this.bundleAlias = snakeCase(bundleName).replaceAll("([A-Z]+)", "\\_$1").toLowerCase(Locale.ROOT);
+    }
+
+    public void setBundleAlias(String alias) {
+        this.bundleAlias = alias.toLowerCase(Locale.ROOT);
     }
 
     public void setPhpLegacySupport(Boolean support) {
@@ -242,6 +247,12 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
             this.setBundleName((String) additionalProperties.get(BUNDLE_NAME));
         } else {
             additionalProperties.put(BUNDLE_NAME, bundleName);
+        }
+
+        if (additionalProperties.containsKey(BUNDLE_ALIAS)) {
+            this.setBundleAlias((String) additionalProperties.get(BUNDLE_ALIAS));
+        } else {
+            additionalProperties.put(BUNDLE_ALIAS, bundleAlias);
         }
 
         if (additionalProperties.containsKey(COMPOSER_PROJECT_NAME)) {
