@@ -512,7 +512,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (name.length() == 0) {
             return "DefaultService";
         }
-        return initialCaps(name) + serviceSuffix;
+        return camelize(name) + serviceSuffix;
     }
 
     @Override

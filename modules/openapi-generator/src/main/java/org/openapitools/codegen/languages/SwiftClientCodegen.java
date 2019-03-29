@@ -434,7 +434,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
     public String toApiName(String name) {
         if (name.length() == 0)
             return "DefaultAPI";
-        return initialCaps(name) + "API";
+        return camelize(name) + "API";
     }
 
     @Override

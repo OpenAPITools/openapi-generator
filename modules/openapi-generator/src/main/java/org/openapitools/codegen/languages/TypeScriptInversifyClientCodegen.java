@@ -321,7 +321,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         if (name.length() == 0) {
             return "DefaultService";
         }
-        return initialCaps(name) + "Service";
+        return camelize(name) + "Service";
     }
 
     @Override
