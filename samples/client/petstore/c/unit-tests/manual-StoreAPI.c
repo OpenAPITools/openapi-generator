@@ -41,6 +41,7 @@ int main() {
 	order_free(returnorder);
 	cJSON_Delete(JSONNODE);
 	free(dataToPrint);
+    apiClient_free(apiClient);
 
 // order get by id test
 	apiClient_t *apiClient2 = apiClient_create();
@@ -56,6 +57,7 @@ int main() {
 	order_free(neworder);
 	cJSON_Delete(JSONNODE);
 	free(dataToPrint1);
+    apiClient_free(apiClient2);
 
 // delete order test
 	apiClient_t *apiClient3 = apiClient_create();
@@ -67,6 +69,7 @@ int main() {
 
 	printf("Order Deleted \n");
 	free(orderid);
+    apiClient_free(apiClient3);
 
 
 // get order by id test
@@ -77,6 +80,7 @@ int main() {
 	if(neworder == NULL) {
 		printf("Order Not present \n");
 	}
+    apiClient_free(apiClient4);
 
 // get inventory test
 	apiClient_t *apiClient5 = apiClient_create();
@@ -94,4 +98,5 @@ int main() {
     keyValuePair_free(pair);
 	}
 	list_free(elementToReturn);
+    apiClient_free(apiClient5);
 }

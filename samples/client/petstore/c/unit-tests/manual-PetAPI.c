@@ -68,7 +68,7 @@ int main() {
 	cJSON *JSONR_local = pet_convertToJSON(pet);
 	printf("Data is:%s\n", cJSON_Print(JSONR_local));
 	pet_free(pet);
-
+    apiClient_free(apiClient);
 
 // Pet update with form test
 	char *petName1 = "Rocky Handsome";
@@ -78,7 +78,7 @@ int main() {
 	apiClient_t *apiClient1 = apiClient_create();
 	PetAPI_updatePetWithForm(apiClient1, EXAMPLE_PET_ID, petName1,
 	                         petName2);
-
+    apiClient_free(apiClient1);
 
 // Get pet by id test
 	apiClient_t *apiClient2 = apiClient_create();
@@ -108,6 +108,7 @@ int main() {
 	free(petJson);
 	cJSON_Delete(JSONR);
 	pet_free(mypet);
+    apiClient_free(apiClient2);
 
 // Pet upload file Test
 	apiClient_t *apiClient3 = apiClient_create();
@@ -131,7 +132,6 @@ int main() {
 
 		api_response_free(respo);
 		fclose(file);
-	} else {
-    //apiClient_free(apiClient3);
-    }
+	}
+    apiClient_free(apiClient3);
 }
