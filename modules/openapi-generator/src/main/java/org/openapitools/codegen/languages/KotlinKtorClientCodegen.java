@@ -91,6 +91,7 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/authentication/HttpBasicBearerAuth.kt.mustache", infrastructureFolder+"/authentication", "HttpBasicBearerAuth.kt"));
 
         //gradle files
+        supportingFiles.add(new SupportingFile("travis.mustache", ".travis.yml"));
         supportingFiles.add(new SupportingFile("gradle/settings.gradle.mustache", "settings.gradle"));
         supportingFiles.add(new SupportingFile("gradle/build.gradle.mustache", "build.gradle"));
         supportingFiles.add(new SupportingFile("gradle/gradle.properties.mustache", "gradle.properties"));
