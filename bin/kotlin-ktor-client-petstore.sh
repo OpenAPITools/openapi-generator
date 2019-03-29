@@ -25,8 +25,13 @@ then
   mvn -B clean package
 fi
 
+GENERATION_DIR="samples/client/petstore/kotlin-ktor-client"
+
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/kotlin-ktor-client -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g kotlin-ktor-client --artifact-id kotlin-ktor-petstore-client -o samples/client/petstore/kotlin-ktor-client $@"
+ags="generate -t modules/openapi-generator/src/main/resources/kotlin-ktor-client -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g kotlin-ktor-client --artifact-id kotlin-ktor-petstore-client -o $GENERATION_DIR $@"
 
 java ${JAVA_OPTS} -jar ${executable} ${ags}
+
+chmod a+x $GENERATION_DIR/gradlew
+chmod a+x $GENERATION_DIR/gradlew.bat
