@@ -80,6 +80,7 @@ int main() {
 	if(neworder == NULL) {
 		printf("Order Not present \n");
 	}
+    order_free(neworder);
     apiClient_free(apiClient4);
 
 // get inventory test

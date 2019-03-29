@@ -285,6 +285,7 @@
     //nonprimitive not container
     cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
     {{{returnBaseType}}}_t *elementToReturn = {{{returnBaseType}}}_parseFromJSON({{classname}}localVarJSON);
+    cJSON_Delete({{classname}}localVarJSON);
     if(elementToReturn == NULL) {
         // return 0;
     }

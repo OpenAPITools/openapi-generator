@@ -191,6 +191,7 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 	// nonprimitive not container
 	cJSON *StoreAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
 	order_t *elementToReturn = order_parseFromJSON(StoreAPIlocalVarJSON);
+    cJSON_Delete(StoreAPIlocalVarJSON);
 	if(elementToReturn == NULL) {
 		// return 0;
 	}
@@ -258,6 +259,7 @@ order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *body) {
 	// nonprimitive not container
 	cJSON *StoreAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
 	order_t *elementToReturn = order_parseFromJSON(StoreAPIlocalVarJSON);
+    cJSON_Delete(StoreAPIlocalVarJSON);
 	if(elementToReturn == NULL) {
 		// return 0;
 	}

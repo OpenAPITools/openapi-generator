@@ -66,8 +66,11 @@ int main() {
 
 	PetAPI_addPet(apiClient, pet);
 	cJSON *JSONR_local = pet_convertToJSON(pet);
-	printf("Data is:%s\n", cJSON_Print(JSONR_local));
+    char *toPrint = cJSON_Print(JSONR_local);
+	printf("Data is:%s\n", toPrint);
+    free(toPrint);
 	pet_free(pet);
+    cJSON_Delete(JSONR_local);
     apiClient_free(apiClient);
 
 // Pet update with form test
@@ -115,13 +118,13 @@ int main() {
 	FILE *file = fopen("/opt/image.png", "r");
 	char *buff;
 	int read_size,len;
-	binary_t * data;
+	binary_t * data = malloc(sizeof(binary_t));
 	if (file) {
 	fseek(file,0,SEEK_END);
-	read_size = ftell(file);
+	read_size = 2*ftell(file);
 	rewind(file);
-	data->data = (char*) malloc(sizeof(char) * (read_size + 1));
-	data->len = fread(data->data,sizeof(char),read_size,file);
+	data->data = (char*) malloc(read_size + 1);
+	data->len = fread((void*)data->data,1,read_size,file);
 	data->data[read_size] = '\0';
 	}
 	if(file != NULL) {
@@ -131,6 +134,8 @@ int main() {
 		                                          data);
 
 		api_response_free(respo);
+        free(data->data);
+        free(data);
 		fclose(file);
 	}
     apiClient_free(apiClient3);
