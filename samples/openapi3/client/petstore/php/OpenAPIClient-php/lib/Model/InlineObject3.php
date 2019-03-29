@@ -79,7 +79,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'integer' => 'int32',
+        'integer' => null,
         'int32' => 'int32',
         'int64' => 'int64',
         'number' => null,
