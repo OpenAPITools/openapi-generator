@@ -83,6 +83,7 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
         supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, PREFIX + "Helpers.cpp"));
         supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, PREFIX + "Object.h"));        
+        supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder + MODEL_DIR, PREFIX + "Enum.h"));
         supportingFiles.add(new SupportingFile("apirouter.h.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "ApiRouter.h"));
         supportingFiles.add(new SupportingFile("apirouter.cpp.mustache", sourceFolder + APIHANDLER_DIR, PREFIX + "ApiRouter.cpp"));
 
@@ -106,6 +107,7 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
             supportingFiles.add(new SupportingFile("helpers-header.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Helpers.h"));
             supportingFiles.add(new SupportingFile("helpers-body.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Helpers.cpp"));
             supportingFiles.add(new SupportingFile("object.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Object.h"));
+            supportingFiles.add(new SupportingFile("enum.mustache", sourceFolder + MODEL_DIR, modelNamePrefix + "Enum.h"));
             supportingFiles.add(new SupportingFile("apirouter.h.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "ApiRouter.h"));
             supportingFiles.add(new SupportingFile("apirouter.cpp.mustache", sourceFolder + APIHANDLER_DIR, modelNamePrefix + "ApiRouter.cpp"));            
                       
