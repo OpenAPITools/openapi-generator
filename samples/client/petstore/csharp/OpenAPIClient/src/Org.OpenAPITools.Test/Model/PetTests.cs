@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Test
         [Test]
         public void PetInstanceTest()
         {
-            Assert.IsInstanceOfType<Pet> (instance, "variable 'instance' is a Pet");
+            Assert.IsInstanceOfType(typeof(Pet), instance);
         }
 
 
