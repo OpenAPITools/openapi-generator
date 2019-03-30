@@ -43,8 +43,7 @@ namespace Org.OpenAPITools.Test
         [SetUp]
         public void Init()
         {
-            // TODO uncomment below to create an instance of Pet
-            //instance = new Pet();
+            instance = new Pet(name: "Csharp test", photoUrls: new List<string> { "http://petstore.com/csharp_test" });
         }
 
         /// <summary>
@@ -53,7 +52,6 @@ namespace Org.OpenAPITools.Test
         [TearDown]
         public void Cleanup()
         {
-			instance = new Pet(name: "Csharp test", photoUrls: new List<string> { "http://petstore.com/csharp_test" });
 
         }
 
