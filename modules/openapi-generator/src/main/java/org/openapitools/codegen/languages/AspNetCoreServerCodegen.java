@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenType;
@@ -81,6 +82,18 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         );
 
         cliOptions.clear();
+
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("float", "float");
+        typeMapping.put("long", "long");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("UUID", "Guid");
+
+        setSupportNullable(Boolean.TRUE);
 
         // CLI options
         addOption(CodegenConstants.LICENSE_URL,
@@ -374,5 +387,18 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     @Override
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
+    }
+    
+    @Override
+    public String getNullableType(Schema p, String type) {
+        boolean isNullableExpected = p.getNullable() == null || (p.getNullable() != null && p.getNullable());
+
+        if (isNullableExpected && languageSpecificPrimitives.contains(type + "?")) {
+            return type + "?";
+        } else if (languageSpecificPrimitives.contains(type)) {
+            return type;
+        } else {
+            return null;
+        }
     }
 }
