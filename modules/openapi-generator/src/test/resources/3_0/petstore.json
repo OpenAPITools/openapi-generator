@@ -94,9 +94,9 @@
                   "available",
                   "pending",
                   "sold"
-                ]
-              },
+                ],
               "default": "available"
+              }
             }
           }
         ],
