@@ -205,7 +205,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String getHelp() {
-        return "Generates a Javascript client library.";
+        return "Generates a JavaScript client library.";
     }
 
     @Override
@@ -340,6 +340,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         supportingFiles.add(new SupportingFile("index.mustache", createPath(sourceFolder, invokerPackage), "index.js"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", createPath(sourceFolder, invokerPackage), "ApiClient.js"));
+
     }
 
     @Override
@@ -980,7 +981,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
                 if (hasOptionalParams) {
                     argList.add("opts");
-                } 
+                }
 
                 if (!usePromises) {
                     argList.add("callback");
@@ -1124,17 +1125,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return codegenModel;
     }
 
-    /*
-    private static String sanitizePackageName(String packageName) { // FIXME parameter should not be assigned. Also declare it as "final"
-        packageName = packageName.trim();
-        packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
-        if (Strings.isNullOrEmpty(packageName)) {
-            return "invalidPackageName";
-        }
-        return packageName;
-    }
-    */
-
     @Override
     public String toEnumName(CodegenProperty property) {
         return sanitizeName(camelize(property.name)) + "Enum";
@@ -1166,12 +1156,18 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String escapeQuotationMark(String input) {
+        if (input == null) {
+            return "";
+        }
         // remove ', " to avoid code injection
         return input.replace("\"", "").replace("'", "");
     }
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return "";
+        }
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
