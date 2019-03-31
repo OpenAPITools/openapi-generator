@@ -64,7 +64,7 @@ public class MapTest  implements Serializable {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
- 
+
   @JsonProperty("map_of_enum_string")
   private Map<String, InnerEnum> mapOfEnumString = null;
 
