@@ -58,20 +58,20 @@ public class EnumArrays {
     }
 
     @JsonCreator
-    public static JustSymbolEnum fromValue(String text) {
+    public static JustSymbolEnum fromValue(String value) {
       for (JustSymbolEnum b : JustSymbolEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
   @JsonProperty("just_symbol")
   @JacksonXmlProperty(localName = "just_symbol")
   @XmlElement(name = "just_symbol")
-  private JustSymbolEnum justSymbol = null;
+  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -98,13 +98,13 @@ public class EnumArrays {
     }
 
     @JsonCreator
-    public static ArrayEnumEnum fromValue(String text) {
+    public static ArrayEnumEnum fromValue(String value) {
       for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
@@ -113,7 +113,7 @@ public class EnumArrays {
   // items.name=arrayEnum items.baseName=arrayEnum items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "arrayEnum")
-  private List<ArrayEnumEnum> arrayEnum = null;
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -183,7 +183,6 @@ public class EnumArrays {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EnumArrays {\n");
-    
     sb.append("    justSymbol: ").append(toIndentedString(justSymbol)).append("\n");
     sb.append("    arrayEnum: ").append(toIndentedString(arrayEnum)).append("\n");
     sb.append("}");

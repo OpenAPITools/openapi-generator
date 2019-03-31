@@ -1,0 +1,36 @@
+openapi: 3.0.1
+info:
+  title: Test Regex generation for parameter validation
+  version: 1.0.0
+components:
+  headers:
+
+  responses:
+    OK_200:
+      description: OK
+
+paths:
+  /ping:
+    get:
+      summary: Get Payment Information
+      description: Returns the content of a payment object
+      parameters:
+        - name: pattern_no_forward_slashes
+          in: header
+          schema:
+            type: string
+            pattern: '^pattern$'
+        - name: pattern_two_slashes
+          in: header
+          schema:
+            type: string
+            pattern: '/^pattern$/i'
+        - name: pattern_dont_escape_backslash
+          in: header
+          schema:
+            type: string
+            pattern: '/^pattern\d{3}$/i'
+
+      responses:
+        '200':
+          $ref: "#/components/responses/OK_200"

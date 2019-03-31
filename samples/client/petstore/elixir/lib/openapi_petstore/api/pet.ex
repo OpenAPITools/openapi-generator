@@ -17,7 +17,7 @@ defmodule OpenapiPetstore.Api.Pet do
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - pet (Pet): Pet object that needs to be added to the store
+  - body (Pet): Pet object that needs to be added to the store
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -25,14 +25,16 @@ defmodule OpenapiPetstore.Api.Pet do
   {:error, info} on failure
   """
   @spec add_pet(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def add_pet(connection, pet, _opts \\ []) do
+  def add_pet(connection, body, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/pet")
-    |> add_param(:body, :"Pet", pet)
+    |> add_param(:body, :body, body)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(false)
+    |> evaluate_response([
+      { 405, false}
+    ])
   end
 
   @doc """
@@ -60,7 +62,9 @@ defmodule OpenapiPetstore.Api.Pet do
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(false)
+    |> evaluate_response([
+      { 400, false}
+    ])
   end
 
   @doc """
@@ -85,7 +89,10 @@ defmodule OpenapiPetstore.Api.Pet do
     |> add_param(:query, :"status", status)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode([%OpenapiPetstore.Model.Pet{}])
+    |> evaluate_response([
+      { 200, [%OpenapiPetstore.Model.Pet{}]},
+      { 400, false}
+    ])
   end
 
   @doc """
@@ -110,7 +117,10 @@ defmodule OpenapiPetstore.Api.Pet do
     |> add_param(:query, :"tags", tags)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode([%OpenapiPetstore.Model.Pet{}])
+    |> evaluate_response([
+      { 200, [%OpenapiPetstore.Model.Pet{}]},
+      { 400, false}
+    ])
   end
 
   @doc """
@@ -134,7 +144,11 @@ defmodule OpenapiPetstore.Api.Pet do
     |> url("/pet/#{pet_id}")
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(%OpenapiPetstore.Model.Pet{})
+    |> evaluate_response([
+      { 200, %OpenapiPetstore.Model.Pet{}},
+      { 400, false},
+      { 404, false}
+    ])
   end
 
   @doc """
@@ -143,7 +157,7 @@ defmodule OpenapiPetstore.Api.Pet do
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - pet (Pet): Pet object that needs to be added to the store
+  - body (Pet): Pet object that needs to be added to the store
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -151,14 +165,18 @@ defmodule OpenapiPetstore.Api.Pet do
   {:error, info} on failure
   """
   @spec update_pet(Tesla.Env.client, OpenapiPetstore.Model.Pet.t, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
-  def update_pet(connection, pet, _opts \\ []) do
+  def update_pet(connection, body, _opts \\ []) do
     %{}
     |> method(:put)
     |> url("/pet")
-    |> add_param(:body, :"Pet", pet)
+    |> add_param(:body, :body, body)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(false)
+    |> evaluate_response([
+      { 400, false},
+      { 404, false},
+      { 405, false}
+    ])
   end
 
   @doc """
@@ -188,7 +206,9 @@ defmodule OpenapiPetstore.Api.Pet do
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(false)
+    |> evaluate_response([
+      { 405, false}
+    ])
   end
 
   @doc """
@@ -218,6 +238,40 @@ defmodule OpenapiPetstore.Api.Pet do
     |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(%OpenapiPetstore.Model.ApiResponse{})
+    |> evaluate_response([
+      { 200, %OpenapiPetstore.Model.ApiResponse{}}
+    ])
+  end
+
+  @doc """
+  uploads an image (required)
+
+  ## Parameters
+
+  - connection (OpenapiPetstore.Connection): Connection to server
+  - pet_id (integer()): ID of pet to update
+  - required_file (String.t): file to upload
+  - opts (KeywordList): [optional] Optional parameters
+    - :additional_metadata (String.t): Additional data to pass to server
+  ## Returns
+
+  {:ok, %OpenapiPetstore.Model.ApiResponse{}} on success
+  {:error, info} on failure
+  """
+  @spec upload_file_with_required_file(Tesla.Env.client, integer(), String.t, keyword()) :: {:ok, OpenapiPetstore.Model.ApiResponse.t} | {:error, Tesla.Env.t}
+  def upload_file_with_required_file(connection, pet_id, required_file, opts \\ []) do
+    optional_params = %{
+      :"additionalMetadata" => :form
+    }
+    %{}
+    |> method(:post)
+    |> url("/fake/#{pet_id}/uploadImageWithRequiredFile")
+    |> add_param(:file, :"requiredFile", required_file)
+    |> add_optional_params(optional_params, opts)
+    |> Enum.into([])
+    |> (&Connection.request(connection, &1)).()
+    |> evaluate_response([
+      { 200, %OpenapiPetstore.Model.ApiResponse{}}
+    ])
   end
 end

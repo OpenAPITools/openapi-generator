@@ -23,30 +23,17 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.SupportingFile;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
+
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class JavascriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("hiding")
@@ -64,8 +51,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     final String[][] JAVASCRIPT_SUPPORTING_FILES = new String[][]{
             new String[]{"package.mustache", "package.json"},
-            new String[]{"index.mustache", "src/index.js"},
-            new String[]{"ApiClient.mustache", "src/ApiClient.js"},
+            // new String[]{"index.mustache", "src/index.js", },
+            // new String[]{"ApiClient.mustache", "src/ApiClient.js"},
             new String[]{"git_push.sh.mustache", "git_push.sh"},
             new String[]{"README.mustache", "README.md"},
             new String[]{"mocha.opts", "mocha.opts"},
@@ -74,8 +61,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = new String[][]{
             new String[]{"package.mustache", "package.json"},
-            new String[]{"index.mustache", "src/index.js"},
-            new String[]{"ApiClient.mustache", "src/ApiClient.js"},
+            // new String[]{"index.mustache", "src/index.js"},
+            // new String[]{"ApiClient.mustache", "src/ApiClient.js"},
             new String[]{"git_push.sh.mustache", "git_push.sh"},
             new String[]{"README.mustache", "README.md"},
             new String[]{"mocha.opts", "mocha.opts"},
@@ -91,7 +78,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     protected String invokerPackage;
     protected String sourceFolder = "src";
-    protected String localVariablePrefix = "";
     protected boolean usePromises;
     protected boolean emitModelMethods;
     protected boolean emitJSDoc = true;
@@ -99,7 +85,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     protected String modelDocPath = "docs/";
     protected String apiTestPath = "api/";
     protected String modelTestPath = "model/";
-    protected boolean useES6 = false; // default is ES5
+    protected boolean useES6 = true; // default is ES6
     private String modelPropertyNaming = "camelCase";
 
     public JavascriptClientCodegen() {
@@ -174,7 +160,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         importMapping.clear();
 
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC).defaultValue("src"));
-        cliOptions.add(new CliOption(CodegenConstants.LOCAL_VARIABLE_PREFIX, CodegenConstants.LOCAL_VARIABLE_PREFIX_DESC));
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, CodegenConstants.INVOKER_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
@@ -203,8 +188,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(USE_ES6,
-                "use JavaScript ES6 (ECMAScript 6) (beta). Default is ES5.")
-                .defaultValue(Boolean.FALSE.toString()));
+                "use JavaScript ES6 (ECMAScript 6) (beta). Default is ES6.")
+                .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
     }
 
@@ -220,7 +205,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String getHelp() {
-        return "Generates a Javascript client library.";
+        return "Generates a JavaScript client library.";
     }
 
     @Override
@@ -228,12 +213,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey(USE_ES6)) {
             setUseES6(convertPropertyToBooleanAndWriteBack(USE_ES6));
         } else {
-            setUseES6(false); // default to ES5
+            setUseES6(true); // default to ES6
         }
         super.processOpts();
 
-        if (StringUtils.isEmpty(System.getenv("JS_BEAUTIFY_PATH"))) {
-            LOGGER.info("Environment variable JS_BEAUTIFY_PATH not defined so the JS code may not be properly formatted. To define it, try 'export JS_BEAUTIFY_PATH=/usr/local/bin/js-beautify' (Linux/Mac)");
+        if (StringUtils.isEmpty(System.getenv("JS_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable JS_POST_PROCESS_FILE not defined so the JS code may not be properly formatted. To define it, try 'export JS_POST_PROCESS_FILE=\"/usr/local/bin/js-beautify -r -f\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(PROJECT_NAME)) {
@@ -250,9 +236,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         }
         if (additionalProperties.containsKey(CodegenConstants.LICENSE_NAME)) {
             setLicenseName(((String) additionalProperties.get(CodegenConstants.LICENSE_NAME)));
-        }
-        if (additionalProperties.containsKey(CodegenConstants.LOCAL_VARIABLE_PREFIX)) {
-            setLocalVariablePrefix((String) additionalProperties.get(CodegenConstants.LOCAL_VARIABLE_PREFIX));
         }
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
             setSourceFolder((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
@@ -288,7 +271,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             Info info = openAPI.getInfo();
             if (StringUtils.isBlank(projectName) && info.getTitle() != null) {
                 // when projectName is not specified, generate it from info.title
-                projectName = sanitizeName(org.openapitools.codegen.utils.StringUtils.dashize(info.getTitle()));
+                projectName = sanitizeName(dashize(info.getTitle()));
             }
             if (StringUtils.isBlank(projectVersion)) {
                 // when projectVersion is not specified, use info.version
@@ -296,7 +279,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             }
             if (projectDescription == null) {
                 // when projectDescription is not specified, use info.description
-                projectDescription = sanitizeName(info.getDescription());
+                if (StringUtils.isEmpty(info.getDescription())) {
+                    projectDescription = "JS API client generated by OpenAPI Generator";
+                } else {
+                    projectDescription = sanitizeName(info.getDescription());
+                }
             }
 
             // when licenceName is not specified, use info.license
@@ -311,7 +298,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             projectName = "openapi-js-client";
         }
         if (StringUtils.isBlank(moduleName)) {
-            moduleName = org.openapitools.codegen.utils.StringUtils.camelize(org.openapitools.codegen.utils.StringUtils.underscore(projectName));
+            moduleName = camelize(underscore(projectName));
         }
         if (StringUtils.isBlank(projectVersion)) {
             projectVersion = "1.0.0";
@@ -330,7 +317,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         additionalProperties.put(CodegenConstants.LICENSE_NAME, licenseName);
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-        additionalProperties.put(CodegenConstants.LOCAL_VARIABLE_PREFIX, localVariablePrefix);
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         additionalProperties.put(CodegenConstants.SOURCE_FOLDER, sourceFolder);
         additionalProperties.put(USE_PROMISES, usePromises);
@@ -351,6 +337,10 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         for (String[] supportingTemplateFile : supportingTemplateFiles) {
             supportingFiles.add(new SupportingFile(supportingTemplateFile[0], "", supportingTemplateFile[1]));
         }
+
+        supportingFiles.add(new SupportingFile("index.mustache", createPath(sourceFolder, invokerPackage), "index.js"));
+        supportingFiles.add(new SupportingFile("ApiClient.mustache", createPath(sourceFolder, invokerPackage), "ApiClient.js"));
+
     }
 
     @Override
@@ -387,12 +377,12 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String apiTestFileFolder() {
-        return (outputFolder + "/test/" + apiTestPath).replace('/', File.separatorChar);
+        return createPath(outputFolder, "test", invokerPackage, apiTestPath);
     }
 
     @Override
     public String modelTestFileFolder() {
-        return (outputFolder + "/test/" + modelTestPath).replace('/', File.separatorChar);
+        return createPath(outputFolder, "test", invokerPackage, modelTestPath);
     }
 
     @Override
@@ -419,10 +409,6 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
-    }
-
-    public void setLocalVariablePrefix(String localVariablePrefix) {
-        this.localVariablePrefix = localVariablePrefix;
     }
 
     public void setModuleName(String moduleName) {
@@ -505,13 +491,18 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     private String getNameUsingModelPropertyNaming(String name) {
         switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
-            case original:    return name;
-            case camelCase:   return org.openapitools.codegen.utils.StringUtils.camelize(name, true);
-            case PascalCase:  return org.openapitools.codegen.utils.StringUtils.camelize(name);
-            case snake_case:  return org.openapitools.codegen.utils.StringUtils.underscore(name);
-            default:          throw new IllegalArgumentException("Invalid model property naming '" +
-                    name + "'. Must be 'original', 'camelCase', " +
-                    "'PascalCase' or 'snake_case'");
+            case original:
+                return name;
+            case camelCase:
+                return camelize(name, true);
+            case PascalCase:
+                return camelize(name);
+            case snake_case:
+                return underscore(name);
+            default:
+                throw new IllegalArgumentException("Invalid model property naming '" +
+                        name + "'. Must be 'original', 'camelCase', " +
+                        "'PascalCase' or 'snake_case'");
         }
     }
 
@@ -561,7 +552,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         // camelize the model name
         // phone_number => PhoneNumber
-        name = org.openapitools.codegen.utils.StringUtils.camelize(name);
+        name = camelize(name);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
@@ -801,7 +792,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
      * @param type Primitive type
      * @return Normalized type
      */
-    public String normalizeType(String type) {
+    private String normalizeType(String type) {
         return type.replaceAll("\\b(Boolean|Integer|Number|String|Date|Blob)\\b", "'$1'");
     }
 
@@ -830,18 +821,18 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             throw new RuntimeException("Empty method/operation name (operationId) not allowed");
         }
 
-        operationId = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId), true);
+        operationId = camelize(sanitizeName(operationId), true);
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            String newOperationId = org.openapitools.codegen.utils.StringUtils.camelize("call_" + operationId, true);
+            String newOperationId = camelize("call_" + operationId, true);
             LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + newOperationId);
             return newOperationId;
         }
@@ -850,27 +841,28 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        CodegenModel codegenModel = super.fromModel(name, model);
 
         if (allDefinitions != null && codegenModel != null && codegenModel.parent != null && codegenModel.hasEnums) {
             final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
-            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
+            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
             codegenModel = JavascriptClientCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
         if (ModelUtils.isArraySchema(model)) {
             ArraySchema am = (ArraySchema) model;
-            if (am.getItems() != null) {
+            if (codegenModel != null && am.getItems() != null) {
                 codegenModel.getVendorExtensions().put("x-isArray", true);
                 codegenModel.getVendorExtensions().put("x-itemType", getSchemaType(am.getItems()));
             }
         } else if (ModelUtils.isMapSchema(model)) {
-            if (ModelUtils.getAdditionalProperties(model) != null) {
+            if (codegenModel != null && ModelUtils.getAdditionalProperties(model) != null) {
                 codegenModel.getVendorExtensions().put("x-isMap", true);
                 codegenModel.getVendorExtensions().put("x-itemType", getSchemaType(ModelUtils.getAdditionalProperties(model)));
             } else {
                 String type = model.getType();
-                if (isPrimitiveType(type)){
+                if (codegenModel != null && isPrimitiveType(type)) {
                     codegenModel.vendorExtensions.put("x-isPrimitive", true);
                 }
             }
@@ -879,10 +871,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return codegenModel;
     }
 
+    /*
     private String sanitizePath(String p) {
         //prefer replace a ', instead of a fuLL URL encode for readability
         return p.replaceAll("'", "%27");
-    }
+    }*/
 
     private String trimBrackets(String s) {
         if (s != null) {
@@ -971,7 +964,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
-                List<String> argList = new ArrayList<String>();
+                List<String> argList = new ArrayList<>();
                 boolean hasOptionalParams = false;
                 for (CodegenParameter p : operation.allParams) {
                     if (p.required) {
@@ -980,13 +973,21 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                         hasOptionalParams = true;
                     }
                 }
+
+                if (operation.servers != null && !operation.servers.isEmpty()) {
+                    // add optional parameter for servers (e.g. index)
+                    hasOptionalParams = true;
+                }
+
                 if (hasOptionalParams) {
                     argList.add("opts");
                 }
+
                 if (!usePromises) {
                     argList.add("callback");
                 }
                 operation.vendorExtensions.put("x-codegen-argList", StringUtils.join(argList, ", "));
+                operation.vendorExtensions.put("x-codegen-hasOptionalParams", hasOptionalParams);
 
                 // Store JSDoc type specification into vendor-extension: x-jsdoc-type.
                 for (CodegenParameter cp : operation.allParams) {
@@ -1018,11 +1019,21 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             // NOTE: can't use 'mandatory' as it is built from ModelImpl.getRequired(), which sorts names
             // alphabetically and in any case the document order of 'required' and 'properties' can differ.
             List<CodegenProperty> required = new ArrayList<>();
-            List<CodegenProperty> allRequired = supportsInheritance || supportsMixins ? new ArrayList<CodegenProperty>() : required;
+            List<CodegenProperty> allRequired = supportsInheritance || supportsMixins ? new ArrayList<>() : required;
             cm.vendorExtensions.put("x-required", required);
             cm.vendorExtensions.put("x-all-required", allRequired);
 
             for (CodegenProperty var : cm.vars) {
+                // Add JSDoc @type value for this property.
+                String jsDocType = getJSDocType(cm, var);
+                var.vendorExtensions.put("x-jsdoc-type", jsDocType);
+
+                if (Boolean.TRUE.equals(var.required)) {
+                    required.add(var);
+                }
+            }
+
+            for (CodegenProperty var : cm.allVars) {
                 // Add JSDoc @type value for this property.
                 String jsDocType = getJSDocType(cm, var);
                 var.vendorExtensions.put("x-jsdoc-type", jsDocType);
@@ -1048,11 +1059,13 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 }
             }
             for (CodegenProperty var : cm.vars) {
-                if (var == lastRequired) {
-                    var.vendorExtensions.put("x-codegen-hasMoreRequired", false);
-                } else if (var.required) {
-                    var.vendorExtensions.put("x-codegen-hasMoreRequired", true);
-                }
+                Optional.ofNullable(lastRequired).ifPresent(_lastRequired -> {
+                    if (var == _lastRequired) {
+                        var.vendorExtensions.put("x-codegen-hasMoreRequired", false);
+                    } else if (var.required) {
+                        var.vendorExtensions.put("x-codegen-hasMoreRequired", true);
+                    }
+                });
             }
         }
         return objs;
@@ -1112,18 +1125,9 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return codegenModel;
     }
 
-    private static String sanitizePackageName(String packageName) { // FIXME parameter should not be assigned. Also declare it as "final"
-        packageName = packageName.trim();
-        packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
-        if (Strings.isNullOrEmpty(packageName)) {
-            return "invalidPackageName";
-        }
-        return packageName;
-    }
-
     @Override
     public String toEnumName(CodegenProperty property) {
-        return sanitizeName(org.openapitools.codegen.utils.StringUtils.camelize(property.name)) + "Enum";
+        return sanitizeName(camelize(property.name)) + "Enum";
     }
 
     @Override
@@ -1152,12 +1156,18 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String escapeQuotationMark(String input) {
+        if (input == null) {
+            return "";
+        }
         // remove ', " to avoid code injection
         return input.replace("\"", "").replace("'", "");
     }
 
     @Override
     public String escapeUnsafeCharacters(String input) {
+        if (input == null) {
+            return "";
+        }
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
@@ -1167,25 +1177,25 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             return;
         }
 
-        String jsBeautifyPath = System.getenv("JS_BEAUTIFY_PATH");
-        if (StringUtils.isEmpty(jsBeautifyPath)) {
-            return; // skip if JS_BEAUTIFY_PATH env variable is not defined
+        String jsPostProcessFile = System.getenv("JS_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(jsPostProcessFile)) {
+            return; // skip if JS_POST_PROCESS_FILE env variable is not defined
         }
 
         // only process files with js extension
         if ("js".equals(FilenameUtils.getExtension(file.toString()))) {
-            String command = jsBeautifyPath + " -r -f " + file.toString();
+            String command = jsPostProcessFile + " " + file.toString();
             try {
                 Process p = Runtime.getRuntime().exec(command);
                 p.waitFor();
-                if (p.exitValue() != 0) {
-                    LOGGER.error("Error running the command ({}): {}", command, p.exitValue());
+                int exitValue = p.exitValue();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 }
+                LOGGER.info("Successfully executed: " + command);
             } catch (Exception e) {
-                LOGGER.error("Error running the command ({}): {}", command, e.getMessage());
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
-            LOGGER.info("Successfully executed: " + command);
         }
     }
-
 }

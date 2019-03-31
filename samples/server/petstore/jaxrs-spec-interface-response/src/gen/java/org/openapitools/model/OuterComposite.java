@@ -17,9 +17,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class OuterComposite  implements Serializable {
   
-  private @Valid BigDecimal myNumber = null;
-  private @Valid String myString = null;
-  private @Valid Boolean myBoolean = null;
+  private @Valid BigDecimal myNumber;
+  private @Valid String myString;
+  private @Valid Boolean myBoolean;
 
   /**
    **/

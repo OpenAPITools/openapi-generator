@@ -14,9 +14,15 @@
 from __future__ import absolute_import
 
 # import models into model package
+from petstore_api.models.additional_properties_any_type import AdditionalPropertiesAnyType
+from petstore_api.models.additional_properties_array import AdditionalPropertiesArray
+from petstore_api.models.additional_properties_boolean import AdditionalPropertiesBoolean
 from petstore_api.models.additional_properties_class import AdditionalPropertiesClass
+from petstore_api.models.additional_properties_integer import AdditionalPropertiesInteger
+from petstore_api.models.additional_properties_number import AdditionalPropertiesNumber
+from petstore_api.models.additional_properties_object import AdditionalPropertiesObject
+from petstore_api.models.additional_properties_string import AdditionalPropertiesString
 from petstore_api.models.animal import Animal
-from petstore_api.models.animal_farm import AnimalFarm
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
@@ -47,6 +53,8 @@ from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.pet import Pet
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.special_model_name import SpecialModelName
-from petstore_api.models.string_boolean_map import StringBooleanMap
 from petstore_api.models.tag import Tag
+from petstore_api.models.type_holder_default import TypeHolderDefault
+from petstore_api.models.type_holder_example import TypeHolderExample
 from petstore_api.models.user import User
+from petstore_api.models.xml_item import XmlItem

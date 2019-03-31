@@ -2,6 +2,7 @@ package org.openapitools.client;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.ParameterizedTypeReference;
@@ -58,6 +59,7 @@ import java.util.TimeZone;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
@@ -88,16 +90,21 @@ public class ApiClient {
 
     public ApiClient() {
         this.dateFormat = createDefaultDateFormat();
-        this.webClient = buildWebClient(new ObjectMapper(), dateFormat);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setDateFormat(dateFormat);
+        mapper.registerModule(new JavaTimeModule());
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        this.webClient = buildWebClient(mapper);
         this.init();
     }
 
     public ApiClient(ObjectMapper mapper, DateFormat format) {
-        this(buildWebClient(mapper.copy(), format), format);
+        this(buildWebClient(mapper.copy()), format);
     }
 
     public ApiClient(WebClient webClient, ObjectMapper mapper, DateFormat format) {
-        this(Optional.ofNullable(webClient).orElseGet(() ->buildWebClient(mapper.copy(), format)), format);
+        this(Optional.ofNullable(webClient).orElseGet(() ->buildWebClient(mapper.copy())), format);
     }
 
     private ApiClient(WebClient webClient, DateFormat format) {
@@ -127,9 +134,7 @@ public class ApiClient {
     * Build the RestTemplate used to make HTTP requests.
     * @return RestTemplate
     */
-    public static WebClient buildWebClient(ObjectMapper mapper, DateFormat dateFormat) {
-        mapper.setDateFormat(dateFormat);
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    public static WebClient buildWebClient(ObjectMapper mapper) {
         ExchangeStrategies strategies = ExchangeStrategies
             .builder()
             .codecs(clientDefaultCodecsConfigurer -> {
@@ -175,6 +180,20 @@ public class ApiClient {
      */
     public Authentication getAuthentication(String authName) {
         return authentications.get(authName);
+    }
+
+    /**
+     * Helper method to set access token for the first Bearer authentication.
+     * @param bearerToken Bearer token
+     */
+    public void setBearerToken(String bearerToken) {
+        for (Authentication auth : authentications.values()) {
+            if (auth instanceof HttpBearerAuth) {
+                ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+                return;
+            }
+        }
+        throw new RuntimeException("No Bearer authentication configured!");
     }
 
     /**
@@ -471,22 +490,7 @@ public class ApiClient {
      */
     public <T> Mono<T> invokeAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames);
-
-        return requestBuilder.exchange()
-            .flatMap(response -> {
-                HttpStatus statusCode = response.statusCode();
-                if (response.statusCode() == HttpStatus.NO_CONTENT) {
-                    return Mono.empty();
-                } else if (statusCode.is2xxSuccessful()) {
-                    if (returnType == null) {
-                        return Mono.empty();
-                    } else {
-                        return response.bodyToMono(returnType);
-                    }
-                } else {
-                    return Mono.error(new RestClientException("API returned " + statusCode + " and it wasn't handled by the RestTemplate error handler"));
-                }
-        });
+        return requestBuilder.retrieve().bodyToMono(returnType);
     }
 
     /**
@@ -507,23 +511,7 @@ public class ApiClient {
      */
     public <T> Flux<T> invokeFluxAPI(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         final WebClient.RequestBodySpec requestBuilder = prepareRequest(path, method, queryParams, body, headerParams, formParams, accept, contentType, authNames);
-
-        return requestBuilder.exchange()
-            .flatMapMany(response -> {
-                HttpStatus statusCode = response.statusCode();
-                ClientResponse.Headers headers = response.headers();
-                if (response.statusCode() == HttpStatus.NO_CONTENT) {
-                    return Flux.empty();
-                } else if (statusCode.is2xxSuccessful()) {
-                    if (returnType == null) {
-                        return Flux.empty();
-                    } else {
-                        return response.bodyToFlux(returnType);
-                    }
-                } else {
-                    return Flux.error(new RestClientException("API returned " + statusCode + " and it wasn't handled by the RestTemplate error handler"));
-                }
-            });
+        return requestBuilder.retrieve().bodyToFlux(returnType);
     }
 
     private WebClient.RequestBodySpec prepareRequest(String path, HttpMethod method, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames) {

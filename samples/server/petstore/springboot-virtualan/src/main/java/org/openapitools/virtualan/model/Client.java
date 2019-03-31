@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -14,7 +15,7 @@ import javax.validation.constraints.*;
 
 public class Client   {
   @JsonProperty("client")
-  private String client = null;
+  private String client;
 
   public Client client(String client) {
     this.client = client;
@@ -24,7 +25,7 @@ public class Client   {
   /**
    * Get client
    * @return client
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

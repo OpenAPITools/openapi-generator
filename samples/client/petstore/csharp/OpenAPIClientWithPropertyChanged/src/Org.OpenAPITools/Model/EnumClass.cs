@@ -34,24 +34,24 @@ namespace Org.OpenAPITools.Model
     
     public enum EnumClass
     {
-        
         /// <summary>
         /// Enum Abc for value: _abc
         /// </summary>
         [EnumMember(Value = "_abc")]
         Abc = 1,
-        
+
         /// <summary>
         /// Enum Efg for value: -efg
         /// </summary>
         [EnumMember(Value = "-efg")]
         Efg = 2,
-        
+
         /// <summary>
         /// Enum Xyz for value: (xyz)
         /// </summary>
         [EnumMember(Value = "(xyz)")]
         Xyz = 3
+
     }
 
 }

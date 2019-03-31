@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// Animal
     /// </summary>
     [DataContract]
-    [JsonConverter(typeof(JsonSubtypes), "className")]
+    [JsonConverter(typeof(JsonSubtypes), "ClassName")]
     [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
     [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
     public partial class Animal :  IEquatable<Animal>, IValidatableObject
@@ -55,6 +55,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.ClassName = className;
             }
+            
             // use default value if no "color" provided
             if (color == null)
             {

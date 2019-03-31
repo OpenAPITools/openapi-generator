@@ -12,12 +12,12 @@
 fileprivate final class AnonymousDisposable : DisposeBase, Cancelable {
     public typealias DisposeAction = () -> Void
 
-    private var _isDisposed: AtomicInt = 0
+    private var _isDisposed = AtomicInt(0)
     private var _disposeAction: DisposeAction?
 
     /// - returns: Was resource disposed.
     public var isDisposed: Bool {
-        return _isDisposed == 1
+        return _isDisposed.isFlagSet(1)
     }
 
     /// Constructs a new disposable with the given action used for disposal.
@@ -38,8 +38,8 @@ fileprivate final class AnonymousDisposable : DisposeBase, Cancelable {
     ///
     /// After invoking disposal action, disposal action will be dereferenced.
     fileprivate func dispose() {
-        if AtomicCompareAndSwap(0, 1, &_isDisposed) {
-            assert(_isDisposed == 1)
+        if _isDisposed.fetchOr(1) == 0 {
+            assert(_isDisposed.load() == 1)
 
             if let action = _disposeAction {
                 _disposeAction = nil

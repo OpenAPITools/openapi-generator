@@ -21,13 +21,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ModelApiResponse  {
   
   @ApiModelProperty(value = "")
-  private Integer code = null;
+  private Integer code;
 
   @ApiModelProperty(value = "")
-  private String type = null;
+  private String type;
 
   @ApiModelProperty(value = "")
-  private String message = null;
+  private String message;
  /**
    * Get code
    * @return code

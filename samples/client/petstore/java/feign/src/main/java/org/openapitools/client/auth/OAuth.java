@@ -19,7 +19,6 @@ import org.apache.oltu.oauth2.common.message.types.GrantType;
 import org.apache.oltu.oauth2.common.token.BasicOAuthToken;
 
 import feign.Client;
-import feign.Request.HttpMethod;
 import feign.Request.Options;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
@@ -93,7 +92,7 @@ public class OAuth implements RequestInterceptor {
         try {
             accessTokenResponse = oauthClient.accessToken(tokenRequestBuilder.buildBodyMessage());
         } catch (Exception e) {
-            throw new RetryableException(e.getMessage(), HttpMethod.POST, e, null);
+            throw new RetryableException(e.getMessage(), e,null);
         }
         if (accessTokenResponse != null && accessTokenResponse.getAccessToken() != null) {
             setAccessToken(accessTokenResponse.getAccessToken(), accessTokenResponse.getExpiresIn());

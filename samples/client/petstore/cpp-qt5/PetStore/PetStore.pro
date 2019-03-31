@@ -19,6 +19,10 @@ TEMPLATE = app
 include(../client/client.pri)
 
 SOURCES += main.cpp \
-	PetApiTests.cpp
+	PetApiTests.cpp \
+        StoreApiTests.cpp \
+        UserApiTests.cpp
 
-HEADERS += PetApiTests.h
+HEADERS += PetApiTests.h \
+           StoreApiTests.h \
+           UserApiTests.h

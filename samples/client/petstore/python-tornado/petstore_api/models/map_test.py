@@ -34,7 +34,7 @@ class MapTest(object):
         'map_map_of_string': 'dict(str, dict(str, str))',
         'map_of_enum_string': 'dict(str, str)',
         'direct_map': 'dict(str, bool)',
-        'indirect_map': 'StringBooleanMap'
+        'indirect_map': 'dict(str, bool)'
     }
 
     attribute_map = {
@@ -138,7 +138,7 @@ class MapTest(object):
 
 
         :return: The indirect_map of this MapTest.  # noqa: E501
-        :rtype: StringBooleanMap
+        :rtype: dict(str, bool)
         """
         return self._indirect_map
 
@@ -148,7 +148,7 @@ class MapTest(object):
 
 
         :param indirect_map: The indirect_map of this MapTest.  # noqa: E501
-        :type: StringBooleanMap
+        :type: dict(str, bool)
         """
 
         self._indirect_map = indirect_map

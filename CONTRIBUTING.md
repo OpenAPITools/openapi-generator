@@ -12,6 +12,7 @@
 
  - Search the [open issue](https://github.com/openapitools/openapi-generator/issues) to ensure no one else has reported something similar and no one is actively working on similar proposed change.
  - If no one has suggested something similar, open an ["issue"](https://github.com/openapitools/openapi-generator/issues) with your suggestion to gather feedback from the community.
+ - If you're adding a new option to a generator, please consider using the `-t` option with customized templates instead or start a discussion first by opening an issue as we want to avoid adding too many options to the generator.
  - It's recommended to **create a new git branch** for the change so that the merge commit message looks nicer in the commit history.
 
 ## How to contribute
@@ -82,10 +83,11 @@ For [Vendor Extensions](https://github.com/OAI/OpenAPI-Specification/blob/master
 To add test cases (optional) covering the change in the code generator, please refer to [modules/openapi-generator/src/test/java/org/openapitools/codegen](https://github.com/openapitools/openapi-generator/tree/master/modules/openapi-generator/src/test/java/org/openapitools/codegen)
 
 To test the templates, please perform the following:
-- Update the Petstore sample by running the shell script under `bin` folder. For example, run `./bin/ruby-petstore.sh` to update the Ruby PetStore API client under [`samples/client/petstore/ruby`](https://github.com/openapitools/openapi-generator/tree/master/samples/client/petstore/ruby) For Windows, the batch files can be found under `bin\windows` folder. (If you find that there are new files generated or unexpected changes as a result of the update, that's not unusual as the test cases are added to the OpenAPI spec from time to time. If you've questions or concerns, please open a ticket to start a discussion)
+- Update the Petstore sample by running the shell script under `bin` folder. For example, run `./bin/ruby-client-petstore.sh` to update the Ruby PetStore API client under [`samples/client/petstore/ruby`](https://github.com/openapitools/openapi-generator/tree/master/samples/client/petstore/ruby) For Windows, the batch files can be found under `bin\windows` folder. (If you find that there are new files generated or unexpected changes as a result of the update, that's not unusual as the test cases are added to the OpenAPI spec from time to time. If you've questions or concerns, please open a ticket to start a discussion)
 - Run the tests in the sample folder, e.g. in `samples/client/petstore/ruby`, run `mvn integration-test -rf :RubyPetstoreClientTests`. (some languages may not contain unit testing for Petstore and we're looking for contribution from the community to implement those tests)
 - Finally, git commit the updated samples files: `git commit -a`
   (`git add -A` if added files with new test cases)
+- For new test cases, please add to the [Fake Petstore spec](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml)
 
 To start the CI tests, you can run `mvn verify -Psamples` (assuming you've all the required tools installed to run tests for different languages) or you can leverage http://travis-ci.org to run the CI tests by adding your own openapi-generator repository.
 

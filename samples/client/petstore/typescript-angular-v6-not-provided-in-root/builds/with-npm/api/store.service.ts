@@ -75,7 +75,7 @@ export class StoreService {
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected !== undefined) {
@@ -110,12 +110,12 @@ export class StoreService {
         let headers = this.defaultHeaders;
 
         // authentication (api_key) required
-        if (this.configuration.apiKeys["api_key"]) {
+        if (this.configuration.apiKeys && this.configuration.apiKeys["api_key"]) {
             headers = headers.set('api_key', this.configuration.apiKeys["api_key"]);
         }
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
             'application/json'
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
@@ -155,7 +155,7 @@ export class StoreService {
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
             'application/xml',
             'application/json'
         ];
@@ -181,22 +181,22 @@ export class StoreService {
     /**
      * Place an order for a pet
      * 
-     * @param order order placed for purchasing the pet
+     * @param body order placed for purchasing the pet
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public placeOrder(order: Order, observe?: 'body', reportProgress?: boolean): Observable<Order>;
-    public placeOrder(order: Order, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Order>>;
-    public placeOrder(order: Order, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Order>>;
-    public placeOrder(order: Order, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (order === null || order === undefined) {
-            throw new Error('Required parameter order was null or undefined when calling placeOrder.');
+    public placeOrder(body: Order, observe?: 'body', reportProgress?: boolean): Observable<Order>;
+    public placeOrder(body: Order, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Order>>;
+    public placeOrder(body: Order, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Order>>;
+    public placeOrder(body: Order, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling placeOrder.');
         }
 
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
-        let httpHeaderAccepts: string[] = [
+        const httpHeaderAccepts: string[] = [
             'application/xml',
             'application/json'
         ];
@@ -214,7 +214,7 @@ export class StoreService {
         }
 
         return this.httpClient.post<Order>(`${this.configuration.basePath}/store/order`,
-            order,
+            body,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

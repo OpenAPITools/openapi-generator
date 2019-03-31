@@ -51,13 +51,14 @@ import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+
 # create an instance of the API class
 api_instance = petstore_api.AnotherFakeApi(petstore_api.ApiClient(configuration))
-client = petstore_api.Client() # Client | client model
+body = petstore_api.Client() # Client | client model
 
 try:
     # To test special tags
-    api_response = api_instance.call_123_test_special_tags(client)
+    api_response = api_instance.call_123_test_special_tags(body)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
@@ -71,6 +72,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+*FakeApi* | [**create_xml_item**](docs/FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
 *FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -80,6 +82,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**test_enum_parameters**](docs/FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
+*FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -108,9 +111,15 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
+ - [AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
+ - [AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
+ - [AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
+ - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
+ - [AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [Animal](docs/Animal.md)
- - [AnimalFarm](docs/AnimalFarm.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -141,9 +150,11 @@ Class | Method | HTTP request | Description
  - [Pet](docs/Pet.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SpecialModelName](docs/SpecialModelName.md)
- - [StringBooleanMap](docs/StringBooleanMap.md)
  - [Tag](docs/Tag.md)
+ - [TypeHolderDefault](docs/TypeHolderDefault.md)
+ - [TypeHolderExample](docs/TypeHolderExample.md)
  - [User](docs/User.md)
+ - [XmlItem](docs/XmlItem.md)
 
 
 ## Documentation For Authorization
@@ -155,15 +166,18 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
+
 ## api_key_query
 
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
+
 ## http_basic_test
 
 - **Type**: HTTP basic authentication
+
 
 ## petstore_auth
 

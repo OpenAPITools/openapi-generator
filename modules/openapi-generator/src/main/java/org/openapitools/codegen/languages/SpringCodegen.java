@@ -22,36 +22,25 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import org.apache.commons.lang3.tuple.Pair;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenResponse;
-import org.openapitools.codegen.CodegenSecurity;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
+import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class SpringCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, OptionalFeatures {
+        implements BeanValidationFeatures, PerformBeanValidationFeatures,
+        OptionalFeatures {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
 
     public static final String TITLE = "title";
@@ -74,6 +63,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String IMPLICIT_HEADERS = "implicitHeaders";
     public static final String OPENAPI_DOCKET_CONFIG = "swaggerDocketConfig";
     public static final String API_FIRST = "apiFirst";
+    public static final String HATEOAS = "hateoas";
+    public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
 
     protected String title = "OpenAPI Spring";
     protected String configPackage = "org.openapitools.configuration";
@@ -88,11 +79,14 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected String responseWrapper = "";
     protected boolean useTags = false;
     protected boolean useBeanValidation = true;
+    protected boolean performBeanValidation = false;
     protected boolean implicitHeaders = false;
     protected boolean openapiDocketConfig = false;
     protected boolean apiFirst = false;
     protected boolean useOptional = false;
     protected boolean virtualService = false;
+    protected boolean hateoas = false;
+    protected boolean returnSuccessCode = false;
 
     public SpringCodegen() {
         super();
@@ -120,10 +114,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(VIRTUAL_SERVICE, "Generates the virtual service. For more details refer - https://github.com/elan-venture/virtualan/wiki"));
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames", useTags));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
+        cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Use of @ApiImplicitParams for headers.", implicitHeaders));
         cliOptions.add(CliOption.newBoolean(OPENAPI_DOCKET_CONFIG, "Generate Spring OpenAPI Docket configuration class.", openapiDocketConfig));
         cliOptions.add(CliOption.newBoolean(API_FIRST, "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
         cliOptions.add(CliOption.newBoolean(USE_OPTIONAL,"Use Optional container for optional parameters", useOptional));
+        cliOptions.add(CliOption.newBoolean(HATEOAS, "Use Spring HATEOAS library to allow adding HATEOAS links", hateoas));
+        cliOptions.add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
 
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
@@ -221,6 +218,8 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(ASYNC)) {
             this.setAsync(Boolean.valueOf(additionalProperties.get(ASYNC).toString()));
+            //fix for issue/1164
+            convertPropertyToBooleanAndWriteBack(ASYNC);
         }
 
         if (additionalProperties.containsKey(REACTIVE)) {
@@ -243,6 +242,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
+        if (additionalProperties.containsKey(PERFORM_BEANVALIDATION)) {
+            this.setPerformBeanValidation(convertPropertyToBoolean(PERFORM_BEANVALIDATION));
+        }
+        writePropertyBack(PERFORM_BEANVALIDATION, performBeanValidation);
+
         if (additionalProperties.containsKey(USE_OPTIONAL)) {
             this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));
         }
@@ -257,6 +261,14 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(API_FIRST)) {
             this.setApiFirst(Boolean.valueOf(additionalProperties.get(API_FIRST).toString()));
+        }
+        
+        if (additionalProperties.containsKey(HATEOAS)) {
+            this.setHateoas(Boolean.valueOf(additionalProperties.get(HATEOAS).toString()));
+        }
+
+        if (additionalProperties.containsKey(RETURN_SUCCESS_CODE)) {
+            this.setReturnSuccessCode(Boolean.valueOf(additionalProperties.get(RETURN_SUCCESS_CODE).toString()));
         }
 
         typeMapping.put("file", "Resource");
@@ -453,7 +465,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                     title = title.substring(0, title.length() - 3);
                 }
 
-                this.title = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(title), true);
+                this.title = camelize(sanitizeName(title), true);
             }
             additionalProperties.put(TITLE, this.title);
         }
@@ -603,7 +615,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             List<CodegenSecurity> authMethods = (List<CodegenSecurity>) objs.get("authMethods");
             if (authMethods != null) {
                 for (CodegenSecurity authMethod : authMethods) {
-                    authMethod.name = org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(authMethod.name), true);
+                    authMethod.name = camelize(sanitizeName(authMethod.name), true);
                 }
             }
         }
@@ -616,7 +628,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             return "DefaultApi";
         }
         name = sanitizeName(name);
-        return org.openapitools.codegen.utils.StringUtils.camelize(name) + "Api";
+        return camelize(name) + "Api";
     }
 
     @Override
@@ -698,6 +710,14 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void setApiFirst(boolean apiFirst) {
         this.apiFirst = apiFirst;
     }
+    
+    public void setHateoas(boolean hateoas) {
+        this.hateoas = hateoas;
+    }
+
+    public void setReturnSuccessCode(boolean returnSuccessCode) {
+        this.returnSuccessCode = returnSuccessCode;
+    }
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
@@ -746,6 +766,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
+    }
+
+    public void setPerformBeanValidation(boolean performBeanValidation) {
+        this.performBeanValidation = performBeanValidation;
     }
 
     @Override

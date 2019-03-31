@@ -26,6 +26,7 @@ import tornado.gen
 from petstore_api.configuration import Configuration
 import petstore_api.models
 from petstore_api import rest
+from petstore_api.exceptions import ApiValueError
 
 
 class ApiClient(object):
@@ -46,6 +47,8 @@ class ApiClient(object):
         the API.
     :param cookie: a cookie to include in the header when making calls
         to the API
+    :param pool_threads: The number of threads to use for async requests
+        to the API. More threads means more concurrent API requests.
     """
 
     PRIMITIVE_TYPES = (float, bool, bytes, six.text_type) + six.integer_types
@@ -59,14 +62,15 @@ class ApiClient(object):
         'datetime': datetime.datetime,
         'object': object,
     }
+    _pool = None
 
     def __init__(self, configuration=None, header_name=None, header_value=None,
-                 cookie=None):
+                 cookie=None, pool_threads=1):
         if configuration is None:
             configuration = Configuration()
         self.configuration = configuration
+        self.pool_threads = pool_threads
 
-        self.pool = ThreadPool()
         self.rest_client = rest.RESTClientObject(configuration)
         self.default_headers = {}
         if header_name is not None:
@@ -76,8 +80,19 @@ class ApiClient(object):
         self.user_agent = 'OpenAPI-Generator/1.0.0/python'
 
     def __del__(self):
-        self.pool.close()
-        self.pool.join()
+        if self._pool:
+            self._pool.close()
+            self._pool.join()
+            self._pool = None
+
+    @property
+    def pool(self):
+        """Create thread pool on first request
+         avoids instantiating unused threadpool for blocking clients.
+        """
+        if self._pool is None:
+            self._pool = ThreadPool(self.pool_threads)
+        return self._pool
 
     @property
     def user_agent(self):
@@ -97,7 +112,7 @@ class ApiClient(object):
             query_params=None, header_params=None, body=None, post_params=None,
             files=None, response_type=None, auth_settings=None,
             _return_http_data_only=None, collection_formats=None,
-            _preload_content=True, _request_timeout=None):
+            _preload_content=True, _request_timeout=None, _host=None):
 
         config = self.configuration
 
@@ -144,7 +159,11 @@ class ApiClient(object):
             body = self.sanitize_for_serialization(body)
 
         # request url
-        url = self.configuration.host + resource_path
+        if _host is None:
+            url = self.configuration.host + resource_path
+        else:
+            # use server/host defined in path or operation instead
+            url = _host + resource_path
 
         # perform request and return response
         response_data = yield self.request(
@@ -246,12 +265,12 @@ class ApiClient(object):
 
         if type(klass) == str:
             if klass.startswith('list['):
-                sub_kls = re.match('list\[(.*)\]', klass).group(1)
+                sub_kls = re.match(r'list\[(.*)\]', klass).group(1)
                 return [self.__deserialize(sub_data, sub_kls)
                         for sub_data in data]
 
             if klass.startswith('dict('):
-                sub_kls = re.match('dict\(([^,]*), (.*)\)', klass).group(2)
+                sub_kls = re.match(r'dict\(([^,]*), (.*)\)', klass).group(2)
                 return {k: self.__deserialize(v, sub_kls)
                         for k, v in six.iteritems(data)}
 
@@ -277,7 +296,7 @@ class ApiClient(object):
                  body=None, post_params=None, files=None,
                  response_type=None, auth_settings=None, async_req=None,
                  _return_http_data_only=None, collection_formats=None,
-                 _preload_content=True, _request_timeout=None):
+                 _preload_content=True, _request_timeout=None, _host=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
 
         To make an async_req request, set the async_req parameter.
@@ -320,7 +339,7 @@ class ApiClient(object):
                                    body, post_params, files,
                                    response_type, auth_settings,
                                    _return_http_data_only, collection_formats,
-                                   _preload_content, _request_timeout)
+                                   _preload_content, _request_timeout, _host)
         else:
             thread = self.pool.apply_async(self.__call_api, (resource_path,
                                            method, path_params, query_params,
@@ -329,7 +348,9 @@ class ApiClient(object):
                                            response_type, auth_settings,
                                            _return_http_data_only,
                                            collection_formats,
-                                           _preload_content, _request_timeout))
+                                           _preload_content,
+                                           _request_timeout,
+                                           _host))
         return thread
 
     def request(self, method, url, query_params=None, headers=None,
@@ -388,7 +409,7 @@ class ApiClient(object):
                                            _request_timeout=_request_timeout,
                                            body=body)
         else:
-            raise ValueError(
+            raise ApiValueError(
                 "http method must be `GET`, `HEAD`, `OPTIONS`,"
                 " `POST`, `PATCH`, `PUT` or `DELETE`."
             )
@@ -498,12 +519,14 @@ class ApiClient(object):
             if auth_setting:
                 if not auth_setting['value']:
                     continue
+                elif auth_setting['in'] == 'cookie':
+                    headers['Cookie'] = auth_setting['value']
                 elif auth_setting['in'] == 'header':
                     headers[auth_setting['key']] = auth_setting['value']
                 elif auth_setting['in'] == 'query':
                     querys.append((auth_setting['key'], auth_setting['value']))
                 else:
-                    raise ValueError(
+                    raise ApiValueError(
                         'Authentication token must be in `query` or `header`'
                     )
 

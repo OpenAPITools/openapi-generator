@@ -13,9 +13,15 @@
 
 
 import ApiClient from './ApiClient';
+import AdditionalPropertiesAnyType from './model/AdditionalPropertiesAnyType';
+import AdditionalPropertiesArray from './model/AdditionalPropertiesArray';
+import AdditionalPropertiesBoolean from './model/AdditionalPropertiesBoolean';
 import AdditionalPropertiesClass from './model/AdditionalPropertiesClass';
+import AdditionalPropertiesInteger from './model/AdditionalPropertiesInteger';
+import AdditionalPropertiesNumber from './model/AdditionalPropertiesNumber';
+import AdditionalPropertiesObject from './model/AdditionalPropertiesObject';
+import AdditionalPropertiesString from './model/AdditionalPropertiesString';
 import Animal from './model/Animal';
-import AnimalFarm from './model/AnimalFarm';
 import ApiResponse from './model/ApiResponse';
 import ArrayOfArrayOfNumberOnly from './model/ArrayOfArrayOfNumberOnly';
 import ArrayOfNumberOnly from './model/ArrayOfNumberOnly';
@@ -46,9 +52,11 @@ import OuterEnum from './model/OuterEnum';
 import Pet from './model/Pet';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
 import SpecialModelName from './model/SpecialModelName';
-import StringBooleanMap from './model/StringBooleanMap';
 import Tag from './model/Tag';
+import TypeHolderDefault from './model/TypeHolderDefault';
+import TypeHolderExample from './model/TypeHolderExample';
 import User from './model/User';
+import XmlItem from './model/XmlItem';
 import AnotherFakeApi from './api/AnotherFakeApi';
 import FakeApi from './api/FakeApi';
 import FakeClassnameTags123Api from './api/FakeClassnameTags123Api';
@@ -58,7 +66,7 @@ import UserApi from './api/UserApi';
 
 
 /**
-* This_spec_is_mainly_for_testing_Petstore_server_and_contains_fake_endpoints_models__Please_do_not_use_this_for_any_other_purpose__Special_characters__.<br>
+* This_spec_is_mainly_for_testing_Petstore_server_and_contains_fake_endpoints_models__Please_do_not_use_this_for_any_other_purpose__Special_characters___.<br>
 * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
 * <p>
 * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
@@ -96,22 +104,58 @@ export {
     ApiClient,
 
     /**
+     * The AdditionalPropertiesAnyType model constructor.
+     * @property {module:model/AdditionalPropertiesAnyType}
+     */
+    AdditionalPropertiesAnyType,
+
+    /**
+     * The AdditionalPropertiesArray model constructor.
+     * @property {module:model/AdditionalPropertiesArray}
+     */
+    AdditionalPropertiesArray,
+
+    /**
+     * The AdditionalPropertiesBoolean model constructor.
+     * @property {module:model/AdditionalPropertiesBoolean}
+     */
+    AdditionalPropertiesBoolean,
+
+    /**
      * The AdditionalPropertiesClass model constructor.
      * @property {module:model/AdditionalPropertiesClass}
      */
     AdditionalPropertiesClass,
 
     /**
+     * The AdditionalPropertiesInteger model constructor.
+     * @property {module:model/AdditionalPropertiesInteger}
+     */
+    AdditionalPropertiesInteger,
+
+    /**
+     * The AdditionalPropertiesNumber model constructor.
+     * @property {module:model/AdditionalPropertiesNumber}
+     */
+    AdditionalPropertiesNumber,
+
+    /**
+     * The AdditionalPropertiesObject model constructor.
+     * @property {module:model/AdditionalPropertiesObject}
+     */
+    AdditionalPropertiesObject,
+
+    /**
+     * The AdditionalPropertiesString model constructor.
+     * @property {module:model/AdditionalPropertiesString}
+     */
+    AdditionalPropertiesString,
+
+    /**
      * The Animal model constructor.
      * @property {module:model/Animal}
      */
     Animal,
-
-    /**
-     * The AnimalFarm model constructor.
-     * @property {module:model/AnimalFarm}
-     */
-    AnimalFarm,
 
     /**
      * The ApiResponse model constructor.
@@ -294,22 +338,34 @@ export {
     SpecialModelName,
 
     /**
-     * The StringBooleanMap model constructor.
-     * @property {module:model/StringBooleanMap}
-     */
-    StringBooleanMap,
-
-    /**
      * The Tag model constructor.
      * @property {module:model/Tag}
      */
     Tag,
 
     /**
+     * The TypeHolderDefault model constructor.
+     * @property {module:model/TypeHolderDefault}
+     */
+    TypeHolderDefault,
+
+    /**
+     * The TypeHolderExample model constructor.
+     * @property {module:model/TypeHolderExample}
+     */
+    TypeHolderExample,
+
+    /**
      * The User model constructor.
      * @property {module:model/User}
      */
     User,
+
+    /**
+     * The XmlItem model constructor.
+     * @property {module:model/XmlItem}
+     */
+    XmlItem,
 
     /**
     * The AnotherFakeApi service constructor.

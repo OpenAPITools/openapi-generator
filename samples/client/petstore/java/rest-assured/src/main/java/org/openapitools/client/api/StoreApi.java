@@ -340,11 +340,11 @@ public class StoreApi {
         }
 
          /**
-         * @param order (Order) order placed for purchasing the pet (required)
+         * @param body (Order) order placed for purchasing the pet (required)
          * @return operation
          */
-        public PlaceOrderOper body(Order order) {
-            reqSpec.setBody(order);
+        public PlaceOrderOper body(Order body) {
+            reqSpec.setBody(body);
             return this;
         }
 

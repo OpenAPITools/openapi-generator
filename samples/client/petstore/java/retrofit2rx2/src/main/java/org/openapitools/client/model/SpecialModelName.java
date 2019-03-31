@@ -31,7 +31,7 @@ import java.io.IOException;
 public class SpecialModelName {
   public static final String SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
-  private Long $specialPropertyName = null;
+  private Long $specialPropertyName;
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
@@ -74,7 +74,6 @@ public class SpecialModelName {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpecialModelName {\n");
-    
     sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
     sb.append("}");
     return sb.toString();

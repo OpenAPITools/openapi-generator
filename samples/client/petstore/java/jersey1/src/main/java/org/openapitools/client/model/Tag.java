@@ -27,10 +27,10 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class Tag {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("name")
-  private String name = null;
+  private String name;
 
   public Tag id(Long id) {
     this.id = id;
@@ -92,7 +92,6 @@ public class Tag {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Tag {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");

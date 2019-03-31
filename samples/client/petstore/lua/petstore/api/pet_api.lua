@@ -25,14 +25,16 @@ local pet_api_mt = {
 	__index = pet_api;
 }
 
-local function new_pet_api(host, basePath, schemes)
+local function new_pet_api(authority, basePath, schemes)
 	local schemes_map = {}
 	for _,v in ipairs(schemes) do
 		schemes_map[v] = v
 	end
 	local default_scheme = schemes_map.https or schemes_map.http
+	local host, port = http_util.split_authority(authority, default_scheme)
 	return setmetatable({
 		host = host;
+		port = port;
 		basePath = basePath or "http://petstore.swagger.io/v2";
 		schemes = schemes_map;
 		default_scheme = default_scheme;
@@ -47,6 +49,7 @@ function pet_api:add_pet(pet)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet",
 			self.basePath);
 	})
@@ -54,7 +57,6 @@ function pet_api:add_pet(pet)
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
 	-- TODO: create a function to select proper accept
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_content_type = { "application/json", "application/xml" }
 	req.headers:upsert("accept", "application/json")
 
@@ -88,6 +90,7 @@ function pet_api:delete_pet(pet_id, api_key)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet/%s",
 			self.basePath, pet_id);
 	})
@@ -125,6 +128,7 @@ function pet_api:find_pets_by_status(status)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet/findByStatus?status=%s",
 			self.basePath, http_util.encodeURIComponent(status));
 	})
@@ -132,7 +136,6 @@ function pet_api:find_pets_by_status(status)
 	-- set HTTP verb
 	req.headers:upsert(":method", "GET")
 	-- TODO: create a function to select proper content-type
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_accept = { "application/xml", "application/json" }
 	req.headers:upsert("content-type", "application/xml")
 
@@ -178,6 +181,7 @@ function pet_api:find_pets_by_tags(tags)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet/findByTags?tags=%s",
 			self.basePath, http_util.encodeURIComponent(tags));
 	})
@@ -185,7 +189,6 @@ function pet_api:find_pets_by_tags(tags)
 	-- set HTTP verb
 	req.headers:upsert(":method", "GET")
 	-- TODO: create a function to select proper content-type
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_accept = { "application/xml", "application/json" }
 	req.headers:upsert("content-type", "application/xml")
 
@@ -231,6 +234,7 @@ function pet_api:get_pet_by_id(pet_id)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet/%s",
 			self.basePath, pet_id);
 	})
@@ -238,7 +242,6 @@ function pet_api:get_pet_by_id(pet_id)
 	-- set HTTP verb
 	req.headers:upsert(":method", "GET")
 	-- TODO: create a function to select proper content-type
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_accept = { "application/xml", "application/json" }
 	req.headers:upsert("content-type", "application/xml")
 
@@ -281,6 +284,7 @@ function pet_api:update_pet(pet)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet",
 			self.basePath);
 	})
@@ -288,7 +292,6 @@ function pet_api:update_pet(pet)
 	-- set HTTP verb
 	req.headers:upsert(":method", "PUT")
 	-- TODO: create a function to select proper accept
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_content_type = { "application/json", "application/xml" }
 	req.headers:upsert("accept", "application/json")
 
@@ -322,6 +325,7 @@ function pet_api:update_pet_with_form(pet_id, name, status)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet/%s",
 			self.basePath, pet_id);
 	})
@@ -329,7 +333,6 @@ function pet_api:update_pet_with_form(pet_id, name, status)
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
 	-- TODO: create a function to select proper accept
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_content_type = { "application/x-www-form-urlencoded" }
 	req.headers:upsert("accept", "application/x-www-form-urlencoded")
 
@@ -365,6 +368,7 @@ function pet_api:upload_file(pet_id, additional_metadata, file)
 	local req = http_request.new_from_uri({
 		scheme = self.default_scheme;
 		host = self.host;
+		port = self.port;
 		path = string.format("%s/pet/%s/uploadImage",
 			self.basePath, pet_id);
 	})
@@ -372,12 +376,10 @@ function pet_api:upload_file(pet_id, additional_metadata, file)
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
 	-- TODO: create a function to select proper accept
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_content_type = { "multipart/form-data" }
 	req.headers:upsert("accept", "multipart/form-data")
 
 	-- TODO: create a function to select proper content-type
-	-- ref: https://openapi-generator.tech/pull/6252#issuecomment-321199879
 	--local var_accept = { "application/json" }
 	req.headers:upsert("content-type", "application/json")
 
@@ -423,4 +425,3 @@ end
 return {
 	new = new_pet_api;
 }
-

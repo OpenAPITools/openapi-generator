@@ -13,7 +13,6 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Order;
 import org.junit.Test;
 import org.junit.Ignore;
@@ -36,12 +35,9 @@ public class StoreApiTest {
      * Delete purchase order by ID
      *
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void deleteOrderTest() throws ApiException {
+    public void deleteOrderTest()  {
         String orderId = null;
         api.deleteOrder(orderId).block();
 
@@ -52,12 +48,9 @@ public class StoreApiTest {
      * Returns pet inventories by status
      *
      * Returns a map of status codes to quantities
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void getInventoryTest() throws ApiException {
+    public void getInventoryTest()  {
         Map<String, Integer> response = api.getInventory().block();
 
         // TODO: test validations
@@ -67,12 +60,9 @@ public class StoreApiTest {
      * Find purchase order by ID
      *
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void getOrderByIdTest() throws ApiException {
+    public void getOrderByIdTest()  {
         Long orderId = null;
         Order response = api.getOrderById(orderId).block();
 
@@ -83,12 +73,9 @@ public class StoreApiTest {
      * Place an order for a pet
      *
      * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
      */
     @Test
-    public void placeOrderTest() throws ApiException {
+    public void placeOrderTest()  {
         Order order = null;
         Order response = api.placeOrder(order).block();
 

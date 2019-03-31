@@ -31,43 +31,43 @@ import org.threeten.bp.OffsetDateTime;
 
 public class FormatTest {
   @JsonProperty("integer")
-  private Integer integer = null;
+  private Integer integer;
 
   @JsonProperty("int32")
-  private Integer int32 = null;
+  private Integer int32;
 
   @JsonProperty("int64")
-  private Long int64 = null;
+  private Long int64;
 
   @JsonProperty("number")
-  private BigDecimal number = null;
+  private BigDecimal number;
 
   @JsonProperty("float")
-  private Float _float = null;
+  private Float _float;
 
   @JsonProperty("double")
-  private Double _double = null;
+  private Double _double;
 
   @JsonProperty("string")
-  private String string = null;
+  private String string;
 
   @JsonProperty("byte")
-  private byte[] _byte = null;
+  private byte[] _byte;
 
   @JsonProperty("binary")
-  private File binary = null;
+  private File binary;
 
   @JsonProperty("date")
-  private LocalDate date = null;
+  private LocalDate date;
 
   @JsonProperty("dateTime")
-  private OffsetDateTime dateTime = null;
+  private OffsetDateTime dateTime;
 
   @JsonProperty("uuid")
-  private UUID uuid = null;
+  private UUID uuid;
 
   @JsonProperty("password")
-  private String password = null;
+  private String password;
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;
@@ -286,7 +286,7 @@ public class FormatTest {
    * Get uuid
    * @return uuid
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   public UUID getUuid() {
     return uuid;
   }
@@ -348,7 +348,6 @@ public class FormatTest {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FormatTest {\n");
-    
     sb.append("    integer: ").append(toIndentedString(integer)).append("\n");
     sb.append("    int32: ").append(toIndentedString(int32)).append("\n");
     sb.append("    int64: ").append(toIndentedString(int64)).append("\n");

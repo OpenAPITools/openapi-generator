@@ -34,7 +34,7 @@ import android.os.Parcel;
 public class Dog extends Animal implements Parcelable {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
-  private String breed = null;
+  private String breed;
 
   public Dog() {
     super();

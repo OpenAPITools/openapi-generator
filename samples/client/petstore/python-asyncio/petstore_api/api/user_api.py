@@ -18,6 +18,10 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
+from petstore_api.exceptions import (
+    ApiTypeError,
+    ApiValueError
+)
 
 
 class UserApi(object):
@@ -32,39 +36,39 @@ class UserApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def create_user(self, user, **kwargs):  # noqa: E501
+    def create_user(self, body, **kwargs):  # noqa: E501
         """Create user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_user(user, async_req=True)
+        >>> thread = api.create_user(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param User user: Created user object (required)
+        :param User body: Created user object (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.create_user_with_http_info(user, **kwargs)  # noqa: E501
+            return self.create_user_with_http_info(body, **kwargs)  # noqa: E501
         else:
-            (data) = self.create_user_with_http_info(user, **kwargs)  # noqa: E501
+            (data) = self.create_user_with_http_info(body, **kwargs)  # noqa: E501
             return data
 
-    def create_user_with_http_info(self, user, **kwargs):  # noqa: E501
+    def create_user_with_http_info(self, body, **kwargs):  # noqa: E501
         """Create user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_user_with_http_info(user, async_req=True)
+        >>> thread = api.create_user_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param User user: Created user object (required)
+        :param User body: Created user object (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -72,7 +76,7 @@ class UserApi(object):
 
         local_var_params = locals()
 
-        all_params = ['user']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -80,16 +84,16 @@ class UserApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method create_user" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'user' is set
-        if ('user' not in local_var_params or
-                local_var_params['user'] is None):
-            raise ValueError("Missing the required parameter `user` when calling `create_user`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ApiValueError("Missing the required parameter `body` when calling `create_user`")  # noqa: E501
 
         collection_formats = {}
 
@@ -103,8 +107,8 @@ class UserApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'user' in local_var_params:
-            body_params = local_var_params['user']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # Authentication setting
         auth_settings = []  # noqa: E501
 
@@ -124,37 +128,37 @@ class UserApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def create_users_with_array_input(self, user, **kwargs):  # noqa: E501
+    def create_users_with_array_input(self, body, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_users_with_array_input(user, async_req=True)
+        >>> thread = api.create_users_with_array_input(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param list[User] user: List of user object (required)
+        :param list[User] body: List of user object (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.create_users_with_array_input_with_http_info(user, **kwargs)  # noqa: E501
+            return self.create_users_with_array_input_with_http_info(body, **kwargs)  # noqa: E501
         else:
-            (data) = self.create_users_with_array_input_with_http_info(user, **kwargs)  # noqa: E501
+            (data) = self.create_users_with_array_input_with_http_info(body, **kwargs)  # noqa: E501
             return data
 
-    def create_users_with_array_input_with_http_info(self, user, **kwargs):  # noqa: E501
+    def create_users_with_array_input_with_http_info(self, body, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_users_with_array_input_with_http_info(user, async_req=True)
+        >>> thread = api.create_users_with_array_input_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param list[User] user: List of user object (required)
+        :param list[User] body: List of user object (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -162,7 +166,7 @@ class UserApi(object):
 
         local_var_params = locals()
 
-        all_params = ['user']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -170,16 +174,16 @@ class UserApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method create_users_with_array_input" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'user' is set
-        if ('user' not in local_var_params or
-                local_var_params['user'] is None):
-            raise ValueError("Missing the required parameter `user` when calling `create_users_with_array_input`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ApiValueError("Missing the required parameter `body` when calling `create_users_with_array_input`")  # noqa: E501
 
         collection_formats = {}
 
@@ -193,8 +197,8 @@ class UserApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'user' in local_var_params:
-            body_params = local_var_params['user']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # Authentication setting
         auth_settings = []  # noqa: E501
 
@@ -214,37 +218,37 @@ class UserApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def create_users_with_list_input(self, user, **kwargs):  # noqa: E501
+    def create_users_with_list_input(self, body, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_users_with_list_input(user, async_req=True)
+        >>> thread = api.create_users_with_list_input(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param list[User] user: List of user object (required)
+        :param list[User] body: List of user object (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.create_users_with_list_input_with_http_info(user, **kwargs)  # noqa: E501
+            return self.create_users_with_list_input_with_http_info(body, **kwargs)  # noqa: E501
         else:
-            (data) = self.create_users_with_list_input_with_http_info(user, **kwargs)  # noqa: E501
+            (data) = self.create_users_with_list_input_with_http_info(body, **kwargs)  # noqa: E501
             return data
 
-    def create_users_with_list_input_with_http_info(self, user, **kwargs):  # noqa: E501
+    def create_users_with_list_input_with_http_info(self, body, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.create_users_with_list_input_with_http_info(user, async_req=True)
+        >>> thread = api.create_users_with_list_input_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param list[User] user: List of user object (required)
+        :param list[User] body: List of user object (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -252,7 +256,7 @@ class UserApi(object):
 
         local_var_params = locals()
 
-        all_params = ['user']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -260,16 +264,16 @@ class UserApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method create_users_with_list_input" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'user' is set
-        if ('user' not in local_var_params or
-                local_var_params['user'] is None):
-            raise ValueError("Missing the required parameter `user` when calling `create_users_with_list_input`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ApiValueError("Missing the required parameter `body` when calling `create_users_with_list_input`")  # noqa: E501
 
         collection_formats = {}
 
@@ -283,8 +287,8 @@ class UserApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'user' in local_var_params:
-            body_params = local_var_params['user']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # Authentication setting
         auth_settings = []  # noqa: E501
 
@@ -352,7 +356,7 @@ class UserApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method delete_user" % key
                 )
@@ -361,7 +365,7 @@ class UserApi(object):
         # verify the required parameter 'username' is set
         if ('username' not in local_var_params or
                 local_var_params['username'] is None):
-            raise ValueError("Missing the required parameter `username` when calling `delete_user`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `username` when calling `delete_user`")  # noqa: E501
 
         collection_formats = {}
 
@@ -442,7 +446,7 @@ class UserApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method get_user_by_name" % key
                 )
@@ -451,7 +455,7 @@ class UserApi(object):
         # verify the required parameter 'username' is set
         if ('username' not in local_var_params or
                 local_var_params['username'] is None):
-            raise ValueError("Missing the required parameter `username` when calling `get_user_by_name`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `username` when calling `get_user_by_name`")  # noqa: E501
 
         collection_formats = {}
 
@@ -538,7 +542,7 @@ class UserApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method login_user" % key
                 )
@@ -547,11 +551,11 @@ class UserApi(object):
         # verify the required parameter 'username' is set
         if ('username' not in local_var_params or
                 local_var_params['username'] is None):
-            raise ValueError("Missing the required parameter `username` when calling `login_user`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `username` when calling `login_user`")  # noqa: E501
         # verify the required parameter 'password' is set
         if ('password' not in local_var_params or
                 local_var_params['password'] is None):
-            raise ValueError("Missing the required parameter `password` when calling `login_user`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `password` when calling `login_user`")  # noqa: E501
 
         collection_formats = {}
 
@@ -636,7 +640,7 @@ class UserApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method logout_user" % key
                 )
@@ -674,41 +678,41 @@ class UserApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def update_user(self, username, user, **kwargs):  # noqa: E501
+    def update_user(self, username, body, **kwargs):  # noqa: E501
         """Updated user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_user(username, user, async_req=True)
+        >>> thread = api.update_user(username, body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str username: name that need to be deleted (required)
-        :param User user: Updated user object (required)
+        :param User body: Updated user object (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.update_user_with_http_info(username, user, **kwargs)  # noqa: E501
+            return self.update_user_with_http_info(username, body, **kwargs)  # noqa: E501
         else:
-            (data) = self.update_user_with_http_info(username, user, **kwargs)  # noqa: E501
+            (data) = self.update_user_with_http_info(username, body, **kwargs)  # noqa: E501
             return data
 
-    def update_user_with_http_info(self, username, user, **kwargs):  # noqa: E501
+    def update_user_with_http_info(self, username, body, **kwargs):  # noqa: E501
         """Updated user  # noqa: E501
 
         This can only be done by the logged in user.  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_user_with_http_info(username, user, async_req=True)
+        >>> thread = api.update_user_with_http_info(username, body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
         :param str username: name that need to be deleted (required)
-        :param User user: Updated user object (required)
+        :param User body: Updated user object (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -716,7 +720,7 @@ class UserApi(object):
 
         local_var_params = locals()
 
-        all_params = ['username', 'user']  # noqa: E501
+        all_params = ['username', 'body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -724,7 +728,7 @@ class UserApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method update_user" % key
                 )
@@ -733,11 +737,11 @@ class UserApi(object):
         # verify the required parameter 'username' is set
         if ('username' not in local_var_params or
                 local_var_params['username'] is None):
-            raise ValueError("Missing the required parameter `username` when calling `update_user`")  # noqa: E501
-        # verify the required parameter 'user' is set
-        if ('user' not in local_var_params or
-                local_var_params['user'] is None):
-            raise ValueError("Missing the required parameter `user` when calling `update_user`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `username` when calling `update_user`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ApiValueError("Missing the required parameter `body` when calling `update_user`")  # noqa: E501
 
         collection_formats = {}
 
@@ -753,8 +757,8 @@ class UserApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'user' in local_var_params:
-            body_params = local_var_params['user']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # Authentication setting
         auth_settings = []  # noqa: E501
 

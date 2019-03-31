@@ -31,14 +31,14 @@ public:
 
 
 public slots:
-    virtual void createUser(OAIUser oai_user);
-    virtual void createUsersWithArrayInput(QList<OAIUser> oai_user);
-    virtual void createUsersWithListInput(QList<OAIUser> oai_user);
+    virtual void createUser(OAIUser body);
+    virtual void createUsersWithArrayInput(QList<OAIUser> body);
+    virtual void createUsersWithListInput(QList<OAIUser> body);
     virtual void deleteUser(QString username);
     virtual void getUserByName(QString username);
     virtual void loginUser(QString username, QString password);
     virtual void logoutUser();
-    virtual void updateUser(QString username, OAIUser oai_user);
+    virtual void updateUser(QString username, OAIUser body);
     
 
 };

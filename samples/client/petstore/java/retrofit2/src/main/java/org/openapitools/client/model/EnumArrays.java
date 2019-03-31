@@ -55,13 +55,13 @@ public class EnumArrays {
       return String.valueOf(value);
     }
 
-    public static JustSymbolEnum fromValue(String text) {
+    public static JustSymbolEnum fromValue(String value) {
       for (JustSymbolEnum b : JustSymbolEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<JustSymbolEnum> {
@@ -73,14 +73,14 @@ public class EnumArrays {
       @Override
       public JustSymbolEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return JustSymbolEnum.fromValue(String.valueOf(value));
+        return JustSymbolEnum.fromValue(value);
       }
     }
   }
 
   public static final String SERIALIZED_NAME_JUST_SYMBOL = "just_symbol";
   @SerializedName(SERIALIZED_NAME_JUST_SYMBOL)
-  private JustSymbolEnum justSymbol = null;
+  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -106,13 +106,13 @@ public class EnumArrays {
       return String.valueOf(value);
     }
 
-    public static ArrayEnumEnum fromValue(String text) {
+    public static ArrayEnumEnum fromValue(String value) {
       for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<ArrayEnumEnum> {
@@ -124,14 +124,14 @@ public class EnumArrays {
       @Override
       public ArrayEnumEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return ArrayEnumEnum.fromValue(String.valueOf(value));
+        return ArrayEnumEnum.fromValue(value);
       }
     }
   }
 
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
   @SerializedName(SERIALIZED_NAME_ARRAY_ENUM)
-  private List<ArrayEnumEnum> arrayEnum = null;
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<ArrayEnumEnum>();
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -201,7 +201,6 @@ public class EnumArrays {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EnumArrays {\n");
-    
     sb.append("    justSymbol: ").append(toIndentedString(justSymbol)).append("\n");
     sb.append("    arrayEnum: ").append(toIndentedString(arrayEnum)).append("\n");
     sb.append("}");

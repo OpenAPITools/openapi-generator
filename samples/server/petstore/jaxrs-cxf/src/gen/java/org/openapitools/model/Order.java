@@ -17,16 +17,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Order  {
   
   @ApiModelProperty(value = "")
-  private Long id = null;
+  private Long id;
 
   @ApiModelProperty(value = "")
-  private Long petId = null;
+  private Long petId;
 
   @ApiModelProperty(value = "")
-  private Integer quantity = null;
+  private Integer quantity;
 
   @ApiModelProperty(value = "")
-  private Date shipDate = null;
+  private Date shipDate;
 
 @XmlType(name="StatusEnum")
 @XmlEnum(String.class)
@@ -50,13 +50,13 @@ public enum StatusEnum {
         return String.valueOf(value);
     }
 
-    public static StatusEnum fromValue(String v) {
+    public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
@@ -64,7 +64,7 @@ public enum StatusEnum {
  /**
    * Order Status
   **/
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   @ApiModelProperty(value = "")
   private Boolean complete = false;

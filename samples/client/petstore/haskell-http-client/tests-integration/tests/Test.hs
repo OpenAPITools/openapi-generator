@@ -122,7 +122,7 @@ testPetOps mgr config =
         let updatePetRequest = S.updatePet (S.ContentType S.MimeJSON)
               (pet
                  { S.petStatus   = Just S.E'Status2'Available
-                 , S.petCategory = Just (S.Category (Just 3) (Just "catname"))
+                 , S.petCategory = Just (S.Category (Just 3) "catname")
                  })
         updatePetResponse <- S.dispatchLbs mgr config updatePetRequest 
         NH.responseStatus updatePetResponse `shouldBe` NH.status200
@@ -164,7 +164,6 @@ testPetOps mgr config =
 
 -- * STORE TESTS
   
-
 testStoreOps :: NH.Manager -> S.OpenAPIPetstoreConfig -> Spec
 testStoreOps mgr config = do
 
@@ -183,7 +182,7 @@ testStoreOps mgr config = do
 
     it "placeOrder" $ do
       now <- TI.getCurrentTime
-      let placeOrderRequest = S.placeOrder (S.Accept S.MimeJSON)
+      let placeOrderRequest = S.placeOrder (S.ContentType S.MimeJSON) (S.Accept S.MimeJSON)
             (S.mkOrder
              { S.orderId = Just 21
              , S.orderQuantity = Just 210
@@ -245,19 +244,19 @@ testUserOps mgr config = do
 
     before (pure _user) $
       it "createUser" $ \user -> do
-        let createUserRequest = S.createUser user
+        let createUserRequest = S.createUser (S.ContentType S.MimeJSON) user
         createUserResult <- S.dispatchLbs mgr config createUserRequest 
         NH.responseStatus createUserResult `shouldBe` NH.status200
 
     before (pure _users) $
       it "createUsersWithArrayInput" $ \users -> do
-        let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.User2 users)
+        let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.ContentType S.MimeJSON) (S.Body users)
         createUsersWithArrayInputResult <- S.dispatchLbs mgr config createUsersWithArrayInputRequest
         NH.responseStatus createUsersWithArrayInputResult `shouldBe` NH.status200
 
     before (pure _users) $
       it "createUsersWithListInput" $ \users -> do
-        let createUsersWithListInputRequest = S.createUsersWithListInput (S.User2 users)
+        let createUsersWithListInputRequest = S.createUsersWithListInput (S.ContentType S.MimeJSON) (S.Body users)
         createUsersWithListInputResult <- S.dispatchLbs mgr config createUsersWithListInputRequest 
         NH.responseStatus createUsersWithListInputResult `shouldBe` NH.status200
 
@@ -278,7 +277,7 @@ testUserOps mgr config = do
 
     before (pure (_username, _user)) $
       it "updateUser" $ \(username, user) -> do
-        let updateUserRequest = S.updateUser user (S.Username username) 
+        let updateUserRequest = S.updateUser (S.ContentType S.MimeJSON) user (S.Username username) 
         updateUserResult <- S.dispatchLbs mgr config updateUserRequest
         NH.responseStatus updateUserResult `shouldBe` NH.status200
 

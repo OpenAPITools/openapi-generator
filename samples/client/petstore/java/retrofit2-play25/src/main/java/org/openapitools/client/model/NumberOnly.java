@@ -30,7 +30,7 @@ import javax.validation.Valid;
 
 public class NumberOnly {
   @JsonProperty("JustNumber")
-  private BigDecimal justNumber = null;
+  private BigDecimal justNumber;
 
   public NumberOnly justNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
@@ -74,7 +74,6 @@ public class NumberOnly {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NumberOnly {\n");
-    
     sb.append("    justNumber: ").append(toIndentedString(justNumber)).append("\n");
     sb.append("}");
     return sb.toString();

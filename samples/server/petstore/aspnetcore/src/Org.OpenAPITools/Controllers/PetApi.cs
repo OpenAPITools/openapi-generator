@@ -11,6 +11,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
@@ -22,18 +23,18 @@ namespace Org.OpenAPITools.Controllers
     /// <summary>
     /// 
     /// </summary>
-    public class PetApiController : Controller
+    public  class PetApiController : ControllerBase
     { 
         /// <summary>
         /// Add a new pet to the store
         /// </summary>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <response code="405">Invalid input</response>
         [HttpPost]
         [Route("/v2/pet")]
         [ValidateModelState]
         [SwaggerOperation("AddPet")]
-        public virtual IActionResult AddPet([FromBody]Pet pet)
+        public virtual IActionResult AddPet([FromBody]Pet body)
         { 
             //TODO: Uncomment the next line to return response 405 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(405);
@@ -82,7 +83,7 @@ namespace Org.OpenAPITools.Controllers
             // return StatusCode(400);
 
             string exampleJson = null;
-            exampleJson = "{\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n}";
+            exampleJson = "{\r\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\r\n  \"name\" : \"doggie\",\r\n  \"id\" : 0,\r\n  \"category\" : {\r\n    \"name\" : \"name\",\r\n    \"id\" : 6\r\n  },\r\n  \"tags\" : [ {\r\n    \"name\" : \"name\",\r\n    \"id\" : 1\r\n  }, {\r\n    \"name\" : \"name\",\r\n    \"id\" : 1\r\n  } ],\r\n  \"status\" : \"available\"\r\n}";
             exampleJson = "<Pet>\n  <id>123456789</id>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n  </tags>\n  <status>aeiou</status>\n</Pet>";
             
             var example = exampleJson != null
@@ -113,7 +114,7 @@ namespace Org.OpenAPITools.Controllers
             // return StatusCode(400);
 
             string exampleJson = null;
-            exampleJson = "{\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n}";
+            exampleJson = "{\r\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\r\n  \"name\" : \"doggie\",\r\n  \"id\" : 0,\r\n  \"category\" : {\r\n    \"name\" : \"name\",\r\n    \"id\" : 6\r\n  },\r\n  \"tags\" : [ {\r\n    \"name\" : \"name\",\r\n    \"id\" : 1\r\n  }, {\r\n    \"name\" : \"name\",\r\n    \"id\" : 1\r\n  } ],\r\n  \"status\" : \"available\"\r\n}";
             exampleJson = "<Pet>\n  <id>123456789</id>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n  </tags>\n  <status>aeiou</status>\n</Pet>";
             
             var example = exampleJson != null
@@ -148,7 +149,7 @@ namespace Org.OpenAPITools.Controllers
             // return StatusCode(404);
 
             string exampleJson = null;
-            exampleJson = "{\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\n  \"name\" : \"doggie\",\n  \"id\" : 0,\n  \"category\" : {\n    \"name\" : \"name\",\n    \"id\" : 6\n  },\n  \"tags\" : [ {\n    \"name\" : \"name\",\n    \"id\" : 1\n  }, {\n    \"name\" : \"name\",\n    \"id\" : 1\n  } ],\n  \"status\" : \"available\"\n}";
+            exampleJson = "{\r\n  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],\r\n  \"name\" : \"doggie\",\r\n  \"id\" : 0,\r\n  \"category\" : {\r\n    \"name\" : \"name\",\r\n    \"id\" : 6\r\n  },\r\n  \"tags\" : [ {\r\n    \"name\" : \"name\",\r\n    \"id\" : 1\r\n  }, {\r\n    \"name\" : \"name\",\r\n    \"id\" : 1\r\n  } ],\r\n  \"status\" : \"available\"\r\n}";
             exampleJson = "<Pet>\n  <id>123456789</id>\n  <name>doggie</name>\n  <photoUrls>\n    <photoUrls>aeiou</photoUrls>\n  </photoUrls>\n  <tags>\n  </tags>\n  <status>aeiou</status>\n</Pet>";
             
             var example = exampleJson != null
@@ -161,7 +162,7 @@ namespace Org.OpenAPITools.Controllers
         /// <summary>
         /// Update an existing pet
         /// </summary>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
+        /// <param name="body">Pet object that needs to be added to the store</param>
         /// <response code="400">Invalid ID supplied</response>
         /// <response code="404">Pet not found</response>
         /// <response code="405">Validation exception</response>
@@ -169,7 +170,7 @@ namespace Org.OpenAPITools.Controllers
         [Route("/v2/pet")]
         [ValidateModelState]
         [SwaggerOperation("UpdatePet")]
-        public virtual IActionResult UpdatePet([FromBody]Pet pet)
+        public virtual IActionResult UpdatePet([FromBody]Pet body)
         { 
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400);
@@ -222,7 +223,7 @@ namespace Org.OpenAPITools.Controllers
             // return StatusCode(200, default(ApiResponse));
 
             string exampleJson = null;
-            exampleJson = "{\n  \"code\" : 0,\n  \"type\" : \"type\",\n  \"message\" : \"message\"\n}";
+            exampleJson = "{\r\n  \"code\" : 0,\r\n  \"type\" : \"type\",\r\n  \"message\" : \"message\"\r\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<ApiResponse>(exampleJson)

@@ -33,7 +33,6 @@ public:
     OAICategory();
     OAICategory(QString json);
     ~OAICategory() override;
-    void init();
 
     QString asJson () const override;
     QJsonObject asJsonObject() const override;
@@ -47,14 +46,16 @@ public:
     void setName(const QString &name);
 
     virtual bool isSet() const override;
+    virtual bool isValid() const override;
 
 private:
+    void init();
     qint64 id;
     bool m_id_isSet;
-
+    bool m_id_isValid;
     QString name;
     bool m_name_isSet;
-
+    bool m_name_isValid;
 };
 
 }

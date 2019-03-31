@@ -38,18 +38,18 @@ public enum EnumStringEnum {
         return String.valueOf(value);
     }
 
-    public static EnumStringEnum fromValue(String v) {
+    public static EnumStringEnum fromValue(String value) {
         for (EnumStringEnum b : EnumStringEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
   @ApiModelProperty(value = "")
-  private EnumStringEnum enumString = null;
+  private EnumStringEnum enumString;
 
 @XmlType(name="EnumStringRequiredEnum")
 @XmlEnum(String.class)
@@ -73,18 +73,18 @@ public enum EnumStringRequiredEnum {
         return String.valueOf(value);
     }
 
-    public static EnumStringRequiredEnum fromValue(String v) {
+    public static EnumStringRequiredEnum fromValue(String value) {
         for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
   @ApiModelProperty(required = true, value = "")
-  private EnumStringRequiredEnum enumStringRequired = null;
+  private EnumStringRequiredEnum enumStringRequired;
 
 @XmlType(name="EnumIntegerEnum")
 @XmlEnum(Integer.class)
@@ -108,18 +108,18 @@ public enum EnumIntegerEnum {
         return String.valueOf(value);
     }
 
-    public static EnumIntegerEnum fromValue(String v) {
+    public static EnumIntegerEnum fromValue(Integer value) {
         for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
   @ApiModelProperty(value = "")
-  private EnumIntegerEnum enumInteger = null;
+  private EnumIntegerEnum enumInteger;
 
 @XmlType(name="EnumNumberEnum")
 @XmlEnum(Double.class)
@@ -143,22 +143,22 @@ public enum EnumNumberEnum {
         return String.valueOf(value);
     }
 
-    public static EnumNumberEnum fromValue(String v) {
+    public static EnumNumberEnum fromValue(Double value) {
         for (EnumNumberEnum b : EnumNumberEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
   @ApiModelProperty(value = "")
-  private EnumNumberEnum enumNumber = null;
+  private EnumNumberEnum enumNumber;
 
   @ApiModelProperty(value = "")
   @Valid
-  private OuterEnum outerEnum = null;
+  private OuterEnum outerEnum;
  /**
    * Get enumString
    * @return enumString

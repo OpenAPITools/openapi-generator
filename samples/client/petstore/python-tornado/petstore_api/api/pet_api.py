@@ -18,6 +18,10 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
+from petstore_api.exceptions import (
+    ApiTypeError,
+    ApiValueError
+)
 
 
 class PetApi(object):
@@ -32,37 +36,37 @@ class PetApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def add_pet(self, pet, **kwargs):  # noqa: E501
+    def add_pet(self, body, **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.add_pet(pet, async_req=True)
+        >>> thread = api.add_pet(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Pet pet: Pet object that needs to be added to the store (required)
+        :param Pet body: Pet object that needs to be added to the store (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
+            return self.add_pet_with_http_info(body, **kwargs)  # noqa: E501
         else:
-            (data) = self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
+            (data) = self.add_pet_with_http_info(body, **kwargs)  # noqa: E501
             return data
 
-    def add_pet_with_http_info(self, pet, **kwargs):  # noqa: E501
+    def add_pet_with_http_info(self, body, **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.add_pet_with_http_info(pet, async_req=True)
+        >>> thread = api.add_pet_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Pet pet: Pet object that needs to be added to the store (required)
+        :param Pet body: Pet object that needs to be added to the store (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -70,7 +74,7 @@ class PetApi(object):
 
         local_var_params = locals()
 
-        all_params = ['pet']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -78,16 +82,16 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method add_pet" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'pet' is set
-        if ('pet' not in local_var_params or
-                local_var_params['pet'] is None):
-            raise ValueError("Missing the required parameter `pet` when calling `add_pet`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ApiValueError("Missing the required parameter `body` when calling `add_pet`")  # noqa: E501
 
         collection_formats = {}
 
@@ -101,8 +105,8 @@ class PetApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'pet' in local_var_params:
-            body_params = local_var_params['pet']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json', 'application/xml'])  # noqa: E501
@@ -174,7 +178,7 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method delete_pet" % key
                 )
@@ -183,7 +187,7 @@ class PetApi(object):
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
-            raise ValueError("Missing the required parameter `pet_id` when calling `delete_pet`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `pet_id` when calling `delete_pet`")  # noqa: E501
 
         collection_formats = {}
 
@@ -268,7 +272,7 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method find_pets_by_status" % key
                 )
@@ -277,7 +281,7 @@ class PetApi(object):
         # verify the required parameter 'status' is set
         if ('status' not in local_var_params or
                 local_var_params['status'] is None):
-            raise ValueError("Missing the required parameter `status` when calling `find_pets_by_status`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `status` when calling `find_pets_by_status`")  # noqa: E501
 
         collection_formats = {}
 
@@ -365,7 +369,7 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method find_pets_by_tags" % key
                 )
@@ -374,7 +378,7 @@ class PetApi(object):
         # verify the required parameter 'tags' is set
         if ('tags' not in local_var_params or
                 local_var_params['tags'] is None):
-            raise ValueError("Missing the required parameter `tags` when calling `find_pets_by_tags`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `tags` when calling `find_pets_by_tags`")  # noqa: E501
 
         collection_formats = {}
 
@@ -462,7 +466,7 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method get_pet_by_id" % key
                 )
@@ -471,7 +475,7 @@ class PetApi(object):
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
-            raise ValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `pet_id` when calling `get_pet_by_id`")  # noqa: E501
 
         collection_formats = {}
 
@@ -510,37 +514,37 @@ class PetApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
-    def update_pet(self, pet, **kwargs):  # noqa: E501
+    def update_pet(self, body, **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_pet(pet, async_req=True)
+        >>> thread = api.update_pet(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Pet pet: Pet object that needs to be added to the store (required)
+        :param Pet body: Pet object that needs to be added to the store (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
+            return self.update_pet_with_http_info(body, **kwargs)  # noqa: E501
         else:
-            (data) = self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
+            (data) = self.update_pet_with_http_info(body, **kwargs)  # noqa: E501
             return data
 
-    def update_pet_with_http_info(self, pet, **kwargs):  # noqa: E501
+    def update_pet_with_http_info(self, body, **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
 
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.update_pet_with_http_info(pet, async_req=True)
+        >>> thread = api.update_pet_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param Pet pet: Pet object that needs to be added to the store (required)
+        :param Pet body: Pet object that needs to be added to the store (required)
         :return: None
                  If the method is called asynchronously,
                  returns the request thread.
@@ -548,7 +552,7 @@ class PetApi(object):
 
         local_var_params = locals()
 
-        all_params = ['pet']  # noqa: E501
+        all_params = ['body']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -556,16 +560,16 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method update_pet" % key
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-        # verify the required parameter 'pet' is set
-        if ('pet' not in local_var_params or
-                local_var_params['pet'] is None):
-            raise ValueError("Missing the required parameter `pet` when calling `update_pet`")  # noqa: E501
+        # verify the required parameter 'body' is set
+        if ('body' not in local_var_params or
+                local_var_params['body'] is None):
+            raise ApiValueError("Missing the required parameter `body` when calling `update_pet`")  # noqa: E501
 
         collection_formats = {}
 
@@ -579,8 +583,8 @@ class PetApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'pet' in local_var_params:
-            body_params = local_var_params['pet']
+        if 'body' in local_var_params:
+            body_params = local_var_params['body']
         # HTTP header `Content-Type`
         header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json', 'application/xml'])  # noqa: E501
@@ -654,7 +658,7 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method update_pet_with_form" % key
                 )
@@ -663,7 +667,7 @@ class PetApi(object):
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
-            raise ValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `pet_id` when calling `update_pet_with_form`")  # noqa: E501
 
         collection_formats = {}
 
@@ -756,7 +760,7 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method upload_file" % key
                 )
@@ -765,7 +769,7 @@ class PetApi(object):
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
-            raise ValueError("Missing the required parameter `pet_id` when calling `upload_file`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `pet_id` when calling `upload_file`")  # noqa: E501
 
         collection_formats = {}
 
@@ -862,7 +866,7 @@ class PetApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method upload_file_with_required_file" % key
                 )
@@ -871,11 +875,11 @@ class PetApi(object):
         # verify the required parameter 'pet_id' is set
         if ('pet_id' not in local_var_params or
                 local_var_params['pet_id'] is None):
-            raise ValueError("Missing the required parameter `pet_id` when calling `upload_file_with_required_file`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `pet_id` when calling `upload_file_with_required_file`")  # noqa: E501
         # verify the required parameter 'required_file' is set
         if ('required_file' not in local_var_params or
                 local_var_params['required_file'] is None):
-            raise ValueError("Missing the required parameter `required_file` when calling `upload_file_with_required_file`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `required_file` when calling `upload_file_with_required_file`")  # noqa: E501
 
         collection_formats = {}
 

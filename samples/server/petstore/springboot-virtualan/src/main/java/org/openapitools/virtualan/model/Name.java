@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,16 +16,16 @@ import javax.validation.constraints.*;
 
 public class Name   {
   @JsonProperty("name")
-  private Integer name = null;
+  private Integer name;
 
   @JsonProperty("snake_case")
-  private Integer snakeCase = null;
+  private Integer snakeCase;
 
   @JsonProperty("property")
-  private String property = null;
+  private String property;
 
   @JsonProperty("123Number")
-  private Integer _123number = null;
+  private Integer _123number;
 
   public Name name(Integer name) {
     this.name = name;
@@ -34,7 +35,7 @@ public class Name   {
   /**
    * Get name
    * @return name
-  **/
+  */
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -55,7 +56,7 @@ public class Name   {
   /**
    * Get snakeCase
    * @return snakeCase
-  **/
+  */
   @ApiModelProperty(readOnly = true, value = "")
 
 
@@ -75,7 +76,7 @@ public class Name   {
   /**
    * Get property
    * @return property
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -95,7 +96,7 @@ public class Name   {
   /**
    * Get _123number
    * @return _123number
-  **/
+  */
   @ApiModelProperty(readOnly = true, value = "")
 
 

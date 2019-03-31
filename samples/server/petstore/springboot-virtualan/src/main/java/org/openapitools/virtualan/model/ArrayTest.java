@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.virtualan.model.ReadOnlyFirst;
+import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -44,7 +45,7 @@ public class ArrayTest   {
   /**
    * Get arrayOfString
    * @return arrayOfString
-  **/
+  */
   @ApiModelProperty(value = "")
 
 
@@ -72,7 +73,7 @@ public class ArrayTest   {
   /**
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid
@@ -101,7 +102,7 @@ public class ArrayTest   {
   /**
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
-  **/
+  */
   @ApiModelProperty(value = "")
 
   @Valid

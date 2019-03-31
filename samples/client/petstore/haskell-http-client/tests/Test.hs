@@ -17,22 +17,22 @@ import OpenAPIPetstore.MimeTypes
 
 main :: IO ()
 main =
-  hspec $ modifyMaxSize (const 5) $ do
+  hspec $ modifyMaxSize (const 10) $ do
     describe "JSON instances" $ do
       pure ()
+      propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesAnyType)
+      propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesArray)
+      propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesBoolean)
       propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesClass)
+      propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesInteger)
+      propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesNumber)
+      propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesObject)
+      propMimeEq MimeJSON (Proxy :: Proxy AdditionalPropertiesString)
       propMimeEq MimeJSON (Proxy :: Proxy Animal)
-      propMimeEq MimeJSON (Proxy :: Proxy AnimalFarm)
       propMimeEq MimeJSON (Proxy :: Proxy ApiResponse)
       propMimeEq MimeJSON (Proxy :: Proxy ArrayOfArrayOfNumberOnly)
       propMimeEq MimeJSON (Proxy :: Proxy ArrayOfNumberOnly)
       propMimeEq MimeJSON (Proxy :: Proxy ArrayTest)
-      propMimeEq MimeJSON (Proxy :: Proxy Body)
-      propMimeEq MimeJSON (Proxy :: Proxy Body1)
-      propMimeEq MimeJSON (Proxy :: Proxy Body2)
-      propMimeEq MimeJSON (Proxy :: Proxy Body3)
-      propMimeEq MimeJSON (Proxy :: Proxy Body4)
-      propMimeEq MimeJSON (Proxy :: Proxy Body5)
       propMimeEq MimeJSON (Proxy :: Proxy Capitalization)
       propMimeEq MimeJSON (Proxy :: Proxy Cat)
       propMimeEq MimeJSON (Proxy :: Proxy Category)
@@ -59,7 +59,9 @@ main =
       propMimeEq MimeJSON (Proxy :: Proxy Pet)
       propMimeEq MimeJSON (Proxy :: Proxy ReadOnlyFirst)
       propMimeEq MimeJSON (Proxy :: Proxy SpecialModelName)
-      propMimeEq MimeJSON (Proxy :: Proxy StringBooleanMap)
       propMimeEq MimeJSON (Proxy :: Proxy Tag)
+      propMimeEq MimeJSON (Proxy :: Proxy TypeHolderDefault)
+      propMimeEq MimeJSON (Proxy :: Proxy TypeHolderExample)
       propMimeEq MimeJSON (Proxy :: Proxy User)
+      propMimeEq MimeJSON (Proxy :: Proxy XmlItem)
       

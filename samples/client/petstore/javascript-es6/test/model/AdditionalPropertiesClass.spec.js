@@ -14,10 +14,10 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD.
-    define(['expect.js', '../../src/index'], factory);
+    define(['expect.js', process.cwd()+'/src/index'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    factory(require('expect.js'), require('../../src/index'));
+    factory(require('expect.js'), require(process.cwd()+'/src/index'));
   } else {
     // Browser globals (root is window)
     factory(root.expect, root.OpenApiPetstore);
@@ -54,14 +54,68 @@
       //expect(instance).to.be.a(OpenApiPetstore.AdditionalPropertiesClass);
     });
 
-    it('should have the property mapProperty (base name: "map_property")', function() {
-      // uncomment below and update the code to test the property mapProperty
+    it('should have the property mapString (base name: "map_string")', function() {
+      // uncomment below and update the code to test the property mapString
       //var instane = new OpenApiPetstore.AdditionalPropertiesClass();
       //expect(instance).to.be();
     });
 
-    it('should have the property mapOfMapProperty (base name: "map_of_map_property")', function() {
-      // uncomment below and update the code to test the property mapOfMapProperty
+    it('should have the property mapNumber (base name: "map_number")', function() {
+      // uncomment below and update the code to test the property mapNumber
+      //var instane = new OpenApiPetstore.AdditionalPropertiesClass();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property mapInteger (base name: "map_integer")', function() {
+      // uncomment below and update the code to test the property mapInteger
+      //var instane = new OpenApiPetstore.AdditionalPropertiesClass();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property mapBoolean (base name: "map_boolean")', function() {
+      // uncomment below and update the code to test the property mapBoolean
+      //var instane = new OpenApiPetstore.AdditionalPropertiesClass();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property mapArrayInteger (base name: "map_array_integer")', function() {
+      // uncomment below and update the code to test the property mapArrayInteger
+      //var instane = new OpenApiPetstore.AdditionalPropertiesClass();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property mapArrayAnytype (base name: "map_array_anytype")', function() {
+      // uncomment below and update the code to test the property mapArrayAnytype
+      //var instane = new OpenApiPetstore.AdditionalPropertiesClass();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property mapMapString (base name: "map_map_string")', function() {
+      // uncomment below and update the code to test the property mapMapString
+      //var instane = new OpenApiPetstore.AdditionalPropertiesClass();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property mapMapAnytype (base name: "map_map_anytype")', function() {
+      // uncomment below and update the code to test the property mapMapAnytype
+      //var instane = new OpenApiPetstore.AdditionalPropertiesClass();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property anytype1 (base name: "anytype_1")', function() {
+      // uncomment below and update the code to test the property anytype1
+      //var instane = new OpenApiPetstore.AdditionalPropertiesClass();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property anytype2 (base name: "anytype_2")', function() {
+      // uncomment below and update the code to test the property anytype2
+      //var instane = new OpenApiPetstore.AdditionalPropertiesClass();
+      //expect(instance).to.be();
+    });
+
+    it('should have the property anytype3 (base name: "anytype_3")', function() {
+      // uncomment below and update the code to test the property anytype3
       //var instane = new OpenApiPetstore.AdditionalPropertiesClass();
       //expect(instance).to.be();
     });

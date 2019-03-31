@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
+import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,7 +16,7 @@ import javax.validation.constraints.*;
 
 public class Dog extends Animal  {
   @JsonProperty("breed")
-  private String breed = null;
+  private String breed;
 
   public Dog breed(String breed) {
     this.breed = breed;
@@ -25,7 +26,7 @@ public class Dog extends Animal  {
   /**
    * Get breed
    * @return breed
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

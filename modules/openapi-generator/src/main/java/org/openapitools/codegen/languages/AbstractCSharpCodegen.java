@@ -20,25 +20,20 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.utils.*;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.mustache.*;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.core.util.Yaml;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -52,6 +47,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean netCoreProjectFileFlag = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
+
+    protected String licenseUrl = "http://localhost";
+    protected String licenseName = "NoLicense";
 
     protected String packageVersion = "1.0.0";
     protected String packageName = "Org.OpenAPITools";
@@ -72,6 +70,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected Set<String> collectionTypes;
     protected Set<String> mapTypes;
+
+    // true if support nullable type
+    protected boolean supportNullable = Boolean.FALSE;
+
+    // nullable type
+    protected Set<String> nullableType = new HashSet<String>();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
@@ -128,19 +132,26 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "String",
                         "string",
                         "bool?",
+                        "bool",
                         "double?",
+                        "double",
                         "decimal?",
+                        "decimal",
                         "int?",
+                        "int",
                         "long?",
+                        "long",
                         "float?",
+                        "float",
                         "byte[]",
                         "ICollection",
                         "Collection",
                         "List",
                         "Dictionary",
                         "DateTime?",
+                        "DateTime",
                         "DateTimeOffset?",
-                        "String",
+                        "DataTimeOffset",
                         "Boolean",
                         "Double",
                         "Int32",
@@ -155,25 +166,31 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         instantiationTypes.put("list", "List");
         instantiationTypes.put("map", "Dictionary");
 
+
         // Nullable types here assume C# 2 support is not part of base
         typeMapping = new HashMap<String, String>();
         typeMapping.put("string", "string");
         typeMapping.put("binary", "byte[]");
-        typeMapping.put("bytearray", "byte[]");
+        typeMapping.put("ByteArray", "byte[]");
         typeMapping.put("boolean", "bool?");
         typeMapping.put("integer", "int?");
         typeMapping.put("float", "float?");
         typeMapping.put("long", "long?");
         typeMapping.put("double", "double?");
         typeMapping.put("number", "decimal?");
-        typeMapping.put("datetime", "DateTime?");
+        typeMapping.put("DateTime", "DateTime?");
         typeMapping.put("date", "DateTime?");
         typeMapping.put("file", "System.IO.Stream");
         typeMapping.put("array", "List");
         typeMapping.put("list", "List");
         typeMapping.put("map", "Dictionary");
         typeMapping.put("object", "Object");
-        typeMapping.put("uuid", "Guid?");
+        typeMapping.put("UUID", "Guid?");
+
+        // nullable type
+        nullableType = new HashSet<String>(
+                Arrays.asList("decimal", "bool", "int", "float", "long", "double", "DateTime", "Guid")
+        );
     }
 
     public void setReturnICollection(boolean returnICollection) {
@@ -205,13 +222,35 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public void useDateTimeOffset(boolean flag) {
         this.useDateTimeOffsetFlag = flag;
-        if (flag) typeMapping.put("datetime", "DateTimeOffset?");
-        else typeMapping.put("datetime", "DateTime?");
+        if (flag) {
+            typeMapping.put("DateTime", "DateTimeOffset?");
+        } else {
+            typeMapping.put("DateTime", "DateTime?");
+        }
     }
+
 
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("CSHARP_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable CSHARP_POST_PROCESS_FILE not defined so the C# code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export CSHARP_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
+        // License info
+        if (additionalProperties.containsKey(CodegenConstants.LICENSE_URL)) {
+            setLicenseUrl((String) additionalProperties.get(CodegenConstants.LICENSE_URL));
+        } else {
+            additionalProperties.put(CodegenConstants.LICENSE_URL, this.licenseUrl);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.LICENSE_NAME)) {
+            setLicenseName((String) additionalProperties.get(CodegenConstants.LICENSE_NAME));
+        } else {
+            additionalProperties.put(CodegenConstants.LICENSE_NAME, this.licenseName);
+        }
 
         // {{packageVersion}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
@@ -410,8 +449,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
 
         for (Map.Entry<String, Object> entry : models.entrySet()) {
-            String swaggerName = entry.getKey();
-            CodegenModel model = ModelUtils.getModelByName(swaggerName, models);
+            String openAPIName = entry.getKey();
+            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model != null) {
                 for (CodegenProperty var : model.allVars) {
                     if (enumRefs.containsKey(var.dataType)) {
@@ -421,8 +460,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         CodegenModel refModel = enumRefs.get(var.dataType);
                         var.allowableValues = refModel.allowableValues;
                         var.isEnum = true;
-
-                        updateCodegenPropertyEnum(var);
 
                         // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
                         var.isPrimitiveType = true;
@@ -474,7 +511,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     }
                 }
             } else {
-                LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", swaggerName);
+                LOGGER.warn("Expected to retrieve model %s by name, but no model was found. Check your -Dmodels inclusions.", openAPIName);
             }
         }
     }
@@ -564,6 +601,34 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
                     }
 
+                    if (!isSupportNullable()) {
+                        for (CodegenParameter parameter : operation.allParams) {
+                            CodegenModel model = null;
+                            for (Object modelHashMap : allModels) {
+                                CodegenModel codegenModel = ((HashMap<String, CodegenModel>) modelHashMap).get("model");
+                                if (codegenModel.getClassname().equals(parameter.dataType)) {
+                                    model = codegenModel;
+                                    break;
+                                }
+                            }
+
+                            if (model == null) {
+                                // Primitive data types all come already marked
+                                parameter.isNullable = true;
+                            } else {
+                                // Effectively mark enum models as enums and non-nullable
+                                if (model.isEnum) {
+                                    parameter.isEnum = true;
+                                    parameter.allowableValues = model.allowableValues;
+                                    parameter.isPrimitiveType = true;
+                                    parameter.isNullable = false;
+                                } else {
+                                    parameter.isNullable = true;
+                                }
+                            }
+                        }
+                    }
+
                     processOperation(operation);
                 }
             }
@@ -601,17 +666,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // method name cannot use reserved keyword, e.g. return
         if (isReservedWord(operationId)) {
-            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (reserved word) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName("call_" + operationId)));
+            LOGGER.warn(operationId + " (starting with a number) cannot be used as method name. Renamed to " + camelize(sanitizeName("call_" + operationId)));
             operationId = "call_" + operationId;
         }
 
-        return org.openapitools.codegen.utils.StringUtils.camelize(sanitizeName(operationId));
+        return camelize(sanitizeName(operationId));
     }
 
     @Override
@@ -626,7 +691,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // camelize the variable name
         // pet_id => PetId
-        name = org.openapitools.codegen.utils.StringUtils.camelize(name);
+        name = camelize(name);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -649,9 +714,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return name;
         }
 
-        // org.openapitools.codegen.utils.StringUtils.camelize(lower) the variable name
+        // camelize(lower) the variable name
         // pet_id => petId
-        name = org.openapitools.codegen.utils.StringUtils.camelize(name, true);
+        name = camelize(name, true);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
@@ -704,7 +769,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     /**
      * Return the default value of the property
-     *
      * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
@@ -728,8 +792,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     return p.getDefault().toString() + "F";
                 } else if (ModelUtils.isDoubleSchema(p)) { // double
                     return p.getDefault().toString() + "D";
-                } else {
-                    return p.getDefault().toString();
+                } else {    // decimal
+                    return p.getDefault().toString() + "M";
                 }
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
@@ -757,26 +821,34 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return reservedWords.contains(word);
     }
 
+    public String getNullableType(Schema p, String type) {
+        if (languageSpecificPrimitives.contains(type)) {
+            return type;
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type;
 
         if (openAPIType == null) {
-            openAPIType = ""; // set swagger type to empty string if null
+            LOGGER.error("OpenAPI Type for {} is null. Default to UNKNOWN_OPENAPI_TYPE instead.", p.getName());
+            openAPIType = "UNKNOWN_OPENAPI_TYPE";
         }
 
-        // NOTE: typeMapping here supports things like string/String, long/Long, datetime/DateTime as lowercase keys.
-        //       Should we require explicit casing here (values are not insensitive).
-        // TODO avoid using toLowerCase as typeMapping should be case-sensitive
-        if (typeMapping.containsKey(openAPIType.toLowerCase(Locale.ROOT))) {
-            type = typeMapping.get(openAPIType.toLowerCase(Locale.ROOT));
-            if (languageSpecificPrimitives.contains(type)) {
-                return type;
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
+            String languageType = getNullableType(p, type);
+            if (languageType != null) {
+                return languageType;
             }
         } else {
             type = openAPIType;
         }
+
         return toModelName(type);
     }
 
@@ -837,19 +909,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(name)) {
-            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
+            LOGGER.warn(name + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. return => ModelReturn (after camelize)
         }
 
         // model name starts with number
         if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + org.openapitools.codegen.utils.StringUtils.camelize("model_" + name));
+            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + name));
             name = "model_" + name; // e.g. 200Response => Model200Response (after camelize)
         }
 
         // camelize the model name
         // phone_number => PhoneNumber
-        return org.openapitools.codegen.utils.StringUtils.camelize(name);
+        return camelize(name);
     }
 
     @Override
@@ -871,6 +943,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public String toModelTestFilename(String name) {
         return toModelName(name) + "Tests";
     }
+
+    public void setLicenseUrl(String licenseUrl) {this.licenseUrl = licenseUrl;}
+
+    public void setLicenseName(String licenseName) {this.licenseName = licenseName;}
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
@@ -916,6 +992,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.interfacePrefix = interfacePrefix;
     }
 
+    public boolean isSupportNullable() {
+        return supportNullable;
+    }
+
+    public void setSupportNullable(final boolean supportNullable) {
+        this.supportNullable = supportNullable;
+    }
+
     @Override
     public String toEnumValue(String value, String datatype) {
         // C# only supports enums as literals for int, int?, long, long?, byte, and byte?. All else must be treated as strings.
@@ -937,7 +1021,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return org.openapitools.codegen.utils.StringUtils.camelize(getSymbolName(name));
+            return camelize(getSymbolName(name));
         }
 
         String enumName = sanitizeName(name);
@@ -945,7 +1029,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        enumName = org.openapitools.codegen.utils.StringUtils.camelize(enumName) + "Enum";
+        enumName = camelize(enumName) + "Enum";
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
@@ -956,7 +1040,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return sanitizeName(org.openapitools.codegen.utils.StringUtils.camelize(property.name)) + "Enum";
+        return sanitizeName(camelize(property.name)) + "Enum";
     }
 
     public String testPackageName() {
@@ -977,7 +1061,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public boolean isDataTypeString(String dataType) {
         // also treat double/decimal/float as "string" in enum so that the values (e.g. 2.8) get double-quoted
-        return "String".equalsIgnoreCase(dataType) || "double?".equals(dataType) || "decimal?".equals(dataType) || "float?".equals(dataType);
+        return "String".equalsIgnoreCase(dataType) ||
+                "double?".equals(dataType) || "decimal?".equals(dataType) || "float?".equals(dataType) ||
+                "double".equals(dataType) || "decimal".equals(dataType) || "float".equals(dataType);
     }
 
     @Override
@@ -1015,6 +1101,33 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
             codegenParameter.example = codegenParameter.paramName + "_example";
         }
+    }
 
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String csharpPostProcessFile = System.getenv("CSHARP_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(csharpPostProcessFile)) {
+            return; // skip if CSHARP_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with .cs extension
+        if ("cs".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = csharpPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                int exitValue = p.waitFor();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
     }
 }

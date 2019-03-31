@@ -1,0 +1,456 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include "{{classname}}.h"
+
+
+#define MAX_BUFFER_LENGTH 4096
+#define intToStr(dst, src) \
+    do {\
+    char dst[256];\
+    snprintf(dst, 256, "%ld", (long int)(src));\
+}while(0)
+
+{{#operations}}
+{{#operation}}
+{{#summary}}
+// {{{summary}}}
+//
+{{/summary}}
+{{#notes}}
+// {{{notes}}}
+//
+{{/notes}}
+{{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}*{{/returnSimpleType}}{{^returnSimpleType}}{{{.}}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{{.}}}_t*{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}}
+{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{{dataType}}}{{#isPrimitiveType}}{{#isString}}*{{/isString}}{{#isFile}}*{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}_t*{{/isPrimitiveType}} {{{paramName}}}{{/allParams}}) {
+    list_t    *localVarQueryParameters = {{#hasQueryParams}}list_create();{{/hasQueryParams}}{{^hasQueryParams}}NULL;{{/hasQueryParams}}
+    list_t    *localVarHeaderParameters = {{#hasHeaderParams}}list_create();{{/hasHeaderParams}}{{^hasHeaderParams}}NULL;{{/hasHeaderParams}}
+    list_t    *localVarFormParameters = {{#hasFormParams}}list_create();{{/hasFormParams}}{{^hasFormParams}}NULL;{{/hasFormParams}}
+    list_t *localVarHeaderType = {{#hasProduces}}list_create();{{/hasProduces}}{{^hasProduces}}NULL;{{/hasProduces}}
+    list_t *localVarContentType = {{#hasConsumes}}list_create();{{/hasConsumes}}{{^hasConsumes}}NULL;{{/hasConsumes}}
+    char      *localVarBodyParameters = NULL;
+
+    // create the path
+    long sizeOfPath = strlen("{{{path}}}")+1;
+    char *localVarPath = malloc(sizeOfPath);
+    snprintf(localVarPath, sizeOfPath, "{{{path}}}");
+
+    {{#pathParams}}
+
+    // Path Params
+    long sizeOfPathParams_{{{paramName}}} = {{#pathParams}}{{#isLong}}sizeof({{paramName}})+3{{/isLong}}{{#isString}}strlen({{paramName}})+3{{/isString}}{{/pathParams}} + strlen("{ {{paramName}} }");
+
+    {{#isLong}}
+    if({{paramName}} == 0){
+        goto end;
+    }
+    char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
+    snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "%s%s%s", "{", "{{paramName}}", "}");
+
+    char localVarBuff_{{paramName}}[256];
+    intToStr(localVarBuff_{{paramName}}, {{paramName}});
+
+    localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, localVarBuff_{{paramName}});
+
+    {{/isLong}}
+    {{#isString}}
+    if({{paramName}} == NULL) {
+        goto end;
+    }
+    char* localVarToReplace_{{paramName}} = malloc(sizeOfPathParams_{{paramName}});
+    sprintf(localVarToReplace_{{paramName}}, "%s%s%s", "{", "{{paramName}}", "}");
+
+    localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, {{paramName}});
+    {{/isString}}
+    {{/pathParams}}
+    {{#headerParams}}
+
+    {{#isString}}
+    // header parameters
+    char *keyHeader_{{{paramName}}};
+    char *valueHeader_{{{paramName}}};
+    keyValuePair_t *keyPairHeader_{{paramName}} = 0;
+    if ({{paramName}}) {
+        keyHeader_{{{paramName}}} = strdup("{{{paramName}}}");
+        valueHeader_{{{paramName}}} = strdup({{{paramName}}});
+        keyPairHeader_{{paramName}} = keyValuePair_create(keyHeader_{{{paramName}}}, valueHeader_{{{paramName}}});
+        list_addElement(localVarHeaderParameters,keyPairHeader_{{paramName}});
+    }
+    {{/isString}}
+    {{^isString}}
+    // header parameters
+    char *keyHeader_{{{paramName}}};
+    {{dataType}} valueHeader_{{{paramName}}};
+    keyValuePair_t *keyPairHeader_{{paramName}} = 0;
+    if ({{paramName}}) {
+        keyHeader_{{{paramName}}} = strdup("{{{paramName}}}");
+        valueHeader_{{{paramName}}} = {{{paramName}}};
+        keyPairHeader_{{paramName}} = keyValuePair_create(keyHeader_{{{paramName}}}, &valueHeader_{{{paramName}}});
+        list_addElement(localVarHeaderParameters,keyPairHeader_{{paramName}});
+    }
+    {{/isString}}
+    {{/headerParams}}
+    {{#queryParams}}
+
+    // query parameters
+    {{#isListContainer}}
+    if ({{paramName}})
+    {{/isListContainer}}
+    {{^isListContainer}}
+    {{#isString}}
+    char *keyQuery_{{{paramName}}};
+    char *valueQuery_{{{paramName}}};
+    keyValuePair_t *keyPairQuery_{{paramName}} = 0;
+    if ({{paramName}})
+    {{/isString}}
+    {{^isString}}
+    char *keyQuery_{{{paramName}}};
+    {{dataType}} valueQuery_{{{paramName}}};
+    keyValuePair_t *keyPairQuery_{{paramName}} = 0;
+    if ({{paramName}})
+    {{/isString}}
+    {{/isListContainer}}
+    {
+    {{#isListContainer}}
+    //listContainer
+    localVarQueryParameters = {{{paramName}}};
+    {{/isListContainer}}
+    {{^isListContainer}}
+    {{#isString}}
+    //string
+    keyQuery_{{{paramName}}} = strdup("{{{paramName}}}");
+    valueQuery_{{{paramName}}} = strdup({{{paramName}}});
+    keyPairQuery_{{paramName}} = keyValuePair_create(keyQuery_{{{paramName}}}, valueQuery_{{{paramName}}});
+    list_addElement(localVarQueryParameters,keyPairQuery_{{paramName}});
+    {{/isString}}
+    {{^isString}}
+    //not string
+    keyQuery_{{{paramName}}} = strdup("{{{paramName}}}");
+    valueQuery_{{{paramName}}} = {{{paramName}}};
+    keyPairQuery_{{paramName}} = keyValuePair_create(keyQuery_{{{paramName}}}, &valueQuery_{{{paramName}}});
+    list_addElement(localVarQueryParameters,keyPairQuery_{{paramName}});
+    {{/isString}}
+    {{/isListContainer}}
+    }
+    {{/queryParams}}
+    {{#formParams}}
+
+    // form parameters
+    {{#isFile}}
+
+    char *keyForm_{{paramName}};
+    FileStruct *fileVar_{{paramName}};
+    keyValuePair_t *keyPairForm_{{paramName}} = 0;
+    if ({{paramName}} != NULL)
+    {{/isFile}}
+    {{^isFile}}
+    {{#isString}}
+    char *keyForm_{{paramName}};
+    char *valueForm_{{paramName}};
+    keyValuePair_t *keyPairForm_{{paramName}} = 0;
+    if ({{paramName}})
+    {{/isString}}
+    {{^isString}}
+    char *keyForm_{{paramName}};
+    {{dataType}} valueForm_{{paramName}};
+    keyValuePair_t *keyPairForm_{{paramName}} = 0;
+    if ({{paramName}})
+    {{/isString}}
+    {{/isFile}}
+    {
+        {{#isFile}}
+        fseek({{paramName}}, 0, SEEK_END);
+        long f_size = ftell({{paramName}});
+        fseek({{paramName}}, 0, SEEK_SET);
+        fileVar_{{paramName}} = malloc(sizeof(FileStruct));
+        keyForm_{{paramName}} = strdup("{{{paramName}}}");
+        fileVar_{{paramName}}->fileData = malloc((f_size)* sizeof(char*));
+
+        fread(fileVar_{{paramName}}->fileData, f_size, 1, file);
+        fileVar_{{paramName}}->fileData[f_size] = '\0';
+
+        fileVar_{{paramName}}->fileSize = f_size;
+        char valueFile_{{paramName}}[sizeof(fileVar_{{paramName}})];
+
+        memcpy(valueFile_{{paramName}},&fileVar_{{paramName}}, sizeof(fileVar_{{paramName}}));
+
+        keyPairForm_{{paramName}} = keyValuePair_create(keyForm_{{paramName}},valueFile_{{paramName}});
+        list_addElement(localVarFormParameters,keyPairForm_{{paramName}}); //file adding
+        {{/isFile}}
+        {{^isFile}}
+        {{#isString}}
+        keyForm_{{paramName}} = strdup("{{{paramName}}}");
+        valueForm_{{paramName}} = strdup({{paramName}});
+        keyPairForm_{{paramName}} = keyValuePair_create(keyForm_{{paramName}},valueForm_{{paramName}});
+        list_addElement(localVarFormParameters,keyPairForm_{{paramName}}); //String
+        {{/isString}}
+        {{^isString}}
+        keyForm_{{paramName}} = strdup("{{{paramName}}}");
+        valueForm_{{paramName}} = {{paramName}};
+        keyPairForm_{{paramName}} = keyValuePair_create(keyForm_{{paramName}},&valueForm_{{paramName}});
+        list_addElement(localVarFormParameters,keyPairForm_{{paramName}}); // not String
+        {{/isString}}
+        {{/isFile}}
+    }
+    {{/formParams}}
+    {{#bodyParam}}
+
+    // Body Param
+    {{#isListContainer}}
+    //notstring
+    cJSON *localVar_{{paramName}};
+    cJSON *localVarItemJSON_{{paramName}};
+    cJSON *localVarSingleItemJSON_{{paramName}};
+    if ({{paramName}} != NULL) {
+        localVarItemJSON_{{paramName}} = cJSON_CreateObject();
+        localVarSingleItemJSON_{{paramName}} = cJSON_AddArrayToObject(localVarItemJSON_{{paramName}}, "{{paramName}}");
+        if (localVarSingleItemJSON_{{paramName}} == NULL) {
+            // nonprimitive container
+            const char *error_ptr = cJSON_GetErrorPtr();
+            if(error_ptr != NULL) {
+            fprintf(stderr, "Error Before: %s\n", error_ptr);
+            goto end;
+            }
+        }
+        listEntry_t *{{paramName}}BodyListEntry;
+
+        list_ForEach({{paramName}}BodyListEntry, {{paramName}}) {
+            localVar_{{paramName}} = {{paramName}}_convertToJSON({{paramName}}BodyListEntry->data);
+            if(localVar_{{paramName}} == NULL) {
+                const char *error_ptr = cJSON_GetErrorPtr();
+                if(error_ptr != NULL) {
+                    fprintf(stderr, "Error Before: %s\n", error_ptr);
+                    goto end;
+                }
+            }
+            cJSON_AddItemToArray(localVarSingleItemJSON_{{paramName}}, localVar_{{paramName}});
+        }
+
+        localVarBodyParameters = cJSON_Print(localVarItemJSON_{{paramName}});
+    }
+    {{/isListContainer}}
+    {{^isListContainer}}
+    cJSON *localVarSingleItemJSON_{{paramName}};
+    if ({{paramName}} != NULL) {
+        //string
+        localVarSingleItemJSON_{{paramName}} = {{paramName}}_convertToJSON({{paramName}});
+        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_{{paramName}});
+    }
+    {{/isListContainer}}
+    {{/bodyParam}}
+    {{#produces}}
+    list_addElement(localVarHeaderType,"{{{mediaType}}}"); //produces
+    {{/produces}}
+    {{#consumes}}
+    list_addElement(localVarContentType,"{{{mediaType}}}"); //consumes
+    {{/consumes}}
+    apiClient_invoke(apiClient,
+                    localVarPath,
+                    localVarQueryParameters,
+                    localVarHeaderParameters,
+                    localVarFormParameters,
+                    localVarHeaderType,
+                    localVarContentType,
+                    localVarBodyParameters,
+                    "{{{httpMethod}}}");
+
+    {{#responses}}
+    if (apiClient->response_code == {{code}}) {
+        printf("%s\n","{{message}}");
+    }
+    {{/responses}}
+    {{#returnType}}
+    {{#returnTypeIsPrimitive}}
+    {{#returnSimpleType}}
+    //primitive reutrn type simple
+    {{returnType}}* elementToReturn =  strdup(({{returnType}}*)apiClient->dataReceived);
+
+    {{/returnSimpleType}}
+    {{^returnSimpleType}}
+    //primitive reutrn type not simple
+    cJSON *{{paramName}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
+    cJSON *{{{paramName}}}VarJSON;
+    list_t *elementToReturn = list_create();
+    cJSON_ArrayForEach({{{paramName}}}VarJSON, {{paramName}}localVarJSON){
+        keyValuePair_t *keyPair = keyValuePair_create(strdup({{{paramName}}}VarJSON->string), cJSON_Print({{{paramName}}}VarJSON));
+        list_addElement(elementToReturn, keyPair);
+    }
+    cJSON_Delete({{paramName}}localVarJSON);
+
+    {{/returnSimpleType}}
+    {{/returnTypeIsPrimitive}}
+    {{^returnTypeIsPrimitive}}
+    {{#returnContainer}}
+    cJSON *{{classname}}localVarJSON = cJSON_Parse(apiClient->dataReceived);
+    if(!cJSON_IsArray({{classname}}localVarJSON)) {
+        return 0;//nonprimitive container
+    }
+    list_t *elementToReturn = list_create();
+    cJSON *{{{paramName}}}VarJSON;
+    cJSON_ArrayForEach({{{paramName}}}VarJSON, {{classname}}localVarJSON)
+    {
+        if(!cJSON_IsObject({{{paramName}}}VarJSON))
+        {
+           // return 0;
+        }
+        char *localVarJSONToChar = cJSON_Print({{{paramName}}}VarJSON);
+        list_addElement(elementToReturn , localVarJSONToChar);
+    }
+
+    cJSON_Delete( {{classname}}localVarJSON);
+    cJSON_Delete( {{{paramName}}}VarJSON);
+    {{/returnContainer}}
+    {{^returnContainer}}
+    //nonprimitive not container
+    {{{returnBaseType}}}_t *elementToReturn = {{{returnBaseType}}}_parseFromJSON(apiClient->dataReceived);
+    if(elementToReturn == NULL) {
+        // return 0;
+    }
+
+    {{/returnContainer}}
+    //return type
+    {{/returnTypeIsPrimitive}}
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+    }
+    {{#hasQueryParams}}list_free(localVarQueryParameters);{{/hasQueryParams}}
+    {{#hasHeaderParams}}list_free(localVarHeaderParameters);{{/hasHeaderParams}}
+    {{#hasFormParams}}list_free(localVarFormParameters);{{/hasFormParams}}
+    {{#hasProduces}}list_free(localVarHeaderType);{{/hasProduces}}
+    {{#hasConsumes}}list_free(localVarContentType);{{/hasConsumes}}
+    free(localVarPath);
+    {{#pathParams}}
+    free(localVarToReplace_{{paramName}});
+    {{/pathParams}}
+    {{#headerParams}}
+    {{#isString}}
+    free(keyHeader_{{{paramName}}});
+    free(valueHeader_{{{paramName}}});
+    {{/isString}}
+    {{^isString}}
+    free(keyHeader_{{{paramName}}});
+    {{/isString}}
+    free(keyPairHeader_{{paramName}});
+    {{/headerParams}}
+    {{#bodyParams}}
+    {{#isListContainer}}
+    cJSON_Delete(localVarItemJSON_{{paramName}});
+    cJSON_Delete(localVarSingleItemJSON_{{paramName}});
+    cJSON_Delete(localVar_{{paramName}});
+    free(localVarBodyParameters);
+    {{/isListContainer}}
+    {{^isListContainer}}
+    cJSON_Delete(localVarSingleItemJSON_{{paramName}});
+    free(localVarBodyParameters);
+    {{/isListContainer}}
+    {{/bodyParams}}
+    {{#queryParams}}
+    {{^isListContainer}}
+    {{#isString}}
+    free(keyQuery_{{{paramName}}});
+    free(valueQuery_{{{paramName}}});
+    keyValuePair_free(keyPairQuery_{{{paramName}}});
+    {{/isString}}
+    {{^isString}}
+    free(keyQuery_{{{paramName}}});
+    keyValuePair_free(keyPairQuery_{{{paramName}}});
+    {{/isString}}
+    {{/isListContainer}}
+    {{/queryParams}}
+    {{#formParams}}
+    {{#isFile}}
+    free(keyForm_{{{paramName}}});
+    free(fileVar_{{paramName}}->fileData);
+    free(fileVar_{{paramName}});
+    free(keyPairForm_{{paramName}});
+    {{/isFile}}
+    {{^isFile}}
+    {{#isString}}
+    free(keyForm_{{{paramName}}});
+    free(valueForm_{{{paramName}}});
+    free(keyPairForm_{{paramName}});
+    {{/isString}}
+    {{^isString}}
+    free(keyForm_{{{paramName}}});
+    free(keyPairForm_{{paramName}});
+    {{/isString}}
+    {{/isFile}}
+    {{/formParams}}
+    return elementToReturn;
+end:
+    return NULL;
+    {{/returnType}}
+    {{^returnType}}
+    //No return type
+end:
+    if (apiClient->dataReceived) {
+        free(apiClient->dataReceived);
+    }
+    {{#hasQueryParams}}list_free(localVarQueryParameters);{{/hasQueryParams}}
+    {{#hasHeaderParams}}list_free(localVarHeaderParameters);{{/hasHeaderParams}}
+    {{#hasFormParams}}list_free(localVarFormParameters);{{/hasFormParams}}
+    {{#hasProduces}}list_free(localVarHeaderType);{{/hasProduces}}
+    {{#hasConsumes}}list_free(localVarContentType);{{/hasConsumes}}
+    free(localVarPath);
+    {{#pathParams}}
+    free(localVarToReplace_{{paramName}});
+    {{/pathParams}}
+    {{#headerParams}}
+    {{#isString}}
+    free(keyHeader_{{{paramName}}});
+    free(valueHeader_{{{paramName}}});
+    {{/isString}}
+    {{^isString}}
+    free(keyHeader_{{{paramName}}});
+    {{/isString}}
+    free(keyPairHeader_{{paramName}});
+    {{/headerParams}}
+    {{#bodyParams}}
+    {{#isListContainer}}
+    cJSON_Delete(localVarItemJSON_{{paramName}});
+    cJSON_Delete(localVarSingleItemJSON_{{paramName}});
+    cJSON_Delete(localVar_{{paramName}});
+    free(localVarBodyParameters);
+    {{/isListContainer}}
+    {{^isListContainer}}
+    cJSON_Delete(localVarSingleItemJSON_{{paramName}});
+    free(localVarBodyParameters);
+    {{/isListContainer}}
+    {{/bodyParams}}
+    {{#queryParams}}
+    {{^isListContainer}}
+    {{#isString}}
+    free(keyQuery_{{{paramName}}});
+    free(valueQuery_{{{paramName}}});
+    keyValuePair_free(keyPairQuery_{{{paramName}}});
+    {{/isString}}
+    {{#isString}}
+    free(keyQuery_{{{paramName}}});
+    keyValuePair_free(keyPairQuery_{{{paramName}}});
+    {{/isString}}
+    {{/isListContainer}}
+    {{/queryParams}}
+    {{#formParams}}
+    {{#isFile}}
+    free(keyForm_{{{paramName}}});
+    free(fileVar_{{paramName}}->fileData);
+    free(fileVar_{{paramName}});
+    {{/isFile}}
+    {{^isFile}}
+    {{#isString}}
+    free(keyForm_{{{paramName}}});
+    free(valueForm_{{{paramName}}});
+    keyValuePair_free(keyPairForm_{{{paramName}}});
+    {{/isString}}
+    {{^isString}}
+    free(keyForm_{{{paramName}}});
+    free(keyPairForm_{{paramName}});
+    {{/isString}}
+    {{/isFile}}
+    {{/formParams}}
+    {{/returnType}}
+
+}
+
+{{/operation}}
+{{/operations}}

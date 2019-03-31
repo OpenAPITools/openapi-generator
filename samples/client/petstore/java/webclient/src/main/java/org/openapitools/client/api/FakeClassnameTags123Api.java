@@ -4,7 +4,6 @@ import org.openapitools.client.ApiClient;
 
 import org.openapitools.client.model.Client;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -50,16 +49,16 @@ public class FakeClassnameTags123Api {
      * To test class name in snake case
      * To test class name in snake case
      * <p><b>200</b> - successful operation
-     * @param client client model
+     * @param body client model
      * @return Client
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Mono<Client> testClassname(Client client) throws RestClientException {
-        Object postBody = client;
+    public Mono<Client> testClassname(Client body) throws RestClientException {
+        Object postBody = body;
         
-        // verify the required parameter 'client' is set
-        if (client == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'client' when calling testClassname");
+        // verify the required parameter 'body' is set
+        if (body == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testClassname");
         }
         
         String path = UriComponentsBuilder.fromPath("/fake_classname_test").build().toUriString();

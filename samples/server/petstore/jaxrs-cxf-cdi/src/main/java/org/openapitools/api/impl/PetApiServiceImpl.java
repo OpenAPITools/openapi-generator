@@ -21,7 +21,7 @@ import javax.ws.rs.core.SecurityContext;
 
 public class PetApiServiceImpl implements PetApiService {
       @Override
-      public Response addPet(Pet pet, SecurityContext securityContext) {
+      public Response addPet(Pet body, SecurityContext securityContext) {
       // do some magic!
       return Response.ok().entity("magic!").build();
   }
@@ -46,7 +46,7 @@ public class PetApiServiceImpl implements PetApiService {
       return Response.ok().entity("magic!").build();
   }
       @Override
-      public Response updatePet(Pet pet, SecurityContext securityContext) {
+      public Response updatePet(Pet body, SecurityContext securityContext) {
       // do some magic!
       return Response.ok().entity("magic!").build();
   }

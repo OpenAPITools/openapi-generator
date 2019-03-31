@@ -51,8 +51,11 @@ import java.text.DateFormat;
 
 import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
+import {{invokerPackage}}.auth.HttpBearerAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
+{{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
+{{/hasOAuthMethods}}
 
 {{>generatedAnnotation}}
 public class ApiClient {
@@ -100,8 +103,9 @@ public class ApiClient {
     setUserAgent("{{#httpUserAgent}}{{{.}}}{{/httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
 
     // Setup authentications (key: authentication name, value: authentication).
-    authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}
-    authentications.put("{{name}}", new HttpBasicAuth());{{/isBasic}}{{#isApiKey}}
+    authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+    authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
+    authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
     authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
     authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
     // Prevent the authentications from being modified.
@@ -261,6 +265,7 @@ public class ApiClient {
     throw new RuntimeException("No API key authentication configured!");
   }
 
+  {{#hasOAuthMethods}}
   /**
    * Helper method to set access token for the first OAuth2 authentication.
    * @param accessToken Access token
@@ -273,6 +278,22 @@ public class ApiClient {
       }
     }
     throw new RuntimeException("No OAuth2 authentication configured!");
+  }
+
+  {{/hasOAuthMethods}}
+
+  /**
+   * Helper method to set access token for the first Bearer authentication.
+   * @param bearerToken Bearer token
+   */
+  public void setBearerToken(String bearerToken) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof HttpBearerAuth) {
+        ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+        return;
+      }
+    }
+    throw new RuntimeException("No Bearer authentication configured!");
   }
 
   /**

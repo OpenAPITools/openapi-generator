@@ -33,15 +33,15 @@ import android.os.Parcel;
 public class ModelApiResponse implements Parcelable {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
-  private Integer code = null;
+  private Integer code;
 
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
-  private String type = null;
+  private String type;
 
   public static final String SERIALIZED_NAME_MESSAGE = "message";
   @SerializedName(SERIALIZED_NAME_MESSAGE)
-  private String message = null;
+  private String message;
 
   public ModelApiResponse() {
   }
@@ -124,7 +124,6 @@ public class ModelApiResponse implements Parcelable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModelApiResponse {\n");
-    
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");

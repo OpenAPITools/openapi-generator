@@ -37,7 +37,7 @@ public class FileSchemaTestClass {
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<java.io.File> files = null;
+  private List<java.io.File> files = new ArrayList<java.io.File>();
 
   public FileSchemaTestClass file(java.io.File file) {
     this.file = file;
@@ -107,7 +107,6 @@ public class FileSchemaTestClass {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FileSchemaTestClass {\n");
-    
     sb.append("    file: ").append(toIndentedString(file)).append("\n");
     sb.append("    files: ").append(toIndentedString(files)).append("\n");
     sb.append("}");

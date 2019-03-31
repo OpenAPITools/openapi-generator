@@ -19,33 +19,23 @@ package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.mustache.CaseFormatLambda;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures,
@@ -60,12 +50,17 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String DO_NOT_USE_RX = "doNotUseRx";
     public static final String USE_PLAY_WS = "usePlayWS";
     public static final String PLAY_VERSION = "playVersion";
+    public static final String FEIGN_VERSION = "feignVersion";
     public static final String PARCELABLE_MODEL = "parcelableModel";
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
+    public static final String USE_REFLECTION_EQUALS_HASHCODE = "useReflectionEqualsHashCode";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
     public static final String PLAY_26 = "play26";
+
+    public static final String FEIGN_9 = "9.x";
+    public static final String FEIGN_10 = "10.x";
 
     public static final String FEIGN = "feign";
     public static final String GOOGLE_API_CLIENT = "google-api-client";
@@ -83,15 +78,19 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean useRxJava = false;
     protected boolean useRxJava2 = false;
-    protected boolean doNotUseRx = true; // backwards compatibility for swagger configs that specify neither rx1 nor rx2 (mustache does not allow for boolean operators so we need this extra field)
+    // backwards compatibility for openapi configs that specify neither rx1 nor rx2
+    // (mustache does not allow for boolean operators so we need this extra field)
+    protected boolean doNotUseRx = true;
     protected boolean usePlayWS = false;
     protected String playVersion = PLAY_25;
+    protected String feignVersion = FEIGN_9;
     protected boolean parcelableModel = false;
     protected boolean useBeanValidation = false;
     protected boolean performBeanValidation = false;
     protected boolean useGzipFeature = false;
     protected boolean useRuntimeException = false;
-
+    protected boolean useReflectionEqualsHashCode = false;
+    protected String authFolder;
 
     public JavaClientCodegen() {
         super();
@@ -102,29 +101,33 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.model";
 
+        modelTestTemplateFiles.put("model_test.mustache", ".java");
+
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(PARCELABLE_MODEL, "Whether to generate models for Android that implement Parcelable with the okhttp-gson library."));
         cliOptions.add(CliOption.newBoolean(USE_PLAY_WS, "Use Play! Async HTTP client (Play WS API)"));
-        cliOptions.add(CliOption.newString(PLAY_VERSION, "Version of Play! Framework (possible values \"play24\", \"play25\")"));
+        cliOptions.add(CliOption.newString(PLAY_VERSION, "Version of Play! Framework (possible values \"play24\", \"play25\" (default), \"play26\")"));
         cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1 library."));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
         cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception"));
+        cliOptions.add(CliOption.newBoolean(FEIGN_VERSION, "Version of OpenFeign: '10.x', '9.x' (default)"));
+        cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
 
-        supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.4. JSON processing: Jackson 2.8.9. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
-        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 9.4.0. JSON processing: Jackson 2.8.9");
-        supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.8.9");
-        supportedLibraries.put(OKHTTP_GSON, "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.8.1. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
-        supportedLibraries.put(RETROFIT_1, "HTTP client: OkHttp 2.7.5. JSON processing: Gson 2.3.1 (Retrofit 1.9.0). IMPORTANT NOTE: retrofit1.x is no longer actively maintained so please upgrade to 'retrofit2' instead.");
-        supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.8.0. JSON processing: Gson 2.6.1 (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2]=true'. (RxJava 1.x or 2.x)");
-        supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 4.3.9-RELEASE. JSON processing: Jackson 2.8.9");
-        supportedLibraries.put(WEBCLIENT, "HTTP client: Spring WebClient 5.0.7-RELEASE. JSON processing: Jackson 2.9.5");
-        supportedLibraries.put(RESTEASY, "HTTP client: Resteasy client 3.1.3.Final. JSON processing: Jackson 2.8.9");
-        supportedLibraries.put(VERTX, "HTTP client: VertX client 3.2.4. JSON processing: Jackson 2.8.9");
-        supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 1.23.0. JSON processing: Jackson 2.8.9");
-        supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 3.1.0. JSON processing: Gson 2.6.1. Only for Java8");
+        supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.8.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
+        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 9.x or 10.x. JSON processing: Jackson 2.8.x. To enable OpenFeign 10.x, set the 'feignVersion' option to '10.x'");
+        supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.8.x");
+        supportedLibraries.put(OKHTTP_GSON, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
+        supportedLibraries.put(RETROFIT_1, "HTTP client: OkHttp 2.x. JSON processing: Gson 2.x (Retrofit 1.9.0). IMPORTANT NOTE: retrofit1.x is no longer actively maintained so please upgrade to 'retrofit2' instead.");
+        supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2]=true'. (RxJava 1.x or 2.x)");
+        supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.8.x");
+        supportedLibraries.put(WEBCLIENT, "HTTP client: Spring WebClient 5.x. JSON processing: Jackson 2.9.x");
+        supportedLibraries.put(RESTEASY, "HTTP client: Resteasy client 3.x. JSON processing: Jackson 2.8.x");
+        supportedLibraries.put(VERTX, "HTTP client: VertX client 3.x. JSON processing: Jackson 2.8.x");
+        supportedLibraries.put(GOOGLE_API_CLIENT, "HTTP client: Google API client 1.x. JSON processing: Jackson 2.8.x");
+        supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 3.x. JSON processing: Gson 2.x. Only for Java8");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -147,7 +150,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     @Override
     public String getHelp() {
-        return "Generates a Java client library.";
+        return "Generates a Java client library (HTTP lib: Jersey (1.x, 2.x), Retrofit (1.x, 2.x), OpenFeign (9.x, 10.x) and more.";
     }
 
     @Override
@@ -158,6 +161,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         super.processOpts();
 
+        // RxJava
         if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2)) {
             LOGGER.warn("You specified both RxJava versions 1 and 2 but they are mutually exclusive. Defaulting to v2.");
         } else if (additionalProperties.containsKey(USE_RX_JAVA)) {
@@ -169,6 +173,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (!useRxJava && !useRxJava2) {
             additionalProperties.put(DO_NOT_USE_RX, true);
         }
+
+        // Java Play
         if (additionalProperties.containsKey(USE_PLAY_WS)) {
             this.setUsePlayWS(Boolean.valueOf(additionalProperties.get(USE_PLAY_WS).toString()));
         }
@@ -178,6 +184,20 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setPlayVersion(additionalProperties.get(PLAY_VERSION).toString());
         }
         additionalProperties.put(PLAY_VERSION, playVersion);
+
+        // OpenFeign
+        if (additionalProperties.containsKey(FEIGN_VERSION)) {
+            this.setFeignVersion(additionalProperties.get(FEIGN_VERSION).toString());
+
+            if ("10.x".equals(feignVersion)) {
+                additionalProperties.put("useFeign10", true);
+            } else if ("9.x".equals(feignVersion)) {
+                // do nothing as 9.x is the default
+            } else {
+                throw new RuntimeException("Ivalid feignOoption '{}'. Must be '10.x' or '9.x'.");
+            }
+        }
+        additionalProperties.put(FEIGN_VERSION, feignVersion);
 
         if (additionalProperties.containsKey(PARCELABLE_MODEL)) {
             this.setParcelableModel(Boolean.valueOf(additionalProperties.get(PARCELABLE_MODEL).toString()));
@@ -201,9 +221,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setUseRuntimeException(convertPropertyToBooleanAndWriteBack(USE_RUNTIME_EXCEPTION));
         }
 
+        if (additionalProperties.containsKey(USE_REFLECTION_EQUALS_HASHCODE)) {
+            this.setUseReflectionEqualsHashCode(convertPropertyToBooleanAndWriteBack(USE_REFLECTION_EQUALS_HASHCODE));
+        }
+
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
-        final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
+        authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
 
         //Common files
         writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -219,12 +243,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
         }
 
-        // google-api-client doesn't use the Swagger auth, because it uses Google Credential directly (HttpRequestInitializer)
+        // google-api-client doesn't use the OpenAPI auth, because it uses Google Credential directly (HttpRequestInitializer)
         if (!(GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.mustache", authFolder, "HttpBasicAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.mustache", authFolder, "HttpBearerAuth.java"));
             supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
-            supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
-            supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
+            // NOTE: below moved to postProcessOperationsWithModels
+            //supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
+            //supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
         }
         supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
         supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
@@ -246,10 +272,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             apiDocTemplateFiles.remove("api_doc.mustache");
         }
 
-        if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || usesAnyRetrofitLibrary() || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()))) {
+        if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || usesAnyRetrofitLibrary() || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || WEBCLIENT.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
             supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
+        }
+
+        if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || usesAnyRetrofitLibrary() || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         }
 
@@ -265,6 +294,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("ProgressRequestBody.mustache", invokerFolder, "ProgressRequestBody.java"));
             supportingFiles.add(new SupportingFile("ProgressResponseBody.mustache", invokerFolder, "ProgressResponseBody.java"));
             supportingFiles.add(new SupportingFile("GzipRequestInterceptor.mustache", invokerFolder, "GzipRequestInterceptor.java"));
+
+            // NOTE: below moved to postProcessOpoerationsWithModels
+            //supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
+            //supportingFiles.add(new SupportingFile("auth/RetryingOAuth.mustache", authFolder, "RetryingOAuth.java"));
             additionalProperties.put("gson", "true");
         } else if (usesAnyRetrofitLibrary()) {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
@@ -438,11 +471,23 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 for (int i = 0; i < items.length; ++i) {
                     if (items[i].matches("^\\{(.*)\\}$")) { // wrap in {}
                         // camelize path variable
-                        items[i] = "{" + org.openapitools.codegen.utils.StringUtils.camelize(items[i].substring(1, items[i].length() - 1), true) + "}";
+                        items[i] = "{" + camelize(items[i].substring(1, items[i].length() - 1), true) + "}";
                     }
                 }
                 op.path = StringUtils.join(items, "/");
             }
+        }
+
+        // for okhttp-gson (default), check to see if OAuth is defined and included OAuth-related files accordingly
+        if ((OKHTTP_GSON.equals(getLibrary()) || StringUtils.isEmpty(getLibrary())) && ProcessUtils.hasOAuthMethods(objs)) {
+            supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
+            supportingFiles.add(new SupportingFile("auth/RetryingOAuth.mustache", authFolder, "RetryingOAuth.java"));
+        }
+
+        // google-api-client doesn't use the OpenAPI auth, because it uses Google Credential directly (HttpRequestInitializer)
+        if ((!(GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || usePlayWS)) && ProcessUtils.hasOAuthMethods(objs)) {
+            supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
+            supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
         }
 
         return objs;
@@ -579,6 +624,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.playVersion = playVersion;
     }
 
+    public void setFeignVersion(String feignVersion) {
+        this.feignVersion = feignVersion;
+    }
+
     public void setParcelableModel(boolean parcelableModel) {
         this.parcelableModel = parcelableModel;
     }
@@ -597,6 +646,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setUseRuntimeException(boolean useRuntimeException) {
         this.useRuntimeException = useRuntimeException;
+    }
+
+    public void setUseReflectionEqualsHashCode(boolean useReflectionEqualsHashCode) {
+        this.useReflectionEqualsHashCode = useReflectionEqualsHashCode;
     }
 
     final private static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");

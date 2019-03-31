@@ -34,7 +34,7 @@ public class Client {
   @JsonProperty("client")
   @JacksonXmlProperty(localName = "client")
   @XmlElement(name = "client")
-  private String client = null;
+  private String client;
 
   public Client client(String client) {
     this.client = client;
@@ -77,7 +77,6 @@ public class Client {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Client {\n");
-    
     sb.append("    client: ").append(toIndentedString(client)).append("\n");
     sb.append("}");
     return sb.toString();

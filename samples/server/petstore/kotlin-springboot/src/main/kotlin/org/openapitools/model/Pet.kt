@@ -22,22 +22,22 @@ data class Pet (
 
         @get:NotNull 
         @ApiModelProperty(example = "doggie", required = true, value = "")
-        @JsonProperty("name") val name: kotlin.String,
+        @JsonProperty("name") val name: String,
 
         @get:NotNull 
-        @ApiModelProperty(required = true, value = "")
-        @JsonProperty("photoUrls") val photoUrls: kotlin.Array<kotlin.String>,
+        @ApiModelProperty(example = "null", required = true, value = "")
+        @JsonProperty("photoUrls") val photoUrls: List<String>,
 
-        @ApiModelProperty(value = "")
-        @JsonProperty("id") val id: kotlin.Long? = null,
+        @ApiModelProperty(example = "null", value = "")
+        @JsonProperty("id") val id: Long? = null,
 
-        @ApiModelProperty(value = "")
+        @ApiModelProperty(example = "null", value = "")
         @JsonProperty("category") val category: Category? = null,
 
-        @ApiModelProperty(value = "")
-        @JsonProperty("tags") val tags: kotlin.Array<Tag>? = null,
+        @ApiModelProperty(example = "null", value = "")
+        @JsonProperty("tags") val tags: List<Tag>? = null,
 
-        @ApiModelProperty(value = "pet status in the store")
+        @ApiModelProperty(example = "null", value = "pet status in the store")
         @JsonProperty("status") val status: Pet.Status? = null
 ) {
 
@@ -45,7 +45,7 @@ data class Pet (
     * pet status in the store
     * Values: available,pending,sold
     */
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
     
         @JsonProperty("available") available("available"),
     

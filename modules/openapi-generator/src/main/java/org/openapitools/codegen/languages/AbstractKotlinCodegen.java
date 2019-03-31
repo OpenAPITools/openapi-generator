@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
@@ -31,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractKotlinCodegen.class);
@@ -38,12 +40,13 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String artifactId;
     protected String artifactVersion = "1.0.0";
     protected String groupId = "org.openapitools";
-    protected String packageName;
+    protected String packageName = "org.openapitools";
 
     protected String sourceFolder = "src/main/kotlin";
 
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
+    protected boolean parcelizeModels = false;
 
     protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
 
@@ -191,13 +194,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         cliOptions.clear();
         addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
-        addOption(CodegenConstants.PACKAGE_NAME, "Generated artifact package name (e.g. io.swagger).", packageName);
+        addOption(CodegenConstants.PACKAGE_NAME, "Generated artifact package name.", packageName);
         addOption(CodegenConstants.GROUP_ID, "Generated artifact package's organization (i.e. maven groupId).", groupId);
         addOption(CodegenConstants.ARTIFACT_ID, "Generated artifact id (name of jar).", artifactId);
         addOption(CodegenConstants.ARTIFACT_VERSION, "Generated artifact's package version.", artifactVersion);
 
         CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC);
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
+        cliOptions.add(new CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC));
     }
 
     @Override
@@ -308,6 +312,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     public void processOpts() {
         super.processOpts();
 
+        if (StringUtils.isEmpty(System.getenv("KOTLIN_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable KOTLIN_POST_PROCESS_FILE not defined so the Kotlin code may not be properly formatted. To define it, try 'export KOTLIN_POST_PROCESS_FILE=\"/usr/local/bin/ktlint -F\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
             setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
         }
@@ -350,6 +359,20 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             LOGGER.warn(CodegenConstants.INVOKER_PACKAGE + " with " + this.getName() + " generator is ignored. Use " + CodegenConstants.PACKAGE_NAME + ".");
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
+            this.setParcelizeModels(Boolean.valueOf((String) additionalProperties.get(CodegenConstants.PARCELIZE_MODELS)));
+            LOGGER.info(CodegenConstants.PARCELIZE_MODELS + " depends on the android framework and " +
+                    "experimental parcelize feature. Make sure your build applies the android plugin:\n" +
+                    "apply plugin: 'com.android.library' OR apply plugin: 'com.android.application'.\n" +
+                    "and enables the experimental features:\n" +
+                    "androidExtensions {\n" +
+                    "    experimental = true\n" +
+                    "}"
+            );
+        } else {
+            additionalProperties.put(CodegenConstants.PARCELIZE_MODELS, parcelizeModels);
+        }
+
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
         additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage());
 
@@ -377,6 +400,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         this.sourceFolder = sourceFolder;
     }
 
+    public Boolean getParcelizeModels() {
+        return parcelizeModels;
+    }
+
+    public void setParcelizeModels(Boolean parcelizeModels) {
+        this.parcelizeModels = parcelizeModels;
+    }
+
     /**
      * Return the sanitized variable name for enum
      *
@@ -401,16 +432,16 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 break;
             case camelCase:
                 // NOTE: Removes hyphens and underscores
-                modified = org.openapitools.codegen.utils.StringUtils.camelize(modified, true);
+                modified = camelize(modified, true);
                 break;
             case PascalCase:
                 // NOTE: Removes hyphens and underscores
-                String result = org.openapitools.codegen.utils.StringUtils.camelize(modified);
+                String result = camelize(modified);
                 modified = titleCase(result);
                 break;
             case snake_case:
                 // NOTE: Removes hyphens
-                modified = org.openapitools.codegen.utils.StringUtils.underscore(modified);
+                modified = underscore(modified);
                 break;
             case UPPERCASE:
                 modified = modified.toUpperCase(Locale.ROOT);
@@ -458,6 +489,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toModelName(final String name) {
+
         // Allow for explicitly configured kotlin.* and java.* types
         if (name.startsWith("kotlin.") || name.startsWith("java.")) {
             return name;
@@ -469,10 +501,21 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         String modifiedName = name.replaceAll("\\.", "");
-        modifiedName = sanitizeKotlinSpecificNames(modifiedName);
+        String sanitizedName = sanitizeKotlinSpecificNames(modifiedName);
+
+        String nameWithPrefixSuffix = sanitizedName;
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            // add '_' so that model name can be camelized correctly
+            nameWithPrefixSuffix = modelNamePrefix + "_" + nameWithPrefixSuffix;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            // add '_' so that model name can be camelized correctly
+            nameWithPrefixSuffix = nameWithPrefixSuffix + "_" + modelNameSuffix;
+        }
 
         // Camelize name of nested properties
-        modifiedName = org.openapitools.codegen.utils.StringUtils.camelize(modifiedName);
+        modifiedName = camelize(nameWithPrefixSuffix);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(modifiedName)) {
@@ -554,10 +597,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     private String sanitizeKotlinSpecificNames(final String name) {
         String word = name;
         for (Map.Entry<String, String> specialCharacters : specialCharReplacements.entrySet()) {
-            // Underscore is the only special character we'll allow
-            if (!specialCharacters.getKey().equals("_")) {
-                word = word.replaceAll("\\Q" + specialCharacters.getKey() + "\\E", specialCharacters.getValue());
-            }
+            word = replaceSpecialCharacters(word, specialCharacters);
         }
 
         // Fallback, replace unknowns with underscore.
@@ -572,6 +612,38 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         return word;
+    }
+
+    private String replaceSpecialCharacters(String word, Map.Entry<String, String> specialCharacters) {
+        String specialChar = specialCharacters.getKey();
+        String replacementChar = specialCharacters.getValue();
+        // Underscore is the only special character we'll allow
+        if (!specialChar.equals("_") && word.contains(specialChar)) {
+            return replaceCharacters(word, specialChar, replacementChar);
+        }
+        return word;
+    }
+
+    private String replaceCharacters(String word, String oldValue, String newValue) {
+        if (!word.contains(oldValue)) {
+            return word;
+        }
+        if (word.equals(oldValue)) {
+            return newValue;
+        }
+        int i = word.indexOf(oldValue);
+        String start = word.substring(0, i);
+        String end = recurseOnEndOfWord(word, oldValue, newValue, i);
+        return start + newValue + end;
+    }
+
+    private String recurseOnEndOfWord(String word, String oldValue, String newValue, int lastReplacedValue) {
+        String end = word.substring(lastReplacedValue + 1);
+        if (!end.isEmpty()) {
+            end = titleCase(end);
+            end = replaceCharacters(end, oldValue, newValue);
+        }
+        return end;
     }
 
     private String titleCase(final String input) {
@@ -633,6 +705,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public String toVarName(String name) {
         // sanitize name
+        name = sanitizeKotlinSpecificNames(name);
         name = sanitizeName(name, "\\W-[\\$]");
 
         if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
@@ -657,7 +730,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             List<String> allowedCharacters = new ArrayList<>();
             allowedCharacters.add("_");
             allowedCharacters.add("$");
-            name = escapeSpecialCharacters(name, allowedCharacters, "_");
+            name = escape(name, specialCharReplacements, allowedCharacters, "_");
         }
 
         // camelize (lower first character) the variable name
@@ -683,5 +756,61 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase(Locale.ROOT));
         }
         return startsWithTwoUppercaseLetters;
+    }
+
+    @Override
+    public void postProcessFile(File file, String fileType) {
+        if (file == null) {
+            return;
+        }
+
+        String kotlinPostProcessFile = System.getenv("KOTLIN_POST_PROCESS_FILE");
+        if (StringUtils.isEmpty(kotlinPostProcessFile)) {
+            return; // skip if KOTLIN_POST_PROCESS_FILE env variable is not defined
+        }
+
+        // only process files with kt extension
+        if ("kt".equals(FilenameUtils.getExtension(file.toString()))) {
+            String command = kotlinPostProcessFile + " " + file.toString();
+            try {
+                Process p = Runtime.getRuntime().exec(command);
+                p.waitFor();
+                int exitValue = p.exitValue();
+                if (exitValue != 0) {
+                    LOGGER.error("Error running the command ({}). Exit value: {}", command, exitValue);
+                } else {
+                    LOGGER.info("Successfully executed: " + command);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isDateSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + p.getDefault() + "'";
+            }
+        }
+
+        return null;
     }
 }

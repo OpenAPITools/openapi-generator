@@ -9,7 +9,6 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.CodegenType;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -21,6 +20,9 @@ public class ListGenerators implements Runnable {
 
     @Option(name = {"-s", "--short" }, description = "shortened output (suitable for scripting)")
     private Boolean shortened = false;
+
+    @Option(name = {"-d", "--docsite" }, description = "format for docusaurus site output", hidden = true)
+    private Boolean docusaurus = false;
 
     @Override
     public void run() {
@@ -37,7 +39,7 @@ public class ListGenerators implements Runnable {
                 sb.append(generator.getName());
             }
         } else {
-            List<CodegenType> types = Arrays.asList(CodegenType.values());
+            CodegenType[] types = CodegenType.values();
 
             sb.append("The following generators are available:");
 
@@ -59,12 +61,28 @@ public class ListGenerators implements Runnable {
                 .sorted(Comparator.comparing(CodegenConfig::getName))
                 .collect(Collectors.toList());
 
-        if(list.size() > 0) {
-            sb.append(typeName).append(" generators:");
+        if(!list.isEmpty()) {
+            if (docusaurus) {
+                sb.append("## ").append(typeName).append(" generators");
+            } else {
+                sb.append(typeName).append(" generators:");
+            }
             sb.append(System.lineSeparator());
 
-            list.stream()
-                    .forEach(generator -> sb.append("    - ").append(generator.getName()).append(System.lineSeparator()));
+            list.forEach(generator -> {
+                if (docusaurus) {
+                    sb.append("* ");
+                    String id = "generators/" + generator.getName();
+                    sb.append("[").append(generator.getName()).append("](").append(id).append(")");
+
+                    // trailing space is important for markdown list formatting
+                    sb.append("  ");
+                } else {
+                    sb.append("    - ");
+                    sb.append(generator.getName());
+                }
+                sb.append(System.lineSeparator());
+            });
 
             sb.append(System.lineSeparator());
             sb.append(System.lineSeparator());

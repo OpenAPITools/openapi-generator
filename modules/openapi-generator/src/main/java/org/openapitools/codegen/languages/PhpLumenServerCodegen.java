@@ -95,17 +95,37 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
          * entire object tree available.  If the input file has a suffix of `.mustache
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
+        supportingFiles.add(new SupportingFile(".env.example", srcBasePath, ".env.example"));
+        supportingFiles.add(new SupportingFile("storage_logs_.gitignore", srcBasePath + File.separator + "storage" + File.separator + "logs", ".gitignore"));
+        supportingFiles.add(new SupportingFile("artisan", srcBasePath, "artisan"));
         supportingFiles.add(new SupportingFile("composer.mustache", srcBasePath, "composer.json"));
         supportingFiles.add(new SupportingFile("readme.md", srcBasePath, "readme.md"));
-        supportingFiles.add(new SupportingFile("app.php", srcBasePath + File.separator + "bootstrap", "app.php"));
-        supportingFiles.add(new SupportingFile("index.php", srcBasePath + File.separator + "public", "index.php"));
         supportingFiles.add(new SupportingFile("User.php", srcBasePath + File.separator + "app", "User.php"));
         supportingFiles.add(new SupportingFile("Kernel.php", srcBasePath + File.separator + "app" + File.separator + "Console", "Kernel.php"));
+        supportingFiles.add(new SupportingFile(".gitkeep", srcBasePath + File.separator + "app" + File.separator + "Console" + File.separator + "Commands", ".gitkeep"));
+        supportingFiles.add(new SupportingFile("Event.php", srcBasePath + File.separator + "app" + File.separator + "Events", "Event.php"));
+        supportingFiles.add(new SupportingFile("ExampleEvent.php", srcBasePath + File.separator + "app" + File.separator + "Events", "ExampleEvent.php"));
         supportingFiles.add(new SupportingFile("Handler.php", srcBasePath + File.separator + "app" + File.separator + "Exceptions", "Handler.php"));
-        supportingFiles.add(new SupportingFile("routes.mustache", srcBasePath + File.separator + "app" + File.separator + "Http", "routes.php"));
         supportingFiles.add(new SupportingFile("Controller.php", srcBasePath + File.separator + "app" + File.separator + "Http" + File.separator + "Controllers" + File.separator, "Controller.php"));
+        supportingFiles.add(new SupportingFile("ExampleController.php", srcBasePath + File.separator + "app" + File.separator + "Http" + File.separator + "Controllers" + File.separator, "ExampleController.php"));
         supportingFiles.add(new SupportingFile("Authenticate.php", srcBasePath + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware" + File.separator, "Authenticate.php"));
-
+        supportingFiles.add(new SupportingFile("ExampleMiddleware.php", srcBasePath + File.separator + "app" + File.separator + "Http" + File.separator + "Middleware" + File.separator, "ExampleMiddleware.php"));
+        supportingFiles.add(new SupportingFile("ExampleJob.php", srcBasePath + File.separator + "app" + File.separator + "Jobs", "ExampleJob.php"));
+        supportingFiles.add(new SupportingFile("Job.php", srcBasePath + File.separator + "app" + File.separator + "Jobs", "Job.php"));
+        supportingFiles.add(new SupportingFile("ExampleListener.php", srcBasePath + File.separator + "app" + File.separator + "Listeners", "ExampleListener.php"));
+        supportingFiles.add(new SupportingFile("AppServiceProvider.php", srcBasePath + File.separator + "app" + File.separator + "Providers", "AppServiceProvider.php"));
+        supportingFiles.add(new SupportingFile("AuthServiceProvider.php", srcBasePath + File.separator + "app" + File.separator + "Providers", "AuthServiceProvider.php"));
+        supportingFiles.add(new SupportingFile("EventServiceProvider.php", srcBasePath + File.separator + "app" + File.separator + "Providers", "EventServiceProvider.php"));
+        supportingFiles.add(new SupportingFile("app.php", srcBasePath + File.separator + "bootstrap", "app.php"));
+        supportingFiles.add(new SupportingFile("ModelFactory.php", srcBasePath + File.separator + "database" + File.separator + "factories", "ModelFactory.php"));
+        supportingFiles.add(new SupportingFile(".gitkeep", srcBasePath + File.separator + "database" + File.separator + "migrations", ".gitkeep"));
+        supportingFiles.add(new SupportingFile("DatabaseSeeder.php", srcBasePath + File.separator + "database" + File.separator + "seeds", "DatabaseSeeder.php"));
+        supportingFiles.add(new SupportingFile(".htaccess", srcBasePath + File.separator + "public", ".htaccess"));
+        supportingFiles.add(new SupportingFile("index.php", srcBasePath + File.separator + "public", "index.php"));
+        supportingFiles.add(new SupportingFile(".gitkeep", srcBasePath + File.separator + "resources" + File.separator + "views", ".gitkeep"));
+        supportingFiles.add(new SupportingFile("routes.mustache", srcBasePath + File.separator + "routes", "web.php"));
+        supportingFiles.add(new SupportingFile("ExampleTest.php", srcBasePath + File.separator + "tests", "ExampleTest.php"));
+        supportingFiles.add(new SupportingFile("TestCase.php", srcBasePath + File.separator + "tests", "TestCase.php"));
     }
 
     // override with any special post-processing

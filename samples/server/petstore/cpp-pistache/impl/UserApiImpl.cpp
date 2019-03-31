@@ -19,8 +19,8 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
-UserApiImpl::UserApiImpl(Pistache::Address addr)
-    : UserApi(addr)
+UserApiImpl::UserApiImpl(std::shared_ptr<Pistache::Rest::Router> rtr)
+    : UserApi(rtr)
     { }
 
 void UserApiImpl::create_user(const User &user, Pistache::Http::ResponseWriter &response) {

@@ -37,7 +37,6 @@ public class OpenAPIGenerator {
 
     public static void main(String[] args) {
         String version = Version.readVersionFromResources();
-        @SuppressWarnings("unchecked")
         Cli.CliBuilder<Runnable> builder =
                 Cli.<Runnable>builder("openapi-generator-cli")
                         .withDescription(
@@ -50,7 +49,6 @@ public class OpenAPIGenerator {
                                 ListGenerators.class,
                                 Generate.class,
                                 Meta.class,
-                                Langs.class,
                                 Help.class,
                                 ConfigHelp.class,
                                 Validate.class,
@@ -72,7 +70,7 @@ public class OpenAPIGenerator {
                 System.exit(1);
             }
         } catch (ParseArgumentsUnexpectedException e) {
-            System.err.printf(Locale.ROOT,"[error] %s%n%nSee 'openapi-generator-cli help' for usage.%n", e.getMessage());
+            System.err.printf(Locale.ROOT,"[error] %s%n%nSee 'openapi-generator help' for usage.%n", e.getMessage());
             System.exit(1);
         } catch (ParseOptionMissingException | ParseOptionMissingValueException e) {
             System.err.printf(Locale.ROOT,"[error] %s%n", e.getMessage());

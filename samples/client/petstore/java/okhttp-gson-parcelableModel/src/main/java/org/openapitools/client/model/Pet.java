@@ -37,7 +37,7 @@ import android.os.Parcel;
 public class Pet implements Parcelable {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
-  private Long id = null;
+  private Long id;
 
   public static final String SERIALIZED_NAME_CATEGORY = "category";
   @SerializedName(SERIALIZED_NAME_CATEGORY)
@@ -45,7 +45,7 @@ public class Pet implements Parcelable {
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
-  private String name = null;
+  private String name;
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
@@ -53,7 +53,7 @@ public class Pet implements Parcelable {
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags = null;
+  private List<Tag> tags = new ArrayList<Tag>();
 
   /**
    * pet status in the store
@@ -81,13 +81,13 @@ public class Pet implements Parcelable {
       return String.valueOf(value);
     }
 
-    public static StatusEnum fromValue(String text) {
+    public static StatusEnum fromValue(String value) {
       for (StatusEnum b : StatusEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<StatusEnum> {
@@ -99,14 +99,14 @@ public class Pet implements Parcelable {
       @Override
       public StatusEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return StatusEnum.fromValue(String.valueOf(value));
+        return StatusEnum.fromValue(value);
       }
     }
   }
 
   public static final String SERIALIZED_NAME_STATUS = "status";
   @SerializedName(SERIALIZED_NAME_STATUS)
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   public Pet() {
   }
@@ -259,7 +259,6 @@ public class Pet implements Parcelable {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Pet {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

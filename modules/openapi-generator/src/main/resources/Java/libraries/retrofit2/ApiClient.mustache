@@ -26,10 +26,13 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import {{invokerPackage}}.auth.HttpBasicAuth;
+import {{invokerPackage}}.auth.HttpBearerAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
+{{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
 import {{invokerPackage}}.auth.OAuth.AccessTokenListener;
 import {{invokerPackage}}.auth.OAuthFlow;
+{{/hasOAuthMethods}}
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -60,9 +63,11 @@ public class ApiClient {
       {{#hasAuthMethods}}
       Interceptor auth;
       {{#authMethods}}if ("{{name}}".equals(authName)) {
-        {{#isBasic}}
+        {{#isBasic}}{{#isBasicBasic}}
         auth = new HttpBasicAuth();
-        {{/isBasic}}
+        {{/isBasicBasic}}{{^isBasicBasic}}
+        auth = new HttpBearerAuth("{{scheme}}");
+        {{/isBasicBasic}}{{/isBasic}}
         {{#isApiKey}}
         auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");
         {{/isApiKey}}
@@ -110,6 +115,7 @@ public class ApiClient {
     this.setCredentials(username,  password);
   }
 
+  {{#hasOAuthMethods}}
   /**
    * Helper constructor for single password oauth2
    * @param authName Authentication name
@@ -127,6 +133,7 @@ public class ApiClient {
       .setPassword(password);
   }
 
+  {{/hasOAuthMethods}}
   public void createDefaultAdapter() {
     json = new JSON();
     okBuilder = new OkHttpClient.Builder();
@@ -206,6 +213,21 @@ public class ApiClient {
   }
 
   /**
+   * Helper method to set token for the first Http Bearer authentication found.
+   * @param bearerToken Bearer token
+   * @return ApiClient
+   */
+  public ApiClient setBearerToken(String bearerToken) {
+    for (Interceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof HttpBearerAuth) {
+        ((HttpBearerAuth) apiAuthorization).setBearerToken(bearerToken);
+        return this;
+      }
+    }
+    return this;
+  }
+
+  /**
    * Helper method to configure the username/password for basic auth or password oauth
    * @param username Username
    * @param password Password
@@ -218,15 +240,18 @@ public class ApiClient {
         basicAuth.setCredentials(username, password);
         return this;
       }
+      {{#hasOAuthMethods}}
       if (apiAuthorization instanceof OAuth) {
         OAuth oauth = (OAuth) apiAuthorization;
         oauth.getTokenRequestBuilder().setUsername(username).setPassword(password);
         return this;
       }
+      {{/hasOAuthMethods}}
     }
     return this;
   }
 
+  {{#hasOAuthMethods}}
   /**
    * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
    * @return Token request builder
@@ -310,6 +335,7 @@ public class ApiClient {
     }
     return this;
   }
+  {{/hasOAuthMethods}}
 
   /**
    * Adds an authorization to be used by the client

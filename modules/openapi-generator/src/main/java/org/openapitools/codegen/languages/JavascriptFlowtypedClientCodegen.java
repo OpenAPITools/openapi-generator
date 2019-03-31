@@ -18,20 +18,21 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.openapitools.codegen.*;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.dashize;
 
 public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCodegen {
-    private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
+    private final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
 
     public static final String NPM_NAME = "npmName";
     public static final String NPM_VERSION = "npmVersion";
@@ -163,7 +164,12 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         }
 
         if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
-            this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+            if (npmVersion.toUpperCase(Locale.ROOT).matches("^.*-SNAPSHOT$")) {
+                this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+            }
+            else {
+                this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+            }
         }
         additionalProperties.put(NPM_VERSION, npmVersion);
 
@@ -186,7 +192,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
             Info info = openAPI.getInfo();
             if (StringUtils.isBlank(npmName) && info.getTitle() != null) {
                 // when projectName is not specified, generate it from info.title
-                npmName = sanitizeName(org.openapitools.codegen.utils.StringUtils.dashize(info.getTitle()));
+                npmName = sanitizeName(dashize(info.getTitle()));
             }
             if (StringUtils.isBlank(npmVersion)) {
                 // when projectVersion is not specified, use info.version

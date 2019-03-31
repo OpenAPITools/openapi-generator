@@ -17,10 +17,23 @@
 
 package org.openapitools.codegen.cmd;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyAdditionalPropertiesKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyImportMappingsKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyInstantiationTypesKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyLanguageSpecificPrimitivesCsvList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyReservedWordsMappingsKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applySystemPropertiesKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyTypeMappingsKvpList;
+
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.spi.FilterAttachable;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
@@ -29,13 +42,6 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
 /**
  * User: lanwen Date: 24.03.15 Time: 20:22
  */
@@ -43,17 +49,13 @@ import java.util.stream.Stream;
 @Command(name = "generate", description = "Generate code with the specified generator.")
 public class Generate implements Runnable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
+    // private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;
 
-    @Option(name = {"-l", "--lang"}, title = "language",
-            description = "client language to generate (maybe class name in classpath, required)")
-    private String lang;
-
     @Option(name = {"-g", "--generator-name"}, title = "generator name",
-            description = "generator to use (see langs command for list)")
+            description = "generator to use (see list command for list)")
     private String generatorName;
 
     @Option(name = {"-o", "--output"}, title = "output directory",
@@ -85,8 +87,9 @@ public class Generate implements Runnable {
     @Option(
             name = {"-c", "--config"},
             title = "configuration file",
-            description = "Path to json configuration file. "
-                    + "File content should be in a json format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...} "
+            description = "Path to configuration file configuration file. It can be json or yaml."
+                    + "If file is json, the content should have the format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...}."
+                    + "If file is yaml, the content should have the format optionKey: optionValue"
                     + "Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.")
     private String configFile;
 
@@ -123,7 +126,7 @@ public class Generate implements Runnable {
             name = {"--type-mappings"},
             title = "type mappings",
             description = "sets mappings between OpenAPI spec types and generated code types "
-                    + "in the format of OpenaAPIType=generatedType,OpenAPIType=generatedType. For example: array=List,map=Map,string=String."
+                    + "in the format of OpenAPIType=generatedType,OpenAPIType=generatedType. For example: array=List,map=Map,string=String."
                     + " You can also have multiple occurrences of this option.")
     private List<String> typeMappings = new ArrayList<>();
 
@@ -208,6 +211,17 @@ public class Generate implements Runnable {
                     + " Useful for piping the JSON output of debug options (e.g. `-DdebugOperations`) to an external parser directly while testing a generator.")
     private Boolean logToStderr;
 
+    @Option(name = {"--enable-post-process-file"}, title = "enable post-process file", description = CodegenConstants.ENABLE_POST_PROCESS_FILE)
+    private Boolean enablePostProcessFile;
+
+    @Option(name = {"--generate-alias-as-model"}, title = "generate alias (array, map) as model", description = CodegenConstants.GENERATE_ALIAS_AS_MODEL_DESC)
+    private Boolean generateAliasAsModel;
+
+    @Option(name = {"--minimal-update"},
+        title = "Minimal update",
+        description = "Only write output files that have changed.")
+    private Boolean minimalUpdate;
+
     @Override
     public void run() {
         if (logToStderr != null) {
@@ -243,15 +257,16 @@ public class Generate implements Runnable {
         }
 
         if (isNotEmpty(spec)) {
+            if (!spec.matches("^http(s)?://.*") && !new File(spec).exists()) {
+                System.err.println("[error] The spec file is not found: " + spec);
+                System.err.println("[error] Check the path of the OpenAPI spec and try again.");
+                System.exit(1);
+            }
             configurator.setInputSpec(spec);
         }
 
-        // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
         if (isNotEmpty(generatorName)) {
             configurator.setGeneratorName(generatorName);
-        } else if (isNotEmpty(lang)) {
-            LOGGER.warn("The '--lang' and '-l' are deprecated and may reference language names only in the next major release (4.0). Please use --generator-name /-g instead.");
-            configurator.setGeneratorName(lang);
         } else {
             System.err.println("[error] A generator name (--generator-name / -g) is required.");
             System.exit(1);
@@ -327,6 +342,17 @@ public class Generate implements Runnable {
 
         if (removeOperationIdPrefix != null) {
             configurator.setRemoveOperationIdPrefix(removeOperationIdPrefix);
+        }
+
+        if (enablePostProcessFile != null) {
+            configurator.setEnablePostProcessFile(enablePostProcessFile);
+        }
+
+        if (generateAliasAsModel != null) {
+            configurator.setGenerateAliasAsModel(generateAliasAsModel);
+        }
+        if (minimalUpdate != null) {
+            configurator.setEnableMinimalUpdate(minimalUpdate);
         }
 
         applySystemPropertiesKvpList(systemProperties, configurator);

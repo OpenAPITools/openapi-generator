@@ -40,7 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of the order that needs to be deleted | 
+ **orderId** | **String**| ID of the order that needs to be deleted | [default to null]
 
 ### Return type
 
@@ -68,9 +68,9 @@ Returns a map of status codes to quantities
 ```dart
 import 'package:openapi/api.dart';
 // TODO Configure API key authorization: api_key
-//openapi.api.Configuration.apiKey{'api_key'} = 'YOUR_API_KEY';
+//defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKey = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'api_key'} = "Bearer";
+//defaultApiClient.getAuthentication<ApiKeyAuth>('api_key').apiKeyPrefix = 'Bearer';
 
 var api_instance = new StoreApi();
 
@@ -126,7 +126,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **int**| ID of pet that needs to be fetched | 
+ **orderId** | **int**| ID of pet that needs to be fetched | [default to null]
 
 ### Return type
 
@@ -144,7 +144,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **placeOrder**
-> Order placeOrder(order)
+> Order placeOrder(body)
 
 Place an order for a pet
 
@@ -153,10 +153,10 @@ Place an order for a pet
 import 'package:openapi/api.dart';
 
 var api_instance = new StoreApi();
-var order = new Order(); // Order | order placed for purchasing the pet
+var body = new Order(); // Order | order placed for purchasing the pet
 
 try { 
-    var result = api_instance.placeOrder(order);
+    var result = api_instance.placeOrder(body);
     print(result);
 } catch (e) {
     print("Exception when calling StoreApi->placeOrder: $e\n");
@@ -167,7 +167,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 

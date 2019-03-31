@@ -58,10 +58,10 @@ final fileprivate class MapSink<SourceType, O : ObserverType> : Sink<O>, Observe
 }
 
 #if TRACE_RESOURCES
-    fileprivate var _numberOfMapOperators: AtomicInt = 0
+    fileprivate var _numberOfMapOperators = AtomicInt(0)
     extension Resources {
         public static var numberOfMapOperators: Int32 {
-            return _numberOfMapOperators.valueSnapshot()
+            return _numberOfMapOperators.load()
         }
     }
 #endif
@@ -82,7 +82,7 @@ final fileprivate class Map<SourceType, ResultType>: Producer<ResultType> {
         _transform = transform
 
 #if TRACE_RESOURCES
-        let _ = AtomicIncrement(&_numberOfMapOperators)
+        let _ = _numberOfMapOperators.increment()
 #endif
     }
 
@@ -102,7 +102,7 @@ final fileprivate class Map<SourceType, ResultType>: Producer<ResultType> {
 
     #if TRACE_RESOURCES
     deinit {
-        let _ = AtomicDecrement(&_numberOfMapOperators)
+        let _ = _numberOfMapOperators.decrement()
     }
     #endif
 }

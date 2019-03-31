@@ -17,14 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.features.JbossFeature;
-import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.features.JbossFeature;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen implements JbossFeature {
 
@@ -152,6 +155,7 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        super.postProcessModelProperty(model, property);
         //Add imports for Jackson
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             model.imports.add("JsonProperty");

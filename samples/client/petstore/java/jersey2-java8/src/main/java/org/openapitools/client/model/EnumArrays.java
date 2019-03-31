@@ -53,18 +53,18 @@ public class EnumArrays {
     }
 
     @JsonCreator
-    public static JustSymbolEnum fromValue(String text) {
+    public static JustSymbolEnum fromValue(String value) {
       for (JustSymbolEnum b : JustSymbolEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
   @JsonProperty("just_symbol")
-  private JustSymbolEnum justSymbol = null;
+  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -91,18 +91,18 @@ public class EnumArrays {
     }
 
     @JsonCreator
-    public static ArrayEnumEnum fromValue(String text) {
+    public static ArrayEnumEnum fromValue(String value) {
       for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
   @JsonProperty("array_enum")
-  private List<ArrayEnumEnum> arrayEnum = null;
+  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -172,7 +172,6 @@ public class EnumArrays {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class EnumArrays {\n");
-    
     sb.append("    justSymbol: ").append(toIndentedString(justSymbol)).append("\n");
     sb.append("    arrayEnum: ").append(toIndentedString(arrayEnum)).append("\n");
     sb.append("}");

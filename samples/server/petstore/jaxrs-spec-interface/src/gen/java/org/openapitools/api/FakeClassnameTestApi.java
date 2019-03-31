@@ -25,5 +25,5 @@ public interface FakeClassnameTestApi {
     }, tags={ "fake_classname_tags 123#$%^" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    Client testClassname(@Valid Client client);
+    Client testClassname(@Valid Client body);
 }

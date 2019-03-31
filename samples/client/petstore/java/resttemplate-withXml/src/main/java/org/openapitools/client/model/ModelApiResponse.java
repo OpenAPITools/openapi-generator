@@ -34,17 +34,17 @@ public class ModelApiResponse {
   @JsonProperty("code")
   @JacksonXmlProperty(localName = "code")
   @XmlElement(name = "code")
-  private Integer code = null;
+  private Integer code;
 
   @JsonProperty("type")
   @JacksonXmlProperty(localName = "type")
   @XmlElement(name = "type")
-  private String type = null;
+  private String type;
 
   @JsonProperty("message")
   @JacksonXmlProperty(localName = "message")
   @XmlElement(name = "message")
-  private String message = null;
+  private String message;
 
   public ModelApiResponse code(Integer code) {
     this.code = code;
@@ -125,7 +125,6 @@ public class ModelApiResponse {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModelApiResponse {\n");
-    
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");

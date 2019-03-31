@@ -29,8 +29,8 @@ OAIPetApiHandler::~OAIPetApiHandler(){
 
 }
 
-void OAIPetApiHandler::addPet(OAIPet oai_pet) {
-    Q_UNUSED(oai_pet);
+void OAIPetApiHandler::addPet(OAIPet body) {
+    Q_UNUSED(body);
     auto reqObj = qobject_cast<OAIPetApiRequest*>(sender());
     if( reqObj != nullptr ) 
     { 
@@ -75,8 +75,8 @@ void OAIPetApiHandler::getPetById(qint64 pet_id) {
         reqObj->getPetByIdResponse(res);
     }    
 }
-void OAIPetApiHandler::updatePet(OAIPet oai_pet) {
-    Q_UNUSED(oai_pet);
+void OAIPetApiHandler::updatePet(OAIPet body) {
+    Q_UNUSED(body);
     auto reqObj = qobject_cast<OAIPetApiRequest*>(sender());
     if( reqObj != nullptr ) 
     { 

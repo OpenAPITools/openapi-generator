@@ -12,9 +12,9 @@ import Foundation
 public struct Category: Codable {
 
     public var _id: Int64?
-    public var name: String?
+    public var name: String = "default-name"
 
-    public init(_id: Int64?, name: String?) {
+    public init(_id: Int64?, name: String) {
         self._id = _id
         self.name = name
     }

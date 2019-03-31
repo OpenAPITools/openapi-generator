@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Model for testing reserved words
@@ -27,7 +28,7 @@ import javax.validation.constraints.*;
 
 public class ModelReturn   {
   @JsonProperty("return")
-  private Integer _return = null;
+  private Integer _return;
 
   public ModelReturn _return(Integer _return) {
     this._return = _return;
@@ -40,6 +41,7 @@ public class ModelReturn   {
    **/
   @JsonProperty("return")
   @ApiModelProperty(value = "")
+  
   public Integer getReturn() {
     return _return;
   }

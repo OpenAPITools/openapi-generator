@@ -4,8 +4,8 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
   s.osx.deployment_target = '10.11'
   s.tvos.deployment_target = '9.0'
-  s.version = '{{#podVersion}}{{podVersion}}{{/podVersion}}{{^podVersion}}0.0.1{{/podVersion}}'
-  s.source = {{#podSource}}{{& podSource}}{{/podSource}}{{^podSource}}{ :git => 'git@github.com:OpenAPITools/openapi-generator.git', :tag => 'v1.0.0' }{{/podSource}}
+  s.version = '{{#podVersion}}{{podVersion}}{{/podVersion}}{{^podVersion}}{{#apiInfo}}{{version}}{{/apiInfo}}{{^apiInfo}}}0.0.1{{/apiInfo}}{{/podVersion}}'
+  s.source = {{#podSource}}{{& podSource}}{{/podSource}}{{^podSource}}{ :git => 'git@github.com:OpenAPITools/openapi-generator.git', :tag => 'v{{#apiInfo}}{{version}}{{/apiInfo}}{{^apiInfo}}}0.0.1{{/apiInfo}}' }{{/podSource}}
   {{#podAuthors}}
   s.authors = '{{podAuthors}}'
   {{/podAuthors}}
@@ -34,5 +34,5 @@ Pod::Spec.new do |s|
   {{#useRxSwift}}
   s.dependency 'RxSwift', '~> 4.0'
   {{/useRxSwift}}
-  s.dependency 'Alamofire', '~> 4.5.0'
+  s.dependency 'Alamofire', '~> 4.7.0'
 end

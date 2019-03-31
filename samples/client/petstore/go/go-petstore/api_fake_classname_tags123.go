@@ -28,10 +28,10 @@ type FakeClassnameTags123ApiService service
 FakeClassnameTags123ApiService To test class name in snake case
 To test class name in snake case
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param client client model
+ * @param body client model
 @return Client
 */
-func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, client Client) (Client, *http.Response, error) {
+func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body Client) (Client, *http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Patch")
 		localVarPostBody     interface{}
@@ -66,7 +66,7 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, clie
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &client
+	localVarPostBody = &body
 	if ctx != nil {
 		// API Key Authentication
 		if auth, ok := ctx.Value(ContextAPIKey).(APIKey); ok {
@@ -79,7 +79,6 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, clie
 			localVarQueryParams.Add("api_key_query", key)
 		}
 	}
-
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -96,14 +95,6 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, clie
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
-		}
-	}
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -118,6 +109,15 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, clie
 			}
 			newErr.model = v
 			return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
 		}
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}

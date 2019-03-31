@@ -20,31 +20,13 @@ package org.openapitools.codegen.utils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.BinarySchema;
-import io.swagger.v3.oas.models.media.BooleanSchema;
-import io.swagger.v3.oas.models.media.ByteArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.DateSchema;
-import io.swagger.v3.oas.models.media.DateTimeSchema;
-import io.swagger.v3.oas.models.media.EmailSchema;
-import io.swagger.v3.oas.models.media.FileSchema;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.MapSchema;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.NumberSchema;
-import io.swagger.v3.oas.models.media.ObjectSchema;
-import io.swagger.v3.oas.models.media.PasswordSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
-import io.swagger.v3.oas.models.media.UUIDSchema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
 import org.slf4j.Logger;
@@ -60,6 +42,16 @@ import java.util.stream.Collectors;
 
 public class ModelUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelUtils.class);
+    private static boolean generateAliasAsModel = false;
+
+    public static void setGenerateAliasAsModel(boolean value) {
+        generateAliasAsModel = value;
+    }
+
+    public static boolean isGenerateAliasAsModel() {
+        return generateAliasAsModel;
+    }
+
 
     /**
      * Searches for the model by name in the map of models and returns it
@@ -167,40 +159,66 @@ public class ModelUtils {
 
         if (paths != null) {
             for (PathItem path : paths.values()) {
-                List<Operation> allOperations = path.readOperations();
-                if (allOperations != null) {
-                    for (Operation operation : allOperations) {
-                        //Params:
-                        if (operation.getParameters() != null) {
-                            for (Parameter p : operation.getParameters()) {
-                                Parameter parameter = getReferencedParameter(openAPI, p);
-                                if (parameter.getSchema() != null) {
-                                    visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
-                                }
-                            }
-                        }
+                visitPathItem(path, openAPI, visitor, visitedSchemas);
+            }
+        }
+    }
 
-                        //RequestBody:
-                        RequestBody requestBody = getReferencedRequestBody(openAPI, operation.getRequestBody());
-                        if (requestBody != null && requestBody.getContent() != null) {
-                            for (Entry<String, MediaType> e : requestBody.getContent().entrySet()) {
-                                if (e.getValue().getSchema() != null) {
-                                    visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
-                                }
-                            }
+    private static void visitPathItem(PathItem pathItem, OpenAPI openAPI, OpenAPISchemaVisitor visitor, List<String> visitedSchemas) {
+        List<Operation> allOperations = pathItem.readOperations();
+        if (allOperations != null) {
+            for (Operation operation : allOperations) {
+                //Params:
+                if (operation.getParameters() != null) {
+                    for (Parameter p : operation.getParameters()) {
+                        Parameter parameter = getReferencedParameter(openAPI, p);
+                        if (parameter.getSchema() != null) {
+                            visitSchema(openAPI, parameter.getSchema(), null, visitedSchemas, visitor);
                         }
+                    }
+                }
 
-                        //Responses:
-                        if (operation.getResponses() != null) {
-                            for (ApiResponse r : operation.getResponses().values()) {
-                                ApiResponse apiResponse = getReferencedApiResponse(openAPI, r);
-                                if (apiResponse != null && apiResponse.getContent() != null) {
-                                    for (Entry<String, MediaType> e : apiResponse.getContent().entrySet()) {
-                                        if (e.getValue().getSchema() != null) {
-                                            visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
-                                        }
+                //RequestBody:
+                RequestBody requestBody = getReferencedRequestBody(openAPI, operation.getRequestBody());
+                if (requestBody != null && requestBody.getContent() != null) {
+                    for (Entry<String, MediaType> e : requestBody.getContent().entrySet()) {
+                        if (e.getValue().getSchema() != null) {
+                            visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
+                        }
+                    }
+                }
+
+                //Responses:
+                if (operation.getResponses() != null) {
+                    for (ApiResponse r : operation.getResponses().values()) {
+                        ApiResponse apiResponse = getReferencedApiResponse(openAPI, r);
+                        if (apiResponse != null) {
+                            if (apiResponse.getContent() != null) {
+                                for (Entry<String, MediaType> e : apiResponse.getContent().entrySet()) {
+                                    if (e.getValue().getSchema() != null) {
+                                        visitSchema(openAPI, e.getValue().getSchema(), e.getKey(), visitedSchemas, visitor);
                                     }
                                 }
+                            }
+                            if (apiResponse.getHeaders() != null) {
+                                for (Entry<String, Header> e : apiResponse.getHeaders().entrySet()) {
+                                    Header header = getReferencedHeader(openAPI, e.getValue());
+                                    if (header.getSchema() != null) {
+                                        visitSchema(openAPI, header.getSchema(), e.getKey(), visitedSchemas, visitor);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //Callbacks:
+                if (operation.getCallbacks() != null) {
+                    for (Callback c : operation.getCallbacks().values()) {
+                        Callback callback = getReferencedCallback(openAPI, c);
+                        if (callback != null) {
+                            for (PathItem p : callback.values()) {
+                                visitPathItem(p, openAPI, visitor, visitedSchemas);
                             }
                         }
                     }
@@ -275,7 +293,9 @@ public class ModelUtils {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else {
             LOGGER.warn("Failed to get the schema name: {}", ref);
+            //throw new RuntimeException("Failed to get the schema: " + ref);
             return null;
+
         }
 
         return ref;
@@ -285,9 +305,13 @@ public class ModelUtils {
         if (schema instanceof ObjectSchema) {
             return true;
         }
+
+        // must not be a map
         if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(schema instanceof MapSchema)) {
             return true;
         }
+
+        // must have at least one property
         if (schema.getType() == null && schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             return true;
         }
@@ -305,12 +329,19 @@ public class ModelUtils {
         if (schema instanceof MapSchema) {
             return true;
         }
+
+        if (schema == null) {
+            return false;
+        }
+
         if (schema.getAdditionalProperties() instanceof Schema) {
             return true;
         }
-        if (schema.getAdditionalProperties() instanceof Boolean && (Boolean)schema.getAdditionalProperties()) {
+
+        if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
             return true;
         }
+
         return false;
     }
 
@@ -319,7 +350,7 @@ public class ModelUtils {
             return true;
         }
         // assume it's an array if maxItems, minItems is set
-        if (schema.getMaxItems() != null || schema.getMinItems() != null) {
+        if (schema != null && (schema.getMaxItems() != null || schema.getMinItems() != null)) {
             return true;
         }
         return false;
@@ -342,7 +373,7 @@ public class ModelUtils {
         return false;
     }
 
-    public static boolean isShortchema(Schema schema) {
+    public static boolean isShortSchema(Schema schema) {
         if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) // type: integer
                 && SchemaTypeUtil.INTEGER32_FORMAT.equals(schema.getFormat())) { // format: short (int32)
             return true;
@@ -387,9 +418,6 @@ public class ModelUtils {
     }
 
     public static boolean isDoubleSchema(Schema schema) {
-        if (schema instanceof NumberSchema) {
-            return true;
-        }
         if (SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())
                 && SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat())) { // format: double
             return true;
@@ -484,7 +512,76 @@ public class ModelUtils {
     }
 
     /**
-     * If a Schema contains a reference to an other Schema with '$ref', returns the referenced Schema if it is found or the actual Schema in the other cases.
+     * Check to see if the schema is a model with at least one properties
+     *
+     * @param schema potentially containing a '$ref'
+     * @return true if it's a model with at least one properties
+     */
+    public static boolean isModel(Schema schema) {
+        if (schema == null) {
+            LOGGER.error("Schema cannot be null in isModel check");
+            return false;
+        }
+
+        // has at least one property
+        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            return true;
+        }
+
+        // composed schema is a model
+        if (schema instanceof ComposedSchema) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check to see if the schema is a free form object
+     *
+     * @param schema potentially containing a '$ref'
+     * @return true if it's a free-form object
+     */
+    public static boolean isFreeFormObject(Schema schema) {
+        if (schema == null) {
+            LOGGER.error("Schema cannot be null in isFreeFormObject check");
+            return false;
+        }
+
+        // not free-form if allOf, anyOf, oneOf is not empty
+        if (schema instanceof ComposedSchema) {
+            ComposedSchema cs = (ComposedSchema) schema;
+            List<Schema> interfaces = getInterfaces(cs);
+            if (interfaces != null && !interfaces.isEmpty()) {
+                return false;
+            }
+        }
+
+        // has at least one property
+        if ("object".equals(schema.getType())) {
+            // no properties
+            if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
+                Schema addlProps = getAdditionalProperties(schema);
+                // additionalProperties not defined
+                if (addlProps == null) {
+                    return true;
+                } else {
+                    if (addlProps instanceof ObjectSchema) {
+                        ObjectSchema objSchema = (ObjectSchema) addlProps;
+                        // additionalProperties defined as {}
+                        if (objSchema.getProperties() == null || objSchema.getProperties().isEmpty()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * If a Schema contains a reference to another Schema with '$ref', returns the referenced Schema if it is found or the actual Schema in the other cases.
      *
      * @param openAPI specification being checked
      * @param schema  potentially containing a '$ref'
@@ -604,6 +701,35 @@ public class ModelUtils {
     }
 
     /**
+     * If a Callback contains a reference to an other Callback with '$ref', returns the referenced Callback if it is found or the actual Callback in the other cases.
+     *
+     * @param openAPI  specification being checked
+     * @param callback potentially containing a '$ref'
+     * @return callback without '$ref'
+     */
+    public static Callback getReferencedCallback(OpenAPI openAPI, Callback callback) {
+        if (callback != null && StringUtils.isNotEmpty(callback.get$ref())) {
+            String name = getSimpleRef(callback.get$ref());
+            Callback referencedCallback = getCallback(openAPI, name);
+            if (referencedCallback != null) {
+                return referencedCallback;
+            }
+        }
+        return callback;
+    }
+
+    public static Callback getCallback(OpenAPI openAPI, String name) {
+        if (name == null) {
+            return null;
+        }
+
+        if (openAPI != null && openAPI.getComponents() != null && openAPI.getComponents().getCallbacks() != null) {
+            return openAPI.getComponents().getCallbacks().get(name);
+        }
+        return null;
+    }
+
+    /**
      * Return the first defined Schema for a RequestBody
      *
      * @param requestBody request body of the operation
@@ -628,7 +754,7 @@ public class ModelUtils {
             return null;
         }
         if (content.size() > 1) {
-            LOGGER.warn("Multiple schemas found, returning only the first one");
+            LOGGER.warn("Multiple schemas found in content, returning only the first one");
         }
         MediaType mediaType = content.values().iterator().next();
         return mediaType.getSchema();
@@ -637,35 +763,63 @@ public class ModelUtils {
     /**
      * Get the actual schema from aliases. If the provided schema is not an alias, the schema itself will be returned.
      *
-     * @param allSchemas all schemas
-     * @param schema schema (alias or direct reference)
+     * @param openAPI specification being checked
+     * @param schema  schema (alias or direct reference)
      * @return actual schema
      */
-    public static Schema unaliasSchema(Map<String, Schema> allSchemas, Schema schema) {
+    public static Schema unaliasSchema(OpenAPI openAPI, Schema schema) {
+        Map<String, Schema> allSchemas = getSchemas(openAPI);
+        if (allSchemas == null || allSchemas.isEmpty()) {
+            // skip the warning as the spec can have no model defined
+            //LOGGER.warn("allSchemas cannot be null/empty in unaliasSchema. Returned 'schema'");
+            return schema;
+        }
+
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             Schema ref = allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref()));
             if (ref == null) {
                 LOGGER.warn("{} is not defined", schema.get$ref());
                 return schema;
-            } else if (isObjectSchema(ref)) { // model
-                return schema;
-            } else if (isStringSchema(ref) && (ref.getEnum() != null && !ref.getEnum().isEmpty())) {
+            } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
                 // top-level enum class
                 return schema;
-            } else if (isMapSchema(ref) || isArraySchema(ref) || isComposedSchema(ref)) { // map/array def should be created as models
+            } else if (isArraySchema(ref)) {
+                if (generateAliasAsModel) {
+                    return schema; // generate a model extending array
+                } else {
+                    return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+                }
+            } else if (isComposedSchema(ref)) {
                 return schema;
+            } else if (isMapSchema(ref)) {
+                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
+                    return schema; // treat it as model
+                else {
+                    if (generateAliasAsModel) {
+                        return schema; // generate a model extending map
+                    } else {
+                        // treat it as a typical map
+                        return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+                    }
+                }
+            } else if (isObjectSchema(ref)) { // model
+                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
+                    return schema;
+                } else { // free form object (type: object)
+                    return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+                }
             } else {
-                return unaliasSchema(allSchemas, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
+                return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())));
             }
         }
         return schema;
     }
 
     public static Schema getAdditionalProperties(Schema schema) {
-        if(schema.getAdditionalProperties() instanceof Schema) {
+        if (schema.getAdditionalProperties() instanceof Schema) {
             return (Schema) schema.getAdditionalProperties();
         }
-        if(schema.getAdditionalProperties() instanceof Boolean && (Boolean)schema.getAdditionalProperties()) {
+        if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
             return new ObjectSchema();
         }
         return null;
@@ -691,5 +845,103 @@ public class ModelUtils {
             return openAPI.getComponents().getHeaders().get(name);
         }
         return null;
+    }
+
+    /**
+     * Get the interfaces from the schema (composed)
+     *
+     * @param composed schema (alias or direct reference)
+     * @return a list of schema defined in allOf, anyOf or oneOf
+     */
+    public static List<Schema> getInterfaces(ComposedSchema composed) {
+        if (composed.getAllOf() != null && !composed.getAllOf().isEmpty()) {
+            return composed.getAllOf();
+        } else if (composed.getAnyOf() != null && !composed.getAnyOf().isEmpty()) {
+            return composed.getAnyOf();
+        } else if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
+            return composed.getOneOf();
+        } else {
+            return Collections.<Schema>emptyList();
+        }
+    }
+
+    /**
+     * Get the the parent model name from the schemas (allOf, anyOf, oneOf)
+     *
+     * @param composedSchema schema (alias or direct reference)
+     * @param allSchemas     all schemas
+     * @return the name of the parent model
+     */
+    public static String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
+        List<Schema> interfaces = getInterfaces(composedSchema);
+
+        if (interfaces != null && !interfaces.isEmpty()) {
+            for (Schema schema : interfaces) {
+                // get the actual schema
+                if (StringUtils.isNotEmpty(schema.get$ref())) {
+                    String parentName = getSimpleRef(schema.get$ref());
+                    Schema s = allSchemas.get(parentName);
+                    if (s == null) {
+                        LOGGER.error("Failed to obtain schema from {}", parentName);
+                        return "UNKNOWN_PARENT_NAME";
+                    } else if (s.getDiscriminator() != null && StringUtils.isNotEmpty(s.getDiscriminator().getPropertyName())) {
+                        // discriminator.propertyName is used
+                        return parentName;
+                    } else {
+                        LOGGER.debug("Not a parent since discriminator.propertyName is not set {}", s.get$ref());
+                        // not a parent since discriminator.propertyName is not set
+                    }
+                } else {
+                    // not a ref, doing nothing
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public static List<String> getAllParentsName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
+        List<Schema> interfaces = getInterfaces(composedSchema);
+        List<String> names = new ArrayList<String>();
+
+        if (interfaces != null && !interfaces.isEmpty()) {
+            for (Schema schema : interfaces) {
+                // get the actual schema
+                if (StringUtils.isNotEmpty(schema.get$ref())) {
+                    String parentName = getSimpleRef(schema.get$ref());
+                    Schema s = allSchemas.get(parentName);
+                    if (s == null) {
+                        LOGGER.error("Failed to obtain schema from {}", parentName);
+                        names.add("UNKNOWN_PARENT_NAME");
+                    } else if (s.getDiscriminator() != null && StringUtils.isNotEmpty(s.getDiscriminator().getPropertyName())) {
+                        // discriminator.propertyName is used
+                        names.add(parentName);
+                    } else {
+                        LOGGER.debug("Not a parent since discriminator.propertyName is not set {}", s.get$ref());
+                        // not a parent since discriminator.propertyName is not set
+                    }
+                } else {
+                    // not a ref, doing nothing
+                }
+            }
+        }
+
+        return names;
+    }
+
+    public static boolean isNullable(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+
+        if (Boolean.TRUE.equals(schema.getNullable())) {
+            return true;
+        }
+
+        if (schema.getExtensions() != null && schema.getExtensions().get("x-nullable") != null) {
+            return Boolean.valueOf(schema.getExtensions().get("x-nullable").toString());
+        }
+
+        return false;
     }
 }

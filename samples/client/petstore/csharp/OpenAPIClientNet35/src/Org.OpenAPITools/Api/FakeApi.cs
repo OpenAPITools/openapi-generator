@@ -25,6 +25,27 @@ namespace Org.OpenAPITools.Api
     {
         #region Synchronous Operations
         /// <summary>
+        /// creates an XmlItem
+        /// </summary>
+        /// <remarks>
+        /// this route creates an XmlItem
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xmlItem">XmlItem Body</param>
+        /// <returns></returns>
+        void CreateXmlItem (XmlItem xmlItem);
+
+        /// <summary>
+        /// creates an XmlItem
+        /// </summary>
+        /// <remarks>
+        /// this route creates an XmlItem
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xmlItem">XmlItem Body</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> CreateXmlItemWithHttpInfo (XmlItem xmlItem);
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -52,9 +73,9 @@ namespace Org.OpenAPITools.Api
         /// Test serialization of object with outer number type
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="outerComposite">Input composite as post body (optional)</param>
+        /// <param name="body">Input composite as post body (optional)</param>
         /// <returns>OuterComposite</returns>
-        OuterComposite FakeOuterCompositeSerialize (OuterComposite outerComposite = null);
+        OuterComposite FakeOuterCompositeSerialize (OuterComposite body = null);
 
         /// <summary>
         /// 
@@ -63,9 +84,9 @@ namespace Org.OpenAPITools.Api
         /// Test serialization of object with outer number type
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="outerComposite">Input composite as post body (optional)</param>
+        /// <param name="body">Input composite as post body (optional)</param>
         /// <returns>ApiResponse of OuterComposite</returns>
-        ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo (OuterComposite outerComposite = null);
+        ApiResponse<OuterComposite> FakeOuterCompositeSerializeWithHttpInfo (OuterComposite body = null);
         /// <summary>
         /// 
         /// </summary>
@@ -112,13 +133,34 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// 
+        /// For this test, the body for this request much reference a schema named &#x60;File&#x60;.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="query"></param>
-        /// <param name="user"></param>
+        /// <param name="body"></param>
         /// <returns></returns>
-        void TestBodyWithQueryParams (string query, User user);
+        void TestBodyWithFileSchema (FileSchemaTestClass body);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"></param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> TestBodyWithFileSchemaWithHttpInfo (FileSchemaTestClass body);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="query"></param>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        void TestBodyWithQueryParams (string query, User body);
 
         /// <summary>
         /// 
@@ -128,9 +170,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="query"></param>
-        /// <param name="user"></param>
+        /// <param name="body"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo (string query, User user);
+        ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo (string query, User body);
         /// <summary>
         /// To test \&quot;client\&quot; model
         /// </summary>
@@ -138,9 +180,9 @@ namespace Org.OpenAPITools.Api
         /// To test \&quot;client\&quot; model
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ModelClient</returns>
-        ModelClient TestClientModel (ModelClient modelClient);
+        ModelClient TestClientModel (ModelClient body);
 
         /// <summary>
         /// To test \&quot;client\&quot; model
@@ -149,9 +191,9 @@ namespace Org.OpenAPITools.Api
         /// To test \&quot;client\&quot; model
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> TestClientModelWithHttpInfo (ModelClient modelClient);
+        ApiResponse<ModelClient> TestClientModelWithHttpInfo (ModelClient body);
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
         /// </summary>
@@ -235,15 +277,46 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> TestEnumParametersWithHttpInfo (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null);
         /// <summary>
+        /// Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <remarks>
+        /// Fake endpoint to test group parameters (optional)
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
+        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns></returns>
+        void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <remarks>
+        /// Fake endpoint to test group parameters (optional)
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
+        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> TestGroupParametersWithHttpInfo (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null);
+        /// <summary>
         /// test inline additionalProperties
         /// </summary>
         /// <remarks>
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="requestBody">request body</param>
+        /// <param name="param">request body</param>
         /// <returns></returns>
-        void TestInlineAdditionalProperties (Dictionary<string, string> requestBody);
+        void TestInlineAdditionalProperties (Dictionary<string, string> param);
 
         /// <summary>
         /// test inline additionalProperties
@@ -252,9 +325,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="requestBody">request body</param>
+        /// <param name="param">request body</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestInlineAdditionalPropertiesWithHttpInfo (Dictionary<string, string> requestBody);
+        ApiResponse<Object> TestInlineAdditionalPropertiesWithHttpInfo (Dictionary<string, string> param);
         /// <summary>
         /// test json serialization of form data
         /// </summary>
@@ -295,6 +368,17 @@ namespace Org.OpenAPITools.Api
         public FakeApi(String basePath)
         {
             this.Configuration = new Org.OpenAPITools.Client.Configuration { BasePath = basePath };
+
+            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FakeApi"/> class
+        /// </summary>
+        /// <returns></returns>
+        public FakeApi()
+        {
+            this.Configuration = Org.OpenAPITools.Client.Configuration.Default;
 
             ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
@@ -379,6 +463,83 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// creates an XmlItem this route creates an XmlItem
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xmlItem">XmlItem Body</param>
+        /// <returns></returns>
+        public void CreateXmlItem (XmlItem xmlItem)
+        {
+             CreateXmlItemWithHttpInfo(xmlItem);
+        }
+
+        /// <summary>
+        /// creates an XmlItem this route creates an XmlItem
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xmlItem">XmlItem Body</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<Object> CreateXmlItemWithHttpInfo (XmlItem xmlItem)
+        {
+            // verify the required parameter 'xmlItem' is set
+            if (xmlItem == null)
+                throw new ApiException(400, "Missing required parameter 'xmlItem' when calling FakeApi->CreateXmlItem");
+
+            var localVarPath = "/fake/create_xml_item";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/xml", 
+                "application/xml; charset=utf-8", 
+                "application/xml; charset=utf-16", 
+                "text/xml", 
+                "text/xml; charset=utf-8", 
+                "text/xml; charset=utf-16"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (xmlItem != null && xmlItem.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(xmlItem); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = xmlItem; // byte array
+            }
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("CreateXmlItem", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                null);
+        }
+
+        /// <summary>
         ///  Test serialization of outer boolean types
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -444,7 +605,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<bool?>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (bool?) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(bool?)));
         }
 
@@ -452,11 +613,11 @@ namespace Org.OpenAPITools.Api
         ///  Test serialization of object with outer number type
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="outerComposite">Input composite as post body (optional)</param>
+        /// <param name="body">Input composite as post body (optional)</param>
         /// <returns>OuterComposite</returns>
-        public OuterComposite FakeOuterCompositeSerialize (OuterComposite outerComposite = null)
+        public OuterComposite FakeOuterCompositeSerialize (OuterComposite body = null)
         {
-             ApiResponse<OuterComposite> localVarResponse = FakeOuterCompositeSerializeWithHttpInfo(outerComposite);
+             ApiResponse<OuterComposite> localVarResponse = FakeOuterCompositeSerializeWithHttpInfo(body);
              return localVarResponse.Data;
         }
 
@@ -464,9 +625,9 @@ namespace Org.OpenAPITools.Api
         ///  Test serialization of object with outer number type
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="outerComposite">Input composite as post body (optional)</param>
+        /// <param name="body">Input composite as post body (optional)</param>
         /// <returns>ApiResponse of OuterComposite</returns>
-        public ApiResponse< OuterComposite > FakeOuterCompositeSerializeWithHttpInfo (OuterComposite outerComposite = null)
+        public ApiResponse< OuterComposite > FakeOuterCompositeSerializeWithHttpInfo (OuterComposite body = null)
         {
 
             var localVarPath = "/fake/outer/composite";
@@ -490,13 +651,13 @@ namespace Org.OpenAPITools.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (outerComposite != null && outerComposite.GetType() != typeof(byte[]))
+            if (body != null && body.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(outerComposite); // http body (model) parameter
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
             else
             {
-                localVarPostBody = outerComposite; // byte array
+                localVarPostBody = body; // byte array
             }
 
 
@@ -514,7 +675,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<OuterComposite>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (OuterComposite) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(OuterComposite)));
         }
 
@@ -584,7 +745,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<decimal?>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (decimal?) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(decimal?)));
         }
 
@@ -654,20 +815,80 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<string>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
         }
 
         /// <summary>
-        ///  
+        ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="query"></param>
-        /// <param name="user"></param>
+        /// <param name="body"></param>
         /// <returns></returns>
-        public void TestBodyWithQueryParams (string query, User user)
+        public void TestBodyWithFileSchema (FileSchemaTestClass body)
         {
-             TestBodyWithQueryParamsWithHttpInfo(query, user);
+             TestBodyWithFileSchemaWithHttpInfo(body);
+        }
+
+        /// <summary>
+        ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="body"></param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<Object> TestBodyWithFileSchemaWithHttpInfo (FileSchemaTestClass body)
+        {
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestBodyWithFileSchema");
+
+            var localVarPath = "/fake/body-with-file-schema";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+                "application/json"
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (body != null && body.GetType() != typeof(byte[]))
+            {
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
+            }
+            else
+            {
+                localVarPostBody = body; // byte array
+            }
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestBodyWithFileSchema", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                null);
         }
 
         /// <summary>
@@ -675,16 +896,28 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="query"></param>
-        /// <param name="user"></param>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        public void TestBodyWithQueryParams (string query, User body)
+        {
+             TestBodyWithQueryParamsWithHttpInfo(query, body);
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="query"></param>
+        /// <param name="body"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo (string query, User user)
+        public ApiResponse<Object> TestBodyWithQueryParamsWithHttpInfo (string query, User body)
         {
             // verify the required parameter 'query' is set
             if (query == null)
                 throw new ApiException(400, "Missing required parameter 'query' when calling FakeApi->TestBodyWithQueryParams");
-            // verify the required parameter 'user' is set
-            if (user == null)
-                throw new ApiException(400, "Missing required parameter 'user' when calling FakeApi->TestBodyWithQueryParams");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestBodyWithQueryParams");
 
             var localVarPath = "/fake/body-with-query-params";
             var localVarPathParams = new Dictionary<String, String>();
@@ -708,13 +941,13 @@ namespace Org.OpenAPITools.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (query != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "query", query)); // query parameter
-            if (user != null && user.GetType() != typeof(byte[]))
+            if (body != null && body.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(user); // http body (model) parameter
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
             else
             {
-                localVarPostBody = user; // byte array
+                localVarPostBody = body; // byte array
             }
 
 
@@ -732,7 +965,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -740,11 +973,11 @@ namespace Org.OpenAPITools.Api
         /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ModelClient</returns>
-        public ModelClient TestClientModel (ModelClient modelClient)
+        public ModelClient TestClientModel (ModelClient body)
         {
-             ApiResponse<ModelClient> localVarResponse = TestClientModelWithHttpInfo(modelClient);
+             ApiResponse<ModelClient> localVarResponse = TestClientModelWithHttpInfo(body);
              return localVarResponse.Data;
         }
 
@@ -752,13 +985,13 @@ namespace Org.OpenAPITools.Api
         /// To test \&quot;client\&quot; model To test \&quot;client\&quot; model
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        public ApiResponse< ModelClient > TestClientModelWithHttpInfo (ModelClient modelClient)
+        public ApiResponse< ModelClient > TestClientModelWithHttpInfo (ModelClient body)
         {
-            // verify the required parameter 'modelClient' is set
-            if (modelClient == null)
-                throw new ApiException(400, "Missing required parameter 'modelClient' when calling FakeApi->TestClientModel");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new ApiException(400, "Missing required parameter 'body' when calling FakeApi->TestClientModel");
 
             var localVarPath = "/fake";
             var localVarPathParams = new Dictionary<String, String>();
@@ -782,13 +1015,13 @@ namespace Org.OpenAPITools.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (modelClient != null && modelClient.GetType() != typeof(byte[]))
+            if (body != null && body.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(modelClient); // http body (model) parameter
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
             else
             {
-                localVarPostBody = modelClient; // byte array
+                localVarPostBody = body; // byte array
             }
 
 
@@ -806,7 +1039,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<ModelClient>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (ModelClient) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(ModelClient)));
         }
 
@@ -925,7 +1158,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -1008,7 +1241,92 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                null);
+        }
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
+        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns></returns>
+        public void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        {
+             TestGroupParametersWithHttpInfo(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+        }
+
+        /// <summary>
+        /// Fake endpoint to test group parameters (optional) Fake endpoint to test group parameters (optional)
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requiredStringGroup">Required String in group parameters</param>
+        /// <param name="requiredBooleanGroup">Required Boolean in group parameters</param>
+        /// <param name="requiredInt64Group">Required Integer in group parameters</param>
+        /// <param name="stringGroup">String in group parameters (optional)</param>
+        /// <param name="booleanGroup">Boolean in group parameters (optional)</param>
+        /// <param name="int64Group">Integer in group parameters (optional)</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<Object> TestGroupParametersWithHttpInfo (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
+        {
+            // verify the required parameter 'requiredStringGroup' is set
+            if (requiredStringGroup == null)
+                throw new ApiException(400, "Missing required parameter 'requiredStringGroup' when calling FakeApi->TestGroupParameters");
+            // verify the required parameter 'requiredBooleanGroup' is set
+            if (requiredBooleanGroup == null)
+                throw new ApiException(400, "Missing required parameter 'requiredBooleanGroup' when calling FakeApi->TestGroupParameters");
+            // verify the required parameter 'requiredInt64Group' is set
+            if (requiredInt64Group == null)
+                throw new ApiException(400, "Missing required parameter 'requiredInt64Group' when calling FakeApi->TestGroupParameters");
+
+            var localVarPath = "/fake";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (requiredStringGroup != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "required_string_group", requiredStringGroup)); // query parameter
+            if (requiredInt64Group != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "required_int64_group", requiredInt64Group)); // query parameter
+            if (stringGroup != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "string_group", stringGroup)); // query parameter
+            if (int64Group != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "int64_group", int64Group)); // query parameter
+            if (requiredBooleanGroup != null) localVarHeaderParams.Add("required_boolean_group", this.Configuration.ApiClient.ParameterToString(requiredBooleanGroup)); // header parameter
+            if (booleanGroup != null) localVarHeaderParams.Add("boolean_group", this.Configuration.ApiClient.ParameterToString(booleanGroup)); // header parameter
+
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("TestGroupParameters", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<Object>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -1016,24 +1334,24 @@ namespace Org.OpenAPITools.Api
         /// test inline additionalProperties 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="requestBody">request body</param>
+        /// <param name="param">request body</param>
         /// <returns></returns>
-        public void TestInlineAdditionalProperties (Dictionary<string, string> requestBody)
+        public void TestInlineAdditionalProperties (Dictionary<string, string> param)
         {
-             TestInlineAdditionalPropertiesWithHttpInfo(requestBody);
+             TestInlineAdditionalPropertiesWithHttpInfo(param);
         }
 
         /// <summary>
         /// test inline additionalProperties 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="requestBody">request body</param>
+        /// <param name="param">request body</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> TestInlineAdditionalPropertiesWithHttpInfo (Dictionary<string, string> requestBody)
+        public ApiResponse<Object> TestInlineAdditionalPropertiesWithHttpInfo (Dictionary<string, string> param)
         {
-            // verify the required parameter 'requestBody' is set
-            if (requestBody == null)
-                throw new ApiException(400, "Missing required parameter 'requestBody' when calling FakeApi->TestInlineAdditionalProperties");
+            // verify the required parameter 'param' is set
+            if (param == null)
+                throw new ApiException(400, "Missing required parameter 'param' when calling FakeApi->TestInlineAdditionalProperties");
 
             var localVarPath = "/fake/inline-additionalProperties";
             var localVarPathParams = new Dictionary<String, String>();
@@ -1056,13 +1374,13 @@ namespace Org.OpenAPITools.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (requestBody != null && requestBody.GetType() != typeof(byte[]))
+            if (param != null && param.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(requestBody); // http body (model) parameter
+                localVarPostBody = this.Configuration.ApiClient.Serialize(param); // http body (model) parameter
             }
             else
             {
-                localVarPostBody = requestBody; // byte array
+                localVarPostBody = param; // byte array
             }
 
 
@@ -1080,7 +1398,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 
@@ -1151,7 +1469,7 @@ namespace Org.OpenAPITools.Api
             }
 
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 null);
         }
 

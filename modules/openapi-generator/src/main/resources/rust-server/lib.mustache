@@ -39,9 +39,7 @@ pub const BASE_PATH: &'static str = "{{{basePathWithoutHost}}}";
 pub const API_VERSION: &'static str = "{{{appVersion}}}";
 
 {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
-{{^isResponseFile}}
 #[derive(Debug, PartialEq)]
-{{/isResponseFile}}
 pub enum {{{operationId}}}Response {
 {{#responses}}
 {{#message}}    /// {{{message}}}{{/message}}

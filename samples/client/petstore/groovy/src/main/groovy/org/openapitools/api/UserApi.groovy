@@ -14,7 +14,7 @@ class UserApi {
     String basePath = "http://petstore.swagger.io/v2"
     String versionPath = "/api/v1"
 
-    def createUser ( User user, Closure onSuccess, Closure onFailure)  {
+    def createUser ( User body, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user"
 
@@ -23,8 +23,8 @@ class UserApi {
         def headerParams = [:]
 
         // verify required params are set
-        if (user == null) {
-            throw new RuntimeException("missing required params user")
+        if (body == null) {
+            throw new RuntimeException("missing required params body")
         }
 
         // TODO: form params, body param not yet support
@@ -35,7 +35,7 @@ class UserApi {
 
     }
 
-    def createUsersWithArrayInput ( List<User> user, Closure onSuccess, Closure onFailure)  {
+    def createUsersWithArrayInput ( List<User> body, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user/createWithArray"
 
@@ -44,8 +44,8 @@ class UserApi {
         def headerParams = [:]
 
         // verify required params are set
-        if (user == null) {
-            throw new RuntimeException("missing required params user")
+        if (body == null) {
+            throw new RuntimeException("missing required params body")
         }
 
         // TODO: form params, body param not yet support
@@ -56,7 +56,7 @@ class UserApi {
 
     }
 
-    def createUsersWithListInput ( List<User> user, Closure onSuccess, Closure onFailure)  {
+    def createUsersWithListInput ( List<User> body, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user/createWithList"
 
@@ -65,8 +65,8 @@ class UserApi {
         def headerParams = [:]
 
         // verify required params are set
-        if (user == null) {
-            throw new RuntimeException("missing required params user")
+        if (body == null) {
+            throw new RuntimeException("missing required params body")
         }
 
         // TODO: form params, body param not yet support
@@ -167,7 +167,7 @@ class UserApi {
 
     }
 
-    def updateUser ( String username, User user, Closure onSuccess, Closure onFailure)  {
+    def updateUser ( String username, User body, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user/{username}"
 
@@ -181,8 +181,8 @@ class UserApi {
         }
 
         // verify required params are set
-        if (user == null) {
-            throw new RuntimeException("missing required params user")
+        if (body == null) {
+            throw new RuntimeException("missing required params body")
         }
 
         // TODO: form params, body param not yet support

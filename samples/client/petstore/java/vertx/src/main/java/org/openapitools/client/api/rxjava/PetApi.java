@@ -26,22 +26,22 @@ public class PetApi {
     /**
      * Add a new pet to the store
      * 
-     * @param pet Pet object that needs to be added to the store (required)
+     * @param body Pet object that needs to be added to the store (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void addPet(Pet pet, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.addPet(pet, resultHandler);
+    public void addPet(Pet body, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.addPet(body, resultHandler);
     }
 
     /**
      * Add a new pet to the store
      * 
-     * @param pet Pet object that needs to be added to the store (required)
+     * @param body Pet object that needs to be added to the store (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Void> rxAddPet(Pet pet) {
+    public Single<Void> rxAddPet(Pet body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.addPet(pet, fut);
+            delegate.addPet(body, fut);
         }));
     }
     /**
@@ -133,30 +133,30 @@ public class PetApi {
     /**
      * Update an existing pet
      * 
-     * @param pet Pet object that needs to be added to the store (required)
+     * @param body Pet object that needs to be added to the store (required)
      * @param resultHandler Asynchronous result handler
      */
-    public void updatePet(Pet pet, Handler<AsyncResult<Void>> resultHandler) {
-        delegate.updatePet(pet, resultHandler);
+    public void updatePet(Pet body, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.updatePet(body, resultHandler);
     }
 
     /**
      * Update an existing pet
      * 
-     * @param pet Pet object that needs to be added to the store (required)
+     * @param body Pet object that needs to be added to the store (required)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<Void> rxUpdatePet(Pet pet) {
+    public Single<Void> rxUpdatePet(Pet body) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
-            delegate.updatePet(pet, fut);
+            delegate.updatePet(body, fut);
         }));
     }
     /**
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated (required)
-     * @param name Updated name of the pet (optional, default to null)
-     * @param status Updated status of the pet (optional, default to null)
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
      * @param resultHandler Asynchronous result handler
      */
     public void updatePetWithForm(Long petId, String name, String status, Handler<AsyncResult<Void>> resultHandler) {
@@ -167,8 +167,8 @@ public class PetApi {
      * Updates a pet in the store with form data
      * 
      * @param petId ID of pet that needs to be updated (required)
-     * @param name Updated name of the pet (optional, default to null)
-     * @param status Updated status of the pet (optional, default to null)
+     * @param name Updated name of the pet (optional)
+     * @param status Updated status of the pet (optional)
      * @return Asynchronous result handler (RxJava Single)
      */
     public Single<Void> rxUpdatePetWithForm(Long petId, String name, String status) {
@@ -180,8 +180,8 @@ public class PetApi {
      * uploads an image
      * 
      * @param petId ID of pet to update (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
-     * @param file file to upload (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
      * @param resultHandler Asynchronous result handler
      */
     public void uploadFile(Long petId, String additionalMetadata, AsyncFile file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
@@ -192,8 +192,8 @@ public class PetApi {
      * uploads an image
      * 
      * @param petId ID of pet to update (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
-     * @param file file to upload (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param file file to upload (optional)
      * @return Asynchronous result handler (RxJava Single)
      */
     public Single<ModelApiResponse> rxUploadFile(Long petId, String additionalMetadata, AsyncFile file) {
@@ -206,7 +206,7 @@ public class PetApi {
      * 
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
      * @param resultHandler Asynchronous result handler
      */
     public void uploadFileWithRequiredFile(Long petId, AsyncFile requiredFile, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
@@ -218,7 +218,7 @@ public class PetApi {
      * 
      * @param petId ID of pet to update (required)
      * @param requiredFile file to upload (required)
-     * @param additionalMetadata Additional data to pass to server (optional, default to null)
+     * @param additionalMetadata Additional data to pass to server (optional)
      * @return Asynchronous result handler (RxJava Single)
      */
     public Single<ModelApiResponse> rxUploadFileWithRequiredFile(Long petId, AsyncFile requiredFile, String additionalMetadata) {

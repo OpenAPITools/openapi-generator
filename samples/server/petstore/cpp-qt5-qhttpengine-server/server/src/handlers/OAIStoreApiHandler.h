@@ -34,7 +34,7 @@ public slots:
     virtual void deleteOrder(QString order_id);
     virtual void getInventory();
     virtual void getOrderById(qint64 order_id);
-    virtual void placeOrder(OAIOrder oai_order);
+    virtual void placeOrder(OAIOrder body);
     
 
 };

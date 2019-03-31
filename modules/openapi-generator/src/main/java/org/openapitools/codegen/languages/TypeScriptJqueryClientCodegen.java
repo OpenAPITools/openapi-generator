@@ -21,7 +21,6 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -34,7 +33,6 @@ import java.util.Locale;
 
 public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptJqueryClientCodegen.class);
-    private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
 
     public static final String NPM_NAME = "npmName";
     public static final String NPM_VERSION = "npmVersion";
@@ -183,7 +181,12 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         }
 
         if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
-            this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+            if (npmVersion.toUpperCase(Locale.ROOT).matches("^.*-SNAPSHOT$")) {
+                this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+            }
+            else {
+                this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+            }
         }
         additionalProperties.put(NPM_VERSION, npmVersion);
 

@@ -17,13 +17,15 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.*;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.*;
+import org.openapitools.codegen.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.*;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScalaLagomServerCodegen.class);
@@ -76,7 +78,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         importMapping.put("DateTime", "org.joda.time.DateTime");
         importMapping.put("ListBuffer", "scala.collection.mutable.ListBuffer");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("Integer", "Int");
         typeMapping.put("enum", "NSString");
         typeMapping.put("array", "Seq");
@@ -89,7 +91,6 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
         typeMapping.put("byte", "Byte");
         typeMapping.put("short", "Short");
         typeMapping.put("char", "Char");
-        typeMapping.put("long", "Long");
         typeMapping.put("double", "Double");
         typeMapping.put("object", "Any");
         typeMapping.put("file", "File");
@@ -167,11 +168,11 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
             case original:
                 return name;
             case camelCase:
-                return org.openapitools.codegen.utils.StringUtils.camelize(name, true);
+                return camelize(name, true);
             case PascalCase:
-                return org.openapitools.codegen.utils.StringUtils.camelize(name);
+                return camelize(name);
             case snake_case:
-                return org.openapitools.codegen.utils.StringUtils.underscore(name);
+                return underscore(name);
             default:
                 throw new IllegalArgumentException("Invalid model property naming '" +
                         name + "'. Must be 'original', 'camelCase', " +
@@ -207,7 +208,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
             throw new RuntimeException(operationId + " (reserved word) cannot be used as method name");
         }
 
-        return org.openapitools.codegen.utils.StringUtils.camelize(operationId, true);
+        return camelize(operationId, true);
     }
 
     @Override
@@ -216,7 +217,7 @@ public class ScalaLagomServerCodegen extends AbstractScalaCodegen implements Cod
 
         // camelize the model name
         // phone_number => PhoneNumber
-        final String camelizedName = org.openapitools.codegen.utils.StringUtils.camelize(sanitizedName);
+        final String camelizedName = camelize(sanitizedName);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(camelizedName)) {

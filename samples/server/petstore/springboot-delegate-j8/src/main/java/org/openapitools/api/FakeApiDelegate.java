@@ -10,6 +10,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.model.OuterComposite;
 import org.springframework.core.io.Resource;
 import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,17 +34,17 @@ public interface FakeApiDelegate {
     }
 
     /**
+     * @see FakeApi#createXmlItem
+     */
+    default ResponseEntity<Void> createXmlItem(XmlItem xmlItem) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
      * @see FakeApi#fakeOuterBooleanSerialize
      */
     default ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    ApiUtil.setExampleResponse(request, "*/*", "null");
-                    break;
-                }
-            }
-        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -51,11 +52,11 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#fakeOuterCompositeSerialize
      */
-    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite outerComposite) {
+    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    ApiUtil.setExampleResponse(request, "*/*", "{  \"my_string\" : \"my_string\",  \"my_number\" : 0.80082819046101150206595775671303272247314453125,  \"my_boolean\" : true}");
+                    ApiUtil.setExampleResponse(request, "*/*", "{  \"my_string\" : \"my_string\",  \"my_number\" : 0.8008281904610115,  \"my_boolean\" : true}");
                     break;
                 }
             }
@@ -68,14 +69,6 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterNumberSerialize
      */
     default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    ApiUtil.setExampleResponse(request, "*/*", "null");
-                    break;
-                }
-            }
-        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -84,14 +77,6 @@ public interface FakeApiDelegate {
      * @see FakeApi#fakeOuterStringSerialize
      */
     default ResponseEntity<String> fakeOuterStringSerialize(String body) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    ApiUtil.setExampleResponse(request, "*/*", "null");
-                    break;
-                }
-            }
-        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -99,7 +84,7 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testBodyWithFileSchema
      */
-    default ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) {
+    default ResponseEntity<Void> testBodyWithFileSchema(FileSchemaTestClass body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -108,7 +93,7 @@ public interface FakeApiDelegate {
      * @see FakeApi#testBodyWithQueryParams
      */
     default ResponseEntity<Void> testBodyWithQueryParams(String query,
-        User user) {
+        User body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -116,7 +101,7 @@ public interface FakeApiDelegate {
     /**
      * @see FakeApi#testClientModel
      */
-    default ResponseEntity<Client> testClientModel(Client client) {
+    default ResponseEntity<Client> testClientModel(Client body) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -166,9 +151,22 @@ public interface FakeApiDelegate {
     }
 
     /**
+     * @see FakeApi#testGroupParameters
+     */
+    default ResponseEntity<Void> testGroupParameters(Integer requiredStringGroup,
+        Boolean requiredBooleanGroup,
+        Long requiredInt64Group,
+        Integer stringGroup,
+        Boolean booleanGroup,
+        Long int64Group) {
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+    /**
      * @see FakeApi#testInlineAdditionalProperties
      */
-    default ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> requestBody) {
+    default ResponseEntity<Void> testInlineAdditionalProperties(Map<String, String> param) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

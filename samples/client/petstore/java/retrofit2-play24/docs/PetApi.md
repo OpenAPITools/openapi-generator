@@ -15,13 +15,15 @@ Method | HTTP request | Description
 [**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
-<a name="addPet"></a>
-# **addPet**
-> addPet(pet)
+
+## addPet
+
+> addPet(body)
 
 Add a new pet to the store
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiClient;
@@ -37,9 +39,9 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
 try {
-    apiInstance.addPet(pet);
+    apiInstance.addPet(body);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#addPet");
     e.printStackTrace();
@@ -48,9 +50,10 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -62,16 +65,18 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
-<a name="deletePet"></a>
-# **deletePet**
+
+## deletePet
+
 > deletePet(petId, apiKey)
 
 Deletes a pet
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiClient;
@@ -99,6 +104,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| Pet id to delete |
@@ -114,11 +120,12 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-<a name="findPetsByStatus"></a>
-# **findPetsByStatus**
+
+## findPetsByStatus
+
 > List&lt;Pet&gt; findPetsByStatus(status)
 
 Finds Pets by status
@@ -126,6 +133,7 @@ Finds Pets by status
 Multiple status values can be provided with comma separated strings
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiClient;
@@ -141,7 +149,7 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-List<String> status = Arrays.asList("status_example"); // List<String> | Status values that need to be considered for filter
+List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
 try {
     List<Pet> result = apiInstance.findPetsByStatus(status);
     System.out.println(result);
@@ -152,6 +160,7 @@ try {
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -167,11 +176,12 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="findPetsByTags"></a>
-# **findPetsByTags**
+
+## findPetsByTags
+
 > List&lt;Pet&gt; findPetsByTags(tags)
 
 Finds Pets by tags
@@ -179,6 +189,7 @@ Finds Pets by tags
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiClient;
@@ -194,7 +205,7 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-List<String> tags = Arrays.asList("tags_example"); // List<String> | Tags to filter by
+List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
 try {
     List<Pet> result = apiInstance.findPetsByTags(tags);
     System.out.println(result);
@@ -205,6 +216,7 @@ try {
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -220,11 +232,12 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="getPetById"></a>
-# **getPetById**
+
+## getPetById
+
 > Pet getPetById(petId)
 
 Find pet by ID
@@ -232,6 +245,7 @@ Find pet by ID
 Returns a single pet
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiClient;
@@ -261,6 +275,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to return |
@@ -275,16 +290,18 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="updatePet"></a>
-# **updatePet**
-> updatePet(pet)
+
+## updatePet
+
+> updatePet(body)
 
 Update an existing pet
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiClient;
@@ -300,9 +317,9 @@ OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
 petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
-Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
 try {
-    apiInstance.updatePet(pet);
+    apiInstance.updatePet(body);
 } catch (ApiException e) {
     System.err.println("Exception when calling PetApi#updatePet");
     e.printStackTrace();
@@ -311,9 +328,10 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -325,16 +343,18 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
-<a name="updatePetWithForm"></a>
-# **updatePetWithForm**
+
+## updatePetWithForm
+
 > updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiClient;
@@ -351,8 +371,8 @@ petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet that needs to be updated
-String name = "null"; // String | Updated name of the pet
-String status = "null"; // String | Updated status of the pet
+String name = "name_example"; // String | Updated name of the pet
+String status = "status_example"; // String | Updated status of the pet
 try {
     apiInstance.updatePetWithForm(petId, name, status);
 } catch (ApiException e) {
@@ -363,11 +383,12 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet that needs to be updated |
- **name** | **String**| Updated name of the pet | [optional] [default to null]
- **status** | **String**| Updated status of the pet | [optional] [default to null]
+ **name** | **String**| Updated name of the pet | [optional]
+ **status** | **String**| Updated status of the pet | [optional]
 
 ### Return type
 
@@ -379,16 +400,18 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
-<a name="uploadFile"></a>
-# **uploadFile**
+
+## uploadFile
+
 > ModelApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiClient;
@@ -405,8 +428,8 @@ petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet to update
-String additionalMetadata = "null"; // String | Additional data to pass to server
-File file = new File("null"); // File | file to upload
+String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
+File file = new File("/path/to/file"); // File | file to upload
 try {
     ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
     System.out.println(result);
@@ -418,11 +441,12 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
- **file** | **File**| file to upload | [optional] [default to null]
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional]
+ **file** | **File**| file to upload | [optional]
 
 ### Return type
 
@@ -434,16 +458,18 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
+- **Content-Type**: multipart/form-data
+- **Accept**: application/json
 
-<a name="uploadFileWithRequiredFile"></a>
-# **uploadFileWithRequiredFile**
+
+## uploadFileWithRequiredFile
+
 > ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiClient;
@@ -460,8 +486,8 @@ petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet to update
-File requiredFile = new File("null"); // File | file to upload
-String additionalMetadata = "null"; // String | Additional data to pass to server
+File requiredFile = new File("/path/to/file"); // File | file to upload
+String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
 try {
     ModelApiResponse result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
     System.out.println(result);
@@ -473,11 +499,12 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
- **requiredFile** | **File**| file to upload | [default to null]
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
+ **requiredFile** | **File**| file to upload |
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional]
 
 ### Return type
 
@@ -489,6 +516,6 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
+- **Content-Type**: multipart/form-data
+- **Accept**: application/json
 

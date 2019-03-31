@@ -7,15 +7,17 @@ Method | HTTP request | Description
 [**testClassname**](FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 
 
-<a name="testClassname"></a>
-# **testClassname**
-> Client testClassname(client)
+
+## testClassname
+
+> Client testClassname(body)
 
 To test class name in snake case
 
 To test class name in snake case
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 var defaultClient = OpenApiPetstore.ApiClient.instance;
@@ -26,7 +28,7 @@ api_key_query.apiKey = 'YOUR API KEY';
 //api_key_query.apiKeyPrefix = 'Token';
 
 var apiInstance = new OpenApiPetstore.FakeClassnameTags123Api();
-var client = new OpenApiPetstore.Client(); // Client | client model
+var body = new OpenApiPetstore.Client(); // Client | client model
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -34,14 +36,16 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.testClassname(client, callback);
+apiInstance.testClassname(body, callback);
 ```
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
@@ -53,6 +57,6 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 

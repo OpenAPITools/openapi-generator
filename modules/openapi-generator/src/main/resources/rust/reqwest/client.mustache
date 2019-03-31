@@ -1,0 +1,54 @@
+use std::rc::Rc;
+
+use super::configuration::Configuration;
+
+pub struct APIClient {
+    configuration: Rc<Configuration>,
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+    {{#-last}}
+    {{{classFilename}}}: Box<::apis::{{{classname}}}>,
+    {{/-last}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+}
+
+impl APIClient {
+    pub fn new(configuration: Configuration) -> APIClient {
+        let rc = Rc::new(configuration);
+
+        APIClient {
+            configuration: rc.clone(),
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+            {{#-last}}
+            {{{classFilename}}}: Box::new(::apis::{{{classname}}}Client::new(rc.clone())),
+            {{/-last}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+        }
+    }
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+{{#-last}}
+    pub fn {{{classFilename}}}(&self) -> &::apis::{{{classname}}}{
+        self.{{{classFilename}}}.as_ref()
+    }
+
+{{/-last}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+}

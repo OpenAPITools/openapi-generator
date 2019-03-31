@@ -50,13 +50,13 @@ public enum OuterEnum {
     return String.valueOf(value);
   }
 
-  public static OuterEnum fromValue(String text) {
+  public static OuterEnum fromValue(String value) {
     for (OuterEnum b : OuterEnum.values()) {
-      if (String.valueOf(b.value).equals(text)) {
+      if (b.value.equals(value)) {
         return b;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 
   public static class Adapter extends TypeAdapter<OuterEnum> {
@@ -68,7 +68,7 @@ public enum OuterEnum {
     @Override
     public OuterEnum read(final JsonReader jsonReader) throws IOException {
       String value = jsonReader.nextString();
-      return OuterEnum.fromValue(String.valueOf(value));
+      return OuterEnum.fromValue(value);
     }
   }
 }

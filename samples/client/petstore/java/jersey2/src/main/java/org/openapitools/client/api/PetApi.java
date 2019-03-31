@@ -40,26 +40,26 @@ public class PetApi {
   /**
    * Add a new pet to the store
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public void addPet(Pet pet) throws ApiException {
+  public void addPet(Pet body) throws ApiException {
 
-    addPetWithHttpInfo(pet);
+    addPetWithHttpInfo(body);
   }
 
   /**
    * Add a new pet to the store
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> addPetWithHttpInfo(Pet pet) throws ApiException {
-    Object localVarPostBody = pet;
+  public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'pet' is set
-    if (pet == null) {
-      throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling addPet");
     }
     
     // create path and map variables
@@ -310,26 +310,26 @@ public class PetApi {
   /**
    * Update an existing pet
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public void updatePet(Pet pet) throws ApiException {
+  public void updatePet(Pet body) throws ApiException {
 
-    updatePetWithHttpInfo(pet);
+    updatePetWithHttpInfo(body);
   }
 
   /**
    * Update an existing pet
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> updatePetWithHttpInfo(Pet pet) throws ApiException {
-    Object localVarPostBody = pet;
+  public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
+    Object localVarPostBody = body;
     
-    // verify the required parameter 'pet' is set
-    if (pet == null) {
-      throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet");
+    // verify the required parameter 'body' is set
+    if (body == null) {
+      throw new ApiException(400, "Missing the required parameter 'body' when calling updatePet");
     }
     
     // create path and map variables
@@ -362,8 +362,8 @@ public class PetApi {
    * Updates a pet in the store with form data
    * 
    * @param petId ID of pet that needs to be updated (required)
-   * @param name Updated name of the pet (optional, default to null)
-   * @param status Updated status of the pet (optional, default to null)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    * @throws ApiException if fails to make API call
    */
   public void updatePetWithForm(Long petId, String name, String status) throws ApiException {
@@ -375,8 +375,8 @@ public class PetApi {
    * Updates a pet in the store with form data
    * 
    * @param petId ID of pet that needs to be updated (required)
-   * @param name Updated name of the pet (optional, default to null)
-   * @param status Updated status of the pet (optional, default to null)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
@@ -422,8 +422,8 @@ if (status != null)
    * uploads an image
    * 
    * @param petId ID of pet to update (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
-   * @param file file to upload (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @return ModelApiResponse
    * @throws ApiException if fails to make API call
    */
@@ -435,8 +435,8 @@ if (status != null)
    * uploads an image
    * 
    * @param petId ID of pet to update (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
-   * @param file file to upload (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @return ApiResponse&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */
@@ -484,7 +484,7 @@ if (file != null)
    * 
    * @param petId ID of pet to update (required)
    * @param requiredFile file to upload (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
    * @return ModelApiResponse
    * @throws ApiException if fails to make API call
    */
@@ -497,7 +497,7 @@ if (file != null)
    * 
    * @param petId ID of pet to update (required)
    * @param requiredFile file to upload (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
    * @return ApiResponse&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */

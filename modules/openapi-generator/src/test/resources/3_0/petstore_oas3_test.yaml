@@ -360,6 +360,7 @@ paths:
           required: true
           schema:
             type: string
+            example: orderid123
       responses:
         '400':
           description: Invalid ID supplied

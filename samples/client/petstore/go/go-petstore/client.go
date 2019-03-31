@@ -33,8 +33,8 @@ import (
 )
 
 var (
-	jsonCheck = regexp.MustCompile("(?i:[application|text]/json)")
-	xmlCheck  = regexp.MustCompile("(?i:[application|text]/xml)")
+	jsonCheck = regexp.MustCompile(`(?i:(?:application|text)/(?:vnd\.[^;]+\+)?json)`)
+	xmlCheck  = regexp.MustCompile(`(?i:(?:application|text)/xml)`)
 )
 
 // APIClient manages communication with the OpenAPI Petstore API v1.0.0
@@ -199,7 +199,7 @@ func (c *APIClient) prepareRequest(
 	}
 
 	// add form parameters and file if available.
-	if len(formParams) > 0 || (len(fileBytes) > 0 && fileName != "") {
+	if strings.HasPrefix(headerParams["Content-Type"], "multipart/form-data") && len(formParams) > 0 || (len(fileBytes) > 0 && fileName != "") {
 		if body != nil {
 			return nil, errors.New("Cannot specify postBody and multipart form at the same time.")
 		}
@@ -236,6 +236,16 @@ func (c *APIClient) prepareRequest(
 		// Set Content-Length
 		headerParams["Content-Length"] = fmt.Sprintf("%d", body.Len())
 		w.Close()
+	}
+
+	if strings.HasPrefix(headerParams["Content-Type"], "application/x-www-form-urlencoded") && len(formParams) > 0 {
+		if body != nil {
+			return nil, errors.New("Cannot specify postBody and x-www-form-urlencoded form at the same time.")
+		}
+		body = &bytes.Buffer{}
+		body.WriteString(formParams.Encode())
+		// Set Content-Length
+		headerParams["Content-Length"] = fmt.Sprintf("%d", body.Len())
 	}
 
 	// Setup path and query parameters
@@ -318,12 +328,17 @@ func (c *APIClient) prepareRequest(
 }
 
 func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err error) {
-	if strings.Contains(contentType, "application/xml") {
+	if s, ok := v.(*string); ok {
+		*s = string(b)
+		return nil
+	}
+	if xmlCheck.MatchString(contentType) {
 		if err = xml.Unmarshal(b, v); err != nil {
 			return err
 		}
 		return nil
-	} else if strings.Contains(contentType, "application/json") {
+	}
+	if jsonCheck.MatchString(contentType) {
 		if err = json.Unmarshal(b, v); err != nil {
 			return err
 		}

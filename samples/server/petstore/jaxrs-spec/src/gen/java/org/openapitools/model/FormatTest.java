@@ -21,19 +21,19 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class FormatTest  implements Serializable {
   
-  private @Valid Integer integer = null;
-  private @Valid Integer int32 = null;
-  private @Valid Long int64 = null;
-  private @Valid BigDecimal number = null;
-  private @Valid Float _float = null;
-  private @Valid Double _double = null;
-  private @Valid String string = null;
-  private @Valid byte[] _byte = null;
-  private @Valid File binary = null;
-  private @Valid LocalDate date = null;
-  private @Valid Date dateTime = null;
-  private @Valid UUID uuid = null;
-  private @Valid String password = null;
+  private @Valid Integer integer;
+  private @Valid Integer int32;
+  private @Valid Long int64;
+  private @Valid BigDecimal number;
+  private @Valid Float _float;
+  private @Valid Double _double;
+  private @Valid String string;
+  private @Valid byte[] _byte;
+  private @Valid File binary;
+  private @Valid LocalDate date;
+  private @Valid Date dateTime;
+  private @Valid UUID uuid;
+  private @Valid String password;
 
   /**
    * minimum: 10
@@ -243,7 +243,7 @@ public class FormatTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;

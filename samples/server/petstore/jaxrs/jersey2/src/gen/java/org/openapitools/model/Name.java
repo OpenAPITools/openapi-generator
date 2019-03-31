@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * Model for testing model name same as property name
@@ -27,16 +28,16 @@ import javax.validation.constraints.*;
 
 public class Name   {
   @JsonProperty("name")
-  private Integer name = null;
+  private Integer name;
 
   @JsonProperty("snake_case")
-  private Integer snakeCase = null;
+  private Integer snakeCase;
 
   @JsonProperty("property")
-  private String property = null;
+  private String property;
 
   @JsonProperty("123Number")
-  private Integer _123number = null;
+  private Integer _123number;
 
   public Name name(Integer name) {
     this.name = name;
@@ -49,7 +50,7 @@ public class Name   {
    **/
   @JsonProperty("name")
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @NotNull 
   public Integer getName() {
     return name;
   }
@@ -58,14 +59,24 @@ public class Name   {
     this.name = name;
   }
 
+  public Name snakeCase(Integer snakeCase) {
+    this.snakeCase = snakeCase;
+    return this;
+  }
+
   /**
    * Get snakeCase
    * @return snakeCase
    **/
   @JsonProperty("snake_case")
   @ApiModelProperty(value = "")
+  
   public Integer getSnakeCase() {
     return snakeCase;
+  }
+
+  public void setSnakeCase(Integer snakeCase) {
+    this.snakeCase = snakeCase;
   }
 
   public Name property(String property) {
@@ -79,6 +90,7 @@ public class Name   {
    **/
   @JsonProperty("property")
   @ApiModelProperty(value = "")
+  
   public String getProperty() {
     return property;
   }
@@ -87,14 +99,24 @@ public class Name   {
     this.property = property;
   }
 
+  public Name _123number(Integer _123number) {
+    this._123number = _123number;
+    return this;
+  }
+
   /**
    * Get _123number
    * @return _123number
    **/
   @JsonProperty("123Number")
   @ApiModelProperty(value = "")
+  
   public Integer get123number() {
     return _123number;
+  }
+
+  public void set123number(Integer _123number) {
+    this._123number = _123number;
   }
 
 

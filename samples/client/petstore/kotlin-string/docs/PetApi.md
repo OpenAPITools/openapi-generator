@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> addPet(pet)
+> addPet(body)
 
 Add a new pet to the store
 
@@ -27,9 +27,9 @@ Add a new pet to the store
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val pet : Pet =  // Pet | Pet object that needs to be added to the store
+val body : Pet =  // Pet | Pet object that needs to be added to the store
 try {
-    apiInstance.addPet(pet)
+    apiInstance.addPet(body)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#addPet")
     e.printStackTrace()
@@ -43,7 +43,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -247,7 +247,7 @@ Name | Type | Description  | Notes
 
 <a name="updatePet"></a>
 # **updatePet**
-> updatePet(pet)
+> updatePet(body)
 
 Update an existing pet
 
@@ -258,9 +258,9 @@ Update an existing pet
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val pet : Pet =  // Pet | Pet object that needs to be added to the store
+val body : Pet =  // Pet | Pet object that needs to be added to the store
 try {
-    apiInstance.updatePet(pet)
+    apiInstance.updatePet(body)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#updatePet")
     e.printStackTrace()
@@ -274,7 +274,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -321,8 +321,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **kotlin.Long**| ID of pet that needs to be updated |
- **name** | **kotlin.String**| Updated name of the pet | [optional] [default to null]
- **status** | **kotlin.String**| Updated status of the pet | [optional] [default to null]
+ **name** | **kotlin.String**| Updated name of the pet | [optional]
+ **status** | **kotlin.String**| Updated status of the pet | [optional]
 
 ### Return type
 
@@ -370,8 +370,8 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **kotlin.Long**| ID of pet to update |
- **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] [default to null]
- **file** | **java.io.File**| file to upload | [optional] [default to null]
+ **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional]
+ **file** | **java.io.File**| file to upload | [optional]
 
 ### Return type
 

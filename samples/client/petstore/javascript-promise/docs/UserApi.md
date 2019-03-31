@@ -14,21 +14,23 @@ Method | HTTP request | Description
 [**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
 
 
-<a name="createUser"></a>
-# **createUser**
-> createUser(user)
+
+## createUser
+
+> createUser(body)
 
 Create user
 
 This can only be done by the logged in user.
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.UserApi();
-var user = new OpenApiPetstore.User(); // User | Created user object
-apiInstance.createUser(user).then(function() {
+var body = new OpenApiPetstore.User(); // User | Created user object
+apiInstance.createUser(body).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -38,9 +40,11 @@ apiInstance.createUser(user).then(function() {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -52,22 +56,24 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-<a name="createUsersWithArrayInput"></a>
-# **createUsersWithArrayInput**
-> createUsersWithArrayInput(user)
+
+## createUsersWithArrayInput
+
+> createUsersWithArrayInput(body)
 
 Creates list of users with given input array
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.UserApi();
-var user = [new OpenApiPetstore.User()]; // [User] | List of user object
-apiInstance.createUsersWithArrayInput(user).then(function() {
+var body = [new OpenApiPetstore.User()]; // [User] | List of user object
+apiInstance.createUsersWithArrayInput(body).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -77,9 +83,11 @@ apiInstance.createUsersWithArrayInput(user).then(function() {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**[User]**](Array.md)| List of user object | 
+ **body** | [**[User]**](Array.md)| List of user object | 
 
 ### Return type
 
@@ -91,22 +99,24 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-<a name="createUsersWithListInput"></a>
-# **createUsersWithListInput**
-> createUsersWithListInput(user)
+
+## createUsersWithListInput
+
+> createUsersWithListInput(body)
 
 Creates list of users with given input array
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.UserApi();
-var user = [new OpenApiPetstore.User()]; // [User] | List of user object
-apiInstance.createUsersWithListInput(user).then(function() {
+var body = [new OpenApiPetstore.User()]; // [User] | List of user object
+apiInstance.createUsersWithListInput(body).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -116,9 +126,11 @@ apiInstance.createUsersWithListInput(user).then(function() {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**[User]**](Array.md)| List of user object | 
+ **body** | [**[User]**](Array.md)| List of user object | 
 
 ### Return type
 
@@ -130,11 +142,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-<a name="deleteUser"></a>
-# **deleteUser**
+
+## deleteUser
+
 > deleteUser(username)
 
 Delete user
@@ -142,6 +155,7 @@ Delete user
 This can only be done by the logged in user.
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 
@@ -157,6 +171,8 @@ apiInstance.deleteUser(username).then(function() {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| The name that needs to be deleted | 
@@ -171,16 +187,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-<a name="getUserByName"></a>
-# **getUserByName**
+
+## getUserByName
+
 > User getUserByName(username)
 
 Get user by user name
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 
@@ -196,6 +214,8 @@ apiInstance.getUserByName(username).then(function(data) {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
@@ -210,16 +230,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="loginUser"></a>
-# **loginUser**
+
+## loginUser
+
 > String loginUser(username, password)
 
 Logs user into the system
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 
@@ -236,6 +258,8 @@ apiInstance.loginUser(username, password).then(function(data) {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| The user name for login | 
@@ -251,16 +275,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-<a name="logoutUser"></a>
-# **logoutUser**
+
+## logoutUser
+
 > logoutUser()
 
 Logs out current logged in user session
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 
@@ -274,6 +300,7 @@ apiInstance.logoutUser().then(function() {
 ```
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -286,25 +313,27 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-<a name="updateUser"></a>
-# **updateUser**
-> updateUser(username, user)
+
+## updateUser
+
+> updateUser(username, body)
 
 Updated user
 
 This can only be done by the logged in user.
 
 ### Example
+
 ```javascript
 var OpenApiPetstore = require('open_api_petstore');
 
 var apiInstance = new OpenApiPetstore.UserApi();
 var username = "username_example"; // String | name that need to be deleted
-var user = new OpenApiPetstore.User(); // User | Updated user object
-apiInstance.updateUser(username, user).then(function() {
+var body = new OpenApiPetstore.User(); // User | Updated user object
+apiInstance.updateUser(username, body).then(function() {
   console.log('API called successfully.');
 }, function(error) {
   console.error(error);
@@ -314,10 +343,12 @@ apiInstance.updateUser(username, user).then(function() {
 
 ### Parameters
 
+
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted | 
- **user** | [**User**](User.md)| Updated user object | 
+ **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -329,6 +360,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 

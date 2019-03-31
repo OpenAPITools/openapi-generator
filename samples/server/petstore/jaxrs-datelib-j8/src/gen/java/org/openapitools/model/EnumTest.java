@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnum;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * EnumTest
@@ -51,18 +52,18 @@ public class EnumTest  implements Serializable {
     }
 
     @JsonCreator
-    public static EnumStringEnum fromValue(String text) {
+    public static EnumStringEnum fromValue(String value) {
       for (EnumStringEnum b : EnumStringEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
   @JsonProperty("enum_string")
-  private EnumStringEnum enumString = null;
+  private EnumStringEnum enumString;
 
   /**
    * Gets or Sets enumStringRequired
@@ -87,18 +88,18 @@ public class EnumTest  implements Serializable {
     }
 
     @JsonCreator
-    public static EnumStringRequiredEnum fromValue(String text) {
+    public static EnumStringRequiredEnum fromValue(String value) {
       for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
   @JsonProperty("enum_string_required")
-  private EnumStringRequiredEnum enumStringRequired = null;
+  private EnumStringRequiredEnum enumStringRequired;
 
   /**
    * Gets or Sets enumInteger
@@ -121,18 +122,18 @@ public class EnumTest  implements Serializable {
     }
 
     @JsonCreator
-    public static EnumIntegerEnum fromValue(String text) {
+    public static EnumIntegerEnum fromValue(Integer value) {
       for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
   @JsonProperty("enum_integer")
-  private EnumIntegerEnum enumInteger = null;
+  private EnumIntegerEnum enumInteger;
 
   /**
    * Gets or Sets enumNumber
@@ -155,21 +156,21 @@ public class EnumTest  implements Serializable {
     }
 
     @JsonCreator
-    public static EnumNumberEnum fromValue(String text) {
+    public static EnumNumberEnum fromValue(Double value) {
       for (EnumNumberEnum b : EnumNumberEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
   @JsonProperty("enum_number")
-  private EnumNumberEnum enumNumber = null;
+  private EnumNumberEnum enumNumber;
 
   @JsonProperty("outerEnum")
-  private OuterEnum outerEnum = null;
+  private OuterEnum outerEnum;
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
@@ -182,6 +183,7 @@ public class EnumTest  implements Serializable {
    **/
   @JsonProperty("enum_string")
   @ApiModelProperty(value = "")
+  
   public EnumStringEnum getEnumString() {
     return enumString;
   }
@@ -201,7 +203,7 @@ public class EnumTest  implements Serializable {
    **/
   @JsonProperty("enum_string_required")
   @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @NotNull 
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
@@ -221,6 +223,7 @@ public class EnumTest  implements Serializable {
    **/
   @JsonProperty("enum_integer")
   @ApiModelProperty(value = "")
+  
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
@@ -240,6 +243,7 @@ public class EnumTest  implements Serializable {
    **/
   @JsonProperty("enum_number")
   @ApiModelProperty(value = "")
+  
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
@@ -259,6 +263,7 @@ public class EnumTest  implements Serializable {
    **/
   @JsonProperty("outerEnum")
   @ApiModelProperty(value = "")
+  @Valid 
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.model.Animal;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * AnimalFarm

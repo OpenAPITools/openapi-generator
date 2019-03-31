@@ -27,7 +27,6 @@ open class UserAPI {
         }
     }
 
-
     /**
      Create user
      - POST /user
@@ -63,7 +62,6 @@ open class UserAPI {
         }
     }
 
-
     /**
      Creates list of users with given input array
      - POST /user/createWithArray
@@ -97,7 +95,6 @@ open class UserAPI {
             }
         }
     }
-
 
     /**
      Creates list of users with given input array
@@ -133,7 +130,6 @@ open class UserAPI {
         }
     }
 
-
     /**
      Delete user
      - DELETE /user/{username}
@@ -168,7 +164,6 @@ open class UserAPI {
         }
     }
 
-
     /**
      Get user by user name
      - GET /user/{username}
@@ -202,7 +197,6 @@ open class UserAPI {
             completion(response?.body, error)
         }
     }
-
 
     /**
      Logs user into the system
@@ -243,7 +237,6 @@ open class UserAPI {
         }
     }
 
-
     /**
      Logs out current logged in user session
      - GET /user/logout
@@ -277,7 +270,6 @@ open class UserAPI {
             }
         }
     }
-
 
     /**
      Updated user

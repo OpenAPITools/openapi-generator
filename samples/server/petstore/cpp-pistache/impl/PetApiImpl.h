@@ -42,7 +42,7 @@ using namespace org::openapitools::server::model;
 
 class PetApiImpl : public org::openapitools::server::api::PetApi {
 public:
-    PetApiImpl(Pistache::Address addr);
+    PetApiImpl(std::shared_ptr<Pistache::Rest::Router>);
     ~PetApiImpl() {}
 
     void add_pet(const Pet &pet, Pistache::Http::ResponseWriter &response);

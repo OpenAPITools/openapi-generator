@@ -1,0 +1,37 @@
+-module({{classname}}_api).
+
+-export([ {{#operations}}{{#operation}}{{^-first}}
+        , {{/-first}}{{operationId}}/{{arity}}{{/operation}}{{/operations}}
+        ]).
+
+-define(BASE_URL, "{{{basePathWithoutHost}}}").
+
+{{#operations}}
+{{#operation}}
+%% @doc {{{summary}}}
+{{^notes.isEmpty}}
+%% {{{notes}}}
+{{/notes.isEmpty}}
+-spec {{operationId}}({{#allParams}}{{#required}}{{^-first}}, {{/-first}}{{{dataType}}}{{/required}}{{/allParams}}) ->
+  {{packageName}}_utils:response().
+{{operationId}}({{#allParams}}{{#required}}{{^-first}}, {{/-first}}{{paramName}}{{/required}}{{/allParams}}) ->
+  Method      = {{httpMethod}},
+  Host        = application:get_env({{packageName}}, host, "http://localhost:8080"),
+  Path        = ["{{{replacedPathName}}}"],
+  {{#isBodyAllowed}}
+  Body        = {{^formParams.isEmpty}}{form, [{{#formParams}}{{#required}}{{^-first}}, {{/-first}}{<<"{{{baseName}}}">>, {{paramName}}{{/required}}{{/formParams}}]++{{packageName}}_utils:optional_params([{{#formParams}}{{^required}}{{^-first}}, {{/-first}}'{{{baseName}}}'{{/required}}{{/formParams}}], _OptionalParams)}{{/formParams.isEmpty}}{{#formParams.isEmpty}}{{#bodyParams.isEmpty}}[]{{/bodyParams.isEmpty}}{{^bodyParams.isEmpty}}{{#bodyParams}}{{paramName}}{{/bodyParams}}{{/bodyParams.isEmpty}}{{/formParams.isEmpty}},
+  ContentType = {{#hasConsumes}}hd([{{#consumes}}{{^-first}}, {{/-first}}"{{mediaType}}"{{/consumes}}]){{/hasConsumes}}{{^hasConsumes}}"text/plain"{{/hasConsumes}},
+  {{/isBodyAllowed}}
+  {{^queryParams.isEmpty}}
+  QueryString = [{{#queryParams}}{{^-first}}, {{/-first}}<<"{{{baseName}}}=">>, {{{paramName}}}, <<"&">>{{/queryParams}}],
+  {{/queryParams.isEmpty}}
+
+  {{#isBodyAllowed}}
+  {{packageName}}_utils:request(Method, [Host, ?BASE_URL, Path{{^queryParams.isEmpty}}, <<"?">>, QueryString{{/queryParams.isEmpty}}], jsx:encode(Body), ContentType).
+  {{/isBodyAllowed}}
+  {{^isBodyAllowed}}
+  {{packageName}}_utils:request(Method, [Host, ?BASE_URL, Path{{^queryParams.isEmpty}}, <<"?">>, QueryString{{/queryParams.isEmpty}}]).
+  {{/isBodyAllowed}}
+
+{{/operation}}
+{{/operations}}

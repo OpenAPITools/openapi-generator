@@ -1,0 +1,7 @@
+-module(prop_{{packageName}}).
+
+-export([prop_test/0]).
+
+prop_test() ->
+  {ok, _} = application:ensure_all_started({{packageName}}),
+  {{packageName}}_statem:prop_main().

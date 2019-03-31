@@ -16,9 +16,9 @@ import io.swagger.annotations.ApiModelProperty;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaUndertowServerCodegen")
 public class ModelApiResponse   {
   
-  private Integer code = null;
-  private String type = null;
-  private String message = null;
+  private Integer code;
+  private String type;
+  private String message;
 
   /**
    **/

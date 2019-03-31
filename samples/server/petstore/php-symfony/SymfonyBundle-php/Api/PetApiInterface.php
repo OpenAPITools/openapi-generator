@@ -66,14 +66,14 @@ interface PetApiInterface
      *
      * Add a new pet to the store
      *
-     * @param  OpenAPI\Server\Model\Pet $pet  Pet object that needs to be added to the store (required)
+     * @param  OpenAPI\Server\Model\Pet $body  Pet object that needs to be added to the store (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
      *
      */
-    public function addPet(Pet $pet, &$responseCode, array &$responseHeaders);
+    public function addPet(Pet $body, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation deletePet
@@ -137,14 +137,14 @@ interface PetApiInterface
      *
      * Update an existing pet
      *
-     * @param  OpenAPI\Server\Model\Pet $pet  Pet object that needs to be added to the store (required)
+     * @param  OpenAPI\Server\Model\Pet $body  Pet object that needs to be added to the store (required)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return void
      *
      */
-    public function updatePet(Pet $pet, &$responseCode, array &$responseHeaders);
+    public function updatePet(Pet $body, &$responseCode, array &$responseHeaders);
 
     /**
      * Operation updatePetWithForm

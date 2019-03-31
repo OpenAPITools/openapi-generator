@@ -33,6 +33,8 @@ open class {{classname}} {
 
     {{/isEnum}}
     {{/allParams}}
+{{^usePromiseKit}}
+{{^useRxSwift}}
     /**
      {{#summary}}
      {{{summary}}}
@@ -54,7 +56,8 @@ open class {{classname}} {
         {{/returnType}}
         }
     }
-
+{{/useRxSwift}}
+{{/usePromiseKit}}
 {{#usePromiseKit}}
     /**
      {{#summary}}
@@ -65,11 +68,19 @@ open class {{classname}} {
      */
     open class func {{operationId}}({{#allParams}} {{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         let deferred = Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>.pending()
-        {{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) { data, error in
+        {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
+{{#returnType}}
+            } else if let response = response {
+                deferred.fulfill(response.body!)
             } else {
-                deferred.fulfill(data!)
+                fatalError()
+{{/returnType}}
+{{^returnType}}
+            } else {
+                deferred.fulfill(())
+{{/returnType}}
             }
         }
         return deferred.promise
@@ -85,13 +96,21 @@ open class {{classname}} {
      */
     open class func {{operationId}}({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         return Observable.create { observer -> Disposable in
-            {{operationId}}({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) { data, error in
+            {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).execute { (response, error) -> Void in
                 if let error = error {
-                    observer.on(.error(error))
+                    observer.onError(error)
+{{#returnType}}
+                } else if let response = response {
+                    observer.onNext(response.body!)
                 } else {
-                    observer.on(.next(data!))
+                    fatalError()
+{{/returnType}}
+{{^returnType}}
+                } else {
+                    observer.onNext(())
+{{/returnType}}
                 }
-                observer.on(.completed)
+                observer.onCompleted()
             }
             return Disposables.create()
         }
@@ -124,7 +143,7 @@ open class {{classname}} {
      */
     open class func {{operationId}}WithRequestBuilder({{#allParams}}{{paramName}}: {{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}{{{datatypeWithEnum}}}_{{operationId}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> RequestBuilder<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {
         {{^pathParams}}let{{/pathParams}}{{#pathParams}}{{^secondaryParam}}var{{/secondaryParam}}{{/pathParams}} path = "{{{path}}}"{{#pathParams}}
-        let {{paramName}}PreEscape = "\({{paramName}}{{#isEnum}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}})"
+        let {{paramName}}PreEscape = "\({{#isEnum}}{{paramName}}{{#isContainer}}{{{dataType}}}{{/isContainer}}{{^isContainer}}.rawValue{{/isContainer}}{{/isEnum}}{{^isEnum}}APIHelper.mapValueToPathItem({{paramName}}){{/isEnum}})"
         let {{paramName}}PostEscape = {{paramName}}PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         path = path.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{paramName}}PostEscape, options: .literal, range: nil){{/pathParams}}
         let URLString = {{projectName}}API.basePath + path
@@ -147,7 +166,7 @@ open class {{classname}} {
             {{/hasFormParams}}
         {{/bodyParam}}{{#hasQueryParams}}
         var url = URLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems([
+        url?.queryItems = APIHelper.mapValuesToQueryItems([{{^queryParams}}:{{/queryParams}}
             {{#queryParams}}
             {{> _param}}{{#hasMore}}, {{/hasMore}}
             {{/queryParams}}

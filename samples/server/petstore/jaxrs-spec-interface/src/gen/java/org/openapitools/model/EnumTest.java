@@ -40,17 +40,17 @@ public enum EnumStringEnum {
     }
 
     @JsonCreator
-    public static EnumStringEnum fromValue(String v) {
+    public static EnumStringEnum fromValue(String value) {
         for (EnumStringEnum b : EnumStringEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
-  private @Valid EnumStringEnum enumString = null;
+  private @Valid EnumStringEnum enumString;
 
 public enum EnumStringRequiredEnum {
 
@@ -74,17 +74,17 @@ public enum EnumStringRequiredEnum {
     }
 
     @JsonCreator
-    public static EnumStringRequiredEnum fromValue(String v) {
+    public static EnumStringRequiredEnum fromValue(String value) {
         for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
-  private @Valid EnumStringRequiredEnum enumStringRequired = null;
+  private @Valid EnumStringRequiredEnum enumStringRequired;
 
 public enum EnumIntegerEnum {
 
@@ -108,17 +108,17 @@ public enum EnumIntegerEnum {
     }
 
     @JsonCreator
-    public static EnumIntegerEnum fromValue(String v) {
+    public static EnumIntegerEnum fromValue(Integer value) {
         for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
-  private @Valid EnumIntegerEnum enumInteger = null;
+  private @Valid EnumIntegerEnum enumInteger;
 
 public enum EnumNumberEnum {
 
@@ -142,18 +142,18 @@ public enum EnumNumberEnum {
     }
 
     @JsonCreator
-    public static EnumNumberEnum fromValue(String v) {
+    public static EnumNumberEnum fromValue(Double value) {
         for (EnumNumberEnum b : EnumNumberEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
-  private @Valid EnumNumberEnum enumNumber = null;
-  private @Valid OuterEnum outerEnum = null;
+  private @Valid EnumNumberEnum enumNumber;
+  private @Valid OuterEnum outerEnum;
 
   /**
    **/

@@ -1,0 +1,20 @@
+name: {{pubName}}
+version: {{pubVersion}}
+description: {{pubDescription}}
+environment:
+    sdk: ">=2.0.0 <3.0.0"
+dependencies:
+    jaguar_retrofit: '^2.8.2'
+{{#jsonFormat}}
+    jaguar_serializer: '^2.2.6'
+{{/jsonFormat}}
+{{#protoFormat}}
+    jaguar_serializer_protobuf: '^2.2.2'
+    jaguar_mimetype: '^1.0.1'
+{{/protoFormat}}
+dev_dependencies:
+    jaguar_retrofit_gen: '^2.8.5'
+{{#jsonFormat}}
+    jaguar_serializer_cli: '^2.2.5'
+{{/jsonFormat}}
+    build_runner: '^1.1.1'

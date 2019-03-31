@@ -20,14 +20,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Pet  {
   
   @ApiModelProperty(value = "")
-  private Long id = null;
+  private Long id;
 
   @ApiModelProperty(value = "")
   @Valid
   private Category category = null;
 
   @ApiModelProperty(example = "doggie", required = true, value = "")
-  private String name = null;
+  private String name;
 
   @ApiModelProperty(required = true, value = "")
   private List<String> photoUrls = new ArrayList<String>();
@@ -58,13 +58,13 @@ public enum StatusEnum {
         return String.valueOf(value);
     }
 
-    public static StatusEnum fromValue(String v) {
+    public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
@@ -72,7 +72,7 @@ public enum StatusEnum {
  /**
    * pet status in the store
   **/
-  private StatusEnum status = null;
+  private StatusEnum status;
  /**
    * Get id
    * @return id

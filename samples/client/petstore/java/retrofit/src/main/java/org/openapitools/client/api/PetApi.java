@@ -20,25 +20,25 @@ public interface PetApi {
    * Add a new pet to the store
    * Sync method
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @return Void
    */
   
   @POST("/pet")
   Void addPet(
-    @retrofit.http.Body Pet pet
+    @retrofit.http.Body Pet body
   );
 
   /**
    * Add a new pet to the store
    * Async method
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @param cb callback method
    */
   
   @POST("/pet")
   void addPet(
-    @retrofit.http.Body Pet pet, Callback<Void> cb
+    @retrofit.http.Body Pet body, Callback<Void> cb
   );
   /**
    * Deletes a pet
@@ -142,33 +142,33 @@ public interface PetApi {
    * Update an existing pet
    * Sync method
    * 
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @return Void
    */
   
   @PUT("/pet")
   Void updatePet(
-    @retrofit.http.Body Pet pet
+    @retrofit.http.Body Pet body
   );
 
   /**
    * Update an existing pet
    * Async method
-   * @param pet Pet object that needs to be added to the store (required)
+   * @param body Pet object that needs to be added to the store (required)
    * @param cb callback method
    */
   
   @PUT("/pet")
   void updatePet(
-    @retrofit.http.Body Pet pet, Callback<Void> cb
+    @retrofit.http.Body Pet body, Callback<Void> cb
   );
   /**
    * Updates a pet in the store with form data
    * Sync method
    * 
    * @param petId ID of pet that needs to be updated (required)
-   * @param name Updated name of the pet (optional, default to null)
-   * @param status Updated status of the pet (optional, default to null)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    * @return Void
    */
   
@@ -182,8 +182,8 @@ public interface PetApi {
    * Updates a pet in the store with form data
    * Async method
    * @param petId ID of pet that needs to be updated (required)
-   * @param name Updated name of the pet (optional, default to null)
-   * @param status Updated status of the pet (optional, default to null)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
    * @param cb callback method
    */
   
@@ -197,8 +197,8 @@ public interface PetApi {
    * Sync method
    * 
    * @param petId ID of pet to update (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
-   * @param file file to upload (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @return ModelApiResponse
    */
   
@@ -212,8 +212,8 @@ public interface PetApi {
    * uploads an image
    * Async method
    * @param petId ID of pet to update (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
-   * @param file file to upload (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
    * @param cb callback method
    */
   
@@ -228,7 +228,7 @@ public interface PetApi {
    * 
    * @param petId ID of pet to update (required)
    * @param requiredFile file to upload (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
    * @return ModelApiResponse
    */
   
@@ -243,7 +243,7 @@ public interface PetApi {
    * Async method
    * @param petId ID of pet to update (required)
    * @param requiredFile file to upload (required)
-   * @param additionalMetadata Additional data to pass to server (optional, default to null)
+   * @param additionalMetadata Additional data to pass to server (optional)
    * @param cb callback method
    */
   

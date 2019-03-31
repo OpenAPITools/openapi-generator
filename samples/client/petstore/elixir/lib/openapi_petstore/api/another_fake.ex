@@ -13,26 +13,28 @@ defmodule OpenapiPetstore.Api.AnotherFake do
 
   @doc """
   To test special tags
-  To test special tags
+  To test special tags and operation ID starting with number
 
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - client (Client): client model
+  - body (Client): client model
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
   {:ok, %OpenapiPetstore.Model.Client{}} on success
   {:error, info} on failure
   """
-  @spec test_special_tags(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
-  def test_special_tags(connection, client, _opts \\ []) do
+  @spec call_123_test_special_tags(Tesla.Env.client, OpenapiPetstore.Model.Client.t, keyword()) :: {:ok, OpenapiPetstore.Model.Client.t} | {:error, Tesla.Env.t}
+  def call_123_test_special_tags(connection, body, _opts \\ []) do
     %{}
     |> method(:patch)
     |> url("/another-fake/dummy")
-    |> add_param(:body, :"Client", client)
+    |> add_param(:body, :body, body)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(%OpenapiPetstore.Model.Client{})
+    |> evaluate_response([
+      { 200, %OpenapiPetstore.Model.Client{}}
+    ])
   end
 end

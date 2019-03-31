@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class SpecialModelName {
   @JsonProperty("$special[property.name]")
-  private Long $specialPropertyName = null;
+  private Long $specialPropertyName;
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
@@ -69,7 +69,6 @@ public class SpecialModelName {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SpecialModelName {\n");
-    
     sb.append("    $specialPropertyName: ").append(toIndentedString($specialPropertyName)).append("\n");
     sb.append("}");
     return sb.toString();

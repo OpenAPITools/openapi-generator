@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
@@ -26,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
 
 public class GoClientCodegen extends AbstractGoCodegen {
 
@@ -53,8 +51,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Go package version.")
-                .defaultValue("1.0.0"));
         cliOptions.add(CliOption.newBoolean(WITH_GO_CODEGEN_COMMENT, "whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs"));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
 
@@ -70,10 +66,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-
-        if (StringUtils.isEmpty(System.getenv("GO_FMT_PATH"))) {
-            LOGGER.info("Environment variable GO_FMT_PATH not defined so Go code may not be properly formatted. To define it, try 'export GO_FMT_PATH=/usr/local/bin/gofmt' (Linux/Mac)");
-        }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));

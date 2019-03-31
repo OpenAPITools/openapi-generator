@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,7 +16,7 @@ import javax.validation.constraints.*;
 
 public class ClassModel   {
   @JsonProperty("_class")
-  private String propertyClass = null;
+  private String propertyClass;
 
   public ClassModel propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
@@ -25,7 +26,7 @@ public class ClassModel   {
   /**
    * Get propertyClass
    * @return propertyClass
-  **/
+  */
   @ApiModelProperty(value = "")
 
 

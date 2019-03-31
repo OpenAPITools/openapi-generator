@@ -11,7 +11,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
     {{/isContainer}}
     {{#isContainer}}
     {{#mostInnerItems}}
-{{>enumClass}} 
+{{>enumClass}}
     {{/mostInnerItems}}
     {{/isContainer}}
     {{/isEnum}}
@@ -25,12 +25,11 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   private {{{datatypeWithEnum}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}} = null{{/required}};
   {{/isContainer}}
   {{^isContainer}}
-  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};
+  private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/isContainer}}
 
   {{/vars}}
   {{#vars}}
-  {{^isReadOnly}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
     return this;
@@ -60,7 +59,6 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   }
   {{/isMapContainer}}
 
-  {{/isReadOnly}}
   /**
   {{#description}}
    * {{description}}
@@ -83,15 +81,14 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   @JsonProperty("{{baseName}}")
   {{/jackson}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}")
-{{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
+  {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}
+  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
-  {{^isReadOnly}}
 
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
-  {{/isReadOnly}}
 
   {{/vars}}
 

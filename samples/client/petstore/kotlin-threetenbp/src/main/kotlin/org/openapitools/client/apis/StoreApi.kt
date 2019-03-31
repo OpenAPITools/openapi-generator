@@ -45,7 +45,6 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
             ResponseType.Redirection -> TODO()
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-            else -> throw kotlin.IllegalStateException("Undefined ResponseType.")
         }
     }
 
@@ -76,7 +75,6 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
             ResponseType.Redirection -> TODO()
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-            else -> throw kotlin.IllegalStateException("Undefined ResponseType.")
         }
     }
 
@@ -108,19 +106,18 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
             ResponseType.Redirection -> TODO()
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-            else -> throw kotlin.IllegalStateException("Undefined ResponseType.")
         }
     }
 
     /**
     * Place an order for a pet
     * 
-    * @param order order placed for purchasing the pet 
+    * @param body order placed for purchasing the pet 
     * @return Order
     */
     @Suppress("UNCHECKED_CAST")
-    fun placeOrder(order: Order) : Order {
-        val localVariableBody: kotlin.Any? = order
+    fun placeOrder(body: Order) : Order {
+        val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
         val localVariableConfig = RequestConfig(
@@ -140,7 +137,6 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
             ResponseType.Redirection -> TODO()
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-            else -> throw kotlin.IllegalStateException("Undefined ResponseType.")
         }
     }
 

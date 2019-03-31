@@ -14,6 +14,7 @@ import org.openapitools.client.model.FileSchemaTestClass;
 import org.joda.time.LocalDate;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,30 @@ import java.util.List;
 import java.util.Map;
 
 public interface FakeApi {
+  /**
+   * creates an XmlItem
+   * Sync method
+   * this route creates an XmlItem
+   * @param xmlItem XmlItem Body (required)
+   * @return Void
+   */
+  
+  @POST("/fake/create_xml_item")
+  Void createXmlItem(
+    @retrofit.http.Body XmlItem xmlItem
+  );
+
+  /**
+   * creates an XmlItem
+   * Async method
+   * @param xmlItem XmlItem Body (required)
+   * @param cb callback method
+   */
+  
+  @POST("/fake/create_xml_item")
+  void createXmlItem(
+    @retrofit.http.Body XmlItem xmlItem, Callback<Void> cb
+  );
   /**
    * 
    * Sync method
@@ -49,25 +74,25 @@ public interface FakeApi {
    * 
    * Sync method
    * Test serialization of object with outer number type
-   * @param outerComposite Input composite as post body (optional)
+   * @param body Input composite as post body (optional)
    * @return OuterComposite
    */
   
   @POST("/fake/outer/composite")
   OuterComposite fakeOuterCompositeSerialize(
-    @retrofit.http.Body OuterComposite outerComposite
+    @retrofit.http.Body OuterComposite body
   );
 
   /**
    * 
    * Async method
-   * @param outerComposite Input composite as post body (optional)
+   * @param body Input composite as post body (optional)
    * @param cb callback method
    */
   
   @POST("/fake/outer/composite")
   void fakeOuterCompositeSerialize(
-    @retrofit.http.Body OuterComposite outerComposite, Callback<OuterComposite> cb
+    @retrofit.http.Body OuterComposite body, Callback<OuterComposite> cb
   );
   /**
    * 
@@ -121,75 +146,75 @@ public interface FakeApi {
    * 
    * Sync method
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-   * @param fileSchemaTestClass  (required)
+   * @param body  (required)
    * @return Void
    */
   
   @PUT("/fake/body-with-file-schema")
   Void testBodyWithFileSchema(
-    @retrofit.http.Body FileSchemaTestClass fileSchemaTestClass
+    @retrofit.http.Body FileSchemaTestClass body
   );
 
   /**
    * 
    * Async method
-   * @param fileSchemaTestClass  (required)
+   * @param body  (required)
    * @param cb callback method
    */
   
   @PUT("/fake/body-with-file-schema")
   void testBodyWithFileSchema(
-    @retrofit.http.Body FileSchemaTestClass fileSchemaTestClass, Callback<Void> cb
+    @retrofit.http.Body FileSchemaTestClass body, Callback<Void> cb
   );
   /**
    * 
    * Sync method
    * 
    * @param query  (required)
-   * @param user  (required)
+   * @param body  (required)
    * @return Void
    */
   
   @PUT("/fake/body-with-query-params")
   Void testBodyWithQueryParams(
-    @retrofit.http.Query("query") String query, @retrofit.http.Body User user
+    @retrofit.http.Query("query") String query, @retrofit.http.Body User body
   );
 
   /**
    * 
    * Async method
    * @param query  (required)
-   * @param user  (required)
+   * @param body  (required)
    * @param cb callback method
    */
   
   @PUT("/fake/body-with-query-params")
   void testBodyWithQueryParams(
-    @retrofit.http.Query("query") String query, @retrofit.http.Body User user, Callback<Void> cb
+    @retrofit.http.Query("query") String query, @retrofit.http.Body User body, Callback<Void> cb
   );
   /**
    * To test \&quot;client\&quot; model
    * Sync method
    * To test \&quot;client\&quot; model
-   * @param client client model (required)
+   * @param body client model (required)
    * @return Client
    */
   
   @PATCH("/fake")
   Client testClientModel(
-    @retrofit.http.Body Client client
+    @retrofit.http.Body Client body
   );
 
   /**
    * To test \&quot;client\&quot; model
    * Async method
-   * @param client client model (required)
+   * @param body client model (required)
    * @param cb callback method
    */
   
   @PATCH("/fake")
   void testClientModel(
-    @retrofit.http.Body Client client, Callback<Client> cb
+    @retrofit.http.Body Client body, Callback<Client> cb
   );
   /**
    * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -199,16 +224,16 @@ public interface FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional, default to null)
-   * @param int32 None (optional, default to null)
-   * @param int64 None (optional, default to null)
-   * @param _float None (optional, default to null)
-   * @param string None (optional, default to null)
-   * @param binary None (optional, default to null)
-   * @param date None (optional, default to null)
-   * @param dateTime None (optional, default to null)
-   * @param password None (optional, default to null)
-   * @param paramCallback None (optional, default to null)
+   * @param integer None (optional)
+   * @param int32 None (optional)
+   * @param int64 None (optional)
+   * @param _float None (optional)
+   * @param string None (optional)
+   * @param binary None (optional)
+   * @param date None (optional)
+   * @param dateTime None (optional)
+   * @param password None (optional)
+   * @param paramCallback None (optional)
    * @return Void
    */
   
@@ -225,16 +250,16 @@ public interface FakeApi {
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
    * @param _byte None (required)
-   * @param integer None (optional, default to null)
-   * @param int32 None (optional, default to null)
-   * @param int64 None (optional, default to null)
-   * @param _float None (optional, default to null)
-   * @param string None (optional, default to null)
-   * @param binary None (optional, default to null)
-   * @param date None (optional, default to null)
-   * @param dateTime None (optional, default to null)
-   * @param password None (optional, default to null)
-   * @param paramCallback None (optional, default to null)
+   * @param integer None (optional)
+   * @param int32 None (optional)
+   * @param int64 None (optional)
+   * @param _float None (optional)
+   * @param string None (optional)
+   * @param binary None (optional)
+   * @param date None (optional)
+   * @param dateTime None (optional)
+   * @param password None (optional)
+   * @param paramCallback None (optional)
    * @param cb callback method
    */
   
@@ -247,9 +272,9 @@ public interface FakeApi {
    * To test enum parameters
    * Sync method
    * To test enum parameters
-   * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-   * @param enumQueryStringArray Query parameter enum test (string array) (optional)
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
@@ -267,9 +292,9 @@ public interface FakeApi {
   /**
    * To test enum parameters
    * Async method
-   * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-   * @param enumQueryStringArray Query parameter enum test (string array) (optional)
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;String&gt;())
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
@@ -284,28 +309,62 @@ public interface FakeApi {
     @retrofit.http.Header("enum_header_string_array") List<String> enumHeaderStringArray, @retrofit.http.Header("enum_header_string") String enumHeaderString, @retrofit.http.Query("enum_query_string_array") CSVParams enumQueryStringArray, @retrofit.http.Query("enum_query_string") String enumQueryString, @retrofit.http.Query("enum_query_integer") Integer enumQueryInteger, @retrofit.http.Query("enum_query_double") Double enumQueryDouble, @retrofit.http.Field("enum_form_string_array") List<String> enumFormStringArray, @retrofit.http.Field("enum_form_string") String enumFormString, Callback<Void> cb
   );
   /**
+   * Fake endpoint to test group parameters (optional)
+   * Sync method
+   * Fake endpoint to test group parameters (optional)
+   * @param requiredStringGroup Required String in group parameters (required)
+   * @param requiredBooleanGroup Required Boolean in group parameters (required)
+   * @param requiredInt64Group Required Integer in group parameters (required)
+   * @param stringGroup String in group parameters (optional)
+   * @param booleanGroup Boolean in group parameters (optional)
+   * @param int64Group Integer in group parameters (optional)
+   * @return Void
+   */
+  
+  @DELETE("/fake")
+  Void testGroupParameters(
+    @retrofit.http.Query("required_string_group") Integer requiredStringGroup, @retrofit.http.Header("required_boolean_group") Boolean requiredBooleanGroup, @retrofit.http.Query("required_int64_group") Long requiredInt64Group, @retrofit.http.Query("string_group") Integer stringGroup, @retrofit.http.Header("boolean_group") Boolean booleanGroup, @retrofit.http.Query("int64_group") Long int64Group
+  );
+
+  /**
+   * Fake endpoint to test group parameters (optional)
+   * Async method
+   * @param requiredStringGroup Required String in group parameters (required)
+   * @param requiredBooleanGroup Required Boolean in group parameters (required)
+   * @param requiredInt64Group Required Integer in group parameters (required)
+   * @param stringGroup String in group parameters (optional)
+   * @param booleanGroup Boolean in group parameters (optional)
+   * @param int64Group Integer in group parameters (optional)
+   * @param cb callback method
+   */
+  
+  @DELETE("/fake")
+  void testGroupParameters(
+    @retrofit.http.Query("required_string_group") Integer requiredStringGroup, @retrofit.http.Header("required_boolean_group") Boolean requiredBooleanGroup, @retrofit.http.Query("required_int64_group") Long requiredInt64Group, @retrofit.http.Query("string_group") Integer stringGroup, @retrofit.http.Header("boolean_group") Boolean booleanGroup, @retrofit.http.Query("int64_group") Long int64Group, Callback<Void> cb
+  );
+  /**
    * test inline additionalProperties
    * Sync method
    * 
-   * @param requestBody request body (required)
+   * @param param request body (required)
    * @return Void
    */
   
   @POST("/fake/inline-additionalProperties")
   Void testInlineAdditionalProperties(
-    @retrofit.http.Body Map<String, String> requestBody
+    @retrofit.http.Body Map<String, String> param
   );
 
   /**
    * test inline additionalProperties
    * Async method
-   * @param requestBody request body (required)
+   * @param param request body (required)
    * @param cb callback method
    */
   
   @POST("/fake/inline-additionalProperties")
   void testInlineAdditionalProperties(
-    @retrofit.http.Body Map<String, String> requestBody, Callback<Void> cb
+    @retrofit.http.Body Map<String, String> param, Callback<Void> cb
   );
   /**
    * test json serialization of form data

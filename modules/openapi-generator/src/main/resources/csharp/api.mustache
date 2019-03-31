@@ -95,6 +95,17 @@ namespace {{packageName}}.{{apiPackage}}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}"/> class
+        /// </summary>
+        /// <returns></returns>
+        public {{classname}}()
+        {
+            this.Configuration = {{packageName}}.Client.Configuration.Default;
+
+            ExceptionFactory = {{packageName}}.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}"/> class
         /// using Configuration object
         /// </summary>
         /// <param name="configuration">An instance of Configuration</param>
@@ -297,12 +308,12 @@ namespace {{packageName}}.{{apiPackage}}
 
             {{#returnType}}
             return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => string.Join(",", x.Value)),
                 ({{{returnType}}}) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));
             {{/returnType}}
             {{^returnType}}
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => string.Join(",", x.Value)),
                 null);
             {{/returnType}}
         }
@@ -433,12 +444,12 @@ namespace {{packageName}}.{{apiPackage}}
 
             {{#returnType}}
             return new ApiResponse<{{{returnType}}}>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => string.Join(",", x.Value)),
                 ({{{returnType}}}) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof({{#returnContainer}}{{{returnContainer}}}{{/returnContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}})));
             {{/returnType}}
             {{^returnType}}
             return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.{{^netStandard}}Name{{/netStandard}}{{#netStandard}}Key{{/netStandard}}, x => string.Join(",", x.Value)),
                 null);
             {{/returnType}}
         }

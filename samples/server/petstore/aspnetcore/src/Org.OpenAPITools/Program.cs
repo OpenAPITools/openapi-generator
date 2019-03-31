@@ -14,18 +14,17 @@ namespace Org.OpenAPITools
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
         /// <summary>
-        /// Build Web Host
+        /// Create the web host builder.
         /// </summary>
         /// <param name="args"></param>
-        /// <returns>Webhost</returns>
-        public static IWebHost BuildWebHost(string[] args) =>
+        /// <returns>IWebHostBuilder</returns>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()                
-                .UseUrls("http://0.0.0.0:8080/")
-                .Build();
+                .UseStartup<Startup>()
+                .UseUrls("http://0.0.0.0:8080/");
     }
 }

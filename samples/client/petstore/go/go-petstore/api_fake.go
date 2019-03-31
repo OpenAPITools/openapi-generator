@@ -11,12 +11,12 @@ package petstore
 
 import (
 	"context"
-	"github.com/antihax/optional"
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"os"
 	"strings"
+	"github.com/antihax/optional"
+	"os"
 )
 
 // Linger please
@@ -25,6 +25,74 @@ var (
 )
 
 type FakeApiService service
+
+/*
+FakeApiService creates an XmlItem
+this route creates an XmlItem
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param xmlItem XmlItem Body
+*/
+func (a *FakeApiService) CreateXmlItem(ctx context.Context, xmlItem XmlItem) (*http.Response, error) {
+	var (
+		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/fake/create_xml_item"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{"application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16"}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	// body params
+	localVarPostBody = &xmlItem
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHttpResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHttpResponse == nil {
+		return localVarHttpResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarHttpResponse, err
+	}
+
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		return localVarHttpResponse, newErr
+	}
+
+	return localVarHttpResponse, nil
+}
 
 /*
 FakeApiService
@@ -94,14 +162,6 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx context.Context, localVar
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
-		}
-	}
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -120,6 +180,15 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx context.Context, localVar
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
 	return localVarReturnValue, localVarHttpResponse, nil
 }
 
@@ -128,12 +197,12 @@ FakeApiService
 Test serialization of object with outer number type
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *FakeOuterCompositeSerializeOpts - Optional Parameters:
- * @param "OuterComposite" (optional.Interface of OuterComposite) -  Input composite as post body
+ * @param "Body" (optional.Interface of OuterComposite) -  Input composite as post body
 @return OuterComposite
 */
 
 type FakeOuterCompositeSerializeOpts struct {
-	OuterComposite optional.Interface
+	Body optional.Interface
 }
 
 func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context, localVarOptionals *FakeOuterCompositeSerializeOpts) (OuterComposite, *http.Response, error) {
@@ -171,12 +240,12 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context, localV
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	if localVarOptionals != nil && localVarOptionals.OuterComposite.IsSet() {
-		localVarOptionalOuterComposite, localVarOptionalOuterCompositeok := localVarOptionals.OuterComposite.Value().(OuterComposite)
-		if !localVarOptionalOuterCompositeok {
-			return localVarReturnValue, nil, reportError("outerComposite should be OuterComposite")
+	if localVarOptionals != nil && localVarOptionals.Body.IsSet() {
+		localVarOptionalBody, localVarOptionalBodyok := localVarOptionals.Body.Value().(OuterComposite)
+		if !localVarOptionalBodyok {
+			return localVarReturnValue, nil, reportError("body should be OuterComposite")
 		}
-		localVarPostBody = &localVarOptionalOuterComposite
+		localVarPostBody = &localVarOptionalBody
 	}
 
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
@@ -195,14 +264,6 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context, localV
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
-		}
-	}
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -217,6 +278,15 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context, localV
 			}
 			newErr.model = v
 			return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
 		}
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
@@ -292,14 +362,6 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx context.Context, localVarO
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
-		}
-	}
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -314,6 +376,15 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx context.Context, localVarO
 			}
 			newErr.model = v
 			return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
 		}
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
@@ -389,14 +460,6 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx context.Context, localVarO
 		return localVarReturnValue, localVarHttpResponse, err
 	}
 
-	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
-		}
-	}
-
 	if localVarHttpResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -415,6 +478,15 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx context.Context, localVarO
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
 	return localVarReturnValue, localVarHttpResponse, nil
 }
 
@@ -422,9 +494,9 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx context.Context, localVarO
 FakeApiService
 For this test, the body for this request much reference a schema named &#x60;File&#x60;.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param fileSchemaTestClass
+ * @param body
 */
-func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, fileSchemaTestClass FileSchemaTestClass) (*http.Response, error) {
+func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, body FileSchemaTestClass) (*http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Put")
 		localVarPostBody     interface{}
@@ -458,7 +530,7 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, fileSchemaT
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &fileSchemaTestClass
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -490,9 +562,9 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, fileSchemaT
 FakeApiService
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param query
- * @param user
+ * @param body
 */
-func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query string, user User) (*http.Response, error) {
+func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query string, body User) (*http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Put")
 		localVarPostBody     interface{}
@@ -527,7 +599,7 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query stri
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &user
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -559,10 +631,10 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query stri
 FakeApiService To test \"client\" model
 To test \&quot;client\&quot; model
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param client client model
+ * @param body client model
 @return Client
 */
-func (a *FakeApiService) TestClientModel(ctx context.Context, client Client) (Client, *http.Response, error) {
+func (a *FakeApiService) TestClientModel(ctx context.Context, body Client) (Client, *http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Patch")
 		localVarPostBody     interface{}
@@ -597,7 +669,7 @@ func (a *FakeApiService) TestClientModel(ctx context.Context, client Client) (Cl
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &client
+	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -612,14 +684,6 @@ func (a *FakeApiService) TestClientModel(ctx context.Context, client Client) (Cl
 	localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
-	}
-
-	if localVarHttpResponse.StatusCode < 300 {
-		// If we succeed, return the data, otherwise pass on to decode error.
-		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
-		if err == nil {
-			return localVarReturnValue, localVarHttpResponse, err
-		}
 	}
 
 	if localVarHttpResponse.StatusCode >= 300 {
@@ -640,12 +704,21 @@ func (a *FakeApiService) TestClientModel(ctx context.Context, client Client) (Cl
 		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
+	}
+
 	return localVarReturnValue, localVarHttpResponse, nil
 }
 
 /*
-FakeApiService Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+FakeApiService Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param number None
  * @param double None
@@ -665,13 +738,13 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 */
 
 type TestEndpointParametersOpts struct {
-	Integer  optional.Int32
-	Int32_   optional.Int32
-	Int64_   optional.Int64
-	Float    optional.Float32
-	String_  optional.String
-	Binary   optional.Interface
-	Date     optional.String
+	Integer optional.Int32
+	Int32_ optional.Int32
+	Int64_ optional.Int64
+	Float optional.Float32
+	String_ optional.String
+	Binary optional.Interface
+	Date optional.String
 	DateTime optional.Time
 	Password optional.String
 	Callback optional.String
@@ -747,7 +820,7 @@ func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number floa
 		localVarFileOk := false
 		localVarFile, localVarFileOk = localVarOptionals.Binary.Value().(*os.File)
 		if !localVarFileOk {
-			return nil, reportError("binary should be *os.File")
+				return nil, reportError("binary should be *os.File")
 		}
 	}
 	if localVarFile != nil {
@@ -812,13 +885,13 @@ To test enum parameters
 
 type TestEnumParametersOpts struct {
 	EnumHeaderStringArray optional.Interface
-	EnumHeaderString      optional.String
-	EnumQueryStringArray  optional.Interface
-	EnumQueryString       optional.String
-	EnumQueryInteger      optional.Int32
-	EnumQueryDouble       optional.Float64
-	EnumFormStringArray   optional.Interface
-	EnumFormString        optional.String
+	EnumHeaderString optional.String
+	EnumQueryStringArray optional.Interface
+	EnumQueryString optional.String
+	EnumQueryInteger optional.Int32
+	EnumQueryDouble optional.Float64
+	EnumFormStringArray optional.Interface
+	EnumFormString optional.String
 }
 
 func (a *FakeApiService) TestEnumParameters(ctx context.Context, localVarOptionals *TestEnumParametersOpts) (*http.Response, error) {
@@ -906,11 +979,102 @@ func (a *FakeApiService) TestEnumParameters(ctx context.Context, localVarOptiona
 }
 
 /*
+FakeApiService Fake endpoint to test group parameters (optional)
+Fake endpoint to test group parameters (optional)
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param requiredStringGroup Required String in group parameters
+ * @param requiredBooleanGroup Required Boolean in group parameters
+ * @param requiredInt64Group Required Integer in group parameters
+ * @param optional nil or *TestGroupParametersOpts - Optional Parameters:
+ * @param "StringGroup" (optional.Int32) -  String in group parameters
+ * @param "BooleanGroup" (optional.Bool) -  Boolean in group parameters
+ * @param "Int64Group" (optional.Int64) -  Integer in group parameters
+*/
+
+type TestGroupParametersOpts struct {
+	StringGroup optional.Int32
+	BooleanGroup optional.Bool
+	Int64Group optional.Int64
+}
+
+func (a *FakeApiService) TestGroupParameters(ctx context.Context, requiredStringGroup int32, requiredBooleanGroup bool, requiredInt64Group int64, localVarOptionals *TestGroupParametersOpts) (*http.Response, error) {
+	var (
+		localVarHttpMethod   = strings.ToUpper("Delete")
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/fake"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	localVarQueryParams.Add("required_string_group", parameterToString(requiredStringGroup, ""))
+	localVarQueryParams.Add("required_int64_group", parameterToString(requiredInt64Group, ""))
+	if localVarOptionals != nil && localVarOptionals.StringGroup.IsSet() {
+		localVarQueryParams.Add("string_group", parameterToString(localVarOptionals.StringGroup.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.Int64Group.IsSet() {
+		localVarQueryParams.Add("int64_group", parameterToString(localVarOptionals.Int64Group.Value(), ""))
+	}
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	localVarHeaderParams["required_boolean_group"] = parameterToString(requiredBooleanGroup, "")
+	if localVarOptionals != nil && localVarOptionals.BooleanGroup.IsSet() {
+		localVarHeaderParams["boolean_group"] = parameterToString(localVarOptionals.BooleanGroup.Value(), "")
+	}
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHttpResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHttpResponse == nil {
+		return localVarHttpResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarHttpResponse, err
+	}
+
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		return localVarHttpResponse, newErr
+	}
+
+	return localVarHttpResponse, nil
+}
+
+/*
 FakeApiService test inline additionalProperties
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param requestBody request body
+ * @param param request body
 */
-func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context, requestBody map[string]string) (*http.Response, error) {
+func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context, param map[string]string) (*http.Response, error) {
 	var (
 		localVarHttpMethod   = strings.ToUpper("Post")
 		localVarPostBody     interface{}
@@ -944,7 +1108,7 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context, req
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &requestBody
+	localVarPostBody = &param
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err

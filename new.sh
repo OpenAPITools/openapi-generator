@@ -18,7 +18,7 @@ Examples:
 
     Creates:
     modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/KotlinServerCodegen.java
-    modules/openapi-generator/src/main/resources/kotlin-server/README.md
+    modules/openapi-generator/src/main/resources/kotlin-server/README.mustache
     modules/openapi-generator/src/main/resources/kotlin-server/model.mustache
     modules/openapi-generator/src/main/resources/kotlin-server/api.mustache
     bin/windows/kotlin-server-petstore.bat
@@ -28,7 +28,7 @@ Examples:
   $0 -n csharp -s -t
     Creates:
     modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/CsharpServerCodegen.java
-    modules/openapi-generator/src/main/resources/csharp-server/README.md
+    modules/openapi-generator/src/main/resources/csharp-server/README.mustache
     modules/openapi-generator/src/main/resources/csharp-server/model.mustache
     modules/openapi-generator/src/main/resources/csharp-server/api.mustache
     bin/windows/csharp-server-petstore.bat
@@ -72,6 +72,14 @@ while getopts ":hcsdtn:" arg; do
     d) # Create a documentation generator
         checkPreviousGenType
         gen_type=documentation
+        ;;
+    h) # Create a schema generator
+        checkPreviousGenType
+        gen_type=schema
+        ;;
+    f) # Create a config generator
+        checkPreviousGenType
+        gen_type=config
         ;;
     t) # When specified, creates test file(s) for the generator.
       tests=1
@@ -151,9 +159,10 @@ public class ${lang_classname} extends DefaultCodegen implements CodegenConfig {
         outputFolder = "generated-code" + File.separator + "${gen_name}";
         modelTemplateFiles.put("model.mustache", ".zz");
         apiTemplateFiles.put("api.mustache", ".zz");
-        embeddedTemplateDir = templateDir = "${gen_name}";
+        embeddedTemplateDir = templateDir = "${gen_name}-${gen_type}";
         apiPackage = File.separator + "Apis";
         modelPackage = File.separator + "Models";
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         // TODO: Fill this out.
     }
 }
@@ -164,8 +173,8 @@ echo -e "\norg.openapitools.codegen.languages.${lang_classname}" >> "${root}/mod
 
 # Step 3: Create resource files
 mkdir -p "${root}/modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}"
-echo "Creating modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/README.md" && \
-    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/README.md"
+echo "Creating modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/README.mustache" && \
+    touch "${root}/modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/README.mustache"
 echo "Creating modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/model.mustache" && \
     touch "${root}/modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/model.mustache"
 echo "Creating modules/openapi-generator/src/main/resources/${gen_name}-${gen_type}/api.mustache" && \
@@ -223,6 +232,8 @@ ags="\$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.y
 
 java \${JAVA_OPTS} -jar \${executable} \${ags}
 EOF
+
+chmod u+x "${root}/bin/${gen_name}-${gen_type}-petstore.sh"
 
 # Step 5: (optional) Create OpenAPI Generator test files
 if [ "1" -eq "${tests}" ]; then

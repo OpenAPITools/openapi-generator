@@ -53,6 +53,10 @@ void {{prefix}}HttpRequestInput::add_file(QString variable_name, QString local_f
 {{prefix}}HttpRequestWorker::~{{prefix}}HttpRequestWorker() {
 }
 
+QMap<QByteArray, QByteArray> {{prefix}}HttpRequestWorker::getResponseHeaders() const {
+    return headers;
+}
+
 QString {{prefix}}HttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
     // result structure follows RFC 5987
     bool need_utf_encoding = false;
@@ -305,7 +309,11 @@ void {{prefix}}HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
     error_type = reply->error();
     response = reply->readAll();
     error_str = reply->errorString();
-
+    if(reply->rawHeaderPairs().count() > 0){
+        for(const auto& item: reply->rawHeaderPairs()){
+            headers.insert(item.first, item.second);
+        }
+    }
     reply->deleteLater();
 
     emit on_execution_finished(this);

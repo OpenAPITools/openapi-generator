@@ -17,10 +17,12 @@ import org.openapitools.client.ApiException;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
+import org.openapitools.client.model.FileSchemaTestClass;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import org.openapitools.client.model.XmlItem;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -37,6 +39,22 @@ public class FakeApiTest {
 
     private final FakeApi api = new FakeApi();
 
+    
+    /**
+     * creates an XmlItem
+     *
+     * this route creates an XmlItem
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void createXmlItemTest() throws ApiException {
+        XmlItem xmlItem = null;
+        api.createXmlItem(xmlItem);
+
+        // TODO: test validations
+    }
     
     /**
      * 
@@ -64,8 +82,8 @@ public class FakeApiTest {
      */
     @Test
     public void fakeOuterCompositeSerializeTest() throws ApiException {
-        OuterComposite outerComposite = null;
-        OuterComposite response = api.fakeOuterCompositeSerialize(outerComposite);
+        OuterComposite body = null;
+        OuterComposite response = api.fakeOuterCompositeSerialize(body);
 
         // TODO: test validations
     }
@@ -105,6 +123,22 @@ public class FakeApiTest {
     /**
      * 
      *
+     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testBodyWithFileSchemaTest() throws ApiException {
+        FileSchemaTestClass body = null;
+        api.testBodyWithFileSchema(body);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
      * 
      *
      * @throws ApiException
@@ -113,8 +147,8 @@ public class FakeApiTest {
     @Test
     public void testBodyWithQueryParamsTest() throws ApiException {
         String query = null;
-        User user = null;
-        api.testBodyWithQueryParams(query, user);
+        User body = null;
+        api.testBodyWithQueryParams(query, body);
 
         // TODO: test validations
     }
@@ -129,8 +163,8 @@ public class FakeApiTest {
      */
     @Test
     public void testClientModelTest() throws ApiException {
-        Client client = null;
-        Client response = api.testClientModel(client);
+        Client body = null;
+        Client response = api.testClientModel(body);
 
         // TODO: test validations
     }
@@ -188,6 +222,31 @@ public class FakeApiTest {
     }
     
     /**
+     * Fake endpoint to test group parameters (optional)
+     *
+     * Fake endpoint to test group parameters (optional)
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testGroupParametersTest() throws ApiException {
+        Integer requiredStringGroup = null;
+        Boolean requiredBooleanGroup = null;
+        Long requiredInt64Group = null;
+        Integer stringGroup = null;
+        Boolean booleanGroup = null;
+        Long int64Group = null;
+        api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group)
+                .stringGroup(stringGroup)
+                .booleanGroup(booleanGroup)
+                .int64Group(int64Group)
+                .execute();
+
+        // TODO: test validations
+    }
+    
+    /**
      * test inline additionalProperties
      *
      * 
@@ -197,8 +256,8 @@ public class FakeApiTest {
      */
     @Test
     public void testInlineAdditionalPropertiesTest() throws ApiException {
-        Map<String, String> requestBody = null;
-        api.testInlineAdditionalProperties(requestBody);
+        Map<String, String> param = null;
+        api.testInlineAdditionalProperties(param);
 
         // TODO: test validations
     }

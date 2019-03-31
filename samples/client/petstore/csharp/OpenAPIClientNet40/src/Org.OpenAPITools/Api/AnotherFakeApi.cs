@@ -28,23 +28,23 @@ namespace Org.OpenAPITools.Api
         /// To test special tags
         /// </summary>
         /// <remarks>
-        /// To test special tags
+        /// To test special tags and operation ID starting with number
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ModelClient</returns>
-        ModelClient TestSpecialTags (ModelClient modelClient);
+        ModelClient Call123TestSpecialTags (ModelClient body);
 
         /// <summary>
         /// To test special tags
         /// </summary>
         /// <remarks>
-        /// To test special tags
+        /// To test special tags and operation ID starting with number
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> TestSpecialTagsWithHttpInfo (ModelClient modelClient);
+        ApiResponse<ModelClient> Call123TestSpecialTagsWithHttpInfo (ModelClient body);
         #endregion Synchronous Operations
     }
 
@@ -62,6 +62,17 @@ namespace Org.OpenAPITools.Api
         public AnotherFakeApi(String basePath)
         {
             this.Configuration = new Org.OpenAPITools.Client.Configuration { BasePath = basePath };
+
+            ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class
+        /// </summary>
+        /// <returns></returns>
+        public AnotherFakeApi()
+        {
+            this.Configuration = Org.OpenAPITools.Client.Configuration.Default;
 
             ExceptionFactory = Org.OpenAPITools.Client.Configuration.DefaultExceptionFactory;
         }
@@ -146,28 +157,28 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// To test special tags To test special tags
+        /// To test special tags To test special tags and operation ID starting with number
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ModelClient</returns>
-        public ModelClient TestSpecialTags (ModelClient modelClient)
+        public ModelClient Call123TestSpecialTags (ModelClient body)
         {
-             ApiResponse<ModelClient> localVarResponse = TestSpecialTagsWithHttpInfo(modelClient);
+             ApiResponse<ModelClient> localVarResponse = Call123TestSpecialTagsWithHttpInfo(body);
              return localVarResponse.Data;
         }
 
         /// <summary>
-        /// To test special tags To test special tags
+        /// To test special tags To test special tags and operation ID starting with number
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="modelClient">client model</param>
+        /// <param name="body">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        public ApiResponse< ModelClient > TestSpecialTagsWithHttpInfo (ModelClient modelClient)
+        public ApiResponse< ModelClient > Call123TestSpecialTagsWithHttpInfo (ModelClient body)
         {
-            // verify the required parameter 'modelClient' is set
-            if (modelClient == null)
-                throw new ApiException(400, "Missing required parameter 'modelClient' when calling AnotherFakeApi->TestSpecialTags");
+            // verify the required parameter 'body' is set
+            if (body == null)
+                throw new ApiException(400, "Missing required parameter 'body' when calling AnotherFakeApi->Call123TestSpecialTags");
 
             var localVarPath = "/another-fake/dummy";
             var localVarPathParams = new Dictionary<String, String>();
@@ -191,13 +202,13 @@ namespace Org.OpenAPITools.Api
             if (localVarHttpHeaderAccept != null)
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
-            if (modelClient != null && modelClient.GetType() != typeof(byte[]))
+            if (body != null && body.GetType() != typeof(byte[]))
             {
-                localVarPostBody = this.Configuration.ApiClient.Serialize(modelClient); // http body (model) parameter
+                localVarPostBody = this.Configuration.ApiClient.Serialize(body); // http body (model) parameter
             }
             else
             {
-                localVarPostBody = modelClient; // byte array
+                localVarPostBody = body; // byte array
             }
 
 
@@ -210,12 +221,12 @@ namespace Org.OpenAPITools.Api
 
             if (ExceptionFactory != null)
             {
-                Exception exception = ExceptionFactory("TestSpecialTags", localVarResponse);
+                Exception exception = ExceptionFactory("Call123TestSpecialTags", localVarResponse);
                 if (exception != null) throw exception;
             }
 
             return new ApiResponse<ModelClient>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => x.Value.ToString()),
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
                 (ModelClient) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(ModelClient)));
         }
 

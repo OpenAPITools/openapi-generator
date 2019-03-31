@@ -76,12 +76,12 @@ namespace Example
             try
             {
                 // To test special tags
-                ModelClient result = apiInstance.TestSpecialTags(modelClient);
+                ModelClient result = apiInstance.Call123TestSpecialTags(modelClient);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
             {
-                Debug.Print("Exception when calling AnotherFakeApi.TestSpecialTags: " + e.Message );
+                Debug.Print("Exception when calling AnotherFakeApi.Call123TestSpecialTags: " + e.Message );
             }
 
         }
@@ -96,15 +96,19 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AnotherFakeApi* | [**TestSpecialTags**](docs/AnotherFakeApi.md#testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+*AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+*DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
+*FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**FakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**TestBodyWithFileSchema**](docs/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**TestBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
 *FakeApi* | [**TestEndpointParameters**](docs/FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *FakeApi* | [**TestEnumParameters**](docs/FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
+*FakeApi* | [**TestGroupParameters**](docs/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**TestInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**TestJsonFormData**](docs/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeClassnameTags123Api* | [**TestClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -116,6 +120,7 @@ Class | Method | HTTP request | Description
 *PetApi* | [**UpdatePet**](docs/PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
 *PetApi* | [**UpdatePetWithForm**](docs/PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**UploadFile**](docs/PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
+*PetApi* | [**UploadFileWithRequiredFile**](docs/PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 *StoreApi* | [**DeleteOrder**](docs/StoreApi.md#deleteorder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 *StoreApi* | [**GetInventory**](docs/StoreApi.md#getinventory) | **GET** /store/inventory | Returns pet inventories by status
 *StoreApi* | [**GetOrderById**](docs/StoreApi.md#getorderbyid) | **GET** /store/order/{order_id} | Find purchase order by ID
@@ -135,7 +140,6 @@ Class | Method | HTTP request | Description
 
  - [Model.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Model.Animal](docs/Animal.md)
- - [Model.AnimalFarm](docs/AnimalFarm.md)
  - [Model.ApiResponse](docs/ApiResponse.md)
  - [Model.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [Model.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -148,18 +152,33 @@ Class | Method | HTTP request | Description
  - [Model.EnumArrays](docs/EnumArrays.md)
  - [Model.EnumClass](docs/EnumClass.md)
  - [Model.EnumTest](docs/EnumTest.md)
+ - [Model.File](docs/File.md)
+ - [Model.FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [Model.Foo](docs/Foo.md)
  - [Model.FormatTest](docs/FormatTest.md)
  - [Model.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [Model.HealthCheckResult](docs/HealthCheckResult.md)
+ - [Model.InlineObject](docs/InlineObject.md)
+ - [Model.InlineObject1](docs/InlineObject1.md)
+ - [Model.InlineObject2](docs/InlineObject2.md)
+ - [Model.InlineObject3](docs/InlineObject3.md)
+ - [Model.InlineObject4](docs/InlineObject4.md)
+ - [Model.InlineObject5](docs/InlineObject5.md)
+ - [Model.InlineResponseDefault](docs/InlineResponseDefault.md)
  - [Model.List](docs/List.md)
  - [Model.MapTest](docs/MapTest.md)
  - [Model.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model.Model200Response](docs/Model200Response.md)
  - [Model.ModelClient](docs/ModelClient.md)
  - [Model.Name](docs/Name.md)
+ - [Model.NullableClass](docs/NullableClass.md)
  - [Model.NumberOnly](docs/NumberOnly.md)
  - [Model.Order](docs/Order.md)
  - [Model.OuterComposite](docs/OuterComposite.md)
  - [Model.OuterEnum](docs/OuterEnum.md)
+ - [Model.OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
+ - [Model.OuterEnumInteger](docs/OuterEnumInteger.md)
+ - [Model.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [Model.Pet](docs/Pet.md)
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Model.Return](docs/Return.md)
@@ -184,6 +203,11 @@ Class | Method | HTTP request | Description
 - **Type**: API key
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
+
+<a name="bearer_test"></a>
+### bearer_test
+
+- **Type**: HTTP basic authentication
 
 <a name="http_basic_test"></a>
 ### http_basic_test

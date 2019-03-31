@@ -1,0 +1,60 @@
+{{>partial_header}}
+using System;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;{{#useSwashbuckle}}
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.SwaggerGen;{{/useSwashbuckle}}
+using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
+using {{packageName}}.Attributes;
+using {{packageName}}.Models;
+
+namespace {{packageName}}.Controllers
+{ {{#operations}}
+    /// <summary>
+    /// {{description}}
+    /// </summary>{{#description}}
+    [Description("{{description}}")]{{/description}}
+    public {{classModifier}} class {{classname}}Controller : ControllerBase
+    { {{#operation}}
+        /// <summary>
+        /// {{#summary}}{{summary}}{{/summary}}
+        /// </summary>{{#notes}}
+        /// <remarks>{{notes}}</remarks>{{/notes}}{{#allParams}}
+        /// <param name="{{paramName}}">{{description}}</param>{{/allParams}}{{#responses}}
+        /// <response code="{{code}}">{{message}}</response>{{/responses}}
+        [{{httpMethod}}]
+        [Route("{{{basePathWithoutHost}}}{{{path}}}")]
+        [ValidateModelState]{{#useSwashbuckle}}
+        [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
+        [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}
+        public {{operationModifier}} IActionResult {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        {{#generateBody}}
+        { {{#responses}}
+{{#dataType}}
+            //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode({{code}}, default({{&dataType}}));
+{{/dataType}}
+{{^dataType}}
+            //TODO: Uncomment the next line to return response {{code}} or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode({{code}});
+{{/dataType}}{{/responses}}
+{{#returnType}}
+            string exampleJson = null;
+            {{#examples}}
+            exampleJson = "{{{example}}}";
+            {{/examples}}
+            {{#isListCollection}}{{>listReturn}}{{/isListCollection}}{{^isListCollection}}{{#isMapContainer}}{{>mapReturn}}{{/isMapContainer}}{{^isMapContainer}}{{>objectReturn}}{{/isMapContainer}}{{/isListCollection}}
+            {{!TODO: defaultResponse, examples, auth, consumes, produces, nickname, externalDocs, imports, security}}
+            //TODO: Change the data returned
+            return new ObjectResult(example);{{/returnType}}{{^returnType}}
+            throw new NotImplementedException();{{/returnType}}
+        }
+        {{/generateBody}}
+        {{^generateBody}}
+        ;
+        {{/generateBody}}
+        {{/operation}}
+    }
+{{/operations}}
+}

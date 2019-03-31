@@ -20,8 +20,8 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,10 +29,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNodeClientCodegen.class);
-    private static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
 
     public static final String NPM_NAME = "npmName";
     public static final String NPM_VERSION = "npmVersion";
@@ -99,7 +99,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         if (name.length() == 0) {
             return "Default" + apiSuffix;
         }
-        return initialCaps(name) + apiSuffix;
+        return StringUtils.camelize(name) + apiSuffix;
     }
     
     @Override
@@ -107,7 +107,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         if (name.length() == 0) {
             return "default" + apiSuffix;
         }
-        return org.openapitools.codegen.utils.StringUtils.camelize(name, true) + apiSuffix;
+        return camelize(name, true) + apiSuffix;
     }
 
     @Override
@@ -117,7 +117,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String toModelFilename(String name) {
-        return org.openapitools.codegen.utils.StringUtils.camelize(toModelName(name), true);
+        return camelize(toModelName(name), true);
     }
 
     @Override
@@ -156,7 +156,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     }
     
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> operations) {
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
         
         // The api.mustache template requires all of the auth methods for the whole api
@@ -233,7 +233,12 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         }
 
         if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
-            this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+            if (npmVersion.toUpperCase(Locale.ROOT).matches("^.*-SNAPSHOT$")) {
+                this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+            }
+            else {
+                this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+            }
         }
         additionalProperties.put(NPM_VERSION, npmVersion);
 
@@ -296,6 +301,6 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
     
     private String getModelnameFromModelFilename(String filename) {
         String name = filename.substring((modelPackage() + File.separator).length());
-        return org.openapitools.codegen.utils.StringUtils.camelize(name);
+        return camelize(name);
     }
 }

@@ -10,8 +10,10 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Converters;
@@ -27,19 +29,19 @@ namespace Org.OpenAPITools
     /// </summary>
     public class Startup
     {
-        private readonly IHostingEnvironment _hostingEnv;
-        private readonly IConfiguration _configuration;
-
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="env"></param>
         /// <param name="configuration"></param>
-        public Startup(IHostingEnvironment env, IConfiguration configuration)
+        public Startup(IConfiguration configuration)
         {
-            _hostingEnv = env;
-            _configuration = configuration;
+            Configuration = configuration;
         }
+
+        /// <summary>
+            /// The application configuration.
+        /// </summary>
+        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -50,6 +52,7 @@ namespace Org.OpenAPITools
             // Add framework services.
             services
                 .AddMvc()
+                .SetCompatibilityVersion                (CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -77,7 +80,7 @@ namespace Org.OpenAPITools
                     });
                     c.CustomSchemaIds(type => type.FriendlyId(true));
                     c.DescribeAllEnumsAsStrings();
-                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
+                    c.IncludeXmlComments($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{Assembly.GetEntryAssembly().GetName().Name}.xml");
                     // Sets the basePath property in the Swagger document generated
                     c.DocumentFilter<BasePathFilter>("/v2");
 
@@ -91,8 +94,9 @@ namespace Org.OpenAPITools
         /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// </summary>
         /// <param name="app"></param>
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseHttpsRedirection();
             app
                 .UseMvc()
                 .UseDefaultFiles()
@@ -110,14 +114,13 @@ namespace Org.OpenAPITools
                     // c.SwaggerEndpoint("/openapi-original.json", "OpenAPI Petstore Original");
                 });
 
-            if (_hostingEnv.IsDevelopment())
+if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                //TODO: Enable production exception handling (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/error-handling)
-                // app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
         }
     }

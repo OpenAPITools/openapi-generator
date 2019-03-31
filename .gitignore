@@ -27,6 +27,7 @@ packages/
 .packages
 .vagrant/
 .vscode/
+**/.vs
 
 .settings
 
@@ -128,7 +129,6 @@ samples/client/petstore/swift3/**/SwaggerClientTests/Podfile.lock
 # C#
 *.csproj.user
 samples/client/petstore/csharp/SwaggerClient/IO.Swagger.userprefs
-samples/client/petstore/csharp/SwaggerClientTest/.vs
 samples/client/petstore/csharp/SwaggerClientTest/obj
 samples/client/petstore/csharp/SwaggerClientTest/bin
 samples/client/petstore/csharp/SwaggerClientTest/packages
@@ -146,6 +146,8 @@ samples/client/petstore/csharp/SwaggerClient/bin/Debug/
 samples/client/petstore/csharp/SwaggerClient/packages
 samples/client/petstore/csharp/SwaggerClient/TestResult.xml
 samples/client/petstore/csharp/SwaggerClientWithPropertyChanged/IO.Swagger.userprefs
+samples/client/petstore/csharp-refactor/OpenAPIClient/TestResult.xml
+samples/client/petstore/csharp-refactor/OpenAPIClient/nuget.exe
 
 # Python
 *.pyc
@@ -178,15 +180,21 @@ samples/client/petstore/kotlin/src/main/kotlin/test/
 samples/client/petstore/kotlin-threetenbp/build
 samples/client/petstore/kotlin-string/build
 samples/server/petstore/kotlin-server/ktor/build
+samples/openapi3/client/petstore/kotlin/build
 \?
 
 # haskell
 .stack-work
 .cabal-sandbox
 cabal.project.local
+samples/client/petstore/haskell-http-client/docs/haddock-bundle.min.js
+samples/client/petstore/haskell-http-client/docs/meta.json
+samples/client/petstore/haskell-http-client/docs/quick-jump.css
 
 # R
 .Rproj.user
+samples/client/petstore/R/**/petstore.Rcheck/
+samples/client/petstore/R/**/*.tar.gz
 
 # elixir
 samples/client/petstore/elixir/_build/
@@ -199,6 +207,8 @@ samples/client/petstore/groovy/build
 # erlang
 samples/client/petstore/erlang-client/_build/
 samples/client/petstore/erlang-client/rebar.lock
+samples/client/petstore/erlang-proper/_build/
+samples/client/petstore/erlang-proper/rebar.lock
 samples/server/petstore/erlang-server/_build/
 samples/server/petstore/erlang-server/rebar.lock
 
@@ -212,3 +222,7 @@ samples/client/petstore/javascript/package-lock.json
 
 # elm
 samples/client/petstore/elm/index.html
+
+# C
+samples/client/petstore/c/build
+samples/client/petstore/c/*.so

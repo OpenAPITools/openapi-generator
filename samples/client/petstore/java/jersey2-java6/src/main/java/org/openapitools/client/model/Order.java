@@ -27,16 +27,16 @@ import org.threeten.bp.OffsetDateTime;
 
 public class Order {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("petId")
-  private Long petId = null;
+  private Long petId;
 
   @JsonProperty("quantity")
-  private Integer quantity = null;
+  private Integer quantity;
 
   @JsonProperty("shipDate")
-  private OffsetDateTime shipDate = null;
+  private OffsetDateTime shipDate;
 
   /**
    * Order Status
@@ -65,9 +65,9 @@ public class Order {
     }
 
     @JsonCreator
-    public static StatusEnum fromValue(String text) {
+    public static StatusEnum fromValue(String value) {
       for (StatusEnum b : StatusEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
@@ -76,7 +76,7 @@ public class Order {
   }
 
   @JsonProperty("status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   @JsonProperty("complete")
   private Boolean complete = false;
@@ -217,7 +217,6 @@ public class Order {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Order {\n");
-    
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    petId: ").append(toIndentedString(petId)).append("\n");
     sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");

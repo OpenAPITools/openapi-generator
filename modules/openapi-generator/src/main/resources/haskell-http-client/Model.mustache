@@ -17,10 +17,11 @@ Module : {{baseModule}}.Model
 {-# LANGUAGE TypeFamilies #-}
 {-# OPTIONS_GHC -fno-warn-unused-matches -fno-warn-unused-binds -fno-warn-unused-imports #-}
 
-module {{baseModule}}.Model where
+module {{baseModule}}.Model {{#x-hasImportMappings}}(module {{baseModule}}.Model, module {{baseModule}}.ImportMappings) {{/x-hasImportMappings}}where
 
 import {{baseModule}}.Core
-import {{baseModule}}.MimeTypes
+import {{baseModule}}.MimeTypes{{#x-hasImportMappings}}
+import {{baseModule}}.ImportMappings{{/x-hasImportMappings}}
 
 import Data.Aeson ((.:),(.:!),(.:?),(.=))
 
@@ -53,8 +54,6 @@ import Prelude (($),(/=),(.),(<$>),(<*>),(>>=),(=<<),Maybe(..),Bool(..),Char,Dou
 import qualified Prelude as P
 
 
-{{#imports}}import {{import}}
-{{/imports}}
 
 -- * Parameter newtypes
 {{#x-allUniqueParams}}{{#x-newtype}}
@@ -114,9 +113,9 @@ instance WH.ToForm {{classname}} where
 {{#generateModelConstructors}}
 -- | Construct a value of type '{{classname}}' (by applying it's required fields, if any)
 mk{{classname}}
-  :: {{#requiredVars}}{{{vendorExtensions.x-dataType}}} -- ^ '{{name}}'{{#description}}:{{/description}} {{{description}}}
-  -> {{/requiredVars}}{{classname}}
-mk{{classname}} {{#requiredVars}}{{name}} {{/requiredVars}}=
+  :: {{#vars}}{{#required}}{{{vendorExtensions.x-dataType}}} -- ^ '{{name}}'{{#description}}:{{/description}} {{{description}}}
+  -> {{/required}}{{/vars}}{{classname}}
+mk{{classname}} {{#vars}}{{#required}}{{name}} {{/required}}{{/vars}}=
   {{classname}}
   { {{#vars}}{{#required}}{{name}}{{/required}}{{^required}}{{name}} = {{#isListContainer}}Nothing{{/isListContainer}}{{#isMapContainer}}Nothing{{/isMapContainer}}{{^isContainer}}Nothing{{/isContainer}}{{/required}}{{#hasMore}}
   , {{/hasMore}}{{/vars}}

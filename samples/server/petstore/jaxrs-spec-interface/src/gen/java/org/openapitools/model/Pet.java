@@ -20,9 +20,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class Pet  implements Serializable {
   
-  private @Valid Long id = null;
+  private @Valid Long id;
   private @Valid Category category = null;
-  private @Valid String name = null;
+  private @Valid String name;
   private @Valid List<String> photoUrls = new ArrayList<String>();
   private @Valid List<Tag> tags = new ArrayList<Tag>();
 
@@ -48,17 +48,17 @@ public enum StatusEnum {
     }
 
     @JsonCreator
-    public static StatusEnum fromValue(String v) {
+    public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
-  private @Valid StatusEnum status = null;
+  private @Valid StatusEnum status;
 
   /**
    **/

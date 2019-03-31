@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> addPet(pet)
+> addPet(body)
 
 Add a new pet to the store
 
@@ -33,14 +33,14 @@ PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
 
 api.addPet()
-    .body(pet).execute(r -> r.prettyPeek());
+    .body(body).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -123,7 +123,7 @@ api.findPetsByStatus()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+ **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [default to new ArrayList&lt;String&gt;()] [enum: available, pending, sold]
 
 ### Return type
 
@@ -165,7 +165,7 @@ api.findPetsByTags()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by |
+ **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to new ArrayList&lt;String&gt;()]
 
 ### Return type
 
@@ -224,7 +224,7 @@ Name | Type | Description  | Notes
 
 <a name="updatePet"></a>
 # **updatePet**
-> updatePet(pet)
+> updatePet(body)
 
 Update an existing pet
 
@@ -240,14 +240,14 @@ PetApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
                         .setBaseUri("http://petstore.swagger.io:80/v2"))).pet();
 
 api.updatePet()
-    .body(pet).execute(r -> r.prettyPeek());
+    .body(body).execute(r -> r.prettyPeek());
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -288,8 +288,8 @@ api.updatePetWithForm()
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet that needs to be updated |
- **name** | **String**| Updated name of the pet | [optional] [default to null]
- **status** | **String**| Updated status of the pet | [optional] [default to null]
+ **name** | **String**| Updated name of the pet | [optional]
+ **status** | **String**| Updated status of the pet | [optional]
 
 ### Return type
 
@@ -330,8 +330,8 @@ api.uploadFile()
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
- **file** | **File**| file to upload | [optional] [default to null]
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional]
+ **file** | **File**| file to upload | [optional]
 
 ### Return type
 
@@ -373,8 +373,8 @@ api.uploadFileWithRequiredFile()
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
- **requiredFile** | **File**| file to upload | [default to null]
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
+ **requiredFile** | **File**| file to upload |
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional]
 
 ### Return type
 

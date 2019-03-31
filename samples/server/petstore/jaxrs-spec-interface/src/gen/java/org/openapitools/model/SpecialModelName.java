@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class SpecialModelName  implements Serializable {
   
-  private @Valid Long $specialPropertyName = null;
+  private @Valid Long $specialPropertyName;
 
   /**
    **/

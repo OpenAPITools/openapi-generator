@@ -42,6 +42,7 @@ public class ExampleGenerator {
     private static final String NONE = "none";
     private static final String URL = "url";
     private static final String URI = "uri";
+    private static final String STATUS_CODE = "statusCode";
 
     protected Map<String, Schema> examples;
     private OpenAPI openAPI;
@@ -54,15 +55,27 @@ public class ExampleGenerator {
         this.random = new Random("ExampleGenerator".hashCode());
     }
 
-    public List<Map<String, String>> generateFromResponseSchema(Schema responseSchema, Set<String> producesInfo) {
+    public List<Map<String, String>> generateFromResponseSchema(String statusCode, Schema responseSchema, Set<String> producesInfo) {
+        List<Map<String, String>> examples = generateFromResponseSchema(responseSchema, producesInfo);
+        if (examples == null) {
+            return null;
+        }
+
+        for (Map<String, String> example : examples) {
+            example.put(STATUS_CODE, statusCode);
+        }
+
+        return examples;
+    }
+
+    private List<Map<String, String>> generateFromResponseSchema(Schema responseSchema, Set<String> producesInfo) {
         if (responseSchema.getExample() == null && StringUtils.isEmpty(responseSchema.get$ref()) && !ModelUtils.isArraySchema(responseSchema)) {
             // no example provided
             return null;
         }
 
         if (responseSchema.getExample() != null && !(responseSchema.getExample() instanceof Map)) {
-            LOGGER.warn("example value (array/primitive) not handled at the moment: " + responseSchema.getExample());
-            return null;
+            return generate(responseSchema.getExample(), new ArrayList<>(producesInfo));
         }
 
         if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
@@ -176,6 +189,34 @@ public class ExampleGenerator {
         return output;
     }
 
+    private List<Map<String, String>> generate(Object example, List<String> mediaTypes) {
+        List<Map<String, String>> output = new ArrayList<>();
+        if (examples != null) {
+            if (mediaTypes == null) {
+                // assume application/json for this
+                mediaTypes = Collections.singletonList(MIME_TYPE_JSON);
+            }
+            for (String mediaType : mediaTypes) {
+                Map<String, String> kv = new HashMap<>();
+                kv.put(CONTENT_TYPE, mediaType);
+                if ((mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
+                    kv.put(EXAMPLE, Json.pretty(example));
+                    output.add(kv);
+                } else if (mediaType.startsWith(MIME_TYPE_XML)) {
+                    // TODO
+                    LOGGER.warn("XML example value of (array/primitive) is not handled at the moment: " + example);
+                }
+            }
+        }
+
+        if (output.size() == 0) {
+            Map<String, String> kv = new HashMap<>();
+            kv.put(OUTPUT, NONE);
+            output.add(kv);
+        }
+        return output;
+    }
+
     private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels) {
         LOGGER.debug("Resolving example for property {}...", property);
         if (property.getExample() != null) {
@@ -213,12 +254,12 @@ public class ExampleGenerator {
         } else if (ModelUtils.isDateTimeSchema(property)) {
             return "2000-01-23T04:56:07.000+00:00";
         } else if (ModelUtils.isNumberSchema(property)) {
-            Double min = property.getMinimum() == null ? null : property.getMinimum().doubleValue();
-            Double max = property.getMaximum() == null ? null : property.getMaximum().doubleValue();
+            Double min = getPropertyValue(property.getMinimum());
+            Double max = getPropertyValue(property.getMaximum());
             if (ModelUtils.isFloatSchema(property)) { // float
                 return (float) randomNumber(min, max);
             } else if (ModelUtils.isDoubleSchema(property)) { // decimal/double
-                return new BigDecimal(randomNumber(min, max));
+                return BigDecimal.valueOf(randomNumber(min, max));
             } else { // no format defined
                 return randomNumber(min, max);
             }
@@ -226,8 +267,8 @@ public class ExampleGenerator {
             return "";  // TODO
 
         } else if (ModelUtils.isIntegerSchema(property)) {
-            Double min = property.getMinimum() == null ? null : property.getMinimum().doubleValue();
-            Double max = property.getMaximum() == null ? null : property.getMaximum().doubleValue();
+            Double min = getPropertyValue(property.getMinimum());
+            Double max = getPropertyValue(property.getMaximum());
             if (ModelUtils.isLongSchema(property)) {
                 return (long) randomNumber(min, max);
             }
@@ -276,6 +317,10 @@ public class ExampleGenerator {
         }
 
         return "";
+    }
+
+    private Double getPropertyValue(BigDecimal propertyValue) {
+        return propertyValue == null ? null : propertyValue.doubleValue();
     }
 
     private double randomNumber(Double min, Double max) {

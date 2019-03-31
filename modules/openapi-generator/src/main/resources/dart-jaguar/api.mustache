@@ -1,0 +1,78 @@
+import 'package:jaguar_retrofit/annotations/annotations.dart';
+import 'package:jaguar_retrofit/jaguar_retrofit.dart';
+import 'package:jaguar_serializer/jaguar_serializer.dart';
+import 'package:jaguar_mimetype/jaguar_mimetype.dart';
+import 'dart:async';
+
+{{#operations}}
+{{#modelImports}}import 'package:{{pubName}}/model/{{.}}{{#protoFormat}}.pb{{/protoFormat}}.dart';
+{{/modelImports}}
+{{#fullImports}}import '{{.}}';
+{{/fullImports}}
+
+part '{{classFilename}}.jretro.dart';
+
+@GenApiClient()
+class {{classname}} extends ApiClient with _${{classname}}Client {
+    final Route base;
+    final Map<String, CodecRepo> converters;
+    final Duration timeout;
+
+    {{classname}}({this.base, this.converters, this.timeout = const Duration(minutes: 2)});
+
+    {{#operation}}
+    /// {{summary}}
+    ///
+    /// {{notes}}
+    @{{httpMethod}}Req(path: "{{path}}"{{#hasAuthMethods}}, metadata: {"auth": [{{#authMethods}} {"type": "{{type}}", "name": "{{name}}"{{#isApiKey}}, "keyName": "{{keyParamName}}", "where": "{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}"{{/isApiKey}} }{{#hasMore}}, {{/hasMore}}{{/authMethods}}]}{{/hasAuthMethods}})
+    Future<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{nickname}}(
+    {{#pathParams}}
+            @PathParam("{{baseName}}") {{dataType}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/pathParams}}
+    {{#headerParams}}
+        {{#-first}}{{#hasPathParams}},{{/hasPathParams}}{{/-first}}
+            @Header("{{baseName}}") {{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/headerParams}}
+    {{#queryParams}}
+        {{#-first}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/-first}}
+            @QueryParam("{{baseName}}") {{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/queryParams}}
+    {{#vendorExtensions}}
+        {{#formParams}}
+            {{#-first}}{{#hasQueryParams}},{{/hasQueryParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/-first}}
+            {{#isJson}}@AsJson() {{/isJson}}{{#isForm}}@AsFormField() {{/isForm}}{{#isMultipart}}@AsMultipartField() {{/isMultipart}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+        {{/formParams}}
+        {{#bodyParam}}
+            {{#hasFormParams}},{{/hasFormParams}}{{^hasFormParams}}{{#hasQueryParams}},{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}
+            {{^isProto}}{{^isJson}}{{^isForm}}{{^isMultipart}}@AsBody(){{/isMultipart}}{{/isForm}}{{/isJson}}{{/isProto}} {{#isProto}}@Serialized(MimeTypes.binary) {{/isProto}}{{#isJson}}@AsJson() {{/isJson}}{{#isForm}}@AsForm() {{/isForm}}{{#isMultipart}}@AsMultipart() {{/isMultipart}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+        {{/bodyParam}}
+    {{/vendorExtensions}}
+        ) {
+        return super.{{nickname}}(
+    {{#pathParams}}
+        {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/pathParams}}
+    {{#headerParams}}
+        {{#-first}}{{#hasPathParams}},{{/hasPathParams}}{{/-first}}
+        {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/headerParams}}
+    {{#queryParams}}
+        {{#-first}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/-first}}
+        {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/queryParams}}
+
+    {{#formParams}}
+        {{#-first}}{{#hasQueryParams}},{{/hasQueryParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/-first}}
+        {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/formParams}}
+    {{#bodyParam}}
+        {{#hasFormParams}},{{/hasFormParams}}{{^hasFormParams}}{{#hasQueryParams}},{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}
+        {{paramName}}{{#hasMore}}, {{/hasMore}}
+    {{/bodyParam}}
+        ).timeout(timeout);
+    }
+
+  {{/operation}}
+
+}
+{{/operations}}

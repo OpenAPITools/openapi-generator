@@ -1,0 +1,12 @@
+{{#jsonFormat}}import 'package:jaguar_serializer/jaguar_serializer.dart';{{/jsonFormat}}
+{{#protoFormat}}syntax = "proto3";{{/protoFormat}}
+
+{{#models}}
+{{#model}}
+{{#imports}}
+{{#jsonFormat}}import 'package:{{pubName}}/model/{{.}}.dart';{{/jsonFormat}}
+{{#protoFormat}}import "{{.}}.proto";{{/protoFormat}}
+{{/imports}}
+{{#isEnum}}{{>enum}}{{/isEnum}}{{^isEnum}}{{>class}}{{/isEnum}}
+{{/model}}
+{{/models}}

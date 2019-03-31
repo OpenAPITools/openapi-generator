@@ -43,12 +43,10 @@ export default class StoreApi {
      */
     deleteOrderWithHttpInfo(orderId) {
       let postBody = null;
-
       // verify the required parameter 'orderId' is set
       if (orderId === undefined || orderId === null) {
         throw new Error("Missing the required parameter 'orderId' when calling deleteOrder");
       }
-
 
       let pathParams = {
         'order_id': orderId
@@ -64,11 +62,10 @@ export default class StoreApi {
       let contentTypes = [];
       let accepts = [];
       let returnType = null;
-
       return this.apiClient.callApi(
         '/store/order/{order_id}', 'DELETE',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -94,7 +91,6 @@ export default class StoreApi {
     getInventoryWithHttpInfo() {
       let postBody = null;
 
-
       let pathParams = {
       };
       let queryParams = {
@@ -108,11 +104,10 @@ export default class StoreApi {
       let contentTypes = [];
       let accepts = ['application/json'];
       let returnType = {'String': 'Number'};
-
       return this.apiClient.callApi(
         '/store/inventory', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -137,12 +132,10 @@ export default class StoreApi {
      */
     getOrderByIdWithHttpInfo(orderId) {
       let postBody = null;
-
       // verify the required parameter 'orderId' is set
       if (orderId === undefined || orderId === null) {
         throw new Error("Missing the required parameter 'orderId' when calling getOrderById");
       }
-
 
       let pathParams = {
         'order_id': orderId
@@ -158,11 +151,10 @@ export default class StoreApi {
       let contentTypes = [];
       let accepts = ['application/xml', 'application/json'];
       let returnType = Order;
-
       return this.apiClient.callApi(
         '/store/order/{order_id}', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
@@ -182,17 +174,15 @@ export default class StoreApi {
 
     /**
      * Place an order for a pet
-     * @param {module:model/Order} order order placed for purchasing the pet
+     * @param {module:model/Order} body order placed for purchasing the pet
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Order} and HTTP response
      */
-    placeOrderWithHttpInfo(order) {
-      let postBody = order;
-
-      // verify the required parameter 'order' is set
-      if (order === undefined || order === null) {
-        throw new Error("Missing the required parameter 'order' when calling placeOrder");
+    placeOrderWithHttpInfo(body) {
+      let postBody = body;
+      // verify the required parameter 'body' is set
+      if (body === undefined || body === null) {
+        throw new Error("Missing the required parameter 'body' when calling placeOrder");
       }
-
 
       let pathParams = {
       };
@@ -207,21 +197,20 @@ export default class StoreApi {
       let contentTypes = [];
       let accepts = ['application/xml', 'application/json'];
       let returnType = Order;
-
       return this.apiClient.callApi(
         '/store/order', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType
+        authNames, contentTypes, accepts, returnType, null
       );
     }
 
     /**
      * Place an order for a pet
-     * @param {module:model/Order} order order placed for purchasing the pet
+     * @param {module:model/Order} body order placed for purchasing the pet
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Order}
      */
-    placeOrder(order) {
-      return this.placeOrderWithHttpInfo(order)
+    placeOrder(body) {
+      return this.placeOrderWithHttpInfo(body)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

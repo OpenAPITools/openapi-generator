@@ -17,22 +17,19 @@
 
 package org.openapitools.codegen.languages;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.LoggerFactory;
 
-import io.swagger.v3.oas.models.media.*;
+import java.io.File;
+import java.util.*;
 
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
+
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CppRestbedServerCodegen.class);
 
     public static final String DECLSPEC = "declspec";
     public static final String DEFAULT_INCLUDE = "defaultInclude";
@@ -176,8 +173,8 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     }
 
     @Override
-    public CodegenModel fromModel(String name, Schema model, Map<String, Schema> allDefinitions) {
-        CodegenModel codegenModel = super.fromModel(name, model, allDefinitions);
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel codegenModel = super.fromModel(name, model);
 
         Set<String> oldImports = codegenModel.imports;
         codegenModel.imports = new HashSet<String>();
@@ -287,25 +284,63 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
-            return "\"\"";
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            } else {
+                return "\"\"";
+            }
         } else if (ModelUtils.isBooleanSchema(p)) {
-            return "false";
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            } else {
+                return "false";
+            }
         } else if (ModelUtils.isDateSchema(p)) {
-            return "\"\"";
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            } else {
+                return "\"\"";
+            }
         } else if (ModelUtils.isDateTimeSchema(p)) {
-            return "\"\"";
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            } else {
+                return "\"\"";
+            }
         } else if (ModelUtils.isNumberSchema(p)) {
-            if (ModelUtils.isFloatSchema(p)) {
-                return "0.0f";
+            if (ModelUtils.isFloatSchema(p)) { // float
+                if (p.getDefault() != null) {
+                    return p.getDefault().toString() + "f";
+                } else {
+                    return "0.0f";
+                }
+            } else { // double
+                if (p.getDefault() != null) {
+                    return p.getDefault().toString();
+                } else {
+                    return "0.0";
+                }
             }
-            return "0.0";
         } else if (ModelUtils.isIntegerSchema(p)) {
-            if (ModelUtils.isLongSchema(p)) {
-                return "0L";
+            if (ModelUtils.isLongSchema(p)) { // long
+                if (p.getDefault() != null) {
+                    return p.getDefault().toString() + "L";
+                } else {
+                    return "0L";
+                }
+            } else { // integer
+                if (p.getDefault() != null) {
+                    return p.getDefault().toString();
+                } else {
+                    return "0";
+                }
             }
-            return "0";
         } else if (ModelUtils.isByteArraySchema(p)) {
-            return "\"\"";
+            if (p.getDefault() != null) {
+                return "\"" + p.getDefault().toString() + "\"";
+            } else {
+                return "\"\"";
+            }
         } else if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
@@ -319,6 +354,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         } else if (!StringUtils.isEmpty(p.get$ref())) {
             return "new " + toModelName(ModelUtils.getSimpleRef(p.get$ref())) + "()";
         }
+
         return "nullptr";
     }
 

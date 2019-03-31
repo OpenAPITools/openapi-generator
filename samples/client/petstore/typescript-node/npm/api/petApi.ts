@@ -12,13 +12,14 @@
 
 import localVarRequest = require('request');
 import http = require('http');
-import Promise = require('bluebird');
 
 /* tslint:disable:no-unused-locals */
 import { ApiResponse } from '../model/apiResponse';
 import { Pet } from '../model/pet';
 
-import { ObjectSerializer, Authentication, HttpBasicAuth, ApiKeyAuth, OAuth, VoidAuth } from '../model/models';
+import { ObjectSerializer, Authentication, VoidAuth } from '../model/models';
+import { OAuth } from '../model/models';
+import { ApiKeyAuth } from '../model/models';
 
 let defaultBasePath = 'http://petstore.swagger.io/v2';
 
@@ -81,19 +82,20 @@ export class PetApi {
     /**
      * 
      * @summary Add a new pet to the store
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      */
-    public addPet (pet: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async addPet (body: Pet, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'pet' is not null or undefined
-        if (pet === null || pet === undefined) {
-            throw new Error('Required parameter pet was null or undefined when calling addPet.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling addPet.');
         }
 
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -104,7 +106,7 @@ export class PetApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(pet, "Pet")
+            body: ObjectSerializer.serialize(body, "Pet")
         };
 
         this.authentications.petstore_auth.applyToRequest(localVarRequestOptions);
@@ -138,7 +140,7 @@ export class PetApi {
      * @param petId Pet id to delete
      * @param apiKey 
      */
-    public deletePet (petId: number, apiKey?: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async deletePet (petId: number, apiKey?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
@@ -151,6 +153,7 @@ export class PetApi {
         }
 
         localVarHeaderParams['api_key'] = ObjectSerializer.serialize(apiKey, "string");
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -193,7 +196,7 @@ export class PetApi {
      * @summary Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus (status: Array<'available' | 'pending' | 'sold'>) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
+    public async findPetsByStatus (status: Array<'available' | 'pending' | 'sold'>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByStatus';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -208,6 +211,7 @@ export class PetApi {
             localVarQueryParameters['status'] = ObjectSerializer.serialize(status, "Array<'available' | 'pending' | 'sold'>");
         }
 
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -251,7 +255,7 @@ export class PetApi {
      * @summary Finds Pets by tags
      * @param tags Tags to filter by
      */
-    public findPetsByTags (tags: Array<string>) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
+    public async findPetsByTags (tags: Array<string>, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Array<Pet>;  }> {
         const localVarPath = this.basePath + '/pet/findByTags';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
@@ -266,6 +270,7 @@ export class PetApi {
             localVarQueryParameters['tags'] = ObjectSerializer.serialize(tags, "Array<string>");
         }
 
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -309,7 +314,7 @@ export class PetApi {
      * @summary Find pet by ID
      * @param petId ID of pet to return
      */
-    public getPetById (petId: number) : Promise<{ response: http.ClientResponse; body: Pet;  }> {
+    public async getPetById (petId: number, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Pet;  }> {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
@@ -321,6 +326,7 @@ export class PetApi {
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
 
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -362,19 +368,20 @@ export class PetApi {
     /**
      * 
      * @summary Update an existing pet
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      */
-    public updatePet (pet: Pet) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async updatePet (body: Pet, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
         let localVarFormParams: any = {};
 
-        // verify required parameter 'pet' is not null or undefined
-        if (pet === null || pet === undefined) {
-            throw new Error('Required parameter pet was null or undefined when calling updatePet.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling updatePet.');
         }
 
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -385,7 +392,7 @@ export class PetApi {
             uri: localVarPath,
             useQuerystring: this._useQuerystring,
             json: true,
-            body: ObjectSerializer.serialize(pet, "Pet")
+            body: ObjectSerializer.serialize(body, "Pet")
         };
 
         this.authentications.petstore_auth.applyToRequest(localVarRequestOptions);
@@ -420,7 +427,7 @@ export class PetApi {
      * @param name Updated name of the pet
      * @param status Updated status of the pet
      */
-    public updatePetWithForm (petId: number, name?: string, status?: string) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async updatePetWithForm (petId: number, name?: string, status?: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
         const localVarPath = this.basePath + '/pet/{petId}'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
@@ -432,6 +439,7 @@ export class PetApi {
             throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
 
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 
@@ -484,7 +492,7 @@ export class PetApi {
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    public uploadFile (petId: number, additionalMetadata?: string, file?: Buffer) : Promise<{ response: http.ClientResponse; body: ApiResponse;  }> {
+    public async uploadFile (petId: number, additionalMetadata?: string, file?: Buffer, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: ApiResponse;  }> {
         const localVarPath = this.basePath + '/pet/{petId}/uploadImage'
             .replace('{' + 'petId' + '}', encodeURIComponent(String(petId)));
         let localVarQueryParameters: any = {};
@@ -496,6 +504,7 @@ export class PetApi {
             throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }
 
+        (<any>Object).assign(localVarHeaderParams, options.headers);
 
         let localVarUseFormData = false;
 

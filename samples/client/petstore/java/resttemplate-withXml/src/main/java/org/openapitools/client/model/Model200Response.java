@@ -35,12 +35,12 @@ public class Model200Response {
   @JsonProperty("name")
   @JacksonXmlProperty(localName = "name")
   @XmlElement(name = "name")
-  private Integer name = null;
+  private Integer name;
 
   @JsonProperty("class")
   @JacksonXmlProperty(localName = "class")
   @XmlElement(name = "class")
-  private String propertyClass = null;
+  private String propertyClass;
 
   public Model200Response name(Integer name) {
     this.name = name;
@@ -102,7 +102,6 @@ public class Model200Response {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Model200Response {\n");
-    
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
     sb.append("}");

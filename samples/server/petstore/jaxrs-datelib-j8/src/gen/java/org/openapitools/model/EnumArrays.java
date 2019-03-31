@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.Serializable;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 /**
  * EnumArrays
@@ -50,18 +51,18 @@ public class EnumArrays  implements Serializable {
     }
 
     @JsonCreator
-    public static JustSymbolEnum fromValue(String text) {
+    public static JustSymbolEnum fromValue(String value) {
       for (JustSymbolEnum b : JustSymbolEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
   @JsonProperty("just_symbol")
-  private JustSymbolEnum justSymbol = null;
+  private JustSymbolEnum justSymbol;
 
   /**
    * Gets or Sets arrayEnum
@@ -84,16 +85,16 @@ public class EnumArrays  implements Serializable {
     }
 
     @JsonCreator
-    public static ArrayEnumEnum fromValue(String text) {
+    public static ArrayEnumEnum fromValue(String value) {
       for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
- 
+
   @JsonProperty("array_enum")
   private List<ArrayEnumEnum> arrayEnum = null;
 
@@ -108,6 +109,7 @@ public class EnumArrays  implements Serializable {
    **/
   @JsonProperty("just_symbol")
   @ApiModelProperty(value = "")
+  
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -135,6 +137,7 @@ public class EnumArrays  implements Serializable {
    **/
   @JsonProperty("array_enum")
   @ApiModelProperty(value = "")
+  
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
