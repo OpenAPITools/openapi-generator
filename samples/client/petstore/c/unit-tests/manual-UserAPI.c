@@ -43,7 +43,7 @@ int main() {
 
 	UserAPI_createUser(apiClient, newuser);
 	user_free(newuser);
-    apiClient_free(apiClient);
+	apiClient_free(apiClient);
 
 // get user by name test
 	apiClient_t *apiClient1 = apiClient_create();
@@ -57,7 +57,7 @@ int main() {
 	user_free(returnUser);
 	cJSON_Delete(JSONNODE);
 	free(dataToPrint);
-    apiClient_free(apiClient1);
+	apiClient_free(apiClient1);
 
 // update user test
 	{
@@ -86,7 +86,7 @@ int main() {
 
 		UserAPI_updateUser(apiClient2, username1, newuser1);
 		user_free(newuser1);
-        apiClient_free(apiClient2);
+		apiClient_free(apiClient2);
 	}
 
 // login user test
@@ -105,19 +105,19 @@ int main() {
 		free(loginuserreturn);
 		free(username1);
 		free(password);
-        apiClient_free(apiClient3);
+		apiClient_free(apiClient3);
 	}
 
 // logout user test
 	apiClient_t *apiClient4 = apiClient_create();
 
 	UserAPI_logoutUser(apiClient4);
-    apiClient_free(apiClient4);
+	apiClient_free(apiClient4);
 
 
 // delete user test
 	apiClient_t *apiClient5 = apiClient_create();
 
 	UserAPI_deleteUser(apiClient5, "example123");
-    apiClient_free(apiClient5);
+	apiClient_free(apiClient5);
 }
