@@ -23,6 +23,8 @@ import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implements CodegenConfig {
 
     protected final String SRC_DIR = "/src";
@@ -189,7 +191,7 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
 
     @Override
     public String toApiFilename(String name) {
-        return modelNamePrefix + sanitizeName(initialCaps(name)) + "ApiHandler";
+        return modelNamePrefix + sanitizeName(camelize(name)) + "ApiHandler";
     }
 
 }

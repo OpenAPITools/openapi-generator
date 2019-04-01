@@ -30,6 +30,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
 
@@ -175,7 +177,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         if (name.length() == 0) {
             return toAbstractName("DefaultApi");
         }
-        return toAbstractName(initialCaps(name) + "Api");
+        return toAbstractName(camelize(name) + "Api");
     }
 
     @Override
@@ -183,7 +185,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         if (name.length() == 0) {
             return "DefaultApiTest";
         }
-        return initialCaps(name) + "ApiTest";
+        return camelize(name) + "ApiTest";
     }
 
     /**

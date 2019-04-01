@@ -22,6 +22,8 @@ import org.openapitools.codegen.utils.StringUtils;
 
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCodegen {
 
     public static final String NPM_NAME = "npmName";
@@ -105,7 +107,7 @@ public class TypeScriptAureliaClientCodegen extends AbstractTypeScriptClientCode
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
             // Aurelia uses "asGet", "asPost", ... methods; change the method format
-            op.httpMethod = StringUtils.camelize(op.httpMethod.toLowerCase(Locale.ROOT));
+            op.httpMethod = camelize(op.httpMethod.toLowerCase(Locale.ROOT));
 
             // Collect models to be imported
             for (CodegenParameter param : op.allParams) {
