@@ -191,9 +191,6 @@ public class CodegenConstants {
     public static final String MODEL_NAME_SUFFIX = "modelNameSuffix";
     public static final String MODEL_NAME_SUFFIX_DESC = "Suffix that will be appended to all model names. Default is the empty string.";
 
-    public static final String OPTIONAL_EMIT_DEFAULT_VALUES = "optionalEmitDefaultValues";
-    public static final String OPTIONAL_EMIT_DEFAULT_VALUES_DESC = "Set DataMember's EmitDefaultValue.";
-
     public static final String GIT_USER_ID = "gitUserId";
     public static final String GIT_USER_ID_DESC = "Git user ID, e.g. openapitools.";
 
