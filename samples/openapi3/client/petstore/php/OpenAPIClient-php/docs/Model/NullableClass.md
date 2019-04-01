@@ -1,6 +1,7 @@
-# NullableClass
+# # NullableClass
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **integer_prop** | **int** |  | [optional] 

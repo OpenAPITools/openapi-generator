@@ -19,6 +19,7 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -54,8 +55,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useSwashbuckle = true;
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
-    protected CliOption aspnetCoreVersion= new CliOption(ASPNET_CORE_VERSION,"ASP.NET Core version: 2.2 (default), 2.1, 2.0 (deprecated)");; // default to 2.1
-    private CliOption classModifier = new CliOption(CLASS_MODIFIER,"Class Modifier can be empty, abstract");
+    private CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 2.2 (default), 2.1, 2.0 (deprecated)");
+    private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier can be empty, abstract");
     private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual, abstract or partial");
     private boolean generateBody = true;
     private CliOption buildTarget = new CliOption("buildTarget", "Target to build an application or library");
@@ -79,6 +80,18 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         );
 
         cliOptions.clear();
+
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("float", "float");
+        typeMapping.put("long", "long");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("UUID", "Guid");
+
+        setSupportNullable(Boolean.TRUE);
 
         // CLI options
         addOption(CodegenConstants.LICENSE_URL,
@@ -124,7 +137,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("2.2", "ASP.NET COre V2.2");
         aspnetCoreVersion.setDefault("2.2");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
-        addOption(aspnetCoreVersion.getOpt(),aspnetCoreVersion.getDescription(),aspnetCoreVersion.getOptValue());
+        addOption(aspnetCoreVersion.getOpt(), aspnetCoreVersion.getDescription(), aspnetCoreVersion.getOptValue());
 
         // CLI Switches
         addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
@@ -151,19 +164,19 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         classModifier.addEnum("abstract", "Make class abstract");
         classModifier.setDefault("");
         classModifier.setOptValue(classModifier.getDefault());
-        addOption(classModifier.getOpt(),classModifier.getDescription(),classModifier.getOptValue());
+        addOption(classModifier.getOpt(), classModifier.getDescription(), classModifier.getOptValue());
 
         operationModifier.addEnum("virtual", "Keep method virtual ");
         operationModifier.addEnum("abstract", "Make method abstract");
         operationModifier.setDefault("virtual");
         operationModifier.setOptValue(operationModifier.getDefault());
-        addOption(operationModifier.getOpt(),operationModifier.getDescription(),operationModifier.getOptValue());
+        addOption(operationModifier.getOpt(), operationModifier.getDescription(), operationModifier.getOptValue());
 
         buildTarget.addEnum("program", "Generate code for standalone server");
         buildTarget.addEnum("library", "Generate code for a server abstract class lbrary");
         buildTarget.setDefault("program");
         buildTarget.setOptValue(buildTarget.getDefault());
-        addOption(buildTarget.getOpt(),buildTarget.getDescription(),buildTarget.getOptValue());
+        addOption(buildTarget.getOpt(), buildTarget.getDescription(), buildTarget.getOptValue());
 
         addSwitch(GENERATE_BODY,
                 "Generates method body.",
@@ -314,7 +327,20 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         return escapeText(pattern);
     }
 
-    private void  setCliOption(CliOption cliOption) throws IllegalArgumentException {
+    @Override
+    public String getNullableType(Schema p, String type) {
+        boolean isNullableExpected = p.getNullable() == null || (p.getNullable() != null && p.getNullable());
+
+        if (isNullableExpected && languageSpecificPrimitives.contains(type + "?")) {
+            return type + "?";
+        } else if (languageSpecificPrimitives.contains(type)) {
+            return type;
+        } else {
+            return null;
+        }
+    }
+
+    private void setCliOption(CliOption cliOption) throws IllegalArgumentException {
         if (additionalProperties.containsKey(cliOption.getOpt())) {
             cliOption.setOptValue(additionalProperties.get(cliOption.getOpt()).toString());
             if (cliOption.getOptValue() == null) {
@@ -335,7 +361,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if ("abstract".equals(classModifier.getOptValue())) {
             operationModifier.setOptValue(classModifier.getOptValue());
             additionalProperties.put(OPERATION_MODIFIER, operationModifier.getOptValue());
-            LOGGER.warn("classModifier is " + classModifier.getOptValue() + " so forcing operatonModifier to "+ operationModifier.getOptValue());
+            LOGGER.warn("classModifier is " + classModifier.getOptValue() + " so forcing operatonModifier to " + operationModifier.getOptValue());
         } else {
             setCliOption(operationModifier);
         }
@@ -348,8 +374,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if ("abstract".equals(operationModifier.getOptValue())) {
             generateBody = false;
             additionalProperties.put(GENERATE_BODY, generateBody);
-            LOGGER.warn("operationModifier is " + operationModifier.getOptValue() + " so forcing generateBody to "+ generateBody);
-        } else  if (additionalProperties.containsKey(GENERATE_BODY)) {
+            LOGGER.warn("operationModifier is " + operationModifier.getOptValue() + " so forcing generateBody to " + generateBody);
+        } else if (additionalProperties.containsKey(GENERATE_BODY)) {
             generateBody = convertPropertyToBooleanAndWriteBack(GENERATE_BODY);
         } else {
             additionalProperties.put(GENERATE_BODY, generateBody);
@@ -377,7 +403,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         } else {
             // default, do nothing
             LOGGER.info("ASP.NET core version: " + aspnetCoreVersion.getOptValue());
-            compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".","_");
+            compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
         }
         additionalProperties.put(COMPATIBILITY_VERSION, compatibilityVersion);
     }

@@ -1,6 +1,7 @@
 # Petstore::TypeHolderDefault
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **string_item** | **String** |  | [default to &#39;what&#39;]

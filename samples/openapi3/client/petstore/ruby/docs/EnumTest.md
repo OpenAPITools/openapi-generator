@@ -1,6 +1,7 @@
 # Petstore::EnumTest
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **enum_string** | **String** |  | [optional] 

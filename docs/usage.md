@@ -72,8 +72,8 @@ SYNOPSIS
 
 OPTIONS
         -f <output format>, --format <output format>
-            Write output files in the desired format. Options are 'text' and
-            'markdown'. Default is 'text'.
+            Write output files in the desired format. Options are 'text',
+            'markdown' or 'yamlsample'. Default is 'text'.
 
         -g <generator name>, --generator-name <generator name>
             generator to get config help for

@@ -1,0 +1,14 @@
+
+syntax = "proto3";
+
+message User {
+    int32 id = 1;
+    string username = 2;
+    string firstName = 3;
+    string lastName = 4;
+    string email = 5;
+    string password = 6;
+    string phone = 7;
+    int32 userStatus = 8;
+}
+

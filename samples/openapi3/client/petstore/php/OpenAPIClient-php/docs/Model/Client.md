@@ -1,6 +1,7 @@
-# Client
+# # Client
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **client** | **string** |  | [optional] 
