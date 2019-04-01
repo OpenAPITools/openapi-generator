@@ -94,7 +94,7 @@ public class EnumArrays  implements Serializable {
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
- 
+
   @JsonProperty("array_enum")
   private List<ArrayEnumEnum> arrayEnum = null;
 

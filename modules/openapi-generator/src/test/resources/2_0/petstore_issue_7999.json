@@ -127,7 +127,7 @@
               "enum": ["available", "pending", "sold"]
             },
             "collectionFormat": "multi",
-            "default": "available"
+            "default": ["available"]
           }
         ],
         "responses": {

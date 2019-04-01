@@ -77,7 +77,7 @@ class NullableClass implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'integer_prop' => 'int32',
+        'integer_prop' => null,
         'number_prop' => null,
         'boolean_prop' => null,
         'string_prop' => null,

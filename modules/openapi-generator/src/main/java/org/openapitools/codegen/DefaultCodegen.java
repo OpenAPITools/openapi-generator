@@ -780,7 +780,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the file name of the model
      */
     public String toModelFilename(String name) {
-        return initialCaps(name);
+        return camelize(name);
     }
 
     /**
@@ -790,7 +790,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the file name of the model
      */
     public String toModelTestFilename(String name) {
-        return initialCaps(name) + "Test";
+        return camelize(name) + "Test";
     }
 
     /**
@@ -800,7 +800,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the file name of the model
      */
     public String toModelDocFilename(String name) {
-        return initialCaps(name);
+        return camelize(name);
     }
 
     /**
@@ -1476,17 +1476,6 @@ public class DefaultCodegen implements CodegenConfig {
         return (name.length() > 0) ? (Character.toLowerCase(name.charAt(0)) + name.substring(1)) : "";
     }
 
-    /**
-     * Capitalize the string. Please use org.openapitools.codegen.utils.StringUtils.camelize instead as this method will be deprecated.
-     *
-     * @param name string to be capitalized
-     * @return capitalized string
-     * @deprecated use {@link org.openapitools.codegen.utils.StringUtils#camelize(String)} instead
-     */
-    @SuppressWarnings("static-method")
-    public String initialCaps(String name) {
-        return camelize(name);
-    }
 
     /**
      * Output the type declaration of a given name
@@ -1576,7 +1565,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        return initialCaps(name) + "Api";
+        return camelize(name) + "Api";
     }
 
     /**
@@ -1587,7 +1576,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return capitalized model name
      */
     public String toModelName(final String name) {
-        return initialCaps(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
     }
 
     /**
@@ -3264,7 +3253,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (builder.toString().length() == 0) {
                         part = Character.toLowerCase(part.charAt(0)) + part.substring(1);
                     } else {
-                        part = initialCaps(part);
+                        part = camelize(part);
                     }
                     builder.append(part);
                 }
