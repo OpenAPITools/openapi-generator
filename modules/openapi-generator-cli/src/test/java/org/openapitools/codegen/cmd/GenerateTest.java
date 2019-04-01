@@ -278,6 +278,19 @@ public class GenerateTest {
     }
 
     @Test
+    public void testPackageName() throws Exception {
+        final String value = "io.foo.bar.baz";
+        setupAndRunGenericTest("--package-name", value);
+
+        new FullVerifications() {
+            {
+                configurator.setPackageName(value);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
     public void testApiPackage() throws Exception {
         final String value = "io.foo.bar.api";
         setupAndRunGenericTest("--api-package", value);

@@ -98,6 +98,11 @@ public class Generate implements Runnable {
                     + "overwritten during the generation.")
     private Boolean skipOverwrite;
 
+
+    @Option(name = {"--package-name"}, title = "package name",
+            description = CodegenConstants.PACKAGE_NAME_DESC)
+    private String packageName;
+
     @Option(name = {"--api-package"}, title = "api package",
             description = CodegenConstants.API_PACKAGE_DESC)
     private String apiPackage;
@@ -282,6 +287,10 @@ public class Generate implements Runnable {
 
         if (isNotEmpty(templateDir)) {
             configurator.setTemplateDir(templateDir);
+        }
+
+        if (isNotEmpty(packageName)) {
+            configurator.setPackageName(packageName);
         }
 
         if (isNotEmpty(apiPackage)) {
