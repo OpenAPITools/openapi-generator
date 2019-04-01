@@ -1,0 +1,25 @@
+{
+  "name": "{{projectName}}",
+  "version": "{{appVersion}}",
+  "description": "{{{appDescription}}}",
+  "scripts": {
+    "start": "fastify start index.js",
+    "test": "tap test/test-*.js",
+    "dev": "fastify start -l info -P index.js"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "openapi", "openapi-generator"
+  ],
+  "license": "Unlicense",
+  "dependencies": {
+    "fastify-plugin": "^1.0.1"
+  },
+  "devDependencies": {
+    "fastify": "^2.0.0",
+    "fastify-cli": "^1.0.0",
+    "tap": "^12.5.3"
+  }
+}
