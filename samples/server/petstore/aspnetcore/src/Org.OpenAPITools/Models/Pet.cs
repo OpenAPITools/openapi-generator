@@ -27,33 +27,33 @@ namespace Org.OpenAPITools.Models
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="id")]
+        [DataMember(Name="id", EmitDefaultValue=false)]
         public long? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Category
         /// </summary>
-        [DataMember(Name="category")]
+        [DataMember(Name="category", EmitDefaultValue=false)]
         public Category Category { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [Required]
-        [DataMember(Name="name")]
+        [DataMember(Name="name", EmitDefaultValue=false)]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
         [Required]
-        [DataMember(Name="photoUrls")]
+        [DataMember(Name="photoUrls", EmitDefaultValue=false)]
         public List<string> PhotoUrls { get; set; }
 
         /// <summary>
         /// Gets or Sets Tags
         /// </summary>
-        [DataMember(Name="tags")]
+        [DataMember(Name="tags", EmitDefaultValue=false)]
         public List<Tag> Tags { get; set; }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Models
         /// pet status in the store
         /// </summary>
         /// <value>pet status in the store</value>
-        [DataMember(Name="status")]
+        [DataMember(Name="status", EmitDefaultValue=false)]
         public StatusEnum? Status { get; set; }
 
         /// <summary>
