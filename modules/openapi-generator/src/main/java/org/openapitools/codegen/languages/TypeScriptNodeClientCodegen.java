@@ -99,7 +99,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         if (name.length() == 0) {
             return "Default" + apiSuffix;
         }
-        return StringUtils.camelize(name) + apiSuffix;
+        return camelize(name) + apiSuffix;
     }
     
     @Override

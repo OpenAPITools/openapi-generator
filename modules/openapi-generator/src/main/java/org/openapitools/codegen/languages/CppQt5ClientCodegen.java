@@ -24,6 +24,8 @@ import org.openapitools.codegen.SupportingFile;
 
 import java.io.File;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements CodegenConfig {
     public static final String OPTIONAL_PROJECT_FILE_DESC = "Generate client.pri.";
     // source folder where to write the files
@@ -165,7 +167,7 @@ public class CppQt5ClientCodegen extends CppQt5AbstractCodegen implements Codege
 
     @Override
     public String toApiFilename(String name) {
-        return modelNamePrefix + sanitizeName(initialCaps(name)) + "Api";
+        return modelNamePrefix + sanitizeName(camelize(name)) + "Api";
     }
 
     public void setOptionalProjectFileFlag(boolean flag) {

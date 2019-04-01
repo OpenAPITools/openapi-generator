@@ -322,7 +322,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         if (name.length() == 0) {
             return "DefaultService";
         }
-        return StringUtils.camelize(name) + "Service";
+        return camelize(name) + "Service";
     }
 
     @Override
