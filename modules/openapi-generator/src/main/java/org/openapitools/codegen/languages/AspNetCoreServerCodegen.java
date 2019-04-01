@@ -317,7 +317,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private void  setCliOption(CliOption cliOption) throws IllegalArgumentException {
         if (additionalProperties.containsKey(cliOption.getOpt())) {
             cliOption.setOptValue(additionalProperties.get(cliOption.getOpt()).toString());
-            if (classModifier.getOptValue() == null) {
+            if (cliOption.getOptValue() == null) {
                 cliOption.setOptValue(cliOption.getDefault());
                 throw new IllegalArgumentException(cliOption.getOpt() + ": Invalid value '" + additionalProperties.get(cliOption.getOpt()).toString() + "'" +
                         ". " + cliOption.getDescription());
