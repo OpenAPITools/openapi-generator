@@ -408,8 +408,8 @@ public class InlineModelResolver {
 
     private String uniqueName(String key) {
         if (key == null) {
-            key = "NULL_UNIQUE_NAME";
-            LOGGER.warn("null key found. Default to NULL_UNIQUE_NAME");
+            key = "InlineObject";
+            LOGGER.warn("null key found. Default to InlineObject");
         }
         int count = 0;
         boolean done = false;
