@@ -1,4 +1,4 @@
-const openapiGlue = require("index.js");
+const openapiGlue = require("../../index.js");
 
 const options = {
   specification: `${__dirname}/openapi.json`,
