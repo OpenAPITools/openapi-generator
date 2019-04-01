@@ -283,6 +283,15 @@ impl<F, C> Api<C> for Client<F> where
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -355,6 +364,15 @@ impl<F, C> Api<C> for Client<F> where
             "{}/v2/fake/outer/boolean",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -431,6 +449,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -503,6 +530,15 @@ if let Some(body) = body {
             "{}/v2/fake/outer/number",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -577,6 +613,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -649,11 +694,11 @@ if let Some(body) = body {
             "{}/v2/fake/body-with-query-params",
             self.base_path
         );
-        
-        // Query parameters
+
         let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
         query_string.append_pair("query", &param_query.to_string());
-        
+
+
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -720,6 +765,15 @@ if let Some(body) = body {
             "{}/v2/fake",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -792,6 +846,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -821,13 +884,13 @@ if let Some(body) = body {
         request.set_body(body.into_bytes());
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
-            if let &AuthData::Basic(ref basic_header) = auth_data {
+        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
+            if let AuthData::Basic(ref basic_header) = *auth_data {
                 request.headers_mut().set(hyper::header::Authorization(
                     basic_header.clone(),
                 ))
             }
-        });
+        }
 
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -880,9 +943,9 @@ if let Some(body) = body {
             "{}/v2/fake",
             self.base_path
         );
-        
-        // Query parameters
+
         let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
         if let Some(enum_query_string_array) = param_enum_query_string_array {
             query_string.append_pair("enum_query_string_array", &enum_query_string_array.join(","));
         }
@@ -895,7 +958,7 @@ if let Some(body) = body {
         if let Some(enum_query_double) = param_enum_query_double {
             query_string.append_pair("enum_query_double", &enum_query_double.to_string());
         }
-        
+
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -978,6 +1041,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1038,6 +1110,15 @@ if let Some(body) = body {
             "{}/v2/fake/jsonFormData",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1100,6 +1181,19 @@ if let Some(body) = body {
             "{}/v2/fake_classname_test",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
+            if let AuthData::ApiKey(ref api_key) = *auth_data {
+                query_string.append_pair("api_key_query", api_key);
+            }
+        }
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1174,6 +1268,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1237,6 +1340,15 @@ if let Some(body) = body {
             self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1295,11 +1407,11 @@ if let Some(body) = body {
             "{}/v2/pet/findByStatus",
             self.base_path
         );
-        
-        // Query parameters
+
         let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
         query_string.append_pair("status", &param_status.join(","));
-        
+
+
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -1381,11 +1493,11 @@ if let Some(body) = body {
             "{}/v2/pet/findByTags",
             self.base_path
         );
-        
-        // Query parameters
+
         let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
         query_string.append_pair("tags", &param_tags.join(","));
-        
+
+
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -1468,6 +1580,15 @@ if let Some(body) = body {
             self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1478,7 +1599,12 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
+        header! { (ApiKey, "api_key") => [String] }
+        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
+            if let AuthData::ApiKey(ref api_key) = *auth_data {
+                request.headers_mut().set(ApiKey(api_key.to_string()));
+            }
+        }
 
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1552,6 +1678,15 @@ if let Some(body) = body {
             "{}/v2/pet",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1632,6 +1767,15 @@ if let Some(body) = body {
             self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1693,6 +1837,15 @@ if let Some(body) = body {
             "{}/v2/pet/{petId}/uploadImage",
             self.base_path, petId=utf8_percent_encode(&param_pet_id.to_string(), ID_ENCODE_SET)
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1766,6 +1919,15 @@ if let Some(body) = body {
             self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1830,6 +1992,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -1840,7 +2011,12 @@ if let Some(body) = body {
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
-
+        header! { (ApiKey, "api_key") => [String] }
+        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
+            if let AuthData::ApiKey(ref api_key) = *auth_data {
+                request.headers_mut().set(ApiKey(api_key.to_string()));
+            }
+        }
 
         Box::new(self.client_service.call(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1894,6 +2070,15 @@ if let Some(body) = body {
             "{}/v2/store/order/{order_id}",
             self.base_path, order_id=utf8_percent_encode(&param_order_id.to_string(), ID_ENCODE_SET)
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -1980,6 +2165,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -2062,6 +2256,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -2125,6 +2328,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -2186,6 +2398,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -2246,6 +2467,15 @@ if let Some(body) = body {
             "{}/v2/user/{username}",
             self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -2310,6 +2540,15 @@ if let Some(body) = body {
             "{}/v2/user/{username}",
             self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -2395,12 +2634,12 @@ if let Some(body) = body {
             "{}/v2/user/login",
             self.base_path
         );
-        
-        // Query parameters
+
         let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
         query_string.append_pair("username", &param_username.to_string());
         query_string.append_pair("password", &param_password.to_string());
-        
+
+
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -2493,6 +2732,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -2547,6 +2795,15 @@ if let Some(body) = body {
             "{}/v2/user/{username}",
             self.base_path, username=utf8_percent_encode(&param_username.to_string(), ID_ENCODE_SET)
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
