@@ -25,19 +25,19 @@ data class Pet (
         @JsonProperty("name") val name: String,
 
         @get:NotNull 
-        @ApiModelProperty(required = true, value = "")
+        @ApiModelProperty(example = "null", required = true, value = "")
         @JsonProperty("photoUrls") val photoUrls: List<String>,
 
-        @ApiModelProperty(value = "")
+        @ApiModelProperty(example = "null", value = "")
         @JsonProperty("id") val id: Long? = null,
 
-        @ApiModelProperty(value = "")
+        @ApiModelProperty(example = "null", value = "")
         @JsonProperty("category") val category: Category? = null,
 
-        @ApiModelProperty(value = "")
+        @ApiModelProperty(example = "null", value = "")
         @JsonProperty("tags") val tags: List<Tag>? = null,
 
-        @ApiModelProperty(value = "pet status in the store")
+        @ApiModelProperty(example = "null", value = "pet status in the store")
         @JsonProperty("status") val status: Pet.Status? = null
 ) {
 

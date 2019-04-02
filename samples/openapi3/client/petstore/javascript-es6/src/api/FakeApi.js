@@ -15,6 +15,7 @@
 import ApiClient from "../ApiClient";
 import Client from '../model/Client';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
+import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
 import User from '../model/User';
 
@@ -36,6 +37,42 @@ export default class FakeApi {
         this.apiClient = apiClient || ApiClient.instance;
     }
 
+
+    /**
+     * Callback function to receive the result of the fakeHealthGet operation.
+     * @callback module:api/FakeApi~fakeHealthGetCallback
+     * @param {String} error Error message, if any.
+     * @param {module:model/HealthCheckResult} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Health check endpoint
+     * @param {module:api/FakeApi~fakeHealthGetCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link module:model/HealthCheckResult}
+     */
+    fakeHealthGet(callback) {
+      let postBody = null;
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = ['application/json'];
+      let returnType = HealthCheckResult;
+      return this.apiClient.callApi(
+        '/fake/health', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
 
     /**
      * Callback function to receive the result of the fakeOuterBooleanSerialize operation.

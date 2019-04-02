@@ -1,0 +1,314 @@
+    /// <summary>
+    /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
+    /// </summary>
+    [DataContract]
+    {{#discriminator}}
+    [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]
+    {{#children}}
+    [JsonSubtypes.KnownSubType(typeof({{classname}}), "{{^vendorExtensions.x-discriminator-value}}{{name}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}")]
+    {{/children}}
+    {{#mappedModels}}
+    [JsonSubtypes.KnownSubType(typeof({{{modelName}}}), "{{{mappingName}}}")]
+    {{/mappedModels}}
+    {{/discriminator}}
+    {{>visibility}} partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}} IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
+    {
+        {{#vars}}
+        {{#items.isEnum}}
+        {{#items}}
+        {{^complexType}}
+{{>modelInnerEnum}}
+        {{/complexType}}
+        {{/items}}
+        {{/items.isEnum}}
+        {{#isEnum}}
+        {{^complexType}}
+{{>modelInnerEnum}}
+        {{/complexType}}
+        {{/isEnum}}
+        {{#isEnum}}
+        /// <summary>
+        /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// </summary>
+        {{#description}}
+        /// <value>{{description}}</value>
+        {{/description}}
+        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}})]
+        public {{#complexType}}{{{complexType}}}{{/complexType}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; }
+        {{/isEnum}}
+        {{/vars}}
+    {{#hasRequired}}
+    {{^hasOnlyReadOnly}}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// </summary>
+        [JsonConstructorAttribute]
+        protected {{classname}}() { }
+    {{/hasOnlyReadOnly}}
+    {{/hasRequired}}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// </summary>
+        {{#readWriteVars}}
+        /// <param name="{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}">{{#description}}{{description}}{{/description}}{{^description}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
+        {{/readWriteVars}}
+    {{#hasOnlyReadOnly}}
+        [JsonConstructorAttribute]
+    {{/hasOnlyReadOnly}}
+        public {{classname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}default({{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}}){{/defaultValue}}{{^-last}}, {{/-last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#hasMore}}, {{/hasMore}}{{/parentVars}}){{/parent}}
+        {
+            {{#vars}}
+            {{^isInherited}}
+            {{^isReadOnly}}
+            {{^isNullable}}
+            {{#required}}
+            {{^isEnum}}
+            // to ensure "{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}" is required (not null)
+            if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} == null)
+            {
+                throw new InvalidDataException("{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} is a required property for {{classname}} and cannot be null");
+            }
+            else
+            {
+                this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            }
+
+            {{/isEnum}}
+            {{#isEnum}}
+            this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/isEnum}}
+            {{/required}}
+            {{/isNullable}}
+            {{#isNullable}}
+            this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/isNullable}}
+            {{/isReadOnly}}
+            {{/isInherited}}
+            {{/vars}}
+            {{#vars}}
+            {{^isInherited}}
+            {{^isReadOnly}}
+            {{^required}}
+            {{#defaultValue}}
+            // use default value if no "{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}" provided
+            if ({{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} == null)
+            {
+                this.{{name}} = {{{defaultValue}}};
+            }
+            else
+            {
+                this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            }
+            {{/defaultValue}}
+            {{^defaultValue}}
+            this.{{name}} = {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}};
+            {{/defaultValue}}
+            {{/required}}
+            {{/isReadOnly}}
+            {{/isInherited}}
+            {{/vars}}
+        }
+        
+        {{#vars}}
+        {{^isInherited}}
+        {{^isEnum}}
+        /// <summary>
+        /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{description}}</value>{{/description}}
+        [DataMember(Name="{{baseName}}", EmitDefaultValue={{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}})]{{#isDate}}
+        [JsonConverter(typeof(OpenAPIDateConverter))]{{/isDate}}
+        public {{{dataType}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+
+        {{/isEnum}}
+        {{/isInherited}}
+        {{/vars}}
+        /// <summary>
+        /// Returns the string presentation of the object
+        /// </summary>
+        /// <returns>String presentation of the object</returns>
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.Append("class {{classname}} {\n");
+            {{#parent}}
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
+            {{/parent}}
+            {{#vars}}
+            sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
+            {{/vars}}
+            sb.Append("}\n");
+            return sb.ToString();
+        }
+  
+        /// <summary>
+        /// Returns the JSON string presentation of the object
+        /// </summary>
+        /// <returns>JSON string presentation of the object</returns>
+        public {{#parent}}{{^isArrayModel}}{{^isMapModel}}override {{/isMapModel}}{{/isArrayModel}}{{/parent}}{{^parent}}virtual {{/parent}}string ToJson()
+        {
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            {{#useCompareNetObjects}}
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as {{classname}}).AreEqual;
+            {{/useCompareNetObjects}}
+            {{^useCompareNetObjects}}
+            return this.Equals(input as {{classname}});
+            {{/useCompareNetObjects}}
+        }
+
+        /// <summary>
+        /// Returns true if {{classname}} instances are equal
+        /// </summary>
+        /// <param name="input">Instance of {{classname}} to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals({{classname}} input)
+        {
+            {{#useCompareNetObjects}}
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+            {{/useCompareNetObjects}}
+            {{^useCompareNetObjects}}
+            if (input == null)
+                return false;
+
+            return {{#vars}}{{#parent}}base.Equals(input) && {{/parent}}{{^isContainer}}
+                (
+                    this.{{name}} == input.{{name}} ||
+                    {{^isEnum}}
+                    (this.{{name}} != null &&
+                    this.{{name}}.Equals(input.{{name}}))
+                    {{/isEnum}}
+                    {{#isEnum}}
+                    this.{{name}}.Equals(input.{{name}})
+                    {{/isEnum}}
+                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{#isContainer}}
+                (
+                    this.{{name}} == input.{{name}} ||
+                    this.{{name}} != null &&
+                    this.{{name}}.SequenceEqual(input.{{name}})
+                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}};
+            {{/useCompareNetObjects}}
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                {{#parent}}
+                int hashCode = base.GetHashCode();
+                {{/parent}}
+                {{^parent}}
+                int hashCode = 41;
+                {{/parent}}
+                {{#vars}}
+                {{^isEnum}}
+                if (this.{{name}} != null)
+                    hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
+                {{/isEnum}}
+                {{#isEnum}}
+                hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
+                {{/isEnum}}
+                {{/vars}}
+                return hashCode;
+            }
+        }
+
+{{#validatable}}
+{{#discriminator}}
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        {
+{{/discriminator}}
+{{^discriminator}}
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+{{/discriminator}}
+            {{#parent}}
+            {{^isArrayModel}}
+            {{^isMapModel}}
+            foreach(var x in BaseValidate(validationContext)) yield return x;
+            {{/isMapModel}}
+            {{/isArrayModel}}
+            {{/parent}}
+            {{#vars}}
+            {{#hasValidation}}
+            {{#maxLength}}
+            // {{{name}}} ({{{dataType}}}) maxLength
+            if(this.{{{name}}} != null && this.{{{name}}}.Length > {{maxLength}})
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be less than {{maxLength}}.", new [] { "{{{name}}}" });
+            }
+
+            {{/maxLength}}
+            {{#minLength}}
+            // {{{name}}} ({{{dataType}}}) minLength
+            if(this.{{{name}}} != null && this.{{{name}}}.Length < {{minLength}})
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, length must be greater than {{minLength}}.", new [] { "{{{name}}}" });
+            }
+
+            {{/minLength}}
+            {{#maximum}}
+            // {{{name}}} ({{{dataType}}}) maximum
+            if(this.{{{name}}} > ({{{dataType}}}){{maximum}})
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must be a value less than or equal to {{maximum}}.", new [] { "{{{name}}}" });
+            }
+
+            {{/maximum}}
+            {{#minimum}}
+            // {{{name}}} ({{{dataType}}}) minimum
+            if(this.{{{name}}} < ({{{dataType}}}){{minimum}})
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must be a value greater than or equal to {{minimum}}.", new [] { "{{{name}}}" });
+            }
+
+            {{/minimum}}
+            {{#pattern}}
+            {{^isByteArray}}
+            // {{{name}}} ({{{dataType}}}) pattern
+            Regex regex{{{name}}} = new Regex(@"{{{vendorExtensions.x-regex}}}"{{#vendorExtensions.x-modifiers}}{{#-first}}, {{/-first}}RegexOptions.{{{.}}}{{^-last}} | {{/-last}}{{/vendorExtensions.x-modifiers}});
+            if (false == regex{{{name}}}.Match(this.{{{name}}}).Success)
+            {
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must match a pattern of " + regex{{{name}}}, new [] { "{{{name}}}" });
+            }
+
+            {{/isByteArray}}
+            {{/pattern}}
+            {{/hasValidation}}
+            {{/vars}}
+            yield break;
+        }
+{{/validatable}}
+    }

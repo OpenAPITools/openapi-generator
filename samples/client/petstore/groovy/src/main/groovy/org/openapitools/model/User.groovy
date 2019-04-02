@@ -6,21 +6,21 @@ import io.swagger.annotations.ApiModelProperty;
 
 @Canonical
 class User {
-    Long id = null
+    Long id
 
-    String username = null
+    String username
 
-    String firstName = null
+    String firstName
 
-    String lastName = null
+    String lastName
 
-    String email = null
+    String email
 
-    String password = null
+    String password
 
-    String phone = null
+    String phone
 
     /* User Status */
-    Integer userStatus = null
+    Integer userStatus
 
 }

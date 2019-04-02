@@ -205,6 +205,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile("cJSON.c.mustache", "external", "cJSON.c"));
         supportingFiles.add(new SupportingFile("cJSON.h.mustache", "external", "cJSON.h"));
 
+        // Object files in model folder
+        supportingFiles.add(new SupportingFile("object-body.mustache", "model", "object.c"));
+        supportingFiles.add(new SupportingFile("object-header.mustache", "model", "object.h"));
     }
 
     @Override
@@ -333,6 +336,9 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toParamName(String name) {
         // should be the same as variable name
+        if (name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        }
         name = name.replaceAll("-","_");
         return name;
     }
@@ -412,11 +418,15 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toEnumValue(String value, String datatype) {
+        value = value.replaceAll("-","_");
+        if (isReservedWord(value)) {
+            value = escapeReservedWord(value);
+        }
         if ("Integer".equals(datatype) || "Float".equals(datatype)) {
             return value;
         } else {
             if (value.matches("\\d.*")) { // starts with number
-                return "N" + escapeText(value);
+                return escapeReservedWord(escapeText(value));
             } else {
                 return escapeText(value);
             }
@@ -444,7 +454,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         enumName = enumName.replaceFirst("_$", "");
 
         if (enumName.matches("\\d.*")) { // starts with number
-            return "N" + enumName;
+            return escapeReservedWord(enumName);
         } else {
             return enumName;
         }
@@ -457,7 +467,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         enumName = enumName.replaceFirst("_$", "");
 
         if (enumName.matches("\\d.*")) { // starts with number
-            return "N" + enumName;
+            return escapeReservedWord(enumName);
         } else {
             return enumName;
         }
@@ -502,7 +512,10 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toModelImport(String name) {
-        return "#include \"" +"../model/" + name + ".h\"";
+        if (importMapping.containsKey(name)) {
+            return "#include \"" +"../model/" + importMapping.get(name) + ".h\"";
+        } else
+            return "#include \"" +"../model/" + name + ".h\"";
     }
 
     @Override
@@ -593,6 +606,18 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("=end", "=_end").replace("=begin", "=_begin");
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p) {
+        CodegenProperty cm = super.fromProperty(name,p);
+        Schema ref = ModelUtils.getReferencedSchema(openAPI, p);
+        if (ref != null) {
+           if (ref.getEnum() != null) {
+               cm.isEnum = true;
+           }
+        }
+        return cm;
     }
 
 

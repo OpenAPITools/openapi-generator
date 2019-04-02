@@ -43,7 +43,9 @@ namespace {{packageName}}
             // Add framework services.
             services
                 .AddMvc()
-                .SetCompatibilityVersion                (CompatibilityVersion.Version_2_1)
+                {{#compatibilityVersion}}
+                .SetCompatibilityVersion(CompatibilityVersion.{{compatibilityVersion}})
+                {{/compatibilityVersion}}
                 .AddJsonOptions(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -107,7 +109,7 @@ namespace {{packageName}}
                     // c.SwaggerEndpoint("/openapi-original.json", "{{#appName}}{{{appName}}}{{/appName}}{{^appName}}{{packageName}}{{/appName}} Original");
                 }){{/useSwashbuckle}};
 
-if (env.IsDevelopment())
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }

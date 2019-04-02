@@ -70,13 +70,13 @@ public class Pet  implements Serializable {
     }
 
     @JsonCreator
-    public static StatusEnum fromValue(String text) {
+    public static StatusEnum fromValue(String value) {
       for (StatusEnum b : StatusEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 
@@ -114,7 +114,7 @@ public class Pet  implements Serializable {
    **/
   @JsonProperty("category")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public Category getCategory() {
     return category;
   }
@@ -134,8 +134,7 @@ public class Pet  implements Serializable {
    **/
   @JsonProperty("name")
   @ApiModelProperty(example = "doggie", required = true, value = "")
-    @NotNull
-
+  @NotNull 
   public String getName() {
     return name;
   }
@@ -160,8 +159,7 @@ public class Pet  implements Serializable {
    **/
   @JsonProperty("photoUrls")
   @ApiModelProperty(required = true, value = "")
-    @NotNull
-
+  @NotNull 
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -189,7 +187,7 @@ public class Pet  implements Serializable {
    **/
   @JsonProperty("tags")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public List<Tag> getTags() {
     return tags;
   }

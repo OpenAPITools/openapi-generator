@@ -52,7 +52,7 @@ public class ArrayOfNumberOnly  implements Serializable {
    **/
   @JsonProperty("ArrayNumber")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public List<BigDecimal> getArrayNumber() {
     return arrayNumber;
   }

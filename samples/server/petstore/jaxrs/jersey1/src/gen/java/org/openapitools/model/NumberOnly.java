@@ -41,7 +41,7 @@ public class NumberOnly   {
    **/
   @JsonProperty("JustNumber")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public BigDecimal getJustNumber() {
     return justNumber;
   }

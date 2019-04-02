@@ -1,0 +1,6 @@
+{-# OPTIONS_GHC -fno-warn-dodgy-imports #-}
+
+module {{baseModule}}.ImportMappings (module ImportMappings) where
+
+{{#x-allImportMappings}}import {{importPath}} as ImportMappings ({{dataType}}(..))
+{{/x-allImportMappings}}

@@ -21,7 +21,7 @@ module Petstore
     end
     # To test class name in snake case
     # To test class name in snake case
-    # @param body client model
+    # @param body [Client] client model
     # @param [Hash] opts the optional parameters
     # @return [Client]
     def test_classname(body, opts = {})
@@ -31,9 +31,9 @@ module Petstore
 
     # To test class name in snake case
     # To test class name in snake case
-    # @param body client model
+    # @param body [Client] client model
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Client, Fixnum, Hash)>] Client data, response status code and response headers
+    # @return [Array<(Client, Integer, Hash)>] Client data, response status code and response headers
     def test_classname_with_http_info(body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeClassnameTags123Api.test_classname ...'

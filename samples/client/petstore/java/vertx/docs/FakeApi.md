@@ -19,8 +19,9 @@ Method | HTTP request | Description
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 
 
-<a name="createXmlItem"></a>
-# **createXmlItem**
+
+## createXmlItem
+
 > createXmlItem(xmlItem)
 
 creates an XmlItem
@@ -28,6 +29,7 @@ creates an XmlItem
 this route creates an XmlItem
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiException;
@@ -46,6 +48,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xmlItem** | [**XmlItem**](XmlItem.md)| XmlItem Body |
@@ -60,11 +63,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
- - **Accept**: Not defined
+- **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+- **Accept**: Not defined
 
-<a name="fakeOuterBooleanSerialize"></a>
-# **fakeOuterBooleanSerialize**
+
+## fakeOuterBooleanSerialize
+
 > Boolean fakeOuterBooleanSerialize(body)
 
 
@@ -72,6 +76,7 @@ No authorization required
 Test serialization of outer boolean types
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiException;
@@ -91,6 +96,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **Boolean**| Input boolean as post body | [optional]
@@ -105,11 +111,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-<a name="fakeOuterCompositeSerialize"></a>
-# **fakeOuterCompositeSerialize**
+
+## fakeOuterCompositeSerialize
+
 > OuterComposite fakeOuterCompositeSerialize(body)
 
 
@@ -117,6 +124,7 @@ No authorization required
 Test serialization of object with outer number type
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiException;
@@ -136,6 +144,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
@@ -150,11 +159,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-<a name="fakeOuterNumberSerialize"></a>
-# **fakeOuterNumberSerialize**
+
+## fakeOuterNumberSerialize
+
 > BigDecimal fakeOuterNumberSerialize(body)
 
 
@@ -162,6 +172,7 @@ No authorization required
 Test serialization of outer number types
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiException;
@@ -181,6 +192,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **BigDecimal**| Input number as post body | [optional]
@@ -195,11 +207,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-<a name="fakeOuterStringSerialize"></a>
-# **fakeOuterStringSerialize**
+
+## fakeOuterStringSerialize
+
 > String fakeOuterStringSerialize(body)
 
 
@@ -207,6 +220,7 @@ No authorization required
 Test serialization of outer string types
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiException;
@@ -226,6 +240,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **String**| Input string as post body | [optional]
@@ -240,11 +255,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-<a name="testBodyWithFileSchema"></a>
-# **testBodyWithFileSchema**
+
+## testBodyWithFileSchema
+
 > testBodyWithFileSchema(body)
 
 
@@ -252,6 +268,7 @@ No authorization required
 For this test, the body for this request much reference a schema named &#x60;File&#x60;.
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiException;
@@ -270,6 +287,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  |
@@ -284,16 +302,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-<a name="testBodyWithQueryParams"></a>
-# **testBodyWithQueryParams**
+
+## testBodyWithQueryParams
+
 > testBodyWithQueryParams(query, body)
 
 
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiException;
@@ -313,6 +333,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **String**|  |
@@ -328,11 +349,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-<a name="testClientModel"></a>
-# **testClientModel**
+
+## testClientModel
+
 > Client testClientModel(body)
 
 To test \&quot;client\&quot; model
@@ -340,6 +362,7 @@ To test \&quot;client\&quot; model
 To test \&quot;client\&quot; model
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiException;
@@ -359,6 +382,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**Client**](Client.md)| client model |
@@ -373,11 +397,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-<a name="testEndpointParameters"></a>
-# **testEndpointParameters**
+
+## testEndpointParameters
+
 > testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -385,6 +410,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiClient;
@@ -425,6 +451,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **number** | **BigDecimal**| None |
@@ -452,11 +479,12 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
-<a name="testEnumParameters"></a>
-# **testEnumParameters**
+
+## testEnumParameters
+
 > testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
 
 To test enum parameters
@@ -464,6 +492,7 @@ To test enum parameters
 To test enum parameters
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiException;
@@ -489,6 +518,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enumHeaderStringArray** | [**List&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] [enum: >, $]
@@ -510,11 +540,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
-<a name="testGroupParameters"></a>
-# **testGroupParameters**
+
+## testGroupParameters
+
 > testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group)
 
 Fake endpoint to test group parameters (optional)
@@ -522,6 +553,7 @@ Fake endpoint to test group parameters (optional)
 Fake endpoint to test group parameters (optional)
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiException;
@@ -545,6 +577,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **requiredStringGroup** | **Integer**| Required String in group parameters |
@@ -564,16 +597,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-<a name="testInlineAdditionalProperties"></a>
-# **testInlineAdditionalProperties**
+
+## testInlineAdditionalProperties
+
 > testInlineAdditionalProperties(param)
 
 test inline additionalProperties
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiException;
@@ -592,6 +627,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **param** | [**Map&lt;String, String&gt;**](String.md)| request body |
@@ -606,16 +642,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-<a name="testJsonFormData"></a>
-# **testJsonFormData**
+
+## testJsonFormData
+
 > testJsonFormData(param, param2)
 
 test json serialization of form data
 
 ### Example
+
 ```java
 // Import classes:
 //import org.openapitools.client.ApiException;
@@ -635,6 +673,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **param** | **String**| field1 |
@@ -650,6 +689,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 

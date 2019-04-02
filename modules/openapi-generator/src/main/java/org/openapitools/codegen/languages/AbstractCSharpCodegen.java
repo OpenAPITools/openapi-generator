@@ -39,7 +39,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalProjectFileFlag = true;
-    protected boolean optionalEmitDefaultValue = false;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
     protected boolean useCollection = false;
@@ -47,6 +46,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean netCoreProjectFileFlag = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
+
+    protected String licenseUrl = "http://localhost";
+    protected String licenseName = "NoLicense";
 
     protected String packageVersion = "1.0.0";
     protected String packageName = "Org.OpenAPITools";
@@ -194,10 +196,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.returnICollection = returnICollection;
     }
 
-    public void setOptionalEmitDefaultValue(boolean optionalEmitDefaultValue) {
-        this.optionalEmitDefaultValue = optionalEmitDefaultValue;
-    }
-
     public void setUseCollection(boolean useCollection) {
         this.useCollection = useCollection;
         if (useCollection) {
@@ -226,6 +224,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
+
     @Override
     public void processOpts() {
         super.processOpts();
@@ -233,6 +232,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (StringUtils.isEmpty(System.getenv("CSHARP_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable CSHARP_POST_PROCESS_FILE not defined so the C# code may not be properly formatted by uncrustify (0.66 or later) or other code formatter. To define it, try `export CSHARP_POST_PROCESS_FILE=\"/usr/local/bin/uncrustify --no-backup\" && export UNCRUSTIFY_CONFIG=/path/to/uncrustify-rules.cfg` (Linux/Mac). Note: replace /path/to with the location of uncrustify-rules.cfg");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+
+        // License info
+        if (additionalProperties.containsKey(CodegenConstants.LICENSE_URL)) {
+            setLicenseUrl((String) additionalProperties.get(CodegenConstants.LICENSE_URL));
+        } else {
+            additionalProperties.put(CodegenConstants.LICENSE_URL, this.licenseUrl);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.LICENSE_NAME)) {
+            setLicenseName((String) additionalProperties.get(CodegenConstants.LICENSE_NAME));
+        } else {
+            additionalProperties.put(CodegenConstants.LICENSE_NAME, this.licenseName);
         }
 
         // {{packageVersion}}
@@ -320,12 +332,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             setReturnICollection(convertPropertyToBooleanAndWriteBack(CodegenConstants.RETURN_ICOLLECTION));
         } else {
             additionalProperties.put(CodegenConstants.RETURN_ICOLLECTION, returnICollection);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
-            setOptionalEmitDefaultValue(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES));
-        } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValue);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.NETCORE_PROJECT_FILE)) {
@@ -926,6 +932,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public String toModelTestFilename(String name) {
         return toModelName(name) + "Tests";
     }
+
+    public void setLicenseUrl(String licenseUrl) {this.licenseUrl = licenseUrl;}
+
+    public void setLicenseName(String licenseName) {this.licenseName = licenseName;}
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;

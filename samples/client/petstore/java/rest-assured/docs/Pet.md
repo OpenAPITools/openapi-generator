@@ -1,7 +1,9 @@
 
+
 # Pet
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **Long** |  |  [optional]
@@ -12,8 +14,9 @@ Name | Type | Description | Notes
 **status** | [**StatusEnum**](#StatusEnum) | pet status in the store |  [optional]
 
 
-<a name="StatusEnum"></a>
+
 ## Enum: StatusEnum
+
 Name | Value
 ---- | -----
 AVAILABLE | &quot;available&quot;

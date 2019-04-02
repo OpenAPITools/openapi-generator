@@ -1,0 +1,305 @@
+{{#withSeparateModelsAndApi}}
+// tslint:disable
+/// <reference path="{{apiRelativeToRoot}}custom.d.ts" />
+{{>licenseInfo}}
+
+import * as url from 'url';
+import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
+import { Configuration } from '{{apiRelativeToRoot}}configuration';
+import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '{{apiRelativeToRoot}}base';
+
+{{#imports}}import { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}';
+{{/imports}}
+{{/withSeparateModelsAndApi}}
+{{^withSeparateModelsAndApi}}
+{{/withSeparateModelsAndApi}}
+{{#operations}}
+/**
+ * {{classname}} - axios parameter creator{{#description}}
+ * {{&description}}{{/description}}
+ * @export
+ */
+export const {{classname}}AxiosParamCreator = function (configuration?: Configuration) {
+    return {
+    {{#operation}}
+        /**
+         * {{&notes}}
+         {{#summary}}
+         * @summary {{&summary}}
+         {{/summary}}
+         {{#allParams}}
+         * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
+         {{/allParams}}
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: any = {}): RequestArgs {
+    {{#allParams}}
+    {{#required}}
+            // verify required parameter '{{paramName}}' is not null or undefined
+            if ({{paramName}} === null || {{paramName}} === undefined) {
+                throw new RequiredError('{{paramName}}','Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+            }
+    {{/required}}
+    {{/allParams}}
+            const localVarPath = `{{{path}}}`{{#pathParams}}
+                .replace(`{${"{{baseName}}"}}`, encodeURIComponent(String({{paramName}}))){{/pathParams}};
+            const localVarUrlObj = url.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: '{{httpMethod}}', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;{{#vendorExtensions}}{{#hasFormParams}}
+            const localVarFormParams = new {{^multipartFormData}}URLSearchParams(){{/multipartFormData}}{{#multipartFormData}}FormData(){{/multipartFormData}};{{/hasFormParams}}{{/vendorExtensions}}
+
+    {{#authMethods}}
+            // authentication {{name}} required
+            {{#isApiKey}}
+            {{#isKeyInHeader}}
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+                    ? configuration.apiKey("{{keyParamName}}")
+                    : configuration.apiKey;
+                localVarHeaderParameter["{{keyParamName}}"] = localVarApiKeyValue;
+            }
+            {{/isKeyInHeader}}
+            {{#isKeyInQuery}}
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+                    ? configuration.apiKey("{{keyParamName}}")
+                    : configuration.apiKey;
+                localVarQueryParameter["{{keyParamName}}"] = localVarApiKeyValue;
+            }
+            {{/isKeyInQuery}}
+            {{/isApiKey}}
+            {{#isBasic}}
+            // http basic authentication required
+            if (configuration && (configuration.username || configuration.password)) {
+                localVarHeaderParameter["Authorization"] = "Basic " + btoa(configuration.username + ":" + configuration.password);
+            }
+            {{/isBasic}}
+            {{#isOAuth}}
+            // oauth required
+            if (configuration && configuration.accessToken) {
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}])
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
+            {{/isOAuth}}
+
+    {{/authMethods}}
+    {{#queryParams}}
+            {{#isListContainer}}
+            if ({{paramName}}) {
+            {{#isCollectionFormatMulti}}
+                localVarQueryParameter['{{baseName}}'] = {{paramName}};
+            {{/isCollectionFormatMulti}}
+            {{^isCollectionFormatMulti}}
+                localVarQueryParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}});
+            {{/isCollectionFormatMulti}}
+            }
+            {{/isListContainer}}
+            {{^isListContainer}}
+            if ({{paramName}} !== undefined) {
+                {{#isDateTime}}
+                localVarQueryParameter['{{baseName}}'] = ({{paramName}} as any).toISOString();
+                {{/isDateTime}}
+                {{^isDateTime}}
+                {{#isDate}}
+                localVarQueryParameter['{{baseName}}'] = ({{paramName}} as any).toISOString();
+                {{/isDate}}
+                {{^isDate}}
+                localVarQueryParameter['{{baseName}}'] = {{paramName}};
+                {{/isDate}}
+                {{/isDateTime}}
+            }
+            {{/isListContainer}}
+
+    {{/queryParams}}
+    {{#headerParams}}
+            {{#isListContainer}}
+            if ({{paramName}}) {
+                localVarHeaderParameter['{{baseName}}'] = {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}});
+            }
+            {{/isListContainer}}
+            {{^isListContainer}}
+            if ({{paramName}} !== undefined && {{paramName}} !== null) {
+                localVarHeaderParameter['{{baseName}}'] = String({{paramName}});
+            }
+            {{/isListContainer}}
+
+    {{/headerParams}}
+    {{#vendorExtensions}}
+    {{#formParams}}
+            {{#isListContainer}}
+            if ({{paramName}}) {
+            {{#isCollectionFormatMulti}}
+                {{paramName}}.forEach((element) => {
+                    localVarFormParams.append('{{baseName}}', element as any);
+                })
+            {{/isCollectionFormatMulti}}
+            {{^isCollectionFormatMulti}}{{^multipartFormData}}
+                localVarFormParams.set('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}{{#multipartFormData}}
+                localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS.{{collectionFormat}}));{{/multipartFormData}}
+            {{/isCollectionFormatMulti}}
+            }{{/isListContainer}}
+            {{^isListContainer}}
+            if ({{paramName}} !== undefined) { {{^multipartFormData}}
+                localVarFormParams.set('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}{{#multipartFormData}}
+                localVarFormParams.append('{{baseName}}', {{paramName}} as any);{{/multipartFormData}}
+            }
+            {{/isListContainer}}
+    {{/formParams}}{{/vendorExtensions}}
+    {{#hasFormParams}}{{#multipartFormData}}
+            localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';{{/multipartFormData}}{{#multipartFormData}}
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';{{/multipartFormData}}
+    {{/hasFormParams}}
+    {{#bodyParam}}
+            {{^consumes}}
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+            {{/consumes}}
+            {{#consumes.0}}
+            localVarHeaderParameter['Content-Type'] = '{{{mediaType}}}';
+            {{/consumes.0}}
+
+    {{/bodyParam}}
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+    {{#hasFormParams}}
+            localVarRequestOptions.data = localVarFormParams{{#vendorExtensions}}{{^multipartFormData}}.toString(){{/multipartFormData}}{{/vendorExtensions}};
+    {{/hasFormParams}}
+    {{#bodyParam}}
+            const needsSerialization = (<any>"{{dataType}}" !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify({{paramName}} !== undefined ? {{paramName}} : {}) : ({{paramName}} || "");
+    {{/bodyParam}}
+
+            return {
+                url: url.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    {{/operation}}
+    }
+};
+
+/**
+ * {{classname}} - functional programming interface{{#description}}
+ * {{{description}}}{{/description}}
+ * @export
+ */
+export const {{classname}}Fp = function(configuration?: Configuration) {
+    return {
+    {{#operation}}
+        /**
+         * {{&notes}}
+         {{#summary}}
+         * @summary {{&summary}}
+         {{/summary}}
+         {{#allParams}}
+         * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
+         {{/allParams}}
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Response{{/returnType}}> {
+            const localVarAxiosArgs = {{classname}}AxiosParamCreator(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+    {{/operation}}
+    }
+};
+
+/**
+ * {{classname}} - factory interface{{#description}}
+ * {{&description}}{{/description}}
+ * @export
+ */
+export const {{classname}}Factory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    return {
+    {{#operation}}
+        /**
+         * {{&notes}}
+         {{#summary}}
+         * @summary {{&summary}}
+         {{/summary}}
+         {{#allParams}}
+         * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
+         {{/allParams}}
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any) {
+            return {{classname}}Fp(configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options)(axios, basePath);
+        },
+    {{/operation}}
+    };
+};
+
+{{#withInterfaces}}
+/**
+ * {{classname}} - interface{{#description}}
+ * {{&description}}{{/description}}
+ * @export
+ * @interface {{classname}}
+ */
+export interface {{classname}}Interface {
+{{#operation}}
+    /**
+     * {{&notes}}
+     {{#summary}}
+     * @summary {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
+     {{/allParams}}
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof {{classname}}Interface
+     */
+    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any): AxiosPromise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}{}{{/returnType}}>;
+
+{{/operation}}
+}
+
+{{/withInterfaces}}
+/**
+ * {{classname}} - object-oriented interface{{#description}}
+ * {{{description}}}{{/description}}
+ * @export
+ * @class {{classname}}
+ * @extends {BaseAPI}
+ */
+{{#withInterfaces}}
+export class {{classname}} extends BaseAPI implements {{classname}}Interface {
+{{/withInterfaces}}
+{{^withInterfaces}}
+export class {{classname}} extends BaseAPI {
+{{/withInterfaces}}
+    {{#operation}}
+    /**
+     * {{&notes}}
+     {{#summary}}
+     * @summary {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
+     {{/allParams}}
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof {{classname}}
+     */
+    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any) {
+        return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options)(this.axios, this.basePath);
+    }
+
+    {{/operation}}
+}
+{{/operations}}

@@ -32,6 +32,11 @@ public class ReadOnlyFirst   {
   @JsonProperty("baz")
   private String baz;
 
+  public ReadOnlyFirst bar(String bar) {
+    this.bar = bar;
+    return this;
+  }
+
   /**
    * Get bar
    * @return bar
@@ -41,6 +46,10 @@ public class ReadOnlyFirst   {
   
   public String getBar() {
     return bar;
+  }
+
+  public void setBar(String bar) {
+    this.bar = bar;
   }
 
   public ReadOnlyFirst baz(String baz) {

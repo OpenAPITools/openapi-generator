@@ -159,7 +159,14 @@ Class | Method | HTTP request | Description
 
 ## Models
 
+* OpenAPIServer\Model\AdditionalPropertiesAnyType
+* OpenAPIServer\Model\AdditionalPropertiesArray
+* OpenAPIServer\Model\AdditionalPropertiesBoolean
 * OpenAPIServer\Model\AdditionalPropertiesClass
+* OpenAPIServer\Model\AdditionalPropertiesInteger
+* OpenAPIServer\Model\AdditionalPropertiesNumber
+* OpenAPIServer\Model\AdditionalPropertiesObject
+* OpenAPIServer\Model\AdditionalPropertiesString
 * OpenAPIServer\Model\Animal
 * OpenAPIServer\Model\ApiResponse
 * OpenAPIServer\Model\ArrayOfArrayOfNumberOnly

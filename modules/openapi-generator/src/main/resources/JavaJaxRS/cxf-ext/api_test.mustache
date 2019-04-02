@@ -1,0 +1,197 @@
+{{>licenseInfo}}
+
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+import org.junit.Test;
+import org.junit.Before;
+import static org.junit.Assert.*;
+
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
+import org.apache.cxf.jaxrs.client.ClientConfiguration;
+import org.apache.cxf.jaxrs.client.WebClient;
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+{{#useGzipFeature}}
+import org.apache.cxf.transport.common.gzip.GZIPInInterceptor;
+import org.apache.cxf.transport.common.gzip.GZIPOutInterceptor;
+{{/useGzipFeature}}
+
+{{#useLoggingFeature}}
+import org.apache.cxf.interceptor.LoggingOutInterceptor;
+{{/useLoggingFeature}}
+
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
+import org.apache.cxf.jaxrs.provider.MultipartProvider;
+
+{{^fullJavaUtil}}
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+{{/fullJavaUtil}}
+
+{{#generateSpringBootApplication}}
+import org.junit.runner.RunWith;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.web.server.LocalServerPort;
+{{/generateSpringBootApplication}}
+{{#generateOperationBody}}
+import java.io.File;
+{{^fullJavaUtil}}
+import java.util.Set;
+{{/fullJavaUtil}}
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.junit.BeforeClass;
+{{#loadTestDataFromFile}}
+import org.openapitools.codegen.utils.JsonCache;
+{{/loadTestDataFromFile}}
+{{/generateOperationBody}}
+
+/**
+ {{#appName}}
+ * {{{appName}}}
+ *
+ {{/appName}}
+ {{#appDescription}}
+ * <p>{{{appDescription}}}
+ *
+ {{/appDescription}}
+ * API tests for {{classname}}.
+ */
+{{#generateSpringBootApplication}}
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+{{/generateSpringBootApplication}}
+public class {{classname}}Test {
+{{#generateOperationBody}}
+    private static Validator validator;
+{{#loadTestDataFromFile}}
+    private static JsonCache cache;
+{{/loadTestDataFromFile}}
+
+    @BeforeClass
+    public static void beforeClass() throws Exception {
+{{#loadTestDataFromFile}}
+        File cacheFile = new File(System.getProperty("jaxrs.test.client.json",
+                "{{testDataFile}}"));
+        cache = JsonCache.Factory.instance.get("test-data").load(cacheFile).child("/{{invokerPackage}}/{{classname}}");
+
+{{/loadTestDataFromFile}}
+        validator = Validation.buildDefaultValidatorFactory().getValidator();
+    }
+
+{{/generateOperationBody}}
+{{#generateSpringBootApplication}}
+    @LocalServerPort
+    private int serverPort;
+{{/generateSpringBootApplication}}    
+
+    private {{classname}} api;
+
+    @Before
+    public void setup() {
+        List<?> providers = Arrays.asList(new JacksonJsonProvider(), new JacksonXMLProvider(), new MultipartProvider());
+
+{{#generateSpringBootApplication}}        
+        api = JAXRSClientFactory.create("http://localhost:" + serverPort + "/services", {{classname}}.class, providers);
+{{/generateSpringBootApplication}}        
+{{^generateSpringBootApplication}}
+        api = JAXRSClientFactory.create("{{{basePath}}}", {{classname}}.class, providers);
+{{/generateSpringBootApplication}}
+        org.apache.cxf.jaxrs.client.Client client = WebClient.client(api);
+
+        ClientConfiguration config = WebClient.getConfig(client); 
+{{#useGzipFeatureForTests}}        
+        // Example for using Gzipping
+        GZIPOutInterceptor gzipOutInterceptor = new GZIPOutInterceptor();
+        // use Gzipping for first request sent to server
+        //gzipOutInterceptor.setForce(true);
+        config.getOutInterceptors().add(gzipOutInterceptor);
+
+        config.getInInterceptors().add(new GZIPInInterceptor()); 
+{{/useGzipFeatureForTests}}
+{{#useLoggingFeatureForTests}}
+        LoggingOutInterceptor loggingOutInterceptor = new LoggingOutInterceptor();
+        config.getOutInterceptors().add(loggingOutInterceptor);
+{{/useLoggingFeatureForTests}}
+    }
+
+{{#generateOperationBody}}
+    private void validate(Object o) {
+        assertNotNull(o);
+        Set<ConstraintViolation<Object>> violations = validator.validate(o);
+        if (!violations.isEmpty()) {
+            StringBuilder message = new StringBuilder("Validation failed");
+            for (ConstraintViolation<Object> violation : violations)
+                message.append("; ").append(violation.getPropertyPath()).append(": ").append(violation.getMessage());
+            fail(message.toString());
+        }
+    }
+
+{{/generateOperationBody}}
+    {{#operations}}{{#operation}}
+    /**
+     {{#summary}}
+     * {{summary}}
+     *
+     {{#notes}}
+     * {{notes}}
+     *
+     {{/notes}}
+     {{/summary}}
+     * @throws ApiException if the API call fails
+     */
+    @Test
+    public void {{operationId}}Test() throws Exception {
+        {{#hasParams}}
+            {{^loadTestDataFromFile}}
+        // TODO: assign appropriate parameter values
+            {{/loadTestDataFromFile}}
+        {{/hasParams}}
+        {{#allParams}}
+            {{^isFile}}
+                {{#generateOperationBody}}
+{{{vendorExtensions.x-java-param-decl}}}{{!
+                }}{{/generateOperationBody}}{{!
+                }}{{^generateOperationBody}}{{!
+}}        {{{dataType}}} {{paramName}} = null;
+                {{/generateOperationBody}}
+            {{/isFile}}
+            {{#isFile}}
+                {{#generateOperationBody}}
+
+                {{/generateOperationBody}}
+        Attachment {{paramName}} = new Attachment("{{paramName}}", MediaType.TEXT_PLAIN, "Dummy attachment content");{{!
+                }}{{^generateOperationBody}}
+                {{/generateOperationBody}}
+            {{/isFile}}
+        {{/allParams}}
+        {{^loadTestDataFromFile}}
+
+        // TODO: delete this line and uncomment the next
+        {{/loadTestDataFromFile}}
+        {{#loadTestDataFromFile}}
+
+        {{/loadTestDataFromFile}}
+        {{^loadTestDataFromFile}}// {{/loadTestDataFromFile}}{{^vendorExtensions.x-java-is-response-void}}{{>returnTypes}} response = {{/vendorExtensions.x-java-is-response-void}}api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{^vendorExtensions.x-java-is-response-void}}
+        // TODO: complete test assertions
+            {{#generateOperationBody}}
+        {{^loadTestDataFromFile}}// {{/loadTestDataFromFile}}validate(response);
+            {{/generateOperationBody}}
+        {{/vendorExtensions.x-java-is-response-void}}
+    }
+    {{/operation}}{{/operations}}
+}

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -280,7 +281,19 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+        Map<String, CodegenModel> codegenModels = new HashMap<String, CodegenModel> ();
+        for(Object moObj : allModels) {
+            CodegenModel mo = ((Map<String, CodegenModel>) moObj).get("model");
+            if(mo.isEnum) {
+                codegenModels.put(mo.classname, mo);
+            }
+        }
         for (CodegenOperation operation : operations) {
+            if(operation.returnType != null) {
+                if(codegenModels.containsKey(operation.returnType)){
+                    operation.vendorExtensions.put("returnsEnum", true);
+                }
+            }
             // Check all return parameter baseType if there is a necessity to include, include it if not 
             // already done
             if (operation.returnBaseType != null && needToImport(operation.returnBaseType)) {
@@ -314,6 +327,21 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
             }
         }
         return objs;
+    }
+    
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        return postProcessModelsEnum(objs);
+    }
+
+    @Override
+    public String toEnumValue(String value, String datatype) {
+        return escapeText(value);
+    }
+    
+    @Override
+    public boolean isDataTypeString(String dataType) {
+        return "QString".equals(dataType);
     }
     
     private Map<String, String> createMapping(String key, String value) {

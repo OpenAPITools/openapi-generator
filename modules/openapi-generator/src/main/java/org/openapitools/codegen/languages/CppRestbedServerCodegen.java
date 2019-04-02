@@ -27,6 +27,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
     private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CppRestbedServerCodegen.class);
@@ -191,12 +193,12 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return initialCaps(name);
+        return camelize(name);
     }
 
     @Override
     public String toApiFilename(String name) {
-        return initialCaps(name) + "Api";
+        return camelize(name) + "Api";
     }
 
     @SuppressWarnings("unchecked")

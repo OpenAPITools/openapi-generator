@@ -360,7 +360,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
-            this.setParcelizeModels(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.PARCELIZE_MODELS)));
+            this.setParcelizeModels(Boolean.valueOf((String) additionalProperties.get(CodegenConstants.PARCELIZE_MODELS)));
             LOGGER.info(CodegenConstants.PARCELIZE_MODELS + " depends on the android framework and " +
                     "experimental parcelize feature. Make sure your build applies the android plugin:\n" +
                     "apply plugin: 'com.android.library' OR apply plugin: 'com.android.application'.\n" +
@@ -489,6 +489,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toModelName(final String name) {
+
         // Allow for explicitly configured kotlin.* and java.* types
         if (name.startsWith("kotlin.") || name.startsWith("java.")) {
             return name;
@@ -500,10 +501,21 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         String modifiedName = name.replaceAll("\\.", "");
-        modifiedName = sanitizeKotlinSpecificNames(modifiedName);
+        String sanitizedName = sanitizeKotlinSpecificNames(modifiedName);
+
+        String nameWithPrefixSuffix = sanitizedName;
+        if (!StringUtils.isEmpty(modelNamePrefix)) {
+            // add '_' so that model name can be camelized correctly
+            nameWithPrefixSuffix = modelNamePrefix + "_" + nameWithPrefixSuffix;
+        }
+
+        if (!StringUtils.isEmpty(modelNameSuffix)) {
+            // add '_' so that model name can be camelized correctly
+            nameWithPrefixSuffix = nameWithPrefixSuffix + "_" + modelNameSuffix;
+        }
 
         // Camelize name of nested properties
-        modifiedName = camelize(modifiedName);
+        modifiedName = camelize(nameWithPrefixSuffix);
 
         // model name cannot use reserved keyword, e.g. return
         if (isReservedWord(modifiedName)) {
@@ -585,10 +597,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     private String sanitizeKotlinSpecificNames(final String name) {
         String word = name;
         for (Map.Entry<String, String> specialCharacters : specialCharReplacements.entrySet()) {
-            // Underscore is the only special character we'll allow
-            if (!specialCharacters.getKey().equals("_")) {
-                word = word.replaceAll("\\Q" + specialCharacters.getKey() + "\\E", specialCharacters.getValue());
-            }
+            word = replaceSpecialCharacters(word, specialCharacters);
         }
 
         // Fallback, replace unknowns with underscore.
@@ -603,6 +612,38 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         return word;
+    }
+
+    private String replaceSpecialCharacters(String word, Map.Entry<String, String> specialCharacters) {
+        String specialChar = specialCharacters.getKey();
+        String replacementChar = specialCharacters.getValue();
+        // Underscore is the only special character we'll allow
+        if (!specialChar.equals("_") && word.contains(specialChar)) {
+            return replaceCharacters(word, specialChar, replacementChar);
+        }
+        return word;
+    }
+
+    private String replaceCharacters(String word, String oldValue, String newValue) {
+        if (!word.contains(oldValue)) {
+            return word;
+        }
+        if (word.equals(oldValue)) {
+            return newValue;
+        }
+        int i = word.indexOf(oldValue);
+        String start = word.substring(0, i);
+        String end = recurseOnEndOfWord(word, oldValue, newValue, i);
+        return start + newValue + end;
+    }
+
+    private String recurseOnEndOfWord(String word, String oldValue, String newValue, int lastReplacedValue) {
+        String end = word.substring(lastReplacedValue + 1);
+        if (!end.isEmpty()) {
+            end = titleCase(end);
+            end = replaceCharacters(end, oldValue, newValue);
+        }
+        return end;
     }
 
     private String titleCase(final String input) {
@@ -664,6 +705,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public String toVarName(String name) {
         // sanitize name
+        name = sanitizeKotlinSpecificNames(name);
         name = sanitizeName(name, "\\W-[\\$]");
 
         if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
@@ -743,5 +785,32 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isDateSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + p.getDefault() + "'";
+            }
+        }
+
+        return null;
     }
 }

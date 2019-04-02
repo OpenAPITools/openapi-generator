@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>io.swagger</groupId>
+  <groupId>org.openapitools</groupId>
   <artifactId>jaxrs-cxf-petstore-client</artifactId>
   <packaging>jar</packaging>
   <name>jaxrs-cxf-petstore-client</name>
-  <description>This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters.</description>
+  <description>This is a sample server Petstore server. For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters.</description>
   <version>1.0.0</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>

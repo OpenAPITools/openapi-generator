@@ -92,6 +92,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *OpenApiPetstore.AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
 *OpenApiPetstore.DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
+*OpenApiPetstore.FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
 *OpenApiPetstore.FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -150,6 +151,7 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.Foo](docs/Foo.md)
  - [OpenApiPetstore.FormatTest](docs/FormatTest.md)
  - [OpenApiPetstore.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [OpenApiPetstore.HealthCheckResult](docs/HealthCheckResult.md)
  - [OpenApiPetstore.InlineObject](docs/InlineObject.md)
  - [OpenApiPetstore.InlineObject1](docs/InlineObject1.md)
  - [OpenApiPetstore.InlineObject2](docs/InlineObject2.md)
@@ -167,6 +169,9 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.Order](docs/Order.md)
  - [OpenApiPetstore.OuterComposite](docs/OuterComposite.md)
  - [OpenApiPetstore.OuterEnum](docs/OuterEnum.md)
+ - [OpenApiPetstore.OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
+ - [OpenApiPetstore.OuterEnumInteger](docs/OuterEnumInteger.md)
+ - [OpenApiPetstore.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [OpenApiPetstore.Pet](docs/Pet.md)
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)

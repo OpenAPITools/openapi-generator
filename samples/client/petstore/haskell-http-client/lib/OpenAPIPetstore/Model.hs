@@ -213,26 +213,137 @@ newtype Username = Username { unUsername :: Text } deriving (P.Eq, P.Show)
 -- * Models
 
 
+-- ** AdditionalPropertiesAnyType
+-- | AdditionalPropertiesAnyType
+data AdditionalPropertiesAnyType = AdditionalPropertiesAnyType
+  { additionalPropertiesAnyTypeName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesAnyType
+instance A.FromJSON AdditionalPropertiesAnyType where
+  parseJSON = A.withObject "AdditionalPropertiesAnyType" $ \o ->
+    AdditionalPropertiesAnyType
+      <$> (o .:? "name")
+
+-- | ToJSON AdditionalPropertiesAnyType
+instance A.ToJSON AdditionalPropertiesAnyType where
+  toJSON AdditionalPropertiesAnyType {..} =
+   _omitNulls
+      [ "name" .= additionalPropertiesAnyTypeName
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesAnyType' (by applying it's required fields, if any)
+mkAdditionalPropertiesAnyType
+  :: AdditionalPropertiesAnyType
+mkAdditionalPropertiesAnyType =
+  AdditionalPropertiesAnyType
+  { additionalPropertiesAnyTypeName = Nothing
+  }
+
+-- ** AdditionalPropertiesArray
+-- | AdditionalPropertiesArray
+data AdditionalPropertiesArray = AdditionalPropertiesArray
+  { additionalPropertiesArrayName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesArray
+instance A.FromJSON AdditionalPropertiesArray where
+  parseJSON = A.withObject "AdditionalPropertiesArray" $ \o ->
+    AdditionalPropertiesArray
+      <$> (o .:? "name")
+
+-- | ToJSON AdditionalPropertiesArray
+instance A.ToJSON AdditionalPropertiesArray where
+  toJSON AdditionalPropertiesArray {..} =
+   _omitNulls
+      [ "name" .= additionalPropertiesArrayName
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesArray' (by applying it's required fields, if any)
+mkAdditionalPropertiesArray
+  :: AdditionalPropertiesArray
+mkAdditionalPropertiesArray =
+  AdditionalPropertiesArray
+  { additionalPropertiesArrayName = Nothing
+  }
+
+-- ** AdditionalPropertiesBoolean
+-- | AdditionalPropertiesBoolean
+data AdditionalPropertiesBoolean = AdditionalPropertiesBoolean
+  { additionalPropertiesBooleanName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesBoolean
+instance A.FromJSON AdditionalPropertiesBoolean where
+  parseJSON = A.withObject "AdditionalPropertiesBoolean" $ \o ->
+    AdditionalPropertiesBoolean
+      <$> (o .:? "name")
+
+-- | ToJSON AdditionalPropertiesBoolean
+instance A.ToJSON AdditionalPropertiesBoolean where
+  toJSON AdditionalPropertiesBoolean {..} =
+   _omitNulls
+      [ "name" .= additionalPropertiesBooleanName
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesBoolean' (by applying it's required fields, if any)
+mkAdditionalPropertiesBoolean
+  :: AdditionalPropertiesBoolean
+mkAdditionalPropertiesBoolean =
+  AdditionalPropertiesBoolean
+  { additionalPropertiesBooleanName = Nothing
+  }
+
 -- ** AdditionalPropertiesClass
 -- | AdditionalPropertiesClass
 data AdditionalPropertiesClass = AdditionalPropertiesClass
-  { additionalPropertiesClassMapProperty :: !(Maybe (Map.Map String Text)) -- ^ "map_property"
-  , additionalPropertiesClassMapOfMapProperty :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_of_map_property"
+  { additionalPropertiesClassMapString :: !(Maybe (Map.Map String Text)) -- ^ "map_string"
+  , additionalPropertiesClassMapNumber :: !(Maybe (Map.Map String Double)) -- ^ "map_number"
+  , additionalPropertiesClassMapInteger :: !(Maybe (Map.Map String Int)) -- ^ "map_integer"
+  , additionalPropertiesClassMapBoolean :: !(Maybe (Map.Map String Bool)) -- ^ "map_boolean"
+  , additionalPropertiesClassMapArrayInteger :: !(Maybe (Map.Map String [Int])) -- ^ "map_array_integer"
+  , additionalPropertiesClassMapArrayAnytype :: !(Maybe (Map.Map String [A.Value])) -- ^ "map_array_anytype"
+  , additionalPropertiesClassMapMapString :: !(Maybe (Map.Map String (Map.Map String Text))) -- ^ "map_map_string"
+  , additionalPropertiesClassMapMapAnytype :: !(Maybe (Map.Map String (Map.Map String A.Value))) -- ^ "map_map_anytype"
+  , additionalPropertiesClassAnytype1 :: !(Maybe A.Value) -- ^ "anytype_1"
+  , additionalPropertiesClassAnytype2 :: !(Maybe A.Value) -- ^ "anytype_2"
+  , additionalPropertiesClassAnytype3 :: !(Maybe A.Value) -- ^ "anytype_3"
   } deriving (P.Show, P.Eq, P.Typeable)
 
 -- | FromJSON AdditionalPropertiesClass
 instance A.FromJSON AdditionalPropertiesClass where
   parseJSON = A.withObject "AdditionalPropertiesClass" $ \o ->
     AdditionalPropertiesClass
-      <$> (o .:? "map_property")
-      <*> (o .:? "map_of_map_property")
+      <$> (o .:? "map_string")
+      <*> (o .:? "map_number")
+      <*> (o .:? "map_integer")
+      <*> (o .:? "map_boolean")
+      <*> (o .:? "map_array_integer")
+      <*> (o .:? "map_array_anytype")
+      <*> (o .:? "map_map_string")
+      <*> (o .:? "map_map_anytype")
+      <*> (o .:? "anytype_1")
+      <*> (o .:? "anytype_2")
+      <*> (o .:? "anytype_3")
 
 -- | ToJSON AdditionalPropertiesClass
 instance A.ToJSON AdditionalPropertiesClass where
   toJSON AdditionalPropertiesClass {..} =
    _omitNulls
-      [ "map_property" .= additionalPropertiesClassMapProperty
-      , "map_of_map_property" .= additionalPropertiesClassMapOfMapProperty
+      [ "map_string" .= additionalPropertiesClassMapString
+      , "map_number" .= additionalPropertiesClassMapNumber
+      , "map_integer" .= additionalPropertiesClassMapInteger
+      , "map_boolean" .= additionalPropertiesClassMapBoolean
+      , "map_array_integer" .= additionalPropertiesClassMapArrayInteger
+      , "map_array_anytype" .= additionalPropertiesClassMapArrayAnytype
+      , "map_map_string" .= additionalPropertiesClassMapMapString
+      , "map_map_anytype" .= additionalPropertiesClassMapMapAnytype
+      , "anytype_1" .= additionalPropertiesClassAnytype1
+      , "anytype_2" .= additionalPropertiesClassAnytype2
+      , "anytype_3" .= additionalPropertiesClassAnytype3
       ]
 
 
@@ -241,8 +352,129 @@ mkAdditionalPropertiesClass
   :: AdditionalPropertiesClass
 mkAdditionalPropertiesClass =
   AdditionalPropertiesClass
-  { additionalPropertiesClassMapProperty = Nothing
-  , additionalPropertiesClassMapOfMapProperty = Nothing
+  { additionalPropertiesClassMapString = Nothing
+  , additionalPropertiesClassMapNumber = Nothing
+  , additionalPropertiesClassMapInteger = Nothing
+  , additionalPropertiesClassMapBoolean = Nothing
+  , additionalPropertiesClassMapArrayInteger = Nothing
+  , additionalPropertiesClassMapArrayAnytype = Nothing
+  , additionalPropertiesClassMapMapString = Nothing
+  , additionalPropertiesClassMapMapAnytype = Nothing
+  , additionalPropertiesClassAnytype1 = Nothing
+  , additionalPropertiesClassAnytype2 = Nothing
+  , additionalPropertiesClassAnytype3 = Nothing
+  }
+
+-- ** AdditionalPropertiesInteger
+-- | AdditionalPropertiesInteger
+data AdditionalPropertiesInteger = AdditionalPropertiesInteger
+  { additionalPropertiesIntegerName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesInteger
+instance A.FromJSON AdditionalPropertiesInteger where
+  parseJSON = A.withObject "AdditionalPropertiesInteger" $ \o ->
+    AdditionalPropertiesInteger
+      <$> (o .:? "name")
+
+-- | ToJSON AdditionalPropertiesInteger
+instance A.ToJSON AdditionalPropertiesInteger where
+  toJSON AdditionalPropertiesInteger {..} =
+   _omitNulls
+      [ "name" .= additionalPropertiesIntegerName
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesInteger' (by applying it's required fields, if any)
+mkAdditionalPropertiesInteger
+  :: AdditionalPropertiesInteger
+mkAdditionalPropertiesInteger =
+  AdditionalPropertiesInteger
+  { additionalPropertiesIntegerName = Nothing
+  }
+
+-- ** AdditionalPropertiesNumber
+-- | AdditionalPropertiesNumber
+data AdditionalPropertiesNumber = AdditionalPropertiesNumber
+  { additionalPropertiesNumberName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesNumber
+instance A.FromJSON AdditionalPropertiesNumber where
+  parseJSON = A.withObject "AdditionalPropertiesNumber" $ \o ->
+    AdditionalPropertiesNumber
+      <$> (o .:? "name")
+
+-- | ToJSON AdditionalPropertiesNumber
+instance A.ToJSON AdditionalPropertiesNumber where
+  toJSON AdditionalPropertiesNumber {..} =
+   _omitNulls
+      [ "name" .= additionalPropertiesNumberName
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesNumber' (by applying it's required fields, if any)
+mkAdditionalPropertiesNumber
+  :: AdditionalPropertiesNumber
+mkAdditionalPropertiesNumber =
+  AdditionalPropertiesNumber
+  { additionalPropertiesNumberName = Nothing
+  }
+
+-- ** AdditionalPropertiesObject
+-- | AdditionalPropertiesObject
+data AdditionalPropertiesObject = AdditionalPropertiesObject
+  { additionalPropertiesObjectName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesObject
+instance A.FromJSON AdditionalPropertiesObject where
+  parseJSON = A.withObject "AdditionalPropertiesObject" $ \o ->
+    AdditionalPropertiesObject
+      <$> (o .:? "name")
+
+-- | ToJSON AdditionalPropertiesObject
+instance A.ToJSON AdditionalPropertiesObject where
+  toJSON AdditionalPropertiesObject {..} =
+   _omitNulls
+      [ "name" .= additionalPropertiesObjectName
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesObject' (by applying it's required fields, if any)
+mkAdditionalPropertiesObject
+  :: AdditionalPropertiesObject
+mkAdditionalPropertiesObject =
+  AdditionalPropertiesObject
+  { additionalPropertiesObjectName = Nothing
+  }
+
+-- ** AdditionalPropertiesString
+-- | AdditionalPropertiesString
+data AdditionalPropertiesString = AdditionalPropertiesString
+  { additionalPropertiesStringName :: !(Maybe Text) -- ^ "name"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON AdditionalPropertiesString
+instance A.FromJSON AdditionalPropertiesString where
+  parseJSON = A.withObject "AdditionalPropertiesString" $ \o ->
+    AdditionalPropertiesString
+      <$> (o .:? "name")
+
+-- | ToJSON AdditionalPropertiesString
+instance A.ToJSON AdditionalPropertiesString where
+  toJSON AdditionalPropertiesString {..} =
+   _omitNulls
+      [ "name" .= additionalPropertiesStringName
+      ]
+
+
+-- | Construct a value of type 'AdditionalPropertiesString' (by applying it's required fields, if any)
+mkAdditionalPropertiesString
+  :: AdditionalPropertiesString
+mkAdditionalPropertiesString =
+  AdditionalPropertiesString
+  { additionalPropertiesStringName = Nothing
   }
 
 -- ** Animal

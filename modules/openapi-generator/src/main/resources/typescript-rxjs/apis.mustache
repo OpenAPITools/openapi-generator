@@ -37,7 +37,7 @@ export class {{classname}} extends BaseAPI {
      * {{&summary}}
      {{/summary}}
      */
-    {{nickname}}Raw({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
+    {{nickname}}({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
         {{#allParams}}
         {{#required}}
         if (requestParameters.{{paramName}} === null || requestParameters.{{paramName}} === undefined) {
@@ -184,18 +184,6 @@ export class {{classname}} extends BaseAPI {
             body: formData,
             {{/hasFormParams}}
         });
-    }
-
-    /**
-     {{#notes}}
-     * {{&notes}}
-     {{/notes}}
-     {{#summary}}
-     * {{&summary}}
-     {{/summary}}
-     */
-    {{nickname}}({{#allParams.0}}requestParameters: {{operationIdCamelCase}}Request{{/allParams.0}}): Observable<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
-        return this.{{nickname}}Raw({{#allParams.0}}requestParameters{{/allParams.0}});
     }
 
     {{/operation}}

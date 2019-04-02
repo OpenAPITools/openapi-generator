@@ -47,7 +47,7 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    status?: Order.StatusEnum;
+    status?: OrderStatusEnum;
     /**
      * 
      * @type {boolean}
@@ -82,18 +82,13 @@ export function OrderToJSON(value?: Order): any {
 }
 
 /**
- * @export
- * @namespace Order
- */
-export namespace Order {
-    /**
-     * @export
-     * @enum {string}
-     */
-    export enum StatusEnum {
-        Placed = 'placed',
-        Approved = 'approved',
-        Delivered = 'delivered'
-    }
+* @export
+* @enum {string}
+*/
+export enum OrderStatusEnum {
+    Placed = 'placed',
+    Approved = 'approved',
+    Delivered = 'delivered'
 }
+
 

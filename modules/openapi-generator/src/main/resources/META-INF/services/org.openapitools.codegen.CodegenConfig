@@ -15,7 +15,7 @@ org.openapitools.codegen.languages.CppRestbedServerCodegen
 org.openapitools.codegen.languages.CppRestSdkClientCodegen
 org.openapitools.codegen.languages.CppTizenClientCodegen
 org.openapitools.codegen.languages.CSharpClientCodegen
-org.openapitools.codegen.languages.CSharpRefactorClientCodegen
+org.openapitools.codegen.languages.CSharpNetCoreClientCodegen
 org.openapitools.codegen.languages.CSharpDotNet2ClientCodegen
 org.openapitools.codegen.languages.CSharpNancyFXServerCodegen
 org.openapitools.codegen.languages.DartClientCodegen
@@ -48,6 +48,7 @@ org.openapitools.codegen.languages.JavaPlayFrameworkCodegen
 org.openapitools.codegen.languages.JavaUndertowServerCodegen
 org.openapitools.codegen.languages.JavaVertXServerCodegen
 org.openapitools.codegen.languages.JavaCXFServerCodegen
+org.openapitools.codegen.languages.JavaCXFExtServerCodegen
 org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen
 org.openapitools.codegen.languages.JavaJerseyServerCodegen
 org.openapitools.codegen.languages.JavaResteasyServerCodegen
@@ -75,6 +76,7 @@ org.openapitools.codegen.languages.PowerShellClientCodegen
 org.openapitools.codegen.languages.PythonClientCodegen
 org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen
 org.openapitools.codegen.languages.PythonAiohttpConnexionServerCodegen
+org.openapitools.codegen.languages.PythonBluePlanetServerCodegen
 org.openapitools.codegen.languages.RClientCodegen
 org.openapitools.codegen.languages.RubyClientCodegen
 org.openapitools.codegen.languages.RubyOnRailsServerCodegen
@@ -86,6 +88,7 @@ org.openapitools.codegen.languages.ScalaAkkaClientCodegen
 org.openapitools.codegen.languages.ScalaHttpClientCodegen
 org.openapitools.codegen.languages.ScalaGatlingCodegen
 org.openapitools.codegen.languages.ScalaLagomServerCodegen
+org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen
 org.openapitools.codegen.languages.ScalazClientCodegen
 org.openapitools.codegen.languages.SpringCodegen
 org.openapitools.codegen.languages.StaticDocCodegen
