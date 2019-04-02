@@ -11,8 +11,6 @@ import ssl
 import aiohttp
 import certifi
 import asyncio
-# python 2 and python 3 compatibility library
-import six
 from six.moves.urllib.parse import urlencode
 
 from {{packageName}}.exceptions import ApiException, ApiValueError
@@ -178,7 +176,8 @@ class RESTClientObject(object):
         return r
 
     async def GET(self, url, headers=None, query_params=None,
-                  _preload_content=True, _request_timeout=None, _decode_utf8=True):
+                  _preload_content=True, _request_timeout=None,
+                  _decode_utf8=True):
         return (await self.request("GET", url,
                                    headers=headers,
                                    _preload_content=_preload_content,
@@ -187,7 +186,8 @@ class RESTClientObject(object):
                                    query_params=query_params))
 
     async def HEAD(self, url, headers=None, query_params=None,
-                   _preload_content=True, _request_timeout=None, _decode_utf8=True):
+                   _preload_content=True, _request_timeout=None,
+                   _decode_utf8=True):
         return (await self.request("HEAD", url,
                                    headers=headers,
                                    _preload_content=_preload_content,
@@ -208,7 +208,8 @@ class RESTClientObject(object):
                                    body=body))
 
     async def DELETE(self, url, headers=None, query_params=None, body=None,
-                     _preload_content=True, _request_timeout=None, _decode_utf8=True):
+                     _preload_content=True, _request_timeout=None,
+                     _decode_utf8=True):
         return (await self.request("DELETE", url,
                                    headers=headers,
                                    query_params=query_params,
@@ -230,7 +231,8 @@ class RESTClientObject(object):
                                    body=body))
 
     async def PUT(self, url, headers=None, query_params=None, post_params=None,
-                  body=None, _preload_content=True, _request_timeout=None, _decode_utf8=True):
+                  body=None, _preload_content=True, _request_timeout=None,
+                  _decode_utf8=True):
         return (await self.request("PUT", url,
                                    headers=headers,
                                    query_params=query_params,
