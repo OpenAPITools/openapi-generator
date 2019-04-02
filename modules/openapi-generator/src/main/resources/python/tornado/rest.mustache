@@ -8,7 +8,6 @@ import logging
 import re
 
 # python 2 and python 3 compatibility library
-import six
 from six.moves.urllib.parse import urlencode
 import tornado
 import tornado.gen
@@ -28,11 +27,7 @@ class RESTResponse(io.IOBase):
         self.reason = resp.reason
 
         if resp.body:
-            # In Python 3, the response body is utf-8 encoded bytes.
-            if six.PY3:
-                self.data = resp.body.decode('utf-8')
-            else:
-                self.data = resp.body
+            self.data = resp.body
         else:
             self.data = None
 
@@ -144,12 +139,6 @@ class RESTClientObject(object):
 
             r = RESTResponse(r)
 
-            if _decode_utf8.get(r.status, True):
-                # In the python 3, the response.data is bytes.
-                # we need to decode it to string.
-                if six.PY3:
-                    r.data = r.data.decode('utf8')
-
             # log response body
             logger.debug("response body: %s", r.data)
 
@@ -181,7 +170,8 @@ class RESTClientObject(object):
 
     @tornado.gen.coroutine
     def OPTIONS(self, url, headers=None, query_params=None, post_params=None,
-                body=None, _preload_content=True, _request_timeout=None, _decode_utf8=True):
+                body=None, _preload_content=True, _request_timeout=None,
+                _decode_utf8=True):
         result = yield self.request("OPTIONS", url,
                                     headers=headers,
                                     query_params=query_params,
@@ -194,7 +184,8 @@ class RESTClientObject(object):
 
     @tornado.gen.coroutine
     def DELETE(self, url, headers=None, query_params=None, body=None,
-               _preload_content=True, _request_timeout=None, _decode_utf8=True):
+               _preload_content=True, _request_timeout=None,
+               _decode_utf8=True):
         result = yield self.request("DELETE", url,
                                     headers=headers,
                                     query_params=query_params,
@@ -206,7 +197,8 @@ class RESTClientObject(object):
 
     @tornado.gen.coroutine
     def POST(self, url, headers=None, query_params=None, post_params=None,
-             body=None, _preload_content=True, _request_timeout=None, _decode_utf8=True):
+             body=None, _preload_content=True, _request_timeout=None,
+             _decode_utf8=True):
         result = yield self.request("POST", url,
                                     headers=headers,
                                     query_params=query_params,
@@ -219,7 +211,8 @@ class RESTClientObject(object):
 
     @tornado.gen.coroutine
     def PUT(self, url, headers=None, query_params=None, post_params=None,
-            body=None, _preload_content=True, _request_timeout=None, _decode_utf8=True):
+            body=None, _preload_content=True, _request_timeout=None,
+            _decode_utf8=True):
         result = yield self.request("PUT", url,
                                     headers=headers,
                                     query_params=query_params,
@@ -232,7 +225,8 @@ class RESTClientObject(object):
 
     @tornado.gen.coroutine
     def PATCH(self, url, headers=None, query_params=None, post_params=None,
-              body=None, _preload_content=True, _request_timeout=None, _decode_utf8=True):
+              body=None, _preload_content=True, _request_timeout=None,
+              _decode_utf8=True):
         result = yield self.request("PATCH", url,
                                     headers=headers,
                                     query_params=query_params,
