@@ -207,7 +207,7 @@ public class PetApi  {
             @FormDataParam("file") FormDataContentDisposition fileDetail
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.uploadFile(petId, additionalMetadata, file, securityContext);
+        return delegate.uploadFile(petId, additionalMetadata, fileInputStream, fileDetail, securityContext);
     }
     @POST
     @Path("/fake/{petId}/uploadImageWithRequiredFile")
@@ -228,6 +228,6 @@ public class PetApi  {
 ,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, securityContext);
+        return delegate.uploadFileWithRequiredFile(petId, requiredFileInputStream, requiredFileDetail, additionalMetadata, securityContext);
     }
 }

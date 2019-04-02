@@ -189,7 +189,7 @@ public class FakeApi  {
 ,@ApiParam(value = "None")  @FormParam("callback")  String paramCallback
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, securityContext);
+        return delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binaryInputStream, binaryDetail, date, dateTime, password, paramCallback, securityContext);
     }
     @GET
     
