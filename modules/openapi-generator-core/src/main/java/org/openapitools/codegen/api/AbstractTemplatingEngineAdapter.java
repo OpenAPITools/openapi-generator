@@ -1,5 +1,7 @@
 package org.openapitools.codegen.api;
 
+import java.util.Locale;
+
 /**
  * Provides abstractions around the template engine adapter interface, for reuse by implementers.
  */
@@ -17,7 +19,7 @@ public abstract class AbstractTemplatingEngineAdapter implements TemplatingEngin
         String[] result = new String[extensions.length];
         for (int i = 0; i < extensions.length; i++) {
             String extension = extensions[i];
-            result[i] = String.format("%s.%s", getPathWithoutExtension(location), extension);
+            result[i] = String.format(Locale.ROOT, "%s.%s", getPathWithoutExtension(location), extension);
         }
         return result;
     }
