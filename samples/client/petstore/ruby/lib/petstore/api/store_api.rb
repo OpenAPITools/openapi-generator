@@ -33,7 +33,7 @@ module Petstore
     # For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
     # @param order_id [String] ID of the order that needs to be deleted
     # @param [Hash] opts the optional parameters
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def delete_order_with_http_info(order_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: StoreApi.delete_order ...'
@@ -81,7 +81,7 @@ module Petstore
     # Returns pet inventories by status
     # Returns a map of status codes to quantities
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Hash<String, Integer>, Fixnum, Hash)>] Hash<String, Integer> data, response status code and response headers
+    # @return [Array<(Hash<String, Integer>, Integer, Hash)>] Hash<String, Integer> data, response status code and response headers
     def get_inventory_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: StoreApi.get_inventory ...'
@@ -130,7 +130,7 @@ module Petstore
     # For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
     # @param order_id [Integer] ID of pet that needs to be fetched
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Order, Fixnum, Hash)>] Order data, response status code and response headers
+    # @return [Array<(Order, Integer, Hash)>] Order data, response status code and response headers
     def get_order_by_id_with_http_info(order_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: StoreApi.get_order_by_id ...'
@@ -189,7 +189,7 @@ module Petstore
     # Place an order for a pet
     # @param body [Order] order placed for purchasing the pet
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Order, Fixnum, Hash)>] Order data, response status code and response headers
+    # @return [Array<(Order, Integer, Hash)>] Order data, response status code and response headers
     def place_order_with_http_info(body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: StoreApi.place_order ...'

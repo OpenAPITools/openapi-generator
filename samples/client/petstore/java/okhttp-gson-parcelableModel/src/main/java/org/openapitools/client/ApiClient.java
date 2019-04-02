@@ -125,7 +125,7 @@ public class ApiClient {
 
     private void init() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.addInterceptor(getProgressInterceptor());
+        builder.addNetworkInterceptor(getProgressInterceptor());
         httpClient = builder.build();
 
 
@@ -171,11 +171,22 @@ public class ApiClient {
     /**
      * Set HTTP client
      *
-     * @param httpClient An instance of OkHttpClient
+     * @param newHttpClient An instance of OkHttpClient
      * @return Api Client
      */
-    public ApiClient setHttpClient(OkHttpClient httpClient) {
-        this.httpClient = httpClient.newBuilder().addInterceptor(getProgressInterceptor()).build();
+    public ApiClient setHttpClient(OkHttpClient newHttpClient) {
+        if(!httpClient.equals(newHttpClient)) {
+            OkHttpClient.Builder builder = newHttpClient.newBuilder();
+            Iterator<Interceptor> networkInterceptorIterator = httpClient.networkInterceptors().iterator();
+            while(networkInterceptorIterator.hasNext()) {
+                builder.addNetworkInterceptor(networkInterceptorIterator.next());
+            }
+            Iterator<Interceptor> interceptorIterator = httpClient.interceptors().iterator();
+            while(interceptorIterator.hasNext()) {
+                builder.addInterceptor(interceptorIterator.next());
+            }
+            this.httpClient = builder.build();
+        }
         return this;
     }
 

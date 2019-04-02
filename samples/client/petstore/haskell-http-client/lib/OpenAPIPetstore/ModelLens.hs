@@ -36,17 +36,125 @@ import OpenAPIPetstore.Model
 import OpenAPIPetstore.Core
 
 
+-- * AdditionalPropertiesAnyType
+
+-- | 'additionalPropertiesAnyTypeName' Lens
+additionalPropertiesAnyTypeNameL :: Lens_' AdditionalPropertiesAnyType (Maybe Text)
+additionalPropertiesAnyTypeNameL f AdditionalPropertiesAnyType{..} = (\additionalPropertiesAnyTypeName -> AdditionalPropertiesAnyType { additionalPropertiesAnyTypeName, ..} ) <$> f additionalPropertiesAnyTypeName
+{-# INLINE additionalPropertiesAnyTypeNameL #-}
+
+
+
+-- * AdditionalPropertiesArray
+
+-- | 'additionalPropertiesArrayName' Lens
+additionalPropertiesArrayNameL :: Lens_' AdditionalPropertiesArray (Maybe Text)
+additionalPropertiesArrayNameL f AdditionalPropertiesArray{..} = (\additionalPropertiesArrayName -> AdditionalPropertiesArray { additionalPropertiesArrayName, ..} ) <$> f additionalPropertiesArrayName
+{-# INLINE additionalPropertiesArrayNameL #-}
+
+
+
+-- * AdditionalPropertiesBoolean
+
+-- | 'additionalPropertiesBooleanName' Lens
+additionalPropertiesBooleanNameL :: Lens_' AdditionalPropertiesBoolean (Maybe Text)
+additionalPropertiesBooleanNameL f AdditionalPropertiesBoolean{..} = (\additionalPropertiesBooleanName -> AdditionalPropertiesBoolean { additionalPropertiesBooleanName, ..} ) <$> f additionalPropertiesBooleanName
+{-# INLINE additionalPropertiesBooleanNameL #-}
+
+
+
 -- * AdditionalPropertiesClass
 
--- | 'additionalPropertiesClassMapProperty' Lens
-additionalPropertiesClassMapPropertyL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String Text))
-additionalPropertiesClassMapPropertyL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapProperty -> AdditionalPropertiesClass { additionalPropertiesClassMapProperty, ..} ) <$> f additionalPropertiesClassMapProperty
-{-# INLINE additionalPropertiesClassMapPropertyL #-}
+-- | 'additionalPropertiesClassMapString' Lens
+additionalPropertiesClassMapStringL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String Text))
+additionalPropertiesClassMapStringL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapString -> AdditionalPropertiesClass { additionalPropertiesClassMapString, ..} ) <$> f additionalPropertiesClassMapString
+{-# INLINE additionalPropertiesClassMapStringL #-}
 
--- | 'additionalPropertiesClassMapOfMapProperty' Lens
-additionalPropertiesClassMapOfMapPropertyL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String (Map.Map String Text)))
-additionalPropertiesClassMapOfMapPropertyL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapOfMapProperty -> AdditionalPropertiesClass { additionalPropertiesClassMapOfMapProperty, ..} ) <$> f additionalPropertiesClassMapOfMapProperty
-{-# INLINE additionalPropertiesClassMapOfMapPropertyL #-}
+-- | 'additionalPropertiesClassMapNumber' Lens
+additionalPropertiesClassMapNumberL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String Double))
+additionalPropertiesClassMapNumberL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapNumber -> AdditionalPropertiesClass { additionalPropertiesClassMapNumber, ..} ) <$> f additionalPropertiesClassMapNumber
+{-# INLINE additionalPropertiesClassMapNumberL #-}
+
+-- | 'additionalPropertiesClassMapInteger' Lens
+additionalPropertiesClassMapIntegerL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String Int))
+additionalPropertiesClassMapIntegerL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapInteger -> AdditionalPropertiesClass { additionalPropertiesClassMapInteger, ..} ) <$> f additionalPropertiesClassMapInteger
+{-# INLINE additionalPropertiesClassMapIntegerL #-}
+
+-- | 'additionalPropertiesClassMapBoolean' Lens
+additionalPropertiesClassMapBooleanL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String Bool))
+additionalPropertiesClassMapBooleanL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapBoolean -> AdditionalPropertiesClass { additionalPropertiesClassMapBoolean, ..} ) <$> f additionalPropertiesClassMapBoolean
+{-# INLINE additionalPropertiesClassMapBooleanL #-}
+
+-- | 'additionalPropertiesClassMapArrayInteger' Lens
+additionalPropertiesClassMapArrayIntegerL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String [Int]))
+additionalPropertiesClassMapArrayIntegerL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapArrayInteger -> AdditionalPropertiesClass { additionalPropertiesClassMapArrayInteger, ..} ) <$> f additionalPropertiesClassMapArrayInteger
+{-# INLINE additionalPropertiesClassMapArrayIntegerL #-}
+
+-- | 'additionalPropertiesClassMapArrayAnytype' Lens
+additionalPropertiesClassMapArrayAnytypeL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String [A.Value]))
+additionalPropertiesClassMapArrayAnytypeL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapArrayAnytype -> AdditionalPropertiesClass { additionalPropertiesClassMapArrayAnytype, ..} ) <$> f additionalPropertiesClassMapArrayAnytype
+{-# INLINE additionalPropertiesClassMapArrayAnytypeL #-}
+
+-- | 'additionalPropertiesClassMapMapString' Lens
+additionalPropertiesClassMapMapStringL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String (Map.Map String Text)))
+additionalPropertiesClassMapMapStringL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapMapString -> AdditionalPropertiesClass { additionalPropertiesClassMapMapString, ..} ) <$> f additionalPropertiesClassMapMapString
+{-# INLINE additionalPropertiesClassMapMapStringL #-}
+
+-- | 'additionalPropertiesClassMapMapAnytype' Lens
+additionalPropertiesClassMapMapAnytypeL :: Lens_' AdditionalPropertiesClass (Maybe (Map.Map String (Map.Map String A.Value)))
+additionalPropertiesClassMapMapAnytypeL f AdditionalPropertiesClass{..} = (\additionalPropertiesClassMapMapAnytype -> AdditionalPropertiesClass { additionalPropertiesClassMapMapAnytype, ..} ) <$> f additionalPropertiesClassMapMapAnytype
+{-# INLINE additionalPropertiesClassMapMapAnytypeL #-}
+
+-- | 'additionalPropertiesClassAnytype1' Lens
+additionalPropertiesClassAnytype1L :: Lens_' AdditionalPropertiesClass (Maybe A.Value)
+additionalPropertiesClassAnytype1L f AdditionalPropertiesClass{..} = (\additionalPropertiesClassAnytype1 -> AdditionalPropertiesClass { additionalPropertiesClassAnytype1, ..} ) <$> f additionalPropertiesClassAnytype1
+{-# INLINE additionalPropertiesClassAnytype1L #-}
+
+-- | 'additionalPropertiesClassAnytype2' Lens
+additionalPropertiesClassAnytype2L :: Lens_' AdditionalPropertiesClass (Maybe A.Value)
+additionalPropertiesClassAnytype2L f AdditionalPropertiesClass{..} = (\additionalPropertiesClassAnytype2 -> AdditionalPropertiesClass { additionalPropertiesClassAnytype2, ..} ) <$> f additionalPropertiesClassAnytype2
+{-# INLINE additionalPropertiesClassAnytype2L #-}
+
+-- | 'additionalPropertiesClassAnytype3' Lens
+additionalPropertiesClassAnytype3L :: Lens_' AdditionalPropertiesClass (Maybe A.Value)
+additionalPropertiesClassAnytype3L f AdditionalPropertiesClass{..} = (\additionalPropertiesClassAnytype3 -> AdditionalPropertiesClass { additionalPropertiesClassAnytype3, ..} ) <$> f additionalPropertiesClassAnytype3
+{-# INLINE additionalPropertiesClassAnytype3L #-}
+
+
+
+-- * AdditionalPropertiesInteger
+
+-- | 'additionalPropertiesIntegerName' Lens
+additionalPropertiesIntegerNameL :: Lens_' AdditionalPropertiesInteger (Maybe Text)
+additionalPropertiesIntegerNameL f AdditionalPropertiesInteger{..} = (\additionalPropertiesIntegerName -> AdditionalPropertiesInteger { additionalPropertiesIntegerName, ..} ) <$> f additionalPropertiesIntegerName
+{-# INLINE additionalPropertiesIntegerNameL #-}
+
+
+
+-- * AdditionalPropertiesNumber
+
+-- | 'additionalPropertiesNumberName' Lens
+additionalPropertiesNumberNameL :: Lens_' AdditionalPropertiesNumber (Maybe Text)
+additionalPropertiesNumberNameL f AdditionalPropertiesNumber{..} = (\additionalPropertiesNumberName -> AdditionalPropertiesNumber { additionalPropertiesNumberName, ..} ) <$> f additionalPropertiesNumberName
+{-# INLINE additionalPropertiesNumberNameL #-}
+
+
+
+-- * AdditionalPropertiesObject
+
+-- | 'additionalPropertiesObjectName' Lens
+additionalPropertiesObjectNameL :: Lens_' AdditionalPropertiesObject (Maybe Text)
+additionalPropertiesObjectNameL f AdditionalPropertiesObject{..} = (\additionalPropertiesObjectName -> AdditionalPropertiesObject { additionalPropertiesObjectName, ..} ) <$> f additionalPropertiesObjectName
+{-# INLINE additionalPropertiesObjectNameL #-}
+
+
+
+-- * AdditionalPropertiesString
+
+-- | 'additionalPropertiesStringName' Lens
+additionalPropertiesStringNameL :: Lens_' AdditionalPropertiesString (Maybe Text)
+additionalPropertiesStringNameL f AdditionalPropertiesString{..} = (\additionalPropertiesStringName -> AdditionalPropertiesString { additionalPropertiesStringName, ..} ) <$> f additionalPropertiesStringName
+{-# INLINE additionalPropertiesStringNameL #-}
 
 
 

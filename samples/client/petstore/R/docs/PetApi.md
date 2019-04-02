@@ -23,7 +23,7 @@ Add a new pet to the store
 ```R
 library(petstore)
 
-var.body <- Pet$new() # Pet | Pet object that needs to be added to the store
+var.body <- Pet$new(123, Category$new(123, "name_example"), "name_example", list("photoUrls_example"), list(Tag$new(123, "name_example")), "status_example") # Pet | Pet object that needs to be added to the store
 
 #Add a new pet to the store
 api.instance <- PetApi$new()
@@ -105,7 +105,7 @@ Multiple status values can be provided with comma separated strings
 ```R
 library(petstore)
 
-var.status <- ['status_example'] # character | Status values that need to be considered for filter
+var.status <- list("status_example") # character | Status values that need to be considered for filter
 
 #Finds Pets by status
 api.instance <- PetApi$new()
@@ -147,7 +147,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```R
 library(petstore)
 
-var.tags <- ['tags_example'] # character | Tags to filter by
+var.tags <- list("inner_example") # character | Tags to filter by
 
 #Finds Pets by tags
 api.instance <- PetApi$new()
@@ -229,7 +229,7 @@ Update an existing pet
 ```R
 library(petstore)
 
-var.body <- Pet$new() # Pet | Pet object that needs to be added to the store
+var.body <- Pet$new(123, Category$new(123, "name_example"), "name_example", list("photoUrls_example"), list(Tag$new(123, "name_example")), "status_example") # Pet | Pet object that needs to be added to the store
 
 #Update an existing pet
 api.instance <- PetApi$new()

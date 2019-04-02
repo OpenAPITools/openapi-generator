@@ -13,13 +13,16 @@ package org.openapitools.client.models
 
 import org.threeten.bp.LocalDateTime
 
+import com.squareup.moshi.Json
 /**
  * A category for a pet
  * @param id 
  * @param name 
  */
 data class Category (
+    @Json(name = "id")
     val id: kotlin.Long? = null,
+    @Json(name = "name")
     val name: kotlin.String? = null
 ) {
 

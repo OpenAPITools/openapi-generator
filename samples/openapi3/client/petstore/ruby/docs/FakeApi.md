@@ -19,12 +19,15 @@ Method | HTTP request | Description
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 
 
-# **fake_health_get**
+
+## fake_health_get
+
 > HealthCheckResult fake_health_get
 
 Health check endpoint
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -41,6 +44,7 @@ end
 ```
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -53,26 +57,27 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 
+## fake_outer_boolean_serialize
 
-# **fake_outer_boolean_serialize**
-> BOOLEAN fake_outer_boolean_serialize(opts)
+> Boolean fake_outer_boolean_serialize(opts)
 
 
 
 Test serialization of outer boolean types
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  body: true # BOOLEAN | Input boolean as post body
+  body: true # Boolean | Input boolean as post body
 }
 
 begin
@@ -85,13 +90,14 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **BOOLEAN**| Input boolean as post body | [optional] 
+ **body** | **Boolean**| Input boolean as post body | [optional] 
 
 ### Return type
 
-**BOOLEAN**
+**Boolean**
 
 ### Authorization
 
@@ -99,12 +105,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: */*
+- **Content-Type**: application/json
+- **Accept**: */*
 
 
+## fake_outer_composite_serialize
 
-# **fake_outer_composite_serialize**
 > OuterComposite fake_outer_composite_serialize(opts)
 
 
@@ -112,6 +118,7 @@ No authorization required
 Test serialization of object with outer number type
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -131,6 +138,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **outer_composite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
@@ -145,12 +153,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: */*
+- **Content-Type**: application/json
+- **Accept**: */*
 
 
+## fake_outer_number_serialize
 
-# **fake_outer_number_serialize**
 > Float fake_outer_number_serialize(opts)
 
 
@@ -158,6 +166,7 @@ No authorization required
 Test serialization of outer number types
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -177,6 +186,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **Float**| Input number as post body | [optional] 
@@ -191,12 +201,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: */*
+- **Content-Type**: application/json
+- **Accept**: */*
 
 
+## fake_outer_string_serialize
 
-# **fake_outer_string_serialize**
 > String fake_outer_string_serialize(opts)
 
 
@@ -204,6 +214,7 @@ No authorization required
 Test serialization of outer string types
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -223,6 +234,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **String**| Input string as post body | [optional] 
@@ -237,12 +249,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: */*
+- **Content-Type**: application/json
+- **Accept**: */*
 
 
+## test_body_with_file_schema
 
-# **test_body_with_file_schema**
 > test_body_with_file_schema(file_schema_test_class)
 
 
@@ -250,6 +262,7 @@ No authorization required
 For this test, the body for this request much reference a schema named `File`.
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -266,6 +279,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **file_schema_test_class** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
@@ -280,17 +294,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
 
+## test_body_with_query_params
 
-# **test_body_with_query_params**
 > test_body_with_query_params(query, user)
 
 
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -308,6 +323,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **String**|  | 
@@ -323,12 +339,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
 
+## test_client_model
 
-# **test_client_model**
 > Client test_client_model(client)
 
 To test \"client\" model
@@ -336,6 +352,7 @@ To test \"client\" model
 To test \"client\" model
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -354,6 +371,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **client** | [**Client**](Client.md)| client model | 
@@ -368,12 +386,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 
+## test_endpoint_parameters
 
-# **test_endpoint_parameters**
 > test_endpoint_parameters(number, double, pattern_without_delimiter, byte, opts)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -381,6 +399,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -419,6 +438,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **number** | **Float**| None | 
@@ -446,12 +466,12 @@ nil (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
 
+## test_enum_parameters
 
-# **test_enum_parameters**
 > test_enum_parameters(opts)
 
 To test enum parameters
@@ -459,6 +479,7 @@ To test enum parameters
 To test enum parameters
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -485,6 +506,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enum_header_string_array** | [**Array&lt;String&gt;**](String.md)| Header parameter enum test (string array) | [optional] 
@@ -506,12 +528,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
 
+## test_group_parameters
 
-# **test_group_parameters**
 > test_group_parameters(required_string_group, required_boolean_group, required_int64_group, opts)
 
 Fake endpoint to test group parameters (optional)
@@ -519,6 +541,7 @@ Fake endpoint to test group parameters (optional)
 Fake endpoint to test group parameters (optional)
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -531,11 +554,11 @@ end
 
 api_instance = Petstore::FakeApi.new
 required_string_group = 56 # Integer | Required String in group parameters
-required_boolean_group = true # BOOLEAN | Required Boolean in group parameters
+required_boolean_group = true # Boolean | Required Boolean in group parameters
 required_int64_group = 56 # Integer | Required Integer in group parameters
 opts = {
   string_group: 56, # Integer | String in group parameters
-  boolean_group: true, # BOOLEAN | Boolean in group parameters
+  boolean_group: true, # Boolean | Boolean in group parameters
   int64_group: 56 # Integer | Integer in group parameters
 }
 
@@ -549,13 +572,14 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **required_string_group** | **Integer**| Required String in group parameters | 
- **required_boolean_group** | **BOOLEAN**| Required Boolean in group parameters | 
+ **required_boolean_group** | **Boolean**| Required Boolean in group parameters | 
  **required_int64_group** | **Integer**| Required Integer in group parameters | 
  **string_group** | **Integer**| String in group parameters | [optional] 
- **boolean_group** | **BOOLEAN**| Boolean in group parameters | [optional] 
+ **boolean_group** | **Boolean**| Boolean in group parameters | [optional] 
  **int64_group** | **Integer**| Integer in group parameters | [optional] 
 
 ### Return type
@@ -568,17 +592,18 @@ nil (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 
+## test_inline_additional_properties
 
-# **test_inline_additional_properties**
 > test_inline_additional_properties(request_body)
 
 test inline additionalProperties
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -596,6 +621,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **request_body** | [**Hash&lt;String, String&gt;**](String.md)| request body | 
@@ -610,17 +636,18 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
 
+## test_json_form_data
 
-# **test_json_form_data**
 > test_json_form_data(param, param2)
 
 test json serialization of form data
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -639,6 +666,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **param** | **String**| field1 | 
@@ -654,8 +682,6 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
-
-
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 

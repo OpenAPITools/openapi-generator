@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,7 +99,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         if (name.length() == 0) {
             return "Default" + apiSuffix;
         }
-        return initialCaps(name) + apiSuffix;
+        return camelize(name) + apiSuffix;
     }
     
     @Override
@@ -232,7 +233,12 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         }
 
         if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
-            this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+            if (npmVersion.toUpperCase(Locale.ROOT).matches("^.*-SNAPSHOT$")) {
+                this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+            }
+            else {
+                this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+            }
         }
         additionalProperties.put(NPM_VERSION, npmVersion);
 

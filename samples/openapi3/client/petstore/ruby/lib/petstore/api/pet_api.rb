@@ -31,7 +31,7 @@ module Petstore
     # Add a new pet to the store
     # @param pet [Pet] Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def add_pet_with_http_info(pet, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: PetApi.add_pet ...'
@@ -83,7 +83,7 @@ module Petstore
     # @param pet_id [Integer] Pet id to delete
     # @param [Hash] opts the optional parameters
     # @option opts [String] :api_key 
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def delete_pet_with_http_info(pet_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: PetApi.delete_pet ...'
@@ -134,7 +134,7 @@ module Petstore
     # Multiple status values can be provided with comma separated strings
     # @param status [Array<String>] Status values that need to be considered for filter
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Array<Pet>, Fixnum, Hash)>] Array<Pet> data, response status code and response headers
+    # @return [Array<(Array<Pet>, Integer, Hash)>] Array<Pet> data, response status code and response headers
     def find_pets_by_status_with_http_info(status, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: PetApi.find_pets_by_status ...'
@@ -188,7 +188,7 @@ module Petstore
     # Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     # @param tags [Array<String>] Tags to filter by
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Array<Pet>, Fixnum, Hash)>] Array<Pet> data, response status code and response headers
+    # @return [Array<(Array<Pet>, Integer, Hash)>] Array<Pet> data, response status code and response headers
     def find_pets_by_tags_with_http_info(tags, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: PetApi.find_pets_by_tags ...'
@@ -242,7 +242,7 @@ module Petstore
     # Returns a single pet
     # @param pet_id [Integer] ID of pet to return
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Pet, Fixnum, Hash)>] Pet data, response status code and response headers
+    # @return [Array<(Pet, Integer, Hash)>] Pet data, response status code and response headers
     def get_pet_by_id_with_http_info(pet_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: PetApi.get_pet_by_id ...'
@@ -293,7 +293,7 @@ module Petstore
     # Update an existing pet
     # @param pet [Pet] Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def update_pet_with_http_info(pet, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: PetApi.update_pet ...'
@@ -347,7 +347,7 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @option opts [String] :name Updated name of the pet
     # @option opts [String] :status Updated status of the pet
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def update_pet_with_form_with_http_info(pet_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: PetApi.update_pet_with_form ...'
@@ -403,7 +403,7 @@ module Petstore
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server
     # @option opts [File] :file file to upload
-    # @return [Array<(ApiResponse, Fixnum, Hash)>] ApiResponse data, response status code and response headers
+    # @return [Array<(ApiResponse, Integer, Hash)>] ApiResponse data, response status code and response headers
     def upload_file_with_http_info(pet_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: PetApi.upload_file ...'
@@ -462,7 +462,7 @@ module Petstore
     # @param required_file [File] file to upload
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server
-    # @return [Array<(ApiResponse, Fixnum, Hash)>] ApiResponse data, response status code and response headers
+    # @return [Array<(ApiResponse, Integer, Hash)>] ApiResponse data, response status code and response headers
     def upload_file_with_required_file_with_http_info(pet_id, required_file, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: PetApi.upload_file_with_required_file ...'

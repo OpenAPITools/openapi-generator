@@ -558,7 +558,7 @@ public class JavaJAXRSCXFExtServerCodegenTest {
 
     @Test
     public void testAddOperationToGroup() throws Exception {
-        File output = Files.createTempDirectory("test").toFile();
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/tags.yaml", null, new ParseOptions())
@@ -634,11 +634,11 @@ public class JavaJAXRSCXFExtServerCodegenTest {
         assertEquals(group5List.get(1).subresourceOperation, true);
     }
 
-    @Test(enabled = false)
+    @Test()
     public void testGenerateOperationBodyWithCodedTestData() throws Exception {
-        File output = Files.createTempDirectory("test").toFile();
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
-        String outputPath = output.getCanonicalPath().replace('\\', '/');
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         OpenAPI openAPI = new OpenAPIParser()
                 .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();
@@ -680,11 +680,11 @@ public class JavaJAXRSCXFExtServerCodegenTest {
         checkFile(generator, outputPath + "/test-data-control.json", false);
     }
 
-    @Test(enabled = false)
+    @Test()
     public void testGenerateOperationBodyWithJsonTestData() throws Exception {
-        File output = Files.createTempDirectory("test").toFile();
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
-        String outputPath = output.getCanonicalPath().replace('\\', '/');
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         OpenAPI openAPI = new OpenAPIParser()
                 .readLocation("src/test/resources/3_0/petstore.yaml", null, new ParseOptions()).getOpenAPI();

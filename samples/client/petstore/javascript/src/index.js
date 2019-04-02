@@ -16,16 +16,16 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/AdditionalPropertiesClass', 'model/Animal', 'model/ApiResponse', 'model/ArrayOfArrayOfNumberOnly', 'model/ArrayOfNumberOnly', 'model/ArrayTest', 'model/Capitalization', 'model/Cat', 'model/Category', 'model/ClassModel', 'model/Client', 'model/Dog', 'model/EnumArrays', 'model/EnumClass', 'model/EnumTest', 'model/File', 'model/FileSchemaTestClass', 'model/FormatTest', 'model/HasOnlyReadOnly', 'model/List', 'model/MapTest', 'model/MixedPropertiesAndAdditionalPropertiesClass', 'model/Model200Response', 'model/ModelReturn', 'model/Name', 'model/NumberOnly', 'model/Order', 'model/OuterComposite', 'model/OuterEnum', 'model/Pet', 'model/ReadOnlyFirst', 'model/SpecialModelName', 'model/Tag', 'model/TypeHolderDefault', 'model/TypeHolderExample', 'model/User', 'model/XmlItem', 'api/AnotherFakeApi', 'api/FakeApi', 'api/FakeClassnameTags123Api', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
+    define(['ApiClient', 'model/AdditionalPropertiesAnyType', 'model/AdditionalPropertiesArray', 'model/AdditionalPropertiesBoolean', 'model/AdditionalPropertiesClass', 'model/AdditionalPropertiesInteger', 'model/AdditionalPropertiesNumber', 'model/AdditionalPropertiesObject', 'model/AdditionalPropertiesString', 'model/Animal', 'model/ApiResponse', 'model/ArrayOfArrayOfNumberOnly', 'model/ArrayOfNumberOnly', 'model/ArrayTest', 'model/Capitalization', 'model/Cat', 'model/Category', 'model/ClassModel', 'model/Client', 'model/Dog', 'model/EnumArrays', 'model/EnumClass', 'model/EnumTest', 'model/File', 'model/FileSchemaTestClass', 'model/FormatTest', 'model/HasOnlyReadOnly', 'model/List', 'model/MapTest', 'model/MixedPropertiesAndAdditionalPropertiesClass', 'model/Model200Response', 'model/ModelReturn', 'model/Name', 'model/NumberOnly', 'model/Order', 'model/OuterComposite', 'model/OuterEnum', 'model/Pet', 'model/ReadOnlyFirst', 'model/SpecialModelName', 'model/Tag', 'model/TypeHolderDefault', 'model/TypeHolderExample', 'model/User', 'model/XmlItem', 'api/AnotherFakeApi', 'api/FakeApi', 'api/FakeClassnameTags123Api', 'api/PetApi', 'api/StoreApi', 'api/UserApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/AdditionalPropertiesClass'), require('./model/Animal'), require('./model/ApiResponse'), require('./model/ArrayOfArrayOfNumberOnly'), require('./model/ArrayOfNumberOnly'), require('./model/ArrayTest'), require('./model/Capitalization'), require('./model/Cat'), require('./model/Category'), require('./model/ClassModel'), require('./model/Client'), require('./model/Dog'), require('./model/EnumArrays'), require('./model/EnumClass'), require('./model/EnumTest'), require('./model/File'), require('./model/FileSchemaTestClass'), require('./model/FormatTest'), require('./model/HasOnlyReadOnly'), require('./model/List'), require('./model/MapTest'), require('./model/MixedPropertiesAndAdditionalPropertiesClass'), require('./model/Model200Response'), require('./model/ModelReturn'), require('./model/Name'), require('./model/NumberOnly'), require('./model/Order'), require('./model/OuterComposite'), require('./model/OuterEnum'), require('./model/Pet'), require('./model/ReadOnlyFirst'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/TypeHolderDefault'), require('./model/TypeHolderExample'), require('./model/User'), require('./model/XmlItem'), require('./api/AnotherFakeApi'), require('./api/FakeApi'), require('./api/FakeClassnameTags123Api'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/AdditionalPropertiesAnyType'), require('./model/AdditionalPropertiesArray'), require('./model/AdditionalPropertiesBoolean'), require('./model/AdditionalPropertiesClass'), require('./model/AdditionalPropertiesInteger'), require('./model/AdditionalPropertiesNumber'), require('./model/AdditionalPropertiesObject'), require('./model/AdditionalPropertiesString'), require('./model/Animal'), require('./model/ApiResponse'), require('./model/ArrayOfArrayOfNumberOnly'), require('./model/ArrayOfNumberOnly'), require('./model/ArrayTest'), require('./model/Capitalization'), require('./model/Cat'), require('./model/Category'), require('./model/ClassModel'), require('./model/Client'), require('./model/Dog'), require('./model/EnumArrays'), require('./model/EnumClass'), require('./model/EnumTest'), require('./model/File'), require('./model/FileSchemaTestClass'), require('./model/FormatTest'), require('./model/HasOnlyReadOnly'), require('./model/List'), require('./model/MapTest'), require('./model/MixedPropertiesAndAdditionalPropertiesClass'), require('./model/Model200Response'), require('./model/ModelReturn'), require('./model/Name'), require('./model/NumberOnly'), require('./model/Order'), require('./model/OuterComposite'), require('./model/OuterEnum'), require('./model/Pet'), require('./model/ReadOnlyFirst'), require('./model/SpecialModelName'), require('./model/Tag'), require('./model/TypeHolderDefault'), require('./model/TypeHolderExample'), require('./model/User'), require('./model/XmlItem'), require('./api/AnotherFakeApi'), require('./api/FakeApi'), require('./api/FakeClassnameTags123Api'), require('./api/PetApi'), require('./api/StoreApi'), require('./api/UserApi'));
   }
-}(function(ApiClient, AdditionalPropertiesClass, Animal, ApiResponse, ArrayOfArrayOfNumberOnly, ArrayOfNumberOnly, ArrayTest, Capitalization, Cat, Category, ClassModel, Client, Dog, EnumArrays, EnumClass, EnumTest, File, FileSchemaTestClass, FormatTest, HasOnlyReadOnly, List, MapTest, MixedPropertiesAndAdditionalPropertiesClass, Model200Response, ModelReturn, Name, NumberOnly, Order, OuterComposite, OuterEnum, Pet, ReadOnlyFirst, SpecialModelName, Tag, TypeHolderDefault, TypeHolderExample, User, XmlItem, AnotherFakeApi, FakeApi, FakeClassnameTags123Api, PetApi, StoreApi, UserApi) {
+}(function(ApiClient, AdditionalPropertiesAnyType, AdditionalPropertiesArray, AdditionalPropertiesBoolean, AdditionalPropertiesClass, AdditionalPropertiesInteger, AdditionalPropertiesNumber, AdditionalPropertiesObject, AdditionalPropertiesString, Animal, ApiResponse, ArrayOfArrayOfNumberOnly, ArrayOfNumberOnly, ArrayTest, Capitalization, Cat, Category, ClassModel, Client, Dog, EnumArrays, EnumClass, EnumTest, File, FileSchemaTestClass, FormatTest, HasOnlyReadOnly, List, MapTest, MixedPropertiesAndAdditionalPropertiesClass, Model200Response, ModelReturn, Name, NumberOnly, Order, OuterComposite, OuterEnum, Pet, ReadOnlyFirst, SpecialModelName, Tag, TypeHolderDefault, TypeHolderExample, User, XmlItem, AnotherFakeApi, FakeApi, FakeClassnameTags123Api, PetApi, StoreApi, UserApi) {
   'use strict';
 
   /**
-   * This_spec_is_mainly_for_testing_Petstore_server_and_contains_fake_endpoints_models__Please_do_not_use_this_for_any_other_purpose__Special_characters__.<br>
+   * This_spec_is_mainly_for_testing_Petstore_server_and_contains_fake_endpoints_models__Please_do_not_use_this_for_any_other_purpose__Special_characters___.<br>
    * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
    * <p>
    * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
@@ -62,10 +62,45 @@
      */
     ApiClient: ApiClient,
     /**
+     * The AdditionalPropertiesAnyType model constructor.
+     * @property {module:model/AdditionalPropertiesAnyType}
+     */
+    AdditionalPropertiesAnyType: AdditionalPropertiesAnyType,
+    /**
+     * The AdditionalPropertiesArray model constructor.
+     * @property {module:model/AdditionalPropertiesArray}
+     */
+    AdditionalPropertiesArray: AdditionalPropertiesArray,
+    /**
+     * The AdditionalPropertiesBoolean model constructor.
+     * @property {module:model/AdditionalPropertiesBoolean}
+     */
+    AdditionalPropertiesBoolean: AdditionalPropertiesBoolean,
+    /**
      * The AdditionalPropertiesClass model constructor.
      * @property {module:model/AdditionalPropertiesClass}
      */
     AdditionalPropertiesClass: AdditionalPropertiesClass,
+    /**
+     * The AdditionalPropertiesInteger model constructor.
+     * @property {module:model/AdditionalPropertiesInteger}
+     */
+    AdditionalPropertiesInteger: AdditionalPropertiesInteger,
+    /**
+     * The AdditionalPropertiesNumber model constructor.
+     * @property {module:model/AdditionalPropertiesNumber}
+     */
+    AdditionalPropertiesNumber: AdditionalPropertiesNumber,
+    /**
+     * The AdditionalPropertiesObject model constructor.
+     * @property {module:model/AdditionalPropertiesObject}
+     */
+    AdditionalPropertiesObject: AdditionalPropertiesObject,
+    /**
+     * The AdditionalPropertiesString model constructor.
+     * @property {module:model/AdditionalPropertiesString}
+     */
+    AdditionalPropertiesString: AdditionalPropertiesString,
     /**
      * The Animal model constructor.
      * @property {module:model/Animal}

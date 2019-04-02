@@ -192,7 +192,7 @@ public class Generator {
             return outputFolder;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            throw new RuntimeException("Cannot access tmp folder");
         }
     }
 }

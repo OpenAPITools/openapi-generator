@@ -97,6 +97,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
+*FakeApi* | [**CreateXmlItem**](docs/FakeApi.md#createxmlitem) | **POST** /fake/create_xml_item | creates an XmlItem
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
@@ -136,7 +137,14 @@ Class | Method | HTTP request | Description
 <a name="documentation-for-models"></a>
 ## Documentation for Models
 
+ - [Model.AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
+ - [Model.AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
+ - [Model.AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [Model.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [Model.AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
+ - [Model.AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
+ - [Model.AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
+ - [Model.AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [Model.Animal](docs/Animal.md)
  - [Model.ApiResponse](docs/ApiResponse.md)
  - [Model.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
@@ -169,7 +177,10 @@ Class | Method | HTTP request | Description
  - [Model.Return](docs/Return.md)
  - [Model.SpecialModelName](docs/SpecialModelName.md)
  - [Model.Tag](docs/Tag.md)
+ - [Model.TypeHolderDefault](docs/TypeHolderDefault.md)
+ - [Model.TypeHolderExample](docs/TypeHolderExample.md)
  - [Model.User](docs/User.md)
+ - [Model.XmlItem](docs/XmlItem.md)
 
 
 <a name="documentation-for-authorization"></a>

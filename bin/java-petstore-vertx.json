@@ -1,4 +1,5 @@
 {
     "library": "vertx",
+    "dateLibrary": "java8",
     "artifactId": "petstore-vertx"
 }

@@ -29,7 +29,7 @@ module Petstore
 
     # Health check endpoint
     # @param [Hash] opts the optional parameters
-    # @return [Array<(HealthCheckResult, Fixnum, Hash)>] HealthCheckResult data, response status code and response headers
+    # @return [Array<(HealthCheckResult, Integer, Hash)>] HealthCheckResult data, response status code and response headers
     def fake_health_get_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.fake_health_get ...'
@@ -66,8 +66,8 @@ module Petstore
 
     # Test serialization of outer boolean types
     # @param [Hash] opts the optional parameters
-    # @option opts [BOOLEAN] :body Input boolean as post body
-    # @return [BOOLEAN]
+    # @option opts [Boolean] :body Input boolean as post body
+    # @return [Boolean]
     def fake_outer_boolean_serialize(opts = {})
       data, _status_code, _headers = fake_outer_boolean_serialize_with_http_info(opts)
       data
@@ -75,8 +75,8 @@ module Petstore
 
     # Test serialization of outer boolean types
     # @param [Hash] opts the optional parameters
-    # @option opts [BOOLEAN] :body Input boolean as post body
-    # @return [Array<(BOOLEAN, Fixnum, Hash)>] BOOLEAN data, response status code and response headers
+    # @option opts [Boolean] :body Input boolean as post body
+    # @return [Array<(Boolean, Integer, Hash)>] Boolean data, response status code and response headers
     def fake_outer_boolean_serialize_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.fake_outer_boolean_serialize ...'
@@ -106,7 +106,7 @@ module Petstore
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => 'BOOLEAN')
+        :return_type => 'Boolean')
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_outer_boolean_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -125,7 +125,7 @@ module Petstore
     # Test serialization of object with outer number type
     # @param [Hash] opts the optional parameters
     # @option opts [OuterComposite] :outer_composite Input composite as post body
-    # @return [Array<(OuterComposite, Fixnum, Hash)>] OuterComposite data, response status code and response headers
+    # @return [Array<(OuterComposite, Integer, Hash)>] OuterComposite data, response status code and response headers
     def fake_outer_composite_serialize_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.fake_outer_composite_serialize ...'
@@ -174,7 +174,7 @@ module Petstore
     # Test serialization of outer number types
     # @param [Hash] opts the optional parameters
     # @option opts [Float] :body Input number as post body
-    # @return [Array<(Float, Fixnum, Hash)>] Float data, response status code and response headers
+    # @return [Array<(Float, Integer, Hash)>] Float data, response status code and response headers
     def fake_outer_number_serialize_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.fake_outer_number_serialize ...'
@@ -223,7 +223,7 @@ module Petstore
     # Test serialization of outer string types
     # @param [Hash] opts the optional parameters
     # @option opts [String] :body Input string as post body
-    # @return [Array<(String, Fixnum, Hash)>] String data, response status code and response headers
+    # @return [Array<(String, Integer, Hash)>] String data, response status code and response headers
     def fake_outer_string_serialize_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.fake_outer_string_serialize ...'
@@ -272,7 +272,7 @@ module Petstore
     # For this test, the body for this request much reference a schema named &#x60;File&#x60;.
     # @param file_schema_test_class [FileSchemaTestClass] 
     # @param [Hash] opts the optional parameters
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def test_body_with_file_schema_with_http_info(file_schema_test_class, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_body_with_file_schema ...'
@@ -322,7 +322,7 @@ module Petstore
     # @param query [String] 
     # @param user [User] 
     # @param [Hash] opts the optional parameters
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def test_body_with_query_params_with_http_info(query, user, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_body_with_query_params ...'
@@ -379,7 +379,7 @@ module Petstore
     # To test \&quot;client\&quot; model
     # @param client [Client] client model
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Client, Fixnum, Hash)>] Client data, response status code and response headers
+    # @return [Array<(Client, Integer, Hash)>] Client data, response status code and response headers
     def test_client_model_with_http_info(client, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_client_model ...'
@@ -460,7 +460,7 @@ module Petstore
     # @option opts [DateTime] :date_time None
     # @option opts [String] :password None
     # @option opts [String] :callback None
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_endpoint_parameters ...'
@@ -606,7 +606,7 @@ module Petstore
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
     # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array)
     # @option opts [String] :enum_form_string Form parameter enum test (string)
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def test_enum_parameters_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_enum_parameters ...'
@@ -683,11 +683,11 @@ module Petstore
     # Fake endpoint to test group parameters (optional)
     # Fake endpoint to test group parameters (optional)
     # @param required_string_group [Integer] Required String in group parameters
-    # @param required_boolean_group [BOOLEAN] Required Boolean in group parameters
+    # @param required_boolean_group [Boolean] Required Boolean in group parameters
     # @param required_int64_group [Integer] Required Integer in group parameters
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :string_group String in group parameters
-    # @option opts [BOOLEAN] :boolean_group Boolean in group parameters
+    # @option opts [Boolean] :boolean_group Boolean in group parameters
     # @option opts [Integer] :int64_group Integer in group parameters
     # @return [nil]
     def test_group_parameters(required_string_group, required_boolean_group, required_int64_group, opts = {})
@@ -698,13 +698,13 @@ module Petstore
     # Fake endpoint to test group parameters (optional)
     # Fake endpoint to test group parameters (optional)
     # @param required_string_group [Integer] Required String in group parameters
-    # @param required_boolean_group [BOOLEAN] Required Boolean in group parameters
+    # @param required_boolean_group [Boolean] Required Boolean in group parameters
     # @param required_int64_group [Integer] Required Integer in group parameters
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :string_group String in group parameters
-    # @option opts [BOOLEAN] :boolean_group Boolean in group parameters
+    # @option opts [Boolean] :boolean_group Boolean in group parameters
     # @option opts [Integer] :int64_group Integer in group parameters
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_group_parameters ...'
@@ -766,7 +766,7 @@ module Petstore
     # test inline additionalProperties
     # @param request_body [Hash<String, String>] request body
     # @param [Hash] opts the optional parameters
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def test_inline_additional_properties_with_http_info(request_body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_inline_additional_properties ...'
@@ -818,7 +818,7 @@ module Petstore
     # @param param [String] field1
     # @param param2 [String] field2
     # @param [Hash] opts the optional parameters
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def test_json_form_data_with_http_info(param, param2, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_json_form_data ...'

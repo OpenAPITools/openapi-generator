@@ -29,7 +29,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class CppPistacheServerCodegen extends AbstractCppCodegen {
     protected String implFolder = "impl";
@@ -265,7 +265,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return initialCaps(toModelName(name));
+        return camelize(toModelName(name));
     }
 
     @Override
@@ -286,7 +286,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toApiFilename(String name) {
-        return  modelNamePrefix + initialCaps(name) + "Api";
+        return  modelNamePrefix + camelize(name) + "Api";
     }
 
     /**

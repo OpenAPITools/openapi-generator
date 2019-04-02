@@ -60,7 +60,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected final Map<String, String> frameworks;
     protected String packageGuid = "{" + java.util.UUID.randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     protected String clientPackage = "Org.OpenAPITools.Client";
-    protected String localVariablePrefix = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
 
@@ -185,10 +184,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
                 this.optionalProjectFileFlag);
 
-        addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
-                CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
-                this.optionalEmitDefaultValue);
-
         // NOTE: This will reduce visibility of all public members in templates. Users can use InternalsVisibleTo
         // https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.internalsvisibletoattribute(v=vs.110).aspx
         // to expose to shared code if the generated code is not embedded into another project. Otherwise, users of codegen
@@ -244,7 +239,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 }
 
                 for (final CodegenProperty property : codegenModel.readWriteVars) {
-                    if (property.defaultValue == null && property.baseName.equals(parentCodegenModel.discriminator)) {
+                    if (property.defaultValue == null && property.baseName.equals(parentCodegenModel.discriminator.getPropertyName())) {
                         property.defaultValue = "\"" + name + "\"";
                     }
                 }
@@ -511,8 +506,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         syncBooleanProperty(additionalProperties, "netStandard", this::setNetStandard, this.netStandard);
 
-        // TODO: either remove this and update templates to match the "optionalEmitDefaultValues" property, or rename that property.
-        syncBooleanProperty(additionalProperties, "emitDefaultValue", this::setOptionalEmitDefaultValue, optionalEmitDefaultValue);
         syncBooleanProperty(additionalProperties, CodegenConstants.VALIDATABLE, this::setValidatable, this.validatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.SUPPORTS_ASYNC, this::setSupportsAsync, this.supportsAsync);
         syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_PROJECT_FILE, this::setOptionalProjectFileFlag, optionalProjectFileFlag);
