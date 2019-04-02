@@ -73,7 +73,7 @@ class Name implements ModelInterface, ArrayAccess
         'name' => 'int32',
         'snake_case' => 'int32',
         'property' => null,
-        '_123_number' => 'int32'
+        '_123_number' => null
     ];
 
     /**

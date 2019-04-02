@@ -115,6 +115,9 @@ public class DefaultCodegen implements CodegenConfig {
     protected boolean enablePostProcessFile = false;
     private TemplatingEngineAdapter templatingEngine = new MustacheEngineAdapter();
 
+    // flag to indicate whether to only update files whose contents have changed
+    protected boolean enableMinimalUpdate = false;
+
     // make openapi available to all methods
     protected OpenAPI openAPI;
 
@@ -787,7 +790,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the file name of the model
      */
     public String toModelFilename(String name) {
-        return initialCaps(name);
+        return camelize(name);
     }
 
     /**
@@ -797,7 +800,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the file name of the model
      */
     public String toModelTestFilename(String name) {
-        return initialCaps(name) + "Test";
+        return camelize(name) + "Test";
     }
 
     /**
@@ -807,7 +810,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the file name of the model
      */
     public String toModelDocFilename(String name) {
-        return initialCaps(name);
+        return camelize(name);
     }
 
     /**
@@ -1279,12 +1282,15 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Return property value depending on property type
+     * Return property value depending on property type.
      * @param schema property type
      * @return property value
      */
+    @SuppressWarnings("squid:S3923")
     private String getPropertyDefaultValue(Schema schema) {
-        //NOSONAR
+        /**
+         * Although all branches return null, this is left intentionally as examples for new contributors
+         */
         if (ModelUtils.isBooleanSchema(schema)) {
             return "null";
         } else if (ModelUtils.isDateSchema(schema)) {
@@ -1480,17 +1486,6 @@ public class DefaultCodegen implements CodegenConfig {
         return (name.length() > 0) ? (Character.toLowerCase(name.charAt(0)) + name.substring(1)) : "";
     }
 
-    /**
-     * Capitalize the string. Please use org.openapitools.codegen.utils.StringUtils.camelize instead as this method will be deprecated.
-     *
-     * @param name string to be capitalized
-     * @return capitalized string
-     * @deprecated use {@link org.openapitools.codegen.utils.StringUtils#camelize(String)} instead
-     */
-    @SuppressWarnings("static-method")
-    public String initialCaps(String name) {
-        return camelize(name);
-    }
 
     /**
      * Output the type declaration of a given name
@@ -1580,7 +1575,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        return initialCaps(name) + "Api";
+        return camelize(name) + "Api";
     }
 
     /**
@@ -1591,7 +1586,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return capitalized model name
      */
     public String toModelName(final String name) {
-        return initialCaps(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
+        return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
     }
 
     /**
@@ -1904,6 +1899,11 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
         property.name = toVarName(name);
         property.baseName = name;
+        if (p.getType() == null) {
+            property.openApiType = getSchemaType(p);
+        } else {
+            property.openApiType = p.getType();
+        }
         property.nameInCamelCase = camelize(property.name, false);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
         property.description = escapeText(p.getDescription());
@@ -3263,7 +3263,7 @@ public class DefaultCodegen implements CodegenConfig {
                     if (builder.toString().length() == 0) {
                         part = Character.toLowerCase(part.charAt(0)) + part.substring(1);
                     } else {
-                        part = initialCaps(part);
+                        part = camelize(part);
                     }
                     builder.append(part);
                 }
@@ -3869,6 +3869,11 @@ public class DefaultCodegen implements CodegenConfig {
 
         // input name and age => input_name_and_age
         name = name.replaceAll(" ", "_");
+
+        // /api/films/get => _api_films_get
+        // \api\films\get => _api_films_get
+        name = name.replaceAll("/", "_");
+        name = name.replaceAll("\\\\", "_");
 
         // remove everything else other than word, number and _
         // $php_variable => php_variable
@@ -4812,6 +4817,9 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
+        if(parameter == null || property == null) {
+            return;
+        }
         parameter.isNullable = property.isNullable;
     }
 
@@ -4845,6 +4853,24 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public void setEnablePostProcessFile(boolean enablePostProcessFile) {
         this.enablePostProcessFile = enablePostProcessFile;
+    }
+
+    /**
+     * Get the boolean value indicating the state of the option for updating only changed files
+     */
+    @Override
+    public boolean isEnableMinimalUpdate() {
+        return enableMinimalUpdate;
+    }
+
+    /**
+     * Set the boolean value indicating the state of the option for updating only changed files
+     *
+     * @param enableMinimalUpdate    true to enable minimal update
+     */
+    @Override
+    public void setEnableMinimalUpdate(boolean enableMinimalUpdate) {
+        this.enableMinimalUpdate = enableMinimalUpdate;
     }
 
 }

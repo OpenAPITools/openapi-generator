@@ -18,6 +18,10 @@ import re  # noqa: F401
 import six
 
 from petstore_api.api_client import ApiClient
+from petstore_api.exceptions import (
+    ApiTypeError,
+    ApiValueError
+)
 
 
 class StoreApi(object):
@@ -80,7 +84,7 @@ class StoreApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method delete_order" % key
                 )
@@ -89,7 +93,7 @@ class StoreApi(object):
         # verify the required parameter 'order_id' is set
         if ('order_id' not in local_var_params or
                 local_var_params['order_id'] is None):
-            raise ValueError("Missing the required parameter `order_id` when calling `delete_order`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `order_id` when calling `delete_order`")  # noqa: E501
 
         collection_formats = {}
 
@@ -170,7 +174,7 @@ class StoreApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method get_inventory" % key
                 )
@@ -260,7 +264,7 @@ class StoreApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method get_order_by_id" % key
                 )
@@ -269,12 +273,12 @@ class StoreApi(object):
         # verify the required parameter 'order_id' is set
         if ('order_id' not in local_var_params or
                 local_var_params['order_id'] is None):
-            raise ValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")  # noqa: E501
 
         if 'order_id' in local_var_params and local_var_params['order_id'] > 5:  # noqa: E501
-            raise ValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value less than or equal to `5`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value less than or equal to `5`")  # noqa: E501
         if 'order_id' in local_var_params and local_var_params['order_id'] < 1:  # noqa: E501
-            raise ValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value greater than or equal to `1`")  # noqa: E501
+            raise ApiValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value greater than or equal to `1`")  # noqa: E501
         collection_formats = {}
 
         path_params = {}
@@ -358,7 +362,7 @@ class StoreApi(object):
 
         for key, val in six.iteritems(local_var_params['kwargs']):
             if key not in all_params:
-                raise TypeError(
+                raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
                     " to method place_order" % key
                 )
@@ -367,7 +371,7 @@ class StoreApi(object):
         # verify the required parameter 'order' is set
         if ('order' not in local_var_params or
                 local_var_params['order'] is None):
-            raise ValueError("Missing the required parameter `order` when calling `place_order`")  # noqa: E501
+            raise ApiValueError("Missing the required parameter `order` when calling `place_order`")  # noqa: E501
 
         collection_formats = {}
 

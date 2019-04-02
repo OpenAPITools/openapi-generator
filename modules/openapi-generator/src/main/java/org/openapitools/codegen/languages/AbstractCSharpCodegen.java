@@ -39,7 +39,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalProjectFileFlag = true;
-    protected boolean optionalEmitDefaultValue = false;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
     protected boolean useCollection = false;
@@ -197,10 +196,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.returnICollection = returnICollection;
     }
 
-    public void setOptionalEmitDefaultValue(boolean optionalEmitDefaultValue) {
-        this.optionalEmitDefaultValue = optionalEmitDefaultValue;
-    }
-
     public void setUseCollection(boolean useCollection) {
         this.useCollection = useCollection;
         if (useCollection) {
@@ -337,12 +332,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             setReturnICollection(convertPropertyToBooleanAndWriteBack(CodegenConstants.RETURN_ICOLLECTION));
         } else {
             additionalProperties.put(CodegenConstants.RETURN_ICOLLECTION, returnICollection);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
-            setOptionalEmitDefaultValue(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES));
-        } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValue);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.NETCORE_PROJECT_FILE)) {

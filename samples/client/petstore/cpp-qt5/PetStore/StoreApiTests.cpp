@@ -8,7 +8,7 @@
 StoreApiTests::StoreApiTests () {}
 
 StoreApiTests::~StoreApiTests () {
-    exit(1);
+
 }
 
 OAIStoreApi* StoreApiTests::getApi() {

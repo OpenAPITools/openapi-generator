@@ -249,4 +249,4 @@ If your API client is using named parameters in the function call (e.g. Perl req
 
 ## Default basePath
 
-The default `basePath` has been changed from `https://localhost` to `http://locallhost` (http without s)
+The default `basePath` has been changed from `https://localhost` to `http://localhost` (http without s)

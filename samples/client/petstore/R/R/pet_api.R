@@ -104,7 +104,7 @@ PetApi <- R6::R6Class(
 
       urlPath <- "/pet/{petId}"
       if (!missing(`pet.id`)) {
-        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
+        urlPath <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), urlPath)
       }
 
       # OAuth token
@@ -199,7 +199,7 @@ PetApi <- R6::R6Class(
 
       urlPath <- "/pet/{petId}"
       if (!missing(`pet.id`)) {
-        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
+        urlPath <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), urlPath)
       }
 
       # API key authentication
@@ -274,7 +274,7 @@ PetApi <- R6::R6Class(
 
       urlPath <- "/pet/{petId}"
       if (!missing(`pet.id`)) {
-        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
+        urlPath <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), urlPath)
       }
 
       # OAuth token
@@ -312,7 +312,7 @@ PetApi <- R6::R6Class(
 
       urlPath <- "/pet/{petId}/uploadImage"
       if (!missing(`pet.id`)) {
-        urlPath <- gsub(paste0("\\{", "petId", "\\}"), `pet.id`, urlPath)
+        urlPath <- gsub(paste0("\\{", "petId", "\\}"), URLencode(as.character(`pet.id`), reserved = TRUE), urlPath)
       }
 
       # OAuth token

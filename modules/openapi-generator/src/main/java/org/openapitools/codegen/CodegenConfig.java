@@ -24,12 +24,12 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
+import org.openapitools.codegen.api.TemplatingEngineAdapter;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.openapitools.codegen.api.TemplatingEngineAdapter;
 
 public interface CodegenConfig {
     CodegenType getTag();
@@ -266,4 +266,8 @@ public interface CodegenConfig {
     void setTemplatingEngine(TemplatingEngineAdapter s);
 
     TemplatingEngineAdapter getTemplatingEngine();
+
+    public boolean isEnableMinimalUpdate();
+
+    public void setEnableMinimalUpdate(boolean isEnableMinimalUpdate);
 }

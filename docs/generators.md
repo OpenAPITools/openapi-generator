@@ -17,7 +17,7 @@ The following generators are available:
     - [cpp-tizen](generators/cpp-tizen.md)
     - [csharp](generators/csharp.md)
     - [csharp-dotnet2](generators/csharp-dotnet2.md)
-    - [csharp-refactor](generators/csharp-refactor.md)
+    - [csharp-netcore](generators/csharp-netcore.md)
     - [dart](generators/dart.md)
     - [dart-jaguar](generators/dart-jaguar.md)
     - [eiffel](generators/eiffel.md)
@@ -105,6 +105,7 @@ The following generators are available:
     - [rust-server](generators/rust-server.md)
     - [scala-finch](generators/scala-finch.md)
     - [scala-lagom-server](generators/scala-lagom-server.md)
+    - [scala-play-server](generators/scala-play-server.md)
     - [scalatra](generators/scalatra.md)
     - [spring](generators/spring.md)
 

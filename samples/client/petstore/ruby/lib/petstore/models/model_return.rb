@@ -79,7 +79,7 @@ module Petstore
     end
 
     # Calculates hash code according to all attributes.
-    # @return [Fixnum] Hash code
+    # @return [Integer] Hash code
     def hash
       [_return].hash
     end
@@ -127,7 +127,7 @@ module Petstore
         value.to_i
       when :Float
         value.to_f
-      when :BOOLEAN
+      when :Boolean
         if value.to_s =~ /\A(true|t|yes|y|1)\z/i
           true
         else

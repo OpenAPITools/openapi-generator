@@ -78,7 +78,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String projectTestFolder = "src" + File.separator + "test";
     protected String sourceFolder = projectFolder + File.separator + "java";
     protected String testFolder = projectTestFolder + File.separator + "java";
-    protected String localVariablePrefix = "";
     protected boolean fullJavaUtil;
     protected String javaUtilPrefix = "";
     protected Boolean serializableModel = false;
@@ -1270,10 +1269,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setTestFolder(String testFolder) {
         this.testFolder = testFolder;
-    }
-
-    public void setLocalVariablePrefix(String localVariablePrefix) {
-        this.localVariablePrefix = localVariablePrefix;
     }
 
     public void setSerializeBigDecimalAsString(boolean s) {

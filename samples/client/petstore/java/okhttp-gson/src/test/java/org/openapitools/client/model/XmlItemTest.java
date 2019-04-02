@@ -228,51 +228,51 @@ public class XmlItemTest {
     }
 
     /**
-     * Test the property 'prefixNamespaceString'
+     * Test the property 'prefixNsString'
      */
     @Test
-    public void prefixNamespaceStringTest() {
-        // TODO: test prefixNamespaceString
+    public void prefixNsStringTest() {
+        // TODO: test prefixNsString
     }
 
     /**
-     * Test the property 'prefixNamespaceNumber'
+     * Test the property 'prefixNsNumber'
      */
     @Test
-    public void prefixNamespaceNumberTest() {
-        // TODO: test prefixNamespaceNumber
+    public void prefixNsNumberTest() {
+        // TODO: test prefixNsNumber
     }
 
     /**
-     * Test the property 'prefixNamespaceInteger'
+     * Test the property 'prefixNsInteger'
      */
     @Test
-    public void prefixNamespaceIntegerTest() {
-        // TODO: test prefixNamespaceInteger
+    public void prefixNsIntegerTest() {
+        // TODO: test prefixNsInteger
     }
 
     /**
-     * Test the property 'prefixNamespaceBoolean'
+     * Test the property 'prefixNsBoolean'
      */
     @Test
-    public void prefixNamespaceBooleanTest() {
-        // TODO: test prefixNamespaceBoolean
+    public void prefixNsBooleanTest() {
+        // TODO: test prefixNsBoolean
     }
 
     /**
-     * Test the property 'prefixNamespaceArray'
+     * Test the property 'prefixNsArray'
      */
     @Test
-    public void prefixNamespaceArrayTest() {
-        // TODO: test prefixNamespaceArray
+    public void prefixNsArrayTest() {
+        // TODO: test prefixNsArray
     }
 
     /**
-     * Test the property 'prefixNamespaceWrappedArray'
+     * Test the property 'prefixNsWrappedArray'
      */
     @Test
-    public void prefixNamespaceWrappedArrayTest() {
-        // TODO: test prefixNamespaceWrappedArray
+    public void prefixNsWrappedArrayTest() {
+        // TODO: test prefixNsWrappedArray
     }
 
 }

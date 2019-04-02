@@ -11,10 +11,14 @@ buildscript {
         maven {
             url "https://oss.sonatype.org/content/repositories/snapshots/"
         }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "gradle.plugin.org.gradle.kotlin:gradle-kotlin-dsl-plugins:1.0-rc-3"
+        classpath "com.gradle.publish:plugin-publish-plugin:0.10.1"
     }
 }
 
@@ -29,6 +33,7 @@ specifications as part of your build. Other tasks are available as command line 
 """
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
+apply plugin: 'com.gradle.plugin-publish'
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'maven'
 apply plugin: 'signing'
@@ -39,6 +44,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
+    jcenter()
     mavenCentral()
     mavenLocal()
     maven {
@@ -86,6 +92,23 @@ gradlePlugin {
         openApiGenerator {
             id = 'org.openapi.generator'
             implementationClass = 'org.openapitools.generator.gradle.plugin.OpenApiGeneratorPlugin'
+        }
+    }
+}
+
+pluginBundle {
+    // These settings are set for the whole plugin bundle
+    website = 'https://openapi-generator.tech/'
+    vcsUrl = 'https://github.com/OpenAPITools/openapi-generator'
+    description = 'OpenAPI Generator allows generation of API client libraries (SDK generation), server stubs, documentation and configuration automatically given an OpenAPI Spec (v2, v3)'
+
+    plugins {
+        // first plugin
+        openApiGenerator {
+            id = 'org.openapi.generator'
+            displayName = 'OpenAPI Generator Gradle Plugin'
+            tags = ['openapi-3.0', 'openapi-2.0', 'openapi', 'swagger', 'codegen', 'sdk']
+            version = "$openApiGeneratorVersion"
         }
     }
 }

@@ -59,8 +59,8 @@ module Petstore
       {
         :'map_map_of_string' => :'Hash<String, Hash<String, String>>',
         :'map_of_enum_string' => :'Hash<String, String>',
-        :'direct_map' => :'Hash<String, BOOLEAN>',
-        :'indirect_map' => :'Hash<String, BOOLEAN>'
+        :'direct_map' => :'Hash<String, Boolean>',
+        :'indirect_map' => :'Hash<String, Boolean>'
       }
     end
 
@@ -135,7 +135,7 @@ module Petstore
     end
 
     # Calculates hash code according to all attributes.
-    # @return [Fixnum] Hash code
+    # @return [Integer] Hash code
     def hash
       [map_map_of_string, map_of_enum_string, direct_map, indirect_map].hash
     end
@@ -183,7 +183,7 @@ module Petstore
         value.to_i
       when :Float
         value.to_f
-      when :BOOLEAN
+      when :Boolean
         if value.to_s =~ /\A(true|t|yes|y|1)\z/i
           true
         else

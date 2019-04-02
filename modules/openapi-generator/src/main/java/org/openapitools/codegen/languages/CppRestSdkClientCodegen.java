@@ -31,6 +31,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import java.util.*;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
@@ -288,12 +289,12 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return sanitizeName(initialCaps(name));
+        return sanitizeName(camelize(name));
     }
 
     @Override
     public String toApiFilename(String name) {
-        return sanitizeName(initialCaps(name) + "Api");
+        return sanitizeName(camelize(name) + "Api");
     }
 
     /**

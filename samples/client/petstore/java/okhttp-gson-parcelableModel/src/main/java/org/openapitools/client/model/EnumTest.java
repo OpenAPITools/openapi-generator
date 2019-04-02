@@ -58,13 +58,13 @@ public class EnumTest implements Parcelable {
       return String.valueOf(value);
     }
 
-    public static EnumStringEnum fromValue(String text) {
+    public static EnumStringEnum fromValue(String value) {
       for (EnumStringEnum b : EnumStringEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<EnumStringEnum> {
@@ -76,7 +76,7 @@ public class EnumTest implements Parcelable {
       @Override
       public EnumStringEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return EnumStringEnum.fromValue(String.valueOf(value));
+        return EnumStringEnum.fromValue(value);
       }
     }
   }
@@ -111,13 +111,13 @@ public class EnumTest implements Parcelable {
       return String.valueOf(value);
     }
 
-    public static EnumStringRequiredEnum fromValue(String text) {
+    public static EnumStringRequiredEnum fromValue(String value) {
       for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<EnumStringRequiredEnum> {
@@ -129,7 +129,7 @@ public class EnumTest implements Parcelable {
       @Override
       public EnumStringRequiredEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return EnumStringRequiredEnum.fromValue(String.valueOf(value));
+        return EnumStringRequiredEnum.fromValue(value);
       }
     }
   }
@@ -162,13 +162,13 @@ public class EnumTest implements Parcelable {
       return String.valueOf(value);
     }
 
-    public static EnumIntegerEnum fromValue(String text) {
+    public static EnumIntegerEnum fromValue(Integer value) {
       for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<EnumIntegerEnum> {
@@ -180,7 +180,7 @@ public class EnumTest implements Parcelable {
       @Override
       public EnumIntegerEnum read(final JsonReader jsonReader) throws IOException {
         Integer value = jsonReader.nextInt();
-        return EnumIntegerEnum.fromValue(String.valueOf(value));
+        return EnumIntegerEnum.fromValue(value);
       }
     }
   }
@@ -213,13 +213,13 @@ public class EnumTest implements Parcelable {
       return String.valueOf(value);
     }
 
-    public static EnumNumberEnum fromValue(String text) {
+    public static EnumNumberEnum fromValue(Double value) {
       for (EnumNumberEnum b : EnumNumberEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<EnumNumberEnum> {
@@ -231,7 +231,7 @@ public class EnumTest implements Parcelable {
       @Override
       public EnumNumberEnum read(final JsonReader jsonReader) throws IOException {
         Double value = jsonReader.nextDouble();
-        return EnumNumberEnum.fromValue(String.valueOf(value));
+        return EnumNumberEnum.fromValue(value);
       }
     }
   }

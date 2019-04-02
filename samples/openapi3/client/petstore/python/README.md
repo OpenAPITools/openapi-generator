@@ -146,6 +146,7 @@ Class | Method | HTTP request | Description
  - [Model200Response](docs/Model200Response.md)
  - [ModelReturn](docs/ModelReturn.md)
  - [Name](docs/Name.md)
+ - [NullableClass](docs/NullableClass.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [Order](docs/Order.md)
  - [OuterComposite](docs/OuterComposite.md)

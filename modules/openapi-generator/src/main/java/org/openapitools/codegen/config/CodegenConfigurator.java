@@ -19,13 +19,15 @@ package org.openapitools.codegen.config;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import org.openapitools.codegen.api.TemplatingEngineAdapter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.core.util.Json;
+import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.Validate;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.auth.AuthParser;
@@ -46,16 +48,17 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
- * A class that contains all codegen configuration properties a user would want to manipulate.
- * An instance could be created by deserializing a JSON file or being populated from CLI or Maven plugin parameters.
- * It also has a convenience method for creating a ClientOptInput class which is THE object DefaultGenerator.java needs
- * to generate code.
+ * A class that contains all codegen configuration properties a user would want to manipulate. An
+ * instance could be created by deserializing a JSON file or being populated from CLI or Maven
+ * plugin parameters. It also has a convenience method for creating a ClientOptInput class which is
+ * THE object DefaultGenerator.java needs to generate code.
  */
 public class CodegenConfigurator implements Serializable {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigurator.class);
 
-    private static Map<String,String> nameMigrationMap = new HashMap<>();
+    private static Map<String, String> nameMigrationMap = new HashMap<>();
+
     static {
         nameMigrationMap.put("akka-scala", new ScalaAkkaClientCodegen().getName());
         nameMigrationMap.put("scala", new ScalaHttpClientCodegen().getName());
@@ -80,12 +83,14 @@ public class CodegenConfigurator implements Serializable {
     private boolean logToStderr;
     private boolean validateSpec;
     private boolean enablePostProcessFile;
+    private boolean enableMinimalUpdate;
     private String templateDir;
     private String templatingEngineName;
     private String auth;
     private String apiPackage;
     private String modelPackage;
     private String invokerPackage;
+    private String packageName;
     private String modelNamePrefix;
     private String modelNameSuffix;
     private String groupId;
@@ -99,14 +104,15 @@ public class CodegenConfigurator implements Serializable {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private Map<String, String> importMappings = new HashMap<String, String>();
     private Set<String> languageSpecificPrimitives = new HashSet<String>();
-    private Map<String, String>  reservedWordMappings = new HashMap<String, String>();
+    private Map<String, String> reservedWordMappings = new HashMap<String, String>();
 
-    private String gitUserId="GIT_USER_ID";
-    private String gitRepoId="GIT_REPO_ID";
-    private String releaseNote="Minor update";
+    private String gitUserId = "GIT_USER_ID";
+    private String gitRepoId = "GIT_REPO_ID";
+    private String releaseNote = "Minor update";
     private String httpUserAgent;
 
-    private final Map<String, Object> dynamicProperties = new HashMap<String, Object>(); //the map that holds the JsonAnySetter/JsonAnyGetter values
+    private final Map<String, Object> dynamicProperties = new HashMap<String, Object>();
+    //the map that holds the JsonAnySetter/JsonAnyGetter values
 
     public CodegenConfigurator() {
         this.validateSpec = true;
@@ -114,18 +120,21 @@ public class CodegenConfigurator implements Serializable {
     }
 
     // TODO: When setLang is removed, please remove nameMigrationMap and its usage(s).
+
     /**
-     * Set the "language". This has drifted away from language-only to include framework and hyphenated generator types as well as language.
+     * Set the "language". This has drifted away from language-only to include framework and
+     * hyphenated generator types as well as language.
      * <p>
-     * NOTE: This will eventually become language only again. It is deprecated in its current state.
+     * NOTE: This will eventually become language only again. It is deprecated in its current
+     * state.
      * </p>
      *
-     * @deprecated Please use {@link #setGeneratorName(String)}, as generators are no longer identified only by language. We may reuse language in the future.
      * @param lang The generator name. Previously, language name only.
      * @return The fluent instance of {@link CodegenConfigurator}
+     * @deprecated Please use {@link #setGeneratorName(String)}, as generators are no longer
+     * identified only by language. We may reuse language in the future.
      */
-    @Deprecated
-    public CodegenConfigurator setLang(String lang) {
+    @Deprecated public CodegenConfigurator setLang(String lang) {
         this.setGeneratorName(lang);
         return this;
     }
@@ -133,8 +142,8 @@ public class CodegenConfigurator implements Serializable {
     /**
      * Sets the name of the target generator.
      *
-     * The generator's name is used to uniquely identify the generator as a mechanism to lookup the desired implementation
-     * at runtime.
+     * The generator's name is used to uniquely identify the generator as a mechanism to lookup the
+     * desired implementation at runtime.
      *
      * @param generatorName The name of the generator.
      * @return The fluent instance of {@link CodegenConfigurator}
@@ -142,7 +151,9 @@ public class CodegenConfigurator implements Serializable {
     public CodegenConfigurator setGeneratorName(final String generatorName) {
         if (nameMigrationMap.containsKey(generatorName)) {
             String newValue = nameMigrationMap.get(generatorName);
-            LOGGER.warn(String.format(Locale.ROOT, "The name '%s' is a deprecated. Please update to the new name of '%s'.", generatorName, newValue));
+            LOGGER.warn(String.format(Locale.ROOT,
+                    "The name '%s' is a deprecated. Please update to the new name of '%s'.",
+                    generatorName, newValue));
             this.generatorName = newValue;
         } else {
             this.generatorName = generatorName;
@@ -213,6 +224,15 @@ public class CodegenConfigurator implements Serializable {
         return this;
     }
 
+    public boolean getEnableMinimalUpdate() {
+        return enableMinimalUpdate;
+    }
+
+    public CodegenConfigurator setEnableMinimalUpdate(boolean enableMinimalUpdate) {
+        this.enableMinimalUpdate = enableMinimalUpdate;
+        return this;
+    }
+
     public boolean isGenerateAliasAsModel() {
         return ModelUtils.isGenerateAliasAsModel();
     }
@@ -260,17 +280,18 @@ public class CodegenConfigurator implements Serializable {
 
 
     /**
-     * Gets the "language". This has drifted away from language-only to include framework and hyphenated generator types as well as language.
+     * Gets the "language". This has drifted away from language-only to include framework and
+     * hyphenated generator types as well as language.
      * <p>
-     * NOTE: This will eventually become language only again. It is deprecated in its current state.
+     * NOTE: This will eventually become language only again. It is deprecated in its current
+     * state.
      * </p>
      *
-     * @deprecated Please use {@link #getGeneratorName()}, as generators are no longer identified only by language. We may reuse language in the future.
-     *
      * @return A string which defines the generator.
+     * @deprecated Please use {@link #getGeneratorName()}, as generators are no longer identified
+     * only by language. We may reuse language in the future.
      */
-    @Deprecated
-    public String getLang() {
+    @Deprecated public String getLang() {
         return getGeneratorName();
     }
 
@@ -287,7 +308,8 @@ public class CodegenConfigurator implements Serializable {
 
         // check to see if the folder exists
         if (!(f.exists() && f.isDirectory())) {
-            throw new IllegalArgumentException("Template directory " + templateDir + " does not exist.");
+            throw new IllegalArgumentException(
+                    "Template directory " + templateDir + " does not exist.");
         }
 
         this.templateDir = f.getAbsolutePath();
@@ -318,6 +340,15 @@ public class CodegenConfigurator implements Serializable {
 
     public CodegenConfigurator setInvokerPackage(String invokerPackage) {
         this.invokerPackage = invokerPackage;
+        return this;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public CodegenConfigurator setPackageName(String packageName) {
+        this.packageName = packageName;
         return this;
     }
 
@@ -422,7 +453,8 @@ public class CodegenConfigurator implements Serializable {
         return languageSpecificPrimitives;
     }
 
-    public CodegenConfigurator setLanguageSpecificPrimitives(Set<String> languageSpecificPrimitives) {
+    public CodegenConfigurator setLanguageSpecificPrimitives(
+            Set<String> languageSpecificPrimitives) {
         this.languageSpecificPrimitives = languageSpecificPrimitives;
         return this;
     }
@@ -473,11 +505,11 @@ public class CodegenConfigurator implements Serializable {
     }
 
     public CodegenConfigurator setHttpUserAgent(String httpUserAgent) {
-        this.httpUserAgent= httpUserAgent;
+        this.httpUserAgent = httpUserAgent;
         return this;
     }
 
-    public  Map<String, String> getReservedWordsMappings() {
+    public Map<String, String> getReservedWordsMappings() {
         return reservedWordMappings;
     }
 
@@ -516,6 +548,7 @@ public class CodegenConfigurator implements Serializable {
         config.setIgnoreFilePathOverride(ignoreFileOverride);
         config.setRemoveOperationIdPrefix(removeOperationIdPrefix);
         config.setEnablePostProcessFile(enablePostProcessFile);
+        config.setEnableMinimalUpdate(enableMinimalUpdate);
 
         config.instantiationTypes().putAll(instantiationTypes);
         config.typeMapping().putAll(typeMappings);
@@ -526,10 +559,12 @@ public class CodegenConfigurator implements Serializable {
         checkAndSetAdditionalProperty(apiPackage, CodegenConstants.API_PACKAGE);
         checkAndSetAdditionalProperty(modelPackage, CodegenConstants.MODEL_PACKAGE);
         checkAndSetAdditionalProperty(invokerPackage, CodegenConstants.INVOKER_PACKAGE);
+        checkAndSetAdditionalProperty(packageName, CodegenConstants.PACKAGE_NAME);
         checkAndSetAdditionalProperty(groupId, CodegenConstants.GROUP_ID);
         checkAndSetAdditionalProperty(artifactId, CodegenConstants.ARTIFACT_ID);
         checkAndSetAdditionalProperty(artifactVersion, CodegenConstants.ARTIFACT_VERSION);
-        checkAndSetAdditionalProperty(templateDir, toAbsolutePathStr(templateDir), CodegenConstants.TEMPLATE_DIR);
+        checkAndSetAdditionalProperty(templateDir, toAbsolutePathStr(templateDir),
+                CodegenConstants.TEMPLATE_DIR);
         checkAndSetAdditionalProperty(templatingEngineName, CodegenConstants.TEMPLATING_ENGINE);
         checkAndSetAdditionalProperty(modelNamePrefix, CodegenConstants.MODEL_NAME_PREFIX);
         checkAndSetAdditionalProperty(modelNameSuffix, CodegenConstants.MODEL_NAME_SUFFIX);
@@ -553,8 +588,7 @@ public class CodegenConfigurator implements Serializable {
 
         config.additionalProperties().putAll(additionalProperties);
 
-        ClientOptInput input = new ClientOptInput()
-                .config(config);
+        ClientOptInput input = new ClientOptInput().config(config);
 
         final List<AuthorizationValue> authorizationValues = AuthParser.parse(auth);
         ParseOptions options = new ParseOptions();
@@ -569,12 +603,15 @@ public class CodegenConfigurator implements Serializable {
             Set<String> warnings = new HashSet<>();
             if (specification != null) {
                 List<String> unusedModels = ModelUtils.getUnusedSchemas(specification);
-                if (unusedModels != null) unusedModels.forEach(name -> warnings.add("Unused model: " + name));
+                if (unusedModels != null) {
+                    unusedModels.forEach(name -> warnings.add("Unused model: " + name));
+                }
             }
 
             if (this.isValidateSpec()) {
                 StringBuilder sb = new StringBuilder();
-                sb.append("There were issues with the specification. The option can be disabled via validateSpec (Maven/Gradle) or --skip-validate-spec (CLI).");
+                sb.append(
+                        "There were issues with the specification. The option can be disabled via validateSpec (Maven/Gradle) or --skip-validate-spec (CLI).");
                 sb.append(System.lineSeparator());
                 SpecValidationException ex = new SpecValidationException(sb.toString());
                 ex.setErrors(validationMessages);
@@ -582,38 +619,34 @@ public class CodegenConfigurator implements Serializable {
                 throw ex;
             } else {
                 StringBuilder sb = new StringBuilder();
-                sb.append("There were issues with the specification, but validation has been explicitly disabled.");
+                sb.append(
+                        "There were issues with the specification, but validation has been explicitly disabled.");
                 sb.append(System.lineSeparator());
 
                 sb.append("Errors: ").append(System.lineSeparator());
-                validationMessages.forEach(msg ->
-                        sb.append("\t-").append(msg).append(System.lineSeparator())
-                );
+                validationMessages.forEach(
+                        msg -> sb.append("\t-").append(msg).append(System.lineSeparator()));
 
                 if (!warnings.isEmpty()) {
                     sb.append("Warnings: ").append(System.lineSeparator());
-                    warnings.forEach(msg ->
-                            sb.append("\t-").append(msg).append(System.lineSeparator())
-                    );
+                    warnings.forEach(
+                            msg -> sb.append("\t-").append(msg).append(System.lineSeparator()));
                 }
                 LOGGER.warn(sb.toString());
             }
         }
 
-        input.opts(new ClientOpts())
-                .openAPI(specification);
+        input.opts(new ClientOpts()).openAPI(specification);
 
         return input;
     }
 
-    @JsonAnySetter
-    public CodegenConfigurator addDynamicProperty(String name, Object value) {
+    @JsonAnySetter public CodegenConfigurator addDynamicProperty(String name, Object value) {
         dynamicProperties.put(name, value);
         return this;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getDynamicProperties() {
+    @JsonAnyGetter public Map<String, Object> getDynamicProperties() {
         return dynamicProperties;
     }
 
@@ -622,8 +655,7 @@ public class CodegenConfigurator implements Serializable {
             String opt = langCliOption.getOpt();
             if (dynamicProperties.containsKey(opt)) {
                 codegenConfig.additionalProperties().put(opt, dynamicProperties.get(opt));
-            }
-            else if(systemProperties.containsKey(opt)) {
+            } else if (systemProperties.containsKey(opt)) {
                 codegenConfig.additionalProperties().put(opt, systemProperties.get(opt));
             }
         }
@@ -633,11 +665,11 @@ public class CodegenConfigurator implements Serializable {
         if (!verbose) {
             return;
         }
-        LOGGER.info("\nVERBOSE MODE: ON. Additional debug options are injected" +
-                "\n - [debugOpenAPI] prints the OpenAPI specification as interpreted by the codegen" +
-                "\n - [debugModels] prints models passed to the template engine" +
-                "\n - [debugOperations] prints operations passed to the template engine" +
-                "\n - [debugSupportingFiles] prints additional data passed to the template engine");
+        LOGGER.info("\nVERBOSE MODE: ON. Additional debug options are injected"
+                + "\n - [debugOpenAPI] prints the OpenAPI specification as interpreted by the codegen"
+                + "\n - [debugModels] prints models passed to the template engine"
+                + "\n - [debugOperations] prints operations passed to the template engine"
+                + "\n - [debugSupportingFiles] prints additional data passed to the template engine");
 
         GeneratorProperties.setProperty("debugOpenAPI", "");
         GeneratorProperties.setProperty("debugModels", "");
@@ -664,7 +696,8 @@ public class CodegenConfigurator implements Serializable {
         checkAndSetAdditionalProperty(property, property, propertyKey);
     }
 
-    private void checkAndSetAdditionalProperty(String property, String valueToSet, String propertyKey) {
+    private void checkAndSetAdditionalProperty(String property, String valueToSet,
+            String propertyKey) {
         if (isNotEmpty(property)) {
             additionalProperties.put(propertyKey, valueToSet);
         }
@@ -673,10 +706,18 @@ public class CodegenConfigurator implements Serializable {
     public static CodegenConfigurator fromFile(String configFile) {
 
         if (isNotEmpty(configFile)) {
+            ObjectMapper mapper;
+
+            if (FilenameUtils.isExtension(configFile, new String[] {"yml", "yaml"})) {
+                mapper = Yaml.mapper();
+            } else {
+                mapper = Json.mapper();
+            }
+
             try {
-                return Json.mapper().readValue(new File(configFile), CodegenConfigurator.class);
-            } catch (IOException e) {
-                LOGGER.error("Unable to deserialize config file: " + configFile, e);
+                return mapper.readValue(new File(configFile), CodegenConfigurator.class);
+            } catch (IOException ex) {
+                LOGGER.error("Unable to deserialize config file: " + configFile, ex);
             }
         }
         return null;

@@ -3,7 +3,8 @@
 module Instances where
 
 import {{baseModule}}.Model
-import {{baseModule}}.Core
+import {{baseModule}}.Core{{#customTestInstanceModule}}
+import {{.}} (){{/customTestInstanceModule}}
 
 import qualified Data.Aeson as A
 import qualified Data.ByteString.Lazy as BL
@@ -114,7 +115,7 @@ gen{{classname}} :: Int -> Gen {{classname}}
 gen{{classname}} n =
   {{#isAlias}}{{classname}} <$> arbitrary{{/isAlias}}{{^isAlias}}{{^hasVars}}
   pure {{/hasVars}}{{classname}}
-  {{#hasVars}}  <$>{{/hasVars}} {{#vars}}{{#required}}{{#isPrimitiveType}}arbitrary{{/isPrimitiveType}}{{^isPrimitiveType}}arbitraryReduced n{{/isPrimitiveType}}{{/required}}{{^required}}{{^isFreeFormObject}}arbitraryReducedMaybe n{{/isFreeFormObject}}{{#isFreeFormObject}}arbitraryReducedMaybeValue n{{/isFreeFormObject}}{{/required}} -- {{name}} :: {{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}
+  {{#hasVars}}  <$>{{/hasVars}} {{#vars}}{{#required}}{{#isPrimitiveType}}arbitrary{{/isPrimitiveType}}{{^isPrimitiveType}}arbitraryReduced n{{/isPrimitiveType}}{{/required}}{{^required}}{{^vendorExtensions.x-isMaybeValue}}arbitraryReducedMaybe n{{/vendorExtensions.x-isMaybeValue}}{{#vendorExtensions.x-isMaybeValue}}arbitraryReducedMaybeValue n{{/vendorExtensions.x-isMaybeValue}}{{/required}} -- {{name}} :: {{^required}}Maybe {{/required}}{{{vendorExtensions.x-dataType}}}
   {{#hasMore}}  <*> {{/hasMore}}{{/vars}}{{/isAlias}}
 {{/isEnum}}
 {{/model}}

@@ -24,12 +24,77 @@ CREATE TABLE IF NOT EXISTS `200_response` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Model for testing model name starting with number';
 
 --
+-- Table structure for table `AdditionalPropertiesAnyType` generated from model 'AdditionalPropertiesAnyType'
+--
+
+CREATE TABLE IF NOT EXISTS `AdditionalPropertiesAnyType` (
+  `name` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `AdditionalPropertiesArray` generated from model 'AdditionalPropertiesArray'
+--
+
+CREATE TABLE IF NOT EXISTS `AdditionalPropertiesArray` (
+  `name` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `AdditionalPropertiesBoolean` generated from model 'AdditionalPropertiesBoolean'
+--
+
+CREATE TABLE IF NOT EXISTS `AdditionalPropertiesBoolean` (
+  `name` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `AdditionalPropertiesClass` generated from model 'AdditionalPropertiesClass'
 --
 
 CREATE TABLE IF NOT EXISTS `AdditionalPropertiesClass` (
-  `map_property` JSON DEFAULT NULL,
-  `map_of_map_property` JSON DEFAULT NULL
+  `map_string` JSON DEFAULT NULL,
+  `map_number` JSON DEFAULT NULL,
+  `map_integer` JSON DEFAULT NULL,
+  `map_boolean` JSON DEFAULT NULL,
+  `map_array_integer` JSON DEFAULT NULL,
+  `map_array_anytype` JSON DEFAULT NULL,
+  `map_map_string` JSON DEFAULT NULL,
+  `map_map_anytype` JSON DEFAULT NULL,
+  `anytype_1` JSON DEFAULT NULL,
+  `anytype_2` JSON DEFAULT NULL,
+  `anytype_3` JSON DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `AdditionalPropertiesInteger` generated from model 'AdditionalPropertiesInteger'
+--
+
+CREATE TABLE IF NOT EXISTS `AdditionalPropertiesInteger` (
+  `name` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `AdditionalPropertiesNumber` generated from model 'AdditionalPropertiesNumber'
+--
+
+CREATE TABLE IF NOT EXISTS `AdditionalPropertiesNumber` (
+  `name` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `AdditionalPropertiesObject` generated from model 'AdditionalPropertiesObject'
+--
+
+CREATE TABLE IF NOT EXISTS `AdditionalPropertiesObject` (
+  `name` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `AdditionalPropertiesString` generated from model 'AdditionalPropertiesString'
+--
+
+CREATE TABLE IF NOT EXISTS `AdditionalPropertiesString` (
+  `name` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --

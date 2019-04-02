@@ -55,13 +55,13 @@ public class EnumArrays {
       return String.valueOf(value);
     }
 
-    public static JustSymbolEnum fromValue(String text) {
+    public static JustSymbolEnum fromValue(String value) {
       for (JustSymbolEnum b : JustSymbolEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<JustSymbolEnum> {
@@ -73,7 +73,7 @@ public class EnumArrays {
       @Override
       public JustSymbolEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return JustSymbolEnum.fromValue(String.valueOf(value));
+        return JustSymbolEnum.fromValue(value);
       }
     }
   }
@@ -106,13 +106,13 @@ public class EnumArrays {
       return String.valueOf(value);
     }
 
-    public static ArrayEnumEnum fromValue(String text) {
+    public static ArrayEnumEnum fromValue(String value) {
       for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<ArrayEnumEnum> {
@@ -124,7 +124,7 @@ public class EnumArrays {
       @Override
       public ArrayEnumEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return ArrayEnumEnum.fromValue(String.valueOf(value));
+        return ArrayEnumEnum.fromValue(value);
       }
     }
   }

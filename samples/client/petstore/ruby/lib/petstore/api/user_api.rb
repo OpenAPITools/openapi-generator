@@ -21,7 +21,7 @@ module Petstore
     end
     # Create user
     # This can only be done by the logged in user.
-    # @param body Created user object
+    # @param body [User] Created user object
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def create_user(body, opts = {})
@@ -31,9 +31,9 @@ module Petstore
 
     # Create user
     # This can only be done by the logged in user.
-    # @param body Created user object
+    # @param body [User] Created user object
     # @param [Hash] opts the optional parameters
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def create_user_with_http_info(body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: UserApi.create_user ...'
@@ -70,7 +70,7 @@ module Petstore
     end
 
     # Creates list of users with given input array
-    # @param body List of user object
+    # @param body [Array<User>] List of user object
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def create_users_with_array_input(body, opts = {})
@@ -79,9 +79,9 @@ module Petstore
     end
 
     # Creates list of users with given input array
-    # @param body List of user object
+    # @param body [Array<User>] List of user object
     # @param [Hash] opts the optional parameters
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def create_users_with_array_input_with_http_info(body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: UserApi.create_users_with_array_input ...'
@@ -118,7 +118,7 @@ module Petstore
     end
 
     # Creates list of users with given input array
-    # @param body List of user object
+    # @param body [Array<User>] List of user object
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def create_users_with_list_input(body, opts = {})
@@ -127,9 +127,9 @@ module Petstore
     end
 
     # Creates list of users with given input array
-    # @param body List of user object
+    # @param body [Array<User>] List of user object
     # @param [Hash] opts the optional parameters
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def create_users_with_list_input_with_http_info(body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: UserApi.create_users_with_list_input ...'
@@ -167,7 +167,7 @@ module Petstore
 
     # Delete user
     # This can only be done by the logged in user.
-    # @param username The name that needs to be deleted
+    # @param username [String] The name that needs to be deleted
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def delete_user(username, opts = {})
@@ -177,9 +177,9 @@ module Petstore
 
     # Delete user
     # This can only be done by the logged in user.
-    # @param username The name that needs to be deleted
+    # @param username [String] The name that needs to be deleted
     # @param [Hash] opts the optional parameters
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def delete_user_with_http_info(username, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: UserApi.delete_user ...'
@@ -216,7 +216,7 @@ module Petstore
     end
 
     # Get user by user name
-    # @param username The name that needs to be fetched. Use user1 for testing.
+    # @param username [String] The name that needs to be fetched. Use user1 for testing.
     # @param [Hash] opts the optional parameters
     # @return [User]
     def get_user_by_name(username, opts = {})
@@ -225,9 +225,9 @@ module Petstore
     end
 
     # Get user by user name
-    # @param username The name that needs to be fetched. Use user1 for testing.
+    # @param username [String] The name that needs to be fetched. Use user1 for testing.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(User, Fixnum, Hash)>] User data, response status code and response headers
+    # @return [Array<(User, Integer, Hash)>] User data, response status code and response headers
     def get_user_by_name_with_http_info(username, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: UserApi.get_user_by_name ...'
@@ -267,8 +267,8 @@ module Petstore
     end
 
     # Logs user into the system
-    # @param username The user name for login
-    # @param password The password for login in clear text
+    # @param username [String] The user name for login
+    # @param password [String] The password for login in clear text
     # @param [Hash] opts the optional parameters
     # @return [String]
     def login_user(username, password, opts = {})
@@ -277,10 +277,10 @@ module Petstore
     end
 
     # Logs user into the system
-    # @param username The user name for login
-    # @param password The password for login in clear text
+    # @param username [String] The user name for login
+    # @param password [String] The password for login in clear text
     # @param [Hash] opts the optional parameters
-    # @return [Array<(String, Fixnum, Hash)>] String data, response status code and response headers
+    # @return [Array<(String, Integer, Hash)>] String data, response status code and response headers
     def login_user_with_http_info(username, password, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: UserApi.login_user ...'
@@ -335,7 +335,7 @@ module Petstore
 
     # Logs out current logged in user session
     # @param [Hash] opts the optional parameters
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def logout_user_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: UserApi.logout_user ...'
@@ -369,8 +369,8 @@ module Petstore
 
     # Updated user
     # This can only be done by the logged in user.
-    # @param username name that need to be deleted
-    # @param body Updated user object
+    # @param username [String] name that need to be deleted
+    # @param body [User] Updated user object
     # @param [Hash] opts the optional parameters
     # @return [nil]
     def update_user(username, body, opts = {})
@@ -380,10 +380,10 @@ module Petstore
 
     # Updated user
     # This can only be done by the logged in user.
-    # @param username name that need to be deleted
-    # @param body Updated user object
+    # @param username [String] name that need to be deleted
+    # @param body [User] Updated user object
     # @param [Hash] opts the optional parameters
-    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
     def update_user_with_http_info(username, body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: UserApi.update_user ...'
