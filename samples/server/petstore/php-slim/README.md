@@ -174,12 +174,10 @@ Class | Method | HTTP request | Description
 * OpenAPIServer\Model\ArrayTest
 * OpenAPIServer\Model\Capitalization
 * OpenAPIServer\Model\Cat
-* OpenAPIServer\Model\CatAllOf
 * OpenAPIServer\Model\Category
 * OpenAPIServer\Model\ClassModel
 * OpenAPIServer\Model\Client
 * OpenAPIServer\Model\Dog
-* OpenAPIServer\Model\DogAllOf
 * OpenAPIServer\Model\EnumArrays
 * OpenAPIServer\Model\EnumClass
 * OpenAPIServer\Model\EnumTest

@@ -237,17 +237,15 @@ genCapitalization n =
     <*> arbitraryReducedMaybe n -- capitalizationAttName :: Maybe Text
   
 instance Arbitrary Cat where
-  arbitrary =
-    Cat
-      <$> arbitrary -- catClassName :: Text
-      <*> arbitrary -- catColor :: Maybe Text
-      <*> arbitrary -- catDeclawed :: Maybe Bool
-    
-instance Arbitrary CatAllOf where
-  arbitrary =
-    CatAllOf
-      <$> arbitrary -- catAllOfDeclawed :: Maybe Bool
-    
+  arbitrary = sized genCat
+
+genCat :: Int -> Gen Cat
+genCat n =
+  Cat
+    <$> arbitrary -- catClassName :: Text
+    <*> arbitraryReducedMaybe n -- catColor :: Maybe Text
+    <*> arbitraryReducedMaybe n -- catDeclawed :: Maybe Bool
+  
 instance Arbitrary Category where
   arbitrary = sized genCategory
 
@@ -274,17 +272,15 @@ genClient n =
     <$> arbitraryReducedMaybe n -- clientClient :: Maybe Text
   
 instance Arbitrary Dog where
-  arbitrary =
-    Dog
-      <$> arbitrary -- dogClassName :: Text
-      <*> arbitrary -- dogColor :: Maybe Text
-      <*> arbitrary -- dogBreed :: Maybe Text
-    
-instance Arbitrary DogAllOf where
-  arbitrary =
-    DogAllOf
-      <$> arbitrary -- dogAllOfBreed :: Maybe Text
-    
+  arbitrary = sized genDog
+
+genDog :: Int -> Gen Dog
+genDog n =
+  Dog
+    <$> arbitrary -- dogClassName :: Text
+    <*> arbitraryReducedMaybe n -- dogColor :: Maybe Text
+    <*> arbitraryReducedMaybe n -- dogBreed :: Maybe Text
+  
 instance Arbitrary EnumArrays where
   arbitrary = sized genEnumArrays
 

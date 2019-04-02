@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
-import org.openapitools.model.CatAllOf;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;

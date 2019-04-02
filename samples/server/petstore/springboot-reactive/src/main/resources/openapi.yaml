@@ -1482,11 +1482,17 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Animal:
       discriminator:
         propertyName: className
@@ -2137,14 +2143,6 @@ components:
       xml:
         namespace: http://a.com/schema
         prefix: pre
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
   securitySchemes:
     petstore_auth:
       flows:

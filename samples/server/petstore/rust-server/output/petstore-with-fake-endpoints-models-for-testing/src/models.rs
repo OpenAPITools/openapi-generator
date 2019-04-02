@@ -209,22 +209,6 @@ impl Cat {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct CatAllOf {
-    #[serde(rename = "declawed")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub declawed: Option<bool>,
-
-}
-
-impl CatAllOf {
-    pub fn new() -> CatAllOf {
-        CatAllOf {
-            declawed: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename = "Category")]
 pub struct Category {
     #[serde(rename = "id")]
@@ -299,22 +283,6 @@ impl Dog {
         Dog {
             class_name: class_name,
             color: Some("red".to_string()),
-            breed: None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct DogAllOf {
-    #[serde(rename = "breed")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub breed: Option<String>,
-
-}
-
-impl DogAllOf {
-    pub fn new() -> DogAllOf {
-        DogAllOf {
             breed: None,
         }
     }
