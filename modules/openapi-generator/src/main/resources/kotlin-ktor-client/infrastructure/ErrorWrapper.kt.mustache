@@ -4,7 +4,7 @@ import io.ktor.client.call.typeInfo
 import io.ktor.client.features.BadResponseStatusException
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 
-class ErrorWrapper(
+{{#nonPublicApi}}internal {{/nonPublicApi}}class ErrorWrapper(
     val originalException: BadResponseStatusException,
     val error: Any
 ) : Exception()
