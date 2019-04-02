@@ -169,12 +169,6 @@ class RESTClientObject(object):
             data = await r.text()
             r = RESTResponse(r, data)
 
-            if _decode_utf8.get(r.status, True):
-                # In the python 3, the response.data is bytes.
-                # we need to decode it to string.
-                if six.PY3:
-                    r.data = r.data.decode('utf8')
-
             # log response body
             logger.debug("response body: %s", r.data)
 
