@@ -1,17 +1,15 @@
 package org.openapitools.codegen.java.jaxrs;
 
 import io.swagger.v3.oas.models.Operation;
-import org.junit.Before;
-import org.junit.Test;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 /**
  * Unit-Test for {@link org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen}.
@@ -22,7 +20,7 @@ public class JavaJAXRSSpecServerCodegenTest {
     
     private JavaJAXRSSpecServerCodegen instance;
     
-    @Before
+    @BeforeMethod
     public void before() {
         instance = new JavaJAXRSSpecServerCodegen();
     }
@@ -40,9 +38,9 @@ public class JavaJAXRSSpecServerCodegenTest {
         
         instance.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
         
-        assertThat(operationList.size(), is(1));
-        assertThat(operationList.containsKey(""), is(true));
-        assertThat(codegenOperation.baseName, is("Primaryresource"));
+        Assert.assertEquals(operationList.size(), 1);
+        Assert.assertTrue(operationList.containsKey(""));
+        Assert.assertEquals(codegenOperation.baseName, "Primaryresource");
     }
     
     /**
@@ -58,9 +56,9 @@ public class JavaJAXRSSpecServerCodegenTest {
         
         instance.addOperationToGroup("Primaryresource", "/{uuid}", operation, codegenOperation, operationList);
         
-        assertThat(operationList.size(), is(1));
-        assertThat(operationList.containsKey(""), is(true));
-        assertThat(codegenOperation.baseName, is("Primaryresource"));
+        Assert.assertEquals(operationList.size(), 1);
+        Assert.assertTrue(operationList.containsKey(""));
+        Assert.assertEquals(codegenOperation.baseName, "Primaryresource");
     }
     
     /**
@@ -77,9 +75,9 @@ public class JavaJAXRSSpecServerCodegenTest {
         
         instance.addOperationToGroup("Default", "/subresource", operation, codegenOperation, operationList);
         
-        assertThat(codegenOperation.baseName, is("subresource"));
-        assertThat(operationList.size(), is(1));
-        assertThat(operationList.containsKey("subresource"), is(true));
+        Assert.assertEquals(codegenOperation.baseName, "subresource");
+        Assert.assertEquals(operationList.size(), 1);
+        Assert.assertTrue(operationList.containsKey("subresource"));
     }
     
     /**
@@ -88,7 +86,7 @@ public class JavaJAXRSSpecServerCodegenTest {
     @Test
     public void testToApiNameForSubresource() {
         final String subresource = instance.toApiName("subresource");
-        assertThat(subresource, is("SubresourceApi"));
+        Assert.assertEquals(subresource, "SubresourceApi");
     }
     
     /**
@@ -103,6 +101,6 @@ public class JavaJAXRSSpecServerCodegenTest {
         instance.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
         
         final String subresource = instance.toApiName("");
-        assertThat(subresource, is("PrimaryresourceApi"));
+        Assert.assertEquals(subresource, "PrimaryresourceApi");
     }
 }
