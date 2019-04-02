@@ -84,6 +84,12 @@ mvn clean compile
 - `reservedWordsMappings` - specifies how a reserved name should be escaped to. Otherwise, the default `_<name>` is used. For example `id=identifier`. You can also have multiple occurrences of this option
 - `skipIfSpecIsUnchanged` - Skip the execution if the source file is older than the output folder (`false` by default. Can also be set globally through the `codegen.skipIfSpecIsUnchanged` property)
 
+### Language Specific Configuration Parameters
+
+:bulb: These **language specific** configurations should be under the `configOptions` XML tag
+
+- `implicitHeaders` - skips header parameters in the generated api methods (Only available if `generateApis` is `true`).
+- `sourceFolder` - specifies generated folder path
 
 ### Custom Generator
 
