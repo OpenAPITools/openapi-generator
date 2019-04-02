@@ -225,7 +225,7 @@ class {{classname}}(object):
         # multiple potential response types
         response_types = {
         {{#responses}}
-            {{code}}: {{#returnType}}'{{returnType}}'{{/returnType}}{{^returnType}}None{{/returnType}}{{#hasMore}},{{/hasMore}}
+            {{code}}: {{#dataType}}'{{dataType}}'{{/dataType}}{{^dataType}}None{{/dataType}}{{#hasMore}},{{/hasMore}}
         {{/responses}}
         }
 

@@ -2497,7 +2497,7 @@ public class DefaultCodegen implements CodegenConfig {
                     Schema thisResponseSchema = (Schema) response.schema;
                     if (thisResponseSchema != null) {
                         CodegenProperty cm = fromProperty("response", thisResponseSchema);
-                        response.returnType = cm.dataType;
+                        response.dataType = cm.dataType;
                     }
                 }
 
