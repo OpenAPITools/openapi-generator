@@ -74,12 +74,18 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             }
             {{/isKeyInQuery}}
             {{/isApiKey}}
-            {{#isBasic}}
+            {{#isBasicBasic}}
             // http basic authentication required
             if (configuration && (configuration.username || configuration.password)) {
                 localVarHeaderParameter["Authorization"] = "Basic " + btoa(configuration.username + ":" + configuration.password);
             }
-            {{/isBasic}}
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}
+            // http bearer authentication required
+            if (configuration && configuration.password) {
+                localVarHeaderParameter["Authorization"] = "Bearer " + btoa(configuration.password);
+            }
+            {{/isBasicBearer}}
             {{#isOAuth}}
             // oauth required
             if (configuration && configuration.accessToken) {
