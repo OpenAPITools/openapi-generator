@@ -93,3 +93,8 @@
   image: "img/companies/zalando.jpg"
   infoLink: "https://www.zalando.com/"
   pinned: true
+-
+  caption: ZOZO Technologies
+  image: "img/companies/zozo-technologies.png"
+  infoLink: "https://tech.zozo.com/en/"
+  pinned: false
