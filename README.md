@@ -555,7 +555,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-03-07 - [OpenAPI Generator で Spring Boot と Angular をタイプセーフに繋ぐ](https://qiita.com/chibato/items/e4a748db12409b40c02f) by [Tomofumi Chiba](https://github.com/chibat)
 - 2019-03-25 - [Access any REST service with the SAP S/4HANA Cloud SDK](https://blogs.sap.com/2019/03/25/integrate-sap-s4hana-cloud-sdk-with-open-api/) by [Alexander Duemont](https://people.sap.com/alexander.duemont)
 - 2019-03-25 - [OpenAPI generatorを試してみる](https://qiita.com/amuyikam/items/e8a45daae59c68be0fc8) by [@amuyikam](https://twitter.com/amuyikam)
-
+- 2019-03-27 - [OpenAPI3を使ってみよう！Go言語でクライアントとスタブの自動生成まで！](https://techblog.zozo.com/entry/openapi3/go) by [@gold_kou](https://twitter.com/gold_kou)
 
 ## [6 - About Us](#table-of-contents)
 
