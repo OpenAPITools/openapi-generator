@@ -20,10 +20,7 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +45,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String PROJECT_SDK = "projectSdk";
     public static final String SDK_WEB = "Microsoft.NET.Sdk.Web";
     public static final String SDK_LIB = "Microsoft.NET.Sdk";
+    public static final String COMPATIBILITY_VERSION = "compatibilityVersion";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
@@ -57,13 +55,13 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useSwashbuckle = true;
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
-    protected String aspnetCoreVersion= "2.1"; // default to 2.1
-    // TODO Make next two enums toensure fixed list.
-    private String classModifier = "";
-    private String operationModifier = "virtual";
+    private CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 2.2 (default), 2.1, 2.0 (deprecated)");
+    private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier can be empty, abstract");
+    private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual, abstract or partial");
     private boolean generateBody = true;
-    private String buildTarget = "program";
+    private CliOption buildTarget = new CliOption("buildTarget", "Target to build an application or library");
     private String projectSdk = SDK_WEB;
+    private String compatibilityVersion = "Version_2_1";
 
     public AspNetCoreServerCodegen() {
         super();
@@ -132,9 +130,14 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.SOURCE_FOLDER_DESC,
                 sourceFolder);
 
-        addOption(ASPNET_CORE_VERSION,
-                "ASP.NET Core version: 2.1 (default), 2.0 (deprecated)",
-                aspnetCoreVersion);
+        addOption(COMPATIBILITY_VERSION, "ASP.Net Core CompatibilityVersion", compatibilityVersion);
+
+        aspnetCoreVersion.addEnum("2.0", "ASP.NET COre V2.0");
+        aspnetCoreVersion.addEnum("2.1", "ASP.NET COre V2.1");
+        aspnetCoreVersion.addEnum("2.2", "ASP.NET COre V2.2");
+        aspnetCoreVersion.setDefault("2.2");
+        aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
+        addOption(aspnetCoreVersion.getOpt(), aspnetCoreVersion.getDescription(), aspnetCoreVersion.getOptValue());
 
         // CLI Switches
         addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
@@ -157,21 +160,27 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 "Uses the Swashbuckle.AspNetCore NuGet package for documentation.",
                 useSwashbuckle);
 
-        addOption(CLASS_MODIFIER,
-                "Class modifiers such as abstract or partial",
-                classModifier);
+        classModifier.addEnum("", "Keep class default with no modifier");
+        classModifier.addEnum("abstract", "Make class abstract");
+        classModifier.setDefault("");
+        classModifier.setOptValue(classModifier.getDefault());
+        addOption(classModifier.getOpt(), classModifier.getDescription(), classModifier.getOptValue());
 
-        addOption(OPERATION_MODIFIER,
-                "Operation modifiers such as virtual or abstract.",
-                operationModifier);
+        operationModifier.addEnum("virtual", "Keep method virtual ");
+        operationModifier.addEnum("abstract", "Make method abstract");
+        operationModifier.setDefault("virtual");
+        operationModifier.setOptValue(operationModifier.getDefault());
+        addOption(operationModifier.getOpt(), operationModifier.getDescription(), operationModifier.getOptValue());
+
+        buildTarget.addEnum("program", "Generate code for standalone server");
+        buildTarget.addEnum("library", "Generate code for a server abstract class lbrary");
+        buildTarget.setDefault("program");
+        buildTarget.setOptValue(buildTarget.getDefault());
+        addOption(buildTarget.getOpt(), buildTarget.getDescription(), buildTarget.getOptValue());
 
         addSwitch(GENERATE_BODY,
                 "Generates method body.",
                 generateBody);
-
-        addOption(BUILD_TARGET,
-                "Target the build for a program or library.",
-                buildTarget);
 
     }
 
@@ -214,53 +223,15 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             additionalProperties.put(USE_SWASHBUCKLE, useSwashbuckle);
         }
 
-        // determine the ASP.NET core version setting
-        if (additionalProperties.containsKey(ASPNET_CORE_VERSION)) {
-            setAspnetCoreVersion((String) additionalProperties.get(ASPNET_CORE_VERSION));
-        }
+
+        // CHeck for the modifiers etc.
+        // The order of the checks is important.
+        isLibrary = setBuildTarget();
+        setClassModifier();
+        setOperationModifier();
+
 
         // CHeck for class modifier if not present set the default value.
-        if (additionalProperties.containsKey(CLASS_MODIFIER)) {
-             classModifier = additionalProperties.get(CLASS_MODIFIER).toString();
-        } else {
-            additionalProperties.put(CLASS_MODIFIER, classModifier);
-        }
-
-        // TODO Validate modifier values
-        // If class modifierier is abstract then the methods need to be abstrat too.
-        if ("abstract".equals(classModifier)) {
-            operationModifier = classModifier;
-            additionalProperties.put(OPERATION_MODIFIER, operationModifier);
-        }
-
-        if (additionalProperties.containsKey(OPERATION_MODIFIER)) {
-            operationModifier = additionalProperties.get(OPERATION_MODIFIER).toString();
-        } else {
-            additionalProperties.put(OPERATION_MODIFIER, operationModifier);
-        }
-
-        // TODO Validate modifier values
-        // If operation modifier is abstract then dont generate any body
-        if ("abstract".equals(operationModifier)) {
-            generateBody = false;
-            additionalProperties.put(GENERATE_BODY, generateBody);
-        }
-        if (additionalProperties.containsKey(GENERATE_BODY)) {
-            generateBody = convertPropertyToBooleanAndWriteBack(GENERATE_BODY);
-        } else {
-            additionalProperties.put(GENERATE_BODY, generateBody);
-        }
-
-        // CHeck for class modifier if not present set the default value.
-        if (additionalProperties.containsKey(BUILD_TARGET)) {
-            buildTarget = additionalProperties.get(BUILD_TARGET).toString();
-        } else {
-            additionalProperties.put(BUILD_TARGET, buildTarget);
-        }
-        if ("library".equals(buildTarget)) {
-            isLibrary = true;
-            projectSdk = SDK_LIB;
-        }
         additionalProperties.put(PROJECT_SDK, projectSdk);
 
         additionalProperties.put("dockerTag", packageName.toLowerCase(Locale.ROOT));
@@ -270,43 +241,14 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         String packageFolder = sourceFolder + File.separator + packageName;
 
-        if ("2.0".equals(aspnetCoreVersion)) {
-            embeddedTemplateDir = templateDir = "aspnetcore/2.0";
-            supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
-            LOGGER.info("ASP.NET core version: 2.0");
-        } else if ("2.1".equals(aspnetCoreVersion)) {
-            // default, do nothing
-            LOGGER.info("ASP.NET core version: 2.1");
-        } else {
-            throw new IllegalArgumentException("aspnetCoreVersion must be '2.1', '2.0' but found " + aspnetCoreVersion);
-        }
-
+        // determine the ASP.NET core version setting
+        setAspnetCoreVersion(packageFolder);
 
         supportingFiles.add(new SupportingFile("build.sh.mustache", "", "build.sh"));
         supportingFiles.add(new SupportingFile("build.bat.mustache", "", "build.bat"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
         supportingFiles.add(new SupportingFile("gitignore", packageFolder, ".gitignore"));
-        supportingFiles.add(new SupportingFile("validateModel.mustache", packageFolder + File.separator + "Attributes", "ValidateModelStateAttribute.cs"));
-        supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, packageName + ".csproj"));
-        if (!isLibrary) {
-            supportingFiles.add(new SupportingFile("Dockerfile.mustache", packageFolder, "Dockerfile"));
-            supportingFiles.add(new SupportingFile("appsettings.json", packageFolder, "appsettings.json"));
-
-            supportingFiles.add(new SupportingFile("Startup.mustache", packageFolder, "Startup.cs"));
-            supportingFiles.add(new SupportingFile("Program.mustache", packageFolder, "Program.cs"));
-            supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json",
-                    packageFolder + File.separator + "Properties", "launchSettings.json"));
-        } else {
-            supportingFiles.add(new SupportingFile("Project.nuspec.mustache", packageFolder, packageName + ".nuspec"));
-            // wwwroot files.
-            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "README.md", packageFolder + File.separator + "wwwroot", "README.md"));
-            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "index.html", packageFolder + File.separator + "wwwroot", "index.html"));
-            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "web.config", packageFolder + File.separator + "wwwroot", "web.config"));
-
-            supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache",
-                    packageFolder + File.separator + "wwwroot", "openapi-original.json"));
-        }
         supportingFiles.add(new SupportingFile("validateModel.mustache", packageFolder + File.separator + "Attributes", "ValidateModelStateAttribute.cs"));
         supportingFiles.add(new SupportingFile("Project.csproj.mustache", packageFolder, packageName + ".csproj"));
         if (!isLibrary) {
@@ -339,10 +281,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     public void setPackageGuid(String packageGuid) {
         this.packageGuid = packageGuid;
-    }
-
-    public void setAspnetCoreVersion(String aspnetCoreVersion) {
-        this.aspnetCoreVersion= aspnetCoreVersion;
     }
 
     @Override
@@ -388,7 +326,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
     }
-    
+
     @Override
     public String getNullableType(Schema p, String type) {
         boolean isNullableExpected = p.getNullable() == null || (p.getNullable() != null && p.getNullable());
@@ -400,5 +338,73 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         } else {
             return null;
         }
+    }
+
+    private void setCliOption(CliOption cliOption) throws IllegalArgumentException {
+        if (additionalProperties.containsKey(cliOption.getOpt())) {
+            cliOption.setOptValue(additionalProperties.get(cliOption.getOpt()).toString());
+            if (cliOption.getOptValue() == null) {
+                cliOption.setOptValue(cliOption.getDefault());
+                throw new IllegalArgumentException(cliOption.getOpt() + ": Invalid value '" + additionalProperties.get(cliOption.getOpt()).toString() + "'" +
+                        ". " + cliOption.getDescription());
+            }
+        } else {
+            additionalProperties.put(cliOption.getOpt(), cliOption.getOptValue());
+        }
+    }
+
+    private void setClassModifier() {
+        // CHeck for class modifier if not present set the default value.
+        setCliOption(classModifier);
+
+        // If class modifier is abstract then the methods need to be abstract too.
+        if ("abstract".equals(classModifier.getOptValue())) {
+            operationModifier.setOptValue(classModifier.getOptValue());
+            additionalProperties.put(OPERATION_MODIFIER, operationModifier.getOptValue());
+            LOGGER.warn("classModifier is " + classModifier.getOptValue() + " so forcing operatonModifier to " + operationModifier.getOptValue());
+        } else {
+            setCliOption(operationModifier);
+        }
+    }
+
+    private void setOperationModifier() {
+        setCliOption(operationModifier);
+
+        // If operation modifier is abstract then dont generate any body
+        if ("abstract".equals(operationModifier.getOptValue())) {
+            generateBody = false;
+            additionalProperties.put(GENERATE_BODY, generateBody);
+            LOGGER.warn("operationModifier is " + operationModifier.getOptValue() + " so forcing generateBody to " + generateBody);
+        } else if (additionalProperties.containsKey(GENERATE_BODY)) {
+            generateBody = convertPropertyToBooleanAndWriteBack(GENERATE_BODY);
+        } else {
+            additionalProperties.put(GENERATE_BODY, generateBody);
+        }
+    }
+
+    private boolean setBuildTarget() {
+        boolean isLibrary = false;
+        setCliOption(buildTarget);
+        if ("library".equals(buildTarget.getOptValue())) {
+            isLibrary = true;
+            projectSdk = SDK_LIB;
+            additionalProperties.put(CLASS_MODIFIER, "abstract");
+        }
+        return isLibrary;
+    }
+
+    private void setAspnetCoreVersion(String packageFolder) {
+        setCliOption(aspnetCoreVersion);
+        if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
+            embeddedTemplateDir = templateDir = "aspnetcore/2.0";
+            supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
+            LOGGER.info("ASP.NET core version: 2.0");
+            compatibilityVersion = null;
+        } else {
+            // default, do nothing
+            LOGGER.info("ASP.NET core version: " + aspnetCoreVersion.getOptValue());
+            compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
+        }
+        additionalProperties.put(COMPATIBILITY_VERSION, compatibilityVersion);
     }
 }
