@@ -2,7 +2,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
-import java.io.File;
+import java.io.InputStream;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
@@ -319,7 +319,7 @@ public class PetApi {
      * @return ModelApiResponse
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Mono<ModelApiResponse> uploadFile(Long petId, String additionalMetadata, File file) throws RestClientException {
+    public Mono<ModelApiResponse> uploadFile(Long petId, String additionalMetadata, InputStream file) throws RestClientException {
         Object postBody = null;
         
         // verify the required parameter 'petId' is set
@@ -365,7 +365,7 @@ public class PetApi {
      * @return ModelApiResponse
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Mono<ModelApiResponse> uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws RestClientException {
+    public Mono<ModelApiResponse> uploadFileWithRequiredFile(Long petId, InputStream requiredFile, String additionalMetadata) throws RestClientException {
         Object postBody = null;
         
         // verify the required parameter 'petId' is set

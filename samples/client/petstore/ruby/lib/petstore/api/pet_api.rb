@@ -391,7 +391,7 @@ module Petstore
     # @param pet_id ID of pet to update
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server
-    # @option opts [File] :file file to upload
+    # @option opts [String] :file file to upload
     # @return [ApiResponse]
     def upload_file(pet_id, opts = {})
       data, _status_code, _headers = upload_file_with_http_info(pet_id, opts)
@@ -402,7 +402,7 @@ module Petstore
     # @param pet_id ID of pet to update
     # @param [Hash] opts the optional parameters
     # @option opts [String] :additional_metadata Additional data to pass to server
-    # @option opts [File] :file file to upload
+    # @option opts [String] :file file to upload
     # @return [Array<(ApiResponse, Fixnum, Hash)>] ApiResponse data, response status code and response headers
     def upload_file_with_http_info(pet_id, opts = {})
       if @api_client.config.debugging

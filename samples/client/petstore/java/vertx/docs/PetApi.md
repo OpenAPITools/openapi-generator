@@ -406,7 +406,7 @@ petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet to update
 String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
-AsyncFile file = new AsyncFile(); // AsyncFile | file to upload
+InputStream file = new InputStream(); // InputStream | file to upload
 try {
     ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
     System.out.println(result);
@@ -422,7 +422,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
  **additionalMetadata** | **String**| Additional data to pass to server | [optional]
- **file** | **AsyncFile**| file to upload | [optional]
+ **file** | **InputStream**| file to upload | [optional]
 
 ### Return type
 
@@ -460,7 +460,7 @@ petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
 PetApi apiInstance = new PetApi();
 Long petId = 56L; // Long | ID of pet to update
-AsyncFile requiredFile = new AsyncFile(); // AsyncFile | file to upload
+InputStream requiredFile = new InputStream(); // InputStream | file to upload
 String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
 try {
     ModelApiResponse result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
@@ -476,7 +476,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
- **requiredFile** | **AsyncFile**| file to upload |
+ **requiredFile** | **InputStream**| file to upload |
  **additionalMetadata** | **String**| Additional data to pass to server | [optional]
 
 ### Return type

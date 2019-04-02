@@ -390,7 +390,7 @@ Name | Type | Description  | Notes
  **int64** | **Long**| None | [optional]
  **_float** | **Float**| None | [optional]
  **string** | **String**| None | [optional]
- **binary** | **File**| None | [optional]
+ **binary** | **InputStream**| None | [optional]
  **date** | **LocalDate**| None | [optional]
  **dateTime** | **OffsetDateTime**| None | [optional]
  **password** | **String**| None | [optional]

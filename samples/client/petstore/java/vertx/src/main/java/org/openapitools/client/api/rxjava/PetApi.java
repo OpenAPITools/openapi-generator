@@ -1,6 +1,6 @@
 package org.openapitools.client.api.rxjava;
 
-import io.vertx.core.file.AsyncFile;
+import java.io.InputStream;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
@@ -184,7 +184,7 @@ public class PetApi {
      * @param file file to upload (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void uploadFile(Long petId, String additionalMetadata, AsyncFile file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+    public void uploadFile(Long petId, String additionalMetadata, InputStream file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
         delegate.uploadFile(petId, additionalMetadata, file, resultHandler);
     }
 
@@ -196,7 +196,7 @@ public class PetApi {
      * @param file file to upload (optional)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<ModelApiResponse> rxUploadFile(Long petId, String additionalMetadata, AsyncFile file) {
+    public Single<ModelApiResponse> rxUploadFile(Long petId, String additionalMetadata, InputStream file) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
             delegate.uploadFile(petId, additionalMetadata, file, fut);
         }));
@@ -209,7 +209,7 @@ public class PetApi {
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void uploadFileWithRequiredFile(Long petId, AsyncFile requiredFile, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+    public void uploadFileWithRequiredFile(Long petId, InputStream requiredFile, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
         delegate.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, resultHandler);
     }
 
@@ -221,7 +221,7 @@ public class PetApi {
      * @param additionalMetadata Additional data to pass to server (optional)
      * @return Asynchronous result handler (RxJava Single)
      */
-    public Single<ModelApiResponse> rxUploadFileWithRequiredFile(Long petId, AsyncFile requiredFile, String additionalMetadata) {
+    public Single<ModelApiResponse> rxUploadFileWithRequiredFile(Long petId, InputStream requiredFile, String additionalMetadata) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut -> {
             delegate.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, fut);
         }));

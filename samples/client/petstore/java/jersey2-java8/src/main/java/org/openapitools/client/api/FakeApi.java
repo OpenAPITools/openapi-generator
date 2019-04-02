@@ -10,8 +10,8 @@ import javax.ws.rs.core.GenericType;
 
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
-import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -463,7 +463,7 @@ public class FakeApi {
    * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, InputStream binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
 
     testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
   }
@@ -487,7 +487,7 @@ public class FakeApi {
    * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, InputStream binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
     Object localVarPostBody = new Object();
     
     // verify the required parameter 'number' is set

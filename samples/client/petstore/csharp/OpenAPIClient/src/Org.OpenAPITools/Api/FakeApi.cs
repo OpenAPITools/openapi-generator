@@ -216,7 +216,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns></returns>
-        void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
+        void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -240,7 +240,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
+        ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -545,7 +545,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEndpointParametersAsync (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
+        System.Threading.Tasks.Task TestEndpointParametersAsync (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -569,7 +569,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null);
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -1980,7 +1980,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns></returns>
-        public void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+        public void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
         {
              TestEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
         }
@@ -2004,7 +2004,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+        public ApiResponse<Object> TestEndpointParametersWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
         {
             // verify the required parameter 'number' is set
             if (number == null)
@@ -2099,7 +2099,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEndpointParametersAsync (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+        public async System.Threading.Tasks.Task TestEndpointParametersAsync (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
         {
              await TestEndpointParametersAsyncWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
 
@@ -2124,7 +2124,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersAsyncWithHttpInfo (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, byte[] binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
         {
             // verify the required parameter 'number' is set
             if (number == null)

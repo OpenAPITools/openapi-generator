@@ -337,7 +337,7 @@ formatTestByteL f FormatTest{..} = (\formatTestByte -> FormatTest { formatTestBy
 {-# INLINE formatTestByteL #-}
 
 -- | 'formatTestBinary' Lens
-formatTestBinaryL :: Lens_' FormatTest (Maybe FilePath)
+formatTestBinaryL :: Lens_' FormatTest (Maybe Binary)
 formatTestBinaryL f FormatTest{..} = (\formatTestBinary -> FormatTest { formatTestBinary, ..} ) <$> f formatTestBinary
 {-# INLINE formatTestBinaryL #-}
 

@@ -16,8 +16,8 @@ package org.openapitools.client.api;
 import com.google.gson.reflect.TypeToken;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
-import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
+import java.io.InputStream;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -937,10 +937,10 @@ public class FakeApi {
          /**
          * It will assume that the control name is file and the &lt;content-type&gt; is &lt;application/octet-stream&gt;
          * @see #reqSpec for customise
-         * @param binary (File) None (optional)
+         * @param binary (InputStream) None (optional)
          * @return operation
          */
-         public TestEndpointParametersOper binaryMultiPart(File binary) {
+         public TestEndpointParametersOper binaryMultiPart(InputStream binary) {
             reqSpec.addMultiPart(binary);
             return this;
          }

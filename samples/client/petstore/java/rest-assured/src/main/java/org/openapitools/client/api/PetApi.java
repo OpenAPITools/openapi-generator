@@ -14,7 +14,7 @@
 package org.openapitools.client.api;
 
 import com.google.gson.reflect.TypeToken;
-import java.io.File;
+import java.io.InputStream;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
@@ -725,10 +725,10 @@ public class PetApi {
          /**
          * It will assume that the control name is file and the &lt;content-type&gt; is &lt;application/octet-stream&gt;
          * @see #reqSpec for customise
-         * @param file (File) file to upload (optional)
+         * @param file (InputStream) file to upload (optional)
          * @return operation
          */
-         public UploadFileOper fileMultiPart(File file) {
+         public UploadFileOper fileMultiPart(InputStream file) {
             reqSpec.addMultiPart(file);
             return this;
          }
@@ -822,10 +822,10 @@ public class PetApi {
          /**
          * It will assume that the control name is file and the &lt;content-type&gt; is &lt;application/octet-stream&gt;
          * @see #reqSpec for customise
-         * @param requiredFile (File) file to upload (required)
+         * @param requiredFile (InputStream) file to upload (required)
          * @return operation
          */
-         public UploadFileWithRequiredFileOper requiredFileMultiPart(File requiredFile) {
+         public UploadFileWithRequiredFileOper requiredFileMultiPart(InputStream requiredFile) {
             reqSpec.addMultiPart(requiredFile);
             return this;
          }

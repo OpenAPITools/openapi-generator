@@ -9,8 +9,8 @@ import io.swagger.jaxrs.*;
 
 import java.math.BigDecimal;
 import org.openapitools.model.Client;
-import java.io.File;
 import org.openapitools.model.FileSchemaTestClass;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;

@@ -352,7 +352,7 @@ uploads an image
 val apiInstance = PetApi()
 val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
 val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
-val file : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
+val file : kotlin.Array<kotlin.Byte> = BINARY_DATA_HERE // kotlin.Array<kotlin.Byte> | file to upload
 try {
     val result : ApiResponse = apiInstance.uploadFile(petId, additionalMetadata, file)
     println(result)
@@ -371,7 +371,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **kotlin.Long**| ID of pet to update | [default to null]
  **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] [default to null]
- **file** | **java.io.File**| file to upload | [optional] [default to null]
+ **file** | **kotlin.Array&lt;kotlin.Byte&gt;**| file to upload | [optional] [default to null]
 
 ### Return type
 

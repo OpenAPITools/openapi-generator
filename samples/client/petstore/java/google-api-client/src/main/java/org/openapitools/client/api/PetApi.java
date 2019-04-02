@@ -2,7 +2,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 
-import java.io.File;
+import java.io.InputStream;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
@@ -642,7 +642,7 @@ public class PetApi {
     * @return ModelApiResponse
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws IOException {
+    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, InputStream file) throws IOException {
         HttpResponse response = uploadFileForHttpResponse(petId, additionalMetadata, file);
         TypeReference typeRef = new TypeReference<ModelApiResponse>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -662,7 +662,7 @@ public class PetApi {
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse uploadFileForHttpResponse(Long petId, String additionalMetadata, File file) throws IOException {
+    public HttpResponse uploadFileForHttpResponse(Long petId, String additionalMetadata, InputStream file) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFile");
@@ -724,7 +724,7 @@ public class PetApi {
     * @return ModelApiResponse
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws IOException {
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId, InputStream requiredFile, String additionalMetadata) throws IOException {
         HttpResponse response = uploadFileWithRequiredFileForHttpResponse(petId, requiredFile, additionalMetadata);
         TypeReference typeRef = new TypeReference<ModelApiResponse>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
@@ -739,13 +739,13 @@ public class PetApi {
     * @return ModelApiResponse
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, Map<String, Object> params) throws IOException {
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId, InputStream requiredFile, Map<String, Object> params) throws IOException {
         HttpResponse response = uploadFileWithRequiredFileForHttpResponse(petId, requiredFile, params);
         TypeReference typeRef = new TypeReference<ModelApiResponse>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);
     }
 
-    public HttpResponse uploadFileWithRequiredFileForHttpResponse(Long petId, File requiredFile, String additionalMetadata) throws IOException {
+    public HttpResponse uploadFileWithRequiredFileForHttpResponse(Long petId, InputStream requiredFile, String additionalMetadata) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");
@@ -765,7 +765,7 @@ public class PetApi {
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.POST, genericUrl, content).execute();
     }
 
-    public HttpResponse uploadFileWithRequiredFileForHttpResponse(Long petId, File requiredFile, Map<String, Object> params) throws IOException {
+    public HttpResponse uploadFileWithRequiredFileForHttpResponse(Long petId, InputStream requiredFile, Map<String, Object> params) throws IOException {
         // verify the required parameter 'petId' is set
         if (petId == null) {
             throw new IllegalArgumentException("Missing the required parameter 'petId' when calling uploadFileWithRequiredFile");

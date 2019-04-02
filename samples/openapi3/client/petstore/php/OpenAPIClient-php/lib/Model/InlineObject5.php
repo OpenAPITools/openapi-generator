@@ -58,7 +58,7 @@ class InlineObject5 implements ModelInterface, ArrayAccess
       */
     protected static $openAPITypes = [
         'additional_metadata' => 'string',
-        'required_file' => '\SplFileObject'
+        'required_file' => 'string'
     ];
 
     /**
@@ -240,7 +240,7 @@ class InlineObject5 implements ModelInterface, ArrayAccess
     /**
      * Gets required_file
      *
-     * @return \SplFileObject
+     * @return string
      */
     public function getRequiredFile()
     {
@@ -250,7 +250,7 @@ class InlineObject5 implements ModelInterface, ArrayAccess
     /**
      * Sets required_file
      *
-     * @param \SplFileObject $required_file file to upload
+     * @param string $required_file file to upload
      *
      * @return $this
      */

@@ -40,7 +40,7 @@ class InlineObject3(object):
         'string': 'str',
         'pattern_without_delimiter': 'str',
         'byte': 'str',
-        'binary': 'file',
+        'binary': 'str',
         'date': 'date',
         'date_time': 'datetime',
         'password': 'str',
@@ -352,7 +352,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :return: The binary of this InlineObject3.  # noqa: E501
-        :rtype: file
+        :rtype: str
         """
         return self._binary
 
@@ -363,7 +363,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param binary: The binary of this InlineObject3.  # noqa: E501
-        :type: file
+        :type: str
         """
 
         self._binary = binary

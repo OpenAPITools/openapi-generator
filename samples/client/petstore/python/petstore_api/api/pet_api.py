@@ -717,7 +717,7 @@ class PetApi(object):
         :param async_req bool
         :param int pet_id: ID of pet to update (required)
         :param str additional_metadata: Additional data to pass to server
-        :param file file: file to upload
+        :param str file: file to upload
         :return: ApiResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -740,7 +740,7 @@ class PetApi(object):
         :param async_req bool
         :param int pet_id: ID of pet to update (required)
         :param str additional_metadata: Additional data to pass to server
-        :param file file: file to upload
+        :param str file: file to upload
         :return: ApiResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -822,7 +822,7 @@ class PetApi(object):
 
         :param async_req bool
         :param int pet_id: ID of pet to update (required)
-        :param file required_file: file to upload (required)
+        :param str required_file: file to upload (required)
         :param str additional_metadata: Additional data to pass to server
         :return: ApiResponse
                  If the method is called asynchronously,
@@ -845,7 +845,7 @@ class PetApi(object):
 
         :param async_req bool
         :param int pet_id: ID of pet to update (required)
-        :param file required_file: file to upload (required)
+        :param str required_file: file to upload (required)
         :param str additional_metadata: Additional data to pass to server
         :return: ApiResponse
                  If the method is called asynchronously,

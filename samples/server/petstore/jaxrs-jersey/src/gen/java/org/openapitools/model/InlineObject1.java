@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.File;
+import java.io.InputStream;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -31,7 +31,7 @@ public class InlineObject1   {
   private String additionalMetadata;
 
   @JsonProperty("file")
-  private File file;
+  private InputStream file;
 
   public InlineObject1 additionalMetadata(String additionalMetadata) {
     this.additionalMetadata = additionalMetadata;
@@ -53,7 +53,7 @@ public class InlineObject1   {
     this.additionalMetadata = additionalMetadata;
   }
 
-  public InlineObject1 file(File file) {
+  public InlineObject1 file(InputStream file) {
     this.file = file;
     return this;
   }
@@ -65,11 +65,11 @@ public class InlineObject1   {
   @JsonProperty("file")
   @ApiModelProperty(value = "file to upload")
   
-  public File getFile() {
+  public InputStream getFile() {
     return file;
   }
 
-  public void setFile(File file) {
+  public void setFile(InputStream file) {
     this.file = file;
   }
 

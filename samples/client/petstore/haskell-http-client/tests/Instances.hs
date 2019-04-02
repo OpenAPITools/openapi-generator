@@ -202,7 +202,7 @@ instance Arbitrary FormatTest where
       <*> arbitrary -- formatTestDouble :: Maybe Double
       <*> arbitrary -- formatTestString :: Maybe Text
       <*> arbitrary -- formatTestByte :: ByteArray
-      <*> arbitrary -- formatTestBinary :: Maybe FilePath
+      <*> arbitrary -- formatTestBinary :: Maybe Binary
       <*> arbitrary -- formatTestDate :: Date
       <*> arbitrary -- formatTestDateTime :: Maybe DateTime
       <*> arbitrary -- formatTestUuid :: Maybe Text

@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **Double** | **double?** |  | [optional] 
 **String** | **string** |  | [optional] 
 **Byte** | **byte[]** |  | 
-**Binary** | **System.IO.Stream** |  | [optional] 
+**Binary** | **byte[]** |  | [optional] 
 **Date** | **DateTime?** |  | 
 **DateTime** | **DateTime?** |  | [optional] 
 **Uuid** | **Guid?** |  | [optional] 

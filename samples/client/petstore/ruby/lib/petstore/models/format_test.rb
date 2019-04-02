@@ -70,7 +70,7 @@ module Petstore
         :'double' => :'Float',
         :'string' => :'String',
         :'byte' => :'String',
-        :'binary' => :'File',
+        :'binary' => :'String',
         :'date' => :'Date',
         :'date_time' => :'DateTime',
         :'uuid' => :'String',

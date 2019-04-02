@@ -1,6 +1,6 @@
 package org.openapitools.client.api;
 
-import io.vertx.core.file.AsyncFile;
+import java.io.InputStream;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import io.vertx.core.AsyncResult;
@@ -25,8 +25,8 @@ public interface PetApi {
 
     void updatePetWithForm(Long petId, String name, String status, Handler<AsyncResult<Void>> handler);
 
-    void uploadFile(Long petId, String additionalMetadata, AsyncFile file, Handler<AsyncResult<ModelApiResponse>> handler);
+    void uploadFile(Long petId, String additionalMetadata, InputStream file, Handler<AsyncResult<ModelApiResponse>> handler);
 
-    void uploadFileWithRequiredFile(Long petId, AsyncFile requiredFile, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> handler);
+    void uploadFileWithRequiredFile(Long petId, InputStream requiredFile, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> handler);
 
 }

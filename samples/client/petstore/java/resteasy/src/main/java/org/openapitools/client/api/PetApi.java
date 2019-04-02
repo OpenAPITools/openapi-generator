@@ -7,7 +7,7 @@ import org.openapitools.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
-import java.io.File;
+import java.io.InputStream;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
@@ -344,7 +344,7 @@ if (status != null)
    * @return a {@code ModelApiResponse}
    * @throws ApiException if fails to make API call
    */
-  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
+  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, InputStream file) throws ApiException {
     Object localVarPostBody = new Object();
     
     // verify the required parameter 'petId' is set
@@ -392,7 +392,7 @@ if (file != null)
    * @return a {@code ModelApiResponse}
    * @throws ApiException if fails to make API call
    */
-  public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
+  public ModelApiResponse uploadFileWithRequiredFile(Long petId, InputStream requiredFile, String additionalMetadata) throws ApiException {
     Object localVarPostBody = new Object();
     
     // verify the required parameter 'petId' is set

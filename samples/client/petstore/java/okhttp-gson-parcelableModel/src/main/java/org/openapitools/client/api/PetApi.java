@@ -27,7 +27,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
-import java.io.File;
+import java.io.InputStream;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
@@ -941,7 +941,7 @@ public class PetApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call uploadFileCall(Long petId, String additionalMetadata, File file, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
+    public okhttp3.Call uploadFileCall(Long petId, String additionalMetadata, InputStream file, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -991,7 +991,7 @@ public class PetApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call uploadFileValidateBeforeCall(Long petId, String additionalMetadata, File file, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
+    private okhttp3.Call uploadFileValidateBeforeCall(Long petId, String additionalMetadata, InputStream file, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -1013,7 +1013,7 @@ public class PetApi {
      * @return ModelApiResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
+    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, InputStream file) throws ApiException {
         ApiResponse<ModelApiResponse> localVarResp = uploadFileWithHttpInfo(petId, additionalMetadata, file);
         return localVarResp.getData();
     }
@@ -1027,7 +1027,7 @@ public class PetApi {
      * @return ApiResponse&lt;ModelApiResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
+    public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, InputStream file) throws ApiException {
         okhttp3.Call localVarCall = uploadFileValidateBeforeCall(petId, additionalMetadata, file, null, null);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1043,7 +1043,7 @@ public class PetApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call uploadFileAsync(Long petId, String additionalMetadata, File file, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
+    public okhttp3.Call uploadFileAsync(Long petId, String additionalMetadata, InputStream file, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener _progressListener = null;
         ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;
@@ -1079,7 +1079,7 @@ public class PetApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call uploadFileWithRequiredFileCall(Long petId, File requiredFile, String additionalMetadata, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
+    public okhttp3.Call uploadFileWithRequiredFileCall(Long petId, InputStream requiredFile, String additionalMetadata, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -1129,7 +1129,7 @@ public class PetApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call uploadFileWithRequiredFileValidateBeforeCall(Long petId, File requiredFile, String additionalMetadata, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
+    private okhttp3.Call uploadFileWithRequiredFileValidateBeforeCall(Long petId, InputStream requiredFile, String additionalMetadata, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'petId' is set
         if (petId == null) {
@@ -1156,7 +1156,7 @@ public class PetApi {
      * @return ModelApiResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
+    public ModelApiResponse uploadFileWithRequiredFile(Long petId, InputStream requiredFile, String additionalMetadata) throws ApiException {
         ApiResponse<ModelApiResponse> localVarResp = uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
         return localVarResp.getData();
     }
@@ -1170,7 +1170,7 @@ public class PetApi {
      * @return ApiResponse&lt;ModelApiResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
+    public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, InputStream requiredFile, String additionalMetadata) throws ApiException {
         okhttp3.Call localVarCall = uploadFileWithRequiredFileValidateBeforeCall(petId, requiredFile, additionalMetadata, null, null);
         Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
@@ -1186,7 +1186,7 @@ public class PetApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call uploadFileWithRequiredFileAsync(Long petId, File requiredFile, String additionalMetadata, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
+    public okhttp3.Call uploadFileWithRequiredFileAsync(Long petId, InputStream requiredFile, String additionalMetadata, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener _progressListener = null;
         ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;

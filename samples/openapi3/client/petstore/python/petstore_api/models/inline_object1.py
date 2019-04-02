@@ -32,7 +32,7 @@ class InlineObject1(object):
     """
     openapi_types = {
         'additional_metadata': 'str',
-        'file': 'file'
+        'file': 'str'
     }
 
     attribute_map = {
@@ -82,7 +82,7 @@ class InlineObject1(object):
         file to upload  # noqa: E501
 
         :return: The file of this InlineObject1.  # noqa: E501
-        :rtype: file
+        :rtype: str
         """
         return self._file
 
@@ -93,7 +93,7 @@ class InlineObject1(object):
         file to upload  # noqa: E501
 
         :param file: The file of this InlineObject1.  # noqa: E501
-        :type: file
+        :type: str
         """
 
         self._file = file

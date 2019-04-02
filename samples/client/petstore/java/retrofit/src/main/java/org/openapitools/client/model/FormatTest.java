@@ -22,8 +22,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.UUID;
 import org.joda.time.DateTime;
@@ -68,7 +68,7 @@ public class FormatTest {
 
   public static final String SERIALIZED_NAME_BINARY = "binary";
   @SerializedName(SERIALIZED_NAME_BINARY)
-  private File binary;
+  private InputStream binary;
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
@@ -240,7 +240,7 @@ public class FormatTest {
     this._byte = _byte;
   }
 
-  public FormatTest binary(File binary) {
+  public FormatTest binary(InputStream binary) {
     this.binary = binary;
     return this;
   }
@@ -250,11 +250,11 @@ public class FormatTest {
    * @return binary
   **/
   @ApiModelProperty(value = "")
-  public File getBinary() {
+  public InputStream getBinary() {
     return binary;
   }
 
-  public void setBinary(File binary) {
+  public void setBinary(InputStream binary) {
     this.binary = binary;
   }
 

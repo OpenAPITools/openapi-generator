@@ -449,7 +449,7 @@ $int32 = 56; // int | None
 $int64 = 56; // int | None
 $float = 3.4; // float | None
 $string = 'string_example'; // string | None
-$binary = "/path/to/file.txt"; // \SplFileObject | None
+$binary = 'binary_example'; // string | None
 $date = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
 $date_time = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
 $password = 'password_example'; // string | None
@@ -476,7 +476,7 @@ Name | Type | Description  | Notes
  **int64** | **int**| None | [optional]
  **float** | **float**| None | [optional]
  **string** | **string**| None | [optional]
- **binary** | **\SplFileObject****\SplFileObject**| None | [optional]
+ **binary** | **string****string**| None | [optional]
  **date** | **\DateTime**| None | [optional]
  **date_time** | **\DateTime**| None | [optional]
  **password** | **string**| None | [optional]

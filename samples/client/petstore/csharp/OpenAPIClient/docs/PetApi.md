@@ -461,7 +461,7 @@ void (empty response body)
 
 <a name="uploadfile"></a>
 # **UploadFile**
-> ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
+> ApiResponse UploadFile (long? petId, string additionalMetadata = null, byte[] file = null)
 
 uploads an image
 
@@ -485,7 +485,7 @@ namespace Example
             var apiInstance = new PetApi();
             var petId = 789;  // long? | ID of pet to update
             var additionalMetadata = additionalMetadata_example;  // string | Additional data to pass to server (optional) 
-            var file = BINARY_DATA_HERE;  // System.IO.Stream | file to upload (optional) 
+            var file = BINARY_DATA_HERE;  // byte[] | file to upload (optional) 
 
             try
             {
@@ -508,7 +508,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **long?**| ID of pet to update | 
  **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
- **file** | **System.IO.Stream**| file to upload | [optional] 
+ **file** | **byte[]**| file to upload | [optional] 
 
 ### Return type
 
@@ -527,7 +527,7 @@ Name | Type | Description  | Notes
 
 <a name="uploadfilewithrequiredfile"></a>
 # **UploadFileWithRequiredFile**
-> ApiResponse UploadFileWithRequiredFile (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+> ApiResponse UploadFileWithRequiredFile (long? petId, byte[] requiredFile, string additionalMetadata = null)
 
 uploads an image (required)
 
@@ -550,7 +550,7 @@ namespace Example
 
             var apiInstance = new PetApi();
             var petId = 789;  // long? | ID of pet to update
-            var requiredFile = BINARY_DATA_HERE;  // System.IO.Stream | file to upload
+            var requiredFile = BINARY_DATA_HERE;  // byte[] | file to upload
             var additionalMetadata = additionalMetadata_example;  // string | Additional data to pass to server (optional) 
 
             try
@@ -573,7 +573,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **long?**| ID of pet to update | 
- **requiredFile** | **System.IO.Stream**| file to upload | 
+ **requiredFile** | **byte[]**| file to upload | 
  **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
 
 ### Return type

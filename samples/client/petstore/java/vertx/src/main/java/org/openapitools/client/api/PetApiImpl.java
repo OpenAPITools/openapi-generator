@@ -1,6 +1,6 @@
 package org.openapitools.client.api;
 
-import io.vertx.core.file.AsyncFile;
+import java.io.InputStream;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
@@ -294,7 +294,7 @@ if (status != null) localVarFormParams.put("status", status);
      * @param file file to upload (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void uploadFile(Long petId, String additionalMetadata, AsyncFile file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+    public void uploadFile(Long petId, String additionalMetadata, InputStream file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'petId' is set
@@ -332,7 +332,7 @@ if (file != null) localVarFormParams.put("file", file);
      * @param additionalMetadata Additional data to pass to server (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void uploadFileWithRequiredFile(Long petId, AsyncFile requiredFile, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+    public void uploadFileWithRequiredFile(Long petId, InputStream requiredFile, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'petId' is set

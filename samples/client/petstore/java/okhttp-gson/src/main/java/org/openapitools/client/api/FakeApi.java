@@ -29,8 +29,8 @@ import java.io.IOException;
 
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
-import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
+import java.io.InputStream;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -1032,7 +1032,7 @@ public class FakeApi {
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public okhttp3.Call testEndpointParametersCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
+    public okhttp3.Call testEndpointParametersCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, InputStream binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         Object localVarPostBody = new Object();
 
         // create path and map variables
@@ -1129,7 +1129,7 @@ public class FakeApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testEndpointParametersValidateBeforeCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
+    private okhttp3.Call testEndpointParametersValidateBeforeCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, InputStream binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ProgressResponseBody.ProgressListener _progressListener, final ProgressRequestBody.ProgressRequestListener _progressRequestListener) throws ApiException {
         
         // verify the required parameter 'number' is set
         if (number == null) {
@@ -1176,7 +1176,7 @@ public class FakeApi {
      * @param paramCallback None (optional)
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, InputStream binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
         testEndpointParametersWithHttpInfo(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
 
@@ -1200,7 +1200,7 @@ public class FakeApi {
      * @return ApiResponse&lt;Void&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+    public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, InputStream binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
         okhttp3.Call localVarCall = testEndpointParametersValidateBeforeCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, null, null);
         return localVarApiClient.execute(localVarCall);
     }
@@ -1226,7 +1226,7 @@ public class FakeApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public okhttp3.Call testEndpointParametersAsync(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback<Void> _callback) throws ApiException {
+    public okhttp3.Call testEndpointParametersAsync(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, InputStream binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback<Void> _callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener _progressListener = null;
         ProgressRequestBody.ProgressRequestListener _progressRequestListener = null;

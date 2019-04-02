@@ -67,7 +67,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**swagger::ByteArray**](file.md)
+[**swagger::ByteArray**](binary.md)
 
 ### Authorization
 

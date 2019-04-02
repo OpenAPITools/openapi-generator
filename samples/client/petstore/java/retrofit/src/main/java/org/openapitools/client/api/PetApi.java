@@ -6,7 +6,7 @@ import retrofit.Callback;
 import retrofit.http.*;
 import retrofit.mime.*;
 
-import java.io.File;
+import java.io.InputStream;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 

@@ -22,8 +22,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.UUID;
 import org.threeten.bp.LocalDate;
@@ -70,7 +70,7 @@ public class FormatTest implements Parcelable {
 
   public static final String SERIALIZED_NAME_BINARY = "binary";
   @SerializedName(SERIALIZED_NAME_BINARY)
-  private File binary;
+  private InputStream binary;
 
   public static final String SERIALIZED_NAME_DATE = "date";
   @SerializedName(SERIALIZED_NAME_DATE)
@@ -244,7 +244,7 @@ public class FormatTest implements Parcelable {
     this._byte = _byte;
   }
 
-  public FormatTest binary(File binary) {
+  public FormatTest binary(InputStream binary) {
     this.binary = binary;
     return this;
   }
@@ -254,11 +254,11 @@ public class FormatTest implements Parcelable {
    * @return binary
   **/
   @ApiModelProperty(value = "")
-  public File getBinary() {
+  public InputStream getBinary() {
     return binary;
   }
 
-  public void setBinary(File binary) {
+  public void setBinary(InputStream binary) {
     this.binary = binary;
   }
 
@@ -423,7 +423,7 @@ public class FormatTest implements Parcelable {
     _double = (Double)in.readValue(null);
     string = (String)in.readValue(null);
     _byte = (byte[])in.readValue(null);
-    binary = (File)in.readValue(File.class.getClassLoader());
+    binary = (InputStream)in.readValue(InputStream.class.getClassLoader());
     date = (LocalDate)in.readValue(LocalDate.class.getClassLoader());
     dateTime = (OffsetDateTime)in.readValue(OffsetDateTime.class.getClassLoader());
     uuid = (UUID)in.readValue(UUID.class.getClassLoader());

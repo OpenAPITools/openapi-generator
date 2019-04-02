@@ -4,8 +4,8 @@ import org.openapitools.client.ApiClient;
 
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
-import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
+import java.io.InputStream;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -334,7 +334,7 @@ public class FakeApi {
      * @param paramCallback None
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, InputStream binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
         Object postBody = null;
         
         // verify the required parameter 'number' is set

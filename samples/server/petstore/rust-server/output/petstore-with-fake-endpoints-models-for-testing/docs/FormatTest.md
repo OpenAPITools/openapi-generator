@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **double** | **f64** |  | [optional] [default to None]
 **string** | **String** |  | [optional] [default to None]
 **byte** | [***swagger::ByteArray**](ByteArray.md) |  | 
-**binary** | [***swagger::ByteArray**](file.md) |  | [optional] [default to None]
+**binary** | [***swagger::ByteArray**](binary.md) |  | [optional] [default to None]
 **date** | [***chrono::DateTime<chrono::Utc>**](date.md) |  | 
 **date_time** | [**chrono::DateTime<chrono::Utc>**](DateTime.md) |  | [optional] [default to None]
 **uuid** | [***uuid::Uuid**](UUID.md) |  | [optional] [default to None]

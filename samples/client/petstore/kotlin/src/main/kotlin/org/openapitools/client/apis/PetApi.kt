@@ -250,7 +250,7 @@ class PetApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiCli
     * @return ApiResponse
     */
     @Suppress("UNCHECKED_CAST")
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String, file: java.io.File) : ApiResponse {
+    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String, file: kotlin.Array<kotlin.Byte>) : ApiResponse {
         val localVariableBody: kotlin.Any? = mapOf("additionalMetadata" to "$additionalMetadata", "file" to "$file")
         val localVariableQuery: MultiValueMap = mapOf()
         val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf("Content-Type" to "multipart/form-data")

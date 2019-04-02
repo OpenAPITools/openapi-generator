@@ -12,8 +12,8 @@ import okhttp3.MultipartBody;
 
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
-import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
+import java.io.InputStream;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;

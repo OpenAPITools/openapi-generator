@@ -1878,7 +1878,7 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  \SplFileObject $file file to upload (optional)
+     * @param  string $file file to upload (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1897,7 +1897,7 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  \SplFileObject $file file to upload (optional)
+     * @param  string $file file to upload (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1987,7 +1987,7 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  \SplFileObject $file file to upload (optional)
+     * @param  string $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -2009,7 +2009,7 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  \SplFileObject $file file to upload (optional)
+     * @param  string $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -2058,7 +2058,7 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  \SplFileObject $file file to upload (optional)
+     * @param  string $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -2172,7 +2172,7 @@ class PetApi
      * uploads an image (required)
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  \SplFileObject $required_file file to upload (required)
+     * @param  string $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
@@ -2191,7 +2191,7 @@ class PetApi
      * uploads an image (required)
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  \SplFileObject $required_file file to upload (required)
+     * @param  string $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
@@ -2281,7 +2281,7 @@ class PetApi
      * uploads an image (required)
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  \SplFileObject $required_file file to upload (required)
+     * @param  string $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
      * @throws \InvalidArgumentException
@@ -2303,7 +2303,7 @@ class PetApi
      * uploads an image (required)
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  \SplFileObject $required_file file to upload (required)
+     * @param  string $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
      * @throws \InvalidArgumentException
@@ -2352,7 +2352,7 @@ class PetApi
      * Create request for operation 'uploadFileWithRequiredFile'
      *
      * @param  int $pet_id ID of pet to update (required)
-     * @param  \SplFileObject $required_file file to upload (required)
+     * @param  string $required_file file to upload (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
      *
      * @throws \InvalidArgumentException

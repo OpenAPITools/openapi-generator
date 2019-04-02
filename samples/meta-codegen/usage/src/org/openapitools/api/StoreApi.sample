@@ -16,7 +16,7 @@ classname: StoreApi
 operationId: deleteOrder
 
 # and parameters:
-orderId: String
+orderId: string
 
 
 # each operation has an `operationId`:
@@ -29,7 +29,7 @@ operationId: getInventory
 operationId: getOrderById
 
 # and parameters:
-orderId: String
+orderId: string
 
 
 # each operation has an `operationId`:

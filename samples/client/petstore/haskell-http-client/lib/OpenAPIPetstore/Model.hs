@@ -118,7 +118,7 @@ newtype EnumQueryString = EnumQueryString { unEnumQueryString :: E'EnumFormStrin
 newtype EnumQueryStringArray = EnumQueryStringArray { unEnumQueryStringArray :: [E'EnumFormStringArray] } deriving (P.Eq, P.Show)
 
 -- ** File2
-newtype File2 = File2 { unFile2 :: FilePath } deriving (P.Eq, P.Show)
+newtype File2 = File2 { unFile2 :: Binary } deriving (P.Eq, P.Show)
 
 -- ** Int32
 newtype Int32 = Int32 { unInt32 :: Int } deriving (P.Eq, P.Show)
@@ -148,7 +148,7 @@ newtype Param = Param { unParam :: Text } deriving (P.Eq, P.Show)
 newtype Param2 = Param2 { unParam2 :: Text } deriving (P.Eq, P.Show)
 
 -- ** ParamBinary
-newtype ParamBinary = ParamBinary { unParamBinary :: FilePath } deriving (P.Eq, P.Show)
+newtype ParamBinary = ParamBinary { unParamBinary :: Binary } deriving (P.Eq, P.Show)
 
 -- ** ParamDate
 newtype ParamDate = ParamDate { unParamDate :: Date } deriving (P.Eq, P.Show)
@@ -187,7 +187,7 @@ newtype Query = Query { unQuery :: Text } deriving (P.Eq, P.Show)
 newtype RequiredBooleanGroup = RequiredBooleanGroup { unRequiredBooleanGroup :: Bool } deriving (P.Eq, P.Show)
 
 -- ** RequiredFile
-newtype RequiredFile = RequiredFile { unRequiredFile :: FilePath } deriving (P.Eq, P.Show)
+newtype RequiredFile = RequiredFile { unRequiredFile :: Binary } deriving (P.Eq, P.Show)
 
 -- ** RequiredInt64Group
 newtype RequiredInt64Group = RequiredInt64Group { unRequiredInt64Group :: Integer } deriving (P.Eq, P.Show)
@@ -767,7 +767,7 @@ data FormatTest = FormatTest
   , formatTestDouble :: !(Maybe Double) -- ^ "double"
   , formatTestString :: !(Maybe Text) -- ^ "string"
   , formatTestByte :: !(ByteArray) -- ^ /Required/ "byte"
-  , formatTestBinary :: !(Maybe FilePath) -- ^ "binary"
+  , formatTestBinary :: !(Maybe Binary) -- ^ "binary"
   , formatTestDate :: !(Date) -- ^ /Required/ "date"
   , formatTestDateTime :: !(Maybe DateTime) -- ^ "dateTime"
   , formatTestUuid :: !(Maybe Text) -- ^ "uuid"

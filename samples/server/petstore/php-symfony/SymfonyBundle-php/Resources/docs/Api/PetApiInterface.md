@@ -485,7 +485,7 @@ class PetApi implements PetApiInterface
     /**
      * Implementation of PetApiInterface#uploadFile
      */
-    public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null)
+    public function uploadFile($petId, $additionalMetadata = null, $file = null)
     {
         // Implement the operation ...
     }
@@ -500,7 +500,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **int**| ID of pet to update |
  **additionalMetadata** | **string**| Additional data to pass to server | [optional]
- **file** | **UploadedFile****UploadedFile**| file to upload | [optional]
+ **file** | **string****string**| file to upload | [optional]
 
 ### Return type
 

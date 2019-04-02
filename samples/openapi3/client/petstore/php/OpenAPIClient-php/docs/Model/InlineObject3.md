@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **string** | **string** | None | [optional] 
 **pattern_without_delimiter** | **string** | None | 
 **byte** | **string** | None | 
-**binary** | [**\SplFileObject**](\SplFileObject.md) | None | [optional] 
+**binary** | **string** | None | [optional] 
 **date** | [**\DateTime**](\DateTime.md) | None | [optional] 
 **date_time** | [**\DateTime**](\DateTime.md) | None | [optional] 
 **password** | **string** | None | [optional] 

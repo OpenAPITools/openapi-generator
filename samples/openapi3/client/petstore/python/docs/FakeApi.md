@@ -429,7 +429,7 @@ int32 = 56 # int | None (optional)
 int64 = 56 # int | None (optional)
 float = 3.4 # float | None (optional)
 string = 'string_example' # str | None (optional)
-binary = '/path/to/file' # file | None (optional)
+binary = 'binary_example' # str | None (optional)
 date = '2013-10-20' # date | None (optional)
 date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
 password = 'password_example' # str | None (optional)
@@ -455,7 +455,7 @@ Name | Type | Description  | Notes
  **int64** | **int**| None | [optional] 
  **float** | **float**| None | [optional] 
  **string** | **str**| None | [optional] 
- **binary** | **file**| None | [optional] 
+ **binary** | **str**| None | [optional] 
  **date** | **date**| None | [optional] 
  **date_time** | **datetime**| None | [optional] 
  **password** | **str**| None | [optional] 

@@ -71,9 +71,8 @@ class FormatTest
     public $byte;
     /**
      * @DTA\Data(field="binary", nullable=true)
-     * @DTA\Strategy(name="Object", options={"type":\SplFileObject::class})
-     * @DTA\Validator(name="Dictionary", options={"type":\SplFileObject::class})
-     * @var \SplFileObject
+     * @DTA\Validator(name="Type", options={"type":"string"})
+     * @var string
      */
     public $binary;
     /**

@@ -5,9 +5,9 @@
  */
 package org.openapitools.api;
 
+import java.io.InputStream;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
-import org.springframework.core.io.Resource;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

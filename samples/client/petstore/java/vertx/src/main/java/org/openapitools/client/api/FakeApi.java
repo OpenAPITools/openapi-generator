@@ -1,9 +1,9 @@
 package org.openapitools.client.api;
 
-import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
+import java.io.InputStream;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -33,7 +33,7 @@ public interface FakeApi {
 
     void testClientModel(Client body, Handler<AsyncResult<Client>> handler);
 
-    void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> handler);
+    void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, InputStream binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> handler);
 
     void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, Handler<AsyncResult<Void>> handler);
 

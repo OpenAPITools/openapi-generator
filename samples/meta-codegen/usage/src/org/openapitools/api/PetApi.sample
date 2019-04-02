@@ -23,29 +23,29 @@ body: Pet
 operationId: deletePet
 
 # and parameters:
-petId: Long
-apiKey: String
+petId: long
+apiKey: string
 
 
 # each operation has an `operationId`:
 operationId: findPetsByStatus
 
 # and parameters:
-status: List
+status: array
 
 
 # each operation has an `operationId`:
 operationId: findPetsByTags
 
 # and parameters:
-tags: List
+tags: array
 
 
 # each operation has an `operationId`:
 operationId: getPetById
 
 # and parameters:
-petId: Long
+petId: long
 
 
 # each operation has an `operationId`:
@@ -59,18 +59,18 @@ body: Pet
 operationId: updatePetWithForm
 
 # and parameters:
-petId: String
-name: String
-status: String
+petId: string
+name: string
+status: string
 
 
 # each operation has an `operationId`:
 operationId: uploadFile
 
 # and parameters:
-petId: Long
-additionalMetadata: String
-file: File
+petId: long
+additionalMetadata: string
+file: binary
 
 
 # end of operations block

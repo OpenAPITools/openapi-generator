@@ -411,7 +411,7 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
 );
 $pet_id = 56; // int | ID of pet to update
 $additional_metadata = 'additional_metadata_example'; // string | Additional data to pass to server
-$file = "/path/to/file.txt"; // \SplFileObject | file to upload
+$file = 'file_example'; // string | file to upload
 
 try {
     $result = $apiInstance->uploadFile($pet_id, $additional_metadata, $file);
@@ -428,7 +428,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update |
  **additional_metadata** | **string**| Additional data to pass to server | [optional]
- **file** | **\SplFileObject****\SplFileObject**| file to upload | [optional]
+ **file** | **string****string**| file to upload | [optional]
 
 ### Return type
 
@@ -466,7 +466,7 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     $config
 );
 $pet_id = 56; // int | ID of pet to update
-$required_file = "/path/to/file.txt"; // \SplFileObject | file to upload
+$required_file = 'required_file_example'; // string | file to upload
 $additional_metadata = 'additional_metadata_example'; // string | Additional data to pass to server
 
 try {
@@ -483,7 +483,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update |
- **required_file** | **\SplFileObject****\SplFileObject**| file to upload |
+ **required_file** | **string****string**| file to upload |
  **additional_metadata** | **string**| Additional data to pass to server | [optional]
 
 ### Return type

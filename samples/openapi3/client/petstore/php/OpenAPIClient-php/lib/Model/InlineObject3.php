@@ -66,7 +66,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
         'string' => 'string',
         'pattern_without_delimiter' => 'string',
         'byte' => 'string',
-        'binary' => '\SplFileObject',
+        'binary' => 'string',
         'date' => '\DateTime',
         'date_time' => '\DateTime',
         'password' => 'string',
@@ -612,7 +612,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
     /**
      * Gets binary
      *
-     * @return \SplFileObject|null
+     * @return string|null
      */
     public function getBinary()
     {
@@ -622,7 +622,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
     /**
      * Sets binary
      *
-     * @param \SplFileObject|null $binary None
+     * @param string|null $binary None
      *
      * @return $this
      */

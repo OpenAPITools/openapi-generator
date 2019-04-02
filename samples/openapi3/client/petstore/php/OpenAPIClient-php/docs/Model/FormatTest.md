@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **double** | **double** |  | [optional] 
 **string** | **string** |  | [optional] 
 **byte** | **string** |  | 
-**binary** | [**\SplFileObject**](\SplFileObject.md) |  | [optional] 
+**binary** | **string** |  | [optional] 
 **date** | [**\DateTime**](\DateTime.md) |  | 
 **date_time** | [**\DateTime**](\DateTime.md) |  | [optional] 
 **uuid** | **string** |  | [optional] 

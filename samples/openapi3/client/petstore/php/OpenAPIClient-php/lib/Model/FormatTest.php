@@ -65,7 +65,7 @@ class FormatTest implements ModelInterface, ArrayAccess
         'double' => 'double',
         'string' => 'string',
         'byte' => 'string',
-        'binary' => '\SplFileObject',
+        'binary' => 'string',
         'date' => '\DateTime',
         'date_time' => '\DateTime',
         'uuid' => 'string',
@@ -600,7 +600,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Gets binary
      *
-     * @return \SplFileObject|null
+     * @return string|null
      */
     public function getBinary()
     {
@@ -610,7 +610,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets binary
      *
-     * @param \SplFileObject|null $binary binary
+     * @param string|null $binary binary
      *
      * @return $this
      */

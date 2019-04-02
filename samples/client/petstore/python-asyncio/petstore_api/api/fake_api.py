@@ -813,7 +813,7 @@ class FakeApi(object):
         :param int int64: None
         :param float float: None
         :param str string: None
-        :param file binary: None
+        :param str binary: None
         :param date date: None
         :param datetime date_time: None
         :param str password: None
@@ -848,7 +848,7 @@ class FakeApi(object):
         :param int int64: None
         :param float float: None
         :param str string: None
-        :param file binary: None
+        :param str binary: None
         :param date date: None
         :param datetime date_time: None
         :param str password: None

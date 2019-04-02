@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
-import org.springframework.core.io.Resource;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -44,7 +44,7 @@ public class FormatTest   {
   private byte[] _byte;
 
   @JsonProperty("binary")
-  private Resource binary;
+  private InputStream binary;
 
   @JsonProperty("date")
   private LocalDate date;
@@ -231,7 +231,7 @@ public class FormatTest   {
     this._byte = _byte;
   }
 
-  public FormatTest binary(Resource binary) {
+  public FormatTest binary(InputStream binary) {
     this.binary = binary;
     return this;
   }
@@ -244,11 +244,11 @@ public class FormatTest   {
 
   @Valid
 
-  public Resource getBinary() {
+  public InputStream getBinary() {
     return binary;
   }
 
-  public void setBinary(Resource binary) {
+  public void setBinary(InputStream binary) {
     this.binary = binary;
   }
 

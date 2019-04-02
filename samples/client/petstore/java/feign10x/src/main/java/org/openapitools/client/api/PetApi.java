@@ -3,7 +3,7 @@ package org.openapitools.client.api;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.EncodingUtils;
 
-import java.io.File;
+import java.io.InputStream;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
@@ -181,7 +181,7 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: multipart/form-data",
     "Accept: application/json",
   })
-  ModelApiResponse uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") File file);
+  ModelApiResponse uploadFile(@Param("petId") Long petId, @Param("additionalMetadata") String additionalMetadata, @Param("file") InputStream file);
 
   /**
    * uploads an image (required)
@@ -196,5 +196,5 @@ public interface PetApi extends ApiClient.Api {
     "Content-Type: multipart/form-data",
     "Accept: application/json",
   })
-  ModelApiResponse uploadFileWithRequiredFile(@Param("petId") Long petId, @Param("requiredFile") File requiredFile, @Param("additionalMetadata") String additionalMetadata);
+  ModelApiResponse uploadFileWithRequiredFile(@Param("petId") Long petId, @Param("requiredFile") InputStream requiredFile, @Param("additionalMetadata") String additionalMetadata);
 }

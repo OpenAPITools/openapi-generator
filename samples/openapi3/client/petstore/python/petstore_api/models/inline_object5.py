@@ -32,7 +32,7 @@ class InlineObject5(object):
     """
     openapi_types = {
         'additional_metadata': 'str',
-        'required_file': 'file'
+        'required_file': 'str'
     }
 
     attribute_map = {
@@ -81,7 +81,7 @@ class InlineObject5(object):
         file to upload  # noqa: E501
 
         :return: The required_file of this InlineObject5.  # noqa: E501
-        :rtype: file
+        :rtype: str
         """
         return self._required_file
 
@@ -92,7 +92,7 @@ class InlineObject5(object):
         file to upload  # noqa: E501
 
         :param required_file: The required_file of this InlineObject5.  # noqa: E501
-        :type: file
+        :type: str
         """
         if required_file is None:
             raise ValueError("Invalid value for `required_file`, must not be `None`")  # noqa: E501

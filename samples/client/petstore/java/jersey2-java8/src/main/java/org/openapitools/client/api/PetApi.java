@@ -8,7 +8,7 @@ import org.openapitools.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
-import java.io.File;
+import java.io.InputStream;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 
@@ -427,7 +427,7 @@ if (status != null)
    * @return ModelApiResponse
    * @throws ApiException if fails to make API call
    */
-  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
+  public ModelApiResponse uploadFile(Long petId, String additionalMetadata, InputStream file) throws ApiException {
     return uploadFileWithHttpInfo(petId, additionalMetadata, file).getData();
       }
 
@@ -440,7 +440,7 @@ if (status != null)
    * @return ApiResponse&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
+  public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, InputStream file) throws ApiException {
     Object localVarPostBody = new Object();
     
     // verify the required parameter 'petId' is set
@@ -488,7 +488,7 @@ if (file != null)
    * @return ModelApiResponse
    * @throws ApiException if fails to make API call
    */
-  public ModelApiResponse uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
+  public ModelApiResponse uploadFileWithRequiredFile(Long petId, InputStream requiredFile, String additionalMetadata) throws ApiException {
     return uploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata).getData();
       }
 
@@ -501,7 +501,7 @@ if (file != null)
    * @return ApiResponse&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
+  public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, InputStream requiredFile, String additionalMetadata) throws ApiException {
     Object localVarPostBody = new Object();
     
     // verify the required parameter 'petId' is set

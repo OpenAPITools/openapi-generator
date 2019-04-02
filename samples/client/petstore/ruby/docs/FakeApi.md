@@ -407,7 +407,7 @@ opts = {
   int64: 56, # Integer | None
   float: 3.4, # Float | None
   string: 'string_example', # String | None
-  binary: File.new('/path/to/file'), # File | None
+  binary: 'binary_example', # String | None
   date: Date.parse('2013-10-20'), # Date | None
   date_time: DateTime.parse('2013-10-20T19:20:30+01:00'), # DateTime | None
   password: 'password_example', # String | None
@@ -435,7 +435,7 @@ Name | Type | Description  | Notes
  **int64** | **Integer**| None | [optional] 
  **float** | **Float**| None | [optional] 
  **string** | **String**| None | [optional] 
- **binary** | **File**| None | [optional] 
+ **binary** | **String**| None | [optional] 
  **date** | **Date**| None | [optional] 
  **date_time** | **DateTime**| None | [optional] 
  **password** | **String**| None | [optional] 

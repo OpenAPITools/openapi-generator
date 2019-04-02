@@ -1,9 +1,9 @@
 package org.openapitools.client.api;
 
-import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
+import java.io.InputStream;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -320,7 +320,7 @@ public class FakeApiImpl implements FakeApi {
      * @param paramCallback None (optional)
      * @param resultHandler Asynchronous result handler
      */
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> resultHandler) {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, InputStream binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'number' is set

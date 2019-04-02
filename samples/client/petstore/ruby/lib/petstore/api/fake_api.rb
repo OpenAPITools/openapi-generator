@@ -431,7 +431,7 @@ module Petstore
     # @option opts [Integer] :int64 None
     # @option opts [Float] :float None
     # @option opts [String] :string None
-    # @option opts [File] :binary None
+    # @option opts [String] :binary None
     # @option opts [Date] :date None
     # @option opts [DateTime] :date_time None
     # @option opts [String] :password None
@@ -454,7 +454,7 @@ module Petstore
     # @option opts [Integer] :int64 None
     # @option opts [Float] :float None
     # @option opts [String] :string None
-    # @option opts [File] :binary None
+    # @option opts [String] :binary None
     # @option opts [Date] :date None
     # @option opts [DateTime] :date_time None
     # @option opts [String] :password None

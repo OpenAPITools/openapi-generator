@@ -5,8 +5,8 @@ import org.openapitools.client.EncodingUtils;
 
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
-import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
+import java.io.InputStream;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -181,7 +181,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
   })
-  void testEndpointParameters(@Param("number") BigDecimal number, @Param("_double") Double _double, @Param("patternWithoutDelimiter") String patternWithoutDelimiter, @Param("_byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("_float") Float _float, @Param("string") String string, @Param("binary") File binary, @Param("date") LocalDate date, @Param("dateTime") OffsetDateTime dateTime, @Param("password") String password, @Param("paramCallback") String paramCallback);
+  void testEndpointParameters(@Param("number") BigDecimal number, @Param("_double") Double _double, @Param("patternWithoutDelimiter") String patternWithoutDelimiter, @Param("_byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("_float") Float _float, @Param("string") String string, @Param("binary") InputStream binary, @Param("date") LocalDate date, @Param("dateTime") OffsetDateTime dateTime, @Param("password") String password, @Param("paramCallback") String paramCallback);
 
   /**
    * To test enum parameters

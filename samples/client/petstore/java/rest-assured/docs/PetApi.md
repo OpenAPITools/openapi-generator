@@ -331,7 +331,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
  **additionalMetadata** | **String**| Additional data to pass to server | [optional]
- **file** | **File**| file to upload | [optional]
+ **file** | **InputStream**| file to upload | [optional]
 
 ### Return type
 
@@ -373,7 +373,7 @@ api.uploadFileWithRequiredFile()
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| ID of pet to update |
- **requiredFile** | **File**| file to upload |
+ **requiredFile** | **InputStream**| file to upload |
  **additionalMetadata** | **String**| Additional data to pass to server | [optional]
 
 ### Return type

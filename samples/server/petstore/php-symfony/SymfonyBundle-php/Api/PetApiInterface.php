@@ -169,12 +169,12 @@ interface PetApiInterface
      *
      * @param  int $petId  ID of pet to update (required)
      * @param  string $additionalMetadata  Additional data to pass to server (optional)
-     * @param  UploadedFile $file  file to upload (optional)
+     * @param  string $file  file to upload (optional)
      * @param  integer $responseCode     The HTTP response code to return
      * @param  array   $responseHeaders  Additional HTTP headers to return with the response ()
      *
      * @return OpenAPI\Server\Model\ApiResponse[]
      *
      */
-    public function uploadFile($petId, $additionalMetadata = null, UploadedFile $file = null, &$responseCode, array &$responseHeaders);
+    public function uploadFile($petId, $additionalMetadata = null, $file = null, &$responseCode, array &$responseHeaders);
 }

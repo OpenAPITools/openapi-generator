@@ -3,7 +3,7 @@ package org.openapitools.api.impl;
 import org.openapitools.api.*;
 import org.openapitools.model.*;
 
-import java.io.File;
+import java.io.InputStream;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 

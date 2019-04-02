@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.File;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.validation.constraints.*;
@@ -57,7 +57,7 @@ public class InlineObject3   {
   private byte[] _byte;
 
   @JsonProperty("binary")
-  private File binary;
+  private InputStream binary;
 
   @JsonProperty("date")
   private Date date;
@@ -264,7 +264,7 @@ public class InlineObject3   {
     this._byte = _byte;
   }
 
-  public InlineObject3 binary(File binary) {
+  public InlineObject3 binary(InputStream binary) {
     this.binary = binary;
     return this;
   }
@@ -276,11 +276,11 @@ public class InlineObject3   {
   @JsonProperty("binary")
   @ApiModelProperty(value = "None")
   
-  public File getBinary() {
+  public InputStream getBinary() {
     return binary;
   }
 
-  public void setBinary(File binary) {
+  public void setBinary(InputStream binary) {
     this.binary = binary;
   }
 

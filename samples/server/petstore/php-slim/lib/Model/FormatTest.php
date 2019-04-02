@@ -49,7 +49,7 @@ class FormatTest
     /** @var string $byte */
     private $byte;
     
-    /** @var \SplFileObject $binary */
+    /** @var string $binary */
     private $binary;
     
     /** @var \DateTime $date */

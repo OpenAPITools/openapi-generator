@@ -4,8 +4,8 @@ import org.openapitools.client.ApiClient;
 
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
-import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
+import java.io.InputStream;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
@@ -768,7 +768,7 @@ public class FakeApi {
     * @param paramCallback None
     * @throws IOException if an error occurs while attempting to invoke the API
     **/
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws IOException {
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, InputStream binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws IOException {
         testEndpointParametersForHttpResponse(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
     }
 
@@ -788,7 +788,7 @@ public class FakeApi {
         testEndpointParametersForHttpResponse(number, _double, patternWithoutDelimiter, _byte, params);
     }
 
-    public HttpResponse testEndpointParametersForHttpResponse(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws IOException {
+    public HttpResponse testEndpointParametersForHttpResponse(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, InputStream binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws IOException {
         // verify the required parameter 'number' is set
         if (number == null) {
             throw new IllegalArgumentException("Missing the required parameter 'number' when calling testEndpointParameters");

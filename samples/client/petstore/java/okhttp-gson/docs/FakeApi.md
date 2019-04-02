@@ -410,7 +410,7 @@ Integer int32 = 56; // Integer | None
 Long int64 = 56L; // Long | None
 Float _float = 3.4F; // Float | None
 String string = "string_example"; // String | None
-File binary = new File("/path/to/file"); // File | None
+InputStream binary = new InputStream(); // InputStream | None
 LocalDate date = new LocalDate(); // LocalDate | None
 OffsetDateTime dateTime = new OffsetDateTime(); // OffsetDateTime | None
 String password = "password_example"; // String | None
@@ -436,7 +436,7 @@ Name | Type | Description  | Notes
  **int64** | **Long**| None | [optional]
  **_float** | **Float**| None | [optional]
  **string** | **String**| None | [optional]
- **binary** | **File**| None | [optional]
+ **binary** | **InputStream**| None | [optional]
  **date** | **LocalDate**| None | [optional]
  **dateTime** | **OffsetDateTime**| None | [optional]
  **password** | **String**| None | [optional]

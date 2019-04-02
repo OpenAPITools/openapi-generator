@@ -5,7 +5,7 @@ import org.openapitools.model.*;
 
 import com.sun.jersey.multipart.FormDataParam;
 
-import java.io.File;
+import java.io.InputStream;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 

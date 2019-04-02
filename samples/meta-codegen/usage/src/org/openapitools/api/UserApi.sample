@@ -23,36 +23,36 @@ body: User
 operationId: createUsersWithArrayInput
 
 # and parameters:
-body: List
+body: array
 
 
 # each operation has an `operationId`:
 operationId: createUsersWithListInput
 
 # and parameters:
-body: List
+body: array
 
 
 # each operation has an `operationId`:
 operationId: deleteUser
 
 # and parameters:
-username: String
+username: string
 
 
 # each operation has an `operationId`:
 operationId: getUserByName
 
 # and parameters:
-username: String
+username: string
 
 
 # each operation has an `operationId`:
 operationId: loginUser
 
 # and parameters:
-username: String
-password: String
+username: string
+password: string
 
 
 # each operation has an `operationId`:
@@ -65,7 +65,7 @@ operationId: logoutUser
 operationId: updateUser
 
 # and parameters:
-username: String
+username: string
 body: User
 
 

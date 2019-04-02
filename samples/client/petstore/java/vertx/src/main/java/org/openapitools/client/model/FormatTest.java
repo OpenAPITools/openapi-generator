@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.vertx.core.file.AsyncFile;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.UUID;
 import org.threeten.bp.LocalDate;
@@ -56,7 +56,7 @@ public class FormatTest {
   private byte[] _byte;
 
   @JsonProperty("binary")
-  private AsyncFile binary;
+  private InputStream binary;
 
   @JsonProperty("date")
   private LocalDate date;
@@ -224,7 +224,7 @@ public class FormatTest {
     this._byte = _byte;
   }
 
-  public FormatTest binary(AsyncFile binary) {
+  public FormatTest binary(InputStream binary) {
     this.binary = binary;
     return this;
   }
@@ -234,11 +234,11 @@ public class FormatTest {
    * @return binary
   **/
   @ApiModelProperty(value = "")
-  public AsyncFile getBinary() {
+  public InputStream getBinary() {
     return binary;
   }
 
-  public void setBinary(AsyncFile binary) {
+  public void setBinary(InputStream binary) {
     this.binary = binary;
   }
 

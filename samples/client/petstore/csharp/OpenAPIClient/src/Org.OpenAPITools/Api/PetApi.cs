@@ -188,7 +188,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse</returns>
-        ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
+        ApiResponse UploadFile (long? petId, string additionalMetadata = null, byte[] file = null);
 
         /// <summary>
         /// uploads an image
@@ -201,7 +201,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
+        ApiResponse<ApiResponse> UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, byte[] file = null);
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -213,7 +213,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>ApiResponse</returns>
-        ApiResponse UploadFileWithRequiredFile (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null);
+        ApiResponse UploadFileWithRequiredFile (long? petId, byte[] requiredFile, string additionalMetadata = null);
 
         /// <summary>
         /// uploads an image (required)
@@ -226,7 +226,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null);
+        ApiResponse<ApiResponse> UploadFileWithRequiredFileWithHttpInfo (long? petId, byte[] requiredFile, string additionalMetadata = null);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -393,7 +393,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
+        System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long? petId, string additionalMetadata = null, byte[] file = null);
 
         /// <summary>
         /// uploads an image
@@ -406,7 +406,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null);
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, byte[] file = null);
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -418,7 +418,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null);
+        System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long? petId, byte[] requiredFile, string additionalMetadata = null);
 
         /// <summary>
         /// uploads an image (required)
@@ -431,7 +431,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsyncWithHttpInfo (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null);
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsyncWithHttpInfo (long? petId, byte[] requiredFile, string additionalMetadata = null);
         #endregion Asynchronous Operations
     }
 
@@ -1610,7 +1610,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse</returns>
-        public ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
+        public ApiResponse UploadFile (long? petId, string additionalMetadata = null, byte[] file = null)
         {
              ApiResponse<ApiResponse> localVarResponse = UploadFileWithHttpInfo(petId, additionalMetadata, file);
              return localVarResponse.Data;
@@ -1624,7 +1624,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        public ApiResponse< ApiResponse > UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
+        public ApiResponse< ApiResponse > UploadFileWithHttpInfo (long? petId, string additionalMetadata = null, byte[] file = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
@@ -1689,7 +1689,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
+        public async System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long? petId, string additionalMetadata = null, byte[] file = null)
         {
              ApiResponse<ApiResponse> localVarResponse = await UploadFileAsyncWithHttpInfo(petId, additionalMetadata, file);
              return localVarResponse.Data;
@@ -1704,7 +1704,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="file">file to upload (optional)</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
+        public async System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long? petId, string additionalMetadata = null, byte[] file = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
@@ -1769,7 +1769,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>ApiResponse</returns>
-        public ApiResponse UploadFileWithRequiredFile (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+        public ApiResponse UploadFileWithRequiredFile (long? petId, byte[] requiredFile, string additionalMetadata = null)
         {
              ApiResponse<ApiResponse> localVarResponse = UploadFileWithRequiredFileWithHttpInfo(petId, requiredFile, additionalMetadata);
              return localVarResponse.Data;
@@ -1783,7 +1783,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>ApiResponse of ApiResponse</returns>
-        public ApiResponse< ApiResponse > UploadFileWithRequiredFileWithHttpInfo (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+        public ApiResponse< ApiResponse > UploadFileWithRequiredFileWithHttpInfo (long? petId, byte[] requiredFile, string additionalMetadata = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)
@@ -1851,7 +1851,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+        public async System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long? petId, byte[] requiredFile, string additionalMetadata = null)
         {
              ApiResponse<ApiResponse> localVarResponse = await UploadFileWithRequiredFileAsyncWithHttpInfo(petId, requiredFile, additionalMetadata);
              return localVarResponse.Data;
@@ -1866,7 +1866,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="requiredFile">file to upload</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsyncWithHttpInfo (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null)
+        public async System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsyncWithHttpInfo (long? petId, byte[] requiredFile, string additionalMetadata = null)
         {
             // verify the required parameter 'petId' is set
             if (petId == null)

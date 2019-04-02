@@ -384,7 +384,7 @@ api_instance = Petstore::PetApi.new
 pet_id = 56 # Integer | ID of pet to update
 opts = {
   additional_metadata: 'additional_metadata_example', # String | Additional data to pass to server
-  file: File.new('/path/to/file') # File | file to upload
+  file: 'file_example' # String | file to upload
 }
 
 begin
@@ -402,7 +402,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **Integer**| ID of pet to update | 
  **additional_metadata** | **String**| Additional data to pass to server | [optional] 
- **file** | **File**| file to upload | [optional] 
+ **file** | **String**| file to upload | [optional] 
 
 ### Return type
 
@@ -436,7 +436,7 @@ end
 
 api_instance = Petstore::PetApi.new
 pet_id = 56 # Integer | ID of pet to update
-required_file = File.new('/path/to/file') # File | file to upload
+required_file = 'required_file_example' # String | file to upload
 opts = {
   additional_metadata: 'additional_metadata_example' # String | Additional data to pass to server
 }
@@ -455,7 +455,7 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **Integer**| ID of pet to update | 
- **required_file** | **File**| file to upload | 
+ **required_file** | **String**| file to upload | 
  **additional_metadata** | **String**| Additional data to pass to server | [optional] 
 
 ### Return type

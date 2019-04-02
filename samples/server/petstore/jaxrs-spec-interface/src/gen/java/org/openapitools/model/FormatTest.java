@@ -2,7 +2,7 @@ package org.openapitools.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.File;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
@@ -29,7 +29,7 @@ public class FormatTest  implements Serializable {
   private @Valid Double _double;
   private @Valid String string;
   private @Valid byte[] _byte;
-  private @Valid File binary;
+  private @Valid InputStream binary;
   private @Valid LocalDate date;
   private @Valid Date dateTime;
   private @Valid UUID uuid;
@@ -185,7 +185,7 @@ public class FormatTest  implements Serializable {
 
   /**
    **/
-  public FormatTest binary(File binary) {
+  public FormatTest binary(InputStream binary) {
     this.binary = binary;
     return this;
   }
@@ -193,10 +193,10 @@ public class FormatTest  implements Serializable {
   
   @ApiModelProperty(value = "")
   @JsonProperty("binary")
-  public File getBinary() {
+  public InputStream getBinary() {
     return binary;
   }
-  public void setBinary(File binary) {
+  public void setBinary(InputStream binary) {
     this.binary = binary;
   }
 
