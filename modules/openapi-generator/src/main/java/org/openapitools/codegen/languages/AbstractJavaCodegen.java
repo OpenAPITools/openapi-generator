@@ -95,6 +95,65 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public AbstractJavaCodegen() {
         super();
+
+        defaultIncludes = new HashSet<String>(
+            Arrays.asList("double",
+                "int",
+                "long",
+                "short",
+                "char",
+                "float",
+                "String",
+                "boolean",
+                "Boolean",
+                "Double",
+                "Void",
+                "Integer",
+                "Long",
+                "Float")
+        );
+
+        typeMapping = new HashMap<String, String>();
+        typeMapping.put("array", "List");
+        typeMapping.put("map", "Map");
+        typeMapping.put("List", "List");
+        typeMapping.put("boolean", "Boolean");
+        typeMapping.put("string", "String");
+        typeMapping.put("int", "Integer");
+        typeMapping.put("float", "Float");
+        typeMapping.put("number", "BigDecimal");
+        typeMapping.put("DateTime", "Date");
+        typeMapping.put("long", "Long");
+        typeMapping.put("short", "Short");
+        typeMapping.put("char", "String");
+        typeMapping.put("double", "Double");
+        typeMapping.put("object", "Object");
+        typeMapping.put("integer", "Integer");
+        typeMapping.put("ByteArray", "byte[]");
+        typeMapping.put("binary", "InputStream");
+        typeMapping.put("file", "File");
+        typeMapping.put("UUID", "UUID");
+        typeMapping.put("date", "Date");
+        //typeMapping.put("BigDecimal", "BigDecimal"); //TODO need the mapping?
+
+        importMapping = new HashMap<String, String>();
+        importMapping.put("BigDecimal", "java.math.BigDecimal");
+        importMapping.put("UUID", "java.util.UUID");
+        importMapping.put("File", "java.io.File");
+        importMapping.put("InputStream", "java.io.InputStream");
+        importMapping.put("Date", "java.util.Date");
+        importMapping.put("Timestamp", "java.sql.Timestamp");
+        importMapping.put("Map", "java.util.Map");
+        importMapping.put("HashMap", "java.util.HashMap");
+        importMapping.put("Array", "java.util.List");
+        importMapping.put("ArrayList", "java.util.ArrayList");
+        importMapping.put("List", "java.util.*");
+        importMapping.put("Set", "java.util.*");
+        importMapping.put("DateTime", "org.joda.time.*");
+        importMapping.put("LocalDateTime", "org.joda.time.*");
+        importMapping.put("LocalDate", "org.joda.time.*");
+        importMapping.put("LocalTime", "org.joda.time.*");
+
         supportsInheritance = true;
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
@@ -139,8 +198,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         );
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
-        typeMapping.put("date", "Date");
-        typeMapping.put("file", "File");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
