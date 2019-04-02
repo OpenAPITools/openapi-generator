@@ -48,7 +48,8 @@ export default class PetApi {
      * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @param {module:api/PetApi~addPetCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    addPet(pet, callback) {
+    addPet(pet, opts, callback) {
+      opts = opts || {};
       let postBody = pet;
       // verify the required parameter 'pet' is set
       if (pet === undefined || pet === null) {
@@ -68,10 +69,19 @@ export default class PetApi {
       let contentTypes = ['application/json', 'application/xml'];
       let accepts = [];
       let returnType = null;
+      let basePaths = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2'];
+      let basePath = basePaths[0]; // by default use the first one in "servers" defined in OpenAPI
+      if (typeof opts['_base_path_index'] !== 'undefined') {
+        if (opts['_base_path_index']  >= basePaths.length || opts['_base_path_index'] <  0) {
+          throw new Error("Invalid index " + opts['_base_path_index'] + " when selecting the host settings. Must be less than " + basePaths.length);
+        }
+        basePath = basePaths[opts['_base_path_index']];
+      }
+
       return this.apiClient.callApi(
         '/pet', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null, callback
+        authNames, contentTypes, accepts, returnType, basePath, callback
       );
     }
 
@@ -262,7 +272,8 @@ export default class PetApi {
      * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @param {module:api/PetApi~updatePetCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    updatePet(pet, callback) {
+    updatePet(pet, opts, callback) {
+      opts = opts || {};
       let postBody = pet;
       // verify the required parameter 'pet' is set
       if (pet === undefined || pet === null) {
@@ -282,10 +293,19 @@ export default class PetApi {
       let contentTypes = ['application/json', 'application/xml'];
       let accepts = [];
       let returnType = null;
+      let basePaths = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2'];
+      let basePath = basePaths[0]; // by default use the first one in "servers" defined in OpenAPI
+      if (typeof opts['_base_path_index'] !== 'undefined') {
+        if (opts['_base_path_index']  >= basePaths.length || opts['_base_path_index'] <  0) {
+          throw new Error("Invalid index " + opts['_base_path_index'] + " when selecting the host settings. Must be less than " + basePaths.length);
+        }
+        basePath = basePaths[opts['_base_path_index']];
+      }
+
       return this.apiClient.callApi(
         '/pet', 'PUT',
         pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null, callback
+        authNames, contentTypes, accepts, returnType, basePath, callback
       );
     }
 

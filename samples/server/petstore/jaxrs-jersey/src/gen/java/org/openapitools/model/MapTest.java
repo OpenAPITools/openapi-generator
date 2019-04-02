@@ -54,16 +54,16 @@ public class MapTest   {
     }
 
     @JsonCreator
-    public static InnerEnum fromValue(String text) {
+    public static InnerEnum fromValue(String value) {
       for (InnerEnum b : InnerEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
- 
+
   @JsonProperty("map_of_enum_string")
   private Map<String, InnerEnum> mapOfEnumString = null;
 
@@ -92,7 +92,7 @@ public class MapTest   {
    **/
   @JsonProperty("map_map_of_string")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }

@@ -1,5 +1,6 @@
 package org.openapitools.client;
 
+import okhttp3.OkHttpClient;
 import org.openapitools.client.auth.*;
 
 import java.text.DateFormat;
@@ -165,7 +166,7 @@ public class ApiClientTest {
 
         apiClient.setConnectTimeout(10000);
     }
-    
+
     @Test
     public void testGetAndSetReadTimeout() {
         // read timeout defaults to 10 seconds
@@ -178,7 +179,7 @@ public class ApiClientTest {
 
         apiClient.setReadTimeout(10000);
     }
-    
+
     @Test
     public void testGetAndSetWriteTimeout() {
         // write timeout defaults to 10 seconds
@@ -191,7 +192,7 @@ public class ApiClientTest {
 
         apiClient.setWriteTimeout(10000);
     }
-    
+
     @Test
     public void testParameterToPairWhenNameIsInvalid() throws Exception {
         List<Pair> pairs_a = apiClient.parameterToPair(null, new Integer(1));
@@ -326,5 +327,26 @@ public class ApiClientTest {
         assertEquals("sun.gif", apiClient.sanitizeFilename("\\var\\tmp\\sun.gif"));
         assertEquals("sun.gif", apiClient.sanitizeFilename("c:\\var\\tmp\\sun.gif"));
         assertEquals("sun.gif", apiClient.sanitizeFilename(".\\sun.gif"));
+    }
+
+
+    @Test
+    public void testInterceptorCleanupWithNewClient() {
+        OkHttpClient oldClient = apiClient.getHttpClient();
+        assertEquals(1, oldClient.networkInterceptors().size());
+
+        OkHttpClient newClient = new OkHttpClient();
+        apiClient.setHttpClient(newClient);
+        assertEquals(1, apiClient.getHttpClient().networkInterceptors().size());
+        apiClient.setHttpClient(newClient);
+        assertEquals(1, apiClient.getHttpClient().networkInterceptors().size());
+    }
+
+    @Test
+    public void testInterceptorCleanupWithSameClient() {
+        OkHttpClient oldClient = apiClient.getHttpClient();
+        assertEquals(1, oldClient.networkInterceptors().size());
+        apiClient.setHttpClient(oldClient);
+        assertEquals(1, apiClient.getHttpClient().networkInterceptors().size());
     }
 }

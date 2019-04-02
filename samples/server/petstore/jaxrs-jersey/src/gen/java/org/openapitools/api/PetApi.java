@@ -69,7 +69,7 @@ public class PetApi  {
     }, tags={ "pet", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
-    public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) @Valid Pet pet
+    public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) @NotNull @Valid Pet pet
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.addPet(pet,securityContext);
@@ -164,7 +164,7 @@ public class PetApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
-    public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) @Valid Pet pet
+    public Response updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) @NotNull @Valid Pet pet
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.updatePet(pet,securityContext);

@@ -159,7 +159,7 @@
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <testNGArtifactName>none:none</testNGArtifactName>
                     <argLine>-XX:+StartAttachListener</argLine>
-                    <argLine>-javaagent:${settings.localRepository}/org/jmockit/jmockit/${jmockit-version}/jmockit-${jmockit-version}.jar</argLine>
+                    <argLine>-javaagent:"${settings.localRepository}/org/jmockit/jmockit/${jmockit-version}/jmockit-${jmockit-version}.jar"</argLine>
                 </configuration>
                 <executions>
                     <execution>
@@ -226,14 +226,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>3.1.0</version>
                 <configuration>
-                    <aggregate>true</aggregate>
                     <source>1.8</source>
                     <encoding>UTF-8</encoding>
                     <maxmemory>1g</maxmemory>
                     <failOnWarnings>true</failOnWarnings>
-                    <excludePackageNames>${javadoc.package.exclude}</excludePackageNames>
                 </configuration>
                 <executions>
                     <execution>
@@ -274,6 +272,13 @@
                                 <requireMavenVersion>
                                     <version>3.2.5</version>
                                 </requireMavenVersion>
+                                <requireReleaseDeps>
+                                    <message>No Snapshots Allowed!</message>
+                                    <failWhenParentIsSnapshot>false</failWhenParentIsSnapshot>
+                                    <excludes>
+                                        <exclude>org.openapitools:*</exclude>
+                                    </excludes>
+                                </requireReleaseDeps>
                             </rules>
                         </configuration>
                     </execution>
@@ -537,7 +542,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/okhttp-gson/parcelableModel</module>
+                <module>samples/client/petstore/java/okhttp-gson-parcelableModel</module>
             </modules>
         </profile>
         <profile>
@@ -657,7 +662,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/java-msf4/</module>
+                <module>samples/server/petstore/java-msf4j</module>
             </modules>
         </profile>
         <profile>
@@ -850,7 +855,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/typescript-angularjs/npm</module>
+                <module>samples/client/petstore/typescript-angularjs</module>
             </modules>
         </profile>
         <profile>
@@ -877,6 +882,7 @@
                 <module>samples/client/petstore/python</module>
             </modules>
         </profile>
+        <!--
         <profile>
             <id>ruby-client</id>
             <activation>
@@ -889,6 +895,7 @@
                 <module>samples/client/petstore/ruby</module>
             </modules>
         </profile>
+        -->
         <profile>
             <id>go-client</id>
             <activation>
@@ -1023,7 +1030,6 @@
                 <!--<module>samples/client/petstore/dart-jaguar/openapi</module>
                 <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>-->
                 <!--<module>samples/client/petstore/dart2/petstore</module>-->
-                <module>samples/client/petstore/haskell-http-client</module>
                 <module>samples/client/petstore/elm-0.18</module>
                 <module>samples/client/petstore/groovy</module>
                 <module>samples/client/petstore/rust</module>
@@ -1101,9 +1107,6 @@
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
                 <module>samples/client/petstore/java/rest-assured</module>
-                <module>samples/client/petstore/kotlin/</module>
-                <module>samples/client/petstore/kotlin-threetenbp/</module>
-                <module>samples/client/petstore/kotlin-string/</module>
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1149,6 +1152,7 @@
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
                 <module>samples/server/petstore/java-msf4j</module>
                 <module>samples/server/petstore/scala-lagom-server</module>
+                <module>samples/server/petstore/scala-play-server</module>
                 <module>samples/server/petstore/scalatra</module>
                 <module>samples/server/petstore/finch</module>
                 <module>samples/server/petstore/kotlin-springboot</module>
@@ -1183,7 +1187,7 @@
                 <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
-                <module>samples/client/petstore/kotlin/</module>
+                <!-- <module>samples/client/petstore/kotlin/</module> -->
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1230,13 +1234,32 @@
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
                 <!-- servers -->
-                <!-- disable erlang server test due to dependency issues -->
                 <module>samples/server/petstore/erlang-server</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
+                <module>samples/client/petstore/kotlin/</module>
+                <module>samples/client/petstore/kotlin-threetenbp/</module>
+                <module>samples/client/petstore/kotlin-string/</module>
+            </modules>
+        </profile>
+        <!-- test with Haskell -->
+        <profile>
+            <id>samples.misc</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.misc</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- clients -->
+                <module>samples/client/petstore/R</module>
+                <module>samples/client/petstore/haskell-http-client</module>
+                <!-- servers -->
+                <module>samples/server/petstore/haskell-servant</module>
             </modules>
         </profile>
         <profile>
@@ -1347,8 +1370,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-parser-groupid>org.openapitools.swagger.parser</swagger-parser-groupid>
-        <swagger-parser-version>2.0.8-OpenAPITools.org-2</swagger-parser-version>
-        <swagger-core-version>2.0.6</swagger-core-version>
+        <swagger-parser-version>2.0.11-OpenAPITools.org-1</swagger-parser-version>
+        <swagger-core-version>2.0.7</swagger-core-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>

@@ -1,23 +1,24 @@
 import 'package:jaguar_retrofit/annotations/annotations.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
 import 'package:jaguar_serializer/jaguar_serializer.dart';
-import 'package:jaguar_serializer/src/repo/repo.dart';
+import 'package:jaguar_mimetype/jaguar_mimetype.dart';
 import 'dart:async';
 
 {{#operations}}
-{{#modelImports}}import 'package:{{pubName}}/model/{{.}}.dart';
+{{#modelImports}}import 'package:{{pubName}}/model/{{.}}{{#protoFormat}}.pb{{/protoFormat}}.dart';
 {{/modelImports}}
-
+{{#fullImports}}import '{{.}}';
+{{/fullImports}}
 
 part '{{classFilename}}.jretro.dart';
 
 @GenApiClient()
-class {{classname}} extends _${{classname}}Client implements ApiClient {
+class {{classname}} extends ApiClient with _${{classname}}Client {
     final Route base;
-    final SerializerRepo serializers;
+    final Map<String, CodecRepo> converters;
     final Duration timeout;
 
-    {{classname}}({this.base, this.serializers, this.timeout = const Duration(minutes: 2)});
+    {{classname}}({this.base, this.converters, this.timeout = const Duration(minutes: 2)});
 
     {{#operation}}
     /// {{summary}}
@@ -43,7 +44,7 @@ class {{classname}} extends _${{classname}}Client implements ApiClient {
         {{/formParams}}
         {{#bodyParam}}
             {{#hasFormParams}},{{/hasFormParams}}{{^hasFormParams}}{{#hasQueryParams}},{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}{{^hasFormParams}}{{^hasQueryParams}}{{^hasHeaderParams}}{{#hasPathParams}},{{/hasPathParams}}{{/hasHeaderParams}}{{/hasQueryParams}}{{/hasFormParams}}
-            {{^isJson}}{{^isForm}}{{^isMultipart}}@AsBody(){{/isMultipart}}{{/isForm}}{{/isJson}}  {{#isJson}}@AsJson() {{/isJson}}{{#isForm}}@AsForm() {{/isForm}}{{#isMultipart}}@AsMultipart() {{/isMultipart}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
+            {{^isProto}}{{^isJson}}{{^isForm}}{{^isMultipart}}@AsBody(){{/isMultipart}}{{/isForm}}{{/isJson}}{{/isProto}} {{#isProto}}@Serialized(MimeTypes.binary) {{/isProto}}{{#isJson}}@AsJson() {{/isJson}}{{#isForm}}@AsForm() {{/isForm}}{{#isMultipart}}@AsMultipart() {{/isMultipart}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}
         {{/bodyParam}}
     {{/vendorExtensions}}
         ) {

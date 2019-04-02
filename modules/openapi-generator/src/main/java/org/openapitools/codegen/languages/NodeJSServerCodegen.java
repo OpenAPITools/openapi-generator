@@ -38,6 +38,8 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.StringUtils.*;
+
 public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NodeJSServerCodegen.class);
@@ -160,7 +162,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         if (name.length() == 0) {
             return "DefaultController";
         }
-        return initialCaps(name);
+        return camelize(name);
     }
 
     @Override

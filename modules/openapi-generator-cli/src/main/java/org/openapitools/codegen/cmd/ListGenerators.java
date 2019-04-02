@@ -9,7 +9,6 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.CodegenType;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -62,7 +61,7 @@ public class ListGenerators implements Runnable {
                 .sorted(Comparator.comparing(CodegenConfig::getName))
                 .collect(Collectors.toList());
 
-        if(list.size() > 0) {
+        if(!list.isEmpty()) {
             if (docusaurus) {
                 sb.append("## ").append(typeName).append(" generators");
             } else {

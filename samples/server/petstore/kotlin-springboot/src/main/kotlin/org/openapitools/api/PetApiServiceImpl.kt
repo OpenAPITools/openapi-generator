@@ -3,15 +3,14 @@ package org.openapitools.api
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
 import org.springframework.stereotype.Service
-
 @Service
 class PetApiServiceImpl : PetApiService {
 
-    override fun addPet(pet: Pet): Unit {
+    override fun addPet(body: Pet): Unit {
         TODO("Implement me")
     }
 
-    override fun deletePet(petId: Long,apiKey: String?): Unit {
+    override fun deletePet(petId: Long, apiKey: String?): Unit {
         TODO("Implement me")
     }
 
@@ -27,15 +26,15 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override fun updatePet(pet: Pet): Unit {
+    override fun updatePet(body: Pet): Unit {
         TODO("Implement me")
     }
 
-    override fun updatePetWithForm(petId: Long,name: String,status: String): Unit {
+    override fun updatePetWithForm(petId: Long, name: String?, status: String?): Unit {
         TODO("Implement me")
     }
 
-    override fun uploadFile(petId: Long,additionalMetadata: String,file: org.springframework.web.multipart.MultipartFile): ModelApiResponse {
+    override fun uploadFile(petId: Long, additionalMetadata: String?, file: org.springframework.core.io.Resource?): ModelApiResponse {
         TODO("Implement me")
     }
 }

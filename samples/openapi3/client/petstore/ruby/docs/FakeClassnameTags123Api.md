@@ -7,7 +7,9 @@ Method | HTTP request | Description
 [**test_classname**](FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 
 
-# **test_classname**
+
+## test_classname
+
 > Client test_classname(client)
 
 To test class name in snake case
@@ -15,6 +17,7 @@ To test class name in snake case
 To test class name in snake case
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -40,6 +43,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **client** | [**Client**](Client.md)| client model | 
@@ -54,8 +58,6 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-
+- **Content-Type**: application/json
+- **Accept**: application/json
 

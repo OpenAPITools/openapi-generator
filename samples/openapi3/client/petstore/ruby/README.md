@@ -25,6 +25,7 @@ Then either install the gem locally:
 ```shell
 gem install ./petstore-1.0.0.gem
 ```
+
 (for development, run `gem install --dev ./petstore-1.0.0.gem` to install the development dependencies)
 
 or publish the gem to a gem hosting service, e.g. [RubyGems](https://rubygems.org/).
@@ -50,6 +51,7 @@ ruby -Ilib script.rb
 ## Getting Started
 
 Please follow the [installation](#installation) procedure and then run the following code:
+
 ```ruby
 # Load the gem
 require 'petstore'
@@ -142,10 +144,14 @@ Class | Method | HTTP request | Description
  - [Petstore::Model200Response](docs/Model200Response.md)
  - [Petstore::ModelReturn](docs/ModelReturn.md)
  - [Petstore::Name](docs/Name.md)
+ - [Petstore::NullableClass](docs/NullableClass.md)
  - [Petstore::NumberOnly](docs/NumberOnly.md)
  - [Petstore::Order](docs/Order.md)
  - [Petstore::OuterComposite](docs/OuterComposite.md)
  - [Petstore::OuterEnum](docs/OuterEnum.md)
+ - [Petstore::OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
+ - [Petstore::OuterEnumInteger](docs/OuterEnumInteger.md)
+ - [Petstore::OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [Petstore::Pet](docs/Pet.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [Petstore::SpecialModelName](docs/SpecialModelName.md)
@@ -158,11 +164,13 @@ Class | Method | HTTP request | Description
 
 ### api_key
 
+
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
 ### api_key_query
+
 
 - **Type**: API key
 - **API key parameter name**: api_key_query
@@ -177,6 +185,7 @@ Class | Method | HTTP request | Description
 - **Type**: HTTP basic authentication
 
 ### petstore_auth
+
 
 - **Type**: OAuth
 - **Flow**: implicit

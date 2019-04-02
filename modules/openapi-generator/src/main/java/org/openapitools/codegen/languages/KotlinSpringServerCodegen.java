@@ -44,7 +44,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
 
     private static final HashSet<String> VARIABLE_RESERVED_WORDS =
-            new HashSet<String>(Arrays.asList(
+            new HashSet<>(Arrays.asList(
                     "ApiClient",
                     "ApiException",
                     "ApiResponse"
@@ -108,6 +108,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         importMapping.put("Date", "java.time.LocalDate");
         importMapping.put("DateTime", "java.time.OffsetDateTime");
+
+        // use resource for file handling
+        typeMapping.put("file", "org.springframework.core.io.Resource");
+
 
         languageSpecificPrimitives.addAll(Arrays.asList(
                 "Any",
@@ -561,5 +565,34 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         m.allVars.stream().filter(p -> !m.vars.contains(p)).forEach(p -> p.isInherited = true);
 
         return m;
+    }
+
+    /**
+     * Output the proper model name (capitalized).
+     * In case the name belongs to the TypeSystem it won't be renamed.
+     *
+     * @param name the name of the model
+     * @return capitalized model name
+     */
+    @Override
+    public String toModelName(final String name) {
+        // Allow for explicitly configured spring.*
+        if (name.startsWith("org.springframework.") ) {
+            return name;
+        }
+        return super.toModelName(name);
+    }
+
+    /**
+     * Check the type to see if it needs import the library/module/package
+     *
+     * @param type name of the type
+     * @return true if the library/module/package of the corresponding type needs to be imported
+     */
+    @Override
+    protected boolean needToImport(String type) {
+        // provides extra protection against improperly trying to import language primitives and java types
+        boolean imports = !type.startsWith("org.springframework.") && super.needToImport(type);
+        return imports;
     }
 }

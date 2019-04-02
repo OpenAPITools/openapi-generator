@@ -205,11 +205,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
-            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        } else {
-            setPackageName("openapi_client");
-        }
+        setPackageName((String) additionalProperties.getOrDefault(CodegenConstants.PACKAGE_NAME, "openapi_client"));
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
@@ -291,7 +287,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toApiName(String name) {
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "default";
         }
         return underscore(name);
@@ -400,7 +396,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toEnumVarName(String value, String datatype) {
         String var = null;
-        if (value.length() == 0) {
+        if (value.isEmpty()) {
             var = "EMPTY";
         }
 
@@ -736,6 +732,14 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 }
                 header.nameInCamelCase = toModelName(header.baseName);
             }
+
+            if (op.authMethods != null) {
+                for (CodegenSecurity s : op.authMethods) {
+                    if (s.isApiKey && s.isKeyInHeader) {
+                        s.vendorExtensions.put("x-apiKeyName", toModelName(s.keyParamName));
+                    }
+                }
+            }
         }
 
         return objs;
@@ -783,15 +787,18 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return super.getTypeDeclaration(p);
     }
 
-    @Override
-    public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
-        CodegenParameter parameter = super.fromParameter(param, imports);
-        if (!parameter.isString && !parameter.isNumeric && !parameter.isByteArray &&
+    private boolean isNonPrimitive(CodegenParameter parameter) {
+        return !parameter.isString && !parameter.isNumeric && !parameter.isByteArray &&
             !parameter.isBinary && !parameter.isFile && !parameter.isBoolean &&
             !parameter.isDate && !parameter.isDateTime && !parameter.isUuid &&
             !parameter.isListContainer && !parameter.isMapContainer &&
-            !languageSpecificPrimitives.contains(parameter.dataType)) {
+            !languageSpecificPrimitives.contains(parameter.dataType);
+    }
 
+    @Override
+    public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
+        CodegenParameter parameter = super.fromParameter(param, imports);
+        if (isNonPrimitive(parameter)) {
             String name = "models::" + getTypeDeclaration(parameter.dataType);
             parameter.dataType = name;
         }
@@ -803,12 +810,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     public void postProcessParameter(CodegenParameter parameter) {
         // If this parameter is not a primitive type, prefix it with "models::"
         // to ensure it's namespaced correctly in the Rust code.
-        if (!parameter.isString && !parameter.isNumeric && !parameter.isByteArray &&
-            !parameter.isBinary && !parameter.isFile && !parameter.isBoolean &&
-            !parameter.isDate && !parameter.isDateTime && !parameter.isUuid &&
-            !parameter.isListContainer && !parameter.isMapContainer &&
-            !languageSpecificPrimitives.contains(parameter.dataType)) {
-
+        if (isNonPrimitive(parameter)) {
             String name = "models::" + getTypeDeclaration(parameter.dataType);
             parameter.dataType = name;
         }
@@ -1018,10 +1020,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             if (bound < 0) {
                 throw new RuntimeException("Unsigned bound is negative: " + bound);
             }
-            return 65 - Long.numberOfLeadingZeros(bound >> 1);
+            return 65L - Long.numberOfLeadingZeros(bound >> 1);
         }
 
-        return 65 - Long.numberOfLeadingZeros(
+        return 65L - Long.numberOfLeadingZeros(
                 // signed bounds go from (-n) to (n - 1), i.e. i8 goes from -128 to 127
                 bound < 0 ? Math.abs(bound) - 1 : bound);
     }

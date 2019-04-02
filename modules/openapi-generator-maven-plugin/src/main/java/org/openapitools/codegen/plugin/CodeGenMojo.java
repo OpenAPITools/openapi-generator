@@ -37,6 +37,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.io.ByteSource;
+import com.google.common.io.CharSource;
+import io.swagger.v3.parser.util.ClasspathHelper;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -164,6 +167,12 @@ public class CodeGenMojo extends AbstractMojo {
     private String invokerPackage;
 
     /**
+     * The default package to use for the generated objects
+     */
+    @Parameter(name = "packageName")
+    private String packageName;
+
+    /**
      * groupId in generated pom.xml
      */
     @Parameter(name = "groupId")
@@ -267,9 +276,6 @@ public class CodeGenMojo extends AbstractMojo {
 
     /**
      * A map of additional properties that can be referenced by the mustache templates
-     * <additionalProperties>
-     *     <additionalProperty>key=value</additionalProperty>
-     * </additionalProperties>
      */
     @Parameter(name = "additionalProperties")
     private List<String> additionalProperties;
@@ -510,6 +516,10 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setInvokerPackage(invokerPackage);
             }
 
+            if (isNotEmpty(packageName)) {
+                configurator.setPackageName(packageName);
+            }
+
             if (isNotEmpty(groupId)) {
                 configurator.setGroupId(groupId);
             }
@@ -675,7 +685,12 @@ public class CodeGenMojo extends AbstractMojo {
 
             // Store a checksum of the input spec
             File storedInputSpecHashFile = getHashFile(inputSpecFile);
-            String inputSpecHash = Files.asByteSource(inputSpecFile).hash(Hashing.sha256()).toString();
+            ByteSource inputSpecByteSource =
+                inputSpecFile.exists()
+                    ? Files.asByteSource(inputSpecFile)
+                    : CharSource.wrap(ClasspathHelper.loadFileFromClasspath(inputSpecFile.toString().replaceAll("\\\\","/")))
+                        .asByteSource(Charsets.UTF_8);
+            String  inputSpecHash =inputSpecByteSource.hash(Hashing.sha256()).toString();
 
             if (storedInputSpecHashFile.getParent() != null && !new File(storedInputSpecHashFile.getParent()).exists()) {
                 File parent = new File(storedInputSpecHashFile.getParent());

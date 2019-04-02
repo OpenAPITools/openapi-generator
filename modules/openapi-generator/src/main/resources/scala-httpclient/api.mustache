@@ -13,12 +13,13 @@ import com.sun.jersey.multipart.file.FileDataBodyPart
 import com.wordnik.swagger.client._
 import com.wordnik.swagger.client.ClientResponseReaders.Json4sFormatsReader._
 import com.wordnik.swagger.client.RequestWriters.Json4sFormatsWriter._
+import javax.ws.rs.core.Response.Status.Family
 
 import java.net.URI
 import java.io.File
 import java.util.Date
 import java.util.TimeZone
-import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.{MediaType, Response}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
@@ -72,7 +73,7 @@ class {{classname}}(
 {{#allParams}}   * @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}   * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
    */
-  def {{operationId}}({{#allParams}}{{paramName}}: {{#required}}{{dataType}}{{#defaultValue}} = {{#isString}}"{{{defaultValue}}}"{{/isString}}{{^isString}}{{#isByteArray}}"{{/isByteArray}}{{#isDate}}dateFormatter.parse("{{/isDate}}{{#isDateTime}}dateTimeFormatter.parse("{{/isDateTime}}{{{defaultValue}}}{{#isDate}}"){{/isDate}}{{#isDateTime}}"){{/isDateTime}}{{#isByteArray}}".getBytes{{/isByteArray}}{{/isString}}{{/defaultValue}}{{/required}}{{^required}}Option[{{dataType}}]{{#defaultValue}} = Option({{#isString}}"{{{defaultValue}}}"{{/isString}}{{^isString}}{{#isByteArray}}"{{/isByteArray}}{{#isDate}}dateFormatter.parse("{{/isDate}}{{#isDateTime}}dateTimeFormatter.parse("{{/isDateTime}}{{{defaultValue}}}{{#isDate}}"){{/isDate}}{{#isDateTime}}"){{/isDateTime}}{{#isByteArray}}".getBytes{{/isByteArray}}{{/isString}}){{/defaultValue}}{{^defaultValue}} = None{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}: Option[{{returnType}}]{{/returnType}} = {
+  def {{operationId}}({{#allParams}}{{paramName}}: {{#required}}{{dataType}}{{/required}}{{^required}}Option[{{dataType}}] = None{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}: Option[{{returnType}}]{{/returnType}} = {
     val await = Try(Await.result({{operationId}}Async({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}), Duration.Inf))
     await match {
       case Success(i) => Some(await.get)
@@ -87,7 +88,7 @@ class {{classname}}(
 {{#allParams}}   * @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
 {{/allParams}}   * @return Future({{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}})
    */
-  def {{operationId}}Async({{#allParams}}{{paramName}}: {{#required}}{{dataType}}{{#defaultValue}} = {{#isString}}"{{{defaultValue}}}"{{/isString}}{{^isString}}{{#isByteArray}}"{{/isByteArray}}{{#isDate}}dateFormatter.parse("{{/isDate}}{{#isDateTime}}dateTimeFormatter.parse("{{/isDateTime}}{{{defaultValue}}}{{#isDate}}"){{/isDate}}{{#isDateTime}}"){{/isDateTime}}{{#isByteArray}}".getBytes{{/isByteArray}}{{/isString}}{{/defaultValue}}{{/required}}{{^required}}Option[{{dataType}}]{{#defaultValue}} = Option({{#isString}}"{{{defaultValue}}}"{{/isString}}{{^isString}}{{#isByteArray}}"{{/isByteArray}}{{#isDate}}dateFormatter.parse("{{/isDate}}{{#isDateTime}}dateTimeFormatter.parse("{{/isDateTime}}{{{defaultValue}}}{{#isDate}}"){{/isDate}}{{#isDateTime}}"){{/isDateTime}}{{#isByteArray}}".getBytes{{/isByteArray}}{{/isString}}){{/defaultValue}}{{^defaultValue}} = None{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}} = {
+  def {{operationId}}Async({{#allParams}}{{paramName}}: {{#required}}{{dataType}}{{/required}}{{^required}}Option[{{dataType}}] = None{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}} = {
       helper.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
   }
 
@@ -97,8 +98,8 @@ class {{classname}}(
 class {{classname}}AsyncHelper(client: TransportClient, config: SwaggerConfig) extends ApiClient(client, config) {
 
 {{#operation}}
-  def {{operationId}}({{#allParams}}{{^required}}{{paramName}}: Option[{{dataType}}] = {{#defaultValue}}Option({{#isString}}"{{{defaultValue}}}"{{/isString}}{{^isString}}{{#isByteArray}}"{{/isByteArray}}{{#isDate}}dateFormatter.parse("{{/isDate}}{{#isDateTime}}dateTimeFormatter.parse("{{/isDateTime}}{{{defaultValue}}}{{#isDate}}"){{/isDate}}{{#isDateTime}}"){{/isDateTime}}{{#isByteArray}}".getBytes{{/isByteArray}}{{/isString}}){{/defaultValue}}{{^defaultValue}}None{{/defaultValue}}{{#hasMore}},{{/hasMore}}
-    {{/required}}{{#required}}{{paramName}}: {{dataType}}{{#defaultValue}} = {{#isString}}"{{{defaultValue}}}"{{/isString}}{{^isString}}{{#isByteArray}}"{{/isByteArray}}{{#isDate}}dateFormatter.parse("{{/isDate}}{{#isDateTime}}dateTimeFormatter.parse("{{/isDateTime}}{{{defaultValue}}}{{#isDate}}"){{/isDate}}{{#isDateTime}}"){{/isDateTime}}{{#isByteArray}}".getBytes{{/isByteArray}}{{/isString}}{{/defaultValue}}{{#hasMore}},
+  def {{operationId}}({{#allParams}}{{^required}}{{paramName}}: Option[{{dataType}}] = None{{#hasMore}},{{/hasMore}}
+    {{/required}}{{#required}}{{paramName}}: {{dataType}}{{#hasMore}},
     {{/hasMore}}{{/required}}{{/allParams}})(implicit reader: ClientResponseReader[{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}}]{{#bodyParams}}, writer: RequestWriter[{{^required}}Option[{{dataType}}]{{/required}}{{#required}}{{dataType}}{{/required}}]{{/bodyParams}}){{#returnType}}: Future[{{returnType}}]{{/returnType}}{{^returnType}}: Future[Unit]{{/returnType}} = {
     // create path and map variables
     val path = (addFmt("{{path}}"){{#pathParams}}
@@ -144,7 +145,11 @@ class {{classname}}AsyncHelper(client: TransportClient, config: SwaggerConfig) e
 
     val resFuture = client.submit("{{httpMethod}}", path, queryParams.toMap, headerParams.toMap, {{#bodyParam}}writer.write({{paramName}}){{/bodyParam}}{{^bodyParam}}"{{emptyBodyParam}}"{{/bodyParam}})
     resFuture flatMap { resp =>
-      process(reader.read(resp))
+      val status = Response.Status.fromStatusCode(resp.statusCode)
+      status.getFamily match {
+        case Family.SUCCESSFUL | Family.REDIRECTION | Family.INFORMATIONAL => process(reader.read(resp))
+        case _ => throw new ApiException(resp.statusCode, resp.statusText)
+      }
     }
   }
 

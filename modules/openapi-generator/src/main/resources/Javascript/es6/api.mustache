@@ -43,8 +43,10 @@ export default class <classname> {
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}</returnType></usePromises><#usePromises>
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}<#returnType>, with an object containing data of type {@link <&vendorExtensions.x-jsdoc-type>} and HTTP response</returnType><^returnType>, with an object containing HTTP response</returnType></usePromises>
      */
-</emitJSDoc>    <operationId><#usePromises>WithHttpInfo</usePromises>(<vendorExtensions.x-codegen-argList>) {<#hasOptionalParams>
-      opts = opts || {};</hasOptionalParams>
+</emitJSDoc>    <operationId><#usePromises>WithHttpInfo</usePromises>(<vendorExtensions.x-codegen-argList>) {
+      <#vendorExtensions.x-codegen-hasOptionalParams>
+      opts = opts || {};
+      </vendorExtensions.x-codegen-hasOptionalParams>
       let postBody = <#bodyParam><#required><paramName></required><^required>opts['<paramName>']</required></bodyParam><^bodyParam>null</bodyParam>;
 <#allParams>
 <#required>
@@ -76,7 +78,7 @@ export default class <classname> {
       let basePaths = [<#servers>'<url>'<^-last>, </-last></servers>];
       let basePath = basePaths[0]; // by default use the first one in "servers" defined in OpenAPI
       if (typeof opts['_base_path_index'] !== 'undefined') {
-        if (opts['_base_path_index'] < 0 || opts['_base_path_index'] >= basePaths.length) {
+        if (opts['_base_path_index']  >= basePaths.length || opts['_base_path_index'] <  0) {
           throw new Error("Invalid index " + opts['_base_path_index'] + " when selecting the host settings. Must be less than " + basePaths.length);
         }
         basePath = basePaths[opts['_base_path_index']];

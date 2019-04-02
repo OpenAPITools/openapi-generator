@@ -17,8 +17,6 @@ public:
 
 private:
     OAIStoreApi* getApi();
-    OAIOrder createRandomOrder();
-
 signals:
     void quit();
     bool success();

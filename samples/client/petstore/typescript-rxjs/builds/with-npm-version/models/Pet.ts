@@ -57,13 +57,16 @@ export interface Pet {
      * @type {string}
      * @memberof Pet
      */
-    status?: StatusEnum;
+    status?: PetStatusEnum;
 }
 
 /**
  * @export
  * @enum {string}
  */
-export enum StatusEnum {
+export enum PetStatusEnum {
+    Available = 'available',
+    Pending = 'pending',
+    Sold = 'sold'
 }
 

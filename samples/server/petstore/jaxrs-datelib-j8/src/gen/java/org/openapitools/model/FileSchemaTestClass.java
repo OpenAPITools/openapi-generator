@@ -46,7 +46,7 @@ public class FileSchemaTestClass  implements Serializable {
    **/
   @JsonProperty("file")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public java.io.File getFile() {
     return file;
   }
@@ -74,7 +74,7 @@ public class FileSchemaTestClass  implements Serializable {
    **/
   @JsonProperty("files")
   @ApiModelProperty(value = "")
-  @Valid
+  @Valid 
   public List<java.io.File> getFiles() {
     return files;
   }

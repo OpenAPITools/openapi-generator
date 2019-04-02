@@ -155,7 +155,6 @@ runPet mgr config = do
 
 
 -- * STORE
-instance S.Consumes S.PlaceOrder S.MimeJSON
 
 runStore :: NH.Manager -> S.OpenAPIPetstoreConfig -> IO ()
 runStore mgr config = do
@@ -189,11 +188,6 @@ runStore mgr config = do
 
 -- * USER
 
-instance S.Consumes S.CreateUser S.MimeJSON
-instance S.Consumes S.CreateUsersWithArrayInput S.MimeJSON
-instance S.Consumes S.CreateUsersWithListInput S.MimeJSON
-instance S.Consumes S.UpdateUser S.MimeJSON
-
 runUser :: NH.Manager -> S.OpenAPIPetstoreConfig -> IO ()
 runUser mgr config = do
 
@@ -205,11 +199,11 @@ runUser mgr config = do
 
   -- can use lenses (model record names are appended L) to view or modify records
   let users = take 8 $ drop 1 $ iterate (L.over S.userUsernameL (fmap (<> "*")) . L.over S.userIdL (fmap (+ 1))) user
-  let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.ContentType S.MimeJSON) (S.User2 users)
+  let createUsersWithArrayInputRequest = S.createUsersWithArrayInput (S.ContentType S.MimeJSON) (S.Body users)
   _ <- S.dispatchLbs mgr config createUsersWithArrayInputRequest 
 
   -- createUsersWithArrayInput
-  let createUsersWithListInputRequest = S.createUsersWithListInput (S.ContentType S.MimeJSON) (S.User2 users)
+  let createUsersWithListInputRequest = S.createUsersWithListInput (S.ContentType S.MimeJSON) (S.Body users)
   _ <- S.dispatchLbs mgr config createUsersWithListInputRequest
 
   -- getUserByName

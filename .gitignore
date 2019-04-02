@@ -193,6 +193,8 @@ samples/client/petstore/haskell-http-client/docs/quick-jump.css
 
 # R
 .Rproj.user
+samples/client/petstore/R/**/petstore.Rcheck/
+samples/client/petstore/R/**/*.tar.gz
 
 # elixir
 samples/client/petstore/elixir/_build/

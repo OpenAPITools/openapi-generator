@@ -55,8 +55,7 @@ public class TypeHolderDefault   {
    **/
   @JsonProperty("string_item")
   @ApiModelProperty(required = true, value = "")
-    @NotNull
-
+  @NotNull 
   public String getStringItem() {
     return stringItem;
   }
@@ -76,8 +75,7 @@ public class TypeHolderDefault   {
    **/
   @JsonProperty("number_item")
   @ApiModelProperty(required = true, value = "")
-    @NotNull
-@Valid
+  @NotNull @Valid 
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -97,8 +95,7 @@ public class TypeHolderDefault   {
    **/
   @JsonProperty("integer_item")
   @ApiModelProperty(required = true, value = "")
-    @NotNull
-
+  @NotNull 
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -118,8 +115,7 @@ public class TypeHolderDefault   {
    **/
   @JsonProperty("bool_item")
   @ApiModelProperty(required = true, value = "")
-    @NotNull
-
+  @NotNull 
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -144,8 +140,7 @@ public class TypeHolderDefault   {
    **/
   @JsonProperty("array_item")
   @ApiModelProperty(required = true, value = "")
-    @NotNull
-
+  @NotNull 
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

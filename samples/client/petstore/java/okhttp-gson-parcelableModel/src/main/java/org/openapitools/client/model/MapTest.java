@@ -62,13 +62,13 @@ public class MapTest implements Parcelable {
       return String.valueOf(value);
     }
 
-    public static InnerEnum fromValue(String text) {
+    public static InnerEnum fromValue(String value) {
       for (InnerEnum b : InnerEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 
     public static class Adapter extends TypeAdapter<InnerEnum> {
@@ -80,7 +80,7 @@ public class MapTest implements Parcelable {
       @Override
       public InnerEnum read(final JsonReader jsonReader) throws IOException {
         String value = jsonReader.nextString();
-        return InnerEnum.fromValue(String.valueOf(value));
+        return InnerEnum.fromValue(value);
       }
     }
   }

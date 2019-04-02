@@ -29,6 +29,9 @@ import java.util.HashMap;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+/*
+ * This generator has been deprecated. Please use scala-akka instead.
+ */
 public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScalaHttpClientCodegen.class);
 
@@ -131,6 +134,9 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public void processOpts() {
+        LOGGER.warn("IMPORTANT: This generator (scala-http-client-deprecated) is no longer actively maintained and will be deprecated. " +
+                "PLease use 'scala-akka' generator instead.");
+
         super.processOpts();
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
@@ -207,7 +213,7 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String getName() {
-        return "scala-httpclient";
+        return "scala-httpclient-deprecated";
     }
 
     @Override

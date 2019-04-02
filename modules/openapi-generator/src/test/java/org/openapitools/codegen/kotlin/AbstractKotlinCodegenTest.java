@@ -83,4 +83,40 @@ public class AbstractKotlinCodegenTest {
         assertTrue(codegen.isDataTypeString("kotlin.String"));
         assertTrue(codegen.isDataTypeString("String"));
     }
+
+    @Test
+    public void toModelNameShouldUseProvidedMapping()  {
+        codegen.importMapping().put("json_myclass", "com.test.MyClass");
+        assertEquals("com.test.MyClass", codegen.toModelName("json_myclass"));
+    }
+
+    @Test
+    public void convertModelNameTitleCase() {
+        assertEquals(codegen.toModelName("name"), "Name");
+    }
+
+    @Test
+    public void convertModelName() {
+        assertEquals(codegen.toModelName("$"), "Dollar");
+        assertEquals(codegen.toModelName("$$"), "DollarDollar");
+        assertEquals(codegen.toModelName("Pony?"), "PonyQuestionMark");
+        assertEquals(codegen.toModelName("$name"), "DollarName");
+        assertEquals(codegen.toModelName("nam#e"), "NamHashE");
+        assertEquals(codegen.toModelName("$another-fake?"), "DollarAnotherMinusFakeQuestionMark");
+        assertEquals(codegen.toModelName("Pony>=>="), "PonyGreaterThanEqualGreaterThanEqual");
+    }
+
+    @Test
+    public void convertVarName() throws Exception {
+        assertEquals(codegen.toVarName("name"), "name");
+        assertEquals(codegen.toVarName("$name"), "dollarName");
+        assertEquals(codegen.toVarName("nam$$e"), "namDollarDollarE");
+        assertEquals(codegen.toVarName("user-name"), "userMinusName");
+        assertEquals(codegen.toVarName("user_name"), "userName");
+        assertEquals(codegen.toVarName("user|name"), "userPipeName");
+        assertEquals(codegen.toVarName("Pony?"), "ponyQuestionMark");
+        assertEquals(codegen.toVarName("nam#e"), "namHashE");
+        assertEquals(codegen.toVarName("Pony>=>="), "ponyGreaterThanEqualGreaterThanEqual");
+    }
+
 }

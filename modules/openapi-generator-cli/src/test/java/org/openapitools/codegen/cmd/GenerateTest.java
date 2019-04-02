@@ -218,7 +218,7 @@ public class GenerateTest {
 
 
     @Test
-    public void testConfig() throws Exception {
+    public void testConfigJson() throws Exception {
 
         setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
                 "config.json", "-c", "config.json");
@@ -230,6 +230,26 @@ public class GenerateTest {
 
         setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
                 "config.json", "--config", "config.json");
+
+        new FullVerifications() {
+            {
+            }
+        };
+    }
+
+    @Test
+    public void testConfigYaml() throws Exception {
+
+        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
+                "config.yaml", "-c", "config.yaml");
+
+        new FullVerifications() {
+            {
+            }
+        };
+
+        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
+                "config.yaml", "--config", "config.yaml");
 
         new FullVerifications() {
             {

@@ -1,0 +1,17 @@
+# This is the main configuration file for the application.
+# Refer to https://www.playframework.com/documentation/latest/ConfigFile for more information.
+
+play {
+  filters.headers.contentSecurityPolicy = null
+  modules.enabled += "{{basePackage}}.Module"
+
+  http {
+    secret.key = "changeme"
+    errorHandler = "{{basePackage}}.ErrorHandler"
+  }
+
+  assets {
+    path = "/public"
+    urlPrefix = "/assets"
+  }
+}
