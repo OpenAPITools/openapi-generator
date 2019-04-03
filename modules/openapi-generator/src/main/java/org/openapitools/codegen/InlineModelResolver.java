@@ -409,7 +409,7 @@ public class InlineModelResolver {
     private String uniqueName(String key) {
         if (key == null) {
             key = "InlineObject";
-            LOGGER.warn("Found an inline schema without the `title` attribute. Default the model name to InlineObject instead. To have better control of the model naming, define the model separately so that it can be reused through out the spec.");
+            LOGGER.warn("Found an inline schema without the `title` attribute. Default the model name to InlineObject instead. To have better control of the model naming, define the model separately so that it can be reused throughout the spec.");
         }
         int count = 0;
         boolean done = false;
