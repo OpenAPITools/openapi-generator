@@ -1,10 +1,12 @@
 {{>partial_header}}
 using System;
-using System.Collections.Generic;
+using System.Collections.Generic;{{#operationResultTask}}
+using System.Threading.Tasks;
+{{/operationResultTask}}
 using Microsoft.AspNetCore.Mvc;{{#useSwashbuckle}}
 using Swashbuckle.AspNetCore.Annotations;
-using Swashbuckle.AspNetCore.SwaggerGen;{{/useSwashbuckle}}
-using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.SwaggerGen;{{/useSwashbuckle}}{{^isLibrary}}
+using Newtonsoft.Json;{{/isLibrary}}
 using System.ComponentModel.DataAnnotations;
 using {{packageName}}.Attributes;
 using {{packageName}}.Models;
@@ -15,7 +17,8 @@ namespace {{packageName}}.Controllers
     /// {{description}}
     /// </summary>{{#description}}
     [Description("{{description}}")]{{/description}}
-    public {{classModifier}} class {{classname}}Controller : ControllerBase
+    [ApiController]
+    public {{#classModifier}}{{classModifier}} {{/classModifier}}class {{classname}}Controller : ControllerBase
     { {{#operation}}
         /// <summary>
         /// {{#summary}}{{summary}}{{/summary}}
@@ -28,7 +31,7 @@ namespace {{packageName}}.Controllers
         [ValidateModelState]{{#useSwashbuckle}}
         [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
         [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}
-        public {{operationModifier}} IActionResult {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{^generateBody}};{{/generateBody}}
+        public {{operationModifier}} {{#operationResultTask}}{{#operationIsAsync}}async {{/operationIsAsync}}Task<{{/operationResultTask}}IActionResult{{#operationResultTask}}>{{/operationResultTask}} {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{^generateBody}};{{/generateBody}}
         {{#generateBody}}
         { {{#responses}}
 {{#dataType}}
