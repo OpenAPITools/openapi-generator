@@ -1,15 +1,15 @@
 package org.openapitools.codegen.typescript.typescriptangular;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
-import org.openapitools.codegen.TestUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import org.openapitools.codegen.CodegenOperation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 
 public class TypeScriptAngularClientCodegenTest {
