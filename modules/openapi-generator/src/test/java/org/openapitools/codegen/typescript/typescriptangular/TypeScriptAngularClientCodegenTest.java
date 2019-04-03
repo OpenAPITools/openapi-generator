@@ -76,4 +76,29 @@ public class TypeScriptAngularClientCodegenTest {
 
     }
 
+    @Test
+    public void testRemovePrefixSuffix() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+
+        // simple noop test
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestName"));
+
+        codegen.setModelNamePrefix("abc");
+        codegen.setModelNameSuffix("def");
+        codegen.additionalProperties().put("modelSuffix", "Ghi");
+        codegen.processOpts();
+
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestName"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameGhi"));
+        Assert.assertEquals("TestNameghi", codegen.removeModelPrefixSuffix("TestNameghi"));
+        Assert.assertEquals("abcTestName", codegen.removeModelPrefixSuffix("abcTestName"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("AbcTestName"));
+        Assert.assertEquals("AbcTestName", codegen.removeModelPrefixSuffix("AbcAbcTestName"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameDef"));
+        Assert.assertEquals("TestNamedef", codegen.removeModelPrefixSuffix("TestNamedef"));
+        Assert.assertEquals("TestNamedefghi", codegen.removeModelPrefixSuffix("TestNamedefghi"));
+        Assert.assertEquals("TestNameDefghi", codegen.removeModelPrefixSuffix("TestNameDefghi"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameDefGhi"));
+    }
+
 }
