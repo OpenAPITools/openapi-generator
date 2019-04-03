@@ -21,16 +21,14 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FileUtils;
-import org.junit.rules.TemporaryFolder;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.RubyClientCodegen;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,21 +42,12 @@ import static org.testng.Assert.fail;
  */
 public class RubyClientCodegenTest {
 
-    public TemporaryFolder folder = new TemporaryFolder();
-
-    @BeforeMethod
-    public void setUp() throws Exception {
-        folder.create();
-    }
-
-    @AfterMethod
-    public void tearDown() throws Exception {
-        folder.delete();
-    }
 
     @Test
     public void testGenerateRubyClientWithHtmlEntity() throws Exception {
-        final File output = folder.getRoot();
+        final File output = Files.createTempDirectory("test").toFile();
+        output.mkdirs();
+        output.deleteOnExit();
 
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/pathWithHtmlEntity.yaml");
         CodegenConfig codegenConfig = new RubyClientCodegen();
@@ -120,7 +109,9 @@ public class RubyClientCodegenTest {
 
     @Test
     public void testBooleanDefaultValue() throws Exception {
-        final File output = folder.getRoot();
+        final File output = Files.createTempDirectory("test").toFile();
+        output.mkdirs();
+        output.deleteOnExit();
 
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/npe1.yaml");
         CodegenConfig codegenConfig = new RubyClientCodegen();
