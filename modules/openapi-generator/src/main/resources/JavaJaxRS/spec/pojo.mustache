@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-{{#description}}
+{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}
 /**
  * {{description}}
  **/{{/description}}{{#useSwaggerAnnotations}}
