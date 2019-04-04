@@ -50,7 +50,12 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}(json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON),
         {{/isContainer}}
         {{^isContainer}}
+        {{^isFreeFormObject}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}{{datatype}}FromJSON(json['{{baseName}}']),
+        {{/isFreeFormObject}}
+        {{#isFreeFormObject}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}json['{{baseName}}'],
+        {{/isFreeFormObject}}
         {{/isContainer}}
         {{/isPrimitiveType}}
         {{/allVars}}
@@ -77,7 +82,12 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}(value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
         {{/isContainer}}
         {{^isContainer}}
+        {{^isFreeFormObject}}
         '{{baseName}}': {{datatype}}ToJSON(value.{{name}}),
+        {{/isFreeFormObject}}
+        {{#isFreeFormObject}}
+        '{{baseName}}': value.{{name}},
+        {{/isFreeFormObject}}
         {{/isContainer}}
         {{/isPrimitiveType}}
         {{/isReadOnly}}
