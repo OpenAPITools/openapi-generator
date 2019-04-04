@@ -18,6 +18,7 @@ import Data.List (stripPrefix)
 import Data.Maybe (fromMaybe)
 import Data.Aeson (Value, FromJSON(..), ToJSON(..), genericToJSON, genericParseJSON)
 import Data.Aeson.Types (Options(..), defaultOptions)
+import Data.Set (Set)
 import Data.Text (Text)
 import Data.Time
 import Data.Swagger (ToSchema, declareNamedSchema)
