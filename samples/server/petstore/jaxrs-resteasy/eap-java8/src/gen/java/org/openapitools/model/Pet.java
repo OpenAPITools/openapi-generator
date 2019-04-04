@@ -15,7 +15,6 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
 @ApiModel(description="A pet for sale in the pet store")
-
 public class Pet   {
   
 
