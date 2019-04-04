@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
@@ -501,7 +502,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 HashMap<String, String> tsImport = new HashMap<>();
                 // TVG: This is used as class name in the import statements of the model file
                 tsImport.put("classname", im);
-                tsImport.put("filename", toModelFilename(removeModelSuffixIfNecessary(im)));
+                tsImport.put("filename", toModelFilename(removeModelPrefixSuffix(im)));
                 tsImports.add(tsImport);
             }
         }
@@ -590,11 +591,21 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         return modelName + modelSuffix;
     }
 
-    private String removeModelSuffixIfNecessary(String name) {
-        if (modelSuffix.length() == 0 || !name.endsWith(modelSuffix)) {
-            return name;
+    public String removeModelPrefixSuffix(String name) {
+        String result = name;
+        if (modelSuffix.length() > 0 && result.endsWith(modelSuffix)) {
+            result = result.substring(0, result.length() - modelSuffix.length());
         }
-        return name.substring(0, name.length() - modelSuffix.length());
+        String prefix = capitalize(this.modelNamePrefix);
+        String suffix = capitalize(this.modelNameSuffix);
+        if (prefix.length() > 0 && result.startsWith(prefix)) {
+            result = result.substring(prefix.length());
+        }
+        if (suffix.length() > 0 && result.endsWith(suffix)) {
+            result = result.substring(0, result.length() - suffix.length());
+        }
+
+        return result;
     }
 
     /**
@@ -648,7 +659,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      * @return the transformed name
      */
     private String convertUsingFileNamingConvention(String originalName) {
-        String name = this.removeModelSuffixIfNecessary(originalName);
+        String name = this.removeModelPrefixSuffix(originalName);
         if ("kebab-case".equals(fileNaming)) {
             name = dashize(underscore(name));
         } else {
