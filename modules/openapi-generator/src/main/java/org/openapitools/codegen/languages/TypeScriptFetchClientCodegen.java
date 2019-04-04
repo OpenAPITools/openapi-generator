@@ -256,6 +256,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.reservedWords.add("FetchAPI");
         this.reservedWords.add("ConfigurationParameters");
         this.reservedWords.add("Configuration");
+        this.reservedWords.add("configuration");
         this.reservedWords.add("HTTPMethod");
         this.reservedWords.add("HTTPHeaders");
         this.reservedWords.add("HTTPQuery");
