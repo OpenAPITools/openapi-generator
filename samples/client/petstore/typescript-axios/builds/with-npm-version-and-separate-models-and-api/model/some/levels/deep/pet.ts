@@ -57,23 +57,17 @@ export interface Pet {
      * @type {string}
      * @memberof Pet
      */
-    status?: Pet.StatusEnum;
+    status?: PetStatusEnum;
 }
 
 /**
- * @export
- * @namespace Pet
- */
-export namespace Pet {
-    /**
-     * @export
-     * @enum {string}
-     */
-    export enum StatusEnum {
-        Available = 'available',
-        Pending = 'pending',
-        Sold = 'sold'
-    }
+    * @export
+    * @enum {string}
+    */
+export enum PetStatusEnum {
+    Available = 'available',
+    Pending = 'pending',
+    Sold = 'sold'
 }
 
 
