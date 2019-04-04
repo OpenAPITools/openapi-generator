@@ -56,7 +56,7 @@ sidebar_label: spring
 |useTags|use tags for creating interface and controller classnames| |false|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |performBeanValidation|Use Bean Validation Impl. to perform BeanValidation| |false|
-|implicitHeaders|Use of @ApiImplicitParams for headers.| |false|
+|implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
 |swaggerDocketConfig|Generate Spring OpenAPI Docket configuration class.| |false|
 |apiFirst|Generate the API from the OAI spec at server compile time (API first approach)| |false|
 |useOptional|Use Optional container for optional parameters| |false|
