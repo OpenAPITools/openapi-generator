@@ -20,6 +20,7 @@ tags:
   - name: user
     description: Operations about user
 schemes:
+  - https
   - http
 paths:
   /pet:
