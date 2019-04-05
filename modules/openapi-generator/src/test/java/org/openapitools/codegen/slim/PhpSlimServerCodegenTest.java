@@ -64,4 +64,24 @@ public class PhpSlimServerCodegenTest {
             {"Websupport\\InvoiceValidation\\Model", "Websupport\\InvoiceValidation", "generated-code/slim/lib/Model"},
         };
     }
+
+    @Test(dataProvider = "apiFileFolderProvider")
+    public void apiFileFolder(String modelPackage, String invokerPackage, String expected) {
+        final PhpSlimServerCodegen codegen = new PhpSlimServerCodegen();
+        codegen.setApiPackage(modelPackage);
+        codegen.setInvokerPackage(invokerPackage);
+
+        Assert.assertEquals(codegen.apiFileFolder(), expected);
+    }
+
+    @DataProvider(name = "apiFileFolderProvider")
+    public Object[][] apiFileFolderProvider() {
+        return new Object[][] {
+                // {apiPackage, invokerPackage, expected}
+                {"Api", "Invoker", "generated-code/slim/lib/Api"},
+                {"Petstore", "Petstore", "generated-code/slim/lib"},
+                {"Package\\SubPackage\\Api", "Package\\SubPackage", "generated-code/slim/lib/Api"},
+                {"Websupport\\InvoiceValidation\\Api", "Websupport\\InvoiceValidation", "generated-code/slim/lib/Api"},
+        };
+    }
 }
