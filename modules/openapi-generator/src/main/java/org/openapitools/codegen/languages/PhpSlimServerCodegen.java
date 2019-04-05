@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,9 +104,9 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
     @Override
     public String modelFileFolder() {
-        if (modelPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
+        if (modelPackage.startsWith(invokerPackage + "\\")) {
             // need to strip out invokerPackage from path
-            return (outputFolder + File.separator + toSrcPath(modelPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
+            return (outputFolder + File.separator + toSrcPath(StringUtils.removeStart(modelPackage, invokerPackage + "\\"), srcBasePath));
         }
         return (outputFolder + File.separator + toSrcPath(modelPackage, srcBasePath));
     }
