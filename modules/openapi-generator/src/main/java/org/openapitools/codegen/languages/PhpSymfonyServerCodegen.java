@@ -177,6 +177,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         cliOptions.add(new CliOption(COMPOSER_VENDOR_NAME, "The vendor name used in the composer package name." +
                 " The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. yaypets"));
         cliOptions.add(new CliOption(BUNDLE_NAME, "The name of the Symfony bundle. The template uses {{bundleName}}"));
+        cliOptions.add(new CliOption(BUNDLE_ALIAS, "The alias of the Symfony bundle. The template uses {{aliasName}}"));
         cliOptions.add(new CliOption(COMPOSER_PROJECT_NAME, "The project name used in the composer package name." +
                 " The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
@@ -195,7 +196,11 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     }
 
     public void setBundleAlias(String alias) {
-        this.bundleAlias = alias.toLowerCase(Locale.ROOT);
+        if (alias != null && !alias.isEmpty()) {
+            this.bundleAlias = alias.toLowerCase(Locale.ROOT);
+        } else {
+            this.bundleAlias = snakeCase(bundleName).replaceAll("([A-Z]+)", "\\_$1").toLowerCase(Locale.ROOT);
+        }
     }
 
     public void setPhpLegacySupport(Boolean support) {
