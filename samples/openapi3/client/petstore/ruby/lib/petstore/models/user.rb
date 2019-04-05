@@ -142,7 +142,7 @@ module Petstore
     end
 
     # Calculates hash code according to all attributes.
-    # @return [Fixnum] Hash code
+    # @return [Integer] Hash code
     def hash
       [id, username, first_name, last_name, email, password, phone, user_status].hash
     end

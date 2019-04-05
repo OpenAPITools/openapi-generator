@@ -72,8 +72,8 @@ SYNOPSIS
 
 OPTIONS
         -f <output format>, --format <output format>
-            Write output files in the desired format. Options are 'text' and
-            'markdown'. Default is 'text'.
+            Write output files in the desired format. Options are 'text',
+            'markdown' or 'yamlsample'. Default is 'text'.
 
         -g <generator name>, --generator-name <generator name>
             generator to get config help for
@@ -425,6 +425,8 @@ To pass more than one generator property, these can be combined via comma:
 ```bash
 --additional-properties=key1=value1,key2=value2
 ```
+
+For the full list of generator-specified parameters, refer to [generators docs]((./generators.md))
 
 #### Type Mappings and Import Mappings
 

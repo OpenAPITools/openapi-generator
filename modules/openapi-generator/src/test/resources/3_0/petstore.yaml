@@ -94,7 +94,6 @@ paths:
           description: Invalid status value
       security:
         - petstore_auth:
-            - 'write:pets'
             - 'read:pets'
   /pet/findByTags:
     get:
@@ -116,6 +115,13 @@ paths:
             type: array
             items:
               type: string
+        - name: maxCount
+          in: query
+          description: Maximum number of items to return
+          required: false
+          schema:
+            type: integer
+            format: int32
       responses:
         '200':
           description: successful operation
@@ -134,7 +140,6 @@ paths:
           description: Invalid tag value
       security:
         - petstore_auth:
-            - 'write:pets'
             - 'read:pets'
       deprecated: true
   '/pet/{petId}':

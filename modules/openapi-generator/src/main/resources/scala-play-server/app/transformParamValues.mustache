@@ -1,0 +1,30 @@
+{{^isFile}}
+{{#collectionFormat}}
+{{^isCollectionFormatMulti}}
+.map(values => splitCollectionParam(values, "{{collectionFormat}}"))
+{{/isCollectionFormatMulti}}
+{{#isCollectionFormatMulti}}
+.map(_.toList)
+{{/isCollectionFormatMulti}}
+{{#items}}
+{{^isString}}
+.map(_.map(value => {{>convertParam}})
+{{/isString}}
+{{/items}}
+{{/collectionFormat}}
+{{^collectionFormat}}
+{{^isString}}
+.map(value => {{>convertParam}})
+{{/isString}}
+{{/collectionFormat}}
+{{/isFile}}
+{{#required}}
+.getOrElse {
+  {{#generateCustomExceptions}}
+  throw new OpenApiExceptions.MissingRequiredParameterException("{{baseName}}", "{{#isHeaderParam}}header{{/isHeaderParam}}{{#isQueryParam}}query string{{/isQueryParam}}{{#isFormParam}}form{{/isFormParam}}")
+  {{/generateCustomExceptions}}
+  {{^generateCustomExceptions}}
+  throw new IllegalArgumentException("Missing {{#isHeaderParam}}header{{/isHeaderParam}}{{#isQueryParam}}query string{{/isQueryParam}}{{#isFormParam}}form{{/isFormParam}} parameter `{{baseName}}`.")
+  {{/generateCustomExceptions}}
+}
+{{/required}}

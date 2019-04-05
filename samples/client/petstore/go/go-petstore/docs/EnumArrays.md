@@ -1,6 +1,7 @@
 # EnumArrays
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **JustSymbol** | **string** |  | [optional] 

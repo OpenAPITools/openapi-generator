@@ -29,8 +29,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -1174,14 +1173,75 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         }
         final Map<String, SecurityScheme> authMethods = new HashMap<>();
         for (SecurityRequirement requirement : securities) {
-            for (String key : requirement.keySet()) {
+            for (Map.Entry<String, List<String>> entry : requirement.entrySet()) {
+                final String key = entry.getKey();
                 SecurityScheme securityScheme = securitySchemes.get(key);
                 if (securityScheme != null) {
-                    authMethods.put(key, securityScheme);
+
+                    if (securityScheme.getType().equals(SecurityScheme.Type.OAUTH2)) {
+                        OAuthFlows oautUpdatedFlows = new OAuthFlows();
+                        oautUpdatedFlows.extensions(securityScheme.getFlows().getExtensions());
+
+                        SecurityScheme oauthUpdatedScheme = new SecurityScheme()
+                                .type(securityScheme.getType())
+                                .description(securityScheme.getDescription())
+                                .name(securityScheme.getName())
+                                .$ref(securityScheme.get$ref())
+                                .in(securityScheme.getIn())
+                                .scheme(securityScheme.getScheme())
+                                .bearerFormat(securityScheme.getBearerFormat())
+                                .openIdConnectUrl(securityScheme.getOpenIdConnectUrl())
+                                .extensions(securityScheme.getExtensions())
+                                .flows(oautUpdatedFlows);
+
+                        // Ensure inserted AuthMethod only contains scopes of actual operation, and not all of them defined in the Security Component
+                        // have to iterate through and create new SecurityScheme objects with the scopes 'fixed/updated'
+                        final OAuthFlows securitySchemeFlows = securityScheme.getFlows();
+
+
+                        if (securitySchemeFlows.getAuthorizationCode() != null) {
+                            OAuthFlow updatedFlow = cloneOAuthFlow(securitySchemeFlows.getAuthorizationCode(), entry.getValue());
+
+                            oautUpdatedFlows.setAuthorizationCode(updatedFlow);
+                        }
+                        if (securitySchemeFlows.getImplicit() != null) {
+                            OAuthFlow updatedFlow = cloneOAuthFlow(securitySchemeFlows.getImplicit(), entry.getValue());
+
+                            oautUpdatedFlows.setImplicit(updatedFlow);
+                        }
+                        if (securitySchemeFlows.getPassword() != null) {
+                            OAuthFlow updatedFlow = cloneOAuthFlow(securitySchemeFlows.getPassword(), entry.getValue());
+
+                            oautUpdatedFlows.setPassword(updatedFlow);
+                        }
+                        if (securitySchemeFlows.getClientCredentials() != null) {
+                            OAuthFlow updatedFlow = cloneOAuthFlow(securitySchemeFlows.getClientCredentials(), entry.getValue());
+
+                            oautUpdatedFlows.setClientCredentials(updatedFlow);
+                        }
+
+                        authMethods.put(key, oauthUpdatedScheme);
+                    } else {
+                        authMethods.put(key, securityScheme);
+                    }
                 }
             }
         }
         return authMethods;
+    }
+
+    private static OAuthFlow cloneOAuthFlow(OAuthFlow originFlow, List<String> operationScopes) {
+        Scopes newScopes = new Scopes();
+        for (String operationScope : operationScopes) {
+            newScopes.put(operationScope, originFlow.getScopes().get(operationScope));
+        }
+
+        return new OAuthFlow()
+                .authorizationUrl(originFlow.getAuthorizationUrl())
+                .tokenUrl(originFlow.getTokenUrl())
+                .refreshUrl(originFlow.getRefreshUrl())
+                .extensions(originFlow.getExtensions())
+                .scopes(newScopes);
     }
 
     private boolean hasOAuthMethods(List<CodegenSecurity> authMethods) {

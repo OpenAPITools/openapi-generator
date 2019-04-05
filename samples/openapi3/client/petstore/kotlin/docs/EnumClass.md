@@ -6,9 +6,9 @@
 
     * `abc` (value: `"_abc"`)
 
-    * `minusefg` (value: `"-efg"`)
+    * `minusEfg` (value: `"-efg"`)
 
-    * `leftParenthesisxyzRightParenthesis` (value: `"(xyz)"`)
+    * `leftParenthesisXyzRightParenthesis` (value: `"(xyz)"`)
 
 
 

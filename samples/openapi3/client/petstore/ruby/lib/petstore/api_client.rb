@@ -44,7 +44,7 @@ module Petstore
 
     # Call an API with given options.
     #
-    # @return [Array<(Object, Fixnum, Hash)>] an array of 3 elements:
+    # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
     #   the data deserialized from response body (could be nil), response status code and response headers.
     def call_api(http_method, path, opts = {})
       request = build_request(http_method, path, opts)

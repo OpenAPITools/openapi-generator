@@ -52,13 +52,13 @@ public enum EnumClass {
     return String.valueOf(value);
   }
 
-  public static EnumClass fromValue(String text) {
+  public static EnumClass fromValue(String value) {
     for (EnumClass b : EnumClass.values()) {
-      if (String.valueOf(b.value).equals(text)) {
+      if (b.value.equals(value)) {
         return b;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 
   public static class Adapter extends TypeAdapter<EnumClass> {
@@ -70,7 +70,7 @@ public enum EnumClass {
     @Override
     public EnumClass read(final JsonReader jsonReader) throws IOException {
       String value = jsonReader.nextString();
-      return EnumClass.fromValue(String.valueOf(value));
+      return EnumClass.fromValue(value);
     }
   }
 }

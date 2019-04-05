@@ -20,7 +20,7 @@ object Paths {
      * Deletes a pet
      * 
      * @param petId Pet id to delete 
-     * @param apiKey  (optional, default to null)
+     * @param apiKey  (optional)
      */
     @KtorExperimentalLocationsAPI
     @Location("/pet/{petId}") class deletePet(val petId: kotlin.Long, val apiKey: kotlin.String)

@@ -33,7 +33,7 @@ module Petstore
     # To test special tags and operation ID starting with number
     # @param client [Client] client model
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Client, Fixnum, Hash)>] Client data, response status code and response headers
+    # @return [Array<(Client, Integer, Hash)>] Client data, response status code and response headers
     def call_123_test_special_tags_with_http_info(client, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: AnotherFakeApi.call_123_test_special_tags ...'

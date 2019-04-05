@@ -1,6 +1,7 @@
 # Petstore::XmlItem
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **attribute_string** | **String** |  | [optional] 

@@ -37,11 +37,13 @@ OAITag::~OAITag() {
 
 void
 OAITag::init() {
+    
     m_id_isSet = false;
     m_id_isValid = false;
+    
     m_name_isSet = false;
     m_name_isValid = false;
-}
+    }
 
 void
 OAITag::fromJson(QString jsonString) {
@@ -53,9 +55,12 @@ OAITag::fromJson(QString jsonString) {
 
 void
 OAITag::fromJsonObject(QJsonObject json) {
+    
     m_id_isValid = ::OpenAPI::fromJsonValue(id, json[QString("id")]);
     
+    
     m_name_isValid = ::OpenAPI::fromJsonValue(name, json[QString("name")]);
+    
     
 }
 
@@ -79,6 +84,7 @@ OAITag::asJsonObject() const {
     return obj;
 }
 
+
 qint64
 OAITag::getId() const {
     return id;
@@ -88,6 +94,7 @@ OAITag::setId(const qint64 &id) {
     this->id = id;
     this->m_id_isSet = true;
 }
+
 
 QString
 OAITag::getName() const {

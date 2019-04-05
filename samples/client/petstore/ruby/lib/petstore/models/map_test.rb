@@ -135,7 +135,7 @@ module Petstore
     end
 
     # Calculates hash code according to all attributes.
-    # @return [Fixnum] Hash code
+    # @return [Integer] Hash code
     def hash
       [map_map_of_string, map_of_enum_string, direct_map, indirect_map].hash
     end
