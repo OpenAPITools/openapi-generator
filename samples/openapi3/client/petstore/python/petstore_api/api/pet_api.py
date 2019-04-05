@@ -72,7 +72,7 @@ class PetApi(object):
                  returns the request thread.
         """
 
-        local_var_hosts = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2']  # noqa: E501
+        local_var_hosts = ['https://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2']  # noqa: E501
         local_var_host = local_var_hosts[0]
         if kwargs.get('_host_index'):
             if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):
@@ -557,7 +557,7 @@ class PetApi(object):
                  returns the request thread.
         """
 
-        local_var_hosts = ['http://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2']  # noqa: E501
+        local_var_hosts = ['https://petstore.swagger.io/v2', 'http://path-server-test.petstore.local/v2']  # noqa: E501
         local_var_host = local_var_hosts[0]
         if kwargs.get('_host_index'):
             if int(kwags.get('_host_index')) < 0 or int(kawgs.get('_host_index')) >= len(local_var_hosts):

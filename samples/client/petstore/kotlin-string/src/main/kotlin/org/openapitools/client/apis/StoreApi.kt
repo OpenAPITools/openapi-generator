@@ -15,7 +15,7 @@ import org.openapitools.client.models.Order
 
 import org.openapitools.client.infrastructure.*
 
-class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiClient(basePath) {
+class StoreApi(basePath: kotlin.String = "https://petstore.swagger.io/v2") : ApiClient(basePath) {
 
     /**
     * Delete purchase order by ID

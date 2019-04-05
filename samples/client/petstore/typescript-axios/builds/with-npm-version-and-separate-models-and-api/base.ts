@@ -16,7 +16,7 @@
 import { Configuration } from "./configuration";
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 
-export const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
+export const BASE_PATH = "https://petstore.swagger.io/v2".replace(/\/+$/, "");
 
 /**
  *

@@ -13,7 +13,7 @@
 import { HttpClient } from 'aurelia-http-client';
 import { AuthStorage } from './AuthStorage';
 
-const BASE_PATH = 'http://petstore.swagger.io/v2'.replace(/\/+$/, '');
+const BASE_PATH = 'https://petstore.swagger.io/v2'.replace(/\/+$/, '');
 
 export class Api {
   basePath: string;

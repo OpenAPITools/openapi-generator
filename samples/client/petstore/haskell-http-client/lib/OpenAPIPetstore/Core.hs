@@ -91,7 +91,7 @@ instance P.Show OpenAPIPetstoreConfig where
 --
 -- configHost:
 --
--- @http://petstore.swagger.io:80/v2@
+-- @https://petstore.swagger.io:80/v2@
 --
 -- configUserAgent:
 --
@@ -101,7 +101,7 @@ newConfig :: IO OpenAPIPetstoreConfig
 newConfig = do
     logCxt <- initLogContext
     return $ OpenAPIPetstoreConfig
-        { configHost = "http://petstore.swagger.io:80/v2"
+        { configHost = "https://petstore.swagger.io:80/v2"
         , configUserAgent = "openapi-petstore/0.1.0.0"
         , configLogExecWithContext = runDefaultLogExecWithContext
         , configLogContext = logCxt

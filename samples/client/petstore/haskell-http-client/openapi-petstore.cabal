@@ -6,7 +6,7 @@ description:    .
                 .
                 host: petstore.swagger.io
                 .
-                base path: http://petstore.swagger.io:80/v2
+                base path: https://petstore.swagger.io:80/v2
                 .
                 OpenAPI Petstore API version: 1.0.0
                 .

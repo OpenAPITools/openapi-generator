@@ -1,6 +1,6 @@
 # PetApi
 
-All URIs are relative to *http://petstore.swagger.io/v2*
+All URIs are relative to *https://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

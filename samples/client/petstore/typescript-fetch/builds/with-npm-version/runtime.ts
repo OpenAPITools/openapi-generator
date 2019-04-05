@@ -12,7 +12,7 @@
  */
 
 
-export const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
+export const BASE_PATH = "https://petstore.swagger.io/v2".replace(/\/+$/, "");
 
 /**
  * This is the base class for all generated API classes.

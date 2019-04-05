@@ -15,7 +15,7 @@ import * as models from '../model/models';
 /* tslint:disable:no-unused-variable member-ordering */
 
 export class UserApi {
-    protected basePath = 'http://petstore.swagger.io/v2';
+    protected basePath = 'https://petstore.swagger.io/v2';
     public defaultHeaders : any = {};
 
     static $inject: string[] = ['$http', '$httpParamSerializer', 'basePath'];

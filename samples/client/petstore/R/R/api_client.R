@@ -32,7 +32,7 @@ ApiClient  <- R6::R6Class(
   'ApiClient',
   public = list(
     # base path of all requests
-    basePath = "http://petstore.swagger.io/v2",
+    basePath = "https://petstore.swagger.io/v2",
     # user agent in the HTTP request
     userAgent = "OpenAPI-Generator/1.0.0/r",
     # default headers in the HTTP request

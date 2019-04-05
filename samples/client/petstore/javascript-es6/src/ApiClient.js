@@ -32,9 +32,9 @@ class ApiClient {
         /**
          * The base URL against which to resolve every API call's (relative) path.
          * @type {String}
-         * @default http://petstore.swagger.io:80/v2
+         * @default https://petstore.swagger.io:80/v2
          */
-        this.basePath = 'http://petstore.swagger.io:80/v2'.replace(/\/+$/, '');
+        this.basePath = 'https://petstore.swagger.io:80/v2'.replace(/\/+$/, '');
 
         /**
          * The authentication methods to be included for all API calls.
@@ -555,6 +555,10 @@ class ApiClient {
     */
     hostSettings() {
         return [
+            {
+              'url': "https://petstore.swagger.io:80/v2",
+              'description': "No description provided",
+            },
             {
               'url': "http://petstore.swagger.io:80/v2",
               'description': "No description provided",

@@ -28,7 +28,7 @@ import { COLLECTION_FORMATS }  from '../variables';
 
 @injectable()
 export class UserService {
-    private basePath: string = 'http://petstore.swagger.io/v2';
+    private basePath: string = 'https://petstore.swagger.io/v2';
 
     constructor(@inject("IApiHttpClient") private httpClient: IHttpClient,
         @inject("IAPIConfiguration") private APIConfiguration: IAPIConfiguration ) {

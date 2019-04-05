@@ -46,7 +46,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
     def __init__(self):
         """Constructor"""
         # Default Base url
-        self.host = "http://petstore.swagger.io:80/v2"
+        self.host = "https://petstore.swagger.io:80/v2"
         # Temp file folder for downloading files
         self.temp_folder_path = None
 
@@ -265,6 +265,10 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         :return: An array of host settings
         """
         return [
+            {
+                'url': "https://petstore.swagger.io:80/v2",
+                'description': "No description provided",
+            },
             {
                 'url': "http://petstore.swagger.io:80/v2",
                 'description': "No description provided",

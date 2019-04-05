@@ -15,7 +15,7 @@ import { Observable, of } from 'rxjs';
 import { ajax, AjaxResponse } from 'rxjs/ajax';
 import { map, concatMap } from 'rxjs/operators';
 
-export const BASE_PATH = 'http://petstore.swagger.io/v2'.replace(/\/+$/, '');
+export const BASE_PATH = 'https://petstore.swagger.io/v2'.replace(/\/+$/, '');
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path

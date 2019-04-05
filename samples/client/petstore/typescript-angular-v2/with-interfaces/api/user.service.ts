@@ -30,7 +30,7 @@ import { UserServiceInterface }                            from './user.serviceI
 @Injectable()
 export class UserService implements UserServiceInterface {
 
-    protected basePath = 'http://petstore.swagger.io/v2';
+    protected basePath = 'https://petstore.swagger.io/v2';
     public defaultHeaders = new Headers();
     public configuration = new Configuration();
 

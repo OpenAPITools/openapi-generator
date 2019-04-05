@@ -31,7 +31,7 @@ import { PetServiceInterface }                            from './pet.serviceInt
 @Injectable()
 export class PetService implements PetServiceInterface {
 
-    protected basePath = 'http://petstore.swagger.io/v2';
+    protected basePath = 'https://petstore.swagger.io/v2';
     public defaultHeaders = new Headers();
     public configuration = new Configuration();
 
