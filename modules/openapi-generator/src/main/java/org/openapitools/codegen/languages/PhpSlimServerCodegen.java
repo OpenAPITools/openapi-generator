@@ -95,9 +95,9 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
     @Override
     public String apiFileFolder() {
-        if (apiPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
+        if (apiPackage.startsWith(invokerPackage + "\\")) {
             // need to strip out invokerPackage from path
-            return (outputFolder + File.separator + toSrcPath(apiPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
+            return (outputFolder + File.separator + toSrcPath(StringUtils.removeStart(apiPackage, invokerPackage + "\\"), srcBasePath));
         }
         return (outputFolder + File.separator + toSrcPath(apiPackage, srcBasePath));
     }
