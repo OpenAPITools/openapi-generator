@@ -18,6 +18,7 @@ package org.openapitools.codegen.slim;
 
 import org.openapitools.codegen.languages.PhpSlimServerCodegen;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class PhpSlimServerCodegenTest {
@@ -42,5 +43,25 @@ public class PhpSlimServerCodegenTest {
         // from FastRoute\RouteParser\Std.php
         Assert.assertEquals(codegen.encodePath("/user/{name}[/{id:[0-9]+}]"), "/user/{name}[/{id:[0-9]+}]");
         Assert.assertEquals(codegen.encodePath("/fixedRoutePart/{varName}[/moreFixed/{varName2:\\d+}]"), "/fixedRoutePart/{varName}[/moreFixed/{varName2:\\d+}]");
+    }
+
+    @Test(dataProvider = "modelFileFolderProvider")
+    public void modelFileFolder(String modelPackage, String invokerPackage, String expected) {
+        final PhpSlimServerCodegen codegen = new PhpSlimServerCodegen();
+        codegen.setModelPackage(modelPackage);
+        codegen.setInvokerPackage(invokerPackage);
+
+        Assert.assertEquals(codegen.modelFileFolder(), expected);
+    }
+
+    @DataProvider(name = "modelFileFolderProvider")
+    public Object[][] modelFileFolderProvider() {
+        return new Object[][] {
+            // {modelPackage, invokerPackage, expected}
+            {"Model", "Invoker", "generated-code/slim/lib/Model"},
+            {"Petstore", "Petstore", "generated-code/slim/lib"},
+            {"Package\\SubPackage\\Model", "Package\\SubPackage", "generated-code/slim/lib/Model"},
+            {"Websupport\\InvoiceValidation\\Model", "Websupport\\InvoiceValidation", "generated-code/slim/lib/Model"},
+        };
     }
 }
