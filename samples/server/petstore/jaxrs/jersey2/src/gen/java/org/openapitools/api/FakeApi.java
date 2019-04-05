@@ -74,7 +74,7 @@ public class FakeApi  {
     public Response createXmlItem(@ApiParam(value = "XmlItem Body" ,required=true) @NotNull @Valid XmlItem xmlItem
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.createXmlItem(xmlItem,securityContext);
+        return delegate.createXmlItem(xmlItem, securityContext);
     }
     @POST
     @Path("/outer/boolean")
@@ -86,7 +86,7 @@ public class FakeApi  {
     public Response fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body" ) Boolean body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.fakeOuterBooleanSerialize(body,securityContext);
+        return delegate.fakeOuterBooleanSerialize(body, securityContext);
     }
     @POST
     @Path("/outer/composite")
@@ -98,7 +98,7 @@ public class FakeApi  {
     public Response fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body" ) @Valid OuterComposite body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.fakeOuterCompositeSerialize(body,securityContext);
+        return delegate.fakeOuterCompositeSerialize(body, securityContext);
     }
     @POST
     @Path("/outer/number")
@@ -110,7 +110,7 @@ public class FakeApi  {
     public Response fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body" ) BigDecimal body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.fakeOuterNumberSerialize(body,securityContext);
+        return delegate.fakeOuterNumberSerialize(body, securityContext);
     }
     @POST
     @Path("/outer/string")
@@ -122,7 +122,7 @@ public class FakeApi  {
     public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body" ) String body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.fakeOuterStringSerialize(body,securityContext);
+        return delegate.fakeOuterStringSerialize(body, securityContext);
     }
     @PUT
     @Path("/body-with-file-schema")
@@ -134,7 +134,7 @@ public class FakeApi  {
     public Response testBodyWithFileSchema(@ApiParam(value = "" ,required=true) @NotNull @Valid FileSchemaTestClass body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testBodyWithFileSchema(body,securityContext);
+        return delegate.testBodyWithFileSchema(body, securityContext);
     }
     @PUT
     @Path("/body-with-query-params")
@@ -147,7 +147,7 @@ public class FakeApi  {
 ,@ApiParam(value = "" ,required=true) @NotNull @Valid User body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testBodyWithQueryParams(query,body,securityContext);
+        return delegate.testBodyWithQueryParams(query, body, securityContext);
     }
     @PATCH
     
@@ -159,7 +159,7 @@ public class FakeApi  {
     public Response testClientModel(@ApiParam(value = "client model" ,required=true) @NotNull @Valid Client body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testClientModel(body,securityContext);
+        return delegate.testClientModel(body, securityContext);
     }
     @POST
     
@@ -190,7 +190,7 @@ public class FakeApi  {
 ,@ApiParam(value = "None")  @FormParam("callback")  String paramCallback
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testEndpointParameters(number,_double,patternWithoutDelimiter,_byte,integer,int32,int64,_float,string,binaryInputStream, binaryDetail,date,dateTime,password,paramCallback,securityContext);
+        return delegate.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binaryInputStream, binaryDetail, date, dateTime, password, paramCallback, securityContext);
     }
     @GET
     
@@ -211,7 +211,7 @@ public class FakeApi  {
 ,@ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")  @DefaultValue("-efg") @FormParam("enum_form_string")  String enumFormString
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testEnumParameters(enumHeaderStringArray,enumHeaderString,enumQueryStringArray,enumQueryString,enumQueryInteger,enumQueryDouble,enumFormStringArray,enumFormString,securityContext);
+        return delegate.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, securityContext);
     }
     @DELETE
     
@@ -228,7 +228,7 @@ public class FakeApi  {
 ,@ApiParam(value = "Integer in group parameters") @QueryParam("int64_group") Long int64Group
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testGroupParameters(requiredStringGroup,requiredBooleanGroup,requiredInt64Group,stringGroup,booleanGroup,int64Group,securityContext);
+        return delegate.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, securityContext);
     }
     @POST
     @Path("/inline-additionalProperties")
@@ -240,7 +240,7 @@ public class FakeApi  {
     public Response testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true) @NotNull @Valid Map<String, String> param
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testInlineAdditionalProperties(param,securityContext);
+        return delegate.testInlineAdditionalProperties(param, securityContext);
     }
     @GET
     @Path("/jsonFormData")
@@ -253,7 +253,7 @@ public class FakeApi  {
 ,@ApiParam(value = "field2", required=true)  @FormParam("param2")  String param2
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testJsonFormData(param,param2,securityContext);
+        return delegate.testJsonFormData(param, param2, securityContext);
     }
     @POST
     @Path("/{petId}/uploadImageWithRequiredFile")
@@ -274,6 +274,6 @@ public class FakeApi  {
 ,@ApiParam(value = "Additional data to pass to server")@FormDataParam("additionalMetadata")  String additionalMetadata
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.uploadFileWithRequiredFile(petId,requiredFileInputStream, requiredFileDetail,additionalMetadata,securityContext);
+        return delegate.uploadFileWithRequiredFile(petId, requiredFileInputStream, requiredFileDetail, additionalMetadata, securityContext);
     }
 }
