@@ -121,10 +121,10 @@
 (deftest test-make-url
   (are [path path-params url]
     (is (= url (make-url path path-params)))
-    "/pet/{petId}" {"petId" 123} "http://petstore.swagger.io/v2/pet/123"
-    "/" nil "http://petstore.swagger.io/v2/"
-    "/pet" {"id" 1} "http://petstore.swagger.io/v2/pet"
-    "/pet/{id}" nil "http://petstore.swagger.io/v2/pet/{id}"))
+    "/pet/{petId}" {"petId" 123} "https://petstore.swagger.io/v2/pet/123"
+    "/" nil "https://petstore.swagger.io/v2/"
+    "/pet" {"id" 1} "https://petstore.swagger.io/v2/pet"
+    "/pet/{id}" nil "https://petstore.swagger.io/v2/pet/{id}"))
 
 (deftest test-normalize-param
   (let [file (-> "hello.txt" io/resource io/file)]

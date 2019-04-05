@@ -13,7 +13,7 @@
 
 (def default-api-context
   "Default API context."
-  {:base-url        "http://petstore.swagger.io/v2"
+  {:base-url        "https://petstore.swagger.io/v2"
    :date-format     "yyyy-MM-dd"
    :datetime-format "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
    :decode-models   false

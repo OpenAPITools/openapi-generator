@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Test
 			Pet p = createPet();
 
 			// add pet before testing
-			PetApi petApi = new PetApi("http://petstore.swagger.io/v2/");
+			PetApi petApi = new PetApi("https://petstore.swagger.io/v2/");
 			petApi.AddPet(p);
 		}
 

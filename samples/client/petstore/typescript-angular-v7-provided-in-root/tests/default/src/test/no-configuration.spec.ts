@@ -43,7 +43,7 @@ describe(`API (no configuration)`, () => {
       expect(petService).toBeTruthy();
     });
 
-    it(`should call to the default basePath http://petstore.swagger.io/v2/pet`, async(() => {
+    it(`should call to the default basePath https://petstore.swagger.io/v2/pet`, async(() => {
       const petService = TestBed.get(PetService);
 
       petService.addPet(pet).subscribe(
@@ -51,7 +51,7 @@ describe(`API (no configuration)`, () => {
         error => fail(`expected a result, not the error: ${error.message}`),
       );
 
-      const req = httpTestingController.expectOne('http://petstore.swagger.io/v2/pet');
+      const req = httpTestingController.expectOne('https://petstore.swagger.io/v2/pet');
       expect(req.request.method).toEqual('POST');
       req.flush(pet);
     }));

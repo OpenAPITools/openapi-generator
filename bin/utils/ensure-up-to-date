@@ -47,6 +47,7 @@ declare -a scripts=(
 "./bin/r-petstore.sh"
 "./bin/haskell-http-client-petstore.sh"
 "./bin/csharp-petstore.sh"
+"./bin/clojure-petstore.sh"
 "./bin/meta-codegen.sh"
 # OTHERS
 "./bin/utils/export_docs_generators.sh"
