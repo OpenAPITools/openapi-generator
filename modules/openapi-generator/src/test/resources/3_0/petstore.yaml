@@ -701,6 +701,8 @@ components:
             wrapped: true
           items:
             type: string
+        favorite_food:
+            type: string
         tags:
           type: array
           xml:
