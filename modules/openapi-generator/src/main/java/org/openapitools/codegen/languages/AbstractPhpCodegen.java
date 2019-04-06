@@ -232,9 +232,9 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
                 // Replace period, backslash, forward slash with file separator in package name
                 + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/"))
                 // Trim prefix file separators from package path
-                .replaceAll("^/", ""))
+                .replaceAll("^" + File.separator, ""))
                 // Trim trailing file separators from the overall path
-                .replaceAll("/$", "");
+                .replaceAll(File.separator + "$", "");
     }
 
     @Override
