@@ -21,6 +21,8 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
+
 public class PhpSlimServerCodegenTest {
 
     @Test
@@ -58,10 +60,10 @@ public class PhpSlimServerCodegenTest {
     public Object[][] modelFileFolderProvider() {
         return new Object[][] {
             // {modelPackage, invokerPackage, expected}
-            {"Model", "Invoker", "generated-code/slim/lib/Model"},
-            {"Petstore", "Petstore", "generated-code/slim/lib"},
-            {"Package\\SubPackage\\Model", "Package\\SubPackage", "generated-code/slim/lib/Model"},
-            {"Websupport\\InvoiceValidation\\Model", "Websupport\\InvoiceValidation", "generated-code/slim/lib/Model"},
+            {"Model", "Invoker", "generated-code/slim/lib/Model".replace('/', File.separatorChar)},
+            {"Petstore", "Petstore", "generated-code/slim/lib".replace('/', File.separatorChar)},
+            {"Package\\SubPackage\\Model", "Package\\SubPackage", "generated-code/slim/lib/Model".replace('/', File.separatorChar)},
+            {"Websupport\\InvoiceValidation\\Model", "Websupport\\InvoiceValidation", "generated-code/slim/lib/Model".replace('/', File.separatorChar)},
         };
     }
 
@@ -78,10 +80,10 @@ public class PhpSlimServerCodegenTest {
     public Object[][] apiFileFolderProvider() {
         return new Object[][] {
                 // {apiPackage, invokerPackage, expected}
-                {"Api", "Invoker", "generated-code/slim/lib/Api"},
-                {"Petstore", "Petstore", "generated-code/slim/lib"},
-                {"Package\\SubPackage\\Api", "Package\\SubPackage", "generated-code/slim/lib/Api"},
-                {"Websupport\\InvoiceValidation\\Api", "Websupport\\InvoiceValidation", "generated-code/slim/lib/Api"},
+                {"Api", "Invoker", "generated-code/slim/lib/Api".replace('/', File.separatorChar)},
+                {"Petstore", "Petstore", "generated-code/slim/lib".replace('/', File.separatorChar)},
+                {"Package\\SubPackage\\Api", "Package\\SubPackage", "generated-code/slim/lib/Api".replace('/', File.separatorChar)},
+                {"Websupport\\InvoiceValidation\\Api", "Websupport\\InvoiceValidation", "generated-code/slim/lib/Api".replace('/', File.separatorChar)},
         };
     }
 }
