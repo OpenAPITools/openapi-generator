@@ -225,7 +225,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String toSrcPath(String packageName, String basePath) {
         packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (basePath != null && basePath.length() > 0) {
-            basePath = basePath.replaceAll("[\\\\/]?$", "") + '/'; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separator; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         }
 
         return (basePath
