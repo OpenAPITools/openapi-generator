@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
@@ -139,6 +140,14 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.SOURCE_FOLDER_DESC,
                 sourceFolder);
 
+        addOption(CodegenConstants.API_PACKAGE,
+                CodegenConstants.API_PACKAGE_DESC,
+                apiPackage);
+
+        addOption(CodegenConstants.MODEL_PACKAGE,
+                CodegenConstants.MODEL_PACKAGE_DESC,
+                modelPackage);
+
         addOption(COMPATIBILITY_VERSION, "ASP.Net Core CompatibilityVersion", compatibilityVersion);
 
         aspnetCoreVersion.addEnum("2.0", "ASP.NET COre V2.0");
@@ -244,27 +253,29 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         }
         additionalProperties.put("packageGuid", packageGuid);
 
-        if (additionalProperties.containsKey(USE_SWASHBUCKLE)) {
-            useSwashbuckle = convertPropertyToBooleanAndWriteBack(USE_SWASHBUCKLE);
-        } else {
-            additionalProperties.put(USE_SWASHBUCKLE, useSwashbuckle);
-        }
-
 
         // CHeck for the modifiers etc.
         // The order of the checks is important.
         setBuildTarget();
         setClassModifier();
         setOperationModifier();
-        setCliOption(modelClassModifier);
+        setModelClassModifier();
+        setUseSwashbuckle();
 
         // CHeck for class modifier if not present set the default value.
         additionalProperties.put(PROJECT_SDK, projectSdk);
 
         additionalProperties.put("dockerTag", packageName.toLowerCase(Locale.ROOT));
 
-        apiPackage = packageName + ".Controllers";
-        modelPackage = packageName + ".Models";
+        if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            apiPackage = packageName + ".Controllers";
+            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+        }
+
+        if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            modelPackage = packageName + ".Controllers";
+            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        }
 
         String packageFolder = sourceFolder + File.separator + packageName;
 
@@ -286,8 +297,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             supportingFiles.add(new SupportingFile("Program.mustache", packageFolder, "Program.cs"));
             supportingFiles.add(new SupportingFile("Properties" + File.separator + "launchSettings.json",
                     packageFolder + File.separator + "Properties", "launchSettings.json"));
-        } else {
-            supportingFiles.add(new SupportingFile("Project.nuspec.mustache", packageFolder, packageName + ".nuspec"));
             // wwwroot files.
             supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "README.md", packageFolder + File.separator + "wwwroot", "README.md"));
             supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "index.html", packageFolder + File.separator + "wwwroot", "index.html"));
@@ -295,6 +304,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
             supportingFiles.add(new SupportingFile("wwwroot" + File.separator + "openapi-original.mustache",
                     packageFolder + File.separator + "wwwroot", "openapi-original.json"));
+        } else {
+            supportingFiles.add(new SupportingFile("Project.nuspec.mustache", packageFolder, packageName + ".nuspec"));
         }
 
 
@@ -369,14 +380,22 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private void setCliOption(CliOption cliOption) throws IllegalArgumentException {
         if (additionalProperties.containsKey(cliOption.getOpt())) {
-            cliOption.setOptValue(additionalProperties.get(cliOption.getOpt()).toString());
-            if (cliOption.getOptValue() == null) {
-                cliOption.setOptValue(cliOption.getDefault());
-                throw new IllegalArgumentException(cliOption.getOpt() + ": Invalid value '" + additionalProperties.get(cliOption.getOpt()).toString() + "'" +
-                        ". " + cliOption.getDescription());
+            // TODO Hack - not sure why the empty strings become boolean.
+            Object obj = additionalProperties.get(cliOption.getOpt());
+            if (cliOption.getType() != SchemaTypeUtil.BOOLEAN_TYPE) {
+                if (obj instanceof Boolean) {
+                    obj = "";
+                    additionalProperties.put(cliOption.getOpt(), obj);
+                }
             }
+            cliOption.setOptValue(obj.toString());
         } else {
             additionalProperties.put(cliOption.getOpt(), cliOption.getOptValue());
+        }
+        if (cliOption.getOptValue() == null) {
+            cliOption.setOptValue(cliOption.getDefault());
+            throw new IllegalArgumentException(cliOption.getOpt() + ": Invalid value '" + additionalProperties.get(cliOption.getOpt()).toString() + "'" +
+                    ". " + cliOption.getDescription());
         }
     }
 
@@ -389,8 +408,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             operationModifier.setOptValue(classModifier.getOptValue());
             additionalProperties.put(OPERATION_MODIFIER, operationModifier.getOptValue());
             LOGGER.warn("classModifier is " + classModifier.getOptValue() + " so forcing operatonModifier to " + operationModifier.getOptValue());
-        } else {
-            setCliOption(operationModifier);
+        //} else {
+            //setCliOption(operationModifier);
         }
     }
 
@@ -406,6 +425,17 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             generateBody = convertPropertyToBooleanAndWriteBack(GENERATE_BODY);
         } else {
             additionalProperties.put(GENERATE_BODY, generateBody);
+        }
+    }
+
+    private void setModelClassModifier() {
+        setCliOption(modelClassModifier);
+
+        // If operation modifier is abstract then dont generate any body
+        if (isLibrary) {
+            modelClassModifier.setOptValue("");
+            additionalProperties.put(MODEL_CLASS_MODIFIER, modelClassModifier.getOptValue());
+            LOGGER.warn("buildTarget is " + buildTarget.getOptValue() + " so removing any modelClassModifier ");
         }
     }
 
@@ -435,5 +465,16 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
         }
         additionalProperties.put(COMPATIBILITY_VERSION, compatibilityVersion);
+    }
+
+    private void setUseSwashbuckle() {
+        if (isLibrary) {
+            useSwashbuckle = false;
+        }
+        if (additionalProperties.containsKey(USE_SWASHBUCKLE)) {
+            useSwashbuckle = convertPropertyToBooleanAndWriteBack(USE_SWASHBUCKLE);
+        } else {
+            additionalProperties.put(USE_SWASHBUCKLE, useSwashbuckle);
+        }
     }
 }
