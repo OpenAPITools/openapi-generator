@@ -464,7 +464,7 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             if (skipValidateSpec != null) {
-                configurator.setSkipOverwrite(skipValidateSpec);
+                configurator.setValidateSpec(!skipValidateSpec);
             }
 
             if (logToStderr != null) {
