@@ -54,6 +54,13 @@ public class CodegenConstants {
     public static final String PERL_MODULE_NAME = "perlModuleName";
     public static final String PERL_MODULE_NAME_DESC = "root module name for generated perl code";
 
+    public static final String MODULE_NAME = "moduleName";
+    public static final String MODULE_NAME_DESC = "top module name (convention: CamelCase, usually corresponding to gem name).";
+
+    public static final String GEM_NAME = "gemName";
+    public static final String GEM_NAME_DESC = "gem name (convention: underscore_case).";
+
+
     public static final String PYTHON_PACKAGE_NAME = "pythonPackageName";
     public static final String PYTHON_PACKAGE_NAME_DESC = "package name for generated python code";
 
