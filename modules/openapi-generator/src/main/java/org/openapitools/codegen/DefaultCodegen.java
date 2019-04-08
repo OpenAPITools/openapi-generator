@@ -2854,6 +2854,9 @@ public class DefaultCodegen implements CodegenConfig {
             s = parameter.getSchema();
         } else if (parameter.getContent() != null) {
             Content content = parameter.getContent();
+            if (content.size() > 1) {
+                LOGGER.warn("Multiple schemas found in content, returning only the first one");
+            }
             MediaType mediaType = content.values().iterator().next();
             s = mediaType.getSchema();
         } else {
