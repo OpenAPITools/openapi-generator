@@ -261,6 +261,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setOperationModifier();
         setModelClassModifier();
         setUseSwashbuckle();
+        setOperationIsAsync();
 
         // CHeck for class modifier if not present set the default value.
         additionalProperties.put(PROJECT_SDK, projectSdk);
@@ -475,6 +476,17 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             useSwashbuckle = convertPropertyToBooleanAndWriteBack(USE_SWASHBUCKLE);
         } else {
             additionalProperties.put(USE_SWASHBUCKLE, useSwashbuckle);
+        }
+    }
+
+    private void setOperationIsAsync() {
+        if (isLibrary) {
+            operationIsAsync = false;
+            additionalProperties.put(OPERATION_IS_ASYNC, operationIsAsync);
+        } else  if (additionalProperties.containsKey(OPERATION_IS_ASYNC)) {
+            operationIsAsync = convertPropertyToBooleanAndWriteBack(OPERATION_IS_ASYNC);
+        } else {
+            additionalProperties.put(OPERATION_IS_ASYNC, operationIsAsync);
         }
     }
 }
