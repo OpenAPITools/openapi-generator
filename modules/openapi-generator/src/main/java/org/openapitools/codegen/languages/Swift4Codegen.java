@@ -66,6 +66,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     protected boolean swiftUseApiNamespace;
     protected String[] responseAs = new String[0];
     protected String sourceFolder = "Classes" + File.separator + "OpenAPIs";
+    protected HashSet objcReservedWords;
 
     /**
      * Constructor for the swift4 language codegen module.
@@ -107,16 +108,20 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         "AnyObject",
                         "Any")
         );
+
+        objcReservedWords = new HashSet<>(
+                Arrays.asList(
+                        // Added for Objective-C compatibility
+                        "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
+                        "NSError", "NSDictionary"
+                        )
+                );
+
         reservedWords = new HashSet<>(
                 Arrays.asList(
                         // name used by swift client
                         "ErrorResponse", "Response",
 
-                        // Added for Objective-C compatibility
-                        "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
-                        "NSError", "NSDictionary",
-
-                        //
                         // Swift keywords. This list is taken from here:
                         // https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/LexicalStructure.html#//apple_ref/doc/uid/TP40014097-CH30-ID410
                         //
@@ -325,6 +330,11 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
             setObjcCompatible(convertPropertyToBooleanAndWriteBack(OBJC_COMPATIBLE));
         }
         additionalProperties.put(OBJC_COMPATIBLE, objcCompatible);
+
+        // add objc reserved words
+        if (Boolean.TRUE.equals(objcCompatible)) {
+            reservedWords.addAll(objcReservedWords);
+        }
 
         // Setup unwrapRequired option, which makes all the properties with "required" non-optional
         if (additionalProperties.containsKey(RESPONSE_AS)) {
