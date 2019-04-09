@@ -40,7 +40,6 @@ mvn clean compile
 :bulb: These **general** configurations should be in the same level
 
 - `inputSpec` - OpenAPI Spec file path
-- `validateSpec` - Whether or not to validate the input spec prior to generation. Invalid specifications will result in an error.
 - `language` - target generation language (deprecated, replaced by `generatorName` as values here don't represent only 'language' any longer)
 - `generatorName` - target generator name
 - `output` - target output path (default is `${project.build.directory}/generated-sources/openapi`. Can also be set globally through the `openapi.generator.maven.plugin.output` property)
@@ -51,13 +50,13 @@ mvn clean compile
 - `invokerPackage` - the package to use for the generated invoker objects
 - `modelNamePrefix` and `modelNameSuffix` - Sets the pre- or suffix for model classes and enums
 - `withXml` - enable XML annotations inside the generated models and API (only works with Java `language` and libraries that provide support for JSON and XML)
-- `configOptions` - a map of language-specific parameters. To show a full list of generator-specified parameters (options), please use `configHelp` (explained below) or refer to [generators docs](../../docs/generators.md)
+- `configOptions` - a map of language-specific parameters. To show a full list of generator-specified parameters (options), please use `configHelp` (explained below)
 - `configHelp` - dumps the configuration help for the specified library (generates no sources)
 - `ignoreFileOverride` - specifies the full path to a `.openapi-generator-ignore` used for pattern based overrides of generated outputs
 - `removeOperationIdPrefix` - remove operationId prefix (e.g. user_getName => getName)
 - `logToStderr` - write all log messages (not just errors) to STDOUT
 - `enablePostProcessFile` - enable file post-processing hook
-- `skipValidateSpec` - skip spec validation
+- `skipValidateSpec` - Whether or not to skip validating the input spec prior to generation. By default, invalid specifications will result in an error.
 - `generateAliasAsModel` - generate alias (array, map) as model
 - `generateApis` - generate the apis (`true` by default)
 - `generateApiTests` - generate the api tests (`true` by default. Only available if `generateApis` is `true`)
