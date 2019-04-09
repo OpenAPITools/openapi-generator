@@ -274,7 +274,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         }
 
         if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
-            modelPackage = packageName + ".Controllers";
+            modelPackage = packageName + ".Models";
             additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
 
