@@ -269,7 +269,7 @@
      */
 
     /**
-     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+     * For this test, the body for this request much reference a schema named `File`.
      * @param {module:model/FileSchemaTestClass} body 
      * @param {module:api/FakeApi~testBodyWithFileSchemaCallback} callback The callback function, accepting three arguments: error, data, response
      */
@@ -363,8 +363,8 @@
      */
 
     /**
-     * To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
+     * To test \"client\" model
+     * To test \"client\" model
      * @param {module:model/Client} body client model
      * @param {module:api/FakeApi~testClientModelCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:model/Client}
@@ -502,13 +502,13 @@
      * To test enum parameters
      * @param {Object} opts Optional parameters
      * @param {Array.<module:model/String>} opts.enumHeaderStringArray Header parameter enum test (string array)
-     * @param {module:model/String} opts.enumHeaderString Header parameter enum test (string) (default to &#39;-efg&#39;)
+     * @param {module:model/String} opts.enumHeaderString Header parameter enum test (string) (default to '-efg')
      * @param {Array.<module:model/String>} opts.enumQueryStringArray Query parameter enum test (string array)
-     * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to &#39;-efg&#39;)
+     * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to '-efg')
      * @param {module:model/Number} opts.enumQueryInteger Query parameter enum test (double)
      * @param {module:model/Number} opts.enumQueryDouble Query parameter enum test (double)
-     * @param {Array.<module:model/String>} opts.enumFormStringArray Form parameter enum test (string array) (default to &#39;$&#39;)
-     * @param {module:model/String} opts.enumFormString Form parameter enum test (string) (default to &#39;-efg&#39;)
+     * @param {Array.<module:model/String>} opts.enumFormStringArray Form parameter enum test (string array) (default to '$')
+     * @param {module:model/String} opts.enumFormString Form parameter enum test (string) (default to '-efg')
      * @param {module:api/FakeApi~testEnumParametersCallback} callback The callback function, accepting three arguments: error, data, response
      */
     this.testEnumParameters = function(opts, callback) {

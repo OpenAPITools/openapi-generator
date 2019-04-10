@@ -50,7 +50,7 @@
 
     /**
      * Delete purchase order by ID
-     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * @param {String} orderId ID of the order that needs to be deleted
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
      */
@@ -88,7 +88,7 @@
 
     /**
      * Delete purchase order by ID
-     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * @param {String} orderId ID of the order that needs to be deleted
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
@@ -146,7 +146,7 @@
 
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * @param {Number} orderId ID of pet that needs to be fetched
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Order} and HTTP response
      */
@@ -184,7 +184,7 @@
 
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * @param {Number} orderId ID of pet that needs to be fetched
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Order}
      */
