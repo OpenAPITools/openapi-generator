@@ -38,8 +38,6 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class RubyClientCodegen extends AbstractRubyCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "N";
-    public static final String GEM_NAME = "gemName";
-    public static final String MODULE_NAME = "moduleName";
     public static final String GEM_VERSION = "gemVersion";
     public static final String GEM_LICENSE = "gemLicense";
     public static final String GEM_REQUIRED_RUBY_VERSION = "gemRequiredRubyVersion";
@@ -113,10 +111,12 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             }
         }
 
-        cliOptions.add(new CliOption(GEM_NAME, "gem name (convention: underscore_case).").
+        cliOptions.add(new CliOption(CodegenConstants.GEM_NAME, CodegenConstants.GEM_NAME_DESC).
                 defaultValue("openapi_client"));
-        cliOptions.add(new CliOption(MODULE_NAME, "top module name (convention: CamelCase, usually corresponding" +
-                " to gem name).").defaultValue("OpenAPIClient"));
+
+        cliOptions.add(new CliOption(CodegenConstants.MODULE_NAME, CodegenConstants.MODULE_NAME_DESC).
+                defaultValue("OpenAPIClient"));
+
         cliOptions.add(new CliOption(GEM_VERSION, "gem version.").defaultValue("1.0.0"));
 
         cliOptions.add(new CliOption(GEM_LICENSE, "gem license. ").
@@ -147,11 +147,11 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(GEM_NAME)) {
-            setGemName((String) additionalProperties.get(GEM_NAME));
+        if (additionalProperties.containsKey(CodegenConstants.GEM_NAME)) {
+            setGemName((String) additionalProperties.get(CodegenConstants.GEM_NAME));
         }
-        if (additionalProperties.containsKey(MODULE_NAME)) {
-            setModuleName((String) additionalProperties.get(MODULE_NAME));
+        if (additionalProperties.containsKey(CodegenConstants.MODULE_NAME)) {
+            setModuleName((String) additionalProperties.get(CodegenConstants.MODULE_NAME));
         }
 
         if (gemName == null && moduleName == null) {
@@ -163,8 +163,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             setModuleName(generateModuleName(gemName));
         }
 
-        additionalProperties.put(GEM_NAME, gemName);
-        additionalProperties.put(MODULE_NAME, moduleName);
+        additionalProperties.put(CodegenConstants.GEM_NAME, gemName);
+        additionalProperties.put(CodegenConstants.MODULE_NAME, moduleName);
 
         if (additionalProperties.containsKey(GEM_VERSION)) {
             setGemVersion((String) additionalProperties.get(GEM_VERSION));
