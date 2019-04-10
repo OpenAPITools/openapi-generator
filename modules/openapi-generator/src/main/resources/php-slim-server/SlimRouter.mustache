@@ -125,6 +125,9 @@ class SlimRouter
     {
         $this->slimApp = new App($container);
 
+        // middlewares requires Psr\Container\ContainerInterface instead of array
+        $container = $this->slimApp->getContainer();
+
         {{#hasAuthMethods}}
         $authPackage = '{{authPackage}}';
         $basicAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
