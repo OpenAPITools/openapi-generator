@@ -41,6 +41,10 @@ packages/
 /generated-files
 nbactions.xml
 
+# website
+website/build/
+website/package-lock.json
+
 # scalatra
 samples/server-generator/scalatra/output
 samples/server-generator/scalatra/target
