@@ -32,8 +32,6 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.dashize;
 
 public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCodegen {
-    private final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
-
     public static final String NPM_NAME = "npmName";
     public static final String NPM_VERSION = "npmVersion";
     public static final String NPM_REPOSITORY = "npmRepository";
