@@ -339,7 +339,8 @@ class Index extends React.Component {
       const pageUrl = page => baseUrl + (language ? `${language}/` : '') + page;
 
       return (
-        <div className="productShowcaseSection paddingBottom">
+        <div className="productSponsorSection paddingBottom">
+          <h2><b>Sponsors</b></h2>
           <p>If you find OpenAPI Generator useful for work, please consider asking your company to support this Open Source project by <a href="https://opencollective.com/openapi_generator">becoming a sponsor</a>. You can also individually sponsor the project by <a href="https://opencollective.com/openapi_generator">becoming a backer</a>.</p>
           <h3>Thank you to our bronze sponsors!</h3>
           <div className="logos">{bronze_sponsors}</div>
