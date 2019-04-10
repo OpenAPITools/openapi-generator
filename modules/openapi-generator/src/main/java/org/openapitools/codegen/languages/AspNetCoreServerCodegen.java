@@ -409,8 +409,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             operationModifier.setOptValue(classModifier.getOptValue());
             additionalProperties.put(OPERATION_MODIFIER, operationModifier.getOptValue());
             LOGGER.warn("classModifier is " + classModifier.getOptValue() + " so forcing operatonModifier to " + operationModifier.getOptValue());
-        //} else {
-            //setCliOption(operationModifier);
         }
     }
 
