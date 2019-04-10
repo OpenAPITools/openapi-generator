@@ -54,6 +54,12 @@ public class CodegenConstants {
     public static final String PERL_MODULE_NAME = "perlModuleName";
     public static final String PERL_MODULE_NAME_DESC = "root module name for generated perl code";
 
+    public static final String MODULE_NAME = "moduleName";
+    public static final String MODULE_NAME_DESC = "top module name (convention: CamelCase, usually corresponding to gem name).";
+
+    public static final String GEM_NAME = "gemName";
+    public static final String GEM_NAME_DESC = "gem name (convention: underscore_case).";
+
     public static final String PYTHON_PACKAGE_NAME = "pythonPackageName";
     public static final String PYTHON_PACKAGE_NAME_DESC = "package name for generated python code";
 
@@ -277,13 +283,13 @@ public class CodegenConstants {
     public static final String ENABLE_POST_PROCESS_FILE_DESC = "Enable post-processing file using environment variables.";
 
     public static final String OPEN_API_SPEC_NAME = "openAPISpecName";
-  
+
     public static final String GENERATE_ALIAS_AS_MODEL = "generateAliasAsModel";
     public static final String GENERATE_ALIAS_AS_MODEL_DESC = "Generate alias to map, array as models";
 
     public static final String USE_COMPARE_NET_OBJECTS = "useCompareNetObjects";
     public static final String USE_COMPARE_NET_OBJECTS_DESC = "Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.";
-  
+
     public static final String SNAPSHOT_VERSION = "snapshotVersion";
     public static final String SNAPSHOT_VERSION_DESC = "Uses a SNAPSHOT version.";
 
