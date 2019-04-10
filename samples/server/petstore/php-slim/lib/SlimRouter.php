@@ -586,6 +586,9 @@ class SlimRouter
     {
         $this->slimApp = new App($container);
 
+        // middlewares requires Psr\Container\ContainerInterface instead of array
+        $container = $this->slimApp->getContainer();
+
         $authPackage = 'OpenAPIServer\Auth';
         $basicAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
             $message = "How about extending AbstractAuthenticator class by {$authPackage}\BasicAuthenticator?";
