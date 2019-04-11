@@ -1828,16 +1828,12 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema instanceof ComposedSchema) {
             ComposedSchema composedSchema = (ComposedSchema) schema;
 
+            if (composedSchema.getAllOf() == null) {
+                return;
+            }
+
             for (Schema component : composedSchema.getAllOf()) {
                 addProperties(properties, required, component);
-            }
-
-            if (composedSchema.getOneOf() != null) {
-                throw new RuntimeException("Please report the issue: Cannot process oneOf (Composed Scheme) in addProperties: " + schema);
-            }
-
-            if (composedSchema.getAnyOf() != null) {
-                throw new RuntimeException("Please report the issue: Cannot process anyOf (Composed Schema) in addProperties: " + schema);
             }
 
             return;
