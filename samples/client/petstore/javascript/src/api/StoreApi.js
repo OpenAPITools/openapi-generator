@@ -63,12 +63,10 @@
      */
     this.deleteOrder = function(orderId, callback) {
       var postBody = null;
-
       // verify the required parameter 'orderId' is set
       if (orderId === undefined || orderId === null) {
         throw new Error("Missing the required parameter 'orderId' when calling deleteOrder");
       }
-
 
       var pathParams = {
         'order_id': orderId
@@ -110,7 +108,6 @@
     this.getInventory = function(callback) {
       var postBody = null;
 
-
       var pathParams = {
       };
       var queryParams = {
@@ -150,12 +147,10 @@
      */
     this.getOrderById = function(orderId, callback) {
       var postBody = null;
-
       // verify the required parameter 'orderId' is set
       if (orderId === undefined || orderId === null) {
         throw new Error("Missing the required parameter 'orderId' when calling getOrderById");
       }
-
 
       var pathParams = {
         'order_id': orderId
@@ -196,12 +191,10 @@
      */
     this.placeOrder = function(body, callback) {
       var postBody = body;
-
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling placeOrder");
       }
-
 
       var pathParams = {
       };

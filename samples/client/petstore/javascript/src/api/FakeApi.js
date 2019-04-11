@@ -63,12 +63,10 @@
      */
     this.createXmlItem = function(xmlItem, callback) {
       var postBody = xmlItem;
-
       // verify the required parameter 'xmlItem' is set
       if (xmlItem === undefined || xmlItem === null) {
         throw new Error("Missing the required parameter 'xmlItem' when calling createXmlItem");
       }
-
 
       var pathParams = {
       };
@@ -111,7 +109,6 @@
       opts = opts || {};
       var postBody = opts['body'];
 
-
       var pathParams = {
       };
       var queryParams = {
@@ -152,7 +149,6 @@
     this.fakeOuterCompositeSerialize = function(opts, callback) {
       opts = opts || {};
       var postBody = opts['body'];
-
 
       var pathParams = {
       };
@@ -195,7 +191,6 @@
       opts = opts || {};
       var postBody = opts['body'];
 
-
       var pathParams = {
       };
       var queryParams = {
@@ -237,7 +232,6 @@
       opts = opts || {};
       var postBody = opts['body'];
 
-
       var pathParams = {
       };
       var queryParams = {
@@ -275,12 +269,10 @@
      */
     this.testBodyWithFileSchema = function(body, callback) {
       var postBody = body;
-
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling testBodyWithFileSchema");
       }
-
 
       var pathParams = {
       };
@@ -319,17 +311,14 @@
      */
     this.testBodyWithQueryParams = function(query, body, callback) {
       var postBody = body;
-
       // verify the required parameter 'query' is set
       if (query === undefined || query === null) {
         throw new Error("Missing the required parameter 'query' when calling testBodyWithQueryParams");
       }
-
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling testBodyWithQueryParams");
       }
-
 
       var pathParams = {
       };
@@ -371,12 +360,10 @@
      */
     this.testClientModel = function(body, callback) {
       var postBody = body;
-
       // verify the required parameter 'body' is set
       if (body === undefined || body === null) {
         throw new Error("Missing the required parameter 'body' when calling testClientModel");
       }
-
 
       var pathParams = {
       };
@@ -431,27 +418,22 @@
     this.testEndpointParameters = function(_number, _double, patternWithoutDelimiter, _byte, opts, callback) {
       opts = opts || {};
       var postBody = null;
-
       // verify the required parameter '_number' is set
       if (_number === undefined || _number === null) {
         throw new Error("Missing the required parameter '_number' when calling testEndpointParameters");
       }
-
       // verify the required parameter '_double' is set
       if (_double === undefined || _double === null) {
         throw new Error("Missing the required parameter '_double' when calling testEndpointParameters");
       }
-
       // verify the required parameter 'patternWithoutDelimiter' is set
       if (patternWithoutDelimiter === undefined || patternWithoutDelimiter === null) {
         throw new Error("Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters");
       }
-
       // verify the required parameter '_byte' is set
       if (_byte === undefined || _byte === null) {
         throw new Error("Missing the required parameter '_byte' when calling testEndpointParameters");
       }
-
 
       var pathParams = {
       };
@@ -515,7 +497,6 @@
       opts = opts || {};
       var postBody = null;
 
-
       var pathParams = {
       };
       var queryParams = {
@@ -572,22 +553,18 @@
     this.testGroupParameters = function(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, opts, callback) {
       opts = opts || {};
       var postBody = null;
-
       // verify the required parameter 'requiredStringGroup' is set
       if (requiredStringGroup === undefined || requiredStringGroup === null) {
         throw new Error("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
       }
-
       // verify the required parameter 'requiredBooleanGroup' is set
       if (requiredBooleanGroup === undefined || requiredBooleanGroup === null) {
         throw new Error("Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
       }
-
       // verify the required parameter 'requiredInt64Group' is set
       if (requiredInt64Group === undefined || requiredInt64Group === null) {
         throw new Error("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
       }
-
 
       var pathParams = {
       };
@@ -632,12 +609,10 @@
      */
     this.testInlineAdditionalProperties = function(param, callback) {
       var postBody = param;
-
       // verify the required parameter 'param' is set
       if (param === undefined || param === null) {
         throw new Error("Missing the required parameter 'param' when calling testInlineAdditionalProperties");
       }
-
 
       var pathParams = {
       };
@@ -677,17 +652,14 @@
      */
     this.testJsonFormData = function(param, param2, callback) {
       var postBody = null;
-
       // verify the required parameter 'param' is set
       if (param === undefined || param === null) {
         throw new Error("Missing the required parameter 'param' when calling testJsonFormData");
       }
-
       // verify the required parameter 'param2' is set
       if (param2 === undefined || param2 === null) {
         throw new Error("Missing the required parameter 'param2' when calling testJsonFormData");
       }
-
 
       var pathParams = {
       };
