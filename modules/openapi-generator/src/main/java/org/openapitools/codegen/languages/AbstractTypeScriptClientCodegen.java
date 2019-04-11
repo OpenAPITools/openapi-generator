@@ -84,7 +84,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "any",
                 "File",
                 "Error",
-                "Map"
+                "Map",
+                "object"
         ));
 
         languageGenericTypes = new HashSet<String>(Arrays.asList(
@@ -106,7 +107,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("short", "number");
         typeMapping.put("char", "string");
         typeMapping.put("double", "number");
-        typeMapping.put("object", "any");
+        typeMapping.put("object", "object");
         typeMapping.put("integer", "number");
         typeMapping.put("Map", "any");
         typeMapping.put("map", "any");

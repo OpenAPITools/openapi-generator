@@ -51,14 +51,14 @@ class OpenAPIServerApiPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container) {
         // always first check if the primary service is defined
-        if (!$container->has('open_apiserver.api.api_server')) {
+        if (!$container->has('open_api_server.api.api_server')) {
             return;
         }
 
-        $definition = $container->findDefinition('open_apiserver.api.api_server');
+        $definition = $container->findDefinition('open_api_server.api.api_server');
 
-        // find all service IDs with the open_apiserver.api tag
-        $taggedServices = $container->findTaggedServiceIds('open_apiserver.api');
+        // find all service IDs with the open_api_server.api tag
+        $taggedServices = $container->findTaggedServiceIds('open_api_server.api');
 
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $tag) {

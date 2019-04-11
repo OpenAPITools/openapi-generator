@@ -264,7 +264,10 @@ public class AbstractJavaCodegenTest {
         /**
          * Gets artifact version.
          * Only for testing purposes.
+         * @return version
          */
-        public String getArtifactVersion () { return this.artifactVersion; }
+        public String getArtifactVersion() {
+            return this.artifactVersion;
+        }
     }
 }

@@ -112,7 +112,7 @@ public class OAuth implements RequestInterceptor {
 
     public synchronized void setAccessToken(String accessToken, Long expiresIn) {
         this.accessToken = accessToken;
-        this.expirationTimeMillis = System.currentTimeMillis() + expiresIn * MILLIS_PER_SECOND;
+        this.expirationTimeMillis = expiresIn == null ? null : System.currentTimeMillis() + expiresIn * MILLIS_PER_SECOND;
     }
 
     public TokenRequestBuilder getTokenRequestBuilder() {

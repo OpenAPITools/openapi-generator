@@ -1,9 +1,17 @@
 package org.openapitools.codegen.java.jaxrs;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
-import static org.testng.Assert.assertTrue;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
+import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
+import org.openapitools.codegen.languages.JavaCXFExtServerCodegen;
+import org.openapitools.codegen.languages.features.*;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -11,36 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.MockDefaultGenerator;
-import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
-import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.AbstractJavaCodegen;
-import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
-import org.openapitools.codegen.languages.JavaCXFExtServerCodegen;
-import org.openapitools.codegen.languages.features.BeanValidationExtendedFeatures;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.CXFExtServerFeatures;
-import org.openapitools.codegen.languages.features.CXFServerFeatures;
-import org.openapitools.codegen.languages.features.GzipFeatures;
-import org.openapitools.codegen.languages.features.GzipTestFeatures;
-import org.openapitools.codegen.languages.features.JbossFeature;
-import org.openapitools.codegen.languages.features.LoggingFeatures;
-import org.openapitools.codegen.languages.features.LoggingTestFeatures;
-import org.openapitools.codegen.languages.features.SpringFeatures;
-import org.openapitools.codegen.languages.features.SwaggerFeatures;
-import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
-import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
+import static org.testng.Assert.*;
 
 public class JavaJAXRSCXFExtServerCodegenTest {
     @SuppressWarnings("unused")

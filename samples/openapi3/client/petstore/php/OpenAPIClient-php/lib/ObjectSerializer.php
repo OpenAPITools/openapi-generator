@@ -175,8 +175,9 @@ class ObjectSerializer
      * Take value and turn it into a string suitable for inclusion in
      * the parameter. If it's a string, pass through unchanged
      * If it's a datetime object, format it in ISO8601
+     * If it's a boolean, convert it to "true" or "false".
      *
-     * @param string|\DateTime $value the value of the parameter
+     * @param string|bool|\DateTime $value the value of the parameter
      *
      * @return string the header string
      */
@@ -184,6 +185,8 @@ class ObjectSerializer
     {
         if ($value instanceof \DateTime) { // datetime in ISO8601 format
             return $value->format(\DateTime::ATOM);
+        } else if (is_bool($value)) {
+            return $value ? 'true' : 'false';
         } else {
             return $value;
         }

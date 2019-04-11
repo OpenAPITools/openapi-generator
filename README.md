@@ -33,6 +33,15 @@
 
 </div>
 
+## Sponsors
+
+If you find OpenAPI Generator useful for work, please consider asking your company to support this Open Source project by [becoming a sponsor](https://opencollective.com/openapi_generator). You can also individually sponsor the project by [becoming a backer](https://opencollective.com/openapi_generator).
+
+#### Thank you to our bronze sponsors!
+
+[![NamSor](https://openapi-generator.tech/img/companies/namsor.png)](https://www.namsor.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+
+
 ## Overview
 OpenAPI Generator allows generation of API client libraries (SDK generation), server stubs,  documentation and configuration automatically given an [OpenAPI Spec](https://github.com/OAI/OpenAPI-Specification) (both 2.0 and 3.0 are supported). Currently, the following languages/frameworks are supported:
 
@@ -555,7 +564,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-03-07 - [OpenAPI Generator で Spring Boot と Angular をタイプセーフに繋ぐ](https://qiita.com/chibato/items/e4a748db12409b40c02f) by [Tomofumi Chiba](https://github.com/chibat)
 - 2019-03-25 - [Access any REST service with the SAP S/4HANA Cloud SDK](https://blogs.sap.com/2019/03/25/integrate-sap-s4hana-cloud-sdk-with-open-api/) by [Alexander Duemont](https://people.sap.com/alexander.duemont)
 - 2019-03-25 - [OpenAPI generatorを試してみる](https://qiita.com/amuyikam/items/e8a45daae59c68be0fc8) by [@amuyikam](https://twitter.com/amuyikam)
-
+- 2019-03-27 - [OpenAPI3を使ってみよう！Go言語でクライアントとスタブの自動生成まで！](https://techblog.zozo.com/entry/openapi3/go) by [@gold_kou](https://twitter.com/gold_kou)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -728,8 +737,8 @@ If you want to join the committee, please kindly apply by sending an email to te
 | GraphQL   | @renepardon (2018/12) |
 | Groovy    |  |
 | Haskell   |  |
-| Java      | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) |
-| Kotlin    | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) |
+| Java      | @bbdouglas (2017/07) @sreeshas (2017/08) @jfiala (2017/08) @lukoyanov (2017/09) @cbornet (2017/09) @jeff9finger (2018/01) @karismann (2019/03) @Zomzog (2019/04) |
+| Kotlin    | @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert), @dr4ke616 (2018/08) @karismann (2019/03) @Zomzog (2019/04) |
 | Lua       | @daurnimator (2017/08) |
 | NodeJS/Javascript | @CodeNinjai (2017/07) @frol (2017/07) @cliffano (2017/07) |
 | ObjC      |  |
