@@ -165,9 +165,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     }
                 }
             }
-            if (cm.oneOf.size() > 0) {
+            if (!cm.oneOf.isEmpty()) {
                 // For oneOfs only import $refs within the oneOf
-                TreeSet<String> oneOfRefs = new TreeSet<String>();
+                TreeSet<String> oneOfRefs = new TreeSet<>();
                 for (String im : cm.imports) {
                     if (cm.oneOf.contains(im)) {
                         oneOfRefs.add(im);

@@ -2,6 +2,8 @@
 import {
     {{#imports}}
     {{{.}}},
+    {{.}}FromJSON,
+    {{.}}ToJSON,
     {{/imports}}
 } from './';
 
@@ -12,3 +14,12 @@ import {
  * @export
  */
 export type {{classname}} = {{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}};
+
+export function {{classname}}FromJSON(json: any): {{classname}} {
+    //TODO to implement
+    return {{#oneOf}}{{{.}}}FromJSON(json){{^-last}} || {{/-last}}{{/oneOf}};
+}
+
+export function {{classname}}ToJSON(value?: {{classname}}): any {
+    //TODO to implement
+}
