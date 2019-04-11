@@ -426,7 +426,7 @@ To pass more than one generator property, these can be combined via comma:
 --additional-properties=key1=value1,key2=value2
 ```
 
-For the full list of generator-specified parameters, refer to [generators docs]((./generators.md))
+For the full list of generator-specified parameters, refer to [generators docs](./generators.md).
 
 #### Type Mappings and Import Mappings
 
