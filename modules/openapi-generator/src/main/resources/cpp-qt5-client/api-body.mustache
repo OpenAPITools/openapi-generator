@@ -31,7 +31,7 @@ void
     {{#pathParams}}
     QString {{paramName}}PathParam("{"); 
     {{paramName}}PathParam.append("{{baseName}}").append("}");
-    fullPath.replace({{paramName}}PathParam, ::{{cppNamespace}}::toStringValue({{paramName}}));
+    fullPath.replace({{paramName}}PathParam, QUrl::toPercentEncoding(::{{cppNamespace}}::toStringValue({{paramName}})));
     {{/pathParams}}
     {{#queryParams}}{{^collectionFormat}}
     if (fullPath.indexOf("?") > 0)
