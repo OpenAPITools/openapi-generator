@@ -515,6 +515,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [BIMData.io](https://bimdata.io)
 - [Bithost GmbH](https://www.bithost.ch)
 - [Boxever](https://www.boxever.com/)
+- [Camptocamp](https://www.camptocamp.com/en)
 - [codecentric AG](https://www.codecentric.de/)
 - [Cupix](https://www.cupix.com/)
 - [FormAPI](https://formapi.io/)
