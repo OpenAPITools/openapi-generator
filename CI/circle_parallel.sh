@@ -8,8 +8,9 @@ NODE_INDEX=${CIRCLE_NODE_INDEX:-0}
 set -e
 
 if [ "$NODE_INDEX" = "1" ]; then
+  gradle --version
+  gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --info
   echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
-  #cp CI/pom.xml.circleci pom.xml
   java -version
   mvn --quiet verify -Psamples.circleci
 elif [ "$NODE_INDEX" = "2" ]; then
@@ -20,7 +21,6 @@ elif [ "$NODE_INDEX" = "2" ]; then
     java -version
     ./bin/utils/ensure-up-to-date
   fi
-#elif [ "$NODE_INDEX" = "3" ]; then
   echo "Running node $NODE_INDEX to test haskell"
   # install haskell
   curl -sSL https://get.haskellstack.org/ | sh
@@ -42,7 +42,6 @@ else
   echo "Running node $NODE_INDEX to test 'samples.circleci.jdk7' defined in pom.xml ..."
   sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
   java -version
-  #cp CI/pom.xml.circleci.java7 pom.xml
   mvn --quiet verify -Psamples.circleci.jdk7
 fi
 
