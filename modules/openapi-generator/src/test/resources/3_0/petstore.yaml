@@ -701,7 +701,7 @@ components:
             wrapped: true
           items:
             type: string
-        tags: 
+        tags:
           type: array
           xml:
             name: tag
