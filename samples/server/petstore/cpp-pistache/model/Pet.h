@@ -19,12 +19,11 @@
 #define Pet_H_
 
 
-#include "ModelBase.h"
-
 #include "Tag.h"
 #include <string>
 #include "Category.h"
 #include <vector>
+#include <nlohmann/json.hpp>
 
 namespace org {
 namespace openapitools {
@@ -35,19 +34,12 @@ namespace model {
 /// A pet for sale in the pet store
 /// </summary>
 class  Pet
-    : public ModelBase
 {
 public:
     Pet();
     virtual ~Pet();
 
-    /////////////////////////////////////////////
-    /// ModelBase overrides
-
-    void validate() override;
-
-    nlohmann::json toJson() const override;
-    void fromJson(const nlohmann::json& json) override;
+    void validate();
 
     /////////////////////////////////////////////
     /// Pet members
@@ -89,6 +81,8 @@ public:
     bool statusIsSet() const;
     void unsetStatus();
 
+	friend void to_json(nlohmann::json& j, const Pet& o);
+	friend void from_json(const nlohmann::json& j, Pet& o);
 protected:
     int64_t m_Id;
     bool m_IdIsSet;

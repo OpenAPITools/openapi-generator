@@ -39,102 +39,46 @@ void Pet::validate()
     // TODO: implement validation
 }
 
-nlohmann::json Pet::toJson() const
+void to_json(nlohmann::json& j, const Pet& o)
 {
-    nlohmann::json val = nlohmann::json::object();
-
-    if(m_IdIsSet)
-    {
-        val["id"] = m_Id;
-    }
-    if(m_CategoryIsSet)
-    {
-        val["category"] = ModelBase::toJson(m_Category);
-    }
-    val["name"] = ModelBase::toJson(m_Name);
-    {
-        nlohmann::json jsonArray;
-        for( auto& item : m_PhotoUrls )
-        {
-            jsonArray.push_back(ModelBase::toJson(item));
-        }
-        val["photoUrls"] = jsonArray;
-        
-    }
-    {
-        nlohmann::json jsonArray;
-        for( auto& item : m_Tags )
-        {
-            jsonArray.push_back(ModelBase::toJson(item));
-        }
-        
-        if(jsonArray.size() > 0)
-        {
-            val["tags"] = jsonArray;
-        } 
-    }
-    if(m_StatusIsSet)
-    {
-        val["status"] = ModelBase::toJson(m_Status);
-    }
-    
-
-    return val;
+	j = nlohmann::json();
+	if(o.idIsSet())
+		j["id"] = o.m_Id;
+	if(o.categoryIsSet())
+		j["category"] = o.m_Category;
+	j["name"] = o.m_Name;
+	j["photoUrls"] = o.m_PhotoUrls;
+	if(o.tagsIsSet())
+		j["tags"] = o.m_Tags;
+	if(o.statusIsSet())
+		j["status"] = o.m_Status;
 }
 
-void Pet::fromJson(const nlohmann::json& val)
+void from_json(const nlohmann::json& j, Pet& o)
 {
-    if(val.find("id") != val.end())
-    {
-        setId(val.at("id"));
-    }
-    if(val.find("category") != val.end())
-    {
-        if(!val["category"].is_null())
-        {
-            Category newItem;
-            newItem.fromJson(val["category"]);
-            setCategory( newItem );
-        }
-        
-    }
-    setName(val.at("name"));
-    {
-        m_PhotoUrls.clear();
-                    for( auto& item : val["photoUrls"] )
-            {
-                m_PhotoUrls.push_back(item);
-                
-            }
-    }
-    {
-        m_Tags.clear();
-        if(val.find("tags") != val.end())
-        {
-            for( auto& item : val["tags"] )
-            {
-                
-                if(item.is_null())
-                {
-                    m_Tags.push_back( Tag() );
-                }
-                else
-                {
-                    Tag newItem;
-                    newItem.fromJson(item);
-                    m_Tags.push_back( newItem );
-                }
-                
-            }
-        }
-    }
-    if(val.find("status") != val.end())
-    {
-        setStatus(val.at("status"));
-    }
-    
+	if(!j.at("id").is_null())
+	{
+		j.at("id").get_to(o.m_Id);
+		o.m_IdIsSet = true;
+	} 
+	if(!j.at("category").is_null())
+	{
+		j.at("category").get_to(o.m_Category);
+		o.m_CategoryIsSet = true;
+	} 
+	j.at("name").get_to(o.m_Name);
+	j.at("photoUrls").get_to(o.m_PhotoUrls);
+	if(!j.at("tags").is_null())
+	{
+		j.at("tags").get_to(o.m_Tags);
+		o.m_TagsIsSet = true;
+	} 
+	if(!j.at("status").is_null())
+	{
+		j.at("status").get_to(o.m_Status);
+		o.m_StatusIsSet = true;
+	} 
 }
-
 
 int64_t Pet::getId() const
 {
