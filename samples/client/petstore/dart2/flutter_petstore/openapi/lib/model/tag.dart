@@ -39,7 +39,7 @@ class Tag {
 
   static Map<String, Tag> mapFromJson(Map<String, dynamic> json) {
     var map = new Map<String, Tag>();
-    if (json != null && json.length > 0) {
+    if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic value) => map[key] = new Tag.fromJson(value));
     }
     return map;
