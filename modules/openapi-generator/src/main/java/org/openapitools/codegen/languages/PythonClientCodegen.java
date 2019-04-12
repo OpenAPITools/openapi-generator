@@ -726,7 +726,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             codegenParameter.example = "'" + escapeText(codegenParameter.example) + "'";
         } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
             codegenParameter.example = "True";
-        } else {
+        } else if (Boolean.TRUE.equals(codegenParameter.isFreeFormObject)) {
             String type = codegenParameter.baseType;
             if (type == null) {
                 type = codegenParameter.dataType;
@@ -734,6 +734,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             // type is a model class, e.g. User
             if(!languageSpecificPrimitives.contains(type)) {
                 codegenParameter.example = this.packageName + "." + type + "()";
+            } else {
+                codegenParameter.example = type + "()";
             }
         }
 
