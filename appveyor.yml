@@ -19,12 +19,11 @@ install:
       Add-Type -AssemblyName System.IO.Compression.FileSystem
       if (!(Test-Path -Path "C:\gradle" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'https://gradle.org/next-steps/?version=5.3.1&format=bin',
+          'https://services.gradle.org/distributions/gradle-5.3.1-bin.zip',
           'C:\gradle-bin.zip'
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\gradle-bin.zip", "C:\gradle")
       }
-
   - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;C:\gradle\gradle-5.3.1\bin;%JAVA_HOME%\bin;%PATH%
   - cmd: SET MAVEN_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
