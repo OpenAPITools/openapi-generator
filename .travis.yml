@@ -120,6 +120,8 @@ script:
   - /bin/bash ./bin/utils/detect_merge_conflict.sh
   # fail if generators contain tab '\t'
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
+  # test gradle plug-in
+  - gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --info
   # run integration tests defined in maven pom.xml
   - ./run-in-docker.sh mvn --quiet --batch-mode clean install
   - mvn --quiet --batch-mode verify -Psamples
