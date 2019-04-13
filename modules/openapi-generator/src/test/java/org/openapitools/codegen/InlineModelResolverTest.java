@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -25,6 +26,7 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
 
@@ -378,7 +380,7 @@ public class InlineModelResolverTest {
 
         ArraySchema requestBody = (ArraySchema) mediaType.getSchema();
         assertNotNull(requestBody.getItems().get$ref());
-        assertEquals("#/components/schemas/NULL_UNIQUE_NAME", requestBody.getItems().get$ref());
+        assertEquals("#/components/schemas/InlineObject", requestBody.getItems().get$ref());
 
         Schema items = ModelUtils.getReferencedSchema(openAPI, ((ArraySchema) mediaType.getSchema()).getItems());
         assertTrue(items.getProperties().get("street") instanceof StringSchema);
@@ -463,6 +465,62 @@ public class InlineModelResolverTest {
 
         ObjectSchema additionalProperties = (ObjectSchema) mediaType.getSchema().getAdditionalProperties();
         assertTrue(additionalProperties.getProperties().get("resolve_inline_object_response_with_additional_properties") instanceof StringSchema);
+    }
+
+    @Test
+    public void resolveInlineMapSchemaInResponse() {
+        OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/3_0/inline_model_resolver.yaml", null, new ParseOptions()).getOpenAPI();
+        ApiResponse apiResponse = openAPI
+            .getPaths()
+            .get("/resolve_inline_map_schema_in_response")
+            .getGet()
+            .getResponses()
+            .get("200");
+
+        // NOTE: Swagger parser doesn't use MapSchema currently,
+        //       so we need to set a MapSchema instance as the schema manually for testing.
+        // @see https://github.com/swagger-api/swagger-parser/blob/master/modules/swagger-parser-v3/src/main/java/io/swagger/v3/parser/util/SchemaTypeUtil.java
+        apiResponse.content(
+            new Content().addMediaType(
+                "application/json",
+                new MediaType().schema(
+                    new MapSchema().additionalProperties(
+                        new ObjectSchema().addProperties(
+                            "resolve_inline_map_schema_in_response_property",
+                            new ObjectSchema().addProperties(
+                                "resolve_inline_map_schema_in_response_property_string",
+                                new StringSchema().example("example")
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+        new InlineModelResolver().flatten(openAPI);
+
+        MediaType mediaType = openAPI
+            .getPaths()
+            .get("/resolve_inline_map_schema_in_response")
+            .getGet()
+            .getResponses()
+            .get("200")
+            .getContent()
+            .get("application/json");
+        assertTrue(mediaType.getSchema() instanceof MapSchema);
+
+        Schema additionalProperties = (Schema) mediaType.getSchema().getAdditionalProperties();
+        assertNotNull(additionalProperties.get$ref());
+        assertTrue(additionalProperties.get$ref().startsWith("#/components/schemas/inline_response_"));
+
+        Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, additionalProperties);
+        Schema referencedSchemaProperty = (Schema) referencedSchema.getProperties().get("resolve_inline_map_schema_in_response_property");
+
+        assertEquals(
+            "#/components/schemas/_resolve_inline_map_schema_in_response_resolve_inline_map_schema_in_response_property",
+            referencedSchemaProperty.get$ref()
+        );
+        assertNotNull(ModelUtils.getReferencedSchema(openAPI, referencedSchemaProperty));
     }
 
     @Test

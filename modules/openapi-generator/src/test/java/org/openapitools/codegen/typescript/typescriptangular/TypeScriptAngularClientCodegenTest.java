@@ -1,15 +1,15 @@
 package org.openapitools.codegen.typescript.typescriptangular;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
-import org.openapitools.codegen.TestUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import org.openapitools.codegen.CodegenOperation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 
 public class TypeScriptAngularClientCodegenTest {
@@ -74,6 +74,31 @@ public class TypeScriptAngularClientCodegenTest {
 
         Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
 
+    }
+
+    @Test
+    public void testRemovePrefixSuffix() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+
+        // simple noop test
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestName"));
+
+        codegen.setModelNamePrefix("abc");
+        codegen.setModelNameSuffix("def");
+        codegen.additionalProperties().put("modelSuffix", "Ghi");
+        codegen.processOpts();
+
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestName"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameGhi"));
+        Assert.assertEquals("TestNameghi", codegen.removeModelPrefixSuffix("TestNameghi"));
+        Assert.assertEquals("abcTestName", codegen.removeModelPrefixSuffix("abcTestName"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("AbcTestName"));
+        Assert.assertEquals("AbcTestName", codegen.removeModelPrefixSuffix("AbcAbcTestName"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameDef"));
+        Assert.assertEquals("TestNamedef", codegen.removeModelPrefixSuffix("TestNamedef"));
+        Assert.assertEquals("TestNamedefghi", codegen.removeModelPrefixSuffix("TestNamedefghi"));
+        Assert.assertEquals("TestNameDefghi", codegen.removeModelPrefixSuffix("TestNameDefghi"));
+        Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameDefGhi"));
     }
 
 }

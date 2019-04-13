@@ -426,6 +426,8 @@ To pass more than one generator property, these can be combined via comma:
 --additional-properties=key1=value1,key2=value2
 ```
 
+For the full list of generator-specified parameters, refer to [generators docs](./generators.md).
+
 #### Type Mappings and Import Mappings
 
 Most generators allow for types bound to the OpenAPI Specification's types to be remapped to a user's desired types. Not _all_ type mappings can be reassigned, as some generators define mappings which are tightly coupled to the built-in templates.

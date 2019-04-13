@@ -19,3 +19,4 @@ sidebar_label: typescript-axios
 |snapshot|When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 |withSeparateModelsAndApi|Put the model and api in separate folders and in separate classes| |false|
+|withoutPrefixEnums|Dont prefix enum names with class names| |false|

@@ -40,7 +40,7 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
     public JavaJAXRSCXFCDIServerCodegen() {
         outputFolder = "generated-code/JavaJaxRS-CXF-CDI";
         artifactId = "openapi-jaxrs-cxf-cdi-server";
-        sourceFolder = "src" + File.separator + "gen" + File.separator + "java";
+        sourceFolder = "src/gen/java";
         useBeanValidation = true;
 
         // Three API templates to support CDI injection

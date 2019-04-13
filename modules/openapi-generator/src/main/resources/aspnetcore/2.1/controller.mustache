@@ -28,7 +28,7 @@ namespace {{packageName}}.Controllers
         [ValidateModelState]{{#useSwashbuckle}}
         [SwaggerOperation("{{operationId}}")]{{#responses}}{{#dataType}}
         [SwaggerResponse(statusCode: {{code}}, type: typeof({{&dataType}}), description: "{{message}}")]{{/dataType}}{{^dataType}}{{/dataType}}{{/responses}}{{/useSwashbuckle}}
-        public {{operationModifier}} IActionResult {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+        public {{operationModifier}} IActionResult {{operationId}}({{#allParams}}{{>pathParam}}{{>queryParam}}{{>bodyParam}}{{>formParam}}{{>headerParam}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{^generateBody}};{{/generateBody}}
         {{#generateBody}}
         { {{#responses}}
 {{#dataType}}
@@ -50,9 +50,6 @@ namespace {{packageName}}.Controllers
             return new ObjectResult(example);{{/returnType}}{{^returnType}}
             throw new NotImplementedException();{{/returnType}}
         }
-        {{/generateBody}}
-        {{^generateBody}}
-        ;
         {{/generateBody}}
         {{/operation}}
     }

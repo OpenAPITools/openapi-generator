@@ -165,6 +165,16 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     }
                 }
             }
+            if (cm.oneOf.size() > 0) {
+                // For oneOfs only import $refs within the oneOf
+                TreeSet<String> oneOfRefs = new TreeSet<String>();
+                for (String im : cm.imports) {
+                    if (cm.oneOf.contains(im)) {
+                        oneOfRefs.add(im);
+                    }
+                }
+                cm.imports = oneOfRefs;
+            }
         }
 
         return objs;
@@ -256,6 +266,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.reservedWords.add("FetchAPI");
         this.reservedWords.add("ConfigurationParameters");
         this.reservedWords.add("Configuration");
+        this.reservedWords.add("configuration");
         this.reservedWords.add("HTTPMethod");
         this.reservedWords.add("HTTPHeaders");
         this.reservedWords.add("HTTPQuery");

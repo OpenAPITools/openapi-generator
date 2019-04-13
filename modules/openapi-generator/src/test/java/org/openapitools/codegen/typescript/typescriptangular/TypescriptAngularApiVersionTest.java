@@ -1,10 +1,10 @@
 package org.openapitools.codegen.typescript.typescriptangular;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import org.junit.Assert;
-import org.junit.Test;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptAngularClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class TypescriptAngularApiVersionTest {
 

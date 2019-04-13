@@ -8,7 +8,7 @@
         "api"
     ],
     "homepage": "https://github.com/openapitools/openapi-generator",
-    "license": "proprietary",
+    "license": "unlicense",
     "authors": [
         {
             "name": "openapi-generator contributors",

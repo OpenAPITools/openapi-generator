@@ -157,23 +157,11 @@
                 <version>${surefire-version}</version>
                 <configuration>
                     <useSystemClassLoader>false</useSystemClassLoader>
-                    <testNGArtifactName>none:none</testNGArtifactName>
+                    <junitArtifactName>none:none</junitArtifactName>
+                    <testNGArtifactName>org.testng:testng</testNGArtifactName>
                     <argLine>-XX:+StartAttachListener</argLine>
                     <argLine>-javaagent:"${settings.localRepository}/org/jmockit/jmockit/${jmockit-version}/jmockit-${jmockit-version}.jar"</argLine>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>test-testng</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <junitArtifactName>none:none</junitArtifactName>
-                            <testNGArtifactName>org.testng:testng</testNGArtifactName>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -1385,8 +1373,8 @@
         <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
         <jmustache-version>1.14</jmustache-version>
         <handlebars.java-version>4.1.0</handlebars.java-version>
-        <testng-version>6.9.6</testng-version>
-        <surefire-version>2.22.0</surefire-version>
+        <testng-version>6.14.3</testng-version>
+        <surefire-version>2.22.1</surefire-version>
         <jmockit-version>1.43</jmockit-version>
         <reflections-version>0.9.10</reflections-version>
     </properties>
