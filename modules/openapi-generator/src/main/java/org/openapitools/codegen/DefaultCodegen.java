@@ -43,6 +43,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.config.GeneratorProperties;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.languages.rules.LanguageRules;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -63,11 +64,28 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected String inputSpec;
     protected String outputFolder = "";
+
+
+    // these should go in language-specific *Options class
+    // in org.openapitools.codegen.languages.options
+    @Deprecated
+    protected Set<String> reservedWords = new HashSet<String>();
+    @Deprecated
+    protected Set<String> languageSpecificPrimitives = new HashSet<String>();
+    @Deprecated
+    protected Map<String, String> specialCharReplacements = new HashMap<String, String>();
+    @Deprecated
+    protected boolean supportsMultipleInheritance;
+    @Deprecated
+    protected boolean supportsInheritance = false;
+    @Deprecated
+    protected boolean supportsMixins = false;
+    @Deprecated
+    protected Boolean allowUnicodeIdentifiers = false;
+
     protected Set<String> defaultIncludes = new HashSet<String>();
     protected Map<String, String> typeMapping = new HashMap<String, String>();
     protected Map<String, String> instantiationTypes = new HashMap<String, String>();
-    protected Set<String> reservedWords = new HashSet<String>();
-    protected Set<String> languageSpecificPrimitives = new HashSet<String>();
     protected Map<String, String> importMapping = new HashMap<String, String>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
     protected String modelNamePrefix = "", modelNameSuffix = "";
@@ -88,26 +106,21 @@ public class DefaultCodegen implements CodegenConfig {
     protected List<CliOption> cliOptions = new ArrayList<CliOption>();
     protected boolean skipOverwrite;
     protected boolean removeOperationIdPrefix;
-    protected boolean supportsMultipleInheritance;
-    protected boolean supportsInheritance;
-    protected boolean supportsMixins;
     protected Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
     protected String library;
     protected Boolean sortParamsByRequiredFlag = true;
     protected Boolean ensureUniqueParams = true;
-    protected Boolean allowUnicodeIdentifiers = false;
+
     protected String gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
     protected Boolean hideGenerationTimestamp = true;
-    // How to encode special characters like $
-    // They are translated to words like "Dollar" and prefixed with '
-    // Then translated back during JSON encoding and decoding
-    protected Map<String, String> specialCharReplacements = new HashMap<String, String>();
     // When a model is an alias for a simple type
     protected Map<String, String> typeAliases = null;
     protected Boolean prependFormOrBodyParameters = false;
     // The extension of the generated documentation files (defaults to markdown .md)
     protected String docExtension;
+    protected LanguageRules languageRules;
+
     protected String ignoreFilePathOverride;
     // flag to indicate whether to use environment variable to post process file
     protected boolean enablePostProcessFile = false;
@@ -547,6 +560,26 @@ public class DefaultCodegen implements CodegenConfig {
         return defaultIncludes;
     }
 
+    public Map<String, String> specialCharReplacements() {
+        return languageRules !=null ? languageRules.getSpecialCharReplacements() : specialCharReplacements;
+    }
+
+    public boolean supportsMultipleInheritance() {
+        return languageRules !=null ? languageRules.getSupportsMultipleInheritance() : supportsMultipleInheritance;
+    }
+
+    public boolean supportsInheritance() {
+        return languageRules !=null ? languageRules.getSupportsInheritance() : supportsInheritance;
+    }
+
+    private boolean allowUnicodeIdentifiers() {
+        return languageRules != null ? languageRules.getAllowUnicodeIdentifiers() : allowUnicodeIdentifiers;
+    }
+
+    public boolean supportsMixins() {
+        return languageRules !=null ? languageRules.getSupportsMixins() : supportsMixins;
+    }
+
     public Map<String, String> typeMapping() {
         return typeMapping;
     }
@@ -556,11 +589,11 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public Set<String> reservedWords() {
-        return reservedWords;
+        return languageRules !=null ? languageRules.getReservedWords() : reservedWords;
     }
 
     public Set<String> languageSpecificPrimitives() {
-        return languageSpecificPrimitives;
+        return languageRules !=null ? languageRules.getLanguageSpecificPrimitives(): languageSpecificPrimitives;
     }
 
     public Map<String, String> importMapping() {
@@ -827,10 +860,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the sanitized variable name
      */
     public String toVarName(String name) {
-        if (reservedWords.contains(name)) {
+        if (reservedWords().contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-            return escape(name, specialCharReplacements, null, null);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements().keySet().contains( "" + ((char) character)))) {
+            return escape(name, specialCharReplacements(), null, null);
         } else {
             return name;
         }
@@ -845,10 +878,10 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public String toParamName(String name) {
         name = removeNonNameElementToCamelCase(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        if (reservedWords.contains(name)) {
+        if (reservedWords().contains(name)) {
             return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-            return escape(name, specialCharReplacements, null, null);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements().keySet().contains( "" + ((char) character)))) {
+            return escape(name, specialCharReplacements(), null, null);
         }
         return name;
     }
@@ -1050,7 +1083,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return Symbol name (e.g. Dollar)
      */
     protected String getSymbolName(String input) {
-        return specialCharReplacements.get(input);
+        return specialCharReplacements().get(input);
     }
 
     /**
@@ -1602,7 +1635,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
 
-        if (reservedWords.contains(name)) {
+        if (reservedWords().contains(name)) {
             m.name = escapeReservedWord(name);
         } else {
             m.name = name;
@@ -1645,7 +1678,7 @@ public class DefaultCodegen implements CodegenConfig {
             final boolean hasParent = StringUtils.isNotBlank(parentName);
 
             // TODO revise the logic below to set dicriminator, xml attributes
-            if (supportsInheritance || supportsMixins) {
+            if (supportsInheritance() || supportsMixins()) {
                 m.allVars = new ArrayList<CodegenProperty>();
                 if (composed.getAllOf() != null) {
                     int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
@@ -1689,10 +1722,10 @@ public class DefaultCodegen implements CodegenConfig {
                     m.interfaces.add(modelName);
                     addImport(m, modelName);
                     if (allDefinitions != null && refSchema != null) {
-                        if (allParents.contains(modelName) && supportsMultipleInheritance) {
+                        if (allParents.contains(modelName) && supportsMultipleInheritance()) {
                             // multiple inheritance
                             addProperties(allProperties, allRequired, refSchema);
-                        } else if (parentName != null && parentName.equals(modelName) && supportsInheritance) {
+                        } else if (parentName != null && parentName.equals(modelName) && supportsInheritance()) {
                             // single inheritance
                             addProperties(allProperties, allRequired, refSchema);
                         } else {
@@ -1717,7 +1750,7 @@ public class DefaultCodegen implements CodegenConfig {
                 m.parentSchema = parentName;
                 m.parent = toModelName(parentName);
 
-                if (supportsMultipleInheritance) {
+                if (supportsMultipleInheritance()) {
                     m.allParents = new ArrayList<String>();
                     for (String pname : allParents) {
                         String pModelName = toModelName(pname);
@@ -2159,7 +2192,7 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
         property.dataFormat = innerProperty.dataFormat;
-        if (!languageSpecificPrimitives.contains(innerProperty.baseType)) {
+        if (!languageSpecificPrimitives().contains(innerProperty.baseType)) {
             property.complexType = innerProperty.baseType;
         } else {
             property.isPrimitiveType = true;
@@ -2191,7 +2224,7 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.warn("skipping invalid map property " + Json.pretty(property));
             return;
         }
-        if (!languageSpecificPrimitives.contains(innerProperty.baseType)) {
+        if (!languageSpecificPrimitives().contains(innerProperty.baseType)) {
             property.complexType = innerProperty.baseType;
         } else {
             property.isPrimitiveType = true;
@@ -2403,7 +2436,7 @@ public class DefaultCodegen implements CodegenConfig {
                 r.hasMore = true;
                 if (r.baseType != null &&
                         !defaultIncludes.contains(r.baseType) &&
-                        !languageSpecificPrimitives.contains(r.baseType)) {
+                        !languageSpecificPrimitives().contains(r.baseType)) {
                     imports.add(r.baseType);
                 }
                 r.isDefault = response == methodResponse;
@@ -3250,7 +3283,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected boolean isReservedWord(String word) {
-        return word != null && reservedWords.contains(word.toLowerCase(Locale.ROOT));
+        return word != null && reservedWords().contains(word.toLowerCase(Locale.ROOT));
     }
 
     /**
@@ -3297,7 +3330,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected boolean needToImport(String type) {
         return StringUtils.isNotBlank(type) && !defaultIncludes.contains(type)
-                && !languageSpecificPrimitives.contains(type);
+                && !languageSpecificPrimitives().contains(type);
     }
 
     @SuppressWarnings("static-method")
@@ -3882,7 +3915,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // remove everything else other than word, number and _
         // $php_variable => php_variable
-        if (allowUnicodeIdentifiers) { //could be converted to a single line with ?: operator
+        if (allowUnicodeIdentifiers()) { //could be converted to a single line with ?: operator
             name = Pattern.compile(removeCharRegEx, Pattern.UNICODE_CHARACTER_CLASS).matcher(name).replaceAll("");
         } else {
             name = name.replaceAll(removeCharRegEx, "");

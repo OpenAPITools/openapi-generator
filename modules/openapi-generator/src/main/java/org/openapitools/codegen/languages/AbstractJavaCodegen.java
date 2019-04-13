@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.base.Strings;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -30,6 +29,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.rules.JavaLanguageRules;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,7 +95,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public AbstractJavaCodegen() {
         super();
-        supportsInheritance = true;
+
+        languageRules = new JavaLanguageRules();
+
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
         apiTestTemplateFiles.put("api_test.mustache", ".java");
@@ -104,39 +106,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         hideGenerationTimestamp = false;
 
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        // special words
-                        "object",
-                        // used as internal variables, can collide with parameter names
-                        "localVarPath", "localVarQueryParams", "localVarCollectionQueryParams",
-                        "localVarHeaderParams", "localVarFormParams", "localVarPostBody",
-                        "localVarAccepts", "localVarAccept", "localVarContentTypes",
-                        "localVarContentType", "localVarAuthNames", "localReturnType",
-                        "ApiClient", "ApiException", "ApiResponse", "Configuration", "StringUtil",
-
-                        // language reserved words
-                        "abstract", "continue", "for", "new", "switch", "assert",
-                        "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
-                        "this", "break", "double", "implements", "protected", "throw", "byte", "else",
-                        "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
-                        "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
-                        "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                        "native", "super", "while", "null")
-        );
-
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "String",
-                        "boolean",
-                        "Boolean",
-                        "Double",
-                        "Integer",
-                        "Long",
-                        "Float",
-                        "Object",
-                        "byte[]")
-        );
         instantiationTypes.put("array", "ArrayList");
         instantiationTypes.put("map", "HashMap");
         typeMapping.put("date", "Date");
@@ -506,17 +475,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // Sanitize any config options here. We also have to update the additionalProperties because
         // the whole additionalProperties object is injected into the main object passed to the mustache layer
 
-        this.setApiPackage(sanitizePackageName(apiPackage));
+        this.setApiPackage(languageRules.sanitizePackageName(apiPackage));
         if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         }
 
-        this.setModelPackage(sanitizePackageName(modelPackage));
+        this.setModelPackage(languageRules.sanitizePackageName(modelPackage));
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
 
-        this.setInvokerPackage(sanitizePackageName(invokerPackage));
+        this.setInvokerPackage(languageRules.sanitizePackageName(invokerPackage));
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             this.additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         }
@@ -527,7 +496,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return "_" + name;
+        return languageRules.escapeReservedWord(name);
     }
 
     @Override
@@ -595,63 +564,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toVarName(String name) {
-        // sanitize name
-        name = sanitizeName(name, "\\W-[\\$]"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
-            return "propertyClass";
-        }
-
-        if ("_".equals(name)) {
-            name = "_u";
-        }
-
-        // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
-            return name;
-        }
-
-        if (startsWithTwoUppercaseLetters(name)) {
-            name = name.substring(0, 2).toLowerCase(Locale.ROOT) + name.substring(2);
-        }
-
-        // If name contains special chars -> replace them.
-        if ((((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character))))) {
-            List<String> allowedCharacters = new ArrayList<>();
-            allowedCharacters.add("_");
-            allowedCharacters.add("$");
-            name = escape(name, specialCharReplacements, allowedCharacters, "_");
-        }
-
-        // camelize (lower first character) the variable name
-        // pet_id => petId
-        name = camelize(name, true);
-
-        // for reserved word or word starting with number, append _
-        if (isReservedWord(name) || name.matches("^\\d.*")) {
-            name = escapeReservedWord(name);
-        }
-
-        return name;
-    }
-
-    private boolean startsWithTwoUppercaseLetters(String name) {
-        boolean startsWithTwoUppercaseLetters = false;
-        if (name.length() > 1) {
-            startsWithTwoUppercaseLetters = name.substring(0, 2).equals(name.substring(0, 2).toUpperCase(Locale.ROOT));
-        }
-        return startsWithTwoUppercaseLetters;
+        return languageRules.toVarName(name);
     }
 
     @Override
     public String toParamName(String name) {
-        // to avoid conflicts with 'callback' parameter for async call
-        if ("callback".equals(name)) {
-            return "paramCallback";
-        }
-
-        // should be the same as variable name
-        return toVarName(name);
+        return languageRules.toParamName(name);
     }
 
     @Override
@@ -820,6 +738,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return super.toDefaultValue(p);
     }
 
+    // override with any special text escaping logic
+    @SuppressWarnings("static-method")
+    public String escapeText(String input) {
+        return languageRules.escapeText(input);
+    }
+
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
         String example;
@@ -868,7 +792,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             example = "new File(\"" + escapeText(example) + "\")";
         } else if ("Date".equals(type)) {
             example = "new Date()";
-        } else if (!languageSpecificPrimitives.contains(type)) {
+        } else if (!languageSpecificPrimitives().contains(type)) {
             // type is a model class, e.g. User
             example = "new " + type + "()";
         }
@@ -1092,52 +1016,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return sanitizeName(camelize(property.name)) + "Enum";
+        return languageRules.toEnumName(property.name);
     }
 
     @Override
     public String toEnumVarName(String value, String datatype) {
-        if (value.length() == 0) {
-            return "EMPTY";
-        }
-
-        // for symbol, e.g. $, #
-        if (getSymbolName(value) != null) {
-            return getSymbolName(value).toUpperCase(Locale.ROOT);
-        }
-
-        // number
-        if ("Integer".equals(datatype) || "Long".equals(datatype) ||
-                "Float".equals(datatype) || "Double".equals(datatype)) {
-            String varName = "NUMBER_" + value;
-            varName = varName.replaceAll("-", "MINUS_");
-            varName = varName.replaceAll("\\+", "PLUS_");
-            varName = varName.replaceAll("\\.", "_DOT_");
-            return varName;
-        }
-
-        // string
-        String var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
-        if (var.matches("\\d.*")) {
-            return "_" + var;
-        } else {
-            return var;
-        }
+        return languageRules.toEnumVarName(value, datatype);
     }
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        if ("Integer".equals(datatype) || "Double".equals(datatype)) {
-            return value;
-        } else if ("Long".equals(datatype)) {
-            // add l to number, e.g. 2048 => 2048l
-            return value + "l";
-        } else if ("Float".equals(datatype)) {
-            // add f to number, e.g. 3.14 => 3.14f
-            return value + "f";
-        } else {
-            return "\"" + escapeText(value) + "\"";
-        }
+        return languageRules.toEnumValue(value, datatype);
     }
 
     @Override
@@ -1193,15 +1082,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             codegenModel.vars = codegenProperties;
         }
         return codegenModel;
-    }
-
-    private static String sanitizePackageName(String packageName) {
-        packageName = packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
-        if (Strings.isNullOrEmpty(packageName)) {
-            return "invalidPackageName";
-        }
-        return packageName;
     }
 
     public String getInvokerPackage() {
@@ -1329,7 +1209,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
+        return languageRules.escapeUnsafeCharacters(input);
     }
 
     /*
@@ -1410,13 +1290,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String sanitizeTag(String tag) {
-        tag = camelize(underscore(sanitizeName(tag)));
-
-        // tag starts with numbers
-        if (tag.matches("^\\d.*")) {
-            tag = "Class" + tag;
-        }
-        return tag;
+        return languageRules.sanitizeTag(tag);
     }
 
     /**
