@@ -38,25 +38,25 @@ void Tag::validate()
 
 void to_json(nlohmann::json& j, const Tag& o)
 {
-	j = nlohmann::json();
-	if(o.idIsSet())
-		j["id"] = o.m_Id;
-	if(o.nameIsSet())
-		j["name"] = o.m_Name;
+    j = nlohmann::json();
+    if(o.idIsSet())
+        j["id"] = o.m_Id;
+    if(o.nameIsSet())
+        j["name"] = o.m_Name;
 }
 
 void from_json(const nlohmann::json& j, Tag& o)
 {
-	if(!j.at("id").is_null())
-	{
-		j.at("id").get_to(o.m_Id);
-		o.m_IdIsSet = true;
-	} 
-	if(!j.at("name").is_null())
-	{
-		j.at("name").get_to(o.m_Name);
-		o.m_NameIsSet = true;
-	} 
+    if(!j.at("id").is_null())
+    {
+        j.at("id").get_to(o.m_Id);
+        o.m_IdIsSet = true;
+    } 
+    if(!j.at("name").is_null())
+    {
+        j.at("name").get_to(o.m_Name);
+        o.m_NameIsSet = true;
+    } 
 }
 
 int64_t Tag::getId() const

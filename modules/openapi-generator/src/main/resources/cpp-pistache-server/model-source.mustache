@@ -27,22 +27,22 @@ void {{classname}}::validate()
 
 void to_json(nlohmann::json& j, const {{classname}}& o)
 {
-	j = nlohmann::json();
-	{{#vars}}
-	{{#required}}j["{{baseName}}"] = o.m_{{name}};{{/required}}{{^required}}if(o.{{nameInCamelCase}}IsSet())
-		j["{{baseName}}"] = o.m_{{name}};{{/required}}
-	{{/vars}}
+    j = nlohmann::json();
+    {{#vars}}
+    {{#required}}j["{{baseName}}"] = o.m_{{name}};{{/required}}{{^required}}if(o.{{nameInCamelCase}}IsSet())
+        j["{{baseName}}"] = o.m_{{name}};{{/required}}
+    {{/vars}}
 }
 
 void from_json(const nlohmann::json& j, {{classname}}& o)
 {
-	{{#vars}}
-	{{#required}}j.at("{{baseName}}").get_to(o.m_{{name}});{{/required}}{{^required}}if(!j.at("{{baseName}}").is_null())
-	{
-		j.at("{{baseName}}").get_to(o.m_{{name}});
-		o.m_{{name}}IsSet = true;
-	} {{/required}}
-	{{/vars}}
+    {{#vars}}
+    {{#required}}j.at("{{baseName}}").get_to(o.m_{{name}});{{/required}}{{^required}}if(!j.at("{{baseName}}").is_null())
+    {
+        j.at("{{baseName}}").get_to(o.m_{{name}});
+        o.m_{{name}}IsSet = true;
+    } {{/required}}
+    {{/vars}}
 }
 
 {{#vars}}{{#isContainer}}{{{dataType}}}& {{classname}}::{{getter}}()

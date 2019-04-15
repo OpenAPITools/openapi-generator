@@ -43,8 +43,8 @@ public:
     {{/required}}
     {{/vars}}
 
-	friend void to_json(nlohmann::json& j, const {{classname}}& o);
-	friend void from_json(const nlohmann::json& j, {{classname}}& o);
+    friend void to_json(nlohmann::json& j, const {{classname}}& o);
+    friend void from_json(const nlohmann::json& j, {{classname}}& o);
 protected:
     {{#vars}}
     {{{dataType}}} m_{{name}};

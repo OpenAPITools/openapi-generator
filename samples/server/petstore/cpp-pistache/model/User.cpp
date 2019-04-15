@@ -50,67 +50,67 @@ void User::validate()
 
 void to_json(nlohmann::json& j, const User& o)
 {
-	j = nlohmann::json();
-	if(o.idIsSet())
-		j["id"] = o.m_Id;
-	if(o.usernameIsSet())
-		j["username"] = o.m_Username;
-	if(o.firstNameIsSet())
-		j["firstName"] = o.m_FirstName;
-	if(o.lastNameIsSet())
-		j["lastName"] = o.m_LastName;
-	if(o.emailIsSet())
-		j["email"] = o.m_Email;
-	if(o.passwordIsSet())
-		j["password"] = o.m_Password;
-	if(o.phoneIsSet())
-		j["phone"] = o.m_Phone;
-	if(o.userStatusIsSet())
-		j["userStatus"] = o.m_UserStatus;
+    j = nlohmann::json();
+    if(o.idIsSet())
+        j["id"] = o.m_Id;
+    if(o.usernameIsSet())
+        j["username"] = o.m_Username;
+    if(o.firstNameIsSet())
+        j["firstName"] = o.m_FirstName;
+    if(o.lastNameIsSet())
+        j["lastName"] = o.m_LastName;
+    if(o.emailIsSet())
+        j["email"] = o.m_Email;
+    if(o.passwordIsSet())
+        j["password"] = o.m_Password;
+    if(o.phoneIsSet())
+        j["phone"] = o.m_Phone;
+    if(o.userStatusIsSet())
+        j["userStatus"] = o.m_UserStatus;
 }
 
 void from_json(const nlohmann::json& j, User& o)
 {
-	if(!j.at("id").is_null())
-	{
-		j.at("id").get_to(o.m_Id);
-		o.m_IdIsSet = true;
-	} 
-	if(!j.at("username").is_null())
-	{
-		j.at("username").get_to(o.m_Username);
-		o.m_UsernameIsSet = true;
-	} 
-	if(!j.at("firstName").is_null())
-	{
-		j.at("firstName").get_to(o.m_FirstName);
-		o.m_FirstNameIsSet = true;
-	} 
-	if(!j.at("lastName").is_null())
-	{
-		j.at("lastName").get_to(o.m_LastName);
-		o.m_LastNameIsSet = true;
-	} 
-	if(!j.at("email").is_null())
-	{
-		j.at("email").get_to(o.m_Email);
-		o.m_EmailIsSet = true;
-	} 
-	if(!j.at("password").is_null())
-	{
-		j.at("password").get_to(o.m_Password);
-		o.m_PasswordIsSet = true;
-	} 
-	if(!j.at("phone").is_null())
-	{
-		j.at("phone").get_to(o.m_Phone);
-		o.m_PhoneIsSet = true;
-	} 
-	if(!j.at("userStatus").is_null())
-	{
-		j.at("userStatus").get_to(o.m_UserStatus);
-		o.m_UserStatusIsSet = true;
-	} 
+    if(!j.at("id").is_null())
+    {
+        j.at("id").get_to(o.m_Id);
+        o.m_IdIsSet = true;
+    } 
+    if(!j.at("username").is_null())
+    {
+        j.at("username").get_to(o.m_Username);
+        o.m_UsernameIsSet = true;
+    } 
+    if(!j.at("firstName").is_null())
+    {
+        j.at("firstName").get_to(o.m_FirstName);
+        o.m_FirstNameIsSet = true;
+    } 
+    if(!j.at("lastName").is_null())
+    {
+        j.at("lastName").get_to(o.m_LastName);
+        o.m_LastNameIsSet = true;
+    } 
+    if(!j.at("email").is_null())
+    {
+        j.at("email").get_to(o.m_Email);
+        o.m_EmailIsSet = true;
+    } 
+    if(!j.at("password").is_null())
+    {
+        j.at("password").get_to(o.m_Password);
+        o.m_PasswordIsSet = true;
+    } 
+    if(!j.at("phone").is_null())
+    {
+        j.at("phone").get_to(o.m_Phone);
+        o.m_PhoneIsSet = true;
+    } 
+    if(!j.at("userStatus").is_null())
+    {
+        j.at("userStatus").get_to(o.m_UserStatus);
+        o.m_UserStatusIsSet = true;
+    } 
 }
 
 int64_t User::getId() const

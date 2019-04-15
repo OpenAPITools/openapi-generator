@@ -46,53 +46,53 @@ void Order::validate()
 
 void to_json(nlohmann::json& j, const Order& o)
 {
-	j = nlohmann::json();
-	if(o.idIsSet())
-		j["id"] = o.m_Id;
-	if(o.petIdIsSet())
-		j["petId"] = o.m_PetId;
-	if(o.quantityIsSet())
-		j["quantity"] = o.m_Quantity;
-	if(o.shipDateIsSet())
-		j["shipDate"] = o.m_ShipDate;
-	if(o.statusIsSet())
-		j["status"] = o.m_Status;
-	if(o.completeIsSet())
-		j["complete"] = o.m_Complete;
+    j = nlohmann::json();
+    if(o.idIsSet())
+        j["id"] = o.m_Id;
+    if(o.petIdIsSet())
+        j["petId"] = o.m_PetId;
+    if(o.quantityIsSet())
+        j["quantity"] = o.m_Quantity;
+    if(o.shipDateIsSet())
+        j["shipDate"] = o.m_ShipDate;
+    if(o.statusIsSet())
+        j["status"] = o.m_Status;
+    if(o.completeIsSet())
+        j["complete"] = o.m_Complete;
 }
 
 void from_json(const nlohmann::json& j, Order& o)
 {
-	if(!j.at("id").is_null())
-	{
-		j.at("id").get_to(o.m_Id);
-		o.m_IdIsSet = true;
-	} 
-	if(!j.at("petId").is_null())
-	{
-		j.at("petId").get_to(o.m_PetId);
-		o.m_PetIdIsSet = true;
-	} 
-	if(!j.at("quantity").is_null())
-	{
-		j.at("quantity").get_to(o.m_Quantity);
-		o.m_QuantityIsSet = true;
-	} 
-	if(!j.at("shipDate").is_null())
-	{
-		j.at("shipDate").get_to(o.m_ShipDate);
-		o.m_ShipDateIsSet = true;
-	} 
-	if(!j.at("status").is_null())
-	{
-		j.at("status").get_to(o.m_Status);
-		o.m_StatusIsSet = true;
-	} 
-	if(!j.at("complete").is_null())
-	{
-		j.at("complete").get_to(o.m_Complete);
-		o.m_CompleteIsSet = true;
-	} 
+    if(!j.at("id").is_null())
+    {
+        j.at("id").get_to(o.m_Id);
+        o.m_IdIsSet = true;
+    } 
+    if(!j.at("petId").is_null())
+    {
+        j.at("petId").get_to(o.m_PetId);
+        o.m_PetIdIsSet = true;
+    } 
+    if(!j.at("quantity").is_null())
+    {
+        j.at("quantity").get_to(o.m_Quantity);
+        o.m_QuantityIsSet = true;
+    } 
+    if(!j.at("shipDate").is_null())
+    {
+        j.at("shipDate").get_to(o.m_ShipDate);
+        o.m_ShipDateIsSet = true;
+    } 
+    if(!j.at("status").is_null())
+    {
+        j.at("status").get_to(o.m_Status);
+        o.m_StatusIsSet = true;
+    } 
+    if(!j.at("complete").is_null())
+    {
+        j.at("complete").get_to(o.m_Complete);
+        o.m_CompleteIsSet = true;
+    } 
 }
 
 int64_t Order::getId() const
