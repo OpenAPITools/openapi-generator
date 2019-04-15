@@ -1,8 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "cJSON.h"
-#include "order.h"
+#include "../model/order.h"
 
 
 #define ORDER_ID 1234
@@ -25,7 +24,7 @@ int main() {
 
 	printf("Created Order is: \n%s\n", dataToPrint);
 
-	order_t *parsedOrder = order_parseFromJSON(dataToPrint);
+	order_t *parsedOrder = order_parseFromJSON(JSONNODE);
 
 	cJSON *fromJSON = order_convertToJSON(parsedOrder);
 
