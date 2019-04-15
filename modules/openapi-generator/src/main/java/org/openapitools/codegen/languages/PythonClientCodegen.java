@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -649,104 +650,120 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return addRegularExpressionDelimiter(pattern);
     }
 
-    // @Override
-    // public void setParameterExampleValue(CodegenParameter p) {
-    //     String example;
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        String example;
 
-    //     if (p.defaultValue == null) {
-    //         example = p.example;
-    //     } else {
-    //         p.example = p.defaultValue;
-    //         return;
-    //     }
+        if (p.defaultValue == null) {
+            example = p.example;
+        } else {
+            p.example = p.defaultValue;
+            return;
+        }
 
-    //     String type = p.baseType;
-    //     if (type == null) {
-    //         type = p.dataType;
-    //     }
+        String type = p.baseType;
+        if (type == null) {
+            type = p.dataType;
+        }
 
-    //     if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
-    //         if (example == null) {
-    //             example = p.paramName + "_example";
-    //         }
-    //         example = "'" + escapeText(example) + "'";
-    //     } else if ("Integer".equals(type) || "int".equals(type)) {
-    //         if (example == null) {
-    //             example = "56";
-    //         }
-    //     } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
-    //         if (example == null) {
-    //             example = "3.4";
-    //         }
-    //     } else if ("BOOLEAN".equalsIgnoreCase(type) || "bool".equalsIgnoreCase(type)) {
-    //         if (example == null) {
-    //             example = "True";
-    //         }
-    //     } else if ("file".equalsIgnoreCase(type)) {
-    //         if (example == null) {
-    //             example = "/path/to/file";
-    //         }
-    //         example = "'" + escapeText(example) + "'";
-    //     } else if ("Date".equalsIgnoreCase(type)) {
-    //         if (example == null) {
-    //             example = "2013-10-20";
-    //         }
-    //         example = "'" + escapeText(example) + "'";
-    //     } else if ("DateTime".equalsIgnoreCase(type)) {
-    //         if (example == null) {
-    //             example = "2013-10-20T19:20:30+01:00";
-    //         }
-    //         example = "'" + escapeText(example) + "'";
-    //     } else if (!languageSpecificPrimitives.contains(type)) {
-    //         // type is a model class, e.g. User
-    //         example = this.packageName + "." + type + "()";
-    //     } else {
-    //         LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
-    //     }
+        if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = p.paramName + "_example";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if ("Integer".equals(type) || "int".equals(type)) {
+            if (example == null) {
+                example = "56";
+            }
+        } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "3.4";
+            }
+        } else if ("BOOLEAN".equalsIgnoreCase(type) || "bool".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "True";
+            }
+        } else if ("file".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "/path/to/file";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if ("Date".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "2013-10-20";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if ("DateTime".equalsIgnoreCase(type)) {
+            if (example == null) {
+                example = "2013-10-20T19:20:30+01:00";
+            }
+            example = "'" + escapeText(example) + "'";
+        } else if (!languageSpecificPrimitives.contains(type)) {
+            // type is a model class, e.g. User
+            example = this.packageName + "." + type + "()";
+        } else {
+            LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
+        }
 
-    //     if (example == null) {
-    //         example = "NULL";
-    //     } else if (Boolean.TRUE.equals(p.isListContainer)) {
-    //         example = "[" + example + "]";
-    //     } else if (Boolean.TRUE.equals(p.isMapContainer)) {
-    //         example = "{'key': " + example + "}";
-    //     }
+        if (example == null) {
+            example = "NULL";
+        } else if (Boolean.TRUE.equals(p.isListContainer)) {
+            example = "[" + example + "]";
+        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
+            example = "{'key': " + example + "}";
+        }
 
-    //     p.example = example;
-    // }
+        p.example = example;
+    }
 
     @Override
     public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
-        super.setParameterExampleValue(codegenParameter, parameter);
-
-        if(Boolean.TRUE.equals(codegenParameter.isString)
-                || Boolean.TRUE.equals(codegenParameter.isDate)
-                || Boolean.TRUE.equals(codegenParameter.isDateTime
-                || Boolean.TRUE.equals(codegenParameter.isUuid))) {
-            codegenParameter.example = "'" + escapeText(codegenParameter.example) + "'";
-        } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
-            codegenParameter.example = "True";
-        } else if (Boolean.TRUE.equals(codegenParameter.isFreeFormObject)) {
-            String type = codegenParameter.baseType;
-            if (type == null) {
-                type = codegenParameter.dataType;
+        Schema schema = parameter.getSchema();
+        if (parameter.getExample() != null) {
+            codegenParameter.example = parameter.getExample().toString();
+        } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            Example example = parameter.getExamples().values().iterator().next();
+            if (example.getValue() != null) {
+                codegenParameter.example = example.getValue().toString();
             }
-            // type is a model class, e.g. User
-            if(!languageSpecificPrimitives.contains(type)) {
-                codegenParameter.example = this.packageName + "." + type + "()";
-            } else {
-                codegenParameter.example = type + "()";
-            }
+        } else if (schema != null && schema.getExample() != null) {
+            codegenParameter.example = schema.getExample().toString();
         }
 
-        if (codegenParameter.example == null) {
-            codegenParameter.example = "None";
-        } else if (Boolean.TRUE.equals(codegenParameter.isListContainer)) {
-            codegenParameter.example = "[" + codegenParameter.example + "]";
-        } else if (Boolean.TRUE.equals(codegenParameter.isMapContainer)) {
-            codegenParameter.example = "{'key': " + codegenParameter.example + "}";
-        }
+        setParameterExampleValue(codegenParameter);
     }
+
+    // public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+    //     super.setParameterExampleValue(codegenParameter, parameter);
+
+    //     if(Boolean.TRUE.equals(codegenParameter.isString)
+    //             || Boolean.TRUE.equals(codegenParameter.isDate)
+    //             || Boolean.TRUE.equals(codegenParameter.isDateTime
+    //             || Boolean.TRUE.equals(codegenParameter.isUuid))) {
+    //         codegenParameter.example = "'" + escapeText(codegenParameter.example) + "'";
+    //     } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
+    //         codegenParameter.example = "True";
+    //     } else if (Boolean.TRUE.equals(codegenParameter.isFreeFormObject)) {
+    //         String type = codegenParameter.baseType;
+    //         if (type == null) {
+    //             type = codegenParameter.dataType;
+    //         }
+    //         // type is a model class, e.g. User
+    //         if(!languageSpecificPrimitives.contains(type)) {
+    //             codegenParameter.example = this.packageName + "." + type + "()";
+    //         } else {
+    //             codegenParameter.example = type + "()";
+    //         }
+    //     }
+
+    //     if (codegenParameter.example == null) {
+    //         codegenParameter.example = "None";
+    //     } else if (Boolean.TRUE.equals(codegenParameter.isListContainer)) {
+    //         codegenParameter.example = "[" + codegenParameter.example + "]";
+    //     } else if (Boolean.TRUE.equals(codegenParameter.isMapContainer)) {
+    //         codegenParameter.example = "{'key': " + codegenParameter.example + "}";
+    //     }
+    // }
 
     @Override
     public String sanitizeTag(String tag) {
