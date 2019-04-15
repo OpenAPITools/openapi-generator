@@ -706,7 +706,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         if (example == null) {
-            example = "NULL";
+            example = "None";
         } else if (Boolean.TRUE.equals(p.isListContainer)) {
             example = "[" + example + "]";
         } else if (Boolean.TRUE.equals(p.isMapContainer)) {
@@ -719,6 +719,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
         Schema schema = parameter.getSchema();
+
         if (parameter.getExample() != null) {
             codegenParameter.example = parameter.getExample().toString();
         } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
@@ -732,38 +733,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         setParameterExampleValue(codegenParameter);
     }
-
-    // public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
-    //     super.setParameterExampleValue(codegenParameter, parameter);
-
-    //     if(Boolean.TRUE.equals(codegenParameter.isString)
-    //             || Boolean.TRUE.equals(codegenParameter.isDate)
-    //             || Boolean.TRUE.equals(codegenParameter.isDateTime
-    //             || Boolean.TRUE.equals(codegenParameter.isUuid))) {
-    //         codegenParameter.example = "'" + escapeText(codegenParameter.example) + "'";
-    //     } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
-    //         codegenParameter.example = "True";
-    //     } else if (Boolean.TRUE.equals(codegenParameter.isFreeFormObject)) {
-    //         String type = codegenParameter.baseType;
-    //         if (type == null) {
-    //             type = codegenParameter.dataType;
-    //         }
-    //         // type is a model class, e.g. User
-    //         if(!languageSpecificPrimitives.contains(type)) {
-    //             codegenParameter.example = this.packageName + "." + type + "()";
-    //         } else {
-    //             codegenParameter.example = type + "()";
-    //         }
-    //     }
-
-    //     if (codegenParameter.example == null) {
-    //         codegenParameter.example = "None";
-    //     } else if (Boolean.TRUE.equals(codegenParameter.isListContainer)) {
-    //         codegenParameter.example = "[" + codegenParameter.example + "]";
-    //     } else if (Boolean.TRUE.equals(codegenParameter.isMapContainer)) {
-    //         codegenParameter.example = "{'key': " + codegenParameter.example + "}";
-    //     }
-    // }
 
     @Override
     public String sanitizeTag(String tag) {

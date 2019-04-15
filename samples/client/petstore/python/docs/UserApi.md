@@ -78,7 +78,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
-body = NULL # list[User] | List of user object
+body = None # list[User] | List of user object
 
 try:
     # Creates list of users with given input array
@@ -124,7 +124,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = petstore_api.UserApi()
-body = NULL # list[User] | List of user object
+body = None # list[User] | List of user object
 
 try:
     # Creates list of users with given input array
