@@ -113,11 +113,6 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
     }
 
     @Override
-    public CodegenType getTag() {
-        return CodegenType.CLIENT;
-    }
-
-    @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
@@ -132,24 +127,6 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 
         addNpmPackageGeneration();
-    }
-
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        Schema inner;
-        if (ModelUtils.isArraySchema(p)) {
-            inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            inner = ModelUtils.getAdditionalProperties(p);
-            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
-        } else if (ModelUtils.isFileSchema(p)) {
-            return "any";
-        } else if (ModelUtils.isBinarySchema(p)) {
-            return "any";
-        } else {
-            return super.getTypeDeclaration(p);
-        }
     }
 
     private void addNpmPackageGeneration() {
@@ -236,11 +213,6 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         }
 
         return objs;
-    }
-
-    @Override
-    public String escapeUnsafeCharacters(String input) {
-        return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
     @Override
