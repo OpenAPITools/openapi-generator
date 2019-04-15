@@ -239,12 +239,6 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
     }
 
     @Override
-    public String escapeQuotationMark(String input) {
-        // remove ', " to avoid code injection
-        return input.replace("\"", "").replace("'", "");
-    }
-
-    @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
