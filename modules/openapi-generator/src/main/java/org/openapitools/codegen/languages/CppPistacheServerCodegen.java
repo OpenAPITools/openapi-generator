@@ -36,10 +36,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     protected boolean isAddExternalLibs = true;
     public static final String OPTIONAL_EXTERNAL_LIB = "addExternalLibs";
     public static final String OPTIONAL_EXTERNAL_LIB_DESC = "Add the Possibility to fetch and compile external Libraries needed by this Framework.";
-    public static final String HELPERS_PACKAGE_NAME = "helpersPackage";
-    public static final String HELPERS_PACKAGE_NAME_DESC = "Specify the package name to be used for the helpers (e.g. org.openapitools.server.helpers).";
     protected final String PREFIX = "";
-    protected String helpersPackage = "";
     @Override
     public CodegenType getTag() {
         return CodegenType.SERVER;
@@ -61,7 +58,6 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             modelNamePrefix = PREFIX;
         }
 
-        helpersPackage = "org.openapitools.server.helpers";
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";
 
@@ -77,12 +73,9 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
         cliOptions.clear();
         addSwitch(OPTIONAL_EXTERNAL_LIB, OPTIONAL_EXTERNAL_LIB_DESC, this.isAddExternalLibs);
-        addOption(HELPERS_PACKAGE_NAME, HELPERS_PACKAGE_NAME_DESC, this.helpersPackage);
 
         reservedWords = new HashSet<>();
 
-        supportingFiles.add(new SupportingFile("helpers-header.mustache", "model", modelNamePrefix + "Helpers.h"));
-        supportingFiles.add(new SupportingFile("helpers-source.mustache", "model", modelNamePrefix + "Helpers.cpp"));
         supportingFiles.add(new SupportingFile("main-api-server.mustache", "", modelNamePrefix + "main-api-server.cpp"));
         supportingFiles.add(new SupportingFile("cmake.mustache", "", "CMakeLists.txt"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -116,14 +109,9 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-        if (additionalProperties.containsKey(HELPERS_PACKAGE_NAME)) {
-            helpersPackage = (String) additionalProperties.get(HELPERS_PACKAGE_NAME);
-        }
         if (additionalProperties.containsKey("modelNamePrefix")) {
             additionalProperties().put("prefix", modelNamePrefix);
             supportingFiles.clear();
-            supportingFiles.add(new SupportingFile("helpers-header.mustache", "model", modelNamePrefix + "Helpers.h"));
-            supportingFiles.add(new SupportingFile("helpers-source.mustache", "model", modelNamePrefix + "Helpers.cpp"));
             supportingFiles.add(new SupportingFile("main-api-server.mustache", "", modelNamePrefix + "main-api-server.cpp"));
             supportingFiles.add(new SupportingFile("cmake.mustache", "", "CMakeLists.txt"));
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -131,10 +119,8 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
-        additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));  
-        additionalProperties.put("helpersNamespaceDeclarations", helpersPackage.split("\\."));
-        additionalProperties.put("helpersNamespace", helpersPackage.replaceAll("\\.", "::")); 
-                
+        additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
+
         if (additionalProperties.containsKey(OPTIONAL_EXTERNAL_LIB)) {
             setAddExternalLibs(convertPropertyToBooleanAndWriteBack(OPTIONAL_EXTERNAL_LIB));
         } else {

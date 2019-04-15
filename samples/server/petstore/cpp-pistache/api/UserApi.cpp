@@ -11,14 +11,12 @@
 */
 
 #include "UserApi.h"
-#include "Helpers.h"
 
 namespace org {
 namespace openapitools {
 namespace server {
 namespace api {
 
-using namespace org::openapitools::server::helpers;
 using namespace org::openapitools::server::model;
 
 UserApi::UserApi(std::shared_ptr<Pistache::Rest::Router> rtr) { 
