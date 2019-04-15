@@ -12,41 +12,6 @@ import Alamofire
 
 open class FakeAPI {
     /**
-     creates an XmlItem
-     
-     - parameter xmlItem: (body) XmlItem Body 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func createXmlItem(xmlItem: XmlItem, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        createXmlItemWithRequestBuilder(xmlItem: xmlItem).execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     creates an XmlItem
-     - POST /fake/create_xml_item
-     - this route creates an XmlItem
-     - parameter xmlItem: (body) XmlItem Body 
-     - returns: RequestBuilder<Void> 
-     */
-    open class func createXmlItemWithRequestBuilder(xmlItem: XmlItem) -> RequestBuilder<Void> {
-        let path = "/fake/create_xml_item"
-        let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: xmlItem)
-
-        let url = URLComponents(string: URLString)
-
-        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
-
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
-    }
-
-    /**
 
      - parameter body: (body) Input boolean as post body (optional)
      - parameter completion: completion handler to receive the data and the error objects

@@ -13,43 +13,6 @@ import PromiseKit
 
 open class FakeAPI {
     /**
-     creates an XmlItem
-     
-     - parameter xmlItem: (body) XmlItem Body 
-     - returns: Promise<Void>
-     */
-    open class func createXmlItem( xmlItem: XmlItem) -> Promise<Void> {
-        let deferred = Promise<Void>.pending()
-        createXmlItemWithRequestBuilder(xmlItem: xmlItem).execute { (response, error) -> Void in
-            if let error = error {
-                deferred.reject(error)
-            } else {
-                deferred.fulfill(())
-            }
-        }
-        return deferred.promise
-    }
-
-    /**
-     creates an XmlItem
-     - POST /fake/create_xml_item
-     - this route creates an XmlItem
-     - parameter xmlItem: (body) XmlItem Body 
-     - returns: RequestBuilder<Void> 
-     */
-    open class func createXmlItemWithRequestBuilder(xmlItem: XmlItem) -> RequestBuilder<Void> {
-        let path = "/fake/create_xml_item"
-        let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: xmlItem)
-
-        let url = URLComponents(string: URLString)
-
-        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
-
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
-    }
-
-    /**
 
      - parameter body: (body) Input boolean as post body (optional)
      - returns: Promise<Bool>

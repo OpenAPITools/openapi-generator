@@ -13,45 +13,6 @@ import RxSwift
 
 open class FakeAPI {
     /**
-     creates an XmlItem
-     
-     - parameter xmlItem: (body) XmlItem Body 
-     - returns: Observable<Void>
-     */
-    open class func createXmlItem(xmlItem: XmlItem) -> Observable<Void> {
-        return Observable.create { observer -> Disposable in
-            createXmlItemWithRequestBuilder(xmlItem: xmlItem).execute { (response, error) -> Void in
-                if let error = error {
-                    observer.onError(error)
-                } else {
-                    observer.onNext(())
-                }
-                observer.onCompleted()
-            }
-            return Disposables.create()
-        }
-    }
-
-    /**
-     creates an XmlItem
-     - POST /fake/create_xml_item
-     - this route creates an XmlItem
-     - parameter xmlItem: (body) XmlItem Body 
-     - returns: RequestBuilder<Void> 
-     */
-    open class func createXmlItemWithRequestBuilder(xmlItem: XmlItem) -> RequestBuilder<Void> {
-        let path = "/fake/create_xml_item"
-        let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: xmlItem)
-
-        let url = URLComponents(string: URLString)
-
-        let requestBuilder: RequestBuilder<Void>.Type = PetstoreClientAPI.requestBuilderFactory.getNonDecodableBuilder()
-
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
-    }
-
-    /**
 
      - parameter body: (body) Input boolean as post body (optional)
      - returns: Observable<Bool>
