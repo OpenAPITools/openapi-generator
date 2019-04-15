@@ -2,11 +2,13 @@
 {{#operations}}
 
 #include "{{classname}}.h"
+#include "{{prefix}}Helpers.h"
 
 {{#apiNamespaceDeclarations}}
 namespace {{this}} {
 {{/apiNamespaceDeclarations}}
 
+using namespace {{helpersNamespace}};
 {{#hasModelImport}}
 using namespace {{modelNamespace}};{{/hasModelImport}}
 
