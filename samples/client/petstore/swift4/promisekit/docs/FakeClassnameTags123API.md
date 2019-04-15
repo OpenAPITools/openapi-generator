@@ -32,7 +32,6 @@ FakeClassnameTags123API.testClassname(body: body).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters

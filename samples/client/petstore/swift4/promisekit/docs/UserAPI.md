@@ -39,7 +39,6 @@ UserAPI.createUser(body: body).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -86,7 +85,6 @@ UserAPI.createUsersWithArrayInput(body: body).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -133,7 +131,6 @@ UserAPI.createUsersWithListInput(body: body).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -182,7 +179,6 @@ UserAPI.deleteUser(username: username).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -229,7 +225,6 @@ UserAPI.getUserByName(username: username).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -277,7 +272,6 @@ UserAPI.loginUser(username: username, password: password).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -324,7 +318,6 @@ UserAPI.logoutUser().then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -371,7 +364,6 @@ UserAPI.updateUser(username: username, body: body).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters

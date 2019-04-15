@@ -29,6 +29,7 @@ import PetstoreClient
 
 let body = Pet(123, Category(123, "name_example"), "name_example", ["photoUrls_example"], [Tag(123, "name_example")], "status_example") // Pet | Pet object that needs to be added to the store
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -67,6 +68,7 @@ import PetstoreClient
 let petId = 987 // Int64 | Pet id to delete
 let apiKey = "apiKey_example" // String |  (optional)
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -107,6 +109,7 @@ import PetstoreClient
 
 let status = ["status_example"] // [String] | Status values that need to be considered for filter
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -146,6 +149,7 @@ import PetstoreClient
 
 let tags = ["inner_example"] // [String] | Tags to filter by
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -185,6 +189,7 @@ import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to return
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -222,6 +227,7 @@ import PetstoreClient
 
 let body = Pet(123, Category(123, "name_example"), "name_example", ["photoUrls_example"], [Tag(123, "name_example")], "status_example") // Pet | Pet object that needs to be added to the store
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -261,6 +267,7 @@ let petId = 987 // Int64 | ID of pet that needs to be updated
 let name = "name_example" // String | Updated name of the pet (optional)
 let status = "status_example" // String | Updated status of the pet (optional)
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -302,6 +309,7 @@ let petId = 987 // Int64 | ID of pet to update
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
 let file = "TODO" // URL | file to upload (optional)
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -343,6 +351,7 @@ let petId = 987 // Int64 | ID of pet to update
 let requiredFile = "TODO" // URL | file to upload
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters

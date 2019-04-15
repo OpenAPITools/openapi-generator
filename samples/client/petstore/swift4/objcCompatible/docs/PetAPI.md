@@ -40,7 +40,6 @@ PetAPI.addPet(body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -90,7 +89,6 @@ PetAPI.deletePet(petId: petId, apiKey: apiKey) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -142,7 +140,6 @@ PetAPI.findPetsByStatus(status: status) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -193,7 +190,6 @@ PetAPI.findPetsByTags(tags: tags) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -244,7 +240,6 @@ PetAPI.getPetById(petId: petId) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -293,7 +288,6 @@ PetAPI.updatePet(body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -344,7 +338,6 @@ PetAPI.updatePetWithForm(petId: petId, name: name, status: status) { (response, 
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -397,7 +390,6 @@ PetAPI.uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: fi
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -450,7 +442,6 @@ PetAPI.uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, addi
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters

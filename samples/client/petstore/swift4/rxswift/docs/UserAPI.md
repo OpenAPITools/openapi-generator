@@ -30,6 +30,7 @@ import PetstoreClient
 
 let body = User(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) // User | Created user object
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -67,6 +68,7 @@ import PetstoreClient
 
 let body = [User(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)] // [User] | List of user object
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -104,6 +106,7 @@ import PetstoreClient
 
 let body = [User(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)] // [User] | List of user object
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -143,6 +146,7 @@ import PetstoreClient
 
 let username = "username_example" // String | The name that needs to be deleted
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -180,6 +184,7 @@ import PetstoreClient
 
 let username = "username_example" // String | The name that needs to be fetched. Use user1 for testing.
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -218,6 +223,7 @@ import PetstoreClient
 let username = "username_example" // String | The user name for login
 let password = "password_example" // String | The password for login in clear text
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -255,6 +261,7 @@ Logs out current logged in user session
 import PetstoreClient
 
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -292,6 +299,7 @@ import PetstoreClient
 let username = "username_example" // String | name that need to be deleted
 let body = User(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) // User | Updated user object
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters

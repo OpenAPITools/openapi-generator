@@ -41,7 +41,6 @@ UserAPI.createUser(body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -90,7 +89,6 @@ UserAPI.createUsersWithArrayInput(body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -139,7 +137,6 @@ UserAPI.createUsersWithListInput(body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -190,7 +187,6 @@ UserAPI.deleteUser(username: username) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -239,7 +235,6 @@ UserAPI.getUserByName(username: username) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -289,7 +284,6 @@ UserAPI.loginUser(username: username, password: password) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -338,7 +332,6 @@ UserAPI.logoutUser() { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -387,7 +380,6 @@ UserAPI.updateUser(username: username, body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters

@@ -46,7 +46,6 @@ FakeAPI.createXmlItem(xmlItem: xmlItem) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -96,7 +95,6 @@ FakeAPI.fakeOuterBooleanSerialize(body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -146,7 +144,6 @@ FakeAPI.fakeOuterCompositeSerialize(body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -196,7 +193,6 @@ FakeAPI.fakeOuterNumberSerialize(body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -246,7 +242,6 @@ FakeAPI.fakeOuterStringSerialize(body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -296,7 +291,6 @@ FakeAPI.testBodyWithFileSchema(body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -345,7 +339,6 @@ FakeAPI.testBodyWithQueryParams(query: query, body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -397,7 +390,6 @@ FakeAPI.testClientModel(body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -461,7 +453,6 @@ FakeAPI.testEndpointParameters(number: number, double: double, patternWithoutDel
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -532,7 +523,6 @@ FakeAPI.testEnumParameters(enumHeaderStringArray: enumHeaderStringArray, enumHea
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -595,7 +585,6 @@ FakeAPI.testGroupParameters(requiredStringGroup: requiredStringGroup, requiredBo
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -649,7 +638,6 @@ FakeAPI.testInlineAdditionalProperties(param: param) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -699,7 +687,6 @@ FakeAPI.testJsonFormData(param: param, param2: param2) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters

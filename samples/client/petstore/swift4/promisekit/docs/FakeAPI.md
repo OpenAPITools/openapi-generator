@@ -42,7 +42,6 @@ FakeAPI.fakeOuterBooleanSerialize(body: body).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -90,7 +89,6 @@ FakeAPI.fakeOuterCompositeSerialize(body: body).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -138,7 +136,6 @@ FakeAPI.fakeOuterNumberSerialize(body: body).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -186,7 +183,6 @@ FakeAPI.fakeOuterStringSerialize(body: body).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -234,7 +230,6 @@ FakeAPI.testBodyWithFileSchema(body: body).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -281,7 +276,6 @@ FakeAPI.testBodyWithQueryParams(query: query, body: body).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -331,7 +325,6 @@ FakeAPI.testClientModel(body: body).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -393,7 +386,6 @@ FakeAPI.testEndpointParameters(number: number, double: double, patternWithoutDel
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -462,7 +454,6 @@ FakeAPI.testEnumParameters(enumHeaderStringArray: enumHeaderStringArray, enumHea
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -523,7 +514,6 @@ FakeAPI.testGroupParameters(requiredStringGroup: requiredStringGroup, requiredBo
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -575,7 +565,6 @@ FakeAPI.testInlineAdditionalProperties(param: param).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -623,7 +612,6 @@ FakeAPI.testJsonFormData(param: param, param2: param2).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters

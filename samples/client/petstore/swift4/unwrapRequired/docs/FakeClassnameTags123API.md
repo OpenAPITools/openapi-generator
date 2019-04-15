@@ -34,7 +34,6 @@ FakeClassnameTags123API.testClassname(body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters

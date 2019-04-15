@@ -26,6 +26,7 @@ import PetstoreClient
 
 let orderId = "orderId_example" // String | ID of the order that needs to be deleted
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -64,6 +65,7 @@ Returns a map of status codes to quantities
 import PetstoreClient
 
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -100,6 +102,7 @@ import PetstoreClient
 
 let orderId = 987 // Int64 | ID of pet that needs to be fetched
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -137,6 +140,7 @@ import PetstoreClient
 
 let body = Order(123, 123, 123, "TODO", "status_example", 123) // Order | order placed for purchasing the pet
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters

@@ -37,7 +37,6 @@ StoreAPI.deleteOrder(orderId: orderId) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -87,7 +86,6 @@ StoreAPI.getInventory() { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -135,7 +133,6 @@ StoreAPI.getOrderById(orderId: orderId) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -184,7 +181,6 @@ StoreAPI.placeOrder(body: body) { (response, error) in
         dump(response)
     }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters

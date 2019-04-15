@@ -34,6 +34,7 @@ import PetstoreClient
 
 let body = 987 // Bool | Input boolean as post body (optional)
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -73,6 +74,7 @@ import PetstoreClient
 
 let body = OuterComposite(123, "myString_example", 123) // OuterComposite | Input composite as post body (optional)
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -112,6 +114,7 @@ import PetstoreClient
 
 let body = 987 // Double | Input number as post body (optional)
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -151,6 +154,7 @@ import PetstoreClient
 
 let body = "body_example" // String | Input string as post body (optional)
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -190,6 +194,7 @@ import PetstoreClient
 
 let body = FileSchemaTestClass(File("sourceURI_example"), [File("sourceURI_example")]) // FileSchemaTestClass | 
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -228,6 +233,7 @@ import PetstoreClient
 let query = "query_example" // String | 
 let body = User(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) // User | 
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -268,6 +274,7 @@ import PetstoreClient
 
 let body = Client("client_example") // Client | client model
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -320,6 +327,7 @@ let dateTime = TODO // Date | None (optional)
 let password = "password_example" // String | None (optional)
 let callback = "callback_example" // String | None (optional)
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -379,6 +387,7 @@ let enumQueryDouble = 987 // Double | Query parameter enum test (double) (option
 let enumFormStringArray = ["inner_example"] // [String] | Form parameter enum test (string array) (optional) (default to .$)
 let enumFormString = "enumFormString_example" // String | Form parameter enum test (string) (optional) (default to .-efg)
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -430,6 +439,7 @@ let stringGroup = 987 // Int | String in group parameters (optional)
 let booleanGroup = 987 // Bool | Boolean in group parameters (optional)
 let int64Group = 987 // Int64 | Integer in group parameters (optional)
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -472,6 +482,7 @@ import PetstoreClient
 
 let param = "TODO" // [String:String] | request body
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -510,6 +521,7 @@ import PetstoreClient
 let param = "param_example" // String | field1
 let param2 = "param2_example" // String | field2
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters

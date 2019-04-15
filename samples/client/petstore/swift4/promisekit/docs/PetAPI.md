@@ -38,7 +38,6 @@ PetAPI.addPet(body: body).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -86,7 +85,6 @@ PetAPI.deletePet(petId: petId, apiKey: apiKey).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -136,7 +134,6 @@ PetAPI.findPetsByStatus(status: status).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -185,7 +182,6 @@ PetAPI.findPetsByTags(tags: tags).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -234,7 +230,6 @@ PetAPI.getPetById(petId: petId).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -281,7 +276,6 @@ PetAPI.updatePet(body: body).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -330,7 +324,6 @@ PetAPI.updatePetWithForm(petId: petId, name: name, status: status).then {
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -381,7 +374,6 @@ PetAPI.uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: fi
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
@@ -432,7 +424,6 @@ PetAPI.uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, addi
                 // when the promise is rejected
         }
 }
-// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters

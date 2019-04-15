@@ -23,6 +23,7 @@ import PetstoreClient
 
 let body = Client("client_example") // Client | client model
 
+// TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
 
 ### Parameters
