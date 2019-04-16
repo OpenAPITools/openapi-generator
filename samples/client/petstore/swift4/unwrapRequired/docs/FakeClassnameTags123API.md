@@ -18,7 +18,7 @@ To test class name in snake case
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let body = Client(client: "client_example") // Client | client model

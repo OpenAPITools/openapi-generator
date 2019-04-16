@@ -24,19 +24,18 @@ Add a new pet to the store
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let body = Pet(id: 123, category: Category(id: 123, name: "name_example"), name: "name_example", photoUrls: ["photoUrls_example"], tags: [Tag(id: 123, name: "name_example")], status: "status_example") // Pet | Pet object that needs to be added to the store
 
 // Add a new pet to the store
 PetAPI.addPet(body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -70,7 +69,7 @@ Deletes a pet
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let petId = 987 // Int64 | Pet id to delete
@@ -78,12 +77,11 @@ let apiKey = "apiKey_example" // String |  (optional)
 
 // Deletes a pet
 PetAPI.deletePet(petId: petId, apiKey: apiKey).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -120,19 +118,18 @@ Multiple status values can be provided with comma separated strings
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let status = ["status_example"] // [String] | Status values that need to be considered for filter
 
 // Finds Pets by status
 PetAPI.findPetsByStatus(status: status).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -168,19 +165,18 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let tags = ["inner_example"] // [String] | Tags to filter by
 
 // Finds Pets by tags
 PetAPI.findPetsByTags(tags: tags).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -216,19 +212,18 @@ Returns a single pet
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to return
 
 // Find pet by ID
 PetAPI.getPetById(petId: petId).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -262,19 +257,18 @@ Update an existing pet
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let body = Pet(id: 123, category: Category(id: 123, name: "name_example"), name: "name_example", photoUrls: ["photoUrls_example"], tags: [Tag(id: 123, name: "name_example")], status: "status_example") // Pet | Pet object that needs to be added to the store
 
 // Update an existing pet
 PetAPI.updatePet(body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -308,7 +302,7 @@ Updates a pet in the store with form data
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet that needs to be updated
@@ -317,12 +311,11 @@ let status = "status_example" // String | Updated status of the pet (optional)
 
 // Updates a pet in the store with form data
 PetAPI.updatePetWithForm(petId: petId, name: name, status: status).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -358,7 +351,7 @@ uploads an image
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to update
@@ -367,12 +360,11 @@ let file = URL(string: "https://example.com")! // URL | file to upload (optional
 
 // uploads an image
 PetAPI.uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -408,7 +400,7 @@ uploads an image (required)
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to update
@@ -417,12 +409,11 @@ let additionalMetadata = "additionalMetadata_example" // String | Additional dat
 
 // uploads an image (required)
 PetAPI.uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, additionalMetadata: additionalMetadata).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 

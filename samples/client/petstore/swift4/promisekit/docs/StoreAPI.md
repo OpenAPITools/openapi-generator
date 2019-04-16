@@ -21,19 +21,18 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let orderId = "orderId_example" // String | ID of the order that needs to be deleted
 
 // Delete purchase order by ID
 StoreAPI.deleteOrder(orderId: orderId).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -69,18 +68,17 @@ Returns a map of status codes to quantities
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 
 // Returns pet inventories by status
 StoreAPI.getInventory().then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -113,19 +111,18 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let orderId = 987 // Int64 | ID of pet that needs to be fetched
 
 // Find purchase order by ID
 StoreAPI.getOrderById(orderId: orderId).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -159,19 +156,18 @@ Place an order for a pet
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let body = Order(id: 123, petId: 123, quantity: 123, shipDate: Date(), status: "status_example", complete: false) // Order | order placed for purchasing the pet
 
 // Place an order for a pet
 StoreAPI.placeOrder(body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 

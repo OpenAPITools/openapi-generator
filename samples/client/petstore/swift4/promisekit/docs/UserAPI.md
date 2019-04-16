@@ -25,19 +25,18 @@ This can only be done by the logged in user.
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let body = User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123) // User | Created user object
 
 // Create user
 UserAPI.createUser(body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -71,19 +70,18 @@ Creates list of users with given input array
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let body = [User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123)] // [User] | List of user object
 
 // Creates list of users with given input array
 UserAPI.createUsersWithArrayInput(body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -117,19 +115,18 @@ Creates list of users with given input array
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let body = [User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123)] // [User] | List of user object
 
 // Creates list of users with given input array
 UserAPI.createUsersWithListInput(body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -165,19 +162,18 @@ This can only be done by the logged in user.
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let username = "username_example" // String | The name that needs to be deleted
 
 // Delete user
 UserAPI.deleteUser(username: username).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -211,19 +207,18 @@ Get user by user name
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let username = "username_example" // String | The name that needs to be fetched. Use user1 for testing.
 
 // Get user by user name
 UserAPI.getUserByName(username: username).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -257,7 +252,7 @@ Logs user into the system
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let username = "username_example" // String | The user name for login
@@ -265,12 +260,11 @@ let password = "password_example" // String | The password for login in clear te
 
 // Logs user into the system
 UserAPI.loginUser(username: username, password: password).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -305,18 +299,17 @@ Logs out current logged in user session
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 
 // Logs out current logged in user session
 UserAPI.logoutUser().then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -349,7 +342,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let username = "username_example" // String | name that need to be deleted
@@ -357,12 +350,11 @@ let body = User(id: 123, username: "username_example", firstName: "firstName_exa
 
 // Updated user
 UserAPI.updateUser(username: username, body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 

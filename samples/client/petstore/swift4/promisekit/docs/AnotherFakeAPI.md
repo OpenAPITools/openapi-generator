@@ -18,19 +18,18 @@ To test special tags and operation ID starting with number
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let body = Client(client: "client_example") // Client | client model
 
 // To test special tags
 AnotherFakeAPI.call123testSpecialTags(body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 

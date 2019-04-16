@@ -29,18 +29,17 @@ Test serialization of outer boolean types
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let body = false // Bool | Input boolean as post body (optional)
 
 FakeAPI.fakeOuterBooleanSerialize(body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -76,18 +75,17 @@ Test serialization of object with outer number type
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let body = OuterComposite(myNumber: 123, myString: "myString_example", myBoolean: false) // OuterComposite | Input composite as post body (optional)
 
 FakeAPI.fakeOuterCompositeSerialize(body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -123,18 +121,17 @@ Test serialization of outer number types
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let body = 987 // Double | Input number as post body (optional)
 
 FakeAPI.fakeOuterNumberSerialize(body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -170,18 +167,17 @@ Test serialization of outer string types
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let body = "body_example" // String | Input string as post body (optional)
 
 FakeAPI.fakeOuterStringSerialize(body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -217,18 +213,17 @@ For this test, the body for this request much reference a schema named `File`.
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let body = FileSchemaTestClass(file: File(sourceURI: "sourceURI_example"), files: [File(sourceURI: "sourceURI_example")]) // FileSchemaTestClass | 
 
 FakeAPI.testBodyWithFileSchema(body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -262,19 +257,18 @@ No authorization required
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let query = "query_example" // String | 
 let body = User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123) // User | 
 
 FakeAPI.testBodyWithQueryParams(query: query, body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -311,19 +305,18 @@ To test \"client\" model
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let body = Client(client: "client_example") // Client | client model
 
 // To test \"client\" model
 FakeAPI.testClientModel(body: body).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -359,7 +352,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let number = 987 // Double | None
@@ -379,12 +372,11 @@ let callback = "callback_example" // String | None (optional)
 
 // Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 FakeAPI.testEndpointParameters(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -433,7 +425,7 @@ To test enum parameters
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let enumHeaderStringArray = ["enumHeaderStringArray_example"] // [String] | Header parameter enum test (string array) (optional)
@@ -447,12 +439,11 @@ let enumFormString = "enumFormString_example" // String | Form parameter enum te
 
 // To test enum parameters
 FakeAPI.testEnumParameters(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -495,7 +486,7 @@ Fake endpoint to test group parameters (optional)
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let requiredStringGroup = 987 // Int | Required String in group parameters
@@ -507,12 +498,11 @@ let int64Group = 987 // Int64 | Integer in group parameters (optional)
 
 // Fake endpoint to test group parameters (optional)
 FakeAPI.testGroupParameters(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -551,19 +541,18 @@ test inline additionalProperties
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let param = "TODO" // [String:String] | request body
 
 // test inline additionalProperties
 FakeAPI.testInlineAdditionalProperties(param: param).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
@@ -597,7 +586,7 @@ test json serialization of form data
 
 ### Example 
 ```swift
-// the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
 let param = "param_example" // String | field1
@@ -605,12 +594,11 @@ let param2 = "param2_example" // String | field2
 
 // test json serialization of form data
 FakeAPI.testJsonFormData(param: param, param2: param2).then {
-                // when the promise is fulfilled
-            }.always {
-                // regardless of whether the promise is fulfilled, or rejected
-            }.catch { errorType in
-                // when the promise is rejected
-        }
+         // when the promise is fulfilled
+     }.always {
+         // regardless of whether the promise is fulfilled, or rejected
+     }.catch { errorType in
+         // when the promise is rejected
 }
 ```
 
