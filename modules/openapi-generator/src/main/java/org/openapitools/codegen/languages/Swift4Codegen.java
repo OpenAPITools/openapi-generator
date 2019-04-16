@@ -99,6 +99,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         "Date",
                         "Character",
                         "UUID",
+                        "URL",
                         "AnyObject",
                         "Any")
         );
@@ -939,7 +940,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
         if (codegenParameter.isListContainer) { // array
             return "[" + constructExampleCode(codegenParameter.items, modelMaps) + "]";
-        } else if (codegenParameter.isMapContainer || codegenParameter.isFile) { // TODO: map, file type
+        } else if (codegenParameter.isMapContainer) { // TODO: map, file type
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
             if ("String".equals(codegenParameter.dataType) || "Character".equals(codegenParameter.dataType)) {
@@ -954,7 +955,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 } else {
                     return "false";
                 }
-            } else if ("URL".equals(codegenParameter.dataType)) { // URL 
+            } else if ("URL".equals(codegenParameter.dataType)) { // URL
                 return "URL(string: \"https://example.com\")!";
             } else if ("Date".equals(codegenParameter.dataType)) { // date
                 return "Date()";
@@ -979,7 +980,7 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps) {
         if (codegenProperty.isListContainer) { // array
             return "[" + constructExampleCode(codegenProperty.items, modelMaps) + "]";
-        } else if (codegenProperty.isMapContainer || codegenProperty.isFile) { // TODO: map, file type
+        } else if (codegenProperty.isMapContainer) { // TODO: map, file type
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
             if ("String".equals(codegenProperty.dataType) || "Character".equals(codegenProperty.dataType)) {
