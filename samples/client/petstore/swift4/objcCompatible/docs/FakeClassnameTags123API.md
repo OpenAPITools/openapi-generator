@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **testClassname**
 ```swift
-    open class func testClassname(body: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void))
+    open class func testClassname(body: Client, completion: @escaping (_ data: Client?, _ error: Error?) -> Void)
 ```
 
 To test class name in snake case
@@ -40,7 +40,7 @@ FakeClassnameTags123API.testClassname(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md) | client model | 
 
 ### Return type
 

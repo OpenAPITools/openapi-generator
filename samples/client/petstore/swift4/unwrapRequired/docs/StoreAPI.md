@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 # **deleteOrder**
 ```swift
-    open class func deleteOrder(orderId: String, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void))
+    open class func deleteOrder(orderId: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Delete purchase order by ID
@@ -43,11 +43,11 @@ StoreAPI.deleteOrder(orderId: orderId) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of the order that needs to be deleted | 
+ **orderId** | **String** | ID of the order that needs to be deleted | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -62,7 +62,7 @@ No authorization required
 
 # **getInventory**
 ```swift
-    open class func getInventory(completion: @escaping ((_ data: [String:Int]?,_ error: Error?) -> Void))
+    open class func getInventory(completion: @escaping (_ data: [String:Int]?, _ error: Error?) -> Void)
 ```
 
 Returns pet inventories by status
@@ -108,7 +108,7 @@ This endpoint does not need any parameter.
 
 # **getOrderById**
 ```swift
-    open class func getOrderById(orderId: Int64, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void))
+    open class func getOrderById(orderId: Int64, completion: @escaping (_ data: Order?, _ error: Error?) -> Void)
 ```
 
 Find purchase order by ID
@@ -139,7 +139,7 @@ StoreAPI.getOrderById(orderId: orderId) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **Int64**| ID of pet that needs to be fetched | 
+ **orderId** | **Int64** | ID of pet that needs to be fetched | 
 
 ### Return type
 
@@ -158,7 +158,7 @@ No authorization required
 
 # **placeOrder**
 ```swift
-    open class func placeOrder(body: Order, completion: @escaping ((_ data: Order?,_ error: Error?) -> Void))
+    open class func placeOrder(body: Order, completion: @escaping (_ data: Order?, _ error: Error?) -> Void)
 ```
 
 Place an order for a pet
@@ -168,7 +168,7 @@ Place an order for a pet
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = Order(id: 123, petId: 123, quantity: 123, shipDate: "TODO", status: "status_example", complete: 123) // Order | order placed for purchasing the pet
+let body = Order(id: 123, petId: 123, quantity: 123, shipDate: Date(), status: "status_example", complete: false) // Order | order placed for purchasing the pet
 
 // Place an order for a pet
 StoreAPI.placeOrder(body: body) { (response, error) in
@@ -187,7 +187,7 @@ StoreAPI.placeOrder(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md) | order placed for purchasing the pet | 
 
 ### Return type
 

@@ -36,11 +36,11 @@ let body = Pet(id: 123, category: Category(id: 123, name: "name_example"), name:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -75,12 +75,12 @@ let apiKey = "apiKey_example" // String |  (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| Pet id to delete | 
- **apiKey** | **String**|  | [optional] 
+ **petId** | **Int64** | Pet id to delete | 
+ **apiKey** | **String** |  | [optional] 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -116,7 +116,7 @@ let status = ["status_example"] // [String] | Status values that need to be cons
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**[String]**](String.md)| Status values that need to be considered for filter | 
+ **status** | [**[String]**](String.md) | Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -156,7 +156,7 @@ let tags = ["inner_example"] // [String] | Tags to filter by
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**[String]**](String.md)| Tags to filter by | 
+ **tags** | [**[String]**](String.md) | Tags to filter by | 
 
 ### Return type
 
@@ -196,7 +196,7 @@ let petId = 987 // Int64 | ID of pet to return
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet to return | 
+ **petId** | **Int64** | ID of pet to return | 
 
 ### Return type
 
@@ -234,11 +234,11 @@ let body = Pet(id: 123, category: Category(id: 123, name: "name_example"), name:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -274,13 +274,13 @@ let status = "status_example" // String | Updated status of the pet (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet that needs to be updated | 
- **name** | **String**| Updated name of the pet | [optional] 
- **status** | **String**| Updated status of the pet | [optional] 
+ **petId** | **Int64** | ID of pet that needs to be updated | 
+ **name** | **String** | Updated name of the pet | [optional] 
+ **status** | **String** | Updated status of the pet | [optional] 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -307,7 +307,7 @@ import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to update
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
-let file = "TODO" // URL | file to upload (optional)
+let file = URL(string: "https://example.com")! // URL | file to upload (optional)
 
 // TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
@@ -316,9 +316,9 @@ let file = "TODO" // URL | file to upload (optional)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet to update | 
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
- **file** | **URL****URL**| file to upload | [optional] 
+ **petId** | **Int64** | ID of pet to update | 
+ **additionalMetadata** | **String** | Additional data to pass to server | [optional] 
+ **file** | **URL** | file to upload | [optional] 
 
 ### Return type
 
@@ -348,7 +348,7 @@ uploads an image (required)
 import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to update
-let requiredFile = "TODO" // URL | file to upload
+let requiredFile = URL(string: "https://example.com")! // URL | file to upload
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
 
 // TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
@@ -358,9 +358,9 @@ let additionalMetadata = "additionalMetadata_example" // String | Additional dat
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet to update | 
- **requiredFile** | **URL****URL**| file to upload | 
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
+ **petId** | **Int64** | ID of pet to update | 
+ **requiredFile** | **URL** | file to upload | 
+ **additionalMetadata** | **String** | Additional data to pass to server | [optional] 
 
 ### Return type
 

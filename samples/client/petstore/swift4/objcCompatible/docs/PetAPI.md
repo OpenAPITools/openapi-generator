@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 # **addPet**
 ```swift
-    open class func addPet(body: Pet, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void))
+    open class func addPet(body: Pet, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Add a new pet to the store
@@ -46,11 +46,11 @@ PetAPI.addPet(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -65,7 +65,7 @@ void (empty response body)
 
 # **deletePet**
 ```swift
-    open class func deletePet(petId: Int64, apiKey: String? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void))
+    open class func deletePet(petId: Int64, apiKey: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Deletes a pet
@@ -95,12 +95,12 @@ PetAPI.deletePet(petId: petId, apiKey: apiKey) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| Pet id to delete | 
- **apiKey** | **String**|  | [optional] 
+ **petId** | **Int64** | Pet id to delete | 
+ **apiKey** | **String** |  | [optional] 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -115,7 +115,7 @@ void (empty response body)
 
 # **findPetsByStatus**
 ```swift
-    open class func findPetsByStatus(status: [String], completion: @escaping ((_ data: [Pet]?,_ error: Error?) -> Void))
+    open class func findPetsByStatus(status: [String], completion: @escaping (_ data: [Pet]?, _ error: Error?) -> Void)
 ```
 
 Finds Pets by status
@@ -146,7 +146,7 @@ PetAPI.findPetsByStatus(status: status) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**[String]**](String.md)| Status values that need to be considered for filter | 
+ **status** | [**[String]**](String.md) | Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -165,7 +165,7 @@ Name | Type | Description  | Notes
 
 # **findPetsByTags**
 ```swift
-    open class func findPetsByTags(tags: [String], completion: @escaping ((_ data: [Pet]?,_ error: Error?) -> Void))
+    open class func findPetsByTags(tags: [String], completion: @escaping (_ data: [Pet]?, _ error: Error?) -> Void)
 ```
 
 Finds Pets by tags
@@ -196,7 +196,7 @@ PetAPI.findPetsByTags(tags: tags) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**[String]**](String.md)| Tags to filter by | 
+ **tags** | [**[String]**](String.md) | Tags to filter by | 
 
 ### Return type
 
@@ -215,7 +215,7 @@ Name | Type | Description  | Notes
 
 # **getPetById**
 ```swift
-    open class func getPetById(petId: Int64, completion: @escaping ((_ data: Pet?,_ error: Error?) -> Void))
+    open class func getPetById(petId: Int64, completion: @escaping (_ data: Pet?, _ error: Error?) -> Void)
 ```
 
 Find pet by ID
@@ -246,7 +246,7 @@ PetAPI.getPetById(petId: petId) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet to return | 
+ **petId** | **Int64** | ID of pet to return | 
 
 ### Return type
 
@@ -265,7 +265,7 @@ Name | Type | Description  | Notes
 
 # **updatePet**
 ```swift
-    open class func updatePet(body: Pet, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void))
+    open class func updatePet(body: Pet, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Update an existing pet
@@ -294,11 +294,11 @@ PetAPI.updatePet(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -313,7 +313,7 @@ void (empty response body)
 
 # **updatePetWithForm**
 ```swift
-    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void))
+    open class func updatePetWithForm(petId: Int64, name: String? = nil, status: String? = nil, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Updates a pet in the store with form data
@@ -344,13 +344,13 @@ PetAPI.updatePetWithForm(petId: petId, name: name, status: status) { (response, 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet that needs to be updated | 
- **name** | **String**| Updated name of the pet | [optional] 
- **status** | **String**| Updated status of the pet | [optional] 
+ **petId** | **Int64** | ID of pet that needs to be updated | 
+ **name** | **String** | Updated name of the pet | [optional] 
+ **status** | **String** | Updated status of the pet | [optional] 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -365,7 +365,7 @@ void (empty response body)
 
 # **uploadFile**
 ```swift
-    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, completion: @escaping ((_ data: ApiResponse?,_ error: Error?) -> Void))
+    open class func uploadFile(petId: Int64, additionalMetadata: String? = nil, file: URL? = nil, completion: @escaping (_ data: ApiResponse?, _ error: Error?) -> Void)
 ```
 
 uploads an image
@@ -377,7 +377,7 @@ import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to update
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
-let file = "TODO" // URL | file to upload (optional)
+let file = URL(string: "https://example.com")! // URL | file to upload (optional)
 
 // uploads an image
 PetAPI.uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file) { (response, error) in
@@ -396,9 +396,9 @@ PetAPI.uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: fi
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet to update | 
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
- **file** | **URL****URL**| file to upload | [optional] 
+ **petId** | **Int64** | ID of pet to update | 
+ **additionalMetadata** | **String** | Additional data to pass to server | [optional] 
+ **file** | **URL** | file to upload | [optional] 
 
 ### Return type
 
@@ -417,7 +417,7 @@ Name | Type | Description  | Notes
 
 # **uploadFileWithRequiredFile**
 ```swift
-    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, completion: @escaping ((_ data: ApiResponse?,_ error: Error?) -> Void))
+    open class func uploadFileWithRequiredFile(petId: Int64, requiredFile: URL, additionalMetadata: String? = nil, completion: @escaping (_ data: ApiResponse?, _ error: Error?) -> Void)
 ```
 
 uploads an image (required)
@@ -428,7 +428,7 @@ uploads an image (required)
 import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to update
-let requiredFile = "TODO" // URL | file to upload
+let requiredFile = URL(string: "https://example.com")! // URL | file to upload
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
 
 // uploads an image (required)
@@ -448,9 +448,9 @@ PetAPI.uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, addi
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet to update | 
- **requiredFile** | **URL****URL**| file to upload | 
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
+ **petId** | **Int64** | ID of pet to update | 
+ **requiredFile** | **URL** | file to upload | 
+ **additionalMetadata** | **String** | Additional data to pass to server | [optional] 
 
 ### Return type
 

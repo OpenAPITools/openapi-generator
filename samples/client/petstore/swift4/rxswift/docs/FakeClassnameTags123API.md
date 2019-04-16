@@ -30,7 +30,7 @@ let body = Client(client: "client_example") // Client | client model
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md) | client model | 
 
 ### Return type
 

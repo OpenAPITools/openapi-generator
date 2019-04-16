@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 # **call123testSpecialTags**
 ```swift
-    open class func call123testSpecialTags(body: Client, completion: @escaping ((_ data: Client?,_ error: Error?) -> Void))
+    open class func call123testSpecialTags(body: Client, completion: @escaping (_ data: Client?, _ error: Error?) -> Void)
 ```
 
 To test special tags
@@ -40,7 +40,7 @@ AnotherFakeAPI.call123testSpecialTags(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md) | client model | 
 
 ### Return type
 

@@ -32,7 +32,7 @@ Test serialization of outer boolean types
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = 987 // Bool | Input boolean as post body (optional)
+let body = false // Bool | Input boolean as post body (optional)
 
 FakeAPI.fakeOuterBooleanSerialize(body: body).then {
                 // when the promise is fulfilled
@@ -48,7 +48,7 @@ FakeAPI.fakeOuterBooleanSerialize(body: body).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **Bool**| Input boolean as post body | [optional] 
+ **body** | **Bool** | Input boolean as post body | [optional] 
 
 ### Return type
 
@@ -79,7 +79,7 @@ Test serialization of object with outer number type
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = OuterComposite(myNumber: 123, myString: "myString_example", myBoolean: 123) // OuterComposite | Input composite as post body (optional)
+let body = OuterComposite(myNumber: 123, myString: "myString_example", myBoolean: false) // OuterComposite | Input composite as post body (optional)
 
 FakeAPI.fakeOuterCompositeSerialize(body: body).then {
                 // when the promise is fulfilled
@@ -95,7 +95,7 @@ FakeAPI.fakeOuterCompositeSerialize(body: body).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **body** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | [optional] 
 
 ### Return type
 
@@ -142,7 +142,7 @@ FakeAPI.fakeOuterNumberSerialize(body: body).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **Double**| Input number as post body | [optional] 
+ **body** | **Double** | Input number as post body | [optional] 
 
 ### Return type
 
@@ -189,7 +189,7 @@ FakeAPI.fakeOuterStringSerialize(body: body).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **String**| Input string as post body | [optional] 
+ **body** | **String** | Input string as post body | [optional] 
 
 ### Return type
 
@@ -236,11 +236,11 @@ FakeAPI.testBodyWithFileSchema(body: body).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md) |  | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -282,12 +282,12 @@ FakeAPI.testBodyWithQueryParams(query: query, body: body).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **String**|  | 
- **body** | [**User**](User.md)|  | 
+ **query** | **String** |  | 
+ **body** | [**User**](User.md) |  | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -331,7 +331,7 @@ FakeAPI.testClientModel(body: body).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md) | client model | 
 
 ### Return type
 
@@ -365,15 +365,15 @@ import PetstoreClient
 let number = 987 // Double | None
 let double = 987 // Double | None
 let patternWithoutDelimiter = "patternWithoutDelimiter_example" // String | None
-let byte = TODO // Data | None
+let byte = 987 // Data | None
 let integer = 987 // Int | None (optional)
 let int32 = 987 // Int | None (optional)
 let int64 = 987 // Int64 | None (optional)
 let float = 987 // Float | None (optional)
 let string = "string_example" // String | None (optional)
-let binary = "TODO" // URL | None (optional)
-let date = TODO // Date | None (optional)
-let dateTime = TODO // Date | None (optional)
+let binary = URL(string: "https://example.com")! // URL | None (optional)
+let date = Date() // Date | None (optional)
+let dateTime = Date() // Date | None (optional)
 let password = "password_example" // String | None (optional)
 let callback = "callback_example" // String | None (optional)
 
@@ -392,24 +392,24 @@ FakeAPI.testEndpointParameters(number: number, double: double, patternWithoutDel
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **Double**| None | 
- **double** | **Double**| None | 
- **patternWithoutDelimiter** | **String**| None | 
- **byte** | **Data**| None | 
- **integer** | **Int**| None | [optional] 
- **int32** | **Int**| None | [optional] 
- **int64** | **Int64**| None | [optional] 
- **float** | **Float**| None | [optional] 
- **string** | **String**| None | [optional] 
- **binary** | **URL****URL**| None | [optional] 
- **date** | **Date**| None | [optional] 
- **dateTime** | **Date**| None | [optional] 
- **password** | **String**| None | [optional] 
- **callback** | **String**| None | [optional] 
+ **number** | **Double** | None | 
+ **double** | **Double** | None | 
+ **patternWithoutDelimiter** | **String** | None | 
+ **byte** | **Data** | None | 
+ **integer** | **Int** | None | [optional] 
+ **int32** | **Int** | None | [optional] 
+ **int64** | **Int64** | None | [optional] 
+ **float** | **Float** | None | [optional] 
+ **string** | **String** | None | [optional] 
+ **binary** | **URL** | None | [optional] 
+ **date** | **Date** | None | [optional] 
+ **dateTime** | **Date** | None | [optional] 
+ **password** | **String** | None | [optional] 
+ **callback** | **String** | None | [optional] 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -460,18 +460,18 @@ FakeAPI.testEnumParameters(enumHeaderStringArray: enumHeaderStringArray, enumHea
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**[String]**](String.md)| Header parameter enum test (string array) | [optional] 
- **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to .-efg]
- **enumQueryStringArray** | [**[String]**](String.md)| Query parameter enum test (string array) | [optional] 
- **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to .-efg]
- **enumQueryInteger** | **Int**| Query parameter enum test (double) | [optional] 
- **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] 
- **enumFormStringArray** | [**[String]**](String.md)| Form parameter enum test (string array) | [optional] [default to .$]
- **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to .-efg]
+ **enumHeaderStringArray** | [**[String]**](String.md) | Header parameter enum test (string array) | [optional] 
+ **enumHeaderString** | **String** | Header parameter enum test (string) | [optional] [default to .-efg]
+ **enumQueryStringArray** | [**[String]**](String.md) | Query parameter enum test (string array) | [optional] 
+ **enumQueryString** | **String** | Query parameter enum test (string) | [optional] [default to .-efg]
+ **enumQueryInteger** | **Int** | Query parameter enum test (double) | [optional] 
+ **enumQueryDouble** | **Double** | Query parameter enum test (double) | [optional] 
+ **enumFormStringArray** | [**[String]**](String.md) | Form parameter enum test (string array) | [optional] [default to .$]
+ **enumFormString** | **String** | Form parameter enum test (string) | [optional] [default to .-efg]
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -499,10 +499,10 @@ Fake endpoint to test group parameters (optional)
 import PetstoreClient
 
 let requiredStringGroup = 987 // Int | Required String in group parameters
-let requiredBooleanGroup = 987 // Bool | Required Boolean in group parameters
+let requiredBooleanGroup = false // Bool | Required Boolean in group parameters
 let requiredInt64Group = 987 // Int64 | Required Integer in group parameters
 let stringGroup = 987 // Int | String in group parameters (optional)
-let booleanGroup = 987 // Bool | Boolean in group parameters (optional)
+let booleanGroup = false // Bool | Boolean in group parameters (optional)
 let int64Group = 987 // Int64 | Integer in group parameters (optional)
 
 // Fake endpoint to test group parameters (optional)
@@ -520,16 +520,16 @@ FakeAPI.testGroupParameters(requiredStringGroup: requiredStringGroup, requiredBo
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requiredStringGroup** | **Int**| Required String in group parameters | 
- **requiredBooleanGroup** | **Bool**| Required Boolean in group parameters | 
- **requiredInt64Group** | **Int64**| Required Integer in group parameters | 
- **stringGroup** | **Int**| String in group parameters | [optional] 
- **booleanGroup** | **Bool**| Boolean in group parameters | [optional] 
- **int64Group** | **Int64**| Integer in group parameters | [optional] 
+ **requiredStringGroup** | **Int** | Required String in group parameters | 
+ **requiredBooleanGroup** | **Bool** | Required Boolean in group parameters | 
+ **requiredInt64Group** | **Int64** | Required Integer in group parameters | 
+ **stringGroup** | **Int** | String in group parameters | [optional] 
+ **booleanGroup** | **Bool** | Boolean in group parameters | [optional] 
+ **int64Group** | **Int64** | Integer in group parameters | [optional] 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -571,11 +571,11 @@ FakeAPI.testInlineAdditionalProperties(param: param).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**[String:String]**](String.md)| request body | 
+ **param** | [**[String:String]**](String.md) | request body | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -618,12 +618,12 @@ FakeAPI.testJsonFormData(param: param, param2: param2).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 | 
- **param2** | **String**| field2 | 
+ **param** | **String** | field1 | 
+ **param2** | **String** | field2 | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 

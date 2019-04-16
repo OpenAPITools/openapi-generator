@@ -45,11 +45,11 @@ UserAPI.createUser(body: body).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md) | Created user object | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -91,11 +91,11 @@ UserAPI.createUsersWithArrayInput(body: body).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](Array.md)| List of user object | 
+ **body** | [**[User]**](Array.md) | List of user object | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -137,11 +137,11 @@ UserAPI.createUsersWithListInput(body: body).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](Array.md)| List of user object | 
+ **body** | [**[User]**](Array.md) | List of user object | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -185,11 +185,11 @@ UserAPI.deleteUser(username: username).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be deleted | 
+ **username** | **String** | The name that needs to be deleted | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -231,7 +231,7 @@ UserAPI.getUserByName(username: username).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **String** | The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
 
@@ -278,8 +278,8 @@ UserAPI.loginUser(username: username, password: password).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The user name for login | 
- **password** | **String**| The password for login in clear text | 
+ **username** | **String** | The user name for login | 
+ **password** | **String** | The password for login in clear text | 
 
 ### Return type
 
@@ -325,7 +325,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -370,12 +370,12 @@ UserAPI.updateUser(username: username, body: body).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | 
+ **username** | **String** | name that need to be deleted | 
+ **body** | [**User**](User.md) | Updated user object | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 

@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 # **createUser**
 ```swift
-    open class func createUser(body: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void))
+    open class func createUser(body: User, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Create user
@@ -47,11 +47,11 @@ UserAPI.createUser(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md) | Created user object | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -66,7 +66,7 @@ No authorization required
 
 # **createUsersWithArrayInput**
 ```swift
-    open class func createUsersWithArrayInput(body: [User], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void))
+    open class func createUsersWithArrayInput(body: [User], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Creates list of users with given input array
@@ -95,11 +95,11 @@ UserAPI.createUsersWithArrayInput(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](Array.md)| List of user object | 
+ **body** | [**[User]**](Array.md) | List of user object | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -114,7 +114,7 @@ No authorization required
 
 # **createUsersWithListInput**
 ```swift
-    open class func createUsersWithListInput(body: [User], completion: @escaping ((_ data: Void?,_ error: Error?) -> Void))
+    open class func createUsersWithListInput(body: [User], completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Creates list of users with given input array
@@ -143,11 +143,11 @@ UserAPI.createUsersWithListInput(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](Array.md)| List of user object | 
+ **body** | [**[User]**](Array.md) | List of user object | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -162,7 +162,7 @@ No authorization required
 
 # **deleteUser**
 ```swift
-    open class func deleteUser(username: String, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void))
+    open class func deleteUser(username: String, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Delete user
@@ -193,11 +193,11 @@ UserAPI.deleteUser(username: username) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be deleted | 
+ **username** | **String** | The name that needs to be deleted | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -212,7 +212,7 @@ No authorization required
 
 # **getUserByName**
 ```swift
-    open class func getUserByName(username: String, completion: @escaping ((_ data: User?,_ error: Error?) -> Void))
+    open class func getUserByName(username: String, completion: @escaping (_ data: User?, _ error: Error?) -> Void)
 ```
 
 Get user by user name
@@ -241,7 +241,7 @@ UserAPI.getUserByName(username: username) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **String** | The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
 
@@ -260,7 +260,7 @@ No authorization required
 
 # **loginUser**
 ```swift
-    open class func loginUser(username: String, password: String, completion: @escaping ((_ data: String?,_ error: Error?) -> Void))
+    open class func loginUser(username: String, password: String, completion: @escaping (_ data: String?, _ error: Error?) -> Void)
 ```
 
 Logs user into the system
@@ -290,8 +290,8 @@ UserAPI.loginUser(username: username, password: password) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The user name for login | 
- **password** | **String**| The password for login in clear text | 
+ **username** | **String** | The user name for login | 
+ **password** | **String** | The password for login in clear text | 
 
 ### Return type
 
@@ -310,7 +310,7 @@ No authorization required
 
 # **logoutUser**
 ```swift
-    open class func logoutUser(completion: @escaping ((_ data: Void?,_ error: Error?) -> Void))
+    open class func logoutUser(completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Logs out current logged in user session
@@ -339,7 +339,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -354,7 +354,7 @@ No authorization required
 
 # **updateUser**
 ```swift
-    open class func updateUser(username: String, body: User, completion: @escaping ((_ data: Void?,_ error: Error?) -> Void))
+    open class func updateUser(username: String, body: User, completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
 ```
 
 Updated user
@@ -386,12 +386,12 @@ UserAPI.updateUser(username: username, body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | 
+ **username** | **String** | name that need to be deleted | 
+ **body** | [**User**](User.md) | Updated user object | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 

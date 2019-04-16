@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**mapMapOfString** | [**[String:[String:String]]**](Dictionary.md) |  | [optional] 
+**mapMapOfString** | [String:[String:String]] |  | [optional] 
 **mapOfEnumString** | **[String:String]** |  | [optional] 
 **directMap** | **[String:Bool]** |  | [optional] 
 **indirectMap** | **[String:Bool]** |  | [optional] 

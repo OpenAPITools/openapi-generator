@@ -44,11 +44,11 @@ PetAPI.addPet(body: body).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -91,12 +91,12 @@ PetAPI.deletePet(petId: petId, apiKey: apiKey).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| Pet id to delete | 
- **apiKey** | **String**|  | [optional] 
+ **petId** | **Int64** | Pet id to delete | 
+ **apiKey** | **String** |  | [optional] 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -140,7 +140,7 @@ PetAPI.findPetsByStatus(status: status).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**[String]**](String.md)| Status values that need to be considered for filter | 
+ **status** | [**[String]**](String.md) | Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -188,7 +188,7 @@ PetAPI.findPetsByTags(tags: tags).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**[String]**](String.md)| Tags to filter by | 
+ **tags** | [**[String]**](String.md) | Tags to filter by | 
 
 ### Return type
 
@@ -236,7 +236,7 @@ PetAPI.getPetById(petId: petId).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet to return | 
+ **petId** | **Int64** | ID of pet to return | 
 
 ### Return type
 
@@ -282,11 +282,11 @@ PetAPI.updatePet(body: body).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -330,13 +330,13 @@ PetAPI.updatePetWithForm(petId: petId, name: name, status: status).then {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet that needs to be updated | 
- **name** | **String**| Updated name of the pet | [optional] 
- **status** | **String**| Updated status of the pet | [optional] 
+ **petId** | **Int64** | ID of pet that needs to be updated | 
+ **name** | **String** | Updated name of the pet | [optional] 
+ **status** | **String** | Updated status of the pet | [optional] 
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 
@@ -363,7 +363,7 @@ import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to update
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
-let file = "TODO" // URL | file to upload (optional)
+let file = URL(string: "https://example.com")! // URL | file to upload (optional)
 
 // uploads an image
 PetAPI.uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: file).then {
@@ -380,9 +380,9 @@ PetAPI.uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: fi
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet to update | 
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
- **file** | **URL****URL**| file to upload | [optional] 
+ **petId** | **Int64** | ID of pet to update | 
+ **additionalMetadata** | **String** | Additional data to pass to server | [optional] 
+ **file** | **URL** | file to upload | [optional] 
 
 ### Return type
 
@@ -412,7 +412,7 @@ uploads an image (required)
 import PetstoreClient
 
 let petId = 987 // Int64 | ID of pet to update
-let requiredFile = "TODO" // URL | file to upload
+let requiredFile = URL(string: "https://example.com")! // URL | file to upload
 let additionalMetadata = "additionalMetadata_example" // String | Additional data to pass to server (optional)
 
 // uploads an image (required)
@@ -430,9 +430,9 @@ PetAPI.uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, addi
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet to update | 
- **requiredFile** | **URL****URL**| file to upload | 
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
+ **petId** | **Int64** | ID of pet to update | 
+ **requiredFile** | **URL** | file to upload | 
+ **additionalMetadata** | **String** | Additional data to pass to server | [optional] 
 
 ### Return type
 
