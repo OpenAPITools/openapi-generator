@@ -86,9 +86,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         );
 
         instantiationTypes.clear();
-        /*instantiationTypes.put("array", "GoArray");
-        instantiationTypes.put("map", "GoMap");*/
-
+        
         typeMapping.clear();
         typeMapping.put("integer", "int32");
         typeMapping.put("long", "int64");
@@ -266,13 +264,22 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
+            if (ModelUtils.isAnyType(inner)) {
+                return "[]interface{}";
+            }
             return "[]" + getTypeDeclaration(inner);
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(inner);
+            if (ModelUtils.isAnyType(inner)) {
+                return "map[string]interface{}";
+            }
+            return "map[string]" + getTypeDeclaration(inner);
+        } else if (ModelUtils.isFreeFormObject(p)) {
+            return "map[string]interface{}";
+        } else if (ModelUtils.isAnyType(p)) {
+            return "interface{}";
         }
-        //return super.getTypeDeclaration(p);
-
+        
         // Not using the supertype invocation, because we want to UpperCamelize
         // the type.
         String openAPIType = getSchemaType(p);
@@ -308,6 +315,23 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         if (ref != null && !ref.isEmpty()) {
             type = openAPIType;
+        } else if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            Schema inner = ap.getItems();
+            if (ModelUtils.isAnyType(inner)) {
+                return "[]interface{}";
+            }
+            return "[]" + getTypeDeclaration(inner);
+        } else if (ModelUtils.isFreeFormObject(p)) {
+            return "map[string]interface{}";
+        } else if (ModelUtils.isAnyType(p)) {
+            return "interface{}";
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = ModelUtils.getAdditionalProperties(p);
+            if (ModelUtils.isAnyType(inner)) {
+               return "map[string]interface{}";
+            }
+            return "map[string]" + getTypeDeclaration(inner);
         } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))

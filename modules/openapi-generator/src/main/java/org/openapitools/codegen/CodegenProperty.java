@@ -55,7 +55,7 @@ public class CodegenProperty implements Cloneable {
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType, isModel, isContainer;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isFile,
-            isBoolean, isDate, isDateTime, isUuid, isEmail, isFreeFormObject;
+            isBoolean, isDate, isDateTime, isUuid, isEmail, isFreeFormObject, isAnyType;
     public boolean isListContainer, isMapContainer;
     public boolean isEnum;
     public boolean isReadOnly;
@@ -474,6 +474,7 @@ public class CodegenProperty implements Cloneable {
             isUuid,
             isEmail,
             isFreeFormObject,
+            isAnyType,
             isMapContainer,
             isListContainer,
             isInherited,
@@ -554,6 +555,7 @@ public class CodegenProperty implements Cloneable {
             Objects.equals(isUuid, other.isUuid) &&
             Objects.equals(isEmail, other.isEmail) &&
             Objects.equals(isFreeFormObject, other.isFreeFormObject) &&
+            Objects.equals(isAnyType, other.isAnyType) &&
             Objects.equals(isBinary, other.isBinary) &&
             Objects.equals(isFile, other.isFile) &&
             Objects.equals(isListContainer, other.isListContainer) &&
@@ -651,6 +653,7 @@ public class CodegenProperty implements Cloneable {
                 ", isUuid=" + isUuid +
                 ", isEmail=" + isEmail +
                 ", isFreeFormObject=" + isFreeFormObject +
+                ", isAnyType=" + isAnyType +
                 ", isListContainer=" + isListContainer +
                 ", isMapContainer=" + isMapContainer +
                 ", isEnum=" + isEnum +

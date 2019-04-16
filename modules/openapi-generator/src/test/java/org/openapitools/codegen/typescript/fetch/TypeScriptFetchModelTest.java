@@ -134,7 +134,7 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(property2.baseName, "urls");
         Assert.assertEquals(property2.dataType, "Array<string>");
         Assert.assertEquals(property2.name, "urls");
-        Assert.assertEquals(property2.baseType, "Array");
+        Assert.assertEquals(property2.baseType, "Array<string>");
         Assert.assertFalse(property2.hasMore);
         Assert.assertFalse(property2.required);
     }
@@ -184,7 +184,7 @@ public class TypeScriptFetchModelTest {
         Assert.assertEquals(property1.complexType, "Children");
         Assert.assertEquals(property1.dataType, "Array<Children>");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.baseType, "Array");
+        Assert.assertEquals(property1.baseType, "Array<Children>");
         Assert.assertFalse(property1.required);
     }
 

@@ -116,7 +116,7 @@ public class GoModelTest {
         Assert.assertEquals(property2.baseName, "urls");
         Assert.assertEquals(property2.dataType, "[]string");
         Assert.assertEquals(property2.name, "Urls");
-        Assert.assertEquals(property2.baseType, "array");
+        Assert.assertEquals(property2.baseType, "[]string");
         Assert.assertFalse(property2.hasMore);
         Assert.assertEquals(property2.containerType, "array");
         Assert.assertFalse(property2.required);
@@ -144,7 +144,7 @@ public class GoModelTest {
         Assert.assertEquals(property1.baseName, "translations");
         Assert.assertEquals(property1.dataType, "map[string]string");
         Assert.assertEquals(property1.name, "Translations");
-        Assert.assertEquals(property1.baseType, "map");
+        Assert.assertEquals(property1.baseType, "map[string]string");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -194,7 +194,7 @@ public class GoModelTest {
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.dataType, "[]Children");
         Assert.assertEquals(property1.name, "Children");
-        Assert.assertEquals(property1.baseType, "array");
+        Assert.assertEquals(property1.baseType, "[]Children");
         Assert.assertEquals(property1.containerType, "array");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -222,7 +222,7 @@ public class GoModelTest {
         Assert.assertEquals(property1.complexType, "Children");
         Assert.assertEquals(property1.dataType, "map[string]Children");
         Assert.assertEquals(property1.name, "Children");
-        Assert.assertEquals(property1.baseType, "map");
+        Assert.assertEquals(property1.baseType, "map[string]Children");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);

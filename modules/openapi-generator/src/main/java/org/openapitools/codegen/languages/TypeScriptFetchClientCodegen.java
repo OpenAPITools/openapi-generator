@@ -118,12 +118,32 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public String getTypeDeclaration(Schema p) {
         Schema inner;
+        if ( ModelUtils.isArraySchema(p) ||
+             ModelUtils.isFileSchema(p) ||
+             ModelUtils.isBinarySchema(p) ||
+             ModelUtils.isDateSchema(p) ||
+             ModelUtils.isDateTimeSchema(p) ||
+             ModelUtils.isAnyType(p) ) {
+            return this.getSchemaType(p);
+        } else if (ModelUtils.isFreeFormObject(p) || ModelUtils.isMapSchema(p)) {
+            return "{ " + this.getSchemaType(p) + "; }";
+        }
+        return super.getTypeDeclaration(p);
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        Schema inner;
         if (ModelUtils.isArraySchema(p)) {
             inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
+            return "Array<" + this.getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isAnyType(p)) {
+            return "any";
+        } else if (ModelUtils.isFreeFormObject(p)) {
+            return "[key: string]: any";
         } else if (ModelUtils.isMapSchema(p)) {
             inner = ModelUtils.getAdditionalProperties(p);
-            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
+            return "[key: string]: " + this.getTypeDeclaration(inner);
         } else if (ModelUtils.isFileSchema(p)) {
             return "Blob";
         } else if (ModelUtils.isBinarySchema(p)) {
@@ -133,13 +153,29 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         } else if (ModelUtils.isDateTimeSchema(p)) {
             return "Date";
         }
-        return super.getTypeDeclaration(p);
+        return super.getSchemaType(p);
     }
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
+        String addlType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = addlType;
         addImport(codegenModel, codegenModel.additionalPropertiesType);
+    }
+
+    @Override
+    /**
+     * Check the type to see if it needs import the library/module/package
+     *
+     * @param type name of the type
+     * @return true if the library/module/package of the corresponding type needs to be imported
+     */
+    protected boolean needToImport(String type) {
+        // Catch "advanced" primitives e.g. array or objects of primitives which should not be imported
+        if ( type.startsWith("{ [key:") || type.startsWith("[key:") || type.startsWith("Array<") ) {
+            return false;
+        }
+        return super.needToImport(type);
     }
 
     @Override

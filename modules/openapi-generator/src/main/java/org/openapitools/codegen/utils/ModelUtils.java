@@ -548,6 +548,16 @@ public class ModelUtils {
             return false;
         }
 
+        // not free-form if $ref to another schema, though $ref schema may be free-form
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            return false;
+        }
+
+        // not free-form if enum
+        if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+            return false;
+        }
+
         // not free-form if allOf, anyOf, oneOf is not empty
         if (schema instanceof ComposedSchema) {
             ComposedSchema cs = (ComposedSchema) schema;
@@ -562,21 +572,51 @@ public class ModelUtils {
             // no properties
             if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
                 Schema addlProps = getAdditionalProperties(schema);
-                // additionalProperties not defined
-                if (addlProps == null) {
+                // additionalProperties not defined or additionalProperties: {} or additionalProperties: true
+                if (addlProps == null || isAnyType(addlProps)) {
                     return true;
-                } else {
-                    if (addlProps instanceof ObjectSchema) {
-                        ObjectSchema objSchema = (ObjectSchema) addlProps;
-                        // additionalProperties defined as {}
-                        if (objSchema.getProperties() == null || objSchema.getProperties().isEmpty()) {
-                            return true;
-                        }
-                    }
                 }
             }
         }
 
+        return false;
+    }
+
+    /**
+     * Check to see if the schema is any type object, see: https://swagger.io/docs/specification/data-models/data-types/#any
+     *
+     * @param schema potentially containing a '$ref'
+     * @return true if it's any type
+     */
+    public static boolean isAnyType(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            // schemas with $ref: are not anyType, though their referenced schema may be
+            return false;
+        }
+        if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+            // enum schemas are not anyType
+            return false;
+        }
+        if (schema instanceof ComposedSchema) {
+            // Composed schemas (allOf, anyOf, oneOf) take the type(s) listed
+            return false;
+        }
+        if (!StringUtils.isEmpty(schema.getType())) {
+            // If type: <> is specified, schema takes that type
+            return false;
+        }
+        if (schema.getAdditionalProperties() != null) {
+            // If additionalProperties: <> is specified, assume this is an object model
+            return false;
+        }
+        Map<String, Schema> props = schema.getProperties();
+        // If type: <> is not specified and neither are properties, this schema can be any type
+        if (props == null || props.isEmpty()) {
+            return true;
+        }
         return false;
     }
 
@@ -820,7 +860,7 @@ public class ModelUtils {
             return (Schema) schema.getAdditionalProperties();
         }
         if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
-            return new ObjectSchema();
+            return new Schema();
         }
         return null;
     }

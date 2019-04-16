@@ -61,7 +61,7 @@ public class CodegenModel {
     public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
 
     public Set<String> imports = new TreeSet<String>();
-    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel;
+    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel, isFreeFormObject, isAnyTypeModel, isPrimitiveType;
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
@@ -118,6 +118,9 @@ public class CodegenModel {
                 .append("isArrayModel", isArrayModel)
                 .append("hasChildren", hasChildren)
                 .append("isMapModel", isMapModel)
+                .append("isFreeFormObject", isFreeFormObject)
+                .append("isAnyTypeModel", isAnyTypeModel)
+                .append("isPrimitiveType", isPrimitiveType)
                 .append("hasOnlyReadOnly", hasOnlyReadOnly)
                 .append("externalDocumentation", externalDocumentation)
                 .append("vendorExtensions", vendorExtensions)

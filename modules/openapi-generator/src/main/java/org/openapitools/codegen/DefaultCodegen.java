@@ -1756,15 +1756,29 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
-                m.isMapModel = true;
+                m.isMapModel = Boolean.TRUE;
+                // Maps with no properties are primitive types
+                if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
+                    m.isPrimitiveType = Boolean.TRUE;
+                }
             }
             if (ModelUtils.isIntegerSchema(schema)) { // integer type
                 if (!ModelUtils.isLongSchema(schema)) { // long type is not integer
                     m.isInteger = Boolean.TRUE;
                 }
+                m.isPrimitiveType = Boolean.TRUE;
             }
             if (ModelUtils.isStringSchema(schema)) {
                 m.isString = Boolean.TRUE;
+                m.isPrimitiveType = Boolean.TRUE;
+            }
+            if (ModelUtils.isFreeFormObject(schema)) {
+                m.isFreeFormObject = Boolean.TRUE;
+                m.isPrimitiveType = Boolean.TRUE;
+            }
+            if (ModelUtils.isAnyType(schema)) {
+                m.isAnyTypeModel = Boolean.TRUE;
+                m.isPrimitiveType = Boolean.TRUE;
             }
 
             // passing null to allProperties and allRequired as there's no parent
@@ -2018,6 +2032,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         } else if (ModelUtils.isFreeFormObject(p)) {
             property.isFreeFormObject = true;
+        } else if (ModelUtils.isAnyType(p)) {
+            property.isAnyType = true;
         }
 
         //Inline enum case:
