@@ -50,7 +50,7 @@ FakeAPI.fakeOuterBooleanSerialize(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **Bool**| Input boolean as post body | [optional] 
+ **body** | **Bool** | Input boolean as post body | [optional] 
 
 ### Return type
 
@@ -99,7 +99,7 @@ FakeAPI.fakeOuterCompositeSerialize(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **body** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | [optional] 
 
 ### Return type
 
@@ -148,7 +148,7 @@ FakeAPI.fakeOuterNumberSerialize(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **Double**| Input number as post body | [optional] 
+ **body** | **Double** | Input number as post body | [optional] 
 
 ### Return type
 
@@ -197,7 +197,7 @@ FakeAPI.fakeOuterStringSerialize(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **String**| Input string as post body | [optional] 
+ **body** | **String** | Input string as post body | [optional] 
 
 ### Return type
 
@@ -246,7 +246,7 @@ FakeAPI.testBodyWithFileSchema(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md) |  | 
 
 ### Return type
 
@@ -294,8 +294,8 @@ FakeAPI.testBodyWithQueryParams(query: query, body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **String**|  | 
- **body** | [**User**](User.md)|  | 
+ **query** | **String** |  | 
+ **body** | [**User**](User.md) |  | 
 
 ### Return type
 
@@ -345,7 +345,7 @@ FakeAPI.testClientModel(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md) | client model | 
 
 ### Return type
 
@@ -379,15 +379,15 @@ import PetstoreClient
 let number = 987 // Double | None
 let double = 987 // Double | None
 let patternWithoutDelimiter = "patternWithoutDelimiter_example" // String | None
-let byte = TODO // Data | None
+let byte = 987 // Data | None
 let integer = 987 // Int | None (optional)
 let int32 = 987 // Int | None (optional)
 let int64 = 987 // Int64 | None (optional)
 let float = 987 // Float | None (optional)
 let string = "string_example" // String | None (optional)
 let binary = "TODO" // URL | None (optional)
-let date = TODO // Date | None (optional)
-let dateTime = TODO // Date | None (optional)
+let date = Date() // Date | None (optional)
+let dateTime = Date() // Date | None (optional)
 let password = "password_example" // String | None (optional)
 let callback = "callback_example" // String | None (optional)
 
@@ -408,20 +408,20 @@ FakeAPI.testEndpointParameters(number: number, double: double, patternWithoutDel
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **Double**| None | 
- **double** | **Double**| None | 
- **patternWithoutDelimiter** | **String**| None | 
- **byte** | **Data**| None | 
- **integer** | **Int**| None | [optional] 
- **int32** | **Int**| None | [optional] 
- **int64** | **Int64**| None | [optional] 
- **float** | **Float**| None | [optional] 
- **string** | **String**| None | [optional] 
- **binary** | **URL****URL**| None | [optional] 
- **date** | **Date**| None | [optional] 
- **dateTime** | **Date**| None | [optional] 
- **password** | **String**| None | [optional] 
- **callback** | **String**| None | [optional] 
+ **number** | **Double** | None | 
+ **double** | **Double** | None | 
+ **patternWithoutDelimiter** | **String** | None | 
+ **byte** | **Data** | None | 
+ **integer** | **Int** | None | [optional] 
+ **int32** | **Int** | None | [optional] 
+ **int64** | **Int64** | None | [optional] 
+ **float** | **Float** | None | [optional] 
+ **string** | **String** | None | [optional] 
+ **binary** | **URL** | None | [optional] 
+ **date** | **Date** | None | [optional] 
+ **dateTime** | **Date** | None | [optional] 
+ **password** | **String** | None | [optional] 
+ **callback** | **String** | None | [optional] 
 
 ### Return type
 
@@ -478,14 +478,14 @@ FakeAPI.testEnumParameters(enumHeaderStringArray: enumHeaderStringArray, enumHea
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**[String]**](String.md)| Header parameter enum test (string array) | [optional] 
- **enumHeaderString** | **String**| Header parameter enum test (string) | [optional] [default to .-efg]
- **enumQueryStringArray** | [**[String]**](String.md)| Query parameter enum test (string array) | [optional] 
- **enumQueryString** | **String**| Query parameter enum test (string) | [optional] [default to .-efg]
- **enumQueryInteger** | **Int**| Query parameter enum test (double) | [optional] 
- **enumQueryDouble** | **Double**| Query parameter enum test (double) | [optional] 
- **enumFormStringArray** | [**[String]**](String.md)| Form parameter enum test (string array) | [optional] [default to .$]
- **enumFormString** | **String**| Form parameter enum test (string) | [optional] [default to .-efg]
+ **enumHeaderStringArray** | [**[String]**](String.md) | Header parameter enum test (string array) | [optional] 
+ **enumHeaderString** | **String** | Header parameter enum test (string) | [optional] [default to .-efg]
+ **enumQueryStringArray** | [**[String]**](String.md) | Query parameter enum test (string array) | [optional] 
+ **enumQueryString** | **String** | Query parameter enum test (string) | [optional] [default to .-efg]
+ **enumQueryInteger** | **Int** | Query parameter enum test (double) | [optional] 
+ **enumQueryDouble** | **Double** | Query parameter enum test (double) | [optional] 
+ **enumFormStringArray** | [**[String]**](String.md) | Form parameter enum test (string array) | [optional] [default to .$]
+ **enumFormString** | **String** | Form parameter enum test (string) | [optional] [default to .-efg]
 
 ### Return type
 
@@ -540,12 +540,12 @@ FakeAPI.testGroupParameters(requiredStringGroup: requiredStringGroup, requiredBo
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requiredStringGroup** | **Int**| Required String in group parameters | 
- **requiredBooleanGroup** | **Bool**| Required Boolean in group parameters | 
- **requiredInt64Group** | **Int64**| Required Integer in group parameters | 
- **stringGroup** | **Int**| String in group parameters | [optional] 
- **booleanGroup** | **Bool**| Boolean in group parameters | [optional] 
- **int64Group** | **Int64**| Integer in group parameters | [optional] 
+ **requiredStringGroup** | **Int** | Required String in group parameters | 
+ **requiredBooleanGroup** | **Bool** | Required Boolean in group parameters | 
+ **requiredInt64Group** | **Int64** | Required Integer in group parameters | 
+ **stringGroup** | **Int** | String in group parameters | [optional] 
+ **booleanGroup** | **Bool** | Boolean in group parameters | [optional] 
+ **int64Group** | **Int64** | Integer in group parameters | [optional] 
 
 ### Return type
 
@@ -593,7 +593,7 @@ FakeAPI.testInlineAdditionalProperties(param: param) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**[String:String]**](String.md)| request body | 
+ **param** | [**[String:String]**](String.md) | request body | 
 
 ### Return type
 
@@ -642,8 +642,8 @@ FakeAPI.testJsonFormData(param: param, param2: param2) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 | 
- **param2** | **String**| field2 | 
+ **param** | **String** | field1 | 
+ **param2** | **String** | field2 | 
 
 ### Return type
 

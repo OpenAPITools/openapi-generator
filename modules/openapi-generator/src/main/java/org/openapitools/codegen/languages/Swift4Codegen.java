@@ -94,7 +94,11 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                         "Bool",
                         "Void",
                         "String",
+                        "URL",
+                        "Data",
+                        "Date",
                         "Character",
+                        "UUID",
                         "AnyObject",
                         "Any")
         );
@@ -950,6 +954,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 } else {
                     return "false";
                 }
+            } else if ("Date".equals(codegenParameter.dataType)) { // date
+                return "Date()";
             } else { // numeric
                 if (StringUtils.isEmpty(codegenParameter.example)) {
                     return codegenParameter.example;
@@ -986,6 +992,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 } else {
                     return "false";
                 }
+            } else if ("Date".equals(codegenProperty.dataType)) { // date
+                return "Date()";
             } else { // numeric
                 if (StringUtils.isEmpty(codegenProperty.example)) {
                     return codegenProperty.example;

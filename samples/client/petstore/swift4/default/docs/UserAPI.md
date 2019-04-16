@@ -47,7 +47,7 @@ UserAPI.createUser(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md) | Created user object | 
 
 ### Return type
 
@@ -95,7 +95,7 @@ UserAPI.createUsersWithArrayInput(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](Array.md)| List of user object | 
+ **body** | [**[User]**](Array.md) | List of user object | 
 
 ### Return type
 
@@ -143,7 +143,7 @@ UserAPI.createUsersWithListInput(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**[User]**](Array.md)| List of user object | 
+ **body** | [**[User]**](Array.md) | List of user object | 
 
 ### Return type
 
@@ -193,7 +193,7 @@ UserAPI.deleteUser(username: username) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be deleted | 
+ **username** | **String** | The name that needs to be deleted | 
 
 ### Return type
 
@@ -241,7 +241,7 @@ UserAPI.getUserByName(username: username) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
+ **username** | **String** | The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
 
@@ -290,8 +290,8 @@ UserAPI.loginUser(username: username, password: password) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| The user name for login | 
- **password** | **String**| The password for login in clear text | 
+ **username** | **String** | The user name for login | 
+ **password** | **String** | The password for login in clear text | 
 
 ### Return type
 
@@ -386,8 +386,8 @@ UserAPI.updateUser(username: username, body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **username** | **String**| name that need to be deleted | 
- **body** | [**User**](User.md)| Updated user object | 
+ **username** | **String** | name that need to be deleted | 
+ **body** | [**User**](User.md) | Updated user object | 
 
 ### Return type
 

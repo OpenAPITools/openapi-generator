@@ -46,7 +46,7 @@ PetAPI.addPet(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -95,8 +95,8 @@ PetAPI.deletePet(petId: petId, apiKey: apiKey) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| Pet id to delete | 
- **apiKey** | **String**|  | [optional] 
+ **petId** | **Int64** | Pet id to delete | 
+ **apiKey** | **String** |  | [optional] 
 
 ### Return type
 
@@ -146,7 +146,7 @@ PetAPI.findPetsByStatus(status: status) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**[String]**](String.md)| Status values that need to be considered for filter | 
+ **status** | [**[String]**](String.md) | Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -196,7 +196,7 @@ PetAPI.findPetsByTags(tags: tags) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**[String]**](String.md)| Tags to filter by | 
+ **tags** | [**[String]**](String.md) | Tags to filter by | 
 
 ### Return type
 
@@ -246,7 +246,7 @@ PetAPI.getPetById(petId: petId) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet to return | 
+ **petId** | **Int64** | ID of pet to return | 
 
 ### Return type
 
@@ -294,7 +294,7 @@ PetAPI.updatePet(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -344,9 +344,9 @@ PetAPI.updatePetWithForm(petId: petId, name: name, status: status) { (response, 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet that needs to be updated | 
- **name** | **String**| Updated name of the pet | [optional] 
- **status** | **String**| Updated status of the pet | [optional] 
+ **petId** | **Int64** | ID of pet that needs to be updated | 
+ **name** | **String** | Updated name of the pet | [optional] 
+ **status** | **String** | Updated status of the pet | [optional] 
 
 ### Return type
 
@@ -396,9 +396,9 @@ PetAPI.uploadFile(petId: petId, additionalMetadata: additionalMetadata, file: fi
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet to update | 
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
- **file** | **URL****URL**| file to upload | [optional] 
+ **petId** | **Int64** | ID of pet to update | 
+ **additionalMetadata** | **String** | Additional data to pass to server | [optional] 
+ **file** | **URL** | file to upload | [optional] 
 
 ### Return type
 
@@ -448,9 +448,9 @@ PetAPI.uploadFileWithRequiredFile(petId: petId, requiredFile: requiredFile, addi
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **Int64**| ID of pet to update | 
- **requiredFile** | **URL****URL**| file to upload | 
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
+ **petId** | **Int64** | ID of pet to update | 
+ **requiredFile** | **URL** | file to upload | 
+ **additionalMetadata** | **String** | Additional data to pass to server | [optional] 
 
 ### Return type
 

@@ -39,8 +39,10 @@ import {{{projectName}}}
 
 {{^usePromiseKit}}
 {{^useRxSwift}}
-{{#summary}}// {{{.}}}
-{{/summary}}{{classname}}.{{{operationId}}}({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) { (response, error) in
+{{#summary}}
+// {{{.}}}
+{{/summary}}
+{{classname}}.{{{operationId}}}({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) { (response, error) in
     guard error == nil else {
         print(error)
         return
@@ -53,8 +55,10 @@ import {{{projectName}}}
 {{/useRxSwift}}
 {{/usePromiseKit}}
 {{#usePromiseKit}}
-{{#summary}}// {{{.}}}
-{{/summary}}{{classname}}.{{{operationId}}}({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).then {
+{{#summary}}
+// {{{.}}}
+{{/summary}}
+{{classname}}.{{{operationId}}}({{#allParams}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}).then {
                 // when the promise is fulfilled
             }.always {
                 // regardless of whether the promise is fulfilled, or rejected
@@ -72,7 +76,7 @@ import {{{projectName}}}
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}} | {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type

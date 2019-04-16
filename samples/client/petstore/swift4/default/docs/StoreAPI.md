@@ -43,7 +43,7 @@ StoreAPI.deleteOrder(orderId: orderId) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of the order that needs to be deleted | 
+ **orderId** | **String** | ID of the order that needs to be deleted | 
 
 ### Return type
 
@@ -139,7 +139,7 @@ StoreAPI.getOrderById(orderId: orderId) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **Int64**| ID of pet that needs to be fetched | 
+ **orderId** | **Int64** | ID of pet that needs to be fetched | 
 
 ### Return type
 
@@ -168,7 +168,7 @@ Place an order for a pet
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = Order(id: 123, petId: 123, quantity: 123, shipDate: "TODO", status: "status_example", complete: false) // Order | order placed for purchasing the pet
+let body = Order(id: 123, petId: 123, quantity: 123, shipDate: Date(), status: "status_example", complete: false) // Order | order placed for purchasing the pet
 
 // Place an order for a pet
 StoreAPI.placeOrder(body: body) { (response, error) in
@@ -187,7 +187,7 @@ StoreAPI.placeOrder(body: body) { (response, error) in
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md) | order placed for purchasing the pet | 
 
 ### Return type
 
