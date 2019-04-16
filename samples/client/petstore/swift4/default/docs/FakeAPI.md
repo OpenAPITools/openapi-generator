@@ -32,7 +32,7 @@ Test serialization of outer boolean types
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = 987 // Bool | Input boolean as post body (optional)
+let body = false // Bool | Input boolean as post body (optional)
 
 FakeAPI.fakeOuterBooleanSerialize(body: body) { (response, error) in
     guard error == nil else {
@@ -81,7 +81,7 @@ Test serialization of object with outer number type
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = OuterComposite(myNumber: 123, myString: "myString_example", myBoolean: 123) // OuterComposite | Input composite as post body (optional)
+let body = OuterComposite(myNumber: 123, myString: "myString_example", myBoolean: false) // OuterComposite | Input composite as post body (optional)
 
 FakeAPI.fakeOuterCompositeSerialize(body: body) { (response, error) in
     guard error == nil else {
@@ -517,10 +517,10 @@ Fake endpoint to test group parameters (optional)
 import PetstoreClient
 
 let requiredStringGroup = 987 // Int | Required String in group parameters
-let requiredBooleanGroup = 987 // Bool | Required Boolean in group parameters
+let requiredBooleanGroup = false // Bool | Required Boolean in group parameters
 let requiredInt64Group = 987 // Int64 | Required Integer in group parameters
 let stringGroup = 987 // Int | String in group parameters (optional)
-let booleanGroup = 987 // Bool | Boolean in group parameters (optional)
+let booleanGroup = false // Bool | Boolean in group parameters (optional)
 let int64Group = 987 // Int64 | Integer in group parameters (optional)
 
 // Fake endpoint to test group parameters (optional)

@@ -944,6 +944,12 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 } else {
                     return "\"" + codegenParameter.paramName + "_example\"";
                 }
+            } else if ("Bool".equals(codegenParameter.dataType)) { // boolean
+                if (Boolean.TRUE.equals(codegenParameter.example)) {
+                    return "true";
+                } else {
+                    return "false";
+                }
             } else { // numeric
                 if (StringUtils.isEmpty(codegenParameter.example)) {
                     return codegenParameter.example;
@@ -973,6 +979,12 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                     return "\"" + codegenProperty.example + "\"";
                 } else {
                     return "\"" + codegenProperty.name + "_example\"";
+                }
+            } else if ("Bool".equals(codegenProperty.dataType)) { // boolean
+                if (Boolean.TRUE.equals(codegenProperty.example)) {
+                    return "true";
+                } else {
+                    return "false";
                 }
             } else { // numeric
                 if (StringUtils.isEmpty(codegenProperty.example)) {
