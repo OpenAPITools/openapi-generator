@@ -168,7 +168,7 @@ Place an order for a pet
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = Order(123, 123, 123, "TODO", "status_example", 123) // Order | order placed for purchasing the pet
+let body = Order(id: 123, petId: 123, quantity: 123, shipDate: "TODO", status: "status_example", complete: 123) // Order | order placed for purchasing the pet
 
 // Place an order for a pet
 StoreAPI.placeOrder(body: body) { (response, error) in

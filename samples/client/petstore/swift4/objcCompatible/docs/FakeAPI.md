@@ -33,7 +33,7 @@ this route creates an XmlItem
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let xmlItem = XmlItem("attributeString_example", 123, 123, 123, [123], "nameString_example", 123, 123, 123, [123], [123], "prefixString_example", 123, 123, 123, [123], [123], "namespaceString_example", 123, 123, 123, [123], [123], "prefixNsString_example", 123, 123, 123, [123], [123]) // XmlItem | XmlItem Body
+let xmlItem = XmlItem(attributeString: "attributeString_example", attributeNumber: 123, attributeInteger: 123, attributeBoolean: 123, wrappedArray: [123], nameString: "nameString_example", nameNumber: 123, nameInteger: 123, nameBoolean: 123, nameArray: [123], nameWrappedArray: [123], prefixString: "prefixString_example", prefixNumber: 123, prefixInteger: 123, prefixBoolean: 123, prefixArray: [123], prefixWrappedArray: [123], namespaceString: "namespaceString_example", namespaceNumber: 123, namespaceInteger: 123, namespaceBoolean: 123, namespaceArray: [123], namespaceWrappedArray: [123], prefixNsString: "prefixNsString_example", prefixNsNumber: 123, prefixNsInteger: 123, prefixNsBoolean: 123, prefixNsArray: [123], prefixNsWrappedArray: [123]) // XmlItem | XmlItem Body
 
 // creates an XmlItem
 FakeAPI.createXmlItem(xmlItem: xmlItem) { (response, error) in
@@ -132,7 +132,7 @@ Test serialization of object with outer number type
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = OuterComposite(123, "myString_example", 123) // OuterComposite | Input composite as post body (optional)
+let body = OuterComposite(myNumber: 123, myString: "myString_example", myBoolean: 123) // OuterComposite | Input composite as post body (optional)
 
 FakeAPI.fakeOuterCompositeSerialize(body: body) { (response, error) in
     guard error == nil else {
@@ -279,7 +279,7 @@ For this test, the body for this request much reference a schema named `File`.
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = FileSchemaTestClass(File("sourceURI_example"), [File("sourceURI_example")]) // FileSchemaTestClass | 
+let body = FileSchemaTestClass(file: File(sourceURI: "sourceURI_example"), files: [File(sourceURI: "sourceURI_example")]) // FileSchemaTestClass | 
 
 FakeAPI.testBodyWithFileSchema(body: body) { (response, error) in
     guard error == nil else {
@@ -327,7 +327,7 @@ No authorization required
 import PetstoreClient
 
 let query = "query_example" // String | 
-let body = User(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) // User | 
+let body = User(_id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123) // User | 
 
 FakeAPI.testBodyWithQueryParams(query: query, body: body) { (response, error) in
     guard error == nil else {
@@ -377,7 +377,7 @@ To test \"client\" model
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = Client("client_example") // Client | client model
+let body = Client(client: "client_example") // Client | client model
 
 // To test \"client\" model
 FakeAPI.testClientModel(body: body) { (response, error) in

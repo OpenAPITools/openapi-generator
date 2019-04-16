@@ -28,7 +28,7 @@ This can only be done by the logged in user.
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = User(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) // User | Created user object
+let body = User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123) // User | Created user object
 
 // TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
@@ -66,7 +66,7 @@ Creates list of users with given input array
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = [User(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)] // [User] | List of user object
+let body = [User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123)] // [User] | List of user object
 
 // TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
@@ -104,7 +104,7 @@ Creates list of users with given input array
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = [User(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)] // [User] | List of user object
+let body = [User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123)] // [User] | List of user object
 
 // TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
@@ -297,7 +297,7 @@ This can only be done by the logged in user.
 import PetstoreClient
 
 let username = "username_example" // String | name that need to be deleted
-let body = User(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) // User | Updated user object
+let body = User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123) // User | Updated user object
 
 // TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```

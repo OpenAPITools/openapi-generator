@@ -72,7 +72,7 @@ Test serialization of object with outer number type
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = OuterComposite(123, "myString_example", 123) // OuterComposite | Input composite as post body (optional)
+let body = OuterComposite(myNumber: 123, myString: "myString_example", myBoolean: 123) // OuterComposite | Input composite as post body (optional)
 
 // TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
@@ -192,7 +192,7 @@ For this test, the body for this request much reference a schema named `File`.
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = FileSchemaTestClass(File("sourceURI_example"), [File("sourceURI_example")]) // FileSchemaTestClass | 
+let body = FileSchemaTestClass(file: File(sourceURI: "sourceURI_example"), files: [File(sourceURI: "sourceURI_example")]) // FileSchemaTestClass | 
 
 // TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
@@ -231,7 +231,7 @@ No authorization required
 import PetstoreClient
 
 let query = "query_example" // String | 
-let body = User(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) // User | 
+let body = User(id: 123, username: "username_example", firstName: "firstName_example", lastName: "lastName_example", email: "email_example", password: "password_example", phone: "phone_example", userStatus: 123) // User | 
 
 // TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
@@ -272,7 +272,7 @@ To test \"client\" model
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = Client("client_example") // Client | client model
+let body = Client(client: "client_example") // Client | client model
 
 // TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```

@@ -27,7 +27,7 @@ Add a new pet to the store
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = Pet(123, Category(123, "name_example"), "name_example", ["photoUrls_example"], [Tag(123, "name_example")], "status_example") // Pet | Pet object that needs to be added to the store
+let body = Pet(id: 123, category: Category(id: 123, name: "name_example"), name: "name_example", photoUrls: ["photoUrls_example"], tags: [Tag(id: 123, name: "name_example")], status: "status_example") // Pet | Pet object that needs to be added to the store
 
 // TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
@@ -225,7 +225,7 @@ Update an existing pet
 // the following code samples are still beta. If you notice any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PetstoreClient
 
-let body = Pet(123, Category(123, "name_example"), "name_example", ["photoUrls_example"], [Tag(123, "name_example")], "status_example") // Pet | Pet object that needs to be added to the store
+let body = Pet(id: 123, category: Category(id: 123, name: "name_example"), name: "name_example", photoUrls: ["photoUrls_example"], tags: [Tag(id: 123, name: "name_example")], status: "status_example") // Pet | Pet object that needs to be added to the store
 
 // TODO rxswift sample code. To contribute, please open a ticket via http://github.com/OpenAPITools/openapi-generator/issues/new
 ```
