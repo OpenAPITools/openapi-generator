@@ -47,7 +47,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+Void (empty response body)
 
 ### Authorization
 

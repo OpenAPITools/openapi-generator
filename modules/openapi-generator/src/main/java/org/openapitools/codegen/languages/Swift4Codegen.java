@@ -954,6 +954,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 } else {
                     return "false";
                 }
+            } else if ("URL".equals(codegenParameter.dataType)) { // URL 
+                return "URL(string: \"https://example.com\")!";
             } else if ("Date".equals(codegenParameter.dataType)) { // date
                 return "Date()";
             } else { // numeric
@@ -992,6 +994,8 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
                 } else {
                     return "false";
                 }
+            } else if ("URL".equals(codegenProperty.dataType)) { // URL
+                return "URL(string: \"https://example.com\")!";
             } else if ("Date".equals(codegenProperty.dataType)) { // date
                 return "Date()";
             } else { // numeric
