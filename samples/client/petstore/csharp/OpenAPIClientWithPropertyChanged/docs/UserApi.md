@@ -14,15 +14,17 @@ Method | HTTP request | Description
 [**UpdateUser**](UserApi.md#updateuser) | **PUT** /user/{username} | Updated user
 
 
-<a name="createuser"></a>
-# **CreateUser**
-> void CreateUser (User user)
+
+## CreateUser
+
+> void CreateUser (User body)
 
 Create user
 
 This can only be done by the logged in user.
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -37,12 +39,12 @@ namespace Example
         public void main()
         {
             var apiInstance = new UserApi();
-            var user = new User(); // User | Created user object
+            var body = new User(); // User | Created user object
 
             try
             {
                 // Create user
-                apiInstance.CreateUser(user);
+                apiInstance.CreateUser(body);
             }
             catch (Exception e)
             {
@@ -55,9 +57,10 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -69,18 +72,23 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="createuserswitharrayinput"></a>
-# **CreateUsersWithArrayInput**
-> void CreateUsersWithArrayInput (List<User> user)
+
+## CreateUsersWithArrayInput
+
+> void CreateUsersWithArrayInput (List<User> body)
 
 Creates list of users with given input array
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -95,12 +103,12 @@ namespace Example
         public void main()
         {
             var apiInstance = new UserApi();
-            var user = new List<User>(); // List<User> | List of user object
+            var body = new List<User>(); // List<User> | List of user object
 
             try
             {
                 // Creates list of users with given input array
-                apiInstance.CreateUsersWithArrayInput(user);
+                apiInstance.CreateUsersWithArrayInput(body);
             }
             catch (Exception e)
             {
@@ -113,9 +121,10 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List&lt;User&gt;**](List.md)| List of user object | 
+ **body** | [**List&lt;User&gt;**](List.md)| List of user object | 
 
 ### Return type
 
@@ -127,18 +136,23 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="createuserswithlistinput"></a>
-# **CreateUsersWithListInput**
-> void CreateUsersWithListInput (List<User> user)
+
+## CreateUsersWithListInput
+
+> void CreateUsersWithListInput (List<User> body)
 
 Creates list of users with given input array
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -153,12 +167,12 @@ namespace Example
         public void main()
         {
             var apiInstance = new UserApi();
-            var user = new List<User>(); // List<User> | List of user object
+            var body = new List<User>(); // List<User> | List of user object
 
             try
             {
                 // Creates list of users with given input array
-                apiInstance.CreateUsersWithListInput(user);
+                apiInstance.CreateUsersWithListInput(body);
             }
             catch (Exception e)
             {
@@ -171,9 +185,10 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List&lt;User&gt;**](List.md)| List of user object | 
+ **body** | [**List&lt;User&gt;**](List.md)| List of user object | 
 
 ### Return type
 
@@ -185,13 +200,17 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="deleteuser"></a>
-# **DeleteUser**
+
+## DeleteUser
+
 > void DeleteUser (string username)
 
 Delete user
@@ -199,6 +218,7 @@ Delete user
 This can only be done by the logged in user.
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -231,6 +251,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| The name that needs to be deleted | 
@@ -245,18 +266,23 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="getuserbyname"></a>
-# **GetUserByName**
+
+## GetUserByName
+
 > User GetUserByName (string username)
 
 Get user by user name
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -290,6 +316,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| The name that needs to be fetched. Use user1 for testing. | 
@@ -304,18 +331,23 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="loginuser"></a>
-# **LoginUser**
+
+## LoginUser
+
 > string LoginUser (string username, string password)
 
 Logs user into the system
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -350,6 +382,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| The user name for login | 
@@ -365,18 +398,23 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="logoutuser"></a>
-# **LogoutUser**
+
+## LogoutUser
+
 > void LogoutUser ()
 
 Logs out current logged in user session
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -407,6 +445,7 @@ namespace Example
 ```
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -419,20 +458,25 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="updateuser"></a>
-# **UpdateUser**
-> void UpdateUser (string username, User user)
+
+## UpdateUser
+
+> void UpdateUser (string username, User body)
 
 Updated user
 
 This can only be done by the logged in user.
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -448,12 +492,12 @@ namespace Example
         {
             var apiInstance = new UserApi();
             var username = username_example;  // string | name that need to be deleted
-            var user = new User(); // User | Updated user object
+            var body = new User(); // User | Updated user object
 
             try
             {
                 // Updated user
-                apiInstance.UpdateUser(username, user);
+                apiInstance.UpdateUser(username, body);
             }
             catch (Exception e)
             {
@@ -466,10 +510,11 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted | 
- **user** | [**User**](User.md)| Updated user object | 
+ **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -481,8 +526,11 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 

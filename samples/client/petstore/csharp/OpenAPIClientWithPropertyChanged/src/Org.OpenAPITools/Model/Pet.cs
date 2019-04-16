@@ -91,6 +91,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.Name = name;
             }
+            
             // to ensure "photoUrls" is required (not null)
             if (photoUrls == null)
             {
@@ -100,6 +101,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.PhotoUrls = photoUrls;
             }
+            
             this.Id = id;
             this.Category = category;
             this.Tags = tags;
