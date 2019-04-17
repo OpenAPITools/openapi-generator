@@ -5,17 +5,17 @@
   "author": "OpenAPI-Generator",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
-  "scripts" : {
+  "scripts": {
     "build": "tsc --outDir dist/",
     "prepare": "npm run build"
   },
   "dependencies": {
-    "rxjs": "^6.3.3",
+    "rxjs": "^6.3.3"
   },
   "devDependencies": {
-    "typescript": "^2.4"
+    "typescript": "^3.0.1"
   },
-  "publishConfig":{
-    "registry":"https://skimdb.npmjs.com/registry"
+  "publishConfig": {
+    "registry": "https://skimdb.npmjs.com/registry"
   }
 }
