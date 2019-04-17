@@ -47,7 +47,7 @@ public class ClassModel  implements Serializable {
       return false;
     }
     ClassModel classModel = (ClassModel) o;
-    return Objects.equals(propertyClass, classModel.propertyClass);
+    return Objects.equals(this.propertyClass, classModel.propertyClass);
   }
 
   @Override
