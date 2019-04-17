@@ -7,6 +7,8 @@ import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.context.FieldValueResolver;
 import com.github.jknack.handlebars.context.JavaBeanValueResolver;
 import com.github.jknack.handlebars.context.MapValueResolver;
+import com.github.jknack.handlebars.helper.ConditionalHelpers;
+import com.github.jknack.handlebars.helper.StringHelpers;
 import com.github.jknack.handlebars.io.AbstractTemplateLoader;
 import com.github.jknack.handlebars.io.StringTemplateSource;
 import com.github.jknack.handlebars.io.TemplateLoader;
@@ -48,6 +50,9 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
             return "";
         });
         handlebars.registerHelper("json", Jackson2Helper.INSTANCE);
+        StringHelpers.register(handlebars);
+        handlebars.registerHelpers(ConditionalHelpers.class);
+        handlebars.registerHelpers(org.openapitools.codegen.templating.handlebars.StringHelpers.class);
         Template tmpl = handlebars.compile(templateFile);
         return tmpl.apply(context);
     }
