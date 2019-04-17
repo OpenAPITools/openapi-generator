@@ -1,6 +1,6 @@
 package {{packageName}}.infrastructure.authentication
 
-class OAuth(
+{{#nonPublicApi}}internal {{/nonPublicApi}}class OAuth(
     private val accessToken: String
 ): AuthProvider {
 

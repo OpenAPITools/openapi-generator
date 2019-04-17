@@ -1,5 +1,5 @@
 package {{packageName}}.infrastructure.authentication
 
-interface AuthProvider {
+{{#nonPublicApi}}internal {{/nonPublicApi}}interface AuthProvider {
     fun applyToParams(queryParameters: MutableList<Pair<String, Any?>>, headerParameters: MutableList<Pair<String, Any?>>)
 }
