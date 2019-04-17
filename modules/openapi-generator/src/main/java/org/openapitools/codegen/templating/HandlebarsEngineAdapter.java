@@ -13,13 +13,16 @@ import com.github.jknack.handlebars.io.TemplateLoader;
 import com.github.jknack.handlebars.io.TemplateSource;
 import org.openapitools.codegen.api.AbstractTemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplatingGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 
 
 public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
-
+    static Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
     private final String[] extensions = new String[]{"handlebars", "hbs"};
 
     public String compileTemplate(TemplatingGenerator generator,
@@ -40,7 +43,10 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
                 .build();
 
         Handlebars handlebars = new Handlebars(loader);
-        handlebars.registerHelperMissing((obj, options) -> "");
+        handlebars.registerHelperMissing((obj, options) -> {
+            LOGGER.warn(String.format(Locale.ROOT, "Unregistered helper name '%s', processing template:\n%s", options.helperName, options.fn.text()));
+            return "";
+        });
         handlebars.registerHelper("json", Jackson2Helper.INSTANCE);
         Template tmpl = handlebars.compile(templateFile);
         return tmpl.apply(context);
