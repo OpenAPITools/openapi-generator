@@ -22,7 +22,6 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
-import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -267,7 +266,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         // Specific ng-packagr configuration
         if (ngVersion.atLeast("7.0.0")) {
             // compatible versions with typescript version
-            additionalProperties.put("ngPackagrVersion", "4.4.5");
+            additionalProperties.put("ngPackagrVersion", "5.1.0");
             additionalProperties.put("tsickleVersion", "0.34.0");
         } else if (ngVersion.atLeast("6.0.0")) {
             // compatible versions with typescript version
@@ -568,19 +567,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         String name = classname.substring(0, classname.length() - serviceSuffix.length());
         return toApiFilename(name);
     }
-
-    /*
-    private String getModelnameFromModelFilename(String filename) {
-        String name = filename.substring((modelPackage() + "/").length());
-        // Remove the file suffix and add the class suffix.
-        // This is needed because the model file suffix might not be the same as
-        // the model suffix.
-        if (modelFileSuffix.length() > 0) {
-            name = name.substring(0, name.length() - modelFileSuffix.length());
-        }
-        return camelize(name) + modelSuffix;
-    }
-    */
 
     @Override
     public String toModelName(String name) {
