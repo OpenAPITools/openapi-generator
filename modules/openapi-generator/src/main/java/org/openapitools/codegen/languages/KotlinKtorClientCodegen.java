@@ -40,9 +40,10 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
 
         //TODO: change to something else that works with kotlin native (without reflection)
         typeMapping.put("file", "kotlin.String");
-        typeMapping.put("object", "kotlin.String"); //Using 'Any' fails on platforms without reflection
+        typeMapping.put("object", "JsonObject");
 
         importMapping = new HashMap<>();
+        importMapping.put("JsonObject", "kotlinx.serialization.json.JsonObject");
 
         addSwitch(CodegenConstants.NON_PUBLIC_API, CodegenConstants.NON_PUBLIC_API_DESC, this.nonPublicApi);
     }
@@ -128,11 +129,12 @@ public class KotlinKtorClientCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
-    public String toModelImport(String name) {
-        if (name.startsWith("io.ktor.")) {
+    public String toModelName(String name) {
+        String prefixedName = super.toModelName(name);
+        if (prefixedName.startsWith("kotlinx.")) {
             return name;
+        } else {
+            return prefixedName;
         }
-
-        return super.toModelImport(name);
     }
 }
