@@ -5,6 +5,7 @@ import com.github.jknack.handlebars.Options;
 import com.github.jknack.handlebars.TagType;
 
 import java.io.IOException;
+import java.util.Locale;
 
 public enum StringHelpers implements Helper<Object> {
 
@@ -50,7 +51,7 @@ public enum StringHelpers implements Helper<Object> {
             }
 
             boolean caseInsensitive = options.hash("insensitive", false);
-            boolean result = caseInsensitive ? value.toString().toLowerCase().startsWith(match.toLowerCase()) : value.toString().startsWith(match);
+            boolean result = caseInsensitive ? value.toString().toLowerCase(Locale.ROOT).startsWith(match.toLowerCase(Locale.ROOT)) : value.toString().startsWith(match);
 
             if (options.tagType == TagType.SECTION) {
                 return result ? options.fn() : options.inverse();
