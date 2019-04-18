@@ -21,8 +21,7 @@ import java.util.regex.Pattern;
 
 import static org.testng.Assert.*;
 
-public class JavaJAXRSCXFExtServerCodegenTest {
-    @SuppressWarnings("unused")
+public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
     private static class JavaCXFExtServerCodegenTester extends JavaCXFExtServerCodegen {
         /* Options processed by DefaultCodegen */
 
@@ -35,9 +34,6 @@ public class JavaJAXRSCXFExtServerCodegenTest {
         public String getApiPackage() {
             return apiPackage;
         }
-
-        // CodegenConstants.DOCEXTENSION
-//        String getDocExtension();
 
         // CodegenConstants.ARTIFACT_DESCRIPTION
         public String getArtifactDescription() {
@@ -101,11 +97,6 @@ public class JavaJAXRSCXFExtServerCodegenTest {
             return groupId;
         }
 
-        // CodegenConstants.HIDE_GENERATION_TIMESTAMP
-        public Boolean getHideGenerationTimestamp() {
-            return hideGenerationTimestamp;
-        }
-
         // CodegenConstants.IMPL_FOLDER
         public String getImplFolder() {
             return implFolder;
@@ -124,11 +115,6 @@ public class JavaJAXRSCXFExtServerCodegenTest {
         // CodegenConstants.LICENSE_URL
         public String getLicenseUrl() {
             return licenseUrl;
-        }
-
-        // CodegenConstants.LOCAL_VARIABLE_PREFIX
-        public String getLocalVariablePrefix() {
-            return localVariablePrefix;
         }
 
         // CodegenConstants.MODEL_NAME_PREFIX
@@ -232,8 +218,6 @@ public class JavaJAXRSCXFExtServerCodegenTest {
             return generateSpringApplication;
         }
 
-        // AbstractJavaJAXRSServerCodegen.SERVER_PORT (no corresponding field)
-
         /* Options processed by JavaCXFServerCodegen */
 
         // SpringFeatures.GENERATE_SPRING_BOOT_APPLICATION
@@ -254,11 +238,6 @@ public class JavaJAXRSCXFExtServerCodegenTest {
         // AbstractJavaCodegen.SUPPORT_ASYNC
         public boolean isSupportAsync() {
             return supportAsync;
-        }
-
-        // AbstractJavaCodegen.SUPPORT_JAVA6
-        public boolean isSupportJava6() {
-            return supportJava6;
         }
 
         // CXFServerFeatures.USE_ANNOTATED_BASE_PATH
@@ -359,8 +338,6 @@ public class JavaJAXRSCXFExtServerCodegenTest {
         }
     }
 
-    private JavaCXFExtServerCodegenTester codegen;
-
     @BeforeMethod
     public void beforeMethod() {
         codegen = new JavaCXFExtServerCodegenTester();
@@ -386,7 +363,8 @@ public class JavaJAXRSCXFExtServerCodegenTest {
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
-        Map<String, Object> additionalProperties = codegen.additionalProperties();
+        JavaCXFExtServerCodegenTester testerCodegen = (JavaCXFExtServerCodegenTester) this.codegen;
+        Map<String, Object> additionalProperties = testerCodegen.additionalProperties();
 
         // Options processed by DefaultCodegen
         additionalProperties.put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, "true");
@@ -458,81 +436,80 @@ public class JavaJAXRSCXFExtServerCodegenTest {
         additionalProperties.put(CXFExtServerFeatures.TEST_DATA_FILE, "my/test-data.json");
         additionalProperties.put(CXFExtServerFeatures.TEST_DATA_CONTROL_FILE, "my/test-data-control.json");
 
-        codegen.processOpts();
+        testerCodegen.processOpts();
 
         OpenAPI openAPI = new OpenAPI();
         openAPI.addServersItem(new Server().url("https://api.abcde.xy:8082/v2"));
-        codegen.preprocessOpenAPI(openAPI);
+        testerCodegen.preprocessOpenAPI(openAPI);
 
         // Options processed by DefaultCodegen
-        assertEquals(codegen.getAllowUnicodeIdentifiers(), Boolean.TRUE);
-        assertEquals(codegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
-        assertEquals(codegen.getDocExtension(), "doc");
-        assertEquals(codegen.getEnsureUniqueParams(), Boolean.TRUE);
-        assertEquals(codegen.isHideGenerationTimestamp(), true);
-        assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
-        assertEquals(codegen.getModelNamePrefix(), "MyPrefix");
-        assertEquals(codegen.getModelNameSuffix(), "MySuffix");
-        assertEquals(codegen.getModelPackage(), "xyz.yyyyy.mmmmm.model");
-        assertEquals(codegen.getPrependFormOrBodyParameters(), Boolean.TRUE);
-        assertEquals(codegen.getRemoveOperationIdPrefix(), true);
-        assertEquals(codegen.getSortParamsByRequiredFlag(), Boolean.TRUE);
-        assertEquals(codegen.getTemplateDir(), "MyTemplates");
-        assertEquals(codegen.getArtifactDescription(), "My description");
+        assertEquals(testerCodegen.getAllowUnicodeIdentifiers(), Boolean.TRUE);
+        assertEquals(testerCodegen.apiPackage(), "xyz.yyyyy.aaaaa.api");
+        assertEquals(testerCodegen.getDocExtension(), "doc");
+        assertEquals(testerCodegen.getEnsureUniqueParams(), Boolean.TRUE);
+        assertEquals(testerCodegen.isHideGenerationTimestamp(), true);
+        assertEquals(testerCodegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
+        assertEquals(testerCodegen.getModelNamePrefix(), "MyPrefix");
+        assertEquals(testerCodegen.getModelNameSuffix(), "MySuffix");
+        assertEquals(testerCodegen.getModelPackage(), "xyz.yyyyy.mmmmm.model");
+        assertEquals(testerCodegen.getPrependFormOrBodyParameters(), Boolean.TRUE);
+        assertEquals(testerCodegen.getRemoveOperationIdPrefix(), true);
+        assertEquals(testerCodegen.getSortParamsByRequiredFlag(), Boolean.TRUE);
+        assertEquals(testerCodegen.getTemplateDir(), "MyTemplates");
+        assertEquals(testerCodegen.getArtifactDescription(), "My description");
         // Options processed by AbstractJavaCodegen
-        assertEquals(codegen.getArtifactId(), "my-artifact");
-        assertEquals(codegen.getArtifactVersion(), "9.9.9");
-        assertEquals(codegen.getArtifactUrl(), "http://organisation.org/group/artifact");
-        assertEquals(codegen.getDeveloperEmail(), "dchappie@organisation.org");
-        assertEquals(codegen.getDeveloperName(), "Developer Chappie");
-        assertEquals(codegen.getDeveloperOrganization(), "My Organisation");
-        assertEquals(codegen.getDeveloperOrganizationUrl(), "http://www.organisation.org/");
-        assertEquals(codegen.getGroupId(), "org.organisation.group.id");
-        assertEquals(codegen.getLicenseName(), "Apache 2.0");
-        assertEquals(codegen.getLicenseUrl(), "https://www.apache.org/licenses/LICENSE-2.0");
-        assertEquals(codegen.getScmConnection(), "http://svn.organisation.org/group/");
-        assertEquals(codegen.getScmDeveloperConnection(), "http://svn.organisation.org/dev/group/");
-        assertEquals(codegen.getScmUrl(), "http://svn.organisation.org/group/");
-        assertEquals(codegen.isSerializeBigDecimalAsString(), true);
-        assertEquals(codegen.getSerializableModel(), Boolean.TRUE);
-        assertEquals(codegen.getSourceFolder(), "src/main/java");
-        assertEquals(codegen.getBooleanGetterPrefix(), "isIt");
-        assertEquals(codegen.getDateLibrary(), "MyDateLibrary");
-        assertEquals(codegen.isDisableHtmlEscaping(), true);
-        assertEquals(codegen.isFullJavaUtil(), true);
-        assertEquals(codegen.isJava8Mode(), true);
-        assertEquals(codegen.isSupportAsync(), true);
-        assertEquals(codegen.isUseNullForUnknownEnumValue(), true);
-        assertEquals(codegen.isWithXml(), true);
+        assertEquals(testerCodegen.getArtifactId(), "my-artifact");
+        assertEquals(testerCodegen.getArtifactVersion(), "9.9.9");
+        assertEquals(testerCodegen.getArtifactUrl(), "http://organisation.org/group/artifact");
+        assertEquals(testerCodegen.getDeveloperEmail(), "dchappie@organisation.org");
+        assertEquals(testerCodegen.getDeveloperName(), "Developer Chappie");
+        assertEquals(testerCodegen.getDeveloperOrganization(), "My Organisation");
+        assertEquals(testerCodegen.getDeveloperOrganizationUrl(), "http://www.organisation.org/");
+        assertEquals(testerCodegen.getGroupId(), "org.organisation.group.id");
+        assertEquals(testerCodegen.getLicenseName(), "Apache 2.0");
+        assertEquals(testerCodegen.getLicenseUrl(), "https://www.apache.org/licenses/LICENSE-2.0");
+        assertEquals(testerCodegen.getScmConnection(), "http://svn.organisation.org/group/");
+        assertEquals(testerCodegen.getScmDeveloperConnection(), "http://svn.organisation.org/dev/group/");
+        assertEquals(testerCodegen.getScmUrl(), "http://svn.organisation.org/group/");
+        assertEquals(testerCodegen.isSerializeBigDecimalAsString(), true);
+        assertEquals(testerCodegen.getSerializableModel(), Boolean.TRUE);
+        assertEquals(testerCodegen.getSourceFolder(), "src/main/java");
+        assertEquals(testerCodegen.getBooleanGetterPrefix(), "isIt");
+        assertEquals(testerCodegen.getDateLibrary(), "MyDateLibrary");
+        assertEquals(testerCodegen.isDisableHtmlEscaping(), true);
+        assertEquals(testerCodegen.isFullJavaUtil(), true);
+        assertEquals(testerCodegen.isJava8Mode(), true);
+        assertEquals(testerCodegen.isSupportAsync(), true);
+        assertEquals(testerCodegen.isUseNullForUnknownEnumValue(), true);
+        assertEquals(testerCodegen.isWithXml(), true);
         // Options processed by AbstractJavaJAXRSServerCodegen
-        assertEquals(codegen.getImplFolder(), "myimpl");
-        assertEquals(codegen.isUseBeanValidation(), true);
-//        assertEquals(codegen.getServerPort(), 8088);
+        assertEquals(testerCodegen.getImplFolder(), "myimpl");
+        assertEquals(testerCodegen.isUseBeanValidation(), true);
         // Options processed by JavaCXFServerCodegen
         File curdir = new File(System.getProperty("user.dir"));
-        assertEquals(codegen.isUseBeanValidationFeature(), true);
-        assertEquals(codegen.isUseGzipFeature(), true);
-        assertEquals(codegen.isUseGzipFeatureForTests(), true);
-        assertEquals(codegen.isGenerateJbossDeploymentDescriptor(), true);
-        assertEquals(codegen.isUseLoggingFeature(), true);
-        assertEquals(codegen.isUseLoggingFeatureForTests(), true);
-        assertEquals(codegen.isGenerateSpringApplication(), true);
-        assertEquals(codegen.isGenerateSpringBootApplication(), true);
-        assertEquals(codegen.isUseSpringAnnotationConfig(), true);
-        assertEquals(codegen.isUseSwaggerFeature(), true);
-        assertEquals(codegen.isUseSwaggerUI(), true);
-        assertEquals(codegen.isUseGenericResponse(), true);
-        assertEquals(codegen.isAddConsumesProducesJson(), true);
-        assertEquals(codegen.isGenerateNonSpringApplication(), false);
-        assertEquals(codegen.isUseAnnotatedBasePath(), true);
-        assertEquals(codegen.isUseMultipartFeature(), true);
-        assertEquals(codegen.isUseWadlFeature(), true);
+        assertEquals(testerCodegen.isUseBeanValidationFeature(), true);
+        assertEquals(testerCodegen.isUseGzipFeature(), true);
+        assertEquals(testerCodegen.isUseGzipFeatureForTests(), true);
+        assertEquals(testerCodegen.isGenerateJbossDeploymentDescriptor(), true);
+        assertEquals(testerCodegen.isUseLoggingFeature(), true);
+        assertEquals(testerCodegen.isUseLoggingFeatureForTests(), true);
+        assertEquals(testerCodegen.isGenerateSpringApplication(), true);
+        assertEquals(testerCodegen.isGenerateSpringBootApplication(), true);
+        assertEquals(testerCodegen.isUseSpringAnnotationConfig(), true);
+        assertEquals(testerCodegen.isUseSwaggerFeature(), true);
+        assertEquals(testerCodegen.isUseSwaggerUI(), true);
+        assertEquals(testerCodegen.isUseGenericResponse(), true);
+        assertEquals(testerCodegen.isAddConsumesProducesJson(), true);
+        assertEquals(testerCodegen.isGenerateNonSpringApplication(), false);
+        assertEquals(testerCodegen.isUseAnnotatedBasePath(), true);
+        assertEquals(testerCodegen.isUseMultipartFeature(), true);
+        assertEquals(testerCodegen.isUseWadlFeature(), true);
         // Options processed by JavaCXFExtServerCodegen
-        assertEquals(codegen.isGenerateOperationBody(), true);
-        assertEquals(codegen.isLoadTestDataFromFile(), true);
-        assertEquals(codegen.isSupportMultipleSpringServices(), true);
-        assertEquals(codegen.getTestDataFile(), new File(curdir, "my/test-data.json"));
-        assertEquals(codegen.getTestDataControlFile(), new File(curdir, "my/test-data-control.json"));
+        assertEquals(testerCodegen.isGenerateOperationBody(), true);
+        assertEquals(testerCodegen.isLoadTestDataFromFile(), true);
+        assertEquals(testerCodegen.isSupportMultipleSpringServices(), true);
+        assertEquals(testerCodegen.getTestDataFile(), new File(curdir, "my/test-data.json"));
+        assertEquals(testerCodegen.getTestDataControlFile(), new File(curdir, "my/test-data-control.json"));
     }
 
     @Test
@@ -813,4 +790,5 @@ public class JavaJAXRSCXFExtServerCodegenTest {
         assertEquals(additionalProperties.get(CodegenConstants.API_PACKAGE), "xx.yyyyyyyy.api");
         assertEquals(codegen.getInvokerPackage(), "xx.yyyyyyyy.invoker");
     }
+
 }
