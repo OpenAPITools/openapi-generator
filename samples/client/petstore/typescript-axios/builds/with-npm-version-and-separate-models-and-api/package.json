@@ -1,14 +1,14 @@
 {
-  "name": "@swagger/typescript-axios-petstore",
+  "name": "@openapitools/typescript-axios-petstore",
   "version": "1.0.0",
-  "description": "OpenAPI client for @swagger/typescript-axios-petstore",
+  "description": "OpenAPI client for @openapitools/typescript-axios-petstore",
   "author": "OpenAPI-Generator Contributors",
   "keywords": [
     "axios",
     "typescript",
     "openapi-client",
     "openapi-generator",
-    "@swagger/typescript-axios-petstore"
+    "@openapitools/typescript-axios-petstore"
   ],
   "license": "Unlicense",
   "main": "./dist/index.js",
