@@ -73,6 +73,7 @@ public class CodegenConfigurator implements Serializable {
     private String templatingEngineName;
     private String auth;
     private String apiPackage;
+    private String apiSuffix;
     private String modelPackage;
     private String invokerPackage;
     private String packageName;
@@ -319,6 +320,15 @@ public class CodegenConfigurator implements Serializable {
         return this;
     }
 
+    public String getApiSuffix() {
+        return apiSuffix;
+    }
+
+    public CodegenConfigurator setApiSuffix(String apiSuffix) {
+        this.apiSuffix = apiSuffix;
+        return this;
+    }
+
     public String getInvokerPackage() {
         return invokerPackage;
     }
@@ -544,6 +554,7 @@ public class CodegenConfigurator implements Serializable {
         config.setStrictSpecBehavior(isStrictSpecBehavior());
 
         checkAndSetAdditionalProperty(apiPackage, CodegenConstants.API_PACKAGE);
+        checkAndSetAdditionalProperty(apiSuffix, CodegenConstants.API_SUFFIX);
         checkAndSetAdditionalProperty(modelPackage, CodegenConstants.MODEL_PACKAGE);
         checkAndSetAdditionalProperty(invokerPackage, CodegenConstants.INVOKER_PACKAGE);
         checkAndSetAdditionalProperty(packageName, CodegenConstants.PACKAGE_NAME);
