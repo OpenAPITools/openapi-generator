@@ -140,14 +140,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.SOURCE_FOLDER_DESC,
                 sourceFolder);
 
-        addOption(CodegenConstants.API_PACKAGE,
-                CodegenConstants.API_PACKAGE_DESC,
-                apiPackage);
-
-        addOption(CodegenConstants.MODEL_PACKAGE,
-                CodegenConstants.MODEL_PACKAGE_DESC,
-                modelPackage);
-
         addOption(COMPATIBILITY_VERSION, "ASP.Net Core CompatibilityVersion", compatibilityVersion);
 
         aspnetCoreVersion.addEnum("2.0", "ASP.NET COre V2.0");
@@ -383,7 +375,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if (additionalProperties.containsKey(cliOption.getOpt())) {
             // TODO Hack - not sure why the empty strings become boolean.
             Object obj = additionalProperties.get(cliOption.getOpt());
-            if (cliOption.getType() != SchemaTypeUtil.BOOLEAN_TYPE) {
+            if (!SchemaTypeUtil.BOOLEAN_TYPE.equals(cliOption.getType())) {
                 if (obj instanceof Boolean) {
                     obj = "";
                     additionalProperties.put(cliOption.getOpt(), obj);
@@ -468,7 +460,10 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private void setUseSwashbuckle() {
         if (isLibrary) {
+            LOGGER.warn("buildTarget is " + buildTarget.getOptValue() + " so changing default isLibrary to false ");
             useSwashbuckle = false;
+        } else {
+            useSwashbuckle = true;
         }
         if (additionalProperties.containsKey(USE_SWASHBUCKLE)) {
             useSwashbuckle = convertPropertyToBooleanAndWriteBack(USE_SWASHBUCKLE);
