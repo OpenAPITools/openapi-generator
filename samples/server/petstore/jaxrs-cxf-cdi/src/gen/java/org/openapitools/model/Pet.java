@@ -20,7 +20,6 @@ import java.util.Objects;
 import javax.xml.bind.annotation.*;
 
 @ApiModel(description = "A pet for sale in the pet store")
-
 public class Pet   {
   
   private Long id;

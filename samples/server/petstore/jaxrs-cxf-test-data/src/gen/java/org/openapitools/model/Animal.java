@@ -16,6 +16,11 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
+  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
+})
 public class Animal  {
   
   @ApiModelProperty(required = true, value = "")

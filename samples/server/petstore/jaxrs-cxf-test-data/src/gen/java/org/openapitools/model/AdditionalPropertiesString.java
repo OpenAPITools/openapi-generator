@@ -1,6 +1,7 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
+import java.util.HashMap;
+import java.util.Map;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -15,36 +16,31 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
-/**
- * Model for testing model with \"_class\" property
- */
-@ApiModel(description="Model for testing model with \"_class\" property")
-public class ClassModel  {
+public class AdditionalPropertiesString extends HashMap<String, String> {
   
   @ApiModelProperty(value = "")
-  private String propertyClass;
+  private String name;
  /**
-  * Get propertyClass
-  * @return propertyClass
+  * Get name
+  * @return name
   */
-  @JsonProperty("_class")
-  public String getPropertyClass() {
-    return propertyClass;
+  @JsonProperty("name")
+  public String getName() {
+    return name;
   }
 
   /**
-   * Sets the <code>propertyClass</code> property.
+   * Sets the <code>name</code> property.
    */
-  public void setPropertyClass(String propertyClass) {
-    this.propertyClass = propertyClass;
+  public void setName(String name) {
+    this.name = name;
   }
 
   /**
-   * Sets the <code>propertyClass</code> property.
+   * Sets the <code>name</code> property.
    */
-  public ClassModel propertyClass(String propertyClass) {
-    this.propertyClass = propertyClass;
+  public AdditionalPropertiesString name(String name) {
+    this.name = name;
     return this;
   }
 
@@ -52,9 +48,9 @@ public class ClassModel  {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ClassModel {\n");
-    
-    sb.append("    propertyClass: ").append(toIndentedString(propertyClass)).append("\n");
+    sb.append("class AdditionalPropertiesString {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
     return sb.toString();
   }
