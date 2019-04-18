@@ -69,7 +69,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Set<String> reservedWords = new HashSet<String>();
     protected Set<String> languageSpecificPrimitives = new HashSet<String>();
     protected Map<String, String> importMapping = new HashMap<String, String>();
-    protected String modelPackage = "", apiPackage = "", fileSuffix;
+    protected String modelPackage = "", apiPackage = "", apiSuffix = "", fileSuffix;
     protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String testPackage = "";
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
@@ -132,6 +132,10 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
             this.setApiPackage((String) additionalProperties.get(CodegenConstants.API_PACKAGE));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.API_SUFFIX)) {
+            this.setApiSuffix((String) additionalProperties.get(CodegenConstants.API_SUFFIX));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
@@ -705,6 +709,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void setApiPackage(String apiPackage) {
         this.apiPackage = apiPackage;
+    }
+
+    public void setApiSuffix(String apiSuffix) {
+        this.apiSuffix = apiSuffix;
     }
 
     public void setSortParamsByRequiredFlag(Boolean sortParamsByRequiredFlag) {
@@ -1565,7 +1573,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (name.length() == 0) {
             return "DefaultApi";
         }
-        return camelize(name) + "Api";
+        return (this.apiSuffix.isEmpty() ? camelize(name) : camelize(name) + this.apiSuffix);
     }
 
     /**
