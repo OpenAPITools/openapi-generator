@@ -1,16 +1,5 @@
 # coding: utf-8
 
-from petstore_api.exceptions import ApiException, ApiValueError
-import urllib3
-from six.moves.urllib.parse import urlencode
-import six
-import certifi
-import ssl
-import re
-import logging
-import json
-import io
-from __future__ import absolute_import
 """
     OpenAPI Petstore
 
@@ -21,8 +10,21 @@ from __future__ import absolute_import
 """
 
 
+from __future__ import absolute_import
 
+import io
+import json
+import logging
+import re
+import ssl
+
+import certifi
 # python 2 and python 3 compatibility library
+import six
+from six.moves.urllib.parse import urlencode
+import urllib3
+
+from petstore_api.exceptions import ApiException, ApiValueError
 
 
 logger = logging.getLogger(__name__)

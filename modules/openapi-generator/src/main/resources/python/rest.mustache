@@ -1,20 +1,22 @@
 # coding: utf-8
 
-from {{packageName}}.exceptions import ApiException, ApiValueError
-import urllib3
-from six.moves.urllib.parse import urlencode
-import six
-import certifi
-import ssl
-import re
-import logging
-import json
-import io
+{{>partial_header}}
+
 from __future__ import absolute_import
-{{> partial_header}}
 
+import io
+import json
+import logging
+import re
+import ssl
 
+import certifi
 # python 2 and python 3 compatibility library
+import six
+from six.moves.urllib.parse import urlencode
+import urllib3
+
+from {{packageName}}.exceptions import ApiException, ApiValueError
 
 
 logger = logging.getLogger(__name__)
