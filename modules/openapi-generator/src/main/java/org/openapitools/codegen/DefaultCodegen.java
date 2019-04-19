@@ -1743,6 +1743,9 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
+            if(composed.getRequired() != null) {
+                required.addAll(composed.getRequired());
+            }
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
 
             // end of code block for composed schema
@@ -1830,6 +1833,10 @@ public class DefaultCodegen implements CodegenConfig {
 
             for (Schema component : composedSchema.getAllOf()) {
                 addProperties(properties, required, component);
+            }
+
+            if(schema.getRequired() != null) {
+                required.addAll(schema.getRequired());
             }
 
             if (composedSchema.getOneOf() != null) {
