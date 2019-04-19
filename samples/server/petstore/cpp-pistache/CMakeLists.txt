@@ -19,7 +19,6 @@ ExternalProject_Add(NLOHMANN
 
 )
 include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
-include_directories(${EXTERNAL_INSTALL_LOCATION}/include/nlohmann)
 link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
 
 include_directories(model)
