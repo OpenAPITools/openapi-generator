@@ -59,8 +59,8 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def createUser(da: DataAccessor): Endpoint[Unit] =
-        post("user" :: jsonBody[User]) { (user: User) =>
-          da.User_createUser(user) match {
+        post("user" :: jsonBody[User]) { (body: User) =>
+          da.User_createUser(body) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -73,8 +73,8 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def createUsersWithArrayInput(da: DataAccessor): Endpoint[Unit] =
-        post("user" :: "createWithArray" :: jsonBody[Seq[User]]) { (user: Seq[User]) =>
-          da.User_createUsersWithArrayInput(user) match {
+        post("user" :: "createWithArray" :: jsonBody[Seq[User]]) { (body: Seq[User]) =>
+          da.User_createUsersWithArrayInput(body) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -87,8 +87,8 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def createUsersWithListInput(da: DataAccessor): Endpoint[Unit] =
-        post("user" :: "createWithList" :: jsonBody[Seq[User]]) { (user: Seq[User]) =>
-          da.User_createUsersWithListInput(user) match {
+        post("user" :: "createWithList" :: jsonBody[Seq[User]]) { (body: Seq[User]) =>
+          da.User_createUsersWithListInput(body) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -157,8 +157,8 @@ object UserApi {
         * @return An endpoint representing a Unit
         */
         private def updateUser(da: DataAccessor): Endpoint[Unit] =
-        put("user" :: string :: jsonBody[User]) { (username: String, user: User) =>
-          da.User_updateUser(username, user) match {
+        put("user" :: string :: jsonBody[User]) { (username: String, body: User) =>
+          da.User_updateUser(username, body) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
