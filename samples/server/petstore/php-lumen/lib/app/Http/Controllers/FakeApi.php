@@ -42,10 +42,10 @@ class FakeApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling testClientModel');
+        if (!isset($input['client'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $client when calling testClientModel');
         }
-        $body = $input['body'];
+        $client = $input['client'];
 
 
         return response('How about implementing testClientModel as a patch method ?');
@@ -239,10 +239,10 @@ class FakeApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling testBodyWithFileSchema');
+        if (!isset($input['file_schema_test_class'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $file_schema_test_class when calling testBodyWithFileSchema');
         }
-        $body = $input['body'];
+        $file_schema_test_class = $input['file_schema_test_class'];
 
 
         return response('How about implementing testBodyWithFileSchema as a put method ?');
@@ -268,23 +268,23 @@ class FakeApi extends Controller
         }
         $query = $input['query'];
 
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling testBodyWithQueryParams');
+        if (!isset($input['user'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $user when calling testBodyWithQueryParams');
         }
-        $body = $input['body'];
+        $user = $input['user'];
 
 
         return response('How about implementing testBodyWithQueryParams as a put method ?');
     }
     /**
-     * Operation createXmlItem
+     * Operation fakeHealthGet
      *
-     * creates an XmlItem.
+     * Health check endpoint.
      *
      *
      * @return Http response
      */
-    public function createXmlItem()
+    public function fakeHealthGet()
     {
         $input = Request::all();
 
@@ -292,13 +292,8 @@ class FakeApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['xml_item'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $xml_item when calling createXmlItem');
-        }
-        $xml_item = $input['xml_item'];
 
-
-        return response('How about implementing createXmlItem as a post method ?');
+        return response('How about implementing fakeHealthGet as a get method ?');
     }
     /**
      * Operation testInlineAdditionalProperties
@@ -316,10 +311,10 @@ class FakeApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['param'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $param when calling testInlineAdditionalProperties');
+        if (!isset($input['request_body'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $request_body when calling testInlineAdditionalProperties');
         }
-        $param = $input['param'];
+        $request_body = $input['request_body'];
 
 
         return response('How about implementing testInlineAdditionalProperties as a post method ?');
@@ -390,7 +385,7 @@ class FakeApi extends Controller
 
 
         //not path params validation
-        $body = $input['body'];
+        $outer_composite = $input['outer_composite'];
 
 
         return response('How about implementing fakeOuterCompositeSerialize as a post method ?');

@@ -42,10 +42,10 @@ class UserApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling createUser');
+        if (!isset($input['user'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $user when calling createUser');
         }
-        $body = $input['body'];
+        $user = $input['user'];
 
 
         return response('How about implementing createUser as a post method ?');
@@ -66,10 +66,10 @@ class UserApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling createUsersWithArrayInput');
+        if (!isset($input['user'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $user when calling createUsersWithArrayInput');
         }
-        $body = $input['body'];
+        $user = $input['user'];
 
 
         return response('How about implementing createUsersWithArrayInput as a post method ?');
@@ -90,10 +90,10 @@ class UserApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling createUsersWithListInput');
+        if (!isset($input['user'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $user when calling createUsersWithListInput');
         }
-        $body = $input['body'];
+        $user = $input['user'];
 
 
         return response('How about implementing createUsersWithListInput as a post method ?');

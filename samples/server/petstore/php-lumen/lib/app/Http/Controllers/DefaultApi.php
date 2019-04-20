@@ -17,7 +17,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Request;
 
-class AnotherFakeApi extends Controller
+class DefaultApi extends Controller
 {
     /**
      * Constructor
@@ -27,14 +27,14 @@ class AnotherFakeApi extends Controller
     }
 
     /**
-     * Operation call123TestSpecialTags
+     * Operation fooGet
      *
-     * To test special tags.
+     * .
      *
      *
      * @return Http response
      */
-    public function call123TestSpecialTags()
+    public function fooGet()
     {
         $input = Request::all();
 
@@ -42,12 +42,7 @@ class AnotherFakeApi extends Controller
 
 
         //not path params validation
-        if (!isset($input['client'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $client when calling call123TestSpecialTags');
-        }
-        $client = $input['client'];
 
-
-        return response('How about implementing call123TestSpecialTags as a patch method ?');
+        return response('How about implementing fooGet as a get method ?');
     }
 }
