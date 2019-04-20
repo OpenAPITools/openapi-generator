@@ -28,12 +28,6 @@ $router->get('/', function () use ($router) {
  */
 $router->patch('/v2/another-fake/dummy', 'AnotherFakeApi@call123TestSpecialTags');
 /**
- * get fooGet
- * Summary: 
- * Notes: 
- */
-$router->get('/v2/foo', 'DefaultApi@fooGet');
-/**
  * patch testClientModel
  * Summary: To test \&quot;client\&quot; model
  * Notes: To test \&quot;client\&quot; model
@@ -70,11 +64,11 @@ $router->put('/v2/fake/body-with-file-schema', 'FakeApi@testBodyWithFileSchema')
  */
 $router->put('/v2/fake/body-with-query-params', 'FakeApi@testBodyWithQueryParams');
 /**
- * get fakeHealthGet
- * Summary: Health check endpoint
- * Notes: 
+ * post createXmlItem
+ * Summary: creates an XmlItem
+ * Notes: this route creates an XmlItem
  */
-$router->get('/v2/fake/health', 'FakeApi@fakeHealthGet');
+$router->post('/v2/fake/create_xml_item', 'FakeApi@createXmlItem');
 /**
  * post testInlineAdditionalProperties
  * Summary: test inline additionalProperties
