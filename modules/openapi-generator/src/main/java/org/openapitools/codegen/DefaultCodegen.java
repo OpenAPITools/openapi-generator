@@ -3023,6 +3023,7 @@ public class DefaultCodegen implements CodegenConfig {
             String parameterDataType = this.getParameterDataType(parameter, parameterSchema);
             if (parameterDataType != null) {
                 codegenParameter.dataType = parameterDataType;
+                imports.add(parameterDataType);
             } else {
                 codegenParameter.dataType = codegenProperty.dataType;
             }
@@ -3054,7 +3055,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.paramName = toParamName(parameter.getName());
 
             // import
-            if (codegenProperty.complexType != null) {
+            if (codegenProperty.complexType != null && !imports.contains(codegenParameter.dataType)) {
                 imports.add(codegenProperty.complexType);
             }
 
@@ -3212,6 +3213,10 @@ public class DefaultCodegen implements CodegenConfig {
      * @return data type
      */
     protected String getParameterDataType(Parameter parameter, Schema schema) {
+        if (parameter.get$ref() != null) {
+            String refName = ModelUtils.getSimpleRef(parameter.get$ref());
+            return toModelName(refName);
+        }
         return null;
     }
 
