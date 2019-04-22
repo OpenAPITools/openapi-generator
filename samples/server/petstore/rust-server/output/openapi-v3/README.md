@@ -122,9 +122,11 @@ Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AnotherXmlArray](docs/AnotherXmlArray.md)
  - [AnotherXmlInner](docs/AnotherXmlInner.md)
  - [AnotherXmlObject](docs/AnotherXmlObject.md)
  - [DuplicateXmlObject](docs/DuplicateXmlObject.md)
+ - [XmlArray](docs/XmlArray.md)
  - [XmlInner](docs/XmlInner.md)
  - [XmlObject](docs/XmlObject.md)
 
