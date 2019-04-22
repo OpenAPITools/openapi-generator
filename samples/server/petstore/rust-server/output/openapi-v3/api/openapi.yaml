@@ -84,7 +84,6 @@ components:
         innerString:
           type: string
         other_inner_rename:
-          format: int32
           type: integer
       title: an XML object
       type: object

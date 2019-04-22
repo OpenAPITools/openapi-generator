@@ -357,7 +357,7 @@ impl<F, C> Api<C> for Client<F> where
 
     }
 
-    fn fake_outer_boolean_serialize(&self, param_body: Option<models::OuterBoolean>, context: &C) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>> {
+    fn fake_outer_boolean_serialize(&self, param_body: Option<bool>, context: &C) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/v2/fake/outer/boolean",
             self.base_path
@@ -521,7 +521,7 @@ if let Some(body) = body {
 
     }
 
-    fn fake_outer_number_serialize(&self, param_body: Option<models::OuterNumber>, context: &C) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>> {
+    fn fake_outer_number_serialize(&self, param_body: Option<f64>, context: &C) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/v2/fake/outer/number",
             self.base_path
@@ -602,7 +602,7 @@ if let Some(body) = body {
 
     }
 
-    fn fake_outer_string_serialize(&self, param_body: Option<models::OuterString>, context: &C) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>> {
+    fn fake_outer_string_serialize(&self, param_body: Option<String>, context: &C) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/v2/fake/outer/string",
             self.base_path

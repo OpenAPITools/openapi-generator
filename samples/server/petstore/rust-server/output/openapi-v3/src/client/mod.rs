@@ -256,6 +256,15 @@ impl<F, C> Api<C> for Client<F> where
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -329,6 +338,15 @@ if let Some(body) = body {
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -394,11 +412,20 @@ if let Some(body) = body {
 
     }
 
-    fn xml_other_put(&self, param_string: Option<models::AnotherXmlArray>, context: &C) -> Box<Future<Item=XmlOtherPutResponse, Error=ApiError>> {
+    fn xml_other_put(&self, param_string: Option<&Vec<models::AnotherXmlInner>>, context: &C) -> Box<Future<Item=XmlOtherPutResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/xml_other",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -465,11 +492,20 @@ if let Some(body) = body {
 
     }
 
-    fn xml_post(&self, param_string: Option<models::XmlArray>, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
+    fn xml_post(&self, param_string: Option<&Vec<models::XmlInner>>, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/xml",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
@@ -541,6 +577,15 @@ if let Some(body) = body {
             "{}/xml",
             self.base_path
         );
+
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
 
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,

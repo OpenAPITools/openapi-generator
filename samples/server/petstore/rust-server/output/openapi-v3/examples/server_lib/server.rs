@@ -47,14 +47,14 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
 
-    fn xml_other_put(&self, string: Option<models::AnotherXmlArray>, context: &C) -> Box<Future<Item=XmlOtherPutResponse, Error=ApiError>> {
+    fn xml_other_put(&self, string: Option<&Vec<models::AnotherXmlInner>>, context: &C) -> Box<Future<Item=XmlOtherPutResponse, Error=ApiError>> {
         let context = context.clone();
         println!("xml_other_put({:?}) - X-Span-ID: {:?}", string, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
     /// Post an array
-    fn xml_post(&self, string: Option<models::XmlArray>, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
+    fn xml_post(&self, string: Option<&Vec<models::XmlInner>>, context: &C) -> Box<Future<Item=XmlPostResponse, Error=ApiError>> {
         let context = context.clone();
         println!("xml_post({:?}) - X-Span-ID: {:?}", string, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
