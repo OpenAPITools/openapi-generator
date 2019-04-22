@@ -88,12 +88,12 @@ fn main() {
          },
 
         Some("XmlOtherPut") => {
-            let result = core.run(client.xml_other_put(Some(&Vec::new())));
+            let result = core.run(client.xml_other_put(None));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
         Some("XmlPost") => {
-            let result = core.run(client.xml_post(Some(&Vec::new())));
+            let result = core.run(client.xml_post(None));
             println!("{:?} (X-Span-ID: {:?})", result, (client.context() as &Has<XSpanIdString>).get().clone());
          },
 
