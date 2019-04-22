@@ -123,6 +123,7 @@ Method | HTTP request | Description
 ## Documentation For Models
 
  - [ANullableContainer](docs/ANullableContainer.md)
+ - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
  - [InlineObject](docs/InlineObject.md)
  - [ObjectOfObjects](docs/ObjectOfObjects.md)
  - [ObjectOfObjectsInner](docs/ObjectOfObjectsInner.md)
