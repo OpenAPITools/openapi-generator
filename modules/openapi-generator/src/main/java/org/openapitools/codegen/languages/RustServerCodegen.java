@@ -67,9 +67,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     public RustServerCodegen() {
         super();
 
-        // Force generating models for wrapping types
-        ModelUtils.setGenerateAliasAsModel(true);
-
         // Show the generation timestamp by default
         hideGenerationTimestamp = Boolean.FALSE;
 
@@ -210,6 +207,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (!Boolean.TRUE.equals(ModelUtils.isGenerateAliasAsModel())) {
+            LOGGER.warn("generateAliasAsModel is set to false, which means array/map will be generated as model instead and the resulting code may have issues. Please enable `generateAliasAsModel` to address the issue.");
+        }
 
         setPackageName((String) additionalProperties.getOrDefault(CodegenConstants.PACKAGE_NAME, "openapi_client"));
 
