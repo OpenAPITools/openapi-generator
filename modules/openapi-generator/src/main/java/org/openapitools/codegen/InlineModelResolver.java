@@ -30,6 +30,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+import javax.xml.validation.Schema;
+
 public class InlineModelResolver {
     private OpenAPI openapi;
     private Map<String, Schema> addedModels = new HashMap<String, Schema>();
@@ -68,6 +70,146 @@ public class InlineModelResolver {
                 flattenRequestBody(openAPI, pathname, operation);
                 flattenParameters(openAPI, pathname, operation);
                 flattenResponses(openAPI, pathname, operation);
+            }
+        }
+    }
+
+    /**
+     * Return false if model can be represented by primitives e.g. string, object 
+     * without properties, array or map of other model (model contanier), etc.
+     * 
+     * Return true if a model should be generated e.g. object with properties,
+     * enum, oneOf, allOf, anyOf, etc.
+     * 
+     * @param schema target schema
+     */
+    private boolean isModelNeeded(Schema schema) {
+        if (schema.getEnum() != null && schema.getEnum().size() > 0) {
+            return true;
+        }
+        if (schema.getType() == null || "object".equals(schema.getType())) {
+            // object or undeclared type with properties
+            if (schema.getProperties() != null && schema.getProperties().size() > 0) {
+                return true;
+            }
+        }
+        if (schema instanceof ComposedSchema) {
+            // allOf, anyOf, oneOf
+            ComposedSchema m = (ComposedSchema) schema;
+            if (m.getAllOf() != null && !m.getAllOf().isEmpty()) {
+                return true;
+            }
+            if (m.getAnyOf() != null && !m.getAnyOf().isEmpty()) {
+                return true;
+            }
+            if (m.getOneOf() != null && !m.getOneOf().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Recursively gather inline models that need to be generated and
+     * replace inline schemas with $ref to schema to-be-generated.
+     */
+    private void gatherInlineModels(Schema schema, String modelPrefix) {
+        if (schema.get$ref() != null) {
+            // if ref already, no inline schemas should be present but check for
+            // any to catch OpenAPI violations
+            if (isModelNeeded(schema) || "object".equals(schema.getType()) ||
+                schema.getProperties() != null || schema.getAdditionalProperties() != null ||
+                schema instanceof ComposedSchema) {
+                Logger.error("Illegal schema found with $ref combined with other properties," +
+                    " no properties should be defined alonside a $ref:\n " + JSON.pretty(schema));
+            }
+            return;
+        }
+        if (schema.getType() == null || "object".equals(schema.getType())) {
+            // Check properties and recurse, each property could be its own inline model
+            Map<String, Schema> props = schema.getProperties();
+            for (String propName : props.keySet()) {
+                Schema prop = props.get(propName);
+                // Recurse to create $refs for inner models
+                gatherInlineModels(prop, modelPrefix + "_" + propName);
+                if (isModelNeeded(prop)) {
+                    // zzz add model and replace with $ref
+                }
+            }
+            // Check additionalProperties for inline models
+            if (schema.getAdditionalProperties() instanceof Schema) {
+                Schema inner = (Schema) schema.getAdditionalProperties();
+                // Recurse to create $refs for inner models
+                gatherInlineModels(inner, modelPrefix + "_addl_props");
+                if (isModelNeeded(inner)) {
+                    // zzz add model and replace with $ref
+                }
+            }
+        } else if (schema.getProperties() != null) {
+            // If non-object type is specified but also properties
+            Logger.error("Illegal schema found with non-object type combined with properties," +
+                " no properties should be defined:\n " + JSON.pretty(schema));
+            return;
+        } else if (schema.getAdditionalProperties() != null) {
+            // If non-object type is specified but also additionalProperties
+            Logger.error("Illegal schema found with non-object type combined with" +
+                " additionalProperties, no additionalProperties should be defined:\n " +
+                JSON.pretty(schema));
+            return;
+        }
+        // Check array items
+        if (schema instanceof ArraySchema) {
+            ArraySchema array = (ArraySchema) schema;
+            Schema items = array.getItems();
+            if (items == null) {
+                Logger.error("Illegal schema found with array type but no items," +
+                " items must be defined for array schemas:\n " + JSON.pretty(schema));
+                return;
+            }
+            // Recurse to create $refs for inner models
+            gatherInlineModels(items, modelPrefix + "_items");
+            if (isModelNeeded(items)) {
+                // zzz add model and replace with $ref
+            }
+        }
+        // Check allOf, anyOf, oneOf for inline models
+        if (schema instanceof ComposedSchema) {
+            ComposedSchema m = (ComposedSchema) schema;
+            if (m.getAllOf() != null) {
+                for (Schema inner : m.getAllOf()) {
+                    // Recurse to create $refs for inner models
+                    gatherInlineModels(inner, modelPrefix + "_allof");
+                    if (isModelNeeded(inner)) {
+                        // zzz add model and replace with $ref
+                    }
+                }
+            }
+            if (m.getAnyOf() != null) {
+                for (Schema inner : m.getAnyOf()) {
+                    // Recurse to create $refs for inner models
+                    gatherInlineModels(inner, modelPrefix + "_anyof");
+                    if (isModelNeeded(inner)) {
+                        // zzz add model and replace with $ref
+                    }
+                }
+            }
+            if (m.getOneOf() != null) {
+                for (Schema inner : m.getOneOf()) {
+                    // Recurse to create $refs for inner models
+                    gatherInlineModels(inner, modelPrefix + "_oneof");
+                    if (isModelNeeded(inner)) {
+                        // zzz add model and replace with $ref
+                    }
+                }
+            }
+        }
+        // Check not schema
+        if (schema.getNot() != null) {
+            Schema not = schema.getNot();
+            // Recurse to create $refs for inner models
+            gatherInlineModels(not, modelPrefix + "_not");
+            if (isModelNeeded(not)) {
+                // zzz add model and replace with $ref
             }
         }
     }
