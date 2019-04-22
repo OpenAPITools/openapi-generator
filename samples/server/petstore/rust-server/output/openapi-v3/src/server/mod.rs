@@ -309,7 +309,7 @@ where
                             Ok(body) => {
 
                                 let mut unused_elements = Vec::new();
-                                let param_string: Option<Vec<models::AnotherXmlInner>> = if !body.is_empty() {
+                                let param_string: Option<models::AnotherXmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
 
                                     match serde_ignored::deserialize(deserializer, |path| {
@@ -326,7 +326,7 @@ where
                                 };
 
 
-                                Box::new(api_impl.xml_other_put(param_string.as_ref(), &context)
+                                Box::new(api_impl.xml_other_put(param_string, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));
@@ -391,7 +391,7 @@ where
                             Ok(body) => {
 
                                 let mut unused_elements = Vec::new();
-                                let param_string: Option<Vec<models::XmlInner>> = if !body.is_empty() {
+                                let param_string: Option<models::XmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
 
                                     match serde_ignored::deserialize(deserializer, |path| {
@@ -408,7 +408,7 @@ where
                                 };
 
 
-                                Box::new(api_impl.xml_post(param_string.as_ref(), &context)
+                                Box::new(api_impl.xml_post(param_string, &context)
                                     .then(move |result| {
                                         let mut response = Response::new();
                                         response.headers_mut().set(XSpanId((&context as &Has<XSpanIdString>).get().0.to_string()));

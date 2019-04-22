@@ -313,7 +313,7 @@ where
                             Ok(body) => {
 
                                 let mut unused_elements = Vec::new();
-                                let param_body: Option<bool> = if !body.is_empty() {
+                                let param_body: Option<models::OuterBoolean> = if !body.is_empty() {
 
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
 
@@ -481,7 +481,7 @@ where
                             Ok(body) => {
 
                                 let mut unused_elements = Vec::new();
-                                let param_body: Option<f64> = if !body.is_empty() {
+                                let param_body: Option<models::OuterNumber> = if !body.is_empty() {
 
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
 
@@ -565,7 +565,7 @@ where
                             Ok(body) => {
 
                                 let mut unused_elements = Vec::new();
-                                let param_body: Option<String> = if !body.is_empty() {
+                                let param_body: Option<models::OuterString> = if !body.is_empty() {
 
                                     let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
 
