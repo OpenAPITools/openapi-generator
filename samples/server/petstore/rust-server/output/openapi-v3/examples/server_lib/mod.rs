@@ -1,4 +1,4 @@
-//! Main library entry point for rust_server_test implementation.
+//! Main library entry point for openapi_v3 implementation.
 
 mod server;
 
@@ -11,7 +11,7 @@ use std::io;
 use std::clone::Clone;
 use std::marker::PhantomData;
 use hyper;
-use rust_server_test;
+use openapi_v3;
 use swagger::{Has, XSpanIdString};
 
 pub struct NewService<C>{
@@ -28,10 +28,10 @@ impl<C> hyper::server::NewService for NewService<C> where C: Has<XSpanIdString> 
     type Request = (hyper::Request, C);
     type Response = hyper::Response;
     type Error = hyper::Error;
-    type Instance = rust_server_test::server::Service<server::Server<C>, C>;
+    type Instance = openapi_v3::server::Service<server::Server<C>, C>;
 
     /// Instantiate a new server.
     fn new_service(&self) -> io::Result<Self::Instance> {
-        Ok(rust_server_test::server::Service::new(server::Server::new()))
+        Ok(openapi_v3::server::Service::new(server::Server::new()))
     }
 }
