@@ -1,7 +1,6 @@
 # ApiResponse
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **code** | **i32** |  | [optional] 
