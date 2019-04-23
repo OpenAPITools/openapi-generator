@@ -348,11 +348,6 @@ sub update_params_for_auth {
                 $query_params->{'api_key_query'} = $api_key;
             }
         }
-        elsif ($auth eq 'bearer_test') {
-            if ($self->{config}{username} || $self->{config}{password}) {
-                $header_params->{'Authorization'} = 'Basic ' . encode_base64($self->{config}{username} . ":" . $self->{config}{password});
-            }
-        }
         elsif ($auth eq 'http_basic_test') {
             if ($self->{config}{username} || $self->{config}{password}) {
                 $header_params->{'Authorization'} = 'Basic ' . encode_base64($self->{config}{username} . ":" . $self->{config}{password});

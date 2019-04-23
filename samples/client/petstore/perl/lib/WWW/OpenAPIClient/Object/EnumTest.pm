@@ -31,9 +31,6 @@ use Date::Parse;
 use DateTime;
 
 use WWW::OpenAPIClient::Object::OuterEnum;
-use WWW::OpenAPIClient::Object::OuterEnumDefaultValue;
-use WWW::OpenAPIClient::Object::OuterEnumInteger;
-use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
 
 use base ("Class::Accessor", "Class::Data::Inheritable");
 
@@ -200,27 +197,6 @@ __PACKAGE__->method_documentation({
         format => '',
         read_only => '',
             },
-    'outer_enum_integer' => {
-        datatype => 'OuterEnumInteger',
-        base_name => 'outerEnumInteger',
-        description => '',
-        format => '',
-        read_only => '',
-            },
-    'outer_enum_default_value' => {
-        datatype => 'OuterEnumDefaultValue',
-        base_name => 'outerEnumDefaultValue',
-        description => '',
-        format => '',
-        read_only => '',
-            },
-    'outer_enum_integer_default_value' => {
-        datatype => 'OuterEnumIntegerDefaultValue',
-        base_name => 'outerEnumIntegerDefaultValue',
-        description => '',
-        format => '',
-        read_only => '',
-            },
 });
 
 __PACKAGE__->openapi_types( {
@@ -228,10 +204,7 @@ __PACKAGE__->openapi_types( {
     'enum_string_required' => 'string',
     'enum_integer' => 'int',
     'enum_number' => 'double',
-    'outer_enum' => 'OuterEnum',
-    'outer_enum_integer' => 'OuterEnumInteger',
-    'outer_enum_default_value' => 'OuterEnumDefaultValue',
-    'outer_enum_integer_default_value' => 'OuterEnumIntegerDefaultValue'
+    'outer_enum' => 'OuterEnum'
 } );
 
 __PACKAGE__->attribute_map( {
@@ -239,10 +212,7 @@ __PACKAGE__->attribute_map( {
     'enum_string_required' => 'enum_string_required',
     'enum_integer' => 'enum_integer',
     'enum_number' => 'enum_number',
-    'outer_enum' => 'outerEnum',
-    'outer_enum_integer' => 'outerEnumInteger',
-    'outer_enum_default_value' => 'outerEnumDefaultValue',
-    'outer_enum_integer_default_value' => 'outerEnumIntegerDefaultValue'
+    'outer_enum' => 'outerEnum'
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});
