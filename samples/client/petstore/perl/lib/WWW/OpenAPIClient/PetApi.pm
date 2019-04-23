@@ -53,10 +53,10 @@ sub new {
 #
 # Add a new pet to the store
 # 
-# @param Pet $pet Pet object that needs to be added to the store (required)
+# @param Pet $body Pet object that needs to be added to the store (required)
 {
     my $params = {
-    'pet' => {
+    'body' => {
         data_type => 'Pet',
         description => 'Pet object that needs to be added to the store',
         required => '1',
@@ -73,9 +73,9 @@ sub new {
 sub add_pet {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'pet' is set
-    unless (exists $args{'pet'}) {
-      croak("Missing the required parameter 'pet' when calling add_pet");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling add_pet");
     }
 
     # parse inputs
@@ -95,8 +95,8 @@ sub add_pet {
 
     my $_body_data;
     # body params
-    if ( exists $args{'pet'}) {
-        $_body_data = $args{'pet'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
@@ -385,10 +385,10 @@ sub get_pet_by_id {
 #
 # Update an existing pet
 # 
-# @param Pet $pet Pet object that needs to be added to the store (required)
+# @param Pet $body Pet object that needs to be added to the store (required)
 {
     my $params = {
-    'pet' => {
+    'body' => {
         data_type => 'Pet',
         description => 'Pet object that needs to be added to the store',
         required => '1',
@@ -405,9 +405,9 @@ sub get_pet_by_id {
 sub update_pet {
     my ($self, %args) = @_;
 
-    # verify the required parameter 'pet' is set
-    unless (exists $args{'pet'}) {
-      croak("Missing the required parameter 'pet' when calling update_pet");
+    # verify the required parameter 'body' is set
+    unless (exists $args{'body'}) {
+      croak("Missing the required parameter 'body' when calling update_pet");
     }
 
     # parse inputs
@@ -427,8 +427,8 @@ sub update_pet {
 
     my $_body_data;
     # body params
-    if ( exists $args{'pet'}) {
-        $_body_data = $args{'pet'};
+    if ( exists $args{'body'}) {
+        $_body_data = $args{'body'};
     }
 
     # authentication setting, if any
