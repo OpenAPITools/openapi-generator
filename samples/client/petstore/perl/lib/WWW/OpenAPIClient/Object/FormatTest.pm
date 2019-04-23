@@ -114,13 +114,20 @@ sub from_hash {
     # loop through attributes and use openapi_types to deserialize the data
     while ( my ($_key, $_type) = each %{$self->openapi_types} ) {
         my $_json_attribute = $self->attribute_map->{$_key}; 
-        if ($_type =~ /^array\[/i) { # array
-            my $_subclass = substr($_type, 6, -1);
+        if ($_type =~ /^array\[(.+)\]$/i) { # array
+            my $_subclass = $1;
             my @_array = ();
             foreach my $_element (@{$hash->{$_json_attribute}}) {
                 push @_array, $self->_deserialize($_subclass, $_element);
             }
             $self->{$_key} = \@_array;
+        } elsif ($_type =~ /^hash\[string,(.+)\]$/i) { # hash
+            my $_subclass = $1;
+            my %_hash = ();
+            while (my($_key, $_element) = each %{$hash->{$_json_attribute}}) {
+                $_hash{$_key} = $self->_deserialize($_subclass, $_element);
+            }
+            $self->{$_key} = \%_hash;
         } elsif (exists $hash->{$_json_attribute}) { #hash(model), primitive, datetime
             $self->{$_key} = $self->_deserialize($_type, $hash->{$_json_attribute});
         } else {
@@ -135,7 +142,7 @@ sub from_hash {
 sub _deserialize {
     my ($self, $type, $data) = @_;
     $log->debugf("deserializing %s with %s",Dumper($data), $type);
-        
+
     if ($type eq 'DateTime') {
         return DateTime->from_epoch(epoch => str2time($data));
     } elsif ( grep( /^$type$/, ('int', 'double', 'string', 'boolean'))) {
@@ -245,6 +252,20 @@ __PACKAGE__->method_documentation({
         format => '',
         read_only => '',
             },
+    'pattern_with_digits' => {
+        datatype => 'string',
+        base_name => 'pattern_with_digits',
+        description => 'A string that is a 10 digit number. Can have leading zeros.',
+        format => '',
+        read_only => '',
+            },
+    'pattern_with_digits_and_delimiter' => {
+        datatype => 'string',
+        base_name => 'pattern_with_digits_and_delimiter',
+        description => 'A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.',
+        format => '',
+        read_only => '',
+            },
 });
 
 __PACKAGE__->openapi_types( {
@@ -260,7 +281,9 @@ __PACKAGE__->openapi_types( {
     'date' => 'DateTime',
     'date_time' => 'DateTime',
     'uuid' => 'string',
-    'password' => 'string'
+    'password' => 'string',
+    'pattern_with_digits' => 'string',
+    'pattern_with_digits_and_delimiter' => 'string'
 } );
 
 __PACKAGE__->attribute_map( {
@@ -276,7 +299,9 @@ __PACKAGE__->attribute_map( {
     'date' => 'date',
     'date_time' => 'dateTime',
     'uuid' => 'uuid',
-    'password' => 'password'
+    'password' => 'password',
+    'pattern_with_digits' => 'pattern_with_digits',
+    'pattern_with_digits_and_delimiter' => 'pattern_with_digits_and_delimiter'
 } );
 
 __PACKAGE__->mk_accessors(keys %{__PACKAGE__->attribute_map});
