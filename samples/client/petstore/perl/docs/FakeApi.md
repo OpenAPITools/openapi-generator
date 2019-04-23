@@ -9,6 +9,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 [**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
 [**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
@@ -22,6 +23,46 @@ Method | HTTP request | Description
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 
+
+# **fake_health_get**
+> HealthCheckResult fake_health_get()
+
+Health check endpoint
+
+### Example 
+```perl
+use Data::Dumper;
+use WWW::OpenAPIClient::FakeApi;
+my $api_instance = WWW::OpenAPIClient::FakeApi->new(
+);
+
+
+eval { 
+    my $result = $api_instance->fake_health_get();
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling FakeApi->fake_health_get: $@\n";
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**HealthCheckResult**](HealthCheckResult.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_boolean_serialize**
 > boolean fake_outer_boolean_serialize(body => $body)
@@ -64,13 +105,13 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_composite_serialize**
-> OuterComposite fake_outer_composite_serialize(body => $body)
+> OuterComposite fake_outer_composite_serialize(outer_composite => $outer_composite)
 
 
 
@@ -83,10 +124,10 @@ use WWW::OpenAPIClient::FakeApi;
 my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 );
 
-my $body = WWW::OpenAPIClient::Object::OuterComposite->new(); # OuterComposite | Input composite as post body
+my $outer_composite = WWW::OpenAPIClient::Object::OuterComposite->new(); # OuterComposite | Input composite as post body
 
 eval { 
-    my $result = $api_instance->fake_outer_composite_serialize(body => $body);
+    my $result = $api_instance->fake_outer_composite_serialize(outer_composite => $outer_composite);
     print Dumper($result);
 };
 if ($@) {
@@ -98,7 +139,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
+ **outer_composite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
 
 ### Return type
 
@@ -110,7 +151,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -156,7 +197,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -202,13 +243,13 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_body_with_file_schema**
-> test_body_with_file_schema(body => $body)
+> test_body_with_file_schema(file_schema_test_class => $file_schema_test_class)
 
 
 
@@ -221,10 +262,10 @@ use WWW::OpenAPIClient::FakeApi;
 my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 );
 
-my $body = WWW::OpenAPIClient::Object::FileSchemaTestClass->new(); # FileSchemaTestClass | 
+my $file_schema_test_class = WWW::OpenAPIClient::Object::FileSchemaTestClass->new(); # FileSchemaTestClass | 
 
 eval { 
-    $api_instance->test_body_with_file_schema(body => $body);
+    $api_instance->test_body_with_file_schema(file_schema_test_class => $file_schema_test_class);
 };
 if ($@) {
     warn "Exception when calling FakeApi->test_body_with_file_schema: $@\n";
@@ -235,7 +276,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **file_schema_test_class** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
 
 ### Return type
 
@@ -253,7 +294,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_body_with_query_params**
-> test_body_with_query_params(query => $query, body => $body)
+> test_body_with_query_params(query => $query, user => $user)
 
 
 
@@ -265,10 +306,10 @@ my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 );
 
 my $query = "query_example"; # string | 
-my $body = WWW::OpenAPIClient::Object::User->new(); # User | 
+my $user = WWW::OpenAPIClient::Object::User->new(); # User | 
 
 eval { 
-    $api_instance->test_body_with_query_params(query => $query, body => $body);
+    $api_instance->test_body_with_query_params(query => $query, user => $user);
 };
 if ($@) {
     warn "Exception when calling FakeApi->test_body_with_query_params: $@\n";
@@ -280,7 +321,7 @@ if ($@) {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **string**|  | 
- **body** | [**User**](User.md)|  | 
+ **user** | [**User**](User.md)|  | 
 
 ### Return type
 
@@ -298,7 +339,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_client_model**
-> Client test_client_model(body => $body)
+> Client test_client_model(client => $client)
 
 To test \"client\" model
 
@@ -311,10 +352,10 @@ use WWW::OpenAPIClient::FakeApi;
 my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 );
 
-my $body = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
+my $client = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
 
 eval { 
-    my $result = $api_instance->test_client_model(body => $body);
+    my $result = $api_instance->test_client_model(client => $client);
     print Dumper($result);
 };
 if ($@) {
@@ -326,7 +367,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
@@ -489,6 +530,10 @@ Fake endpoint to test group parameters (optional)
 use Data::Dumper;
 use WWW::OpenAPIClient::FakeApi;
 my $api_instance = WWW::OpenAPIClient::FakeApi->new(
+
+    # Configure HTTP basic authorization: bearer_test
+    username => 'YOUR_USERNAME',
+    password => 'YOUR_PASSWORD',
 );
 
 my $required_string_group = 56; # int | Required String in group parameters
@@ -523,7 +568,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearer_test](../README.md#bearer_test)
 
 ### HTTP request headers
 
@@ -533,7 +578,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_inline_additional_properties**
-> test_inline_additional_properties(param => $param)
+> test_inline_additional_properties(request_body => $request_body)
 
 test inline additionalProperties
 
@@ -544,10 +589,10 @@ use WWW::OpenAPIClient::FakeApi;
 my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 );
 
-my $param = WWW::OpenAPIClient::Object::HASH[string,string]->new(); # HASH[string,string] | request body
+my $request_body = WWW::OpenAPIClient::Object::HASH[string,string]->new(); # HASH[string,string] | request body
 
 eval { 
-    $api_instance->test_inline_additional_properties(param => $param);
+    $api_instance->test_inline_additional_properties(request_body => $request_body);
 };
 if ($@) {
     warn "Exception when calling FakeApi->test_inline_additional_properties: $@\n";
@@ -558,7 +603,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**HASH[string,string]**](string.md)| request body | 
+ **request_body** | [**HASH[string,string]**](string.md)| request body | 
 
 ### Return type
 
