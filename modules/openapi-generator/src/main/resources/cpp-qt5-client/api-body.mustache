@@ -101,7 +101,7 @@ void
     {{/isContainer}}{{/bodyParams}}
     {{#headerParams}}
     if ({{paramName}} != nullptr) {
-        input.headers.insert("{{baseName}}", "{{paramName}}");
+        input.headers.insert("{{baseName}}", {{paramName}});
     }
     {{/headerParams}}
 
