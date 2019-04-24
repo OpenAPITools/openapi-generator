@@ -1850,6 +1850,23 @@ public class DefaultCodegen implements CodegenConfig {
                 addProperties(properties, required, component);
             }
 
+            // Support this pattern:
+            /*
+            SubSchema:
+              type: object
+              properties:
+                mySubProp:
+                  type: string # not required for SubSchema
+            MySchema:
+              allOf:
+                - $ref: '#/components/schemas/Action'
+              type: object
+              required: [mySubProp] # but required for MySchema
+            */
+            if (schema.getRequired() != null) {
+                required.addAll(schema.getRequired());
+            }
+
             return;
         }
 
