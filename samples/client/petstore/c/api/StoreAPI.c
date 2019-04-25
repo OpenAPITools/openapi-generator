@@ -1,10 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-#include "apiClient.h"
-#include "cJSON.h"
-#include "keyValuePair.h"
-#include "order.h"
+#include "StoreAPI.h"
+
 
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \
@@ -34,15 +32,16 @@ void StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId) {
 	// Path Params
 	long sizeOfPathParams_orderId = strlen(orderId) + 3 + strlen(
 		"{ orderId }");
-
 	if(orderId == NULL) {
 		goto end;
 	}
 	char *localVarToReplace_orderId = malloc(sizeOfPathParams_orderId);
-	sprintf(localVarToReplace_orderId, "%s%s%s", "{", "orderId", "}");
+	sprintf(localVarToReplace_orderId, "{%s}", "orderId");
 
 	localVarPath = strReplace(localVarPath, localVarToReplace_orderId,
 	                          orderId);
+
+
 	apiClient_invoke(apiClient,
 	                 localVarPath,
 	                 localVarQueryParameters,
@@ -60,7 +59,10 @@ void StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId) {
 		printf("%s\n", "Order not found");
 	}
 	// No return type
-end:    apiClient_free(apiClient);
+end:
+	if(apiClient->dataReceived) {
+		free(apiClient->dataReceived);
+	}
 
 
 
@@ -87,6 +89,8 @@ list_t *StoreAPI_getInventory(apiClient_t *apiClient) {
 	char *localVarPath = malloc(sizeOfPath);
 	snprintf(localVarPath, sizeOfPath, "/store/inventory");
 
+
+
 	list_addElement(localVarHeaderType, "application/json"); // produces
 	apiClient_invoke(apiClient,
 	                 localVarPath,
@@ -107,14 +111,15 @@ list_t *StoreAPI_getInventory(apiClient_t *apiClient) {
 	list_t *elementToReturn = list_create();
 	cJSON_ArrayForEach(VarJSON, localVarJSON) {
 		keyValuePair_t *keyPair =
-			keyValuePair_create(strdup(
-						    VarJSON->string), cJSON_Print(
+			keyValuePair_create(strdup(VarJSON->string), cJSON_Print(
 						    VarJSON));
 		list_addElement(elementToReturn, keyPair);
 	}
 	cJSON_Delete(localVarJSON);
 
-	apiClient_free(apiClient);
+	if(apiClient->dataReceived) {
+		free(apiClient->dataReceived);
+	}
 
 
 
@@ -147,19 +152,20 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 	// Path Params
 	long sizeOfPathParams_orderId = sizeof(orderId) + 3 + strlen(
 		"{ orderId }");
-
 	if(orderId == 0) {
 		goto end;
 	}
 	char *localVarToReplace_orderId = malloc(sizeOfPathParams_orderId);
-	snprintf(localVarToReplace_orderId, sizeOfPathParams_orderId, "%s%s%s",
-	         "{", "orderId", "}");
+	snprintf(localVarToReplace_orderId, sizeOfPathParams_orderId, "{%s}",
+	         "orderId");
 
 	char localVarBuff_orderId[256];
 	intToStr(localVarBuff_orderId, orderId);
 
 	localVarPath = strReplace(localVarPath, localVarToReplace_orderId,
 	                          localVarBuff_orderId);
+
+
 
 	list_addElement(localVarHeaderType, "application/xml"); // produces
 	list_addElement(localVarHeaderType, "application/json"); // produces
@@ -183,13 +189,17 @@ order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId) {
 		printf("%s\n", "Order not found");
 	}
 	// nonprimitive not container
-	order_t *elementToReturn = order_parseFromJSON(apiClient->dataReceived);
+	cJSON *StoreAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+	order_t *elementToReturn = order_parseFromJSON(StoreAPIlocalVarJSON);
+    cJSON_Delete(StoreAPIlocalVarJSON);
 	if(elementToReturn == NULL) {
 		// return 0;
 	}
 
 	// return type
-	apiClient_free(apiClient);
+	if(apiClient->dataReceived) {
+		free(apiClient->dataReceived);
+	}
 
 
 
@@ -204,7 +214,7 @@ end:
 
 // Place an order for a pet
 //
-order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *order) {
+order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *body) {
 	list_t *localVarQueryParameters = NULL;
 	list_t *localVarHeaderParameters = NULL;
 	list_t *localVarFormParameters = NULL;
@@ -218,13 +228,15 @@ order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *order) {
 	snprintf(localVarPath, sizeOfPath, "/store/order");
 
 
+
+
 	// Body Param
-	cJSON *localVarSingleItemJSON_order;
-	if(order != NULL) {
+	cJSON *localVarSingleItemJSON_body;
+	if(body != NULL) {
 		// string
-		localVarSingleItemJSON_order = order_convertToJSON(order);
-		localVarBodyParameters = cJSON_Print(
-			localVarSingleItemJSON_order);
+		localVarSingleItemJSON_body = order_convertToJSON(body);
+		localVarBodyParameters =
+			cJSON_Print(localVarSingleItemJSON_body);
 	}
 	list_addElement(localVarHeaderType, "application/xml"); // produces
 	list_addElement(localVarHeaderType, "application/json"); // produces
@@ -245,20 +257,24 @@ order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *order) {
 		printf("%s\n", "Invalid Order");
 	}
 	// nonprimitive not container
-	order_t *elementToReturn = order_parseFromJSON(apiClient->dataReceived);
+	cJSON *StoreAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
+	order_t *elementToReturn = order_parseFromJSON(StoreAPIlocalVarJSON);
+    cJSON_Delete(StoreAPIlocalVarJSON);
 	if(elementToReturn == NULL) {
 		// return 0;
 	}
 
 	// return type
-	apiClient_free(apiClient);
+	if(apiClient->dataReceived) {
+		free(apiClient->dataReceived);
+	}
 
 
 
 	list_free(localVarHeaderType);
 
 	free(localVarPath);
-	cJSON_Delete(localVarSingleItemJSON_order);
+	cJSON_Delete(localVarSingleItemJSON_body);
 	free(localVarBodyParameters);
 	return elementToReturn;
 end:

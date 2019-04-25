@@ -17,14 +17,17 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.media.XML;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -204,6 +207,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (!Boolean.TRUE.equals(ModelUtils.isGenerateAliasAsModel())) {
+            LOGGER.warn("generateAliasAsModel is set to false, which means array/map will be generated as model instead and the resulting code may have issues. Please enable `generateAliasAsModel` to address the issue.");
+        }
 
         setPackageName((String) additionalProperties.getOrDefault(CodegenConstants.PACKAGE_NAME, "openapi_client"));
 
@@ -750,6 +757,39 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return dataType != null && dataType.equals(typeMapping.get("File").toString());
     }
 
+    // This is a really terrible hack. We're working around the fact that the
+    // base version of `fromRequestBody` checks to see whether the body is a
+    // ref. If so, it unwraps the reference and replaces it with its inner
+    // type. This causes problems in rust-server, as it means that we use inner
+    // types in the API, rather than the correct outer type.
+    //
+    // Thus, we grab the inner schema beforehand, and then tinker afterwards to
+    // restore things to sensible values.
+    @Override
+    public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
+        Schema original_schema = ModelUtils.getSchemaFromRequestBody(body);
+        CodegenParameter codegenParameter = super.fromRequestBody(body, imports, bodyParameterName);
+
+        if (StringUtils.isNotBlank(original_schema.get$ref())) {
+            // Undo the mess `super.fromRequestBody` made - re-wrap the inner
+            // type.
+            codegenParameter.dataType = getTypeDeclaration(original_schema);
+            codegenParameter.isPrimitiveType = false;
+            codegenParameter.isListContainer = false;
+            codegenParameter.isString = false;
+
+            // This is a model, so should only have an example if explicitly
+            // defined.
+            if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
+                codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+            } else {
+                codegenParameter.example = null;
+            }
+        }
+
+        return codegenParameter;
+    }
+
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
@@ -787,35 +827,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return super.getTypeDeclaration(p);
     }
 
-    private boolean isNonPrimitive(CodegenParameter parameter) {
-        return !parameter.isString && !parameter.isNumeric && !parameter.isByteArray &&
-            !parameter.isBinary && !parameter.isFile && !parameter.isBoolean &&
-            !parameter.isDate && !parameter.isDateTime && !parameter.isUuid &&
-            !parameter.isListContainer && !parameter.isMapContainer &&
-            !languageSpecificPrimitives.contains(parameter.dataType);
-    }
-
-    @Override
-    public CodegenParameter fromParameter(Parameter param, Set<String> imports) {
-        CodegenParameter parameter = super.fromParameter(param, imports);
-        if (isNonPrimitive(parameter)) {
-            String name = "models::" + getTypeDeclaration(parameter.dataType);
-            parameter.dataType = name;
-        }
-
-        return parameter;
-    }
-
-    @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-        // If this parameter is not a primitive type, prefix it with "models::"
-        // to ensure it's namespaced correctly in the Rust code.
-        if (isNonPrimitive(parameter)) {
-            String name = "models::" + getTypeDeclaration(parameter.dataType);
-            parameter.dataType = name;
-        }
-    }
-
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
@@ -841,17 +852,34 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
         if (ModelUtils.isArraySchema(model)) {
             ArraySchema am = (ArraySchema) model;
+            String xmlName = null;
+
+            // Detect XML list where the inner item is defined directly.
             if ((am.getItems() != null) &&
                     (am.getItems().getXml() != null)) {
+                xmlName = am.getItems().getXml().getName();
+            }
 
-                // If this model's items require wrapping in xml, squirrel
-                // away the xml name so we can insert it into the relevant model fields.
-                String xmlName = am.getItems().getXml().getName();
-                if (xmlName != null) {
-                    mdl.vendorExtensions.put("itemXmlName", xmlName);
-                    modelXmlNames.put("models::" + mdl.classname, xmlName);
+            // Detect XML list where the inner item is a reference.
+            if (am.getXml() != null && am.getXml().getWrapped() &&
+                    am.getItems() != null &&
+                    !StringUtils.isEmpty(am.getItems().get$ref())) {
+                Schema inner_schema = allDefinitions.get(
+                    ModelUtils.getSimpleRef(am.getItems().get$ref()));
+
+                if (inner_schema.getXml() != null &&
+                        inner_schema.getXml().getName() != null) {
+                    xmlName = inner_schema.getXml().getName();
                 }
             }
+
+            // If this model's items require wrapping in xml, squirrel away the
+            // xml name so we can insert it into the relevant model fields.
+            if (xmlName != null) {
+                mdl.vendorExtensions.put("itemXmlName", xmlName);
+                modelXmlNames.put("models::" + mdl.classname, xmlName);
+            }
+
             mdl.arrayModelType = toModelName(mdl.arrayModelType);
         }
 
@@ -1082,23 +1110,6 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
         return super.postProcessModelsEnum(objs);
-    }
-
-    private boolean paramHasXmlNamespace(CodegenParameter param, Map<String, Schema> definitions) {
-        Object refName = param.vendorExtensions.get("refName");
-
-        if ((refName != null) && (refName instanceof String)) {
-            String name = (String) refName;
-            Schema model = definitions.get(ModelUtils.getSimpleRef(name));
-
-            if (model != null) {
-                XML xml = model.getXml();
-                if ((xml != null) && (xml.getNamespace() != null)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     private void processParam(CodegenParameter param, CodegenOperation op) {

@@ -5,6 +5,9 @@
     <TargetFramework>netcoreapp{{aspnetCoreVersion}}</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PreserveCompilationContext>true</PreserveCompilationContext>
+{{#isLibrary}}
+    <OutputType>Library</OutputType>
+{{/isLibrary}}
     <AssemblyName>{{packageName}}</AssemblyName>
     <PackageId>{{packageName}}</PackageId>
   </PropertyGroup>
