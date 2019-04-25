@@ -2,24 +2,22 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule OpenAPIPetstore.Model.InlineObject2 do
+defmodule OpenapiPetstore.Model.AdditionalPropertiesObject do
   @moduledoc """
   
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"enum_form_string_array",
-    :"enum_form_string"
+    :"name"
   ]
 
   @type t :: %__MODULE__{
-    :"enum_form_string_array" => [String.t] | nil,
-    :"enum_form_string" => String.t | nil
+    :"name" => String.t | nil
   }
 end
 
-defimpl Poison.Decoder, for: OpenAPIPetstore.Model.InlineObject2 do
+defimpl Poison.Decoder, for: OpenapiPetstore.Model.AdditionalPropertiesObject do
   def decode(value, _options) do
     value
   end

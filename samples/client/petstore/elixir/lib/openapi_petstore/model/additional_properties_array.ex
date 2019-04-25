@@ -2,22 +2,22 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule OpenAPIPetstore.Model.Return do
+defmodule OpenapiPetstore.Model.AdditionalPropertiesArray do
   @moduledoc """
-  Model for testing reserved words
+  
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"return"
+    :"name"
   ]
 
   @type t :: %__MODULE__{
-    :"return" => integer() | nil
+    :"name" => String.t | nil
   }
 end
 
-defimpl Poison.Decoder, for: OpenAPIPetstore.Model.Return do
+defimpl Poison.Decoder, for: OpenapiPetstore.Model.AdditionalPropertiesArray do
   def decode(value, _options) do
     value
   end
