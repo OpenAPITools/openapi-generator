@@ -1630,6 +1630,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isArraySchema(schema)) {
             m.isArrayModel = true;
             m.arrayModelType = fromProperty(name, schema).complexType;
+            m.isPrimitiveType = true;
+            m.dataType = getSchemaType(schema);
             addParentContainer(m, name, schema);
         } else if (schema instanceof ComposedSchema) {
             final ComposedSchema composed = (ComposedSchema) schema;
