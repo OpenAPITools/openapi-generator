@@ -8,7 +8,7 @@ import kotlinx.io.core.toByteArray
 
     override fun applyToParams(queryParameters: MutableList<Pair<String, Any?>>, headerParameters: MutableList<Pair<String, Any?>>) {
         val authString = "$username:$password"
-        val authBuf = Base64Encoder.encode(authString.toByteArray())
+        val authBuf = authString.encodeBase64()
 
         headerParameters += "Authorization" to "Basic $authBuf"
     }

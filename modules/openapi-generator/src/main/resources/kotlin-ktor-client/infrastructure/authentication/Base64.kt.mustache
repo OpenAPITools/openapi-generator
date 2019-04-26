@@ -1,5 +1,9 @@
 package {{packageName}}.infrastructure.authentication
 
+import kotlinx.io.core.String
+import kotlinx.io.core.toByteArray
+import kotlin.experimental.and
+
 private val BASE64_ALPHABET: String = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 private val BASE64_MASK: Byte = 0x3f
 private val BASE64_PAD: Char = '='
@@ -32,3 +36,30 @@ internal object Base64Encoder {
         return result.toByteArray()
     }
 }
+
+internal fun String.encodeBase64(): String = String(Base64Encoder.encode(this.toByteArray()))
+
+internal object Base64Decoder {
+
+    fun decode(src: ByteArray): ByteArray {
+        val sextets = src.map { it.fromBase64().toInt() }
+        val octetCount = 3 * src.size / 4
+
+        val octets = (0 until octetCount).map { octetIndex ->
+            val firstSextetIndex = octetIndex + octetIndex/3
+            val firstSextet = sextets[firstSextetIndex]
+            val secondSextet = sextets[firstSextetIndex+1]
+
+            val digitsOfSecondSextet = (1 + octetIndex % 3) * 2
+
+            val lhs = firstSextet shl digitsOfSecondSextet
+            val rhs = secondSextet ushr (6 - digitsOfSecondSextet)
+
+            (lhs + rhs).toByte()
+        }
+        return octets.toByteArray()
+    }
+}
+private fun Byte.fromBase64(): Byte = BASE64_INVERSE_ALPHABET[toInt() and 0xff].toByte() and BASE64_MASK
+
+internal fun String.decodeBase64(): ByteArray = Base64Decoder.decode(dropLastWhile { it == BASE64_PAD }.toByteArray())

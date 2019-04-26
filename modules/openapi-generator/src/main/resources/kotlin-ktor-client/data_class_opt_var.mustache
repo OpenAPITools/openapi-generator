@@ -1,5 +1,5 @@
 {{#description}}
     /* {{{description}}} */
 {{/description}}
-    @SerialName("{{{baseName}}}")
+    @SerialName("{{{baseName}}}"){{#isByteArray}} @Serializable(with=ByteArrayBase64Serializer::class){{/isByteArray}}
     val {{{name}}}: {{#isEnum}}{{classname}}.{{nameInCamelCase}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = {{#defaultvalue}}{{defaultvalue}}{{/defaultvalue}}{{^defaultvalue}}null{{/defaultvalue}}
