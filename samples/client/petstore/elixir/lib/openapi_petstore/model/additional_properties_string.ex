@@ -2,22 +2,22 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule OpenAPIPetstore.Model.SpecialModelName do
+defmodule OpenapiPetstore.Model.AdditionalPropertiesString do
   @moduledoc """
   
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"$special[property.name]"
+    :"name"
   ]
 
   @type t :: %__MODULE__{
-    :"$special[property.name]" => integer() | nil
+    :"name" => String.t | nil
   }
 end
 
-defimpl Poison.Decoder, for: OpenAPIPetstore.Model.SpecialModelName do
+defimpl Poison.Decoder, for: OpenapiPetstore.Model.AdditionalPropertiesString do
   def decode(value, _options) do
     value
   end

@@ -2,22 +2,22 @@
 # https://openapi-generator.tech
 # Do not edit the class manually.
 
-defmodule OpenAPIPetstore.Model.NumberOnly do
+defmodule OpenapiPetstore.Model.AdditionalPropertiesNumber do
   @moduledoc """
   
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :"JustNumber"
+    :"name"
   ]
 
   @type t :: %__MODULE__{
-    :"JustNumber" => float() | nil
+    :"name" => String.t | nil
   }
 end
 
-defimpl Poison.Decoder, for: OpenAPIPetstore.Model.NumberOnly do
+defimpl Poison.Decoder, for: OpenapiPetstore.Model.AdditionalPropertiesNumber do
   def decode(value, _options) do
     value
   end
