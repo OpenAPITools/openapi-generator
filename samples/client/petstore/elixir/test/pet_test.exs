@@ -6,7 +6,7 @@ defmodule PetTest do
     alias OpenapiPetstore.Model.Category
     alias OpenapiPetstore.Model.Tag
 
-    test "add a pet and get pet by id" do
+    test "add and delete a pet" do
         petId = 10007
         pet = %Pet{
             :id => petId,
@@ -25,17 +25,14 @@ defmodule PetTest do
         assert pet.category.id == petId
         assert pet.category.name == "test elixir category"
         assert List.first(pet.tags) == %Tag{:id => petId, :name => "test elixir tag"}
+
+        {:ok, response} = PetApi.delete_pet(Connection.new, petId)
+        assert response.status == 200
+        {:ok, response} = PetApi.get_pet_by_id(Connection.new, petId)
+        assert response.status == 404
     end
 
-    test "find pet by status" do
-        {:ok, listPets} = PetApi.find_pets_by_status(Connection.new, "available")
-        assert List.first(listPets) != nil
-
-        {:ok, listPets} = PetApi.find_pets_by_status(Connection.new, "unknown_and_incorrect_status")
-        assert List.first(listPets) == nil
-    end
-
-    test "update a pet and get pet by id" do
+    test "update a pet" do
         petId = 10007
         pet = %Pet{
             :id => petId,
@@ -52,12 +49,12 @@ defmodule PetTest do
         assert pet.status == "pending"
     end
 
-    test "delete a pet" do
-        petId = 10007
-        
-        {:ok, response} = PetApi.delete_pet(Connection.new, petId)
-        assert response.status == 200
-        {:ok, response} = PetApi.get_pet_by_id(Connection.new, petId)
-        assert response.status == 404
+    test "find pet by status" do
+        {:ok, listPets} = PetApi.find_pets_by_status(Connection.new, "available")
+        assert List.first(listPets) != nil
+
+        {:ok, listPets} = PetApi.find_pets_by_status(Connection.new, "unknown_and_incorrect_status")
+        assert List.first(listPets) == nil
     end
+
 end
