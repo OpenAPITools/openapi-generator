@@ -4,7 +4,7 @@ defmodule OpenapiPetstore.Mixfile do
   def project do
     [app: :openapi_petstore,
      version: "1.0.0",
-     elixir: "~> 1.8",
+     elixir: "~> 1.6",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps()]
@@ -29,8 +29,8 @@ defmodule OpenapiPetstore.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:tesla, "~> 1.2.1"},
-      {:poison, "~> 3.0.0"}
+      {:tesla, "~> 1.2"},
+      {:poison, "~> 3.0"}
     ]
   end
 end

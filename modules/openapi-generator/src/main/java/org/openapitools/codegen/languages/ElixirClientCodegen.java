@@ -50,11 +50,11 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     // This is the name of elixir project name;
     protected static final String defaultPackageName = "openapi_client";
 
-    String supportedElixirVersion = "1.8";
+    String supportedElixirVersion = "1.6";
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
-            "{:tesla, \"~> 1.2.1\"}",
-            "{:poison, \"~> 3.0.0\"}"
+            "{:tesla, \"~> 1.2\"}",
+            "{:poison, \"~> 3.0\"}"
     );
 
     public ElixirClientCodegen() {
