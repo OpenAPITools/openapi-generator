@@ -17,8 +17,6 @@
 
 package org.openapitools.codegen.config;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,41 +27,25 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.Validate;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.auth.AuthParser;
+import org.openapitools.codegen.languages.*;
+import org.openapitools.codegen.templating.HandlebarsEngineAdapter;
+import org.openapitools.codegen.templating.MustacheEngineAdapter;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.Validate;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenConfigLoader;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.SpecValidationException;
-import org.openapitools.codegen.auth.AuthParser;
-import org.openapitools.codegen.languages.CSharpNancyFXServerCodegen;
-import org.openapitools.codegen.languages.CppQt5ClientCodegen;
-import org.openapitools.codegen.languages.CppRestSdkClientCodegen;
-import org.openapitools.codegen.languages.CppTizenClientCodegen;
-import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
-import org.openapitools.codegen.languages.PhpLumenServerCodegen;
-import org.openapitools.codegen.languages.PhpSlimServerCodegen;
-import org.openapitools.codegen.languages.PhpZendExpressivePathHandlerServerCodegen;
-import org.openapitools.codegen.languages.RubySinatraServerCodegen;
-import org.openapitools.codegen.languages.ScalaAkkaClientCodegen;
-import org.openapitools.codegen.languages.ScalaHttpClientCodegen;
-import org.openapitools.codegen.languages.SwiftClientCodegen;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.*;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 /**
  * A class that contains all codegen configuration properties a user would want to manipulate. An
@@ -103,6 +85,7 @@ public class CodegenConfigurator implements Serializable {
     private boolean enablePostProcessFile;
     private boolean enableMinimalUpdate;
     private String templateDir;
+    private String templatingEngineName;
     private String auth;
     private String apiPackage;
     private String modelPackage;
@@ -582,6 +565,7 @@ public class CodegenConfigurator implements Serializable {
         checkAndSetAdditionalProperty(artifactVersion, CodegenConstants.ARTIFACT_VERSION);
         checkAndSetAdditionalProperty(templateDir, toAbsolutePathStr(templateDir),
                 CodegenConstants.TEMPLATE_DIR);
+        checkAndSetAdditionalProperty(templatingEngineName, CodegenConstants.TEMPLATING_ENGINE);
         checkAndSetAdditionalProperty(modelNamePrefix, CodegenConstants.MODEL_NAME_PREFIX);
         checkAndSetAdditionalProperty(modelNameSuffix, CodegenConstants.MODEL_NAME_SUFFIX);
         checkAndSetAdditionalProperty(gitUserId, CodegenConstants.GIT_USER_ID);
@@ -595,6 +579,13 @@ public class CodegenConfigurator implements Serializable {
             config.setLibrary(library);
         }
 
+        // Built-in templates are mustache, but allow users to use a simplified handlebars engine for their custom templates.
+        if (isEmpty(templatingEngineName) || templatingEngineName.equals("mustache")) {
+            config.setTemplatingEngine(new MustacheEngineAdapter());
+        } else if (templatingEngineName.equals("handlebars")) {
+            config.setTemplatingEngine(new HandlebarsEngineAdapter());
+        }
+
         config.additionalProperties().putAll(additionalProperties);
 
         ClientOptInput input = new ClientOptInput().config(config);
@@ -602,8 +593,7 @@ public class CodegenConfigurator implements Serializable {
         final List<AuthorizationValue> authorizationValues = AuthParser.parse(auth);
         ParseOptions options = new ParseOptions();
         options.setResolve(true);
-        SwaggerParseResult result =
-                new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
+        SwaggerParseResult result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);
 
         Set<String> validationMessages = new HashSet<>(result.getMessages());
         OpenAPI specification = result.getOpenAPI();
@@ -731,5 +721,10 @@ public class CodegenConfigurator implements Serializable {
             }
         }
         return null;
+    }
+
+    public CodegenConfigurator setTemplatingEngineName(String templatingEngineName) {
+        this.templatingEngineName = templatingEngineName;
+        return this;
     }
 }
