@@ -76,6 +76,7 @@ public class CodegenProperty implements Cloneable {
     public String enumName;
     public Integer maxItems;
     public Integer minItems;
+    public boolean usePointer;
 
     // XML
     public boolean isXmlAttribute = false;
@@ -484,6 +485,7 @@ public class CodegenProperty implements Cloneable {
             enumName,
             maxItems,
             minItems,
+            usePointer,
             isXmlAttribute,
             xmlPrefix,
             xmlName,
@@ -567,6 +569,7 @@ public class CodegenProperty implements Cloneable {
             Objects.equals(enumName, other.enumName) &&
             Objects.equals(maxItems, other.maxItems) &&
             Objects.equals(minItems, other.minItems) &&
+            Objects.equals(usePointer, other.usePointer) &&
             Objects.equals(isXmlAttribute, other.isXmlAttribute) &&
             Objects.equals(xmlPrefix, other.xmlPrefix) &&
             Objects.equals(xmlName, other.xmlName) &&
@@ -673,6 +676,7 @@ public class CodegenProperty implements Cloneable {
                 ", enumName='" + enumName + '\'' +
                 ", maxItems=" + maxItems +
                 ", minItems=" + minItems +
+                ", usePointer=" + usePointer +
                 ", isXmlAttribute=" + isXmlAttribute +
                 ", xmlPrefix='" + xmlPrefix + '\'' +
                 ", xmlName='" + xmlName + '\'' +
