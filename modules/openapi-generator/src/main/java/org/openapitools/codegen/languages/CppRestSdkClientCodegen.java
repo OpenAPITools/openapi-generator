@@ -289,12 +289,12 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return sanitizeName(camelize(name));
+        return sanitizeName(toModelName(name));
     }
 
     @Override
     public String toApiFilename(String name) {
-        return sanitizeName(camelize(name) + "Api");
+        return sanitizeName(toModelName(name) + "Api");
     }
 
     /**
