@@ -15,6 +15,10 @@
 {{/imports}}
 {{^hasModelImport}}#include "../ModelBase.h"{{/hasModelImport}}
 
+#ifdef _WIN32 | _WIN64
+#undef U
+#endif
+
 #include <boost/optional.hpp>
 
 {{#apiNamespaceDeclarations}}
