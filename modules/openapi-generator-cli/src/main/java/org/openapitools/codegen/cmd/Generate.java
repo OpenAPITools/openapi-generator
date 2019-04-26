@@ -70,6 +70,10 @@ public class Generate implements Runnable {
             description = "folder containing the template files")
     private String templateDir;
 
+    @Option(name = {"-e", "--engine"}, title = "templating engine",
+        description = "templating engine: \"mustache\" (default) or \"handlebars\" (beta)")
+    private String templatingEngine;
+
     @Option(
             name = {"-a", "--auth"},
             title = "authorization",
@@ -282,6 +286,10 @@ public class Generate implements Runnable {
 
         if (isNotEmpty(templateDir)) {
             configurator.setTemplateDir(templateDir);
+        }
+
+        if (isNotEmpty(templatingEngine)) {
+            configurator.setTemplatingEngineName(templatingEngine);
         }
 
         if (isNotEmpty(apiPackage)) {

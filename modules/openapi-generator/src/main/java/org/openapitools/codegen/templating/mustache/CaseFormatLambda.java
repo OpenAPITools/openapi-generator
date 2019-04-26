@@ -1,4 +1,4 @@
-package org.openapitools.codegen.mustache;
+package org.openapitools.codegen.templating.mustache;
 
 import com.google.common.base.CaseFormat;
 import com.samskivert.mustache.Mustache;

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.openapitools.codegen.mustache;
+package org.openapitools.codegen.templating.mustache;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
@@ -23,36 +23,40 @@ import org.openapitools.codegen.CodegenConfig;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Locale;
 
 /**
- * Split text by 2 spaces and then join the strings with ", "
+ * Converts text in a fragment to lowercase.
  *
  * Register:
  * <pre>
- * additionalProperties.put("joinWithComma", new JoinWithCommaLambda());
+ * additionalProperties.put("lowercase", new LowercaseLambda());
  * </pre>
  *
  * Use:
  * <pre>
- * {{#joinWithComma}}{{name}}{{/joinWithComma}}
+ * {{#lowercase}}{{httpMethod}}{{/lowercase}}
  * </pre>
  */
-public class JoinWithCommaLambda implements Mustache.Lambda {
+public class LowercaseLambda implements Mustache.Lambda {
     private CodegenConfig generator = null;
 
-    public JoinWithCommaLambda() {
+    public LowercaseLambda() {
 
     }
 
-    public JoinWithCommaLambda generator(final CodegenConfig generator) {
+    public LowercaseLambda generator(final CodegenConfig generator) {
         this.generator = generator;
         return this;
     }
 
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-        String[] substr = fragment.execute().trim().split("  ");
+        String text = fragment.execute().toLowerCase(Locale.ROOT);
+        if (generator != null && generator.reservedWords().contains(text)) {
+            text = generator.escapeReservedWord(text);
+        }
+        writer.write(text);
 
-        writer.write(String.join(", ", substr));
     }
 }
