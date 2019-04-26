@@ -27,8 +27,8 @@ fi
 
 # remove existing lib and model file
 echo "removing existing lib, model files"
-rm -Rf "samples/client/petstore/elixir/lib/swagger_petstore/model/"
-rm -Rf "samples/client/petstore/elixir/lib/swagger_petstore/lib/"
+rm -Rf "samples/client/petstore/elixir/lib/openapi_petstore/model/"
+rm -Rf "samples/client/petstore/elixir/lib/openapi_petstore/api/"
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"

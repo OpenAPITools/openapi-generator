@@ -32,6 +32,9 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
+        200:
+          content: {}
+          description: successful operation
         405:
           content: {}
           description: Invalid input
@@ -60,6 +63,9 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
+        200:
+          content: {}
+          description: successful operation
         400:
           content: {}
           description: Invalid ID supplied
@@ -188,6 +194,9 @@ paths:
           format: int64
           type: integer
       responses:
+        200:
+          content: {}
+          description: successful operation
         400:
           content: {}
           description: Invalid pet value

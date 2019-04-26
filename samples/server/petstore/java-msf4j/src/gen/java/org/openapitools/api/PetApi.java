@@ -43,6 +43,8 @@ public class PetApi  {
         })
     }, tags={ "pet", })
     @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class),
+        
         @io.swagger.annotations.ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
     public Response addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true) Pet body
 )
@@ -60,6 +62,8 @@ public class PetApi  {
         })
     }, tags={ "pet", })
     @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class),
+        
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
     public Response deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathParam("petId") Long petId
 ,@ApiParam(value = "" )@HeaderParam("api_key") String apiKey
@@ -134,6 +138,8 @@ public class PetApi  {
         })
     }, tags={ "pet", })
     @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class),
+        
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         
         @io.swagger.annotations.ApiResponse(code = 404, message = "Pet not found", response = Void.class),
