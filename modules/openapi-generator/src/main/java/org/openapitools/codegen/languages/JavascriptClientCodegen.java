@@ -1006,6 +1006,27 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         return objs;
     }
 
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        objs = super.postProcessAllModels(objs);
+        for (Map.Entry<String, Object> entry : objs.entrySet()) {
+            CodegenModel cm = ModelUtils.getModelByName(entry.getKey(), objs);
+            
+            if (supportsInheritance || supportsMixins) {
+                if (cm.interfaceModels != null) {
+                    for (CodegenModel cmInterface : cm.interfaceModels) {
+                        for (CodegenProperty var : cmInterface.allVars) {
+                            if (Boolean.TRUE.equals(var.required)) {
+                                ((List<CodegenProperty>) cm.vendorExtensions.get("x-all-required")).add(var);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return objs;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
