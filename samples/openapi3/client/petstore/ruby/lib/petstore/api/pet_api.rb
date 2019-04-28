@@ -44,25 +44,35 @@ module Petstore
       local_var_path = '/pet'
 
       # query parameters
-      query_params = {}
+      query_params = opts[:query_params] || {}
 
       # header parameters
-      header_params = {}
+      header_params = opts[:header_params] || {}
       # HTTP header 'Content-Type'
       header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/xml'])
 
       # form parameters
-      form_params = {}
+      form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(pet)
-      auth_names = ['petstore_auth']
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+      post_body = opts[:body] || @api_client.object_to_http_body(pet) 
+
+      # return_type
+      return_type = opts[:return_type] 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['petstore_auth']
+
+      new_optios = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
         :body => post_body,
-        :auth_names => auth_names)
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_optios)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PetApi#add_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -96,24 +106,34 @@ module Petstore
       local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
-      query_params = {}
+      query_params = opts[:query_params] || {}
 
       # header parameters
-      header_params = {}
+      header_params = opts[:header_params] || {}
       header_params[:'api_key'] = opts[:'api_key'] if !opts[:'api_key'].nil?
 
       # form parameters
-      form_params = {}
+      form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = nil
-      auth_names = ['petstore_auth']
-      data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['petstore_auth']
+
+      new_optios = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
         :body => post_body,
-        :auth_names => auth_names)
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:DELETE, local_var_path, new_optios)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PetApi#delete_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -147,27 +167,36 @@ module Petstore
       local_var_path = '/pet/findByStatus'
 
       # query parameters
-      query_params = {}
+      query_params = opts[:query_params] || {}
       query_params[:'status'] = @api_client.build_collection_param(status, :csv)
 
       # header parameters
-      header_params = {}
+      header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
 
       # form parameters
-      form_params = {}
+      form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = nil
-      auth_names = ['petstore_auth']
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'Array<Pet>' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['petstore_auth']
+
+      new_optios = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => 'Array<Pet>')
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_optios)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PetApi#find_pets_by_status\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -201,27 +230,36 @@ module Petstore
       local_var_path = '/pet/findByTags'
 
       # query parameters
-      query_params = {}
+      query_params = opts[:query_params] || {}
       query_params[:'tags'] = @api_client.build_collection_param(tags, :csv)
 
       # header parameters
-      header_params = {}
+      header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
 
       # form parameters
-      form_params = {}
+      form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = nil
-      auth_names = ['petstore_auth']
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'Array<Pet>' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['petstore_auth']
+
+      new_optios = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => 'Array<Pet>')
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_optios)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PetApi#find_pets_by_tags\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -255,26 +293,35 @@ module Petstore
       local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
-      query_params = {}
+      query_params = opts[:query_params] || {}
 
       # header parameters
-      header_params = {}
+      header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/xml', 'application/json'])
 
       # form parameters
-      form_params = {}
+      form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = nil
-      auth_names = ['api_key']
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'Pet' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['api_key']
+
+      new_optios = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => 'Pet')
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_optios)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PetApi#get_pet_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -306,25 +353,35 @@ module Petstore
       local_var_path = '/pet'
 
       # query parameters
-      query_params = {}
+      query_params = opts[:query_params] || {}
 
       # header parameters
-      header_params = {}
+      header_params = opts[:header_params] || {}
       # HTTP header 'Content-Type'
       header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/xml'])
 
       # form parameters
-      form_params = {}
+      form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(pet)
-      auth_names = ['petstore_auth']
-      data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
+      post_body = opts[:body] || @api_client.object_to_http_body(pet) 
+
+      # return_type
+      return_type = opts[:return_type] 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['petstore_auth']
+
+      new_optios = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
         :body => post_body,
-        :auth_names => auth_names)
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_optios)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PetApi#update_pet\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -360,27 +417,37 @@ module Petstore
       local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
-      query_params = {}
+      query_params = opts[:query_params] || {}
 
       # header parameters
-      header_params = {}
+      header_params = opts[:header_params] || {}
       # HTTP header 'Content-Type'
       header_params['Content-Type'] = @api_client.select_header_content_type(['application/x-www-form-urlencoded'])
 
       # form parameters
-      form_params = {}
+      form_params = opts[:form_params] || {}
       form_params['name'] = opts[:'name'] if !opts[:'name'].nil?
       form_params['status'] = opts[:'status'] if !opts[:'status'].nil?
 
       # http body (model)
-      post_body = nil
-      auth_names = ['petstore_auth']
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['petstore_auth']
+
+      new_optios = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
         :body => post_body,
-        :auth_names => auth_names)
+        :auth_names => auth_names,
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_optios)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PetApi#update_pet_with_form\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -416,30 +483,39 @@ module Petstore
       local_var_path = '/pet/{petId}/uploadImage'.sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
-      query_params = {}
+      query_params = opts[:query_params] || {}
 
       # header parameters
-      header_params = {}
+      header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json'])
       # HTTP header 'Content-Type'
       header_params['Content-Type'] = @api_client.select_header_content_type(['multipart/form-data'])
 
       # form parameters
-      form_params = {}
+      form_params = opts[:form_params] || {}
       form_params['additionalMetadata'] = opts[:'additional_metadata'] if !opts[:'additional_metadata'].nil?
       form_params['file'] = opts[:'file'] if !opts[:'file'].nil?
 
       # http body (model)
-      post_body = nil
-      auth_names = ['petstore_auth']
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'ApiResponse' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['petstore_auth']
+
+      new_optios = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => 'ApiResponse')
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_optios)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PetApi#upload_file\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -479,30 +555,39 @@ module Petstore
       local_var_path = '/fake/{petId}/uploadImageWithRequiredFile'.sub('{' + 'petId' + '}', pet_id.to_s)
 
       # query parameters
-      query_params = {}
+      query_params = opts[:query_params] || {}
 
       # header parameters
-      header_params = {}
+      header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json'])
       # HTTP header 'Content-Type'
       header_params['Content-Type'] = @api_client.select_header_content_type(['multipart/form-data'])
 
       # form parameters
-      form_params = {}
+      form_params = opts[:form_params] || {}
       form_params['requiredFile'] = required_file
       form_params['additionalMetadata'] = opts[:'additional_metadata'] if !opts[:'additional_metadata'].nil?
 
       # http body (model)
-      post_body = nil
-      auth_names = ['petstore_auth']
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
+      post_body = opts[:body] 
+
+      # return_type
+      return_type = opts[:return_type] || 'ApiResponse' 
+
+      # auth_names
+      auth_names = opts[:auth_names] || ['petstore_auth']
+
+      new_optios = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => 'ApiResponse')
+        :return_type => return_type
+      )
+
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_optios)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PetApi#upload_file_with_required_file\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
