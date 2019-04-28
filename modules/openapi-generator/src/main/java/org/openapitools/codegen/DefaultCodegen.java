@@ -1743,34 +1743,30 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            if (composed.getAllOf() != null) {
-                // Add any properties or required defined alongside oneOf/allOf/anyOf
-                // to support this pattern:
-                /*
-                SubSchema:
+            
+            // Add any properties or required defined alongside oneOf/allOf/anyOf
+            // to support this pattern:
+            /*
+            SubSchema: # a.k.a "Parent" schema
                 type: object
                 properties:
                     mySubProp:
-                    type: string # mySubProp not required for SubSchema
-                MySchema:
+                        type: string # mySubProp not required for SubSchema
+            MySchema: a.k.a "Child" schema
                 allOf:
                     - $ref: '#/components/schemas/Action'
                 type: object
                 required: [mySubProp,anotherProp] # mySubProp required for MySchema
                 properties:
                     anotherProp:
-                    type: string
-                */
-                addProperties(allProperties, allRequired, schema);
-                Set<String> allMandatory = new TreeSet<String>(allRequired);
-                Set<String> mandatory = new TreeSet<String>(required);
-                allMandatory.addAll(mandatory);
-                required = new ArrayList<String>();
-                for (String req : allMandatory) {
-                    required.add(req);
-                }
-                allRequired = required;
+                        type: string
+            */
+            // Add parent properties and capture parent and child required
+            addProperties(allProperties, allRequired, schema);
+            if (schema.getProperties() != null) {
+                properties.putAll(schema.getProperties());
             }
+            required = allRequired;
 
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
 
@@ -1871,35 +1867,38 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema instanceof ComposedSchema) {
             ComposedSchema composedSchema = (ComposedSchema) schema;
 
+            // Support this pattern:
+            /*
+            SubSchema: # a.k.a "Parent" schema
+                type: object
+                properties:
+                    mySubProp:
+                        type: string # mySubProp not required for SubSchema
+            MySchema: a.k.a "Child" schema
+                allOf:
+                    - $ref: '#/components/schemas/Action'
+                type: object
+                required: [mySubProp,anotherProp] # mySubProp required for MySchema
+                properties:
+                    anotherProp:
+                        type: string
+            */
+            // Add MySchema's required and properties
+            if (schema.getRequired() != null) {
+                required.addAll(schema.getRequired());
+            }
+            if (schema.getProperties() != null) {
+                properties.putAll(schema.getProperties());
+            }
+
             if (composedSchema.getAllOf() == null) {
                 return;
             }
 
+            // For allOfs also add SubSchema's required and properties and any
+            // further nested sub schemas within SubSchema
             for (Schema component : composedSchema.getAllOf()) {
                 addProperties(properties, required, component);
-            }
-
-            // Support this pattern:
-            /*
-            SubSchema:
-              type: object
-              properties:
-                mySubProp:
-                  type: string # mySubProp not required for SubSchema
-            MySchema:
-              allOf:
-                - $ref: '#/components/schemas/Action'
-              type: object
-              required: [mySubProp,anotherProp] # mySubProp required for MySchema
-              properties:
-                anotherProp:
-                  type: string
-            */
-            if (schema.getProperties() != null) {
-                properties.putAll(schema.getProperties());
-            }
-            if (schema.getRequired() != null) {
-                required.addAll(schema.getRequired());
             }
 
             return;
