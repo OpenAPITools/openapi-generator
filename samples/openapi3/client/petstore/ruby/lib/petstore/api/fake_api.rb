@@ -57,7 +57,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || []
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -66,7 +66,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_health_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -115,7 +115,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || []
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -124,7 +124,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_outer_boolean_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -173,7 +173,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || []
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -182,7 +182,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_outer_composite_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -231,7 +231,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || []
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -240,7 +240,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_outer_number_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -289,7 +289,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || []
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -298,7 +298,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#fake_outer_string_serialize\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -349,7 +349,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || []
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -358,7 +358,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_body_with_file_schema\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -414,7 +414,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || []
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -423,7 +423,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:PUT, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_body_with_query_params\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -478,7 +478,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || []
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -487,7 +487,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:PATCH, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:PATCH, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_client_model\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -646,7 +646,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || ['http_basic_test']
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -655,7 +655,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_endpoint_parameters\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -758,7 +758,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || []
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -767,7 +767,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_enum_parameters\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -842,7 +842,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || ['bearer_test']
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -851,7 +851,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:DELETE, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:DELETE, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_group_parameters\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -902,7 +902,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || []
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -911,7 +911,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_inline_additional_properties\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -970,7 +970,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || []
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -979,7 +979,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeApi#test_json_form_data\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

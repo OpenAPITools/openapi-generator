@@ -67,7 +67,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || ['api_key_query']
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -76,7 +76,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:PATCH, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:PATCH, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: FakeClassnameTags123Api#test_classname\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

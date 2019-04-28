@@ -63,7 +63,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || []
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -72,7 +72,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:DELETE, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:DELETE, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: StoreApi#delete_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -119,7 +119,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || ['api_key']
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -128,7 +128,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: StoreApi#get_inventory\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -189,7 +189,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || []
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -198,7 +198,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: StoreApi#get_order_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -251,7 +251,7 @@ module Petstore
       # auth_names
       auth_names = opts[:auth_names] || []
 
-      new_optios = opts.merge(
+      new_options = opts.merge(
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -260,7 +260,7 @@ module Petstore
         :return_type => return_type
       )
 
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_optios)
+      data, status_code, headers = @api_client.call_api(:POST, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: StoreApi#place_order\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
