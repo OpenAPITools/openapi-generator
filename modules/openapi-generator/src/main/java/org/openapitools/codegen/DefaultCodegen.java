@@ -1743,6 +1743,35 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
+            if (composed.getAllOf() != null) {
+                // Add any properties or required defined alongside oneOf/allOf/anyOf
+                // to support this pattern:
+                /*
+                SubSchema:
+                type: object
+                properties:
+                    mySubProp:
+                    type: string # mySubProp not required for SubSchema
+                MySchema:
+                allOf:
+                    - $ref: '#/components/schemas/Action'
+                type: object
+                required: [mySubProp,anotherProp] # mySubProp required for MySchema
+                properties:
+                    anotherProp:
+                    type: string
+                */
+                addProperties(allProperties, allRequired, schema);
+                Set<String> allMandatory = new TreeSet<String>(allRequired);
+                Set<String> mandatory = new TreeSet<String>(required);
+                allMandatory.addAll(mandatory);
+                required = new ArrayList<String>();
+                for (String req : allMandatory) {
+                    required.add(req);
+                }
+                allRequired = required;
+            }
+
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
 
             // end of code block for composed schema
@@ -1856,13 +1885,19 @@ public class DefaultCodegen implements CodegenConfig {
               type: object
               properties:
                 mySubProp:
-                  type: string # not required for SubSchema
+                  type: string # mySubProp not required for SubSchema
             MySchema:
               allOf:
                 - $ref: '#/components/schemas/Action'
               type: object
-              required: [mySubProp] # but required for MySchema
+              required: [mySubProp,anotherProp] # mySubProp required for MySchema
+              properties:
+                anotherProp:
+                  type: string
             */
+            if (schema.getProperties() != null) {
+                properties.putAll(schema.getProperties());
+            }
             if (schema.getRequired() != null) {
                 required.addAll(schema.getRequired());
             }
