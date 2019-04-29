@@ -1263,6 +1263,24 @@
       ]
     },
     {
+      "input": "typescript-rxjs-petstore-interfaces.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-rxjs-petstore-target-es6.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
+      "input": "typescript-rxjs-petstore-with-npm-version.sh",
+      "matches": [
+        "Client: TypeScript"
+      ]
+    },
+    {
       "input": "typescript-rxjs-petstore.sh",
       "matches": [
         "Client: TypeScript"
