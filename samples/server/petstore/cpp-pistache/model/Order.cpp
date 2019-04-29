@@ -44,69 +44,56 @@ void Order::validate()
     // TODO: implement validation
 }
 
-nlohmann::json Order::toJson() const
+void to_json(nlohmann::json& j, const Order& o)
 {
-    nlohmann::json val = nlohmann::json::object();
-
-    if(m_IdIsSet)
-    {
-        val["id"] = m_Id;
-    }
-    if(m_PetIdIsSet)
-    {
-        val["petId"] = m_PetId;
-    }
-    if(m_QuantityIsSet)
-    {
-        val["quantity"] = m_Quantity;
-    }
-    if(m_ShipDateIsSet)
-    {
-        val["shipDate"] = ModelBase::toJson(m_ShipDate);
-    }
-    if(m_StatusIsSet)
-    {
-        val["status"] = ModelBase::toJson(m_Status);
-    }
-    if(m_CompleteIsSet)
-    {
-        val["complete"] = m_Complete;
-    }
-    
-
-    return val;
+    j = nlohmann::json();
+    if(o.idIsSet())
+        j["id"] = o.m_Id;
+    if(o.petIdIsSet())
+        j["petId"] = o.m_PetId;
+    if(o.quantityIsSet())
+        j["quantity"] = o.m_Quantity;
+    if(o.shipDateIsSet())
+        j["shipDate"] = o.m_ShipDate;
+    if(o.statusIsSet())
+        j["status"] = o.m_Status;
+    if(o.completeIsSet())
+        j["complete"] = o.m_Complete;
 }
 
-void Order::fromJson(const nlohmann::json& val)
+void from_json(const nlohmann::json& j, Order& o)
 {
-    if(val.find("id") != val.end())
+    if(!j.at("id").is_null())
     {
-        setId(val.at("id"));
-    }
-    if(val.find("petId") != val.end())
+        j.at("id").get_to(o.m_Id);
+        o.m_IdIsSet = true;
+    } 
+    if(!j.at("petId").is_null())
     {
-        setPetId(val.at("petId"));
-    }
-    if(val.find("quantity") != val.end())
+        j.at("petId").get_to(o.m_PetId);
+        o.m_PetIdIsSet = true;
+    } 
+    if(!j.at("quantity").is_null())
     {
-        setQuantity(val.at("quantity"));
-    }
-    if(val.find("shipDate") != val.end())
+        j.at("quantity").get_to(o.m_Quantity);
+        o.m_QuantityIsSet = true;
+    } 
+    if(!j.at("shipDate").is_null())
     {
-        setShipDate(val.at("shipDate"));
-        
-    }
-    if(val.find("status") != val.end())
+        j.at("shipDate").get_to(o.m_ShipDate);
+        o.m_ShipDateIsSet = true;
+    } 
+    if(!j.at("status").is_null())
     {
-        setStatus(val.at("status"));
-    }
-    if(val.find("complete") != val.end())
+        j.at("status").get_to(o.m_Status);
+        o.m_StatusIsSet = true;
+    } 
+    if(!j.at("complete").is_null())
     {
-        setComplete(val.at("complete"));
-    }
-    
+        j.at("complete").get_to(o.m_Complete);
+        o.m_CompleteIsSet = true;
+    } 
 }
-
 
 int64_t Order::getId() const
 {

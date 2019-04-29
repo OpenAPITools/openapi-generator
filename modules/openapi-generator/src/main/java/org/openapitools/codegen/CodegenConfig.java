@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
+import org.openapitools.codegen.api.TemplatingEngineAdapter;
 
 import java.io.File;
 import java.util.List;
@@ -149,6 +150,8 @@ public interface CodegenConfig {
 
     Compiler processCompiler(Compiler compiler);
 
+    TemplatingEngineAdapter processTemplatingEngine(TemplatingEngineAdapter templatingEngine);
+
     String sanitizeTag(String tag);
 
     String toApiFilename(String name);
@@ -260,8 +263,11 @@ public interface CodegenConfig {
      */
     void setOpenAPI(OpenAPI openAPI);
 
+    void setTemplatingEngine(TemplatingEngineAdapter s);
+
+    TemplatingEngineAdapter getTemplatingEngine();
+
     public boolean isEnableMinimalUpdate();
 
     public void setEnableMinimalUpdate(boolean isEnableMinimalUpdate);
-
 }

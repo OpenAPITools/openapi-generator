@@ -28,6 +28,7 @@ public class PetApi {
         })
     }, tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class)
     })
     public Response addPet(@Valid Pet body) {
@@ -43,6 +44,7 @@ public class PetApi {
         })
     }, tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class)
     })
     public Response deletePet(@PathParam("petId") @ApiParam("Pet id to delete") Long petId,@HeaderParam("api_key")    String apiKey) {
@@ -107,6 +109,7 @@ public class PetApi {
         })
     }, tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         @ApiResponse(code = 405, message = "Validation exception", response = Void.class)

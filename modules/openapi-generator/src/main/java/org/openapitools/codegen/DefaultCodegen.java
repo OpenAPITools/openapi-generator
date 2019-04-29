@@ -41,9 +41,11 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
+import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GeneratorProperties;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.serializer.SerializerUtils;
+import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,6 +113,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected String ignoreFilePathOverride;
     // flag to indicate whether to use environment variable to post process file
     protected boolean enablePostProcessFile = false;
+    private TemplatingEngineAdapter templatingEngine = new MustacheEngineAdapter();
+
     // flag to indicate whether to only update files whose contents have changed
     protected boolean enableMinimalUpdate = false;
 
@@ -464,6 +468,12 @@ public class DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("unused")
     public Compiler processCompiler(Compiler compiler) {
         return compiler;
+    }
+
+    // override with any special handling for the templating engine
+    @SuppressWarnings("unused")
+    public TemplatingEngineAdapter processTemplatingEngine(TemplatingEngineAdapter templatingEngine) {
+        return templatingEngine;
     }
 
     // override with any special text escaping logic
@@ -3834,6 +3844,16 @@ public class DefaultCodegen implements CodegenConfig {
     @SuppressWarnings("static-method")
     public String sanitizeName(String name) {
         return sanitizeName(name, "\\W");
+    }
+
+    @Override
+    public void setTemplatingEngine(TemplatingEngineAdapter templatingEngine) {
+        this.templatingEngine = templatingEngine;
+    }
+
+    @Override
+    public TemplatingEngineAdapter getTemplatingEngine() {
+        return this.templatingEngine;
     }
 
     /**

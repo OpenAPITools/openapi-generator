@@ -25,8 +25,8 @@ install:
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\gradle-bin.zip", "C:\gradle")
       }
   - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;C:\gradle\gradle-5.3.1\bin;%JAVA_HOME%\bin;%PATH%
-  - cmd: SET MAVEN_OPTS=-XX:MaxPermSize=2g -Xmx4g
-  - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
+  - cmd: SET MAVEN_OPTS=-Xmx4g
+  - cmd: SET JAVA_OPTS=-Xmx4g
   - cmd: SET M2_HOME=C:\maven\apache-maven-3.2.5
   - cmd: java -version
   - cmd: gradle -v

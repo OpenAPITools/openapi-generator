@@ -38,44 +38,35 @@ void ApiResponse::validate()
     // TODO: implement validation
 }
 
-nlohmann::json ApiResponse::toJson() const
+void to_json(nlohmann::json& j, const ApiResponse& o)
 {
-    nlohmann::json val = nlohmann::json::object();
-
-    if(m_CodeIsSet)
-    {
-        val["code"] = m_Code;
-    }
-    if(m_TypeIsSet)
-    {
-        val["type"] = ModelBase::toJson(m_Type);
-    }
-    if(m_MessageIsSet)
-    {
-        val["message"] = ModelBase::toJson(m_Message);
-    }
-    
-
-    return val;
+    j = nlohmann::json();
+    if(o.codeIsSet())
+        j["code"] = o.m_Code;
+    if(o.typeIsSet())
+        j["type"] = o.m_Type;
+    if(o.messageIsSet())
+        j["message"] = o.m_Message;
 }
 
-void ApiResponse::fromJson(const nlohmann::json& val)
+void from_json(const nlohmann::json& j, ApiResponse& o)
 {
-    if(val.find("code") != val.end())
+    if(!j.at("code").is_null())
     {
-        setCode(val.at("code"));
-    }
-    if(val.find("type") != val.end())
+        j.at("code").get_to(o.m_Code);
+        o.m_CodeIsSet = true;
+    } 
+    if(!j.at("type").is_null())
     {
-        setType(val.at("type"));
-    }
-    if(val.find("message") != val.end())
+        j.at("type").get_to(o.m_Type);
+        o.m_TypeIsSet = true;
+    } 
+    if(!j.at("message").is_null())
     {
-        setMessage(val.at("message"));
-    }
-    
+        j.at("message").get_to(o.m_Message);
+        o.m_MessageIsSet = true;
+    } 
 }
-
 
 int32_t ApiResponse::getCode() const
 {

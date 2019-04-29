@@ -19,9 +19,8 @@
 #define Category_H_
 
 
-#include "ModelBase.h"
-
 #include <string>
+#include <nlohmann/json.hpp>
 
 namespace org {
 namespace openapitools {
@@ -32,19 +31,12 @@ namespace model {
 /// A category for a pet
 /// </summary>
 class  Category
-    : public ModelBase
 {
 public:
     Category();
     virtual ~Category();
 
-    /////////////////////////////////////////////
-    /// ModelBase overrides
-
-    void validate() override;
-
-    nlohmann::json toJson() const override;
-    void fromJson(const nlohmann::json& json) override;
+    void validate();
 
     /////////////////////////////////////////////
     /// Category members
@@ -64,6 +56,8 @@ public:
     bool nameIsSet() const;
     void unsetName();
 
+    friend void to_json(nlohmann::json& j, const Category& o);
+    friend void from_json(const nlohmann::json& j, Category& o);
 protected:
     int64_t m_Id;
     bool m_IdIsSet;
