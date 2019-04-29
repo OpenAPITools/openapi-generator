@@ -570,6 +570,23 @@ public class DefaultCodegenTest {
         Assert.assertTrue(property.isNullable);
     }
 
+    @Test
+    public void testAlias() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/type_alias.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel model = codegen.fromModel(
+                "MyParameterTextField",
+                openAPI.getComponents().getSchemas().get("MyParameterTextField")
+        );
+
+        Assert.assertTrue(model.isAlias);
+        Assert.assertEquals("string", model.dataType);
+    }
+
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
         CodegenDiscriminator test = new CodegenDiscriminator();
         test.setPropertyName("DollarUnderscoretype");
