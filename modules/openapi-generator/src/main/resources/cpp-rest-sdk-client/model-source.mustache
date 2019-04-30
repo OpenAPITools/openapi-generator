@@ -38,7 +38,7 @@ void {{classname}}::fromJson(const web::json::value& val)
     auto s = val.as_string();
 
     {{#allowableValues}}{{#values}}
-    if (s == L"{{.}}") m_value = e{{classname}}::{{classname}}_{{.}};{{/values}}{{/allowableValues}}
+    if (s == utility::string_t("{{.}}") m_value = e{{classname}}::{{classname}}_{{.}};{{/values}}{{/allowableValues}}
 }
 
 void {{classname}}::toMultipart(std::shared_ptr<MultipartFormData> multipart, const utility::string_t& prefix) const
@@ -71,7 +71,7 @@ void {{classname}}::fromMultiPart(std::shared_ptr<MultipartFormData> multipart, 
         e{{classname}} v;
         
         {{#allowableValues}}{{#values}}
-        if (s == L"{{.}}") v = e{{classname}}::{{classname}}_{{.}};{{/values}}{{/allowableValues}}
+        if (s == utility::string_t("{{.}}") v = e{{classname}}::{{classname}}_{{.}};{{/values}}{{/allowableValues}}
 
         setValue(v);
     }
