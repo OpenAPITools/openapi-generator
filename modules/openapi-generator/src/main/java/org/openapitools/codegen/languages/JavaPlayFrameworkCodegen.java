@@ -62,8 +62,8 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         artifactId = "openapi-java-playframework";
 
         projectFolder = "";
-        sourceFolder = projectFolder + File.separator + "app";
-        projectTestFolder = projectFolder + File.separator + "test";
+        sourceFolder = projectFolder + "/app";
+        projectTestFolder = projectFolder + "/test";
         testFolder = projectTestFolder;
 
         // clioOptions default redifinition need to be updated

@@ -28,7 +28,7 @@ sidebar_label: groovy
 |developerOrganizationUrl|developer organization URL in generated pom.xml| |http://openapitools.org|
 |licenseName|The name of the license| |Unlicense|
 |licenseUrl|The URL of the license| |http://unlicense.org|
-|sourceFolder|source folder for generated code| |src/main\groovy|
+|sourceFolder|source folder for generated code| |src/main/groovy|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |false|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |fullJavaUtil|whether to use fully qualified name for classes under java.util. This option only works for Java API client| |false|

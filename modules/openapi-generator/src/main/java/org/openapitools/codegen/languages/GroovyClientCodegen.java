@@ -41,7 +41,7 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
         languageSpecificPrimitives.add("File");
         languageSpecificPrimitives.add("Map");
 
-        sourceFolder = projectFolder + File.separator + "groovy";
+        sourceFolder = projectFolder + "/groovy";
         outputFolder = "generated-code/groovy";
         modelTemplateFiles.put("model.mustache", ".groovy");
         apiTemplateFiles.put("api.mustache", ".groovy");
