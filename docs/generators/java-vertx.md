@@ -15,8 +15,8 @@ sidebar_label: java-vertx
 |apiPackage|package for generated api classes| |org.openapitools.server.api.verticle|
 |invokerPackage|root package for generated code| |org.openapitools|
 |groupId|groupId in generated pom.xml| |org.openapitools|
-|artifactId|artifactId in generated pom.xml| |openapi-java-vertx-server|
-|artifactVersion|artifact version in generated pom.xml| |1.0.0-SNAPSHOT|
+|artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-java-vertx-server|
+|artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0-SNAPSHOT|
 |artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
