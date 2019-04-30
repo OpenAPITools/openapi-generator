@@ -11,11 +11,11 @@ sidebar_label: java-pkmst
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|modelPackage|package for generated models| |null|
-|apiPackage|package for generated api classes| |null|
-|invokerPackage|root package for generated code| |org.openapitools|
-|groupId|groupId in generated pom.xml| |org.openapitools|
-|artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-java|
+|modelPackage|package for generated models| |com.prokarma.pkmst.model|
+|apiPackage|package for generated api classes| |com.prokarma.pkmst.controller|
+|invokerPackage|root package for generated code| |com.prokarma.pkmst.controller|
+|groupId|groupId in generated pom.xml| |com.prokarma|
+|artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |pkmst-microservice|
 |artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
 |artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
@@ -42,9 +42,6 @@ sidebar_label: java-pkmst
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |snapshotVersion|Uses a SNAPSHOT version.|<dl><dt>**true**</dt><dd>Use a SnapShot Version</dd><dt>**false**</dt><dd>Use a Release Version</dd><dl>|null|
-|groupId|groupId in generated pom.xml| |null|
-|artifactId|artifactId in generated pom.xml| |null|
-|artifactVersion|artifact version in generated pom.xml| |null|
 |basePackage|base package for java source code| |null|
 |serviceName|Service Name| |null|
 |title|server title name or client service name| |null|
