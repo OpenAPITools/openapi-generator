@@ -152,12 +152,6 @@ public class CodeGenMojo extends AbstractMojo {
     private String apiPackage;
 
     /**
-     * Suffix for api classes
-     */
-    @Parameter(name = "apiSuffix", required = false, defaultValue = "Api")
-    private String apiSuffix = "Api";
-
-    /**
      * The package to use for generated model objects/classes
      */
     @Parameter(name = "modelPackage")
@@ -526,10 +520,6 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (isNotEmpty(packageName)) {
                 configurator.setPackageName(packageName);
-            }
-
-            if (isNotEmpty(apiSuffix)) {
-                configurator.setApiSuffix(apiSuffix);
             }
 
             if (isNotEmpty(groupId)) {
