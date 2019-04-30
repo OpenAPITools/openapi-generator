@@ -10,9 +10,15 @@ import {isCodeInRange} from '../util';
 import { ApiResponse } from '../models/ApiResponse';
 import { Pet } from '../models/Pet';
 
+/**
+ * no description
+ */
 export class PetApiRequestFactory extends BaseAPIRequestFactory {
-	// TODO: allow passing of Configuration via Options (=> overwrites config set for this request factory
 	
+    /**
+     * Add a new pet to the store
+     * @param pet Pet object that needs to be added to the store
+     */
     public addPet(pet: Pet, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -53,6 +59,11 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * Deletes a pet
+     * @param petId Pet id to delete
+     * @param apiKey 
+     */
     public deletePet(petId: number, apiKey?: string, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -91,6 +102,11 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * Multiple status values can be provided with comma separated strings
+     * Finds Pets by status
+     * @param status Status values that need to be considered for filter
+     */
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -129,6 +145,11 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * Finds Pets by tags
+     * @param tags Tags to filter by
+     */
     public findPetsByTags(tags: Array<string>, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -167,6 +188,11 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * Returns a single pet
+     * Find pet by ID
+     * @param petId ID of pet to return
+     */
     public getPetById(petId: number, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -203,6 +229,10 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * Update an existing pet
+     * @param pet Pet object that needs to be added to the store
+     */
     public updatePet(pet: Pet, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -243,6 +273,12 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * Updates a pet in the store with form data
+     * @param petId ID of pet that needs to be updated
+     * @param name Updated name of the pet
+     * @param status Updated status of the pet
+     */
     public updatePetWithForm(petId: number, name?: string, status?: string, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -291,6 +327,12 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * uploads an image
+     * @param petId ID of pet to update
+     * @param additionalMetadata Additional data to pass to server
+     * @param file file to upload
+     */
     public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -341,14 +383,15 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 			
 }
 
-// TODO: find way to split these two files (both dependent on apitemplatefiles)
-
 
 
 export class PetApiResponseProcessor {
 	
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public addPet(response: ResponseContext):   void  {      
@@ -365,7 +408,10 @@ export class PetApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public deletePet(response: ResponseContext):   void  {      
@@ -382,7 +428,10 @@ export class PetApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public findPetsByStatus(response: ResponseContext):  Array<Pet>  {      
@@ -406,7 +455,10 @@ export class PetApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public findPetsByTags(response: ResponseContext):  Array<Pet>  {      
@@ -430,7 +482,10 @@ export class PetApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public getPetById(response: ResponseContext):  Pet  {      
@@ -457,7 +512,10 @@ export class PetApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public updatePet(response: ResponseContext):   void  {      
@@ -480,7 +538,10 @@ export class PetApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public updatePetWithForm(response: ResponseContext):   void  {      
@@ -497,7 +558,10 @@ export class PetApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public uploadFile(response: ResponseContext):  ApiResponse  {      
