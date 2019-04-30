@@ -71,7 +71,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Set<String> reservedWords = new HashSet<String>();
     protected Set<String> languageSpecificPrimitives = new HashSet<String>();
     protected Map<String, String> importMapping = new HashMap<String, String>();
-    protected String modelPackage = "", apiPackage = "", apiSuffix = "", fileSuffix;
+    protected String modelPackage = "", apiPackage = "", apiSuffix = "Api", fileSuffix;
     protected String modelNamePrefix = "", modelNameSuffix = "";
     protected String testPackage = "";
     protected Map<String, String> apiTemplateFiles = new HashMap<String, String>();
