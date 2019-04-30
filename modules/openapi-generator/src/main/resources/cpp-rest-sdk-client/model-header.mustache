@@ -43,6 +43,11 @@ public:
     {
         {{#allowableValues}}
         {{#values}}
+        {{#enumDescription}}
+        /// <summary>
+        /// {{enumDescription}}
+        /// </summary>
+        {{/enumDescription}}
         {{classname}}_{{.}}{{^last}},{{/last}}
         {{/values}}
         {{/allowableValues}}
