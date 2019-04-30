@@ -18,7 +18,7 @@ declare -a scripts=(
 "./bin/java-jaxrs-petstore-server-all.sh"
 "./bin/java-msf4j-petstore-server.sh"
 "./bin/openapi3/jaxrs-jersey-petstore.sh"
-"./bin/spring-all-pestore.sh"
+"./bin/spring-all-petstore.sh"
 "./bin/javascript-petstore-all.sh"
 "./bin/kotlin-client-petstore.sh"
 "./bin/kotlin-client-string.sh"
