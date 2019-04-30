@@ -94,12 +94,19 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public JavaClientCodegen() {
         super();
+
         outputFolder = "generated-code" + File.separator + "java";
         embeddedTemplateDir = templateDir = "Java";
         invokerPackage = "org.openapitools.client";
         artifactId = "openapi-java-client";
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.model";
+
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
         modelTestTemplateFiles.put("model_test.mustache", ".java");
 

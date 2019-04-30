@@ -54,17 +54,22 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-server";
         dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
-
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
+
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
 
         additionalProperties.put("title", title);
         // java inflector uses the jackson lib
         additionalProperties.put("jackson", "true");
 
-        cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC));
-        cliOptions.add(new CliOption("title", "a title describing the application"));
-
+        cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC).defaultValue(implFolder));
+        cliOptions.add(new CliOption("title", "a title describing the application").defaultValue(title));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
         cliOptions.add(new CliOption(SERVER_PORT, "The port on which the server should be started"));
     }

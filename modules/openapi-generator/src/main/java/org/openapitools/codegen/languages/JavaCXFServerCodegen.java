@@ -77,6 +77,9 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         outputFolder = "generated-code/JavaJaxRS-CXF";
 
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+
         apiTemplateFiles.put("apiServiceImpl.mustache", ".java");
 
         // clear model and api doc template as this codegen

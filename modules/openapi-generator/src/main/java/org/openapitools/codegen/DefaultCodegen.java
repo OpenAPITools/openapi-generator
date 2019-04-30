@@ -705,8 +705,16 @@ public class DefaultCodegen implements CodegenConfig {
         this.modelPackage = modelPackage;
     }
 
+    public String getModelNamePrefix() {
+        return modelNamePrefix;
+    }
+
     public void setModelNamePrefix(String modelNamePrefix) {
         this.modelNamePrefix = modelNamePrefix;
+    }
+
+    public String getModelNameSuffix() {
+        return modelNameSuffix;
     }
 
     public void setModelNameSuffix(String modelNameSuffix) {
@@ -717,16 +725,32 @@ public class DefaultCodegen implements CodegenConfig {
         this.apiPackage = apiPackage;
     }
 
+    public Boolean getSortParamsByRequiredFlag() {
+        return sortParamsByRequiredFlag;
+    }
+
     public void setSortParamsByRequiredFlag(Boolean sortParamsByRequiredFlag) {
         this.sortParamsByRequiredFlag = sortParamsByRequiredFlag;
+    }
+
+    public Boolean getPrependFormOrBodyParameters() {
+        return prependFormOrBodyParameters;
     }
 
     public void setPrependFormOrBodyParameters(Boolean prependFormOrBodyParameters) {
         this.prependFormOrBodyParameters = prependFormOrBodyParameters;
     }
 
+    public Boolean getEnsureUniqueParams() {
+        return ensureUniqueParams;
+    }
+
     public void setEnsureUniqueParams(Boolean ensureUniqueParams) {
         this.ensureUniqueParams = ensureUniqueParams;
+    }
+
+    public Boolean getAllowUnicodeIdentifiers() {
+        return allowUnicodeIdentifiers;
     }
 
     public void setAllowUnicodeIdentifiers(Boolean allowUnicodeIdentifiers) {
@@ -4759,6 +4783,15 @@ public class DefaultCodegen implements CodegenConfig {
         if (defaultValue != null)
             option.defaultValue(defaultValue);
         cliOptions.add(option);
+    }
+
+    protected void updateOption(String key, String defaultValue) {
+        for(int i = 0; i < cliOptions.size(); i++) {
+            if(cliOptions.get(i).getOpt().equals(key)) {
+                cliOptions.get(i).setDefault(defaultValue);
+                return;
+            }
+        }
     }
 
     protected void addSwitch(String key, String description, Boolean defaultValue) {

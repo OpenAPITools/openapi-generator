@@ -18,6 +18,7 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 
@@ -29,7 +30,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 public class GroovyClientCodegen extends AbstractJavaCodegen {
     public static final String CONFIG_PACKAGE = "configPackage";
     protected String title = "Petstore Server";
-    protected String configPackage = "";
+    protected String configPackage = "org.openapitools.configuration";
 
     public GroovyClientCodegen() {
         super();
@@ -55,15 +56,22 @@ public class GroovyClientCodegen extends AbstractJavaCodegen {
 
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
-        configPackage = "org.openapitools.configuration";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-groovy";
         dateLibrary = "legacy"; //TODO: add joda support to groovy
 
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+
         additionalProperties.put("title", title);
         additionalProperties.put(CONFIG_PACKAGE, configPackage);
 
-        cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
+        cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code").defaultValue(this.configPackage));
     }
 
     @Override
