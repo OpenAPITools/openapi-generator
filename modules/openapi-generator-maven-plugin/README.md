@@ -40,7 +40,6 @@ mvn clean compile
 :bulb: These **general** configurations should be in the same level
 
 - `inputSpec` - OpenAPI Spec file path
-- `validateSpec` - Whether or not to validate the input spec prior to generation. Invalid specifications will result in an error.
 - `language` - target generation language (deprecated, replaced by `generatorName` as values here don't represent only 'language' any longer)
 - `generatorName` - target generator name
 - `output` - target output path (default is `${project.build.directory}/generated-sources/openapi`. Can also be set globally through the `openapi.generator.maven.plugin.output` property)
@@ -57,7 +56,7 @@ mvn clean compile
 - `removeOperationIdPrefix` - remove operationId prefix (e.g. user_getName => getName)
 - `logToStderr` - write all log messages (not just errors) to STDOUT
 - `enablePostProcessFile` - enable file post-processing hook
-- `skipValidateSpec` - skip spec validation
+- `skipValidateSpec` - Whether or not to skip validating the input spec prior to generation. By default, invalid specifications will result in an error.
 - `generateAliasAsModel` - generate alias (array, map) as model
 - `generateApis` - generate the apis (`true` by default)
 - `generateApiTests` - generate the api tests (`true` by default. Only available if `generateApis` is `true`)

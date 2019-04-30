@@ -13,7 +13,6 @@ use std::marker::PhantomData;
 use hyper;
 use rust_server_test;
 use swagger::{Has, XSpanIdString};
-use swagger::auth::Authorization;
 
 pub struct NewService<C>{
     marker: PhantomData<C>

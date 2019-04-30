@@ -24,7 +24,7 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.mustache.*;
+import org.openapitools.codegen.templating.mustache.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

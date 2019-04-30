@@ -170,10 +170,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
                 this.optionalProjectFileFlag);
 
-        addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
-                CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
-                this.optionalEmitDefaultValue);
-
         addSwitch(CodegenConstants.GENERATE_PROPERTY_CHANGED,
                 CodegenConstants.PACKAGE_DESCRIPTION_DESC,
                 this.generatePropertyChanged);
@@ -329,9 +325,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         additionalProperties.put("supportsUWP", this.supportsUWP);
         additionalProperties.put("netStandard", this.netStandard);
         additionalProperties.put("targetFrameworkNuget", this.targetFrameworkNuget);
-
-        // TODO: either remove this and update templates to match the "optionalEmitDefaultValues" property, or rename that property.
-        additionalProperties.put("emitDefaultValue", optionalEmitDefaultValue);
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
             setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));

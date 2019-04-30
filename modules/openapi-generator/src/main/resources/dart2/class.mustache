@@ -83,7 +83,7 @@ class {{classname}} {
 
   static Map<String, {{classname}}> mapFromJson(Map<String, dynamic> json) {
     var map = new Map<String, {{classname}}>();
-    if (json != null && json.length > 0) {
+    if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic value) => map[key] = new {{classname}}.fromJson(value));
     }
     return map;

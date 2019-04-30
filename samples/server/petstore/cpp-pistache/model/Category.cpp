@@ -36,36 +36,28 @@ void Category::validate()
     // TODO: implement validation
 }
 
-nlohmann::json Category::toJson() const
+void to_json(nlohmann::json& j, const Category& o)
 {
-    nlohmann::json val = nlohmann::json::object();
-
-    if(m_IdIsSet)
-    {
-        val["id"] = m_Id;
-    }
-    if(m_NameIsSet)
-    {
-        val["name"] = ModelBase::toJson(m_Name);
-    }
-    
-
-    return val;
+    j = nlohmann::json();
+    if(o.idIsSet())
+        j["id"] = o.m_Id;
+    if(o.nameIsSet())
+        j["name"] = o.m_Name;
 }
 
-void Category::fromJson(const nlohmann::json& val)
+void from_json(const nlohmann::json& j, Category& o)
 {
-    if(val.find("id") != val.end())
+    if(!j.at("id").is_null())
     {
-        setId(val.at("id"));
-    }
-    if(val.find("name") != val.end())
+        j.at("id").get_to(o.m_Id);
+        o.m_IdIsSet = true;
+    } 
+    if(!j.at("name").is_null())
     {
-        setName(val.at("name"));
-    }
-    
+        j.at("name").get_to(o.m_Name);
+        o.m_NameIsSet = true;
+    } 
 }
-
 
 int64_t Category::getId() const
 {

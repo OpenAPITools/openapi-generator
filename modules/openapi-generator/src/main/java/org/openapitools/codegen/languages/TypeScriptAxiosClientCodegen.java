@@ -23,6 +23,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -38,6 +39,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String SNAPSHOT = "snapshot";
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String SEPARATE_MODELS_AND_API = "withSeparateModelsAndApi";
+    public static final String WITHOUT_PREFIX_ENUMS = "withoutPrefixEnums";
 
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
@@ -61,6 +63,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(SEPARATE_MODELS_AND_API, "Put the model and api in separate folders and in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(WITHOUT_PREFIX_ENUMS, "Dont prefix enum names with class names", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -151,24 +154,6 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    public String getTypeDeclaration(Schema p) {
-        Schema inner;
-        if (ModelUtils.isArraySchema(p)) {
-            inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            inner = ModelUtils.getAdditionalProperties(p);
-            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
-        } else if (ModelUtils.isFileSchema(p)) {
-            return "any";
-        } else if (ModelUtils.isBinarySchema(p)) {
-            return "any";
-        } else {
-            return super.getTypeDeclaration(p);
-        }
-    }
-
-    @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> vals = (Map<String, Object>) objs.getOrDefault("operations", new HashMap<>());
@@ -193,22 +178,47 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        Map<String, Object> ret = super.postProcessModels(objs);
-        // Deduce the model file name in kebab case
-        List<Map<String, Object>> models = (List<Map<String, Object>>) ret.get("models");
-        for (Map<String, Object> m : models) {
-            CodegenModel model = (CodegenModel) m.get("model");
-            model.classFilename = model.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
+        List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
+
+        boolean withoutPrefixEnums = (boolean)additionalProperties.getOrDefault(WITHOUT_PREFIX_ENUMS, false);
+
+        for (Object _mo  : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            // Deduce the model file name in kebab case
+            cm.classFilename = cm.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
+
+            //processed enum names
+            if(!withoutPrefixEnums) {
+                cm.imports = new TreeSet(cm.imports);
+                // name enum with model name, e.g. StatusEnum => PetStatusEnum
+                for (CodegenProperty var : cm.vars) {
+                    if (Boolean.TRUE.equals(var.isEnum)) {
+                        var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+                        var.enumName = var.enumName.replace(var.enumName, cm.classname + var.enumName);
+                    }
+                }
+                if (cm.parent != null) {
+                    for (CodegenProperty var : cm.allVars) {
+                        if (Boolean.TRUE.equals(var.isEnum)) {
+                            var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+                            var.enumName = var.enumName.replace(var.enumName, cm.classname + var.enumName);
+                        }
+                    }
+                }
+            }
         }
+        
         // Apply the model file name to the imports as well
-        for (Map<String, String> m : (List<Map<String, String>>) ret.get("imports")) {
+        for (Map<String, String> m : (List<Map<String, String>>) objs.get("imports")) {
             String javaImport = m.get("import").substring(modelPackage.length() + 1);
             String tsImport = tsModelPackage + "/" + javaImport;
             m.put("tsImport", tsImport);
             m.put("class", javaImport);
             m.put("filename", javaImport.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT));
         }
-        return ret;
+        return objs;
     }
 
     @Override

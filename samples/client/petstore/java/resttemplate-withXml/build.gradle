@@ -84,7 +84,7 @@ if(hasProperty('target') && target == 'android') {
 
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'pestore-resttemplate-withxml'
+            pom.artifactId = 'petstore-resttemplate-withxml'
         }
     }
     

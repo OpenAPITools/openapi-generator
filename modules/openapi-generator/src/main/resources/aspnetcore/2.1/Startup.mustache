@@ -43,7 +43,9 @@ namespace {{packageName}}
             // Add framework services.
             services
                 .AddMvc()
-                .SetCompatibilityVersion                (CompatibilityVersion.Version_2_1)
+                {{#compatibilityVersion}}
+                .SetCompatibilityVersion                (CompatibilityVersion.{{compatibilityVersion}})
+                {{/compatibilityVersion}}
                 .AddJsonOptions(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();

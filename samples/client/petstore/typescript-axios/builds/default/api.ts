@@ -43,7 +43,6 @@ export interface ApiResponse {
      */
     message?: string;
 }
-
 /**
  * A category for a pet
  * @export
@@ -63,7 +62,6 @@ export interface Category {
      */
     name?: string;
 }
-
 /**
  * An order for a pets from the pet store
  * @export
@@ -99,7 +97,7 @@ export interface Order {
      * @type {string}
      * @memberof Order
      */
-    status?: Order.StatusEnum;
+    status?: OrderStatusEnum;
     /**
      * 
      * @type {boolean}
@@ -109,19 +107,13 @@ export interface Order {
 }
 
 /**
- * @export
- * @namespace Order
- */
-export namespace Order {
-    /**
-     * @export
-     * @enum {string}
-     */
-    export enum StatusEnum {
-        Placed = 'placed',
-        Approved = 'approved',
-        Delivered = 'delivered'
-    }
+    * @export
+    * @enum {string}
+    */
+export enum OrderStatusEnum {
+    Placed = 'placed',
+    Approved = 'approved',
+    Delivered = 'delivered'
 }
 
 /**
@@ -165,23 +157,17 @@ export interface Pet {
      * @type {string}
      * @memberof Pet
      */
-    status?: Pet.StatusEnum;
+    status?: PetStatusEnum;
 }
 
 /**
- * @export
- * @namespace Pet
- */
-export namespace Pet {
-    /**
-     * @export
-     * @enum {string}
-     */
-    export enum StatusEnum {
-        Available = 'available',
-        Pending = 'pending',
-        Sold = 'sold'
-    }
+    * @export
+    * @enum {string}
+    */
+export enum PetStatusEnum {
+    Available = 'available',
+    Pending = 'pending',
+    Sold = 'sold'
 }
 
 /**
@@ -203,7 +189,6 @@ export interface Tag {
      */
     name?: string;
 }
-
 /**
  * A User who is purchasing from the pet store
  * @export
@@ -259,7 +244,6 @@ export interface User {
      */
     userStatus?: number;
 }
-
 
 /**
  * PetApi - axios parameter creator

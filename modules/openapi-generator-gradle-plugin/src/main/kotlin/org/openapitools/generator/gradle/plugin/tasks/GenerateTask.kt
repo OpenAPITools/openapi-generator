@@ -535,7 +535,7 @@ open class GenerateTask : DefaultTask() {
             }
 
             skipValidateSpec.ifNotEmpty { value ->
-                configurator.setValidateSpec(value)
+                configurator.setValidateSpec(!value)
             }
 
             generateAliasAsModel.ifNotEmpty { value ->

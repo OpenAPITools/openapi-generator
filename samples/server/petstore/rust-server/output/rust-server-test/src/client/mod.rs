@@ -256,13 +256,21 @@ impl<F, C> Api<C> for Client<F> where
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -311,6 +319,15 @@ impl<F, C> Api<C> for Client<F> where
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -318,9 +335,7 @@ impl<F, C> Api<C> for Client<F> where
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-
         let body = serde_json::to_string(&param_nested_response).expect("impossible to fail to serialize");
-
 
         request.set_body(body.into_bytes());
 
@@ -372,13 +387,21 @@ impl<F, C> Api<C> for Client<F> where
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -437,6 +460,15 @@ impl<F, C> Api<C> for Client<F> where
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
@@ -445,7 +477,6 @@ impl<F, C> Api<C> for Client<F> where
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
         let body = param_body;
-
 
         request.set_body(body.into_bytes());
 
@@ -506,13 +537,21 @@ impl<F, C> Api<C> for Client<F> where
             self.base_path
         );
 
+        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+
+
+        let query_string_str = query_string.finish();
+        if !query_string_str.is_empty() {
+            uri += "?";
+            uri += &query_string_str;
+        }
+
         let uri = match Uri::from_str(&uri) {
             Ok(uri) => uri,
             Err(err) => return Box::new(futures::done(Err(ApiError(format!("Unable to build URI: {}", err))))),
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));

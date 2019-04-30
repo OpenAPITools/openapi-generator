@@ -236,7 +236,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (name.length() == 0) {
             return "Default";
         }
-        return initialCaps(name);
+        return camelize(name);
     }
 
     @Override

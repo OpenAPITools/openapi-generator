@@ -468,8 +468,20 @@ public class ApiClient {
      * @return Object the selected body
      */
     protected BodyInserter<?, ? super ClientHttpRequest> selectBody(Object obj, MultiValueMap<String, Object> formParams, MediaType contentType) {
-        boolean isForm = MediaType.MULTIPART_FORM_DATA.isCompatibleWith(contentType) || MediaType.APPLICATION_FORM_URLENCODED.isCompatibleWith(contentType);
-        return isForm ? BodyInserters.fromMultipartData(formParams) : (obj != null ? BodyInserters.fromObject(obj) : null);
+        if(MediaType.APPLICATION_FORM_URLENCODED.equals(contentType)) {
+            MultiValueMap<String, String> map = new LinkedMultiValueMap();
+
+            formParams
+                    .toSingleValueMap()
+                    .entrySet()
+                    .forEach(es -> map.add(es.getKey(), (String) es.getValue()));
+
+            return BodyInserters.fromFormData(map);
+        } else if(MediaType.MULTIPART_FORM_DATA.equals(contentType)) {
+            return BodyInserters.fromMultipartData(formParams);
+        } else {
+            return obj != null ? BodyInserters.fromObject(obj) : null;
+        }
     }
 
     /**

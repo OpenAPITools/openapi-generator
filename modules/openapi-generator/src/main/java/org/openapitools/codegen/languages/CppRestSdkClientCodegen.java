@@ -31,6 +31,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import java.util.*;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
@@ -207,7 +208,7 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         } else {
-            return "#include \"" + sanitizeName(name) + ".h\"";
+            return "#include \"" + toModelFilename(name) + ".h\"";
         }
     }
 
@@ -288,12 +289,12 @@ public class CppRestSdkClientCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return sanitizeName(initialCaps(name));
+        return sanitizeName(toModelName(name));
     }
 
     @Override
     public String toApiFilename(String name) {
-        return sanitizeName(initialCaps(name) + "Api");
+        return sanitizeName(toModelName(name) + "Api");
     }
 
     /**

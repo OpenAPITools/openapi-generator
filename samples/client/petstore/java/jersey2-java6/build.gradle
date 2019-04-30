@@ -7,7 +7,7 @@ version = '1.0.0'
 buildscript {
     repositories {
         jcenter {
-            url "http://jcenter.bintray.com/"
+            url "https://jcenter.bintray.com/"
         }
     }
     dependencies {

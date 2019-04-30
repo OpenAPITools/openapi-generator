@@ -57,7 +57,7 @@ sub new {
     my $params = {
     };
     __PACKAGE__->method_documentation->{ 'foo_get' } = { 
-    	summary => '',
+        summary => '',
         params => $params,
         returns => 'InlineResponseDefault',
         };

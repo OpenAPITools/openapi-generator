@@ -39,7 +39,7 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTypeScriptClientCodegen.class);
 
-    protected final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
+    protected static final SimpleDateFormat SNAPSHOT_SUFFIX_FORMAT = new SimpleDateFormat("yyyyMMddHHmm", Locale.ROOT);
 
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static final String UNDEFINED_VALUE = "undefined";
@@ -84,10 +84,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "any",
                 "File",
                 "Error",
-                "Map"
+                "Map",
+                "object"
         ));
 
-        languageGenericTypes = new HashSet<String>(Arrays.asList(
+        languageGenericTypes = new HashSet<>(Arrays.asList(
                 "Array"
         ));
 
@@ -106,7 +107,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("short", "number");
         typeMapping.put("char", "string");
         typeMapping.put("double", "number");
-        typeMapping.put("object", "any");
+        typeMapping.put("object", "object");
         typeMapping.put("integer", "number");
         typeMapping.put("Map", "any");
         typeMapping.put("map", "any");
@@ -327,14 +328,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      * @param dataType either "string" or "number"
      * @return a literal union for representing enum values as a type
      */
-    protected String enumValuesToEnumTypeUnion(List<String> values, String dataType) {
+    private String enumValuesToEnumTypeUnion(List<String> values, String dataType) {
         StringBuilder b = new StringBuilder();
         boolean isFirst = true;
         for (String value : values) {
             if (!isFirst) {
                 b.append(" | ");
             }
-            b.append(toEnumValue(value.toString(), dataType));
+            b.append(toEnumValue(value, dataType));
             isFirst = false;
         }
         return b.toString();
@@ -347,7 +348,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      * @param values a list of numbers
      * @return a literal union for representing enum values as a type
      */
-    protected String numericEnumValuesToEnumTypeUnion(List<Number> values) {
+    private String numericEnumValuesToEnumTypeUnion(List<Number> values) {
         List<String> stringValues = new ArrayList<>();
         for (Number value : values) {
             stringValues.add(value.toString());
@@ -363,12 +364,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isDateTimeSchema(p)) {
             return UNDEFINED_VALUE;
-        } else if (ModelUtils.isNumberSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            }
-            return UNDEFINED_VALUE;
-        } else if (ModelUtils.isIntegerSchema(p)) {
+        } else if (ModelUtils.isNumberSchema(p) || ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
@@ -434,7 +430,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return this.modelPropertyNaming;
     }
 
-    public String getNameUsingModelPropertyNaming(String name) {
+    private String getNameUsingModelPropertyNaming(String name) {
         switch (CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.valueOf(getModelPropertyNaming())) {
             case original:
                 return name;
@@ -591,6 +587,17 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public String escapeQuotationMark(String input) {
         // remove ', " to avoid code injection
         return input.replace("\"", "").replace("'", "");
+
+    }
+
+    @Override
+    public String escapeText(String input) {
+        if (input == null) {
+            return input;
+        }
+
+        // replace ' with \'
+        return super.escapeText(input).replace("\'", "\\\'");
     }
 
     @Override

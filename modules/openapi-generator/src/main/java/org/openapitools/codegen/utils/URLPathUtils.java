@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.oas.models.servers.ServerVariables;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,19 +53,33 @@ public class URLPathUtils {
     public static URL getServerURL(final Server server) {
         String url = server.getUrl();
         ServerVariables variables = server.getVariables();
-        if(variables == null) {
+        if (variables == null) {
             variables = new ServerVariables();
         }
+        if (StringUtils.isNotBlank(url)) {
+            url = extractUrl(server, url, variables);
+            url = sanitizeUrl(url);
+
+            try {
+                return new URL(url);
+            } catch (MalformedURLException e) {
+                LOGGER.warn("Not valid URL: {}. Default to {}.", server.getUrl(), LOCAL_HOST);
+            }
+        }
+        return getDefaultUrl();
+    }
+
+    private static String extractUrl(Server server, String url, ServerVariables variables) {
         Set<String> replacedVariables = new HashSet<>();
         Matcher matcher = VARIABLE_PATTERN.matcher(url);
-        while(matcher.find()) {
-            if(!replacedVariables.contains(matcher.group())) {
+        while (matcher.find()) {
+            if (!replacedVariables.contains(matcher.group())) {
                 ServerVariable variable = variables.get(matcher.group(1));
                 String replacement;
-                if(variable != null) {
-                    if(variable.getDefault() != null) {
+                if (variable != null) {
+                    if (variable.getDefault() != null) {
                         replacement = variable.getDefault();
-                    } else if(variable.getEnum() != null && !variable.getEnum().isEmpty()) {
+                    } else if (variable.getEnum() != null && !variable.getEnum().isEmpty()) {
                         replacement = variable.getEnum().get(0);
                     } else {
                         LOGGER.warn("No value found for variable '{}' in server definition '{}', default to empty string.", matcher.group(1), server.getUrl());
@@ -79,14 +94,7 @@ public class URLPathUtils {
                 matcher = VARIABLE_PATTERN.matcher(url);
             }
         }
-        url = sanitizeUrl(url);
-
-        try {
-            return new URL(url);
-        } catch (MalformedURLException e) {
-            LOGGER.warn("Not valid URL: {}. Default to {}.", server.getUrl(), LOCAL_HOST);
-            return getDefaultUrl();
-        }
+        return url;
     }
 
     public static String getScheme(OpenAPI openAPI, CodegenConfig config) {
@@ -110,7 +118,8 @@ public class URLPathUtils {
 
     /**
      * Return the port, example value <code>8080</code>
-     * @param url server url
+     *
+     * @param url         server url
      * @param defaultPort if the port is not set
      * @return port
      */
@@ -120,7 +129,8 @@ public class URLPathUtils {
 
     /**
      * Return the port, example value <code>8080</code>
-     * @param url server url
+     *
+     * @param url         server url
      * @param defaultPort if the port is not set
      * @return port
      */
@@ -134,7 +144,8 @@ public class URLPathUtils {
 
     /**
      * Return the path, example value <code>/abcdef/xyz</code>
-     * @param url server url
+     *
+     * @param url         server url
      * @param defaultPath if the path is not empty
      * @return path
      */
@@ -148,6 +159,7 @@ public class URLPathUtils {
 
     /**
      * Get the protocol and the host, example value <code>https://www.abcdef.xyz</code>
+     *
      * @param url server url
      * @return protocolAndHost
      */
@@ -156,12 +168,13 @@ public class URLPathUtils {
             return LOCAL_HOST;
         } else {
             String protocol = (url.getProtocol() == null) ? "http" : url.getProtocol();
-            return protocol + "://"+  url.getHost();
+            return protocol + "://" + url.getHost();
         }
     }
 
     /**
      * Return the first complete URL from the OpenAPI specification
+     *
      * @param openAPI current OpenAPI specification
      * @return host
      */

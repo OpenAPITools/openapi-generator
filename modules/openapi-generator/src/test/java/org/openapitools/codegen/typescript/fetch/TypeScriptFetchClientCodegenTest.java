@@ -1,8 +1,8 @@
 package org.openapitools.codegen.typescript.fetch;
 
-import org.junit.Assert;
-import org.junit.Test;
 import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 
 public class TypeScriptFetchClientCodegenTest {
