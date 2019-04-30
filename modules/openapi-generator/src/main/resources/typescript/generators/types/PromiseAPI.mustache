@@ -22,6 +22,17 @@ export class Promise{{classname}} {
 	}
 
 {{#operation}}
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{paramName}} {{description}}
+     {{/allParams}}
+     */
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {
     	const result = this.api.{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options);
         return result.toPromise();

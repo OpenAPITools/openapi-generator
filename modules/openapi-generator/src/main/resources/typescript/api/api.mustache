@@ -12,10 +12,23 @@ import { {{classname}} } from '..{{filename}}';
 {{/imports}}
 {{#operations}}
 
+/**
+ * {{#description}}{{{description}}}{{/description}}{{^description}}no description{{/description}}
+ */
 export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
-	// TODO: allow passing of Configuration via Options (=> overwrites config set for this request factory
 	
 	{{#operation}}
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{paramName}} {{description}}
+     {{/allParams}}
+     */
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		{{#allParams}}
@@ -116,8 +129,6 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 }
 {{/operations}}
 
-// TODO: find way to split these two files (both dependent on apitemplatefiles)
-
 
 {{#operations}}
 
@@ -125,7 +136,10 @@ export class {{classname}}ResponseProcessor {
 	
 	{{#operation}}
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to {{nicknam}} 
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public {{nickname}}(response: ResponseContext): {{#returnType}} {{{returnType}}}{{/returnType}} {{^returnType}} void {{/returnType}} {      
