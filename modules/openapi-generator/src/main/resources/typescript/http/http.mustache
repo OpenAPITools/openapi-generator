@@ -8,6 +8,9 @@ import { Observable } from 'rxjs';
 
 export * from './isomorphic-fetch';
 
+/**
+ * Represents a HTTP Method.
+ */
 export enum HttpMethod {
     GET = "GET",
     HEAD = "HEAD",
@@ -19,14 +22,13 @@ export enum HttpMethod {
     TRACE = "TRACE",
     PATCH = "PATCH"
 }
+
+/**
+ * Represents a http file which will be uploaded to a server.
+ */
 export interface HttpFile {
 	data: Buffer;
 	name: string;
-}
-
-export interface FormEntry {
-    contentDisposition: string;
-    value: string | Blob;
 }
 
 
@@ -36,24 +38,49 @@ export class HttpException extends Error {
     }
 }
 
+/**
+ * Represents a HTTP request context 
+ *
+ */
 export class RequestContext {
     private headers: { [key: string]: string } = {};
     private body: string | FormData = "";
 	private url: URLParse;
 	
+	/**
+	 * Creates the request context using a http method and request resource url
+	 *
+	 * @param url url of the requested resource
+	 * @param httpMethod http method
+	 */
     public constructor(url: string, private httpMethod: HttpMethod) {
         this.url = URLParse(url, true);
     }
     
+    /*
+     * Returns the url set in the constructor including the query string
+     *
+     */
     public getUrl(): string {
     	return this.url.toString();
     }
     
+    /**
+     * Replaces the url set in the constructor with this url.
+     *
+     */
     public setUrl(url: string) {
     	this.url = URLParse(url, true);
     }
 
     
+    /**
+     * Sets the body of the http request either as a string or FormData
+     * Setting a body on a HTTP GET request is disallowed under HTTP-Spec 1.1. Section
+     * 4.3 and this method throws an HttpException accordingly.
+     *
+     * @param body the body of the request
+     */
     public setBody(body: string | FormData) {
         // HTTP-Spec 1.1 Section 4.3
         if (this.httpMethod === HttpMethod.GET) {
@@ -85,6 +112,10 @@ export class RequestContext {
         this.url.set("query", queryObj);
     }
 
+	/**
+	 *	Sets a cookie with the name and value. NO check  for duplicate cookies is performed
+	 *
+	 */
     public addCookie(name: string, value: string): void {
         if (!this.headers["Cookie"]) {
             this.headers["Cookie"] = "";
