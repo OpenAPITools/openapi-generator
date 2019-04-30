@@ -51,6 +51,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String SINGLE_CONTENT_TYPES = "singleContentTypes";
     public static final String VIRTUAL_SERVICE = "virtualService";
+    public static final String GROUP_APIS_IN_SUBPACKAGES = "groupApisInSubpackages";
 
     public static final String JAVA_8 = "java8";
     public static final String ASYNC = "async";
@@ -72,6 +73,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean interfaceOnly = false;
     protected boolean delegatePattern = false;
     protected boolean delegateMethod = false;
+    protected boolean groupApisInSubpackages = false;
     protected boolean singleContentTypes = false;
     protected boolean java8 = true;
     protected boolean async = false;
@@ -106,6 +108,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(new CliOption(BASE_PACKAGE, "base package (invokerPackage) for generated code"));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly));
         cliOptions.add(CliOption.newBoolean(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern));
+        cliOptions.add(CliOption.newBoolean(GROUP_APIS_IN_SUBPACKAGES, "Group APIs in subpackages (grouping interface and Controller, Delegate, or Client in a subpackage of apiPackage)."));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation.", singleContentTypes));
         cliOptions.add(CliOption.newBoolean(JAVA_8, "use java8 default interface", java8));
         cliOptions.add(CliOption.newBoolean(ASYNC, "use async Callable controllers", async));
@@ -210,6 +213,10 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         if (additionalProperties.containsKey(DELEGATE_PATTERN)) {
             this.setDelegatePattern(Boolean.valueOf(additionalProperties.get(DELEGATE_PATTERN).toString()));
+        }
+
+        if (additionalProperties.containsKey(GROUP_APIS_IN_SUBPACKAGES)) {
+            this.setGroupApisInSubpackages(Boolean.valueOf(additionalProperties.get(GROUP_APIS_IN_SUBPACKAGES).toString()));
         }
 
         if (additionalProperties.containsKey(SINGLE_CONTENT_TYPES)) {
@@ -341,6 +348,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (!SPRING_CLOUD_LIBRARY.equals(library)) {
             supportingFiles.add(new SupportingFile("apiUtil.mustache",
                     (sourceFolder + File.separator + apiPackage).replace(".", java.io.File.separator), "ApiUtil.java"));
+            importMapping.put("ApiUtil", apiPackage() + ".ApiUtil");
         }
 
         if (this.apiFirst) {
@@ -548,6 +556,26 @@ public class SpringCodegen extends AbstractJavaCodegen
             }
         }
 
+        if (groupApisInSubpackages) {
+            String tag = (String) objs.get("tag");
+            if (tag != null && tag.length() > 0) {
+                objs.put("package", apiPackage() + "." + toApiSubpackage(tag));
+
+                List<Map<String, String>> imports = (List<Map<String, String>>)objs.get("imports");
+                if (!SPRING_CLOUD_LIBRARY.equals(library)) {
+                    Map<String, String> im = new LinkedHashMap<String, String>();
+
+                    String classname = "ApiUtil";
+                    String mapping = importMapping().get(classname);
+                    im.put("import", mapping);
+                    im.put("classname", classname);
+                    imports.add(im);
+                }
+            } else {
+                LOGGER.warn("groupApisInSubpackages: tag was null or empty");
+            }
+        }
+
         return objs;
     }
 
@@ -631,6 +659,43 @@ public class SpringCodegen extends AbstractJavaCodegen
         return camelize(name) + "Api";
     }
 
+    public String toApiSubpackage(String tag) {
+        return snakeCase(tag);
+    }
+
+    @Override
+    public String apiFilename(String templateName, String tag) {
+        String suffix = apiTemplateFiles().get(templateName);
+        if (groupApisInSubpackages) {
+            return apiFileFolder() + File.separator + toApiSubpackage(tag) + File.separator + toApiFilename(tag) + suffix;
+        } else {
+            return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
+        }
+    }
+
+    // Spring does not currently generate tests, but this is here to make handling tests consistent later.
+    @Override
+    public String apiTestFilename(String templateName, String tag) {
+        String suffix = apiTestTemplateFiles().get(templateName);
+        if (groupApisInSubpackages) {
+            return apiTestFileFolder() + File.separator + toApiSubpackage(tag) + File.separator + toApiTestFilename(tag) + suffix;
+        } else {
+            return apiTestFileFolder() + File.separator + toApiTestFilename(tag) + suffix;
+        }
+    }
+
+    // Spring does not currently generate docs, but this is here to make handling docs consistent later.
+    @Override
+    public String apiDocFilename(String templateName, String tag) {
+        String docExtension = getDocExtension();
+        String suffix = docExtension != null ? docExtension : apiDocTemplateFiles().get(templateName);
+        if (groupApisInSubpackages) {
+            return apiDocFileFolder() + File.separator + toApiSubpackage(tag) + File.separator + toApiDocFilename(tag) + suffix;
+        } else {
+            return apiDocFileFolder() + File.separator + toApiDocFilename(tag) + suffix;
+        }
+    }
+
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
         String type = p.baseType;
@@ -680,6 +745,8 @@ public class SpringCodegen extends AbstractJavaCodegen
     public void setInterfaceOnly(boolean interfaceOnly) { this.interfaceOnly = interfaceOnly; }
 
     public void setDelegatePattern(boolean delegatePattern) { this.delegatePattern = delegatePattern; }
+
+    public void setGroupApisInSubpackages(boolean groupApisInSubpackages) { this.groupApisInSubpackages = groupApisInSubpackages; }
 
     public void setSingleContentTypes(boolean singleContentTypes) {
         this.singleContentTypes = singleContentTypes;
