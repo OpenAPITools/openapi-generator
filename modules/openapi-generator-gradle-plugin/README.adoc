@@ -118,6 +118,11 @@ The gradle plugin is not currently published to https://plugins.gradle.org/m2/.
 |false
 |Specifies if the existing files should be overwritten during the generation.
 
+|packageName
+|String
+|(generator specific)
+|Package for generated classes (where supported).
+
 |apiPackage
 |String
 |(generator specific)
