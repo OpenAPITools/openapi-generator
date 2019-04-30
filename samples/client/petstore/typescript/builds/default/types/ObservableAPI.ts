@@ -23,6 +23,10 @@ export class ObservablePetApi {
 		this.responseProcessor = responseProcessor || new PetApiResponseProcessor();
 	}
 
+    /**
+     * Add a new pet to the store
+     * @param pet Pet object that needs to be added to the store
+     */
     public addPet(pet: Pet, options?: Configuration): Observable<void> {
     	const requestContext = this.requestFactory.addPet(pet, options);
 
@@ -42,6 +46,11 @@ export class ObservablePetApi {
 	    	}));
     }
 	
+    /**
+     * Deletes a pet
+     * @param petId Pet id to delete
+     * @param apiKey 
+     */
     public deletePet(petId: number, apiKey?: string, options?: Configuration): Observable<void> {
     	const requestContext = this.requestFactory.deletePet(petId, apiKey, options);
 
@@ -61,6 +70,11 @@ export class ObservablePetApi {
 	    	}));
     }
 	
+    /**
+     * Multiple status values can be provided with comma separated strings
+     * Finds Pets by status
+     * @param status Status values that need to be considered for filter
+     */
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Observable<Array<Pet>> {
     	const requestContext = this.requestFactory.findPetsByStatus(status, options);
 
@@ -80,6 +94,11 @@ export class ObservablePetApi {
 	    	}));
     }
 	
+    /**
+     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+     * Finds Pets by tags
+     * @param tags Tags to filter by
+     */
     public findPetsByTags(tags: Array<string>, options?: Configuration): Observable<Array<Pet>> {
     	const requestContext = this.requestFactory.findPetsByTags(tags, options);
 
@@ -99,6 +118,11 @@ export class ObservablePetApi {
 	    	}));
     }
 	
+    /**
+     * Returns a single pet
+     * Find pet by ID
+     * @param petId ID of pet to return
+     */
     public getPetById(petId: number, options?: Configuration): Observable<Pet> {
     	const requestContext = this.requestFactory.getPetById(petId, options);
 
@@ -118,6 +142,10 @@ export class ObservablePetApi {
 	    	}));
     }
 	
+    /**
+     * Update an existing pet
+     * @param pet Pet object that needs to be added to the store
+     */
     public updatePet(pet: Pet, options?: Configuration): Observable<void> {
     	const requestContext = this.requestFactory.updatePet(pet, options);
 
@@ -137,6 +165,12 @@ export class ObservablePetApi {
 	    	}));
     }
 	
+    /**
+     * Updates a pet in the store with form data
+     * @param petId ID of pet that needs to be updated
+     * @param name Updated name of the pet
+     * @param status Updated status of the pet
+     */
     public updatePetWithForm(petId: number, name?: string, status?: string, options?: Configuration): Observable<void> {
     	const requestContext = this.requestFactory.updatePetWithForm(petId, name, status, options);
 
@@ -156,6 +190,12 @@ export class ObservablePetApi {
 	    	}));
     }
 	
+    /**
+     * uploads an image
+     * @param petId ID of pet to update
+     * @param additionalMetadata Additional data to pass to server
+     * @param file file to upload
+     */
     public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, options?: Configuration): Observable<ApiResponse> {
     	const requestContext = this.requestFactory.uploadFile(petId, additionalMetadata, file, options);
 
@@ -193,6 +233,11 @@ export class ObservableStoreApi {
 		this.responseProcessor = responseProcessor || new StoreApiResponseProcessor();
 	}
 
+    /**
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     * Delete purchase order by ID
+     * @param orderId ID of the order that needs to be deleted
+     */
     public deleteOrder(orderId: string, options?: Configuration): Observable<void> {
     	const requestContext = this.requestFactory.deleteOrder(orderId, options);
 
@@ -212,6 +257,10 @@ export class ObservableStoreApi {
 	    	}));
     }
 	
+    /**
+     * Returns a map of status codes to quantities
+     * Returns pet inventories by status
+     */
     public getInventory(options?: Configuration): Observable<{ [key: string]: number; }> {
     	const requestContext = this.requestFactory.getInventory(options);
 
@@ -231,6 +280,11 @@ export class ObservableStoreApi {
 	    	}));
     }
 	
+    /**
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * Find purchase order by ID
+     * @param orderId ID of pet that needs to be fetched
+     */
     public getOrderById(orderId: number, options?: Configuration): Observable<Order> {
     	const requestContext = this.requestFactory.getOrderById(orderId, options);
 
@@ -250,6 +304,10 @@ export class ObservableStoreApi {
 	    	}));
     }
 	
+    /**
+     * Place an order for a pet
+     * @param order order placed for purchasing the pet
+     */
     public placeOrder(order: Order, options?: Configuration): Observable<Order> {
     	const requestContext = this.requestFactory.placeOrder(order, options);
 
@@ -287,6 +345,11 @@ export class ObservableUserApi {
 		this.responseProcessor = responseProcessor || new UserApiResponseProcessor();
 	}
 
+    /**
+     * This can only be done by the logged in user.
+     * Create user
+     * @param user Created user object
+     */
     public createUser(user: User, options?: Configuration): Observable<void> {
     	const requestContext = this.requestFactory.createUser(user, options);
 
@@ -306,6 +369,10 @@ export class ObservableUserApi {
 	    	}));
     }
 	
+    /**
+     * Creates list of users with given input array
+     * @param user List of user object
+     */
     public createUsersWithArrayInput(user: Array<User>, options?: Configuration): Observable<void> {
     	const requestContext = this.requestFactory.createUsersWithArrayInput(user, options);
 
@@ -325,6 +392,10 @@ export class ObservableUserApi {
 	    	}));
     }
 	
+    /**
+     * Creates list of users with given input array
+     * @param user List of user object
+     */
     public createUsersWithListInput(user: Array<User>, options?: Configuration): Observable<void> {
     	const requestContext = this.requestFactory.createUsersWithListInput(user, options);
 
@@ -344,6 +415,11 @@ export class ObservableUserApi {
 	    	}));
     }
 	
+    /**
+     * This can only be done by the logged in user.
+     * Delete user
+     * @param username The name that needs to be deleted
+     */
     public deleteUser(username: string, options?: Configuration): Observable<void> {
     	const requestContext = this.requestFactory.deleteUser(username, options);
 
@@ -363,6 +439,10 @@ export class ObservableUserApi {
 	    	}));
     }
 	
+    /**
+     * Get user by user name
+     * @param username The name that needs to be fetched. Use user1 for testing.
+     */
     public getUserByName(username: string, options?: Configuration): Observable<User> {
     	const requestContext = this.requestFactory.getUserByName(username, options);
 
@@ -382,6 +462,11 @@ export class ObservableUserApi {
 	    	}));
     }
 	
+    /**
+     * Logs user into the system
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     */
     public loginUser(username: string, password: string, options?: Configuration): Observable<string> {
     	const requestContext = this.requestFactory.loginUser(username, password, options);
 
@@ -401,6 +486,9 @@ export class ObservableUserApi {
 	    	}));
     }
 	
+    /**
+     * Logs out current logged in user session
+     */
     public logoutUser(options?: Configuration): Observable<void> {
     	const requestContext = this.requestFactory.logoutUser(options);
 
@@ -420,6 +508,12 @@ export class ObservableUserApi {
 	    	}));
     }
 	
+    /**
+     * This can only be done by the logged in user.
+     * Updated user
+     * @param username name that need to be deleted
+     * @param user Updated user object
+     */
     public updateUser(username: string, user: User, options?: Configuration): Observable<void> {
     	const requestContext = this.requestFactory.updateUser(username, user, options);
 

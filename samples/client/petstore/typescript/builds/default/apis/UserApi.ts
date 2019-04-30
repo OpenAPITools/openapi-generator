@@ -9,9 +9,16 @@ import {isCodeInRange} from '../util';
 
 import { User } from '../models/User';
 
+/**
+ * no description
+ */
 export class UserApiRequestFactory extends BaseAPIRequestFactory {
-	// TODO: allow passing of Configuration via Options (=> overwrites config set for this request factory
 	
+    /**
+     * This can only be done by the logged in user.
+     * Create user
+     * @param user Created user object
+     */
     public createUser(user: User, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -47,6 +54,10 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * Creates list of users with given input array
+     * @param user List of user object
+     */
     public createUsersWithArrayInput(user: Array<User>, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -82,6 +93,10 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * Creates list of users with given input array
+     * @param user List of user object
+     */
     public createUsersWithListInput(user: Array<User>, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -117,6 +132,11 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * This can only be done by the logged in user.
+     * Delete user
+     * @param username The name that needs to be deleted
+     */
     public deleteUser(username: string, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -148,6 +168,10 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * Get user by user name
+     * @param username The name that needs to be fetched. Use user1 for testing.
+     */
     public getUserByName(username: string, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -179,6 +203,11 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * Logs user into the system
+     * @param username The user name for login
+     * @param password The password for login in clear text
+     */
     public loginUser(username: string, password: string, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -221,6 +250,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * Logs out current logged in user session
+     */
     public logoutUser(options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -245,6 +277,12 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * This can only be done by the logged in user.
+     * Updated user
+     * @param username name that need to be deleted
+     * @param user Updated user object
+     */
     public updateUser(username: string, user: User, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -289,14 +327,15 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 			
 }
 
-// TODO: find way to split these two files (both dependent on apitemplatefiles)
-
 
 
 export class UserApiResponseProcessor {
 	
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public createUser(response: ResponseContext):   void  {      
@@ -313,7 +352,10 @@ export class UserApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public createUsersWithArrayInput(response: ResponseContext):   void  {      
@@ -330,7 +372,10 @@ export class UserApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public createUsersWithListInput(response: ResponseContext):   void  {      
@@ -347,7 +392,10 @@ export class UserApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public deleteUser(response: ResponseContext):   void  {      
@@ -367,7 +415,10 @@ export class UserApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public getUserByName(response: ResponseContext):  User  {      
@@ -394,7 +445,10 @@ export class UserApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public loginUser(response: ResponseContext):  string  {      
@@ -418,7 +472,10 @@ export class UserApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public logoutUser(response: ResponseContext):   void  {      
@@ -435,7 +492,10 @@ export class UserApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public updateUser(response: ResponseContext):   void  {      

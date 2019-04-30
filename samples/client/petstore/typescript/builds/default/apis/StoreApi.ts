@@ -9,9 +9,16 @@ import {isCodeInRange} from '../util';
 
 import { Order } from '../models/Order';
 
+/**
+ * no description
+ */
 export class StoreApiRequestFactory extends BaseAPIRequestFactory {
-	// TODO: allow passing of Configuration via Options (=> overwrites config set for this request factory
 	
+    /**
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     * Delete purchase order by ID
+     * @param orderId ID of the order that needs to be deleted
+     */
     public deleteOrder(orderId: string, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -43,6 +50,10 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * Returns a map of status codes to quantities
+     * Returns pet inventories by status
+     */
     public getInventory(options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -72,6 +83,11 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * Find purchase order by ID
+     * @param orderId ID of pet that needs to be fetched
+     */
     public getOrderById(orderId: number, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -103,6 +119,10 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
     	return requestContext;
     }
 			
+    /**
+     * Place an order for a pet
+     * @param order order placed for purchasing the pet
+     */
     public placeOrder(order: Order, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
@@ -140,14 +160,15 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 			
 }
 
-// TODO: find way to split these two files (both dependent on apitemplatefiles)
-
 
 
 export class StoreApiResponseProcessor {
 	
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public deleteOrder(response: ResponseContext):   void  {      
@@ -167,7 +188,10 @@ export class StoreApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public getInventory(response: ResponseContext):  { [key: string]: number; }  {      
@@ -188,7 +212,10 @@ export class StoreApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public getOrderById(response: ResponseContext):  Order  {      
@@ -215,7 +242,10 @@ export class StoreApiResponseProcessor {
     }
 			
 	/**
-	 *
+	 * Unwraps the actual response sent by the server from the response context and deserializes the response content 
+	 * to the expected objects
+	 * 
+	 * @params response Response returned by the server for a request to  
 	 * @throws ApiException if the response code was not in [200, 299]
 	 */
     public placeOrder(response: ResponseContext):  Order  {      
