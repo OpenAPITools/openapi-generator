@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <AssemblyName>{{packageName}}.Tests</AssemblyName>
+    <AssemblyName>OpenAPI.Tests</AssemblyName>
     <DebugType>portable</DebugType>
   </PropertyGroup>
 
@@ -16,17 +16,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\{{packageName}}\src\{{packageName}}.fsproj" />
+    <ProjectReference Include="..\OpenAPI\src\OpenAPI.fsproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Include="TestHelper.fs"/>
-    {{#apiInfo}}
-    {{#apis}}
-    <Compile Include="{{classname}}TestsHelper.fs" />
-    <Compile Include="{{classname}}Tests.fs" />
-    {{/apis}}
-    {{/apiInfo}}
+    <Compile Include="PetApiTestsHelper.fs" />
+    <Compile Include="PetApiTests.fs" />
+    <Compile Include="StoreApiTestsHelper.fs" />
+    <Compile Include="StoreApiTests.fs" />
+    <Compile Include="UserApiTestsHelper.fs" />
+    <Compile Include="UserApiTests.fs" />
   </ItemGroup>
 
 </Project>

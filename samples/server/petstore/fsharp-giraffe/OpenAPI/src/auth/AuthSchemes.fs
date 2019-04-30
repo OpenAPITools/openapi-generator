@@ -1,4 +1,4 @@
-namespace {{packageName}}
+namespace OpenAPI
 
 open Microsoft.AspNetCore.Authentication
 open Microsoft.AspNetCore.Authentication.Cookies
@@ -28,7 +28,7 @@ module AuthSchemes =
       options.AuthorizationEndpoint <- authorizationUrl
       options.TokenEndpoint <- settings.[name + "TokenUrl"]
       options.CallbackPath <- PathString(settings.[name + "CallbackPath"])
-      CustomHandlers.setOAuthOptions "{{name}}" options scopes settings
+      CustomHandlers.setOAuthOptions "" options scopes settings
   ))
 
   let OAuthBuilders = Map.empty.Add("Google", buildGoogle).Add("GitHub", buildGitHub)
@@ -48,11 +48,7 @@ module AuthSchemes =
       buildOAuth
 
   let configureOAuth (settings:IConfiguration) services =
-    {{#authMethods}}
-    {{#isOAuth}}
-    (getOAuthBuilder settings "{{name}}") services "{{name}}" "{{authorizationUrl}}" [{{#scopes}}"{{scope}}";{{/scopes}}] settings
-    {{/isOAuth}}
-    {{/authMethods}}
+    (getOAuthBuilder settings "petstore_auth") services "petstore_auth" "http://petstore.swagger.io/api/oauth/dialog" ["write:pets";"read:pets";] settings
 
   let buildApiKeyAuth name (services:AuthenticationBuilder) =
     services.AddApiKey(fun options -> 
@@ -63,16 +59,8 @@ module AuthSchemes =
     )
 
   let configureApiKeyAuth (settings:IConfiguration) services =
-    {{#authMethods}}
-    {{#isApiKey}}
-    {{#isKeyInHeader}}
-    buildApiKeyAuth "{{name}}" services
-    {{/isKeyInHeader}}
-    {{^isKeyInHeader}}
+    buildApiKeyAuth "api_key" services
     raise (NotImplementedException("API key security scheme outside of header has not yet been implemented"))
-    {{/isKeyInHeader}}
-    {{/isApiKey}}
-    {{/authMethods}}
 
 
   let configureCookie (builder:AuthenticationBuilder) =

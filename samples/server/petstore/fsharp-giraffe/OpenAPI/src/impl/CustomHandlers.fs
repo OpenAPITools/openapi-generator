@@ -1,4 +1,4 @@
-namespace {{packageName}}
+namespace OpenAPI
 
 open System
 open System.Net.Http
@@ -78,9 +78,9 @@ module CustomHandlers =
         ]
         body [] [
             h1 [] [ str "Welcome" ]
-            {{#authMethods}}
-            a [_href "/login-with-{{name}}"] [ str "Login with {{name}}" ]
-            {{/authMethods}}
+            a [_href "/login-with-api_key"] [ str "Login with api_key" ]
+            a [_href "/login-with-auth_cookie"] [ str "Login with auth_cookie" ]
+            a [_href "/login-with-petstore_auth"] [ str "Login with petstore_auth" ]
         ]
     ]
   
@@ -92,9 +92,9 @@ module CustomHandlers =
     GET >=> 
       choose [
         route "/login" >=> redirectToLogin
-        {{#authMethods}}
-        route "/login-with-{{name}}" >=> challenge "{{name}}"
-        {{/authMethods}}
+        route "/login-with-api_key" >=> challenge "api_key"
+        route "/login-with-auth_cookie" >=> challenge "auth_cookie"
+        route "/login-with-petstore_auth" >=> challenge "petstore_auth"
         route "/logout" >=> logout
       ]
   ]

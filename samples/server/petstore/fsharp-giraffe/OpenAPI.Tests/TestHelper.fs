@@ -1,4 +1,4 @@
-namespace {{packageName}}.Tests
+namespace OpenAPI.Tests
 
 open System
 open System.Net
@@ -20,8 +20,8 @@ module TestHelper =
   let createHost() =
       WebHostBuilder()
           .UseContentRoot(Directory.GetCurrentDirectory())
-          .Configure(Action<IApplicationBuilder> {{packageName}}.App.configureApp)
-          .ConfigureServices(Action<IServiceCollection> {{packageName}}.App.configureServices)
+          .Configure(Action<IApplicationBuilder> OpenAPI.App.configureApp)
+          .ConfigureServices(Action<IServiceCollection> OpenAPI.App.configureServices)
 
   // ---------------------------------
   // Helper functions
