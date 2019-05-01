@@ -58,6 +58,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.ClassName = className;
             }
+            
             // use default value if no "color" provided
             if (color == null)
             {

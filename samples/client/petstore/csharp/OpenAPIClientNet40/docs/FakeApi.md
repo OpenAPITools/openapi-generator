@@ -19,8 +19,9 @@ Method | HTTP request | Description
 [**TestJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 
 
-<a name="createxmlitem"></a>
-# **CreateXmlItem**
+
+## CreateXmlItem
+
 > void CreateXmlItem (XmlItem xmlItem)
 
 creates an XmlItem
@@ -28,6 +29,7 @@ creates an XmlItem
 this route creates an XmlItem
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -60,6 +62,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xmlItem** | [**XmlItem**](XmlItem.md)| XmlItem Body | 
@@ -74,13 +77,17 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
- - **Accept**: Not defined
+- **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="fakeouterbooleanserialize"></a>
-# **FakeOuterBooleanSerialize**
+
+## FakeOuterBooleanSerialize
+
 > bool? FakeOuterBooleanSerialize (bool? body = null)
 
 
@@ -88,6 +95,7 @@ No authorization required
 Test serialization of outer boolean types
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -120,6 +128,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **bool?**| Input boolean as post body | [optional] 
@@ -134,13 +143,17 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="fakeoutercompositeserialize"></a>
-# **FakeOuterCompositeSerialize**
+
+## FakeOuterCompositeSerialize
+
 > OuterComposite FakeOuterCompositeSerialize (OuterComposite body = null)
 
 
@@ -148,6 +161,7 @@ No authorization required
 Test serialization of object with outer number type
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -180,6 +194,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
@@ -194,13 +209,17 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="fakeouternumberserialize"></a>
-# **FakeOuterNumberSerialize**
+
+## FakeOuterNumberSerialize
+
 > decimal? FakeOuterNumberSerialize (decimal? body = null)
 
 
@@ -208,6 +227,7 @@ No authorization required
 Test serialization of outer number types
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -240,6 +260,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **decimal?**| Input number as post body | [optional] 
@@ -254,13 +275,17 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="fakeouterstringserialize"></a>
-# **FakeOuterStringSerialize**
+
+## FakeOuterStringSerialize
+
 > string FakeOuterStringSerialize (string body = null)
 
 
@@ -268,6 +293,7 @@ No authorization required
 Test serialization of outer string types
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -300,6 +326,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **string**| Input string as post body | [optional] 
@@ -314,13 +341,17 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="testbodywithfileschema"></a>
-# **TestBodyWithFileSchema**
+
+## TestBodyWithFileSchema
+
 > void TestBodyWithFileSchema (FileSchemaTestClass body)
 
 
@@ -328,6 +359,7 @@ No authorization required
 For this test, the body for this request much reference a schema named `File`.
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -359,6 +391,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
@@ -373,18 +406,23 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="testbodywithqueryparams"></a>
-# **TestBodyWithQueryParams**
+
+## TestBodyWithQueryParams
+
 > void TestBodyWithQueryParams (string query, User body)
 
 
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -417,6 +455,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **string**|  | 
@@ -432,13 +471,17 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="testclientmodel"></a>
-# **TestClientModel**
+
+## TestClientModel
+
 > ModelClient TestClientModel (ModelClient body)
 
 To test \"client\" model
@@ -446,6 +489,7 @@ To test \"client\" model
 To test \"client\" model
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -479,6 +523,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**ModelClient**](ModelClient.md)| client model | 
@@ -493,13 +538,17 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="testendpointparameters"></a>
-# **TestEndpointParameters**
+
+## TestEndpointParameters
+
 > void TestEndpointParameters (decimal? number, double? _double, string patternWithoutDelimiter, byte[] _byte, int? integer = null, int? int32 = null, long? int64 = null, float? _float = null, string _string = null, System.IO.Stream binary = null, DateTime? date = null, DateTime? dateTime = null, string password = null, string callback = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -507,6 +556,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -556,6 +606,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **number** | **decimal?**| None | 
@@ -583,13 +634,17 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="testenumparameters"></a>
-# **TestEnumParameters**
+
+## TestEnumParameters
+
 > void TestEnumParameters (List<string> enumHeaderStringArray = null, string enumHeaderString = null, List<string> enumQueryStringArray = null, string enumQueryString = null, int? enumQueryInteger = null, double? enumQueryDouble = null, List<string> enumFormStringArray = null, string enumFormString = null)
 
 To test enum parameters
@@ -597,6 +652,7 @@ To test enum parameters
 To test enum parameters
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -636,6 +692,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enumHeaderStringArray** | **List&lt;string&gt;**| Header parameter enum test (string array) | [optional] 
@@ -657,13 +714,17 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="testgroupparameters"></a>
-# **TestGroupParameters**
+
+## TestGroupParameters
+
 > void TestGroupParameters (int? requiredStringGroup, bool? requiredBooleanGroup, long? requiredInt64Group, int? stringGroup = null, bool? booleanGroup = null, long? int64Group = null)
 
 Fake endpoint to test group parameters (optional)
@@ -671,6 +732,7 @@ Fake endpoint to test group parameters (optional)
 Fake endpoint to test group parameters (optional)
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -708,6 +770,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **requiredStringGroup** | **int?**| Required String in group parameters | 
@@ -727,18 +790,23 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="testinlineadditionalproperties"></a>
-# **TestInlineAdditionalProperties**
+
+## TestInlineAdditionalProperties
+
 > void TestInlineAdditionalProperties (Dictionary<string, string> param)
 
 test inline additionalProperties
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -771,6 +839,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **param** | [**Dictionary&lt;string, string&gt;**](string.md)| request body | 
@@ -785,18 +854,23 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
-<a name="testjsonformdata"></a>
-# **TestJsonFormData**
+
+## TestJsonFormData
+
 > void TestJsonFormData (string param, string param2)
 
 test json serialization of form data
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -830,6 +904,7 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **param** | **string**| field1 | 
@@ -845,8 +920,11 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
