@@ -62,6 +62,7 @@ The following generators are available:
 * [swift3-deprecated (deprecated)](generators/swift3-deprecated.md)  
 * [swift4](generators/swift4.md)  
 * [swift5 (beta)](generators/swift5.md)  
+* [typescript](generators/typescript.md) 
 * [typescript-angular](generators/typescript-angular.md)  
 * [typescript-angularjs](generators/typescript-angularjs.md)  
 * [typescript-aurelia](generators/typescript-aurelia.md)  
