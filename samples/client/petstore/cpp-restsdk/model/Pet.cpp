@@ -18,6 +18,9 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
+
+
 Pet::Pet()
 {
     m_Id = 0L;
@@ -351,4 +354,5 @@ void Pet::unsetStatus()
 }
 }
 }
+
 
