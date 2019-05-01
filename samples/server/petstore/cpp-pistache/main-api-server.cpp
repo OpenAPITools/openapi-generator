@@ -24,7 +24,8 @@
 #include "StoreApiImpl.h"
 #include "UserApiImpl.h"
 
-#define PISTACHE_SERVER_THREADS 2
+#define PISTACHE_SERVER_THREADS     2
+#define PISTACHE_SERVER_MAX_PAYLOAD 32768
 
 static Pistache::Http::Endpoint *httpEndpoint;
 #ifdef __linux__
@@ -71,6 +72,8 @@ int main() {
 
     auto opts = Pistache::Http::Endpoint::options()
         .threads(PISTACHE_SERVER_THREADS);
+    opts.flags(Pistache::Tcp::Options::ReuseAddr);
+    opts.maxPayload(PISTACHE_SERVER_MAX_PAYLOAD);
     httpEndpoint->init(opts);
 
     
