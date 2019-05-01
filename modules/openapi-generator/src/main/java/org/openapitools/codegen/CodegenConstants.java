@@ -140,6 +140,8 @@ public class CodegenConstants {
 
     public static final String PROJECT_NAME = "projectName";
     public static final String PACKAGE_NAME = "packageName";
+    public static final String PACKAGE_NAME_DESC = "package for generated classes (where supported)";
+
     public static final String PACKAGE_VERSION = "packageVersion";
 
     public static final String PACKAGE_TITLE = "packageTitle";

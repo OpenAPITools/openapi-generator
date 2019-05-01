@@ -30,6 +30,7 @@ import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.Validate;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.languages.*;
 import org.openapitools.codegen.templating.HandlebarsEngineAdapter;
@@ -579,12 +580,15 @@ public class CodegenConfigurator implements Serializable {
             config.setLibrary(library);
         }
 
-        // Built-in templates are mustache, but allow users to use a simplified handlebars engine for their custom templates.
-        if (isEmpty(templatingEngineName) || templatingEngineName.equals("mustache")) {
-            config.setTemplatingEngine(new MustacheEngineAdapter());
-        } else if (templatingEngineName.equals("handlebars")) {
-            config.setTemplatingEngine(new HandlebarsEngineAdapter());
+        String templatingEngineId;
+        if (isEmpty(templatingEngineName)) {
+            // Built-in templates are mustache, but allow users to use a simplified handlebars engine for their custom templates.
+            templatingEngineId = "mustache";
         }
+        else { templatingEngineId = templatingEngineName; }
+
+        TemplatingEngineAdapter templatingEngine = TemplatingEngineLoader.byIdentifier(templatingEngineId);
+        config.setTemplatingEngine(templatingEngine);
 
         config.additionalProperties().putAll(additionalProperties);
 
