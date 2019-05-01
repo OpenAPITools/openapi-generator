@@ -2,6 +2,11 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
+{{#reactive}}
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+{{/reactive}}
 import org.springframework.stereotype.Service
 @Service
 {{#operations}}
