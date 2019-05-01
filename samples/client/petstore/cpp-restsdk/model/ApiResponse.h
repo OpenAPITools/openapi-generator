@@ -28,6 +28,7 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
 /// <summary>
 /// Describes the result of uploading an image resource
 /// </summary>
@@ -88,6 +89,7 @@ protected:
     utility::string_t m_Message;
     bool m_MessageIsSet;
 };
+
 
 }
 }

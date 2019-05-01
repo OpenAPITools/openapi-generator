@@ -18,6 +18,9 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
+
+
 Order::Order()
 {
     m_Id = 0L;
@@ -325,4 +328,5 @@ void Order::unsetComplete()
 }
 }
 }
+
 
