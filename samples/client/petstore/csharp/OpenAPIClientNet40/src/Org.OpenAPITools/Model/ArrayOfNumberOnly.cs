@@ -91,6 +91,7 @@ namespace Org.OpenAPITools.Model
                 (
                     this.ArrayNumber == input.ArrayNumber ||
                     this.ArrayNumber != null &&
+                    input.ArrayNumber != null &&
                     this.ArrayNumber.SequenceEqual(input.ArrayNumber)
                 );
         }
