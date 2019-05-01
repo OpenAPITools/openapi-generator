@@ -63,32 +63,32 @@ void to_json(nlohmann::json& j, const Order& o)
 
 void from_json(const nlohmann::json& j, Order& o)
 {
-    if(!j.at("id").is_null())
+    if(j.contains("id"))
     {
         j.at("id").get_to(o.m_Id);
         o.m_IdIsSet = true;
     } 
-    if(!j.at("petId").is_null())
+    if(j.contains("petId"))
     {
         j.at("petId").get_to(o.m_PetId);
         o.m_PetIdIsSet = true;
     } 
-    if(!j.at("quantity").is_null())
+    if(j.contains("quantity"))
     {
         j.at("quantity").get_to(o.m_Quantity);
         o.m_QuantityIsSet = true;
     } 
-    if(!j.at("shipDate").is_null())
+    if(j.contains("shipDate"))
     {
         j.at("shipDate").get_to(o.m_ShipDate);
         o.m_ShipDateIsSet = true;
     } 
-    if(!j.at("status").is_null())
+    if(j.contains("status"))
     {
         j.at("status").get_to(o.m_Status);
         o.m_StatusIsSet = true;
     } 
-    if(!j.at("complete").is_null())
+    if(j.contains("complete"))
     {
         j.at("complete").get_to(o.m_Complete);
         o.m_CompleteIsSet = true;
