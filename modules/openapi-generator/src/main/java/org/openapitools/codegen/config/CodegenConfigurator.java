@@ -85,6 +85,7 @@ public class CodegenConfigurator implements Serializable {
     private boolean validateSpec;
     private boolean enablePostProcessFile;
     private boolean enableMinimalUpdate;
+    private boolean strictSpecBehavior;
     private String templateDir;
     private String templatingEngineName;
     private String auth;
@@ -117,6 +118,7 @@ public class CodegenConfigurator implements Serializable {
 
     public CodegenConfigurator() {
         this.validateSpec = true;
+        this.strictSpecBehavior = true;
         this.setOutputDir(".");
     }
 
@@ -249,6 +251,15 @@ public class CodegenConfigurator implements Serializable {
 
     public CodegenConfigurator setModelNameSuffix(String suffix) {
         this.modelNameSuffix = suffix;
+        return this;
+    }
+
+    public boolean isStrictSpecBehavior() {
+        return strictSpecBehavior;
+    }
+
+    public CodegenConfigurator setStrictSpecBehavior(boolean strictSpecBehavior) {
+        this.strictSpecBehavior = strictSpecBehavior;
         return this;
     }
 

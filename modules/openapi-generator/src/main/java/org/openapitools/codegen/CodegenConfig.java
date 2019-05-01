@@ -270,4 +270,8 @@ public interface CodegenConfig {
     public boolean isEnableMinimalUpdate();
 
     public void setEnableMinimalUpdate(boolean isEnableMinimalUpdate);
+
+    boolean isStrictSpecBehavior();
+
+    void setStrictSpecBehavior(boolean strictSpecBehavior);
 }

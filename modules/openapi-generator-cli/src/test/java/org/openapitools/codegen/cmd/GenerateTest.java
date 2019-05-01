@@ -278,6 +278,26 @@ public class GenerateTest {
     }
 
     @Test
+    public void testStrictSpec() throws Exception {
+
+        setupAndRunGenericTest("--strict-spec", "true");
+        new FullVerifications() {
+            {
+                configurator.setStrictSpecBehavior(true);
+                times = 1;
+            }
+        };
+
+        setupAndRunGenericTest("--strict-spec", "false");
+        new FullVerifications() {
+            {
+                configurator.setStrictSpecBehavior(false);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
     public void testPackageName() throws Exception {
         final String value = "io.foo.bar.baz";
         setupAndRunGenericTest("--package-name", value);
