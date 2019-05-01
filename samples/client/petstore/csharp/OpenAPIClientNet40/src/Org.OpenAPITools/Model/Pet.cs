@@ -202,11 +202,13 @@ namespace Org.OpenAPITools.Model
                 (
                     this.PhotoUrls == input.PhotoUrls ||
                     this.PhotoUrls != null &&
+                    input.PhotoUrls != null &&
                     this.PhotoUrls.SequenceEqual(input.PhotoUrls)
                 ) && 
                 (
                     this.Tags == input.Tags ||
                     this.Tags != null &&
+                    input.Tags != null &&
                     this.Tags.SequenceEqual(input.Tags)
                 ) && 
                 (
