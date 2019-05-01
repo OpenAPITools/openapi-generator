@@ -200,6 +200,7 @@ namespace Org.OpenAPITools.Model
                 (
                     this.ArrayItem == input.ArrayItem ||
                     this.ArrayItem != null &&
+                    input.ArrayItem != null &&
                     this.ArrayItem.SequenceEqual(input.ArrayItem)
                 );
         }
