@@ -33,6 +33,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
+
 
 public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptClientCodegen.class);
@@ -162,7 +165,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
     
     @Override
-    public Map<String, Object> postProcessOperations(Map<String, Object> operations) {     
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> models) {     
         
         // Add additional filename information for model imports in the apis
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
