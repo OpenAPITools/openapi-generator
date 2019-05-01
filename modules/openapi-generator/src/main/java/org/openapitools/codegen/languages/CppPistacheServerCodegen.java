@@ -285,7 +285,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toApiFilename(String name) {
-        return  modelNamePrefix + toModelName(name) + "Api";
+        return toApiName(name);
     }
 
     /**
