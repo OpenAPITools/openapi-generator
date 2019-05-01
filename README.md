@@ -447,6 +447,7 @@ SYNOPSIS
                 [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
                 [(-s | --skip-overwrite)] [--skip-validate-spec]
+                [--strict-spec <true/false strict behavior>]
                 [(-t <template directory> | --template-dir <template directory>)]
                 [--type-mappings <type mappings>...] [(-v | --verbose)]
 

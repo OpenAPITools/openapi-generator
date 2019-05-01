@@ -216,7 +216,7 @@ public class Generate implements Runnable {
 
     @Option(name = {"--strict-spec"},
             title = "true/false strict behavior",
-            description = "'MUST' and 'SHALL' wording in OpenAPI spec is strictly adhered to, e.g. no fixes will be applied to documents which pass validation but don't follow the spec.",
+            description = "'MUST' and 'SHALL' wording in OpenAPI spec is strictly adhered to. e.g. when false, no fixes will be applied to documents which pass validation but don't follow the spec.",
             arity = 1)
     private Boolean strictSpecBehavior;
 
