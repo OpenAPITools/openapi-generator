@@ -233,8 +233,8 @@ namespace Org.OpenAPITools.Api
                 "application/json"
             };
 
-            var localVarConentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
-            if (localVarConentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarConentType);
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(@contentTypes);
+            if (localVarContentType != null) requestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
 
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(@accepts);
             if (localVarAccept != null) requestOptions.HeaderParameters.Add("Accept", localVarAccept);
