@@ -9,6 +9,7 @@ out/
 classpath.txt
 version.properties
 modules/openapi-generator-gradle-plugin/bin/
+modules/openapi-generator-cli/bin/
 !modules/openapi-generator-cli/src/main/resources/version.properties
 .project
 .classpath
