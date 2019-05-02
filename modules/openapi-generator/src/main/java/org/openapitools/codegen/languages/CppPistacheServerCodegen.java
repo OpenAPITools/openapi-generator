@@ -264,7 +264,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return camelize(toModelName(name));
+        return toModelName(name);
     }
 
     @Override
@@ -285,7 +285,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toApiFilename(String name) {
-        return  modelNamePrefix + camelize(name) + "Api";
+        return toApiName(name);
     }
 
     /**
