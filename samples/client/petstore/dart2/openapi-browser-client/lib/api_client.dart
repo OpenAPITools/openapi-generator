@@ -18,7 +18,7 @@ class ApiClient {
   final _regList = RegExp(r'^List<(.*)>$');
   final _regMap = RegExp(r'^Map<String,(.*)>$');
 
-  ApiClient({this.basePath: "http://petstore.swagger.io/v2"}) {
+  ApiClient({this.basePath = "http://petstore.swagger.io/v2"}) {
     // Setup authentications (key: authentication name, value: authentication).
     _authentications['api_key'] = ApiKeyAuth("header", "api_key");
     _authentications['petstore_auth'] = OAuth();
