@@ -826,13 +826,7 @@ limitations under the License.
 
 ```
 cd modules/openapi-generator-cli
-REGISTRY="XXXXX"
-CURRENT_DIR="${PWD##*/}"
-IMAGE_NAME="openapi-generator-cli"
-FULL_IMAGE_NAME="${REGISTRY}/${IMAGE_NAME}:${TAG}"
-# login to docker registery
-$(aws ecr get-login --no-include-email)
 cp ../../docker-entrypoint.sh docker-entrypoint.sh
-docker build -t ${REGISTRY}/${IMAGE_NAME}:latest .
-docker push ${REGISTRY}/${IMAGE_NAME}:latest
+docker build -t aitheon/openapi-generator-cli:latest .
+docker push aitheon/openapi-generator-cli
 ```
