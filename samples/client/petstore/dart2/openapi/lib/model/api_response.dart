@@ -34,11 +34,14 @@ class ApiResponse {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'code': code,
-      'type': type,
-      'message': message
-    };
+    Map <String, dynamic> json = {};
+    if (code != null)
+      json['code'] = code;
+    if (type != null)
+      json['type'] = type;
+    if (message != null)
+      json['message'] = message;
+    return json;
   }
 
   static List<ApiResponse> listFromJson(List<dynamic> json) {
