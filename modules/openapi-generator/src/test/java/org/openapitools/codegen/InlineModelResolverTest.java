@@ -460,10 +460,12 @@ public class InlineModelResolverTest {
                 .getContent()
                 .get("application/json");
 
-        assertTrue(mediaType.getSchema() instanceof ObjectSchema);
-        assertTrue(mediaType.getSchema().getAdditionalProperties() instanceof ObjectSchema);
+        assertEquals("object", mediaType.getSchema().getType());
+        Object additionalPropertiesObject = mediaType.getSchema().getAdditionalProperties();
+        assertTrue(additionalPropertiesObject instanceof Schema);
 
-        ObjectSchema additionalProperties = (ObjectSchema) mediaType.getSchema().getAdditionalProperties();
+        Schema additionalProperties = ModelUtils.getReferencedSchema(openAPI, (Schema)additionalPropertiesObject);
+        assertNotNull(additionalProperties);
         assertTrue(additionalProperties.getProperties().get("resolve_inline_object_response_with_additional_properties") instanceof StringSchema);
     }
 
@@ -676,7 +678,7 @@ public class InlineModelResolverTest {
                 .getContent()
                 .get("application/json");
 
-        assertTrue(mediaType.getSchema() instanceof ObjectSchema);
+        assertEquals("object", mediaType.getSchema().getType());
         assertTrue(mediaType.getSchema().getAdditionalProperties() instanceof ObjectSchema);
 
         ObjectSchema additionalProperty = (ObjectSchema) mediaType.getSchema().getAdditionalProperties();
