@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 interface {{classname}}Service {
 {{#operation}}
 
-    fun {{operationId}}({{#allParams}}{{paramName}}: {{>optionalDataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{>returnTypes}}
+    fun {{operationId}}({{#allParams}}{{paramName}}: {{>optionalDataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#reactive}}{{#allParams}},{{/allParams}} exchange: ServerWebExchange{{/reactive}}): {{>returnTypes}}
 {{/operation}}
 }
 {{/operations}}

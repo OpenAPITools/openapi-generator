@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestMapping
-
 {{#reactive}}
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 {{/reactive}}
-
 {{#useBeanValidation}}
 import org.springframework.validation.annotation.Validated
 {{/useBeanValidation}}
@@ -68,7 +66,7 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
             produces = [{{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}], {{/hasProduces}}{{#hasConsumes}}
             consumes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}],{{/hasConsumes}}{{/singleContentTypes}}
             method = [RequestMethod.{{httpMethod}}])
-    fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}): {{^reactive}}ResponseEntity<{{/reactive}}{{>returnTypes}}{{^reactive}}>{{/reactive}} {
+    fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}{{#reactive}}{{#allParams}},{{/allParams}} exchange: ServerWebExchange{{/reactive}}): {{^reactive}}ResponseEntity<{{/reactive}}{{>returnTypes}}{{^reactive}}>{{/reactive}} {
         return {{>returnValue}}
     }
 {{/operation}}

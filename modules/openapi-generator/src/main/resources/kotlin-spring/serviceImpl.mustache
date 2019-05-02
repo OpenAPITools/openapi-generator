@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 class {{classname}}ServiceImpl : {{classname}}Service {
 {{#operation}}
 
-    override fun {{operationId}}({{#allParams}}{{paramName}}: {{>optionalDataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): {{>returnTypes}} {
+    override fun {{operationId}}({{#allParams}}{{paramName}}: {{>optionalDataType}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#reactive}}{{#allParams}},{{/allParams}} exchange: ServerWebExchange{{/reactive}}): {{>returnTypes}} {
         TODO("Implement me")
     }
 {{/operation}}
