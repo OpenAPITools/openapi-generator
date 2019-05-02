@@ -221,11 +221,13 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         this.additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
 
         // retrieve api version from swagger file, 1.0.0-SNAPSHOT by default
+        // set in super.preprocessOpenAPI
+        /*
         if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
             artifactVersion = apiVersion = openAPI.getInfo().getVersion();
         } else {
             artifactVersion = apiVersion;
-        }
+        }*/
 
         /*
          * manage operation & custom serviceId because operationId field is not

@@ -55,15 +55,26 @@ public class AbstractJavaCodegenTest {
     public void toModelNameUsesPascalCase() throws Exception {
         Assert.assertEquals("JsonAnotherclass", fakeJavaCodegen.toModelName("json_anotherclass"));
     }
- 
+
     @Test
     public void testPreprocessOpenAPI() throws Exception {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
-        final AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
         codegen.preprocessOpenAPI(openAPI);
 
+        Assert.assertEquals(codegen.getArtifactVersion(), openAPI.getInfo().getVersion());
         Assert.assertEquals(openAPI.getPaths().get("/pet").getPost().getExtensions().get("x-accepts"), "application/json");
+    }
+
+    @Test
+    public void testPreprocessOpenAPINumVersion() throws Exception {
+        final OpenAPI openAPIOtherNumVersion = TestUtils.parseSpec("src/test/resources/2_0/duplicateOperationIds.yaml");
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        codegen.preprocessOpenAPI(openAPIOtherNumVersion);
+
+        Assert.assertEquals(codegen.getArtifactVersion(), openAPIOtherNumVersion.getInfo().getVersion());
     }
 
     @Test
@@ -208,9 +219,8 @@ public class AbstractJavaCodegenTest {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
         OpenAPI api = TestUtils.createOpenAPI();
-        codegen.setOpenAPI(api);
-
         codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.0.7");
     }
@@ -222,15 +232,14 @@ public class AbstractJavaCodegenTest {
         codegen.additionalProperties().put("artifactVersion", "1.1.1");
 
         OpenAPI api = TestUtils.createOpenAPI();
-        codegen.setOpenAPI(api);
-
         codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.1.1");
     }
 
     @Test(description = "tests if default version is used when neither OpenAPI version nor artifactVersion additional property has been provided")
-    public void defautlVersionTest() {
+    public void defaultVersionTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
         codegen.processOpts();
