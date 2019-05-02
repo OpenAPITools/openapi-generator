@@ -1,10 +1,10 @@
 import IHttpClient from "./IHttpClient";
 
 {{^useRxJS6}}
-import { Observable } from 'rxjs/Observable';
+import { Observable } from "rxjs/Observable";
 {{/useRxJS6}}
 {{#useRxJS6}}
-import { Observable, from } from 'rxjs';
+import { Observable, from } from "rxjs";
 {{/useRxJS6}}
 
 import "whatwg-fetch";

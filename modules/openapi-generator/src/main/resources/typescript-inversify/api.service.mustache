@@ -2,13 +2,13 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 {{^useRxJS6}}
-import { Observable } from 'rxjs/Observable';
+import { Observable } from "rxjs/Observable";
 {{/useRxJS6}}
 {{#useRxJS6}}
-import { Observable } from 'rxjs';
+import { Observable } from "rxjs";
 {{/useRxJS6}}
 
-import { map } from 'rxjs/operators';
+import { map } from "rxjs/operators";
 import IHttpClient from "../IHttpClient";
 import { inject, injectable } from "inversify";
 import { IAPIConfiguration } from "../IAPIConfiguration";
@@ -16,12 +16,12 @@ import { Headers } from "../Headers";
 import HttpResponse from "../HttpResponse";
 
 {{#imports}}
-import { {{classname}} } from '../{{filename}}';
+import { {{classname}} } from "../{{filename}}";
 {{/imports}}
 
-import { COLLECTION_FORMATS }  from '../variables';
+import { COLLECTION_FORMATS }  from "../variables";
 {{#withInterfaces}}
-import { {{classname}}Interface }  from './{{classFilename}}Interface';
+import { {{classname}}Interface }  from "./{{classFilename}}Interface";
 {{/withInterfaces}}
 
 {{#operations}}
