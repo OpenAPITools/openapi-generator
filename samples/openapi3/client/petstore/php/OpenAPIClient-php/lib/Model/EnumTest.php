@@ -59,7 +59,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     protected static $openAPITypes = [
         'enum_string' => 'string',
         'enum_string_required' => 'string',
-        'enum_integer' => 'int',
+        'enum_integer' => 'object',
         'enum_number' => 'double',
         'outer_enum' => '\OpenAPI\Client\Model\OuterEnum',
         'outer_enum_integer' => '\OpenAPI\Client\Model\OuterEnumInteger',
@@ -199,8 +199,8 @@ class EnumTest implements ModelInterface, ArrayAccess
     const ENUM_STRING_REQUIRED_UPPER = 'UPPER';
     const ENUM_STRING_REQUIRED_LOWER = 'lower';
     const ENUM_STRING_REQUIRED_EMPTY = '';
-    const ENUM_INTEGER_1 = 1;
-    const ENUM_INTEGER_MINUS_1 = -1;
+    const ENUM_INTEGER__1 = '1';
+    const ENUM_INTEGER__1 = '-1';
     const ENUM_NUMBER_1_DOT_1 = 1.1;
     const ENUM_NUMBER_MINUS_1_DOT_2 = -1.2;
     
@@ -242,8 +242,8 @@ class EnumTest implements ModelInterface, ArrayAccess
     public function getEnumIntegerAllowableValues()
     {
         return [
-            self::ENUM_INTEGER_1,
-            self::ENUM_INTEGER_MINUS_1,
+            self::ENUM_INTEGER__1,
+            self::ENUM_INTEGER__1,
         ];
     }
     
@@ -414,7 +414,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Gets enum_integer
      *
-     * @return int|null
+     * @return object|null
      */
     public function getEnumInteger()
     {
@@ -424,7 +424,7 @@ class EnumTest implements ModelInterface, ArrayAccess
     /**
      * Sets enum_integer
      *
-     * @param int|null $enum_integer enum_integer
+     * @param object|null $enum_integer enum_integer
      *
      * @return $this
      */

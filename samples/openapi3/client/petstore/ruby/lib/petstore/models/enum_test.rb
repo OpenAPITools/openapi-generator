@@ -71,7 +71,7 @@ module Petstore
       {
         :'enum_string' => :'String',
         :'enum_string_required' => :'String',
-        :'enum_integer' => :'Integer',
+        :'enum_integer' => :'Object',
         :'enum_number' => :'Float',
         :'outer_enum' => :'OuterEnum',
         :'outer_enum_integer' => :'OuterEnumInteger',
@@ -147,7 +147,7 @@ module Petstore
       return false if @enum_string_required.nil?
       enum_string_required_validator = EnumAttributeValidator.new('String', ["UPPER", "lower", ""])
       return false unless enum_string_required_validator.valid?(@enum_string_required)
-      enum_integer_validator = EnumAttributeValidator.new('Integer', [1, -1])
+      enum_integer_validator = EnumAttributeValidator.new('Object', ["1", "-1"])
       return false unless enum_integer_validator.valid?(@enum_integer)
       enum_number_validator = EnumAttributeValidator.new('Float', [1.1, -1.2])
       return false unless enum_number_validator.valid?(@enum_number)
@@ -177,7 +177,7 @@ module Petstore
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] enum_integer Object to be assigned
     def enum_integer=(enum_integer)
-      validator = EnumAttributeValidator.new('Integer', [1, -1])
+      validator = EnumAttributeValidator.new('Object', ["1", "-1"])
       unless validator.valid?(enum_integer)
         fail ArgumentError, "invalid value for \"enum_integer\", must be one of #{validator.allowable_values}."
       end

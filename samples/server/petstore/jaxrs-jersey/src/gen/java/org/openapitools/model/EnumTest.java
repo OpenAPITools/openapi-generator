@@ -107,13 +107,13 @@ public class EnumTest   {
    * Gets or Sets enumInteger
    */
   public enum EnumIntegerEnum {
-    NUMBER_1(1),
+    _1("1"),
     
-    NUMBER_MINUS_1(-1);
+    _1("-1");
 
-    private Integer value;
+    private Object value;
 
-    EnumIntegerEnum(Integer value) {
+    EnumIntegerEnum(Object value) {
       this.value = value;
     }
 
@@ -124,7 +124,7 @@ public class EnumTest   {
     }
 
     @JsonCreator
-    public static EnumIntegerEnum fromValue(Integer value) {
+    public static EnumIntegerEnum fromValue(Object value) {
       for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
         if (b.value.equals(value)) {
           return b;
@@ -181,7 +181,7 @@ public class EnumTest   {
   private OuterEnumDefaultValue outerEnumDefaultValue = OuterEnumDefaultValue.PLACED;
 
   @JsonProperty("outerEnumIntegerDefaultValue")
-  private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = OuterEnumIntegerDefaultValue.NUMBER_0;
+  private OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue = 0;
 
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = enumString;

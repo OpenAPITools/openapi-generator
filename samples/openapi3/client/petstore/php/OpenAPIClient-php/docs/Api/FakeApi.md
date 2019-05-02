@@ -572,7 +572,7 @@ $enum_header_string_array = array('enum_header_string_array_example'); // string
 $enum_header_string = '-efg'; // string | Header parameter enum test (string)
 $enum_query_string_array = array('enum_query_string_array_example'); // string[] | Query parameter enum test (string array)
 $enum_query_string = '-efg'; // string | Query parameter enum test (string)
-$enum_query_integer = 56; // int | Query parameter enum test (double)
+$enum_query_integer = new \stdClass; // object | Query parameter enum test (double)
 $enum_query_double = 3.4; // double | Query parameter enum test (double)
 $enum_form_string_array = '$'; // string[] | Form parameter enum test (string array)
 $enum_form_string = '-efg'; // string | Form parameter enum test (string)
@@ -594,7 +594,7 @@ Name | Type | Description  | Notes
  **enum_header_string** | **string**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
  **enum_query_string_array** | [**string[]**](../Model/string.md)| Query parameter enum test (string array) | [optional]
  **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
- **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
+ **enum_query_integer** | **object**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **double**| Query parameter enum test (double) | [optional]
  **enum_form_string_array** | [**string[]**](../Model/string.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
  **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]

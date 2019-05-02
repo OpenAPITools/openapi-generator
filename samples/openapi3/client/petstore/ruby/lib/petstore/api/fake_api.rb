@@ -669,7 +669,7 @@ module Petstore
     # @option opts [String] :enum_header_string Header parameter enum test (string) (default to '-efg')
     # @option opts [Array<String>] :enum_query_string_array Query parameter enum test (string array)
     # @option opts [String] :enum_query_string Query parameter enum test (string) (default to '-efg')
-    # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
+    # @option opts [Object] :enum_query_integer Query parameter enum test (double)
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
     # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array) (default to '$')
     # @option opts [String] :enum_form_string Form parameter enum test (string) (default to '-efg')
@@ -686,7 +686,7 @@ module Petstore
     # @option opts [String] :enum_header_string Header parameter enum test (string)
     # @option opts [Array<String>] :enum_query_string_array Query parameter enum test (string array)
     # @option opts [String] :enum_query_string Query parameter enum test (string)
-    # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
+    # @option opts [Object] :enum_query_integer Query parameter enum test (double)
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
     # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array)
     # @option opts [String] :enum_form_string Form parameter enum test (string)
@@ -711,7 +711,7 @@ module Petstore
       if @api_client.config.client_side_validation && opts[:'enum_query_string'] && !allowable_values.include?(opts[:'enum_query_string'])
         fail ArgumentError, "invalid value for \"enum_query_string\", must be one of #{allowable_values}"
       end
-      allowable_values = [1, -2]
+      allowable_values = ["1", "-2"]
       if @api_client.config.client_side_validation && opts[:'enum_query_integer'] && !allowable_values.include?(opts[:'enum_query_integer'])
         fail ArgumentError, "invalid value for \"enum_query_integer\", must be one of #{allowable_values}"
       end

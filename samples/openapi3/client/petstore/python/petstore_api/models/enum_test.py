@@ -33,7 +33,7 @@ class EnumTest(object):
     openapi_types = {
         'enum_string': 'str',
         'enum_string_required': 'str',
-        'enum_integer': 'int',
+        'enum_integer': 'object',
         'enum_number': 'float',
         'outer_enum': 'OuterEnum',
         'outer_enum_integer': 'OuterEnumInteger',
@@ -143,7 +143,7 @@ class EnumTest(object):
 
 
         :return: The enum_integer of this EnumTest.  # noqa: E501
-        :rtype: int
+        :rtype: object
         """
         return self._enum_integer
 
@@ -153,7 +153,7 @@ class EnumTest(object):
 
 
         :param enum_integer: The enum_integer of this EnumTest.  # noqa: E501
-        :type: int
+        :type: object
         """
         allowed_values = [1, -1]  # noqa: E501
         if enum_integer not in allowed_values:

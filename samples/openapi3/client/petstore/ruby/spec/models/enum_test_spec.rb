@@ -55,7 +55,7 @@ describe 'EnumTest' do
   describe 'test attribute "enum_integer"' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
-      # validator = Petstore::EnumTest::EnumAttributeValidator.new('Integer', [1, -1])
+      # validator = Petstore::EnumTest::EnumAttributeValidator.new('Object', ["1", "-1"])
       # validator.allowable_values.each do |value|
       #   expect { @instance.enum_integer = value }.not_to raise_error
       # end
