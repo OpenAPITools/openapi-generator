@@ -58,23 +58,6 @@ public class CodegenConfigurator implements Serializable {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigurator.class);
 
-    private static Map<String, String> nameMigrationMap = new HashMap<>();
-
-    static {
-        nameMigrationMap.put("akka-scala", new ScalaAkkaClientCodegen().getName());
-        nameMigrationMap.put("scala", new ScalaHttpClientCodegen().getName());
-        nameMigrationMap.put("jaxrs", new JavaJerseyServerCodegen().getName());
-        nameMigrationMap.put("qt5cpp", new CppQt5ClientCodegen().getName());
-        nameMigrationMap.put("cpprest", new CppRestSdkClientCodegen().getName());
-        nameMigrationMap.put("tizen", new CppTizenClientCodegen().getName());
-        nameMigrationMap.put("sinatra", new RubySinatraServerCodegen().getName());
-        nameMigrationMap.put("swift", new SwiftClientCodegen().getName());
-        nameMigrationMap.put("lumen", new PhpLumenServerCodegen().getName());
-        nameMigrationMap.put("slim", new PhpSlimServerCodegen().getName());
-        nameMigrationMap.put("ze-ph", new PhpZendExpressivePathHandlerServerCodegen().getName());
-        nameMigrationMap.put("nancyfx", new CSharpNancyFXServerCodegen().getName());
-    }
-
     private String generatorName;
     private String inputSpec;
     private String outputDir;
@@ -120,8 +103,6 @@ public class CodegenConfigurator implements Serializable {
         this.setOutputDir(".");
     }
 
-    // TODO: When setLang is removed, please remove nameMigrationMap and its usage(s).
-
     /**
      * Set the "language". This has drifted away from language-only to include framework and
      * hyphenated generator types as well as language.
@@ -150,15 +131,7 @@ public class CodegenConfigurator implements Serializable {
      * @return The fluent instance of {@link CodegenConfigurator}
      */
     public CodegenConfigurator setGeneratorName(final String generatorName) {
-        if (nameMigrationMap.containsKey(generatorName)) {
-            String newValue = nameMigrationMap.get(generatorName);
-            LOGGER.warn(String.format(Locale.ROOT,
-                    "The name '%s' is a deprecated. Please update to the new name of '%s'.",
-                    generatorName, newValue));
-            this.generatorName = newValue;
-        } else {
-            this.generatorName = generatorName;
-        }
+        this.generatorName = generatorName;
         return this;
     }
 
