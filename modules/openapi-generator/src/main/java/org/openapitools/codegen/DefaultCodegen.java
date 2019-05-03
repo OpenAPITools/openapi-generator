@@ -118,6 +118,9 @@ public class DefaultCodegen implements CodegenConfig {
     // flag to indicate whether to only update files whose contents have changed
     protected boolean enableMinimalUpdate = false;
 
+    // acts strictly upon a spec, potentially modifying it to have consistent behavior across generators.
+    protected boolean strictSpecBehavior = true;
+
     // make openapi available to all methods
     protected OpenAPI openAPI;
 
@@ -2387,11 +2390,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
         operationId = removeNonNameElementToCamelCase(operationId);
 
-        if (path.startsWith("/")) {
-            op.path = path;
-        } else {
+        if (isStrictSpecBehavior() && !path.startsWith("/")) {
+            // modifies an operation.path to strictly conform to OpenAPI Spec
             op.path = "/" + path;
+        } else {
+            op.path = path;
         }
+
         op.operationId = toOperationId(operationId);
         op.summary = escapeText(operation.getSummary());
         op.unescapedNotes = operation.getDescription();
@@ -4900,4 +4905,24 @@ public class DefaultCodegen implements CodegenConfig {
         this.enableMinimalUpdate = enableMinimalUpdate;
     }
 
+    /**
+     * Indicates whether the codegen configuration should treat documents as strictly defined by the OpenAPI specification.
+     *
+     * @return true to act strictly upon spec documents, potentially modifying the spec to strictly fit the spec.
+     */
+    @Override
+    public boolean isStrictSpecBehavior() {
+        return this.strictSpecBehavior;
+    }
+
+    /**
+     * Sets the boolean valid indicating whether generation will work strictly against the specification, potentially making
+     * minor changes to the input document.
+     *
+     * @param strictSpecBehavior true if we will behave strictly, false to allow specification documents which pass validation to be loosely interpreted against the spec.
+     */
+    @Override
+    public void setStrictSpecBehavior(final boolean strictSpecBehavior) {
+        this.strictSpecBehavior = strictSpecBehavior;
+    }
 }
