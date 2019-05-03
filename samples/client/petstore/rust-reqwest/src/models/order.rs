@@ -16,18 +16,18 @@ use serde_json::Value;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Order {
-    #[serde(rename = "id", skip_serializing_if="Option::is_none")]
+    #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<i64>,
-    #[serde(rename = "petId", skip_serializing_if="Option::is_none")]
+    #[serde(rename = "petId", skip_serializing_if = "Option::is_none")]
     pub pet_id: Option<i64>,
-    #[serde(rename = "quantity", skip_serializing_if="Option::is_none")]
+    #[serde(rename = "quantity", skip_serializing_if = "Option::is_none")]
     pub quantity: Option<i32>,
-    #[serde(rename = "shipDate", skip_serializing_if="Option::is_none")]
+    #[serde(rename = "shipDate", skip_serializing_if = "Option::is_none")]
     pub ship_date: Option<String>,
     /// Order Status
-    #[serde(rename = "status", skip_serializing_if="Option::is_none")]
+    #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
-    #[serde(rename = "complete", skip_serializing_if="Option::is_none")]
+    #[serde(rename = "complete", skip_serializing_if = "Option::is_none")]
     pub complete: Option<bool>,
 }
 

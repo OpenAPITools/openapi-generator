@@ -16,18 +16,18 @@ use serde_json::Value;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Pet {
-    #[serde(rename = "id", skip_serializing_if="Option::is_none")]
+    #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<i64>,
-    #[serde(rename = "category", skip_serializing_if="Option::is_none")]
+    #[serde(rename = "category", skip_serializing_if = "Option::is_none")]
     pub category: Option<::models::Category>,
     #[serde(rename = "name")]
     pub name: String,
     #[serde(rename = "photoUrls")]
     pub photo_urls: Vec<String>,
-    #[serde(rename = "tags", skip_serializing_if="Option::is_none")]
+    #[serde(rename = "tags", skip_serializing_if = "Option::is_none")]
     pub tags: Option<Vec<::models::Tag>>,
     /// pet status in the store
-    #[serde(rename = "status", skip_serializing_if="Option::is_none")]
+    #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
 }
 

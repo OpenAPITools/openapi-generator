@@ -29,7 +29,7 @@ pub struct {{{classname}}} {
     {{#description}}
     /// {{{description}}}
     {{/description}}
-    #[serde(rename = "{{{baseName}}}"{{^required}}, skip_serializing_if="Option::is_none"{{/required}})]
+    #[serde(rename = "{{{baseName}}}"{{^required}}, skip_serializing_if = "Option::is_none"{{/required}})]
     pub {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{{dataType}}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
 {{/vars}}
 }

@@ -16,11 +16,11 @@ use serde_json::Value;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ApiResponse {
-    #[serde(rename = "code", skip_serializing_if="Option::is_none")]
+    #[serde(rename = "code", skip_serializing_if = "Option::is_none")]
     pub code: Option<i32>,
-    #[serde(rename = "type", skip_serializing_if="Option::is_none")]
+    #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
     pub _type: Option<String>,
-    #[serde(rename = "message", skip_serializing_if="Option::is_none")]
+    #[serde(rename = "message", skip_serializing_if = "Option::is_none")]
     pub message: Option<String>,
 }
 
