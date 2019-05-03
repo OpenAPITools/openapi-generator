@@ -1019,8 +1019,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
         Pattern pattern = Pattern.compile("java\\.util\\.(List|ArrayList|Map|HashMap)");
         for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
-            String _import = itr.next().get("import");
-            if (pattern.matcher(_import).matches()) {
+            String itrImport = itr.next().get("import");
+            if (pattern.matcher(itrImport).matches()) {
                 itr.remove();
             }
         }
@@ -1042,7 +1042,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     LOGGER.info("Processing operation " + operation.getOperationId());
                     if (hasBodyParameter(openAPI, operation) || hasFormParameter(openAPI, operation)) {
                         String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
-                        List<String> consumes = new ArrayList<String>(getConsumesInfo(openAPI, operation));
+                        List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
                         String contentType = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
                         operation.addExtension("x-contentType", contentType);
                     }
@@ -1067,7 +1067,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     }
 
-    protected static String getAccept(OpenAPI openAPI, Operation operation) {
+    private static String getAccept(OpenAPI openAPI, Operation operation) {
         String accepts = null;
         String defaultContentType = "application/json";
         Set<String> producesInfo = getProducesInfo(openAPI, operation);
