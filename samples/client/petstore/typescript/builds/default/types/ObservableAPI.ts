@@ -25,10 +25,10 @@ export class ObservablePetApi {
 
     /**
      * Add a new pet to the store
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      */
-    public addPet(pet: Pet, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.addPet(pet, options);
+    public addPet(body: Pet, options?: Configuration): Observable<void> {
+    	const requestContext = this.requestFactory.addPet(body, options);
 
 		// build promise chain
     	let middlewarePreObservable = of(requestContext);
@@ -144,10 +144,10 @@ export class ObservablePetApi {
 	
     /**
      * Update an existing pet
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      */
-    public updatePet(pet: Pet, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.updatePet(pet, options);
+    public updatePet(body: Pet, options?: Configuration): Observable<void> {
+    	const requestContext = this.requestFactory.updatePet(body, options);
 
 		// build promise chain
     	let middlewarePreObservable = of(requestContext);
@@ -306,10 +306,10 @@ export class ObservableStoreApi {
 	
     /**
      * Place an order for a pet
-     * @param order order placed for purchasing the pet
+     * @param body order placed for purchasing the pet
      */
-    public placeOrder(order: Order, options?: Configuration): Observable<Order> {
-    	const requestContext = this.requestFactory.placeOrder(order, options);
+    public placeOrder(body: Order, options?: Configuration): Observable<Order> {
+    	const requestContext = this.requestFactory.placeOrder(body, options);
 
 		// build promise chain
     	let middlewarePreObservable = of(requestContext);
@@ -348,10 +348,10 @@ export class ObservableUserApi {
     /**
      * This can only be done by the logged in user.
      * Create user
-     * @param user Created user object
+     * @param body Created user object
      */
-    public createUser(user: User, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.createUser(user, options);
+    public createUser(body: User, options?: Configuration): Observable<void> {
+    	const requestContext = this.requestFactory.createUser(body, options);
 
 		// build promise chain
     	let middlewarePreObservable = of(requestContext);
@@ -371,10 +371,10 @@ export class ObservableUserApi {
 	
     /**
      * Creates list of users with given input array
-     * @param user List of user object
+     * @param body List of user object
      */
-    public createUsersWithArrayInput(user: Array<User>, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.createUsersWithArrayInput(user, options);
+    public createUsersWithArrayInput(body: Array<User>, options?: Configuration): Observable<void> {
+    	const requestContext = this.requestFactory.createUsersWithArrayInput(body, options);
 
 		// build promise chain
     	let middlewarePreObservable = of(requestContext);
@@ -394,10 +394,10 @@ export class ObservableUserApi {
 	
     /**
      * Creates list of users with given input array
-     * @param user List of user object
+     * @param body List of user object
      */
-    public createUsersWithListInput(user: Array<User>, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.createUsersWithListInput(user, options);
+    public createUsersWithListInput(body: Array<User>, options?: Configuration): Observable<void> {
+    	const requestContext = this.requestFactory.createUsersWithListInput(body, options);
 
 		// build promise chain
     	let middlewarePreObservable = of(requestContext);
@@ -512,10 +512,10 @@ export class ObservableUserApi {
      * This can only be done by the logged in user.
      * Updated user
      * @param username name that need to be deleted
-     * @param user Updated user object
+     * @param body Updated user object
      */
-    public updateUser(username: string, user: User, options?: Configuration): Observable<void> {
-    	const requestContext = this.requestFactory.updateUser(username, user, options);
+    public updateUser(username: string, body: User, options?: Configuration): Observable<void> {
+    	const requestContext = this.requestFactory.updateUser(username, body, options);
 
 		// build promise chain
     	let middlewarePreObservable = of(requestContext);

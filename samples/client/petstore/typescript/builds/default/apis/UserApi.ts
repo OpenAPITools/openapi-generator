@@ -17,14 +17,14 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
     /**
      * This can only be done by the logged in user.
      * Create user
-     * @param user Created user object
+     * @param body Created user object
      */
-    public createUser(user: User, options?: Configuration): RequestContext {
+    public createUser(body: User, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
-        // verify required parameter 'user' is not null or undefined
-        if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUser.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new RequiredError('Required parameter body was null or undefined when calling createUser.');
         }
 
 		
@@ -46,7 +46,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Content-Type", "application/json");
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"User" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify(user || {}) : (user.toString() || ""); // TODO: `toString` call is unnecessary
+        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body.toString() || ""); // TODO: `toString` call is unnecessary
         requestContext.setBody(serializedBody);
 		
     	// Apply auth methods
@@ -56,14 +56,14 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 			
     /**
      * Creates list of users with given input array
-     * @param user List of user object
+     * @param body List of user object
      */
-    public createUsersWithArrayInput(user: Array<User>, options?: Configuration): RequestContext {
+    public createUsersWithArrayInput(body: Array<User>, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
-        // verify required parameter 'user' is not null or undefined
-        if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithArrayInput.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new RequiredError('Required parameter body was null or undefined when calling createUsersWithArrayInput.');
         }
 
 		
@@ -85,7 +85,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Content-Type", "application/json");
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"Array&lt;User&gt;" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify(user || {}) : (user.toString() || ""); // TODO: `toString` call is unnecessary
+        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body.toString() || ""); // TODO: `toString` call is unnecessary
         requestContext.setBody(serializedBody);
 		
     	// Apply auth methods
@@ -95,14 +95,14 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
 			
     /**
      * Creates list of users with given input array
-     * @param user List of user object
+     * @param body List of user object
      */
-    public createUsersWithListInput(user: Array<User>, options?: Configuration): RequestContext {
+    public createUsersWithListInput(body: Array<User>, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
-        // verify required parameter 'user' is not null or undefined
-        if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling createUsersWithListInput.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new RequiredError('Required parameter body was null or undefined when calling createUsersWithListInput.');
         }
 
 		
@@ -124,7 +124,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Content-Type", "application/json");
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"Array&lt;User&gt;" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify(user || {}) : (user.toString() || ""); // TODO: `toString` call is unnecessary
+        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body.toString() || ""); // TODO: `toString` call is unnecessary
         requestContext.setBody(serializedBody);
 		
     	// Apply auth methods
@@ -281,9 +281,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
      * This can only be done by the logged in user.
      * Updated user
      * @param username name that need to be deleted
-     * @param user Updated user object
+     * @param body Updated user object
      */
-    public updateUser(username: string, user: User, options?: Configuration): RequestContext {
+    public updateUser(username: string, body: User, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
         // verify required parameter 'username' is not null or undefined
@@ -292,9 +292,9 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         }
 
 		
-        // verify required parameter 'user' is not null or undefined
-        if (user === null || user === undefined) {
-            throw new RequiredError('Required parameter user was null or undefined when calling updateUser.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new RequiredError('Required parameter body was null or undefined when calling updateUser.');
         }
 
 		
@@ -317,7 +317,7 @@ export class UserApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Content-Type", "application/json");
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"User" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify(user || {}) : (user.toString() || ""); // TODO: `toString` call is unnecessary
+        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body.toString() || ""); // TODO: `toString` call is unnecessary
         requestContext.setBody(serializedBody);
 		
     	// Apply auth methods

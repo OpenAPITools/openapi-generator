@@ -17,14 +17,14 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 	
     /**
      * Add a new pet to the store
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      */
-    public addPet(pet: Pet, options?: Configuration): RequestContext {
+    public addPet(body: Pet, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
-        // verify required parameter 'pet' is not null or undefined
-        if (pet === null || pet === undefined) {
-            throw new RequiredError('Required parameter pet was null or undefined when calling addPet.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new RequiredError('Required parameter body was null or undefined when calling addPet.');
         }
 
 		
@@ -46,7 +46,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Content-Type", "application/json");
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"Pet" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify(pet || {}) : (pet.toString() || ""); // TODO: `toString` call is unnecessary
+        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body.toString() || ""); // TODO: `toString` call is unnecessary
         requestContext.setBody(serializedBody);
 		
 		let authMethod = null;
@@ -231,14 +231,14 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 			
     /**
      * Update an existing pet
-     * @param pet Pet object that needs to be added to the store
+     * @param body Pet object that needs to be added to the store
      */
-    public updatePet(pet: Pet, options?: Configuration): RequestContext {
+    public updatePet(body: Pet, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
-        // verify required parameter 'pet' is not null or undefined
-        if (pet === null || pet === undefined) {
-            throw new RequiredError('Required parameter pet was null or undefined when calling updatePet.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new RequiredError('Required parameter body was null or undefined when calling updatePet.');
         }
 
 		
@@ -260,7 +260,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Content-Type", "application/json");
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"Pet" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify(pet || {}) : (pet.toString() || ""); // TODO: `toString` call is unnecessary
+        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body.toString() || ""); // TODO: `toString` call is unnecessary
         requestContext.setBody(serializedBody);
 		
 		let authMethod = null;
