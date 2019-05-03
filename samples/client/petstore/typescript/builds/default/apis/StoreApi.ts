@@ -121,14 +121,14 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 			
     /**
      * Place an order for a pet
-     * @param order order placed for purchasing the pet
+     * @param body order placed for purchasing the pet
      */
-    public placeOrder(order: Order, options?: Configuration): RequestContext {
+    public placeOrder(body: Order, options?: Configuration): RequestContext {
 		let config = options || this.configuration;
 		
-        // verify required parameter 'order' is not null or undefined
-        if (order === null || order === undefined) {
-            throw new RequiredError('Required parameter order was null or undefined when calling placeOrder.');
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new RequiredError('Required parameter body was null or undefined when calling placeOrder.');
         }
 
 		
@@ -150,7 +150,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
         requestContext.setHeaderParam("Content-Type", "application/json");
 		// TODO: Should this be handled by ObjectSerializer? imo yes => confidential information included in local object should not be sent
         const needsSerialization = (<any>"Order" !== "string") || requestContext.getHeaders()['Content-Type'] === 'application/json';
-        const serializedBody = needsSerialization ? JSON.stringify(order || {}) : (order.toString() || ""); // TODO: `toString` call is unnecessary
+        const serializedBody = needsSerialization ? JSON.stringify(body || {}) : (body.toString() || ""); // TODO: `toString` call is unnecessary
         requestContext.setBody(serializedBody);
 		
     	// Apply auth methods
