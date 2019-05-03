@@ -541,6 +541,8 @@ public class CodegenConfigurator implements Serializable {
         config.languageSpecificPrimitives().addAll(languageSpecificPrimitives);
         config.reservedWordsMappings().putAll(reservedWordMappings);
 
+        config.setStrictSpecBehavior(isStrictSpecBehavior());
+
         checkAndSetAdditionalProperty(apiPackage, CodegenConstants.API_PACKAGE);
         checkAndSetAdditionalProperty(modelPackage, CodegenConstants.MODEL_PACKAGE);
         checkAndSetAdditionalProperty(invokerPackage, CodegenConstants.INVOKER_PACKAGE);
