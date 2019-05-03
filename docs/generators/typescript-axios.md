@@ -15,8 +15,8 @@ sidebar_label: typescript-axios
 |supportsES6|Generate code that conforms to ES6.| |false|
 |npmName|The name under which you want to publish generated npm package| |null|
 |npmVersion|The version of your npm package| |null|
-|npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
+|npmRepository|Use this property to set an url of your private npmRepo in the package.json| |null|
 |snapshot|When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 |withSeparateModelsAndApi|Put the model and api in separate folders and in separate classes| |false|
-|withoutPrefixEnums|Dont prefix enum names with class names| |false|
+|withoutPrefixEnums|Don't prefix enum names with class names| |false|
