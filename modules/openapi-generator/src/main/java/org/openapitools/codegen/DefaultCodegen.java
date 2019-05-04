@@ -44,6 +44,8 @@ import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GeneratorProperties;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -63,6 +65,7 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public class DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCodegen.class);
 
+    protected GeneratorMetadata generatorMetadata;
     protected String inputSpec;
     protected String outputFolder = "";
     protected Set<String> defaultIncludes = new HashSet<String>();
@@ -817,6 +820,16 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Returns metadata about the generator.
+     *
+     * @return A provided {@link GeneratorMetadata} instance
+     */
+    @Override
+    public GeneratorMetadata getGeneratorMetadata() {
+        return generatorMetadata;
+    }
+
+    /**
      * Return the operation ID (method name)
      *
      * @param operationId operation ID
@@ -932,6 +945,15 @@ public class DefaultCodegen implements CodegenConfig {
      * returns string presentation of the example path (it's a constructor)
      */
     public DefaultCodegen() {
+        CodegenType codegenType = getTag();
+        if (codegenType == null) {
+            codegenType = CodegenType.OTHER;
+        }
+        generatorMetadata = GeneratorMetadata.newBuilder()
+                .stability(Stability.STABLE)
+                .generationMessage(String.format(Locale.ROOT, "OpenAPI Generator: %s (%s)", getName(), codegenType.toValue()))
+                .build();
+
         defaultIncludes = new HashSet<String>(
                 Arrays.asList("double",
                         "int",
