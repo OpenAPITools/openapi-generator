@@ -242,7 +242,9 @@ SYNOPSIS
                 [--api-package &lt;api package&gt;] [--artifact-id &lt;artifact id&gt;]
                 [--artifact-version &lt;artifact version&gt;]
                 [(-c &lt;configuration file&gt; | --config &lt;configuration file&gt;)]
-                [-D &lt;system properties&gt;...] [--<span class="hljs-built_in">enable</span>-post-process-file]
+                [-D &lt;system properties&gt;...]
+                [(-e &lt;templating engine&gt; | --engine &lt;templating engine&gt;)]
+                [--<span class="hljs-built_in">enable</span>-post-process-file]
                 [(-g &lt;generator name&gt; | --generator-name &lt;generator name&gt;)]
                 [--generate-alias-as-model] [--git-repo-id &lt;git repo id&gt;]
                 [--git-user-id &lt;git user id&gt;] [--group-id &lt;group id&gt;]
@@ -262,6 +264,7 @@ SYNOPSIS
                 [--remove-operation-id-prefix]
                 [--reserved-words-mappings &lt;reserved word mappings&gt;...]
                 [(-s | --skip-overwrite)] [--skip-validate-spec]
+                [--strict-spec &lt;<span class="hljs-literal">true</span>/<span class="hljs-literal">false</span> strict behavior&gt;]
                 [(-t &lt;template directory&gt; | --template-dir &lt;template directory&gt;)]
                 [--<span class="hljs-built_in">type</span>-mappings &lt;<span class="hljs-built_in">type</span> mappings&gt;...] [(-v | --verbose)]
 
@@ -289,9 +292,11 @@ SYNOPSIS
             artifact version <span class="hljs-keyword">in</span> generated pom.xml
 
         -c &lt;configuration file&gt;, --config &lt;configuration file&gt;
-            Path to json configuration file. File content should be <span class="hljs-keyword">in</span> a json
-            format {<span class="hljs-string">"optionKey"</span>:<span class="hljs-string">"optionValue"</span>, <span class="hljs-string">"optionKey1"</span>:<span class="hljs-string">"optionValue1"</span>...}
-            Supported options can be different <span class="hljs-keyword">for</span> each language. Run
+            Path to configuration file configuration file. It can be json or
+            yaml.If file is json, the content should have the format
+            {<span class="hljs-string">"optionKey"</span>:<span class="hljs-string">"optionValue"</span>, <span class="hljs-string">"optionKey1"</span>:<span class="hljs-string">"optionValue1"</span>...}.If file
+            is yaml, the content should have the format optionKey:
+            optionValueSupported options can be different <span class="hljs-keyword">for</span> each language. Run
             config-help -g {generator name} <span class="hljs-built_in">command</span> <span class="hljs-keyword">for</span> language specific config
             options.
 
@@ -299,11 +304,17 @@ SYNOPSIS
             sets specified system properties <span class="hljs-keyword">in</span> the format of
             name=value,name=value (or multiple options, each with name=value)
 
+        -e &lt;templating engine&gt;, --engine &lt;templating engine&gt;
+            templating engine: <span class="hljs-string">"mustache"</span> (default) or <span class="hljs-string">"handlebars"</span> (beta)
+
         --<span class="hljs-built_in">enable</span>-post-process-file
             enablePostProcessFile
 
         -g &lt;generator name&gt;, --generator-name &lt;generator name&gt;
-            generator to use (see langs <span class="hljs-built_in">command</span> <span class="hljs-keyword">for</span> list)
+            generator to use (see list <span class="hljs-built_in">command</span> <span class="hljs-keyword">for</span> list)
+
+        --generate-alias-as-model
+            Generate <span class="hljs-built_in">alias</span> to map, array as models
 
         --git-repo-id &lt;git repo id&gt;
             Git repo ID, e.g. openapi-generator.
@@ -354,6 +365,9 @@ SYNOPSIS
             piping the JSON output of debug options (e.g. `-DdebugOperations`)
             to an external parser directly <span class="hljs-keyword">while</span> testing a generator.
 
+        --minimal-update
+            Only write output files that have changed.
+
         --model-name-prefix &lt;model name prefix&gt;
             Prefix that will be prepended to all model names. Default is the
             empty string.
@@ -367,6 +381,9 @@ SYNOPSIS
 
         -o &lt;output directory&gt;, --output &lt;output directory&gt;
             <span class="hljs-built_in">where</span> to write the generated files (current dir by default)
+
+        --package-name &lt;package name&gt;
+            package <span class="hljs-keyword">for</span> generated classes (<span class="hljs-built_in">where</span> supported)
 
         --release-note &lt;release note&gt;
             Release note, default to <span class="hljs-string">'Minor update'</span>.
@@ -386,19 +403,24 @@ SYNOPSIS
         --skip-validate-spec
             Skips the default behavior of validating an input specification.
 
+        --strict-spec &lt;<span class="hljs-literal">true</span>/<span class="hljs-literal">false</span> strict behavior&gt;
+            <span class="hljs-string">'MUST'</span> and <span class="hljs-string">'SHALL'</span> wording <span class="hljs-keyword">in</span> OpenAPI spec is strictly adhered to.
+            e.g. when <span class="hljs-literal">false</span>, no fixes will be applied to documents <span class="hljs-built_in">which</span> pass
+            validation but don<span class="hljs-string">'t follow the spec.
+
         -t &lt;template directory&gt;, --template-dir &lt;template directory&gt;
             folder containing the template files
 
-        --<span class="hljs-built_in">type</span>-mappings &lt;<span class="hljs-built_in">type</span> mappings&gt;
-            sets mappings between OpenAPI spec types and generated code types <span class="hljs-keyword">in</span>
-            the format of OpenaAPIType=generatedType,OpenAPIType=generatedType.
+        --type-mappings &lt;type mappings&gt;
+            sets mappings between OpenAPI spec types and generated code types in
+            the format of OpenAPIType=generatedType,OpenAPIType=generatedType.
             For example: array=List,map=Map,string=String. You can also have
             multiple occurrences of this option.
 
         -v, --verbose
             verbose mode
 
-</code></pre>
+</span></code></pre>
 <p></details></p>
 <p>At a minimum, <code>generate</code> requires:</p>
 <ul>
@@ -477,4 +499,4 @@ The name of the file should be <code>config.yml</code> or <code>config.yaml</cod
 <pre><code class="hljs css language-bash">openapi-generator generate -i petstore.yaml -g typescript-fetch -o out \
     -c config.yaml
 </code></pre>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-4-30</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/online"><span class="arrow-prev">← </span><span>Online</span></a><a class="docs-next button" href="/docs/templating"><span>Using Templates</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#help">help</a></li><li><a href="#list">list</a></li><li><a href="#config-help">config-help</a></li><li><a href="#meta">meta</a></li><li><a href="#validate">validate</a></li><li><a href="#completion">completion</a></li><li><a href="#generate">generate</a><ul class="toc-headings"><li><a href="#examples">Examples</a></li><li><a href="#target-external-models">Target External Models</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://gitter.im/OpenAPITools/openapi-generator">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-5-3</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/online"><span class="arrow-prev">← </span><span>Online</span></a><a class="docs-next button" href="/docs/templating"><span>Using Templates</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#help">help</a></li><li><a href="#list">list</a></li><li><a href="#config-help">config-help</a></li><li><a href="#meta">meta</a></li><li><a href="#validate">validate</a></li><li><a href="#completion">completion</a></li><li><a href="#generate">generate</a><ul class="toc-headings"><li><a href="#examples">Examples</a></li><li><a href="#target-external-models">Target External Models</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://gitter.im/OpenAPITools/openapi-generator">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
