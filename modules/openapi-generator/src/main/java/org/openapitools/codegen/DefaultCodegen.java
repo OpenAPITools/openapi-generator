@@ -1286,6 +1286,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Return property value depending on property type.
+     *
      * @param schema property type
      * @return property value
      */
@@ -1892,7 +1893,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public CodegenProperty fromProperty(String name, Schema p) {
         if (p == null) {
-            LOGGER.error("Undefined property/schema for `{}`. Default to type:string.",  name);
+            LOGGER.error("Undefined property/schema for `{}`. Default to type:string.", name);
             return null;
         }
         LOGGER.debug("debugging fromProperty for " + name + " : " + p);
@@ -2042,7 +2043,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (innerSchema == null) {
                 LOGGER.error("Undefined array inner type for `{}`. Default to String.", p.getName());
                 innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
-                ((ArraySchema)p).setItems(innerSchema);
+                ((ArraySchema) p).setItems(innerSchema);
             }
         } else if (ModelUtils.isMapSchema(p)) {
             Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getAdditionalProperties(p));
@@ -2124,7 +2125,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (innerSchema == null) {
                 LOGGER.error("Undefined array inner type for `{}`. Default to String.", p.getName());
                 innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
-                ((ArraySchema)p).setItems(innerSchema);
+                ((ArraySchema) p).setItems(innerSchema);
             }
             CodegenProperty cp = fromProperty(itemName, innerSchema);
             updatePropertyForArray(property, cp);
@@ -4853,7 +4854,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
-        if(parameter == null || property == null) {
+        if (parameter == null || property == null) {
             return;
         }
         parameter.isNullable = property.isNullable;
@@ -4902,7 +4903,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Set the boolean value indicating the state of the option for updating only changed files
      *
-     * @param enableMinimalUpdate    true to enable minimal update
+     * @param enableMinimalUpdate true to enable minimal update
      */
     @Override
     public void setEnableMinimalUpdate(boolean enableMinimalUpdate) {
