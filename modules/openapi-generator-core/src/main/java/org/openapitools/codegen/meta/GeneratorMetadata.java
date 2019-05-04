@@ -24,6 +24,8 @@ public class GeneratorMetadata {
     /**
      * Creates a new builder object for {@link GeneratorMetadata}, accepting another instance from which to copy properties.
      *
+     * @param copy An existing instance to copy defaults from
+     *
      * @return A new builder instance, with values preset to those of 'copy'.
      */
     public static Builder newBuilder(GeneratorMetadata copy) {
