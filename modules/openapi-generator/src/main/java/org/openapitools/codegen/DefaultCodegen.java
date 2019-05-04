@@ -2516,8 +2516,8 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody != null) {
-            if ("application/x-www-form-urlencoded".startsWith(getContentType(requestBody).toLowerCase()) ||
-                    "multipart/form-data".startsWith(getContentType(requestBody).toLowerCase())) {
+            if (getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
+                    getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("multipart/form-data")) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
                 for (CodegenParameter cp : formParams) {
@@ -4195,7 +4195,8 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected String getContentType(RequestBody requestBody) {
         if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
-            return null;
+            LOGGER.warn("Cannot determine the content type. Default to UNKNOWN_CONTENT_TYPE.");
+            return "UNKNOWN_CONTENT_TYPE";
         }
         return new ArrayList<>(requestBody.getContent().keySet()).get(0);
     }
@@ -4276,7 +4277,9 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         for (String consume : consumesInfo) {
-            if ("application/x-www-form-urlencoded".equalsIgnoreCase(consume) || "multipart/form-data".equalsIgnoreCase(consume)) {
+            if (consume != null &&
+                    consume.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
+                    consume.toLowerCase(Locale.ROOT).startsWith("multipart/form-data")) {
                 return true;
             }
         }
