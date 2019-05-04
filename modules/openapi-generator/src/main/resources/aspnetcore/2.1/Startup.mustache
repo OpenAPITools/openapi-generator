@@ -42,11 +42,11 @@ namespace {{packageName}}
         {
             // Add framework services.
             services
-                .AddMvc()
+                .AddMvc({{^useEndpointRouting}}opts => opts.EnableEndpointRouting = false{{/useEndpointRouting}})
                 {{#compatibilityVersion}}
                 .SetCompatibilityVersion(CompatibilityVersion.{{compatibilityVersion}})
                 {{/compatibilityVersion}}
-                .AddJsonOptions(opts =>
+                .{{#useNewtonsoft}}AddNewtonsoftJson{{/useNewtonsoft}}{{^useNewtonsoft}}AddJsonOptions{{/useNewtonsoft}}(opts =>
                 {
                     opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     opts.SerializerSettings.Converters.Add(new StringEnumConverter

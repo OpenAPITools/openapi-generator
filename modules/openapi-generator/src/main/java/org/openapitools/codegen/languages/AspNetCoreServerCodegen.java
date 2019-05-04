@@ -51,6 +51,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String SDK_LIB = "Microsoft.NET.Sdk";
     public static final String COMPATIBILITY_VERSION = "compatibilityVersion";
     public static final String IS_LIBRARY = "isLibrary";
+    public static final String IS_FRAMEWORK = "isFramework";
+    public static final String USE_NEWtONSOFT = "useNewtonsoft";
+    public static final String USE_ENDPOINT_ROUTING = "useEndpointRoutng";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
@@ -72,6 +75,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean operationIsAsync = false;
     private boolean operationResultTask = false;
     private boolean isLibrary = false;
+    private boolean isFramework = false;
+    private boolean useNewtonsoft = true;
+    private boolean useEndpointRouting = false;
 
     public AspNetCoreServerCodegen() {
         super();
@@ -145,6 +151,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.addEnum("2.0", "ASP.NET COre 2.0");
         aspnetCoreVersion.addEnum("2.1", "ASP.NET Core 2.1");
         aspnetCoreVersion.addEnum("2.2", "ASP.NET Core 2.2");
+        aspnetCoreVersion.addEnum("3.0", "ASP.NET Core 3.0");
         aspnetCoreVersion.setDefault("2.2");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
         addOption(aspnetCoreVersion.getOpt(), aspnetCoreVersion.getDescription(), aspnetCoreVersion.getOptValue());
@@ -173,6 +180,18 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         addSwitch(IS_LIBRARY,
                 "Is the build a library",
                 isLibrary);
+
+        addSwitch(IS_FRAMEWORK,
+                "Are we using packagereference or framework",
+                isFramework);
+
+        addSwitch(USE_NEWtONSOFT,
+                "Uses the Newtonsoft JSN library.",
+                useNewtonsoft);
+
+        addSwitch(USE_ENDPOINT_ROUTING,
+                "Uses the newend point routing JSN library.",
+                useEndpointRouting);
 
         classModifier.addEnum("", "Keep class default with no modifier");
         classModifier.addEnum("abstract", "Make class abstract");
@@ -274,6 +293,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         // determine the ASP.NET core version setting
         setAspnetCoreVersion(packageFolder);
+        setIsFramework();
+        setUseNewtonsoft();
+        setUseEndpointRouting();
 
         supportingFiles.add(new SupportingFile("build.sh.mustache", "", "build.sh"));
         supportingFiles.add(new SupportingFile("build.bat.mustache", "", "build.bat"));
@@ -445,16 +467,16 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private void setAspnetCoreVersion(String packageFolder) {
         setCliOption(aspnetCoreVersion);
-        if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
-            embeddedTemplateDir = templateDir = "aspnetcore/2.0";
-            supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
-            LOGGER.info("ASP.NET core version: 2.0");
-            compatibilityVersion = null;
-        } else {
-            // default, do nothing
-            LOGGER.info("ASP.NET core version: " + aspnetCoreVersion.getOptValue());
-            compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
-        }
+            if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
+                embeddedTemplateDir = templateDir = "aspnetcore/2.0";
+                supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
+                LOGGER.info("ASP.NET core version: 2.0");
+                compatibilityVersion = null;
+            } else {
+                // default, do nothing
+                LOGGER.info("ASP.NET core version: " + aspnetCoreVersion.getOptValue());
+                compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
+            }
         additionalProperties.put(COMPATIBILITY_VERSION, compatibilityVersion);
     }
 
@@ -480,6 +502,50 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             operationIsAsync = convertPropertyToBooleanAndWriteBack(OPERATION_IS_ASYNC);
         } else {
             additionalProperties.put(OPERATION_IS_ASYNC, operationIsAsync);
+        }
+    }
+
+    private void setIsFramework() {
+        if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
+            // default, do nothing
+            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing  to use frameworkReference instead of packageReference ");
+            isFramework = true;
+            additionalProperties.put(IS_FRAMEWORK, isFramework);
+        } else {
+            if (additionalProperties.containsKey(IS_FRAMEWORK)) {
+                isFramework = convertPropertyToBooleanAndWriteBack(IS_FRAMEWORK);
+            } else {
+                additionalProperties.put(IS_FRAMEWORK, isFramework);
+            }
+        }
+
+    }
+
+    private void setUseNewtonsoft() {
+        if (aspnetCoreVersion.getOptValue().startsWith("2.")) {
+            LOGGER.warn("buildTarget is " + buildTarget.getOptValue() + " so changing default json library to Newtonsoft ");
+            useNewtonsoft = false;
+            additionalProperties.put(USE_NEWtONSOFT, useNewtonsoft);
+        } else {
+            if (additionalProperties.containsKey(USE_NEWtONSOFT)) {
+                useNewtonsoft = convertPropertyToBooleanAndWriteBack(USE_NEWtONSOFT);
+            } else {
+                additionalProperties.put(USE_NEWtONSOFT, useNewtonsoft);
+            }
+        }
+    }
+
+    private void setUseEndpointRouting() {
+        if (aspnetCoreVersion.getOptValue().startsWith("2.")) {
+            LOGGER.warn("buildTarget is " + buildTarget.getOptValue() + " so changing default endpoint routing  to false");
+            useNewtonsoft = false;
+            additionalProperties.put(USE_ENDPOINT_ROUTING, useEndpointRouting);
+        } else {
+            if (additionalProperties.containsKey(USE_NEWtONSOFT)) {
+                useEndpointRouting = convertPropertyToBooleanAndWriteBack(USE_ENDPOINT_ROUTING);
+            } else {
+                additionalProperties.put(USE_ENDPOINT_ROUTING, useEndpointRouting);
+            }
         }
     }
 }
