@@ -57,7 +57,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     public TypeScriptClientCodegen() {
         super();
-        	
+            
         this.frameworkToHttpLibMap = new HashMap<>();
         this.frameworkToHttpLibMap.put("fetch-api", "isomorphic-fetch");
         this.frameworkToHttpLibMap.put("jquery", "jquery");
@@ -135,8 +135,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         
         CliOption frameworkOption = new CliOption(TypeScriptClientCodegen.FRAMEWORK_SWITCH, TypeScriptClientCodegen.FRAMEWORK_SWITCH_DESC);
         for (String option: TypeScriptClientCodegen.FRAMEWORKS) {
-        	// TODO: improve description?
-        	frameworkOption.addEnum(option, option);
+            // TODO: improve description?
+            frameworkOption.addEnum(option, option);
         }
         frameworkOption.defaultValue(FRAMEWORKS[0]);
         System.out.println("Added framework option");
@@ -188,16 +188,16 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
     
     @Override
-    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {  	
-    	Map<String, Boolean> frameworks = new HashMap<>();
-    	for (String framework: FRAMEWORKS) {
-    		frameworks.put(framework, framework.equals(additionalProperties.get(FRAMEWORK_SWITCH)));
-    	}
-    	objs.put("framework", additionalProperties.get(FRAMEWORK_SWITCH));
-    	objs.put("frameworks", frameworks);
-    	
-    	objs.put("fileContentDataType", additionalProperties.get(FILE_CONTENT_DATA_TYPE));
-    	
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {      
+        Map<String, Boolean> frameworks = new HashMap<>();
+        for (String framework: FRAMEWORKS) {
+            frameworks.put(framework, framework.equals(additionalProperties.get(FRAMEWORK_SWITCH)));
+        }
+        objs.put("framework", additionalProperties.get(FRAMEWORK_SWITCH));
+        objs.put("frameworks", frameworks);
+        
+        objs.put("fileContentDataType", additionalProperties.get(FILE_CONTENT_DATA_TYPE));
+        
         return objs;
     }
     
@@ -711,21 +711,21 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         testPackage = this.testPackage + ".tests";
 
         if (additionalProperties.containsKey(FRAMEWORK_SWITCH)) {
-            supportingFiles.add(new SupportingFile("generators/" + additionalProperties.get(FRAMEWORK_SWITCH) + ".mustache", "index.ts"));        	
+            supportingFiles.add(new SupportingFile("generators/" + additionalProperties.get(FRAMEWORK_SWITCH) + ".mustache", "index.ts"));            
         } else {
-        	additionalProperties.put(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
-            supportingFiles.add(new SupportingFile("generators" + File.separator + FRAMEWORKS[0] + ".mustache", "index.ts"));        	
+            additionalProperties.put(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
+            supportingFiles.add(new SupportingFile("generators" + File.separator + FRAMEWORKS[0] + ".mustache", "index.ts"));            
         }
         String httpLibName = this.getHttpLibForFramework(additionalProperties.get(FRAMEWORK_SWITCH).toString());
         supportingFiles.add(new SupportingFile("http"  + File.separator + httpLibName + ".mustache", "http", httpLibName + ".ts"));
     }
 
     private String getHttpLibForFramework(String object) {
-		return this.frameworkToHttpLibMap.get(object);
-	}
+        return this.frameworkToHttpLibMap.get(object);
+    }
 
 
-	@Override
+    @Override
     public String getTypeDeclaration(Schema p) {
         Schema inner;
         if (ModelUtils.isArraySchema(p)) {
