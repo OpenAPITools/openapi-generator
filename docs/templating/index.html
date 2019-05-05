@@ -71,7 +71,7 @@
 <li>Gradle Plugin: <code>templateDir</code></li>
 </ul>
 </blockquote>
-<p>Built-in templates are written in Mustache and processed by <a href="https://github.com/samskivert/jmustache">jmustache</a>. We plan to eventually support Handlebars and user-defined template engines via plugins.</p>
+<p>Built-in templates are written in Mustache and processed by <a href="https://github.com/samskivert/jmustache">jmustache</a>. Beginning with version 4.0.0, we support experimental Handlebars and user-defined template engines via plugins.</p>
 <p>OpenAPI Generator supports user-defined templates. This approach is often the easiest when creating a custom template. Our generators implement a combination of language and framework features, and it's fully possible to use an existing generator to implement a custom template for a different framework. Suppose you have internal utilities which you'd like to incorporate into generated code (e.g. logging, monitoring, fault-handling)... this is easy to add via custom templates.</p>
 <blockquote>
 <p><strong>Note:</strong> You cannot use this approach to create new templates, only override existing ones. If you'd like to create a new generator to contribute back to the project, see <code>new.sh</code> in the repository root. If you'd like to create a private generator for more templating control, see the <a href="/docs/customization">customization</a> docs.</p>
@@ -269,6 +269,133 @@ Download https://jcenter.bintray.com/com/jcabi/jcabi-aspects/0.22.6/jcabi-aspect
 <p>Execute <code>./gradlew build</code> and then <code>cat target/rolling/rollingtest.log</code>. You should see messages logged for every call in PetApi with a stubbed unit test.</p>
 <p>Congratulations! You've now modified one of the built-in templates to meet your client code's needs.</p>
 <p>Adding/modifying template logic simply requires a little bit of <a href="https://mustache.github.io/">mustache</a>, for which you can use existing templates as a guide.</p>
+<h3><a class="anchor" aria-hidden="true" id="custom-engines"></a><a href="#custom-engines" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Engines</h3>
+<blockquote>
+<p>Custom template engine support is <em>experimental</em></p>
+</blockquote>
+<p>If Mustache or the experimental Handlebars engines don't suit your needs, you can define an adapter to your templating engine of choice. To do this, you'll need to define a new project which consumes the <code>openapi-generator-core</code> artifact, and at a minimum implement <code>TemplatingEngineAdapter</code>.</p>
+<p>This example:</p>
+<ul>
+<li>creates an adapter providing the fundamental logic to compile <a href="https://pebbletemplates.io">Pebble Templates</a></li>
+<li>will be implemented in Kotlin to demonstrate ServiceLoader configuration specific to Kotlin (Java will be similar)</li>
+<li>requires Gradle 5.0+</li>
+<li>provides project setup instructions for IntelliJ</li>
+</ul>
+<p>To begin, create a <a href="https://www.jetbrains.com/help/idea/getting-started-with-gradle.html">new Gradle project</a> with Kotlin support. To do this, go to <code>File</code> ➞ <code>New</code> ➞ <code>Project</code>, choose &quot;Gradle&quot; and &quot;Kotlin&quot;. Specify groupId <code>org.openapitools.examples</code> and artifactId <code>pebble-template-adapter</code>.</p>
+<p>Ensure the new project uses Gradle 5.0. Navigate to the newly created directory and execute:</p>
+<pre><code class="hljs css language-bash">gradle wrapper --gradle-version 5.0
+</code></pre>
+<p>In <code>build.gradle</code>, we'll add a dependency for OpenAPI Tools core which defines the interface and an abstract helper type for implementing the adapter. We'll also pull in the Pebble artifact. We'll be evaluating this new artifact locally, so we'll also add the Maven plugin for installing to the local maven repository. We'll also create a fatjar using the <code>shadow</code> plugin to simplify our classpath.</p>
+<p>Modifications to the new project's <code>build.gradle</code> should be made in the <code>plugins</code> and <code>dependencies</code> nodes:</p>
+<pre><code class="hljs css language-diff"> plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.3.11'
+    id "com.github.johnrengelman.shadow" version "5.0.0"
+ }
+ 
+ dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "org.openapitools:openapi-generator-core:4.0.0-SNAPSHOT"
+    compile "io.pebbletemplates:pebble:3.0.8"
+ }
+</code></pre>
+<p>The above configuration for the <code>shadow</code> plugin is strictly optional. It is not needed, for instance, if you plan to publish your adapter and consume it via the Maven or Gradle plugins.</p>
+<p>Next, create a new class file called <code>PebbleTemplateEngineAdapter</code> under <code>src/kotlin</code>. We'll define the template adapter's name as <code>pebble</code> and we'll also list this as the only supported file extension. We'll implement the adapter by extending <code>AbstractTemplatingEngineAdapter</code>, which includes reusable logic, such as retrieving a list of all possible template names for our provided template extensions(s).</p>
+<p>The class in its simplest form looks like this (with inline comments):</p>
+<pre><code class="hljs css language-kotlin"><span class="hljs-comment">// Allows specifying engine by class name</span>
+<span class="hljs-comment">// e.g. -e org.openapitools.examples.templating.PebbleTemplateAdapter</span>
+<span class="hljs-meta">@file:JvmName</span>(<span class="hljs-string">"PebbleTemplateAdapter"</span>)
+<span class="hljs-keyword">package</span> org.openapitools.examples.templating
+
+<span class="hljs-comment">// imports</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PebbleTemplateAdapter</span> : <span class="hljs-type">AbstractTemplatingEngineAdapter</span></span>() {
+    <span class="hljs-comment">// initialize the template compilation engine</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> engine: PebbleEngine = PebbleEngine.Builder()
+        .cacheActive(<span class="hljs-literal">false</span>)
+        .loader(DelegatingLoader(listOf(FileLoader(), ClasspathLoader())))
+        .build()
+
+    <span class="hljs-comment">// allows targeting engine by id/name: -e pebble</span>
+    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getIdentifier</span><span class="hljs-params">()</span></span>: String = <span class="hljs-string">"pebble"</span>
+
+    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">compileTemplate</span><span class="hljs-params">(
+        generator: <span class="hljs-type">TemplatingGenerator</span>?,
+        bundle: <span class="hljs-type">MutableMap</span>&lt;<span class="hljs-type">String</span>, Any&gt;?,
+        templateFile: <span class="hljs-type">String</span>?
+    )</span></span>: String {
+        <span class="hljs-comment">// This will convert, for example, model.mustache to model.pebble</span>
+        <span class="hljs-keyword">val</span> modifiedTemplate = <span class="hljs-keyword">this</span>.getModifiedFileLocation(templateFile).first()
+
+        <span class="hljs-comment">// Uses generator built-in template resolution strategy to find the full template file</span>
+        <span class="hljs-keyword">val</span> filePath = generator?.getFullTemplatePath(modifiedTemplate)
+
+        <span class="hljs-keyword">val</span> writer = StringWriter()
+        <span class="hljs-comment">// Conditionally writes out the template if found.</span>
+        <span class="hljs-keyword">if</span> (filePath != <span class="hljs-literal">null</span>) {
+            engine.getTemplate(filePath.toAbsolutePath().toString())?.evaluate(writer, bundle)
+        }
+        <span class="hljs-keyword">return</span> writer.toString()
+    }
+
+    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">getFileExtensions</span><span class="hljs-params">()</span></span>: Array&lt;String&gt; = arrayOf(<span class="hljs-string">"pebble"</span>)
+}
+</code></pre>
+<p>Lastly, create a file <code>resources/META-INF/services/org.openapitools.codegen.api.TemplatingEngineAdapter</code>, containing the full class path to the above class:</p>
+<pre><code class="hljs">org<span class="hljs-selector-class">.openapitools</span><span class="hljs-selector-class">.examples</span><span class="hljs-selector-class">.templating</span><span class="hljs-selector-class">.PebbleTemplateAdapter</span>
+</code></pre>
+<p>This allows the adapter to load via ServiceLoader, and to be referenced via the identifier <code>pebble</code>. This is optional; if you don't provide the above file and contents, you'll only be able to load the engine via full class name (explained in a bit).</p>
+<p>Now, build the fatjar for this new adapter:</p>
+<pre><code class="hljs css language-bash">./gradlew shadowJar
+</code></pre>
+<p>To test compilation of some templates, we'll need to first create one or more template files. Create a temp directory at <code>/tmp/pebble-example/templates</code> and add the following files.</p>
+<p><em>api.pebble</em></p>
+<pre><code class="hljs"><span class="xml">package </span><span class="hljs-template-variable">{{packageName}}</span><span class="xml">
+
+import (
+    "net/http"
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">for</span></span> item <span class="hljs-keyword">in</span> imports %}</span><span class="xml">
+    "</span><span class="hljs-template-variable">{{item.import}}</span><span class="xml">"
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endfor</span></span> %}</span><span class="xml">
+)
+
+type Generated</span><span class="hljs-template-variable">{{classname}}</span><span class="xml">Servicer 
+
+// etc
+</span></code></pre>
+<p><em>model.pebble</em></p>
+<pre><code class="hljs"><span class="xml">package </span><span class="hljs-template-variable">{{packageName}}</span><span class="xml">
+
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">for</span></span> item <span class="hljs-keyword">in</span> models %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> item.isEnum %}</span><span class="xml">
+// TODO: enum
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">else</span></span> %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> item.description is not empty %}</span><span class="xml">// </span><span class="hljs-template-variable">{{item.description}}</span><span class="xml"></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">
+type </span><span class="hljs-template-variable">{{item.classname}}</span><span class="xml"> struct {
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">for</span></span> var <span class="hljs-keyword">in</span> item.model.vars %}</span><span class="xml">
+    </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.description is not empty %}</span><span class="xml">// </span><span class="hljs-template-variable">{{var.description}}</span><span class="xml"></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">
+    </span><span class="hljs-template-variable">{{var.name}}</span><span class="xml"> </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.isNullable %}</span><span class="xml">*</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml"></span><span class="hljs-template-variable">{{var.dataType}}</span><span class="xml"> `json:"</span><span class="hljs-template-variable">{{var.baseName}}</span><span class="xml"></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.required == false %}</span><span class="xml">,omitempty</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">"</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.withXml == true %}</span><span class="xml"> xml:"</span><span class="hljs-template-variable">{{var.baseName}}</span><span class="xml"></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">if</span></span> var.isXmlAttribute %}</span><span class="xml">,attr</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">"</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">`
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endfor</span></span> %}</span><span class="xml">
+}
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endif</span></span> %}</span><span class="xml">
+</span><span class="hljs-template-variable">{{model.name}}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-name">endfor</span></span> %}</span><span class="xml">
+</span></code></pre>
+<blockquote>
+<p>Find object structures passed to templates later in this document's <strong>Structures</strong> section.</p>
+</blockquote>
+<p>Finally, we can compile some code by explicitly defining our classpath and jar entrypoint for CLI (be sure to modify <code>/your/path</code> below)</p>
+<pre><code class="hljs css language-bash">java <span class="hljs-variable">$JAVA_OPTS</span> -cp /your/path/build/libs/pebble-template-adapter-1.0-SNAPSHOT-all.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar \
+    org.openapitools.codegen.OpenAPIGenerator \
+    generate \
+    -g go \
+    -i https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v2.0/json/petstore-minimal.json \
+    -e pebble \
+    -o /tmp/pebble-example/out \
+    -t /tmp/pebble-example/templates \
+    -Dmodels -DmodelDocs=<span class="hljs-literal">false</span> -DmodelTests=<span class="hljs-literal">false</span> -Dapis -DapiTests=<span class="hljs-literal">false</span> -DapiDocs=<span class="hljs-literal">false</span>
+</code></pre>
+<p>Notice how we've targeted our custom template engine adapter via <code>-e pebble</code>. If you don't include the SPI file under <code>META-INF/services</code>, you'll need to specify the exact classpath: <code>org.openapitools.examples.templating.PebbleTemplateAdapter</code>. Notice that the target class here matches the Kotlin class name. This is because of the <code>@file:JvmName</code> annotation.</p>
+<p>Congratulations on creating a custom templating engine adapter!</p>
 <h2><a class="anchor" aria-hidden="true" id="structures"></a><a href="#structures" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Structures</h2>
 <p>Aside from transforming an API document, the implementing class gets to decide how to apply the data structure to templates. We can decide which data structure to apply to which template files. You have the following structures at your disposal.</p>
 <p>Examples for the following structures will be presented using the following spec document:</p>
@@ -707,4 +834,4 @@ For more details on Mustache see <a href="https://mustache.github.io/mustache.5.
 <p>If you'd like a 1-based index in your array traversal, you can use <code>{{-index}}</code>:</p>
 <pre><code class="hljs css language-mustache">{{#enums}}{{-index}} {{enum}}{{/enums}}
 </code></pre>
-</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-4-22</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/usage"><span class="arrow-prev">← </span><span>Usage</span></a><a class="docs-next button" href="/docs/customization"><span>Customization</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#modifying-templates">Modifying Templates</a><ul class="toc-headings"><li><a href="#custom-logic">Custom Logic</a></li></ul></li><li><a href="#structures">Structures</a><ul class="toc-headings"><li><a href="#operations">Operations</a></li><li><a href="#models">Models</a></li><li><a href="#supportingfiles">supportingFiles</a></li></ul></li><li><a href="#variables">Variables</a></li><li><a href="#extensions">Extensions</a><ul class="toc-headings"><li><a href="#all-generators-core">All generators (core)</a></li><li><a href="#objc">ObjC</a></li><li><a href="#java-feign">Java (Feign)</a></li><li><a href="#x-content-type">x-content-type</a></li><li><a href="#rust-server">Rust-server</a></li><li><a href="#mysql-schema">MySQL Schema</a></li></ul></li><li><a href="#mustache-tips">Mustache Tips</a><ul class="toc-headings"><li><a href="#first-last">First/Last</a></li><li><a href="#this">This</a></li><li><a href="#index">Index</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://gitter.im/OpenAPITools/openapi-generator">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
+</span></div></article></div><div class="docLastUpdate"><em>Last updated on 2019-5-5</em></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/usage"><span class="arrow-prev">← </span><span>Usage</span></a><a class="docs-next button" href="/docs/customization"><span>Customization</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#modifying-templates">Modifying Templates</a><ul class="toc-headings"><li><a href="#custom-logic">Custom Logic</a></li><li><a href="#custom-engines">Custom Engines</a></li></ul></li><li><a href="#structures">Structures</a><ul class="toc-headings"><li><a href="#operations">Operations</a></li><li><a href="#models">Models</a></li><li><a href="#supportingfiles">supportingFiles</a></li></ul></li><li><a href="#variables">Variables</a></li><li><a href="#extensions">Extensions</a><ul class="toc-headings"><li><a href="#all-generators-core">All generators (core)</a></li><li><a href="#objc">ObjC</a></li><li><a href="#java-feign">Java (Feign)</a></li><li><a href="#x-content-type">x-content-type</a></li><li><a href="#rust-server">Rust-server</a></li><li><a href="#mysql-schema">MySQL Schema</a></li></ul></li><li><a href="#mustache-tips">Mustache Tips</a><ul class="toc-headings"><li><a href="#first-last">First/Last</a></li><li><a href="#this">This</a></li><li><a href="#index">Index</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/mono-logo.svg" alt="OpenAPI Generator" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/customization.html">Customizing Generators</a><a href="/docs/en/integrations.html">Workflow Integrations</a></div><div><h5>Community</h5><a href="/en/users.html">User Showcase</a><a href="http://stackoverflow.com/questions/tagged/openapi-generator" target="_blank" rel="noreferrer noopener">Stack Overflow</a><a href="https://gitter.im/OpenAPITools/openapi-generator">Chat Room</a><a href="https://twitter.com/oas_generator" target="_blank" rel="noreferrer noopener">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a href="https://github.com/OpenAPITools/openapi-generator">GitHub Repo</a><a class="github-button" href="https://github.com/OpenAPITools/openapi-generator" data-icon="octicon-star" data-count-href="/OpenAPITools/openapi-generator/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 OpenAPI-Generator Contributors (https://openapi-generator.tech). (Both &quot;OpenAPI Tools&quot; (https://OpenAPITools.org) and &quot;OpenAPI Generator&quot; are not affiliated with OpenAPI Initiative (OAI))</section></footer></div></body></html>
