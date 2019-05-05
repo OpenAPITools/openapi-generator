@@ -71,6 +71,7 @@ The following generators are available:
     - [cpp-restbed-server](generators/cpp-restbed-server.md)
     - [csharp-nancyfx](generators/csharp-nancyfx.md)
     - [erlang-server](generators/erlang-server.md)
+    - [fsharp-giraffe](generators/fsharp-giraffe.md)
     - [go-gin-server](generators/go-gin-server.md)
     - [go-server](generators/go-server.md)
     - [graphql-nodejs-express-server](generators/graphql-nodejs-express-server.md)
