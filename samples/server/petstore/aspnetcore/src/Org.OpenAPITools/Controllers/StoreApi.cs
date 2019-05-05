@@ -23,7 +23,8 @@ namespace Org.OpenAPITools.Controllers
     /// <summary>
     /// 
     /// </summary>
-    public  class StoreApiController : ControllerBase
+    [ApiController]
+    public class StoreApiController : ControllerBase
     { 
         /// <summary>
         /// Delete purchase order by ID

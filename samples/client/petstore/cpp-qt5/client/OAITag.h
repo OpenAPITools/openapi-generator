@@ -25,6 +25,7 @@
 #include <QString>
 
 #include "OAIObject.h"
+#include "OAIEnum.h"
 
 namespace OpenAPI {
 
@@ -39,24 +40,31 @@ public:
     void fromJsonObject(QJsonObject json) override;
     void fromJson(QString jsonString) override;
 
+    
     qint64 getId() const;
     void setId(const qint64 &id);
 
+    
     QString getName() const;
     void setName(const QString &name);
 
+    
+    
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 
 private:
     void init();
+    
     qint64 id;
     bool m_id_isSet;
     bool m_id_isValid;
+    
     QString name;
     bool m_name_isSet;
     bool m_name_isValid;
-};
+    
+    };
 
 }
 

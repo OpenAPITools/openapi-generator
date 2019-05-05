@@ -23,7 +23,8 @@ namespace Org.OpenAPITools.Controllers
     /// <summary>
     /// 
     /// </summary>
-    public  class UserApiController : ControllerBase
+    [ApiController]
+    public class UserApiController : ControllerBase
     { 
         /// <summary>
         /// Create user

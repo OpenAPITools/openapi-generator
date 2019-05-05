@@ -24,12 +24,18 @@ import com.squareup.moshi.Json
  * @param complete 
  */
 data class Order (
+    @Json(name = "id")
     val id: kotlin.Long? = null,
+    @Json(name = "petId")
     val petId: kotlin.Long? = null,
+    @Json(name = "quantity")
     val quantity: kotlin.Int? = null,
+    @Json(name = "shipDate")
     val shipDate: org.threeten.bp.LocalDateTime? = null,
     /* Order Status */
+    @Json(name = "status")
     val status: Order.Status? = null,
+    @Json(name = "complete")
     val complete: kotlin.Boolean? = null
 ) {
 
@@ -39,11 +45,14 @@ data class Order (
     */
     enum class Status(val value: kotlin.String){
     
-        @Json(name = "placed") placed("placed"),
+        @Json(name = "placed")
+        placed("placed"),
     
-        @Json(name = "approved") approved("approved"),
+        @Json(name = "approved")
+        approved("approved"),
     
-        @Json(name = "delivered") delivered("delivered");
+        @Json(name = "delivered")
+        delivered("delivered");
     
     }
 

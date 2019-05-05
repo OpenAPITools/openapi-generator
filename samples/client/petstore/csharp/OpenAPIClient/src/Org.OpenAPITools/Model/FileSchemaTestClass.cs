@@ -105,6 +105,7 @@ namespace Org.OpenAPITools.Model
                 (
                     this.Files == input.Files ||
                     this.Files != null &&
+                    input.Files != null &&
                     this.Files.SequenceEqual(input.Files)
                 );
         }

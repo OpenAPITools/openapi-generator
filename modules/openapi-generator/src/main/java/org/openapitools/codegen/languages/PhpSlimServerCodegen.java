@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,8 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
+
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
@@ -92,18 +95,18 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
 
     @Override
     public String apiFileFolder() {
-        if (apiPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
+        if (apiPackage.startsWith(invokerPackage + "\\")) {
             // need to strip out invokerPackage from path
-            return (outputFolder + File.separator + toSrcPath(apiPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
+            return (outputFolder + File.separator + toSrcPath(StringUtils.removeStart(apiPackage, invokerPackage + "\\"), srcBasePath));
         }
         return (outputFolder + File.separator + toSrcPath(apiPackage, srcBasePath));
     }
 
     @Override
     public String modelFileFolder() {
-        if (modelPackage.matches("^" + invokerPackage + "\\\\*(.+)")) {
+        if (modelPackage.startsWith(invokerPackage + "\\")) {
             // need to strip out invokerPackage from path
-            return (outputFolder + File.separator + toSrcPath(modelPackage.replaceFirst("^" + invokerPackage + "\\\\*(.+)", "$1"), srcBasePath));
+            return (outputFolder + File.separator + toSrcPath(StringUtils.removeStart(modelPackage, invokerPackage + "\\"), srcBasePath));
         }
         return (outputFolder + File.separator + toSrcPath(modelPackage, srcBasePath));
     }
@@ -175,7 +178,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         if (name.length() == 0) {
             return toAbstractName("DefaultApi");
         }
-        return toAbstractName(initialCaps(name) + "Api");
+        return toAbstractName(camelize(name) + "Api");
     }
 
     @Override
@@ -183,7 +186,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
         if (name.length() == 0) {
             return "DefaultApiTest";
         }
-        return initialCaps(name) + "ApiTest";
+        return camelize(name) + "ApiTest";
     }
 
     /**

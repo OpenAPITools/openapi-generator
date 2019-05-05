@@ -22,14 +22,17 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.OpenAPI;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.URLPathUtils;
 
 import java.io.File;
 import java.util.*;
+import java.net.URL;
 
-import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class CppPistacheServerCodegen extends AbstractCppCodegen {
     protected String implFolder = "impl";
@@ -81,8 +84,6 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
         reservedWords = new HashSet<>();
 
-        supportingFiles.add(new SupportingFile("modelbase-header.mustache", "model", modelNamePrefix + "ModelBase.h"));
-        supportingFiles.add(new SupportingFile("modelbase-source.mustache", "model", modelNamePrefix + "ModelBase.cpp"));
         supportingFiles.add(new SupportingFile("helpers-header.mustache", "model", modelNamePrefix + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-source.mustache", "model", modelNamePrefix + "Helpers.cpp"));
         supportingFiles.add(new SupportingFile("main-api-server.mustache", "", modelNamePrefix + "main-api-server.cpp"));
@@ -124,8 +125,6 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         if (additionalProperties.containsKey("modelNamePrefix")) {
             additionalProperties().put("prefix", modelNamePrefix);
             supportingFiles.clear();
-            supportingFiles.add(new SupportingFile("modelbase-header.mustache", "model", modelNamePrefix + "ModelBase.h"));
-            supportingFiles.add(new SupportingFile("modelbase-source.mustache", "model", modelNamePrefix + "ModelBase.cpp"));
             supportingFiles.add(new SupportingFile("helpers-header.mustache", "model", modelNamePrefix + "Helpers.h"));
             supportingFiles.add(new SupportingFile("helpers-source.mustache", "model", modelNamePrefix + "Helpers.cpp"));
             supportingFiles.add(new SupportingFile("main-api-server.mustache", "", modelNamePrefix + "main-api-server.cpp"));
@@ -265,7 +264,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return initialCaps(toModelName(name));
+        return toModelName(name);
     }
 
     @Override
@@ -286,7 +285,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toApiFilename(String name) {
-        return  modelNamePrefix + initialCaps(name) + "Api";
+        return toApiName(name);
     }
 
     /**
@@ -405,7 +404,14 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public String getTypeDeclaration(String str) {
         return toModelName(str);
     }
-
+    
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        URL url = URLPathUtils.getServerURL(openAPI);
+        String port = URLPathUtils.getPort(url, "8080");
+        this.additionalProperties.put("serverPort", port);
+    }
+    
     /**
      * Specify whether external libraries will be added during the generation 
      * @param value the value to be set

@@ -273,16 +273,16 @@ pub trait Api<C> {
     fn test_special_tags(&self, body: models::Client, context: &C) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError>>;
 
 
-    fn fake_outer_boolean_serialize(&self, body: Option<bool>, context: &C) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>>;
+    fn fake_outer_boolean_serialize(&self, body: Option<models::OuterBoolean>, context: &C) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>>;
 
 
     fn fake_outer_composite_serialize(&self, body: Option<models::OuterComposite>, context: &C) -> Box<Future<Item=FakeOuterCompositeSerializeResponse, Error=ApiError>>;
 
 
-    fn fake_outer_number_serialize(&self, body: Option<f64>, context: &C) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>>;
+    fn fake_outer_number_serialize(&self, body: Option<models::OuterNumber>, context: &C) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>>;
 
 
-    fn fake_outer_string_serialize(&self, body: Option<String>, context: &C) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>>;
+    fn fake_outer_string_serialize(&self, body: Option<models::OuterString>, context: &C) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>>;
 
 
     fn test_body_with_query_params(&self, query: String, body: models::User, context: &C) -> Box<Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError>>;
@@ -374,16 +374,16 @@ pub trait ApiNoContext {
     fn test_special_tags(&self, body: models::Client) -> Box<Future<Item=TestSpecialTagsResponse, Error=ApiError>>;
 
 
-    fn fake_outer_boolean_serialize(&self, body: Option<bool>) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>>;
+    fn fake_outer_boolean_serialize(&self, body: Option<models::OuterBoolean>) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>>;
 
 
     fn fake_outer_composite_serialize(&self, body: Option<models::OuterComposite>) -> Box<Future<Item=FakeOuterCompositeSerializeResponse, Error=ApiError>>;
 
 
-    fn fake_outer_number_serialize(&self, body: Option<f64>) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>>;
+    fn fake_outer_number_serialize(&self, body: Option<models::OuterNumber>) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>>;
 
 
-    fn fake_outer_string_serialize(&self, body: Option<String>) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>>;
+    fn fake_outer_string_serialize(&self, body: Option<models::OuterString>) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>>;
 
 
     fn test_body_with_query_params(&self, query: String, body: models::User) -> Box<Future<Item=TestBodyWithQueryParamsResponse, Error=ApiError>>;
@@ -488,7 +488,7 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     }
 
 
-    fn fake_outer_boolean_serialize(&self, body: Option<bool>) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>> {
+    fn fake_outer_boolean_serialize(&self, body: Option<models::OuterBoolean>) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>> {
         self.api().fake_outer_boolean_serialize(body, &self.context())
     }
 
@@ -498,12 +498,12 @@ impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
     }
 
 
-    fn fake_outer_number_serialize(&self, body: Option<f64>) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>> {
+    fn fake_outer_number_serialize(&self, body: Option<models::OuterNumber>) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>> {
         self.api().fake_outer_number_serialize(body, &self.context())
     }
 
 
-    fn fake_outer_string_serialize(&self, body: Option<String>) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>> {
+    fn fake_outer_string_serialize(&self, body: Option<models::OuterString>) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>> {
         self.api().fake_outer_string_serialize(body, &self.context())
     }
 

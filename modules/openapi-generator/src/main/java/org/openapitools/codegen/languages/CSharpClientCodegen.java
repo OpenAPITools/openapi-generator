@@ -86,6 +86,18 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         cliOptions.clear();
 
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("float", "float");
+        typeMapping.put("long", "long");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("UUID", "Guid");
+
+        setSupportNullable(Boolean.TRUE);
+
         // CLI options
         addOption(CodegenConstants.PACKAGE_NAME,
                 "C# package name (convention: Title.Case).",
@@ -157,10 +169,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE,
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
                 this.optionalProjectFileFlag);
-
-        addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
-                CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
-                this.optionalEmitDefaultValue);
 
         addSwitch(CodegenConstants.GENERATE_PROPERTY_CHANGED,
                 CodegenConstants.PACKAGE_DESCRIPTION_DESC,
@@ -317,9 +325,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         additionalProperties.put("supportsUWP", this.supportsUWP);
         additionalProperties.put("netStandard", this.netStandard);
         additionalProperties.put("targetFrameworkNuget", this.targetFrameworkNuget);
-
-        // TODO: either remove this and update templates to match the "optionalEmitDefaultValues" property, or rename that property.
-        additionalProperties.put("emitDefaultValue", optionalEmitDefaultValue);
 
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
             setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
@@ -862,4 +867,18 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             return null;
         }
     }
+    
+    @Override
+    public String getNullableType(Schema p, String type) {
+        boolean isNullableExpected = p.getNullable() == null || (p.getNullable() != null && p.getNullable());
+
+        if (isNullableExpected && languageSpecificPrimitives.contains(type + "?")) {
+            return type + "?";
+        } else if (languageSpecificPrimitives.contains(type)) {
+            return type;
+        } else {
+            return null;
+        }
+    }
+
 }

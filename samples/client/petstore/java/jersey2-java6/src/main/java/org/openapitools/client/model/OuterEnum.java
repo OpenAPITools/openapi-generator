@@ -46,9 +46,9 @@ public enum OuterEnum {
   }
 
   @JsonCreator
-  public static OuterEnum fromValue(String text) {
+  public static OuterEnum fromValue(String value) {
     for (OuterEnum b : OuterEnum.values()) {
-      if (String.valueOf(b.value).equals(text)) {
+      if (b.value.equals(value)) {
         return b;
       }
     }

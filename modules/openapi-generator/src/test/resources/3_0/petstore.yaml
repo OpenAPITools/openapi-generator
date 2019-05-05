@@ -94,7 +94,6 @@ paths:
           description: Invalid status value
       security:
         - petstore_auth:
-            - 'write:pets'
             - 'read:pets'
   /pet/findByTags:
     get:
@@ -141,7 +140,6 @@ paths:
           description: Invalid tag value
       security:
         - petstore_auth:
-            - 'write:pets'
             - 'read:pets'
       deprecated: true
   '/pet/{petId}':

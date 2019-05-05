@@ -54,6 +54,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.Name = name;
             }
+            
             this.Id = id;
         }
         

@@ -22,9 +22,14 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 
 public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CSharpDotNet2ClientCodegen.class);
+
     public static final String CLIENT_PACKAGE = "clientPackage";
     protected String clientPackage = "Org.OpenAPITools.Client";
     protected String apiDocPath = "docs/";
@@ -62,6 +67,8 @@ public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public void processOpts() {
+        LOGGER.warn("Per Microsoft Product Lifecycle (https://support.microsoft.com/en-us/lifecycle/search?sort=PN&alpha=.NET%20Framework&Filter=FilterNO), support for .NET Framework 2.0 ended in 2011 so there may be security issues using the auto-generated C# 2.0 source code.");
+
         super.processOpts();
 
         if (additionalProperties.containsKey(CLIENT_PACKAGE)) {

@@ -270,6 +270,7 @@ public class ApiClient {
     throw new RuntimeException("No OAuth2 authentication configured!");
   }
 
+
   /**
    * Helper method to set access token for the first Bearer authentication.
    * @param bearerToken Bearer token

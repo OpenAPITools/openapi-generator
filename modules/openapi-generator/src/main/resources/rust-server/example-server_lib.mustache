@@ -13,7 +13,9 @@ use std::marker::PhantomData;
 use hyper;
 use {{{externCrateName}}};
 use swagger::{Has, XSpanIdString};
+{{#hasAuthMethods}}
 use swagger::auth::Authorization;
+{{/hasAuthMethods}}
 
 pub struct NewService<C>{
     marker: PhantomData<C>

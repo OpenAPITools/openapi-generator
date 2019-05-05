@@ -144,6 +144,7 @@ namespace Org.OpenAPITools.Model
                 (
                     this.ArrayEnum == input.ArrayEnum ||
                     this.ArrayEnum != null &&
+                    input.ArrayEnum != null &&
                     this.ArrayEnum.SequenceEqual(input.ArrayEnum)
                 );
         }

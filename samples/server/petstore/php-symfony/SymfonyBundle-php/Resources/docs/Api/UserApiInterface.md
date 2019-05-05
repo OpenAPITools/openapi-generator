@@ -22,7 +22,7 @@ services:
     acme.my_bundle.api.user:
         class: Acme\MyBundle\Api\UserApi
         tags:
-            - { name: "open_apiserver.api", api: "user" }
+            - { name: "open_api_server.api", api: "user" }
     # ...
 ```
 

@@ -79,9 +79,6 @@ public class CodeGenMojo extends AbstractMojo {
     @Component
     private BuildContext buildContext = new DefaultBuildContext();
 
-    @Parameter(name="validateSpec", required = false, defaultValue = "true")
-    private Boolean validateSpec;
-
     @Parameter(name = "verbose", required = false, defaultValue = "false")
     private boolean verbose;
 
@@ -167,6 +164,12 @@ public class CodeGenMojo extends AbstractMojo {
     private String invokerPackage;
 
     /**
+     * The default package to use for the generated objects
+     */
+    @Parameter(name = "packageName")
+    private String packageName;
+
+    /**
      * groupId in generated pom.xml
      */
     @Parameter(name = "groupId")
@@ -231,6 +234,12 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "skipValidateSpec", required = false)
     private Boolean skipValidateSpec;
+
+    /**
+     * To treat a document strictly against the spec.
+     */
+    @Parameter(name = "strictSpec", required = false)
+    private Boolean strictSpecBehavior;
 
     /**
      * To generate alias (array, map) as model
@@ -428,11 +437,6 @@ public class CodeGenMojo extends AbstractMojo {
 
             configurator.setVerbose(verbose);
 
-            // now override with any specified parameters
-            if (validateSpec != null) {
-                configurator.setValidateSpec(validateSpec);
-            }
-
             if (skipOverwrite != null) {
                 configurator.setSkipOverwrite(skipOverwrite);
             }
@@ -458,7 +462,11 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             if (skipValidateSpec != null) {
-                configurator.setSkipOverwrite(skipValidateSpec);
+                configurator.setValidateSpec(!skipValidateSpec);
+            }
+
+            if (strictSpecBehavior != null) {
+                configurator.setStrictSpecBehavior(strictSpecBehavior);
             }
 
             if (logToStderr != null) {
@@ -508,6 +516,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (isNotEmpty(invokerPackage)) {
                 configurator.setInvokerPackage(invokerPackage);
+            }
+
+            if (isNotEmpty(packageName)) {
+                configurator.setPackageName(packageName);
             }
 
             if (isNotEmpty(groupId)) {

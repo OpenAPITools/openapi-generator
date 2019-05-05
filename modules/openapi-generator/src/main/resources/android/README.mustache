@@ -49,8 +49,8 @@ At first generate the JAR by executing:
 
 Then manually install the following JARs:
 
-* target/{{{artifactId}}}-{{{artifactVersion}}}.jar
-* target/lib/*.jar
+- target/{{{artifactId}}}-{{{artifactVersion}}}.jar
+- target/lib/*.jar
 
 ## Getting Started
 
@@ -100,12 +100,15 @@ Class | Method | HTTP request | Description
 {{#authMethods}}### {{name}}
 
 {{#isApiKey}}- **Type**: API key
+
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
 {{#isBasic}}- **Type**: HTTP basic authentication
 {{/isBasic}}
-{{#isOAuth}}- **Type**: OAuth
+{{#isOAuth}}
+
+- **Type**: OAuth
 - **Flow**: {{flow}}
 - **Authorization URL**: {{authorizationUrl}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}
