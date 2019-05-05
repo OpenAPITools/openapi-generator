@@ -24,7 +24,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.mustache.*;
+import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +38,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
     protected boolean optionalAssemblyInfoFlag = true;
     protected boolean optionalProjectFileFlag = true;
-    protected boolean optionalEmitDefaultValue = false;
 
     protected boolean useDateTimeOffsetFlag = false;
     protected boolean useCollection = false;
@@ -183,10 +182,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         this.returnICollection = returnICollection;
     }
 
-    public void setOptionalEmitDefaultValue(boolean optionalEmitDefaultValue) {
-        this.optionalEmitDefaultValue = optionalEmitDefaultValue;
-    }
-
     public void setUseCollection(boolean useCollection) {
         this.useCollection = useCollection;
         if (useCollection) {
@@ -313,12 +308,6 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
             setReturnICollection(convertPropertyToBooleanAndWriteBack(CodegenConstants.RETURN_ICOLLECTION));
         } else {
             additionalProperties.put(CodegenConstants.RETURN_ICOLLECTION, returnICollection);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
-            setOptionalEmitDefaultValue(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES));
-        } else {
-            additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValue);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.NETCORE_PROJECT_FILE)) {
