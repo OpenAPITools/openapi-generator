@@ -137,21 +137,25 @@ namespace Org.OpenAPITools.Model
                 (
                     this.MapMapOfString == input.MapMapOfString ||
                     this.MapMapOfString != null &&
+                    input.MapMapOfString != null &&
                     this.MapMapOfString.SequenceEqual(input.MapMapOfString)
                 ) && 
                 (
                     this.MapOfEnumString == input.MapOfEnumString ||
                     this.MapOfEnumString != null &&
+                    input.MapOfEnumString != null &&
                     this.MapOfEnumString.SequenceEqual(input.MapOfEnumString)
                 ) && 
                 (
                     this.DirectMap == input.DirectMap ||
                     this.DirectMap != null &&
+                    input.DirectMap != null &&
                     this.DirectMap.SequenceEqual(input.DirectMap)
                 ) && 
                 (
                     this.IndirectMap == input.IndirectMap ||
                     this.IndirectMap != null &&
+                    input.IndirectMap != null &&
                     this.IndirectMap.SequenceEqual(input.IndirectMap)
                 );
         }

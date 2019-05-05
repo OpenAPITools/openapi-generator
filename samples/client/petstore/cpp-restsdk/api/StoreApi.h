@@ -26,10 +26,6 @@
 #include <cpprest/details/basic_types.h>
 
 
-#ifdef _WIN32 | _WIN64
-#undef U
-#endif
-
 #include <boost/optional.hpp>
 
 namespace org {

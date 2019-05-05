@@ -57,6 +57,7 @@ mvn clean compile
 - `logToStderr` - write all log messages (not just errors) to STDOUT
 - `enablePostProcessFile` - enable file post-processing hook
 - `skipValidateSpec` - Whether or not to skip validating the input spec prior to generation. By default, invalid specifications will result in an error.
+- `strictSpec` - Whether or not to treat an input document strictly against the spec. 'MUST' and 'SHALL' wording in OpenAPI spec is strictly adhered to. e.g. when false, no fixes will be applied to documents which pass validation but don't follow the spec.
 - `generateAliasAsModel` - generate alias (array, map) as model
 - `generateApis` - generate the apis (`true` by default)
 - `generateApiTests` - generate the api tests (`true` by default. Only available if `generateApis` is `true`)

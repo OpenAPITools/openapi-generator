@@ -47,12 +47,12 @@ void to_json(nlohmann::json& j, const Category& o)
 
 void from_json(const nlohmann::json& j, Category& o)
 {
-    if(!j.at("id").is_null())
+    if(j.contains("id"))
     {
         j.at("id").get_to(o.m_Id);
         o.m_IdIsSet = true;
     } 
-    if(!j.at("name").is_null())
+    if(j.contains("name"))
     {
         j.at("name").get_to(o.m_Name);
         o.m_NameIsSet = true;

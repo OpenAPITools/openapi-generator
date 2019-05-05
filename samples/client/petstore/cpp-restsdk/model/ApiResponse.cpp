@@ -18,6 +18,9 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
+
+
 ApiResponse::ApiResponse()
 {
     m_Code = 0;
@@ -196,4 +199,5 @@ void ApiResponse::unsetMessage()
 }
 }
 }
+
 

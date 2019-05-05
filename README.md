@@ -40,14 +40,14 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 #### Thank you to our bronze sponsors!
 
 [![NamSor](https://openapi-generator.tech/img/companies/namsor.png)](https://www.namsor.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-
+[![LightBow](https://openapi-generator.tech/img/companies/lightbow.png)](https://www.lightbow.net/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 ## Overview
 OpenAPI Generator allows generation of API client libraries (SDK generation), server stubs,  documentation and configuration automatically given an [OpenAPI Spec](https://github.com/OAI/OpenAPI-Specification) (both 2.0 and 3.0 are supported). Currently, the following languages/frameworks are supported:
 
 |                                | Languages/Frameworks |
 |-|-|
-**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later), **C++** (cpprest, Qt5, Tizen), **Clojure**, **Dart (1.x, 2.x)**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client), **Kotlin**, **Lua**, **Node.js** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types) **Objective-C**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x), **Typescript** (AngularJS, Angular (2.x - 7.x), Aurelia, Axios, Fetch, Inversify, jQuery, Node, Rxjs)
+**API clients**                  | **ActionScript**, **Ada**, **Apex**, **Bash**, **C**, **C#** (.net 2.0, 3.5 or later), **C++** (cpp-restsdk, Qt5, Tizen), **Clojure**, **Dart (1.x, 2.x)**, **Elixir**, **Elm**, **Eiffel**, **Erlang**, **Go**, **Groovy**, **Haskell** (http-client, Servant), **Java** (Jersey1.x, Jersey2.x, OkHttp, Retrofit1.x, Retrofit2.x, Feign, RestTemplate, RESTEasy, Vertx, Google API Client Library for Java, Rest-assured, Spring 5 Web Client), **Kotlin**, **Lua**, **Node.js** (ES5, ES6, AngularJS with Google Closure Compiler annotations, Flow types) **Objective-C**, **Perl**, **PHP**, **PowerShell**, **Python**, **R**, **Ruby**, **Rust** (rust, rust-server), **Scala** (akka, http4s, scalaz, swagger-async-httpclient), **Swift** (2.x, 3.x, 4.x), **Typescript** (AngularJS, Angular (2.x - 7.x), Aurelia, Axios, Fetch, Inversify, jQuery, Node, Rxjs)
 **Server stubs**                 | **Ada**, **C#** (ASP.NET Core, NancyFx), **C++** (Pistache, Restbed), **Erlang**, **Go** (net/http, Gin), **Haskell** (Servant), **Java** (MSF4J, Spring, Undertow, JAX-RS: CDI, CXF, Inflector, RestEasy, Play Framework, [PKMST](https://github.com/ProKarma-Inc/pkmst-getting-started-examples)), **Kotlin** (Spring Boot, Ktor), **PHP** (Laravel, Lumen, Slim, Silex, [Symfony](https://symfony.com/), [Zend Expressive](https://github.com/zendframework/zend-expressive)), **Python** (Flask), **NodeJS**, **Ruby** (Sinatra, Rails5), **Rust** (rust-server), **Scala** ([Finch](https://github.com/finagle/finch), [Lagom](https://github.com/lagom/lagom), [Play](https://www.playframework.com/), Scalatra)
 **API documentation generators** | **HTML**, **Confluence Wiki**
 **Configuration files**          | [**Apache2**](https://httpd.apache.org/)
@@ -447,6 +447,7 @@ SYNOPSIS
                 [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
                 [(-s | --skip-overwrite)] [--skip-validate-spec]
+                [--strict-spec <true/false strict behavior>]
                 [(-t <template directory> | --template-dir <template directory>)]
                 [--type-mappings <type mappings>...] [(-v | --verbose)]
 
@@ -596,7 +597,6 @@ OpenAPI Generator core team members are contributors who have been making signif
 Here is a list of template creators:
  * API Clients:
    * Ada: @stcarrez
-   * Akka-Scala: @cchafer
    * Apex: @asnelling
    * Bash: @bkryza
    * C: @PowerOfCreation @zhemant [:heart:](https://www.patreon.com/zhemant)
@@ -642,6 +642,7 @@ Here is a list of template creators:
    * Rust: @farcaller
    * Rust (rust-server): @metaswitch
    * Scala (scalaz & http4s): @tbrown1979
+   * Scala (Akka): @cchafer
    * Swift: @tkqubo
    * Swift 3: @hexelon
    * Swift 4: @ehyche

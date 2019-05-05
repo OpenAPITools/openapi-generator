@@ -1,4 +1,6 @@
+
 # Org.OpenAPITools.Model.AdditionalPropertiesClass
+
 ## Properties
 
 Name | Type | Description | Notes
@@ -15,5 +17,7 @@ Name | Type | Description | Notes
 **Anytype2** | [**Object**](.md) |  | [optional] 
 **Anytype3** | [**Object**](.md) |  | [optional] 
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to README]](../README.md)
 

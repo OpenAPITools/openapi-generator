@@ -28,6 +28,7 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
 /// <summary>
 /// A User who is purchasing from the pet store
 /// </summary>
@@ -143,6 +144,7 @@ protected:
     int32_t m_UserStatus;
     bool m_UserStatusIsSet;
 };
+
 
 }
 }

@@ -118,6 +118,9 @@ public class DefaultCodegen implements CodegenConfig {
     // flag to indicate whether to only update files whose contents have changed
     protected boolean enableMinimalUpdate = false;
 
+    // acts strictly upon a spec, potentially modifying it to have consistent behavior across generators.
+    protected boolean strictSpecBehavior = true;
+
     // make openapi available to all methods
     protected OpenAPI openAPI;
 
@@ -1283,6 +1286,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Return property value depending on property type.
+     *
      * @param schema property type
      * @return property value
      */
@@ -1447,7 +1451,8 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (ModelUtils.isDoubleSchema(schema)) {
                 return SchemaTypeUtil.DOUBLE_FORMAT;
             } else {
-                LOGGER.warn("Unknown `format` detected for " + schema.getName() + ": " + schema.getFormat());
+                LOGGER.warn("Unknown `format` {} detected for type `number`. Defaulting to `number`", schema.getFormat());
+                return "number";
             }
         } else if (ModelUtils.isIntegerSchema(schema)) {
             if (ModelUtils.isLongSchema(schema)) {
@@ -1888,7 +1893,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     public CodegenProperty fromProperty(String name, Schema p) {
         if (p == null) {
-            LOGGER.error("Undefined property/schema for `{}`. Default to type:string.",  name);
+            LOGGER.error("Undefined property/schema for `{}`. Default to type:string.", name);
             return null;
         }
         LOGGER.debug("debugging fromProperty for " + name + " : " + p);
@@ -2038,7 +2043,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (innerSchema == null) {
                 LOGGER.error("Undefined array inner type for `{}`. Default to String.", p.getName());
                 innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
-                ((ArraySchema)p).setItems(innerSchema);
+                ((ArraySchema) p).setItems(innerSchema);
             }
         } else if (ModelUtils.isMapSchema(p)) {
             Schema innerSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getAdditionalProperties(p));
@@ -2120,7 +2125,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (innerSchema == null) {
                 LOGGER.error("Undefined array inner type for `{}`. Default to String.", p.getName());
                 innerSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to undefined type");
-                ((ArraySchema)p).setItems(innerSchema);
+                ((ArraySchema) p).setItems(innerSchema);
             }
             CodegenProperty cp = fromProperty(itemName, innerSchema);
             updatePropertyForArray(property, cp);
@@ -2387,11 +2392,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
         operationId = removeNonNameElementToCamelCase(operationId);
 
-        if (path.startsWith("/")) {
-            op.path = path;
-        } else {
+        if (isStrictSpecBehavior() && !path.startsWith("/")) {
+            // modifies an operation.path to strictly conform to OpenAPI Spec
             op.path = "/" + path;
+        } else {
+            op.path = path;
         }
+
         op.operationId = toOperationId(operationId);
         op.summary = escapeText(operation.getSummary());
         op.unescapedNotes = operation.getDescription();
@@ -2510,8 +2517,8 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody != null) {
-            if ("application/x-www-form-urlencoded".equalsIgnoreCase(getContentType(requestBody)) ||
-                    "multipart/form-data".equalsIgnoreCase(getContentType(requestBody))) {
+            if (getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
+                    getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("multipart/form-data")) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
                 for (CodegenParameter cp : formParams) {
@@ -4189,7 +4196,8 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected String getContentType(RequestBody requestBody) {
         if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
-            return null;
+            LOGGER.warn("Cannot determine the content type. Default to UNKNOWN_CONTENT_TYPE.");
+            return "UNKNOWN_CONTENT_TYPE";
         }
         return new ArrayList<>(requestBody.getContent().keySet()).get(0);
     }
@@ -4270,7 +4278,9 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         for (String consume : consumesInfo) {
-            if ("application/x-www-form-urlencoded".equalsIgnoreCase(consume) || "multipart/form-data".equalsIgnoreCase(consume)) {
+            if (consume != null &&
+                    consume.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
+                    consume.toLowerCase(Locale.ROOT).startsWith("multipart/form-data")) {
                 return true;
             }
         }
@@ -4844,7 +4854,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
-        if(parameter == null || property == null) {
+        if (parameter == null || property == null) {
             return;
         }
         parameter.isNullable = property.isNullable;
@@ -4893,11 +4903,31 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Set the boolean value indicating the state of the option for updating only changed files
      *
-     * @param enableMinimalUpdate    true to enable minimal update
+     * @param enableMinimalUpdate true to enable minimal update
      */
     @Override
     public void setEnableMinimalUpdate(boolean enableMinimalUpdate) {
         this.enableMinimalUpdate = enableMinimalUpdate;
     }
 
+    /**
+     * Indicates whether the codegen configuration should treat documents as strictly defined by the OpenAPI specification.
+     *
+     * @return true to act strictly upon spec documents, potentially modifying the spec to strictly fit the spec.
+     */
+    @Override
+    public boolean isStrictSpecBehavior() {
+        return this.strictSpecBehavior;
+    }
+
+    /**
+     * Sets the boolean valid indicating whether generation will work strictly against the specification, potentially making
+     * minor changes to the input document.
+     *
+     * @param strictSpecBehavior true if we will behave strictly, false to allow specification documents which pass validation to be loosely interpreted against the spec.
+     */
+    @Override
+    public void setStrictSpecBehavior(final boolean strictSpecBehavior) {
+        this.strictSpecBehavior = strictSpecBehavior;
+    }
 }

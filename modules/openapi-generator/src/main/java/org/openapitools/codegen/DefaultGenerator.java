@@ -45,6 +45,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
 
@@ -915,6 +916,19 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     @Override
     public String getFullTemplateContents(String templateName) {
         return readTemplate(getFullTemplateFile(config, templateName));
+    }
+
+    /**
+     * Returns the path of a template, allowing access to the template where consuming literal contents aren't desirable or possible.
+     *
+     * @param name the template name (e.g. model.mustache)
+     *
+     * @return The {@link Path} to the template
+     */
+    @Override
+    public Path getFullTemplatePath(String name) {
+        String fullPath = getFullTemplateFile(config, name);
+        return java.nio.file.Paths.get(fullPath);
     }
 
     protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {

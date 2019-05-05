@@ -48,6 +48,7 @@ declare -a scripts=(
 "./bin/r-petstore.sh"
 "./bin/haskell-http-client-petstore.sh"
 "./bin/csharp-petstore.sh"
+"./bin/csharp-netcore-petstore.sh"
 "./bin/elixir-petstore.sh"
 "./bin/go-petstore.sh"
 "./bin/go-gin-petstore-server.sh"
