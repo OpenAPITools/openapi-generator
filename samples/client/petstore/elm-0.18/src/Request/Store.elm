@@ -28,7 +28,7 @@ basePath =
 deleteOrder : String -> Http.Request ()
 deleteOrder orderId =
     { method = "DELETE"
-    , url = basePath ++ "/store/order/" ++ orderId
+    , url = basePath ++ "/store/order/" ++   orderId
     , headers = []
     , body = Http.emptyBody
     , expect = Http.expectStringResponse (\_ -> Ok ())
@@ -58,7 +58,7 @@ getInventory =
 getOrderById : Int -> Http.Request Order_
 getOrderById orderId =
     { method = "GET"
-    , url = basePath ++ "/store/order/" ++ toString orderId
+    , url = basePath ++ "/store/order/" ++  toString orderId
     , headers = []
     , body = Http.emptyBody
     , expect = Http.expectJson Order_.decoder

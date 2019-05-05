@@ -22,12 +22,12 @@ import Json.Encode as Encode
 {-| An order for a pets from the pet store
 -}
 type alias Order_ =
-    { id : Maybe Int
-    , petId : Maybe Int
-    , quantity : Maybe Int
-    , shipDate : Maybe DateTime
-    , status : Maybe Status
-    , complete : Maybe Bool
+    { id : Maybe (Int)
+    , petId : Maybe (Int)
+    , quantity : Maybe (Int)
+    , shipDate : Maybe (DateTime)
+    , status : Maybe (Status)
+    , complete : Maybe (Bool)
     }
 
 
@@ -35,6 +35,7 @@ type Status
     = Placed
     | Approved
     | Delivered
+
 
 
 decoder : Decoder Order_
@@ -48,6 +49,7 @@ decoder =
         |> optional "complete" (Decode.nullable Decode.bool) (Just False)
 
 
+
 encode : Order_ -> Encode.Value
 encode model =
     Encode.object
@@ -57,7 +59,9 @@ encode model =
         , ( "shipDate", Maybe.withDefault Encode.null (Maybe.map DateTime.encode model.shipDate) )
         , ( "status", Maybe.withDefault Encode.null (Maybe.map encodeStatus model.status) )
         , ( "complete", Maybe.withDefault Encode.null (Maybe.map Encode.bool model.complete) )
+
         ]
+
 
 
 statusDecoder : Decoder Status
@@ -80,6 +84,7 @@ statusDecoder =
             )
 
 
+
 encodeStatus : Status -> Encode.Value
 encodeStatus model =
     case model of
@@ -91,3 +96,6 @@ encodeStatus model =
 
         Delivered ->
             Encode.string "delivered"
+
+
+
