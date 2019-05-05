@@ -545,12 +545,12 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     }
 
     private void setUseEndpointRouting() {
-        if (aspnetCoreVersion.getOptValue().startsWith("2.")) {
-            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so staying on default endpoint routing.");
-            useDefaultRoutng = true;
+        if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
+            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so switching to old style endpoint routing.");
+            useDefaultRoutng = false;
             additionalProperties.put(USE_DEFAULT_ROUTING, useDefaultRoutng);
         } else {
-            if (additionalProperties.containsKey(USE_NEWTONSOFT)) {
+            if (additionalProperties.containsKey(USE_DEFAULT_ROUTING)) {
                 useDefaultRoutng = convertPropertyToBooleanAndWriteBack(USE_DEFAULT_ROUTING);
             } else {
                 additionalProperties.put(USE_DEFAULT_ROUTING, useDefaultRoutng);
