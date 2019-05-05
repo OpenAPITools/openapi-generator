@@ -35,6 +35,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.config.GeneratorProperties;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.config.GeneratorProperties;
 import org.openapitools.codegen.utils.ImplementationVersion;
@@ -881,6 +883,23 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         if (config == null) {
             throw new RuntimeException("missing config!");
+        }
+
+        if (config.getGeneratorMetadata() == null) {
+            LOGGER.warn(String.format(Locale.ROOT, "Generator '%s' is missing generator metadata!", config.getName()));
+        } else {
+            GeneratorMetadata generatorMetadata = config.getGeneratorMetadata();
+            if (StringUtils.isNotEmpty(generatorMetadata.getGenerationMessage())) {
+                LOGGER.info(generatorMetadata.getGenerationMessage());
+            }
+
+            Stability stability = generatorMetadata.getStability();
+            String stabilityMessage = String.format(Locale.ROOT, "Generator '%s' is considered %s.", config.getName(), stability.value());
+            if (stability == Stability.DEPRECATED) {
+                LOGGER.warn(stabilityMessage);
+            } else {
+                LOGGER.info(stabilityMessage);
+            }
         }
 
         // resolve inline models
