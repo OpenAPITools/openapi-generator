@@ -12,8 +12,8 @@
 
 module Request.Pet exposing (addPet, deletePet, findPetsByStatus, findPetsByTags, getPetById, updatePet, updatePetWithForm, uploadFile)
 
-import Data.Pet as Pet exposing (Pet)
 import Data.ApiResponse as ApiResponse exposing (ApiResponse)
+import Data.Pet as Pet exposing (Pet)
 import Dict
 import Http
 import Json.Decode as Decode
@@ -27,20 +27,17 @@ basePath =
 
 addPet :
     { onSend : Result Http.Error () -> msg
-
-
     , body : Pet
-
-
     }
     -> Cmd msg
 addPet params =
     Http.request
         { method = "POST"
         , headers = []
-        , url = Url.crossOrigin basePath
-            ["pet"]
-            []
+        , url =
+            Url.crossOrigin basePath
+                [ "pet" ]
+                []
         , body = Http.jsonBody <| Pet.encode params.body
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -49,23 +46,21 @@ addPet params =
 
 
 deletePet :
-    { apiKey : Maybe (String)
-    } -> 
-    { onSend : Result Http.Error () -> msg
-
-
-
-    , petId : Int
-
+    { apiKey : Maybe String
     }
+    ->
+        { onSend : Result Http.Error () -> msg
+        , petId : Int
+        }
     -> Cmd msg
 deletePet headers params =
     Http.request
         { method = "DELETE"
-        , headers = List.filterMap identity [Maybe.map (Http.header "api_key" ) headers.apiKey]
-        , url = Url.crossOrigin basePath
-            ["pet",  String.fromInt params.petId]
-            []
+        , headers = List.filterMap identity [ Maybe.map (Http.header "api_key") headers.apiKey ]
+        , url =
+            Url.crossOrigin basePath
+                [ "pet", String.fromInt params.petId ]
+                []
         , body = Http.emptyBody
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -77,10 +72,6 @@ deletePet headers params =
 -}
 findPetsByStatus :
     { onSend : Result Http.Error (List Pet) -> msg
-
-
-
-
     , status : List String
     }
     -> Cmd msg
@@ -88,9 +79,10 @@ findPetsByStatus params =
     Http.request
         { method = "GET"
         , headers = []
-        , url = Url.crossOrigin basePath
-            ["pet", "findByStatus"]
-            (List.filterMap identity [Just (Url.string "status" <| String.join "," params.status)])
+        , url =
+            Url.crossOrigin basePath
+                [ "pet", "findByStatus" ]
+                (List.filterMap identity [ Just (Url.string "status" <| String.join "," params.status) ])
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend (Decode.list Pet.decoder)
         , timeout = Just 30000
@@ -102,10 +94,6 @@ findPetsByStatus params =
 -}
 findPetsByTags :
     { onSend : Result Http.Error (List Pet) -> msg
-
-
-
-
     , tags : List String
     }
     -> Cmd msg
@@ -113,9 +101,10 @@ findPetsByTags params =
     Http.request
         { method = "GET"
         , headers = []
-        , url = Url.crossOrigin basePath
-            ["pet", "findByTags"]
-            (List.filterMap identity [Just (Url.string "tags" <| String.join "," params.tags)])
+        , url =
+            Url.crossOrigin basePath
+                [ "pet", "findByTags" ]
+                (List.filterMap identity [ Just (Url.string "tags" <| String.join "," params.tags) ])
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend (Decode.list Pet.decoder)
         , timeout = Just 30000
@@ -127,20 +116,17 @@ findPetsByTags params =
 -}
 getPetById :
     { onSend : Result Http.Error Pet -> msg
-
-
-
     , petId : Int
-
     }
     -> Cmd msg
 getPetById params =
     Http.request
         { method = "GET"
         , headers = []
-        , url = Url.crossOrigin basePath
-            ["pet",  String.fromInt params.petId]
-            []
+        , url =
+            Url.crossOrigin basePath
+                [ "pet", String.fromInt params.petId ]
+                []
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend Pet.decoder
         , timeout = Just 30000
@@ -150,20 +136,17 @@ getPetById params =
 
 updatePet :
     { onSend : Result Http.Error () -> msg
-
-
     , body : Pet
-
-
     }
     -> Cmd msg
 updatePet params =
     Http.request
         { method = "PUT"
         , headers = []
-        , url = Url.crossOrigin basePath
-            ["pet"]
-            []
+        , url =
+            Url.crossOrigin basePath
+                [ "pet" ]
+                []
         , body = Http.jsonBody <| Pet.encode params.body
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -173,20 +156,17 @@ updatePet params =
 
 updatePetWithForm :
     { onSend : Result Http.Error () -> msg
-
-
-
     , petId : Int
-
     }
     -> Cmd msg
 updatePetWithForm params =
     Http.request
         { method = "POST"
         , headers = []
-        , url = Url.crossOrigin basePath
-            ["pet",  String.fromInt params.petId]
-            []
+        , url =
+            Url.crossOrigin basePath
+                [ "pet", String.fromInt params.petId ]
+                []
         , body = Http.emptyBody
         , expect = Http.expectWhatever params.onSend
         , timeout = Just 30000
@@ -196,20 +176,17 @@ updatePetWithForm params =
 
 uploadFile :
     { onSend : Result Http.Error ApiResponse -> msg
-
-
-
     , petId : Int
-
     }
     -> Cmd msg
 uploadFile params =
     Http.request
         { method = "POST"
         , headers = []
-        , url = Url.crossOrigin basePath
-            ["pet",  String.fromInt params.petId, "uploadImage"]
-            []
+        , url =
+            Url.crossOrigin basePath
+                [ "pet", String.fromInt params.petId, "uploadImage" ]
+                []
         , body = Http.emptyBody
         , expect = Http.expectJson params.onSend ApiResponse.decoder
         , timeout = Just 30000
