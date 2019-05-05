@@ -18,7 +18,6 @@ import { Configuration } from '../configuration';
 
 /* tslint:disable:no-unused-variable member-ordering */
 
-
 export class StoreApi {
     protected basePath = 'http://petstore.swagger.io/v2';
     public defaultHeaders: Array<string> = [];

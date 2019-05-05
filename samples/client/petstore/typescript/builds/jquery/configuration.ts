@@ -1,13 +1,6 @@
 import {HttpLibrary} from './http/http';
 import {Middleware, PromiseMiddleware, PromiseMiddlewareWrapper} from './middleware';
-{{#frameworks}}
-{{#fetch-api}}
-import {IsomorphicFetchHttpLibrary} from "./http/isomorphic-fetch";
-{{/fetch-api}}
-{{#jquery}}
 import {JQueryHttpLibrary} from "./http/jquery";
-{{/jquery}}
-{{/frameworks}}
 import {ServerConfiguration, server1} from './servers';
 import {configureAuthMethods, AuthMethods, AuthMethodsConfiguration} from './auth/auth';
 
@@ -57,7 +50,7 @@ export class Configuration {
 	 */
     constructor(conf: ConfigurationParameters = {}) {
         this.baseServer = conf.baseServer !== undefined ? conf.baseServer : server1;
-        this.httpApi = conf.httpApi || {{#frameworks}}{{#fetch-api}}new IsomorphicFetchHttpLibrary(){{/fetch-api}}{{#jquery}}new JQueryHttpLibrary{{/jquery}}{{/frameworks}}; // TODO: replace with window.fetch if available?
+        this.httpApi = conf.httpApi || new JQueryHttpLibrary; // TODO: replace with window.fetch if available?
         this.middleware = conf.middleware || [];
 		this.authMethods = configureAuthMethods(conf.authMethods);
         if (conf.promiseMiddleware) {

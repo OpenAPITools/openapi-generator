@@ -5,14 +5,7 @@ import * as FormData from "form-data";
 import * as URLParse from "url-parse";
 import { Observable } from 'rxjs';
 
-{{#frameworks}}
-{{#fetch-api}}
-export * from './isomorphic-fetch';
-{{/fetch-api}}
-{{#jquery}}
 export * from './jquery';
-{{/jquery}}
-{{/frameworks}}
 
 /**
  * Represents a HTTP Method.
@@ -33,7 +26,7 @@ export enum HttpMethod {
  * Represents a http file which will be uploaded to a server.
  */
 export interface HttpFile {
-	data: {{{fileContentDataType}}};
+	data: Blob;
 	name: string;
 }
 

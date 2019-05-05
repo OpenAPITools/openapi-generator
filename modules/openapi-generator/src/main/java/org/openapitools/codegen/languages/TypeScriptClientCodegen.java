@@ -43,13 +43,26 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static final String UNDEFINED_VALUE = "undefined";
 
+    private static final String FRAMEWORK_SWITCH = "framework";
+    private static final String FRAMEWORK_SWITCH_DESC = "Specify the framework which should be used in the client code.";
+    private static final String[] FRAMEWORKS = { "fetch-api", "jquery" };
+    private static final String FILE_CONTENT_DATA_TYPE= "fileContentDataType";
+    private static final String FILE_CONTENT_DATA_TYPE_DESC = "Specifies the type to use for the content of a file - i.e. Blob (Browser) / Buffer (node)";
+    
+    private final Map<String, String> frameworkToHttpLibMap;
+    
     protected String modelPropertyNaming = "camelCase";
     protected boolean supportsES6 = true;
     protected HashSet<String> languageGenericTypes;
 
     public TypeScriptClientCodegen() {
         super();
-
+        	
+        this.frameworkToHttpLibMap = new HashMap<>();
+        this.frameworkToHttpLibMap.put("fetch-api", "isomorphic-fetch");
+        this.frameworkToHttpLibMap.put("jquery", "jquery");
+        
+        
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
         importMapping.clear();
@@ -118,6 +131,18 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue("false"));
+        cliOptions.add(new CliOption(TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE, TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE_DESC).defaultValue("Buffer"));
+        
+        CliOption frameworkOption = new CliOption(TypeScriptClientCodegen.FRAMEWORK_SWITCH, TypeScriptClientCodegen.FRAMEWORK_SWITCH_DESC);
+        for (String option: TypeScriptClientCodegen.FRAMEWORKS) {
+        	// TODO: improve description?
+        	frameworkOption.addEnum(option, option);
+        }
+        frameworkOption.defaultValue(FRAMEWORKS[0]);
+        System.out.println("Added framework option");
+        cliOptions.add(frameworkOption);
+                
+        
         // TODO: gen package.json?
         
         //Documentation
@@ -132,7 +157,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("api/exception.mustache", "apis", "exception.ts"));
         // http
         supportingFiles.add(new SupportingFile("http" + File.separator + "http.mustache", "http", "http.ts"));
-        supportingFiles.add(new SupportingFile("http"  + File.separator + "isomorphic-fetch.mustache", "http", "isomorphic-fetch.ts"));
         supportingFiles.add(new SupportingFile("http/servers.mustache", "servers.ts"));
 
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.ts"));
@@ -143,9 +167,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         // TODO: add supporting files depending on cli parameter e.g. fetch vs angular
         supportingFiles.add(new SupportingFile("generators/types/PromiseAPI.mustache", "types", "PromiseAPI.ts"));
         supportingFiles.add(new SupportingFile("generators/types/ObservableAPI.mustache", "types", "ObservableAPI.ts"));
-
-
-        supportingFiles.add(new SupportingFile("generators/fetch.mustache", "index.ts"));
 
         // models
         // TODO: properly set model and api packages
@@ -164,6 +185,20 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public CodegenType getTag() {
         return CodegenType.CLIENT;
+    }
+    
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {  	
+    	Map<String, Boolean> frameworks = new HashMap<>();
+    	for (String framework: FRAMEWORKS) {
+    		frameworks.put(framework, framework.equals(additionalProperties.get(FRAMEWORK_SWITCH)));
+    	}
+    	objs.put("framework", additionalProperties.get(FRAMEWORK_SWITCH));
+    	objs.put("frameworks", frameworks);
+    	
+    	objs.put("fileContentDataType", additionalProperties.get(FILE_CONTENT_DATA_TYPE));
+    	
+        return objs;
     }
     
     @Override
@@ -674,9 +709,23 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         apiPackage = this.apiPackage + ".apis";
         modelPackage = this.modelPackage + ".models";
         testPackage = this.testPackage + ".tests";
+
+        if (additionalProperties.containsKey(FRAMEWORK_SWITCH)) {
+            supportingFiles.add(new SupportingFile("generators/" + additionalProperties.get(FRAMEWORK_SWITCH) + ".mustache", "index.ts"));        	
+        } else {
+        	additionalProperties.put(FRAMEWORK_SWITCH, FRAMEWORKS[0]);
+            supportingFiles.add(new SupportingFile("generators" + File.separator + FRAMEWORKS[0] + ".mustache", "index.ts"));        	
+        }
+        String httpLibName = this.getHttpLibForFramework(additionalProperties.get(FRAMEWORK_SWITCH).toString());
+        supportingFiles.add(new SupportingFile("http"  + File.separator + httpLibName + ".mustache", "http", httpLibName + ".ts"));
     }
 
-    @Override
+    private String getHttpLibForFramework(String object) {
+		return this.frameworkToHttpLibMap.get(object);
+	}
+
+
+	@Override
     public String getTypeDeclaration(Schema p) {
         Schema inner;
         if (ModelUtils.isArraySchema(p)) {

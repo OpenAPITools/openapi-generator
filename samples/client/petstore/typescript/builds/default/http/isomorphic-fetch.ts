@@ -21,8 +21,9 @@ export class IsomorphicFetchHttpLibrary implements HttpLibrary {
             for (let key in headers) {
                 headers[key] = (headers[key] as Array<string>).join("; ");
             }
-
+            console.log("Received headers: ", headers)
             return resp.text().then((body: string) => {
+                console.log("Resp body ", body)
                 return new ResponseContext(resp.status, headers, body)
             });
         });
