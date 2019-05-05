@@ -66,14 +66,14 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     protected String serverHost = "0.0.0.0";
     protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbucke version: 3.0.0 (default), 4.0.0");
     ; // default to 2.1
-    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 2.2 (default), 2.1, 2.0 (deprecated)");
+    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 3.0 (preview4 only), 2.2 (default), 2.1, 2.0 (deprecated)");
     private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier can be empty, abstract");
     private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual, abstract or partial");
     private CliOption modelClassModifier = new CliOption(MODEL_CLASS_MODIFIER, "Model Class Modifier can be nothing or partial");
     private boolean generateBody = true;
     private CliOption buildTarget = new CliOption("buildTarget", "Target to build an application or library");
     private String projectSdk = SDK_WEB;
-    private String compatibilityVersion = "Version_2_1";
+    private String compatibilityVersion = "Version_2_2";
     private boolean operationIsAsync = false;
     private boolean operationResultTask = false;
     private boolean isLibrary = false;
@@ -190,7 +190,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 isLibrary);
 
         addSwitch(IS_FRAMEWORK,
-                "Are we using packagereference or framework",
+                "Use frameworkReference for ASP.NET Core 3.0+ and  PackageReference  ASP.NET Core 2.2 or earlier.",
                 isFramework);
 
         addSwitch(USE_NEWtONSOFT,
@@ -198,7 +198,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 useNewtonsoft);
 
         addSwitch(USE_DEFAULT_ROUTING,
-                "Uses the newend point routing JSN library.",
+                "Use default routing for the  ASP.NET Core version. For 3.0 turn off default because it is not yet supported.",
                 useDefaultRoutng);
 
         classModifier.addEnum("", "Keep class default with no modifier");
@@ -532,7 +532,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private void setUseNewtonsoft() {
         if (aspnetCoreVersion.getOptValue().startsWith("2.")) {
-            LOGGER.warn("buildTarget is " + buildTarget.getOptValue() + " so changing default json library to Newtonsoft ");
+            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so staying on default json library.");
             useNewtonsoft = false;
             additionalProperties.put(USE_NEWtONSOFT, useNewtonsoft);
         } else {
@@ -546,7 +546,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private void setUseEndpointRouting() {
         if (aspnetCoreVersion.getOptValue().startsWith("2.")) {
-            LOGGER.warn("buildTarget is " + buildTarget.getOptValue() + " so changing default endpoint routing  to false");
+            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so staying on default endpoint routing.");
             useDefaultRoutng = true;
             additionalProperties.put(USE_DEFAULT_ROUTING, useDefaultRoutng);
         } else {
@@ -562,7 +562,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setCliOption(swashbuckleVersion);
 
         if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
-            LOGGER.warn("buildTarget is " + buildTarget.getOptValue() + " so changing default Swashbuckle version to 4.0.0");
+            LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing default Swashbuckle version to 4.0.0.");
             swashbuckleVersion.setOptValue("4.0.0");
             additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
         } else {
