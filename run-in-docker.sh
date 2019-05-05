@@ -18,6 +18,7 @@ docker run --rm -it \
         -e MAVEN_OPTS="-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=/var/maven/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true" \
         -u "$(id -u):$(id -g)" \
         -v "${PWD}:/gen" \
+        -v "${PWD}/CI/run-in-docker-settings.xml:/var/maven/.m2/settings.xml" \
         -v "${maven_cache_repo}:/var/maven/.m2/repository" \
         --entrypoint /gen/docker-entrypoint.sh \
         maven:3-jdk-8 "$@"
