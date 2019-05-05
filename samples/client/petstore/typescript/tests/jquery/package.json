@@ -19,14 +19,10 @@
   "scripts": {
     "prepublish": "npm install ../../builds/jquery && npm run build",
     "test": "node ./dist/test-runner.js",
-    "build": "tsc"
+    "build": "tsc && webpack"
   },
   "devDependencies": {
-    "@types/chai": "^4.0.1",
-    "@types/mocha": "^2.2.41",
     "@types/node": "^8.10.48",
-    "chai": "^4.1.0",
-    "mocha": "^5.2.0",
     "ts-loader": "^4.3.1",
     "typescript": "^2.4.1"
   },
