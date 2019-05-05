@@ -53,7 +53,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String COMPATIBILITY_VERSION = "compatibilityVersion";
     public static final String IS_LIBRARY = "isLibrary";
     public static final String IS_FRAMEWORK = "isFramework";
-    public static final String USE_NEWtONSOFT = "useNewtonsoft";
+    public static final String USE_NEWTONSOFT = "useNewtonsoft";
     public static final String USE_DEFAULT_ROUTING = "useDefaultRoutng";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
@@ -193,8 +193,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 "Use frameworkReference for ASP.NET Core 3.0+ and  PackageReference  ASP.NET Core 2.2 or earlier.",
                 isFramework);
 
-        addSwitch(USE_NEWtONSOFT,
-                "Uses the Newtonsoft JSN library.",
+        addSwitch(USE_NEWTONSOFT,
+                "Uses the Newtonsoft JSON library.",
                 useNewtonsoft);
 
         addSwitch(USE_DEFAULT_ROUTING,
@@ -534,12 +534,12 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if (aspnetCoreVersion.getOptValue().startsWith("2.")) {
             LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so staying on default json library.");
             useNewtonsoft = false;
-            additionalProperties.put(USE_NEWtONSOFT, useNewtonsoft);
+            additionalProperties.put(USE_NEWTONSOFT, useNewtonsoft);
         } else {
-            if (additionalProperties.containsKey(USE_NEWtONSOFT)) {
-                useNewtonsoft = convertPropertyToBooleanAndWriteBack(USE_NEWtONSOFT);
+            if (additionalProperties.containsKey(USE_NEWTONSOFT)) {
+                useNewtonsoft = convertPropertyToBooleanAndWriteBack(USE_NEWTONSOFT);
             } else {
-                additionalProperties.put(USE_NEWtONSOFT, useNewtonsoft);
+                additionalProperties.put(USE_NEWTONSOFT, useNewtonsoft);
             }
         }
     }
@@ -550,7 +550,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             useDefaultRoutng = true;
             additionalProperties.put(USE_DEFAULT_ROUTING, useDefaultRoutng);
         } else {
-            if (additionalProperties.containsKey(USE_NEWtONSOFT)) {
+            if (additionalProperties.containsKey(USE_NEWTONSOFT)) {
                 useDefaultRoutng = convertPropertyToBooleanAndWriteBack(USE_DEFAULT_ROUTING);
             } else {
                 additionalProperties.put(USE_DEFAULT_ROUTING, useDefaultRoutng);

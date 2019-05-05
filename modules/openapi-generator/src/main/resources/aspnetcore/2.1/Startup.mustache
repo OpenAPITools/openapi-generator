@@ -42,7 +42,7 @@ namespace {{packageName}}
         {
             // Add framework services.
             services
-                .AddMvc({{^useEndpointRouting}}opts => opts.EnableEndpointRouting = false{{/useEndpointRouting}})
+                .AddMvc({{^useDefaultRoutng}}opts => opts.EnableEndpointRouting = false{{/useDefaultRoutng}})
                 {{#compatibilityVersion}}
                 .SetCompatibilityVersion(CompatibilityVersion.{{compatibilityVersion}})
                 {{/compatibilityVersion}}

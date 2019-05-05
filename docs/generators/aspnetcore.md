@@ -26,7 +26,7 @@ sidebar_label: aspnetcore
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
 |isLibrary|Is the build a library| |false|
 |isFramework|Use frameworkReference for ASP.NET Core 3.0+ and  PackageReference  ASP.NET Core 2.2 or earlier.| |false|
-|useNewtonsoft|Uses the Newtonsoft JSN library.| |true|
+|useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
 |useDefaultRoutng|Use default routing for the  ASP.NET Core version. For 3.0 turn off default because it is not yet supported.| |true|
 |classModifier|Class Modifier can be empty, abstract| ||
 |operationModifier|Operation Modifier can be virtual, abstract or partial| |virtual|
