@@ -38,6 +38,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     public static final String USE_SWASHBUCKLE = "useSwashbuckle";
     public static final String ASPNET_CORE_VERSION = "aspnetCoreVersion";
+    public static final String SWASHBUCKLE_VERSION = "swashbuckleVersion";
     public static final String CLASS_MODIFIER = "classModifier";
     public static final String OPERATION_MODIFIER = "operationModifier";
     public static final String OPERATION_IS_ASYNC = "operationIsAsync";
@@ -63,8 +64,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useSwashbuckle = true;
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
-    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 2.2 (default), 2.1, 2.0 (deprecated)");
+    protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbucke version: 3.0.0 (default), 4.0.0");
     ; // default to 2.1
+    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 2.2 (default), 2.1, 2.0 (deprecated)");
     private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier can be empty, abstract");
     private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual, abstract or partial");
     private CliOption modelClassModifier = new CliOption(MODEL_CLASS_MODIFIER, "Model Class Modifier can be nothing or partial");
@@ -155,6 +157,12 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         aspnetCoreVersion.setDefault("2.2");
         aspnetCoreVersion.setOptValue(aspnetCoreVersion.getDefault());
         addOption(aspnetCoreVersion.getOpt(), aspnetCoreVersion.getDescription(), aspnetCoreVersion.getOptValue());
+
+        swashbuckleVersion.addEnum("3.0.0", "Swashbuckle 3.0.0");
+        swashbuckleVersion.addEnum("4.0.0", "Swashbuckle 4.0.0");
+        swashbuckleVersion.setDefault("3.0.0");
+        swashbuckleVersion.setOptValue(swashbuckleVersion.getDefault());
+        addOption(swashbuckleVersion.getOpt(), swashbuckleVersion.getDescription(), swashbuckleVersion.getOptValue());
 
         // CLI Switches
         addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
@@ -293,6 +301,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
         // determine the ASP.NET core version setting
         setAspnetCoreVersion(packageFolder);
+        setSwashbuckleVersion();
         setIsFramework();
         setUseNewtonsoft();
         setUseEndpointRouting();
@@ -546,6 +555,19 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             } else {
                 additionalProperties.put(USE_ENDPOINT_ROUTING, useEndpointRouting);
             }
+        }
+    }
+
+    private void setSwashbuckleVersion() {
+        setCliOption(swashbuckleVersion);
+
+        if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
+            LOGGER.warn("buildTarget is " + buildTarget.getOptValue() + " so changing default Swashbuckle version to 4.0.0");
+            swashbuckleVersion.setOptValue("4.0.0");
+            additionalProperties.put(SWASHBUCKLE_VERSION, swashbuckleVersion.getOptValue());
+        } else {
+            // default, do nothing
+            LOGGER.info("Swashbuckle version: " + swashbuckleVersion.getOptValue());
         }
     }
 }

@@ -18,12 +18,16 @@ sidebar_label: aspnetcore
 |sourceFolder|source folder for generated code| |src|
 |compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_1|
 |aspnetCoreVersion|ASP.NET Core version: 2.2 (default), 2.1, 2.0 (deprecated)| |2.2|
+|swashbuckleVersion|Swashbucke version: 3.0.0 (default), 4.0.0| |3.0.0|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
 |isLibrary|Is the build a library| |false|
+|isFramework|Are we using packagereference or framework| |false|
+|useNewtonsoft|Uses the Newtonsoft JSN library.| |true|
+|useEndpointRoutng|Uses the newend point routing JSN library.| |false|
 |classModifier|Class Modifier can be empty, abstract| ||
 |operationModifier|Operation Modifier can be virtual, abstract or partial| |virtual|
 |buildTarget|Target to build an application or library| |program|
