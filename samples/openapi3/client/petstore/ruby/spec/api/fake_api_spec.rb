@@ -153,7 +153,7 @@ describe 'FakeApi' do
   # @option opts [String] :enum_header_string Header parameter enum test (string)
   # @option opts [Array<String>] :enum_query_string_array Query parameter enum test (string array)
   # @option opts [String] :enum_query_string Query parameter enum test (string)
-  # @option opts [Object] :enum_query_integer Query parameter enum test (double)
+  # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
   # @option opts [Float] :enum_query_double Query parameter enum test (double)
   # @option opts [Array<String>] :enum_form_string_array Form parameter enum test (string array)
   # @option opts [String] :enum_form_string Form parameter enum test (string)

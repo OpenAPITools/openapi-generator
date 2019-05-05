@@ -26,20 +26,20 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public enum OuterEnumInteger {
   
-  _0("0"),
+  NUMBER_0(0),
   
-  _1("1"),
+  NUMBER_1(1),
   
-  _2("2");
+  NUMBER_2(2);
 
-  private BigDecimal value;
+  private Integer value;
 
-  OuterEnumInteger(BigDecimal value) {
+  OuterEnumInteger(Integer value) {
     this.value = value;
   }
 
   @JsonValue
-  public BigDecimal getValue() {
+  public Integer getValue() {
     return value;
   }
 
@@ -49,7 +49,7 @@ public enum OuterEnumInteger {
   }
 
   @JsonCreator
-  public static OuterEnumInteger fromValue(BigDecimal value) {
+  public static OuterEnumInteger fromValue(Integer value) {
     for (OuterEnumInteger b : OuterEnumInteger.values()) {
       if (b.value.equals(value)) {
         return b;
