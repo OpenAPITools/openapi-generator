@@ -607,7 +607,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (name.matches("^[A-Z0-9_]*$")) {
             return name;
         }
 

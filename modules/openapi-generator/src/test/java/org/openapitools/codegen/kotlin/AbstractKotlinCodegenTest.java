@@ -117,6 +117,10 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toVarName("Pony?"), "ponyQuestionMark");
         assertEquals(codegen.toVarName("nam#e"), "namHashE");
         assertEquals(codegen.toVarName("Pony>=>="), "ponyGreaterThanEqualGreaterThanEqual");
+        assertEquals(codegen.toVarName("uSername"), "uSername");
+        assertEquals(codegen.toVarName("USERname"), "usERname");
+        assertEquals(codegen.toVarName("USERNAME"), "USERNAME");
+        assertEquals(codegen.toVarName("USER123NAME"), "USER123NAME");
     }
 
 }
