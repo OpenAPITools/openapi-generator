@@ -12,14 +12,14 @@
     <PackageId>{{packageName}}</PackageId>
   </PropertyGroup>
   <ItemGroup>
-{{#isFramework}}
+{{#useFrameworkReference}}
 {{#isLibrary}}
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
 {{/isLibrary}}
-{{/isFramework}}
-{{^isFramework}}
+{{/useFrameworkReference}}
+{{^useFrameworkReference}}
     <PackageReference Include="Microsoft.AspNetCore.App" />
-{{/isFramework}}
+{{/useFrameworkReference}}
 {{#useNewtonsoft}}
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0-preview4-19216-03" />
 {{/useNewtonsoft}}

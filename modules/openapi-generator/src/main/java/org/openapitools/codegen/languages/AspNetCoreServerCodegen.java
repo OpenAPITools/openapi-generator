@@ -52,7 +52,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String SDK_LIB = "Microsoft.NET.Sdk";
     public static final String COMPATIBILITY_VERSION = "compatibilityVersion";
     public static final String IS_LIBRARY = "isLibrary";
-    public static final String IS_FRAMEWORK = "isFramework";
+    public static final String USE_FRAMEWORK_REFERENCE = "useFrameworkReference";
     public static final String USE_NEWTONSOFT = "useNewtonsoft";
     public static final String USE_DEFAULT_ROUTING = "useDefaultRoutng";
 
@@ -64,9 +64,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean useSwashbuckle = true;
     protected int serverPort = 8080;
     protected String serverHost = "0.0.0.0";
-    protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbucke version: 3.0.0 (default), 4.0.0");
+    protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbucke version: 3.0.0, 4.0.0");
     ; // default to 2.1
-    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 3.0 (preview4 only), 2.2 (default), 2.1, 2.0 (deprecated)");
+    protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 3.0 (preview4 only), 2.2, 2.1, 2.0 (deprecated)");
     private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier can be empty, abstract");
     private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual, abstract or partial");
     private CliOption modelClassModifier = new CliOption(MODEL_CLASS_MODIFIER, "Model Class Modifier can be nothing or partial");
@@ -77,7 +77,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean operationIsAsync = false;
     private boolean operationResultTask = false;
     private boolean isLibrary = false;
-    private boolean isFramework = false;
+    private boolean useFrameworkReference = false;
     private boolean useNewtonsoft = true;
     private boolean useDefaultRoutng = true;
 
@@ -189,9 +189,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 "Is the build a library",
                 isLibrary);
 
-        addSwitch(IS_FRAMEWORK,
+        addSwitch(USE_FRAMEWORK_REFERENCE,
                 "Use frameworkReference for ASP.NET Core 3.0+ and  PackageReference  ASP.NET Core 2.2 or earlier.",
-                isFramework);
+                useFrameworkReference);
 
         addSwitch(USE_NEWTONSOFT,
                 "Uses the Newtonsoft JSON library.",
@@ -476,16 +476,16 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
 
     private void setAspnetCoreVersion(String packageFolder) {
         setCliOption(aspnetCoreVersion);
-            if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
-                embeddedTemplateDir = templateDir = "aspnetcore/2.0";
-                supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
-                LOGGER.info("ASP.NET core version: 2.0");
-                compatibilityVersion = null;
-            } else {
-                // default, do nothing
-                LOGGER.info("ASP.NET core version: " + aspnetCoreVersion.getOptValue());
-                compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
-            }
+        if ("2.0".equals(aspnetCoreVersion.getOptValue())) {
+            embeddedTemplateDir = templateDir = "aspnetcore/2.0";
+            supportingFiles.add(new SupportingFile("web.config", packageFolder, "web.config"));
+            LOGGER.info("ASP.NET core version: 2.0");
+            compatibilityVersion = null;
+        } else {
+            // default, do nothing
+            LOGGER.info("ASP.NET core version: " + aspnetCoreVersion.getOptValue());
+            compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
+        }
         additionalProperties.put(COMPATIBILITY_VERSION, compatibilityVersion);
     }
 
@@ -507,7 +507,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         if (isLibrary) {
             operationIsAsync = false;
             additionalProperties.put(OPERATION_IS_ASYNC, operationIsAsync);
-        } else  if (additionalProperties.containsKey(OPERATION_IS_ASYNC)) {
+        } else if (additionalProperties.containsKey(OPERATION_IS_ASYNC)) {
             operationIsAsync = convertPropertyToBooleanAndWriteBack(OPERATION_IS_ASYNC);
         } else {
             additionalProperties.put(OPERATION_IS_ASYNC, operationIsAsync);
@@ -515,16 +515,15 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     }
 
     private void setIsFramework() {
-        if (aspnetCoreVersion.getOptValue().startsWith("3.")) {
-            // default, do nothing
+        if (aspnetCoreVersion.getOptValue().startsWith("3.")) {// default, do nothing
             LOGGER.warn("ASP.NET core version is " + aspnetCoreVersion.getOptValue() + " so changing  to use frameworkReference instead of packageReference ");
-            isFramework = true;
-            additionalProperties.put(IS_FRAMEWORK, isFramework);
+            useFrameworkReference = true;
+            additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
         } else {
-            if (additionalProperties.containsKey(IS_FRAMEWORK)) {
-                isFramework = convertPropertyToBooleanAndWriteBack(IS_FRAMEWORK);
+            if (additionalProperties.containsKey(USE_FRAMEWORK_REFERENCE)) {
+                useFrameworkReference = convertPropertyToBooleanAndWriteBack(USE_FRAMEWORK_REFERENCE);
             } else {
-                additionalProperties.put(IS_FRAMEWORK, isFramework);
+                additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
             }
         }
 

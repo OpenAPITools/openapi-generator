@@ -17,15 +17,15 @@ sidebar_label: aspnetcore
 |packageGuid|The GUID that will be associated with the C# project| |null|
 |sourceFolder|source folder for generated code| |src|
 |compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_2|
-|aspnetCoreVersion|ASP.NET Core version: 3.0 (preview4 only), 2.2 (default), 2.1, 2.0 (deprecated)| |2.2|
-|swashbuckleVersion|Swashbucke version: 3.0.0 (default), 4.0.0| |3.0.0|
+|aspnetCoreVersion|ASP.NET Core version: 3.0 (preview4 only), 2.2, 2.1, 2.0 (deprecated)| |2.2|
+|swashbuckleVersion|Swashbucke version: 3.0.0, 4.0.0| |3.0.0|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |true|
 |isLibrary|Is the build a library| |false|
-|isFramework|Use frameworkReference for ASP.NET Core 3.0+ and  PackageReference  ASP.NET Core 2.2 or earlier.| |false|
+|useFrameworkReference|Use frameworkReference for ASP.NET Core 3.0+ and  PackageReference  ASP.NET Core 2.2 or earlier.| |false|
 |useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
 |useDefaultRoutng|Use default routing for the  ASP.NET Core version. For 3.0 turn off default because it is not yet supported.| |true|
 |classModifier|Class Modifier can be empty, abstract| ||
