@@ -3604,9 +3604,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     private static Boolean isAliasOfSimpleTypes(Schema schema) {
-        String schemaType = getPrimitiveType(schema);
-        return (schemaType != null
-                && !ModelUtils.isObjectSchema(schema)
+        return (!ModelUtils.isObjectSchema(schema)
                 && !ModelUtils.isArraySchema(schema)
                 && schema.getEnum() == null
                 && !ModelUtils.isMapSchema(schema));
