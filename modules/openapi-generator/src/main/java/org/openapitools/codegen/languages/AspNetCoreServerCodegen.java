@@ -54,7 +54,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     public static final String IS_LIBRARY = "isLibrary";
     public static final String IS_FRAMEWORK = "isFramework";
     public static final String USE_NEWtONSOFT = "useNewtonsoft";
-    public static final String USE_ENDPOINT_ROUTING = "useEndpointRoutng";
+    public static final String USE_DEFAULT_ROUTING = "useDefaultRoutng";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
 
@@ -79,7 +79,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private boolean isLibrary = false;
     private boolean isFramework = false;
     private boolean useNewtonsoft = true;
-    private boolean useEndpointRouting = false;
+    private boolean useDefaultRoutng = true;
 
     public AspNetCoreServerCodegen() {
         super();
@@ -197,9 +197,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
                 "Uses the Newtonsoft JSN library.",
                 useNewtonsoft);
 
-        addSwitch(USE_ENDPOINT_ROUTING,
+        addSwitch(USE_DEFAULT_ROUTING,
                 "Uses the newend point routing JSN library.",
-                useEndpointRouting);
+                useDefaultRoutng);
 
         classModifier.addEnum("", "Keep class default with no modifier");
         classModifier.addEnum("abstract", "Make class abstract");
@@ -547,13 +547,13 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private void setUseEndpointRouting() {
         if (aspnetCoreVersion.getOptValue().startsWith("2.")) {
             LOGGER.warn("buildTarget is " + buildTarget.getOptValue() + " so changing default endpoint routing  to false");
-            useNewtonsoft = false;
-            additionalProperties.put(USE_ENDPOINT_ROUTING, useEndpointRouting);
+            useDefaultRoutng = true;
+            additionalProperties.put(USE_DEFAULT_ROUTING, useDefaultRoutng);
         } else {
             if (additionalProperties.containsKey(USE_NEWtONSOFT)) {
-                useEndpointRouting = convertPropertyToBooleanAndWriteBack(USE_ENDPOINT_ROUTING);
+                useDefaultRoutng = convertPropertyToBooleanAndWriteBack(USE_DEFAULT_ROUTING);
             } else {
-                additionalProperties.put(USE_ENDPOINT_ROUTING, useEndpointRouting);
+                additionalProperties.put(USE_DEFAULT_ROUTING, useDefaultRoutng);
             }
         }
     }

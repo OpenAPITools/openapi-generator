@@ -27,7 +27,7 @@ sidebar_label: aspnetcore
 |isLibrary|Is the build a library| |false|
 |isFramework|Are we using packagereference or framework| |false|
 |useNewtonsoft|Uses the Newtonsoft JSN library.| |true|
-|useEndpointRoutng|Uses the newend point routing JSN library.| |false|
+|useDefaultRoutng|Uses the newend point routing JSN library.| |true|
 |classModifier|Class Modifier can be empty, abstract| ||
 |operationModifier|Operation Modifier can be virtual, abstract or partial| |virtual|
 |buildTarget|Target to build an application or library| |program|
