@@ -5,7 +5,6 @@ import * as FormData from "form-data";
 import * as URLParse from "url-parse";
 import { Observable } from 'rxjs';
 
-
 export * from './isomorphic-fetch';
 
 /**

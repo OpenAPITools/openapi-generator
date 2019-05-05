@@ -139,7 +139,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             frameworkOption.addEnum(option, option);
         }
         frameworkOption.defaultValue(FRAMEWORKS[0]);
-        System.out.println("Added framework option");
+
         cliOptions.add(frameworkOption);
                 
         
@@ -196,7 +196,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         objs.put("framework", additionalProperties.get(FRAMEWORK_SWITCH));
         objs.put("frameworks", frameworks);
         
-        objs.put("fileContentDataType", additionalProperties.get(FILE_CONTENT_DATA_TYPE));
+        Object propDataType = additionalProperties.get(FILE_CONTENT_DATA_TYPE);
+        objs.put("fileContentDataType", propDataType == null ? "Buffer" : propDataType);
         
         return objs;
     }

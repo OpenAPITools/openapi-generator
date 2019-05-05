@@ -16,7 +16,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "noLib": false,
-    "lib": [ "es6"]
+    "lib": [ "es6", "dom" ]
   },
   "exclude": [
   	"dist",
