@@ -8,6 +8,8 @@ import io.airlift.airline.Option;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 
 import java.util.Comparator;
 import java.util.List;
@@ -70,16 +72,27 @@ public class ListGenerators implements Runnable {
             sb.append(System.lineSeparator());
 
             list.forEach(generator -> {
+                GeneratorMetadata meta = generator.getGeneratorMetadata();
                 if (docusaurus) {
                     sb.append("* ");
                     String id = "generators/" + generator.getName();
-                    sb.append("[").append(generator.getName()).append("](").append(id).append(")");
+                    sb.append("[").append(generator.getName());
+
+                    if (meta != null && meta.getStability() != null && meta.getStability() != Stability.STABLE) {
+                        sb.append(" (").append(meta.getStability().value()).append(")");
+                    }
+
+                    sb.append("](").append(id).append(")");
 
                     // trailing space is important for markdown list formatting
                     sb.append("  ");
                 } else {
                     sb.append("    - ");
                     sb.append(generator.getName());
+
+                    if (meta != null && meta.getStability() != null && meta.getStability() != Stability.STABLE) {
+                        sb.append(" (").append(meta.getStability().value()).append(")");
+                    }
                 }
                 sb.append(System.lineSeparator());
             });
