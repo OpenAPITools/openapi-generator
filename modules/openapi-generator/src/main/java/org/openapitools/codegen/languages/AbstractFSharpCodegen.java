@@ -85,11 +85,11 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         outputFolder = this.getName();
         embeddedTemplateDir = templateDir = this.getName();
-        
+
         collectionTypes = new HashSet<String>(Arrays.asList("list", "seq"));
 
         mapTypes = new HashSet<String>(
-            Arrays.asList("IDictionary")
+                Arrays.asList("IDictionary")
         );
 
         reservedWords.addAll(
@@ -101,12 +101,12 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
                         "localVarHttpContentTypes", "localVarHttpContentType",
                         "localVarStatusCode",
                         // F# reserved words
-                        "abstract", "and",  "as", "async", "await", "assert", "base","begin", "bool", "break", "byte", "case", "catch", "char", "checked",
+                        "abstract", "and", "as", "async", "await", "assert", "base", "begin", "bool", "break", "byte", "case", "catch", "char", "checked",
                         "class", "const", "continue", "decimal", "default", "delegate", "do", "done", "double", "downcast", "downto", "dynamic",
                         "elif", "else", "end", "enum", "event", "exception", "explicit", "extern", "false", "finally", "fixed", "float", "for",
                         "foreach", "fun", "function", "if", "in", "inherit", "inline", "int", "interface", "internal", "is", "lazy", "let", "let!", "lock",
                         "match", "match!", "member", "module", "mutable", "namespace", "new", "not", "null", "of", "open", "option", "or", "override", "params",
-                        "private", "public", "raise", "rec", "return", "return!", "sealed", "select", "static", "string", "struct", "then", "to", 
+                        "private", "public", "raise", "rec", "return", "return!", "sealed", "select", "static", "string", "struct", "then", "to",
                         "true", "try", "type", "upcast", "use", "use!", "val", "void", "volatile", "when", "while", "with", "yield", "yield!")
         );
 
@@ -174,7 +174,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
         // nullable type
         nullableType = new HashSet<String>(
-                Arrays.asList("decimal", "bool", "int", "float", "long", "double", "string", "Guid","apiKey")
+                Arrays.asList("decimal", "bool", "int", "float", "long", "double", "string", "Guid", "apiKey")
         );
     }
 
@@ -390,65 +390,66 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     }
 
     /*
-    * F# does not allow forward declarations, so files must be imported in the correct order.
-    * Output of CodeGen models must therefore bein dependency order (rather than alphabetical order, which seems to be the default).    
-    * We achieve this by creating a comparator to check whether the first model contains any properties of the comparison model's type 
-    * This could probably be made more efficient if absolutely needed.
-    */
+     * F# does not allow forward declarations, so files must be imported in the correct order.
+     * Output of CodeGen models must therefore bein dependency order (rather than alphabetical order, which seems to be the default).
+     * We achieve this by creating a comparator to check whether the first model contains any properties of the comparison model's type
+     * This could probably be made more efficient if absolutely needed.
+     */
     @SuppressWarnings({"unchecked"})
-    public Map<String,Object> postProcessDependencyOrders(final Map<String, Object> objs) {
-      Comparator<String> comparator = new Comparator<String>() {
-          @Override public int compare(String key1, String key2) {
-            // Get the corresponding models
-            CodegenModel model1 = ModelUtils.getModelByName(key1, objs);
-            CodegenModel model2 = ModelUtils.getModelByName(key2, objs);
+    public Map<String, Object> postProcessDependencyOrders(final Map<String, Object> objs) {
+        Comparator<String> comparator = new Comparator<String>() {
+            @Override
+            public int compare(String key1, String key2) {
+                // Get the corresponding models
+                CodegenModel model1 = ModelUtils.getModelByName(key1, objs);
+                CodegenModel model2 = ModelUtils.getModelByName(key2, objs);
 
-            List<String> complexVars1 = new ArrayList<String>();
-            List<String> complexVars2 = new ArrayList<String>();
-            
-            for(CodegenProperty prop : model1.vars) {
-                if(prop.complexType != null)
-                  complexVars1.add(prop.complexType);
-            }  
-            for(CodegenProperty prop : model2.vars) {
-                if(prop.complexType != null)
-                  complexVars2.add(prop.complexType);
-            }                
-            
-            // if first has complex vars and second has none, first is greater
-            if(complexVars1.size() > 0 && complexVars2.size() == 0)
-              return 1;
+                List<String> complexVars1 = new ArrayList<String>();
+                List<String> complexVars2 = new ArrayList<String>();
 
-            // if second has complex vars and first has none, first is lesser
-            if(complexVars1.size() == 0 && complexVars2.size() > 0)
-              return -1;
+                for (CodegenProperty prop : model1.vars) {
+                    if (prop.complexType != null)
+                        complexVars1.add(prop.complexType);
+                }
+                for (CodegenProperty prop : model2.vars) {
+                    if (prop.complexType != null)
+                        complexVars2.add(prop.complexType);
+                }
 
-            // if first has complex var that matches the second's key, first is greater
-            if(complexVars1.contains(key2))
-              return 1;
+                // if first has complex vars and second has none, first is greater
+                if (complexVars1.size() > 0 && complexVars2.size() == 0)
+                    return 1;
 
-            // if second has complex var that matches the first's key, first is lesser
-            if(complexVars2.contains(key1))
-              return -1;
+                // if second has complex vars and first has none, first is lesser
+                if (complexVars1.size() == 0 && complexVars2.size() > 0)
+                    return -1;
 
-            // if none of the above, don't care
-            return 0;
+                // if first has complex var that matches the second's key, first is greater
+                if (complexVars1.contains(key2))
+                    return 1;
 
-          }
+                // if second has complex var that matches the first's key, first is lesser
+                if (complexVars2.contains(key1))
+                    return -1;
+
+                // if none of the above, don't care
+                return 0;
+
+            }
         };
         PriorityQueue<String> queue = new PriorityQueue<String>(objs.size(), comparator);
-        for(Object k : objs.keySet()) {
-          queue.add(k.toString());
+        for (Object k : objs.keySet()) {
+            queue.add(k.toString());
         }
 
-        Map<String,Object> sorted = new LinkedHashMap<String,Object>();
-        
-        while(queue.size() > 0) {
-          String key = queue.poll();
-          sorted.put(key, objs.get(key));
+        Map<String, Object> sorted = new LinkedHashMap<String, Object>();
+
+        while (queue.size() > 0) {
+            String key = queue.poll();
+            sorted.put(key, objs.get(key));
         }
         return sorted;
-      }
+    }
 
     /**
      * F# differs from other languages in that Enums are not _true_ objects; enums are compiled to integral types.
@@ -789,6 +790,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
     /**
      * Return the default value of the property
+     *
      * @param p OpenAPI property object
      * @return string presentation of the default value of the property
      */
@@ -840,17 +842,17 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         return reservedWords.contains(word);
     }
 
-    
+
     public String getNullableType(Schema p, String type) {
-      if (languageSpecificPrimitives.contains(type)) {
-        if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
-          return type + " option";
+        if (languageSpecificPrimitives.contains(type)) {
+            if (isSupportNullable() && ModelUtils.isNullable(p) && nullableType.contains(type)) {
+                return type + " option";
+            } else {
+                return type;
+            }
         } else {
-          return type;
+            return null;
         }
-      } else {
-          return null;
-      }
     }
 
     @Override
@@ -864,11 +866,11 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         }
 
         if (typeMapping.containsKey(openAPIType)) {
-          type = typeMapping.get(openAPIType);
-          String languageType = getNullableType(p, type);
-          if (languageType != null) {
-              return languageType;
-          }
+            type = typeMapping.get(openAPIType);
+            String languageType = getNullableType(p, type);
+            if (languageType != null) {
+                return languageType;
+            }
         } else {
             type = openAPIType;
         }
@@ -949,7 +951,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String modelTestFileFolder() {
-      return outputFolder + File.separator + testFolder;
+        return outputFolder + File.separator + testFolder;
     }
 
     @Override
@@ -962,9 +964,13 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
         return toModelName(name) + "Tests";
     }
 
-    public void setLicenseUrl(String licenseUrl) {this.licenseUrl = licenseUrl;}
+    public void setLicenseUrl(String licenseUrl) {
+        this.licenseUrl = licenseUrl;
+    }
 
-    public void setLicenseName(String licenseName) {this.licenseName = licenseName;}
+    public void setLicenseName(String licenseName) {
+        this.licenseName = licenseName;
+    }
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
