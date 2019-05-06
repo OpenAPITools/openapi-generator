@@ -236,6 +236,12 @@ public class CodeGenMojo extends AbstractMojo {
     private Boolean skipValidateSpec;
 
     /**
+     * To treat a document strictly against the spec.
+     */
+    @Parameter(name = "strictSpec", required = false)
+    private Boolean strictSpecBehavior;
+
+    /**
      * To generate alias (array, map) as model
      */
     @Parameter(name = "generateAliasAsModel", required = false)
@@ -457,6 +463,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (skipValidateSpec != null) {
                 configurator.setValidateSpec(!skipValidateSpec);
+            }
+
+            if (strictSpecBehavior != null) {
+                configurator.setStrictSpecBehavior(strictSpecBehavior);
             }
 
             if (logToStderr != null) {

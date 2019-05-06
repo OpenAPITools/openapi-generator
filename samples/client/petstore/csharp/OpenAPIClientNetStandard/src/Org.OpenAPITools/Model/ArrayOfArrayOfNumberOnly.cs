@@ -89,6 +89,7 @@ namespace Org.OpenAPITools.Model
                 (
                     this.ArrayArrayNumber == input.ArrayArrayNumber ||
                     this.ArrayArrayNumber != null &&
+                    input.ArrayArrayNumber != null &&
                     this.ArrayArrayNumber.SequenceEqual(input.ArrayArrayNumber)
                 );
         }

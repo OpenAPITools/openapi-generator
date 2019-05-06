@@ -2,6 +2,7 @@ package org.openapitools.codegen.java.jaxrs;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.ClientOpts;
@@ -95,5 +96,55 @@ public abstract class JavaJaxrsBaseTest {
         assertNotNull(file);
         for (String line : lines)
             assertFalse(file.contains(line));
+    }
+
+    @Test
+    public void doNotAddDefaultValueDocumentationForContainers() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/arrayParameter.yaml", null, new ParseOptions()).getOpenAPI();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOpts opts = new ClientOpts();
+        opts.getProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+        input.setOpts(opts);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        checkFileNotContains(generator, outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java",  "DefaultValue");
+    }
+
+    @Test
+    public void addDefaultValueDocumentationForNonContainers() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/arrayParameter.yaml", null, new ParseOptions()).getOpenAPI();
+
+        openAPI.getComponents().getParameters().get("operationsQueryParam").setSchema(new StringSchema()._default("default"));
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOpts opts = new ClientOpts();
+        opts.getProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.setOpenAPI(openAPI);
+        input.setConfig(codegen);
+        input.setOpts(opts);
+
+        MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        checkFileContains(generator, outputPath + "/src/gen/java/org/openapitools/api/ExamplesApi.java",  "DefaultValue");
     }
 }

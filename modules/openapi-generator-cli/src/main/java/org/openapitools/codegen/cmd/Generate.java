@@ -214,6 +214,12 @@ public class Generate implements Runnable {
             description = "Skips the default behavior of validating an input specification.")
     private Boolean skipValidateSpec;
 
+    @Option(name = {"--strict-spec"},
+            title = "true/false strict behavior",
+            description = "'MUST' and 'SHALL' wording in OpenAPI spec is strictly adhered to. e.g. when false, no fixes will be applied to documents which pass validation but don't follow the spec.",
+            arity = 1)
+    private Boolean strictSpecBehavior;
+
     @Option(name = {"--log-to-stderr"},
             title = "Log to STDERR",
             description = "write all log messages (not just errors) to STDOUT."
@@ -368,8 +374,13 @@ public class Generate implements Runnable {
         if (generateAliasAsModel != null) {
             configurator.setGenerateAliasAsModel(generateAliasAsModel);
         }
+
         if (minimalUpdate != null) {
             configurator.setEnableMinimalUpdate(minimalUpdate);
+        }
+
+        if (strictSpecBehavior != null) {
+            configurator.setStrictSpecBehavior(strictSpecBehavior);
         }
 
         applySystemPropertiesKvpList(systemProperties, configurator);

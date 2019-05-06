@@ -22,6 +22,8 @@ import org.gradle.internal.logging.text.StyledTextOutput
 import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.openapitools.codegen.CodegenConfigLoader
 import org.openapitools.codegen.CodegenType
+import org.openapitools.codegen.meta.GeneratorMetadata
+import org.openapitools.codegen.meta.Stability
 
 /**
  * A task which lists out the generators available in OpenAPI Generator
@@ -55,8 +57,18 @@ open class GeneratorsTask : DefaultTask() {
                 generators.filter { it.tag == type }
                         .sortedBy { it.name }
                         .forEach({ generator ->
+
+                            val meta: GeneratorMetadata? = generator.generatorMetadata
+
                             append("    - ")
                             append(generator.name)
+
+                            meta?.stability?.let {
+                                if (it != Stability.STABLE) {
+                                    append(" (${it.value()})")
+                                }
+                            }
+
                             append(System.lineSeparator())
                         })
 
