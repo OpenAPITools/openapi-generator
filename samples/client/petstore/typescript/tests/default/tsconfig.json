@@ -10,7 +10,8 @@
             "node"
         ],
         "lib": [
-            "es6"
+            "es6",
+            "dom"
         ]
     },
     "exclude": [
