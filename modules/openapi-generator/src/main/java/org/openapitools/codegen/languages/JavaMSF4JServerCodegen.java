@@ -45,7 +45,7 @@ public class JavaMSF4JServerCodegen extends AbstractJavaJAXRSServerCodegen {
         modelDocTemplateFiles.remove("model_doc.mustache");
         apiDocTemplateFiles.remove("api_doc.mustache");
         embeddedTemplateDir = templateDir = "MSF4J";
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC);
         supportedLibraries.put(LIBRARY_JERSEY1, "Jersey core 1.x");
         supportedLibraries.put(LIBRARY_JERSEY2, "Jersey core 2.x");
         library.setEnum(supportedLibraries);
