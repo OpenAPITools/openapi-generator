@@ -7,7 +7,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.internal.StringDescriptor
 
 @Serializer(forClass = ByteArray::class)
-object ByteArrayBase64Serializer: KSerializer<ByteArray> {
+internal object ByteArrayBase64Serializer: KSerializer<ByteArray> {
     override val descriptor: SerialDescriptor = StringDescriptor.withName("ByteArray")
 
     override fun serialize(encoder: Encoder, obj: ByteArray) {
