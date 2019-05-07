@@ -8,7 +8,8 @@ import java.util.Objects;
 import java.util.Set;
 
 public class CodegenDiscriminator {
-    private String propertyName;
+    private String propertyName; // propertyName: <value> converted to var name casing/
+    private String propertyBaseName; // original propertyName: <value>
     private Map<String, String> mapping;
     private Set<MappedModel> mappedModels = new LinkedHashSet<>();
 
@@ -18,6 +19,14 @@ public class CodegenDiscriminator {
 
     public void setPropertyName(String propertyName) {
         this.propertyName = propertyName;
+    }
+
+    public String getPropertyBaseName() {
+        return propertyBaseName;
+    }
+
+    public void setPropertyBaseName(String propertyBaseName) {
+        this.propertyBaseName = propertyBaseName;
     }
 
     public Map<String, String> getMapping() {
@@ -82,6 +91,7 @@ public class CodegenDiscriminator {
         if (o == null || getClass() != o.getClass()) return false;
         CodegenDiscriminator that = (CodegenDiscriminator) o;
         return Objects.equals(propertyName, that.propertyName) &&
+            Objects.equals(propertyBaseName, that.propertyBaseName) &&
             Objects.equals(mapping, that.mapping) &&
             Objects.equals(mappedModels, that.mappedModels);
     }
@@ -95,6 +105,7 @@ public class CodegenDiscriminator {
     public String toString() {
         return new ToStringBuilder(this)
                 .append("propertyName", propertyName)
+                .append("propertyBaseName", propertyBaseName)
                 .append("mapping", mapping)
                 .append("mappedModels", mappedModels)
                 .toString();

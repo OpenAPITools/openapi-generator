@@ -1831,25 +1831,30 @@ public class DefaultCodegen implements CodegenConfig {
         }
         CodegenDiscriminator discriminator = new CodegenDiscriminator();
         discriminator.setPropertyName(toVarName(schema.getDiscriminator().getPropertyName()));
+        discriminator.setPropertyBaseName(schema.getDiscriminator().getPropertyName());
         discriminator.setMapping(schema.getDiscriminator().getMapping());
         if (schema.getDiscriminator().getMapping() != null && !schema.getDiscriminator().getMapping().isEmpty()) {
             for (Entry<String, String> e : schema.getDiscriminator().getMapping().entrySet()) {
                 String name = toModelName(ModelUtils.getSimpleRef(e.getValue())); // e.g e.getValue => #/components/schemas/Dog
                 discriminator.getMappedModels().add(new MappedModel(e.getKey(), name));
             }
-        } else {
-            Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
-            allDefinitions.forEach((childName, child) -> {
-                if (child instanceof ComposedSchema && ((ComposedSchema) child).getAllOf() != null) {
-                    Set<String> parentSchemas = ((ComposedSchema) child).getAllOf().stream()
-                            .filter(s -> s.get$ref() != null)
-                            .map(s -> ModelUtils.getSimpleRef(s.get$ref()))
-                            .collect(Collectors.toSet());
-                    if (parentSchemas.contains(schemaName)) {
-                        discriminator.getMappedModels().add(new MappedModel(childName, toModelName(childName)));
-                    }
+        } else if (schema instanceof ComposedSchema) {
+            ComposedSchema cs = (ComposedSchema) schema;
+            List<Schema> subschemas = new ArrayList<Schema>();
+            if (cs.getAllOf() != null) {
+                subschemas = cs.getAllOf();
+            } else if (cs.getAnyOf() != null) {
+                subschemas = cs.getAnyOf();
+            } else if (cs.getOneOf() != null) {
+                subschemas = cs.getOneOf();
+            }
+            for (Schema subschema : subschemas) {
+                if (subschema.get$ref() == null) {
+                    continue;
                 }
-            });
+                String subschemaName = ModelUtils.getSimpleRef(subschema.get$ref());
+                discriminator.getMappedModels().add(new MappedModel(subschemaName, toModelName(subschemaName)));
+            }
         }
         return discriminator;
     }

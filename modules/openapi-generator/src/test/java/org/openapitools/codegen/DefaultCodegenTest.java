@@ -436,8 +436,7 @@ public class DefaultCodegenTest {
         CodegenDiscriminator discriminator = animalModel.getDiscriminator();
         CodegenDiscriminator test = new CodegenDiscriminator();
         test.setPropertyName("className");
-        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Dog", "Dog"));
-        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Cat", "Cat"));
+        test.setPropertyBaseName("className");
         Assert.assertEquals(discriminator, test);
     }
 
@@ -450,11 +449,13 @@ public class DefaultCodegenTest {
         String path = "/person/display/{personId}";
         Operation operation = openAPI.getPaths().get(path).getGet();
         CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", operation, null);
+        codegenOperation.discriminator.setPropertyBaseName("dollarUnderscoretype");
         verifyPersonDiscriminator(codegenOperation.discriminator);
 
         Schema person = openAPI.getComponents().getSchemas().get("Person");
         codegen.setOpenAPI(openAPI);
         CodegenModel personModel = codegen.fromModel("Person", person);
+        personModel.discriminator.setPropertyBaseName("dollarUnderscoretype");
         verifyPersonDiscriminator(personModel.discriminator);
     }
 
@@ -573,6 +574,7 @@ public class DefaultCodegenTest {
     private void verifyPersonDiscriminator(CodegenDiscriminator discriminator) {
         CodegenDiscriminator test = new CodegenDiscriminator();
         test.setPropertyName("DollarUnderscoretype");
+        test.setPropertyBaseName("dollarUnderscoretype");
         test.setMapping(new HashMap<>());
         test.getMapping().put("a", "#/components/schemas/Adult");
         test.getMapping().put("c", "#/components/schemas/Child");
