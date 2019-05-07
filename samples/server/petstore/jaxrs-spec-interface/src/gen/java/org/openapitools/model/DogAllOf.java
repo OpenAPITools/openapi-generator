@@ -45,7 +45,7 @@ public class DogAllOf  implements Serializable {
       return false;
     }
     DogAllOf dogAllOf = (DogAllOf) o;
-    return Objects.equals(breed, dogAllOf.breed);
+    return Objects.equals(this.breed, dogAllOf.breed);
   }
 
   @Override

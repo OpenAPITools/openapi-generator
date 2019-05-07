@@ -45,7 +45,7 @@ public class CatAllOf  implements Serializable {
       return false;
     }
     CatAllOf catAllOf = (CatAllOf) o;
-    return Objects.equals(declawed, catAllOf.declawed);
+    return Objects.equals(this.declawed, catAllOf.declawed);
   }
 
   @Override
