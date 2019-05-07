@@ -38,11 +38,14 @@ public class TypeScriptAngularClientCodegenTest {
 
     @Test
     public void testSnapshotVersion() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
         codegen.additionalProperties().put("snapshot", true);
         codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
         codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT.[0-9]{12}$"));
 
@@ -51,6 +54,7 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.additionalProperties().put("snapshot", true);
         codegen.additionalProperties().put("npmVersion", "3.0.0-M1");
         codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
 
@@ -58,11 +62,14 @@ public class TypeScriptAngularClientCodegenTest {
 
     @Test
     public void testWithoutSnapshotVersion() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
         codegen.additionalProperties().put("snapshot", false);
         codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
         codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT$"));
 
@@ -71,6 +78,7 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.additionalProperties().put("snapshot", false);
         codegen.additionalProperties().put("npmVersion", "3.0.0-M1");
         codegen.processOpts();
+        codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
 
