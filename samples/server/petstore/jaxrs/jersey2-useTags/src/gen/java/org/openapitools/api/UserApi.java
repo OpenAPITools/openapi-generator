@@ -66,7 +66,7 @@ public class UserApi  {
     public Response createUser(@ApiParam(value = "Created user object" ,required=true) @NotNull @Valid User body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.createUser(body,securityContext);
+        return delegate.createUser(body, securityContext);
     }
     @POST
     @Path("/createWithArray")
@@ -78,7 +78,7 @@ public class UserApi  {
     public Response createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true) @NotNull @Valid List<User> body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.createUsersWithArrayInput(body,securityContext);
+        return delegate.createUsersWithArrayInput(body, securityContext);
     }
     @POST
     @Path("/createWithList")
@@ -90,7 +90,7 @@ public class UserApi  {
     public Response createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true) @NotNull @Valid List<User> body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.createUsersWithListInput(body,securityContext);
+        return delegate.createUsersWithListInput(body, securityContext);
     }
     @DELETE
     @Path("/{username}")
@@ -104,7 +104,7 @@ public class UserApi  {
     public Response deleteUser(@ApiParam(value = "The name that needs to be deleted",required=true) @PathParam("username") String username
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.deleteUser(username,securityContext);
+        return delegate.deleteUser(username, securityContext);
     }
     @GET
     @Path("/{username}")
@@ -120,7 +120,7 @@ public class UserApi  {
     public Response getUserByName(@ApiParam(value = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathParam("username") String username
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.getUserByName(username,securityContext);
+        return delegate.getUserByName(username, securityContext);
     }
     @GET
     @Path("/login")
@@ -131,11 +131,11 @@ public class UserApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = String.class),
         
         @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid username/password supplied", response = Void.class) })
-    public Response loginUser(@ApiParam(value = "The user name for login",required=true) @QueryParam("username") String username
-,@ApiParam(value = "The password for login in clear text",required=true) @QueryParam("password") String password
+    public Response loginUser(@ApiParam(value = "The user name for login",required=true)@QueryParam("username") String username
+,@ApiParam(value = "The password for login in clear text",required=true)@QueryParam("password") String password
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.loginUser(username,password,securityContext);
+        return delegate.loginUser(username, password, securityContext);
     }
     @GET
     @Path("/logout")
@@ -161,6 +161,6 @@ public class UserApi  {
 ,@ApiParam(value = "Updated user object" ,required=true) @NotNull @Valid User body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.updateUser(username,body,securityContext);
+        return delegate.updateUser(username, body, securityContext);
     }
 }

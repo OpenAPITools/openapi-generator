@@ -25,7 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.mustache.IndentedLambda;
+import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

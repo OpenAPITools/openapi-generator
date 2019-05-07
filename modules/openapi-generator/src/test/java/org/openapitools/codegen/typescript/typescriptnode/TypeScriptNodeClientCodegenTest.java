@@ -26,7 +26,7 @@ public class TypeScriptNodeClientCodegenTest {
       codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
       codegen.processOpts();
 
-      org.junit.Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT.[0-9]{12}$"));
+      Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT.[0-9]{12}$"));
 
       codegen = new TypeScriptNodeClientCodegen();
       codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
@@ -34,7 +34,7 @@ public class TypeScriptNodeClientCodegenTest {
       codegen.additionalProperties().put("npmVersion", "3.0.0-M1");
       codegen.processOpts();
 
-      org.junit.Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
+      Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1-SNAPSHOT.[0-9]{12}$"));
 
    }
 
@@ -46,7 +46,7 @@ public class TypeScriptNodeClientCodegenTest {
       codegen.additionalProperties().put("npmVersion", "1.0.0-SNAPSHOT");
       codegen.processOpts();
 
-      org.junit.Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT$"));
+      Assert.assertTrue(codegen.getNpmVersion().matches("^1.0.0-SNAPSHOT$"));
 
       codegen = new TypeScriptNodeClientCodegen();
       codegen.additionalProperties().put("npmName", "@openapi/typescript-angular-petstore");
@@ -54,7 +54,7 @@ public class TypeScriptNodeClientCodegenTest {
       codegen.additionalProperties().put("npmVersion", "3.0.0-M1");
       codegen.processOpts();
 
-      org.junit.Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
+      Assert.assertTrue(codegen.getNpmVersion().matches("^3.0.0-M1$"));
 
    }
 

@@ -40,4 +40,25 @@ class EnumTest
      * @var \App\DTO\OuterEnum
      */
     public $outer_enum;
+    /**
+     * @DTA\Data(field="outerEnumInteger", nullable=true)
+     * @DTA\Strategy(name="Object", options={"type":\App\DTO\OuterEnumInteger::class})
+     * @DTA\Validator(name="Dictionary", options={"type":\App\DTO\OuterEnumInteger::class})
+     * @var \App\DTO\OuterEnumInteger
+     */
+    public $outer_enum_integer;
+    /**
+     * @DTA\Data(field="outerEnumDefaultValue", nullable=true)
+     * @DTA\Strategy(name="Object", options={"type":\App\DTO\OuterEnumDefaultValue::class})
+     * @DTA\Validator(name="Dictionary", options={"type":\App\DTO\OuterEnumDefaultValue::class})
+     * @var \App\DTO\OuterEnumDefaultValue
+     */
+    public $outer_enum_default_value;
+    /**
+     * @DTA\Data(field="outerEnumIntegerDefaultValue", nullable=true)
+     * @DTA\Strategy(name="Object", options={"type":\App\DTO\OuterEnumIntegerDefaultValue::class})
+     * @DTA\Validator(name="Dictionary", options={"type":\App\DTO\OuterEnumIntegerDefaultValue::class})
+     * @var \App\DTO\OuterEnumIntegerDefaultValue
+     */
+    public $outer_enum_integer_default_value;
 }

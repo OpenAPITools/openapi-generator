@@ -52,6 +52,6 @@ class OpenAPIServerExtension extends Extension
 
     public function getAlias()
     {
-        return 'open_apiserver';
+        return 'open_api_server';
     }
 }

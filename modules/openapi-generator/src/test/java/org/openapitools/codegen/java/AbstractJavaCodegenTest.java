@@ -68,20 +68,24 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void convertVarName() throws Exception {
-       Assert.assertEquals(fakeJavaCodegen.toVarName("name"), "name");
-       Assert.assertEquals(fakeJavaCodegen.toVarName("$name"), "$name");
-       Assert.assertEquals(fakeJavaCodegen.toVarName("nam$$e"), "nam$$e");
-       Assert.assertEquals(fakeJavaCodegen.toVarName("user-name"), "userName");
-       Assert.assertEquals(fakeJavaCodegen.toVarName("user_name"), "userName");
-       Assert.assertEquals(fakeJavaCodegen.toVarName("user|name"), "userName");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("name"), "name");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("$name"), "$name");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("nam$$e"), "nam$$e");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("user-name"), "userName");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("user_name"), "userName");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("user|name"), "userName");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("uSername"), "uSername");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("USERname"), "usERname");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("USERNAME"), "USERNAME");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("USER123NAME"), "USER123NAME");
    }
 
    @Test
    public void convertModelName() throws Exception {
-       Assert.assertEquals(fakeJavaCodegen.toModelName("name"), "Name");
-       Assert.assertEquals(fakeJavaCodegen.toModelName("$name"), "Name");
-       Assert.assertEquals(fakeJavaCodegen.toModelName("nam#e"), "Name");
-       Assert.assertEquals(fakeJavaCodegen.toModelName("$another-fake?"), "AnotherFake");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("name"), "Name");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("$name"), "Name");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("nam#e"), "Name");
+        Assert.assertEquals(fakeJavaCodegen.toModelName("$another-fake?"), "AnotherFake");
    }
 
     @Test
@@ -264,7 +268,10 @@ public class AbstractJavaCodegenTest {
         /**
          * Gets artifact version.
          * Only for testing purposes.
+         * @return version
          */
-        public String getArtifactVersion () { return this.artifactVersion; }
+        public String getArtifactVersion() {
+            return this.artifactVersion;
+        }
     }
 }

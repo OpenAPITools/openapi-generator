@@ -85,7 +85,7 @@ OAIPetApi::deletePet(const qint64& pet_id, const QString& api_key) {
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
     QString pet_idPathParam("{"); 
     pet_idPathParam.append("petId").append("}");
-    fullPath.replace(pet_idPathParam, ::OpenAPI::toStringValue(pet_id));
+    fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(pet_id)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "DELETE");
@@ -323,7 +323,7 @@ OAIPetApi::getPetById(const qint64& pet_id) {
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
     QString pet_idPathParam("{"); 
     pet_idPathParam.append("petId").append("}");
-    fullPath.replace(pet_idPathParam, ::OpenAPI::toStringValue(pet_id));
+    fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(pet_id)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "GET");
@@ -419,7 +419,7 @@ OAIPetApi::updatePetWithForm(const qint64& pet_id, const QString& name, const QS
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}");
     QString pet_idPathParam("{"); 
     pet_idPathParam.append("petId").append("}");
-    fullPath.replace(pet_idPathParam, ::OpenAPI::toStringValue(pet_id));
+    fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(pet_id)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "POST");
@@ -472,7 +472,7 @@ OAIPetApi::uploadFile(const qint64& pet_id, const QString& additional_metadata, 
     fullPath.append(this->host).append(this->basePath).append("/pet/{petId}/uploadImage");
     QString pet_idPathParam("{"); 
     pet_idPathParam.append("petId").append("}");
-    fullPath.replace(pet_idPathParam, ::OpenAPI::toStringValue(pet_id));
+    fullPath.replace(pet_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(pet_id)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "POST");

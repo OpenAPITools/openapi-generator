@@ -36,7 +36,7 @@ is $pet->tags->[0]->name, 'just kidding', 'got the proper tag name';
 is $pet->tags->[0]->id, '11', 'got the proper tag id';
 
 
-my $add_pet = $api->add_pet(pet => $pet);
+my $add_pet = $api->add_pet(body => $pet);
 my $get_pet = $api->get_pet_by_id(pet_id => $pet_id);
 
 is $get_pet->id, '10008', 'stored and retrieved: got the proper pet id';

@@ -38,7 +38,7 @@ public class PhpSlimServerOptionsProvider implements OptionsProvider {
 
     @Override
     public String getLanguage() {
-        return "slim";
+        return "php-slim";
     }
 
     @Override

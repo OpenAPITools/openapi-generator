@@ -57,6 +57,7 @@ public class PetApi {
             nickname = "addPet",
             tags = { "pet" })
     @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation") ,
             @ApiResponse(code = 405, message = "Invalid input")  })
     public AddPetOper addPet() {
         return new AddPetOper(reqSpec);
@@ -67,6 +68,7 @@ public class PetApi {
             nickname = "deletePet",
             tags = { "pet" })
     @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation") ,
             @ApiResponse(code = 400, message = "Invalid pet value")  })
     public DeletePetOper deletePet() {
         return new DeletePetOper(reqSpec);
@@ -112,6 +114,7 @@ public class PetApi {
             nickname = "updatePet",
             tags = { "pet" })
     @ApiResponses(value = { 
+            @ApiResponse(code = 200, message = "successful operation") ,
             @ApiResponse(code = 400, message = "Invalid ID supplied") ,
             @ApiResponse(code = 404, message = "Pet not found") ,
             @ApiResponse(code = 405, message = "Validation exception")  })

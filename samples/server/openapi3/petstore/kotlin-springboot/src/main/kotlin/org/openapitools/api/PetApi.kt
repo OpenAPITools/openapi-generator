@@ -66,7 +66,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             notes = "Multiple status values can be provided with comma separated strings",
             response = Pet::class,
             responseContainer = "List",
-            authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])])
+            authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "read:pets", description = "read your pets")])])
     @ApiResponses(
             value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List"),ApiResponse(code = 400, message = "Invalid status value")])
     @RequestMapping(
@@ -83,7 +83,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
             response = Pet::class,
             responseContainer = "List",
-            authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])])
+            authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "read:pets", description = "read your pets")])])
     @ApiResponses(
             value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List"),ApiResponse(code = 400, message = "Invalid tag value")])
     @RequestMapping(

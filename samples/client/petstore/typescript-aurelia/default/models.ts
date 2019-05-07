@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 
+
 /**
  * Describes the result of uploading an image resource
  */
@@ -19,6 +20,7 @@ export interface ApiResponse {
   message?: string;
 }
 
+
 /**
  * A category for a pet
  */
@@ -26,6 +28,7 @@ export interface Category {
   id?: number;
   name?: string;
 }
+
 
 /**
  * An order for a pets from the pet store
@@ -47,6 +50,7 @@ export interface Order {
  */
 export type OrderStatusEnum = 'placed' | 'approved' | 'delivered';
 
+
 /**
  * A pet for sale in the pet store
  */
@@ -67,6 +71,7 @@ export interface Pet {
  */
 export type PetStatusEnum = 'available' | 'pending' | 'sold';
 
+
 /**
  * A tag for a pet
  */
@@ -74,6 +79,7 @@ export interface Tag {
   id?: number;
   name?: string;
 }
+
 
 /**
  * A User who is purchasing from the pet store

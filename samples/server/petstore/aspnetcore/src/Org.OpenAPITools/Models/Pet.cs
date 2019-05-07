@@ -158,11 +158,13 @@ namespace Org.OpenAPITools.Models
                 (
                     PhotoUrls == other.PhotoUrls ||
                     PhotoUrls != null &&
+                    other.PhotoUrls != null &&
                     PhotoUrls.SequenceEqual(other.PhotoUrls)
                 ) && 
                 (
                     Tags == other.Tags ||
                     Tags != null &&
+                    other.Tags != null &&
                     Tags.SequenceEqual(other.Tags)
                 ) && 
                 (

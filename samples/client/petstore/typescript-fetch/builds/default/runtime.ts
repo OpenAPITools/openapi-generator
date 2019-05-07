@@ -209,6 +209,7 @@ export function querystring(params: HTTPQuery, prefix: string = ''): string {
             }
             return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
         })
+        .filter(part => part.length > 0)
         .join('&');
 }
 

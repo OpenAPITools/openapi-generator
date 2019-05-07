@@ -108,6 +108,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
         } else {
             setPackageName("openapi");
+            additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
         
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
