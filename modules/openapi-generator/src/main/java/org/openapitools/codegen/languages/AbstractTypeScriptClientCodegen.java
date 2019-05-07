@@ -45,7 +45,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     private static final String UNDEFINED_VALUE = "undefined";
 
     protected String modelPropertyNaming = "camelCase";
-    protected Boolean supportsES6 = true;
+    protected Boolean supportsES6 = false;
     protected HashSet<String> languageGenericTypes;
 
     public AbstractTypeScriptClientCodegen() {
@@ -120,7 +120,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("Error", "Error");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
-        cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue("false"));
+        cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue(String.valueOf(this.getSupportsES6())));
 
     }
 
