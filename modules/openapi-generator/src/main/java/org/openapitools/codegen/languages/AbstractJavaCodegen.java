@@ -585,14 +585,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String toApiName(String name) {
-        if (name.length() == 0) {
-            return "DefaultApi";
-        }
-        return camelize(name) + "Api";
-    }
-
-    @Override
     public String toApiFilename(String name) {
         return toApiName(name);
     }
