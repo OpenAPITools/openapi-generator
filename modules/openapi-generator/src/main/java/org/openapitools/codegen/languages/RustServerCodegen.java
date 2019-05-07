@@ -64,6 +64,9 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String externCrateName;
     protected Map<String, Map<String, String>> pathSetMap = new HashMap<String, Map<String, String>>();
 
+    private static final String uuidType = "uuid::Uuid";
+    private static final String bytesType = "swagger::ByteArray";
+
     public RustServerCodegen() {
         super();
 
@@ -150,16 +153,16 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("float", "f32");
         typeMapping.put("double", "f64");
         typeMapping.put("string", "String");
-        typeMapping.put("UUID", "uuid::Uuid");
+        typeMapping.put("UUID", uuidType);
         typeMapping.put("byte", "u8");
-        typeMapping.put("ByteArray", "swagger::ByteArray");
-        typeMapping.put("binary", "swagger::ByteArray");
+        typeMapping.put("ByteArray", bytesType);
+        typeMapping.put("binary", bytesType);
         typeMapping.put("boolean", "bool");
         typeMapping.put("date", "chrono::DateTime<chrono::Utc>");
         typeMapping.put("DateTime", "chrono::DateTime<chrono::Utc>");
         typeMapping.put("password", "String");
-        typeMapping.put("File", "swagger::ByteArray");
-        typeMapping.put("file", "swagger::ByteArray");
+        typeMapping.put("File", bytesType);
+        typeMapping.put("file", bytesType);
         typeMapping.put("array", "Vec");
         typeMapping.put("map", "HashMap");
 
@@ -498,6 +501,18 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         return mimetype.toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded");
     }
 
+    boolean isMimetypeMultipartFormData(String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith("multipart/form-data");
+    }
+
+    boolean isMimetypeOctetStream(String mimetype) {
+        return mimetype.toLowerCase(Locale.ROOT).startsWith("application/octet-stream");
+    }
+
+    boolean isMimetypePlain(String mimetype) {
+      return isMimetypePlainText(mimetype) || isMimetypeHtmlText(mimetype) || isMimetypeOctetStream(mimetype);
+    }
+
     @Override
     public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
         Map<String, Schema> definitions = ModelUtils.getSchemas(this.openAPI);
@@ -563,9 +578,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 if (isMimetypeXml(mimeType)) {
                     additionalProperties.put("usesXml", true);
                     consumesXml = true;
-                } else if (isMimetypePlainText(mimeType)) {
-                    consumesPlainText = true;
-                } else if (isMimetypeHtmlText(mimeType)) {
+                } else if (isMimetypePlain(mimeType)) {
                     consumesPlainText = true;
                 } else if (isMimetypeWwwFormUrlEncoded(mimeType)) {
                     additionalProperties.put("usesUrlEncodedForm", true);
@@ -591,9 +604,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 if (isMimetypeXml(mimeType)) {
                     additionalProperties.put("usesXml", true);
                     producesXml = true;
-                } else if (isMimetypePlainText(mimeType)) {
-                    producesPlainText = true;
-                } else if (isMimetypeHtmlText(mimeType)) {
+                } else if (isMimetypePlain(mimeType)) {
                     producesPlainText = true;
                 }
 
@@ -606,7 +617,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         for (CodegenParameter param : op.headerParams) {
             // If a header uses UUIDs, we need to import the UUID package.
-            if (param.dataType.equals("uuid::Uuid")) {
+            if (param.dataType.equals(uuidType)) {
                 additionalProperties.put("apiUsesUuid", true);
             }
             processParam(param, op);
@@ -634,7 +645,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 // Default to producing json if nothing else is specified
                 if (producesXml) {
                     rsp.vendorExtensions.put("producesXml", true);
-                } else if (producesPlainText) {
+                } else if (producesPlainText && rsp.dataType.equals(bytesType)) {
                     rsp.vendorExtensions.put("producesPlainText", true);
                 } else {
                     rsp.vendorExtensions.put("producesJson", true);
@@ -659,14 +670,14 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 }
             }
             for (CodegenProperty header : rsp.headers) {
-                if (header.dataType.equals("uuid::Uuid")) {
+                if (header.dataType.equals(uuidType)) {
                     additionalProperties.put("apiUsesUuid", true);
                 }
                 header.nameInCamelCase = toModelName(header.baseName);
             }
         }
         for (CodegenProperty header : op.responseHeaders) {
-            if (header.dataType.equals("uuid::Uuid")) {
+            if (header.dataType.equals(uuidType)) {
                 additionalProperties.put("apiUsesUuid", true);
             }
             header.nameInCamelCase = toModelName(header.baseName);
@@ -693,7 +704,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                         if (isMimetypeXml(mediaType)) {
                             additionalProperties.put("usesXml", true);
                             consumesXml = true;
-                        } else if (isMimetypePlainText(mediaType) || isMimetypeHtmlText(mediaType)) {
+                        } else if (isMimetypePlain(mediaType)) {
                             consumesPlainText = true;
                         } else if (isMimetypeWwwFormUrlEncoded(mediaType)) {
                             additionalProperties.put("usesUrlEncodedForm", true);
@@ -734,7 +745,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
 
             for (CodegenProperty header : op.responseHeaders) {
-                if (header.dataType.equals("uuid::Uuid")) {
+                if (header.dataType.equals(uuidType)) {
                     additionalProperties.put("apiUsesUuid", true);
                 }
                 header.nameInCamelCase = toModelName(header.baseName);
@@ -1108,6 +1119,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     cm.dataType = typeMapping.get(cm.dataType);
                 }
             }
+
+            cm.vendorExtensions.put("isString", "String".equals(cm.dataType));
         }
         return super.postProcessModelsEnum(objs);
     }
