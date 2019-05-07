@@ -1,0 +1,20 @@
+{
+  "name": "openapi-petstore",
+  "version": "1.0.0",
+  "description": "This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.",
+  "main": "index.js",
+  "scripts": {
+    "prestart": "npm install",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "openapi-tools"
+  ],
+  "license": "Unlicense",
+  "private": true,
+  "dependencies": {
+    "connect": "^3.2.0",
+    "js-yaml": "^3.3.0",
+    "swagger-tools": "0.10.1"
+  }
+}
