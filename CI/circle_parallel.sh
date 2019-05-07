@@ -18,6 +18,13 @@ elif [ "$NODE_INDEX" = "2" ]; then
   if [[ $project_version == *"-SNAPSHOT" ]]; then
     echo "Running node $NODE_INDEX to test ensure-up-to-date"
     java -version
+
+    # install elm-format for formatting elm code
+    npm install -g elm-format
+
+    # symlink elm-format
+    sudo ln -s /opt/circleci/.nvm/versions/node/v12.1.0/bin/elm-format /usr/local/bin/elm-format
+
     ./bin/utils/ensure-up-to-date
   fi
 #elif [ "$NODE_INDEX" = "3" ]; then

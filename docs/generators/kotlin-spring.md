@@ -9,6 +9,7 @@ sidebar_label: kotlin-spring
 | ------ | ----------- | ------ | ------- |
 |sourceFolder|source folder for generated code| |src/main/kotlin|
 |packageName|Generated artifact package name.| |org.openapitools|
+|apiSuffix|suffix for api classes| |Api|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
 |artifactId|Generated artifact id (name of jar).| |null|
 |artifactVersion|Generated artifact's package version.| |1.0.0|

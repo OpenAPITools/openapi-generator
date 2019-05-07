@@ -19,6 +19,8 @@ package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +48,11 @@ public class ScalaHttpClientCodegen extends AbstractScalaCodegen implements Code
 
     public ScalaHttpClientCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
+
         outputFolder = "generated-code/scala-http-client";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");

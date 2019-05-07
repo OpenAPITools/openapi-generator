@@ -180,7 +180,7 @@ where
                 let param_{{{paramName}}} = match percent_encoding::percent_decode(path_params["{{{baseName}}}"].as_bytes()).decode_utf8() {
                     Ok(param_{{{paramName}}}) => match param_{{{paramName}}}.parse::<{{{dataType}}}>() {
                         Ok(param_{{{paramName}}}) => param_{{{paramName}}},
-                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter {{{baseName}}}: {}", e)))),
+                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse path parameter {{{baseName}}}: {:?}", e)))),
                     },
                     Err(_) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't percent-decode path parameter as UTF-8: {}", &path_params["{{{baseName}}}"]))))
                 };
@@ -259,10 +259,12 @@ where
 {{/required}}
                                     }
 {{/consumesPlainText}}{{#consumesPlainText}}
-                                    match String::from_utf8(body.to_vec()) {
-                                        Ok(param_{{{paramName}}}) => Some(param_{{{paramName}}}),
-                                        Err(e) => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Couldn't parse body parameter {{{baseName}}} - not valid UTF-8: {}", e)))),
-                                    }
+{{#isByteArray}}
+                                    Some(swagger::ByteArray(body.to_vec()))
+{{/isByteArray}}
+{{#isString}}
+                                    Some(String::from_utf8(body.to_vec()).unwrap())
+{{/isString}}
 {{/consumesPlainText}}{{/vendorExtensions}}
                                 } else {
                                     None
@@ -331,11 +333,13 @@ where
 {{/has_namespace}}{{#has_namespace}}
                                                     let mut namespaces = BTreeMap::new();
                                                     // An empty string is used to indicate a global namespace in xmltree.
-                                                    namespaces.insert("".to_string(), models::namespaces::{{{uppercase_data_type}}}.clone());
+                                                    namespaces.insert("".to_string(), {{{dataType}}}::NAMESPACE.to_string());
                                                     let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
 {{/has_namespace}}{{/producesXml}}{{#producesJson}}
                                                     let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
-{{/producesJson}}{{/vendorExtensions}}
+{{/producesJson}}{{#producesPlainText}}
+                                                    let body = body.0;
+{{/producesPlainText}}{{/vendorExtensions}}
                                                     response.set_body(body);
 {{/dataType}}
                                                 },

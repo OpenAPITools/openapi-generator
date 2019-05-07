@@ -16,13 +16,11 @@ import java.util.Map;
  *
  * @author attrobit
  */
-public class JavaJAXRSSpecServerCodegenTest {
-    
-    private JavaJAXRSSpecServerCodegen instance;
-    
+public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
+
     @BeforeMethod
     public void before() {
-        instance = new JavaJAXRSSpecServerCodegen();
+        codegen = new JavaJAXRSSpecServerCodegen();
     }
     
     /**
@@ -36,7 +34,7 @@ public class JavaJAXRSSpecServerCodegenTest {
         Operation operation = new Operation();
         Map<String, List<CodegenOperation>> operationList = new HashMap<>();
         
-        instance.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
+        codegen.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
         
         Assert.assertEquals(operationList.size(), 1);
         Assert.assertTrue(operationList.containsKey(""));
@@ -54,7 +52,7 @@ public class JavaJAXRSSpecServerCodegenTest {
         Operation operation = new Operation();
         Map<String, List<CodegenOperation>> operationList = new HashMap<>();
         
-        instance.addOperationToGroup("Primaryresource", "/{uuid}", operation, codegenOperation, operationList);
+        codegen.addOperationToGroup("Primaryresource", "/{uuid}", operation, codegenOperation, operationList);
         
         Assert.assertEquals(operationList.size(), 1);
         Assert.assertTrue(operationList.containsKey(""));
@@ -73,7 +71,7 @@ public class JavaJAXRSSpecServerCodegenTest {
         Operation operation = new Operation();
         Map<String, List<CodegenOperation>> operationList = new HashMap<>();
         
-        instance.addOperationToGroup("Default", "/subresource", operation, codegenOperation, operationList);
+        codegen.addOperationToGroup("Default", "/subresource", operation, codegenOperation, operationList);
         
         Assert.assertEquals(codegenOperation.baseName, "subresource");
         Assert.assertEquals(operationList.size(), 1);
@@ -85,7 +83,7 @@ public class JavaJAXRSSpecServerCodegenTest {
      */
     @Test
     public void testToApiNameForSubresource() {
-        final String subresource = instance.toApiName("subresource");
+        final String subresource = codegen.toApiName("subresource");
         Assert.assertEquals(subresource, "SubresourceApi");
     }
     
@@ -98,9 +96,9 @@ public class JavaJAXRSSpecServerCodegenTest {
         codegenOperation.operationId = "findPrimaryresource";
         Operation operation = new Operation();
         Map<String, List<CodegenOperation>> operationList = new HashMap<>();
-        instance.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
+        codegen.addOperationToGroup("Primaryresource", "/", operation, codegenOperation, operationList);
         
-        final String subresource = instance.toApiName("");
+        final String subresource = codegen.toApiName("");
         Assert.assertEquals(subresource, "PrimaryresourceApi");
     }
 }

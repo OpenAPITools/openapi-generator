@@ -239,24 +239,29 @@ SYNOPSIS
                 [--api-package <api package>] [--artifact-id <artifact id>]
                 [--artifact-version <artifact version>]
                 [(-c <configuration file> | --config <configuration file>)]
-                [-D <system properties>...] [--enable-post-process-file]
+                [-D <system properties>...]
+                [(-e <templating engine> | --engine <templating engine>)]
+                [--enable-post-process-file]
                 [(-g <generator name> | --generator-name <generator name>)]
-                [--git-repo-id <git repo id>] [--git-user-id <git user id>]
-                [--group-id <group id>] [--http-user-agent <http user agent>]
+                [--generate-alias-as-model] [--git-repo-id <git repo id>]
+                [--git-user-id <git user id>] [--group-id <group id>]
+                [--http-user-agent <http user agent>]
                 (-i <spec file> | --input-spec <spec file>)
                 [--ignore-file-override <ignore file override location>]
                 [--import-mappings <import mappings>...]
                 [--instantiation-types <instantiation types>...]
                 [--invoker-package <invoker package>]
                 [--language-specific-primitives <language specific primitives>...]
-                [--library <library>] [--log-to-stderr]
+                [--library <library>] [--log-to-stderr] [--minimal-update]
                 [--model-name-prefix <model name prefix>]
                 [--model-name-suffix <model name suffix>]
                 [--model-package <model package>]
                 [(-o <output directory> | --output <output directory>)]
-                [--release-note <release note>] [--remove-operation-id-prefix]
+                [--package-name <package name>] [--release-note <release note>]
+                [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
                 [(-s | --skip-overwrite)] [--skip-validate-spec]
+                [--strict-spec <true/false strict behavior>]
                 [(-t <template directory> | --template-dir <template directory>)]
                 [--type-mappings <type mappings>...] [(-v | --verbose)]
 
@@ -287,9 +292,11 @@ OPTIONS
             artifact version in generated pom.xml
 
         -c <configuration file>, --config <configuration file>
-            Path to json configuration file. File content should be in a json
-            format {"optionKey":"optionValue", "optionKey1":"optionValue1"...}
-            Supported options can be different for each language. Run
+            Path to configuration file configuration file. It can be json or
+            yaml.If file is json, the content should have the format
+            {"optionKey":"optionValue", "optionKey1":"optionValue1"...}.If file
+            is yaml, the content should have the format optionKey:
+            optionValueSupported options can be different for each language. Run
             config-help -g {generator name} command for language specific config
             options.
 
@@ -297,11 +304,17 @@ OPTIONS
             sets specified system properties in the format of
             name=value,name=value (or multiple options, each with name=value)
 
+        -e <templating engine>, --engine <templating engine>
+            templating engine: "mustache" (default) or "handlebars" (beta)
+
         --enable-post-process-file
             enablePostProcessFile
 
         -g <generator name>, --generator-name <generator name>
-            generator to use (see langs command for list)
+            generator to use (see list command for list)
+
+        --generate-alias-as-model
+            Generate alias to map, array as models
 
         --git-repo-id <git repo id>
             Git repo ID, e.g. openapi-generator.
@@ -352,6 +365,9 @@ OPTIONS
             piping the JSON output of debug options (e.g. `-DdebugOperations`)
             to an external parser directly while testing a generator.
 
+        --minimal-update
+            Only write output files that have changed.
+
         --model-name-prefix <model name prefix>
             Prefix that will be prepended to all model names. Default is the
             empty string.
@@ -365,6 +381,9 @@ OPTIONS
 
         -o <output directory>, --output <output directory>
             where to write the generated files (current dir by default)
+
+        --package-name <package name>
+            package for generated classes (where supported)
 
         --release-note <release note>
             Release note, default to 'Minor update'.
@@ -384,12 +403,17 @@ OPTIONS
         --skip-validate-spec
             Skips the default behavior of validating an input specification.
 
+        --strict-spec <true/false strict behavior>
+            'MUST' and 'SHALL' wording in OpenAPI spec is strictly adhered to.
+            e.g. when false, no fixes will be applied to documents which pass
+            validation but don't follow the spec.
+
         -t <template directory>, --template-dir <template directory>
             folder containing the template files
 
         --type-mappings <type mappings>
             sets mappings between OpenAPI spec types and generated code types in
-            the format of OpenaAPIType=generatedType,OpenAPIType=generatedType.
+            the format of OpenAPIType=generatedType,OpenAPIType=generatedType.
             For example: array=List,map=Map,string=String. You can also have
             multiple occurrences of this option.
 

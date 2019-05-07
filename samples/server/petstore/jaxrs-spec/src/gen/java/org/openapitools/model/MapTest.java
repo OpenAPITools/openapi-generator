@@ -135,10 +135,10 @@ public enum InnerEnum {
       return false;
     }
     MapTest mapTest = (MapTest) o;
-    return Objects.equals(mapMapOfString, mapTest.mapMapOfString) &&
-        Objects.equals(mapOfEnumString, mapTest.mapOfEnumString) &&
-        Objects.equals(directMap, mapTest.directMap) &&
-        Objects.equals(indirectMap, mapTest.indirectMap);
+    return Objects.equals(this.mapMapOfString, mapTest.mapMapOfString) &&
+        Objects.equals(this.mapOfEnumString, mapTest.mapOfEnumString) &&
+        Objects.equals(this.directMap, mapTest.directMap) &&
+        Objects.equals(this.indirectMap, mapTest.indirectMap);
   }
 
   @Override

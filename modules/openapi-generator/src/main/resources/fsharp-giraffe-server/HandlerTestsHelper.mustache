@@ -1,0 +1,46 @@
+namespace {{packageName}}.Tests
+
+open System
+open System.Net
+open System.Net.Http
+open System.IO
+open Microsoft.AspNetCore.Builder
+open Microsoft.AspNetCore.Hosting
+open Microsoft.AspNetCore.TestHost
+open Microsoft.Extensions.DependencyInjection
+open FSharp.Control.Tasks.V2.ContextInsensitive
+open Xunit
+open System.Text
+open TestHelper
+open {{packageName}}.{{classname}}Handler
+open {{packageName}}.{{classname}}HandlerParams
+
+module {{classname}}HandlerTestsHelper =
+
+  {{#operations}}
+  {{#operation}}
+  {{^consumes}}
+  ()
+  {{/consumes}}
+
+  {{#consumes}}
+  {{#-first}}
+  let mutable {{operationId}}Examples = Map.empty
+  let mutable {{operationId}}Body = ""
+
+  {{/-first}}
+  {{/consumes}}
+  {{#requestBodyExamples}}
+  {{operationId}}Body <- WebUtility.HtmlDecode "{{example}}"
+  {{operationId}}Examples <- {{operationId}}Examples.Add("{{contentType}}", {{operationId}}Body)
+
+  {{/requestBodyExamples}}
+  {{#consumes}}
+  {{#-first}}
+  let get{{operationId}}Example mediaType =
+    {{operationId}}Examples.[mediaType]
+      |> getConverter mediaType
+  {{/-first}}
+  {{/consumes}}
+  {{/operation}}
+  {{/operations}}

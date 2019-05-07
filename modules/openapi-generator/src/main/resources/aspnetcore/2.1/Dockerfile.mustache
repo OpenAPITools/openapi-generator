@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:{{aspnetCoreVersion}}-sdk AS build-env
+FROM mcr.microsoft.com/dotnet/core/sdk:{{aspnetCoreVersion}} AS build-env
 WORKDIR /app
 
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
@@ -12,7 +12,7 @@ COPY . ./
 RUN dotnet publish -c Release -o out
 
 # build runtime image
-FROM microsoft/dotnet:{{aspnetCoreVersion}}-aspnetcore-runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:{{aspnetCoreVersion}}
 WORKDIR /app
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "{{packageName}}.dll"]

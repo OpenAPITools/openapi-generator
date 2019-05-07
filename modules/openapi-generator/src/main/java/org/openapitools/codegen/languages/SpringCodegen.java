@@ -90,20 +90,28 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     public SpringCodegen() {
         super();
+
         outputFolder = "generated-code/javaSpring";
-        apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaSpring";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-spring";
 
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
+
+        apiTestTemplateFiles.clear(); // TODO: add test template
+
         // spring uses the jackson lib
         additionalProperties.put("jackson", "true");
 
-        cliOptions.add(new CliOption(TITLE, "server title name or client service name"));
-        cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
-        cliOptions.add(new CliOption(BASE_PACKAGE, "base package (invokerPackage) for generated code"));
+        cliOptions.add(new CliOption(TITLE, "server title name or client service name").defaultValue(title));
+        cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code").defaultValue(this.getConfigPackage()));
+        cliOptions.add(new CliOption(BASE_PACKAGE, "base package (invokerPackage) for generated code").defaultValue(this.getBasePackage()));
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly));
         cliOptions.add(CliOption.newBoolean(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern));
         cliOptions.add(CliOption.newBoolean(SINGLE_CONTENT_TYPES, "Whether to select only one produces/consumes content-type by operation.", singleContentTypes));
@@ -126,11 +134,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY, "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
         setLibrary(SPRING_BOOT);
-
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
-        library.setDefault(SPRING_BOOT);
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(SPRING_BOOT);
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
+
     }
 
     @Override

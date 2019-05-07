@@ -22,6 +22,38 @@ Then install it via:
 npm install open_api_petstore --save
 ```
 
+Finaly, you need to build the module:
+
+```shell
+npm run build
+```
+
+##### Local development
+
+To use the library locally without publishing to a remote npm registry, first install the dependencies by changing into the directory containing `package.json` (and this README). Let's call this `JAVASCRIPT_CLIENT_DIR`. Then run:
+
+```shell
+npm install
+```
+
+Next, [link](https://docs.npmjs.com/cli/link) it globally in npm with the following, also from `JAVASCRIPT_CLIENT_DIR`:
+
+```shell
+npm link
+```
+
+To use the link you just defined in your project, switch to the directory you want to use your open_api_petstore from, and run:
+
+```shell
+npm link /path/to/<JAVASCRIPT_CLIENT_DIR>
+```
+
+Finaly, you need to build the module:
+
+```shell
+npm run build
+```
+
 #### git
 
 If the library is hosted at a git repository, e.g.https://github.com/GIT_USER_ID/GIT_REPO_ID
