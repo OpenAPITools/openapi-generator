@@ -29,6 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -612,6 +614,17 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         return underscore(packageName.replaceAll("[^\\w]+", ""));
     }
 
+    public String dateToString(Schema p, Date date, DateFormat dateFormatter, DateFormat dateTimeFormatter) {
+        // converts a date into a date or date-time python string
+        if (!(ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p))) {
+            throw new RuntimeException("passed schema must be of type Date or DateTime");
+        }
+        if (ModelUtils.isDateSchema(p)) {
+            return "dateutil_parser('" + dateFormatter.format(date) + "').date()";
+        }
+        return "dateutil_parser('" + dateTimeFormatter.format(date) + "')";
+    }
+
     /**
      * Return the default value of the property
      * @param p OpenAPI property object
@@ -619,39 +632,89 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isBooleanSchema(p)) {
-            if (p.getDefault() != null) {
-                if (Boolean.valueOf(p.getDefault().toString()) == false)
-                    return "False";
-                else
-                    return "True";
+        // if a variable has no default set and only has one allowed value
+        // using enum of length == 1 we use that value for python clients:
+        // python servers: should only use default values for optional params
+        // python clients: should only use default values for required params
+        Object defaultObject = null;
+        Boolean enumLengthOne = (p.getEnum() != null && p.getEnum().size() == 1);
+        if (p.getDefault() != null) {
+            defaultObject = p.getDefault();
+        } else if (enumLengthOne) {
+            defaultObject = p.getEnum().get(0);
+        }
+
+        // convert datetime and date enums if they exist
+        DateFormat iso8601Date = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
+        DateFormat iso8601DateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
+        TimeZone utc = TimeZone.getTimeZone("UTC");
+        iso8601Date.setTimeZone(utc);
+        iso8601DateTime.setTimeZone(utc);
+
+        if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
+            List<Object> currentEnum = p.getEnum();
+            List<String> fixedEnum = new ArrayList<String>();
+            String fixedValue = null;
+            Date date = null;
+            if (currentEnum != null && !currentEnum.isEmpty()) {
+                for (Object enumItem : currentEnum) {
+                    date = (Date) enumItem;
+                    fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
+                    fixedEnum.add(fixedValue);
+                }
+                p.setEnum(fixedEnum);
             }
-        } else if (ModelUtils.isDateSchema(p)) {
-            // TODO
-        } else if (ModelUtils.isDateTimeSchema(p)) {
-            // TODO
-        } else if (ModelUtils.isNumberSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
+
+            // convert the example if it exists
+            Object currentExample = p.getExample();
+            if (currentExample != null) {
+                date = (Date) currentExample;
+                fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
+                fixedEnum.add(fixedValue);
+                p.setExample(fixedValue);
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
-            }
-        } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
-                    return "'''" + p.getDefault() + "'''";
-                else
-                    return "'" + ((String) p.getDefault()).replaceAll("'","\'") + "'";
-            }
-        } else if (ModelUtils.isArraySchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
+
+            // fix defaultObject
+            if (defaultObject != null) {
+                date = (Date) defaultObject;
+                fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
+                p.setDefault(fixedValue);
+                defaultObject = fixedValue;
             }
         }
 
-        return null;
+        if (defaultObject == null) {
+            return null;
+        }
+
+        String defaultValue = null;
+        if (ModelUtils.isStringSchema(p)) {
+            defaultValue = defaultObject.toString();
+            if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
+                return defaultValue;
+            }
+
+            if (!ModelUtils.isByteArraySchema(p) && !ModelUtils.isBinarySchema(p) && !ModelUtils.isFileSchema(p) && !ModelUtils.isUUIDSchema(p) && !ModelUtils.isEmailSchema(p) && !ModelUtils.isDateTimeSchema(p) && !ModelUtils.isDateSchema(p)) {
+                if (Pattern.compile("\r\n|\r|\n").matcher((String) defaultValue).find()) {
+                    defaultValue = "'''" + defaultValue + "'''";
+                } else {
+                    defaultValue = "'" + defaultValue + "'";
+                }
+            }
+            return defaultValue;
+        } else if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
+            defaultValue = String.valueOf(defaultObject);
+            if (ModelUtils.isBooleanSchema(p)) {
+                if (Boolean.valueOf(defaultValue) == false) {
+                    return "False";
+                } else {
+                    return "True";
+                }
+            }
+            return defaultValue;
+        } else {
+            return  defaultObject.toString();
+        }
     }
 
     @Override
@@ -723,24 +786,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         p.example = example;
-    }
-
-    @Override
-    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
-        Schema schema = parameter.getSchema();
-
-        if (parameter.getExample() != null) {
-            codegenParameter.example = parameter.getExample().toString();
-        } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
-            Example example = parameter.getExamples().values().iterator().next();
-            if (example.getValue() != null) {
-                codegenParameter.example = example.getValue().toString();
-            }
-        } else if (schema != null && schema.getExample() != null) {
-            codegenParameter.example = schema.getExample().toString();
-        }
-
-        setParameterExampleValue(codegenParameter);
     }
 
     @Override
