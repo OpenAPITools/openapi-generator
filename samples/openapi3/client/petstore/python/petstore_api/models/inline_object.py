@@ -41,7 +41,14 @@ class InlineObject(object):
     }
 
     def __init__(self, name=None, status=None):  # noqa: E501
-        """InlineObject - a model defined in OpenAPI"""  # noqa: E501
+        """InlineObject - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            name (str): Updated name of the pet. [optional]  # noqa: E501
+            status (str): Updated status of the pet. [optional]  # noqa: E501
+        """
 
         self._name = None
         self._status = None

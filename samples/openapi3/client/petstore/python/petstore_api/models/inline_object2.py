@@ -40,8 +40,15 @@ class InlineObject2(object):
         'enum_form_string': 'enum_form_string'
     }
 
-    def __init__(self, enum_form_string_array=None, enum_form_string='-efg'):  # noqa: E501
-        """InlineObject2 - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, enum_form_string_array=None, enum_form_string=None):  # noqa: E501
+        """InlineObject2 - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            enum_form_string_array (list[str]): Form parameter enum test (string array). [optional]  # noqa: E501
+            enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'  # noqa: E501
+        """
 
         self._enum_form_string_array = None
         self._enum_form_string = None

@@ -66,8 +66,28 @@ class FormatTest(object):
         'pattern_with_digits_and_delimiter': 'pattern_with_digits_and_delimiter'
     }
 
-    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid=None, password=None, pattern_with_digits=None, pattern_with_digits_and_delimiter=None):  # noqa: E501
-        """FormatTest - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, number, byte, date, password, integer=None, int32=None, int64=None, float=None, double=None, string=None, binary=None, date_time=None, uuid=None, pattern_with_digits=None, pattern_with_digits_and_delimiter=None):  # noqa: E501
+        """FormatTest - a model defined in OpenAPI
+
+        Args:
+            number (float):
+            byte (str):
+            date (date):
+            password (str):
+
+        Keyword Args:  # noqa: E501  # noqa: E501  # noqa: E501  # noqa: E501
+            integer (int): [optional]  # noqa: E501
+            int32 (int): [optional]  # noqa: E501
+            int64 (int): [optional]  # noqa: E501
+            float (float): [optional]  # noqa: E501
+            double (float): [optional]  # noqa: E501
+            string (str): [optional]  # noqa: E501
+            binary (file): [optional]  # noqa: E501
+            date_time (datetime): [optional]  # noqa: E501
+            uuid (str): [optional]  # noqa: E501
+            pattern_with_digits (str): A string that is a 10 digit number. Can have leading zeros.. [optional]  # noqa: E501
+            pattern_with_digits_and_delimiter (str): A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.. [optional]  # noqa: E501
+        """
 
         self._integer = None
         self._int32 = None

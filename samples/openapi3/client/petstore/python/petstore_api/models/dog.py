@@ -38,8 +38,16 @@ class Dog(object):
         'breed': 'breed'
     }
 
-    def __init__(self, breed=None):  # noqa: E501
-        """Dog - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, class_name, breed=None, color=None):  # noqa: E501
+        """Dog - a model defined in OpenAPI
+
+        Args:
+            class_name (str):
+
+        Keyword Args:  # noqa: E501
+            breed (str): [optional]  # noqa: E501
+            color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
+        """
 
         self._breed = None
         self.discriminator = None

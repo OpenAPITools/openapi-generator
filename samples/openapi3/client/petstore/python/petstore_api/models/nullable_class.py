@@ -61,7 +61,24 @@ class NullableClass(object):
     }
 
     def __init__(self, integer_prop=None, number_prop=None, boolean_prop=None, string_prop=None, date_prop=None, datetime_prop=None, array_nullable_prop=None, array_and_items_nullable_prop=None, array_items_nullable=None, object_nullable_prop=None, object_and_items_nullable_prop=None, object_items_nullable=None):  # noqa: E501
-        """NullableClass - a model defined in OpenAPI"""  # noqa: E501
+        """NullableClass - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            integer_prop (int): [optional]  # noqa: E501
+            number_prop (float): [optional]  # noqa: E501
+            boolean_prop (bool): [optional]  # noqa: E501
+            string_prop (str): [optional]  # noqa: E501
+            date_prop (date): [optional]  # noqa: E501
+            datetime_prop (datetime): [optional]  # noqa: E501
+            array_nullable_prop (list[object]): [optional]  # noqa: E501
+            array_and_items_nullable_prop (list[object]): [optional]  # noqa: E501
+            array_items_nullable (list[object]): [optional]  # noqa: E501
+            object_nullable_prop (dict(str, object)): [optional]  # noqa: E501
+            object_and_items_nullable_prop (dict(str, object)): [optional]  # noqa: E501
+            object_items_nullable (dict(str, object)): [optional]  # noqa: E501
+        """
 
         self._integer_prop = None
         self._number_prop = None

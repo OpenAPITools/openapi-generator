@@ -40,8 +40,15 @@ class InlineObject5(object):
         'required_file': 'requiredFile'
     }
 
-    def __init__(self, additional_metadata=None, required_file=None):  # noqa: E501
-        """InlineObject5 - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, required_file, additional_metadata=None):  # noqa: E501
+        """InlineObject5 - a model defined in OpenAPI
+
+        Args:
+            required_file (file): file to upload
+
+        Keyword Args:  # noqa: E501
+            additional_metadata (str): Additional data to pass to server. [optional]  # noqa: E501
+        """
 
         self._additional_metadata = None
         self._required_file = None

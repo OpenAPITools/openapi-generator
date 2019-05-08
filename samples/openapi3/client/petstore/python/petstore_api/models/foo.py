@@ -38,8 +38,14 @@ class Foo(object):
         'bar': 'bar'
     }
 
-    def __init__(self, bar='bar'):  # noqa: E501
-        """Foo - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, bar=None):  # noqa: E501
+        """Foo - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            bar (str): [optional] if omitted the server will use the default value of 'bar'  # noqa: E501
+        """
 
         self._bar = None
         self.discriminator = None

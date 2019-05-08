@@ -44,8 +44,17 @@ class Name(object):
         '_123_number': '123Number'
     }
 
-    def __init__(self, name=None, snake_case=None, _property=None, _123_number=None):  # noqa: E501
-        """Name - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, name, snake_case=None, _property=None, _123_number=None):  # noqa: E501
+        """Name - a model defined in OpenAPI
+
+        Args:
+            name (int):
+
+        Keyword Args:  # noqa: E501
+            snake_case (int): [optional]  # noqa: E501
+            _property (str): [optional]  # noqa: E501
+            _123_number (int): [optional]  # noqa: E501
+        """
 
         self._name = None
         self._snake_case = None

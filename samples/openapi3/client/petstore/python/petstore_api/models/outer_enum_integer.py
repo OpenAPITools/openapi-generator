@@ -44,7 +44,12 @@ class OuterEnumInteger(object):
     }
 
     def __init__(self):  # noqa: E501
-        """OuterEnumInteger - a model defined in OpenAPI"""  # noqa: E501
+        """OuterEnumInteger - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+        """
         self.discriminator = None
 
     def to_dict(self):

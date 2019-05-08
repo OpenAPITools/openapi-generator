@@ -48,8 +48,19 @@ class Pet(object):
         'status': 'status'
     }
 
-    def __init__(self, id=None, category=None, name=None, photo_urls=None, tags=None, status=None):  # noqa: E501
-        """Pet - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, name, photo_urls, id=None, category=None, tags=None, status=None):  # noqa: E501
+        """Pet - a model defined in OpenAPI
+
+        Args:
+            name (str):
+            photo_urls (list[str]):
+
+        Keyword Args:  # noqa: E501  # noqa: E501
+            id (int): [optional]  # noqa: E501
+            category (Category): [optional]  # noqa: E501
+            tags (list[Tag]): [optional]  # noqa: E501
+            status (str): pet status in the store. [optional]  # noqa: E501
+        """
 
         self._id = None
         self._category = None

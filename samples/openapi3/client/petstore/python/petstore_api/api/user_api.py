@@ -45,21 +45,28 @@ class UserApi(object):
         >>> thread = api.create_user(user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param User user: Created user object (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            user (User): Created user object
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
-        return self.create_user_with_http_info(user, **kwargs)  # noqa: E501
+        if kwargs.get('async_req'):
+            return self.create_user_with_http_info(user, **kwargs)  # noqa: E501
+        else:
+            (data) = self.create_user_with_http_info(user, **kwargs)  # noqa: E501
+            return data
 
     def create_user_with_http_info(self, user, **kwargs):  # noqa: E501
         """Create user  # noqa: E501
@@ -70,20 +77,21 @@ class UserApi(object):
         >>> thread = api.create_user_with_http_info(user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param User user: Created user object (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            user (User): Created user object
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -106,6 +114,7 @@ class UserApi(object):
         if ('user' not in local_var_params or
                 local_var_params['user'] is None):
             raise ApiValueError("Missing the required parameter `user` when calling `create_user`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -152,21 +161,28 @@ class UserApi(object):
         >>> thread = api.create_users_with_array_input(user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param list[User] user: List of user object (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            user (list[User]): List of user object
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
-        return self.create_users_with_array_input_with_http_info(user, **kwargs)  # noqa: E501
+        if kwargs.get('async_req'):
+            return self.create_users_with_array_input_with_http_info(user, **kwargs)  # noqa: E501
+        else:
+            (data) = self.create_users_with_array_input_with_http_info(user, **kwargs)  # noqa: E501
+            return data
 
     def create_users_with_array_input_with_http_info(self, user, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
@@ -176,20 +192,21 @@ class UserApi(object):
         >>> thread = api.create_users_with_array_input_with_http_info(user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param list[User] user: List of user object (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            user (list[User]): List of user object
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -212,6 +229,7 @@ class UserApi(object):
         if ('user' not in local_var_params or
                 local_var_params['user'] is None):
             raise ApiValueError("Missing the required parameter `user` when calling `create_users_with_array_input`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -258,21 +276,28 @@ class UserApi(object):
         >>> thread = api.create_users_with_list_input(user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param list[User] user: List of user object (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            user (list[User]): List of user object
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
-        return self.create_users_with_list_input_with_http_info(user, **kwargs)  # noqa: E501
+        if kwargs.get('async_req'):
+            return self.create_users_with_list_input_with_http_info(user, **kwargs)  # noqa: E501
+        else:
+            (data) = self.create_users_with_list_input_with_http_info(user, **kwargs)  # noqa: E501
+            return data
 
     def create_users_with_list_input_with_http_info(self, user, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
@@ -282,20 +307,21 @@ class UserApi(object):
         >>> thread = api.create_users_with_list_input_with_http_info(user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param list[User] user: List of user object (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            user (list[User]): List of user object
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -318,6 +344,7 @@ class UserApi(object):
         if ('user' not in local_var_params or
                 local_var_params['user'] is None):
             raise ApiValueError("Missing the required parameter `user` when calling `create_users_with_list_input`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -365,21 +392,28 @@ class UserApi(object):
         >>> thread = api.delete_user(username, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param str username: The name that needs to be deleted (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): The name that needs to be deleted
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
-        return self.delete_user_with_http_info(username, **kwargs)  # noqa: E501
+        if kwargs.get('async_req'):
+            return self.delete_user_with_http_info(username, **kwargs)  # noqa: E501
+        else:
+            (data) = self.delete_user_with_http_info(username, **kwargs)  # noqa: E501
+            return data
 
     def delete_user_with_http_info(self, username, **kwargs):  # noqa: E501
         """Delete user  # noqa: E501
@@ -390,20 +424,21 @@ class UserApi(object):
         >>> thread = api.delete_user_with_http_info(username, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param str username: The name that needs to be deleted (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): The name that needs to be deleted
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -426,6 +461,7 @@ class UserApi(object):
         if ('username' not in local_var_params or
                 local_var_params['username'] is None):
             raise ApiValueError("Missing the required parameter `username` when calling `delete_user`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -468,21 +504,28 @@ class UserApi(object):
         >>> thread = api.get_user_by_name(username, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param str username: The name that needs to be fetched. Use user1 for testing. (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: User
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): The name that needs to be fetched. Use user1 for testing.
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            User:
         """
         kwargs['_return_http_data_only'] = True
-        return self.get_user_by_name_with_http_info(username, **kwargs)  # noqa: E501
+        if kwargs.get('async_req'):
+            return self.get_user_by_name_with_http_info(username, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_user_by_name_with_http_info(username, **kwargs)  # noqa: E501
+            return data
 
     def get_user_by_name_with_http_info(self, username, **kwargs):  # noqa: E501
         """Get user by user name  # noqa: E501
@@ -492,20 +535,21 @@ class UserApi(object):
         >>> thread = api.get_user_by_name_with_http_info(username, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param str username: The name that needs to be fetched. Use user1 for testing. (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(User, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): The name that needs to be fetched. Use user1 for testing.
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            User:
         """
 
         local_var_params = locals()
@@ -528,6 +572,7 @@ class UserApi(object):
         if ('username' not in local_var_params or
                 local_var_params['username'] is None):
             raise ApiValueError("Missing the required parameter `username` when calling `get_user_by_name`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -574,22 +619,28 @@ class UserApi(object):
         >>> thread = api.login_user(username, password, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param str username: The user name for login (required)
-        :param str password: The password for login in clear text (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: str
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): The user name for login            password (str): The password for login in clear text
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            str:
         """
         kwargs['_return_http_data_only'] = True
-        return self.login_user_with_http_info(username, password, **kwargs)  # noqa: E501
+        if kwargs.get('async_req'):
+            return self.login_user_with_http_info(username, password, **kwargs)  # noqa: E501
+        else:
+            (data) = self.login_user_with_http_info(username, password, **kwargs)  # noqa: E501
+            return data
 
     def login_user_with_http_info(self, username, password, **kwargs):  # noqa: E501
         """Logs user into the system  # noqa: E501
@@ -599,21 +650,21 @@ class UserApi(object):
         >>> thread = api.login_user_with_http_info(username, password, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param str username: The user name for login (required)
-        :param str password: The password for login in clear text (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(str, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): The user name for login            password (str): The password for login in clear text
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            str:
         """
 
         local_var_params = locals()
@@ -640,6 +691,7 @@ class UserApi(object):
         if ('password' not in local_var_params or
                 local_var_params['password'] is None):
             raise ApiValueError("Missing the required parameter `password` when calling `login_user`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -688,20 +740,27 @@ class UserApi(object):
         >>> thread = api.logout_user(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
-        return self.logout_user_with_http_info(**kwargs)  # noqa: E501
+        if kwargs.get('async_req'):
+            return self.logout_user_with_http_info(**kwargs)  # noqa: E501
+        else:
+            (data) = self.logout_user_with_http_info(**kwargs)  # noqa: E501
+            return data
 
     def logout_user_with_http_info(self, **kwargs):  # noqa: E501
         """Logs out current logged in user session  # noqa: E501
@@ -711,19 +770,20 @@ class UserApi(object):
         >>> thread = api.logout_user_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -742,6 +802,7 @@ class UserApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+
 
         collection_formats = {}
 
@@ -783,22 +844,28 @@ class UserApi(object):
         >>> thread = api.update_user(username, user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param str username: name that need to be deleted (required)
-        :param User user: Updated user object (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): name that need to be deleted            user (User): Updated user object
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
-        return self.update_user_with_http_info(username, user, **kwargs)  # noqa: E501
+        if kwargs.get('async_req'):
+            return self.update_user_with_http_info(username, user, **kwargs)  # noqa: E501
+        else:
+            (data) = self.update_user_with_http_info(username, user, **kwargs)  # noqa: E501
+            return data
 
     def update_user_with_http_info(self, username, user, **kwargs):  # noqa: E501
         """Updated user  # noqa: E501
@@ -809,21 +876,21 @@ class UserApi(object):
         >>> thread = api.update_user_with_http_info(username, user, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param str username: name that need to be deleted (required)
-        :param User user: Updated user object (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            username (str): name that need to be deleted            user (User): Updated user object
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -850,6 +917,7 @@ class UserApi(object):
         if ('user' not in local_var_params or
                 local_var_params['user'] is None):
             raise ApiValueError("Missing the required parameter `user` when calling `update_user`")  # noqa: E501
+
 
         collection_formats = {}
 

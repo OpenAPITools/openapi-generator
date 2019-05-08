@@ -41,7 +41,14 @@ class AdditionalPropertiesClass(object):
     }
 
     def __init__(self, map_property=None, map_of_map_property=None):  # noqa: E501
-        """AdditionalPropertiesClass - a model defined in OpenAPI"""  # noqa: E501
+        """AdditionalPropertiesClass - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            map_property (dict(str, str)): [optional]  # noqa: E501
+            map_of_map_property (dict(str, dict(str, str))): [optional]  # noqa: E501
+        """
 
         self._map_property = None
         self._map_of_map_property = None

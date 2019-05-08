@@ -45,8 +45,15 @@ class Animal(object):
         'Cat': 'Cat'
     }
 
-    def __init__(self, class_name=None, color='red'):  # noqa: E501
-        """Animal - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, class_name, color=None):  # noqa: E501
+        """Animal - a model defined in OpenAPI
+
+        Args:
+            class_name (str):
+
+        Keyword Args:  # noqa: E501
+            color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
+        """
 
         self._class_name = None
         self._color = None

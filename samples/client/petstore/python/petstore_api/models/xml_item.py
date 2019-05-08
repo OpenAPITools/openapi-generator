@@ -95,7 +95,41 @@ class XmlItem(object):
     }
 
     def __init__(self, attribute_string=None, attribute_number=None, attribute_integer=None, attribute_boolean=None, wrapped_array=None, name_string=None, name_number=None, name_integer=None, name_boolean=None, name_array=None, name_wrapped_array=None, prefix_string=None, prefix_number=None, prefix_integer=None, prefix_boolean=None, prefix_array=None, prefix_wrapped_array=None, namespace_string=None, namespace_number=None, namespace_integer=None, namespace_boolean=None, namespace_array=None, namespace_wrapped_array=None, prefix_ns_string=None, prefix_ns_number=None, prefix_ns_integer=None, prefix_ns_boolean=None, prefix_ns_array=None, prefix_ns_wrapped_array=None):  # noqa: E501
-        """XmlItem - a model defined in OpenAPI"""  # noqa: E501
+        """XmlItem - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            attribute_string (str): [optional]  # noqa: E501
+            attribute_number (float): [optional]  # noqa: E501
+            attribute_integer (int): [optional]  # noqa: E501
+            attribute_boolean (bool): [optional]  # noqa: E501
+            wrapped_array (list[int]): [optional]  # noqa: E501
+            name_string (str): [optional]  # noqa: E501
+            name_number (float): [optional]  # noqa: E501
+            name_integer (int): [optional]  # noqa: E501
+            name_boolean (bool): [optional]  # noqa: E501
+            name_array (list[int]): [optional]  # noqa: E501
+            name_wrapped_array (list[int]): [optional]  # noqa: E501
+            prefix_string (str): [optional]  # noqa: E501
+            prefix_number (float): [optional]  # noqa: E501
+            prefix_integer (int): [optional]  # noqa: E501
+            prefix_boolean (bool): [optional]  # noqa: E501
+            prefix_array (list[int]): [optional]  # noqa: E501
+            prefix_wrapped_array (list[int]): [optional]  # noqa: E501
+            namespace_string (str): [optional]  # noqa: E501
+            namespace_number (float): [optional]  # noqa: E501
+            namespace_integer (int): [optional]  # noqa: E501
+            namespace_boolean (bool): [optional]  # noqa: E501
+            namespace_array (list[int]): [optional]  # noqa: E501
+            namespace_wrapped_array (list[int]): [optional]  # noqa: E501
+            prefix_ns_string (str): [optional]  # noqa: E501
+            prefix_ns_number (float): [optional]  # noqa: E501
+            prefix_ns_integer (int): [optional]  # noqa: E501
+            prefix_ns_boolean (bool): [optional]  # noqa: E501
+            prefix_ns_array (list[int]): [optional]  # noqa: E501
+            prefix_ns_wrapped_array (list[int]): [optional]  # noqa: E501
+        """
 
         self._attribute_string = None
         self._attribute_number = None

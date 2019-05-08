@@ -52,8 +52,21 @@ class EnumTest(object):
         'outer_enum_integer_default_value': 'outerEnumIntegerDefaultValue'
     }
 
-    def __init__(self, enum_string=None, enum_string_required=None, enum_integer=None, enum_number=None, outer_enum=None, outer_enum_integer=None, outer_enum_default_value=None, outer_enum_integer_default_value=None):  # noqa: E501
-        """EnumTest - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, enum_string_required, enum_string=None, enum_integer=None, enum_number=None, outer_enum=None, outer_enum_integer=None, outer_enum_default_value=None, outer_enum_integer_default_value=None):  # noqa: E501
+        """EnumTest - a model defined in OpenAPI
+
+        Args:
+            enum_string_required (str):
+
+        Keyword Args:  # noqa: E501
+            enum_string (str): [optional]  # noqa: E501
+            enum_integer (int): [optional]  # noqa: E501
+            enum_number (float): [optional]  # noqa: E501
+            outer_enum (OuterEnum): [optional]  # noqa: E501
+            outer_enum_integer (OuterEnumInteger): [optional]  # noqa: E501
+            outer_enum_default_value (OuterEnumDefaultValue): [optional]  # noqa: E501
+            outer_enum_integer_default_value (OuterEnumIntegerDefaultValue): [optional]  # noqa: E501
+        """
 
         self._enum_string = None
         self._enum_string_required = None

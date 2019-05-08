@@ -24,6 +24,9 @@ from pprint import pprint
 # Create an instance of the API class
 api_instance = petstore_api.DefaultApi()
 
+
+
+# example, this endpoint has no required or optional parameters
 try:
     api_response = api_instance.foo_get()
     pprint(api_response)

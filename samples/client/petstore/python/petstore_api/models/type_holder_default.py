@@ -46,8 +46,18 @@ class TypeHolderDefault(object):
         'array_item': 'array_item'
     }
 
-    def __init__(self, string_item='what', number_item=None, integer_item=None, bool_item=True, array_item=None):  # noqa: E501
-        """TypeHolderDefault - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, number_item, integer_item, array_item, string_item='what', bool_item=True):  # noqa: E501
+        """TypeHolderDefault - a model defined in OpenAPI
+
+        Args:
+            number_item (float):
+            integer_item (int):
+            array_item (list[int]):
+
+        Keyword Args:
+            string_item (str): defaults to 'what', must be one of ['what']  # noqa: E501  # noqa: E501  # noqa: E501
+            bool_item (bool): defaults to True, must be one of [True]  # noqa: E501  # noqa: E501
+        """
 
         self._string_item = None
         self._number_item = None

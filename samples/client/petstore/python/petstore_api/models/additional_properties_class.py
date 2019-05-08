@@ -59,7 +59,23 @@ class AdditionalPropertiesClass(object):
     }
 
     def __init__(self, map_string=None, map_number=None, map_integer=None, map_boolean=None, map_array_integer=None, map_array_anytype=None, map_map_string=None, map_map_anytype=None, anytype_1=None, anytype_2=None, anytype_3=None):  # noqa: E501
-        """AdditionalPropertiesClass - a model defined in OpenAPI"""  # noqa: E501
+        """AdditionalPropertiesClass - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            map_string (dict(str, str)): [optional]  # noqa: E501
+            map_number (dict(str, float)): [optional]  # noqa: E501
+            map_integer (dict(str, int)): [optional]  # noqa: E501
+            map_boolean (dict(str, bool)): [optional]  # noqa: E501
+            map_array_integer (dict(str, list[int])): [optional]  # noqa: E501
+            map_array_anytype (dict(str, list[object])): [optional]  # noqa: E501
+            map_map_string (dict(str, dict(str, str))): [optional]  # noqa: E501
+            map_map_anytype (dict(str, dict(str, object))): [optional]  # noqa: E501
+            anytype_1 (object): [optional]  # noqa: E501
+            anytype_2 (object): [optional]  # noqa: E501
+            anytype_3 (object): [optional]  # noqa: E501
+        """
 
         self._map_string = None
         self._map_number = None

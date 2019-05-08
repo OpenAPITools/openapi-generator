@@ -40,8 +40,15 @@ class InlineObject4(object):
         'param2': 'param2'
     }
 
-    def __init__(self, param=None, param2=None):  # noqa: E501
-        """InlineObject4 - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, param, param2):  # noqa: E501
+        """InlineObject4 - a model defined in OpenAPI
+
+        Args:
+            param (str): field1
+            param2 (str): field2
+
+        Keyword Args:  # noqa: E501  # noqa: E501
+        """
 
         self._param = None
         self._param2 = None

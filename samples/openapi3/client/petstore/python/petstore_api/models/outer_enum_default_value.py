@@ -44,7 +44,12 @@ class OuterEnumDefaultValue(object):
     }
 
     def __init__(self):  # noqa: E501
-        """OuterEnumDefaultValue - a model defined in OpenAPI"""  # noqa: E501
+        """OuterEnumDefaultValue - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+        """
         self.discriminator = None
 
     def to_dict(self):

@@ -43,7 +43,15 @@ class OuterComposite(object):
     }
 
     def __init__(self, my_number=None, my_string=None, my_boolean=None):  # noqa: E501
-        """OuterComposite - a model defined in OpenAPI"""  # noqa: E501
+        """OuterComposite - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            my_number (float): [optional]  # noqa: E501
+            my_string (str): [optional]  # noqa: E501
+            my_boolean (bool): [optional]  # noqa: E501
+        """
 
         self._my_number = None
         self._my_string = None

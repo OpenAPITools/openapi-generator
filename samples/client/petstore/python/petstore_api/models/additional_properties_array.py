@@ -39,7 +39,13 @@ class AdditionalPropertiesArray(object):
     }
 
     def __init__(self, name=None):  # noqa: E501
-        """AdditionalPropertiesArray - a model defined in OpenAPI"""  # noqa: E501
+        """AdditionalPropertiesArray - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            name (str): [optional]  # noqa: E501
+        """
 
         self._name = None
         self.discriminator = None

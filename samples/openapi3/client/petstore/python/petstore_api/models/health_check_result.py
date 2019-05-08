@@ -39,7 +39,13 @@ class HealthCheckResult(object):
     }
 
     def __init__(self, nullable_message=None):  # noqa: E501
-        """HealthCheckResult - a model defined in OpenAPI"""  # noqa: E501
+        """HealthCheckResult - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            nullable_message (str): [optional]  # noqa: E501
+        """
 
         self._nullable_message = None
         self.discriminator = None

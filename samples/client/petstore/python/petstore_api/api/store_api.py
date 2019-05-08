@@ -45,21 +45,28 @@ class StoreApi(object):
         >>> thread = api.delete_order(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param str order_id: ID of the order that needs to be deleted (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            order_id (str): ID of the order that needs to be deleted
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            None:
         """
         kwargs['_return_http_data_only'] = True
-        return self.delete_order_with_http_info(order_id, **kwargs)  # noqa: E501
+        if kwargs.get('async_req'):
+            return self.delete_order_with_http_info(order_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.delete_order_with_http_info(order_id, **kwargs)  # noqa: E501
+            return data
 
     def delete_order_with_http_info(self, order_id, **kwargs):  # noqa: E501
         """Delete purchase order by ID  # noqa: E501
@@ -70,20 +77,21 @@ class StoreApi(object):
         >>> thread = api.delete_order_with_http_info(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param str order_id: ID of the order that needs to be deleted (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: None
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            order_id (str): ID of the order that needs to be deleted
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            None:
         """
 
         local_var_params = locals()
@@ -106,6 +114,7 @@ class StoreApi(object):
         if ('order_id' not in local_var_params or
                 local_var_params['order_id'] is None):
             raise ApiValueError("Missing the required parameter `order_id` when calling `delete_order`")  # noqa: E501
+
 
         collection_formats = {}
 
@@ -149,20 +158,27 @@ class StoreApi(object):
         >>> thread = api.get_inventory(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: dict(str, int)
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            dict(str, int):
         """
         kwargs['_return_http_data_only'] = True
-        return self.get_inventory_with_http_info(**kwargs)  # noqa: E501
+        if kwargs.get('async_req'):
+            return self.get_inventory_with_http_info(**kwargs)  # noqa: E501
+        else:
+            (data) = self.get_inventory_with_http_info(**kwargs)  # noqa: E501
+            return data
 
     def get_inventory_with_http_info(self, **kwargs):  # noqa: E501
         """Returns pet inventories by status  # noqa: E501
@@ -173,19 +189,20 @@ class StoreApi(object):
         >>> thread = api.get_inventory_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(dict(str, int), status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
+
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            dict(str, int):
         """
 
         local_var_params = locals()
@@ -204,6 +221,7 @@ class StoreApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
+
 
         collection_formats = {}
 
@@ -249,21 +267,28 @@ class StoreApi(object):
         >>> thread = api.get_order_by_id(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param int order_id: ID of pet that needs to be fetched (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Order
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            order_id (int): ID of pet that needs to be fetched
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            Order:
         """
         kwargs['_return_http_data_only'] = True
-        return self.get_order_by_id_with_http_info(order_id, **kwargs)  # noqa: E501
+        if kwargs.get('async_req'):
+            return self.get_order_by_id_with_http_info(order_id, **kwargs)  # noqa: E501
+        else:
+            (data) = self.get_order_by_id_with_http_info(order_id, **kwargs)  # noqa: E501
+            return data
 
     def get_order_by_id_with_http_info(self, order_id, **kwargs):  # noqa: E501
         """Find purchase order by ID  # noqa: E501
@@ -274,20 +299,21 @@ class StoreApi(object):
         >>> thread = api.get_order_by_id_with_http_info(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param int order_id: ID of pet that needs to be fetched (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(Order, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            order_id (int): ID of pet that needs to be fetched
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            Order:
         """
 
         local_var_params = locals()
@@ -310,6 +336,7 @@ class StoreApi(object):
         if ('order_id' not in local_var_params or
                 local_var_params['order_id'] is None):
             raise ApiValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")  # noqa: E501
+
 
         if 'order_id' in local_var_params and local_var_params['order_id'] > 5:  # noqa: E501
             raise ApiValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value less than or equal to `5`")  # noqa: E501
@@ -360,21 +387,28 @@ class StoreApi(object):
         >>> thread = api.place_order(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param Order body: order placed for purchasing the pet (required)
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: Order
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (Order): order placed for purchasing the pet
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            Order:
         """
         kwargs['_return_http_data_only'] = True
-        return self.place_order_with_http_info(body, **kwargs)  # noqa: E501
+        if kwargs.get('async_req'):
+            return self.place_order_with_http_info(body, **kwargs)  # noqa: E501
+        else:
+            (data) = self.place_order_with_http_info(body, **kwargs)  # noqa: E501
+            return data
 
     def place_order_with_http_info(self, body, **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
@@ -384,20 +418,21 @@ class StoreApi(object):
         >>> thread = api.place_order_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param Order body: order placed for purchasing the pet (required)
-        :param _return_http_data_only: response data without head status code
-                                       and headers
-        :param _preload_content: if False, the urllib3.HTTPResponse object will
-                                 be returned without reading/decoding response
-                                 data. Default is True.
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :return: tuple(Order, status_code(int), headers(HTTPHeaderDict))
-                 If the method is called asynchronously,
-                 returns the request thread.
+        Args:
+            body (Order): order placed for purchasing the pet
+
+        Keyword Args:
+            async_req (bool): execute request asynchronously
+            param _preload_content (bool): if False, the urllib3.HTTPResponse
+                object will be returned without reading/decoding response data.
+                Default is True.
+            param _request_timeout (float/tuple): timeout setting for this
+                request. If one number provided, it will be total request
+                timeout. It can also be a pair (tuple) of (connection, read)
+                timeouts.
+
+        Returns:
+            Order:
         """
 
         local_var_params = locals()
@@ -420,6 +455,7 @@ class StoreApi(object):
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
             raise ApiValueError("Missing the required parameter `body` when calling `place_order`")  # noqa: E501
+
 
         collection_formats = {}
 

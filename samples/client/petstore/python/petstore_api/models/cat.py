@@ -38,8 +38,16 @@ class Cat(object):
         'declawed': 'declawed'
     }
 
-    def __init__(self, declawed=None):  # noqa: E501
-        """Cat - a model defined in OpenAPI"""  # noqa: E501
+    def __init__(self, class_name, declawed=None, color=None):  # noqa: E501
+        """Cat - a model defined in OpenAPI
+
+        Args:
+            class_name (str):
+
+        Keyword Args:  # noqa: E501
+            declawed (bool): [optional]  # noqa: E501
+            color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
+        """
 
         self._declawed = None
         self.discriminator = None

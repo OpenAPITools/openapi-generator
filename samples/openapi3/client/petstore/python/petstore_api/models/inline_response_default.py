@@ -39,7 +39,13 @@ class InlineResponseDefault(object):
     }
 
     def __init__(self, string=None):  # noqa: E501
-        """InlineResponseDefault - a model defined in OpenAPI"""  # noqa: E501
+        """InlineResponseDefault - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            string (Foo): [optional]  # noqa: E501
+        """
 
         self._string = None
         self.discriminator = None

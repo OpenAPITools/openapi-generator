@@ -39,7 +39,13 @@ class DogAllOf(object):
     }
 
     def __init__(self, breed=None):  # noqa: E501
-        """DogAllOf - a model defined in OpenAPI"""  # noqa: E501
+        """DogAllOf - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            breed (str): [optional]  # noqa: E501
+        """
 
         self._breed = None
         self.discriminator = None

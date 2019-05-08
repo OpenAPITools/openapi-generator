@@ -39,7 +39,13 @@ class NumberOnly(object):
     }
 
     def __init__(self, just_number=None):  # noqa: E501
-        """NumberOnly - a model defined in OpenAPI"""  # noqa: E501
+        """NumberOnly - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            just_number (float): [optional]  # noqa: E501
+        """
 
         self._just_number = None
         self.discriminator = None

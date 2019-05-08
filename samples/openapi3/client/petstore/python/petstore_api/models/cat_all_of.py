@@ -39,7 +39,13 @@ class CatAllOf(object):
     }
 
     def __init__(self, declawed=None):  # noqa: E501
-        """CatAllOf - a model defined in OpenAPI"""  # noqa: E501
+        """CatAllOf - a model defined in OpenAPI
+
+
+
+        Keyword Args:
+            declawed (bool): [optional]  # noqa: E501
+        """
 
         self._declawed = None
         self.discriminator = None

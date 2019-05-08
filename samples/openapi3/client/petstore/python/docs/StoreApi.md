@@ -30,18 +30,21 @@ from pprint import pprint
 api_instance = petstore_api.StoreApi()
 order_id = 'order_id_example' # str | ID of the order that needs to be deleted
 
+# example passing only required values which don't have defaults set
 try:
     # Delete purchase order by ID
     api_instance.delete_order(order_id)
 except ApiException as e:
     print("Exception when calling StoreApi->delete_order: %s\n" % e)
+
+
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **str**| ID of the order that needs to be deleted | 
+ **order_id** | **str**| ID of the order that needs to be deleted |
 
 ### Return type
 
@@ -91,6 +94,9 @@ configuration.host = "http://petstore.swagger.io:80/v2"
 # Create an instance of the API class
 api_instance = petstore_api.StoreApi(petstore_api.ApiClient(configuration))
 
+
+
+# example, this endpoint has no required or optional parameters
 try:
     # Returns pet inventories by status
     api_response = api_instance.get_inventory()
@@ -142,19 +148,22 @@ from pprint import pprint
 api_instance = petstore_api.StoreApi()
 order_id = 56 # int | ID of pet that needs to be fetched
 
+# example passing only required values which don't have defaults set
 try:
     # Find purchase order by ID
     api_response = api_instance.get_order_by_id(order_id)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling StoreApi->get_order_by_id: %s\n" % e)
+
+
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **int**| ID of pet that needs to be fetched | 
+ **order_id** | **int**| ID of pet that needs to be fetched |
 
 ### Return type
 
@@ -196,19 +205,22 @@ from pprint import pprint
 api_instance = petstore_api.StoreApi()
 order = petstore_api.Order() # Order | order placed for purchasing the pet
 
+# example passing only required values which don't have defaults set
 try:
     # Place an order for a pet
     api_response = api_instance.place_order(order)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling StoreApi->place_order: %s\n" % e)
+
+
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
