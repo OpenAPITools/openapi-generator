@@ -354,6 +354,31 @@ impl Cat {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CatAllOf {
+    #[serde(rename = "declawed")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub declawed: Option<bool>,
+
+}
+
+impl CatAllOf {
+    pub fn new() -> CatAllOf {
+        CatAllOf {
+            declawed: None,
+        }
+    }
+}
+
+impl CatAllOf {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename = "Category")]
 pub struct Category {
     #[serde(rename = "id")]
@@ -461,6 +486,31 @@ impl Dog {
 }
 
 impl Dog {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct DogAllOf {
+    #[serde(rename = "breed")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub breed: Option<String>,
+
+}
+
+impl DogAllOf {
+    pub fn new() -> DogAllOf {
+        DogAllOf {
+            breed: None,
+        }
+    }
+}
+
+impl DogAllOf {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
