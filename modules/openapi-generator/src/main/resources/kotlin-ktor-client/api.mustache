@@ -18,7 +18,8 @@ import {{import}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}}(
     private val basePath: kotlin.String = "{{{basePath}}}",
     private val logger: Logger = Logger.SIMPLE,
-    private val logLevel: LogLevel = LogLevel.NONE
+    private val logLevel: LogLevel = LogLevel.NONE,
+    private val sanitizePaths: Boolean = false
 ) {
     {{#operation}}
     /**
@@ -95,10 +96,15 @@ import {{import}}
         {{/authMethods}}
         {{/hasAuthMethods}})
 
+        var path = "{{{path}}}"
+        if (sanitizePaths) {
+            path = path.removePrefix("{{{basePathWithoutHost}}}")
+        }
+
         {{#hasErrorResponseDataTypes}}
         try {
             return request(
-                url = "$basePath{{{path}}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
+                url = "$basePath$path"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", "${{paramName}}"){{/pathParams}},
                 methodString =  "{{httpMethod}}",
                 queryParameters = queryParameters,
                 headerParameters = headerParameters,
