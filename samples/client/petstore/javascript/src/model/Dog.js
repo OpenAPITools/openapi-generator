@@ -16,18 +16,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/Animal'], factory);
+    define(['ApiClient', 'model/Animal', 'model/DogAllOf'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./Animal'));
+    module.exports = factory(require('../ApiClient'), require('./Animal'), require('./DogAllOf'));
   } else {
     // Browser globals (root is window)
     if (!root.OpenApiPetstore) {
       root.OpenApiPetstore = {};
     }
-    root.OpenApiPetstore.Dog = factory(root.OpenApiPetstore.ApiClient, root.OpenApiPetstore.Animal);
+    root.OpenApiPetstore.Dog = factory(root.OpenApiPetstore.ApiClient, root.OpenApiPetstore.Animal, root.OpenApiPetstore.DogAllOf);
   }
-}(this, function(ApiClient, Animal) {
+}(this, function(ApiClient, Animal, DogAllOf) {
   'use strict';
 
 
@@ -44,6 +44,7 @@
    * @class
    * @extends module:model/Animal
    * @implements module:model/Animal
+   * @implements module:model/DogAllOf
    * @param className {String} 
    */
   var exports = function(className) {
@@ -89,6 +90,12 @@ exports.prototype['className'] = undefined;
    * @default 'red'
    */
 exports.prototype['color'] = 'red';
+
+  // Implement DogAllOf interface:
+  /**
+   * @member {String} breed
+   */
+exports.prototype['breed'] = undefined;
 
 
 

@@ -39,6 +39,7 @@ packages/
 
 /target
 /generated-files
+test-output/
 nbactions.xml
 test-output/
 

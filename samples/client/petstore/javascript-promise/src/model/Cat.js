@@ -16,18 +16,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/Animal'], factory);
+    define(['ApiClient', 'model/Animal', 'model/CatAllOf'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./Animal'));
+    module.exports = factory(require('../ApiClient'), require('./Animal'), require('./CatAllOf'));
   } else {
     // Browser globals (root is window)
     if (!root.OpenApiPetstore) {
       root.OpenApiPetstore = {};
     }
-    root.OpenApiPetstore.Cat = factory(root.OpenApiPetstore.ApiClient, root.OpenApiPetstore.Animal);
+    root.OpenApiPetstore.Cat = factory(root.OpenApiPetstore.ApiClient, root.OpenApiPetstore.Animal, root.OpenApiPetstore.CatAllOf);
   }
-}(this, function(ApiClient, Animal) {
+}(this, function(ApiClient, Animal, CatAllOf) {
   'use strict';
 
 
@@ -44,6 +44,7 @@
    * @class
    * @extends module:model/Animal
    * @implements module:model/Animal
+   * @implements module:model/CatAllOf
    * @param className {String} 
    */
   var exports = function(className) {
@@ -89,6 +90,12 @@ exports.prototype['className'] = undefined;
    * @default 'red'
    */
 exports.prototype['color'] = 'red';
+
+  // Implement CatAllOf interface:
+  /**
+   * @member {Boolean} declawed
+   */
+exports.prototype['declawed'] = undefined;
 
 
 
