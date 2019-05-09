@@ -31,11 +31,11 @@ class CatAllOf(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'declawed': 'bool'
+        'declawed': 'bool',
     }
 
     attribute_map = {
-        'declawed': 'declawed'
+        'declawed': 'declawed',
     }
 
     def __init__(self, declawed=None):  # noqa: E501

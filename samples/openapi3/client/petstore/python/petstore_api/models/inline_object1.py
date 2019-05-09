@@ -32,12 +32,12 @@ class InlineObject1(object):
     """
     openapi_types = {
         'additional_metadata': 'str',
-        'file': 'file'
+        'file': 'file',
     }
 
     attribute_map = {
         'additional_metadata': 'additionalMetadata',
-        'file': 'file'
+        'file': 'file',
     }
 
     def __init__(self, additional_metadata=None, file=None):  # noqa: E501

@@ -32,12 +32,12 @@ class Model200Response(object):
     """
     openapi_types = {
         'name': 'int',
-        '_class': 'str'
+        '_class': 'str',
     }
 
     attribute_map = {
         'name': 'name',
-        '_class': 'class'
+        '_class': 'class',
     }
 
     def __init__(self, name=None, _class=None):  # noqa: E501

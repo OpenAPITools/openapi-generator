@@ -31,13 +31,13 @@ class InlineObject5(object):
                             and the value is json key in definition.
     """
     openapi_types = {
+        'required_file': 'file',
         'additional_metadata': 'str',
-        'required_file': 'file'
     }
 
     attribute_map = {
+        'required_file': 'requiredFile',
         'additional_metadata': 'additionalMetadata',
-        'required_file': 'requiredFile'
     }
 
     def __init__(self, required_file, additional_metadata=None):  # noqa: E501

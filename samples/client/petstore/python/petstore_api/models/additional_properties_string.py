@@ -31,11 +31,11 @@ class AdditionalPropertiesString(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'name': 'str'
+        'name': 'str',
     }
 
     attribute_map = {
-        'name': 'name'
+        'name': 'name',
     }
 
     def __init__(self, name=None):  # noqa: E501

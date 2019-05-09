@@ -32,12 +32,12 @@ class Animal(object):
     """
     openapi_types = {
         'class_name': 'str',
-        'color': 'str'
+        'color': 'str',
     }
 
     attribute_map = {
         'class_name': 'className',
-        'color': 'color'
+        'color': 'color',
     }
 
     discriminator_value_class_map = {

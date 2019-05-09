@@ -31,21 +31,21 @@ class Pet(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'id': 'int',
-        'category': 'Category',
         'name': 'str',
         'photo_urls': 'list[str]',
+        'id': 'int',
+        'category': 'Category',
         'tags': 'list[Tag]',
-        'status': 'str'
+        'status': 'str',
     }
 
     attribute_map = {
-        'id': 'id',
-        'category': 'category',
         'name': 'name',
         'photo_urls': 'photoUrls',
+        'id': 'id',
+        'category': 'category',
         'tags': 'tags',
-        'status': 'status'
+        'status': 'status',
     }
 
     def __init__(self, name, photo_urls, id=None, category=None, tags=None, status=None):  # noqa: E501

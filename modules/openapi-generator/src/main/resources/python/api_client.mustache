@@ -3,6 +3,7 @@
 from __future__ import absolute_import
 
 import datetime
+import inspect
 import json
 import mimetypes
 from multiprocessing.pool import ThreadPool
@@ -629,16 +630,34 @@ class ApiClient(object):
                                                    'get_real_child_model'):
             return data
 
-        kwargs = {}
+        used_data = data
+        if not isinstance(data, (list, dict)):
+            used_data = [data]
+        keyword_args = {}
+        positional_args = []
         if klass.openapi_types is not None:
             for attr, attr_type in six.iteritems(klass.openapi_types):
                 if (data is not None and
-                        klass.attribute_map[attr] in data and
-                        isinstance(data, (list, dict))):
-                    value = data[klass.attribute_map[attr]]
-                    kwargs[attr] = self.__deserialize(value, attr_type)
+                        klass.attribute_map[attr] in used_data):
+                    value = used_data[klass.attribute_map[attr]]
+                    keyword_args[attr] = self.__deserialize(value, attr_type)
 
-        instance = klass(**kwargs)
+        end_index = None
+        if inspect.getfullargspec(klass).defaults:
+            end_index = -len(inspect.getfullargspec(klass).defaults)
+        required_positional_args = (
+            inspect.getfullargspec(klass).args[1:end_index]
+        )
+
+        for index, req_positional_arg in enumerate(required_positional_args):
+            if keyword_args and req_positional_arg in keyword_args:
+                positional_args.append(keyword_args[req_positional_arg])
+                del keyword_args[req_positional_arg]
+            elif (not keyword_args and index < len(used_data) and
+                    isinstance(used_data, list)):
+                positional_args.append(used_data[index])
+
+        instance = klass(*positional_args, **keyword_args)
 
         if hasattr(instance, 'get_real_child_model'):
             klass_name = instance.get_real_child_model(data)

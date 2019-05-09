@@ -36,7 +36,7 @@ class Capitalization(object):
         'small_snake': 'str',
         'capital_snake': 'str',
         'sca_eth_flow_points': 'str',
-        'att_name': 'str'
+        'att_name': 'str',
     }
 
     attribute_map = {
@@ -45,7 +45,7 @@ class Capitalization(object):
         'small_snake': 'small_Snake',
         'capital_snake': 'Capital_Snake',
         'sca_eth_flow_points': 'SCA_ETH_Flow_Points',
-        'att_name': 'ATT_NAME'
+        'att_name': 'ATT_NAME',
     }
 
     def __init__(self, small_camel=None, capital_camel=None, small_snake=None, capital_snake=None, sca_eth_flow_points=None, att_name=None):  # noqa: E501

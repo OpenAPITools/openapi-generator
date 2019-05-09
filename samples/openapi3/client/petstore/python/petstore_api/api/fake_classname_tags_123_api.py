@@ -115,7 +115,6 @@ class FakeClassnameTags123Api(object):
                 local_var_params['client'] is None):
             raise ApiValueError("Missing the required parameter `client` when calling `test_classname`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}

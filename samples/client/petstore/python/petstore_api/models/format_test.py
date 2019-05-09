@@ -31,35 +31,35 @@ class FormatTest(object):
                             and the value is json key in definition.
     """
     openapi_types = {
+        'number': 'float',
+        'byte': 'str',
+        'date': 'date',
+        'password': 'str',
         'integer': 'int',
         'int32': 'int',
         'int64': 'int',
-        'number': 'float',
         'float': 'float',
         'double': 'float',
         'string': 'str',
-        'byte': 'str',
         'binary': 'file',
-        'date': 'date',
         'date_time': 'datetime',
         'uuid': 'str',
-        'password': 'str'
     }
 
     attribute_map = {
+        'number': 'number',
+        'byte': 'byte',
+        'date': 'date',
+        'password': 'password',
         'integer': 'integer',
         'int32': 'int32',
         'int64': 'int64',
-        'number': 'number',
         'float': 'float',
         'double': 'double',
         'string': 'string',
-        'byte': 'byte',
         'binary': 'binary',
-        'date': 'date',
         'date_time': 'dateTime',
         'uuid': 'uuid',
-        'password': 'password'
     }
 
     def __init__(self, number, byte, date, password, integer=None, int32=None, int64=None, float=None, double=None, string=None, binary=None, date_time=None, uuid=None):  # noqa: E501

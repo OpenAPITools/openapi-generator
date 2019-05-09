@@ -36,7 +36,7 @@ class Order(object):
         'quantity': 'int',
         'ship_date': 'datetime',
         'status': 'str',
-        'complete': 'bool'
+        'complete': 'bool',
     }
 
     attribute_map = {
@@ -45,7 +45,7 @@ class Order(object):
         'quantity': 'quantity',
         'ship_date': 'shipDate',
         'status': 'status',
-        'complete': 'complete'
+        'complete': 'complete',
     }
 
     def __init__(self, id=None, pet_id=None, quantity=None, ship_date=None, status=None, complete=None):  # noqa: E501

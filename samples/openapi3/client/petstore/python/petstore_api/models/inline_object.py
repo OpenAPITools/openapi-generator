@@ -32,12 +32,12 @@ class InlineObject(object):
     """
     openapi_types = {
         'name': 'str',
-        'status': 'str'
+        'status': 'str',
     }
 
     attribute_map = {
         'name': 'name',
-        'status': 'status'
+        'status': 'status',
     }
 
     def __init__(self, name=None, status=None):  # noqa: E501

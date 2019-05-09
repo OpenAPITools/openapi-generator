@@ -31,11 +31,11 @@ class ClassModel(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        '_class': 'str'
+        '_class': 'str',
     }
 
     attribute_map = {
-        '_class': '_class'
+        '_class': '_class',
     }
 
     def __init__(self, _class=None):  # noqa: E501

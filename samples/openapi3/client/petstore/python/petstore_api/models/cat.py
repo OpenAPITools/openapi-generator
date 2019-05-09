@@ -31,11 +31,15 @@ class Cat(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'declawed': 'bool'
+        'class_name': 'str',
+        'declawed': 'bool',
+        'color': 'str',
     }
 
     attribute_map = {
-        'declawed': 'declawed'
+        'class_name': 'className',
+        'declawed': 'declawed',
+        'color': 'color',
     }
 
     def __init__(self, class_name, declawed=None, color=None):  # noqa: E501

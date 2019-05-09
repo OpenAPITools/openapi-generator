@@ -31,11 +31,11 @@ class InlineResponseDefault(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'string': 'Foo'
+        'string': 'Foo',
     }
 
     attribute_map = {
-        'string': 'string'
+        'string': 'string',
     }
 
     def __init__(self, string=None):  # noqa: E501

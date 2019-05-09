@@ -31,11 +31,11 @@ class HealthCheckResult(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'nullable_message': 'str'
+        'nullable_message': 'str',
     }
 
     attribute_map = {
-        'nullable_message': 'NullableMessage'
+        'nullable_message': 'NullableMessage',
     }
 
     def __init__(self, nullable_message=None):  # noqa: E501

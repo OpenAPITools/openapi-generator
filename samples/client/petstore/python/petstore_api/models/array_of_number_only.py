@@ -31,11 +31,11 @@ class ArrayOfNumberOnly(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'array_number': 'list[float]'
+        'array_number': 'list[float]',
     }
 
     attribute_map = {
-        'array_number': 'ArrayNumber'
+        'array_number': 'ArrayNumber',
     }
 
     def __init__(self, array_number=None):  # noqa: E501

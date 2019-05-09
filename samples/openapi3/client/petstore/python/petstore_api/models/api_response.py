@@ -33,13 +33,13 @@ class ApiResponse(object):
     openapi_types = {
         'code': 'int',
         'type': 'str',
-        'message': 'str'
+        'message': 'str',
     }
 
     attribute_map = {
         'code': 'code',
         'type': 'type',
-        'message': 'message'
+        'message': 'message',
     }
 
     def __init__(self, code=None, type=None, message=None):  # noqa: E501

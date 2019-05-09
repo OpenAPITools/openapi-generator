@@ -59,7 +59,7 @@ class XmlItem(object):
         'prefix_ns_integer': 'int',
         'prefix_ns_boolean': 'bool',
         'prefix_ns_array': 'list[int]',
-        'prefix_ns_wrapped_array': 'list[int]'
+        'prefix_ns_wrapped_array': 'list[int]',
     }
 
     attribute_map = {
@@ -91,7 +91,7 @@ class XmlItem(object):
         'prefix_ns_integer': 'prefix_ns_integer',
         'prefix_ns_boolean': 'prefix_ns_boolean',
         'prefix_ns_array': 'prefix_ns_array',
-        'prefix_ns_wrapped_array': 'prefix_ns_wrapped_array'
+        'prefix_ns_wrapped_array': 'prefix_ns_wrapped_array',
     }
 
     def __init__(self, attribute_string=None, attribute_number=None, attribute_integer=None, attribute_boolean=None, wrapped_array=None, name_string=None, name_number=None, name_integer=None, name_boolean=None, name_array=None, name_wrapped_array=None, prefix_string=None, prefix_number=None, prefix_integer=None, prefix_boolean=None, prefix_array=None, prefix_wrapped_array=None, namespace_string=None, namespace_number=None, namespace_integer=None, namespace_boolean=None, namespace_array=None, namespace_wrapped_array=None, prefix_ns_string=None, prefix_ns_number=None, prefix_ns_integer=None, prefix_ns_boolean=None, prefix_ns_array=None, prefix_ns_wrapped_array=None):  # noqa: E501

@@ -107,7 +107,6 @@ class DefaultApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
 
-
         collection_formats = {}
 
         path_params = {}

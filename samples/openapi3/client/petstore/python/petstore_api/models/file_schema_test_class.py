@@ -32,12 +32,12 @@ class FileSchemaTestClass(object):
     """
     openapi_types = {
         'file': 'File',
-        'files': 'list[File]'
+        'files': 'list[File]',
     }
 
     attribute_map = {
         'file': 'file',
-        'files': 'files'
+        'files': 'files',
     }
 
     def __init__(self, file=None, files=None):  # noqa: E501

@@ -32,12 +32,12 @@ class Tag(object):
     """
     openapi_types = {
         'id': 'int',
-        'name': 'str'
+        'name': 'str',
     }
 
     attribute_map = {
         'id': 'id',
-        'name': 'name'
+        'name': 'name',
     }
 
     def __init__(self, id=None, name=None):  # noqa: E501

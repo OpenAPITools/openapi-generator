@@ -38,7 +38,7 @@ class User(object):
         'email': 'str',
         'password': 'str',
         'phone': 'str',
-        'user_status': 'int'
+        'user_status': 'int',
     }
 
     attribute_map = {
@@ -49,7 +49,7 @@ class User(object):
         'email': 'email',
         'password': 'password',
         'phone': 'phone',
-        'user_status': 'userStatus'
+        'user_status': 'userStatus',
     }
 
     def __init__(self, id=None, username=None, first_name=None, last_name=None, email=None, password=None, phone=None, user_status=None):  # noqa: E501

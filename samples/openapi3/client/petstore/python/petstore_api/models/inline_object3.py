@@ -31,37 +31,37 @@ class InlineObject3(object):
                             and the value is json key in definition.
     """
     openapi_types = {
+        'number': 'float',
+        'double': 'float',
+        'pattern_without_delimiter': 'str',
+        'byte': 'str',
         'integer': 'int',
         'int32': 'int',
         'int64': 'int',
-        'number': 'float',
         'float': 'float',
-        'double': 'float',
         'string': 'str',
-        'pattern_without_delimiter': 'str',
-        'byte': 'str',
         'binary': 'file',
         'date': 'date',
         'date_time': 'datetime',
         'password': 'str',
-        'callback': 'str'
+        'callback': 'str',
     }
 
     attribute_map = {
+        'number': 'number',
+        'double': 'double',
+        'pattern_without_delimiter': 'pattern_without_delimiter',
+        'byte': 'byte',
         'integer': 'integer',
         'int32': 'int32',
         'int64': 'int64',
-        'number': 'number',
         'float': 'float',
-        'double': 'double',
         'string': 'string',
-        'pattern_without_delimiter': 'pattern_without_delimiter',
-        'byte': 'byte',
         'binary': 'binary',
         'date': 'date',
         'date_time': 'dateTime',
         'password': 'password',
-        'callback': 'callback'
+        'callback': 'callback',
     }
 
     def __init__(self, number, double, pattern_without_delimiter, byte, integer=None, int32=None, int64=None, float=None, string=None, binary=None, date=None, date_time=None, password=None, callback=None):  # noqa: E501

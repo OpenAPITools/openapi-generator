@@ -31,11 +31,11 @@ class File(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'source_uri': 'str'
+        'source_uri': 'str',
     }
 
     attribute_map = {
-        'source_uri': 'sourceURI'
+        'source_uri': 'sourceURI',
     }
 
     def __init__(self, source_uri=None):  # noqa: E501

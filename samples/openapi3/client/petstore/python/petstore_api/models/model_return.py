@@ -31,11 +31,11 @@ class ModelReturn(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        '_return': 'int'
+        '_return': 'int',
     }
 
     attribute_map = {
-        '_return': 'return'
+        '_return': 'return',
     }
 
     def __init__(self, _return=None):  # noqa: E501

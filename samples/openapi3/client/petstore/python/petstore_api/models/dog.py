@@ -31,11 +31,15 @@ class Dog(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'breed': 'str'
+        'class_name': 'str',
+        'breed': 'str',
+        'color': 'str',
     }
 
     attribute_map = {
-        'breed': 'breed'
+        'class_name': 'className',
+        'breed': 'breed',
+        'color': 'color',
     }
 
     def __init__(self, class_name, breed=None, color=None):  # noqa: E501

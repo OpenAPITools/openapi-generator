@@ -31,11 +31,11 @@ class NumberOnly(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'just_number': 'float'
+        'just_number': 'float',
     }
 
     attribute_map = {
-        'just_number': 'JustNumber'
+        'just_number': 'JustNumber',
     }
 
     def __init__(self, just_number=None):  # noqa: E501

@@ -32,12 +32,12 @@ class EnumArrays(object):
     """
     openapi_types = {
         'just_symbol': 'str',
-        'array_enum': 'list[str]'
+        'array_enum': 'list[str]',
     }
 
     attribute_map = {
         'just_symbol': 'just_symbol',
-        'array_enum': 'array_enum'
+        'array_enum': 'array_enum',
     }
 
     def __init__(self, just_symbol=None, array_enum=None):  # noqa: E501

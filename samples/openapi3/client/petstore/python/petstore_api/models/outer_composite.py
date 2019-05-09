@@ -33,13 +33,13 @@ class OuterComposite(object):
     openapi_types = {
         'my_number': 'float',
         'my_string': 'str',
-        'my_boolean': 'bool'
+        'my_boolean': 'bool',
     }
 
     attribute_map = {
         'my_number': 'my_number',
         'my_string': 'my_string',
-        'my_boolean': 'my_boolean'
+        'my_boolean': 'my_boolean',
     }
 
     def __init__(self, my_number=None, my_string=None, my_boolean=None):  # noqa: E501

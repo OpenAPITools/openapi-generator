@@ -42,7 +42,7 @@ class NullableClass(object):
         'array_items_nullable': 'list[object]',
         'object_nullable_prop': 'dict(str, object)',
         'object_and_items_nullable_prop': 'dict(str, object)',
-        'object_items_nullable': 'dict(str, object)'
+        'object_items_nullable': 'dict(str, object)',
     }
 
     attribute_map = {
@@ -57,7 +57,7 @@ class NullableClass(object):
         'array_items_nullable': 'array_items_nullable',
         'object_nullable_prop': 'object_nullable_prop',
         'object_and_items_nullable_prop': 'object_and_items_nullable_prop',
-        'object_items_nullable': 'object_items_nullable'
+        'object_items_nullable': 'object_items_nullable',
     }
 
     def __init__(self, integer_prop=None, number_prop=None, boolean_prop=None, string_prop=None, date_prop=None, datetime_prop=None, array_nullable_prop=None, array_and_items_nullable_prop=None, array_items_nullable=None, object_nullable_prop=None, object_and_items_nullable_prop=None, object_items_nullable=None):  # noqa: E501

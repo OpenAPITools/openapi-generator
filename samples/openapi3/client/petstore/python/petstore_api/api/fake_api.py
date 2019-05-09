@@ -107,7 +107,6 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
 
-
         collection_formats = {}
 
         path_params = {}
@@ -217,7 +216,6 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-
 
         collection_formats = {}
 
@@ -335,7 +333,6 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
 
-
         collection_formats = {}
 
         path_params = {}
@@ -452,7 +449,6 @@ class FakeApi(object):
             local_var_params[key] = val
         del local_var_params['kwargs']
 
-
         collection_formats = {}
 
         path_params = {}
@@ -568,7 +564,6 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-
 
         collection_formats = {}
 
@@ -690,7 +685,6 @@ class FakeApi(object):
                 local_var_params['file_schema_test_class'] is None):
             raise ApiValueError("Missing the required parameter `file_schema_test_class` when calling `test_body_with_file_schema`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}
@@ -809,7 +803,6 @@ class FakeApi(object):
                 local_var_params['user'] is None):
             raise ApiValueError("Missing the required parameter `user` when calling `test_body_with_query_params`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}
@@ -927,7 +920,6 @@ class FakeApi(object):
         if ('client' not in local_var_params or
                 local_var_params['client'] is None):
             raise ApiValueError("Missing the required parameter `client` when calling `test_client_model`")  # noqa: E501
-
 
         collection_formats = {}
 
@@ -1080,8 +1072,6 @@ class FakeApi(object):
         if ('byte' not in local_var_params or
                 local_var_params['byte'] is None):
             raise ApiValueError("Missing the required parameter `byte` when calling `test_endpoint_parameters`")  # noqa: E501
-
-
         if 'number' in local_var_params and local_var_params['number'] > 543.2:  # noqa: E501
             raise ApiValueError("Invalid value for parameter `number` when calling `test_endpoint_parameters`, must be a value less than or equal to `543.2`")  # noqa: E501
         if 'number' in local_var_params and local_var_params['number'] < 32.1:  # noqa: E501
@@ -1110,6 +1100,7 @@ class FakeApi(object):
         if ('password' in local_var_params and
                 len(local_var_params['password']) < 10):
             raise ApiValueError("Invalid value for parameter `password` when calling `test_endpoint_parameters`, length must be greater than or equal to `10`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -1261,7 +1252,6 @@ class FakeApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-
         allowed_values = [">", "$"]  # noqa: E501
         if ('enum_header_string_array' in local_var_params and
                 not set(local_var_params['enum_header_string_array']).issubset(set(allowed_values))):  # noqa: E501
@@ -1469,7 +1459,6 @@ class FakeApi(object):
                 local_var_params['required_int64_group'] is None):
             raise ApiValueError("Missing the required parameter `required_int64_group` when calling `test_group_parameters`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}
@@ -1590,7 +1579,6 @@ class FakeApi(object):
                 local_var_params['request_body'] is None):
             raise ApiValueError("Missing the required parameter `request_body` when calling `test_inline_additional_properties`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}
@@ -1708,7 +1696,6 @@ class FakeApi(object):
         if ('param2' not in local_var_params or
                 local_var_params['param2'] is None):
             raise ApiValueError("Missing the required parameter `param2` when calling `test_json_form_data`")  # noqa: E501
-
 
         collection_formats = {}
 

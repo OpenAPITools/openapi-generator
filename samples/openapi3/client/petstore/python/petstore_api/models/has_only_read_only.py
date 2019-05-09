@@ -32,12 +32,12 @@ class HasOnlyReadOnly(object):
     """
     openapi_types = {
         'bar': 'str',
-        'foo': 'str'
+        'foo': 'str',
     }
 
     attribute_map = {
         'bar': 'bar',
-        'foo': 'foo'
+        'foo': 'foo',
     }
 
     def __init__(self, bar=None, foo=None):  # noqa: E501

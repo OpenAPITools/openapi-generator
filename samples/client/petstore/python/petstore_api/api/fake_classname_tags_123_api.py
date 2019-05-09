@@ -115,7 +115,6 @@ class FakeClassnameTags123Api(object):
                 local_var_params['body'] is None):
             raise ApiValueError("Missing the required parameter `body` when calling `test_classname`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}

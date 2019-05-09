@@ -35,7 +35,7 @@ class TypeHolderDefault(object):
         'number_item': 'float',
         'integer_item': 'int',
         'bool_item': 'bool',
-        'array_item': 'list[int]'
+        'array_item': 'list[int]',
     }
 
     attribute_map = {
@@ -43,7 +43,7 @@ class TypeHolderDefault(object):
         'number_item': 'number_item',
         'integer_item': 'integer_item',
         'bool_item': 'bool_item',
-        'array_item': 'array_item'
+        'array_item': 'array_item',
     }
 
     def __init__(self, number_item, integer_item, array_item, string_item='what', bool_item=True):  # noqa: E501

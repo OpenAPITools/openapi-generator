@@ -32,12 +32,12 @@ class AdditionalPropertiesClass(object):
     """
     openapi_types = {
         'map_property': 'dict(str, str)',
-        'map_of_map_property': 'dict(str, dict(str, str))'
+        'map_of_map_property': 'dict(str, dict(str, str))',
     }
 
     attribute_map = {
         'map_property': 'map_property',
-        'map_of_map_property': 'map_of_map_property'
+        'map_of_map_property': 'map_of_map_property',
     }
 
     def __init__(self, map_property=None, map_of_map_property=None):  # noqa: E501

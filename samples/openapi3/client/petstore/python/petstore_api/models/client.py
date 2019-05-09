@@ -31,11 +31,11 @@ class Client(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'client': 'str'
+        'client': 'str',
     }
 
     attribute_map = {
-        'client': 'client'
+        'client': 'client',
     }
 
     def __init__(self, client=None):  # noqa: E501

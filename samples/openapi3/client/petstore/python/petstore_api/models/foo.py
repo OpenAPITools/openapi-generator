@@ -31,11 +31,11 @@ class Foo(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'bar': 'str'
+        'bar': 'str',
     }
 
     attribute_map = {
-        'bar': 'bar'
+        'bar': 'bar',
     }
 
     def __init__(self, bar=None):  # noqa: E501

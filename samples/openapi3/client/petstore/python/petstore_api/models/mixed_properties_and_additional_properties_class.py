@@ -33,13 +33,13 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
     openapi_types = {
         'uuid': 'str',
         'date_time': 'datetime',
-        'map': 'dict(str, Animal)'
+        'map': 'dict(str, Animal)',
     }
 
     attribute_map = {
         'uuid': 'uuid',
         'date_time': 'dateTime',
-        'map': 'map'
+        'map': 'map',
     }
 
     def __init__(self, uuid=None, date_time=None, map=None):  # noqa: E501

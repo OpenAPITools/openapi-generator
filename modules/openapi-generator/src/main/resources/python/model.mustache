@@ -33,15 +33,21 @@ class {{classname}}(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-{{#vars}}
-        '{{name}}': '{{{dataType}}}'{{#hasMore}},{{/hasMore}}
-{{/vars}}
+{{#requiredVars}}
+        '{{name}}': '{{{dataType}}}',
+{{/requiredVars}}
+{{#optionalVars}}
+        '{{name}}': '{{{dataType}}}',
+{{/optionalVars}}
     }
 
     attribute_map = {
-{{#vars}}
-        '{{name}}': '{{baseName}}'{{#hasMore}},{{/hasMore}}
-{{/vars}}
+{{#requiredVars}}
+        '{{name}}': '{{baseName}}',
+{{/requiredVars}}
+{{#optionalVars}}
+        '{{name}}': '{{baseName}}',
+{{/optionalVars}}
     }
 {{#discriminator}}
 

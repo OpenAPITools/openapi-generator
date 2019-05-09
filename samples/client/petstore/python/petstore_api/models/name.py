@@ -34,14 +34,14 @@ class Name(object):
         'name': 'int',
         'snake_case': 'int',
         '_property': 'str',
-        '_123_number': 'int'
+        '_123_number': 'int',
     }
 
     attribute_map = {
         'name': 'name',
         'snake_case': 'snake_case',
         '_property': 'property',
-        '_123_number': '123Number'
+        '_123_number': '123Number',
     }
 
     def __init__(self, name, snake_case=None, _property=None, _123_number=None):  # noqa: E501

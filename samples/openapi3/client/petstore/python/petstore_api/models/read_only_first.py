@@ -32,12 +32,12 @@ class ReadOnlyFirst(object):
     """
     openapi_types = {
         'bar': 'str',
-        'baz': 'str'
+        'baz': 'str',
     }
 
     attribute_map = {
         'bar': 'bar',
-        'baz': 'baz'
+        'baz': 'baz',
     }
 
     def __init__(self, bar=None, baz=None):  # noqa: E501

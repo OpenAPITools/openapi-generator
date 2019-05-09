@@ -141,8 +141,9 @@ class {{classname}}(object):
             raise ApiValueError("Missing the required parameter `{{paramName}}` when calling `{{operationId}}`")  # noqa: E501
 {{/required}}
 {{/isNullable}}
+{{#-last}}
+{{/-last}}
 {{/allParams}}
-
 {{#allParams}}
 {{#isEnum}}
 {{#isContainer}}
@@ -177,7 +178,6 @@ class {{classname}}(object):
 {{/isContainer}}
 {{/isEnum}}
 {{/allParams}}
-
 {{#allParams}}
 {{#hasValidation}}
     {{#maxLength}}
@@ -213,9 +213,8 @@ class {{classname}}(object):
             raise ApiValueError("Invalid value for parameter `{{paramName}}` when calling `{{operationId}}`, number of items must be greater than or equal to `{{minItems}}`")  # noqa: E501
     {{/minItems}}
 {{/hasValidation}}
-{{#-last}}
-{{/-last}}
 {{/allParams}}
+
         collection_formats = {}
 
         path_params = {}

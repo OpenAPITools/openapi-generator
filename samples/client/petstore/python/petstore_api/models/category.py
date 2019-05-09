@@ -31,13 +31,13 @@ class Category(object):
                             and the value is json key in definition.
     """
     openapi_types = {
+        'name': 'str',
         'id': 'int',
-        'name': 'str'
     }
 
     attribute_map = {
+        'name': 'name',
         'id': 'id',
-        'name': 'name'
     }
 
     def __init__(self, name='default-name', id=None):  # noqa: E501

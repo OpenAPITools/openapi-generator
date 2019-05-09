@@ -41,7 +41,7 @@ class AdditionalPropertiesClass(object):
         'map_map_anytype': 'dict(str, dict(str, object))',
         'anytype_1': 'object',
         'anytype_2': 'object',
-        'anytype_3': 'object'
+        'anytype_3': 'object',
     }
 
     attribute_map = {
@@ -55,7 +55,7 @@ class AdditionalPropertiesClass(object):
         'map_map_anytype': 'map_map_anytype',
         'anytype_1': 'anytype_1',
         'anytype_2': 'anytype_2',
-        'anytype_3': 'anytype_3'
+        'anytype_3': 'anytype_3',
     }
 
     def __init__(self, map_string=None, map_number=None, map_integer=None, map_boolean=None, map_array_integer=None, map_array_anytype=None, map_map_string=None, map_map_anytype=None, anytype_1=None, anytype_2=None, anytype_3=None):  # noqa: E501

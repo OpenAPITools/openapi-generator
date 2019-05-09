@@ -31,25 +31,25 @@ class EnumTest(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'enum_string': 'str',
         'enum_string_required': 'str',
+        'enum_string': 'str',
         'enum_integer': 'int',
         'enum_number': 'float',
         'outer_enum': 'OuterEnum',
         'outer_enum_integer': 'OuterEnumInteger',
         'outer_enum_default_value': 'OuterEnumDefaultValue',
-        'outer_enum_integer_default_value': 'OuterEnumIntegerDefaultValue'
+        'outer_enum_integer_default_value': 'OuterEnumIntegerDefaultValue',
     }
 
     attribute_map = {
-        'enum_string': 'enum_string',
         'enum_string_required': 'enum_string_required',
+        'enum_string': 'enum_string',
         'enum_integer': 'enum_integer',
         'enum_number': 'enum_number',
         'outer_enum': 'outerEnum',
         'outer_enum_integer': 'outerEnumInteger',
         'outer_enum_default_value': 'outerEnumDefaultValue',
-        'outer_enum_integer_default_value': 'outerEnumIntegerDefaultValue'
+        'outer_enum_integer_default_value': 'outerEnumIntegerDefaultValue',
     }
 
     def __init__(self, enum_string_required, enum_string=None, enum_integer=None, enum_number=None, outer_enum=None, outer_enum_integer=None, outer_enum_default_value=None, outer_enum_integer_default_value=None):  # noqa: E501

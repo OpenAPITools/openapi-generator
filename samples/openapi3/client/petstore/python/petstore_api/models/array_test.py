@@ -33,13 +33,13 @@ class ArrayTest(object):
     openapi_types = {
         'array_of_string': 'list[str]',
         'array_array_of_integer': 'list[list[int]]',
-        'array_array_of_model': 'list[list[ReadOnlyFirst]]'
+        'array_array_of_model': 'list[list[ReadOnlyFirst]]',
     }
 
     attribute_map = {
         'array_of_string': 'array_of_string',
         'array_array_of_integer': 'array_array_of_integer',
-        'array_array_of_model': 'array_array_of_model'
+        'array_array_of_model': 'array_array_of_model',
     }
 
     def __init__(self, array_of_string=None, array_array_of_integer=None, array_array_of_model=None):  # noqa: E501

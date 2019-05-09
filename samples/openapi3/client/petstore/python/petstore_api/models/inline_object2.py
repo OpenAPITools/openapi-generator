@@ -32,12 +32,12 @@ class InlineObject2(object):
     """
     openapi_types = {
         'enum_form_string_array': 'list[str]',
-        'enum_form_string': 'str'
+        'enum_form_string': 'str',
     }
 
     attribute_map = {
         'enum_form_string_array': 'enum_form_string_array',
-        'enum_form_string': 'enum_form_string'
+        'enum_form_string': 'enum_form_string',
     }
 
     def __init__(self, enum_form_string_array=None, enum_form_string=None):  # noqa: E501

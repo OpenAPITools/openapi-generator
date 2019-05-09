@@ -31,11 +31,11 @@ class List(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        '_123_list': 'str'
+        '_123_list': 'str',
     }
 
     attribute_map = {
-        '_123_list': '123-list'
+        '_123_list': '123-list',
     }
 
     def __init__(self, _123_list=None):  # noqa: E501

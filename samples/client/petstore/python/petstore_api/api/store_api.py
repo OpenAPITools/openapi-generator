@@ -115,7 +115,6 @@ class StoreApi(object):
                 local_var_params['order_id'] is None):
             raise ApiValueError("Missing the required parameter `order_id` when calling `delete_order`")  # noqa: E501
 
-
         collection_formats = {}
 
         path_params = {}
@@ -221,7 +220,6 @@ class StoreApi(object):
                 )
             local_var_params[key] = val
         del local_var_params['kwargs']
-
 
         collection_formats = {}
 
@@ -336,12 +334,11 @@ class StoreApi(object):
         if ('order_id' not in local_var_params or
                 local_var_params['order_id'] is None):
             raise ApiValueError("Missing the required parameter `order_id` when calling `get_order_by_id`")  # noqa: E501
-
-
         if 'order_id' in local_var_params and local_var_params['order_id'] > 5:  # noqa: E501
             raise ApiValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value less than or equal to `5`")  # noqa: E501
         if 'order_id' in local_var_params and local_var_params['order_id'] < 1:  # noqa: E501
             raise ApiValueError("Invalid value for parameter `order_id` when calling `get_order_by_id`, must be a value greater than or equal to `1`")  # noqa: E501
+
         collection_formats = {}
 
         path_params = {}
@@ -455,7 +452,6 @@ class StoreApi(object):
         if ('body' not in local_var_params or
                 local_var_params['body'] is None):
             raise ApiValueError("Missing the required parameter `body` when calling `place_order`")  # noqa: E501
-
 
         collection_formats = {}
 

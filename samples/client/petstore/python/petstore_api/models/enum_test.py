@@ -31,19 +31,19 @@ class EnumTest(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'enum_string': 'str',
         'enum_string_required': 'str',
+        'enum_string': 'str',
         'enum_integer': 'int',
         'enum_number': 'float',
-        'outer_enum': 'OuterEnum'
+        'outer_enum': 'OuterEnum',
     }
 
     attribute_map = {
-        'enum_string': 'enum_string',
         'enum_string_required': 'enum_string_required',
+        'enum_string': 'enum_string',
         'enum_integer': 'enum_integer',
         'enum_number': 'enum_number',
-        'outer_enum': 'outerEnum'
+        'outer_enum': 'outerEnum',
     }
 
     def __init__(self, enum_string_required, enum_string=None, enum_integer=None, enum_number=None, outer_enum=None):  # noqa: E501

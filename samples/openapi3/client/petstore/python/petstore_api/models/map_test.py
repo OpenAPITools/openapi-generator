@@ -34,14 +34,14 @@ class MapTest(object):
         'map_map_of_string': 'dict(str, dict(str, str))',
         'map_of_enum_string': 'dict(str, str)',
         'direct_map': 'dict(str, bool)',
-        'indirect_map': 'dict(str, bool)'
+        'indirect_map': 'dict(str, bool)',
     }
 
     attribute_map = {
         'map_map_of_string': 'map_map_of_string',
         'map_of_enum_string': 'map_of_enum_string',
         'direct_map': 'direct_map',
-        'indirect_map': 'indirect_map'
+        'indirect_map': 'indirect_map',
     }
 
     def __init__(self, map_map_of_string=None, map_of_enum_string=None, direct_map=None, indirect_map=None):  # noqa: E501

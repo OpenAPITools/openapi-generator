@@ -31,11 +31,11 @@ class SpecialModelName(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'special_property_name': 'int'
+        'special_property_name': 'int',
     }
 
     attribute_map = {
-        'special_property_name': '$special[property.name]'
+        'special_property_name': '$special[property.name]',
     }
 
     def __init__(self, special_property_name=None):  # noqa: E501

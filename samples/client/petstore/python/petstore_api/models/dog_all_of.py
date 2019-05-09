@@ -31,11 +31,11 @@ class DogAllOf(object):
                             and the value is json key in definition.
     """
     openapi_types = {
-        'breed': 'str'
+        'breed': 'str',
     }
 
     attribute_map = {
-        'breed': 'breed'
+        'breed': 'breed',
     }
 
     def __init__(self, breed=None):  # noqa: E501
