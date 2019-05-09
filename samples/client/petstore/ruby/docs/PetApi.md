@@ -29,6 +29,7 @@ Add a new pet to the store
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
+
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
 end
@@ -78,6 +79,7 @@ Deletes a pet
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
+
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
 end
@@ -133,6 +135,7 @@ Multiple status values can be provided with comma separated strings
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
+
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
 end
@@ -185,6 +188,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
+
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
 end
@@ -289,6 +293,7 @@ Update an existing pet
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
+
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
 end
@@ -338,6 +343,7 @@ Updates a pet in the store with form data
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
+
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
 end
@@ -393,6 +399,7 @@ uploads an image
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
+
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
 end
@@ -449,6 +456,7 @@ uploads an image (required)
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
+
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
 end
