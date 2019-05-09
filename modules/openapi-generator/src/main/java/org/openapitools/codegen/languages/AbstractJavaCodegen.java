@@ -266,15 +266,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
-            this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
-        } else if (this.getVersionFromSpecification() != null) {
-            this.setArtifactVersion(this.getVersionFromSpecification());
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
-        }
-
         if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
             Boolean useSnapshotVersion = Boolean.valueOf((String) additionalProperties.get(CodegenConstants.SNAPSHOT_VERSION));
 
@@ -1020,8 +1011,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
         Pattern pattern = Pattern.compile("java\\.util\\.(List|ArrayList|Map|HashMap)");
         for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
-            String _import = itr.next().get("import");
-            if (pattern.matcher(_import).matches()) {
+            String itrImport = itr.next().get("import");
+            if (pattern.matcher(itrImport).matches()) {
                 itr.remove();
             }
         }
@@ -1030,30 +1021,45 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        if (openAPI == null || openAPI.getPaths() == null) {
+        if (openAPI == null) {
             return;
         }
-        for (String pathname : openAPI.getPaths().keySet()) {
-            PathItem path = openAPI.getPaths().get(pathname);
-            if (path.readOperations() == null) {
-                continue;
-            }
-            for (Operation operation : path.readOperations()) {
-                LOGGER.info("Processing operation " + operation.getOperationId());
-                if (hasBodyParameter(openAPI, operation) || hasFormParameter(openAPI, operation)) {
-                    String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
-                    List<String> consumes = new ArrayList<String>(getConsumesInfo(openAPI, operation));
-                    String contentType = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
-                    operation.addExtension("x-contentType", contentType);
+        if (openAPI.getPaths() != null) {
+            for (String pathname : openAPI.getPaths().keySet()) {
+                PathItem path = openAPI.getPaths().get(pathname);
+                if (path.readOperations() == null) {
+                    continue;
                 }
-                String accepts = getAccept(openAPI, operation);
-                operation.addExtension("x-accepts", accepts);
+                for (Operation operation : path.readOperations()) {
+                    LOGGER.info("Processing operation " + operation.getOperationId());
+                    if (hasBodyParameter(openAPI, operation) || hasFormParameter(openAPI, operation)) {
+                        String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
+                        List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
+                        String contentType = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
+                        operation.addExtension("x-contentType", contentType);
+                    }
+                    String accepts = getAccept(openAPI, operation);
+                    operation.addExtension("x-accepts", accepts);
 
+                }
             }
         }
+
+        // If no artifactVersion is provided in additional properties, version from API specification is used.
+        // If none of them is provided then fallbacks to default version
+        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
+            this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
+        } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
+            this.setArtifactVersion(openAPI.getInfo().getVersion());
+            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
+        }
+
     }
 
-    protected static String getAccept(OpenAPI openAPI, Operation operation) {
+    private static String getAccept(OpenAPI openAPI, Operation operation) {
         String accepts = null;
         String defaultContentType = "application/json";
         Set<String> producesInfo = getProducesInfo(openAPI, operation);
@@ -1421,19 +1427,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             delim = ".";
         }
         return sb.toString();
-    }
-
-    /**
-     * Gets version from API specification.
-     *
-     * @return API version
-     */
-    private String getVersionFromSpecification() {
-        if (this.openAPI != null && this.openAPI.getInfo() != null) {
-            return this.openAPI.getInfo().getVersion();
-        } else {
-            return null;
-        }
     }
 
     /**
