@@ -199,13 +199,27 @@ module {{moduleName}}
           },
 {{/isApiKey}}
 {{#isBasic}}
-        '{{name}}' =>
-          {
-            type: 'basic',
-            in: 'header',
-            key: 'Authorization',
-            value: basic_auth_token
-          },
+{{^isBasicBearer}}
+            '{{name}}' =>
+                {
+                    type: 'basic',
+                    in: 'header',
+                    key: 'Authorization',
+                    value: basic_auth_token
+                },
+  {{/isBasicBearer}}
+  {{#isBasicBearer}}
+            '{{name}}' =>
+                {
+                    type: 'bearer',
+                    in: 'header',
+                    {{#bearerFormat}}
+                    format: '{{{.}}}',
+                    {{/bearerFormat}}
+                    key: 'Authorization',
+                    value: "Bearer #{access_token}"
+                },
+  {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
         '{{name}}' =>

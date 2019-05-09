@@ -27,10 +27,16 @@ Method | HTTP request | Description
 require '{{{gemName}}}'
 {{#hasAuthMethods}}
 # setup authorization
-{{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}
-  # Configure HTTP basic authorization: {{{name}}}
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'{{/isBasic}}{{#isApiKey}}
+{{{moduleName}}}.configure do |config|{{#authMethods}}
+{{#isBasic}}
+{{^isBasicBearer}}
+* Basic Authentication ({{name}}):
+{{/isBasicBearer}}
+{{#isBasicBearer}}
+* Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} Authentication ({{name}}):
+{{/isBasicBearer}}
+{{/isBasic}}
+{{#isApiKey}}
   # Configure API key authorization: {{{name}}}
   config.api_key['{{{keyParamName}}}'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
