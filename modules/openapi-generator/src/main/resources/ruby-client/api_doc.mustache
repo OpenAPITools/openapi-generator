@@ -32,7 +32,7 @@ require '{{{gemName}}}'
 {{^isBasicBearer}}
 # Configure HTTP basic authorization: {{{name}}}
   config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'{{/isBasic}}{{#isApiKey}}
+  config.password = 'YOUR PASSWORD'
 {{/isBasicBearer}}
 {{#isBasicBearer}}
 # Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
