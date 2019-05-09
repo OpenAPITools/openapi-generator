@@ -2,7 +2,7 @@
 package {{apiPackage}}
 
 import io.ktor.client.features.json.serializer.KotlinxSerializer
-import io.ktor.client.features.BadResponseStatusException
+import io.ktor.client.features.ResponseException
 import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.SIMPLE
@@ -116,9 +116,9 @@ import {{import}}
                 bodyObject = {{paramName}},
                 bodySerializer = {{>param_serializer}}{{/bodyParam}}{{/hasBodyParam}}
             )
-        } catch (exception: BadResponseStatusException) {
-            when(exception.statusCode.value) {
-                {{#responses}}{{#dataType}}{{^isDefault}}{{{code}}} -> throw mySerializer.parseAndWrapErrorResponse<{{{baseType}}}>(exception){{^-last}}
+        } catch (exception: ResponseException) {
+            when(exception.response.status.value) {
+                {{#responses}}{{#dataType}}{{^isDefault}}{{{code}}} -> throw exception.toErrorWrapper<{{{baseType}}}>(){{^-last}}
                 {{/-last}}{{/isDefault}}{{/dataType}}{{/responses}}
                 else -> throw exception
             }
