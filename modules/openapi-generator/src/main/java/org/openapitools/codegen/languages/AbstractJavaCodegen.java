@@ -979,10 +979,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-    }
-
-    @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // recursively add import for mapping one type to multiple imports
         List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
