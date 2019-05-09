@@ -52,10 +52,10 @@ import           Network.HTTP.Client                (Manager, newManager)
 import           Network.HTTP.Client.TLS            (tlsManagerSettings)
 import           Network.HTTP.Types.Method          (methodOptions)
 import qualified Network.Wai.Handler.Warp           as Warp
-import           Servant                            (ServantErr, serve)
+import           Servant                            (ServerError, serve)
 import           Servant.API
 import           Servant.API.Verbs                  (StdMethod (..), Verb)
-import           Servant.Client                     (ClientEnv, Scheme (Http), ServantError, client,
+import           Servant.Client                     (ClientEnv, Scheme (Http), ClientError, client,
                                                      mkClientEnv, parseBaseUrl)
 import           Servant.Client.Core                (baseUrlPort, baseUrlHost)
 import           Servant.Client.Internal.HttpClient (ClientM (..))
@@ -163,7 +163,7 @@ data Config = Config
 
 
 -- | Custom exception type for our errors.
-newtype OpenAPIPetstoreClientError = OpenAPIPetstoreClientError ServantError
+newtype OpenAPIPetstoreClientError = OpenAPIPetstoreClientError ClientError
   deriving (Show, Exception)
 -- | Configuration, specifying the full url of the service.
 
@@ -196,7 +196,7 @@ data OpenAPIPetstoreBackend m = OpenAPIPetstoreBackend
   }
 
 newtype OpenAPIPetstoreClient a = OpenAPIPetstoreClient
-  { runClient :: ClientEnv -> ExceptT ServantError IO a
+  { runClient :: ClientEnv -> ExceptT ClientError IO a
   } deriving Functor
 
 instance Applicative OpenAPIPetstoreClient where
@@ -238,13 +238,13 @@ createOpenAPIPetstoreClient = OpenAPIPetstoreBackend{..}
      (coerce -> updateUser)) = client (Proxy :: Proxy OpenAPIPetstoreAPI)
 
 -- | Run requests in the OpenAPIPetstoreClient monad.
-runOpenAPIPetstoreClient :: Config -> OpenAPIPetstoreClient a -> ExceptT ServantError IO a
+runOpenAPIPetstoreClient :: Config -> OpenAPIPetstoreClient a -> ExceptT ClientError IO a
 runOpenAPIPetstoreClient clientConfig cl = do
   manager <- liftIO $ newManager tlsManagerSettings
   runOpenAPIPetstoreClientWithManager manager clientConfig cl
 
 -- | Run requests in the OpenAPIPetstoreClient monad using a custom manager.
-runOpenAPIPetstoreClientWithManager :: Manager -> Config -> OpenAPIPetstoreClient a -> ExceptT ServantError IO a
+runOpenAPIPetstoreClientWithManager :: Manager -> Config -> OpenAPIPetstoreClient a -> ExceptT ClientError IO a
 runOpenAPIPetstoreClientWithManager manager Config{..} cl = do
   url <- parseBaseUrl configUrl
   runClient cl $ mkClientEnv manager url
@@ -263,7 +263,7 @@ callOpenAPIPetstore env f = do
 -- | Run the OpenAPIPetstore server at the provided host and port.
 runOpenAPIPetstoreServer
   :: (MonadIO m, MonadThrow m)
-  => Config -> OpenAPIPetstoreBackend (ExceptT ServantErr IO) -> m ()
+  => Config -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
 runOpenAPIPetstoreServer Config{..} backend = do
   url <- parseBaseUrl configUrl
   let warpSettings = Warp.defaultSettings
