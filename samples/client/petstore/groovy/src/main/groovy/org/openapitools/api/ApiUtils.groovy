@@ -1,4 +1,4 @@
-package org.openapitools.api;
+package org.openapitools.api
 
 import static groovyx.net.http.HttpBuilder.configure
 import static java.net.URI.create
