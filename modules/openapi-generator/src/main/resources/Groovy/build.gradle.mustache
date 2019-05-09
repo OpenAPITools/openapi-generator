@@ -7,8 +7,8 @@ version = '{{artifactVersion}}'
 archivesBaseName = 'openapi-gen-groovy'
 
 wrapper {
-gradleVersion = '4.9'
-distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+    gradleVersion = '4.9'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
@@ -26,18 +26,18 @@ repositories {
 }
 
 ext {
-swagger_annotations_version = "1.5.22"
-jackson_version = "2.9.8"
+    swagger_annotations_version = "1.5.22"
+    jackson_version = "2.9.8"
 }
 
 dependencies {
-compile 'org.codehaus.groovy:groovy-all:2.5.6'
-compile "io.swagger:swagger-annotations:$swagger_annotations_version"
-compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
-compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
-compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
-compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
-compile 'io.github.http-builder-ng:http-builder-ng-core:1.0.3'
-testCompile "junit:junit:4.11"
+    compile 'org.codehaus.groovy:groovy-all:2.5.6'
+    compile "io.swagger:swagger-annotations:$swagger_annotations_version"
+    compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
+    compile 'io.github.http-builder-ng:http-builder-ng-core:1.0.3'
+    testCompile "junit:junit:4.11"
 }
