@@ -30,10 +30,13 @@ require '{{{gemName}}}'
 {{{moduleName}}}.configure do |config|{{#authMethods}}
 {{#isBasic}}
 {{^isBasicBearer}}
-* Basic Authentication ({{name}}):
+# Configure HTTP basic authorization: {{{name}}}
+  config.username = 'YOUR USERNAME'
+  config.password = 'YOUR PASSWORD'{{/isBasic}}{{#isApiKey}}
 {{/isBasicBearer}}
 {{#isBasicBearer}}
-* Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} Authentication ({{name}}):
+# Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
+  config.access_token = 'YOUR_BEARER_TOKEN'
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isApiKey}}
