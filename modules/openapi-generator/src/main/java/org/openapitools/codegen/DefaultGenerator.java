@@ -420,7 +420,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Boolean skipFormModel = GeneratorProperties.getProperty(CodegenConstants.SKIP_FORM_MODEL) != null ?
                 Boolean.valueOf(GeneratorProperties.getProperty(CodegenConstants.SKIP_FORM_MODEL)) :
                 getGeneratorPropertyDefaultSwitch(CodegenConstants.SKIP_FORM_MODEL, false);
-
+    
         // process models only
         for (String name : modelKeys) {
             try {
@@ -434,9 +434,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (unusedModels.contains(name)) {
                     if (Boolean.FALSE.equals(skipFormModel)) {
                         // if skipFormModel sets to true, still generate the model and log the result
-                        LOGGER.info("Model " + name + " (marked as unused due to form parameters) is generated due to skipFormModel=false (default)");
+                        LOGGER.info("Model " + name + " (marked as unused due to form parameters) is generated due to the system property skipFormModel=false (default)");
                     } else {
-                        LOGGER.info("Model " + name + " not generated since it's marked as unused (due to form parameters) and skipFormModel set to true");
+                        LOGGER.info("Model " + name + " not generated since it's marked as unused (due to form parameters) and skipFormModel (system property) set to true");
                         continue;
                     }
                 }
