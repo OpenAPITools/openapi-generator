@@ -67,26 +67,6 @@ class PetApiTest extends GroovyTestCase  {
                 assertEquals(200, statusCode)
         };
 
-        this.petApi.deletePet(this.petId, "apiKey") {
-        }
-{
-            statusCode, message ->
-                assertEquals(200, statusCode)
-        };
-
-        // should throw a 404 after delete
-        this.petApi.getPetById(this.petId) {
-            assertEquals(404, 200)
-        }
-{
-            statusCode, message ->
-                assertEquals(404, statusCode)
-        };
-
-    }
-
-    @Test
-    void testUpdateOnePetWithForm() {
         this.petApi.updatePetWithForm(this.petId, "groovy client updatetestwithform", "sold") {
         }
                 {
@@ -104,6 +84,22 @@ class PetApiTest extends GroovyTestCase  {
                     statusCode, message ->
                         assertEquals(200, statusCode)
                 };
+
+        this.petApi.deletePet(this.petId, "apiKey") {
+        }
+{
+            statusCode, message ->
+                assertEquals(200, statusCode)
+        };
+
+        // should throw a 404 after delete
+        this.petApi.getPetById(this.petId) {
+            assertEquals(404, 200)
+        }
+{
+            statusCode, message ->
+                assertEquals(404, statusCode)
+        };
 
     }
 
