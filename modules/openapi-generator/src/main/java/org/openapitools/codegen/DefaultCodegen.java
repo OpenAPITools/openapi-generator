@@ -2201,6 +2201,7 @@ public class DefaultCodegen implements CodegenConfig {
             //    property.baseType = getSimpleRef(p.get$ref());
             //}
             // --END of revision
+            property.isModel = ModelUtils.isModel(p);
             setNonArrayMapProperty(property, type);
         }
 
@@ -3023,9 +3024,11 @@ public class DefaultCodegen implements CodegenConfig {
             String parameterDataType = this.getParameterDataType(parameter, parameterSchema);
             if (parameterDataType != null) {
                 codegenParameter.dataType = parameterDataType;
-                imports.add(parameterDataType);
             } else {
                 codegenParameter.dataType = codegenProperty.dataType;
+            }
+            if (ModelUtils.isObjectSchema(parameterSchema)) {
+                codegenProperty.complexType = codegenParameter.dataType;
             }
             codegenParameter.dataFormat = codegenProperty.dataFormat;
             codegenParameter.required = codegenProperty.required;
@@ -3055,7 +3058,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.paramName = toParamName(parameter.getName());
 
             // import
-            if (codegenProperty.complexType != null && !imports.contains(codegenParameter.dataType)) {
+            if (codegenProperty.complexType != null) {
                 imports.add(codegenProperty.complexType);
             }
 
