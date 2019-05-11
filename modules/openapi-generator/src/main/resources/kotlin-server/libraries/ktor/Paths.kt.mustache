@@ -1,11 +1,9 @@
 {{>licenseInfo}}
 package {{packageName}}
 
-import io.ktor.locations.*
-import {{modelPackage}}.*
-
-{{#imports}}
-import {{import}}
+import io.ktor.locations.KtorExperimentalLocationsAPI
+import io.ktor.locations.Location
+{{#imports}}import {{import}}
 {{/imports}}
 
 {{#apiInfo}}

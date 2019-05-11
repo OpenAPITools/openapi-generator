@@ -102,7 +102,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         apiPackage = "org.openapitools.client.api";
         modelPackage = "org.openapitools.client.model";
 
-        // clioOptions default redifinition need to be updated
+        // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
