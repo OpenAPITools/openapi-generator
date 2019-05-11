@@ -11,9 +11,8 @@
 */
 package org.openapitools.server
 
-import io.ktor.locations.*
-import org.openapitools.server.models.*
-
+import io.ktor.locations.KtorExperimentalLocationsAPI
+import io.ktor.locations.Location
 
 object Paths {
     /**
