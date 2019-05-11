@@ -2563,8 +2563,9 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody != null) {
-            if (getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                    getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("multipart/form-data")) {
+            if (getContentType(requestBody) != null &&
+                    (getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
+                    getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("multipart/form-data"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
                 for (CodegenParameter cp : formParams) {
@@ -4256,8 +4257,8 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected String getContentType(RequestBody requestBody) {
         if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
-            LOGGER.warn("Cannot determine the content type. Default to UNKNOWN_CONTENT_TYPE.");
-            return "UNKNOWN_CONTENT_TYPE";
+            LOGGER.debug("Cannot determine the content type. Returning null.");
+            return null;
         }
         return new ArrayList<>(requestBody.getContent().keySet()).get(0);
     }
