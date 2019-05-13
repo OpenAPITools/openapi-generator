@@ -17,8 +17,10 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -632,7 +634,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
-                    return "'" + p.getDefault() + "'";
+                    return "'" + ((String) p.getDefault()).replaceAll("'","\'") + "'";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
@@ -704,7 +706,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         if (example == null) {
-            example = "NULL";
+            example = "None";
         } else if (Boolean.TRUE.equals(p.isListContainer)) {
             example = "[" + example + "]";
         } else if (Boolean.TRUE.equals(p.isMapContainer)) {
@@ -712,6 +714,24 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         p.example = example;
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        Schema schema = parameter.getSchema();
+
+        if (parameter.getExample() != null) {
+            codegenParameter.example = parameter.getExample().toString();
+        } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty()) {
+            Example example = parameter.getExamples().values().iterator().next();
+            if (example.getValue() != null) {
+                codegenParameter.example = example.getValue().toString();
+            }
+        } else if (schema != null && schema.getExample() != null) {
+            codegenParameter.example = schema.getExample().toString();
+        }
+
+        setParameterExampleValue(codegenParameter);
     }
 
     @Override

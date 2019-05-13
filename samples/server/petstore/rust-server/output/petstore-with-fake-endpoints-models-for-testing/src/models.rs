@@ -5,9 +5,11 @@ extern crate uuid;
 use serde_xml_rs;
 use serde::ser::Serializer;
 
-use std::collections::HashMap;
+use std::collections::{HashMap, BTreeMap};
 use models;
 use swagger;
+use std::string::ParseError;
+
 
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -31,6 +33,15 @@ impl AdditionalPropertiesClass {
     }
 }
 
+impl AdditionalPropertiesClass {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Animal {
     #[serde(rename = "className")]
@@ -48,6 +59,86 @@ impl Animal {
             class_name: class_name,
             color: Some("red".to_string()),
         }
+    }
+}
+
+impl Animal {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct AnimalFarm(Vec<Animal>);
+
+impl ::std::convert::From<Vec<Animal>> for AnimalFarm {
+    fn from(x: Vec<Animal>) -> Self {
+        AnimalFarm(x)
+    }
+}
+
+impl ::std::convert::From<AnimalFarm> for Vec<Animal> {
+    fn from(x: AnimalFarm) -> Self {
+        x.0
+    }
+}
+
+impl ::std::iter::FromIterator<Animal> for AnimalFarm {
+    fn from_iter<U: IntoIterator<Item=Animal>>(u: U) -> Self {
+        AnimalFarm(Vec::<Animal>::from_iter(u))
+    }
+}
+
+impl ::std::iter::IntoIterator for AnimalFarm {
+    type Item = Animal;
+    type IntoIter = ::std::vec::IntoIter<Animal>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl<'a> ::std::iter::IntoIterator for &'a AnimalFarm {
+    type Item = &'a Animal;
+    type IntoIter = ::std::slice::Iter<'a, Animal>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        (&self.0).into_iter()
+    }
+}
+
+impl<'a> ::std::iter::IntoIterator for &'a mut AnimalFarm {
+    type Item = &'a mut Animal;
+    type IntoIter = ::std::slice::IterMut<'a, Animal>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        (&mut self.0).into_iter()
+    }
+}
+
+impl ::std::ops::Deref for AnimalFarm {
+    type Target = Vec<Animal>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for AnimalFarm {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+
+impl AnimalFarm {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
@@ -77,6 +168,15 @@ impl ApiResponse {
     }
 }
 
+impl ApiResponse {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ArrayOfArrayOfNumberOnly {
     #[serde(rename = "ArrayArrayNumber")]
@@ -93,6 +193,15 @@ impl ArrayOfArrayOfNumberOnly {
     }
 }
 
+impl ArrayOfArrayOfNumberOnly {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ArrayOfNumberOnly {
     #[serde(rename = "ArrayNumber")]
@@ -106,6 +215,15 @@ impl ArrayOfNumberOnly {
         ArrayOfNumberOnly {
             array_number: None,
         }
+    }
+}
+
+impl ArrayOfNumberOnly {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
@@ -138,6 +256,15 @@ impl ArrayTest {
             array_array_of_model: None,
             array_of_enum: None,
         }
+    }
+}
+
+impl ArrayTest {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
@@ -183,6 +310,15 @@ impl Capitalization {
     }
 }
 
+impl Capitalization {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Cat {
     #[serde(rename = "className")]
@@ -208,6 +344,40 @@ impl Cat {
     }
 }
 
+impl Cat {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CatAllOf {
+    #[serde(rename = "declawed")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub declawed: Option<bool>,
+
+}
+
+impl CatAllOf {
+    pub fn new() -> CatAllOf {
+        CatAllOf {
+            declawed: None,
+        }
+    }
+}
+
+impl CatAllOf {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename = "Category")]
 pub struct Category {
@@ -230,6 +400,15 @@ impl Category {
     }
 }
 
+impl Category {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 /// Model for testing model with \"_class\" property
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ClassModel {
@@ -247,6 +426,15 @@ impl ClassModel {
     }
 }
 
+impl ClassModel {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Client {
     #[serde(rename = "client")]
@@ -260,6 +448,15 @@ impl Client {
         Client {
             client: None,
         }
+    }
+}
+
+impl Client {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
@@ -285,6 +482,40 @@ impl Dog {
             color: Some("red".to_string()),
             breed: None,
         }
+    }
+}
+
+impl Dog {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct DogAllOf {
+    #[serde(rename = "breed")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub breed: Option<String>,
+
+}
+
+impl DogAllOf {
+    pub fn new() -> DogAllOf {
+        DogAllOf {
+            breed: None,
+        }
+    }
+}
+
+impl DogAllOf {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
@@ -314,6 +545,15 @@ impl EnumArrays {
             array_enum: None,
             array_array_enum: None,
         }
+    }
+}
+
+impl EnumArrays {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
@@ -354,6 +594,15 @@ impl ::std::str::FromStr for EnumClass {
     }
 }
 
+impl EnumClass {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EnumTest {
     // Note: inline enums are not fully supported by openapi-generator
@@ -390,6 +639,15 @@ impl EnumTest {
             enum_number: None,
             outer_enum: None,
         }
+    }
+}
+
+impl EnumTest {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
@@ -465,6 +723,15 @@ impl FormatTest {
     }
 }
 
+impl FormatTest {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct HasOnlyReadOnly {
     #[serde(rename = "bar")]
@@ -486,6 +753,15 @@ impl HasOnlyReadOnly {
     }
 }
 
+impl HasOnlyReadOnly {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct List {
     #[serde(rename = "123-list")]
@@ -499,6 +775,15 @@ impl List {
         List {
             _123_list: None,
         }
+    }
+}
+
+impl List {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
@@ -530,6 +815,15 @@ impl MapTest {
     }
 }
 
+impl MapTest {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct MixedPropertiesAndAdditionalPropertiesClass {
     #[serde(rename = "uuid")]
@@ -556,6 +850,15 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
     }
 }
 
+impl MixedPropertiesAndAdditionalPropertiesClass {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 /// Model for testing model name starting with number
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename = "Name")]
@@ -579,6 +882,15 @@ impl Model200Response {
     }
 }
 
+impl Model200Response {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 /// Model for testing reserved words
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename = "Return")]
@@ -594,6 +906,15 @@ impl ModelReturn {
         ModelReturn {
             _return: None,
         }
+    }
+}
+
+impl ModelReturn {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
@@ -629,6 +950,15 @@ impl Name {
     }
 }
 
+impl Name {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct NumberOnly {
     #[serde(rename = "JustNumber")]
@@ -642,6 +972,15 @@ impl NumberOnly {
         NumberOnly {
             just_number: None,
         }
+    }
+}
+
+impl NumberOnly {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
@@ -689,6 +1028,15 @@ impl Order {
     }
 }
 
+impl Order {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 
 pub struct OuterBoolean(bool);
@@ -698,6 +1046,7 @@ impl ::std::convert::From<bool> for OuterBoolean {
         OuterBoolean(x)
     }
 }
+
 
 impl ::std::convert::From<OuterBoolean> for bool {
     fn from(x: OuterBoolean) -> Self {
@@ -718,6 +1067,15 @@ impl ::std::ops::DerefMut for OuterBoolean {
     }
 }
 
+
+impl OuterBoolean {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct OuterComposite {
@@ -742,6 +1100,15 @@ impl OuterComposite {
             my_string: None,
             my_boolean: None,
         }
+    }
+}
+
+impl OuterComposite {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
@@ -782,6 +1149,15 @@ impl ::std::str::FromStr for OuterEnum {
     }
 }
 
+impl OuterEnum {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 
 pub struct OuterNumber(f64);
@@ -791,6 +1167,7 @@ impl ::std::convert::From<f64> for OuterNumber {
         OuterNumber(x)
     }
 }
+
 
 impl ::std::convert::From<OuterNumber> for f64 {
     fn from(x: OuterNumber) -> Self {
@@ -812,6 +1189,15 @@ impl ::std::ops::DerefMut for OuterNumber {
 }
 
 
+impl OuterNumber {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
 
 pub struct OuterString(String);
@@ -819,6 +1205,13 @@ pub struct OuterString(String);
 impl ::std::convert::From<String> for OuterString {
     fn from(x: String) -> Self {
         OuterString(x)
+    }
+}
+
+impl std::str::FromStr for OuterString {
+    type Err = ParseError;
+    fn from_str(x: &str) -> Result<Self, Self::Err> {
+        Ok(OuterString(x.to_string()))
     }
 }
 
@@ -841,6 +1234,15 @@ impl ::std::ops::DerefMut for OuterString {
     }
 }
 
+
+impl OuterString {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename = "Pet")]
@@ -884,6 +1286,15 @@ impl Pet {
     }
 }
 
+impl Pet {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ReadOnlyFirst {
     #[serde(rename = "bar")]
@@ -905,6 +1316,15 @@ impl ReadOnlyFirst {
     }
 }
 
+impl ReadOnlyFirst {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename = "$special[model.name]")]
 pub struct SpecialModelName {
@@ -919,6 +1339,15 @@ impl SpecialModelName {
         SpecialModelName {
             special_property_name: None,
         }
+    }
+}
+
+impl SpecialModelName {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
@@ -941,6 +1370,15 @@ impl Tag {
             id: None,
             name: None,
         }
+    }
+}
+
+impl Tag {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }
 
@@ -994,5 +1432,14 @@ impl User {
             phone: None,
             user_status: None,
         }
+    }
+}
+
+impl User {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
     }
 }

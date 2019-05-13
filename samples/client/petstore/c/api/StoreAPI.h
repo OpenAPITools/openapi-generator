@@ -1,8 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "apiClient.h"
-#include "cJSON.h"
-#include "order.h"
+#include "../include/apiClient.h"
+#include "../include/list.h"
+#include "../external/cJSON.h"
+#include "../include/keyValuePair.h"
+#include "../model/order.h"
 
 
 // Delete purchase order by ID
@@ -12,13 +14,11 @@
 void StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId);
 
 
-
 // Returns pet inventories by status
 //
 // Returns a map of status codes to quantities
 //
 list_t *StoreAPI_getInventory(apiClient_t *apiClient);
-
 
 
 // Find purchase order by ID
@@ -28,7 +28,6 @@ list_t *StoreAPI_getInventory(apiClient_t *apiClient);
 order_t *StoreAPI_getOrderById(apiClient_t *apiClient, long orderId);
 
 
-
 // Place an order for a pet
 //
-order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *order);
+order_t *StoreAPI_placeOrder(apiClient_t *apiClient, order_t *body);

@@ -11,17 +11,17 @@ import Foundation
 
 public struct AdditionalPropertiesClass: Codable {
 
-    public var mapProperty: [String:String]?
-    public var mapOfMapProperty: [String:[String:String]]?
+    public var mapString: [String:String]?
+    public var mapMapString: [String:[String:String]]?
 
-    public init(mapProperty: [String:String]?, mapOfMapProperty: [String:[String:String]]?) {
-        self.mapProperty = mapProperty
-        self.mapOfMapProperty = mapOfMapProperty
+    public init(mapString: [String:String]?, mapMapString: [String:[String:String]]?) {
+        self.mapString = mapString
+        self.mapMapString = mapMapString
     }
 
     public enum CodingKeys: String, CodingKey { 
-        case mapProperty = "map_property"
-        case mapOfMapProperty = "map_of_map_property"
+        case mapString = "map_string"
+        case mapMapString = "map_map_string"
     }
 
 

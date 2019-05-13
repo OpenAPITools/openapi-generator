@@ -163,6 +163,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.EnumStringRequired = enumStringRequired;
             }
+            
             this.EnumString = enumString;
             this.EnumInteger = enumInteger;
             this.EnumNumber = enumNumber;

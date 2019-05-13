@@ -1,7 +1,7 @@
 {
     "name": "GIT_USER_ID/GIT_REPO_ID",
     "description": "",
-    "license": "proprietary",
+    "license": "unlicense",
     "version": "1.0.0",
     "type": "project",
     "require": {

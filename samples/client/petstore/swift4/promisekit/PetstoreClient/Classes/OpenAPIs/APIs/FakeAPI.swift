@@ -51,12 +51,12 @@ open class FakeAPI {
 
     /**
 
-     - parameter outerComposite: (body) Input composite as post body (optional)
+     - parameter body: (body) Input composite as post body (optional)
      - returns: Promise<OuterComposite>
      */
-    open class func fakeOuterCompositeSerialize( outerComposite: OuterComposite? = nil) -> Promise<OuterComposite> {
+    open class func fakeOuterCompositeSerialize( body: OuterComposite? = nil) -> Promise<OuterComposite> {
         let deferred = Promise<OuterComposite>.pending()
-        fakeOuterCompositeSerializeWithRequestBuilder(outerComposite: outerComposite).execute { (response, error) -> Void in
+        fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else if let response = response {
@@ -71,13 +71,13 @@ open class FakeAPI {
     /**
      - POST /fake/outer/composite
      - Test serialization of object with outer number type
-     - parameter outerComposite: (body) Input composite as post body (optional)
+     - parameter body: (body) Input composite as post body (optional)
      - returns: RequestBuilder<OuterComposite> 
      */
-    open class func fakeOuterCompositeSerializeWithRequestBuilder(outerComposite: OuterComposite? = nil) -> RequestBuilder<OuterComposite> {
+    open class func fakeOuterCompositeSerializeWithRequestBuilder(body: OuterComposite? = nil) -> RequestBuilder<OuterComposite> {
         let path = "/fake/outer/composite"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: outerComposite)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -162,12 +162,12 @@ open class FakeAPI {
 
     /**
 
-     - parameter fileSchemaTestClass: (body)  
+     - parameter body: (body)  
      - returns: Promise<Void>
      */
-    open class func testBodyWithFileSchema( fileSchemaTestClass: FileSchemaTestClass) -> Promise<Void> {
+    open class func testBodyWithFileSchema( body: FileSchemaTestClass) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        testBodyWithFileSchemaWithRequestBuilder(fileSchemaTestClass: fileSchemaTestClass).execute { (response, error) -> Void in
+        testBodyWithFileSchemaWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -180,13 +180,13 @@ open class FakeAPI {
     /**
      - PUT /fake/body-with-file-schema
      - For this test, the body for this request much reference a schema named `File`.
-     - parameter fileSchemaTestClass: (body)  
+     - parameter body: (body)  
      - returns: RequestBuilder<Void> 
      */
-    open class func testBodyWithFileSchemaWithRequestBuilder(fileSchemaTestClass: FileSchemaTestClass) -> RequestBuilder<Void> {
+    open class func testBodyWithFileSchemaWithRequestBuilder(body: FileSchemaTestClass) -> RequestBuilder<Void> {
         let path = "/fake/body-with-file-schema"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: fileSchemaTestClass)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -198,12 +198,12 @@ open class FakeAPI {
     /**
 
      - parameter query: (query)  
-     - parameter user: (body)  
+     - parameter body: (body)  
      - returns: Promise<Void>
      */
-    open class func testBodyWithQueryParams( query: String,  user: User) -> Promise<Void> {
+    open class func testBodyWithQueryParams( query: String,  body: User) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        testBodyWithQueryParamsWithRequestBuilder(query: query, user: user).execute { (response, error) -> Void in
+        testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -216,13 +216,13 @@ open class FakeAPI {
     /**
      - PUT /fake/body-with-query-params
      - parameter query: (query)  
-     - parameter user: (body)  
+     - parameter body: (body)  
      - returns: RequestBuilder<Void> 
      */
-    open class func testBodyWithQueryParamsWithRequestBuilder(query: String, user: User) -> RequestBuilder<Void> {
+    open class func testBodyWithQueryParamsWithRequestBuilder(query: String, body: User) -> RequestBuilder<Void> {
         let path = "/fake/body-with-query-params"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: user)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         var url = URLComponents(string: URLString)
         url?.queryItems = APIHelper.mapValuesToQueryItems([
@@ -237,12 +237,12 @@ open class FakeAPI {
     /**
      To test \"client\" model
      
-     - parameter client: (body) client model 
+     - parameter body: (body) client model 
      - returns: Promise<Client>
      */
-    open class func testClientModel( client: Client) -> Promise<Client> {
+    open class func testClientModel( body: Client) -> Promise<Client> {
         let deferred = Promise<Client>.pending()
-        testClientModelWithRequestBuilder(client: client).execute { (response, error) -> Void in
+        testClientModelWithRequestBuilder(body: body).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else if let response = response {
@@ -258,13 +258,13 @@ open class FakeAPI {
      To test \"client\" model
      - PATCH /fake
      - To test \"client\" model
-     - parameter client: (body) client model 
+     - parameter body: (body) client model 
      - returns: RequestBuilder<Client> 
      */
-    open class func testClientModelWithRequestBuilder(client: Client) -> RequestBuilder<Client> {
+    open class func testClientModelWithRequestBuilder(body: Client) -> RequestBuilder<Client> {
         let path = "/fake"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: client)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
 
         let url = URLComponents(string: URLString)
 
@@ -553,12 +553,12 @@ open class FakeAPI {
     /**
      test inline additionalProperties
      
-     - parameter requestBody: (body) request body 
+     - parameter param: (body) request body 
      - returns: Promise<Void>
      */
-    open class func testInlineAdditionalProperties( requestBody: [String:String]) -> Promise<Void> {
+    open class func testInlineAdditionalProperties( param: [String:String]) -> Promise<Void> {
         let deferred = Promise<Void>.pending()
-        testInlineAdditionalPropertiesWithRequestBuilder(requestBody: requestBody).execute { (response, error) -> Void in
+        testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute { (response, error) -> Void in
             if let error = error {
                 deferred.reject(error)
             } else {
@@ -571,13 +571,13 @@ open class FakeAPI {
     /**
      test inline additionalProperties
      - POST /fake/inline-additionalProperties
-     - parameter requestBody: (body) request body 
+     - parameter param: (body) request body 
      - returns: RequestBuilder<Void> 
      */
-    open class func testInlineAdditionalPropertiesWithRequestBuilder(requestBody: [String:String]) -> RequestBuilder<Void> {
+    open class func testInlineAdditionalPropertiesWithRequestBuilder(param: [String:String]) -> RequestBuilder<Void> {
         let path = "/fake/inline-additionalProperties"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: requestBody)
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: param)
 
         let url = URLComponents(string: URLString)
 

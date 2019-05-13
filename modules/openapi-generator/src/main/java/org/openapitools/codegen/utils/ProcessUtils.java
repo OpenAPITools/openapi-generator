@@ -59,7 +59,7 @@ public class ProcessUtils {
             for (CodegenOperation operation : ops) {
                 if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
                     for (CodegenSecurity cs : operation.authMethods) {
-                        if (cs.isOAuth) {
+                        if (Boolean.TRUE.equals(cs.isOAuth)) {
                             return true;
                         }
                     }
@@ -83,7 +83,7 @@ public class ProcessUtils {
             for (CodegenOperation operation : ops) {
                 if (operation.authMethods != null && !operation.authMethods.isEmpty()) {
                     for (CodegenSecurity cs : operation.authMethods) {
-                        if (cs.isBasicBearer) {
+                        if (Boolean.TRUE.equals(cs.isBasicBearer)) {
                             return true;
                         }
                     }

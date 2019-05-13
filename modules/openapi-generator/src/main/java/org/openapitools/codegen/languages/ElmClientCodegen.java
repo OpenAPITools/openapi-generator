@@ -694,7 +694,10 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         final String prefix = toEnumName(property);
         for (Map<String, Object> enumVar : enumVars) {
-            enumVar.put("name", prefix + enumVar.get("name"));
+            if (!enumVar.containsKey("_isPrefixed")) {
+                enumVar.put("name", prefix + enumVar.get("name"));
+                enumVar.put("_isPrefixed", true);
+            }
         }
     }
 

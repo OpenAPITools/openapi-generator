@@ -183,7 +183,7 @@ OAIUserApi::deleteUser(const QString& username) {
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
     QString usernamePathParam("{"); 
     usernamePathParam.append("username").append("}");
-    fullPath.replace(usernamePathParam, ::OpenAPI::toStringValue(username));
+    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "DELETE");
@@ -230,7 +230,7 @@ OAIUserApi::getUserByName(const QString& username) {
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
     QString usernamePathParam("{"); 
     usernamePathParam.append("username").append("}");
-    fullPath.replace(usernamePathParam, ::OpenAPI::toStringValue(username));
+    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "GET");
@@ -384,7 +384,7 @@ OAIUserApi::updateUser(const QString& username, const OAIUser& body) {
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
     QString usernamePathParam("{"); 
     usernamePathParam.append("username").append("}");
-    fullPath.replace(usernamePathParam, ::OpenAPI::toStringValue(username));
+    fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(username)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "PUT");

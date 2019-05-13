@@ -9,7 +9,7 @@
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
-    <version>4.0.0-beta3</version>
+    <version>4.0.0</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
         <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
@@ -1019,7 +1019,6 @@
                 <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>-->
                 <!--<module>samples/client/petstore/dart2/petstore</module>-->
                 <module>samples/client/petstore/elm-0.18</module>
-                <module>samples/client/petstore/groovy</module>
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust-reqwest</module>
                 <!--<module>samples/client/petstore/perl</module>-->
@@ -1042,6 +1041,7 @@
                 <module>samples/client/petstore/typescript-fetch/tests/default</module>
                 <module>samples/client/petstore/typescript-axios/tests/default</module>
                 <module>samples/client/petstore/typescript-node/npm</module>
+                <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
                 <!-- comment out due to github rate limit error
                 <module>samples/client/petstore/typescript-angularjs</module>-->
                 <!-- comment out due to error `npm run build`
@@ -1072,7 +1072,7 @@
                 <module>samples/client/petstore/go</module>
                 <module>samples/client/petstore/typescript-angular-v6-provided-in-root</module>
                 <!-- test java-related projects -->
-                <module>samples/client/petstore/scala-akka</module>
+                <!--<module>samples/client/petstore/scala-akka</module>-->
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
@@ -1095,6 +1095,7 @@
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
                 <module>samples/client/petstore/java/rest-assured</module>
+                <module>samples/client/petstore/groovy</module>
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1159,7 +1160,7 @@
                 <!-- clients -->
                 <module>samples/openapi3/client/petstore/ruby</module>
                 <!-- test java-related projects -->
-                <module>samples/client/petstore/scala-akka</module>
+                <!--<module>samples/client/petstore/scala-akka</module>-->
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/java/feign</module>
@@ -1175,7 +1176,6 @@
                 <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
-                <!-- <module>samples/client/petstore/kotlin/</module> -->
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1221,6 +1221,9 @@
                 <module>samples/client/petstore/elixir</module>
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
+                <module>samples/client/petstore/kotlin/</module>
+                <module>samples/client/petstore/kotlin-threetenbp/</module>
+                <module>samples/client/petstore/kotlin-string/</module>
                 <!-- servers -->
                 <module>samples/server/petstore/erlang-server</module>
                 <module>samples/server/petstore/jaxrs/jersey2</module>
@@ -1228,9 +1231,6 @@
                 <module>samples/server/petstore/spring-mvc</module>
                 <module>samples/server/petstore/spring-mvc-j8-async</module>
                 <module>samples/server/petstore/spring-mvc-j8-localdatetime</module>
-                <module>samples/client/petstore/kotlin/</module>
-                <module>samples/client/petstore/kotlin-threetenbp/</module>
-                <module>samples/client/petstore/kotlin-string/</module>
             </modules>
         </profile>
         <!-- test with Haskell -->
@@ -1292,6 +1292,7 @@
         <module>modules/openapi-generator-maven-plugin</module>
         <module>modules/openapi-generator-gradle-plugin</module>
         <module>modules/openapi-generator-online</module>
+        <module>modules/openapi-generator-core</module>
     </modules>
     <reporting>
         <outputDirectory>target/site</outputDirectory>
@@ -1358,7 +1359,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <swagger-parser-groupid>org.openapitools.swagger.parser</swagger-parser-groupid>
-        <swagger-parser-version>2.0.11-OpenAPITools.org-1</swagger-parser-version>
+        <swagger-parser-version>2.0.13-OpenAPITools.org-1</swagger-parser-version>
         <swagger-core-version>2.0.7</swagger-core-version>
         <scala-version>2.11.1</scala-version>
         <felix-version>3.3.1</felix-version>
@@ -1371,6 +1372,7 @@
         <slf4j-version>1.7.12</slf4j-version>
         <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
         <jmustache-version>1.14</jmustache-version>
+        <handlebars.java-version>4.1.2</handlebars.java-version>
         <testng-version>6.14.3</testng-version>
         <surefire-version>2.22.1</surefire-version>
         <jmockit-version>1.43</jmockit-version>

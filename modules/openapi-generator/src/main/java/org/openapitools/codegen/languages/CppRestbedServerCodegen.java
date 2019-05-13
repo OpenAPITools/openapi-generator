@@ -193,12 +193,12 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return camelize(name);
+        return toModelName(name);
     }
 
     @Override
     public String toApiFilename(String name) {
-        return camelize(name) + "Api";
+        return toApiName(name);
     }
 
     @SuppressWarnings("unchecked")

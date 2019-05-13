@@ -32,6 +32,9 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
+        200:
+          content: {}
+          description: successful operation
         405:
           content: {}
           description: Invalid input
@@ -56,6 +59,9 @@ paths:
         description: Pet object that needs to be added to the store
         required: true
       responses:
+        200:
+          content: {}
+          description: successful operation
         400:
           content: {}
           description: Invalid ID supplied
@@ -174,6 +180,9 @@ paths:
           format: int64
           type: integer
       responses:
+        200:
+          content: {}
+          description: successful operation
         400:
           content: {}
           description: Invalid pet value
@@ -1354,17 +1363,11 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - properties:
-          breed:
-            type: string
-        type: object
+      - $ref: '#/components/schemas/Dog_allOf'
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - properties:
-          declawed:
-            type: boolean
-        type: object
+      - $ref: '#/components/schemas/Cat_allOf'
     Animal:
       discriminator:
         propertyName: className
@@ -2013,6 +2016,14 @@ components:
       xml:
         namespace: http://a.com/schema
         prefix: pre
+    Dog_allOf:
+      properties:
+        breed:
+          type: string
+    Cat_allOf:
+      properties:
+        declawed:
+          type: boolean
   securitySchemes:
     petstore_auth:
       flows:
