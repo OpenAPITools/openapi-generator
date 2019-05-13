@@ -282,13 +282,13 @@ GEN_IP=$(docker inspect --format '{{.NetworkSettings.IPAddress}}'  $CID)
 -d '{"openAPIUrl": "https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml"}' \
 'http://localhost:8888/api/gen/clients/ruby'
 
-{"code":"c2d484.0.0672-40e9-91df-b9ffd18d22b8","link":"http://localhost:8888/api/gen/download/c2d484.0.0672-40e9-91df-b9ffd18d22b8"}
+{"code":"c2d483.3.4672-40e9-91df-b9ffd18d22b8","link":"http://localhost:8888/api/gen/download/c2d483.3.4672-40e9-91df-b9ffd18d22b8"}
 
 # Download the generated zip file  
-> wget http://localhost:8888/api/gen/download/c2d484.0.0672-40e9-91df-b9ffd18d22b8
+> wget http://localhost:8888/api/gen/download/c2d483.3.4672-40e9-91df-b9ffd18d22b8
 
 # Unzip the file
-> unzip c2d484.0.0672-40e9-91df-b9ffd18d22b8
+> unzip c2d483.3.4672-40e9-91df-b9ffd18d22b8
 
 # Shutdown the openapi generator image
 > docker stop $CID && docker rm $CID
