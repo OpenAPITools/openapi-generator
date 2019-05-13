@@ -67,13 +67,13 @@ require '{{{gemName}}}'
 # Setup authorization
 {{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}
 {{^isBasicBearer}}
-# Configure HTTP basic authorization: {{{name}}}
-config.username = 'YOUR_USERNAME'
+  # Configure HTTP basic authorization: {{{name}}}
+  config.username = 'YOUR_USERNAME'
   config.password = 'YOUR_PASSWORD'
 {{/isBasicBearer}}
 {{#isBasicBearer}}
-# Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
-config.access_token = 'YOUR_BEARER_TOKEN'
+  # Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
+  config.access_token = 'YOUR_BEARER_TOKEN'
 {{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
   # Configure API key authorization: {{{name}}}
   config.api_key['{{{keyParamName}}}'] = 'YOUR API KEY'
