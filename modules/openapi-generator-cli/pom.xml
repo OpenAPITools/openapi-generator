@@ -3,10 +3,10 @@
     <parent>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
-        <version>4.0.0</version>
+        <version>4.0.1-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.1-SNAPSHOT</modelVersion>
 
     <artifactId>openapi-generator-cli</artifactId>
     <packaging>jar</packaging>

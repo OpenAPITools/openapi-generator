@@ -5,10 +5,10 @@
   <parent>
     <artifactId>openapi-generator-project</artifactId>
     <groupId>org.openapitools</groupId>
-    <version>4.0.0</version>
+    <version>4.0.1-SNAPSHOT</version>
     <relativePath>../..</relativePath>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.1-SNAPSHOT</modelVersion>
 
   <artifactId>openapi-generator-core</artifactId>
   <name>openapi-generator-core</name>
