@@ -37,7 +37,7 @@ OAIStoreApi::deleteOrder(const QString& order_id) {
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
     QString order_idPathParam("{"); 
     order_idPathParam.append("orderId").append("}");
-    fullPath.replace(order_idPathParam, ::OpenAPI::toStringValue(order_id));
+    fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(order_id)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "DELETE");
@@ -138,7 +138,7 @@ OAIStoreApi::getOrderById(const qint64& order_id) {
     fullPath.append(this->host).append(this->basePath).append("/store/order/{orderId}");
     QString order_idPathParam("{"); 
     order_idPathParam.append("orderId").append("}");
-    fullPath.replace(order_idPathParam, ::OpenAPI::toStringValue(order_id));
+    fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(order_id)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
     OAIHttpRequestInput input(fullPath, "GET");

@@ -43,6 +43,7 @@ public interface PetApi {
             })
     }, tags={ "pet", })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation"),
         @ApiResponse(code = 405, message = "Invalid input") })
     @RequestMapping(value = "/pet",
         consumes = { "application/json", "application/xml" },
@@ -59,6 +60,7 @@ public interface PetApi {
             })
     }, tags={ "pet", })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation"),
         @ApiResponse(code = 400, message = "Invalid pet value") })
     @RequestMapping(value = "/pet/{petId}",
         method = RequestMethod.DELETE)
@@ -123,6 +125,7 @@ public interface PetApi {
             })
     }, tags={ "pet", })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation"),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found"),
         @ApiResponse(code = 405, message = "Validation exception") })

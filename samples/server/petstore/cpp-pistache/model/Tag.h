@@ -19,9 +19,8 @@
 #define Tag_H_
 
 
-#include "ModelBase.h"
-
 #include <string>
+#include <nlohmann/json.hpp>
 
 namespace org {
 namespace openapitools {
@@ -32,19 +31,12 @@ namespace model {
 /// A tag for a pet
 /// </summary>
 class  Tag
-    : public ModelBase
 {
 public:
     Tag();
     virtual ~Tag();
 
-    /////////////////////////////////////////////
-    /// ModelBase overrides
-
-    void validate() override;
-
-    nlohmann::json toJson() const override;
-    void fromJson(const nlohmann::json& json) override;
+    void validate();
 
     /////////////////////////////////////////////
     /// Tag members
@@ -64,6 +56,8 @@ public:
     bool nameIsSet() const;
     void unsetName();
 
+    friend void to_json(nlohmann::json& j, const Tag& o);
+    friend void from_json(const nlohmann::json& j, Tag& o);
 protected:
     int64_t m_Id;
     bool m_IdIsSet;

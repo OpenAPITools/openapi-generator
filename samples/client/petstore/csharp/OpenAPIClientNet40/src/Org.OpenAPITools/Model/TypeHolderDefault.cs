@@ -54,6 +54,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.StringItem = stringItem;
             }
+            
             // to ensure "numberItem" is required (not null)
             if (numberItem == null)
             {
@@ -63,6 +64,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.NumberItem = numberItem;
             }
+            
             // to ensure "integerItem" is required (not null)
             if (integerItem == null)
             {
@@ -72,6 +74,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.IntegerItem = integerItem;
             }
+            
             // to ensure "boolItem" is required (not null)
             if (boolItem == null)
             {
@@ -81,6 +84,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.BoolItem = boolItem;
             }
+            
             // to ensure "arrayItem" is required (not null)
             if (arrayItem == null)
             {
@@ -90,6 +94,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.ArrayItem = arrayItem;
             }
+            
         }
         
         /// <summary>
@@ -192,6 +197,7 @@ namespace Org.OpenAPITools.Model
                 (
                     this.ArrayItem == input.ArrayItem ||
                     this.ArrayItem != null &&
+                    input.ArrayItem != null &&
                     this.ArrayItem.SequenceEqual(input.ArrayItem)
                 );
         }

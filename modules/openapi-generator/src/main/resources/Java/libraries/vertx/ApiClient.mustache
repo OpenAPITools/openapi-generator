@@ -81,7 +81,7 @@ public class ApiClient {
         // Setup authentications (key: authentication name, value: authentication).
         this.authentications = new HashMap<>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
         authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
-        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}");{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
         // Prevent the authentications from being modified.
@@ -567,20 +567,21 @@ public class ApiClient {
                     if (httpResponse.statusCode() == 204 || returnType == null) {
                         result = Future.succeededFuture(null);
                     } else {
-                        T resultContent;
+                        T resultContent = null;
                         if ("byte[]".equals(returnType.getType().toString())) {
                             resultContent = (T) httpResponse.body().getBytes();
+                            result = Future.succeededFuture(resultContent);
                         } else if (AsyncFile.class.equals(returnType.getType())) {
                             handleFileDownload(httpResponse, handler);
                             return;
                         } else {
                             try {
                                 resultContent = Json.mapper.readValue(httpResponse.bodyAsString(), returnType);
+                                result = Future.succeededFuture(resultContent);
                             } catch (Exception e) {
-                                throw new DecodeException("Failed to decode:" + e.getMessage(), e);
+                                result =  ApiException.fail(new DecodeException("Failed to decode:" + e.getMessage(), e));
                             }
                         }
-                        result = Future.succeededFuture(resultContent);
                     }
                 } else {
                     result = ApiException.fail(httpResponse.statusMessage(), httpResponse.statusCode(), httpResponse.headers(), httpResponse.bodyAsString());

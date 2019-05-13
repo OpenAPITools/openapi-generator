@@ -51,11 +51,17 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-server";
         outputFolder = "generated-code/JavaJaxRS-Spec";
+        apiPackage = "org.openapitools.api";
+        modelPackage = "org.openapitools.model";
+
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
         modelTemplateFiles.put("model.mustache", ".java");
         apiTemplateFiles.put("api.mustache", ".java");
-        apiPackage = "org.openapitools.api";
-        modelPackage = "org.openapitools.model";
 
         apiTestTemplateFiles.clear(); // TODO: add api test template
         modelTestTemplateFiles.clear(); // TODO: add model test template
@@ -81,11 +87,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             }
         }
 
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
-        library.setDefault(DEFAULT_LIBRARY);
-
-        Map<String, String> supportedLibraries = new LinkedHashMap<String, String>();
-
+        CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(DEFAULT_LIBRARY);
+        Map<String, String> supportedLibraries = new LinkedHashMap<>();
         supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS");
         library.setEnum(supportedLibraries);
 

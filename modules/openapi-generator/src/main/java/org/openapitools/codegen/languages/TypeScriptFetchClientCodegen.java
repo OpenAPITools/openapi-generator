@@ -110,6 +110,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("apis.index.mustache", apiPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles.add(new SupportingFile("models.index.mustache", modelPackage().replace('.', File.separatorChar), "index.ts"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
+        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
@@ -165,9 +166,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     }
                 }
             }
-            if (cm.oneOf.size() > 0) {
+            if (!cm.oneOf.isEmpty()) {
                 // For oneOfs only import $refs within the oneOf
-                TreeSet<String> oneOfRefs = new TreeSet<String>();
+                TreeSet<String> oneOfRefs = new TreeSet<>();
                 for (String im : cm.imports) {
                     if (cm.oneOf.contains(im)) {
                         oneOfRefs.add(im);

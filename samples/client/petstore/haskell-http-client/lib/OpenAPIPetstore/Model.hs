@@ -723,6 +723,34 @@ mkCat catClassName =
   , catDeclawed = Nothing
   }
 
+-- ** CatAllOf
+-- | CatAllOf
+data CatAllOf = CatAllOf
+  { catAllOfDeclawed :: !(Maybe Bool) -- ^ "declawed"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON CatAllOf
+instance A.FromJSON CatAllOf where
+  parseJSON = A.withObject "CatAllOf" $ \o ->
+    CatAllOf
+      <$> (o .:? "declawed")
+
+-- | ToJSON CatAllOf
+instance A.ToJSON CatAllOf where
+  toJSON CatAllOf {..} =
+   _omitNulls
+      [ "declawed" .= catAllOfDeclawed
+      ]
+
+
+-- | Construct a value of type 'CatAllOf' (by applying it's required fields, if any)
+mkCatAllOf
+  :: CatAllOf
+mkCatAllOf =
+  CatAllOf
+  { catAllOfDeclawed = Nothing
+  }
+
 -- ** Category
 -- | Category
 data Category = Category
@@ -848,6 +876,34 @@ mkDog dogClassName =
   { dogClassName
   , dogColor = Nothing
   , dogBreed = Nothing
+  }
+
+-- ** DogAllOf
+-- | DogAllOf
+data DogAllOf = DogAllOf
+  { dogAllOfBreed :: !(Maybe Text) -- ^ "breed"
+  } deriving (P.Show, P.Eq, P.Typeable)
+
+-- | FromJSON DogAllOf
+instance A.FromJSON DogAllOf where
+  parseJSON = A.withObject "DogAllOf" $ \o ->
+    DogAllOf
+      <$> (o .:? "breed")
+
+-- | ToJSON DogAllOf
+instance A.ToJSON DogAllOf where
+  toJSON DogAllOf {..} =
+   _omitNulls
+      [ "breed" .= dogAllOfBreed
+      ]
+
+
+-- | Construct a value of type 'DogAllOf' (by applying it's required fields, if any)
+mkDogAllOf
+  :: DogAllOf
+mkDogAllOf =
+  DogAllOf
+  { dogAllOfBreed = Nothing
   }
 
 -- ** EnumArrays

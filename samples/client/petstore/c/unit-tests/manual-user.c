@@ -1,8 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "cJSON.h"
-#include "user.h"
+#include "../model/user.h"
 
 
 #define USER_ID 1234
@@ -25,7 +24,7 @@ int main() {
 
 	printf("Created User is: \n%s\n", dataToPrint);
 
-	user_t *pasrsedUser = user_parseFromJSON(dataToPrint);
+	user_t *pasrsedUser = user_parseFromJSON(JSONNODE);
 
 	cJSON *fromJSON = user_convertToJSON(pasrsedUser);
 

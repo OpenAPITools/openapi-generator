@@ -3,6 +3,7 @@ package org.openapitools.codegen;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -27,6 +28,7 @@ public class TestUtils {
     public static OpenAPI createOpenAPI() {
         OpenAPI openAPI = new OpenAPI();
         openAPI.setComponents(new Components());
+        openAPI.setPaths(new Paths());
 
         final Info info = new Info();
         info.setDescription("API under test");

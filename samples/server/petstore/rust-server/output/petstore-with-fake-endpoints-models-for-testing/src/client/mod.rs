@@ -301,11 +301,9 @@ impl<F, C> Api<C> for Client<F> where
 
 
         // Body parameter
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_SPECIAL_TAGS.clone()));
@@ -322,17 +320,20 @@ impl<F, C> Api<C> for Client<F> where
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::Client>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             TestSpecialTagsResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -359,7 +360,7 @@ impl<F, C> Api<C> for Client<F> where
 
     }
 
-    fn fake_outer_boolean_serialize(&self, param_body: Option<bool>, context: &C) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>> {
+    fn fake_outer_boolean_serialize(&self, param_body: Option<models::OuterBoolean>, context: &C) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/v2/fake/outer/boolean",
             self.base_path
@@ -384,12 +385,11 @@ impl<F, C> Api<C> for Client<F> where
 
         // Body parameter
         let body = param_body.map(|ref body| {
-
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
 
 if let Some(body) = body {
-            request.set_body(body.into_bytes());
+            request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_BOOLEAN_SERIALIZE.clone()));
@@ -406,17 +406,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<bool>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FakeOuterBooleanSerializeResponse::OutputBoolean(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -466,12 +469,11 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
         let body = param_body.map(|ref body| {
-
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
 
 if let Some(body) = body {
-            request.set_body(body.into_bytes());
+            request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_COMPOSITE_SERIALIZE.clone()));
@@ -488,17 +490,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::OuterComposite>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FakeOuterCompositeSerializeResponse::OutputComposite(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -525,7 +530,7 @@ if let Some(body) = body {
 
     }
 
-    fn fake_outer_number_serialize(&self, param_body: Option<f64>, context: &C) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>> {
+    fn fake_outer_number_serialize(&self, param_body: Option<models::OuterNumber>, context: &C) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/v2/fake/outer/number",
             self.base_path
@@ -548,12 +553,11 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
         let body = param_body.map(|ref body| {
-
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
 
 if let Some(body) = body {
-            request.set_body(body.into_bytes());
+            request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_NUMBER_SERIALIZE.clone()));
@@ -570,17 +574,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<f64>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FakeOuterNumberSerializeResponse::OutputNumber(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -607,7 +614,7 @@ if let Some(body) = body {
 
     }
 
-    fn fake_outer_string_serialize(&self, param_body: Option<String>, context: &C) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>> {
+    fn fake_outer_string_serialize(&self, param_body: Option<models::OuterString>, context: &C) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>> {
         let mut uri = format!(
             "{}/v2/fake/outer/string",
             self.base_path
@@ -630,12 +637,11 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
         let body = param_body.map(|ref body| {
-
             serde_json::to_string(body).expect("impossible to fail to serialize")
         });
 
 if let Some(body) = body {
-            request.set_body(body.into_bytes());
+            request.set_body(body);
         }
 
         request.headers_mut().set(ContentType(mimetypes::requests::FAKE_OUTER_STRING_SERIALIZE.clone()));
@@ -652,17 +658,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<String>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FakeOuterStringSerializeResponse::OutputString(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -712,11 +721,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_BODY_WITH_QUERY_PARAMS.clone()));
@@ -782,11 +789,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Patch, uri);
 
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_CLIENT_MODEL.clone()));
@@ -803,17 +808,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::Client>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             TestClientModelResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -882,7 +890,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_ENDPOINT_PARAMETERS.clone()));
         request.set_body(body.into_bytes());
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
         if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
             if let AuthData::Basic(ref basic_header) = *auth_data {
@@ -979,7 +986,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_ENUM_PARAMETERS.clone()));
         request.set_body(body.into_bytes());
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
         // Header parameters
@@ -1057,11 +1063,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
         let body = serde_json::to_string(&param_param).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_INLINE_ADDITIONAL_PROPERTIES.clone()));
@@ -1135,7 +1139,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_JSON_FORM_DATA.clone()));
         request.set_body(body.into_bytes());
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1204,11 +1207,9 @@ if let Some(body) = body {
 
 
         // Body parameter
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::TEST_CLASSNAME.clone()));
@@ -1225,17 +1226,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::Client>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             TestClassnameResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -1286,11 +1290,9 @@ if let Some(body) = body {
 
 
         // Body parameter
+        let body = param_body.to_xml();
 
-        let body = serde_xml_rs::to_string(&param_body).expect("impossible to fail to serialize");
-
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::ADD_PET.clone()));
@@ -1355,7 +1357,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Delete, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -1426,7 +1427,6 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1440,19 +1440,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<Vec<models::Pet>>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FindPetsByStatusResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -1512,7 +1514,6 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1526,19 +1527,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<Vec<models::Pet>>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             FindPetsByTagsResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -1597,7 +1600,6 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
         header! { (ApiKey, "api_key") => [String] }
         if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
@@ -1616,19 +1618,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<models::Pet>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             GetPetByIdResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -1695,11 +1699,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
+        let body = param_body.to_xml();
 
-        let body = serde_xml_rs::to_string(&param_body).expect("impossible to fail to serialize");
-
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_PET.clone()));
@@ -1791,7 +1793,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_PET_WITH_FORM.clone()));
         request.set_body(body.into_bytes());
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1862,7 +1863,6 @@ if let Some(body) = body {
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPLOAD_FILE.clone()));
         request.set_body(body.into_bytes());
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -1876,17 +1876,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<models::ApiResponse>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             UploadFileResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -1934,7 +1937,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Delete, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -2009,7 +2011,6 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
         header! { (ApiKey, "api_key") => [String] }
         if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
@@ -2028,17 +2029,20 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
 
                                                  serde_json::from_str::<HashMap<String, i32>>(body)
                                                      .map_err(|e| e.into())
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             GetInventoryResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 code => {
@@ -2088,7 +2092,6 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -2102,19 +2105,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<models::Order>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             GetOrderByIdResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -2181,11 +2186,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::PLACE_ORDER.clone()));
@@ -2202,19 +2205,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<models::Order>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             PlaceOrderResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -2274,11 +2279,9 @@ if let Some(body) = body {
 
 
         // Body parameter
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::CREATE_USER.clone()));
@@ -2344,11 +2347,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::CREATE_USERS_WITH_ARRAY_INPUT.clone()));
@@ -2414,11 +2415,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Post, uri);
 
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::CREATE_USERS_WITH_LIST_INPUT.clone()));
@@ -2483,7 +2482,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Delete, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -2558,7 +2556,6 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -2572,19 +2569,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<models::User>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             GetUserByNameResponse::SuccessfulOperation(body)
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -2654,7 +2653,6 @@ if let Some(body) = body {
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
 
 
-
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
 
 
@@ -2678,19 +2676,21 @@ if let Some(body) = body {
                         body
                         .concat2()
                         .map_err(|e| ApiError(format!("Failed to read response: {}", e)))
-                        .and_then(|body| str::from_utf8(&body)
+                        .and_then(|body|
+
+                        str::from_utf8(&body)
                                              .map_err(|e| ApiError(format!("Response was not valid UTF8: {}", e)))
                                              .and_then(|body|
-
                                                  // ToDo: this will move to swagger-rs and become a standard From conversion trait
                                                  // once https://github.com/RReverser/serde-xml-rs/pull/45 is accepted upstream
                                                  serde_xml_rs::from_str::<String>(body)
                                                      .map_err(|e| ApiError(format!("Response body did not match the schema: {}", e)))
+                                             )
 
-                                             ))
-                        .map(move |body|
+                                 )
+                        .map(move |body| {
                             LoginUserResponse::SuccessfulOperation{ body: body, x_rate_limit: response_x_rate_limit, x_expires_after: response_x_expires_after }
-                        )
+                        })
                     ) as Box<Future<Item=_, Error=_>>
                 },
                 400 => {
@@ -2747,7 +2747,6 @@ if let Some(body) = body {
         };
 
         let mut request = hyper::Request::new(hyper::Method::Get, uri);
-
 
 
         request.headers_mut().set(XSpanId((context as &Has<XSpanIdString>).get().0.clone()));
@@ -2812,11 +2811,9 @@ if let Some(body) = body {
 
         let mut request = hyper::Request::new(hyper::Method::Put, uri);
 
-
         let body = serde_json::to_string(&param_body).expect("impossible to fail to serialize");
 
-
-        request.set_body(body.into_bytes());
+        request.set_body(body);
 
 
         request.headers_mut().set(ContentType(mimetypes::requests::UPDATE_USER.clone()));

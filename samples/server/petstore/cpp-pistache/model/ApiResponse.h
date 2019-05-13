@@ -19,9 +19,8 @@
 #define ApiResponse_H_
 
 
-#include "ModelBase.h"
-
 #include <string>
+#include <nlohmann/json.hpp>
 
 namespace org {
 namespace openapitools {
@@ -32,19 +31,12 @@ namespace model {
 /// Describes the result of uploading an image resource
 /// </summary>
 class  ApiResponse
-    : public ModelBase
 {
 public:
     ApiResponse();
     virtual ~ApiResponse();
 
-    /////////////////////////////////////////////
-    /// ModelBase overrides
-
-    void validate() override;
-
-    nlohmann::json toJson() const override;
-    void fromJson(const nlohmann::json& json) override;
+    void validate();
 
     /////////////////////////////////////////////
     /// ApiResponse members
@@ -71,6 +63,8 @@ public:
     bool messageIsSet() const;
     void unsetMessage();
 
+    friend void to_json(nlohmann::json& j, const ApiResponse& o);
+    friend void from_json(const nlohmann::json& j, ApiResponse& o);
 protected:
     int32_t m_Code;
     bool m_CodeIsSet;
