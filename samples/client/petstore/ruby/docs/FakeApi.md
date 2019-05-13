@@ -413,7 +413,6 @@ Petstore.configure do |config|
   # Configure HTTP basic authorization: http_basic_test
   config.username = 'YOUR USERNAME'
   config.password = 'YOUR PASSWORD'
-
 end
 
 api_instance = Petstore::FakeApi.new
