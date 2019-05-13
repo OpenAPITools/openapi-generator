@@ -88,8 +88,7 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 OpenAPI Generator Version    | Release Date | Notes
 ---------------------------- | ------------ | -----
-4.0.0 (upcoming release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/4.0.0-SNAPSHOT/)| 20.12.2018 | Major release with breaking changes (with or without fallback)
-[3.3.4](https://github.com/OpenAPITools/openapi-generator/releases/tag/v3.3.4) (latest stable release) | 30.11.2018 | Bugfix release
+[4.0.0](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.0.0) (latest stable release) | 13.05.2019 | Major release with breaking changes (with or without fallback)
 
 OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
 
@@ -145,16 +144,16 @@ See the different versions of the [openapi-generator-cli](https://mvnrepository.
 
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.3.4/openapi-generator-cli-3.3.4.jar`
+JAR location: `http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.0.0/openapi-generator-cli-4.0.0.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.3.4/openapi-generator-cli-3.3.4.jar -O openapi-generator-cli.jar
+wget http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.0.0/openapi-generator-cli-4.0.0.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.3.4/openapi-generator-cli-3.3.4.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.0.0/openapi-generator-cli-4.0.0.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -214,7 +213,7 @@ To build from source, you need the following installed and available in your `$P
 
 * [Java 8](http://java.oracle.com)
 
-* [Apache maven 3.3.4 or greater](http://maven.apache.org/)
+* [Apache Maven 3.3.4 or greater](http://maven.apache.org/)
 
 After cloning the project, you can build it from source with this command:
 ```sh
@@ -357,10 +356,10 @@ npm install @openapitools/openapi-generator-cli -g
 openapi-generator version
 ```
 
-Or install a particualar OpenAPI Generator version (e.g. v3.3.4):
+Or install a particualar OpenAPI Generator version (e.g. v4.0.0):
 
 ```sh
-npm install @openapitools/openapi-generator-cli@cli-3.3.4 -g
+npm install @openapitools/openapi-generator-cli@cli-4.0.0 -g
 ```
 
 Or install it as dev-dependency:
@@ -383,7 +382,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 ```
 (if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
-You can also download the JAR (latest release) directly from [maven.org](http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/3.3.4/openapi-generator-cli-3.3.4.jar)
+You can also download the JAR (latest release) directly from [maven.org](http://central.maven.org/maven2/org/openapitools/openapi-generator-cli/4.0.0/openapi-generator-cli-4.0.0.jar)
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
 

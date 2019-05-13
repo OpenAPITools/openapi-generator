@@ -48,7 +48,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:3.3.4"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:4.0.0"
   }
 }
 
@@ -599,7 +599,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:3.3.4') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:4.0.0') {
             exclude group: 'com.google.guava'
         }
     }
