@@ -414,6 +414,7 @@ Petstore.configure do |config|
   config.username = 'YOUR USERNAME'
   config.password = 'YOUR PASSWORD'
 
+
 end
 
 api_instance = Petstore::FakeApi.new

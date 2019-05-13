@@ -409,6 +409,7 @@ Petstore.configure do |config|
   config.username = 'YOUR USERNAME'
   config.password = 'YOUR PASSWORD'
 
+
 end
 
 api_instance = Petstore::FakeApi.new
@@ -548,6 +549,7 @@ Fake endpoint to test group parameters (optional)
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
+
   # Configure Bearer authorization (JWT): bearer_test
   config.access_token = 'YOUR_BEARER_TOKEN'
 
