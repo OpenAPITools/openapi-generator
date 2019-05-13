@@ -108,7 +108,6 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
         supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
 
-        //LOGGER.warn("check additionals: " + additionalProperties.get(NPM_NAME));
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
@@ -197,7 +196,6 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         //Files for building our lib
         supportingFiles.add(new SupportingFile("README.mustache", getPackageRootDirectory(), "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", getPackageRootDirectory(), "package.json"));
-        supportingFiles.add(new SupportingFile("typings.mustache", getPackageRootDirectory(), "typings.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", getPackageRootDirectory(), "tsconfig.json"));
     }
 
