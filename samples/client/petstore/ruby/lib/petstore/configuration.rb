@@ -212,10 +212,10 @@ module Petstore
           },
         'http_basic_test' =>
           {
-              type: 'basic',
-              in: 'header',
-              key: 'Authorization',
-              value: basic_auth_token
+            type: 'basic',
+            in: 'header',
+            key: 'Authorization',
+            value: basic_auth_token
           },
         'petstore_auth' =>
           {

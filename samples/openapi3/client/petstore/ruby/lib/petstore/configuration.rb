@@ -212,18 +212,18 @@ module Petstore
           },
         'bearer_test' =>
           {
-              type: 'bearer',
-              in: 'header',
-              format: 'JWT',
-              key: 'Authorization',
-              value: "Bearer #{access_token}"
+            type: 'bearer',
+            in: 'header',
+            format: 'JWT',
+            key: 'Authorization',
+            value: "Bearer #{access_token}"
           },
         'http_basic_test' =>
           {
-              type: 'basic',
-              in: 'header',
-              key: 'Authorization',
-              value: basic_auth_token
+            type: 'basic',
+            in: 'header',
+            key: 'Authorization',
+            value: basic_auth_token
           },
         'petstore_auth' =>
           {
