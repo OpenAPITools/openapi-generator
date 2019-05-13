@@ -405,7 +405,6 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
-
   # Configure HTTP basic authorization: http_basic_test
   config.username = 'YOUR USERNAME'
   config.password = 'YOUR PASSWORD'
@@ -549,7 +548,6 @@ Fake endpoint to test group parameters (optional)
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
-
   # Configure Bearer authorization (JWT): bearer_test
   config.access_token = 'YOUR_BEARER_TOKEN'
 

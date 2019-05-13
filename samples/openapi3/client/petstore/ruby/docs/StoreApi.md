@@ -72,7 +72,6 @@ Returns a map of status codes to quantities
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
-
   # Configure API key authorization: api_key
   config.api_key['api_key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)

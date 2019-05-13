@@ -30,7 +30,6 @@ require 'petstore'
 # setup authorization
 Petstore.configure do |config|
 
-
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
 end
@@ -80,7 +79,6 @@ Deletes a pet
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
-
 
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
@@ -138,7 +136,6 @@ require 'petstore'
 # setup authorization
 Petstore.configure do |config|
 
-
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
 end
@@ -192,7 +189,6 @@ require 'petstore'
 # setup authorization
 Petstore.configure do |config|
 
-
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
 end
@@ -245,7 +241,6 @@ Returns a single pet
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
-
   # Configure API key authorization: api_key
   config.api_key['api_key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -299,7 +294,6 @@ require 'petstore'
 # setup authorization
 Petstore.configure do |config|
 
-
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
 end
@@ -349,7 +343,6 @@ Updates a pet in the store with form data
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
-
 
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
@@ -407,7 +400,6 @@ require 'petstore'
 # setup authorization
 Petstore.configure do |config|
 
-
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'
 end
@@ -464,7 +456,6 @@ uploads an image (required)
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
-
 
   # Configure OAuth2 access token for authorization: petstore_auth
   config.access_token = 'YOUR ACCESS TOKEN'

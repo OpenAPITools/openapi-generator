@@ -23,7 +23,6 @@ To test class name in snake case
 require 'petstore'
 # setup authorization
 Petstore.configure do |config|
-
   # Configure API key authorization: api_key_query
   config.api_key['api_key_query'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
