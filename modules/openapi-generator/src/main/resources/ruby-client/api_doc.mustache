@@ -28,12 +28,10 @@ require '{{{gemName}}}'
 {{#hasAuthMethods}}
 # setup authorization
 {{{moduleName}}}.configure do |config|{{#authMethods}}
-{{#isBasic}}
-{{^isBasicBearer}}
+{{#isBasic}}{{^isBasicBearer}}
   # Configure HTTP basic authorization: {{{name}}}
   config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'{{/isBasicBearer}}
-{{#isBasicBearer}}
+  config.password = 'YOUR PASSWORD'{{/isBasicBearer}}{{#isBasicBearer}}
   # Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
   config.access_token = 'YOUR_BEARER_TOKEN'{{/isBasicBearer}}
 {{/isBasic}}
