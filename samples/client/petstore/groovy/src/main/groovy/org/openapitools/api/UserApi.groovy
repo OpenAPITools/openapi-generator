@@ -28,14 +28,10 @@ class UserApi {
 
 
         contentType = 'application/json';
-        // only one body parameter
-        if (1 == 1) {
-            bodyParams = body
-        }
-        // array of body parameters
-        else {
-            bodyParams.put("body", body)
-        }
+        
+        bodyParams = body
+        
+        
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -63,14 +59,10 @@ class UserApi {
 
 
         contentType = 'application/json';
-        // only one body parameter
-        if (1 == 1) {
-            bodyParams = body
-        }
-        // array of body parameters
-        else {
-            bodyParams.put("body", body)
-        }
+        
+        bodyParams = body
+        
+        
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -98,14 +90,10 @@ class UserApi {
 
 
         contentType = 'application/json';
-        // only one body parameter
-        if (1 == 1) {
-            bodyParams = body
-        }
-        // array of body parameters
-        else {
-            bodyParams.put("body", body)
-        }
+        
+        bodyParams = body
+        
+        
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -132,6 +120,8 @@ class UserApi {
 
 
 
+        
+        
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -158,6 +148,8 @@ class UserApi {
 
 
 
+        
+        
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -195,6 +187,8 @@ class UserApi {
         }
 
 
+        
+        
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -216,6 +210,8 @@ class UserApi {
 
 
 
+        
+        
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -248,14 +244,10 @@ class UserApi {
 
 
         contentType = 'application/json';
-        // only one body parameter
-        if (1 == 1) {
-            bodyParams = body
-        }
-        // array of body parameters
-        else {
-            bodyParams.put("body", body)
-        }
+        
+        bodyParams = body
+        
+        
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,

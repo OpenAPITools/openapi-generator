@@ -27,15 +27,11 @@ class PetApi {
 
 
 
+        
         contentType = 'application/json';
-        // only one body parameter
-        if (1 == 1) {
-            bodyParams = body
-        }
-        // array of body parameters
-        else {
-            bodyParams.put("body", body)
-        }
+        bodyParams = body
+        
+        
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -65,6 +61,8 @@ class PetApi {
             headerParams.put("api_key", apiKey)
         }
 
+        
+        
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -94,6 +92,8 @@ class PetApi {
         }
 
 
+        
+        
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -123,6 +123,8 @@ class PetApi {
         }
 
 
+        
+        
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -149,6 +151,8 @@ class PetApi {
 
 
 
+        
+        
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -175,15 +179,11 @@ class PetApi {
 
 
 
+        
         contentType = 'application/json';
-        // only one body parameter
-        if (1 == 1) {
-            bodyParams = body
-        }
-        // array of body parameters
-        else {
-            bodyParams.put("body", body)
-        }
+        bodyParams = body
+        
+        
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -210,24 +210,14 @@ class PetApi {
 
 
 
+        
+        
 
         contentType = 'application/x-www-form-urlencoded';
-        // only one form parameter
-        if (1 == 2) {
-            bodyParams = name
-        }
-        // array of form parameters
-        else {
-            bodyParams = [:]
-        }
-        // array of form parameters
-        if (1 < 2) {
-            bodyParams.put("name", name)
-        }
-        // array of form parameters
-        if (1 < 2) {
-            bodyParams.put("status", status)
-        }
+        
+        bodyParams = [:]
+        bodyParams.put("name", name)
+        bodyParams.put("status", status)
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
                     "POST", "",
@@ -253,24 +243,14 @@ class PetApi {
 
 
 
+        
+        
 
         contentType = 'multipart/form-data';
-        // only one form parameter
-        if (1 == 2) {
-            bodyParams = additionalMetadata
-        }
-        // array of form parameters
-        else {
-            bodyParams = [:]
-        }
-        // array of form parameters
-        if (1 < 2) {
-            bodyParams.put("additionalMetadata", additionalMetadata)
-        }
-        // array of form parameters
-        if (1 < 2) {
-            bodyParams.put("file", file)
-        }
+        
+        bodyParams = [:]
+        bodyParams.put("additionalMetadata", additionalMetadata)
+        bodyParams.put("file", file)
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
                     "POST", "",
