@@ -68,8 +68,7 @@ require '{{{gemName}}}'
 {{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}{{^isBasicBearer}}
   # Configure HTTP basic authorization: {{{name}}}
   config.username = 'YOUR_USERNAME'
-  config.password = 'YOUR_PASSWORD'
-{{/isBasicBearer}}{{#isBasicBearer}}
+  config.password = 'YOUR_PASSWORD'{{/isBasicBearer}}{{#isBasicBearer}}
   # Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
   config.access_token = 'YOUR_BEARER_TOKEN'
 {{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
