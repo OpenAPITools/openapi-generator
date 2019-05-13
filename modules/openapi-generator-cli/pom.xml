@@ -6,7 +6,7 @@
         <version>4.0.1-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
-    <modelVersion>4.0.1-SNAPSHOT</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>openapi-generator-cli</artifactId>
     <packaging>jar</packaging>

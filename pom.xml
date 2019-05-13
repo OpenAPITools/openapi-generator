@@ -4,7 +4,7 @@
         <artifactId>oss-parent</artifactId>
         <version>5</version>
     </parent>
-    <modelVersion>4.0.1-SNAPSHOT</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
