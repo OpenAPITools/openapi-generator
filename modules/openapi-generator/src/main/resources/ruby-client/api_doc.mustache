@@ -33,8 +33,7 @@ require '{{{gemName}}}'
   config.username = 'YOUR USERNAME'
   config.password = 'YOUR PASSWORD'{{/isBasicBearer}}{{#isBasicBearer}}
   # Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
-  config.access_token = 'YOUR_BEARER_TOKEN'{{/isBasicBearer}}
-{{/isBasic}}
+  config.access_token = 'YOUR_BEARER_TOKEN'{{/isBasicBearer}}{{/isBasic}}
 {{#isApiKey}}
   # Configure API key authorization: {{{name}}}
   config.api_key['{{{keyParamName}}}'] = 'YOUR API KEY'
