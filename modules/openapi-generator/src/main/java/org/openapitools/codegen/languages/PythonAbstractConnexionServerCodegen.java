@@ -201,6 +201,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
         }
         supportingFiles.add(new SupportingFile("__main__.mustache", packagePath(), "__main__.py"));
         supportingFiles.add(new SupportingFile("util.mustache", packagePath(), "util.py"));
+        supportingFiles.add(new SupportingFile("typing_patch.mustache", packagePath(), "typing_patch.py"));
         supportingFiles.add(new SupportingFile("__init__.mustache", packagePath() + File.separatorChar + packageToPath(controllerPackage), "__init__.py"));
         supportingFiles.add(new SupportingFile("security_controller_.mustache", packagePath() + File.separatorChar + packageToPath(controllerPackage), "security_controller_.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + packageToPath(modelPackage), "__init__.py"));
