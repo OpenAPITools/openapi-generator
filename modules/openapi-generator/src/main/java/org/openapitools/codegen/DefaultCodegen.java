@@ -1620,6 +1620,9 @@ public class DefaultCodegen implements CodegenConfig {
         }
         m.isAlias = typeAliases.containsKey(name);
         m.discriminator = createDiscriminator(name, schema);
+        if (m.discriminator != null && m.discriminator.getMappedModels().size() > 0) {
+            m.hasDiscriminatorMapping = true;
+        }
 
         if (schema.getXml() != null) {
             m.xmlPrefix = schema.getXml().getPrefix();
@@ -1655,6 +1658,9 @@ public class DefaultCodegen implements CodegenConfig {
                         if (m.discriminator == null) {
                             LOGGER.debug("discriminator is set to null (not correctly set earlier): {}", name);
                             m.discriminator = createDiscriminator(name, schema);
+                            if (m.discriminator != null && m.discriminator.getMappedModels().size() > 0) {
+                                m.hasDiscriminatorMapping = true;
+                            }
                         }
 
                         if (innerSchema.getXml() != null) {
@@ -1705,10 +1711,13 @@ public class DefaultCodegen implements CodegenConfig {
 
                     if (composed.getAnyOf() != null) {
                         m.anyOf.add(modelName);
+                        m.hasAnyOfs = (m.anyOf.size() > 0);
                     } else if (composed.getOneOf() != null) {
                         m.oneOf.add(modelName);
+                        m.hasOneOfs = (m.oneOf.size() > 0);
                     } else if (composed.getAllOf() != null) {
                         m.allOf.add(modelName);
+                        m.hasAllOfs = (m.allOf.size() > 0);
                     } else {
                         LOGGER.error("Composed schema has incorrect anyOf, allOf, oneOf defined: {}", composed);
                     }
