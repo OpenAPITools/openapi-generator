@@ -213,7 +213,7 @@ To build from source, you need the following installed and available in your `$P
 
 * [Java 8](http://java.oracle.com)
 
-* [Apache maven 4.0.0 or greater](http://maven.apache.org/)
+* [Apache Maven 3.3.4 or greater](http://maven.apache.org/)
 
 After cloning the project, you can build it from source with this command:
 ```sh
