@@ -136,6 +136,7 @@
     }
     var url = this.basePath + path;
 
+
     // use API (operation, path) base path if defined
     if (apiBasePath !== null && apiBasePath !== undefined) {
         url = apiBasePath + path;
@@ -622,7 +623,8 @@
         // go through variable and assign a value
         for (var variable_name in server['variables']) {
             if (variable_name in variables) {
-                if (server['variables'][variable_name]['enum_values'].includes(variables[variable_name])) {
+                let variable = server['variables'][variable_name];
+                if ( !('enum_values' in variable) || variable['enum_values'].includes(variables[variable_name]) ) {
                     url = url.replace("{" + variable_name + "}", variables[variable_name]);
                 } else {
                     throw new Error("The variable `" + variable_name + "` in the host URL has invalid value " + variables[variable_name] + ". Must be " + server['variables'][variable_name]['enum_values'] + ".");
