@@ -6,10 +6,10 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ErrorWrapper(
     val originalException: BadResponseStatusException,
-    val error: Any
+    val error: Any?
 ) : Exception()
 
 internal suspend inline fun <reified E>KotlinxSerializer.parseAndWrapErrorResponse(exception: BadResponseStatusException): ErrorWrapper {
-    val error = read(typeInfo<E>(), exception.response)
+    val error: Any? = try { read(typeInfo<E>(), exception.response) } catch(ignored: Throwable) {null}
     return ErrorWrapper(exception, error)
 }
