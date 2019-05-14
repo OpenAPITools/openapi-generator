@@ -358,8 +358,16 @@ where
                                 let param_{{{paramName}}} = match file_{{{paramName}}} {
                                     Some(file) => {
                                         let path = &file[0].path;
-                                        let {{{paramName}}}_str = fs::read_to_string(path).unwrap();
-                                        let {{{paramName}}}_model: {{{dataType}}} = serde_json::from_str(&{{{paramName}}}_str).expect("Impossible to fail to serialise");
+                                        let {{{paramName}}}_str = fs::read_to_string(path).expect("Reading saved String should never fail");
+                                        let {{{paramName}}}_model: {{{dataType}}} = match serde_json::from_str(&{{{paramName}}}_str) {
+                                            Ok(model) => model,
+                                            Err(e) => {
+                                                return Box::new(future::ok(
+                                                    Response::new()
+                                                    .with_status(StatusCode::BadRequest)
+                                                    .with_body(format!("{{{paramName}}} data does not match API definition: {}", e))))
+                                            }
+                                        };
                                         {{{paramName}}}_model
                                     }
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter {{{paramName}}}")))),

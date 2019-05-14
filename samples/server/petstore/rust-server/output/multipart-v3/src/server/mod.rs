@@ -149,8 +149,16 @@ where
                                 let param_string_field = match file_string_field {
                                     Some(file) => {
                                         let path = &file[0].path;
-                                        let string_field_str = fs::read_to_string(path).unwrap();
-                                        let string_field_model: String = serde_json::from_str(&string_field_str).expect("Impossible to fail to serialise");
+                                        let string_field_str = fs::read_to_string(path).expect("Reading saved String should never fail");
+                                        let string_field_model: String = match serde_json::from_str(&string_field_str) {
+                                            Ok(model) => model,
+                                            Err(e) => {
+                                                return Box::new(future::ok(
+                                                    Response::new()
+                                                    .with_status(StatusCode::BadRequest)
+                                                    .with_body(format!("string_field data does not match API definition: {}", e))))
+                                            }
+                                        };
                                         string_field_model
                                     }
                                     None => return Box::new(future::ok(Response::new().with_status(StatusCode::BadRequest).with_body(format!("Missing required form parameter string_field")))),

@@ -139,7 +139,7 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **string** | [**array**](array.md)|  | 
+ **string** | [**string**](string.md)|  | 
 
 ### Return type
 
@@ -171,7 +171,7 @@ Optional parameters are passed through a map[string]interface{}.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **string** | [**array**](array.md)|  | 
+ **string** | [**string**](string.md)|  | 
 
 ### Return type
 
