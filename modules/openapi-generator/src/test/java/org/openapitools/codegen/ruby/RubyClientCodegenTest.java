@@ -521,6 +521,47 @@ public class RubyClientCodegenTest {
         Assert.assertEquals(cp1.name, "person_required");
     }
 
+    @Test(description = "test allOf composition")
+    public void allOfCompositionTest() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf_composition.yaml");
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("SuperMan");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel superMan = codegen.fromModel("SuperMan", schema);
+        Assert.assertNotNull(superMan);
+
+        // to test all properties
+        Assert.assertEquals(superMan.getVars().size(), 6);
+
+        CodegenProperty cp0 = superMan.getVars().get(0);
+        Assert.assertEquals(cp0.name, "id");
+        Assert.assertTrue(cp0.required);
+
+        CodegenProperty cp1 = superMan.getVars().get(1);
+        Assert.assertEquals(cp1.name, "name");
+        Assert.assertFalse(cp1.required);
+
+        CodegenProperty cp2 = superMan.getVars().get(2);
+        Assert.assertEquals(cp2.name, "reward");
+        Assert.assertFalse(cp2.required);
+
+        CodegenProperty cp3 = superMan.getVars().get(3);
+        Assert.assertEquals(cp3.name, "origin");
+        Assert.assertTrue(cp3.required);
+
+        CodegenProperty cp4 = superMan.getVars().get(4);
+        Assert.assertEquals(cp4.name, "category");
+        Assert.assertFalse(cp4.required);
+
+        CodegenProperty cp5 = superMan.getVars().get(5);
+        Assert.assertEquals(cp5.name, "level");
+        Assert.assertTrue(cp5.required);
+
+    }
+
+
     @Test(description = "test example string imported from x-example parameterr (OAS2)")
     public void exampleStringFromExampleParameterOAS2Test() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/petstore-nullable.yaml");

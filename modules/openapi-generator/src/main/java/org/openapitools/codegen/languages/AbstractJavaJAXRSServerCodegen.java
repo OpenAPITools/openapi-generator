@@ -42,7 +42,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
     protected String implFolder = "src/main/java";
     protected String testResourcesFolder = "src/test/resources";
     protected String title = "OpenAPI Server";
-
+    protected String serverPort = "8080";
     protected boolean useBeanValidation = true;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractJavaJAXRSServerCodegen.class);
@@ -71,7 +71,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC).defaultValue(implFolder));
         cliOptions.add(new CliOption("title", "a title describing the application").defaultValue(title));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
-        cliOptions.add(new CliOption(SERVER_PORT, "The port on which the server should be started"));
+        cliOptions.add(new CliOption(SERVER_PORT, "The port on which the server should be started").defaultValue(serverPort));
     }
 
 
@@ -102,6 +102,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
+        super.preprocessOpenAPI(openAPI);
         /* TODO there should be no need for the following logic
         if ("/".equals(swagger.getBasePath())) {
             swagger.setBasePath("");
@@ -111,7 +112,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         if (!this.additionalProperties.containsKey(SERVER_PORT)) {
             URL url = URLPathUtils.getServerURL(openAPI);
             // 8080 is the default value for a JEE Server:
-            this.additionalProperties.put(SERVER_PORT, URLPathUtils.getPort(url, 8080));
+            this.additionalProperties.put(SERVER_PORT, URLPathUtils.getPort(url, serverPort));
         }
 
         if (openAPI.getPaths() != null) {

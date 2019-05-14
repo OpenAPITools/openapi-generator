@@ -563,20 +563,21 @@ public class ApiClient {
                     if (httpResponse.statusCode() == 204 || returnType == null) {
                         result = Future.succeededFuture(null);
                     } else {
-                        T resultContent;
+                        T resultContent = null;
                         if ("byte[]".equals(returnType.getType().toString())) {
                             resultContent = (T) httpResponse.body().getBytes();
+                            result = Future.succeededFuture(resultContent);
                         } else if (AsyncFile.class.equals(returnType.getType())) {
                             handleFileDownload(httpResponse, handler);
                             return;
                         } else {
                             try {
                                 resultContent = Json.mapper.readValue(httpResponse.bodyAsString(), returnType);
+                                result = Future.succeededFuture(resultContent);
                             } catch (Exception e) {
-                                throw new DecodeException("Failed to decode:" + e.getMessage(), e);
+                                result =  ApiException.fail(new DecodeException("Failed to decode:" + e.getMessage(), e));
                             }
                         }
-                        result = Future.succeededFuture(resultContent);
                     }
                 } else {
                     result = ApiException.fail(httpResponse.statusMessage(), httpResponse.statusCode(), httpResponse.headers(), httpResponse.bodyAsString());

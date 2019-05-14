@@ -2563,8 +2563,9 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody != null) {
-            if (getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
-                    getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("multipart/form-data")) {
+            if (getContentType(requestBody) != null &&
+                    (getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("application/x-www-form-urlencoded") ||
+                    getContentType(requestBody).toLowerCase(Locale.ROOT).startsWith("multipart/form-data"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
                 for (CodegenParameter cp : formParams) {
@@ -2931,8 +2932,22 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.vendorExtensions.putAll(parameter.getExtensions());
         }
 
-        if (parameter.getSchema() != null) {
-            Schema parameterSchema = ModelUtils.unaliasSchema(this.openAPI, parameter.getSchema());
+        Schema s;
+        if(parameter.getSchema() != null) {
+            s = parameter.getSchema();
+        } else if (parameter.getContent() != null) {
+            Content content = parameter.getContent();
+            if (content.size() > 1) {
+                LOGGER.warn("Multiple schemas found in content, returning only the first one");
+            }
+            MediaType mediaType = content.values().iterator().next();
+            s = mediaType.getSchema();
+        } else {
+            s = null;
+        }
+
+        if (s != null) {
+            Schema parameterSchema = ModelUtils.unaliasSchema(this.openAPI, s);
             if (parameterSchema == null) {
                 LOGGER.warn("warning!  Schema not found for parameter \"" + parameter.getName() + "\", using String");
                 parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
@@ -4242,8 +4257,8 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected String getContentType(RequestBody requestBody) {
         if (requestBody == null || requestBody.getContent() == null || requestBody.getContent().isEmpty()) {
-            LOGGER.warn("Cannot determine the content type. Default to UNKNOWN_CONTENT_TYPE.");
-            return "UNKNOWN_CONTENT_TYPE";
+            LOGGER.debug("Cannot determine the content type. Returning null.");
+            return null;
         }
         return new ArrayList<>(requestBody.getContent().keySet()).get(0);
     }

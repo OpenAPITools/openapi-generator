@@ -52,7 +52,8 @@ declare -a scripts=(
 "./bin/elixir-petstore.sh"
 "./bin/go-petstore.sh"
 "./bin/go-gin-petstore-server.sh"
-"./bin/elm-petstore-all.sh"
+"./bin/groovy-petstore.sh"
+#"./bin/elm-petstore-all.sh"
 "./bin/meta-codegen.sh"
 # OTHERS
 "./bin/utils/export_docs_generators.sh"

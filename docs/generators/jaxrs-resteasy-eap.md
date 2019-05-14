@@ -45,7 +45,7 @@ sidebar_label: jaxrs-resteasy-eap
 |implFolder|folder for generated implementation code| |src/main/java|
 |title|a title describing the application| |OpenAPI Server|
 |useBeanValidation|Use BeanValidation API annotations| |true|
-|serverPort|The port on which the server should be started| |null|
+|serverPort|The port on which the server should be started| |8080|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |generateJbossDeploymentDescriptor|Generate Jboss Deployment Descriptor| |true|
 |useSwaggerFeature|Use dynamic Swagger generator| |false|
