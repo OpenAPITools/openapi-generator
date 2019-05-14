@@ -1,19 +1,18 @@
 package {{packageName}}.infrastructure
 
-import io.ktor.client.call.typeInfo
-import io.ktor.client.features.BadResponseStatusException
-import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.call.receive
+import io.ktor.client.features.ResponseException
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ErrorWrapper(
-    val originalException: BadResponseStatusException,
+    val originalException: ResponseException,
     val error: Any
 ) : Exception()
 
-internal suspend inline fun <reified E>KotlinxSerializer.parseAndWrapErrorResponse(exception: BadResponseStatusException): ErrorWrapper {
+internal suspend inline fun <reified E: Any>ResponseException.toErrorWrapper(): ErrorWrapper {
     val error = try {
-        read(typeInfo<E>(), exception.response)
-    } catch(e: Throwable) {
+        response.receive<E>()
+    } catch (e: Throwable) {
         e
     }
-    return ErrorWrapper(exception, error)
+    return ErrorWrapper(originalException = this, error = error)
 }
