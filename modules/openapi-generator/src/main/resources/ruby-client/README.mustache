@@ -65,8 +65,7 @@ Please follow the [installation](#installation) procedure and then run the follo
 require '{{{gemName}}}'
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}{{#hasAuthMethods}}
 # Setup authorization
-{{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}
-{{^isBasicBearer}}
+{{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}{{^isBasicBearer}}
   # Configure HTTP basic authorization: {{{name}}}
   config.username = 'YOUR_USERNAME'
   config.password = 'YOUR_PASSWORD'{{/isBasicBearer}}{{#isBasicBearer}}
