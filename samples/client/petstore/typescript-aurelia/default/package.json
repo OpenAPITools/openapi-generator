@@ -1,21 +1,23 @@
 {
-  "name": "typescript-fetch-api",
+  "name": "typescript-aurelia-api",
   "version": "0.0.0",
   "license": "Unlicense",
-  "main": "./dist/api.js",
-  "browser": "./dist/api.js",
-  "typings": "./dist/api.d.ts",
+  "main": "./dist/Api.js",
+  "browser": "./dist/Api.js",
+  "typings": "./dist/Api.d.ts",
   "dependencies": {
     "core-js": "^2.4.0",
-    "isomorphic-fetch": "^2.2.1"
+    "isomorphic-fetch": "^2.2.1",
+    "aurelia-framework": "^1.3.1",
+    "aurelia-http-client": "^1.3.0"
   },
-  "scripts" : {
-    "prepublish" : "typings install && tsc", 
-    "test": "tslint api.ts"
+  "scripts": {
+    "build": "tsc --outDir dist/",
+    "prepare": "npm run build",
+    "test": "tslint Api.ts"
   },
   "devDependencies": {
     "tslint": "^3.15.1",
-    "typescript": "^1.8.10",
-    "typings": "^1.0.4"
+    "typescript": "^2.4 || ^3.0"
   }
 }

@@ -80,7 +80,6 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx context.Context, body
 			localVarQueryParams.Add("api_key_query", key)
 		}
 	}
-
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err

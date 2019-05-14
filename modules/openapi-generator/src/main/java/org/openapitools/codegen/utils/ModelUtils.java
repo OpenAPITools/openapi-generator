@@ -329,12 +329,19 @@ public class ModelUtils {
         if (schema instanceof MapSchema) {
             return true;
         }
+
+        if (schema == null) {
+            return false;
+        }
+
         if (schema.getAdditionalProperties() instanceof Schema) {
             return true;
         }
+
         if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
             return true;
         }
+
         return false;
     }
 
@@ -343,7 +350,7 @@ public class ModelUtils {
             return true;
         }
         // assume it's an array if maxItems, minItems is set
-        if (schema.getMaxItems() != null || schema.getMinItems() != null) {
+        if (schema != null && (schema.getMaxItems() != null || schema.getMinItems() != null)) {
             return true;
         }
         return false;
@@ -366,7 +373,7 @@ public class ModelUtils {
         return false;
     }
 
-    public static boolean isShortchema(Schema schema) {
+    public static boolean isShortSchema(Schema schema) {
         if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) // type: integer
                 && SchemaTypeUtil.INTEGER32_FORMAT.equals(schema.getFormat())) { // format: short (int32)
             return true;

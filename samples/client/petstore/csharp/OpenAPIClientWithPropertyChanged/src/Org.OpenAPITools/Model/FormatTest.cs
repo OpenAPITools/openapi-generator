@@ -65,6 +65,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.Number = number;
             }
+            
             // to ensure "_byte" is required (not null)
             if (_byte == null)
             {
@@ -74,6 +75,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.Byte = _byte;
             }
+            
             // to ensure "date" is required (not null)
             if (date == null)
             {
@@ -83,6 +85,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.Date = date;
             }
+            
             // to ensure "password" is required (not null)
             if (password == null)
             {
@@ -92,6 +95,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.Password = password;
             }
+            
             this.Integer = integer;
             this.Int32 = int32;
             this.Int64 = int64;

@@ -112,16 +112,19 @@ namespace Org.OpenAPITools.Model
                 (
                     this.ArrayOfString == input.ArrayOfString ||
                     this.ArrayOfString != null &&
+                    input.ArrayOfString != null &&
                     this.ArrayOfString.SequenceEqual(input.ArrayOfString)
                 ) && 
                 (
                     this.ArrayArrayOfInteger == input.ArrayArrayOfInteger ||
                     this.ArrayArrayOfInteger != null &&
+                    input.ArrayArrayOfInteger != null &&
                     this.ArrayArrayOfInteger.SequenceEqual(input.ArrayArrayOfInteger)
                 ) && 
                 (
                     this.ArrayArrayOfModel == input.ArrayArrayOfModel ||
                     this.ArrayArrayOfModel != null &&
+                    input.ArrayArrayOfModel != null &&
                     this.ArrayArrayOfModel.SequenceEqual(input.ArrayArrayOfModel)
                 );
         }

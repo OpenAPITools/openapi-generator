@@ -27,19 +27,19 @@ namespace Org.OpenAPITools.Models
         /// <summary>
         /// Gets or Sets Code
         /// </summary>
-        [DataMember(Name="code")]
+        [DataMember(Name="code", EmitDefaultValue=false)]
         public int? Code { get; set; }
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
-        [DataMember(Name="type")]
+        [DataMember(Name="type", EmitDefaultValue=false)]
         public string Type { get; set; }
 
         /// <summary>
         /// Gets or Sets Message
         /// </summary>
-        [DataMember(Name="message")]
+        [DataMember(Name="message", EmitDefaultValue=false)]
         public string Message { get; set; }
 
         /// <summary>

@@ -1,6 +1,7 @@
-# XmlItem
+# # XmlItem
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **attribute_string** | **string** |  | [optional] 
@@ -33,6 +34,6 @@ Name | Type | Description | Notes
 **prefix_ns_array** | **int[]** |  | [optional] 
 **prefix_ns_wrapped_array** | **int[]** |  | [optional] 
 
-[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+[[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 
 

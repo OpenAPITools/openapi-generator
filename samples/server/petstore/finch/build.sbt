@@ -10,13 +10,13 @@ scalaVersion := "2.12.3"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
-resolvers += "TM" at "http://maven.twttr.com"
+resolvers += "TM" at "https://maven.twttr.com"
 
 resolvers += "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"
 
-resolvers += "Sonatype OSS Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
+resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
 
-resolvers += "Sonatype OSS Releases" at "http://oss.sonatype.org/content/repositories/releases/"
+resolvers += "Sonatype OSS Releases" at "https://oss.sonatype.org/content/repositories/releases/"
 
 Defaults.itSettings
 

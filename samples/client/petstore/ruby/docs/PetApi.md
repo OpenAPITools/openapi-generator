@@ -15,12 +15,15 @@ Method | HTTP request | Description
 [**upload_file_with_required_file**](PetApi.md#upload_file_with_required_file) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
-# **add_pet**
+
+## add_pet
+
 > add_pet(body)
 
 Add a new pet to the store
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -43,6 +46,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
@@ -57,17 +61,18 @@ nil (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
 
+## delete_pet
 
-# **delete_pet**
 > delete_pet(pet_id, opts)
 
 Deletes a pet
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -93,6 +98,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **Integer**| Pet id to delete | 
@@ -108,12 +114,12 @@ nil (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 
+## find_pets_by_status
 
-# **find_pets_by_status**
 > Array&lt;Pet&gt; find_pets_by_status(status)
 
 Finds Pets by status
@@ -121,6 +127,7 @@ Finds Pets by status
 Multiple status values can be provided with comma separated strings
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -144,6 +151,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **status** | [**Array&lt;String&gt;**](String.md)| Status values that need to be considered for filter | 
@@ -158,12 +166,12 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
 
+## find_pets_by_tags
 
-# **find_pets_by_tags**
 > Array&lt;Pet&gt; find_pets_by_tags(tags)
 
 Finds Pets by tags
@@ -171,6 +179,7 @@ Finds Pets by tags
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -194,6 +203,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tags** | [**Array&lt;String&gt;**](String.md)| Tags to filter by | 
@@ -208,12 +218,12 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
 
+## get_pet_by_id
 
-# **get_pet_by_id**
 > Pet get_pet_by_id(pet_id)
 
 Find pet by ID
@@ -221,6 +231,7 @@ Find pet by ID
 Returns a single pet
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -246,6 +257,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **Integer**| ID of pet to return | 
@@ -260,17 +272,18 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
 
+## update_pet
 
-# **update_pet**
 > update_pet(body)
 
 Update an existing pet
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -293,6 +306,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
@@ -307,17 +321,18 @@ nil (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
 
+## update_pet_with_form
 
-# **update_pet_with_form**
 > update_pet_with_form(pet_id, opts)
 
 Updates a pet in the store with form data
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -344,6 +359,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **Integer**| ID of pet that needs to be updated | 
@@ -360,17 +376,18 @@ nil (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
 
+## upload_file
 
-# **upload_file**
 > ApiResponse upload_file(pet_id, opts)
 
 uploads an image
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -398,6 +415,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **Integer**| ID of pet to update | 
@@ -414,17 +432,18 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
+- **Content-Type**: multipart/form-data
+- **Accept**: application/json
 
 
+## upload_file_with_required_file
 
-# **upload_file_with_required_file**
 > ApiResponse upload_file_with_required_file(pet_id, required_file, opts)
 
 uploads an image (required)
 
 ### Example
+
 ```ruby
 # load the gem
 require 'petstore'
@@ -452,6 +471,7 @@ end
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **Integer**| ID of pet to update | 
@@ -468,8 +488,6 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
-
-
+- **Content-Type**: multipart/form-data
+- **Accept**: application/json
 

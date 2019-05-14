@@ -119,6 +119,7 @@ namespace Org.OpenAPITools.Model
                 (
                     this.Map == input.Map ||
                     this.Map != null &&
+                    input.Map != null &&
                     this.Map.SequenceEqual(input.Map)
                 );
         }

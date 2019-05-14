@@ -38,8 +38,6 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class RubyClientCodegen extends AbstractRubyCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "N";
-    public static final String GEM_NAME = "gemName";
-    public static final String MODULE_NAME = "moduleName";
     public static final String GEM_VERSION = "gemVersion";
     public static final String GEM_LICENSE = "gemLicense";
     public static final String GEM_REQUIRED_RUBY_VERSION = "gemRequiredRubyVersion";
@@ -54,7 +52,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String gemVersion = "1.0.0";
     protected String specFolder = "spec";
     protected String libFolder = "lib";
-    protected String gemLicense = "proprietary";
+    protected String gemLicense = "unlicense";
     protected String gemRequiredRubyVersion = ">= 1.9";
     protected String gemHomepage = "http://org.openapitools";
     protected String gemSummary = "A ruby wrapper for the REST APIs";
@@ -102,9 +100,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         languageSpecificPrimitives.add("array");
         languageSpecificPrimitives.add("map");
         languageSpecificPrimitives.add("string");
-        // primitives in the typeMapping
-        languageSpecificPrimitives.add("BOOLEAN");
-        typeMapping.put("boolean", "BOOLEAN");
 
         // remove modelPackage and apiPackage added by default
         Iterator<CliOption> itr = cliOptions.iterator();
@@ -116,14 +111,16 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             }
         }
 
-        cliOptions.add(new CliOption(GEM_NAME, "gem name (convention: underscore_case).").
+        cliOptions.add(new CliOption(CodegenConstants.GEM_NAME, CodegenConstants.GEM_NAME_DESC).
                 defaultValue("openapi_client"));
-        cliOptions.add(new CliOption(MODULE_NAME, "top module name (convention: CamelCase, usually corresponding" +
-                " to gem name).").defaultValue("OpenAPIClient"));
+
+        cliOptions.add(new CliOption(CodegenConstants.MODULE_NAME, CodegenConstants.MODULE_NAME_DESC).
+                defaultValue("OpenAPIClient"));
+
         cliOptions.add(new CliOption(GEM_VERSION, "gem version.").defaultValue("1.0.0"));
 
         cliOptions.add(new CliOption(GEM_LICENSE, "gem license. ").
-                defaultValue("proprietary"));
+                defaultValue("unlicense"));
 
         cliOptions.add(new CliOption(GEM_REQUIRED_RUBY_VERSION, "gem required Ruby version. ").
                 defaultValue(">= 1.9"));
@@ -150,11 +147,11 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(GEM_NAME)) {
-            setGemName((String) additionalProperties.get(GEM_NAME));
+        if (additionalProperties.containsKey(CodegenConstants.GEM_NAME)) {
+            setGemName((String) additionalProperties.get(CodegenConstants.GEM_NAME));
         }
-        if (additionalProperties.containsKey(MODULE_NAME)) {
-            setModuleName((String) additionalProperties.get(MODULE_NAME));
+        if (additionalProperties.containsKey(CodegenConstants.MODULE_NAME)) {
+            setModuleName((String) additionalProperties.get(CodegenConstants.MODULE_NAME));
         }
 
         if (gemName == null && moduleName == null) {
@@ -166,8 +163,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             setModuleName(generateModuleName(gemName));
         }
 
-        additionalProperties.put(GEM_NAME, gemName);
-        additionalProperties.put(MODULE_NAME, moduleName);
+        additionalProperties.put(CodegenConstants.GEM_NAME, gemName);
+        additionalProperties.put(CodegenConstants.MODULE_NAME, moduleName);
 
         if (additionalProperties.containsKey(GEM_VERSION)) {
             setGemVersion((String) additionalProperties.get(GEM_VERSION));
@@ -498,34 +495,34 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             type = p.dataType;
         }
 
-        if ("String".equals(type)) {
+        if ("String".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = p.paramName + "_example";
             }
             example = "'" + escapeText(example) + "'";
-        } else if ("Integer".equals(type)) {
+        } else if ("Integer".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "56";
             }
-        } else if ("Float".equals(type)) {
+        } else if ("Float".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "3.4";
             }
-        } else if ("BOOLEAN".equals(type)) {
+        } else if ("BOOLEAN".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "true";
             }
-        } else if ("File".equals(type)) {
+        } else if ("File".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "/path/to/file";
             }
             example = "File.new('" + escapeText(example) + "')";
-        } else if ("Date".equals(type)) {
+        } else if ("Date".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20";
             }
             example = "Date.parse('" + escapeText(example) + "')";
-        } else if ("DateTime".equals(type)) {
+        } else if ("DateTime".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20T19:20:30+01:00";
             }

@@ -17,3 +17,7 @@
 ./bin/jaxrs-spec-petstore-server-interface.sh
 ./bin/jaxrs-spec-petstore-server.sh
 ./bin/jaxrs-usetags-petstore-server.sh
+
+./bin/openapi3/jaxrs-jersey-petstore.sh
+
+echo " Please run ./bin/jaxrs-cxf-petstore-server-test-data.sh manually instead"

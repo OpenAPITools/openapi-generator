@@ -22,8 +22,8 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.headers.Header;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 public class DefaultCodegenTest {
 
     @Test
-    public void testHasBodyParameter() throws Exception {
+    public void testHasBodyParameter() {
         final Schema refSchema = new Schema<>().$ref("#/components/schemas/Pet");
         Operation pingOperation = new Operation()
                 .responses(
@@ -60,6 +60,13 @@ public class DefaultCodegenTest {
 
         Assert.assertEquals(codegen.hasBodyParameter(openAPI, pingOperation), false);
         Assert.assertEquals(codegen.hasBodyParameter(openAPI, createOperation), true);
+    }
+
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testParameterEmptyDescription() {
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        codegen.fromRequestBody(null, new HashSet<>(), null);
     }
 
     @Test

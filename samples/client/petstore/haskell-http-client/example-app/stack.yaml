@@ -1,4 +1,5 @@
-resolver: lts-10.10
+resolver: lts-13.9
+extra-deps: [ katip-0.8.0.0 ]
 packages:
   - location: '.'
   - location: '..'

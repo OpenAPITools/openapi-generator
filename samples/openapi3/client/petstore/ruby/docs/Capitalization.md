@@ -1,6 +1,7 @@
 # Petstore::Capitalization
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **small_camel** | **String** |  | [optional] 

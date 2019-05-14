@@ -28,7 +28,6 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.junit.rules.TemporaryFolder;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.JavaClientCodegen;
@@ -37,10 +36,10 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.List;
 
 public class JavaModelTest {
-    private TemporaryFolder folder = new TemporaryFolder();
 
     @Test(description = "convert a simple java model")
     public void simpleModelTest() {
@@ -442,6 +441,34 @@ public class JavaModelTest {
         Assert.assertEquals(property.setter, "setNAME");
         Assert.assertEquals(property.dataType, "String");
         Assert.assertEquals(property.name, "NAME");
+        Assert.assertEquals(property.defaultValue, null);
+        Assert.assertEquals(property.baseType, "String");
+        Assert.assertFalse(property.hasMore);
+        Assert.assertTrue(property.required);
+        Assert.assertFalse(property.isContainer);
+    }
+
+    @Test(description = "convert a model with upper-case property names and Numbers")
+    public void upperCaseNamesNumbersTest() {
+        final Schema schema = new Schema()
+                .description("a model with upper-case property names and numbers")
+                .addProperties("NAME1", new StringSchema())
+                .addRequiredItem("NAME1");
+        final DefaultCodegen codegen = new JavaClientCodegen();
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel("sample", schema);
+
+        Assert.assertEquals(cm.name, "sample");
+        Assert.assertEquals(cm.classname, "Sample");
+        Assert.assertEquals(cm.vars.size(), 1);
+
+        final CodegenProperty property = cm.vars.get(0);
+        Assert.assertEquals(property.baseName, "NAME1");
+        Assert.assertEquals(property.getter, "getNAME1");
+        Assert.assertEquals(property.setter, "setNAME1");
+        Assert.assertEquals(property.dataType, "String");
+        Assert.assertEquals(property.name, "NAME1");
         Assert.assertEquals(property.defaultValue, null);
         Assert.assertEquals(property.baseType, "String");
         Assert.assertFalse(property.hasMore);
@@ -1215,8 +1242,9 @@ public class JavaModelTest {
     public void generateModel() throws Exception {
         String inputSpec = "src/test/resources/3_0/petstore.json";
 
-        folder.create();
-        final File output = folder.getRoot();
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
         Assert.assertTrue(new File(inputSpec).exists());
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -1232,15 +1260,14 @@ public class JavaModelTest {
 
         File orderFile = new File(output, "src/main/java/org/openapitools/client/model/Order.java");
         Assert.assertTrue(orderFile.exists());
-        folder.delete();
     }
 
     @Test
     public void generateEmpty() throws Exception {
         String inputSpec = "src/test/resources/3_0/ping.yaml";
 
-        folder.create();
-        final File output = folder.getRoot();
+        final File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
         Assert.assertTrue(new File(inputSpec).exists());
 
         JavaClientCodegen config = new org.openapitools.codegen.languages.JavaClientCodegen();
@@ -1258,6 +1285,5 @@ public class JavaModelTest {
 
         File orderFile = new File(output, "src/main/java/org/openapitools/client/api/DefaultApi.java");
         Assert.assertTrue(orderFile.exists());
-        folder.delete();
     }
 }

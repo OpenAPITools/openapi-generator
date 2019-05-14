@@ -50,7 +50,12 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}(json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON),
         {{/isContainer}}
         {{^isContainer}}
+        {{^isFreeFormObject}}
         '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}{{datatype}}FromJSON(json['{{baseName}}']),
+        {{/isFreeFormObject}}
+        {{#isFreeFormObject}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}json['{{baseName}}'],
+        {{/isFreeFormObject}}
         {{/isContainer}}
         {{/isPrimitiveType}}
         {{/allVars}}
@@ -74,10 +79,15 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isContainer}}
-        '{{baseName}}': (value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
+        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}(value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
         {{/isContainer}}
         {{^isContainer}}
+        {{^isFreeFormObject}}
         '{{baseName}}': {{datatype}}ToJSON(value.{{name}}),
+        {{/isFreeFormObject}}
+        {{#isFreeFormObject}}
+        '{{baseName}}': value.{{name}},
+        {{/isFreeFormObject}}
         {{/isContainer}}
         {{/isPrimitiveType}}
         {{/isReadOnly}}
@@ -88,26 +98,22 @@ export function {{classname}}ToJSON(value?: {{classname}}): any {
     return value;
     {{/hasVars}}
 }
-{{#hasEnums}}
 
-/**
- * @export
- * @namespace {{classname}}
- */
-export namespace {{classname}} {
+{{#hasEnums}}
 {{#vars}}
-    {{#isEnum}}
-    /**
-     * @export
-     * @enum {string}
-     */
-    export enum {{enumName}} {
-    {{#allowableValues}}
-        {{#enumVars}}
-        {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
-        {{/enumVars}}
-    {{/allowableValues}}
-    }
-    {{/isEnum}}
+{{#isEnum}}
+/**
+* @export
+* @enum {string}
+*/
+export enum {{classname}}{{enumName}} {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+}
+{{/isEnum}}
 {{/vars}}
-}{{/hasEnums}}
+
+{{/hasEnums}}

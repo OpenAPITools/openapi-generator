@@ -196,6 +196,21 @@ public class ApiClient {
     return contentTypes[0];
   }
 
+
+  /**
+   * Helper method to configure the bearer token.
+   * @param bearerToken the bearer token.
+   */
+  public void setBearerToken(String bearerToken) {
+    for(RequestInterceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof HttpBearerAuth) {
+        ((HttpBearerAuth) apiAuthorization).setBearerToken(bearerToken);
+        return;
+      }
+    }
+    throw new RuntimeException("No Bearer authentication configured!");
+  }
+
   /**
    * Helper method to configure the first api key found
    * @param apiKey API key
