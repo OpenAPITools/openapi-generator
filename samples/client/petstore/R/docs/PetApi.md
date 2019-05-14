@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **AddPet**
-> AddPet(pet)
+> AddPet(body)
 
 Add a new pet to the store
 
@@ -23,20 +23,20 @@ Add a new pet to the store
 ```R
 library(petstore)
 
-var.pet <- Pet$new() # Pet | Pet object that needs to be added to the store
+var.body <- Pet$new(123, Category$new(123, "name_example"), "name_example", list("photoUrls_example"), list(Tag$new(123, "name_example")), "status_example") # Pet | Pet object that needs to be added to the store
 
 #Add a new pet to the store
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-api.instance$AddPet(var.pet)
+api.instance$AddPet(var.body)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -105,7 +105,7 @@ Multiple status values can be provided with comma separated strings
 ```R
 library(petstore)
 
-var.status <- ['status_example'] # character | Status values that need to be considered for filter
+var.status <- list("status_example") # character | Status values that need to be considered for filter
 
 #Finds Pets by status
 api.instance <- PetApi$new()
@@ -147,7 +147,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```R
 library(petstore)
 
-var.tags <- ['tags_example'] # character | Tags to filter by
+var.tags <- list("inner_example") # character | Tags to filter by
 
 #Finds Pets by tags
 api.instance <- PetApi$new()
@@ -221,7 +221,7 @@ Name | Type | Description  | Notes
 
 
 # **UpdatePet**
-> UpdatePet(pet)
+> UpdatePet(body)
 
 Update an existing pet
 
@@ -229,20 +229,20 @@ Update an existing pet
 ```R
 library(petstore)
 
-var.pet <- Pet$new() # Pet | Pet object that needs to be added to the store
+var.body <- Pet$new(123, Category$new(123, "name_example"), "name_example", list("photoUrls_example"), list(Tag$new(123, "name_example")), "status_example") # Pet | Pet object that needs to be added to the store
 
 #Update an existing pet
 api.instance <- PetApi$new()
 # Configure OAuth2 access token for authorization: petstore_auth
 api.instance$apiClient$accessToken <- 'TODO_YOUR_ACCESS_TOKEN';
-api.instance$UpdatePet(var.pet)
+api.instance$UpdatePet(var.body)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 

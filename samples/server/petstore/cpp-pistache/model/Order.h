@@ -19,9 +19,8 @@
 #define Order_H_
 
 
-#include "ModelBase.h"
-
 #include <string>
+#include <nlohmann/json.hpp>
 
 namespace org {
 namespace openapitools {
@@ -32,19 +31,12 @@ namespace model {
 /// An order for a pets from the pet store
 /// </summary>
 class  Order
-    : public ModelBase
 {
 public:
     Order();
     virtual ~Order();
 
-    /////////////////////////////////////////////
-    /// ModelBase overrides
-
-    void validate() override;
-
-    nlohmann::json toJson() const override;
-    void fromJson(const nlohmann::json& json) override;
+    void validate();
 
     /////////////////////////////////////////////
     /// Order members
@@ -92,6 +84,8 @@ public:
     bool completeIsSet() const;
     void unsetComplete();
 
+    friend void to_json(nlohmann::json& j, const Order& o);
+    friend void from_json(const nlohmann::json& j, Order& o);
 protected:
     int64_t m_Id;
     bool m_IdIsSet;

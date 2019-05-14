@@ -26,7 +26,8 @@ sidebar_label: haskell-http-client
 |inlineMimeTypes|Inline (hardcode) the content-type and accept parameters on operations, when there is only 1 option| |true|
 |modelDeriving|Additional classes to include in the deriving() clause of Models| |null|
 |strictFields|Add strictness annotations to all model fields| |true|
-|useMonadLogger|Use the monad-logger package to provide logging (if false, use the katip logging package)| |false|
+|useKatip|Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger| |true|
 |dateTimeFormat|format string used to parse/render a datetime| |null|
 |dateFormat|format string used to parse/render a date| |%Y-%m-%d|
+|customTestInstanceModule|test module used to provide typeclass instances for types not known by the generator| |null|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|

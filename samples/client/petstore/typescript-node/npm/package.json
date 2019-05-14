@@ -1,7 +1,7 @@
 {
-    "name": "@swagger/node-typescript-petstore",
+    "name": "@openapitools/node-typescript-petstore",
     "version": "0.0.1",
-    "description": "NodeJS client for @swagger/node-typescript-petstore",
+    "description": "NodeJS client for @openapitools/node-typescript-petstore",
     "repository": "GIT_USER_ID/GIT_REPO_ID",
     "main": "dist/api.js",
     "types": "dist/api.d.ts",

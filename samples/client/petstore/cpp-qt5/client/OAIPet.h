@@ -28,6 +28,7 @@
 #include <QString>
 
 #include "OAIObject.h"
+#include "OAIEnum.h"
 
 namespace OpenAPI {
 
@@ -42,48 +43,63 @@ public:
     void fromJsonObject(QJsonObject json) override;
     void fromJson(QString jsonString) override;
 
+    
     qint64 getId() const;
     void setId(const qint64 &id);
 
+    
     OAICategory getCategory() const;
     void setCategory(const OAICategory &category);
 
+    
     QString getName() const;
     void setName(const QString &name);
 
+    
     QList<QString> getPhotoUrls() const;
     void setPhotoUrls(const QList<QString> &photo_urls);
 
+    
     QList<OAITag> getTags() const;
     void setTags(const QList<OAITag> &tags);
 
+    
     QString getStatus() const;
     void setStatus(const QString &status);
 
+    
+    
     virtual bool isSet() const override;
     virtual bool isValid() const override;
 
 private:
     void init();
+    
     qint64 id;
     bool m_id_isSet;
     bool m_id_isValid;
+    
     OAICategory category;
     bool m_category_isSet;
     bool m_category_isValid;
+    
     QString name;
     bool m_name_isSet;
     bool m_name_isValid;
+    
     QList<QString> photo_urls;
     bool m_photo_urls_isSet;
     bool m_photo_urls_isValid;
+    
     QList<OAITag> tags;
     bool m_tags_isSet;
     bool m_tags_isValid;
+    
     QString status;
     bool m_status_isSet;
     bool m_status_isValid;
-};
+    
+    };
 
 }
 

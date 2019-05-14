@@ -18,8 +18,8 @@ class Pet {
     /** @var string $name */
     private $name;
 
-    /** @var string[] $photo_urls */
-    private $photo_urls;
+    /** @var string[] $photoUrls */
+    private $photoUrls;
 
     /** @var \app\Models\Tag[] $tags */
     private $tags;

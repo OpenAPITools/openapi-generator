@@ -18,6 +18,11 @@ import org.openapitools.client.core.ApiKeyLocations._
 
 object StoreApi {
 
+  def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new StoreApi(baseUrl)
+}
+
+class StoreApi(baseUrl: String) {
+  
   /**
    * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
    * 
@@ -32,7 +37,9 @@ object StoreApi {
       .withPathParam("orderId", orderId)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
-        /**
+      
+
+  /**
    * Returns a map of status codes to quantities
    * 
    * Expected answers:
@@ -45,7 +52,9 @@ object StoreApi {
     ApiRequest[Map[String, Int]](ApiMethods.GET, "http://petstore.swagger.io/v2", "/store/inventory", "application/json")
       .withApiKey(apiKey, "api_key", HEADER)
       .withSuccessResponse[Map[String, Int]](200)
-        /**
+      
+
+  /**
    * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
    * 
    * Expected answers:
@@ -55,25 +64,29 @@ object StoreApi {
    * 
    * @param orderId ID of pet that needs to be fetched
    */
-  def getOrderById(orderId: Long): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.GET, "http://petstore.swagger.io/v2", "/store/order/{orderId}", "application/json")
+  def getOrderById(orderId: Long): ApiRequest[Order] =
+    ApiRequest[Order](ApiMethods.GET, "http://petstore.swagger.io/v2", "/store/order/{orderId}", "application/json")
       .withPathParam("orderId", orderId)
       .withSuccessResponse[Order](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
-        /**
+      
+
+  /**
    * Expected answers:
    *   code 200 : Order (successful operation)
    *   code 400 :  (Invalid Order)
    * 
-   * @param order order placed for purchasing the pet
+   * @param body order placed for purchasing the pet
    */
-  def placeOrder(order: Order): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.POST, "http://petstore.swagger.io/v2", "/store/order", "application/json")
-      .withBody(order)
+  def placeOrder(body: Order): ApiRequest[Order] =
+    ApiRequest[Order](ApiMethods.POST, "http://petstore.swagger.io/v2", "/store/order", "application/json")
+      .withBody(body)
       .withSuccessResponse[Order](200)
       .withErrorResponse[Unit](400)
       
+
+
 
 }
 

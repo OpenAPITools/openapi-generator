@@ -16,6 +16,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 import org.openapitools.client.auth.OAuth.AccessTokenListener;
@@ -46,12 +47,17 @@ public class ApiClient {
     for(String authName : authNames) {
       Interceptor auth;
       if ("api_key".equals(authName)) {
+        
         auth = new ApiKeyAuth("header", "api_key");
       } else if ("api_key_query".equals(authName)) {
+        
         auth = new ApiKeyAuth("query", "api_key_query");
       } else if ("http_basic_test".equals(authName)) {
+        
         auth = new HttpBasicAuth();
+        
       } else if ("petstore_auth".equals(authName)) {
+        
         auth = new OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets");
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
@@ -161,6 +167,21 @@ public class ApiClient {
       if (apiAuthorization instanceof ApiKeyAuth) {
         ApiKeyAuth keyAuth = (ApiKeyAuth) apiAuthorization;
         keyAuth.setApiKey(apiKey);
+        return this;
+      }
+    }
+    return this;
+  }
+
+  /**
+   * Helper method to set token for the first Http Bearer authentication found.
+   * @param bearerToken Bearer token
+   * @return ApiClient
+   */
+  public ApiClient setBearerToken(String bearerToken) {
+    for (Interceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof HttpBearerAuth) {
+        ((HttpBearerAuth) apiAuthorization).setBearerToken(bearerToken);
         return this;
       }
     }

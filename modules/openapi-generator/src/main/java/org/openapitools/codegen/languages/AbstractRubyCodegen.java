@@ -33,10 +33,10 @@ import java.util.Locale;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
+abstract public class AbstractRubyCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractRubyCodegen.class);
 
-    AbstractRubyCodegen() {
+    public AbstractRubyCodegen() {
         super();
 
         setReservedWordsLowerCase(
@@ -50,6 +50,7 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("String");
+        languageSpecificPrimitives.add("Boolean");
         languageSpecificPrimitives.add("Integer");
         languageSpecificPrimitives.add("Float");
         languageSpecificPrimitives.add("Date");
@@ -61,6 +62,7 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
 
         typeMapping.clear();
         typeMapping.put("string", "String");
+        typeMapping.put("boolean", "Boolean");
         typeMapping.put("char", "String");
         typeMapping.put("int", "Integer");
         typeMapping.put("integer", "Integer");
@@ -177,7 +179,7 @@ abstract class AbstractRubyCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String escapeUnsafeCharacters(String input) {
-        return input.replace("=end", "=_end").replace("=begin", "=_begin");
+        return input.replace("=end", "=_end").replace("=begin", "=_begin").replace("#{", "\\#{");
     }
 
     @Override

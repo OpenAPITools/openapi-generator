@@ -1,0 +1,6 @@
+/**
+ * @type {{classname}}{{#description}}
+ * {{{description}}}{{/description}}
+ * @export
+ */
+export type {{classname}} = {{#oneOf}}models.{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}};

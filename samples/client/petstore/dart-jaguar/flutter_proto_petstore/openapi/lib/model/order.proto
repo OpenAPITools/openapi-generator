@@ -1,0 +1,12 @@
+
+syntax = "proto3";
+
+message Order {
+    int32 id = 1;
+    int32 petId = 2;
+    int32 quantity = 3;
+    string shipDate = 4;
+    string status = 5;
+    bool complete = 6;
+}
+

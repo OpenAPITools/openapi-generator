@@ -214,7 +214,7 @@ export const {{classname}}FetchParamCreator = function (configuration?: Configur
     {{/hasFormParams}}
     {{#bodyParam}}
             const needsSerialization = (typeof {{paramName}} !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.body =  needsSerialization ? JSON.stringify({{paramName}} || {}) : ((({{paramName}}:any):string) || "");
+            localVarRequestOptions.body =  needsSerialization ? JSON.stringify({{paramName}} != null ? {{paramName}} : {}) : ((({{paramName}}:any):string) || "");
     {{/bodyParam}}
 
             return {

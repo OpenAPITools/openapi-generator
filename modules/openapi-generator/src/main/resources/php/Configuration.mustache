@@ -386,7 +386,7 @@ class Configuration
         $report  = 'PHP SDK ({{invokerPackage}}) Debug Report:' . PHP_EOL;
         $report .= '    OS: ' . php_uname() . PHP_EOL;
         $report .= '    PHP Version: ' . PHP_VERSION . PHP_EOL;
-        $report .= '    OpenAPI Spec Version: {{version}}' . PHP_EOL;
+        $report .= '    The version of the OpenAPI document: {{version}}' . PHP_EOL;
 	    {{#artifactVersion}}
         $report .= '    SDK Package Version: {{artifactVersion}}' . PHP_EOL;
     	{{/artifactVersion}}

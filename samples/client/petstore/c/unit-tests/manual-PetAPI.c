@@ -2,13 +2,8 @@
     #include <stdlib.h>
     #include <string.h>
     #include <assert.h>
-    #include "apiClient.h"
-    #include "cJSON.h"
-    #include "pet.h"
-    #include "PetAPI.h"
-    #include "category.h"
-    #include "tag.h"
-    #include "keyValuePair.h"
+    #include "../api/PetAPI.h"
+
 
     #define EXAMPLE_CATEGORY_NAME "Example Category"
     #define EXAMPLE_CATEGORY_ID 5
@@ -70,8 +65,13 @@ int main() {
 		           status);
 
 	PetAPI_addPet(apiClient, pet);
+	cJSON *JSONR_local = pet_convertToJSON(pet);
+	char *toPrint = cJSON_Print(JSONR_local);
+	printf("Data is:%s\n", toPrint);
+	free(toPrint);
 	pet_free(pet);
-
+	cJSON_Delete(JSONR_local);
+	apiClient_free(apiClient);
 
 // Pet update with form test
 	char *petName1 = "Rocky Handsome";
@@ -81,7 +81,7 @@ int main() {
 	apiClient_t *apiClient1 = apiClient_create();
 	PetAPI_updatePetWithForm(apiClient1, EXAMPLE_PET_ID, petName1,
 	                         petName2);
-
+	apiClient_free(apiClient1);
 
 // Get pet by id test
 	apiClient_t *apiClient2 = apiClient_create();
@@ -111,19 +111,32 @@ int main() {
 	free(petJson);
 	cJSON_Delete(JSONR);
 	pet_free(mypet);
+	apiClient_free(apiClient2);
 
 // Pet upload file Test
 	apiClient_t *apiClient3 = apiClient_create();
 	FILE *file = fopen("/opt/image.png", "r");
+	char *buff;
+	int read_size, len;
+	binary_t *data = malloc(sizeof(binary_t));
+	if(file) {
+		fseek(file, 0, SEEK_END);
+		read_size = 2 * ftell(file);
+		rewind(file);
+		data->data = (char *) malloc(read_size + 1);
+		data->len = fread((void *) data->data, 1, read_size, file);
+		data->data[read_size] = '\0';
+	}
 	if(file != NULL) {
 		api_response_t *respo = PetAPI_uploadFile(apiClient3,
 		                                          EXAMPLE_PET_ID,
 		                                          "dec",
-		                                          file);
+		                                          data);
 
 		api_response_free(respo);
+		free(data->data);
+		free(data);
 		fclose(file);
-	} else {
-    apiClient_free(apiClient3);
-    }
+	}
+	apiClient_free(apiClient3);
 }

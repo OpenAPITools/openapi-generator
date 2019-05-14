@@ -10,5 +10,5 @@ interface StoreApiService {
 
     fun getOrderById(orderId: Long): Order
 
-    fun placeOrder(order: Order): Order
+    fun placeOrder(body: Order): Order
 }

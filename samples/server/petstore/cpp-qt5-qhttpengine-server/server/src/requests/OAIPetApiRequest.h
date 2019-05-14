@@ -33,7 +33,7 @@ class OAIPetApiRequest : public QObject
     Q_OBJECT
 
 public:
-    OAIPetApiRequest(QHttpEngine::Socket *s, OAIPetApiHandler* handler);
+    OAIPetApiRequest(QHttpEngine::Socket *s, QSharedPointer<OAIPetApiHandler> handler);
     virtual ~OAIPetApiRequest();
 
     void addPetRequest();
@@ -91,7 +91,7 @@ private:
     QMap<QString, QString> requestHeaders;
     QMap<QString, QString> responseHeaders;
     QHttpEngine::Socket  *socket;
-    OAIPetApiHandler *handler;
+    QSharedPointer<OAIPetApiHandler> handler;
 
     inline void writeResponseHeaders(){
         QHttpEngine::Socket::HeaderMap resHeaders;
