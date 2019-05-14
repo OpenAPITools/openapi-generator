@@ -266,14 +266,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
-            Boolean useSnapshotVersion = Boolean.valueOf((String) additionalProperties.get(CodegenConstants.SNAPSHOT_VERSION));
-
-            if (useSnapshotVersion) {
-                this.setArtifactVersion(this.buildSnapshotVersion(this.artifactVersion));
-            }
-        }
-
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_URL)) {
             this.setArtifactUrl((String) additionalProperties.get(CodegenConstants.ARTIFACT_URL));
         } else {
@@ -1047,11 +1039,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
         } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
             this.setArtifactVersion(openAPI.getInfo().getVersion());
-            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
+            Boolean useSnapshotVersion = Boolean.valueOf((String) additionalProperties.get(CodegenConstants.SNAPSHOT_VERSION));
+            if (useSnapshotVersion) {
+                this.setArtifactVersion(this.buildSnapshotVersion(this.getArtifactVersion()));
+            }
+        }
+        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
     }
 
