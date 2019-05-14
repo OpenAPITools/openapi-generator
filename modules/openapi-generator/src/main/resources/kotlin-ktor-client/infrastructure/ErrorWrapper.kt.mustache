@@ -5,14 +5,14 @@ import io.ktor.client.features.ResponseException
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ErrorWrapper(
     val originalException: ResponseException,
-    val error: Any?
+    val error: Any
 ) : Exception()
 
 internal suspend inline fun <reified E: Any>ResponseException.toErrorWrapper(): ErrorWrapper {
     val error = try {
         response.receive<E>()
-    } catch (ignored: Throwable) {
-        null
+    } catch (e: Throwable) {
+        e
     }
     return ErrorWrapper(originalException = this, error = error)
 }
