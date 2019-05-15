@@ -24,6 +24,11 @@
   infoLink: "https://www.boxever.com/"
   pinned: false
 -
+  caption: CAM
+  image: "img/companies/cam.png"
+  infoLink: "https://www.cam-inc.co.jp"
+  pinned: false
+-
   caption: FiNC Technologies
   image: "img/companies/finc-technologies.png"
   infoLink: "https://company.finc.com/"
