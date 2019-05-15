@@ -87,11 +87,22 @@ test {
     }
 }
 
+task javadocJar(type: Jar) {
+    from javadoc
+    classifier = 'javadoc'
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+            artifact sourcesJar
+            artifact javadocJar
             pom {
                 name = 'OpenAPI-Generator Contributors'
                 description = project.description
@@ -168,7 +179,8 @@ pluginBundle {
 // or stored as key=value pairs in ~/.gradle/gradle.properties
 // You can also apply them in CI via environment variables. See Gradle's docs for details.
 signing {
-    sign publishing.publications
+    required { isReleaseVersion && (gradle.taskGraph.hasTask("publishPluginMavenPublicationToNexusRepository") ) }
+    sign publishing.publications.mavenJava
 }
 
 compileKotlin {
@@ -179,6 +191,12 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+}
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
     }
 }
 
