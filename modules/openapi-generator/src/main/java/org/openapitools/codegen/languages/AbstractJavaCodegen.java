@@ -1456,6 +1456,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return booleanGetterPrefix + getterAndSetterCapitalize(name);
     }
 
+    @Override
+    public String sanitizeTag(String tag) {
+        tag = camelize(underscore(sanitizeName(tag)));
+
+        // tag starts with numbers
+        if (tag.matches("^\\d.*")) {
+            tag = "Class" + tag;
+        }
+        return tag;
+    }
+
     /**
      * Camelize the method name of the getter and setter
      *

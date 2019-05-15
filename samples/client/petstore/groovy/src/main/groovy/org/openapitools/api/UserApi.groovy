@@ -28,10 +28,8 @@ class UserApi {
 
 
         contentType = 'application/json';
-        
         bodyParams = body
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -59,10 +57,8 @@ class UserApi {
 
 
         contentType = 'application/json';
-        
         bodyParams = body
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -90,10 +86,8 @@ class UserApi {
 
 
         contentType = 'application/json';
-        
         bodyParams = body
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -120,8 +114,7 @@ class UserApi {
 
 
 
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -148,8 +141,7 @@ class UserApi {
 
 
 
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -187,8 +179,7 @@ class UserApi {
         }
 
 
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -210,8 +201,7 @@ class UserApi {
 
 
 
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -244,10 +234,8 @@ class UserApi {
 
 
         contentType = 'application/json';
-        
         bodyParams = body
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,

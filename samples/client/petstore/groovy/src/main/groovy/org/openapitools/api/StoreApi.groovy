@@ -26,8 +26,7 @@ class StoreApi {
 
 
 
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -49,8 +48,7 @@ class StoreApi {
 
 
 
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -77,8 +75,7 @@ class StoreApi {
 
 
 
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -106,10 +103,8 @@ class StoreApi {
 
 
         contentType = 'application/json';
-        
         bodyParams = body
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,

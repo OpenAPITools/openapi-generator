@@ -27,11 +27,9 @@ class PetApi {
 
 
 
-        
         contentType = 'application/json';
         bodyParams = body
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -61,8 +59,7 @@ class PetApi {
             headerParams.put("api_key", apiKey)
         }
 
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -92,8 +89,7 @@ class PetApi {
         }
 
 
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -123,8 +119,7 @@ class PetApi {
         }
 
 
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -151,8 +146,7 @@ class PetApi {
 
 
 
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -179,11 +173,9 @@ class PetApi {
 
 
 
-        
         contentType = 'application/json';
         bodyParams = body
-        
-        
+
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -210,11 +202,9 @@ class PetApi {
 
 
 
-        
-        
+
 
         contentType = 'application/x-www-form-urlencoded';
-        
         bodyParams = [:]
         bodyParams.put("name", name)
         bodyParams.put("status", status)
@@ -243,11 +233,9 @@ class PetApi {
 
 
 
-        
-        
+
 
         contentType = 'multipart/form-data';
-        
         bodyParams = [:]
         bodyParams.put("additionalMetadata", additionalMetadata)
         bodyParams.put("file", file)
