@@ -1384,13 +1384,6 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema instanceof ComposedSchema) { // composed schema
             ComposedSchema cs = (ComposedSchema) schema;
             List<Schema> schemas = ModelUtils.getInterfaces(cs);
-
-            // Special case: interfaces is a single type definition
-            // e.g. "allOf": [{"type": "string"}]
-            if (schemas.size() == 1 && schemas.get(0).get$ref() == null && schemas.get(0).getType() != null) {
-                return getSingleSchemaType(schemas.get(0));
-            }
-
             List<String> names = new ArrayList<>();
             for (Schema s : schemas) {
                 names.add(getSingleSchemaType(s));
@@ -1810,15 +1803,21 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
+            // Special case: interfaces is a single type definition
+            // e.g. "allOf": [{"type": "string"}]
+            if (interfaces.size() == 1 && interfaces.get(0).get$ref() == null && interfaces.get(0).getType() != null) {
+                m.dataType = getSingleSchemaType(interfaces.get(0));
+            }
+            
             addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
 
             // end of code block for composed schema
         } else {
+            m.dataType = getSchemaType(schema);
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
         }
-
-        m.dataType = getSchemaType(schema);
+        
         if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
             m.isEnum = true;
             // comment out below as allowableValues is not set in post processing model enum
