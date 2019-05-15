@@ -1,19 +1,15 @@
-const ExpressServer = require("./expressServer");
-const config = require("./config");
-let expressServer;
-launchServer = async() =>{
-  try{
-    expressServer = new ExpressServer(config.URL_PORT, config.OPENAPI_YAML);
-    await expressServer.launch();
-    console.log("Express server running");
+const config = require('./config');
+const logger = require('./logger');
+const App = require('./app');
 
-  }
-  catch(error){
-    if(expressServer !== undefined){
-      expressServer.close();
-    }
-    console.log("Error occured. Server closed", error);
-  }
-};
-
-launchServer();
+const app = new App(config);
+app.launch()
+  .then(() => {
+    logger.info('Server launched');
+  })
+  .catch((error) => {
+    logger.error('found error, shutting down server');
+    app.close()
+      .catch(closeError => logger.error(closeError))
+      .finally(() => logger.error(error));
+  });

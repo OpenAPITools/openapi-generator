@@ -19,7 +19,9 @@
     "swagger-express-middleware": "^2.0.2",
     "swagger-tools": "0.10.1",
     "swagger-ui-express": "^4.0.2",
-    "yamljs": "^0.3.0"
+    "yamljs": "^0.3.0",
+    "winston": "^3.2.1",
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "axios": "^0.18.0",

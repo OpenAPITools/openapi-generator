@@ -3,15 +3,16 @@
 var utils = require('../utils/writer.js');
 var Pet = require('../service/PetService');
 
-module.exports.addPet = function addPet (req, res, next) {
-  var body = req.swagger.params['body'].value;
-  Pet.addPet(body)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
+module.exports.addPet = function addPet(pet) {
+  return new Promise(
+    async (resolve, reject) => {
+      try {
+        resolve(pet);
+      } catch (err) {
+        reject(err);
+      }
+    },
+  );
 };
 
 module.exports.deletePet = function deletePet (req, res, next) {
@@ -82,6 +83,19 @@ module.exports.updatePetWithForm = function updatePetWithForm (req, res, next) {
       utils.writeJson(res, response);
     });
 };
+
+module.exports.newUpdatePetWithForm = (petId, name, status = 'pending') => new Promise(
+  async (resolve, reject) => {
+    try {
+      const message = await setTimeout(() => {
+        console.log(`updating pet with id: ${petId}, named ${name}, of status ${status}`);
+      }, 1000);
+      resolve(message);
+    } catch (e) {
+      reject(e);
+    }
+  },
+);
 
 module.exports.uploadFile = function uploadFile (req, res, next) {
   var petId = req.swagger.params['petId'].value;
