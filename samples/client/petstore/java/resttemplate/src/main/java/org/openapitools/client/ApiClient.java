@@ -22,6 +22,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.threeten.bp.*;
@@ -81,7 +82,7 @@ public class ApiClient {
 
     private String basePath = "http://petstore.swagger.io:80/v2";
 
-    private RestTemplate restTemplate;
+    private RestOperations restTemplate;
 
     private Map<String, Authentication> authentications;
 
@@ -96,7 +97,7 @@ public class ApiClient {
     }
 
     @Autowired
-    public ApiClient(RestTemplate restTemplate) {
+    public ApiClient(RestOperations restTemplate) {
         this.restTemplate = restTemplate;
         init();
     }
