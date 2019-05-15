@@ -1385,6 +1385,12 @@ public class DefaultCodegen implements CodegenConfig {
             ComposedSchema cs = (ComposedSchema) schema;
             List<Schema> schemas = ModelUtils.getInterfaces(cs);
 
+            // Special case: interfaces is a single type definition
+            // e.g. "allOf": [{"type": "string"}]
+            if (schemas.size() == 1 && schemas.get(0).get$ref() == null && schemas.get(0).getType() != null) {
+                return getSingleSchemaType(schemas.get(0));
+            }
+
             List<String> names = new ArrayList<>();
             for (Schema s : schemas) {
                 names.add(getSingleSchemaType(s));
@@ -1808,28 +1814,28 @@ public class DefaultCodegen implements CodegenConfig {
 
             // end of code block for composed schema
         } else {
-            m.dataType = getSchemaType(schema);
-            if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
-                m.isEnum = true;
-                // comment out below as allowableValues is not set in post processing model enum
-                m.allowableValues = new HashMap<String, Object>();
-                m.allowableValues.put("values", schema.getEnum());
-            }
-            if (ModelUtils.isMapSchema(schema)) {
-                addAdditionPropertiesToCodeGenModel(m, schema);
-                m.isMapModel = true;
-            }
-            if (ModelUtils.isIntegerSchema(schema)) { // integer type
-                if (!ModelUtils.isLongSchema(schema)) { // long type is not integer
-                    m.isInteger = Boolean.TRUE;
-                }
-            }
-            if (ModelUtils.isStringSchema(schema)) {
-                m.isString = Boolean.TRUE;
-            }
-
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
+        }
+
+        m.dataType = getSchemaType(schema);
+        if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+            m.isEnum = true;
+            // comment out below as allowableValues is not set in post processing model enum
+            m.allowableValues = new HashMap<String, Object>();
+            m.allowableValues.put("values", schema.getEnum());
+        }
+        if (ModelUtils.isMapSchema(schema)) {
+            addAdditionPropertiesToCodeGenModel(m, schema);
+            m.isMapModel = true;
+        }
+        if (ModelUtils.isIntegerSchema(schema)) { // integer type
+            if (!ModelUtils.isLongSchema(schema)) { // long type is not integer
+                m.isInteger = Boolean.TRUE;
+            }
+        }
+        if (ModelUtils.isStringSchema(schema)) {
+            m.isString = Boolean.TRUE;
         }
 
         // remove duplicated properties
