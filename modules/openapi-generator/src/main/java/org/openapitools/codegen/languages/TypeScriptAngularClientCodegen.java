@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
@@ -53,6 +54,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     protected String npmName = null;
     protected String npmVersion = "1.0.0";
+    protected String ngVersion = "7.0.0";
     protected String npmRepository = null;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
@@ -76,27 +78,27 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
                 " Required to generate a full angular package"));
-        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. Default is '1.0.0'"));
+        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package. If not provided, using the version from the OpenAPI specification file.").defaultValue(this.getNpmVersion()));
         this.cliOptions.add(new CliOption(NPM_REPOSITORY,
                 "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(SNAPSHOT,
+        this.cliOptions.add(CliOption.newBoolean(SNAPSHOT,
                 "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm",
-                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(WITH_INTERFACES,
+                false));
+        this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,
                 "Setting this property to true will generate interfaces next to the default class implementations.",
-                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(TAGGED_UNIONS,
+                false));
+        this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
-                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(PROVIDED_IN_ROOT,
+                this.taggedUnions));
+        this.cliOptions.add(CliOption.newBoolean(PROVIDED_IN_ROOT,
                 "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).",
-                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
-        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. Default is '7.0.0'"));
-        this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service. Default is 'Service'."));
-        this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts). Default is '.service'."));
-        this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model. Default is ''."));
-        this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts). Default is ''."));
-        this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'. Default is 'camelCase'."));
+                false));
+        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular.").defaultValue(this.ngVersion));
+        this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
+        this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
+        this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
+        this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
+        this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
     }
 
     @Override
@@ -136,7 +138,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(NG_VERSION)) {
             ngVersion = new SemVer(additionalProperties.get(NG_VERSION).toString());
         } else {
-            ngVersion = new SemVer("7.0.0");
+            ngVersion = new SemVer(this.ngVersion);
             LOGGER.info("generating code for Angular {} ...", ngVersion);
             LOGGER.info("  (you can select the angular version by setting the additionalProperty ngVersion)");
         }
@@ -201,22 +203,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(NPM_NAME)) {
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());
         }
-
-        if (additionalProperties.containsKey(NPM_VERSION)) {
-            this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
-        } else if (this.getVersionFromApi() != null) {
-            this.setNpmVersion(this.getVersionFromApi());
-        }
-
-        if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
-            if (npmVersion.toUpperCase(Locale.ROOT).matches("^.*-SNAPSHOT$")) {
-                this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
-            }
-            else {
-                this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
-            }
-        }
-        additionalProperties.put(NPM_VERSION, npmVersion);
 
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
@@ -294,6 +280,32 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
         supportingFiles.add(new SupportingFile("typings.mustache", getIndexDirectory(), "typings.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", getIndexDirectory(), "tsconfig.json"));
+    }
+
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+
+        if (additionalProperties.containsKey(NPM_NAME)) {
+
+            // If no npmVersion is provided in additional properties, version from API specification is used.
+            // If none of them is provided then fallbacks to default version
+            if (additionalProperties.containsKey(NPM_VERSION)) {
+                this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
+            } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
+                this.setNpmVersion(openAPI.getInfo().getVersion());
+            }
+
+            if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
+                if (npmVersion.toUpperCase(Locale.ROOT).matches("^.*-SNAPSHOT$")) {
+                    this.setNpmVersion(npmVersion + "." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+                } else {
+                    this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
+                }
+            }
+            additionalProperties.put(NPM_VERSION, npmVersion);
+
+        }
+
     }
 
     private String getIndexDirectory() {
@@ -654,16 +666,4 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         return name;
     }
 
-    /**
-     * Returns version from OpenAPI info.
-     *
-     * @return version
-     */
-    private String getVersionFromApi() {
-        if (this.openAPI != null && this.openAPI.getInfo() != null) {
-            return this.openAPI.getInfo().getVersion();
-        } else {
-            return null;
-        }
-    }
 }

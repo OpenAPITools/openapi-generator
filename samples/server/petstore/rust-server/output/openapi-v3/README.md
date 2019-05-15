@@ -55,6 +55,7 @@ cargo run --example server
 To run a client, follow one of the following simple steps:
 
 ```
+cargo run --example client RequiredOctetStreamPut
 cargo run --example client XmlExtraPost
 cargo run --example client XmlOtherPost
 cargo run --example client XmlOtherPut
@@ -113,6 +114,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[****](docs/default_api.md#) | **PUT** /required_octet_stream | 
 [****](docs/default_api.md#) | **POST** /xml_extra | 
 [****](docs/default_api.md#) | **POST** /xml_other | 
 [****](docs/default_api.md#) | **PUT** /xml_other | 
@@ -126,6 +128,7 @@ Method | HTTP request | Description
  - [AnotherXmlInner](docs/AnotherXmlInner.md)
  - [AnotherXmlObject](docs/AnotherXmlObject.md)
  - [DuplicateXmlObject](docs/DuplicateXmlObject.md)
+ - [UuidObject](docs/UuidObject.md)
  - [XmlArray](docs/XmlArray.md)
  - [XmlInner](docs/XmlInner.md)
  - [XmlObject](docs/XmlObject.md)

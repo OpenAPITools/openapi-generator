@@ -23,163 +23,11 @@ import static org.testng.Assert.*;
 
 public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
     private static class JavaCXFExtServerCodegenTester extends JavaCXFExtServerCodegen {
-        /* Options processed by DefaultCodegen */
-
-        // CodegenConstants.ALLOW_UNICODE_IDENTIFIERS
-        public Boolean getAllowUnicodeIdentifiers() {
-            return allowUnicodeIdentifiers;
-        }
-
-        // CodegenConstants.API_PACKAGE
-        public String getApiPackage() {
-            return apiPackage;
-        }
-
-        // CodegenConstants.ARTIFACT_DESCRIPTION
-        public String getArtifactDescription() {
-            return artifactDescription;
-        }
-
-        // CodegenConstants.ARTIFACT_ID
-        public String getArtifactId() {
-            return artifactId;
-        }
-
-        // CodegenConstants.ARTIFACT_URL
-        public String getArtifactUrl() {
-            return artifactUrl;
-        }
-
-        // CodegenConstants.ARTIFACT_VERSION
-        public String getArtifactVersion() {
-            return artifactVersion;
-        }
-
-        // AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX
-        public String getBooleanGetterPrefix() {
-            return booleanGetterPrefix;
-        }
-
-        // AbstractJavaCodegen.DATE_LIBRARY
-        public String getDateLibrary() {
-            return dateLibrary;
-        }
-
-        // CodegenConstants.DEVELOPER_EMAIL
-        public String getDeveloperEmail() {
-            return developerEmail;
-        }
-
-        // CodegenConstants.DEVELOPER_NAME
-        public String getDeveloperName() {
-            return developerName;
-        }
-
-        // CodegenConstants.DEVELOPER_ORGANIZATION
-        public String getDeveloperOrganization() {
-            return developerOrganization;
-        }
-
-        // CodegenConstants.DEVELOPER_ORGANIZATION_URL
-        public String getDeveloperOrganizationUrl() {
-            return developerOrganizationUrl;
-        }
-
-        /* Options processed by AbstractJavaCodegen */
-
-        // CodegenConstants.ENSURE_UNIQUE_PARAMS
-        public Boolean getEnsureUniqueParams() {
-            return ensureUniqueParams;
-        }
-
-        // CodegenConstants.GROUP_ID
-        public String getGroupId() {
-            return groupId;
-        }
 
         // CodegenConstants.IMPL_FOLDER
         public String getImplFolder() {
             return implFolder;
         }
-
-        // CodegenConstants.INVOKER_PACKAGE
-        public String getInvokerPackage() {
-            return invokerPackage;
-        }
-
-        // CodegenConstants.LICENSE_NAME
-        public String getLicenseName() {
-            return licenseName;
-        }
-
-        // CodegenConstants.LICENSE_URL
-        public String getLicenseUrl() {
-            return licenseUrl;
-        }
-
-        // CodegenConstants.MODEL_NAME_PREFIX
-        public String getModelNamePrefix() {
-            return modelNamePrefix;
-        }
-
-        // CodegenConstants.MODEL_NAME_SUFFIX
-        public String getModelNameSuffix() {
-            return modelNameSuffix;
-        }
-
-        // CodegenConstants.MODEL_PACKAGE
-        public String getModelPackage() {
-            return modelPackage;
-        }
-
-        // CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS
-        public Boolean getPrependFormOrBodyParameters() {
-            return prependFormOrBodyParameters;
-        }
-
-        // CodegenConstants.REMOVE_OPERATION_ID_PREFIX
-        boolean getRemoveOperationIdPrefix() {
-            return removeOperationIdPrefix;
-        }
-
-        // CodegenConstants.SCM_CONNECTION
-        public String getScmConnection() {
-            return scmConnection;
-        }
-
-        // CodegenConstants.SCM_DEVELOPER_CONNECTION
-        public String getScmDeveloperConnection() {
-            return scmDeveloperConnection;
-        }
-
-        // CodegenConstants.SCM_URL
-        public String getScmUrl() {
-            return scmUrl;
-        }
-
-        // CodegenConstants.SERIALIZABLE_MODEL
-        public Boolean getSerializableModel() {
-            return serializableModel;
-        }
-
-        // CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG
-        public Boolean getSortParamsByRequiredFlag() {
-            return sortParamsByRequiredFlag;
-        }
-
-        // CodegenConstants.SOURCE_FOLDER
-        public String getSourceFolder() {
-            return sourceFolder;
-        }
-
-        // AbstractJavaCodegen.BOOLEAN_GETTER_PREFIX_DEFAULT (UNUSED)
-
-        // CodegenConstants.TEMPLATE_DIR
-        public String getTemplateDir() {
-            return templateDir;
-        }
-
-        // AbstractJavaCodegen.DEFAULT_LIBRARY (UNUSED)
 
         // CXFServerFeatures.TEST_DATA_CONTROL_FILE
         public File getTestDataControlFile() {
@@ -451,11 +299,11 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertEquals(testerCodegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
         assertEquals(testerCodegen.getModelNamePrefix(), "MyPrefix");
         assertEquals(testerCodegen.getModelNameSuffix(), "MySuffix");
-        assertEquals(testerCodegen.getModelPackage(), "xyz.yyyyy.mmmmm.model");
+        assertEquals(testerCodegen.modelPackage(), "xyz.yyyyy.mmmmm.model");
         assertEquals(testerCodegen.getPrependFormOrBodyParameters(), Boolean.TRUE);
-        assertEquals(testerCodegen.getRemoveOperationIdPrefix(), true);
+        assertEquals(testerCodegen.isRemoveOperationIdPrefix(), true);
         assertEquals(testerCodegen.getSortParamsByRequiredFlag(), Boolean.TRUE);
-        assertEquals(testerCodegen.getTemplateDir(), "MyTemplates");
+        assertEquals(testerCodegen.templateDir(), "MyTemplates");
         assertEquals(testerCodegen.getArtifactDescription(), "My description");
         // Options processed by AbstractJavaCodegen
         assertEquals(testerCodegen.getArtifactId(), "my-artifact");

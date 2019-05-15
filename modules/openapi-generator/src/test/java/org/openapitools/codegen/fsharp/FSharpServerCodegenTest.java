@@ -14,30 +14,16 @@
  * limitations under the License.
  */
 
-package org.openapitools.codegen.csharp;
-
-import org.openapitools.codegen.CodegenConstants;
+package org.openapitools.codegen.fsharp;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.languages.AbstractFSharpCodegen;
 import org.openapitools.codegen.languages.FsharpGiraffeServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import com.google.common.collect.Sets;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.TestUtils;
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
-import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @SuppressWarnings("static-method")
 public class FSharpServerCodegenTest {

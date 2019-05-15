@@ -8,6 +8,8 @@ use serde::ser::Serializer;
 use std::collections::{HashMap, BTreeMap};
 use models;
 use swagger;
+use std::string::ParseError;
+
 
 
 // Utility function for wrapping list elements when serializing xml
@@ -97,6 +99,13 @@ pub struct AnotherXmlInner(String);
 impl ::std::convert::From<String> for AnotherXmlInner {
     fn from(x: String) -> Self {
         AnotherXmlInner(x)
+    }
+}
+
+impl std::str::FromStr for AnotherXmlInner {
+    type Err = ParseError;
+    fn from_str(x: &str) -> Result<Self, Self::Err> {
+        Ok(AnotherXmlInner(x.to_string()))
     }
 }
 
@@ -206,6 +215,47 @@ impl DuplicateXmlObject {
     }
 }
 
+/// Test a model containing a UUID
+#[derive(Debug, Clone, PartialEq, PartialOrd, Serialize, Deserialize)]
+
+pub struct UuidObject(uuid::Uuid);
+
+impl ::std::convert::From<uuid::Uuid> for UuidObject {
+    fn from(x: uuid::Uuid) -> Self {
+        UuidObject(x)
+    }
+}
+
+
+impl ::std::convert::From<UuidObject> for uuid::Uuid {
+    fn from(x: UuidObject) -> Self {
+        x.0
+    }
+}
+
+impl ::std::ops::Deref for UuidObject {
+    type Target = uuid::Uuid;
+    fn deref(&self) -> &uuid::Uuid {
+        &self.0
+    }
+}
+
+impl ::std::ops::DerefMut for UuidObject {
+    fn deref_mut(&mut self) -> &mut uuid::Uuid {
+        &mut self.0
+    }
+}
+
+
+impl UuidObject {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 // Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
 fn wrap_in_camelXmlInner<S>(item: &Vec<String>, serializer: S) -> Result<S::Ok, S::Error>
@@ -293,6 +343,13 @@ pub struct XmlInner(String);
 impl ::std::convert::From<String> for XmlInner {
     fn from(x: String) -> Self {
         XmlInner(x)
+    }
+}
+
+impl std::str::FromStr for XmlInner {
+    type Err = ParseError;
+    fn from_str(x: &str) -> Result<Self, Self::Err> {
+        Ok(XmlInner(x.to_string()))
     }
 }
 

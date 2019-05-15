@@ -37,6 +37,9 @@ public class CodegenConstants {
     public static final String API_PACKAGE = "apiPackage";
     public static final String API_PACKAGE_DESC = "package for generated api classes";
 
+    public static final String API_SUFFIX = "apiSuffix";
+    public static final String API_SUFFIX_DESC = "suffix for api classes";
+
     public static final String MODEL_PACKAGE = "modelPackage";
     public static final String MODEL_PACKAGE_DESC = "package for generated models";
 
@@ -70,10 +73,10 @@ public class CodegenConstants {
     public static final String GROUP_ID_DESC = "groupId in generated pom.xml";
 
     public static final String ARTIFACT_ID = "artifactId";
-    public static final String ARTIFACT_ID_DESC = "artifactId in generated pom.xml";
+    public static final String ARTIFACT_ID_DESC = "artifactId in generated pom.xml. This also becomes part of the generated library's filename";
 
     public static final String ARTIFACT_VERSION = "artifactVersion";
-    public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml";
+    public static final String ARTIFACT_VERSION_DESC = "artifact version in generated pom.xml. This also becomes part of the generated library's filename";
 
     public static final String ARTIFACT_URL = "artifactUrl";
     public static final String ARTIFACT_URL_DESC = "artifact URL in generated pom.xml";

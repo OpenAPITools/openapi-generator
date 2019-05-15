@@ -634,7 +634,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
                 else
-                    return "'" + p.getDefault() + "'";
+                    return "'" + ((String) p.getDefault()).replaceAll("'","\'") + "'";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {

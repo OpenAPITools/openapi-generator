@@ -39,7 +39,9 @@ packages/
 
 /target
 /generated-files
+test-output/
 nbactions.xml
+test-output/
 
 # website
 website/build/
@@ -173,12 +175,14 @@ samples/client/petstore/typescript-angular/tsd-debug.log
 # aspnetcore
 samples/server/petstore/aspnetcore/.vs/
 effective.pom
+
 # kotlin
 samples/client/petstore/kotlin/src/main/kotlin/test/
 samples/client/petstore/kotlin-threetenbp/build
 samples/client/petstore/kotlin-string/build
-samples/server/petstore/kotlin-server/ktor/build
 samples/openapi3/client/petstore/kotlin/build
+samples/server/petstore/kotlin-server/ktor/build
+samples/server/petstore/kotlin-springboot/build
 \?
 
 # haskell
