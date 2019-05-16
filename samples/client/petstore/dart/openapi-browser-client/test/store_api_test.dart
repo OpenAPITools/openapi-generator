@@ -11,7 +11,7 @@ testStoreApi {
   describe('tests for StoreApi', () {
     // Delete purchase order by ID
     //
-    // For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+    // For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
     //
     //Future deleteOrder(String orderId) async 
     it('test deleteOrder', () async {
@@ -29,7 +29,7 @@ testStoreApi {
 
     // Find purchase order by ID
     //
-    // For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    // For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
     //
     //Future<Order> getOrderById(int orderId) async 
     it('test getOrderById', () async {
@@ -37,8 +37,6 @@ testStoreApi {
     });
 
     // Place an order for a pet
-    //
-    // 
     //
     //Future<Order> placeOrder(Order body) async 
     it('test placeOrder', () async {

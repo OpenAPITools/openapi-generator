@@ -20,16 +20,12 @@ testUserApi {
 
     // Creates list of users with given input array
     //
-    // 
-    //
     //Future createUsersWithArrayInput(List<User> body) async 
     it('test createUsersWithArrayInput', () async {
       // TODO
     });
 
     // Creates list of users with given input array
-    //
-    // 
     //
     //Future createUsersWithListInput(List<User> body) async 
     it('test createUsersWithListInput', () async {
@@ -47,8 +43,6 @@ testUserApi {
 
     // Get user by user name
     //
-    // 
-    //
     //Future<User> getUserByName(String username) async 
     it('test getUserByName', () async {
       // TODO
@@ -56,16 +50,12 @@ testUserApi {
 
     // Logs user into the system
     //
-    // 
-    //
     //Future<String> loginUser(String username, String password) async 
     it('test loginUser', () async {
       // TODO
     });
 
     // Logs out current logged in user session
-    //
-    // 
     //
     //Future logoutUser() async 
     it('test logoutUser', () async {

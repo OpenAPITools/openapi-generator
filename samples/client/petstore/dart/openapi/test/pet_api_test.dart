@@ -11,16 +11,12 @@ testPetApi {
   describe('tests for PetApi', () {
     // Add a new pet to the store
     //
-    // 
-    //
     //Future addPet(Pet body) async 
     it('test addPet', () async {
       // TODO
     });
 
     // Deletes a pet
-    //
-    // 
     //
     //Future deletePet(int petId, { String apiKey }) async 
     it('test deletePet', () async {
@@ -56,8 +52,6 @@ testPetApi {
 
     // Update an existing pet
     //
-    // 
-    //
     //Future updatePet(Pet body) async 
     it('test updatePet', () async {
       // TODO
@@ -65,16 +59,12 @@ testPetApi {
 
     // Updates a pet in the store with form data
     //
-    // 
-    //
     //Future updatePetWithForm(int petId, { String name, String status }) async 
     it('test updatePetWithForm', () async {
       // TODO
     });
 
     // uploads an image
-    //
-    // 
     //
     //Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async 
     it('test uploadFile', () async {
