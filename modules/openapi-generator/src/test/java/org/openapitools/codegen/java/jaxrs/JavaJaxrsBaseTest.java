@@ -45,10 +45,11 @@ public abstract class JavaJaxrsBaseTest {
         generator.opts(input).generate();
 
 
+        String eol = System.lineSeparator();
         String jsonTypeInfo = "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"className\", visible = true)";
-        String jsonSubType = "@JsonSubTypes({\n" +
-                "  @JsonSubTypes.Type(value = Dog.class, name = \"Dog\"),\n" +
-                "  @JsonSubTypes.Type(value = Cat.class, name = \"Cat\"),\n" +
+        String jsonSubType = "@JsonSubTypes({" + eol + 
+                "  @JsonSubTypes.Type(value = Dog.class, name = \"Dog\")," + eol +
+                "  @JsonSubTypes.Type(value = Cat.class, name = \"Cat\")," + eol +
                 "})";
         checkFileContains(generator, outputPath + "/src/gen/java/org/openapitools/model/Animal.java", jsonTypeInfo, jsonSubType);
     }
@@ -56,7 +57,7 @@ public abstract class JavaJaxrsBaseTest {
     private void checkFileContains(MockDefaultGenerator generator, String path, String... lines) {
         String file = generator.getFiles().get(path);
         assertNotNull(file);
-        for (String line : lines)
+        for (String line : lines) 
             assertTrue(file.contains(line));
     }
 
@@ -83,10 +84,11 @@ public abstract class JavaJaxrsBaseTest {
         generator.opts(input).generate();
 
 
+        String eol = System.lineSeparator();
         String jsonTypeInfo = "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = \"className\", visible = true)";
-        String jsonSubType = "@JsonSubTypes({\n" +
-                "  @JsonSubTypes.Type(value = Dog.class, name = \"Dog\"),\n" +
-                "  @JsonSubTypes.Type(value = Cat.class, name = \"Cat\"),\n" +
+        String jsonSubType = "@JsonSubTypes({" + eol + 
+                "  @JsonSubTypes.Type(value = Dog.class, name = \"Dog\")," + eol +
+                "  @JsonSubTypes.Type(value = Cat.class, name = \"Cat\")," + eol +
                 "})";
         checkFileNotContains(generator, outputPath + "/src/gen/java/org/openapitools/model/Animal.java",  jsonTypeInfo, jsonSubType);
     }
