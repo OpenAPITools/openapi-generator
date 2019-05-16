@@ -62,6 +62,10 @@ public class Generate implements Runnable {
             description = "where to write the generated files (current dir by default)")
     private String output = "";
 
+    @Option(name = {"--outputTest"}, title = "output directory",
+            description = "where to write the generated files (current dir by default)")
+    private String outputTest = "";
+
     @Option(name = {"-i", "--input-spec"}, title = "spec file", required = true,
             description = "location of the OpenAPI spec, as URL or file (required)")
     private String spec;
