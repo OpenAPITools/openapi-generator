@@ -103,6 +103,14 @@ public class CodeGenMojo extends AbstractMojo {
     private File output;
 
     /**
+     * Location of the output test directory.
+     */
+    @Parameter(name = "outputTest", property = "openapi.generator.maven.plugin.outputTest",
+            defaultValue = "${project.build.directory}/generated-test-sources/openapi")
+    private File outputTest;
+
+
+    /**
      * Location of the OpenAPI spec, as URL or file.
      */
     @Parameter(name = "inputSpec", required = true)
@@ -501,6 +509,7 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             configurator.setOutputDir(output.getAbsolutePath());
+            configurator.setOutputTestDir(outputTest.getAbsolutePath());
 
             if (isNotEmpty(auth)) {
                 configurator.setAuth(auth);

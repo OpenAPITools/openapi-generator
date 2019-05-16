@@ -68,6 +68,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected GeneratorMetadata generatorMetadata;
     protected String inputSpec;
     protected String outputFolder = "";
+    protected String outputTestDir = "";
     protected Set<String> defaultIncludes = new HashSet<String>();
     protected Map<String, String> typeMapping = new HashMap<String, String>();
     protected Map<String, String> instantiationTypes = new HashMap<String, String>();
@@ -656,11 +657,11 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     public String apiTestFileFolder() {
-        return outputFolder + File.separator + testPackage().replace('.', File.separatorChar);
+        return outputTestDir + File.separator + testPackage().replace('.', File.separatorChar);
     }
 
     public String modelTestFileFolder() {
-        return outputFolder + File.separator + testPackage().replace('.', File.separatorChar);
+        return outputTestDir + File.separator + testPackage().replace('.', File.separatorChar);
     }
 
     public String apiDocFileFolder() {
@@ -693,6 +694,14 @@ public class DefaultCodegen implements CodegenConfig {
 
     public String getOutputDir() {
         return outputFolder();
+    }
+
+    public String getOutputTestDir() {
+        return outputTestDir;
+    }
+
+    public void setOutputTestDir(String dir) {
+        this.outputTestDir = dir;
     }
 
     public String getInputSpec() {

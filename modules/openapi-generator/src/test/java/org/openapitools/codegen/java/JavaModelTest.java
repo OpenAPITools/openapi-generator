@@ -1253,7 +1253,8 @@ public class JavaModelTest {
                 //.addAdditionalProperty("withXml", true)
                 .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)
                 .setInputSpec(inputSpec)
-                .setOutputDir(output.getAbsolutePath());
+                .setOutputDir(output.getAbsolutePath())
+                .setOutputTestDir(output.getAbsolutePath());
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         new DefaultGenerator().opts(clientOptInput).generate();

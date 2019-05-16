@@ -61,6 +61,7 @@ public class CodegenConfigurator implements Serializable {
     private String generatorName;
     private String inputSpec;
     private String outputDir;
+    private String outputTestDir;
     private boolean verbose;
     private boolean skipOverwrite;
     private boolean removeOperationIdPrefix;
@@ -152,6 +153,15 @@ public class CodegenConfigurator implements Serializable {
 
     public CodegenConfigurator setOutputDir(String outputDir) {
         this.outputDir = toAbsolutePathStr(outputDir);
+        return this;
+    }
+
+    public String getOutputTestDir() {
+        return outputTestDir;
+    }
+
+    public CodegenConfigurator setOutputTestDir(String outputTestDir) {
+        this.outputTestDir = toAbsolutePathStr(outputTestDir);
         return this;
     }
 
@@ -529,6 +539,7 @@ public class CodegenConfigurator implements Serializable {
 
         config.setInputSpec(inputSpec);
         config.setOutputDir(outputDir);
+        config.setOutputTestDir(outputTestDir);
         config.setSkipOverwrite(skipOverwrite);
         config.setIgnoreFilePathOverride(ignoreFileOverride);
         config.setRemoveOperationIdPrefix(removeOperationIdPrefix);

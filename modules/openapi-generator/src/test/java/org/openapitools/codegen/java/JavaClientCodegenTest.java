@@ -249,7 +249,8 @@ public class JavaClientCodegenTest {
                 .setLibrary(JavaClientCodegen.OKHTTP_GSON)
                 .setAdditionalProperties(properties)
                 .setInputSpec("src/test/resources/3_0/ping.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .setOutputTestDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         MockDefaultGenerator generator = new MockDefaultGenerator();

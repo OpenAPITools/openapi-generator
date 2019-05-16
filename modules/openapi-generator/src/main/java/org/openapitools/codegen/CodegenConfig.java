@@ -113,6 +113,10 @@ public interface CodegenConfig {
 
     void setOutputDir(String dir);
 
+    String getOutputTestDir();
+
+    void setOutputTestDir(String dir);
+
     CodegenModel fromModel(String name, Schema schema);
 
     CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers);

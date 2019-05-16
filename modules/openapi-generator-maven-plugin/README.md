@@ -43,6 +43,7 @@ mvn clean compile
 - `language` - target generation language (deprecated, replaced by `generatorName` as values here don't represent only 'language' any longer)
 - `generatorName` - target generator name
 - `output` - target output path (default is `${project.build.directory}/generated-sources/openapi`. Can also be set globally through the `openapi.generator.maven.plugin.output` property)
+- `outputTest` - target outputTest path (default is `${project.build.directory}/generated-test-sources/openapi`. Can also be set globally through the `openapi.generator.maven.plugin.outputTest` property)
 - `templateDirectory` - directory with mustache templates
 - `addCompileSourceRoot` - add the output directory to the project as a source root (`true` by default)
 - `modelPackage` - the package to use for generated model objects/classes

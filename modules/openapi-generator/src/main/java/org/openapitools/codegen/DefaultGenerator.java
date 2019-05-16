@@ -96,6 +96,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
         if (this.ignoreProcessor == null) {
             this.ignoreProcessor = new CodegenIgnoreProcessor(this.config.getOutputDir());
+            this.ignoreProcessor = new CodegenIgnoreProcessor(this.config.getOutputTestDir());
         }
 
         return this;
