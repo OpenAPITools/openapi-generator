@@ -5,7 +5,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.ClientOpts;
 import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.languages.AbstractJavaJAXRSServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
@@ -33,13 +32,11 @@ public abstract class JavaJaxrsBaseTest {
                 .readLocation("src/test/resources/3_0/generic.yaml", null, new ParseOptions()).getOpenAPI();
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOpts opts = new ClientOpts();
-        opts.getProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
@@ -75,13 +72,11 @@ public abstract class JavaJaxrsBaseTest {
                 .readLocation("src/test/resources/3_0/generic.yaml", null, new ParseOptions()).getOpenAPI();
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOpts opts = new ClientOpts();
-        opts.getProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
@@ -112,13 +107,11 @@ public abstract class JavaJaxrsBaseTest {
                 .readLocation("src/test/resources/3_0/arrayParameter.yaml", null, new ParseOptions()).getOpenAPI();
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOpts opts = new ClientOpts();
-        opts.getProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();
@@ -138,13 +131,11 @@ public abstract class JavaJaxrsBaseTest {
         openAPI.getComponents().getParameters().get("operationsQueryParam").setSchema(new StringSchema()._default("default"));
         codegen.setOutputDir(output.getAbsolutePath());
 
-        ClientOpts opts = new ClientOpts();
-        opts.getProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
 
         ClientOptInput input = new ClientOptInput();
         input.setOpenAPI(openAPI);
         input.setConfig(codegen);
-        input.setOpts(opts);
 
         MockDefaultGenerator generator = new MockDefaultGenerator();
         generator.opts(input).generate();

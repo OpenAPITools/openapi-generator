@@ -58,12 +58,11 @@ public abstract class AbstractIntegrationTest {
         CodegenConfig codegenConfig = getCodegenConfig();
         codegenConfig.setOutputDir(integrationTestPathsConfig.getOutputPath().toString());
         codegenConfig.setIgnoreFilePathOverride(integrationTestPathsConfig.getIgnoreFilePath().toFile().toString());
-        ClientOpts clientOpts = new ClientOpts();
-        clientOpts.setProperties(configProperties());
         ClientOptInput opts = new ClientOptInput()
                 .config(codegenConfig)
-                .opts(clientOpts)
                 .openAPI(openAPI);
+
+        codegenConfig.additionalProperties().putAll(configProperties());
 
         codeGen.opts(opts).generate();
 

@@ -81,7 +81,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         this.opts = opts;
         this.openAPI = opts.getOpenAPI();
         this.config = opts.getConfig();
-        this.config.additionalProperties().putAll(opts.getOpts().getProperties());
         this.templatingEngine = this.config.getTemplatingEngine();
 
         String ignoreFileLocation = this.config.getIgnoreFilePathOverride();
