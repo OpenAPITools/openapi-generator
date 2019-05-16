@@ -4560,9 +4560,9 @@ public class DefaultCodegen implements CodegenConfig {
         }
         CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         codegenParameter.description = escapeText(body.getDescription());
-	codegenParameter.required=body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
+        codegenParameter.required=body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
 
-        LOGGER.debug("Request body = " + body);
+	LOGGER.debug("Request body = " + body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body,"body");
         if (schema == null) {
             throw new RuntimeException("Request body cannot be null. Possible cause: missing schema in body parameter (OAS v2): " + body);
