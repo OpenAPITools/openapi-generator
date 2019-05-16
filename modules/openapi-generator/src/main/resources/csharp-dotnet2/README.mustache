@@ -32,7 +32,18 @@ Note: NuGet is downloaded by the mono compilation script and packages are instal
 ## Installation
 Run the following command to generate the DLL
 - [Mac/Linux] `/bin/sh compile-mono.sh`
-- [Windows] TODO
+- [Windows] - `.\compile-csc.cmd` (see note down below)
+
+<a name="installation-windows"></a>
+### Note for Windows
+
+To compile your library on Windows, you have to fulfill the following tasks:
+
+1. Be sure you have installed the .NET SDK and Visual Studio 2017.
+2. You then have to open your developer command prompt (https://docs.microsoft.com/en-US/dotnet/framework/tools/developer-command-prompt-for-vs).
+3. `cd` into your cloned repository and execute the bat script `.\compile-csc.bat`.
+
+---
 
 Then include the DLL (under the `bin` folder) in the C# project, and use the namespaces:
 ```csharp
@@ -40,6 +51,7 @@ using {{apiPackage}};
 using {{clientPackage}};
 using {{modelPackage}};
 ```
+
 <a name="getting-started"></a>
 ## Getting Started
 
