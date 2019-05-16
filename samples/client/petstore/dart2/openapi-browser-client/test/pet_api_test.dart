@@ -1,25 +1,23 @@
-// ref: https://dart.dev/guides/testing
-//
-
-part of openapi.tests;
+import 'package:openapi/api.dart';
+import 'package:test/test.dart';
 
 
 /// tests for PetApi
-testPetApi {
+void main() {
   var instance = new PetApi();
 
-  describe('tests for PetApi', () {
+  group('tests for PetApi', () {
     // Add a new pet to the store
     //
     //Future addPet(Pet body) async 
-    it('test addPet', () async {
+    test('test addPet', () async {
       // TODO
     });
 
     // Deletes a pet
     //
     //Future deletePet(int petId, { String apiKey }) async 
-    it('test deletePet', () async {
+    test('test deletePet', () async {
       // TODO
     });
 
@@ -28,7 +26,7 @@ testPetApi {
     // Multiple status values can be provided with comma separated strings
     //
     //Future<List<Pet>> findPetsByStatus(List<String> status) async 
-    it('test findPetsByStatus', () async {
+    test('test findPetsByStatus', () async {
       // TODO
     });
 
@@ -37,7 +35,7 @@ testPetApi {
     // Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
     //
     //Future<List<Pet>> findPetsByTags(List<String> tags) async 
-    it('test findPetsByTags', () async {
+    test('test findPetsByTags', () async {
       // TODO
     });
 
@@ -46,28 +44,28 @@ testPetApi {
     // Returns a single pet
     //
     //Future<Pet> getPetById(int petId) async 
-    it('test getPetById', () async {
+    test('test getPetById', () async {
       // TODO
     });
 
     // Update an existing pet
     //
     //Future updatePet(Pet body) async 
-    it('test updatePet', () async {
+    test('test updatePet', () async {
       // TODO
     });
 
     // Updates a pet in the store with form data
     //
     //Future updatePetWithForm(int petId, { String name, String status }) async 
-    it('test updatePetWithForm', () async {
+    test('test updatePetWithForm', () async {
       // TODO
     });
 
     // uploads an image
     //
     //Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async 
-    it('test uploadFile', () async {
+    test('test uploadFile', () async {
       // TODO
     });
 

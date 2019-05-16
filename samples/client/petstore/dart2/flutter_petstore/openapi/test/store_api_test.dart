@@ -1,20 +1,18 @@
-// ref: https://dart.dev/guides/testing
-//
-
-part of openapi.tests;
+import 'package:openapi/api.dart';
+import 'package:test/test.dart';
 
 
 /// tests for StoreApi
-testStoreApi {
+void main() {
   var instance = new StoreApi();
 
-  describe('tests for StoreApi', () {
+  group('tests for StoreApi', () {
     // Delete purchase order by ID
     //
     // For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
     //
     //Future deleteOrder(String orderId) async 
-    it('test deleteOrder', () async {
+    test('test deleteOrder', () async {
       // TODO
     });
 
@@ -23,7 +21,7 @@ testStoreApi {
     // Returns a map of status codes to quantities
     //
     //Future<Map<String, int>> getInventory() async 
-    it('test getInventory', () async {
+    test('test getInventory', () async {
       // TODO
     });
 
@@ -32,14 +30,14 @@ testStoreApi {
     // For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
     //
     //Future<Order> getOrderById(int orderId) async 
-    it('test getOrderById', () async {
+    test('test getOrderById', () async {
       // TODO
     });
 
     // Place an order for a pet
     //
     //Future<Order> placeOrder(Order body) async 
-    it('test placeOrder', () async {
+    test('test placeOrder', () async {
       // TODO
     });
 

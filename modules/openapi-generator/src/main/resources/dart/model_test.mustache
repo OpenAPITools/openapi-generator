@@ -1,18 +1,19 @@
 {{#models}}
 {{#model}}
-// ref: https://dart.dev/guides/testing
-part of {{pubName}}.tests;
+import 'package:{{pubName}}/api.dart';
+import 'package:test/test.dart';
 
-class {{classname}} {
+// tests for {{classname}}
+void main() {
   var instance = new Pet();
 
-  describe('test {{classname}}', () {
+  group('test {{classname}}', () {
     {{#vars}}
     {{#description}}
     // {{{description}}}
     {{/description}}
     // {{{dataType}}} {{name}}{{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
-    it('to test the property `{{name}}`, () async {
+    test('to test the property `{{name}}`', () async {
       // TODO
     });
 

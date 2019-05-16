@@ -1,38 +1,32 @@
-// ref: https://dart.dev/guides/testing
-//
-
-part of openapi.tests;
+import 'package:openapi/api.dart';
+import 'package:test/test.dart';
 
 
 /// tests for UserApi
-testUserApi {
+void main() {
   var instance = new UserApi();
 
-  describe('tests for UserApi', () {
+  group('tests for UserApi', () {
     // Create user
     //
     // This can only be done by the logged in user.
     //
     //Future createUser(User body) async 
-    it('test createUser', () async {
+    test('test createUser', () async {
       // TODO
     });
 
     // Creates list of users with given input array
-    //
-    // 
     //
     //Future createUsersWithArrayInput(List<User> body) async 
-    it('test createUsersWithArrayInput', () async {
+    test('test createUsersWithArrayInput', () async {
       // TODO
     });
 
     // Creates list of users with given input array
     //
-    // 
-    //
     //Future createUsersWithListInput(List<User> body) async 
-    it('test createUsersWithListInput', () async {
+    test('test createUsersWithListInput', () async {
       // TODO
     });
 
@@ -41,34 +35,28 @@ testUserApi {
     // This can only be done by the logged in user.
     //
     //Future deleteUser(String username) async 
-    it('test deleteUser', () async {
+    test('test deleteUser', () async {
       // TODO
     });
 
     // Get user by user name
     //
-    // 
-    //
     //Future<User> getUserByName(String username) async 
-    it('test getUserByName', () async {
+    test('test getUserByName', () async {
       // TODO
     });
 
     // Logs user into the system
     //
-    // 
-    //
     //Future<String> loginUser(String username, String password) async 
-    it('test loginUser', () async {
+    test('test loginUser', () async {
       // TODO
     });
 
     // Logs out current logged in user session
     //
-    // 
-    //
     //Future logoutUser() async 
-    it('test logoutUser', () async {
+    test('test logoutUser', () async {
       // TODO
     });
 
@@ -77,7 +65,7 @@ testUserApi {
     // This can only be done by the logged in user.
     //
     //Future updateUser(String username, User body) async 
-    it('test updateUser', () async {
+    test('test updateUser', () async {
       // TODO
     });
 

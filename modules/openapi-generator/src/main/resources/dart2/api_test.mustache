@@ -1,15 +1,13 @@
-// ref: https://dart.dev/guides/testing
-//
-
-part of {{pubName}}.tests;
+import 'package:{{pubName}}/api.dart';
+import 'package:test/test.dart';
 
 {{#operations}}
 
 /// tests for {{classname}}
-test{{classname}} {
+void main() {
   var instance = new {{classname}}();
 
-  describe('tests for {{classname}}', () {
+  group('tests for {{classname}}', () {
     {{#operation}}
     {{#summary}}
     // {{{.}}}
@@ -20,7 +18,7 @@ test{{classname}} {
     //
     {{/notes}}
     //{{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{operationId}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async 
-    it('test {{operationId}}', () async {
+    test('test {{operationId}}', () async {
       // TODO
     });
 

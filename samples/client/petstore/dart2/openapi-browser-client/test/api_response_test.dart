@@ -1,22 +1,23 @@
-// ref: https://dart.dev/guides/testing
-part of openapi.tests;
+import 'package:openapi/api.dart';
+import 'package:test/test.dart';
 
-class ApiResponse {
+// tests for ApiResponse
+void main() {
   var instance = new Pet();
 
-  describe('test ApiResponse', () {
+  group('test ApiResponse', () {
     // int code (default value: null)
-    it('to test the property `code`, () async {
+    test('to test the property `code`', () async {
       // TODO
     });
 
     // String type (default value: null)
-    it('to test the property `type`, () async {
+    test('to test the property `type`', () async {
       // TODO
     });
 
     // String message (default value: null)
-    it('to test the property `message`, () async {
+    test('to test the property `message`', () async {
       // TODO
     });
 

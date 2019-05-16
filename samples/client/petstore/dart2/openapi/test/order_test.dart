@@ -1,38 +1,39 @@
-// ref: https://dart.dev/guides/testing
-part of openapi.tests;
+import 'package:openapi/api.dart';
+import 'package:test/test.dart';
 
-class Order {
+// tests for Order
+void main() {
   var instance = new Pet();
 
-  describe('test Order', () {
+  group('test Order', () {
     // int id (default value: null)
-    it('to test the property `id`, () async {
+    test('to test the property `id`', () async {
       // TODO
     });
 
     // int petId (default value: null)
-    it('to test the property `petId`, () async {
+    test('to test the property `petId`', () async {
       // TODO
     });
 
     // int quantity (default value: null)
-    it('to test the property `quantity`, () async {
+    test('to test the property `quantity`', () async {
       // TODO
     });
 
     // DateTime shipDate (default value: null)
-    it('to test the property `shipDate`, () async {
+    test('to test the property `shipDate`', () async {
       // TODO
     });
 
     // Order Status
     // String status (default value: null)
-    it('to test the property `status`, () async {
+    test('to test the property `status`', () async {
       // TODO
     });
 
     // bool complete (default value: false)
-    it('to test the property `complete`, () async {
+    test('to test the property `complete`', () async {
       // TODO
     });
 
