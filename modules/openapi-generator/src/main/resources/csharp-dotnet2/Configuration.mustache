@@ -36,6 +36,16 @@ namespace {{clientPackage}}
         /// </summary>
         /// <value>The password.</value>
         public static String Password { get; set; }
+
+        {{#authMethods}}
+        {{#isBasicBearer}}
+        /// <summary>
+        /// Gets or sets the {{name}} bearer token (HTTP bearer authentication).
+        /// </summary>
+        /// <value>Some bearer token.</value>
+        public static String Bearer_{{name}} { get; set; }
+        {{/isBasicBearer}}
+        {{/authMethods}}
   
         /// <summary>
         /// Gets or sets the API key based on the authentication name.
