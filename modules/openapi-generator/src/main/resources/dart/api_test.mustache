@@ -1,0 +1,26 @@
+// ref: https://dart.dev/guides/testing
+//
+
+part of {{pubName}}.tests;
+
+{{#operations}}
+
+/// tests for {{classname}}
+test{{classname}} {
+  var instance = new {{classname}}();
+
+  describe('tests for {{classname}}', () {
+    {{#operation}}
+    // {{summary}}
+    //
+    // {{notes}}
+    //
+    //{{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{operationId}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async 
+    it('test {{operationId}}', () async {
+      // TODO
+    });
+
+    {{/operation}}
+  });
+}
+{{/operations}}
