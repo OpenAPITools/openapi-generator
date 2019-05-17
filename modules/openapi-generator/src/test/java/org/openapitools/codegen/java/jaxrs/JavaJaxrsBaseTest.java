@@ -54,10 +54,14 @@ public abstract class JavaJaxrsBaseTest {
     }
 
     private void checkFileContains(MockDefaultGenerator generator, String path, String... lines) {
-        String file = generator.getFiles().get(path);
+        String file = linearize(generator.getFiles().get(path));
         assertNotNull(file);
         for (String line : lines)
-            assertTrue(file.contains(line));
+            assertTrue(file.contains(linearize(line)));
+    }
+
+    private String linearize(String target) {
+        return target.replaceAll("\r?\n", "").replaceAll("\\s+", "\\s");
     }
 
     @Test
@@ -92,10 +96,10 @@ public abstract class JavaJaxrsBaseTest {
     }
 
     private void checkFileNotContains(MockDefaultGenerator generator, String path, String... lines) {
-        String file = generator.getFiles().get(path);
+        String file = linearize(generator.getFiles().get(path));
         assertNotNull(file);
         for (String line : lines)
-            assertFalse(file.contains(line));
+            assertFalse(file.contains(linearize(line)));
     }
 
     @Test
