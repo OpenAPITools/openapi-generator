@@ -60,6 +60,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SWAGGER_ANNOTATIONS = "swaggerAnnotations";
     public static final String SERVICE_INTERFACE = "serviceInterface";
     public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
+    public static final String REACTIVE = "reactive";
+
 
     private String basePackage;
     private String invokerPackage;
@@ -72,6 +74,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean swaggerAnnotations = false;
     private boolean serviceInterface = false;
     private boolean serviceImplementation = false;
+    private boolean reactive = false;
 
     public KotlinSpringServerCodegen() {
         super();
@@ -148,7 +151,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(SERVICE_IMPLEMENTATION, "generate stub service implementations that extends service " +
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
-
+        addSwitch(REACTIVE, "use coroutines for reactive behavior (webflux only)", reactive);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
 
@@ -237,6 +240,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public void setUseBeanValidation(boolean useBeanValidation) {
         this.useBeanValidation = useBeanValidation;
+    }
+
+    public boolean isReactive() {
+        return reactive;
+    }
+
+    public void setReactive(boolean reactive) {
+        this.reactive = reactive;
     }
 
     @Override
@@ -330,6 +341,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+
+        if (additionalProperties.containsKey(REACTIVE) && library.equals(SPRING_BOOT)) {
+            this.setReactive(convertPropertyToBoolean(REACTIVE));
+        }
+        writePropertyBack(REACTIVE, reactive);
 
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("api.mustache", ".kt");
