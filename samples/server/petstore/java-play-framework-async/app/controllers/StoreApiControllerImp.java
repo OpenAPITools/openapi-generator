@@ -33,7 +33,7 @@ public class StoreApiControllerImp implements StoreApiControllerImpInterface {
     }
 
     @Override
-    public CompletionStage<Order> placeOrder(Order order) throws Exception {
+    public CompletionStage<Order> placeOrder(Order body) throws Exception {
         //Do your magic!!!
         return CompletableFuture.supplyAsync(() -> {
            return new Order();

@@ -16,16 +16,22 @@ open class MapTest: JSONEncodable {
     }
     public var mapMapOfString: [String:[String:String]]?
     public var mapOfEnumString: [String:String]?
+    public var directMap: [String:Bool]?
+    public var indirectMap: [String:Bool]?
 
 
-    public init(mapMapOfString: [String:[String:String]]?=nil, mapOfEnumString: [String:String]?=nil) {
+    public init(mapMapOfString: [String:[String:String]]?=nil, mapOfEnumString: [String:String]?=nil, directMap: [String:Bool]?=nil, indirectMap: [String:Bool]?=nil) {
         self.mapMapOfString = mapMapOfString
         self.mapOfEnumString = mapOfEnumString
+        self.directMap = directMap
+        self.indirectMap = indirectMap
     }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
         nillableDictionary["map_map_of_string"] = self.mapMapOfString?.encodeToJSON()//TODO: handle enum map scenario
+        nillableDictionary["direct_map"] = self.directMap?.encodeToJSON()
+        nillableDictionary["indirect_map"] = self.indirectMap?.encodeToJSON()
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

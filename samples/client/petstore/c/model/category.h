@@ -15,11 +15,15 @@
 
 
 typedef struct category_t {
-	long id; // numeric
-	char *name; // string
+    long id; //numeric
+    char *name; // string
+
 } category_t;
 
-category_t *category_create(long id, char *name);
+category_t *category_create(
+    long id,
+    char *name
+);
 
 void category_free(category_t *category);
 
@@ -28,3 +32,4 @@ category_t *category_parseFromJSON(cJSON *categoryJSON);
 cJSON *category_convertToJSON(category_t *category);
 
 #endif /* _category_H_ */
+

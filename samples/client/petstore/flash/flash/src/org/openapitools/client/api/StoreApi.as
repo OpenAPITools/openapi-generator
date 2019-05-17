@@ -118,7 +118,7 @@ public class StoreApi extends OpenApi {
     /*
      * Returns Order 
      */
-    public function place_order (order: Order): String {
+    public function place_order (body: Order): String {
         // create path and map variables
         var path: String = "/store/order".replace(/{format}/g,"xml");
 
@@ -133,7 +133,7 @@ public class StoreApi extends OpenApi {
 
         
         
-        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, order, headerParams);
+        var token:AsyncToken = getApiInvoker().invokeAPI(path, "POST", queryParams, body, headerParams);
 
         var requestId: String = getUniqueId();
 

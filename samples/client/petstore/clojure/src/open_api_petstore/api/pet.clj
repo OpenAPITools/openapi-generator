@@ -15,13 +15,13 @@
 (defn-spec add-pet-with-http-info any?
   "Add a new pet to the store"
   ([] (add-pet-with-http-info nil))
-  ([{:keys [pet]} (s/map-of keyword? any?)]
+  ([{:keys [body]} (s/map-of keyword? any?)]
    (call-api "/pet" :post
              {:path-params   {}
               :header-params {}
               :query-params  {}
               :form-params   {}
-              :body-param    pet
+              :body-param    body
               :content-types ["application/json" "application/xml"]
               :accepts       []
               :auth-names    ["petstore_auth"]})))
@@ -137,13 +137,13 @@
 (defn-spec update-pet-with-http-info any?
   "Update an existing pet"
   ([] (update-pet-with-http-info nil))
-  ([{:keys [pet]} (s/map-of keyword? any?)]
+  ([{:keys [body]} (s/map-of keyword? any?)]
    (call-api "/pet" :put
              {:path-params   {}
               :header-params {}
               :query-params  {}
               :form-params   {}
-              :body-param    pet
+              :body-param    body
               :content-types ["application/json" "application/xml"]
               :accepts       []
               :auth-names    ["petstore_auth"]})))

@@ -20,6 +20,6 @@ public interface StoreApi  {
     public Single<Order> getOrderById(Long orderId);
     
     //placeOrder
-    public Single<Order> placeOrder(Order order);
+    public Single<Order> placeOrder(Order body);
     
 }

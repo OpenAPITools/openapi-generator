@@ -27,10 +27,12 @@ class Tag {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name
-    };
+    Map <String, dynamic> json = {};
+    if (id != null)
+      json['id'] = id;
+    if (name != null)
+      json['name'] = name;
+    return json;
   }
 
   static List<Tag> listFromJson(List<dynamic> json) {

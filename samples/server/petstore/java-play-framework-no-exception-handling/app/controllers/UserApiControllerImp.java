@@ -12,17 +12,17 @@ import javax.validation.constraints.*;
 
 public class UserApiControllerImp implements UserApiControllerImpInterface {
     @Override
-    public void createUser(User user)  {
+    public void createUser(User body)  {
         //Do your magic!!!
     }
 
     @Override
-    public void createUsersWithArrayInput(List<User> user)  {
+    public void createUsersWithArrayInput(List<User> body)  {
         //Do your magic!!!
     }
 
     @Override
-    public void createUsersWithListInput(List<User> user)  {
+    public void createUsersWithListInput(List<User> body)  {
         //Do your magic!!!
     }
 
@@ -49,7 +49,7 @@ public class UserApiControllerImp implements UserApiControllerImpInterface {
     }
 
     @Override
-    public void updateUser(String username, User user)  {
+    public void updateUser(String username, User body)  {
         //Do your magic!!!
     }
 

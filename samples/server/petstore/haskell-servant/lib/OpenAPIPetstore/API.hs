@@ -137,7 +137,7 @@ type OpenAPIPetstoreAPI
     =    "pet" :> ReqBody '[JSON] Pet :> Verb 'POST 200 '[JSON] () -- 'addPet' route
     :<|> "pet" :> Capture "petId" Integer :> Header "api_key" Text :> Verb 'DELETE 200 '[JSON] () -- 'deletePet' route
     :<|> "pet" :> "findByStatus" :> QueryParam "status" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByStatus' route
-    :<|> "pet" :> "findByTags" :> QueryParam "tags" (QueryList 'CommaSeparated (Text)) :> QueryParam "maxCount" Int :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByTags' route
+    :<|> "pet" :> "findByTags" :> QueryParam "tags" (QueryList 'CommaSeparated (Text)) :> Verb 'GET 200 '[JSON] [Pet] -- 'findPetsByTags' route
     :<|> "pet" :> Capture "petId" Integer :> Verb 'GET 200 '[JSON] Pet -- 'getPetById' route
     :<|> "pet" :> ReqBody '[JSON] Pet :> Verb 'PUT 200 '[JSON] () -- 'updatePet' route
     :<|> "pet" :> Capture "petId" Integer :> ReqBody '[FormUrlEncoded] FormUpdatePetWithForm :> Verb 'POST 200 '[JSON] () -- 'updatePetWithForm' route
@@ -176,7 +176,7 @@ data OpenAPIPetstoreBackend m = OpenAPIPetstoreBackend
   { addPet :: Pet -> m (){- ^  -}
   , deletePet :: Integer -> Maybe Text -> m (){- ^  -}
   , findPetsByStatus :: Maybe [Text] -> m [Pet]{- ^ Multiple status values can be provided with comma separated strings -}
-  , findPetsByTags :: Maybe [Text] -> Maybe Int -> m [Pet]{- ^ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. -}
+  , findPetsByTags :: Maybe [Text] -> m [Pet]{- ^ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing. -}
   , getPetById :: Integer -> m Pet{- ^ Returns a single pet -}
   , updatePet :: Pet -> m (){- ^  -}
   , updatePetWithForm :: Integer -> FormUpdatePetWithForm -> m (){- ^  -}

@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 
 public class AnotherFakeApiControllerImp implements AnotherFakeApiControllerImpInterface {
     @Override
-    public Client testSpecialTags(Client client) throws Exception {
+    public Client call123testSpecialTags(Client body) throws Exception {
         //Do your magic!!!
         return new Client();
     }

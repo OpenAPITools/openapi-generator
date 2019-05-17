@@ -73,11 +73,11 @@ get_order_by_id(Ctx, OrderId, Optional) ->
 %% @doc Place an order for a pet
 %% 
 -spec place_order(ctx:ctx(), petstore_order:petstore_order()) -> {ok, petstore_order:petstore_order(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
-place_order(Ctx, PetstoreOrder) ->
-    place_order(Ctx, PetstoreOrder, #{}).
+place_order(Ctx, Body) ->
+    place_order(Ctx, Body, #{}).
 
 -spec place_order(ctx:ctx(), petstore_order:petstore_order(), maps:map()) -> {ok, petstore_order:petstore_order(), petstore_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), petstore_utils:response_info()}.
-place_order(Ctx, PetstoreOrder, Optional) ->
+place_order(Ctx, Body, Optional) ->
     _OptionalParams = maps:get(params, Optional, #{}),
     Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
 
@@ -85,7 +85,7 @@ place_order(Ctx, PetstoreOrder, Optional) ->
     Path = ["/store/order"],
     QS = [],
     Headers = [],
-    Body1 = PetstoreOrder,
+    Body1 = Body,
     ContentTypeHeader = petstore_utils:select_header_content_type([]),
     Opts = maps:get(hackney_opts, Optional, []),
 

@@ -1,6 +1,7 @@
 package apimodels;
 
 import apimodels.Animal;
+import apimodels.CatAllOf;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
@@ -13,7 +14,7 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Cat extends Animal  {
   @JsonProperty("declawed")
-  private Boolean declawed = null;
+  private Boolean declawed;
 
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;

@@ -36,8 +36,8 @@ module.exports.getOrderById = function getOrderById (req, res, next) {
 };
 
 module.exports.placeOrder = function placeOrder (req, res, next) {
-  var order = req.swagger.params['Order'].value;
-  Store.placeOrder(order)
+  var body = req.swagger.params['body'].value;
+  Store.placeOrder(body)
     .then(function (response) {
       utils.writeJson(res, response);
     })

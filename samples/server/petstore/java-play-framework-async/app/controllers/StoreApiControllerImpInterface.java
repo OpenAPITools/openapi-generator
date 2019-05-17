@@ -20,6 +20,6 @@ public interface StoreApiControllerImpInterface {
 
     CompletionStage<Order> getOrderById( @Min(1) @Max(5)Long orderId) throws Exception;
 
-    CompletionStage<Order> placeOrder(Order order) throws Exception;
+    CompletionStage<Order> placeOrder(Order body) throws Exception;
 
 }

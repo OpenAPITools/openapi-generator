@@ -11,6 +11,6 @@ import javax.validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
 public interface FakeClassnameTags123ApiControllerImpInterface {
-    Client testClassname(Client client) throws Exception;
+    Client testClassname(Client body) throws Exception;
 
 }

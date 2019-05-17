@@ -18,9 +18,9 @@ import (
 	// once you place this file into your project.
 	// For example,
 	//
-	//    sw "github.com/myname/myrepo/"
+	//    sw "github.com/myname/myrepo/go"
 	//
-	sw "./"
+	sw "./go"
 )
 
 func main() {

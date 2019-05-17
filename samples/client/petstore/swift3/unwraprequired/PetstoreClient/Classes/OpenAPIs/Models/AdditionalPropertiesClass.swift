@@ -10,19 +10,19 @@ import Foundation
 
 open class AdditionalPropertiesClass: JSONEncodable {
 
-    public var mapProperty: [String:String]?
-    public var mapOfMapProperty: [String:[String:String]]?
+    public var mapString: [String:String]?
+    public var mapMapString: [String:[String:String]]?
 
 
-    public init(mapProperty: [String:String]?=nil, mapOfMapProperty: [String:[String:String]]?=nil) {
-        self.mapProperty = mapProperty
-        self.mapOfMapProperty = mapOfMapProperty
+    public init(mapString: [String:String]?=nil, mapMapString: [String:[String:String]]?=nil) {
+        self.mapString = mapString
+        self.mapMapString = mapMapString
     }
     // MARK: JSONEncodable
     open func encodeToJSON() -> Any {
         var nillableDictionary = [String:Any?]()
-        nillableDictionary["map_property"] = self.mapProperty?.encodeToJSON()
-        nillableDictionary["map_of_map_property"] = self.mapOfMapProperty?.encodeToJSON()
+        nillableDictionary["map_string"] = self.mapString?.encodeToJSON()
+        nillableDictionary["map_map_string"] = self.mapMapString?.encodeToJSON()
 
         let dictionary: [String:Any] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

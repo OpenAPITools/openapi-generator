@@ -11,7 +11,7 @@ import flash.events.Event;
 public class ApiClientEvent extends Event{
 
     /**
-     * Event type to indicate a unsuccessful invocation
+     * Event type to indicate an unsuccessful invocation
      */
     public static const FAILURE_EVENT:String = "unsuccesfulInvocation";
 

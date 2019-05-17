@@ -18,10 +18,10 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
-  private UUID uuid = null;
+  private UUID uuid;
 
   @JsonProperty("dateTime")
-  private OffsetDateTime dateTime = null;
+  private OffsetDateTime dateTime;
 
   @JsonProperty("map")
   private Map<String, Animal> map = null;

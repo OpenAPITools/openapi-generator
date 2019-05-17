@@ -7,15 +7,17 @@ Method | HTTP request | Description
 [**TestClassname**](FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 
 
-<a name="testclassname"></a>
-# **TestClassname**
-> ModelClient TestClassname (ModelClient modelClient)
+
+## TestClassname
+
+> ModelClient TestClassname (ModelClient body)
 
 To test class name in snake case
 
 To test class name in snake case
 
 ### Example
+
 ```csharp
 using System;
 using System.Diagnostics;
@@ -35,12 +37,12 @@ namespace Example
             // Configuration.Default.AddApiKeyPrefix("api_key_query", "Bearer");
 
             var apiInstance = new FakeClassnameTags123Api();
-            var modelClient = new ModelClient(); // ModelClient | client model
+            var body = new ModelClient(); // ModelClient | client model
 
             try
             {
                 // To test class name in snake case
-                ModelClient result = apiInstance.TestClassname(modelClient);
+                ModelClient result = apiInstance.TestClassname(body);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -54,9 +56,10 @@ namespace Example
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
+ **body** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 
@@ -68,8 +71,11 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+[[Back to top]](#)
+[[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 

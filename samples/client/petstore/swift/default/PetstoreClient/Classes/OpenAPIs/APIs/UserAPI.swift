@@ -13,11 +13,11 @@ public class UserAPI: APIBase {
     /**
      Create user
      
-     - parameter user: (body) Created user object (optional)
+     - parameter body: (body) Created user object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func createUser(user user: User? = nil, completion: ((error: ErrorType?) -> Void)) {
-        createUserWithRequestBuilder(user: user).execute { (response, error) -> Void in
+    public class func createUser(body body: User? = nil, completion: ((error: ErrorType?) -> Void)) {
+        createUserWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
@@ -26,14 +26,14 @@ public class UserAPI: APIBase {
     /**
      Create user
      - POST /user
-     - This can only be done by the logged in user.     - parameter user: (body) Created user object (optional)
+     - This can only be done by the logged in user.     - parameter body: (body) Created user object (optional)
 
      - returns: RequestBuilder<Void> 
      */
-    public class func createUserWithRequestBuilder(user user: User? = nil) -> RequestBuilder<Void> {
+    public class func createUserWithRequestBuilder(body body: User? = nil) -> RequestBuilder<Void> {
         let path = "/user"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = user?.encodeToJSON() as? [String:AnyObject]
+        let parameters = body?.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
@@ -45,11 +45,11 @@ public class UserAPI: APIBase {
     /**
      Creates list of users with given input array
      
-     - parameter user: (body) List of user object (optional)
+     - parameter body: (body) List of user object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func createUsersWithArrayInput(user user: [User]? = nil, completion: ((error: ErrorType?) -> Void)) {
-        createUsersWithArrayInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
+    public class func createUsersWithArrayInput(body body: [User]? = nil, completion: ((error: ErrorType?) -> Void)) {
+        createUsersWithArrayInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
@@ -57,14 +57,14 @@ public class UserAPI: APIBase {
 
     /**
      Creates list of users with given input array
-     - POST /user/createWithArray     - parameter user: (body) List of user object (optional)
+     - POST /user/createWithArray     - parameter body: (body) List of user object (optional)
 
      - returns: RequestBuilder<Void> 
      */
-    public class func createUsersWithArrayInputWithRequestBuilder(user user: [User]? = nil) -> RequestBuilder<Void> {
+    public class func createUsersWithArrayInputWithRequestBuilder(body body: [User]? = nil) -> RequestBuilder<Void> {
         let path = "/user/createWithArray"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = user?.encodeToJSON() as? [String:AnyObject]
+        let parameters = body?.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
@@ -76,11 +76,11 @@ public class UserAPI: APIBase {
     /**
      Creates list of users with given input array
      
-     - parameter user: (body) List of user object (optional)
+     - parameter body: (body) List of user object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func createUsersWithListInput(user user: [User]? = nil, completion: ((error: ErrorType?) -> Void)) {
-        createUsersWithListInputWithRequestBuilder(user: user).execute { (response, error) -> Void in
+    public class func createUsersWithListInput(body body: [User]? = nil, completion: ((error: ErrorType?) -> Void)) {
+        createUsersWithListInputWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
@@ -88,14 +88,14 @@ public class UserAPI: APIBase {
 
     /**
      Creates list of users with given input array
-     - POST /user/createWithList     - parameter user: (body) List of user object (optional)
+     - POST /user/createWithList     - parameter body: (body) List of user object (optional)
 
      - returns: RequestBuilder<Void> 
      */
-    public class func createUsersWithListInputWithRequestBuilder(user user: [User]? = nil) -> RequestBuilder<Void> {
+    public class func createUsersWithListInputWithRequestBuilder(body body: [User]? = nil) -> RequestBuilder<Void> {
         let path = "/user/createWithList"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = user?.encodeToJSON() as? [String:AnyObject]
+        let parameters = body?.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
@@ -164,7 +164,7 @@ public class UserAPI: APIBase {
   "id" : 0,
   "email" : "email",
   "username" : "username"
-}}, {contentType=application/xml, example=<User>
+}, statusCode=200}, {contentType=application/xml, example=<User>
   <id>123456789</id>
   <username>aeiou</username>
   <firstName>aeiou</firstName>
@@ -173,7 +173,7 @@ public class UserAPI: APIBase {
   <password>aeiou</password>
   <phone>aeiou</phone>
   <userStatus>123</userStatus>
-</User>}]
+</User>, statusCode=200}]
      - examples: [{contentType=application/json, example={
   "firstName" : "firstName",
   "lastName" : "lastName",
@@ -183,7 +183,7 @@ public class UserAPI: APIBase {
   "id" : 0,
   "email" : "email",
   "username" : "username"
-}}, {contentType=application/xml, example=<User>
+}, statusCode=200}, {contentType=application/xml, example=<User>
   <id>123456789</id>
   <username>aeiou</username>
   <firstName>aeiou</firstName>
@@ -192,7 +192,7 @@ public class UserAPI: APIBase {
   <password>aeiou</password>
   <phone>aeiou</phone>
   <userStatus>123</userStatus>
-</User>}]
+</User>, statusCode=200}]
      - parameter username: (path) The name that needs to be fetched. Use user1 for testing.  
 
      - returns: RequestBuilder<User> 
@@ -288,11 +288,11 @@ public class UserAPI: APIBase {
      Updated user
      
      - parameter username: (path) name that need to be deleted 
-     - parameter user: (body) Updated user object (optional)
+     - parameter body: (body) Updated user object (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func updateUser(username username: String, user: User? = nil, completion: ((error: ErrorType?) -> Void)) {
-        updateUserWithRequestBuilder(username: username, user: user).execute { (response, error) -> Void in
+    public class func updateUser(username username: String, body: User? = nil, completion: ((error: ErrorType?) -> Void)) {
+        updateUserWithRequestBuilder(username: username, body: body).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
@@ -302,15 +302,15 @@ public class UserAPI: APIBase {
      Updated user
      - PUT /user/{username}
      - This can only be done by the logged in user.     - parameter username: (path) name that need to be deleted 
-     - parameter user: (body) Updated user object (optional)
+     - parameter body: (body) Updated user object (optional)
 
      - returns: RequestBuilder<Void> 
      */
-    public class func updateUserWithRequestBuilder(username username: String, user: User? = nil) -> RequestBuilder<Void> {
+    public class func updateUserWithRequestBuilder(username username: String, body: User? = nil) -> RequestBuilder<Void> {
         var path = "/user/{username}"
         path = path.stringByReplacingOccurrencesOfString("{username}", withString: "\(username)", options: .LiteralSearch, range: nil)
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = user?.encodeToJSON() as? [String:AnyObject]
+        let parameters = body?.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  

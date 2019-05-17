@@ -48,13 +48,13 @@ public class PetApiVerticle extends AbstractVerticle {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
                 String serviceId = "addPet";
-                JsonObject petParam = message.body().getJsonObject("Pet");
-                if (petParam == null) {
-                    manageError(message, new MainApiException(400, "Pet is required"), serviceId);
+                JsonObject bodyParam = message.body().getJsonObject("body");
+                if (bodyParam == null) {
+                    manageError(message, new MainApiException(400, "body is required"), serviceId);
                     return;
                 }
-                Pet pet = Json.mapper.readValue(petParam.encode(), Pet.class);
-                service.addPet(pet, result -> {
+                Pet body = Json.mapper.readValue(bodyParam.encode(), Pet.class);
+                service.addPet(body, result -> {
                     if (result.succeeded())
                         message.reply(null);
                     else {
@@ -177,13 +177,13 @@ public class PetApiVerticle extends AbstractVerticle {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
                 String serviceId = "updatePet";
-                JsonObject petParam = message.body().getJsonObject("Pet");
-                if (petParam == null) {
-                    manageError(message, new MainApiException(400, "Pet is required"), serviceId);
+                JsonObject bodyParam = message.body().getJsonObject("body");
+                if (bodyParam == null) {
+                    manageError(message, new MainApiException(400, "body is required"), serviceId);
                     return;
                 }
-                Pet pet = Json.mapper.readValue(petParam.encode(), Pet.class);
-                service.updatePet(pet, result -> {
+                Pet body = Json.mapper.readValue(bodyParam.encode(), Pet.class);
+                service.updatePet(body, result -> {
                     if (result.succeeded())
                         message.reply(null);
                     else {

@@ -14,11 +14,11 @@ public class PetAPI: APIBase {
     /**
      Add a new pet to the store
      
-     - parameter pet: (body) Pet object that needs to be added to the store (optional)
+     - parameter body: (body) Pet object that needs to be added to the store (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func addPet(pet pet: Pet? = nil, completion: ((error: ErrorType?) -> Void)) {
-        addPetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
+    public class func addPet(body body: Pet? = nil, completion: ((error: ErrorType?) -> Void)) {
+        addPetWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
@@ -26,12 +26,12 @@ public class PetAPI: APIBase {
     /**
      Add a new pet to the store
      
-     - parameter pet: (body) Pet object that needs to be added to the store (optional)
+     - parameter body: (body) Pet object that needs to be added to the store (optional)
      - returns: Observable<Void>
      */
-    public class func addPet(pet pet: Pet? = nil) -> Observable<Void> {
+    public class func addPet(body body: Pet? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            addPet(pet: pet) { error in
+            addPet(body: body) { error in
                 if let error = error {
                     observer.on(.Error(error as ErrorType))
                 } else {
@@ -48,14 +48,14 @@ public class PetAPI: APIBase {
      - POST /pet     - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - parameter pet: (body) Pet object that needs to be added to the store (optional)
+     - parameter body: (body) Pet object that needs to be added to the store (optional)
 
      - returns: RequestBuilder<Void> 
      */
-    public class func addPetWithRequestBuilder(pet pet: Pet? = nil) -> RequestBuilder<Void> {
+    public class func addPetWithRequestBuilder(body body: Pet? = nil) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = pet?.encodeToJSON() as? [String:AnyObject]
+        let parameters = body?.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
@@ -182,7 +182,7 @@ public class PetAPI: APIBase {
     "id" : 1
   } ],
   "status" : "available"
-}}, {contentType=application/xml, example=<Pet>
+}, statusCode=200}, {contentType=application/xml, example=<Pet>
   <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
@@ -191,7 +191,7 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>aeiou</status>
-</Pet>}]
+</Pet>, statusCode=200}]
      - examples: [{contentType=application/json, example={
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
@@ -208,7 +208,7 @@ public class PetAPI: APIBase {
     "id" : 1
   } ],
   "status" : "available"
-}}, {contentType=application/xml, example=<Pet>
+}, statusCode=200}, {contentType=application/xml, example=<Pet>
   <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
@@ -217,7 +217,7 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>aeiou</status>
-</Pet>}]
+</Pet>, statusCode=200}]
      - parameter status: (query) Status values that need to be considered for filter (optional)
 
      - returns: RequestBuilder<[Pet]> 
@@ -293,7 +293,7 @@ public class PetAPI: APIBase {
     "id" : 1
   } ],
   "status" : "available"
-}}, {contentType=application/xml, example=<Pet>
+}, statusCode=200}, {contentType=application/xml, example=<Pet>
   <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
@@ -302,7 +302,7 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>aeiou</status>
-</Pet>}]
+</Pet>, statusCode=200}]
      - examples: [{contentType=application/json, example={
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
@@ -319,7 +319,7 @@ public class PetAPI: APIBase {
     "id" : 1
   } ],
   "status" : "available"
-}}, {contentType=application/xml, example=<Pet>
+}, statusCode=200}, {contentType=application/xml, example=<Pet>
   <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
@@ -328,7 +328,7 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>aeiou</status>
-</Pet>}]
+</Pet>, statusCode=200}]
      - parameter tags: (query) Tags to filter by (optional)
 
      - returns: RequestBuilder<[Pet]> 
@@ -407,7 +407,7 @@ public class PetAPI: APIBase {
     "id" : 1
   } ],
   "status" : "available"
-}}, {contentType=application/xml, example=<Pet>
+}, statusCode=200}, {contentType=application/xml, example=<Pet>
   <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
@@ -416,7 +416,7 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>aeiou</status>
-</Pet>}]
+</Pet>, statusCode=200}]
      - examples: [{contentType=application/json, example={
   "photoUrls" : [ "photoUrls", "photoUrls" ],
   "name" : "doggie",
@@ -433,7 +433,7 @@ public class PetAPI: APIBase {
     "id" : 1
   } ],
   "status" : "available"
-}}, {contentType=application/xml, example=<Pet>
+}, statusCode=200}, {contentType=application/xml, example=<Pet>
   <id>123456789</id>
   <name>doggie</name>
   <photoUrls>
@@ -442,7 +442,7 @@ public class PetAPI: APIBase {
   <tags>
   </tags>
   <status>aeiou</status>
-</Pet>}]
+</Pet>, statusCode=200}]
      - parameter petId: (path) ID of pet that needs to be fetched 
 
      - returns: RequestBuilder<Pet> 
@@ -466,11 +466,11 @@ public class PetAPI: APIBase {
     /**
      Update an existing pet
      
-     - parameter pet: (body) Pet object that needs to be added to the store (optional)
+     - parameter body: (body) Pet object that needs to be added to the store (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func updatePet(pet pet: Pet? = nil, completion: ((error: ErrorType?) -> Void)) {
-        updatePetWithRequestBuilder(pet: pet).execute { (response, error) -> Void in
+    public class func updatePet(body body: Pet? = nil, completion: ((error: ErrorType?) -> Void)) {
+        updatePetWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(error: error);
         }
     }
@@ -478,12 +478,12 @@ public class PetAPI: APIBase {
     /**
      Update an existing pet
      
-     - parameter pet: (body) Pet object that needs to be added to the store (optional)
+     - parameter body: (body) Pet object that needs to be added to the store (optional)
      - returns: Observable<Void>
      */
-    public class func updatePet(pet pet: Pet? = nil) -> Observable<Void> {
+    public class func updatePet(body body: Pet? = nil) -> Observable<Void> {
         return Observable.create { observer -> Disposable in
-            updatePet(pet: pet) { error in
+            updatePet(body: body) { error in
                 if let error = error {
                     observer.on(.Error(error as ErrorType))
                 } else {
@@ -500,14 +500,14 @@ public class PetAPI: APIBase {
      - PUT /pet     - OAuth:
        - type: oauth2
        - name: petstore_auth
-     - parameter pet: (body) Pet object that needs to be added to the store (optional)
+     - parameter body: (body) Pet object that needs to be added to the store (optional)
 
      - returns: RequestBuilder<Void> 
      */
-    public class func updatePetWithRequestBuilder(pet pet: Pet? = nil) -> RequestBuilder<Void> {
+    public class func updatePetWithRequestBuilder(body body: Pet? = nil) -> RequestBuilder<Void> {
         let path = "/pet"
         let URLString = PetstoreClientAPI.basePath + path
-        let parameters = pet?.encodeToJSON() as? [String:AnyObject]
+        let parameters = body?.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  

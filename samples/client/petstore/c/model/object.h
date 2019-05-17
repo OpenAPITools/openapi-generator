@@ -12,7 +12,7 @@
 
 
 typedef struct object_t {
-	void *temporary;
+    void *temporary;
 } object_t;
 
 object_t *object_create();
