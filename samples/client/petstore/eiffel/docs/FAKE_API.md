@@ -4,50 +4,17 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Feature | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_xml_item**](FAKE_API.md#create_xml_item) | **Post** /fake/create_xml_item | creates an XmlItem
 [**fake_outer_boolean_serialize**](FAKE_API.md#fake_outer_boolean_serialize) | **Post** /fake/outer/boolean | 
 [**fake_outer_composite_serialize**](FAKE_API.md#fake_outer_composite_serialize) | **Post** /fake/outer/composite | 
 [**fake_outer_number_serialize**](FAKE_API.md#fake_outer_number_serialize) | **Post** /fake/outer/number | 
 [**fake_outer_string_serialize**](FAKE_API.md#fake_outer_string_serialize) | **Post** /fake/outer/string | 
-[**test_body_with_file_schema**](FAKE_API.md#test_body_with_file_schema) | **Put** /fake/body-with-file-schema | 
 [**test_body_with_query_params**](FAKE_API.md#test_body_with_query_params) | **Put** /fake/body-with-query-params | 
 [**test_client_model**](FAKE_API.md#test_client_model) | **Patch** /fake | To test \&quot;client\&quot; model
 [**test_endpoint_parameters**](FAKE_API.md#test_endpoint_parameters) | **Post** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 [**test_enum_parameters**](FAKE_API.md#test_enum_parameters) | **Get** /fake | To test enum parameters
-[**test_group_parameters**](FAKE_API.md#test_group_parameters) | **Delete** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FAKE_API.md#test_inline_additional_properties) | **Post** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_json_form_data**](FAKE_API.md#test_json_form_data) | **Get** /fake/jsonFormData | test json serialization of form data
 
-
-# **create_xml_item**
-> create_xml_item (xml_item: XML_ITEM )
-	
-
-creates an XmlItem
-
-this route creates an XmlItem
-
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **xml_item** | [**XML_ITEM**](XML_ITEM.md)| XmlItem Body | 
-
-### Return type
-
-{empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
- - **Accept**: Not defined
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_boolean_serialize**
 > fake_outer_boolean_serialize (body:  detachable BOOLEAN ): detachable BOOLEAN
@@ -80,7 +47,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **fake_outer_composite_serialize**
-> fake_outer_composite_serialize (body:  detachable OUTER_COMPOSITE ): detachable OUTER_COMPOSITE
+> fake_outer_composite_serialize (outer_composite:  detachable OUTER_COMPOSITE ): detachable OUTER_COMPOSITE
 	
 
 
@@ -92,7 +59,7 @@ Test serialization of object with outer number type
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**OUTER_COMPOSITE**](OUTER_COMPOSITE.md)| Input composite as post body | [optional] 
+ **outer_composite** | [**OUTER_COMPOSITE**](OUTER_COMPOSITE.md)| Input composite as post body | [optional] 
 
 ### Return type
 
@@ -169,38 +136,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **test_body_with_file_schema**
-> test_body_with_file_schema (body: FILE_SCHEMA_TEST_CLASS )
-	
-
-
-
-For this test, the body for this request much reference a schema named `File`.
-
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**FILE_SCHEMA_TEST_CLASS**](FILE_SCHEMA_TEST_CLASS.md)|  | 
-
-### Return type
-
-{empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: Not defined
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **test_body_with_query_params**
-> test_body_with_query_params (query: STRING_32 ; body: USER )
+> test_body_with_query_params (query: STRING_32 ; user: USER )
 	
 
 
@@ -210,8 +147,8 @@ No authorization required
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **STRING_32**|  | [default to null]
- **body** | [**USER**](USER.md)|  | 
+ **query** | **STRING_32**|  | 
+ **user** | [**USER**](USER.md)|  | 
 
 ### Return type
 
@@ -229,7 +166,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **test_client_model**
-> test_client_model (body: CLIENT ): detachable CLIENT
+> test_client_model (client: CLIENT ): detachable CLIENT
 	
 
 To test \"client\" model
@@ -241,7 +178,7 @@ To test \"client\" model
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**CLIENT**](CLIENT.md)| client model | 
+ **client** | [**CLIENT**](CLIENT.md)| client model | 
 
 ### Return type
 
@@ -314,13 +251,13 @@ To test enum parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **enum_header_string_array** | [**LIST [STRING_32]**](STRING_32.md)| Header parameter enum test (string array) | [optional] [default to null]
+ **enum_header_string_array** | [**LIST [STRING_32]**](STRING_32.md)| Header parameter enum test (string array) | [optional] 
  **enum_header_string** | **STRING_32**| Header parameter enum test (string) | [optional] [default to -efg]
- **enum_query_string_array** | [**LIST [STRING_32]**](STRING_32.md)| Query parameter enum test (string array) | [optional] [default to null]
+ **enum_query_string_array** | [**LIST [STRING_32]**](STRING_32.md)| Query parameter enum test (string array) | [optional] 
  **enum_query_string** | **STRING_32**| Query parameter enum test (string) | [optional] [default to -efg]
- **enum_query_integer** | **INTEGER_32**| Query parameter enum test (double) | [optional] [default to null]
- **enum_query_double** | **REAL_64**| Query parameter enum test (double) | [optional] [default to null]
- **enum_form_string_array** | [**LIST [STRING_32]**](STRING_32.md)| Form parameter enum test (string array) | [optional] [default to $]
+ **enum_query_integer** | **INTEGER_32**| Query parameter enum test (double) | [optional] 
+ **enum_query_double** | **REAL_64**| Query parameter enum test (double) | [optional] 
+ **enum_form_string_array** | **LIST [STRING_32]**| Form parameter enum test (string array) | [optional] [default to $]
  **enum_form_string** | **STRING_32**| Form parameter enum test (string) | [optional] [default to -efg]
 
 ### Return type
@@ -338,43 +275,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **test_group_parameters**
-> test_group_parameters (required_string_group: INTEGER_32 ; required_boolean_group: BOOLEAN ; required_int64_group: INTEGER_64 ; string_group:  detachable INTEGER_32 ; boolean_group:  detachable BOOLEAN ; int64_group:  detachable INTEGER_64 )
-	
-
-Fake endpoint to test group parameters (optional)
-
-Fake endpoint to test group parameters (optional)
-
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **required_string_group** | **INTEGER_32**| Required String in group parameters | [default to null]
- **required_boolean_group** | **BOOLEAN**| Required Boolean in group parameters | [default to null]
- **required_int64_group** | **INTEGER_64**| Required Integer in group parameters | [default to null]
- **string_group** | **INTEGER_32**| String in group parameters | [optional] [default to null]
- **boolean_group** | **BOOLEAN**| Boolean in group parameters | [optional] [default to null]
- **int64_group** | **INTEGER_64**| Integer in group parameters | [optional] [default to null]
-
-### Return type
-
-{empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **test_inline_additional_properties**
-> test_inline_additional_properties (param: STRING_TABLE[STRING_32] )
+> test_inline_additional_properties (request_body: STRING_TABLE[STRING_32] )
 	
 
 test inline additionalProperties
@@ -384,7 +286,7 @@ test inline additionalProperties
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**STRING_TABLE[STRING_32]**](STRING_32.md)| request body | 
+ **request_body** | [**STRING_TABLE[STRING_32]**](STRING_32.md)| request body | 
 
 ### Return type
 

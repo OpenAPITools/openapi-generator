@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.model.StringBooleanMap;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -43,19 +44,19 @@ public enum InnerEnum {
     }
 
     @JsonCreator
-    public static InnerEnum fromValue(String value) {
+    public static InnerEnum fromValue(String v) {
         for (InnerEnum b : InnerEnum.values()) {
-            if (b.value.equals(value)) {
+            if (String.valueOf(b.value).equals(v)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
   private @Valid Map<String, InnerEnum> mapOfEnumString = new HashMap<String, InnerEnum>();
   private @Valid Map<String, Boolean> directMap = new HashMap<String, Boolean>();
-  private @Valid Map<String, Boolean> indirectMap = new HashMap<String, Boolean>();
+  private @Valid StringBooleanMap indirectMap = null;
 
   /**
    **/
@@ -110,7 +111,7 @@ public enum InnerEnum {
 
   /**
    **/
-  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
+  public MapTest indirectMap(StringBooleanMap indirectMap) {
     this.indirectMap = indirectMap;
     return this;
   }
@@ -118,10 +119,10 @@ public enum InnerEnum {
   
   @ApiModelProperty(value = "")
   @JsonProperty("indirect_map")
-  public Map<String, Boolean> getIndirectMap() {
+  public StringBooleanMap getIndirectMap() {
     return indirectMap;
   }
-  public void setIndirectMap(Map<String, Boolean> indirectMap) {
+  public void setIndirectMap(StringBooleanMap indirectMap) {
     this.indirectMap = indirectMap;
   }
 
@@ -135,10 +136,10 @@ public enum InnerEnum {
       return false;
     }
     MapTest mapTest = (MapTest) o;
-    return Objects.equals(this.mapMapOfString, mapTest.mapMapOfString) &&
-        Objects.equals(this.mapOfEnumString, mapTest.mapOfEnumString) &&
-        Objects.equals(this.directMap, mapTest.directMap) &&
-        Objects.equals(this.indirectMap, mapTest.indirectMap);
+    return Objects.equals(mapMapOfString, mapTest.mapMapOfString) &&
+        Objects.equals(mapOfEnumString, mapTest.mapOfEnumString) &&
+        Objects.equals(directMap, mapTest.directMap) &&
+        Objects.equals(indirectMap, mapTest.indirectMap);
   }
 
   @Override

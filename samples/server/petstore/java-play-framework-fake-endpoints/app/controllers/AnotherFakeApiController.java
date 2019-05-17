@@ -36,18 +36,18 @@ public class AnotherFakeApiController extends Controller {
 
 
     @ApiAction
-    public Result call123testSpecialTags() throws Exception {
-        JsonNode nodebody = request().body().asJson();
-        Client body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), Client.class);
+    public Result testSpecialTags() throws Exception {
+        JsonNode nodeclient = request().body().asJson();
+        Client client;
+        if (nodeclient != null) {
+            client = mapper.readValue(nodeclient.toString(), Client.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(body);
+                OpenAPIUtils.validate(client);
             }
         } else {
-            throw new IllegalArgumentException("'body' parameter is required");
+            throw new IllegalArgumentException("'Client' parameter is required");
         }
-        Client obj = imp.call123testSpecialTags(body);
+        Client obj = imp.testSpecialTags(client);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }

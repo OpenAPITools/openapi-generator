@@ -12,18 +12,15 @@ Method | HTTP request | Description
 [**UpdatePet**](PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
 [**UpdatePetWithForm**](PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**UploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**UploadFileWithRequiredFile**](PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
-
-## AddPet
-
-> void AddPet (Pet body)
+<a name="addpet"></a>
+# **AddPet**
+> void AddPet (Pet pet)
 
 Add a new pet to the store
 
 ### Example
-
 ```csharp
 using System;
 using System.Diagnostics;
@@ -41,12 +38,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var body = new Pet(); // Pet | Pet object that needs to be added to the store
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Add a new pet to the store
-                apiInstance.AddPet(body);
+                apiInstance.AddPet(pet);
             }
             catch (Exception e)
             {
@@ -59,10 +56,9 @@ namespace Example
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -74,23 +70,18 @@ void (empty response body)
 
 ### HTTP request headers
 
-- **Content-Type**: application/json, application/xml
-- **Accept**: Not defined
+ - **Content-Type**: application/json, application/xml
+ - **Accept**: Not defined
 
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## DeletePet
-
+<a name="deletepet"></a>
+# **DeletePet**
 > void DeletePet (long? petId, string apiKey = null)
 
 Deletes a pet
 
 ### Example
-
 ```csharp
 using System;
 using System.Diagnostics;
@@ -127,7 +118,6 @@ namespace Example
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **long?**| Pet id to delete | 
@@ -143,17 +133,13 @@ void (empty response body)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: Not defined
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## FindPetsByStatus
-
+<a name="findpetsbystatus"></a>
+# **FindPetsByStatus**
 > List<Pet> FindPetsByStatus (List<string> status)
 
 Finds Pets by status
@@ -161,7 +147,6 @@ Finds Pets by status
 Multiple status values can be provided with comma separated strings
 
 ### Example
-
 ```csharp
 using System;
 using System.Diagnostics;
@@ -198,7 +183,6 @@ namespace Example
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **status** | **List&lt;string&gt;**| Status values that need to be considered for filter | 
@@ -213,17 +197,13 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## FindPetsByTags
-
+<a name="findpetsbytags"></a>
+# **FindPetsByTags**
 > List<Pet> FindPetsByTags (List<string> tags)
 
 Finds Pets by tags
@@ -231,7 +211,6 @@ Finds Pets by tags
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 
 ### Example
-
 ```csharp
 using System;
 using System.Diagnostics;
@@ -268,7 +247,6 @@ namespace Example
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tags** | [**List&lt;string&gt;**](string.md)| Tags to filter by | 
@@ -283,17 +261,13 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## GetPetById
-
+<a name="getpetbyid"></a>
+# **GetPetById**
 > Pet GetPetById (long? petId)
 
 Find pet by ID
@@ -301,7 +275,6 @@ Find pet by ID
 Returns a single pet
 
 ### Example
-
 ```csharp
 using System;
 using System.Diagnostics;
@@ -340,7 +313,6 @@ namespace Example
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **long?**| ID of pet to return | 
@@ -355,23 +327,18 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## UpdatePet
-
-> void UpdatePet (Pet body)
+<a name="updatepet"></a>
+# **UpdatePet**
+> void UpdatePet (Pet pet)
 
 Update an existing pet
 
 ### Example
-
 ```csharp
 using System;
 using System.Diagnostics;
@@ -389,12 +356,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var body = new Pet(); // Pet | Pet object that needs to be added to the store
+            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Update an existing pet
-                apiInstance.UpdatePet(body);
+                apiInstance.UpdatePet(pet);
             }
             catch (Exception e)
             {
@@ -407,10 +374,9 @@ namespace Example
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -422,23 +388,18 @@ void (empty response body)
 
 ### HTTP request headers
 
-- **Content-Type**: application/json, application/xml
-- **Accept**: Not defined
+ - **Content-Type**: application/json, application/xml
+ - **Accept**: Not defined
 
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## UpdatePetWithForm
-
+<a name="updatepetwithform"></a>
+# **UpdatePetWithForm**
 > void UpdatePetWithForm (long? petId, string name = null, string status = null)
 
 Updates a pet in the store with form data
 
 ### Example
-
 ```csharp
 using System;
 using System.Diagnostics;
@@ -476,7 +437,6 @@ namespace Example
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **long?**| ID of pet that needs to be updated | 
@@ -493,23 +453,18 @@ void (empty response body)
 
 ### HTTP request headers
 
-- **Content-Type**: application/x-www-form-urlencoded
-- **Accept**: Not defined
+ - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
 
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## UploadFile
-
+<a name="uploadfile"></a>
+# **UploadFile**
 > ApiResponse UploadFile (long? petId, string additionalMetadata = null, System.IO.Stream file = null)
 
 uploads an image
 
 ### Example
-
 ```csharp
 using System;
 using System.Diagnostics;
@@ -548,7 +503,6 @@ namespace Example
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **long?**| ID of pet to update | 
@@ -565,83 +519,8 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: multipart/form-data
-- **Accept**: application/json
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
 
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## UploadFileWithRequiredFile
-
-> ApiResponse UploadFileWithRequiredFile (long? petId, System.IO.Stream requiredFile, string additionalMetadata = null)
-
-uploads an image (required)
-
-### Example
-
-```csharp
-using System;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class UploadFileWithRequiredFileExample
-    {
-        public void main()
-        {
-            // Configure OAuth2 access token for authorization: petstore_auth
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
-
-            var apiInstance = new PetApi();
-            var petId = 789;  // long? | ID of pet to update
-            var requiredFile = BINARY_DATA_HERE;  // System.IO.Stream | file to upload
-            var additionalMetadata = additionalMetadata_example;  // string | Additional data to pass to server (optional) 
-
-            try
-            {
-                // uploads an image (required)
-                ApiResponse result = apiInstance.UploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling PetApi.UploadFileWithRequiredFile: " + e.Message );
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **long?**| ID of pet to update | 
- **requiredFile** | **System.IO.Stream**| file to upload | 
- **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
-
-### Return type
-
-[**ApiResponse**](ApiResponse.md)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth)
-
-### HTTP request headers
-
-- **Content-Type**: multipart/form-data
-- **Accept**: application/json
-
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

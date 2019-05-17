@@ -1,7 +1,6 @@
 # ClassModel
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Class** | **string** |  | [optional] 

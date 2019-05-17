@@ -56,20 +56,14 @@ class Pet {
   }
 
   Map<String, dynamic> toJson() {
-    Map <String, dynamic> json = {};
-    if (id != null)
-      json['id'] = id;
-    if (category != null)
-      json['category'] = category;
-    if (name != null)
-      json['name'] = name;
-    if (photoUrls != null)
-      json['photoUrls'] = photoUrls;
-    if (tags != null)
-      json['tags'] = tags;
-    if (status != null)
-      json['status'] = status;
-    return json;
+    return {
+      'id': id,
+      'category': category,
+      'name': name,
+      'photoUrls': photoUrls,
+      'tags': tags,
+      'status': status
+    };
   }
 
   static List<Pet> listFromJson(List<dynamic> json) {

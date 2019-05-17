@@ -61,7 +61,6 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-codegen-request-body-name" : "body",
         "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       },
@@ -94,7 +93,6 @@
         "security" : [ {
           "petstore_auth" : [ "write:pets", "read:pets" ]
         } ],
-        "x-codegen-request-body-name" : "body",
         "x-contentType" : "application/json",
         "x-accepts" : "application/json"
       }
@@ -116,8 +114,8 @@
             "type" : "array",
             "items" : {
               "type" : "string",
-              "default" : "available",
-              "enum" : [ "available", "pending", "sold" ]
+              "enum" : [ "available", "pending", "sold" ],
+              "default" : "available"
             }
           }
         } ],
@@ -448,7 +446,6 @@
             "content" : { }
           }
         },
-        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json"
       }
@@ -548,7 +545,6 @@
             "content" : { }
           }
         },
-        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json"
       }
@@ -578,7 +574,6 @@
             "content" : { }
           }
         },
-        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json"
       }
@@ -608,7 +603,6 @@
             "content" : { }
           }
         },
-        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json"
       }
@@ -765,7 +759,6 @@
             "content" : { }
           }
         },
-        "x-codegen-request-body-name" : "body",
         "x-contentType" : "*/*",
         "x-accepts" : "application/json"
       },

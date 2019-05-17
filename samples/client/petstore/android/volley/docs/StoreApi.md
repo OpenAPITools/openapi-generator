@@ -10,9 +10,8 @@ Method | HTTP request | Description
 [**placeOrder**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
 
 
-
-## deleteOrder
-
+<a name="deleteOrder"></a>
+# **deleteOrder**
 > deleteOrder(orderId)
 
 Delete purchase order by ID
@@ -20,7 +19,6 @@ Delete purchase order by ID
 For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
 
 ### Example
-
 ```java
 // Import classes:
 //import org.openapitools.client.api.StoreApi;
@@ -37,7 +35,6 @@ try {
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **orderId** | **String**| ID of the order that needs to be deleted | [default to null]
@@ -52,12 +49,11 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: Not defined
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
-
-## getInventory
-
+<a name="getInventory"></a>
+# **getInventory**
 > Map&lt;String, Integer&gt; getInventory()
 
 Returns pet inventories by status
@@ -65,7 +61,6 @@ Returns pet inventories by status
 Returns a map of status codes to quantities
 
 ### Example
-
 ```java
 // Import classes:
 //import org.openapitools.client.api.StoreApi;
@@ -81,7 +76,6 @@ try {
 ```
 
 ### Parameters
-
 This endpoint does not need any parameter.
 
 ### Return type
@@ -94,12 +88,11 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
-
-## getOrderById
-
+<a name="getOrderById"></a>
+# **getOrderById**
 > Order getOrderById(orderId)
 
 Find purchase order by ID
@@ -107,7 +100,6 @@ Find purchase order by ID
 For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
 
 ### Example
-
 ```java
 // Import classes:
 //import org.openapitools.client.api.StoreApi;
@@ -125,7 +117,6 @@ try {
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **orderId** | **Long**| ID of pet that needs to be fetched | [default to null]
@@ -140,26 +131,24 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
-
-## placeOrder
-
-> Order placeOrder(body)
+<a name="placeOrder"></a>
+# **placeOrder**
+> Order placeOrder(order)
 
 Place an order for a pet
 
 ### Example
-
 ```java
 // Import classes:
 //import org.openapitools.client.api.StoreApi;
 
 StoreApi apiInstance = new StoreApi();
-Order body = new Order(); // Order | order placed for purchasing the pet
+Order order = new Order(); // Order | order placed for purchasing the pet
 try {
-    Order result = apiInstance.placeOrder(body);
+    Order result = apiInstance.placeOrder(order);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling StoreApi#placeOrder");
@@ -169,10 +158,9 @@ try {
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet |
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
@@ -184,6 +172,6 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 

@@ -16,10 +16,10 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class Model200Response   {
   @JsonProperty("name")
-  private Integer name;
+  private Integer name = null;
 
   @JsonProperty("class")
-  private String propertyClass;
+  private String propertyClass = null;
 
   /**
    **/

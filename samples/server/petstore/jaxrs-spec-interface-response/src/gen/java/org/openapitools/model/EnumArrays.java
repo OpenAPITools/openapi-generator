@@ -41,13 +41,13 @@ public enum JustSymbolEnum {
     }
 
     @JsonCreator
-    public static JustSymbolEnum fromValue(String value) {
+    public static JustSymbolEnum fromValue(String v) {
         for (JustSymbolEnum b : JustSymbolEnum.values()) {
-            if (b.value.equals(value)) {
+            if (String.valueOf(b.value).equals(v)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -75,13 +75,13 @@ public enum ArrayEnumEnum {
     }
 
     @JsonCreator
-    public static ArrayEnumEnum fromValue(String value) {
+    public static ArrayEnumEnum fromValue(String v) {
         for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
-            if (b.value.equals(value)) {
+            if (String.valueOf(b.value).equals(v)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 
@@ -131,8 +131,8 @@ public enum ArrayEnumEnum {
       return false;
     }
     EnumArrays enumArrays = (EnumArrays) o;
-    return Objects.equals(this.justSymbol, enumArrays.justSymbol) &&
-        Objects.equals(this.arrayEnum, enumArrays.arrayEnum);
+    return Objects.equals(justSymbol, enumArrays.justSymbol) &&
+        Objects.equals(arrayEnum, enumArrays.arrayEnum);
   }
 
   @Override

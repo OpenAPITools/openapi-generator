@@ -9,7 +9,6 @@ import java.util.Map;
 import java.time.OffsetDateTime;
 import apimodels.OuterComposite;
 import apimodels.User;
-import apimodels.XmlItem;
 
 import play.mvc.Http;
 import java.util.List;
@@ -20,18 +19,13 @@ import javax.validation.constraints.*;
 
 public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     @Override
-    public void createXmlItem(XmlItem xmlItem) throws Exception {
-        //Do your magic!!!
-    }
-
-    @Override
     public Boolean fakeOuterBooleanSerialize(Boolean body) throws Exception {
         //Do your magic!!!
         return new Boolean(true);
     }
 
     @Override
-    public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws Exception {
+    public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws Exception {
         //Do your magic!!!
         return new OuterComposite();
     }
@@ -49,17 +43,17 @@ public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     }
 
     @Override
-    public void testBodyWithFileSchema(FileSchemaTestClass body) throws Exception {
+    public void testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void testBodyWithQueryParams( @NotNull String query, User body) throws Exception {
+    public void testBodyWithQueryParams( @NotNull String query, User user) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public Client testClientModel(Client body) throws Exception {
+    public Client testClientModel(Client client) throws Exception {
         //Do your magic!!!
         return new Client();
     }
@@ -75,12 +69,7 @@ public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     }
 
     @Override
-    public void testGroupParameters( @NotNull Integer requiredStringGroup, Boolean requiredBooleanGroup,  @NotNull Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws Exception {
-        //Do your magic!!!
-    }
-
-    @Override
-    public void testInlineAdditionalProperties(Map<String, String> param) throws Exception {
+    public void testInlineAdditionalProperties(Map<String, String> requestBody) throws Exception {
         //Do your magic!!!
     }
 

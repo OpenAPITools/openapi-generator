@@ -13,13 +13,13 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class OuterComposite   {
   @JsonProperty("my_number")
-  private BigDecimal myNumber;
+  private BigDecimal myNumber = null;
 
   @JsonProperty("my_string")
-  private String myString;
+  private String myString = null;
 
   @JsonProperty("my_boolean")
-  private Boolean myBoolean;
+  private Boolean myBoolean = null;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;

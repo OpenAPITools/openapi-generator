@@ -1,7 +1,6 @@
 # MapTest
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **MapMapOfString** | [**map[string]map[string]string**](map.md) |  | [optional] 

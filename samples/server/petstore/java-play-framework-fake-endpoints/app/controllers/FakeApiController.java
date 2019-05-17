@@ -9,7 +9,6 @@ import java.util.Map;
 import java.time.OffsetDateTime;
 import apimodels.OuterComposite;
 import apimodels.User;
-import apimodels.XmlItem;
 
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -45,22 +44,6 @@ public class FakeApiController extends Controller {
 
 
     @ApiAction
-    public Result createXmlItem() throws Exception {
-        JsonNode nodexmlItem = request().body().asJson();
-        XmlItem xmlItem;
-        if (nodexmlItem != null) {
-            xmlItem = mapper.readValue(nodexmlItem.toString(), XmlItem.class);
-            if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(xmlItem);
-            }
-        } else {
-            throw new IllegalArgumentException("'XmlItem' parameter is required");
-        }
-        imp.createXmlItem(xmlItem);
-        return ok();
-    }
-
-    @ApiAction
     public Result fakeOuterBooleanSerialize() throws Exception {
         JsonNode nodebody = request().body().asJson();
         Boolean body;
@@ -79,17 +62,17 @@ public class FakeApiController extends Controller {
 
     @ApiAction
     public Result fakeOuterCompositeSerialize() throws Exception {
-        JsonNode nodebody = request().body().asJson();
-        OuterComposite body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), OuterComposite.class);
+        JsonNode nodeouterComposite = request().body().asJson();
+        OuterComposite outerComposite;
+        if (nodeouterComposite != null) {
+            outerComposite = mapper.readValue(nodeouterComposite.toString(), OuterComposite.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(body);
+                OpenAPIUtils.validate(outerComposite);
             }
         } else {
-            body = null;
+            outerComposite = null;
         }
-        OuterComposite obj = imp.fakeOuterCompositeSerialize(body);
+        OuterComposite obj = imp.fakeOuterCompositeSerialize(outerComposite);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }
@@ -136,31 +119,31 @@ public class FakeApiController extends Controller {
 
     @ApiAction
     public Result testBodyWithFileSchema() throws Exception {
-        JsonNode nodebody = request().body().asJson();
-        FileSchemaTestClass body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), FileSchemaTestClass.class);
+        JsonNode nodefileSchemaTestClass = request().body().asJson();
+        FileSchemaTestClass fileSchemaTestClass;
+        if (nodefileSchemaTestClass != null) {
+            fileSchemaTestClass = mapper.readValue(nodefileSchemaTestClass.toString(), FileSchemaTestClass.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(body);
+                OpenAPIUtils.validate(fileSchemaTestClass);
             }
         } else {
-            throw new IllegalArgumentException("'body' parameter is required");
+            throw new IllegalArgumentException("'FileSchemaTestClass' parameter is required");
         }
-        imp.testBodyWithFileSchema(body);
+        imp.testBodyWithFileSchema(fileSchemaTestClass);
         return ok();
     }
 
     @ApiAction
     public Result testBodyWithQueryParams() throws Exception {
-        JsonNode nodebody = request().body().asJson();
-        User body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), User.class);
+        JsonNode nodeuser = request().body().asJson();
+        User user;
+        if (nodeuser != null) {
+            user = mapper.readValue(nodeuser.toString(), User.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(body);
+                OpenAPIUtils.validate(user);
             }
         } else {
-            throw new IllegalArgumentException("'body' parameter is required");
+            throw new IllegalArgumentException("'User' parameter is required");
         }
         String valuequery = request().getQueryString("query");
         String query;
@@ -169,23 +152,23 @@ public class FakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'query' parameter is required");
         }
-        imp.testBodyWithQueryParams(query, body);
+        imp.testBodyWithQueryParams(query, user);
         return ok();
     }
 
     @ApiAction
     public Result testClientModel() throws Exception {
-        JsonNode nodebody = request().body().asJson();
-        Client body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), Client.class);
+        JsonNode nodeclient = request().body().asJson();
+        Client client;
+        if (nodeclient != null) {
+            client = mapper.readValue(nodeclient.toString(), Client.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(body);
+                OpenAPIUtils.validate(client);
             }
         } else {
-            throw new IllegalArgumentException("'body' parameter is required");
+            throw new IllegalArgumentException("'Client' parameter is required");
         }
-        Client obj = imp.testClientModel(body);
+        Client obj = imp.testClientModel(client);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }
@@ -242,7 +225,7 @@ public class FakeApiController extends Controller {
         if (valuestring != null) {
             string = valuestring;
         } else {
-            string = null;
+            string = "null";
         }
         String valuepatternWithoutDelimiter = (request().body().asMultipartFormData().asFormUrlEncoded().get("pattern_without_delimiter"))[0];
         String patternWithoutDelimiter;
@@ -278,14 +261,14 @@ public class FakeApiController extends Controller {
         if (valuepassword != null) {
             password = valuepassword;
         } else {
-            password = null;
+            password = "null";
         }
         String valueparamCallback = (request().body().asMultipartFormData().asFormUrlEncoded().get("callback"))[0];
         String paramCallback;
         if (valueparamCallback != null) {
             paramCallback = valueparamCallback;
         } else {
-            paramCallback = null;
+            paramCallback = "null";
         }
         imp.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
         return ok();
@@ -360,68 +343,20 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result testGroupParameters() throws Exception {
-        String valuerequiredStringGroup = request().getQueryString("required_string_group");
-        Integer requiredStringGroup;
-        if (valuerequiredStringGroup != null) {
-            requiredStringGroup = Integer.parseInt(valuerequiredStringGroup);
-        } else {
-            throw new IllegalArgumentException("'required_string_group' parameter is required");
-        }
-        String valuerequiredInt64Group = request().getQueryString("required_int64_group");
-        Long requiredInt64Group;
-        if (valuerequiredInt64Group != null) {
-            requiredInt64Group = Long.parseLong(valuerequiredInt64Group);
-        } else {
-            throw new IllegalArgumentException("'required_int64_group' parameter is required");
-        }
-        String valuestringGroup = request().getQueryString("string_group");
-        Integer stringGroup;
-        if (valuestringGroup != null) {
-            stringGroup = Integer.parseInt(valuestringGroup);
-        } else {
-            stringGroup = null;
-        }
-        String valueint64Group = request().getQueryString("int64_group");
-        Long int64Group;
-        if (valueint64Group != null) {
-            int64Group = Long.parseLong(valueint64Group);
-        } else {
-            int64Group = null;
-        }
-        String valuerequiredBooleanGroup = request().getHeader("required_boolean_group");
-        Boolean requiredBooleanGroup;
-        if (valuerequiredBooleanGroup != null) {
-            requiredBooleanGroup = Boolean.valueOf(valuerequiredBooleanGroup);
-        } else {
-            throw new IllegalArgumentException("'required_boolean_group' parameter is required");
-        }
-        String valuebooleanGroup = request().getHeader("boolean_group");
-        Boolean booleanGroup;
-        if (valuebooleanGroup != null) {
-            booleanGroup = Boolean.valueOf(valuebooleanGroup);
-        } else {
-            booleanGroup = null;
-        }
-        imp.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
-        return ok();
-    }
-
-    @ApiAction
     public Result testInlineAdditionalProperties() throws Exception {
-        JsonNode nodeparam = request().body().asJson();
-        Map<String, String> param;
-        if (nodeparam != null) {
-            param = mapper.readValue(nodeparam.toString(), new TypeReference<Map<String, String>>(){});
+        JsonNode noderequestBody = request().body().asJson();
+        Map<String, String> requestBody;
+        if (noderequestBody != null) {
+            requestBody = mapper.readValue(noderequestBody.toString(), new TypeReference<Map<String, String>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
-                for (Map.Entry<String, String> entry : param.entrySet()) {
+                for (Map.Entry<String, String> entry : requestBody.entrySet()) {
                     OpenAPIUtils.validate(entry.getValue());
                 }
             }
         } else {
-            throw new IllegalArgumentException("'param' parameter is required");
+            throw new IllegalArgumentException("'request_body' parameter is required");
         }
-        imp.testInlineAdditionalProperties(param);
+        imp.testInlineAdditionalProperties(requestBody);
         return ok();
     }
 

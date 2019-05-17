@@ -17,43 +17,43 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class FormatTest   {
   @JsonProperty("integer")
-  private Integer integer;
+  private Integer integer = null;
 
   @JsonProperty("int32")
-  private Integer int32;
+  private Integer int32 = null;
 
   @JsonProperty("int64")
-  private Long int64;
+  private Long int64 = null;
 
   @JsonProperty("number")
-  private BigDecimal number;
+  private BigDecimal number = null;
 
   @JsonProperty("float")
-  private Float _float;
+  private Float _float = null;
 
   @JsonProperty("double")
-  private Double _double;
+  private Double _double = null;
 
   @JsonProperty("string")
-  private String string;
+  private String string = null;
 
   @JsonProperty("byte")
-  private byte[] _byte;
+  private byte[] _byte = null;
 
   @JsonProperty("binary")
-  private InputStream binary;
+  private InputStream binary = null;
 
   @JsonProperty("date")
-  private LocalDate date;
+  private LocalDate date = null;
 
   @JsonProperty("dateTime")
-  private OffsetDateTime dateTime;
+  private OffsetDateTime dateTime = null;
 
   @JsonProperty("uuid")
-  private UUID uuid;
+  private UUID uuid = null;
 
   @JsonProperty("password")
-  private String password;
+  private String password = null;
 
   public FormatTest integer(Integer integer) {
     this.integer = integer;

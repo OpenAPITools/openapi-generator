@@ -13,28 +13,28 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class User   {
   @JsonProperty("id")
-  private Long id;
+  private Long id = null;
 
   @JsonProperty("username")
-  private String username;
+  private String username = null;
 
   @JsonProperty("firstName")
-  private String firstName;
+  private String firstName = null;
 
   @JsonProperty("lastName")
-  private String lastName;
+  private String lastName = null;
 
   @JsonProperty("email")
-  private String email;
+  private String email = null;
 
   @JsonProperty("password")
-  private String password;
+  private String password = null;
 
   @JsonProperty("phone")
-  private String phone;
+  private String phone = null;
 
   @JsonProperty("userStatus")
-  private Integer userStatus;
+  private Integer userStatus = null;
 
   /**
    **/

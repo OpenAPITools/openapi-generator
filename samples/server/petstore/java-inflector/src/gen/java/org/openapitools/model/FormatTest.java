@@ -17,43 +17,43 @@ import java.util.UUID;
 
 public class FormatTest   {
   @JsonProperty("integer")
-  private Integer integer;
+  private Integer integer = null;
 
   @JsonProperty("int32")
-  private Integer int32;
+  private Integer int32 = null;
 
   @JsonProperty("int64")
-  private Long int64;
+  private Long int64 = null;
 
   @JsonProperty("number")
-  private BigDecimal number;
+  private BigDecimal number = null;
 
   @JsonProperty("float")
-  private Float _float;
+  private Float _float = null;
 
   @JsonProperty("double")
-  private Double _double;
+  private Double _double = null;
 
   @JsonProperty("string")
-  private String string;
+  private String string = null;
 
   @JsonProperty("byte")
-  private byte[] _byte;
+  private byte[] _byte = null;
 
   @JsonProperty("binary")
-  private File binary;
+  private File binary = null;
 
   @JsonProperty("date")
-  private Date date;
+  private Date date = null;
 
   @JsonProperty("dateTime")
-  private Date dateTime;
+  private Date dateTime = null;
 
   @JsonProperty("uuid")
-  private UUID uuid;
+  private UUID uuid = null;
 
   @JsonProperty("password")
-  private String password;
+  private String password = null;
 
   /**
    * minimum: 10
@@ -260,7 +260,7 @@ public class FormatTest   {
   }
 
   
-  @ApiModelProperty(example = "72f98069-206d-4f12-9f12-3d1e525a8e84", value = "")
+  @ApiModelProperty(value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;

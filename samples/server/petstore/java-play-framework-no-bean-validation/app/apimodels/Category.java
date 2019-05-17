@@ -11,10 +11,10 @@ import java.util.Objects;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Category   {
   @JsonProperty("id")
-  private Long id;
+  private Long id = null;
 
   @JsonProperty("name")
-  private String name;
+  private String name = null;
 
   public Category id(Long id) {
     this.id = id;

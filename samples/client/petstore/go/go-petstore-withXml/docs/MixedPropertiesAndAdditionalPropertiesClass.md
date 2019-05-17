@@ -1,7 +1,6 @@
 # MixedPropertiesAndAdditionalPropertiesClass
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Uuid** | **string** |  | [optional] 

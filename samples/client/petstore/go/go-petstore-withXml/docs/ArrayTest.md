@@ -1,7 +1,6 @@
 # ArrayTest
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ArrayOfString** | **[]string** |  | [optional] 

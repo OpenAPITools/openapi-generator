@@ -36,49 +36,49 @@ public class UserApiController extends Controller {
 
     @ApiAction
     public Result createUser() throws Exception {
-        JsonNode nodebody = request().body().asJson();
-        User body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), User.class);
+        JsonNode nodeuser = request().body().asJson();
+        User user;
+        if (nodeuser != null) {
+            user = mapper.readValue(nodeuser.toString(), User.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(body);
+                OpenAPIUtils.validate(user);
             }
         } else {
-            throw new IllegalArgumentException("'body' parameter is required");
+            throw new IllegalArgumentException("'User' parameter is required");
         }
         return ok();
     }
 
     @ApiAction
     public Result createUsersWithArrayInput() throws Exception {
-        JsonNode nodebody = request().body().asJson();
-        List<User> body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
+        JsonNode nodeuser = request().body().asJson();
+        List<User> user;
+        if (nodeuser != null) {
+            user = mapper.readValue(nodeuser.toString(), new TypeReference<List<User>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
-                for (User curItem : body) {
+                for (User curItem : user) {
                     OpenAPIUtils.validate(curItem);
                 }
             }
         } else {
-            throw new IllegalArgumentException("'body' parameter is required");
+            throw new IllegalArgumentException("'User' parameter is required");
         }
         return ok();
     }
 
     @ApiAction
     public Result createUsersWithListInput() throws Exception {
-        JsonNode nodebody = request().body().asJson();
-        List<User> body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
+        JsonNode nodeuser = request().body().asJson();
+        List<User> user;
+        if (nodeuser != null) {
+            user = mapper.readValue(nodeuser.toString(), new TypeReference<List<User>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
-                for (User curItem : body) {
+                for (User curItem : user) {
                     OpenAPIUtils.validate(curItem);
                 }
             }
         } else {
-            throw new IllegalArgumentException("'body' parameter is required");
+            throw new IllegalArgumentException("'User' parameter is required");
         }
         return ok();
     }
@@ -119,15 +119,15 @@ public class UserApiController extends Controller {
 
     @ApiAction
     public Result updateUser(String username) throws Exception {
-        JsonNode nodebody = request().body().asJson();
-        User body;
-        if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), User.class);
+        JsonNode nodeuser = request().body().asJson();
+        User user;
+        if (nodeuser != null) {
+            user = mapper.readValue(nodeuser.toString(), User.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(body);
+                OpenAPIUtils.validate(user);
             }
         } else {
-            throw new IllegalArgumentException("'body' parameter is required");
+            throw new IllegalArgumentException("'User' parameter is required");
         }
         return ok();
     }

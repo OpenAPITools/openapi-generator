@@ -48,13 +48,13 @@ public class PetApiVerticle extends AbstractVerticle {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
                 String serviceId = "addPet";
-                JsonObject bodyParam = message.body().getJsonObject("body");
-                if (bodyParam == null) {
-                    manageError(message, new MainApiException(400, "body is required"), serviceId);
+                JsonObject petParam = message.body().getJsonObject("Pet");
+                if (petParam == null) {
+                    manageError(message, new MainApiException(400, "Pet is required"), serviceId);
                     return;
                 }
-                Pet body = Json.mapper.readValue(bodyParam.encode(), Pet.class);
-                service.addPet(body).subscribe(
+                Pet pet = Json.mapper.readValue(petParam.encode(), Pet.class);
+                service.addPet(pet).subscribe(
                     () -> {
                         message.reply(null);
                     },
@@ -172,13 +172,13 @@ public class PetApiVerticle extends AbstractVerticle {
             try {
                 // Workaround for #allParams section clearing the vendorExtensions map
                 String serviceId = "updatePet";
-                JsonObject bodyParam = message.body().getJsonObject("body");
-                if (bodyParam == null) {
-                    manageError(message, new MainApiException(400, "body is required"), serviceId);
+                JsonObject petParam = message.body().getJsonObject("Pet");
+                if (petParam == null) {
+                    manageError(message, new MainApiException(400, "Pet is required"), serviceId);
                     return;
                 }
-                Pet body = Json.mapper.readValue(bodyParam.encode(), Pet.class);
-                service.updatePet(body).subscribe(
+                Pet pet = Json.mapper.readValue(petParam.encode(), Pet.class);
+                service.updatePet(pet).subscribe(
                     () -> {
                         message.reply(null);
                     },

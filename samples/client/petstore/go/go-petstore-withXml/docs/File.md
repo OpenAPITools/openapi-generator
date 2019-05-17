@@ -1,7 +1,6 @@
 # File
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **SourceURI** | **string** | Test capitalization | [optional] 

@@ -34,18 +34,18 @@ public class EnumArrays   {
     }
 
     @JsonCreator
-    public static JustSymbolEnum fromValue(String value) {
+    public static JustSymbolEnum fromValue(String text) {
       for (JustSymbolEnum b : JustSymbolEnum.values()) {
-        if (b.value.equals(value)) {
+        if (String.valueOf(b.value).equals(text)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+      return null;
     }
   }
 
   @JsonProperty("just_symbol")
-  private JustSymbolEnum justSymbol;
+  private JustSymbolEnum justSymbol = null;
 
   /**
    * Gets or Sets arrayEnum
@@ -68,13 +68,13 @@ public class EnumArrays   {
     }
 
     @JsonCreator
-    public static ArrayEnumEnum fromValue(String value) {
+    public static ArrayEnumEnum fromValue(String text) {
       for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
-        if (b.value.equals(value)) {
+        if (String.valueOf(b.value).equals(text)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+      return null;
     }
   }
  

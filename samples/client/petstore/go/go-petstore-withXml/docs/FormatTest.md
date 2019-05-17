@@ -1,7 +1,6 @@
 # FormatTest
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Integer** | **int32** |  | [optional] 

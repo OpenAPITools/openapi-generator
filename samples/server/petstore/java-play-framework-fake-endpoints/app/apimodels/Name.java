@@ -12,16 +12,16 @@ import javax.validation.constraints.*;
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Name   {
   @JsonProperty("name")
-  private Integer name;
+  private Integer name = null;
 
   @JsonProperty("snake_case")
-  private Integer snakeCase;
+  private Integer snakeCase = null;
 
   @JsonProperty("property")
-  private String property;
+  private String property = null;
 
   @JsonProperty("123Number")
-  private Integer _123number;
+  private Integer _123number = null;
 
   public Name name(Integer name) {
     this.name = name;

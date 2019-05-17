@@ -53,13 +53,13 @@ public enum StatusEnum {
         return String.valueOf(value);
     }
 
-    public static StatusEnum fromValue(String value) {
+    public static StatusEnum fromValue(String v) {
         for (StatusEnum b : StatusEnum.values()) {
-            if (b.value.equals(value)) {
+            if (String.valueOf(b.value).equals(v)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + value + "'");
+        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
 }
 

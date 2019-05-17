@@ -10,9 +10,8 @@ Method | HTTP request | Description
 [**PlaceOrder**](StoreApi.md#placeorder) | **POST** /store/order | Place an order for a pet
 
 
-
-## DeleteOrder
-
+<a name="deleteorder"></a>
+# **DeleteOrder**
 > void DeleteOrder (string orderId)
 
 Delete purchase order by ID
@@ -20,7 +19,6 @@ Delete purchase order by ID
 For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
 ### Example
-
 ```csharp
 using System;
 using System.Diagnostics;
@@ -53,7 +51,6 @@ namespace Example
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **orderId** | **string**| ID of the order that needs to be deleted | 
@@ -68,17 +65,13 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: Not defined
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## GetInventory
-
+<a name="getinventory"></a>
+# **GetInventory**
 > Dictionary<string, int?> GetInventory ()
 
 Returns pet inventories by status
@@ -86,7 +79,6 @@ Returns pet inventories by status
 Returns a map of status codes to quantities
 
 ### Example
-
 ```csharp
 using System;
 using System.Diagnostics;
@@ -123,7 +115,6 @@ namespace Example
 ```
 
 ### Parameters
-
 This endpoint does not need any parameter.
 
 ### Return type
@@ -136,17 +127,13 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## GetOrderById
-
+<a name="getorderbyid"></a>
+# **GetOrderById**
 > Order GetOrderById (long? orderId)
 
 Find purchase order by ID
@@ -154,7 +141,6 @@ Find purchase order by ID
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
 ### Example
-
 ```csharp
 using System;
 using System.Diagnostics;
@@ -188,7 +174,6 @@ namespace Example
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **orderId** | **long?**| ID of pet that needs to be fetched | 
@@ -203,23 +188,18 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## PlaceOrder
-
-> Order PlaceOrder (Order body)
+<a name="placeorder"></a>
+# **PlaceOrder**
+> Order PlaceOrder (Order order)
 
 Place an order for a pet
 
 ### Example
-
 ```csharp
 using System;
 using System.Diagnostics;
@@ -234,12 +214,12 @@ namespace Example
         public void main()
         {
             var apiInstance = new StoreApi();
-            var body = new Order(); // Order | order placed for purchasing the pet
+            var order = new Order(); // Order | order placed for purchasing the pet
 
             try
             {
                 // Place an order for a pet
-                Order result = apiInstance.PlaceOrder(body);
+                Order result = apiInstance.PlaceOrder(order);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -253,10 +233,9 @@ namespace Example
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
@@ -268,11 +247,8 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

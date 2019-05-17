@@ -31,13 +31,13 @@ public enum EnumClass {
   }
 
   @JsonCreator
-  public static EnumClass fromValue(String value) {
+  public static EnumClass fromValue(String text) {
     for (EnumClass b : EnumClass.values()) {
-      if (b.value.equals(value)) {
+      if (String.valueOf(b.value).equals(text)) {
         return b;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    throw new IllegalArgumentException("Unexpected value '" + text + "'");
   }
 }
 

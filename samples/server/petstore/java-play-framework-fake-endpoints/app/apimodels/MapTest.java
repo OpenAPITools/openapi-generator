@@ -1,5 +1,6 @@
 package apimodels;
 
+import apimodels.StringBooleanMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,13 +39,13 @@ public class MapTest   {
     }
 
     @JsonCreator
-    public static InnerEnum fromValue(String value) {
+    public static InnerEnum fromValue(String text) {
       for (InnerEnum b : InnerEnum.values()) {
-        if (b.value.equals(value)) {
+        if (String.valueOf(b.value).equals(text)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+      return null;
     }
   }
  
@@ -55,7 +56,7 @@ public class MapTest   {
   private Map<String, Boolean> directMap = null;
 
   @JsonProperty("indirect_map")
-  private Map<String, Boolean> indirectMap = null;
+  private StringBooleanMap indirectMap = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -133,16 +134,8 @@ public class MapTest   {
     this.directMap = directMap;
   }
 
-  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
+  public MapTest indirectMap(StringBooleanMap indirectMap) {
     this.indirectMap = indirectMap;
-    return this;
-  }
-
-  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
-    if (this.indirectMap == null) {
-      this.indirectMap = new HashMap<>();
-    }
-    this.indirectMap.put(key, indirectMapItem);
     return this;
   }
 
@@ -150,11 +143,12 @@ public class MapTest   {
    * Get indirectMap
    * @return indirectMap
   **/
-    public Map<String, Boolean> getIndirectMap() {
+  @Valid
+  public StringBooleanMap getIndirectMap() {
     return indirectMap;
   }
 
-  public void setIndirectMap(Map<String, Boolean> indirectMap) {
+  public void setIndirectMap(StringBooleanMap indirectMap) {
     this.indirectMap = indirectMap;
   }
 

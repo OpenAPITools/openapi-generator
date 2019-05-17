@@ -1,7 +1,6 @@
 # OuterComposite
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **MyNumber** | **float32** |  | [optional] 

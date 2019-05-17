@@ -1,7 +1,6 @@
 # NumberOnly
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **JustNumber** | **float32** |  | [optional] 

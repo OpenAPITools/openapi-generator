@@ -147,8 +147,8 @@ class UserApiSimulation extends Simulation {
         .feed(loginUserQUERYFeeder)
         .exec(http("loginUser")
         .httpRequest("GET","/user/login")
-        .queryParam("password","${password}")
         .queryParam("username","${username}")
+        .queryParam("password","${password}")
 )
 
     // Run scnloginUser with warm up and reach a constant rate for entire duration

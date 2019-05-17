@@ -14,9 +14,7 @@ Method | HTTP request | Description
 [**UpdateUser**](UserApi.md#UpdateUser) | **Put** /user/{username} | Updated user
 
 
-
-## CreateUser
-
+# **CreateUser**
 > CreateUser(ctx, body)
 Create user
 
@@ -24,11 +22,10 @@ This can only be done by the logged in user.
 
 ### Required Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**User**](User.md)| Created user object | 
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -40,26 +37,21 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: Not defined
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## CreateUsersWithArrayInput
-
+# **CreateUsersWithArrayInput**
 > CreateUsersWithArrayInput(ctx, body)
 Creates list of users with given input array
 
 ### Required Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**[]User**](array.md)| List of user object | 
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **body** | [**[]User**](array.md)| List of user object | 
 
 ### Return type
 
@@ -71,26 +63,21 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: Not defined
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## CreateUsersWithListInput
-
+# **CreateUsersWithListInput**
 > CreateUsersWithListInput(ctx, body)
 Creates list of users with given input array
 
 ### Required Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**[]User**](array.md)| List of user object | 
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **body** | [**[]User**](array.md)| List of user object | 
 
 ### Return type
 
@@ -102,16 +89,12 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: Not defined
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## DeleteUser
-
+# **DeleteUser**
 > DeleteUser(ctx, username)
 Delete user
 
@@ -119,11 +102,10 @@ This can only be done by the logged in user.
 
 ### Required Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**username** | **string**| The name that needs to be deleted | 
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **username** | **string**| The name that needs to be deleted | 
 
 ### Return type
 
@@ -135,26 +117,21 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: Not defined
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## GetUserByName
-
+# **GetUserByName**
 > User GetUserByName(ctx, username)
 Get user by user name
 
 ### Required Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**username** | **string**| The name that needs to be fetched. Use user1 for testing. | 
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **username** | **string**| The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
 
@@ -166,27 +143,22 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## LoginUser
-
+# **LoginUser**
 > string LoginUser(ctx, username, password)
 Logs user into the system
 
 ### Required Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**username** | **string**| The user name for login | 
-**password** | **string**| The password for login in clear text | 
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **username** | **string**| The user name for login | 
+  **password** | **string**| The password for login in clear text | 
 
 ### Return type
 
@@ -198,21 +170,16 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/xml, application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/xml, application/json
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## LogoutUser
-
+# **LogoutUser**
 > LogoutUser(ctx, )
 Logs out current logged in user session
 
 ### Required Parameters
-
 This endpoint does not need any parameter.
 
 ### Return type
@@ -225,16 +192,12 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: Not defined
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-
-## UpdateUser
-
+# **UpdateUser**
 > UpdateUser(ctx, username, body)
 Updated user
 
@@ -242,12 +205,11 @@ This can only be done by the logged in user.
 
 ### Required Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**username** | **string**| name that need to be deleted | 
-**body** | [**User**](User.md)| Updated user object | 
+ **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+  **username** | **string**| name that need to be deleted | 
+  **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -259,10 +221,8 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: Not defined
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -1,7 +1,6 @@
 # Order
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **int64** |  | [optional] 

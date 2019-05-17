@@ -4,10 +4,10 @@
 /**
  * Add a new pet to the store
  *
- * body Pet Pet object that needs to be added to the store
+ * pet Pet Pet object that needs to be added to the store
  * no response value expected for this operation
  **/
-exports.addPet = function(body) {
+exports.addPet = function(pet) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -18,10 +18,10 @@ exports.addPet = function(body) {
  * Deletes a pet
  *
  * petId Long Pet id to delete
- * apiUnderscorekey String  (optional)
+ * api_key String  (optional)
  * no response value expected for this operation
  **/
-exports.deletePet = function(petId,apiUnderscorekey) {
+exports.deletePet = function(petId,api_key) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -139,10 +139,10 @@ exports.getPetById = function(petId) {
 /**
  * Update an existing pet
  *
- * body Pet Pet object that needs to be added to the store
+ * pet Pet Pet object that needs to be added to the store
  * no response value expected for this operation
  **/
-exports.updatePet = function(body) {
+exports.updatePet = function(pet) {
   return new Promise(function(resolve, reject) {
     resolve();
   });

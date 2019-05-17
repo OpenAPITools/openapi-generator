@@ -1,7 +1,6 @@
 # ArrayOfArrayOfNumberOnly
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ArrayArrayNumber** | [**[][]float32**](array.md) |  | [optional] 

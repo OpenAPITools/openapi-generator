@@ -5,10 +5,10 @@
  * Create user
  * This can only be done by the logged in user.
  *
- * body User Created user object
+ * user User Created user object
  * no response value expected for this operation
  **/
-exports.createUser = function(body) {
+exports.createUser = function(user) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -18,10 +18,10 @@ exports.createUser = function(body) {
 /**
  * Creates list of users with given input array
  *
- * body List List of user object
+ * user List List of user object
  * no response value expected for this operation
  **/
-exports.createUsersWithArrayInput = function(body) {
+exports.createUsersWithArrayInput = function(user) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -31,10 +31,10 @@ exports.createUsersWithArrayInput = function(body) {
 /**
  * Creates list of users with given input array
  *
- * body List List of user object
+ * user List List of user object
  * no response value expected for this operation
  **/
-exports.createUsersWithListInput = function(body) {
+exports.createUsersWithListInput = function(user) {
   return new Promise(function(resolve, reject) {
     resolve();
   });
@@ -119,10 +119,10 @@ exports.logoutUser = function() {
  * This can only be done by the logged in user.
  *
  * username String name that need to be deleted
- * body User Updated user object
+ * user User Updated user object
  * no response value expected for this operation
  **/
-exports.updateUser = function(username,body) {
+exports.updateUser = function(username,user) {
   return new Promise(function(resolve, reject) {
     resolve();
   });

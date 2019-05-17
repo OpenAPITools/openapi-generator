@@ -12,8 +12,12 @@ import Foundation
 
 public struct SampleSubClass: Codable {
 
+    public var subClassStringProp: String?
+    public var subClassIntegerProp: Int?
 
-    public init() {
+    public init(subClassStringProp: String?, subClassIntegerProp: Int?) {
+        self.subClassStringProp = subClassStringProp
+        self.subClassIntegerProp = subClassIntegerProp
     }
 
 

@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL) 
 public class Tag   {
   
-  private Long id;
-  private String name;
+  private Long id = null;
+  private String name = null;
 
   public Tag () {
 

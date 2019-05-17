@@ -510,7 +510,7 @@ static bool placeOrderProcessor(MemoryStruct_s p_chunk, long code, char* errorms
 }
 
 static bool placeOrderHelper(char * accessToken,
-	Order body, 
+	Order order, 
 	void(* handler)(Order, Error, void* )
 	, void* userData, bool isAsync)
 {
@@ -532,10 +532,10 @@ static bool placeOrderHelper(char * accessToken,
 	JsonArray* json_array;
 
 	if (isprimitive("Order")) {
-		node = converttoJson(&body, "Order", "");
+		node = converttoJson(&order, "Order", "");
 	}
 	
-	char *jsonStr =  body.toJson();
+	char *jsonStr =  order.toJson();
 	node = json_from_string(jsonStr, NULL);
 	g_free(static_cast<gpointer>(jsonStr));
 	
@@ -594,22 +594,22 @@ static bool placeOrderHelper(char * accessToken,
 
 
 bool StoreManager::placeOrderAsync(char * accessToken,
-	Order body, 
+	Order order, 
 	void(* handler)(Order, Error, void* )
 	, void* userData)
 {
 	return placeOrderHelper(accessToken,
-	body, 
+	order, 
 	handler, userData, true);
 }
 
 bool StoreManager::placeOrderSync(char * accessToken,
-	Order body, 
+	Order order, 
 	void(* handler)(Order, Error, void* )
 	, void* userData)
 {
 	return placeOrderHelper(accessToken,
-	body, 
+	order, 
 	handler, userData, false);
 }
 

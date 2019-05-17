@@ -1,7 +1,6 @@
 # List
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Var123List** | **string** |  | [optional] 

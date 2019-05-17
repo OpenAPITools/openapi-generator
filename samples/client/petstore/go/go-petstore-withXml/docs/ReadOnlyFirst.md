@@ -1,7 +1,6 @@
 # ReadOnlyFirst
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Bar** | **string** |  | [optional] 
