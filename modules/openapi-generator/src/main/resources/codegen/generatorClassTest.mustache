@@ -17,10 +17,12 @@ import org.openapitools.codegen.config.CodegenConfigurator;
  */
 public class {{generatorClass}}Test {
 
+  // use this test to launch you code generator in the debugger.
+  // this allows you to easily set break points in MyclientcodegenGenerator.
   @Test
   public void launchCodeGenerator() {
-    // use this test to launch you code generator in the debugger.
-    // this allows you to easily set break points in MyclientcodegenGenerator.
+    // to understand how the 'openapi-generator-cli' module is using 'CodegenConfigurator', have a look at the 'Generate' class:
+    // https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-cli/src/main/java/org/openapitools/codegen/cmd/Generate.java 
     final CodegenConfigurator configurator = new CodegenConfigurator()
               .setGeneratorName("{{name}}") // use this codegen library
               .setInputSpec("../../../modules/openapi-generator/src/test/resources/2_0/petstore.yaml") // sample OpenAPI file
