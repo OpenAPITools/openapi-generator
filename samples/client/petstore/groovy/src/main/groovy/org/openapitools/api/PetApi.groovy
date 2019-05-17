@@ -18,18 +18,15 @@ class PetApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (body == null) {
             throw new RuntimeException("missing required params body")
         }
-        
 
 
 
         contentType = 'application/json';
         bodyParams = body
-
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -47,18 +44,15 @@ class PetApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (petId == null) {
             throw new RuntimeException("missing required params petId")
         }
-        
 
 
         if (apiKey != null) {
             headerParams.put("api_key", apiKey)
         }
-
 
 
 
@@ -77,17 +71,14 @@ class PetApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (status == null) {
             throw new RuntimeException("missing required params status")
         }
-        
 
         if (status != null) {
             queryParams.put("status", status)
         }
-
 
 
 
@@ -107,17 +98,14 @@ class PetApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (tags == null) {
             throw new RuntimeException("missing required params tags")
         }
-        
 
         if (tags != null) {
             queryParams.put("tags", tags)
         }
-
 
 
 
@@ -137,13 +125,10 @@ class PetApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (petId == null) {
             throw new RuntimeException("missing required params petId")
         }
-        
-
 
 
 
@@ -164,18 +149,15 @@ class PetApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (body == null) {
             throw new RuntimeException("missing required params body")
         }
-        
 
 
 
         contentType = 'application/json';
         bodyParams = body
-
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -193,13 +175,10 @@ class PetApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (petId == null) {
             throw new RuntimeException("missing required params petId")
         }
-        
-
 
 
 
@@ -224,13 +203,10 @@ class PetApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (petId == null) {
             throw new RuntimeException("missing required params petId")
         }
-        
-
 
 
 

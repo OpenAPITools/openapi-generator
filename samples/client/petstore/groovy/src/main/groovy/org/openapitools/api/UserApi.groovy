@@ -18,18 +18,15 @@ class UserApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (body == null) {
             throw new RuntimeException("missing required params body")
         }
-        
 
 
 
         contentType = 'application/json';
         bodyParams = body
-
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -47,18 +44,15 @@ class UserApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (body == null) {
             throw new RuntimeException("missing required params body")
         }
-        
 
 
 
         contentType = 'application/json';
         bodyParams = body
-
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -76,18 +70,15 @@ class UserApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (body == null) {
             throw new RuntimeException("missing required params body")
         }
-        
 
 
 
         contentType = 'application/json';
         bodyParams = body
-
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
@@ -105,13 +96,10 @@ class UserApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (username == null) {
             throw new RuntimeException("missing required params username")
         }
-        
-
 
 
 
@@ -132,13 +120,10 @@ class UserApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (username == null) {
             throw new RuntimeException("missing required params username")
         }
-        
-
 
 
 
@@ -159,17 +144,14 @@ class UserApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (username == null) {
             throw new RuntimeException("missing required params username")
         }
-        
         // verify required params are set
         if (password == null) {
             throw new RuntimeException("missing required params password")
         }
-        
 
         if (username != null) {
             queryParams.put("username", username)
@@ -177,7 +159,6 @@ class UserApi {
         if (password != null) {
             queryParams.put("password", password)
         }
-
 
 
 
@@ -196,8 +177,6 @@ class UserApi {
         def headerParams = [:]
         def bodyParams
         def contentType
-
-        
 
 
 
@@ -219,23 +198,19 @@ class UserApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (username == null) {
             throw new RuntimeException("missing required params username")
         }
-        
         // verify required params are set
         if (body == null) {
             throw new RuntimeException("missing required params body")
         }
-        
 
 
 
         contentType = 'application/json';
         bodyParams = body
-
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
