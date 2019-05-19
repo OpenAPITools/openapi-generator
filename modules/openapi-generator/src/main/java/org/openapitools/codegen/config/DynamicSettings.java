@@ -16,7 +16,7 @@ import java.util.Set;
  * this will accumulate any "unknown properties" into {@link GeneratorSettings#getAdditionalProperties()} as a side effect of calling
  * {@link DynamicSettings#getGeneratorSettings()}.
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class DynamicSettings {
     @JsonAnySetter
     private Map<String, Object> dynamicProperties = new HashMap<>();
@@ -25,16 +25,20 @@ public class DynamicSettings {
     @JsonDeserialize(builder = GeneratorSettings.Builder.class)
     private GeneratorSettings generatorSettings;
 
-    public GeneratorSettings getGeneratorSettings() {
-        Set<String> fieldNames = new HashSet<>();
-        Field[] fields = GeneratorSettings.class.getDeclaredFields();
-        for (Field field : fields) {
-            fieldNames.add(field.getName());
-        }
-        dynamicProperties.keySet().removeAll(fieldNames);
+    @JsonUnwrapped
+    @JsonDeserialize(builder = WorkflowSettings.Builder.class)
+    private WorkflowSettings workflowSettings;
 
+    public GeneratorSettings getGeneratorSettings() {
+        excludeSettingsFromDynamicProperties();
         return GeneratorSettings.newBuilder(generatorSettings)
                 .withAdditionalProperties(dynamicProperties)
+                .build();
+    }
+
+    public WorkflowSettings getWorkflowSettings() {
+        excludeSettingsFromDynamicProperties();
+        return WorkflowSettings.newBuilder(workflowSettings)
                 .build();
     }
 
@@ -43,5 +47,16 @@ public class DynamicSettings {
 
     public Map<String, Object> getDynamicProperties() {
         return dynamicProperties;
+    }
+
+    private void excludeSettingsFromDynamicProperties(){
+        Set<String> fieldNames = new HashSet<>();
+        for (Field field : GeneratorSettings.class.getDeclaredFields()) {
+            fieldNames.add(field.getName());
+        }
+        for (Field field : WorkflowSettings.class.getDeclaredFields()) {
+            fieldNames.add(field.getName());
+        }
+        dynamicProperties.keySet().removeAll(fieldNames);
     }
 }

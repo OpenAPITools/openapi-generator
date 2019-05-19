@@ -24,9 +24,11 @@ public class DynamicSettingsTest {
 
         DynamicSettings dynamicSettings = mapper.readValue(spec, DynamicSettings.class);
         GeneratorSettings generatorSettings = dynamicSettings.getGeneratorSettings();
+        WorkflowSettings workflowSettings = dynamicSettings.getWorkflowSettings();
 
         assertNotNull(dynamicSettings);
         assertNotNull(generatorSettings);
+        assertNotNull(workflowSettings);
 
         assertEquals(generatorSettings.getApiPackage(), "testing");
         assertEquals(generatorSettings.getAdditionalProperties().size(), 3);
@@ -54,13 +56,15 @@ public class DynamicSettingsTest {
 
         DynamicSettings dynamicSettings = mapper.readValue(spec, DynamicSettings.class);
         GeneratorSettings generatorSettings = dynamicSettings.getGeneratorSettings();
+        WorkflowSettings workflowSettings = dynamicSettings.getWorkflowSettings();
 
         assertNotNull(dynamicSettings);
         assertNotNull(generatorSettings);
+        assertNotNull(workflowSettings);
 
         assertEquals(generatorSettings.getAdditionalProperties().size(), 0);
         assertEquals(generatorSettings.getGeneratorName(), "none");
-        assertEquals(generatorSettings.getTemplateDir(), current.getAbsolutePath());
-        assertNotEquals(generatorSettings.getTemplateDir(), input);
+        assertEquals(workflowSettings.getTemplateDir(), current.getAbsolutePath());
+        assertNotEquals(workflowSettings.getTemplateDir(), input);
     }
 }

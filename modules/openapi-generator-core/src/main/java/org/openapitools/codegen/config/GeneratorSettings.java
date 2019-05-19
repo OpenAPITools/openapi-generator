@@ -21,32 +21,17 @@ import com.google.common.collect.ImmutableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.Serializable;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
  * Represents those settings applied to a generator.
  */
-@SuppressWarnings("WeakerAccess")
 public final class GeneratorSettings implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeneratorSettings.class);
 
     private String generatorName;
-    private String inputSpec;
-    private String outputDir;
-    private boolean verbose;
-    private boolean skipOverwrite;
-    private boolean removeOperationIdPrefix;
-    private boolean logToStderr;
-    private boolean validateSpec;
-    private boolean enablePostProcessFile;
-    private boolean enableMinimalUpdate;
-    private boolean strictSpecBehavior;
-    private String templateDir;
-    private String templatingEngineName;
     private String apiPackage;
     private String modelPackage;
     private String invokerPackage;
@@ -57,10 +42,7 @@ public final class GeneratorSettings implements Serializable {
     private String artifactId;
     private String artifactVersion;
     private String library;
-    private String ignoreFileOverride;
 
-    // TODO: Evaluate need for system properties to be exposed here.
-    private ImmutableMap<String, String> systemProperties;
     private ImmutableMap<String, String> instantiationTypes;
     private ImmutableMap<String, String> typeMappings;
     private ImmutableMap<String, Object> additionalProperties;
@@ -80,131 +62,6 @@ public final class GeneratorSettings implements Serializable {
      */
     public String getGeneratorName() {
         return generatorName;
-    }
-
-    /**
-     * Gets input spec's location, as URL or file
-     *
-     * @return the input spec
-     */
-    public String getInputSpec() {
-        return inputSpec;
-    }
-
-    /**
-     * Gets the output dir (where we write generated files). Defaults to the current directory.
-     *
-     * @return the output dir
-     */
-    public String getOutputDir() {
-        return outputDir;
-    }
-
-    /**
-     * Configures verbosity of generation. When <code>true</code>, more messages will be printed during generation.
-     *
-     * @return <code>true</code> if verbose mode, <code>false</code> otherwise.
-     */
-    public boolean isVerbose() {
-        return verbose;
-    }
-
-    /**
-     * Indicates whether or not the existing files should be overwritten during the generation. This option is more rudimentary than
-     * defining patterns in .openapi-generator-ignore or {@link GeneratorSettings#isEnableMinimalUpdate()}.
-     *
-     * @return <code>true</code> if defaulting to overwriting files, false otherwise.
-     * @see <a href="https://openapi-generator.tech/docs/customization#ignore-file-format">Ignore File Format</a>
-     */
-    public boolean isSkipOverwrite() {
-        return skipOverwrite;
-    }
-
-    /**
-     * Indicates whether or not to remove the prefix of operationId, e.g. <code>config_getId</code> to <code>getId</code>.
-     *
-     * @return <code>true</code> if the operation id prefix should be removed during generation, <code>false</code> otherwise.
-     */
-    public boolean isRemoveOperationIdPrefix() {
-        return removeOperationIdPrefix;
-    }
-
-    /**
-     * Indicates whether or not the generator's executor will write all log messages (not just errors) to STDOUT. Useful for
-     * piping the JSON output of debug options (e.g. <code>-DdebugOperations</code>) to an external parser directly while testing a generator.
-     *
-     * @return <code>true</code> if the executor should attempt to write all messages to stderr,
-     * false otherwise (which defaults to logging configuration, not necessarily stdout).
-     */
-    public boolean isLogToStderr() {
-        return logToStderr;
-    }
-
-    /**
-     * Indicates whether or not generation should also validate an input specification.
-     * <p>
-     * NOTE: Invalid specs may result in a generation error, disabling may cause unexpected results.
-     *
-     * @return <code>true</code> if spec document validation is enabled, otherwise <code>false</code>. Default: <code>true</code>.
-     */
-    public boolean isValidateSpec() {
-        return validateSpec;
-    }
-
-    /**
-     * Indicates whether or not file post-processing is enabled for generators which support it. Refer to individual generator documentation for details.
-     * <p>
-     * In general, once enabled, a generator will evaluate a command stored in <code>LANG_POST_PROCESS_FILE</code>.
-     * <p>
-     * For example:
-     *
-     * <code>export SCALA_POST_PROCESS_FILE=/usr/local/bin/scalafmt</code>
-     * <p>
-     * Here, a Scala generator which supports file post-processing will run scalafmt for each generated file.
-     *
-     * @return <code>true</code> if file post-processing is enabled, otherwise <code>false</code>.
-     */
-    public boolean isEnablePostProcessFile() {
-        return enablePostProcessFile;
-    }
-
-    /**
-     * Indicates whether or not the generation should update only those files which have changed.
-     *
-     * @return <code>true</code> if minimal updates are enabled, otherwise <code>false</code>.
-     */
-    public boolean isEnableMinimalUpdate() {
-        return enableMinimalUpdate;
-    }
-
-    /**
-     * Indicates whether or not 'MUST' and 'SHALL' wording in the api specification is strictly adhered to.
-     * For example, when <code>false</code>, no automatic 'fixes' will be applied to documents which pass validation but don't follow the spec.
-     *
-     * @return <code>true</code> if the generator should attempt to strictly follow rules in the specification, otherwise <code>false</code>.
-     */
-    public boolean isStrictSpecBehavior() {
-        return strictSpecBehavior;
-    }
-
-    /**
-     * Gets the directory holding templates used in generation. This option allows users to extend or modify built-in templates, or to write their own.
-     *
-     * @return the template dir
-     */
-    public String getTemplateDir() {
-        return templateDir;
-    }
-
-    /**
-     * Gets the name of the templating engine to target. This option allows a user to target an engine which differs from the generator default, or to
-     * refer to their own fully qualified type name of a custom template engine adapter.
-     *
-     * @return the templating engine name
-     * @see <a href="https://openapi-generator.tech/docs/templating#custom-engines">Custom Engines</a>
-     */
-    public String getTemplatingEngineName() {
-        return templatingEngineName;
     }
 
     /**
@@ -309,23 +166,6 @@ public final class GeneratorSettings implements Serializable {
         return library;
     }
 
-    /**
-     * Gets the override location for the .openapi-generator-ignore file. Most useful on initial generation.
-     *
-     * @return the ignore file override
-     */
-    public String getIgnoreFileOverride() {
-        return ignoreFileOverride;
-    }
-
-    /**
-     * Gets system properties applied to the generator.
-     *
-     * @return the system properties
-     */
-    public Map<String, String> getSystemProperties() {
-        return systemProperties;
-    }
 
     /**
      * Gets instantiation types mappings. These allow for customizing the defaults provided by a built-in generator.
@@ -451,18 +291,6 @@ public final class GeneratorSettings implements Serializable {
 
     private GeneratorSettings(Builder builder) {
         generatorName = builder.generatorName;
-        inputSpec = builder.inputSpec;
-        outputDir = builder.outputDir;
-        verbose = builder.verbose;
-        skipOverwrite = builder.skipOverwrite;
-        removeOperationIdPrefix = builder.removeOperationIdPrefix;
-        logToStderr = builder.logToStderr;
-        validateSpec = builder.validateSpec;
-        enablePostProcessFile = builder.enablePostProcessFile;
-        enableMinimalUpdate = builder.enableMinimalUpdate;
-        strictSpecBehavior = builder.strictSpecBehavior;
-        templateDir = builder.templateDir;
-        templatingEngineName = builder.templatingEngineName;
         apiPackage = builder.apiPackage;
         modelPackage = builder.modelPackage;
         invokerPackage = builder.invokerPackage;
@@ -473,8 +301,6 @@ public final class GeneratorSettings implements Serializable {
         artifactId = builder.artifactId;
         artifactVersion = builder.artifactVersion;
         library = builder.library;
-        ignoreFileOverride = builder.ignoreFileOverride;
-        systemProperties = ImmutableMap.copyOf(builder.systemProperties);
         instantiationTypes = ImmutableMap.copyOf(builder.instantiationTypes);
         typeMappings = ImmutableMap.copyOf(builder.typeMappings);
         additionalProperties = ImmutableMap.copyOf(builder.additionalProperties);
@@ -492,7 +318,6 @@ public final class GeneratorSettings implements Serializable {
      */
     @SuppressWarnings("unused")
     public GeneratorSettings() {
-        systemProperties = ImmutableMap.of();
         instantiationTypes = ImmutableMap.of();
         typeMappings = ImmutableMap.of();
         additionalProperties = ImmutableMap.of();
@@ -519,17 +344,6 @@ public final class GeneratorSettings implements Serializable {
     public static Builder newBuilder(GeneratorSettings copy) {
         Builder builder = new Builder();
         builder.generatorName = copy.getGeneratorName();
-        builder.inputSpec = copy.getInputSpec();
-        builder.outputDir = copy.getOutputDir();
-        builder.verbose = copy.isVerbose();
-        builder.skipOverwrite = copy.isSkipOverwrite();
-        builder.removeOperationIdPrefix = copy.isRemoveOperationIdPrefix();
-        builder.logToStderr = copy.isLogToStderr();
-        builder.validateSpec = copy.isValidateSpec();
-        builder.enablePostProcessFile = copy.isEnablePostProcessFile();
-        builder.enableMinimalUpdate = copy.isEnableMinimalUpdate();
-        builder.strictSpecBehavior = copy.isStrictSpecBehavior();
-        builder.templatingEngineName = copy.getTemplatingEngineName();
         builder.apiPackage = copy.getApiPackage();
         builder.modelPackage = copy.getModelPackage();
         builder.invokerPackage = copy.getInvokerPackage();
@@ -540,8 +354,6 @@ public final class GeneratorSettings implements Serializable {
         builder.artifactId = copy.getArtifactId();
         builder.artifactVersion = copy.getArtifactVersion();
         builder.library = copy.getLibrary();
-        builder.ignoreFileOverride = copy.getIgnoreFileOverride();
-        builder.systemProperties = copy.getSystemProperties();
         builder.instantiationTypes = copy.getInstantiationTypes();
         builder.typeMappings = copy.getTypeMappings();
         builder.additionalProperties = copy.getAdditionalProperties();
@@ -553,9 +365,6 @@ public final class GeneratorSettings implements Serializable {
         builder.releaseNote = copy.getReleaseNote();
         builder.httpUserAgent = copy.getHttpUserAgent();
 
-        // force builder "with" methods to invoke side effects
-        builder.withTemplateDir(copy.getTemplateDir());
-
         return builder;
     }
 
@@ -565,18 +374,6 @@ public final class GeneratorSettings implements Serializable {
     @SuppressWarnings("UnusedReturnValue")
     public static final class Builder {
         private String generatorName;
-        private String inputSpec;
-        private String outputDir;
-        private boolean verbose;
-        private boolean skipOverwrite;
-        private boolean removeOperationIdPrefix;
-        private boolean logToStderr;
-        private boolean validateSpec;
-        private boolean enablePostProcessFile;
-        private boolean enableMinimalUpdate;
-        private boolean strictSpecBehavior;
-        private String templateDir;
-        private String templatingEngineName;
         private String apiPackage;
         private String modelPackage;
         private String invokerPackage;
@@ -587,8 +384,6 @@ public final class GeneratorSettings implements Serializable {
         private String artifactId;
         private String artifactVersion;
         private String library;
-        private String ignoreFileOverride;
-        private Map<String, String> systemProperties;
         private Map<String, String> instantiationTypes;
         private Map<String, String> typeMappings;
         private Map<String, Object> additionalProperties;
@@ -608,11 +403,6 @@ public final class GeneratorSettings implements Serializable {
             gitRepoId = "GIT_REPO_ID";
             releaseNote = "Minor update";
 
-            validateSpec = true;
-            strictSpecBehavior = true;
-            outputDir = ".";
-
-            systemProperties = new HashMap<>();
             instantiationTypes = new HashMap<>();
             typeMappings = new HashMap<>();
             additionalProperties = new HashMap<>();
@@ -629,152 +419,6 @@ public final class GeneratorSettings implements Serializable {
          */
         public Builder withGeneratorName(String generatorName) {
             this.generatorName = generatorName;
-            return this;
-        }
-
-
-        /**
-         * Sets the {@code inputSpec} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param inputSpec the {@code inputSpec} to set
-         * @return a reference to this Builder
-         */
-        public Builder withInputSpec(String inputSpec) {
-            this.inputSpec = inputSpec;
-            return this;
-        }
-
-        /**
-         * Sets the {@code outputDir} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param outputDir the {@code outputDir} to set
-         * @return a reference to this Builder
-         */
-        public Builder withOutputDir(String outputDir) {
-            this.outputDir = Paths.get(outputDir).toAbsolutePath().toString();
-            return this;
-        }
-
-        /**
-         * Sets the {@code verbose} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param verbose the {@code verbose} to set
-         * @return a reference to this Builder
-         */
-        public Builder withVerbose(boolean verbose) {
-            this.verbose = verbose;
-            return this;
-        }
-
-        /**
-         * Sets the {@code skipOverwrite} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param skipOverwrite the {@code skipOverwrite} to set
-         * @return a reference to this Builder
-         */
-        public Builder withSkipOverwrite(boolean skipOverwrite) {
-            this.skipOverwrite = skipOverwrite;
-            return this;
-        }
-
-        /**
-         * Sets the {@code removeOperationIdPrefix} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param removeOperationIdPrefix the {@code removeOperationIdPrefix} to set
-         * @return a reference to this Builder
-         */
-        public Builder withRemoveOperationIdPrefix(boolean removeOperationIdPrefix) {
-            this.removeOperationIdPrefix = removeOperationIdPrefix;
-            return this;
-        }
-
-        /**
-         * Sets the {@code logToStderr} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param logToStderr the {@code logToStderr} to set
-         * @return a reference to this Builder
-         */
-        public Builder withLogToStderr(boolean logToStderr) {
-            this.logToStderr = logToStderr;
-            return this;
-        }
-
-        /**
-         * Sets the {@code validateSpec} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param validateSpec the {@code validateSpec} to set
-         * @return a reference to this Builder
-         */
-        public Builder withValidateSpec(boolean validateSpec) {
-            this.validateSpec = validateSpec;
-            return this;
-        }
-
-        /**
-         * Sets the {@code enablePostProcessFile} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param enablePostProcessFile the {@code enablePostProcessFile} to set
-         * @return a reference to this Builder
-         */
-        public Builder withEnablePostProcessFile(boolean enablePostProcessFile) {
-            this.enablePostProcessFile = enablePostProcessFile;
-            return this;
-        }
-
-        /**
-         * Sets the {@code enableMinimalUpdate} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param enableMinimalUpdate the {@code enableMinimalUpdate} to set
-         * @return a reference to this Builder
-         */
-        public Builder withEnableMinimalUpdate(boolean enableMinimalUpdate) {
-            this.enableMinimalUpdate = enableMinimalUpdate;
-            return this;
-        }
-
-        /**
-         * Sets the {@code strictSpecBehavior} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param strictSpecBehavior the {@code strictSpecBehavior} to set
-         * @return a reference to this Builder
-         */
-        public Builder withStrictSpecBehavior(boolean strictSpecBehavior) {
-            this.strictSpecBehavior = strictSpecBehavior;
-            return this;
-        }
-
-        /**
-         * Sets the {@code templateDir} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param templateDir the {@code templateDir} to set
-         * @return a reference to this Builder
-         */
-        public Builder withTemplateDir(String templateDir) {
-            if (templateDir == null) {
-                this.templateDir = null;
-            } else {
-                File f = new File(templateDir);
-
-                // check to see if the folder exists
-                if (!(f.exists() && f.isDirectory())) {
-                    throw new IllegalArgumentException(
-                            "Template directory " + templateDir + " does not exist.");
-                }
-
-                this.templateDir = f.getAbsolutePath();
-            }
-
-            return this;
-        }
-
-        /**
-         * Sets the {@code templatingEngineName} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param templatingEngineName the {@code templatingEngineName} to set
-         * @return a reference to this Builder
-         */
-        public Builder withTemplatingEngineName(String templatingEngineName) {
-            this.templatingEngineName = templatingEngineName;
             return this;
         }
 
@@ -885,28 +529,6 @@ public final class GeneratorSettings implements Serializable {
          */
         public Builder withLibrary(String library) {
             this.library = library;
-            return this;
-        }
-
-        /**
-         * Sets the {@code ignoreFileOverride} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param ignoreFileOverride the {@code ignoreFileOverride} to set
-         * @return a reference to this Builder
-         */
-        public Builder withIgnoreFileOverride(String ignoreFileOverride) {
-            this.ignoreFileOverride = ignoreFileOverride;
-            return this;
-        }
-
-        /**
-         * Sets the {@code systemProperties} and returns a reference to this Builder so that the methods can be chained together.
-         *
-         * @param systemProperties the {@code systemProperties} to set
-         * @return a reference to this Builder
-         */
-        public Builder withSystemProperties(Map<String, String> systemProperties) {
-            this.systemProperties = systemProperties;
             return this;
         }
 
@@ -1037,18 +659,6 @@ public final class GeneratorSettings implements Serializable {
     public String toString() {
         return "GeneratorSettings{" +
                 "generatorName='" + generatorName + '\'' +
-                ", inputSpec='" + inputSpec + '\'' +
-                ", outputDir='" + outputDir + '\'' +
-                ", verbose=" + verbose +
-                ", skipOverwrite=" + skipOverwrite +
-                ", removeOperationIdPrefix=" + removeOperationIdPrefix +
-                ", logToStderr=" + logToStderr +
-                ", validateSpec=" + validateSpec +
-                ", enablePostProcessFile=" + enablePostProcessFile +
-                ", enableMinimalUpdate=" + enableMinimalUpdate +
-                ", strictSpecBehavior=" + strictSpecBehavior +
-                ", templateDir='" + templateDir + '\'' +
-                ", templatingEngineName='" + templatingEngineName + '\'' +
                 ", apiPackage='" + apiPackage + '\'' +
                 ", modelPackage='" + modelPackage + '\'' +
                 ", invokerPackage='" + invokerPackage + '\'' +
@@ -1059,8 +669,6 @@ public final class GeneratorSettings implements Serializable {
                 ", artifactId='" + artifactId + '\'' +
                 ", artifactVersion='" + artifactVersion + '\'' +
                 ", library='" + library + '\'' +
-                ", ignoreFileOverride='" + ignoreFileOverride + '\'' +
-                ", systemProperties=" + systemProperties +
                 ", instantiationTypes=" + instantiationTypes +
                 ", typeMappings=" + typeMappings +
                 ", additionalProperties=" + additionalProperties +
@@ -1079,19 +687,7 @@ public final class GeneratorSettings implements Serializable {
         if (this == o) return true;
         if (!(o instanceof GeneratorSettings)) return false;
         GeneratorSettings that = (GeneratorSettings) o;
-        return isVerbose() == that.isVerbose() &&
-                isSkipOverwrite() == that.isSkipOverwrite() &&
-                isRemoveOperationIdPrefix() == that.isRemoveOperationIdPrefix() &&
-                isLogToStderr() == that.isLogToStderr() &&
-                isValidateSpec() == that.isValidateSpec() &&
-                isEnablePostProcessFile() == that.isEnablePostProcessFile() &&
-                isEnableMinimalUpdate() == that.isEnableMinimalUpdate() &&
-                isStrictSpecBehavior() == that.isStrictSpecBehavior() &&
-                Objects.equals(getGeneratorName(), that.getGeneratorName()) &&
-                Objects.equals(getInputSpec(), that.getInputSpec()) &&
-                Objects.equals(getOutputDir(), that.getOutputDir()) &&
-                Objects.equals(getTemplateDir(), that.getTemplateDir()) &&
-                Objects.equals(getTemplatingEngineName(), that.getTemplatingEngineName()) &&
+        return  Objects.equals(getGeneratorName(), that.getGeneratorName()) &&
                 Objects.equals(getApiPackage(), that.getApiPackage()) &&
                 Objects.equals(getModelPackage(), that.getModelPackage()) &&
                 Objects.equals(getInvokerPackage(), that.getInvokerPackage()) &&
@@ -1102,8 +698,6 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getArtifactId(), that.getArtifactId()) &&
                 Objects.equals(getArtifactVersion(), that.getArtifactVersion()) &&
                 Objects.equals(getLibrary(), that.getLibrary()) &&
-                Objects.equals(getIgnoreFileOverride(), that.getIgnoreFileOverride()) &&
-                Objects.equals(getSystemProperties(), that.getSystemProperties()) &&
                 Objects.equals(getInstantiationTypes(), that.getInstantiationTypes()) &&
                 Objects.equals(getTypeMappings(), that.getTypeMappings()) &&
                 Objects.equals(getAdditionalProperties(), that.getAdditionalProperties()) &&
@@ -1120,18 +714,6 @@ public final class GeneratorSettings implements Serializable {
     public int hashCode() {
         return Objects.hash(
                 getGeneratorName(),
-                getInputSpec(),
-                getOutputDir(),
-                isVerbose(),
-                isSkipOverwrite(),
-                isRemoveOperationIdPrefix(),
-                isLogToStderr(),
-                isValidateSpec(),
-                isEnablePostProcessFile(),
-                isEnableMinimalUpdate(),
-                isStrictSpecBehavior(),
-                getTemplateDir(),
-                getTemplatingEngineName(),
                 getApiPackage(),
                 getModelPackage(),
                 getInvokerPackage(),
@@ -1142,8 +724,6 @@ public final class GeneratorSettings implements Serializable {
                 getArtifactId(),
                 getArtifactVersion(),
                 getLibrary(),
-                getIgnoreFileOverride(),
-                getSystemProperties(),
                 getInstantiationTypes(),
                 getTypeMappings(),
                 getAdditionalProperties(),

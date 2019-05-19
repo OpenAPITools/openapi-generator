@@ -23,26 +23,29 @@ package org.openapitools.codegen.config;
  */
 public class Context<TSpecDocument> {
     private TSpecDocument specDocument;
-    private GeneratorSettings settings;
+    private GeneratorSettings generatorSettings;
+    private WorkflowSettings workflowSettings;
 
     /**
      * Instantiates a new Context.
      *
-     * @param specDocument the spec document
-     * @param settings     the generator settings
+     * @param specDocument      the spec document
+     * @param generatorSettings the generator settings
+     * @param workflowSettings  the workflow settings
      */
-    public Context(TSpecDocument specDocument, GeneratorSettings settings) {
+    public Context(TSpecDocument specDocument, GeneratorSettings generatorSettings, WorkflowSettings workflowSettings) {
         this.specDocument = specDocument;
-        this.settings = settings;
+        this.generatorSettings = generatorSettings;
+        this.workflowSettings = workflowSettings;
     }
 
     /**
-     * Gets the generator settings.
+     * Gets the generator settings. These options are specific to "what" gets generated (language, framework).
      *
-     * @return the settings
+     * @return the generator settings
      */
-    public GeneratorSettings getSettings() {
-        return settings;
+    public GeneratorSettings getGeneratorSettings() {
+        return generatorSettings;
     }
 
     /**
@@ -52,5 +55,14 @@ public class Context<TSpecDocument> {
      */
     public TSpecDocument getSpecDocument() {
         return specDocument;
+    }
+
+    /**
+     * Gets the workflow settings. These options are specific to "how" code gets generated (input, output directory, ignore files, template engine, etc).
+     *
+     * @return the workflow settings
+     */
+    public WorkflowSettings getWorkflowSettings() {
+        return workflowSettings;
     }
 }
