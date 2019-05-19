@@ -37,7 +37,7 @@ dependencies {
     compile("org.jetbrains.kotlin:kotlin-reflect")
 	compile("org.springframework.boot:spring-boot-starter-webflux")
 	compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
-	compile("org.jetbrains.kotlinx:skotlinx-coroutines-reactor:$kotlinxCoroutinesVersion")
+	compile("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinxCoroutinesVersion")
     compile("io.swagger:swagger-annotations:1.5.21")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
