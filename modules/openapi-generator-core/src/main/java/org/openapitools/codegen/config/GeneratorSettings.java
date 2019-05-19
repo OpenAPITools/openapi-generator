@@ -101,9 +101,9 @@ public final class GeneratorSettings implements Serializable {
     }
 
     /**
-     * Configures verbosity of generation. When <c>true</c>, more messages will be printed during generation.
+     * Configures verbosity of generation. When <code>true</code>, more messages will be printed during generation.
      *
-     * @return {@<code>true</code>} if verbose mode, <code>false</code> otherwise.
+     * @return <code>true</code> if verbose mode, <code>false</code> otherwise.
      */
     public boolean isVerbose() {
         return verbose;
@@ -121,7 +121,7 @@ public final class GeneratorSettings implements Serializable {
     }
 
     /**
-     * Indicates whether or not to remove the prefix of operationId, e.g. <c>config_getId</c> => <c>getId</c>.
+     * Indicates whether or not to remove the prefix of operationId, e.g. <code>config_getId</code> to <code>getId</code>.
      *
      * @return <code>true</code> if the operation id prefix should be removed during generation, <code>false</code> otherwise.
      */
@@ -330,7 +330,7 @@ public final class GeneratorSettings implements Serializable {
     /**
      * Gets instantiation types mappings. These allow for customizing the defaults provided by a built-in generator.
      * <p>
-     * For example, "array" => "ArrayList" applied to the Java generator will cause all array properties to be instantiated as ArrayList.
+     * For example, "array" to "ArrayList" applied to the Java generator will cause all array properties to be instantiated as ArrayList.
      * <p>
      * This option differs from {@link GeneratorSettings#getTypeMappings()} in that values provided here are generally used for type construction (what is applied to "new").
      *
@@ -343,7 +343,7 @@ public final class GeneratorSettings implements Serializable {
     /**
      * Gets type mappings. These allow for customizing type definitions.
      * <p>
-     * For example, "array" => "List" applied to the Java generator will cause all variable assignments for array properties to be of type <code>List</code>.
+     * For example, "array" to "List" applied to the Java generator will cause all variable assignments for array properties to be of type <code>List</code>.
      * <p>
      * This option differs from {@link GeneratorSettings#getInstantiationTypes()} in that values provided here are variable reference types rather than concrete instantiation types.
      *
@@ -393,7 +393,7 @@ public final class GeneratorSettings implements Serializable {
     /**
      * Gets reserved word mappings. Values defined here define how a reserved word should be escaped.
      * <p>
-     * If no mapping is present, the mapping is generally automatically applied to a default with prefixed underscore (<code>_<name></code>). Note that
+     * If no mapping is present, the mapping is generally automatically applied to a default with prefixed underscore (<code>_name</code>). Note that
      * some languages don't support identifiers beginning with a prefix, in which case the generator applies a more appropriate prefix.
      *
      * @return the reserved word mappings

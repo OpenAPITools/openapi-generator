@@ -16,19 +16,40 @@
 
 package org.openapitools.codegen.config;
 
+/**
+ * The Context used for generation.
+ *
+ * @param <TSpecDocument> the type of the input spec document.
+ */
 public class Context<TSpecDocument> {
     private TSpecDocument specDocument;
     private GeneratorSettings settings;
 
+    /**
+     * Instantiates a new Context.
+     *
+     * @param specDocument the spec document
+     * @param settings     the generator settings
+     */
     public Context(TSpecDocument specDocument, GeneratorSettings settings) {
         this.specDocument = specDocument;
         this.settings = settings;
     }
 
+    /**
+     * Gets the generator settings.
+     *
+     * @return the settings
+     */
     public GeneratorSettings getSettings() {
         return settings;
     }
 
+    /**
+     * Gets the spec document.
+     *
+     * @return the spec document
+     */
     public TSpecDocument getSpecDocument() {
         return specDocument;
     }
