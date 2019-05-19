@@ -344,8 +344,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         if (additionalProperties.containsKey(REACTIVE) && library.equals(SPRING_BOOT)) {
             this.setReactive(convertPropertyToBoolean(REACTIVE));
+            // spring webflux doesn't support @ControllerAdvice
+            this.setExceptionHandler(false);
         }
         writePropertyBack(REACTIVE, reactive);
+        writePropertyBack(EXCEPTION_HANDLER, exceptionHandler);
 
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("api.mustache", ".kt");
