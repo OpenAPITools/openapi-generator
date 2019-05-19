@@ -383,7 +383,10 @@ public class Generate implements Runnable {
             configurator.setStrictSpecBehavior(strictSpecBehavior);
         }
 
-        applySystemPropertiesKvpList(systemProperties, configurator);
+        if (systemProperties != null && !systemProperties.isEmpty()) {
+            System.err.println("[DEPRECATED] -D arguments after 'generate' is an application argument and not Java System Properties, please apply your options to JAVA_OPTS or move the -D arguments before the jar option.");
+            applySystemPropertiesKvpList(systemProperties, configurator);
+        }
         applyInstantiationTypesKvpList(instantiationTypes, configurator);
         applyImportMappingsKvpList(importMappings, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);

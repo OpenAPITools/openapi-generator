@@ -176,7 +176,7 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setGenerateAliasAsModel(boolean generateAliasAsModel) {
-        // TODO: Move to GeneratorProperties?
+        // TODO: Move to GlobalSettings?
         ModelUtils.setGenerateAliasAsModel(generateAliasAsModel);
         return this;
     }
@@ -362,14 +362,14 @@ public class CodegenConfigurator {
                     + "\n - [debugOperations] prints operations passed to the template engine"
                     + "\n - [debugSupportingFiles] prints additional data passed to the template engine");
 
-            GeneratorProperties.setProperty("debugOpenAPI", "");
-            GeneratorProperties.setProperty("debugModels", "");
-            GeneratorProperties.setProperty("debugOperations", "");
-            GeneratorProperties.setProperty("debugSupportingFiles", "");
+            GlobalSettings.setProperty("debugOpenAPI", "");
+            GlobalSettings.setProperty("debugModels", "");
+            GlobalSettings.setProperty("debugOperations", "");
+            GlobalSettings.setProperty("debugSupportingFiles", "");
         }
 
         for (Map.Entry<String, String> entry : settings.getSystemProperties().entrySet()) {
-            GeneratorProperties.setProperty(entry.getKey(), entry.getValue());
+            GlobalSettings.setProperty(entry.getKey(), entry.getValue());
         }
 
         // TODO: Work toward CodegenConfig having a "GeneratorSettings" property.

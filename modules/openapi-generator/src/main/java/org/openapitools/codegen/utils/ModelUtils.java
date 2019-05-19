@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 public class ModelUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelUtils.class);
 
-    // TODO: Use GeneratorProperties for all static/global properties in a more thread-safe way.
+    // TODO: Use GlobalSettings for all static/global properties in a more thread-safe way.
     private static boolean generateAliasAsModel = false;
 
     public static void setGenerateAliasAsModel(boolean value) {
