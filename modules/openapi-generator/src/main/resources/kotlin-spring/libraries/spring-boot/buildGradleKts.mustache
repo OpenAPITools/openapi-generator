@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.3.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.0.M3")
     }
 }
 
@@ -32,6 +32,7 @@ plugins {
 }
 
 dependencies {
+	val kotlinxCoroutinesVersion="1.2.0"
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
 {{^reactive}}
@@ -39,6 +40,8 @@ dependencies {
 {{/reactive}}
 {{#reactive}}
 	compile("org.springframework.boot:spring-boot-starter-webflux")
+	compile("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")
+	compile("org.jetbrains.kotlinx:skotlinx-coroutines-reactor$kotlinxCoroutinesVersion")
 {{/reactive}}
 {{#swaggerAnnotations}}
     compile("io.swagger:swagger-annotations:1.5.21")
@@ -50,4 +53,10 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
     }
+}
+
+repositories {
+	mavenCentral()
+	maven { url = uri("https://repo.spring.io/snapshot") }
+	maven { url = uri("https://repo.spring.io/milestone") }
 }
