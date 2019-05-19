@@ -16,12 +16,11 @@
 
 package org.openapitools.codegen.config;
 
-// TODO
-public class Context<T extends ApiDocument> {
-    private T specDocument;
+public class Context<TSpecDocument> {
+    private TSpecDocument specDocument;
     private GeneratorSettings settings;
 
-    public Context(T specDocument, GeneratorSettings settings) {
+    public Context(TSpecDocument specDocument, GeneratorSettings settings) {
         this.specDocument = specDocument;
         this.settings = settings;
     }
@@ -30,7 +29,7 @@ public class Context<T extends ApiDocument> {
         return settings;
     }
 
-    public T getSpecDocument() {
+    public TSpecDocument getSpecDocument() {
         return specDocument;
     }
 }
