@@ -1,6 +1,6 @@
 import IHttpClient from "./IHttpClient";
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from "rxjs/Observable";
 
 import "whatwg-fetch";
 import HttpResponse from "./HttpResponse";
