@@ -54,7 +54,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
 
-        // clioOptions default redifinition need to be updated
+        // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
         updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
         updateOption(CodegenConstants.API_PACKAGE, apiPackage);
@@ -80,13 +80,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         super.embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "spec";
 
-        for (int i = 0; i < cliOptions.size(); i++) {
-            if (CodegenConstants.LIBRARY.equals(cliOptions.get(i).getOpt())) {
-                cliOptions.remove(i);
-                break;
-            }
-        }
-
+        removeOption(CodegenConstants.LIBRARY);
         CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(DEFAULT_LIBRARY);
         Map<String, String> supportedLibraries = new LinkedHashMap<>();
         supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS");

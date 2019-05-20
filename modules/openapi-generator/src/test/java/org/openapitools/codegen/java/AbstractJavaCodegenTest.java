@@ -225,6 +225,19 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.getArtifactVersion(), "1.0.7");
     }
 
+    @Test(description = "tests if API version specification is used if no version is provided in additional properties with snapshot version")
+    public void openApiSnapShotVersionTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        codegen.additionalProperties().put("snapshotVersion", "true");
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
+
+        Assert.assertEquals(codegen.getArtifactVersion(), "1.0.7-SNAPSHOT");
+    }
+
     @Test(description = "tests if artifactVersion additional property is used")
     public void additionalPropertyArtifactVersionTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -238,22 +251,42 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.getArtifactVersion(), "1.1.1");
     }
 
+    @Test(description = "tests if artifactVersion additional property is used with snapshot parameter")
+    public void additionalPropertyArtifactSnapShotVersionTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        codegen.additionalProperties().put("artifactVersion", "1.1.1");
+        codegen.additionalProperties().put("snapshotVersion", "true");
+
+        OpenAPI api = TestUtils.createOpenAPI();
+        codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
+
+        Assert.assertEquals(codegen.getArtifactVersion(), "1.1.1-SNAPSHOT");
+    }
+
     @Test(description = "tests if default version is used when neither OpenAPI version nor artifactVersion additional property has been provided")
     public void defaultVersionTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
+        OpenAPI api = TestUtils.createOpenAPI();
+        api.getInfo().setVersion(null);
         codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.0.0");
     }
 
-    @Test(description = "tests if default version is used when neither OpenAPI version nor artifactVersion additional property has been provided")
+    @Test(description = "tests if default version with snapshot is used when neither OpenAPI version nor artifactVersion additional property has been provided")
     public void snapshotVersionTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
         codegen.additionalProperties().put("snapshotVersion", "true");
 
+        OpenAPI api = TestUtils.createOpenAPI();
+        api.getInfo().setVersion(null);
         codegen.processOpts();
+        codegen.preprocessOpenAPI(api);
 
         Assert.assertEquals(codegen.getArtifactVersion(), "1.0.0-SNAPSHOT");
     }
