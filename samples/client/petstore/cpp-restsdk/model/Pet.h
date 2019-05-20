@@ -31,6 +31,7 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
 /// <summary>
 /// A pet for sale in the pet store
 /// </summary>
@@ -118,6 +119,7 @@ protected:
     utility::string_t m_Status;
     bool m_StatusIsSet;
 };
+
 
 }
 }

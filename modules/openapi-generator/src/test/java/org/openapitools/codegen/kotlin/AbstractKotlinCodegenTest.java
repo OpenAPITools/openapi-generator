@@ -117,6 +117,23 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toVarName("Pony?"), "ponyQuestionMark");
         assertEquals(codegen.toVarName("nam#e"), "namHashE");
         assertEquals(codegen.toVarName("Pony>=>="), "ponyGreaterThanEqualGreaterThanEqual");
+        assertEquals(codegen.toVarName("uSername"), "uSername");
+        assertEquals(codegen.toVarName("USERname"), "usERname");
+        assertEquals(codegen.toVarName("USERNAME"), "USERNAME");
+        assertEquals(codegen.toVarName("USER123NAME"), "USER123NAME");
+    }
+
+    @Test
+    public void convertApiNameWithEmptySuffix() {
+        assertEquals(codegen.toApiName("Fake"), "FakeApi");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    @Test
+    public void convertApiNameWithSuffix() {
+        codegen.setApiSuffix("Test");
+        assertEquals(codegen.toApiName("Fake"), "FakeTest");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
     }
 
 }

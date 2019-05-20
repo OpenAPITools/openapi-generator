@@ -88,6 +88,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.Name = name;
             }
+            
             // to ensure "photoUrls" is required (not null)
             if (photoUrls == null)
             {
@@ -97,6 +98,7 @@ namespace Org.OpenAPITools.Model
             {
                 this.PhotoUrls = photoUrls;
             }
+            
             this.Id = id;
             this.Category = category;
             this.Tags = tags;
@@ -200,11 +202,13 @@ namespace Org.OpenAPITools.Model
                 (
                     this.PhotoUrls == input.PhotoUrls ||
                     this.PhotoUrls != null &&
+                    input.PhotoUrls != null &&
                     this.PhotoUrls.SequenceEqual(input.PhotoUrls)
                 ) && 
                 (
                     this.Tags == input.Tags ||
                     this.Tags != null &&
+                    input.Tags != null &&
                     this.Tags.SequenceEqual(input.Tags)
                 ) && 
                 (

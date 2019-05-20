@@ -28,6 +28,7 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
 /// <summary>
 /// A tag for a pet
 /// </summary>
@@ -77,6 +78,7 @@ protected:
     utility::string_t m_Name;
     bool m_NameIsSet;
 };
+
 
 }
 }

@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
+import org.openapitools.codegen.meta.GeneratorMetadata;
 
 import java.io.File;
 import java.util.List;
@@ -32,6 +33,8 @@ import java.util.Map;
 import java.util.Set;
 
 public interface CodegenConfig {
+    GeneratorMetadata getGeneratorMetadata();
+
     CodegenType getTag();
 
     String getName();
@@ -270,4 +273,8 @@ public interface CodegenConfig {
     public boolean isEnableMinimalUpdate();
 
     public void setEnableMinimalUpdate(boolean isEnableMinimalUpdate);
+
+    boolean isStrictSpecBehavior();
+
+    void setStrictSpecBehavior(boolean strictSpecBehavior);
 }

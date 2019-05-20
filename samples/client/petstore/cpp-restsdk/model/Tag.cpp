@@ -18,6 +18,9 @@ namespace openapitools {
 namespace client {
 namespace model {
 
+
+
+
 Tag::Tag()
 {
     m_Id = 0L;
@@ -153,4 +156,5 @@ void Tag::unsetName()
 }
 }
 }
+
 

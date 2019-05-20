@@ -35,6 +35,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.config.GeneratorProperties;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.config.GeneratorProperties;
 import org.openapitools.codegen.utils.ImplementationVersion;
@@ -45,6 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
 
@@ -431,9 +434,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 if (unusedModels.contains(name)) {
                     if (Boolean.FALSE.equals(skipFormModel)) {
                         // if skipFormModel sets to true, still generate the model and log the result
-                        LOGGER.info("Model " + name + " (marked as unused due to form parameters) is generated due to skipFormModel=false (default)");
+                        LOGGER.info("Model " + name + " (marked as unused due to form parameters) is generated due to the system property skipFormModel=false (default)");
                     } else {
-                        LOGGER.info("Model " + name + " not generated since it's marked as unused (due to form parameters) and skipFormModel set to true");
+                        LOGGER.info("Model " + name + " not generated since it's marked as unused (due to form parameters) and skipFormModel (system property) set to true");
                         continue;
                     }
                 }
@@ -882,6 +885,23 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             throw new RuntimeException("missing config!");
         }
 
+        if (config.getGeneratorMetadata() == null) {
+            LOGGER.warn(String.format(Locale.ROOT, "Generator '%s' is missing generator metadata!", config.getName()));
+        } else {
+            GeneratorMetadata generatorMetadata = config.getGeneratorMetadata();
+            if (StringUtils.isNotEmpty(generatorMetadata.getGenerationMessage())) {
+                LOGGER.info(generatorMetadata.getGenerationMessage());
+            }
+
+            Stability stability = generatorMetadata.getStability();
+            String stabilityMessage = String.format(Locale.ROOT, "Generator '%s' is considered %s.", config.getName(), stability.value());
+            if (stability == Stability.DEPRECATED) {
+                LOGGER.warn(stabilityMessage);
+            } else {
+                LOGGER.info(stabilityMessage);
+            }
+        }
+
         // resolve inline models
         InlineModelResolver inlineModelResolver = new InlineModelResolver();
         inlineModelResolver.flatten(openAPI);
@@ -915,6 +935,19 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     @Override
     public String getFullTemplateContents(String templateName) {
         return readTemplate(getFullTemplateFile(config, templateName));
+    }
+
+    /**
+     * Returns the path of a template, allowing access to the template where consuming literal contents aren't desirable or possible.
+     *
+     * @param name the template name (e.g. model.mustache)
+     *
+     * @return The {@link Path} to the template
+     */
+    @Override
+    public Path getFullTemplatePath(String name) {
+        String fullPath = getFullTemplateFile(config, name);
+        return java.nio.file.Paths.get(fullPath);
     }
 
     protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {

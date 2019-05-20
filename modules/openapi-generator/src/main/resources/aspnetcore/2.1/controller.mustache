@@ -1,12 +1,17 @@
 {{>partial_header}}
 using System;
-using System.Collections.Generic;{{#operationResultTask}}
+using System.Collections.Generic;
+{{#operationResultTask}}
 using System.Threading.Tasks;
 {{/operationResultTask}}
-using Microsoft.AspNetCore.Mvc;{{#useSwashbuckle}}
+using Microsoft.AspNetCore.Mvc;
+{{#useSwashbuckle}}
 using Swashbuckle.AspNetCore.Annotations;
-using Swashbuckle.AspNetCore.SwaggerGen;{{/useSwashbuckle}}{{^isLibrary}}
-using Newtonsoft.Json;{{/isLibrary}}
+using Swashbuckle.AspNetCore.SwaggerGen;
+{{/useSwashbuckle}}
+{{^isLibrary}}
+using Newtonsoft.Json;
+{{/isLibrary}}
 using System.ComponentModel.DataAnnotations;
 using {{packageName}}.Attributes;
 using {{modelPackage}};

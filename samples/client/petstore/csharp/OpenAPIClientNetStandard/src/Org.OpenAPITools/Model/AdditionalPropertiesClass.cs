@@ -179,41 +179,49 @@ namespace Org.OpenAPITools.Model
                 (
                     this.MapString == input.MapString ||
                     this.MapString != null &&
+                    input.MapString != null &&
                     this.MapString.SequenceEqual(input.MapString)
                 ) && 
                 (
                     this.MapNumber == input.MapNumber ||
                     this.MapNumber != null &&
+                    input.MapNumber != null &&
                     this.MapNumber.SequenceEqual(input.MapNumber)
                 ) && 
                 (
                     this.MapInteger == input.MapInteger ||
                     this.MapInteger != null &&
+                    input.MapInteger != null &&
                     this.MapInteger.SequenceEqual(input.MapInteger)
                 ) && 
                 (
                     this.MapBoolean == input.MapBoolean ||
                     this.MapBoolean != null &&
+                    input.MapBoolean != null &&
                     this.MapBoolean.SequenceEqual(input.MapBoolean)
                 ) && 
                 (
                     this.MapArrayInteger == input.MapArrayInteger ||
                     this.MapArrayInteger != null &&
+                    input.MapArrayInteger != null &&
                     this.MapArrayInteger.SequenceEqual(input.MapArrayInteger)
                 ) && 
                 (
                     this.MapArrayAnytype == input.MapArrayAnytype ||
                     this.MapArrayAnytype != null &&
+                    input.MapArrayAnytype != null &&
                     this.MapArrayAnytype.SequenceEqual(input.MapArrayAnytype)
                 ) && 
                 (
                     this.MapMapString == input.MapMapString ||
                     this.MapMapString != null &&
+                    input.MapMapString != null &&
                     this.MapMapString.SequenceEqual(input.MapMapString)
                 ) && 
                 (
                     this.MapMapAnytype == input.MapMapAnytype ||
                     this.MapMapAnytype != null &&
+                    input.MapMapAnytype != null &&
                     this.MapMapAnytype.SequenceEqual(input.MapMapAnytype)
                 ) && 
                 (
