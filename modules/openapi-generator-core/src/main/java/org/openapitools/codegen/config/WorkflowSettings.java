@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -292,7 +293,7 @@ public class WorkflowSettings {
          * @return a reference to this Builder
          */
         public Builder withOutputDir(String outputDir) {
-            this.outputDir = outputDir;
+            this.outputDir = Paths.get(outputDir).toAbsolutePath().toString();;
             return this;
         }
 
@@ -402,7 +403,7 @@ public class WorkflowSettings {
                             "Template directory " + templateDir + " does not exist.");
                 }
 
-                this.templateDir = f.getAbsolutePath();
+                this.templateDir =  Paths.get(f.toURI()).toAbsolutePath().toString();
             }
 
             return this;

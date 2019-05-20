@@ -427,12 +427,13 @@ public class CodegenConfigurator {
 
         CodegenConfig config = CodegenConfigLoader.forName(generatorName);
 
-        if (isNotEmpty(config.getLibrary())) {
-            config.setLibrary(config.getLibrary());
-        }
 
         WorkflowSettings workflowSettings = context.getWorkflowSettings();
         GeneratorSettings generatorSettings = context.getGeneratorSettings();
+
+        if (isNotEmpty(generatorSettings.getLibrary())) {
+            config.setLibrary(generatorSettings.getLibrary());
+        }
 
         // TODO: Work toward CodegenConfig having a "WorkflowSettings" property, or better a "Workflow" object which itself has a "WorkflowSettings" property.
         config.setInputSpec(workflowSettings.getInputSpec());
