@@ -6,9 +6,9 @@ interface UserApiService {
 
 	suspend fun createUser(user: User): Unit
 
-	suspend fun createUsersWithArrayInput(user: List<User>): Unit
+	suspend fun createUsersWithArrayInput(user: Flow<User>): Unit
 
-	suspend fun createUsersWithListInput(user: List<User>): Unit
+	suspend fun createUsersWithListInput(user: Flow<User>): Unit
 
 	suspend fun deleteUser(username: String): Unit
 

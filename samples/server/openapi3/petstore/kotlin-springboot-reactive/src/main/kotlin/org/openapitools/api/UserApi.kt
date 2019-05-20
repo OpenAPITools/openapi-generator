@@ -70,7 +70,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
             value = ["/user/createWithArray"],
             consumes = ["application/json"],
             method = [RequestMethod.POST])
-    suspend fun createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody user: Flow<List>
+    suspend fun createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody user: Flow<User>
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithArrayInput(user), HttpStatus.OK)
     }
@@ -86,7 +86,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
             value = ["/user/createWithList"],
             consumes = ["application/json"],
             method = [RequestMethod.POST])
-    suspend fun createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody user: Flow<List>
+    suspend fun createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true ) @Valid @RequestBody user: Flow<User>
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithListInput(user), HttpStatus.OK)
     }

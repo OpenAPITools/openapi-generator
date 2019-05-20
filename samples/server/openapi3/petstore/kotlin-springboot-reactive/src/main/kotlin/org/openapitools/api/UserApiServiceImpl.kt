@@ -10,11 +10,11 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override suspend fun createUsersWithArrayInput(user: List<User>): Unit {
+    override suspend fun createUsersWithArrayInput(user: Flow<User>): Unit {
         TODO("Implement me")
     }
 
-    override suspend fun createUsersWithListInput(user: List<User>): Unit {
+    override suspend fun createUsersWithListInput(user: Flow<User>): Unit {
         TODO("Implement me")
     }
 
