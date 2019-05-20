@@ -229,8 +229,20 @@ func TestHostOverride(t *testing.T) {
 		t.Fatalf("Error while finding pets by status: %v", err)
 	}
 
-	if r.Request.Host != testHost {
+	if r.Request.URL.Host != testHost {
 		t.Errorf("Request Host is %v, expected %v", r.Request.Host, testHost)
+	}
+}
+
+func TestSchemeOverride(t *testing.T) {
+	_, r, err := client.PetApi.FindPetsByStatus(context.Background(), nil)
+
+	if err != nil {
+		t.Fatalf("Error while finding pets by status: %v", err)
+	}
+
+	if r.Request.URL.Scheme != testScheme {
+		t.Errorf("Request Scheme is %v, expected %v", r.Request.URL.Scheme, testScheme)
 	}
 }
 
