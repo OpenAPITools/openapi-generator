@@ -49,6 +49,7 @@ public class WorkflowSettings {
     private ImmutableMap<String, String> systemProperties;
 
     private WorkflowSettings(Builder builder) {
+        setDefaults();
         inputSpec = builder.inputSpec;
         outputDir = builder.outputDir;
         verbose = builder.verbose;
@@ -70,7 +71,14 @@ public class WorkflowSettings {
      */
     @SuppressWarnings("unused")
     public WorkflowSettings() {
+        setDefaults();
         systemProperties = ImmutableMap.of();
+    }
+
+    private void setDefaults(){
+        validateSpec = true;
+        strictSpecBehavior = true;
+        outputDir = ".";
     }
 
     public static Builder newBuilder() {
@@ -263,10 +271,6 @@ public class WorkflowSettings {
         private Map<String, String> systemProperties;
 
         private Builder() {
-            validateSpec = true;
-            strictSpecBehavior = true;
-            outputDir = ".";
-
             systemProperties = new HashMap<>();
         }
 

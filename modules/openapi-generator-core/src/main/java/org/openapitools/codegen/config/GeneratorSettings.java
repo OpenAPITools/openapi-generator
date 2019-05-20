@@ -290,6 +290,8 @@ public final class GeneratorSettings implements Serializable {
     }
 
     private GeneratorSettings(Builder builder) {
+        setDefaults();
+
         generatorName = builder.generatorName;
         apiPackage = builder.apiPackage;
         modelPackage = builder.modelPackage;
@@ -318,12 +320,19 @@ public final class GeneratorSettings implements Serializable {
      */
     @SuppressWarnings("unused")
     public GeneratorSettings() {
+        setDefaults();
         instantiationTypes = ImmutableMap.of();
         typeMappings = ImmutableMap.of();
         additionalProperties = ImmutableMap.of();
         importMappings = ImmutableMap.of();
         languageSpecificPrimitives = ImmutableSet.of();
         reservedWordMappings = ImmutableMap.of();
+    }
+
+    private void setDefaults(){
+        gitUserId = "GIT_USER_ID";
+        gitRepoId = "GIT_REPO_ID";
+        releaseNote = "Minor update";
     }
 
     /**
@@ -399,10 +408,6 @@ public final class GeneratorSettings implements Serializable {
          * Instantiates a new Builder.
          */
         public Builder() {
-            gitUserId = "GIT_USER_ID";
-            gitRepoId = "GIT_REPO_ID";
-            releaseNote = "Minor update";
-
             instantiationTypes = new HashMap<>();
             typeMappings = new HashMap<>();
             additionalProperties = new HashMap<>();

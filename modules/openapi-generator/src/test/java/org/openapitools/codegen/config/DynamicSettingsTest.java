@@ -52,7 +52,7 @@ public class DynamicSettingsTest {
 
         String spec =
                 "generatorName: none" + System.lineSeparator() +
-                "templateDir: '"+input+"'" + System.lineSeparator();
+                "templateDir: '" + input + "'" + System.lineSeparator();
 
         DynamicSettings dynamicSettings = mapper.readValue(spec, DynamicSettings.class);
         GeneratorSettings generatorSettings = dynamicSettings.getGeneratorSettings();
@@ -66,5 +66,30 @@ public class DynamicSettingsTest {
         assertEquals(generatorSettings.getGeneratorName(), "none");
         assertEquals(workflowSettings.getTemplateDir(), current.getAbsolutePath());
         assertNotEquals(workflowSettings.getTemplateDir(), input);
+    }
+
+    @Test
+    public void testDynamicSettingsSetsDefaultsOnDeserialization() throws Exception {
+        ObjectMapper mapper = Yaml.mapper();
+        mapper.registerModule(new GuavaModule());
+
+        String gitUserId = "openapitools";
+        String spec =
+                "supportPython2: true" + System.lineSeparator() +
+                "gitUserId: '" + gitUserId + "'" + System.lineSeparator();
+
+        DynamicSettings dynamicSettings = mapper.readValue(spec, DynamicSettings.class);
+        GeneratorSettings generatorSettings = dynamicSettings.getGeneratorSettings();
+        WorkflowSettings workflowSettings = dynamicSettings.getWorkflowSettings();
+
+        assertNotNull(dynamicSettings);
+        assertNotNull(generatorSettings);
+        assertNotNull(workflowSettings);
+
+        assertEquals(generatorSettings.getAdditionalProperties().size(), 1);
+        assertEquals(generatorSettings.getAdditionalProperties().get("supportPython2"), true);
+        assertEquals(generatorSettings.getGitUserId(), gitUserId);
+        assertEquals(generatorSettings.getGitRepoId(), "GIT_REPO_ID");
+        assertEquals(generatorSettings.getReleaseNote(), "Minor update");
     }
 }
