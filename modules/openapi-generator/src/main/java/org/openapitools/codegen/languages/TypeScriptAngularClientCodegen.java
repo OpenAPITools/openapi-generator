@@ -263,7 +263,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         //Files for building our lib
         supportingFiles.add(new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
-        supportingFiles.add(new SupportingFile("typings.mustache", getIndexDirectory(), "typings.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", getIndexDirectory(), "tsconfig.json"));
     }
 
