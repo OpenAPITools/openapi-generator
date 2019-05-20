@@ -305,7 +305,6 @@ public final class GeneratorSettings implements Serializable {
         library = builder.library;
         instantiationTypes = ImmutableMap.copyOf(builder.instantiationTypes);
         typeMappings = ImmutableMap.copyOf(builder.typeMappings);
-        additionalProperties = ImmutableMap.copyOf(builder.additionalProperties);
         importMappings = ImmutableMap.copyOf(builder.importMappings);
         languageSpecificPrimitives = ImmutableSet.copyOf(builder.languageSpecificPrimitives);
         reservedWordMappings = ImmutableMap.copyOf(builder.reservedWordMappings);
@@ -313,6 +312,24 @@ public final class GeneratorSettings implements Serializable {
         gitRepoId = builder.gitRepoId;
         releaseNote = builder.releaseNote;
         httpUserAgent = builder.httpUserAgent;
+
+        Map<String, Object> additional = new HashMap<>(builder.additionalProperties);
+
+        if (isNotEmpty(apiPackage)) { additional.put("apiPackage", apiPackage); }
+        if (isNotEmpty(modelPackage)) { additional.put("modelPackage", modelPackage); }
+        if (isNotEmpty(invokerPackage)) { additional.put("invokerPackage", invokerPackage); }
+        if (isNotEmpty(packageName)) { additional.put("packageName", packageName); }
+        if (isNotEmpty(groupId)) { additional.put("groupId", groupId); }
+        if (isNotEmpty(artifactId)) { additional.put("artifactId", artifactId); }
+        if (isNotEmpty(artifactVersion)) { additional.put("artifactVersion", artifactVersion); }
+        if (isNotEmpty(modelNamePrefix)) { additional.put("modelNamePrefix", modelNamePrefix); }
+        if (isNotEmpty(modelNameSuffix)) { additional.put("modelNameSuffix", modelNameSuffix); }
+        if (isNotEmpty(gitUserId)) { additional.put("gitUserId", gitUserId); }
+        if (isNotEmpty(gitRepoId)) { additional.put("gitRepoId", gitRepoId); }
+        if (isNotEmpty(releaseNote)) { additional.put("releaseNote", releaseNote); }
+        if (isNotEmpty(httpUserAgent)) { additional.put("httpUserAgent", httpUserAgent); }
+
+        additionalProperties = ImmutableMap.copyOf(additional);
     }
 
     /**
@@ -333,6 +350,10 @@ public final class GeneratorSettings implements Serializable {
         gitUserId = "GIT_USER_ID";
         gitRepoId = "GIT_REPO_ID";
         releaseNote = "Minor update";
+    }
+
+    private boolean isNotEmpty(String value) {
+        return value != null && value.length() > 0;
     }
 
     /**
