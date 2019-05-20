@@ -11,7 +11,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { exists } from '../runtime';
 /**
  * Describes the result of uploading an image resource
  * @export

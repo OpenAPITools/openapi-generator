@@ -212,13 +212,6 @@ export function querystring(params: HTTPQuery, prefix: string = ''): string {
         .join('&');
 }
 
-export function mapValues(data: any, fn: (item: any) => any) {
-  return Object.keys(data).reduce(
-    (acc, key) => ({ ...acc, [key]: fn(data[key]) }),
-    {}
-  );
-}
-
 export interface RequestContext {
     fetch: FetchAPI;
     url: string;
