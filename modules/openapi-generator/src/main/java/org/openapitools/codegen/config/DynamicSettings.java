@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Represents a serialization helper of {@link GeneratorSettings}. When used to deserialize any available Jackson binding input,
+ * Represents a serialization helper of {@link GeneratorSettings} and {@link WorkflowSettings}. When used to deserialize any available Jackson binding input,
  * this will accumulate any "unknown properties" into {@link GeneratorSettings#getAdditionalProperties()} as a side effect of calling
  * {@link DynamicSettings#getGeneratorSettings()}.
  */
@@ -29,6 +29,11 @@ public class DynamicSettings {
     @JsonDeserialize(builder = WorkflowSettings.Builder.class)
     private WorkflowSettings workflowSettings;
 
+    /**
+     * Gets the {@link GeneratorSettings} included in the config object.
+     *
+     * @return A new instance of settings
+     */
     public GeneratorSettings getGeneratorSettings() {
         excludeSettingsFromDynamicProperties();
         return GeneratorSettings.newBuilder(generatorSettings)
@@ -36,6 +41,11 @@ public class DynamicSettings {
                 .build();
     }
 
+    /**
+     * Gets the {@link WorkflowSettings} included in the config object.
+     *
+     * @return A new instance of settings
+     */
     public WorkflowSettings getWorkflowSettings() {
         excludeSettingsFromDynamicProperties();
         return WorkflowSettings.newBuilder(workflowSettings)
@@ -45,6 +55,11 @@ public class DynamicSettings {
     @JsonCreator
     public DynamicSettings() { }
 
+    /**
+     * Gets all "custom" properties included in the config object.
+     *
+     * @return All user-specified custom properties.
+     */
     public Map<String, Object> getDynamicProperties() {
         return dynamicProperties;
     }
