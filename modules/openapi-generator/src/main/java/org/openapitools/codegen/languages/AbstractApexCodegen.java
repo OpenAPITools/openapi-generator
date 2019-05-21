@@ -652,19 +652,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         return escapeText(pattern);
     }
 
-    public boolean convertPropertyToBoolean(String propertyKey) {
-        boolean booleanValue = false;
-        if (additionalProperties.containsKey(propertyKey)) {
-            booleanValue = Boolean.valueOf(additionalProperties.get(propertyKey).toString());
-        }
-
-        return booleanValue;
-    }
-
-    public void writePropertyBack(String propertyKey, boolean value) {
-        additionalProperties.put(propertyKey, value);
-    }
-
     @Override
     public String sanitizeTag(String tag) {
         return camelize(sanitizeName(tag));
