@@ -142,7 +142,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String getName() {
-        return "nodejs-server";
+        return "nodejs-server-deprecated";
     }
 
     /**
@@ -153,7 +153,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String getHelp() {
-        return "Generates a nodejs server library using the swagger-tools project.  By default, " +
+        return "[DEPRECATED] Generates a nodejs server library using the swagger-tools project.  By default, " +
                 "it will also generate service classes--which you can disable with the `-Dnoservice` environment variable.";
     }
 
@@ -302,6 +302,8 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         StringBuilder message = new StringBuilder();
         message.append(System.lineSeparator()).append(System.lineSeparator())
                 .append("=======================================================================================")
+                .append(System.lineSeparator())
+                .append("IMPORTANT: The nodejs-server generator has been deprecated.")
                 .append(System.lineSeparator())
                 .append("Currently, Node.js server doesn't work as its dependency doesn't support OpenAPI Spec3.")
                 .append(System.lineSeparator())
