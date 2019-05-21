@@ -57,9 +57,9 @@ test_script:
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClientCore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client
-  - nunit-console samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
+  - nunit-console3 samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
   # test c# API client (with PropertyChanged)
-  - nunit-console samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
+  - nunit-console3 samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
 
   # generate all petstore clients
   - .\bin\windows\run-all-petstore.cmd
