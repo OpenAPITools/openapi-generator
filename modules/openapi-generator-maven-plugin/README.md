@@ -39,7 +39,7 @@ mvn clean compile
 
 :bulb: These **general** configurations should be in the same level
 
-| Option |  `openapi.generator.maven.plugin.` | Property |  `openapi.generator.maven.plugin.` | Description |
+| Option | Property | Description |
 |--------|----------|-------------|
 | `inputSpec` |  `openapi.generator.maven.plugin.inputSpec` | OpenAPI Spec file path
 | `language` |  `openapi.generator.maven.plugin.language` | target generation language (deprecated, replaced by `generatorName` as values here don't represent only 'language' any longer)
