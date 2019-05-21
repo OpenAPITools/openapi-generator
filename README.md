@@ -554,6 +554,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [unblu inc.](https://www.unblu.com/)
 - [Veamly](https://www.veamly.com/)
 - [Xero](https://www.xero.com/)
+- [Yelp](https://www.yelp.com/)
 - [Zalando](https://www.zalando.com)
 
 ## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
