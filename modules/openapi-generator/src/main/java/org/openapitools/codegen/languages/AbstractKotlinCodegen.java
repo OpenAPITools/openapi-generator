@@ -44,6 +44,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String apiSuffix = "Api";
 
     protected String sourceFolder = "src/main/kotlin";
+    protected String testFolder = "src/test/kotlin";
 
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -214,6 +215,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public String apiFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+    }
+
+    @Override
+    public String apiTestFileFolder() {
+        return outputFolder + File.separator + testFolder + File.separator + apiPackage().replace('.', File.separatorChar) ;
     }
 
     @Override
@@ -408,6 +414,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
+    }
+
+    public void setTestFolder(String testFolder) {
+        this.testFolder = testFolder;
     }
 
     public Boolean getParcelizeModels() {

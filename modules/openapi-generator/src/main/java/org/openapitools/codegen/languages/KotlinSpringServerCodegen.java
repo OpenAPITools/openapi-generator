@@ -79,7 +79,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         reservedWords.addAll(VARIABLE_RESERVED_WORDS);
 
         outputFolder = "generated-code/kotlin-spring";
-        apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "kotlin-spring";
 
         artifactId = "openapi-spring";
