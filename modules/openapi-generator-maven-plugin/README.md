@@ -106,7 +106,7 @@ Specifying a custom generator is a bit different. It doesn't support the classpa
             </goals>
             <configuration>
                 <inputSpec>${project.basedir}/src/main/resources/yaml/yamlfilename.yaml</inputSpec>
-                <!-| language file, like e.g. JavaJaxRSCodegen -->
+                <!- language file, like e.g. JavaJaxRSCodegen -->
                 <generatorName>com.my.package.for.GeneratorLanguage</generatorName>
                 <templateDirectory>myTemplateDir</templateDirectory>
 
