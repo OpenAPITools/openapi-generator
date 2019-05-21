@@ -114,6 +114,11 @@
   infoLink: "https://www.xero.com/"
   pinned: false
 -
+  caption: Yelp 
+  image: "img/companies/yelp.png"
+  infoLink: "https://www.yelp.com/"
+  pinned: false
+-
   caption: Zalando
   image: "img/companies/zalando.jpg"
   infoLink: "https://www.zalando.com/"
