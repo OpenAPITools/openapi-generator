@@ -25,7 +25,7 @@ else:
 
     def is_dict(klass):
         """ Determine whether klass is a Dict """
-        return klass.__origin__ == list
+        return klass.__origin__ == dict
 
     def is_list(klass):
         """ Determine whether klass is a List """
