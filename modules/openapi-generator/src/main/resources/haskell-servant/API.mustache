@@ -41,8 +41,10 @@ import           Data.Function                      ((&))
 import qualified Data.Map                           as Map
 import           Data.Monoid                        ((<>))
 import           Data.Proxy                         (Proxy (..))
+import           Data.Set                           (Set)
 import           Data.Text                          (Text)
 import qualified Data.Text                          as T
+import           Data.Time
 import           Data.UUID                          (UUID)
 import           GHC.Exts                           (IsString (..))
 import           GHC.Generics                       (Generic)
@@ -50,10 +52,10 @@ import           Network.HTTP.Client                (Manager, newManager)
 import           Network.HTTP.Client.TLS            (tlsManagerSettings)
 import           Network.HTTP.Types.Method          (methodOptions)
 import qualified Network.Wai.Handler.Warp           as Warp
-import           Servant                            (ServantErr, serve)
+import           Servant                            (ServerError, serve)
 import           Servant.API
 import           Servant.API.Verbs                  (StdMethod (..), Verb)
-import           Servant.Client                     (ClientEnv, Scheme (Http), ServantError, client,
+import           Servant.Client                     (ClientEnv, Scheme (Http), ClientError, client,
                                                      mkClientEnv, parseBaseUrl)
 import           Servant.Client.Core                (baseUrlPort, baseUrlHost)
 import           Servant.Client.Internal.HttpClient (ClientM (..))
@@ -138,7 +140,7 @@ data Config = Config
 
 
 -- | Custom exception type for our errors.
-newtype {{title}}ClientError = {{title}}ClientError ServantError
+newtype {{title}}ClientError = {{title}}ClientError ClientError
   deriving (Show, Exception)
 -- | Configuration, specifying the full url of the service.
 
@@ -155,7 +157,7 @@ data {{title}}Backend m = {{title}}Backend
   }
 
 newtype {{title}}Client a = {{title}}Client
-  { runClient :: ClientEnv -> ExceptT ServantError IO a
+  { runClient :: ClientEnv -> ExceptT ClientError IO a
   } deriving Functor
 
 instance Applicative {{title}}Client where
@@ -182,13 +184,13 @@ create{{title}}Client = {{title}}Backend{..}
      {{/hasMore}}{{/apis}}) = client (Proxy :: Proxy {{title}}API)
 
 -- | Run requests in the {{title}}Client monad.
-run{{title}}Client :: Config -> {{title}}Client a -> ExceptT ServantError IO a
+run{{title}}Client :: Config -> {{title}}Client a -> ExceptT ClientError IO a
 run{{title}}Client clientConfig cl = do
   manager <- liftIO $ newManager tlsManagerSettings
   run{{title}}ClientWithManager manager clientConfig cl
 
 -- | Run requests in the {{title}}Client monad using a custom manager.
-run{{title}}ClientWithManager :: Manager -> Config -> {{title}}Client a -> ExceptT ServantError IO a
+run{{title}}ClientWithManager :: Manager -> Config -> {{title}}Client a -> ExceptT ClientError IO a
 run{{title}}ClientWithManager manager Config{..} cl = do
   url <- parseBaseUrl configUrl
   runClient cl $ mkClientEnv manager url
@@ -209,7 +211,7 @@ call{{title}} env f = do
 -- | Run the {{title}} server at the provided host and port.
 run{{title}}Server
   :: (MonadIO m, MonadThrow m)
-  => Config -> {{title}}Backend (ExceptT ServantErr IO) -> m ()
+  => Config -> {{title}}Backend (ExceptT ServerError IO) -> m ()
 run{{title}}Server Config{..} backend = do
   url <- parseBaseUrl configUrl
   let warpSettings = Warp.defaultSettings

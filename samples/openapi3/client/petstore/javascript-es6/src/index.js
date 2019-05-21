@@ -51,6 +51,9 @@ import NumberOnly from './model/NumberOnly';
 import Order from './model/Order';
 import OuterComposite from './model/OuterComposite';
 import OuterEnum from './model/OuterEnum';
+import OuterEnumDefaultValue from './model/OuterEnumDefaultValue';
+import OuterEnumInteger from './model/OuterEnumInteger';
+import OuterEnumIntegerDefaultValue from './model/OuterEnumIntegerDefaultValue';
 import Pet from './model/Pet';
 import ReadOnlyFirst from './model/ReadOnlyFirst';
 import SpecialModelName from './model/SpecialModelName';
@@ -330,6 +333,24 @@ export {
      * @property {module:model/OuterEnum}
      */
     OuterEnum,
+
+    /**
+     * The OuterEnumDefaultValue model constructor.
+     * @property {module:model/OuterEnumDefaultValue}
+     */
+    OuterEnumDefaultValue,
+
+    /**
+     * The OuterEnumInteger model constructor.
+     * @property {module:model/OuterEnumInteger}
+     */
+    OuterEnumInteger,
+
+    /**
+     * The OuterEnumIntegerDefaultValue model constructor.
+     * @property {module:model/OuterEnumIntegerDefaultValue}
+     */
+    OuterEnumIntegerDefaultValue,
 
     /**
      * The Pet model constructor.

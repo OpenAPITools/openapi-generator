@@ -50,7 +50,7 @@ is $pet_hash->{category}->{name}, 'perl', 'get the proper category name';
 is $pet_hash->{tags}[0]->{name}, 'just kidding', 'get the proper tag name';
 is $pet_hash->{tags}[0]->{id}, '11', 'get the proper tag id';
 
-my $add_pet = $api->add_pet(pet => $pet);
+my $add_pet = $api->add_pet(body => $pet);
 
 my $get_pet = $api->get_pet_by_id(pet_id => $pet_id);
 my $get_pet_hash = $get_pet->to_hash;

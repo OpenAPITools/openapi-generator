@@ -13,7 +13,7 @@ defmodule OpenapiPetstore.Api.Store do
 
   @doc """
   Delete purchase order by ID
-  For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+  For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 
   ## Parameters
 
@@ -32,7 +32,10 @@ defmodule OpenapiPetstore.Api.Store do
     |> url("/store/order/#{order_id}")
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(false)
+    |> evaluate_response([
+      { 400, false},
+      { 404, false}
+    ])
   end
 
   @doc """
@@ -55,12 +58,14 @@ defmodule OpenapiPetstore.Api.Store do
     |> url("/store/inventory")
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode()
+    |> evaluate_response([
+      { 200, %{}}
+    ])
   end
 
   @doc """
   Find purchase order by ID
-  For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+  For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
   ## Parameters
 
@@ -79,7 +84,11 @@ defmodule OpenapiPetstore.Api.Store do
     |> url("/store/order/#{order_id}")
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(%OpenapiPetstore.Model.Order{})
+    |> evaluate_response([
+      { 200, %OpenapiPetstore.Model.Order{}},
+      { 400, false},
+      { 404, false}
+    ])
   end
 
   @doc """
@@ -88,7 +97,7 @@ defmodule OpenapiPetstore.Api.Store do
   ## Parameters
 
   - connection (OpenapiPetstore.Connection): Connection to server
-  - order (Order): order placed for purchasing the pet
+  - body (Order): order placed for purchasing the pet
   - opts (KeywordList): [optional] Optional parameters
   ## Returns
 
@@ -96,13 +105,16 @@ defmodule OpenapiPetstore.Api.Store do
   {:error, info} on failure
   """
   @spec place_order(Tesla.Env.client, OpenapiPetstore.Model.Order.t, keyword()) :: {:ok, OpenapiPetstore.Model.Order.t} | {:error, Tesla.Env.t}
-  def place_order(connection, order, _opts \\ []) do
+  def place_order(connection, body, _opts \\ []) do
     %{}
     |> method(:post)
     |> url("/store/order")
-    |> add_param(:body, :body, order)
+    |> add_param(:body, :body, body)
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
-    |> decode(%OpenapiPetstore.Model.Order{})
+    |> evaluate_response([
+      { 200, %OpenapiPetstore.Model.Order{}},
+      { 400, false}
+    ])
   end
 end

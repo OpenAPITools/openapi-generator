@@ -218,7 +218,7 @@ public class GenerateTest {
 
 
     @Test
-    public void testConfig() throws Exception {
+    public void testConfigJson() throws Exception {
 
         setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
                 "config.json", "-c", "config.json");
@@ -230,6 +230,26 @@ public class GenerateTest {
 
         setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
                 "config.json", "--config", "config.json");
+
+        new FullVerifications() {
+            {
+            }
+        };
+    }
+
+    @Test
+    public void testConfigYaml() throws Exception {
+
+        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
+                "config.yaml", "-c", "config.yaml");
+
+        new FullVerifications() {
+            {
+            }
+        };
+
+        setupAndRunTest("-i", "src/test/resources/swagger.yaml", "-g", "java", "-o", "src/main/java", true,
+                "config.yaml", "--config", "config.yaml");
 
         new FullVerifications() {
             {
@@ -252,6 +272,39 @@ public class GenerateTest {
         new FullVerifications() {
             {
                 configurator.setSkipOverwrite(true);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void testStrictSpec() throws Exception {
+
+        setupAndRunGenericTest("--strict-spec", "true");
+        new FullVerifications() {
+            {
+                configurator.setStrictSpecBehavior(true);
+                times = 1;
+            }
+        };
+
+        setupAndRunGenericTest("--strict-spec", "false");
+        new FullVerifications() {
+            {
+                configurator.setStrictSpecBehavior(false);
+                times = 1;
+            }
+        };
+    }
+
+    @Test
+    public void testPackageName() throws Exception {
+        final String value = "io.foo.bar.baz";
+        setupAndRunGenericTest("--package-name", value);
+
+        new FullVerifications() {
+            {
+                configurator.setPackageName(value);
                 times = 1;
             }
         };

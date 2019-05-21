@@ -17,6 +17,4 @@ sidebar_label: php-slim
 |invokerPackage|The main namespace to use for all classes. e.g. Yay\Pets| |null|
 |packageName|The main package name for classes. e.g. GeneratedPetstore| |null|
 |srcBasePath|The directory to serve as source root.| |null|
-|gitUserId|Git user ID, e.g. openapitools.| |null|
-|gitRepoId|Git repo ID, e.g. openapi-generator.| |null|
 |artifactVersion|The version to use in the composer package version field. e.g. 1.2.3| |null|

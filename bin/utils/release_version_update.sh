@@ -36,6 +36,7 @@ echo "Release preparation: replacing $FROM with $TO in different files"
 declare -a files=("modules/openapi-generator-cli/pom.xml"
                   "modules/openapi-generator-gradle-plugin/gradle.properties"
                   "modules/openapi-generator-gradle-plugin/pom.xml"
+                  "modules/openapi-generator-core/pom.xml"
                   "modules/openapi-generator-maven-plugin/pom.xml"
                   "modules/openapi-generator-online/pom.xml"
                   "modules/openapi-generator/pom.xml"
@@ -50,7 +51,7 @@ sedi () {
 for filename in "${files[@]}"; do
   # e.g. sed -i '' "s/3.0.1-SNAPSHOT/3.0.1/g" CI/pom.xml.bash
   #echo "Running command: sed -i '' "s/$FROM/$TO/g" $filename"
-  if sedi "s/$FROM/$TO/g" $filename; then
+  if sedi "s/>$FROM</>$TO</g" $filename; then
     echo "Updated $filename successfully!"
   else
     echo "ERROR: Failed to update $filename with the following command"

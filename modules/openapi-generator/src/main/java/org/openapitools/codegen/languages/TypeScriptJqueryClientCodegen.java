@@ -34,14 +34,10 @@ import java.util.Locale;
 public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptJqueryClientCodegen.class);
 
-    public static final String NPM_NAME = "npmName";
-    public static final String NPM_VERSION = "npmVersion";
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String SNAPSHOT = "snapshot";
     public static final String JQUERY_ALREADY_IMPORTED = "jqueryAlreadyImported";
 
-    protected String npmName = null;
-    protected String npmVersion = "1.0.0";
     protected String npmRepository = null;
 
     public TypeScriptJqueryClientCodegen() {
@@ -56,12 +52,7 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         outputFolder = "generated-code/typescript-jquery";
         embeddedTemplateDir = templateDir = "typescript-jquery";
 
-        this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
-        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(SNAPSHOT,
-                "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm",
-                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(JQUERY_ALREADY_IMPORTED,
                 "When using this in legacy app using mix of typescript and javascript, this will only declare jquery and not import it",
                 SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
@@ -75,18 +66,6 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
     @Override
     public String getHelp() {
         return "Generates a TypeScript jquery client library.";
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
     }
 
     public String getNpmRepository() {
@@ -108,7 +87,6 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         supportingFiles.add(new SupportingFile("index.mustache", getIndexDirectory(), "index.ts"));
         supportingFiles.add(new SupportingFile("variables.mustache", getIndexDirectory(), "variables.ts"));
 
-        //LOGGER.warn("check additionals: " + additionalProperties.get(NPM_NAME));
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
@@ -172,18 +150,6 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
     }
 
     private void addNpmPackageGeneration() {
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            this.setNpmName(additionalProperties.get(NPM_NAME).toString());
-        }
-
-        if (additionalProperties.containsKey(NPM_VERSION)) {
-            this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
-        }
-
-        if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
-            this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
-        }
-        additionalProperties.put(NPM_VERSION, npmVersion);
 
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
@@ -192,7 +158,6 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
         //Files for building our lib
         supportingFiles.add(new SupportingFile("README.mustache", getPackageRootDirectory(), "README.md"));
         supportingFiles.add(new SupportingFile("package.mustache", getPackageRootDirectory(), "package.json"));
-        supportingFiles.add(new SupportingFile("typings.mustache", getPackageRootDirectory(), "typings.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", getPackageRootDirectory(), "tsconfig.json"));
     }
 

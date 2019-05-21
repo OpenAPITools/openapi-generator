@@ -1,0 +1,16 @@
+
+syntax = "proto3";
+
+
+import "tag.proto";
+
+import "category.proto";
+message Pet {
+    int32 id = 1;
+    Category category = 2;
+    string name = 3;
+    repeated string photoUrls = 4;
+    repeated Tag tags = 5;
+    string status = 6;
+}
+

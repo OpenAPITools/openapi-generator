@@ -125,11 +125,11 @@ public class TypeHolderExample  implements Serializable {
       return false;
     }
     TypeHolderExample typeHolderExample = (TypeHolderExample) o;
-    return Objects.equals(stringItem, typeHolderExample.stringItem) &&
-        Objects.equals(numberItem, typeHolderExample.numberItem) &&
-        Objects.equals(integerItem, typeHolderExample.integerItem) &&
-        Objects.equals(boolItem, typeHolderExample.boolItem) &&
-        Objects.equals(arrayItem, typeHolderExample.arrayItem);
+    return Objects.equals(this.stringItem, typeHolderExample.stringItem) &&
+        Objects.equals(this.numberItem, typeHolderExample.numberItem) &&
+        Objects.equals(this.integerItem, typeHolderExample.integerItem) &&
+        Objects.equals(this.boolItem, typeHolderExample.boolItem) &&
+        Objects.equals(this.arrayItem, typeHolderExample.arrayItem);
   }
 
   @Override

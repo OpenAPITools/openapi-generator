@@ -3,15 +3,16 @@
   "version": "{{{projectVersion}}}",
   "description": "{{{projectDescription}}}",
   "license": "{{licenseName}}",
-  "main": "{{sourceFolder}}{{#invokerPackage}}/{{invokerPackage}}{{/invokerPackage}}/index.js",
+  "main": "dist{{#invokerPackage}}/{{invokerPackage}}{{/invokerPackage}}/index.js",
   "scripts": {
+    "build": "babel src -d dist",
+    "prepack": "npm run build",
     "test": "mocha --compilers js:babel-core/register --recursive"
   },
   "browser": {
     "fs": false
   },
   "dependencies": {
-    "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
     "superagent": "3.7.0"
   },
@@ -19,8 +20,11 @@
     "babel-core": "6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",
-    "expect.js": "~0.3.1",
+    "expect.js": "^0.3.1",
     "mocha": "^5.2.0",
-    "sinon": "1.17.3"
-  }
+    "sinon": "^7.2.0"
+  },
+  "files": [
+    "dist"
+  ]
 }

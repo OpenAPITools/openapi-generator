@@ -41,6 +41,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String artifactVersion = "1.0.0";
     protected String groupId = "org.openapitools";
     protected String packageName = "org.openapitools";
+    protected String apiSuffix = "Api";
 
     protected String sourceFolder = "src/main/kotlin";
 
@@ -195,6 +196,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         cliOptions.clear();
         addOption(CodegenConstants.SOURCE_FOLDER, CodegenConstants.SOURCE_FOLDER_DESC, sourceFolder);
         addOption(CodegenConstants.PACKAGE_NAME, "Generated artifact package name.", packageName);
+        addOption(CodegenConstants.API_SUFFIX, CodegenConstants.API_SUFFIX_DESC, apiSuffix);
         addOption(CodegenConstants.GROUP_ID, "Generated artifact package's organization (i.e. maven groupId).", groupId);
         addOption(CodegenConstants.ARTIFACT_ID, "Generated artifact id (name of jar).", artifactId);
         addOption(CodegenConstants.ARTIFACT_VERSION, "Generated artifact's package version.", artifactVersion);
@@ -337,6 +339,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.API_SUFFIX)) {
+            this.setApiSuffix((String) additionalProperties.get(CodegenConstants.API_SUFFIX));
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_ID)) {
             this.setArtifactId((String) additionalProperties.get(CodegenConstants.ARTIFACT_ID));
         } else {
@@ -360,7 +366,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PARCELIZE_MODELS)) {
-            this.setParcelizeModels(Boolean.valueOf((String)additionalProperties.get(CodegenConstants.PARCELIZE_MODELS)));
+            this.setParcelizeModels(Boolean.valueOf((String) additionalProperties.get(CodegenConstants.PARCELIZE_MODELS)));
             LOGGER.info(CodegenConstants.PARCELIZE_MODELS + " depends on the android framework and " +
                     "experimental parcelize feature. Make sure your build applies the android plugin:\n" +
                     "apply plugin: 'com.android.library' OR apply plugin: 'com.android.application'.\n" +
@@ -394,6 +400,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    public void setApiSuffix(String apiSuffix) {
+        this.apiSuffix = apiSuffix;
     }
 
     public void setSourceFolder(String sourceFolder) {
@@ -461,6 +471,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return getArrayTypeDeclaration((ArraySchema) p);
         }
         return super.toInstantiationType(p);
+    }
+
+    @Override
+    public String toApiName(String name) {
+        if (name.length() == 0) {
+            return "DefaultApi";
+        }
+        return (this.apiSuffix.isEmpty() ? camelize(name) : camelize(name) + this.apiSuffix);
     }
 
     /**
@@ -597,10 +615,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     private String sanitizeKotlinSpecificNames(final String name) {
         String word = name;
         for (Map.Entry<String, String> specialCharacters : specialCharReplacements.entrySet()) {
-            // Underscore is the only special character we'll allow
-            if (!specialCharacters.getKey().equals("_")) {
-                word = word.replaceAll("\\Q" + specialCharacters.getKey() + "\\E", specialCharacters.getValue());
-            }
+            word = replaceSpecialCharacters(word, specialCharacters);
         }
 
         // Fallback, replace unknowns with underscore.
@@ -615,6 +630,38 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         return word;
+    }
+
+    private String replaceSpecialCharacters(String word, Map.Entry<String, String> specialCharacters) {
+        String specialChar = specialCharacters.getKey();
+        String replacementChar = specialCharacters.getValue();
+        // Underscore is the only special character we'll allow
+        if (!specialChar.equals("_") && word.contains(specialChar)) {
+            return replaceCharacters(word, specialChar, replacementChar);
+        }
+        return word;
+    }
+
+    private String replaceCharacters(String word, String oldValue, String newValue) {
+        if (!word.contains(oldValue)) {
+            return word;
+        }
+        if (word.equals(oldValue)) {
+            return newValue;
+        }
+        int i = word.indexOf(oldValue);
+        String start = word.substring(0, i);
+        String end = recurseOnEndOfWord(word, oldValue, newValue, i);
+        return start + newValue + end;
+    }
+
+    private String recurseOnEndOfWord(String word, String oldValue, String newValue, int lastReplacedValue) {
+        String end = word.substring(lastReplacedValue + 1);
+        if (!end.isEmpty()) {
+            end = titleCase(end);
+            end = replaceCharacters(end, oldValue, newValue);
+        }
+        return end;
     }
 
     private String titleCase(final String input) {
@@ -676,6 +723,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public String toVarName(String name) {
         // sanitize name
+        name = sanitizeKotlinSpecificNames(name);
         name = sanitizeName(name, "\\W-[\\$]");
 
         if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
@@ -687,7 +735,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         // if it's all uppper case, do nothing
-        if (name.matches("^[A-Z_]*$")) {
+        if (name.matches("^[A-Z0-9_]*$")) {
             return name;
         }
 
@@ -755,5 +803,32 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isDateSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            // TODO
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + p.getDefault() + "'";
+            }
+        }
+
+        return null;
     }
 }

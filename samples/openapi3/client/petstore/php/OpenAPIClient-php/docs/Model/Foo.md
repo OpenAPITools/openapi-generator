@@ -1,6 +1,7 @@
-# Foo
+# # Foo
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **bar** | **string** |  | [optional] [default to 'bar']

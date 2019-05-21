@@ -33,6 +33,7 @@ Then either install the gem locally:
 ```shell
 gem install ./{{{gemName}}}-{{{gemVersion}}}.gem
 ```
+
 (for development, run `gem install --dev ./{{{gemName}}}-{{{gemVersion}}}.gem` to install the development dependencies)
 
 or publish the gem to a gem hosting service, e.g. [RubyGems](https://rubygems.org/).
@@ -58,15 +59,18 @@ ruby -Ilib script.rb
 ## Getting Started
 
 Please follow the [installation](#installation) procedure and then run the following code:
+
 ```ruby
 # Load the gem
 require '{{{gemName}}}'
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}{{#hasAuthMethods}}
 # Setup authorization
-{{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}
+{{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}{{^isBasicBearer}}
   # Configure HTTP basic authorization: {{{name}}}
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'{{/isBasic}}{{#isApiKey}}
+  config.username = 'YOUR_USERNAME'
+  config.password = 'YOUR_PASSWORD'{{/isBasicBearer}}{{#isBasicBearer}}
+  # Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
+  config.access_token = 'YOUR_BEARER_TOKEN'{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
   # Configure API key authorization: {{{name}}}
   config.api_key['{{{keyParamName}}}'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -120,13 +124,20 @@ Class | Method | HTTP request | Description
 {{/authMethods}}{{#authMethods}}{{#last}} Authentication schemes defined for the API:{{/last}}{{/authMethods}}
 {{#authMethods}}### {{name}}
 
-{{#isApiKey}}- **Type**: API key
+{{#isApiKey}}
+
+- **Type**: API key
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
+{{#isBasic}}
+{{^isBasicBearer}}- **Type**: HTTP basic authentication
+{{/isBasicBearer}}{{#isBasicBearer}}- **Type**: Bearer authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
+{{/isBasicBearer}}
 {{/isBasic}}
-{{#isOAuth}}- **Type**: OAuth
+{{#isOAuth}}
+
+- **Type**: OAuth
 - **Flow**: {{flow}}
 - **Authorization URL**: {{authorizationUrl}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}

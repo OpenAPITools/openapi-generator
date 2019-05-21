@@ -145,7 +145,6 @@ func (a *StoreApiService) GetInventory(ctx context.Context) (map[string]int32, *
 			localVarHeaderParams["api_key"] = key
 		}
 	}
-
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err

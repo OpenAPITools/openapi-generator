@@ -40,6 +40,7 @@ public interface PetApi  {
     @Consumes({ "application/json", "application/xml" })
     @ApiOperation(value = "Add a new pet to the store", tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation"),
         @ApiResponse(code = 405, message = "Invalid input") })
     public void addPet(@Valid Pet body);
 
@@ -51,6 +52,7 @@ public interface PetApi  {
     @Path("/pet/{petId}")
     @ApiOperation(value = "Deletes a pet", tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation"),
         @ApiResponse(code = 400, message = "Invalid pet value") })
     public void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key")   String apiKey);
 
@@ -109,6 +111,7 @@ public interface PetApi  {
     @Consumes({ "application/json", "application/xml" })
     @ApiOperation(value = "Update an existing pet", tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation"),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found"),
         @ApiResponse(code = 405, message = "Validation exception") })

@@ -1,7 +1,13 @@
 package org.openapitools.api
 
 import org.openapitools.model.Order
-import io.swagger.annotations.*
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiParam
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
+import io.swagger.annotations.Authorization
+import io.swagger.annotations.AuthorizationScope
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -15,11 +21,16 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.context.request.NativeWebRequest
-import org.springframework.web.multipart.MultipartFile
 import org.springframework.beans.factory.annotation.Autowired
 
 import javax.validation.Valid
-import javax.validation.constraints.*
+import javax.validation.constraints.DecimalMax
+import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.Max
+import javax.validation.constraints.Min
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
 
 import kotlin.collections.List
 import kotlin.collections.Map
@@ -39,7 +50,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
     @RequestMapping(
             value = ["/store/order/{orderId}"],
             method = [RequestMethod.DELETE])
-    fun deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required=true) @PathVariable("orderId") orderId: String): ResponseEntity<Unit> {
+    fun deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted", required=true) @PathVariable("orderId") orderId: String
+): ResponseEntity<Unit> {
         return ResponseEntity(service.deleteOrder(orderId), HttpStatus.OK)
     }
 
@@ -71,7 +83,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
             value = ["/store/order/{orderId}"],
             produces = ["application/xml", "application/json"], 
             method = [RequestMethod.GET])
-    fun getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required=true) @PathVariable("orderId") orderId: Long): ResponseEntity<Order> {
+    fun getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched", required=true) @PathVariable("orderId") orderId: Long
+): ResponseEntity<Order> {
         return ResponseEntity(service.getOrderById(orderId), HttpStatus.OK)
     }
 
@@ -86,7 +99,8 @@ class StoreApiController(@Autowired(required = true) val service: StoreApiServic
             value = ["/store/order"],
             produces = ["application/xml", "application/json"], 
             method = [RequestMethod.POST])
-    fun placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @Valid @RequestBody order: Order): ResponseEntity<Order> {
-        return ResponseEntity(service.placeOrder(order), HttpStatus.OK)
+    fun placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true ) @Valid @RequestBody body: Order
+): ResponseEntity<Order> {
+        return ResponseEntity(service.placeOrder(body), HttpStatus.OK)
     }
 }

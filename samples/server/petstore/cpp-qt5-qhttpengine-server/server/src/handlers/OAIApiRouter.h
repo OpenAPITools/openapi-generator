@@ -54,6 +54,10 @@ public:
 
     void setUpRoutes();
     void processRequest(QHttpEngine::Socket *socket);
+    
+    void setOAIPetApiHandler(QSharedPointer<OAIPetApiHandler> handler);
+    void setOAIStoreApiHandler(QSharedPointer<OAIStoreApiHandler> handler);
+    void setOAIUserApiHandler(QSharedPointer<OAIUserApiHandler> handler);
 private:
     QMap<QString, std::function<void(QHttpEngine::Socket *)>> Routes;
     QMultiMap<QString, std::function<void(QHttpEngine::Socket *)>> RoutesWithPathParam;
@@ -62,9 +66,9 @@ private:
     bool handleRequestAndExtractPathParam(QHttpEngine::Socket *socket);
 
     
-    OAIPetApiHandler *OAIPetApiApiHandler;
-    OAIStoreApiHandler *OAIStoreApiApiHandler;
-    OAIUserApiHandler *OAIUserApiApiHandler;
+    QSharedPointer<OAIPetApiHandler> mOAIPetApiHandler;
+    QSharedPointer<OAIStoreApiHandler> mOAIStoreApiHandler;
+    QSharedPointer<OAIUserApiHandler> mOAIUserApiHandler;
 protected:
     // override this method to provide custom class derived from ApiHandler classes
     virtual void createApiHandlers();

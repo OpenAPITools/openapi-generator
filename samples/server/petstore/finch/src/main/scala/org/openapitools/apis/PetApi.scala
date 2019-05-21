@@ -60,8 +60,8 @@ object PetApi {
         * @return An endpoint representing a Unit
         */
         private def addPet(da: DataAccessor): Endpoint[Unit] =
-        post("pet" :: jsonBody[Pet]) { (pet: Pet) =>
-          da.Pet_addPet(pet) match {
+        post("pet" :: jsonBody[Pet]) { (body: Pet) =>
+          da.Pet_addPet(body) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }
@@ -130,8 +130,8 @@ object PetApi {
         * @return An endpoint representing a Unit
         */
         private def updatePet(da: DataAccessor): Endpoint[Unit] =
-        put("pet" :: jsonBody[Pet]) { (pet: Pet) =>
-          da.Pet_updatePet(pet) match {
+        put("pet" :: jsonBody[Pet]) { (body: Pet) =>
+          da.Pet_updatePet(body) match {
             case Left(error) => checkError(error)
             case Right(data) => Ok(data)
           }

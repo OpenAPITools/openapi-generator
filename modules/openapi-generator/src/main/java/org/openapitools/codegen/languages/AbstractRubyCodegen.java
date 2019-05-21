@@ -50,6 +50,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
 
         languageSpecificPrimitives.clear();
         languageSpecificPrimitives.add("String");
+        languageSpecificPrimitives.add("Boolean");
         languageSpecificPrimitives.add("Integer");
         languageSpecificPrimitives.add("Float");
         languageSpecificPrimitives.add("Date");
@@ -61,6 +62,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
 
         typeMapping.clear();
         typeMapping.put("string", "String");
+        typeMapping.put("boolean", "Boolean");
         typeMapping.put("char", "String");
         typeMapping.put("int", "Integer");
         typeMapping.put("integer", "Integer");

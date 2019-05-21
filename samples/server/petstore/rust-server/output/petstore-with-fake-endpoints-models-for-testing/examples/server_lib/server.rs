@@ -67,7 +67,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
 
-    fn fake_outer_boolean_serialize(&self, body: Option<bool>, context: &C) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>> {
+    fn fake_outer_boolean_serialize(&self, body: Option<models::OuterBoolean>, context: &C) -> Box<Future<Item=FakeOuterBooleanSerializeResponse, Error=ApiError>> {
         let context = context.clone();
         println!("fake_outer_boolean_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
@@ -81,14 +81,14 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString>{
     }
 
 
-    fn fake_outer_number_serialize(&self, body: Option<f64>, context: &C) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>> {
+    fn fake_outer_number_serialize(&self, body: Option<models::OuterNumber>, context: &C) -> Box<Future<Item=FakeOuterNumberSerializeResponse, Error=ApiError>> {
         let context = context.clone();
         println!("fake_outer_number_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))
     }
 
 
-    fn fake_outer_string_serialize(&self, body: Option<String>, context: &C) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>> {
+    fn fake_outer_string_serialize(&self, body: Option<models::OuterString>, context: &C) -> Box<Future<Item=FakeOuterStringSerializeResponse, Error=ApiError>> {
         let context = context.clone();
         println!("fake_outer_string_serialize({:?}) - X-Span-ID: {:?}", body, context.get().0.clone());
         Box::new(futures::failed("Generic failure".into()))

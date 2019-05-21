@@ -10,7 +10,6 @@ import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
 @ApiModel(description="Describes the result of uploading an image resource")
-
 public class ModelApiResponse   {
   
 

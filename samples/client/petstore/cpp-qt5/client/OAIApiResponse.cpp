@@ -37,13 +37,16 @@ OAIApiResponse::~OAIApiResponse() {
 
 void
 OAIApiResponse::init() {
+    
     m_code_isSet = false;
     m_code_isValid = false;
+    
     m_type_isSet = false;
     m_type_isValid = false;
+    
     m_message_isSet = false;
     m_message_isValid = false;
-}
+    }
 
 void
 OAIApiResponse::fromJson(QString jsonString) {
@@ -55,11 +58,15 @@ OAIApiResponse::fromJson(QString jsonString) {
 
 void
 OAIApiResponse::fromJsonObject(QJsonObject json) {
+    
     m_code_isValid = ::OpenAPI::fromJsonValue(code, json[QString("code")]);
+    
     
     m_type_isValid = ::OpenAPI::fromJsonValue(type, json[QString("type")]);
     
+    
     m_message_isValid = ::OpenAPI::fromJsonValue(message, json[QString("message")]);
+    
     
 }
 
@@ -86,6 +93,7 @@ OAIApiResponse::asJsonObject() const {
     return obj;
 }
 
+
 qint32
 OAIApiResponse::getCode() const {
     return code;
@@ -96,6 +104,7 @@ OAIApiResponse::setCode(const qint32 &code) {
     this->m_code_isSet = true;
 }
 
+
 QString
 OAIApiResponse::getType() const {
     return type;
@@ -105,6 +114,7 @@ OAIApiResponse::setType(const QString &type) {
     this->type = type;
     this->m_type_isSet = true;
 }
+
 
 QString
 OAIApiResponse::getMessage() const {

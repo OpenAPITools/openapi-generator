@@ -23,6 +23,8 @@ import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.StaticHtmlGenerator;
 import org.testng.Assert;
@@ -54,4 +56,18 @@ public class StaticHtmlGeneratorTest {
         Assert.assertEquals(openAPI.getInfo().getTitle(), "ping test");
     }
 
+    @Test(description = "ensure that snake_case propery names wont be converted to snakeUnderscorecase")
+    public void testFromPropertyWithUnderscores() {
+        final Schema schema = new Schema()
+            .description("a sample model with property containing an underscore")
+            .addProperties("favorite_food", new StringSchema());
+        final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("UnderscoreTest", schema);
+        final DefaultCodegen codegen = new StaticHtmlGenerator();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenProperty property = codegen.fromProperty("favorite_food", (Schema) openAPI.getComponents().getSchemas().get("UnderscoreTest").getProperties().get("favorite_food"));
+
+        Assert.assertEquals(property.baseName, "favorite_food");
+        Assert.assertEquals(property.name, "favorite_food");
+    }
 }
