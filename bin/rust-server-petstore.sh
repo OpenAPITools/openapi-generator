@@ -32,7 +32,7 @@ for spec_path in modules/openapi-generator/src/test/resources/*/rust-server/* ; 
                  --input-spec $spec_path
                  --generator-name rust-server
                  --output samples/server/petstore/rust-server/output/$spec
-                 -DpackageName=$spec
+                 --additional-properties packageName=$spec
                  --additional-properties hideGenerationTimestamp=true
                  --generate-alias-as-model
 		 $@"

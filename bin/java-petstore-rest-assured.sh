@@ -27,7 +27,7 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -t modules/openapi-generator/src/main/resources/Java/libraries/rest-assured -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g java -c bin/java-petstore-rest-assured.json -o samples/client/petstore/java/rest-assured -DhideGenerationTimestamp=true --additional-properties booleanGetterPrefix=is $@"
+ags="generate -t modules/openapi-generator/src/main/resources/Java/libraries/rest-assured -i modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml -g java -c bin/java-petstore-rest-assured.json -o samples/client/petstore/java/rest-assured --additional-properties hideGenerationTimestamp=true --additional-properties booleanGetterPrefix=is $@"
 
 echo "Removing files and folders under samples/client/petstore/java/rest-assured/src/main"
 rm -rf samples/client/petstore/java/rest-assured/src/main
