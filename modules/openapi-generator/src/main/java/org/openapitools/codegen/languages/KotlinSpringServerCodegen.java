@@ -142,7 +142,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addOption(SERVER_PORT, "configuration the port in which the sever is to run on", serverPort);
         addOption(CodegenConstants.MODEL_PACKAGE, "model package for generated code", modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "api package for generated code", apiPackage);
-        addSwitch(EXCEPTION_HANDLER, "generate default global exception handlers", exceptionHandler);
+        addSwitch(EXCEPTION_HANDLER, "generate default global exception handlers (not compatible with reactive. enabling reactive will disable exceptionHandler )", exceptionHandler);
         addSwitch(GRADLE_BUILD_FILE, "generate a gradle build file using the Kotlin DSL", gradleBuildFile);
         addSwitch(SWAGGER_ANNOTATIONS, "generate swagger annotations to go alongside controllers and models", swaggerAnnotations);
         addSwitch(SERVICE_INTERFACE, "generate service interfaces to go alongside controllers. In most " +
@@ -151,7 +151,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(SERVICE_IMPLEMENTATION, "generate stub service implementations that extends service " +
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
-        addSwitch(REACTIVE, "use coroutines for reactive behavior (webflux only)", reactive);
+        addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
 

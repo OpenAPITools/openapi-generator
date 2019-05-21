@@ -26,5 +26,5 @@ sidebar_label: kotlin-spring
 |serviceInterface|generate service interfaces to go alongside controllers. In most cases this option would be used to update an existing project, so not to override implementations. Useful to help facilitate the generation gap pattern| |false|
 |serviceImplementation|generate stub service implementations that extends service interfaces. If this is set to true service interfaces will also be generated| |false|
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
-|reactive| use coroutines for reactive behavior| |false| 
+|reactive|use coroutines for reactive behavior| |false|
 |library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dl>|spring-boot|
