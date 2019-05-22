@@ -209,17 +209,17 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+        return (outputFolder + File.separator + apiDocPath).replace('/', File.separatorChar);
     }
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+        return (outputFolder + File.separator + sourceFolder + File.separator + apiPackage()).replace('.', File.separatorChar);
     }
 
     @Override
     public String apiTestFileFolder() {
-        return outputFolder + File.separator + testFolder + File.separator + apiPackage().replace('.', File.separatorChar) ;
+        return (outputFolder + File.separator + testFolder + File.separator + apiPackage()).replace('.', File.separatorChar) ;
     }
 
     @Override

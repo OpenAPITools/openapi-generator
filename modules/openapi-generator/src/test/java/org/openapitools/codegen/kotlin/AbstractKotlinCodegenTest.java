@@ -140,11 +140,19 @@ public class AbstractKotlinCodegenTest {
     }
 
     @Test
-    public void apiTestFileFolder() {
-        codegen.setOutputDir("/User/open.api.tools");
-        codegen.setTestFolder("test.folder");
+    public void apIFileFolder() {
+        codegen.setOutputDir("/User/open/api/tools");
+        codegen.setSourceFolder("src/folder");
         codegen.setApiPackage("org.openapitools.codegen.api");
-        Assert.assertEquals(codegen.apiTestFileFolder(), "/User/open.api.tools/test.folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+        Assert.assertEquals(codegen.apiFileFolder(), "/User/open/api/tools/src/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+    }
+
+    @Test
+    public void apiTestFileFolder() {
+        codegen.setOutputDir("/User/open/api/tools");
+        codegen.setTestFolder("test/folder");
+        codegen.setApiPackage("org.openapitools.codegen.api");
+        Assert.assertEquals(codegen.apiTestFileFolder(), "/User/open/api/tools/test/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
     }
 
 }
