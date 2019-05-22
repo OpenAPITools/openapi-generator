@@ -58,7 +58,7 @@ export class BaseAPI {
             // do not handle correctly sometimes.
             url += '?' + querystring(context.query);
         }
-        const body = (context.body instanceof FormData || context.body instanceof Body)
+        const body = (context.body instanceof FormData || context.body instanceof Blob)
 	    ? context.body
 	    : JSON.stringify(context.body);
         const init = {
