@@ -127,6 +127,19 @@ public class AbstractKotlinCodegenTest {
     }
 
     @Test
+    public void convertApiNameWithEmptySuffix() {
+        assertEquals(codegen.toApiName("Fake"), "FakeApi");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    @Test
+    public void convertApiNameWithSuffix() {
+        codegen.setApiSuffix("Test");
+        assertEquals(codegen.toApiName("Fake"), "FakeTest");
+        assertEquals(codegen.toApiName(""), "DefaultApi");
+    }
+
+    @Test
     public void apiTestFileFolder() {
         codegen.setOutputDir("/User/open.api.tools");
         codegen.setTestFolder("test.folder");
