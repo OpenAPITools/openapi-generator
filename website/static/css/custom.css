@@ -73,10 +73,6 @@ dd {
 }
 
 @media only screen and (min-width: 1024px) {
-  .docMainWrapper {
-    display: flex;
-    flex-flow: row wrap;
-  }
 }
 
 @media only screen and (min-width: 1200px) {
