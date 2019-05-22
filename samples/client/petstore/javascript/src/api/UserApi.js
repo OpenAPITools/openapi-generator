@@ -100,7 +100,7 @@
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} body List of user object
+     * @param {Array.<module:model/User>} body List of user object
      * @param {module:api/UserApi~createUsersWithArrayInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
     this.createUsersWithArrayInput = function(body, callback) {
@@ -142,7 +142,7 @@
 
     /**
      * Creates list of users with given input array
-     * @param {Array.<User>} body List of user object
+     * @param {Array.<module:model/User>} body List of user object
      * @param {module:api/UserApi~createUsersWithListInputCallback} callback The callback function, accepting three arguments: error, data, response
      */
     this.createUsersWithListInput = function(body, callback) {
