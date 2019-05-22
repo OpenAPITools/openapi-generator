@@ -1,111 +1,36 @@
-'use strict';
 
-var utils = require('../utils/writer.js');
-var Pet = require('../service/PetService');
+const Controller = require('./Controller');
+const { PetService } = require('../service/PetService');
 
-module.exports.addPet = function addPet(pet) {
-  return new Promise(
-    async (resolve, reject) => {
-      try {
-        resolve(pet);
-      } catch (err) {
-        reject(err);
-      }
-    },
-  );
-};
 
-module.exports.deletePet = function deletePet (req, res, next) {
-  var petId = req.swagger.params['petId'].value;
-  var apiUnderscorekey = req.swagger.params['api_key'].value;
-  Pet.deletePet(petId,apiUnderscorekey)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
+class Pet {
+  static async addPet(request, response) {
+    await Controller.handleRequest(request, response, PetService.deletePet);
+  }
 
-module.exports.findPetsByStatus = function findPetsByStatus (req, res, next) {
-  var status = req.swagger.params['status'].value;
-  Pet.findPetsByStatus(status)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
+  static async deletePet(request, response) {
+    await Controller.handleRequest(request, response, PetService.deletePet);
+  }
 
-module.exports.findPetsByTags = function findPetsByTags (req, res, next) {
-  var tags = req.swagger.params['tags'].value;
-  Pet.findPetsByTags(tags)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
+  static async findPetsByStatus(request, response) {
+    await Controller.handleRequest(request, response, PetService.findPetsByStatus);
+  }
 
-module.exports.getPetById = function getPetById (req, res, next) {
-  var petId = req.swagger.params['petId'].value;
-  Pet.getPetById(petId)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
+  static async findPetsByTags(request, response) {
+    await Controller.handleRequest(request, response, PetService.findPetsByTags);
+  }
 
-module.exports.updatePet = function updatePet (req, res, next) {
-  var body = req.swagger.params['body'].value;
-  Pet.updatePet(body)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
+  static async getPetById(request, response) {
+    await Controller.handleRequest(request, response, PetService.getPetById);
+  }
 
-module.exports.updatePetWithForm = function updatePetWithForm (req, res, next) {
-  var petId = req.swagger.params['petId'].value;
-  var name = req.swagger.params['name'].value;
-  var status = req.swagger.params['status'].value;
-  Pet.updatePetWithForm(petId,name,status)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
+  static async updatePet(request, response) {
+    await Controller.handleRequest(request, response, PetService.updatePet);
+  }
 
-module.exports.newUpdatePetWithForm = (petId, name, status = 'pending') => new Promise(
-  async (resolve, reject) => {
-    try {
-      const message = await setTimeout(() => {
-        console.log(`updating pet with id: ${petId}, named ${name}, of status ${status}`);
-      }, 1000);
-      resolve(message);
-    } catch (e) {
-      reject(e);
-    }
-  },
-);
+  static async uploadFile(request, response) {
+    await Controller.handleRequest(request, response, PetService.uploadFile);
+  }
+}
 
-module.exports.uploadFile = function uploadFile (req, res, next) {
-  var petId = req.swagger.params['petId'].value;
-  var additionalMetadata = req.swagger.params['additionalMetadata'].value;
-  var file = req.swagger.params['file'].value;
-  Pet.uploadFile(petId,additionalMetadata,file)
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
+module.exports = Pet;

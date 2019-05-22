@@ -1,5 +1,3 @@
-const { camelCase, upperFirst } = require('lodash');
-
 const logger = require('../logger');
 const controllers = require('../controllers');
 
@@ -18,7 +16,12 @@ function getValueFromRequest(request, paramObject) {
       valueToReturn = request.query[paramObject.name];
       break;
     case 'header':
-      valueToReturn = request.headers[paramObject.name];
+      /**
+       * A different middleware converted header variable names to lowercase.
+       * Seems like Apache Tomcat does the same and http2 requires lower-case.
+       * We keep the original casing.
+       */
+      valueToReturn = request.headers[paramObject.name.toLowerCase()];
       break;
     case 'formData':
       if (paramObject.type === 'string') {
@@ -42,6 +45,21 @@ function handleError(err, request, response, next) {
     error: err,
   }));
 }
+
+/**
+ * The purpose of this route is to collect the request variables as defined in the
+ * Swagger/OpenAPI document and pass them to the handling controller as another Express
+ * middleware. All parameters are collected in the requet.swagger.values key-value object
+ *
+ * The assumption is that security handlers have already verified and allowed access
+ * to this path. If the business-logic of a particular path is dependant on authentication
+ * parameters (e.g. scope checking) - it is recommended to define the authentication header
+ * as one of the parameters expected in the OpenAPI/Swagger document.
+ *
+ *  Requests made to paths that are not in the OpernAPI/Swagger scope
+ *  are passed on to the next middleware handler.
+ * @returns {Function}
+ */
 function swaggerRouter() {
   return async (request, response, next) => {
     try {
@@ -58,15 +76,19 @@ function swaggerRouter() {
           || request.swagger.operation === null) {
         next();
       } else {
-        const swaggerParams = request.swagger.params.map(
-          param => getValueFromRequest(request, param),
-        );
-        const controllerName = upperFirst(camelCase(request.swagger.operation.tags[0]));
-        const controller = controllers[controllerName];
-        const controllerOperation = request.swagger.operation.operationId;
-        const controllerResponse = await controller[controllerOperation](...swaggerParams);
-        response.status(200);
-        response.send(JSON.stringify(controllerResponse));
+        request.swagger.paramValues = {};
+        request.swagger.params.forEach((param) => {
+          request.swagger.paramValues[param.name] = getValueFromRequest(request, param);
+        });
+        const controllerName = request.swagger.operation['x-swagger-router-controller'];
+        if (!controllers[controllerName] || controllers[controllerName] === undefined) {
+          handleError(`request sent to controller '${controllerName}' which has not been defined`,
+            request, response, next);
+        } else {
+          const controller = controllers[controllerName];
+          const controllerOperation = request.swagger.operation.operationId;
+          await controller[controllerOperation](request, response, next);
+        }
       }
     } catch (error) {
       console.error(error);

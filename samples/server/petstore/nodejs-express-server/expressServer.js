@@ -40,7 +40,7 @@ class ExpressServer {
     this.app.use((error, req, res, next) => {
       res.status(error.status || 500);
       res.type('json');
-      res.end(JSON.stringify({ error }));
+      res.json({ error: error.message });
     });
   }
 
