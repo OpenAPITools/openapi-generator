@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties $@"
-ags="generate -t modules/openapi-generator/src/main/resources/graphql-schema -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g graphql-schema -o samples/config/petstore/graphql-schema -DpackageName=petstore $@"
+ags="generate -t modules/openapi-generator/src/main/resources/graphql-schema -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g graphql-schema -o samples/config/petstore/graphql-schema --additional-properties packageName=petstore $@"
 
 java $JAVA_OPTS -jar $executable $ags

@@ -32,7 +32,7 @@ export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 ags="generate -t modules/openapi-generator/src/main/resources/dart -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart2/openapi --additional-properties hideGenerationTimestamp=true,browserClient=false  $@"
 
 # then options to generate the library for vm would be:
-#ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart2/openapi_vm -DbrowserClient=false -DpubName=openapi_vm $@"
+#ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g dart -o samples/client/petstore/dart2/openapi_vm --additional-properties browserClient=false,pubName=openapi_vm $@"
 java $JAVA_OPTS -jar $executable $ags
 
 # Generate browserClient

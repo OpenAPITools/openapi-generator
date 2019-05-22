@@ -14,7 +14,7 @@ echo Removing files and folders under %STUB_DIR%
 del /F /S /Q %STUB_DIR%
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M -DloggerPath=conf/log4j.properties
-set ags=generate -t modules\openapi-generator\src\main\resources\go -i %SPEC% -g %GENERATOR% -o %STUB_DIR% -DpackageName=petstore
+set ags=generate -t modules\openapi-generator\src\main\resources\go -i %SPEC% -g %GENERATOR% -o %STUB_DIR% --additional-properties packageName=petstore
 
 java %JAVA_OPTS% -jar %executable% %ags%
 
