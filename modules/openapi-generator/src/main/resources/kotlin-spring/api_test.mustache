@@ -2,15 +2,14 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
-import org.junit.Test
-import org.junit.Ignore
+import org.junit.jupiter.api.Test
 
 import org.springframework.http.ResponseEntity
 
 class {{classname}}Test {
 
-    private val api: {{classname}}Controller = {{classname}}Controller()
-
+    {{#serviceInterface}}private val service: {{classname}}Service = {{classname}}ServiceImpl(){{/serviceInterface}}
+    private val api: {{classname}}Controller = {{classname}}Controller({{#serviceInterface}}service{{/serviceInterface}})
 
     {{#operations}}{{#operation}}
     /**
