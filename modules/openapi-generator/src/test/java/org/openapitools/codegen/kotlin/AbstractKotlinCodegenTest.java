@@ -155,4 +155,5 @@ public class AbstractKotlinCodegenTest {
         Assert.assertEquals(codegen.apiTestFileFolder(), "/User/open/api/tools/test/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
     }
 
+
 }
