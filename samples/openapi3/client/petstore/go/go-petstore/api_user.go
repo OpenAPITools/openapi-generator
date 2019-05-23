@@ -14,7 +14,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 	"fmt"
 )
 
@@ -33,7 +32,7 @@ This can only be done by the logged in user.
 */
 func (a *UserApiService) CreateUser(ctx context.Context, user User) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -100,7 +99,7 @@ UserApiService Creates list of users with given input array
 */
 func (a *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []User) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -167,7 +166,7 @@ UserApiService Creates list of users with given input array
 */
 func (a *UserApiService) CreateUsersWithListInput(ctx context.Context, user []User) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -235,7 +234,7 @@ This can only be done by the logged in user.
 */
 func (a *UserApiService) DeleteUser(ctx context.Context, username string) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Delete")
+		localVarHttpMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -302,7 +301,7 @@ UserApiService Get user by user name
 */
 func (a *UserApiService) GetUserByName(ctx context.Context, username string) (User, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -390,7 +389,7 @@ UserApiService Logs user into the system
 */
 func (a *UserApiService) LoginUser(ctx context.Context, username string, password string) (string, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -476,7 +475,7 @@ UserApiService Logs out current logged in user session
 */
 func (a *UserApiService) LogoutUser(ctx context.Context) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -543,7 +542,7 @@ This can only be done by the logged in user.
 */
 func (a *UserApiService) UpdateUser(ctx context.Context, username string, user User) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Put")
+		localVarHttpMethod   = http.MethodPut
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string

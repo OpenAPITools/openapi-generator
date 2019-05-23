@@ -1,6 +1,7 @@
 # HealthCheckResult
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **NullableMessage** | Pointer to **string** |  | [optional] 
