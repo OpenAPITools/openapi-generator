@@ -393,11 +393,13 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
-        File inputSpecFile = new File(inputSpec);
+        File inputSpecFile;
         try {
             if(UrlValidator.getInstance().isValid(inputSpec)) {
                 inputSpecFile = new File("api.yaml");
                 FileUtils.copyURLToFile(new URL(inputSpec), inputSpecFile);
+            } else {
+                inputSpecFile = new File(inputSpec);
             }
 
             addCompileSourceRootIfConfigured();
