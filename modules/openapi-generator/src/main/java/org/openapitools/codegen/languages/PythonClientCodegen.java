@@ -41,8 +41,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String PACKAGE_URL = "packageUrl";
     public static final String DEFAULT_LIBRARY = "urllib3";
 
-    protected String packageName; // e.g. petstore_api
-    protected String packageVersion;
+    protected String packageName = "openapi_client"; // e.g. petstore_api
+    protected String packageVersion = "1.0.0";
     protected String projectName; // for setup.py, e.g. petstore-api
     protected String packageUrl;
     protected String apiDocPath = "docs/";
@@ -176,8 +176,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        } else {
-            setPackageName("openapi_client");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
@@ -190,9 +188,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        } else {
-            setPackageVersion("1.0.0");
-        }
+        } 
 
         Boolean generateSourceCodeOnly = false;
         if (additionalProperties.containsKey(CodegenConstants.SOURCECODEONLY_GENERATION)) {
