@@ -14,6 +14,9 @@
 
 export const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
 
+const Blob = Blob !== undefined ? Blob : function() {};
+const Buffer = Buffer !== undefined ? Buffer : function() {};
+
 /**
  * This is the base class for all generated API classes.
  */
@@ -58,7 +61,7 @@ export class BaseAPI {
             // do not handle correctly sometimes.
             url += '?' + querystring(context.query);
         }
-        const body = (context.body instanceof FormData || context.body instanceof Blob)
+        const body = (context.body instanceof FormData || context.body instanceof Blob || context.body instanceof Buffer)
 	    ? context.body
 	    : JSON.stringify(context.body);
         const init = {
@@ -175,7 +178,7 @@ export type Json = any;
 export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
 export type HTTPHeaders = { [key: string]: string };
 export type HTTPQuery = { [key: string]: string | number | null | boolean | Array<string | number | null | boolean> | HTTPQuery };
-export type HTTPBody = Json | FormData;
+export type HTTPBody = Json | FormData | Blob | Buffer;
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
 export interface FetchParams {
