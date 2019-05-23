@@ -1,6 +1,7 @@
 package org.openapitools.client.infrastructure
 
 import com.squareup.moshi.FromJson
+import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.ToJson
 import okhttp3.OkHttpClient
@@ -58,7 +59,7 @@ open class ApiClient(val baseUrl: String) {
             return null
         }
         val bodyContent = body.string()
-        if (bodyContent.length == 0) {
+        if (bodyContent.isEmpty()) {
             return null
         }
         return when(mediaType) {
@@ -69,6 +70,7 @@ open class ApiClient(val baseUrl: String) {
                     fun fromJson(s: String) = UUID.fromString(s)
                 })
                 .add(ByteArrayAdapter())
+                .add(KotlinJsonAdapterFactory())
                 .build().adapter(T::class.java).fromJson(bodyContent)
             else ->  TODO("responseBody currently only supports JSON body.")
         }
