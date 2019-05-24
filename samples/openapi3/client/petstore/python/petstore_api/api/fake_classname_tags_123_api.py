@@ -52,11 +52,7 @@ class FakeClassnameTags123Api(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
-            return data
+        return self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
 
     def test_classname_with_http_info(self, client, **kwargs):  # noqa: E501
         """To test class name in snake case  # noqa: E501

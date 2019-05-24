@@ -50,11 +50,7 @@ class FakeApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.fake_health_get_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.fake_health_get_with_http_info(**kwargs)  # noqa: E501
-            return data
+        return self.fake_health_get_with_http_info(**kwargs)  # noqa: E501
 
     def fake_health_get_with_http_info(self, **kwargs):  # noqa: E501
         """Health check endpoint  # noqa: E501
@@ -138,11 +134,7 @@ class FakeApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.fake_outer_boolean_serialize_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.fake_outer_boolean_serialize_with_http_info(**kwargs)  # noqa: E501
-            return data
+        return self.fake_outer_boolean_serialize_with_http_info(**kwargs)  # noqa: E501
 
     def fake_outer_boolean_serialize_with_http_info(self, **kwargs):  # noqa: E501
         """fake_outer_boolean_serialize  # noqa: E501
@@ -234,11 +226,7 @@ class FakeApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.fake_outer_composite_serialize_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.fake_outer_composite_serialize_with_http_info(**kwargs)  # noqa: E501
-            return data
+        return self.fake_outer_composite_serialize_with_http_info(**kwargs)  # noqa: E501
 
     def fake_outer_composite_serialize_with_http_info(self, **kwargs):  # noqa: E501
         """fake_outer_composite_serialize  # noqa: E501
@@ -330,11 +318,7 @@ class FakeApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.fake_outer_number_serialize_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.fake_outer_number_serialize_with_http_info(**kwargs)  # noqa: E501
-            return data
+        return self.fake_outer_number_serialize_with_http_info(**kwargs)  # noqa: E501
 
     def fake_outer_number_serialize_with_http_info(self, **kwargs):  # noqa: E501
         """fake_outer_number_serialize  # noqa: E501
@@ -426,11 +410,7 @@ class FakeApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.fake_outer_string_serialize_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.fake_outer_string_serialize_with_http_info(**kwargs)  # noqa: E501
-            return data
+        return self.fake_outer_string_serialize_with_http_info(**kwargs)  # noqa: E501
 
     def fake_outer_string_serialize_with_http_info(self, **kwargs):  # noqa: E501
         """fake_outer_string_serialize  # noqa: E501
@@ -522,11 +502,7 @@ class FakeApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_body_with_file_schema_with_http_info(file_schema_test_class, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_body_with_file_schema_with_http_info(file_schema_test_class, **kwargs)  # noqa: E501
-            return data
+        return self.test_body_with_file_schema_with_http_info(file_schema_test_class, **kwargs)  # noqa: E501
 
     def test_body_with_file_schema_with_http_info(self, file_schema_test_class, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
@@ -618,11 +594,7 @@ class FakeApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_body_with_query_params_with_http_info(query, user, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_body_with_query_params_with_http_info(query, user, **kwargs)  # noqa: E501
-            return data
+        return self.test_body_with_query_params_with_http_info(query, user, **kwargs)  # noqa: E501
 
     def test_body_with_query_params_with_http_info(self, query, user, **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
@@ -720,11 +692,7 @@ class FakeApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_client_model_with_http_info(client, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_client_model_with_http_info(client, **kwargs)  # noqa: E501
-            return data
+        return self.test_client_model_with_http_info(client, **kwargs)  # noqa: E501
 
     def test_client_model_with_http_info(self, client, **kwargs):  # noqa: E501
         """To test \"client\" model  # noqa: E501
@@ -833,11 +801,7 @@ class FakeApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, **kwargs)  # noqa: E501
-            return data
+        return self.test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, **kwargs)  # noqa: E501
 
     def test_endpoint_parameters_with_http_info(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
@@ -1015,11 +979,7 @@ class FakeApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_enum_parameters_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.test_enum_parameters_with_http_info(**kwargs)  # noqa: E501
-            return data
+        return self.test_enum_parameters_with_http_info(**kwargs)  # noqa: E501
 
     def test_enum_parameters_with_http_info(self, **kwargs):  # noqa: E501
         """To test enum parameters  # noqa: E501
@@ -1136,11 +1096,7 @@ class FakeApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, **kwargs)  # noqa: E501
-            return data
+        return self.test_group_parameters_with_http_info(required_string_group, required_boolean_group, required_int64_group, **kwargs)  # noqa: E501
 
     def test_group_parameters_with_http_info(self, required_string_group, required_boolean_group, required_int64_group, **kwargs):  # noqa: E501
         """Fake endpoint to test group parameters (optional)  # noqa: E501
@@ -1250,11 +1206,7 @@ class FakeApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_inline_additional_properties_with_http_info(request_body, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_inline_additional_properties_with_http_info(request_body, **kwargs)  # noqa: E501
-            return data
+        return self.test_inline_additional_properties_with_http_info(request_body, **kwargs)  # noqa: E501
 
     def test_inline_additional_properties_with_http_info(self, request_body, **kwargs):  # noqa: E501
         """test inline additionalProperties  # noqa: E501
@@ -1345,11 +1297,7 @@ class FakeApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.test_json_form_data_with_http_info(param, param2, **kwargs)  # noqa: E501
-        else:
-            (data) = self.test_json_form_data_with_http_info(param, param2, **kwargs)  # noqa: E501
-            return data
+        return self.test_json_form_data_with_http_info(param, param2, **kwargs)  # noqa: E501
 
     def test_json_form_data_with_http_info(self, param, param2, **kwargs):  # noqa: E501
         """test json serialization of form data  # noqa: E501
