@@ -14,8 +14,8 @@
 
 export const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
 
-const isBlob = (value: any) => Blob !== undefined && value instanceof Blob;
-const isBuffer = (value: any) => Buffer !== undefined && value instanceof Buffer;
+const isBlob = (value: any) => typeof Blob !== 'undefined' && value instanceof Blob;
+const isBuffer = (value: any) => typeof Buffer !== 'undefined' && value instanceof Buffer;
 
 /**
  * This is the base class for all generated API classes.
