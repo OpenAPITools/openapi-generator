@@ -24,7 +24,7 @@ open class ApiClient(val baseUrl: String) {
         protected const val XmlMediaType = "application/xml"
 
         @JvmStatic
-        val client by lazy {
+        val client: OkHttpClient by lazy {
             builder.build()
         }
 
@@ -38,13 +38,13 @@ open class ApiClient(val baseUrl: String) {
                 MediaType.parse(mediaType), content
             )
             mediaType == FormDataMediaType || mediaType == FormUrlEncMediaType -> {
-                var builder = FormBody.Builder()
-                // content's type *must* be Map<String, Any>
-                @Suppress("UNCHECKED_CAST")
-                (content as Map<String,String>).forEach { key, value ->
-                    builder = builder.add(key, value)
-                }
-                builder.build()
+                FormBody.Builder().apply {
+                    // content's type *must* be Map<String, Any>
+                    @Suppress("UNCHECKED_CAST")
+                    (content as Map<String,String>).forEach { (key, value) ->
+                        add(key, value)
+                    }
+                }.build()
             }
             mediaType == JsonMediaType -> RequestBody.create(
                 MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
@@ -79,23 +79,22 @@ open class ApiClient(val baseUrl: String) {
     protected inline fun <reified T: Any?> request(requestConfig: RequestConfig, body : Any? = null): ApiInfrastructureResponse<T?> {
         val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
 
-        var urlBuilder = httpUrl.newBuilder()
-                .addPathSegments(requestConfig.path.trimStart('/'))
-
-        requestConfig.query.forEach { query ->
-            query.value.forEach { queryValue ->
-                urlBuilder = urlBuilder.addQueryParameter(query.key, queryValue)
-            }
-        }
-
-        val url = urlBuilder.build()
+        val url = httpUrl.newBuilder()
+            .addPathSegments(requestConfig.path.trimStart('/'))
+            .apply {
+                requestConfig.query.forEach { query ->
+                    query.value.forEach { queryValue ->
+                        addQueryParameter(query.key, queryValue)
+                    }
+                }
+            }.build()
 
         // take content-type/accept from spec or set to default (application/json) if not defined
         if (requestConfig.headers[ContentType].isNullOrEmpty()) {
-            requestConfig.headers.put(ContentType, JsonMediaType)
+            requestConfig.headers[ContentType] = JsonMediaType
         }
         if (requestConfig.headers[Accept].isNullOrEmpty()) {
-            requestConfig.headers.put(Accept, JsonMediaType)
+            requestConfig.headers[Accept] = JsonMediaType
         }
         val headers = requestConfig.headers
 
@@ -110,7 +109,7 @@ open class ApiClient(val baseUrl: String) {
         // TODO: support multiple contentType options here.
         val contentType = (headers[ContentType] as String).substringBefore(";").toLowerCase()
 
-        var request : Request.Builder =  when (requestConfig.method) {
+        val request = when (requestConfig.method) {
             RequestMethod.DELETE -> Request.Builder().url(url).delete()
             RequestMethod.GET -> Request.Builder().url(url)
             RequestMethod.HEAD -> Request.Builder().url(url).head()
@@ -118,12 +117,11 @@ open class ApiClient(val baseUrl: String) {
             RequestMethod.PUT -> Request.Builder().url(url).put(requestBody(body, contentType))
             RequestMethod.POST -> Request.Builder().url(url).post(requestBody(body, contentType))
             RequestMethod.OPTIONS -> Request.Builder().url(url).method("OPTIONS", null)
-        }
+        }.apply {
+            headers.forEach { header -> addHeader(header.key, header.value) }
+        }.build()
 
-        headers.forEach { header -> request = request.addHeader(header.key, header.value) }
-
-        val realRequest = request.build()
-        val response = client.newCall(realRequest).execute()
+        val response = client.newCall(request).execute()
         val accept = response.header(ContentType)?.substringBefore(";")?.toLowerCase()
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
