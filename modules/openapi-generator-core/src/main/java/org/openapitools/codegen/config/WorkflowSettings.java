@@ -443,6 +443,21 @@ public class WorkflowSettings {
         }
 
         /**
+         * Sets the {@code systemProperties} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param key The key of a system (global) property to set
+         * @param value The value of a system (global) property to set
+         * @return a reference to this Builder
+         */
+        public Builder withSystemProperty(String key, String value) {
+            if (this.systemProperties == null) {
+                this.systemProperties = new HashMap<>();
+            }
+            this.systemProperties.put(key, value);
+            return this;
+        }
+
+        /**
          * Returns a {@code WorkflowSettings} built from the parameters previously set.
          *
          * @return a {@code WorkflowSettings} built with parameters of this {@code WorkflowSettings.Builder}

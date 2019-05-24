@@ -100,37 +100,37 @@ public class CodegenConfigurator {
 
     public CodegenConfigurator addAdditionalProperty(String key, Object value) {
         this.additionalProperties.put(key, value);
-        generatorSettingsBuilder.withAdditionalProperties(this.additionalProperties);
+        generatorSettingsBuilder.withAdditionalProperty(key, value);
         return this;
     }
 
     public CodegenConfigurator addAdditionalReservedWordMapping(String key, String value) {
         this.reservedWordMappings.put(key, value);
-        generatorSettingsBuilder.withReservedWordMappings(this.reservedWordMappings);
+        generatorSettingsBuilder.withReservedWordMapping(key, value);
         return this;
     }
 
     public CodegenConfigurator addImportMapping(String key, String value) {
         this.importMappings.put(key, value);
-        generatorSettingsBuilder.withImportMappings(this.importMappings);
+        generatorSettingsBuilder.withImportMapping(key, value);
         return this;
     }
 
     public CodegenConfigurator addInstantiationType(String key, String value) {
         this.instantiationTypes.put(key, value);
-        generatorSettingsBuilder.withInstantiationTypes(this.instantiationTypes);
+        generatorSettingsBuilder.withInstantiationType(key, value);
         return this;
     }
 
     public CodegenConfigurator addLanguageSpecificPrimitive(String value) {
         this.languageSpecificPrimitives.add(value);
-        generatorSettingsBuilder.withLanguageSpecificPrimitives(this.languageSpecificPrimitives);
+        generatorSettingsBuilder.withLanguageSpecificPrimitive(value);
         return this;
     }
 
     public CodegenConfigurator addSystemProperty(String key, String value) {
         this.systemProperties.put(key, value);
-        workflowSettingsBuilder.withSystemProperties(this.systemProperties);
+        workflowSettingsBuilder.withSystemProperty(key, value);
         return this;
     }
 
@@ -423,11 +423,9 @@ public class CodegenConfigurator {
     }
 
     public ClientOptInput toClientOptInput() {
-        Context<?> context = toContext();
-
         CodegenConfig config = CodegenConfigLoader.forName(generatorName);
 
-
+        Context<?> context = toContext();
         WorkflowSettings workflowSettings = context.getWorkflowSettings();
         GeneratorSettings generatorSettings = context.getGeneratorSettings();
 

@@ -30,6 +30,9 @@ import java.util.*;
 public final class GeneratorSettings implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeneratorSettings.class);
+    private static String DEFAULT_GIT_USER_ID = "GIT_USER_ID";
+    private static String DEFAULT_GIT_REPO_ID = "GIT_REPO_ID";
+    private static String DEFAULT_RELEASE_NOTE = "Minor update";
 
     private String generatorName;
     private String apiPackage;
@@ -315,19 +318,45 @@ public final class GeneratorSettings implements Serializable {
 
         Map<String, Object> additional = new HashMap<>(builder.additionalProperties);
 
-        if (isNotEmpty(apiPackage)) { additional.put("apiPackage", apiPackage); }
-        if (isNotEmpty(modelPackage)) { additional.put("modelPackage", modelPackage); }
-        if (isNotEmpty(invokerPackage)) { additional.put("invokerPackage", invokerPackage); }
-        if (isNotEmpty(packageName)) { additional.put("packageName", packageName); }
-        if (isNotEmpty(groupId)) { additional.put("groupId", groupId); }
-        if (isNotEmpty(artifactId)) { additional.put("artifactId", artifactId); }
-        if (isNotEmpty(artifactVersion)) { additional.put("artifactVersion", artifactVersion); }
-        if (isNotEmpty(modelNamePrefix)) { additional.put("modelNamePrefix", modelNamePrefix); }
-        if (isNotEmpty(modelNameSuffix)) { additional.put("modelNameSuffix", modelNameSuffix); }
-        if (isNotEmpty(gitUserId)) { additional.put("gitUserId", gitUserId); }
-        if (isNotEmpty(gitRepoId)) { additional.put("gitRepoId", gitRepoId); }
-        if (isNotEmpty(releaseNote)) { additional.put("releaseNote", releaseNote); }
-        if (isNotEmpty(httpUserAgent)) { additional.put("httpUserAgent", httpUserAgent); }
+        if (isNotEmpty(apiPackage)) {
+            additional.put("apiPackage", apiPackage);
+        }
+        if (isNotEmpty(modelPackage)) {
+            additional.put("modelPackage", modelPackage);
+        }
+        if (isNotEmpty(invokerPackage)) {
+            additional.put("invokerPackage", invokerPackage);
+        }
+        if (isNotEmpty(packageName)) {
+            additional.put("packageName", packageName);
+        }
+        if (isNotEmpty(groupId)) {
+            additional.put("groupId", groupId);
+        }
+        if (isNotEmpty(artifactId)) {
+            additional.put("artifactId", artifactId);
+        }
+        if (isNotEmpty(artifactVersion)) {
+            additional.put("artifactVersion", artifactVersion);
+        }
+        if (isNotEmpty(modelNamePrefix)) {
+            additional.put("modelNamePrefix", modelNamePrefix);
+        }
+        if (isNotEmpty(modelNameSuffix)) {
+            additional.put("modelNameSuffix", modelNameSuffix);
+        }
+        if (isNotEmpty(gitUserId)) {
+            additional.put("gitUserId", gitUserId);
+        }
+        if (isNotEmpty(gitRepoId)) {
+            additional.put("gitRepoId", gitRepoId);
+        }
+        if (isNotEmpty(releaseNote)) {
+            additional.put("releaseNote", releaseNote);
+        }
+        if (isNotEmpty(httpUserAgent)) {
+            additional.put("httpUserAgent", httpUserAgent);
+        }
 
         additionalProperties = ImmutableMap.copyOf(additional);
     }
@@ -346,10 +375,10 @@ public final class GeneratorSettings implements Serializable {
         reservedWordMappings = ImmutableMap.of();
     }
 
-    private void setDefaults(){
-        gitUserId = "GIT_USER_ID";
-        gitRepoId = "GIT_REPO_ID";
-        releaseNote = "Minor update";
+    private void setDefaults() {
+        gitUserId = DEFAULT_GIT_USER_ID;
+        gitRepoId = DEFAULT_GIT_REPO_ID;
+        releaseNote = DEFAULT_RELEASE_NOTE;
     }
 
     private boolean isNotEmpty(String value) {
@@ -384,12 +413,12 @@ public final class GeneratorSettings implements Serializable {
         builder.artifactId = copy.getArtifactId();
         builder.artifactVersion = copy.getArtifactVersion();
         builder.library = copy.getLibrary();
-        builder.instantiationTypes = copy.getInstantiationTypes();
-        builder.typeMappings = copy.getTypeMappings();
-        builder.additionalProperties = copy.getAdditionalProperties();
-        builder.importMappings = copy.getImportMappings();
-        builder.languageSpecificPrimitives = copy.getLanguageSpecificPrimitives();
-        builder.reservedWordMappings = copy.getReservedWordMappings();
+        builder.instantiationTypes = new HashMap<>(copy.getInstantiationTypes());
+        builder.typeMappings = new HashMap<>(copy.getTypeMappings());
+        builder.additionalProperties = new HashMap<>(copy.getAdditionalProperties());
+        builder.importMappings = new HashMap<>(copy.getImportMappings());
+        builder.languageSpecificPrimitives = new HashSet<>(copy.getLanguageSpecificPrimitives());
+        builder.reservedWordMappings = new HashMap<>(copy.getReservedWordMappings());
         builder.gitUserId = copy.getGitUserId();
         builder.gitRepoId = copy.getGitRepoId();
         builder.releaseNote = copy.getReleaseNote();
@@ -435,6 +464,10 @@ public final class GeneratorSettings implements Serializable {
             importMappings = new HashMap<>();
             languageSpecificPrimitives = new HashSet<>();
             reservedWordMappings = new HashMap<>();
+
+            gitUserId = DEFAULT_GIT_USER_ID;
+            gitRepoId = DEFAULT_GIT_REPO_ID;
+            releaseNote = DEFAULT_RELEASE_NOTE;
         }
 
         /**
@@ -570,6 +603,21 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
+         * Sets a single {@code instantiationTypes} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param key   A key for some instantiation type
+         * @param value The value of some instantiation type
+         * @return a reference to this Builder
+         */
+        public Builder withInstantiationType(String key, String value) {
+            if (this.instantiationTypes == null) {
+                this.instantiationTypes = new HashMap<>();
+            }
+            this.instantiationTypes.put(key, value);
+            return this;
+        }
+
+        /**
          * Sets the {@code typeMappings} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param typeMappings the {@code typeMappings} to set
@@ -592,6 +640,21 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
+         * Sets the {@code additionalProperties} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param key   A key for some additional property
+         * @param value The value of some additional property
+         * @return a reference to this Builder
+         */
+        public Builder withAdditionalProperty(String key, Object value) {
+            if (this.additionalProperties == null) {
+                this.additionalProperties = new HashMap<>();
+            }
+            this.additionalProperties.put(key, value);
+            return this;
+        }
+
+        /**
          * Sets the {@code importMappings} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param importMappings the {@code importMappings} to set
@@ -599,6 +662,21 @@ public final class GeneratorSettings implements Serializable {
          */
         public Builder withImportMappings(Map<String, String> importMappings) {
             this.importMappings = importMappings;
+            return this;
+        }
+
+        /**
+         * Sets a single {@code importMappings} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param key   A key for some import mapping
+         * @param value The value of some import mapping
+         * @return a reference to this Builder
+         */
+        public Builder withImportMapping(String key, String value) {
+            if (this.importMappings == null) {
+                this.importMappings = new HashMap<>();
+            }
+            this.importMappings.put(key, value);
             return this;
         }
 
@@ -614,6 +692,20 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
+         * Sets a single {@code languageSpecificPrimitives} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param value The value of some primitive to set
+         * @return a reference to this Builder
+         */
+        public Builder withLanguageSpecificPrimitive(String value) {
+            if (this.languageSpecificPrimitives == null) {
+                this.languageSpecificPrimitives = new HashSet<>();
+            }
+            this.languageSpecificPrimitives.add(value);
+            return this;
+        }
+
+        /**
          * Sets the {@code reservedWordMappings} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param reservedWordMappings the {@code reservedWordMappings} to set
@@ -621,6 +713,21 @@ public final class GeneratorSettings implements Serializable {
          */
         public Builder withReservedWordMappings(Map<String, String> reservedWordMappings) {
             this.reservedWordMappings = reservedWordMappings;
+            return this;
+        }
+
+        /**
+         * Sets a single {@code reservedWordMappings} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param key   A key for some reserved word mapping
+         * @param value The value of some reserved word mapping
+         * @return a reference to this Builder
+         */
+        public Builder withReservedWordMapping(String key, String value) {
+            if (this.reservedWordMappings == null) {
+                this.reservedWordMappings = new HashMap<>();
+            }
+            this.reservedWordMappings.put(key, value);
             return this;
         }
 
@@ -713,7 +820,7 @@ public final class GeneratorSettings implements Serializable {
         if (this == o) return true;
         if (!(o instanceof GeneratorSettings)) return false;
         GeneratorSettings that = (GeneratorSettings) o;
-        return  Objects.equals(getGeneratorName(), that.getGeneratorName()) &&
+        return Objects.equals(getGeneratorName(), that.getGeneratorName()) &&
                 Objects.equals(getApiPackage(), that.getApiPackage()) &&
                 Objects.equals(getModelPackage(), that.getModelPackage()) &&
                 Objects.equals(getInvokerPackage(), that.getInvokerPackage()) &&
