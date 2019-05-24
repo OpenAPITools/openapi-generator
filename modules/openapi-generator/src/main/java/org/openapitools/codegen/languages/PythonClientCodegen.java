@@ -236,7 +236,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + modelPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + apiPackage, "__init__.py"));
-		
+
         // If the package name consists of dots(openapi.client), then we need to create the directory structure like openapi/client with __init__ files.
         String[] packageNameSplits = packageName.split("\\.");
         String currentPackagePath = "";
@@ -247,7 +247,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             currentPackagePath = currentPackagePath + packageNameSplits[i];
             supportingFiles.add(new SupportingFile("__init__.mustache", currentPackagePath, "__init__.py"));
         }
-		
+
         supportingFiles.add(new SupportingFile("exceptions.mustache", packagePath(), "exceptions.py"));
 
         if (Boolean.FALSE.equals(excludeTests)) {
