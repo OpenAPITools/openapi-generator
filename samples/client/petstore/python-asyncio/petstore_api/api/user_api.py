@@ -52,11 +52,7 @@ class UserApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.create_user_with_http_info(body, **kwargs)  # noqa: E501
-        else:
-            (data) = self.create_user_with_http_info(body, **kwargs)  # noqa: E501
-            return data
+        return self.create_user_with_http_info(body, **kwargs)  # noqa: E501
 
     def create_user_with_http_info(self, body, **kwargs):  # noqa: E501
         """Create user  # noqa: E501
@@ -143,11 +139,7 @@ class UserApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.create_users_with_array_input_with_http_info(body, **kwargs)  # noqa: E501
-        else:
-            (data) = self.create_users_with_array_input_with_http_info(body, **kwargs)  # noqa: E501
-            return data
+        return self.create_users_with_array_input_with_http_info(body, **kwargs)  # noqa: E501
 
     def create_users_with_array_input_with_http_info(self, body, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
@@ -233,11 +225,7 @@ class UserApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.create_users_with_list_input_with_http_info(body, **kwargs)  # noqa: E501
-        else:
-            (data) = self.create_users_with_list_input_with_http_info(body, **kwargs)  # noqa: E501
-            return data
+        return self.create_users_with_list_input_with_http_info(body, **kwargs)  # noqa: E501
 
     def create_users_with_list_input_with_http_info(self, body, **kwargs):  # noqa: E501
         """Creates list of users with given input array  # noqa: E501
@@ -324,11 +312,7 @@ class UserApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.delete_user_with_http_info(username, **kwargs)  # noqa: E501
-        else:
-            (data) = self.delete_user_with_http_info(username, **kwargs)  # noqa: E501
-            return data
+        return self.delete_user_with_http_info(username, **kwargs)  # noqa: E501
 
     def delete_user_with_http_info(self, username, **kwargs):  # noqa: E501
         """Delete user  # noqa: E501
@@ -415,11 +399,7 @@ class UserApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.get_user_by_name_with_http_info(username, **kwargs)  # noqa: E501
-        else:
-            (data) = self.get_user_by_name_with_http_info(username, **kwargs)  # noqa: E501
-            return data
+        return self.get_user_by_name_with_http_info(username, **kwargs)  # noqa: E501
 
     def get_user_by_name_with_http_info(self, username, **kwargs):  # noqa: E501
         """Get user by user name  # noqa: E501
@@ -510,11 +490,7 @@ class UserApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.login_user_with_http_info(username, password, **kwargs)  # noqa: E501
-        else:
-            (data) = self.login_user_with_http_info(username, password, **kwargs)  # noqa: E501
-            return data
+        return self.login_user_with_http_info(username, password, **kwargs)  # noqa: E501
 
     def login_user_with_http_info(self, username, password, **kwargs):  # noqa: E501
         """Logs user into the system  # noqa: E501
@@ -610,11 +586,7 @@ class UserApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.logout_user_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.logout_user_with_http_info(**kwargs)  # noqa: E501
-            return data
+        return self.logout_user_with_http_info(**kwargs)  # noqa: E501
 
     def logout_user_with_http_info(self, **kwargs):  # noqa: E501
         """Logs out current logged in user session  # noqa: E501
@@ -695,11 +667,7 @@ class UserApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.update_user_with_http_info(username, body, **kwargs)  # noqa: E501
-        else:
-            (data) = self.update_user_with_http_info(username, body, **kwargs)  # noqa: E501
-            return data
+        return self.update_user_with_http_info(username, body, **kwargs)  # noqa: E501
 
     def update_user_with_http_info(self, username, body, **kwargs):  # noqa: E501
         """Updated user  # noqa: E501
