@@ -41,7 +41,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String PACKAGE_URL = "packageUrl";
     public static final String DEFAULT_LIBRARY = "urllib3";
 
-    protected String packageName = "openapi_client"; // e.g. petstore_api
+    protected String packageName = "openapi_client";
     protected String packageVersion = "1.0.0";
     protected String projectName; // for setup.py, e.g. petstore-api
     protected String packageUrl;
@@ -237,7 +237,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + modelPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + apiPackage, "__init__.py"));
 		
-		// If the package name consists of dots(openapi.client), then we need to create the directory structure like openapi/client with __init__ files.
+        // If the package name consists of dots(openapi.client), then we need to create the directory structure like openapi/client with __init__ files.
         String[] packageNameSplits = packageName.split("\\.");
         String currentPackagePath = "";
         for (int i = 0; i < packageNameSplits.length-1; i++) {
