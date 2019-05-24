@@ -52,11 +52,7 @@ class AnotherFakeApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.call_123_test_special_tags_with_http_info(body, **kwargs)  # noqa: E501
-        else:
-            (data) = self.call_123_test_special_tags_with_http_info(body, **kwargs)  # noqa: E501
-            return data
+        return self.call_123_test_special_tags_with_http_info(body, **kwargs)  # noqa: E501
 
     def call_123_test_special_tags_with_http_info(self, body, **kwargs):  # noqa: E501
         """To test special tags  # noqa: E501
