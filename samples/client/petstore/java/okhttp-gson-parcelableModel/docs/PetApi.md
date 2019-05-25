@@ -65,6 +65,12 @@ null (empty response body)
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**405** | Invalid input |  -  |
+
 <a name="deletePet"></a>
 # **deletePet**
 > deletePet(petId, apiKey)
@@ -116,6 +122,12 @@ null (empty response body)
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid pet value |  -  |
 
 <a name="findPetsByStatus"></a>
 # **findPetsByStatus**
@@ -170,6 +182,12 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid status value |  -  |
+
 <a name="findPetsByTags"></a>
 # **findPetsByTags**
 > List&lt;Pet&gt; findPetsByTags(tags)
@@ -222,6 +240,12 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid tag value |  -  |
 
 <a name="getPetById"></a>
 # **getPetById**
@@ -278,6 +302,13 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid ID supplied |  -  |
+**404** | Pet not found |  -  |
+
 <a name="updatePet"></a>
 # **updatePet**
 > updatePet(body)
@@ -327,6 +358,14 @@ null (empty response body)
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid ID supplied |  -  |
+**404** | Pet not found |  -  |
+**405** | Validation exception |  -  |
 
 <a name="updatePetWithForm"></a>
 # **updatePetWithForm**
@@ -381,6 +420,11 @@ null (empty response body)
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**405** | Invalid input |  -  |
 
 <a name="uploadFile"></a>
 # **uploadFile**
@@ -437,6 +481,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
 <a name="uploadFileWithRequiredFile"></a>
 # **uploadFileWithRequiredFile**
 > ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
@@ -491,4 +540,9 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
 
