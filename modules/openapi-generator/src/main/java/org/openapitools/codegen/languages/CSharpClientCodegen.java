@@ -72,8 +72,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     // use KellermanSoftware.CompareNetObjects for deep recursive object comparision
     protected boolean useCompareNetObjects = Boolean.FALSE;
-	
-	// To make API response's headers dictionary case insensitive
+
+    // To make API response's headers dictionary case insensitive
     protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
 
     public CSharpClientCodegen() {
@@ -200,7 +200,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.USE_COMPARE_NET_OBJECTS,
                 CodegenConstants.USE_COMPARE_NET_OBJECTS_DESC,
                 this.useCompareNetObjects);
-				
+
         addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
                 CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
                 this.caseInsensitiveResponseHeaders);
@@ -807,7 +807,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public void setUseCompareNetObjects(final Boolean useCompareNetObjects) {
         this.useCompareNetObjects = useCompareNetObjects;
     }
-	
+
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
     }
