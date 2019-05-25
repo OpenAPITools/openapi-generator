@@ -255,7 +255,7 @@
         <vertx-version>3.4.2</vertx-version>
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
         <jackson-version>2.8.11</jackson-version>
-        <jackson-databind>2.8.11.3</jackson-databind>
+        <jackson-databind>2.9.9</jackson-databind>
         <junit-version>4.12</junit-version>
     </properties>
 </project>

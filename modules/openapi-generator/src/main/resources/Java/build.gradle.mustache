@@ -31,8 +31,7 @@ if(hasProperty('target') && target == 'android') {
         defaultConfig {
             minSdkVersion 14
             targetSdkVersion 25
-        }
-        compileOptions {
+        } compileOptions {
             {{#supportJava6}}
             sourceCompatibility JavaVersion.VERSION_1_6
             targetCompatibility JavaVersion.VERSION_1_6
@@ -136,7 +135,7 @@ if(hasProperty('target') && target == 'android') {
 ext {
     swagger_annotations_version = "1.5.17"
     jackson_version = "{{^threetenbp}}2.8.11{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}"
-    jackson_databind_version = "{{^threetenbp}}2.8.11.2{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}"
+    jackson_databind_version = "{{^threetenbp}}2.9.9{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}"
     jersey_version = "1.19.4"
     jodatime_version = "2.9.9"
     junit_version = "4.12"
