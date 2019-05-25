@@ -200,4 +200,13 @@ javadoc {
     }
 }
 
+tasks {
+    closeRepository {
+        onlyIf { nexusPublishing.useStaging.get() }
+    }
+    releaseRepository{
+        onlyIf { nexusPublishing.useStaging.get() }
+    }
+}
+
 publishToNexus.dependsOn 'check'
