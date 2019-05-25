@@ -51,11 +51,7 @@ class PetApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
-        else:
-            (data) = self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
-            return data
+        return self.add_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     def add_pet_with_http_info(self, pet, **kwargs):  # noqa: E501
         """Add a new pet to the store  # noqa: E501
@@ -153,11 +149,7 @@ class PetApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.delete_pet_with_http_info(pet_id, **kwargs)  # noqa: E501
-        else:
-            (data) = self.delete_pet_with_http_info(pet_id, **kwargs)  # noqa: E501
-            return data
+        return self.delete_pet_with_http_info(pet_id, **kwargs)  # noqa: E501
 
     def delete_pet_with_http_info(self, pet_id, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
@@ -247,11 +239,7 @@ class PetApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
-        else:
-            (data) = self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
-            return data
+        return self.find_pets_by_status_with_http_info(status, **kwargs)  # noqa: E501
 
     def find_pets_by_status_with_http_info(self, status, **kwargs):  # noqa: E501
         """Finds Pets by status  # noqa: E501
@@ -344,11 +332,7 @@ class PetApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
-        else:
-            (data) = self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
-            return data
+        return self.find_pets_by_tags_with_http_info(tags, **kwargs)  # noqa: E501
 
     def find_pets_by_tags_with_http_info(self, tags, **kwargs):  # noqa: E501
         """Finds Pets by tags  # noqa: E501
@@ -441,11 +425,7 @@ class PetApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
-        else:
-            (data) = self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
-            return data
+        return self.get_pet_by_id_with_http_info(pet_id, **kwargs)  # noqa: E501
 
     def get_pet_by_id_with_http_info(self, pet_id, **kwargs):  # noqa: E501
         """Find pet by ID  # noqa: E501
@@ -536,11 +516,7 @@ class PetApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
-        else:
-            (data) = self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
-            return data
+        return self.update_pet_with_http_info(pet, **kwargs)  # noqa: E501
 
     def update_pet_with_http_info(self, pet, **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
@@ -639,11 +615,7 @@ class PetApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.update_pet_with_form_with_http_info(pet_id, **kwargs)  # noqa: E501
-        else:
-            (data) = self.update_pet_with_form_with_http_info(pet_id, **kwargs)  # noqa: E501
-            return data
+        return self.update_pet_with_form_with_http_info(pet_id, **kwargs)  # noqa: E501
 
     def update_pet_with_form_with_http_info(self, pet_id, **kwargs):  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
@@ -741,11 +713,7 @@ class PetApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.upload_file_with_http_info(pet_id, **kwargs)  # noqa: E501
-        else:
-            (data) = self.upload_file_with_http_info(pet_id, **kwargs)  # noqa: E501
-            return data
+        return self.upload_file_with_http_info(pet_id, **kwargs)  # noqa: E501
 
     def upload_file_with_http_info(self, pet_id, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
@@ -847,11 +815,7 @@ class PetApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.upload_file_with_required_file_with_http_info(pet_id, required_file, **kwargs)  # noqa: E501
-        else:
-            (data) = self.upload_file_with_required_file_with_http_info(pet_id, required_file, **kwargs)  # noqa: E501
-            return data
+        return self.upload_file_with_required_file_with_http_info(pet_id, required_file, **kwargs)  # noqa: E501
 
     def upload_file_with_required_file_with_http_info(self, pet_id, required_file, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501

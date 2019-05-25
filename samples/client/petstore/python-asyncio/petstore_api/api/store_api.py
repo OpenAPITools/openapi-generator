@@ -52,11 +52,7 @@ class StoreApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.delete_order_with_http_info(order_id, **kwargs)  # noqa: E501
-        else:
-            (data) = self.delete_order_with_http_info(order_id, **kwargs)  # noqa: E501
-            return data
+        return self.delete_order_with_http_info(order_id, **kwargs)  # noqa: E501
 
     def delete_order_with_http_info(self, order_id, **kwargs):  # noqa: E501
         """Delete purchase order by ID  # noqa: E501
@@ -143,11 +139,7 @@ class StoreApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.get_inventory_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.get_inventory_with_http_info(**kwargs)  # noqa: E501
-            return data
+        return self.get_inventory_with_http_info(**kwargs)  # noqa: E501
 
     def get_inventory_with_http_info(self, **kwargs):  # noqa: E501
         """Returns pet inventories by status  # noqa: E501
@@ -232,11 +224,7 @@ class StoreApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.get_order_by_id_with_http_info(order_id, **kwargs)  # noqa: E501
-        else:
-            (data) = self.get_order_by_id_with_http_info(order_id, **kwargs)  # noqa: E501
-            return data
+        return self.get_order_by_id_with_http_info(order_id, **kwargs)  # noqa: E501
 
     def get_order_by_id_with_http_info(self, order_id, **kwargs):  # noqa: E501
         """Find purchase order by ID  # noqa: E501
@@ -331,11 +319,7 @@ class StoreApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.place_order_with_http_info(body, **kwargs)  # noqa: E501
-        else:
-            (data) = self.place_order_with_http_info(body, **kwargs)  # noqa: E501
-            return data
+        return self.place_order_with_http_info(body, **kwargs)  # noqa: E501
 
     def place_order_with_http_info(self, body, **kwargs):  # noqa: E501
         """Place an order for a pet  # noqa: E501
