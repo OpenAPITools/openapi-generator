@@ -74,7 +74,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean useCompareNetObjects = Boolean.FALSE;
 	
 	// To make API response's headers dictionary case insensitive
-	protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
+    protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
 
     public CSharpClientCodegen() {
         super();
