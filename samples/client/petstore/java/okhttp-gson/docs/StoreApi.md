@@ -54,6 +54,12 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**400** | Invalid ID supplied |  -  |
+**404** | Order not found |  -  |
+
 <a name="getInventory"></a>
 # **getInventory**
 > Map&lt;String, Integer&gt; getInventory()
@@ -105,6 +111,11 @@ This endpoint does not need any parameter.
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+
 <a name="getOrderById"></a>
 # **getOrderById**
 > Order getOrderById(orderId)
@@ -150,6 +161,13 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid ID supplied |  -  |
+**404** | Order not found |  -  |
+
 <a name="placeOrder"></a>
 # **placeOrder**
 > Order placeOrder(body)
@@ -192,4 +210,10 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid Order |  -  |
 
