@@ -49,8 +49,6 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String sourceFolder = "";
     protected String apiDocPath = "docs" + File.separator;
     protected String modelDocPath = "docs" + File.separator;
-    protected String apiTestPath = "test" + File.separator;
-    protected String modelTestPath = "test" + File.separator;
 
     public DartClientCodegen() {
         super();
@@ -67,9 +65,6 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelPackage = "lib.model";
         modelDocTemplateFiles.put("object_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-
-        modelTestTemplateFiles.put("model_test.mustache", ".dart");
-        apiTestTemplateFiles.put("api_test.mustache", ".dart");
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -219,7 +214,6 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
     }
 
     @Override
@@ -235,16 +229,6 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String modelFileFolder() {
         return outputFolder + File.separator + sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar);
-    }
-
-    @Override
-    public String apiTestFileFolder() {
-        return outputFolder + File.separator + apiTestPath.replace('/', File.separatorChar);
-    }
-
-    @Override
-    public String modelTestFileFolder() {
-        return outputFolder + File.separator + modelTestPath.replace('/', File.separatorChar);
     }
 
     @Override
@@ -309,16 +293,6 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toApiFilename(String name) {
         return underscore(toApiName(name));
-    }
-
-    @Override
-    public String toApiTestFilename(String name) {
-        return toApiFilename(name) + "_test";
-    }
-
-    @Override
-    public String toModelTestFilename(String name) {
-        return toModelFilename(name) + "_test";
     }
 
     @Override
