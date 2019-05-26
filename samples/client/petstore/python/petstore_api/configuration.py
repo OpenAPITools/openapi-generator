@@ -41,17 +41,18 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
 
     Ref: https://openapi-generator.tech
     Do not edit the class manually.
+	
+    :param host: Base url
+    :param api_key: Dict to store API key(s)
+    :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
+    :param username: Username for HTTP basic authentication
+    :param password: Password for HTTP basic authentication
     """
 
     def __init__(self, host="http://petstore.swagger.io:80/v2", api_key={}, api_key_prefix={}, username="", password=""):
         """Constructor
-        :param host: Base url
-        :param api_key: Dict to store API key(s)
-        :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
-        :param username: Username for HTTP basic authentication
-        :param password: Password for HTTP basic authentication		
         """
-        self.host = "http://petstore.swagger.io:80/v2"
+        self.host = host
         """Default Base url
         """
         self.temp_folder_path = None
