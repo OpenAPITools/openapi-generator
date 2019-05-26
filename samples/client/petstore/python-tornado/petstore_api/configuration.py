@@ -41,7 +41,7 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
 
     Ref: https://openapi-generator.tech
     Do not edit the class manually.
-	
+
     :param host: Base url
     :param api_key: Dict to store API key(s)
     :param api_key_prefix: Dict to store API prefix (e.g. Bearer)
@@ -49,7 +49,9 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
     :param password: Password for HTTP basic authentication
     """
 
-    def __init__(self, host="http://petstore.swagger.io:80/v2", api_key={}, api_key_prefix={}, username="", password=""):
+    def __init__(self, host="http://petstore.swagger.io:80/v2",
+                 api_key={}, api_key_prefix={},
+                 username="", password=""):
         """Constructor
         """
         self.host = host
@@ -93,13 +95,13 @@ class Configuration(six.with_metaclass(TypeWithDefault, object)):
         """
         self.debug = False
         """Debug switch
-        """ 
+        """
 
         self.verify_ssl = True
         """SSL/TLS verification
            Set this to false to skip verifying SSL certificate when calling API
            from https server.
-        """  
+        """
         self.ssl_ca_cert = None
         """Set this to customize the certificate file to verify the peer.
         """
