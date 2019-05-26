@@ -404,14 +404,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public String getTypeDeclaration(String str) {
         return toModelName(str);
     }
-    
-    @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
-        URL url = URLPathUtils.getServerURL(openAPI);
-        String port = URLPathUtils.getPort(url, "8080");
-        this.additionalProperties.put("serverPort", port);
-    }
-    
+
     /**
      * Specify whether external libraries will be added during the generation 
      * @param value the value to be set

@@ -195,13 +195,6 @@ public class CppQt5QHttpEngineServerCodegen extends CppQt5AbstractCodegen implem
     }
     
     @Override
-    public void preprocessOpenAPI(OpenAPI openAPI) {
-        URL url = URLPathUtils.getServerURL(openAPI);
-        String port = URLPathUtils.getPort(url, "8080");
-        this.additionalProperties.put("serverPort", port);
-    }
-    
-    @Override
     public String toApiFilename(String name) {
         return modelNamePrefix + sanitizeName(camelize(name)) + "ApiHandler";
     }
