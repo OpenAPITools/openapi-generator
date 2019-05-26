@@ -1,35 +1,36 @@
-
 const Controller = require('./Controller');
-const { PetService } = require('../service/PetService');
-
 
 class Pet {
-  static async addPet(request, response) {
-    await Controller.handleRequest(request, response, PetService.deletePet);
+  constructor(Service) {
+    this.service = Service;
   }
 
-  static async deletePet(request, response) {
-    await Controller.handleRequest(request, response, PetService.deletePet);
+  async addPet(request, response) {
+    await Controller.handleRequest(request, response, this.service.addPet);
   }
 
-  static async findPetsByStatus(request, response) {
-    await Controller.handleRequest(request, response, PetService.findPetsByStatus);
+  async deletePet(request, response) {
+    await Controller.handleRequest(request, response, this.service.deletePet);
   }
 
-  static async findPetsByTags(request, response) {
-    await Controller.handleRequest(request, response, PetService.findPetsByTags);
+  async findPetsByStatus(request, response) {
+    await Controller.handleRequest(request, response, this.service.findPetsByStatus);
   }
 
-  static async getPetById(request, response) {
-    await Controller.handleRequest(request, response, PetService.getPetById);
+  async findPetsByTags(request, response) {
+    await Controller.handleRequest(request, response, this.service.findPetsByTags);
   }
 
-  static async updatePet(request, response) {
-    await Controller.handleRequest(request, response, PetService.updatePet);
+  async getPetById(request, response) {
+    await Controller.handleRequest(request, response, this.service.getPetById);
   }
 
-  static async uploadFile(request, response) {
-    await Controller.handleRequest(request, response, PetService.uploadFile);
+  async updatePet(request, response) {
+    await Controller.handleRequest(request, response, this.service.updatePet);
+  }
+
+  async uploadFile(request, response) {
+    await Controller.handleRequest(request, response, this.service.uploadFile);
   }
 }
 

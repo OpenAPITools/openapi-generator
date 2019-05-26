@@ -37,7 +37,7 @@ class ExpressServer {
       res.status(404);
       res.send(JSON.stringify({ error: `path ${req.baseUrl} doesn't exist` }));
     });
-    this.app.use((error, req, res, next) => {
+    this.app.use((error, req, res) => {
       res.status(error.status || 500);
       res.type('json');
       res.json({ error: error.message });

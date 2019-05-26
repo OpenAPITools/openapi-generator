@@ -1,5 +1,6 @@
 const logger = require('../logger');
 const controllers = require('../controllers');
+const Services = require('../service');
 
 function getValueFromRequest(request, paramObject) {
   let valueToReturn;
@@ -81,13 +82,14 @@ function swaggerRouter() {
           request.swagger.paramValues[param.name] = getValueFromRequest(request, param);
         });
         const controllerName = request.swagger.operation['x-swagger-router-controller'];
+        const serviceName = `${controllerName}Service`;
         if (!controllers[controllerName] || controllers[controllerName] === undefined) {
           handleError(`request sent to controller '${controllerName}' which has not been defined`,
             request, response, next);
         } else {
-          const controller = controllers[controllerName];
+          const apiController = new controllers[controllerName](Services[serviceName]);
           const controllerOperation = request.swagger.operation.operationId;
-          await controller[controllerOperation](request, response, next);
+          await apiController[controllerOperation](request, response, next);
         }
       }
     } catch (error) {

@@ -589,6 +589,7 @@ paths:
         404:
           description: "User not found"
       x-swagger-router-controller: "User"
+
 securityDefinitions:
   petstore_auth:
     type: "oauth2"
@@ -773,6 +774,22 @@ definitions:
       code: 0
       type: "type"
       message: "message"
+  testItem:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      descrtiption:
+        type: string
+      version:
+        type: number
+    example:
+      id: 1
+      name: "testItem"
+      description: "An item which means very little, as it's only a test"
+      version: 2.3
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"

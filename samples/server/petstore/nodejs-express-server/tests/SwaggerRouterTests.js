@@ -63,8 +63,9 @@ describe('Tests for confirming that the Swagger router works as expected', () =>
       } catch (error) {
         if (error.response && error.response.data) {
           logger.error(JSON.stringify(error.response.data));
+        } else {
+          logger.error(error);
         }
-        logger.error(error);
         error.should.have.property('response');
         throw new Error(error);
       }
@@ -132,7 +133,7 @@ describe('Tests for confirming that the Swagger router works as expected', () =>
   it('Should handle variables sent in the formData',
     async () => {
       try {
-        const fullPathURL = `${config.FULL_PATH}/test/`;
+        const fullPathURL = `${config.FULL_PATH}/test/123`;
         const formData = new FormData();
         const person = {
           firstName: 'Foo',
