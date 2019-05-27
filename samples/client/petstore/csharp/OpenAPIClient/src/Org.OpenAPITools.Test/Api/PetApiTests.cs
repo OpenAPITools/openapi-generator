@@ -96,7 +96,7 @@ namespace Org.OpenAPITools.Test
 		[Test]
 		public void InstanceTest()
 		{
-            Assert.IsInstanceOfType(typeof(PetApi), instance);
+            Assert.IsInstanceOf(typeof(PetApi), instance);
 		}
 
 
@@ -132,7 +132,7 @@ namespace Org.OpenAPITools.Test
 			List<Pet> listPet = petApi.FindPetsByTags(tagsList);
 			foreach (Pet pet in listPet) // Loop through List with foreach.
 			{
-				Assert.IsInstanceOfType(typeof(Pet), pet);
+				Assert.IsInstanceOf(typeof(Pet), pet);
 				Assert.AreEqual("csharp sample tag name1", pet.Tags[0]);
 			}
 		}
@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Test
 		{
 			List<string> tags = new List<String>(new String[] { "pet" });
 			var response = instance.FindPetsByTags(tags);
-            Assert.IsInstanceOfType(typeof(List<Pet>), response);
+            Assert.IsInstanceOf(typeof(List<Pet>), response);
 		}
 
 		/// <summary>
@@ -161,19 +161,19 @@ namespace Org.OpenAPITools.Test
 
 			PetApi petApi = new PetApi(c1);
 			Pet response = petApi.GetPetById(petId);
-            Assert.IsInstanceOfType(typeof(Pet), response);
+            Assert.IsInstanceOf(typeof(Pet), response);
 
 			Assert.AreEqual("Csharp test", response.Name);
 			Assert.AreEqual(Pet.StatusEnum.Available, response.Status);
 
-            Assert.IsInstanceOfType(typeof(List<Tag>), response.Tags);
+            Assert.IsInstanceOf(typeof(List<Tag>), response.Tags);
 			Assert.AreEqual(petId, response.Tags[0].Id);
 			Assert.AreEqual("csharp sample tag name1", response.Tags[0].Name);
 
-            Assert.IsInstanceOfType(typeof(List<String>), response.PhotoUrls);
+            Assert.IsInstanceOf(typeof(List<String>), response.PhotoUrls);
 			Assert.AreEqual("sample photoUrls", response.PhotoUrls[0]);
 
-            Assert.IsInstanceOfType(typeof(Category), response.Category);
+            Assert.IsInstanceOf(typeof(Category), response.Category);
 			Assert.AreEqual(56, response.Category.Id);
 			Assert.AreEqual("sample category name2", response.Category.Name);
 		}
@@ -187,19 +187,19 @@ namespace Org.OpenAPITools.Test
 			PetApi petApi = new PetApi();
 			var task = petApi.GetPetByIdAsync(petId);
 			Pet response = task.Result;
-			Assert.IsInstanceOfType(typeof(Pet), response);
+			Assert.IsInstanceOf(typeof(Pet), response);
 
 			Assert.AreEqual("Csharp test", response.Name);
 			Assert.AreEqual(Pet.StatusEnum.Available, response.Status);
 
-            Assert.IsInstanceOfType(typeof(List<Tag>), response.Tags);
+            Assert.IsInstanceOf(typeof(List<Tag>), response.Tags);
 			Assert.AreEqual(petId, response.Tags[0].Id);
 			Assert.AreEqual("csharp sample tag name1", response.Tags[0].Name);
 
-            Assert.IsInstanceOfType(typeof(List<String>), response.PhotoUrls);
+            Assert.IsInstanceOf(typeof(List<String>), response.PhotoUrls);
 			Assert.AreEqual("sample photoUrls", response.PhotoUrls[0]);
 
-            Assert.IsInstanceOfType(typeof(Category), response.Category);
+            Assert.IsInstanceOf(typeof(Category), response.Category);
 			Assert.AreEqual(56, response.Category.Id);
 			Assert.AreEqual("sample category name2", response.Category.Name);
 		}
@@ -218,19 +218,19 @@ namespace Org.OpenAPITools.Test
 			Assert.AreEqual(task.Result.Headers["Content-Type"], "application/json");
 
 			Pet response = task.Result.Data;
-            Assert.IsInstanceOfType(typeof(Pet), response);
+            Assert.IsInstanceOf(typeof(Pet), response);
 
 			Assert.AreEqual("Csharp test", response.Name);
 			Assert.AreEqual(Pet.StatusEnum.Available, response.Status);
 
-            Assert.IsInstanceOfType(typeof(List<Tag>), response.Tags);
+            Assert.IsInstanceOf(typeof(List<Tag>), response.Tags);
 			Assert.AreEqual(petId, response.Tags[0].Id);
 			Assert.AreEqual("csharp sample tag name1", response.Tags[0].Name);
 
-            Assert.IsInstanceOfType(typeof(List<String>), response.PhotoUrls);
+            Assert.IsInstanceOf(typeof(List<String>), response.PhotoUrls);
 			Assert.AreEqual("sample photoUrls", response.PhotoUrls[0]);
 
-            Assert.IsInstanceOfType(typeof(Category), response.Category);
+            Assert.IsInstanceOf(typeof(Category), response.Category);
 			Assert.AreEqual(56, response.Category.Id);
 			Assert.AreEqual("sample category name2", response.Category.Name);
 		}
@@ -256,9 +256,9 @@ namespace Org.OpenAPITools.Test
 			petApi.UpdatePetWithForm(petId, "new form name", "pending");
 
 			Pet response = petApi.GetPetById(petId);
-            Assert.IsInstanceOfType(typeof(Pet), response);
-            Assert.IsInstanceOfType(typeof(Category), response.Category);
-            Assert.IsInstanceOfType(typeof(List<Tag>), response.Tags);
+            Assert.IsInstanceOf(typeof(Pet), response);
+            Assert.IsInstanceOf(typeof(Category), response.Category);
+            Assert.IsInstanceOf(typeof(List<Tag>), response.Tags);
 
 			Assert.AreEqual("new form name", response.Name);
 			Assert.AreEqual(Pet.StatusEnum.Pending, response.Status);
