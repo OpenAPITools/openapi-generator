@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 // tests for User
 void main() {
-  var instance = new Pet();
+  var instance = new User();
 
   group('test User', () {
     // int id (default value: null)
