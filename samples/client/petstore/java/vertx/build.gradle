@@ -28,8 +28,8 @@ task execute(type:JavaExec) {
 
 ext {
     swagger_annotations_version = "1.5.21"
-    jackson_version = "2.8.9"
-    jackson_databind_version = "2.8.11.3"
+    jackson_version = "2.9.9"
+    jackson_databind_version = "2.9.9"
     vertx_version = "3.4.2"
     junit_version = "4.12"
 }

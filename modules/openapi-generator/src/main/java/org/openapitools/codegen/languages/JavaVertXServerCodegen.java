@@ -71,16 +71,19 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         embeddedTemplateDir = templateDir = "JavaVertXServer";
 
         apiPackage = rootPackage + ".verticle";
-
         modelPackage = rootPackage + ".model";
-
-        additionalProperties.put(ROOT_PACKAGE, rootPackage);
-
-        groupId = "org.openapitools";
         artifactId = "openapi-java-vertx-server";
         artifactVersion = apiVersion;
-
         this.setDateLibrary("java8");
+
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.ARTIFACT_VERSION, this.getArtifactVersion());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
+
+        additionalProperties.put(ROOT_PACKAGE, rootPackage);
 
         cliOptions.add(CliOption.newBoolean(RX_INTERFACE_OPTION,
                 "When specified, API interfaces are generated with RX "
@@ -218,11 +221,13 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         this.additionalProperties.put("serverPort", URLPathUtils.getPort(url, 8080));
 
         // retrieve api version from swagger file, 1.0.0-SNAPSHOT by default
+        // set in super.preprocessOpenAPI
+        /*
         if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
             artifactVersion = apiVersion = openAPI.getInfo().getVersion();
         } else {
             artifactVersion = apiVersion;
-        }
+        }*/
 
         /*
          * manage operation & custom serviceId because operationId field is not

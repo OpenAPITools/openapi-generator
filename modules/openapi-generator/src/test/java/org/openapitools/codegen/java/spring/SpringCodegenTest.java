@@ -25,6 +25,8 @@ import org.openapitools.codegen.languages.SpringCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
+
 public class SpringCodegenTest {
 
     @Test
@@ -109,5 +111,15 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "xyz.yyyyy.cccc.config");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.TITLE), "someTest");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8088");
+    }
+
+    @Test
+    public void interfaceDefaultImplDisableWithReponseWrapper() {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(SpringCodegen.JAVA_8, true);
+        codegen.additionalProperties().put(RESPONSE_WRAPPER, "aWrapper");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("jdk8"), false);
     }
 }

@@ -18,7 +18,6 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
@@ -62,18 +61,18 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     private boolean generateBody = true;
     private String buildTarget = "program";
     private String projectSdk = SDK_WEB;
-    
+
     public FsharpGiraffeServerCodegen() {
         super();
 
         modelPackage = "Model";
 
-        apiTemplateFiles.put("Handler.mustache", "Handler.fs");    
-        apiTemplateFiles.put("HandlerParams.mustache", "HandlerParams.fs"); 
-        apiTemplateFiles.put("ServiceInterface.mustache", "ServiceInterface.fs"); 
-        apiTemplateFiles.put("ServiceImpl.mustache", "Service.fs"); 
-        apiTestTemplateFiles.put("HandlerTests.mustache", ".fs"); 
-        apiTestTemplateFiles.put("HandlerTestsHelper.mustache", "Helper.fs"); 
+        apiTemplateFiles.put("Handler.mustache", "Handler.fs");
+        apiTemplateFiles.put("HandlerParams.mustache", "HandlerParams.fs");
+        apiTemplateFiles.put("ServiceInterface.mustache", "ServiceInterface.fs");
+        apiTemplateFiles.put("ServiceImpl.mustache", "Service.fs");
+        apiTestTemplateFiles.put("HandlerTests.mustache", ".fs");
+        apiTestTemplateFiles.put("HandlerTestsHelper.mustache", "Helper.fs");
         modelTemplateFiles.put("Model.mustache", ".fs");
 
         embeddedTemplateDir = templateDir = "fsharp-giraffe-server";
@@ -152,15 +151,15 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
     public CodegenType getTag() {
         return CodegenType.SERVER;
     }
-    
+
     @Override
     public String getName() {
-        return "fsharp-giraffe";
+        return "fsharp-giraffe-server";
     }
-    
+
     @Override
     public String getHelp() {
-        return "Generates a fsharp-giraffe server.";
+        return "Generates a F# Giraffe server (beta).";
     }
 
     @Override
@@ -190,7 +189,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
         additionalProperties.put(PROJECT_SDK, projectSdk);
 
         // TODO - should we be supporting a Giraffe class library?
-        if (isLibrary) 
+        if (isLibrary)
             LOGGER.warn("Library flag not currently supported.");
 
         String authFolder = sourceFolder + File.separator + "auth";
@@ -207,11 +206,11 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
         supportingFiles.add(new SupportingFile("AuthSchemes.mustache", authFolder, "AuthSchemes.fs"));
         supportingFiles.add(new SupportingFile("Helpers.mustache", helperFolder, "Helpers.fs"));
         supportingFiles.add(new SupportingFile("CustomHandlers.mustache", implFolder, "CustomHandlers.fs"));
-        supportingFiles.add(new SupportingFile("Project.Tests.fsproj.mustache",testFolder, packageName + "Tests.fsproj")); 
-        supportingFiles.add(new SupportingFile("TestHelper.mustache",testFolder, "TestHelper.fs")); 
+        supportingFiles.add(new SupportingFile("Project.Tests.fsproj.mustache", testFolder, packageName + "Tests.fsproj"));
+        supportingFiles.add(new SupportingFile("TestHelper.mustache", testFolder, "TestHelper.fs"));
 
         // TODO - support Swashbuckle
-        if (useSwashbuckle) 
+        if (useSwashbuckle)
             LOGGER.warn("Swashbuckle flag not currently supported, this will be ignored.");
     }
 
@@ -221,9 +220,9 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
 
     @Override
     public String modelFileFolder() {
-      return super.modelFileFolder().replace("Model","model");
+        return super.modelFileFolder().replace("Model", "model");
     }
-    
+
     @Override
     public String apiFileFolder() {
         return super.apiFileFolder() + File.separator + "api";
@@ -235,7 +234,7 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
 
     @Override()
     public String toModelImport(String name) {
-      return packageName + "." + modelPackage() + "." + name;
+        return packageName + "." + modelPackage() + "." + name;
     }
 
     @Override
@@ -249,13 +248,13 @@ public class FsharpGiraffeServerCodegen extends AbstractFSharpCodegen {
         return result;
     }
 
-    
+
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateJSONSpecFile(objs);
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
-    }    
+    }
 
     @Override
     protected void processOperation(CodegenOperation operation) {

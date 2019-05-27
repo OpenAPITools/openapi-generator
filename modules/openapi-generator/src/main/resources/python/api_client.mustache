@@ -142,10 +142,11 @@ class ApiClient(object):
 
         # post parameters
         if post_params or files:
-            post_params = self.prepare_post_parameters(post_params, files)
+            post_params = post_params if post_params else []
             post_params = self.sanitize_for_serialization(post_params)
             post_params = self.parameters_to_tuples(post_params,
                                                     collection_formats)
+            post_params.extend(self.files_parameters(files))
 
         # auth setting
         self.update_params_for_auth(header_params, query_params, auth_settings)
@@ -449,17 +450,13 @@ class ApiClient(object):
                 new_params.append((k, v))
         return new_params
 
-    def prepare_post_parameters(self, post_params=None, files=None):
+    def files_parameters(self, files=None):
         """Builds form parameters.
 
-        :param post_params: Normal form parameters.
         :param files: File parameters.
         :return: Form parameters with files.
         """
         params = []
-
-        if post_params:
-            params = post_params
 
         if files:
             for k, v in six.iteritems(files):

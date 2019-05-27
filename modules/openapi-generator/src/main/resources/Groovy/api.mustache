@@ -1,29 +1,24 @@
 package {{package}};
 
-import groovyx.net.http.*
-import static groovyx.net.http.ContentType.*
-import static groovyx.net.http.Method.*
 import {{invokerPackage}}.ApiUtils
-
 {{#imports}}import {{import}}
 {{/imports}}
 
-import java.util.*;
-
-@Mixin(ApiUtils)
 {{#operations}}
 class {{classname}} {
     String basePath = "{{{basePath}}}"
-    String versionPath = "/api/v1"
+    String versionPath = ""
+    ApiUtils apiUtils = new ApiUtils();
 
     {{#operation}}
     def {{operationId}} ({{#allParams}} {{{dataType}}} {{paramName}},{{/allParams}} Closure onSuccess, Closure onFailure)  {
-        // create path and map path parameters (TODO)
         String resourcePath = "{{{path}}}"
 
-        // query params
+        // params
         def queryParams = [:]
         def headerParams = [:]
+        def bodyParams
+        def contentType
 
         {{#allParams}}
         {{#required}}
@@ -31,21 +26,65 @@ class {{classname}} {
         if ({{paramName}} == null) {
             throw new RuntimeException("missing required params {{paramName}}")
         }
-
         {{/required}}
         {{/allParams}}
+
         {{#queryParams}}
-        if (!"null".equals(String.valueOf({{paramName}})))
-            queryParams.put("{{baseName}}", String.valueOf({{paramName}}))
-
+        if ({{paramName}} != null) {
+            queryParams.put("{{baseName}}", {{paramName}})
+        }
         {{/queryParams}}
+
         {{#headerParams}}
-        headerParams.put("{{baseName}}", {{paramName}})
-
+        if ({{paramName}} != null) {
+            headerParams.put("{{baseName}}", {{paramName}})
+        }
         {{/headerParams}}
-        // TODO: form params, body param not yet support
 
-        invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
+        {{#bodyParam}}
+        {{^consumes}}
+        contentType = 'application/json';
+        {{/consumes}}
+        {{#consumes.0}}
+        contentType = '{{{mediaType}}}';
+        {{/consumes.0}}
+        {{/bodyParam}}
+        {{#bodyParams.0}}
+        {{^hasMore}}
+        bodyParams = {{paramName}}
+        {{/hasMore}}
+        {{#hasMore}}
+        bodyParams = [:]
+        bodyParams.put("{{baseName}}", {{paramName}})
+        {{/hasMore}}
+        {{/bodyParams.0}}
+        {{#bodyParams}}
+        {{#secondaryParam}}
+        bodyParams.put("{{baseName}}", {{paramName}})
+        {{/secondaryParam}}
+        {{/bodyParams}}
+
+        {{#hasFormParams}}
+        {{#consumes.0}}
+        contentType = '{{{mediaType}}}';
+        {{/consumes.0}}
+        {{#formParams.0}}
+        {{^hasMore}}
+        bodyParams = {{paramName}}
+        {{/hasMore}}
+        {{#hasMore}}
+        bodyParams = [:]
+        bodyParams.put("{{baseName}}", {{paramName}})
+        {{/hasMore}}
+        {{/formParams.0}}
+        {{#formParams}}
+        {{#secondaryParam}}
+        bodyParams.put("{{baseName}}", {{paramName}})
+        {{/secondaryParam}}
+        {{/formParams}}
+        {{/hasFormParams}}
+
+        apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,
                     "{{httpMethod}}", "{{returnContainer}}",
                     {{#returnBaseType}}{{{returnBaseType}}}.class {{/returnBaseType}}{{^returnBaseType}}null {{/returnBaseType}})
 

@@ -9,8 +9,9 @@ sidebar_label: kotlin-spring
 | ------ | ----------- | ------ | ------- |
 |sourceFolder|source folder for generated code| |src/main/kotlin|
 |packageName|Generated artifact package name.| |org.openapitools|
+|apiSuffix|suffix for api classes| |Api|
 |groupId|Generated artifact package's organization (i.e. maven groupId).| |org.openapitools|
-|artifactId|Generated artifact id (name of jar).| |null|
+|artifactId|Generated artifact id (name of jar).| |openapi-spring|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |enumPropertyNaming|Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case', 'UPPERCASE', and 'original'| |camelCase|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
@@ -25,4 +26,4 @@ sidebar_label: kotlin-spring
 |serviceInterface|generate service interfaces to go alongside controllers. In most cases this option would be used to update an existing project, so not to override implementations. Useful to help facilitate the generation gap pattern| |false|
 |serviceImplementation|generate stub service implementations that extends service interfaces. If this is set to true service interfaces will also be generated| |false|
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
-|library|library template (sub-template) to use|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dl>|spring-boot|
+|library|library template (sub-template)|<dl><dt>**spring-boot**</dt><dd>Spring-boot Server application.</dd><dl>|spring-boot|

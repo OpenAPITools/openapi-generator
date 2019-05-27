@@ -28,8 +28,8 @@ public class TypeScriptAureliaClientOptionsProvider implements OptionsProvider {
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final Boolean SUPPORTS_ES6_VALUE = false;
     public static final String MODEL_PROPERTY_NAMING_VALUE = "camelCase";
-    private static final String NMP_NAME = "npmName";
-    private static final String NMP_VERSION = "1.0.0";
+    private static final String NPM_NAME = "npmName";
+    private static final String NPM_VERSION = "1.0.0";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
 
@@ -45,8 +45,9 @@ public class TypeScriptAureliaClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.MODEL_PROPERTY_NAMING, MODEL_PROPERTY_NAMING_VALUE)
                 .put(CodegenConstants.SUPPORTS_ES6, String.valueOf(SUPPORTS_ES6_VALUE))
-                .put(TypeScriptAureliaClientCodegen.NPM_NAME, NMP_NAME)
-                .put(TypeScriptAureliaClientCodegen.NPM_VERSION, NMP_VERSION)
+                .put(TypeScriptAureliaClientCodegen.NPM_NAME, NPM_NAME)
+                .put(TypeScriptAureliaClientCodegen.NPM_VERSION, NPM_VERSION)
+                .put(TypeScriptAureliaClientCodegen.SNAPSHOT, Boolean.FALSE.toString())
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .build();

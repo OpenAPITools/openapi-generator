@@ -76,16 +76,20 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public KotlinSpringServerCodegen() {
         super();
 
+        apiTestTemplateFiles.put("api_test.mustache", ".kt");
+
         reservedWords.addAll(VARIABLE_RESERVED_WORDS);
 
         outputFolder = "generated-code/kotlin-spring";
-        apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "kotlin-spring";
 
         artifactId = "openapi-spring";
         basePackage = invokerPackage = "org.openapitools";
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
+
+        // cliOptions default redefinition need to be updated
+        updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
 
         // Use lists instead of arrays
         typeMapping.put("array", "List");
@@ -149,7 +153,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
 
-        CliOption cliOpt = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
+        CliOption cliOpt = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC);
         cliOpt.setDefault(SPRING_BOOT);
         cliOpt.setEnum(supportedLibraries);
         cliOptions.add(cliOpt);

@@ -13,8 +13,7 @@ UserApiTests::~UserApiTests () {
 
 OAIUserApi* UserApiTests::getApi() {
     auto api = new OAIUserApi();
-    api->host = "http://petstore.swagger.io";
-    api->basePath = "/v2";
+    api->setHost("http://petstore.swagger.io");
     return api;
 }
 
