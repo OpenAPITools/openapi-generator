@@ -99,7 +99,7 @@ ext {
     jackson_version = "2.9.9"
     jackson_databind_version = "2.9.9"
     threepane_version = "2.6.4"
-    feign_version = "10.0.1"
+    feign_version = "10.2.3"
     feign_form_version = "2.1.0"
     junit_version = "4.12"
     oltu_version = "1.0.1"
