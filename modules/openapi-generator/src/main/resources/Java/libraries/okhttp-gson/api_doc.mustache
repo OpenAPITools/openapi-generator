@@ -30,6 +30,7 @@ Method | HTTP request | Description
 
 {{#hasAuthMethods}}
 ApiClient defaultClient = Configuration.getDefaultApiClient();
+defaultClient.setBasePath("{{basePath}}");
 {{#authMethods}}{{#isBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
@@ -46,7 +47,7 @@ OAuth {{{name}}} = (OAuth) defaultClient.getAuthentication("{{{name}}}");
 {{/authMethods}}
 {{/hasAuthMethods}}
 
-{{{classname}}} apiInstance = new {{{classname}}}();
+{{{classname}}} apiInstance = new {{{classname}}}({{#hasAuthMethods}}defaultClient{{/hasAuthMethods}});
 {{#allParams}}
 {{{dataType}}} {{{paramName}}} = {{{example}}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
