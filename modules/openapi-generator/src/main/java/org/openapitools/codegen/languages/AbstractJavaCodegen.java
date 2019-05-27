@@ -266,23 +266,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
-            this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
-        } else if (this.getVersionFromSpecification() != null) {
-            this.setArtifactVersion(this.getVersionFromSpecification());
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
-            Boolean useSnapshotVersion = Boolean.valueOf((String) additionalProperties.get(CodegenConstants.SNAPSHOT_VERSION));
-
-            if (useSnapshotVersion) {
-                this.setArtifactVersion(this.buildSnapshotVersion(this.artifactVersion));
-            }
-        }
-
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_URL)) {
             this.setArtifactUrl((String) additionalProperties.get(CodegenConstants.ARTIFACT_URL));
         } else {
@@ -988,10 +971,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-    }
-
-    @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // recursively add import for mapping one type to multiple imports
         List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");
@@ -1020,8 +999,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
         Pattern pattern = Pattern.compile("java\\.util\\.(List|ArrayList|Map|HashMap)");
         for (Iterator<Map<String, String>> itr = imports.iterator(); itr.hasNext(); ) {
-            String _import = itr.next().get("import");
-            if (pattern.matcher(_import).matches()) {
+            String itrImport = itr.next().get("import");
+            if (pattern.matcher(itrImport).matches()) {
                 itr.remove();
             }
         }
@@ -1030,35 +1009,54 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        if (openAPI == null || openAPI.getPaths() == null) {
+        if (openAPI == null) {
             return;
         }
-        for (String pathname : openAPI.getPaths().keySet()) {
-            PathItem path = openAPI.getPaths().get(pathname);
-            if (path.readOperations() == null) {
-                continue;
-            }
-            for (Operation operation : path.readOperations()) {
-                LOGGER.info("Processing operation " + operation.getOperationId());
-                if (hasBodyParameter(openAPI, operation) || hasFormParameter(openAPI, operation)) {
-                    String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
-                    List<String> consumes = new ArrayList<String>(getConsumesInfo(openAPI, operation));
-                    String contentType = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
-                    operation.addExtension("x-contentType", contentType);
+        if (openAPI.getPaths() != null) {
+            for (String pathname : openAPI.getPaths().keySet()) {
+                PathItem path = openAPI.getPaths().get(pathname);
+                if (path.readOperations() == null) {
+                    continue;
                 }
-                String accepts = getAccept(openAPI, operation);
-                operation.addExtension("x-accepts", accepts);
+                for (Operation operation : path.readOperations()) {
+                    LOGGER.info("Processing operation " + operation.getOperationId());
+                    if (hasBodyParameter(openAPI, operation) || hasFormParameter(openAPI, operation)) {
+                        String defaultContentType = hasFormParameter(openAPI, operation) ? "application/x-www-form-urlencoded" : "application/json";
+                        List<String> consumes = new ArrayList<>(getConsumesInfo(openAPI, operation));
+                        String contentType = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
+                        operation.addExtension("x-contentType", contentType);
+                    }
+                    String accepts = getAccept(openAPI, operation);
+                    operation.addExtension("x-accepts", accepts);
 
+                }
             }
         }
+
+        // If no artifactVersion is provided in additional properties, version from API specification is used.
+        // If none of them is provided then fallbacks to default version
+        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
+            this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
+        } else if (openAPI.getInfo() != null && openAPI.getInfo().getVersion() != null) {
+            this.setArtifactVersion(openAPI.getInfo().getVersion());
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.SNAPSHOT_VERSION)) {
+            Boolean useSnapshotVersion = Boolean.valueOf((String) additionalProperties.get(CodegenConstants.SNAPSHOT_VERSION));
+            if (useSnapshotVersion) {
+                this.setArtifactVersion(this.buildSnapshotVersion(this.getArtifactVersion()));
+            }
+        }
+        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
+
     }
 
-    protected static String getAccept(OpenAPI openAPI, Operation operation) {
+    private static String getAccept(OpenAPI openAPI, Operation operation) {
         String accepts = null;
         String defaultContentType = "application/json";
         Set<String> producesInfo = getProducesInfo(openAPI, operation);
         if (producesInfo != null && !producesInfo.isEmpty()) {
-            ArrayList<String> produces = new ArrayList<String>(producesInfo);
+            ArrayList<String> produces = new ArrayList<>(producesInfo);
             StringBuilder sb = new StringBuilder();
             for (String produce : produces) {
                 if (defaultContentType.equalsIgnoreCase(produce)) {
@@ -1083,7 +1081,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     protected boolean needToImport(String type) {
-        return super.needToImport(type) && type.indexOf(".") < 0;
+        return super.needToImport(type) && !type.contains(".");
     }
 
     @Override
@@ -1181,10 +1179,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (removedChildEnum) {
             // If we removed an entry from this model's vars, we need to ensure hasMore is updated
-            int count = 0, numVars = codegenProperties.size();
+            int count = 0;
+            int numVars = codegenProperties.size();
             for (CodegenProperty codegenProperty : codegenProperties) {
                 count += 1;
-                codegenProperty.hasMore = (count < numVars) ? true : false;
+                codegenProperty.hasMore = count < numVars;
             }
             codegenModel.vars = codegenProperties;
         }
@@ -1424,19 +1423,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     /**
-     * Gets version from API specification.
-     *
-     * @return API version
-     */
-    private String getVersionFromSpecification() {
-        if (this.openAPI != null && this.openAPI.getInfo() != null) {
-            return this.openAPI.getInfo().getVersion();
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * Builds a SNAPSHOT version from a given version.
      *
      * @param version
@@ -1455,27 +1441,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return escapeText(pattern);
     }
 
-    @Override
-    public boolean convertPropertyToBoolean(String propertyKey) {
-        boolean booleanValue = false;
-        if (additionalProperties.containsKey(propertyKey)) {
-            booleanValue = Boolean.valueOf(additionalProperties.get(propertyKey).toString());
-        }
-
-        return booleanValue;
-    }
-
-    @Override
-    public void writePropertyBack(String propertyKey, boolean value) {
-        additionalProperties.put(propertyKey, value);
-    }
-
     /**
      * Output the Getter name for boolean property, e.g. isActive
      *
      * @param name the name of the property
      * @return getter name based on naming convention
      */
+    @Override
     public String toBooleanGetter(String name) {
         return booleanGetterPrefix + getterAndSetterCapitalize(name);
     }
@@ -1515,7 +1487,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         return camelize(name, lowercaseFirstLetter);
     }
-
 
     @Override
     public void postProcessFile(File file, String fileType) {

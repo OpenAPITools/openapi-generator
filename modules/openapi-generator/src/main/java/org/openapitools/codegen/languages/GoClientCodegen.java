@@ -60,7 +60,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
                 CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
-
     }
 
     @Override
@@ -95,6 +94,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.go"));
         supportingFiles.add(new SupportingFile("client.mustache", "", "client.go"));
         supportingFiles.add(new SupportingFile("response.mustache", "", "response.go"));
+        supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
+        supportingFiles.add(new SupportingFile("go.sum", "", "go.sum"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
 
         if (additionalProperties.containsKey(WITH_GO_CODEGEN_COMMENT)) {

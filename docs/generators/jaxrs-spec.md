@@ -45,7 +45,7 @@ sidebar_label: jaxrs-spec
 |implFolder|folder for generated implementation code| |src/main/java|
 |title|a title describing the application| |OpenAPI Server|
 |useBeanValidation|Use BeanValidation API annotations| |true|
-|serverPort|The port on which the server should be started| |null|
+|serverPort|The port on which the server should be started| |8080|
 |library|library template (sub-template)|<dl><dt>**&lt;default&gt;**</dt><dd>JAXRS</dd><dl>|&lt;default&gt;|
 |generatePom|Whether to generate pom.xml if the file does not already exist.| |true|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|

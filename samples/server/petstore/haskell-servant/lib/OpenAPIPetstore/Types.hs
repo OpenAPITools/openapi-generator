@@ -179,10 +179,14 @@ uncapitalize :: String -> String
 uncapitalize (first:rest) = Char.toLower first : rest
 uncapitalize [] = []
 
--- Remove a field label prefix during JSON parsing.
--- Also perform any replacements for special characters.
+-- | Remove a field label prefix during JSON parsing.
+--   Also perform any replacements for special characters.
+--   The @forParsing@ parameter is to distinguish between the cases in which we're using this
+--   to power a @FromJSON@ or a @ToJSON@ instance. In the first case we're parsing, and we want
+--   to replace special characters with their quoted equivalents (because we cannot have special
+--   chars in identifier names), while we want to do viceversa when sending data instead.
 removeFieldLabelPrefix :: Bool -> String -> Options
-removeFieldLabelPrefix _ prefix =
+removeFieldLabelPrefix forParsing prefix =
   defaultOptions
     { omitNothingFields  = True
     , fieldLabelModifier = uncapitalize . fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix . replaceSpecialChars
@@ -225,4 +229,8 @@ removeFieldLabelPrefix _ prefix =
       , ("?", "'Question_Mark")
       , (">=", "'Greater_Than_Or_Equal_To")
       ]
-    mkCharReplacement (replaceStr, searchStr) = T.unpack . T.replace (T.tail $ T.pack searchStr) (T.pack replaceStr) . T.pack
+    mkCharReplacement (replaceStr, searchStr) = T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
+    replacer =
+      if forParsing
+        then flip T.replace
+        else T.replace

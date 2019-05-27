@@ -45,5 +45,5 @@ sidebar_label: java-msf4j
 |implFolder|folder for generated implementation code| |src/main/java|
 |title|a title describing the application| |OpenAPI Server|
 |useBeanValidation|Use BeanValidation API annotations| |true|
-|serverPort|The port on which the server should be started| |null|
+|serverPort|The port on which the server should be started| |8080|
 |library|library template (sub-template)|<dl><dt>**jersey1**</dt><dd>Jersey core 1.x</dd><dt>**jersey2**</dt><dd>Jersey core 2.x</dd><dl>|jersey2|

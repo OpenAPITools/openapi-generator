@@ -44,6 +44,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected String apiSuffix = "Api";
 
     protected String sourceFolder = "src/main/kotlin";
+    protected String testFolder = "src/test/kotlin";
 
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -166,14 +167,14 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("ByteArray", "kotlin.ByteArray");
         typeMapping.put("number", "java.math.BigDecimal");
         typeMapping.put("date-time", "java.time.LocalDateTime");
-        typeMapping.put("date", "java.time.LocalDateTime");
+        typeMapping.put("date", "java.time.LocalDate");
         typeMapping.put("file", "java.io.File");
         typeMapping.put("array", "kotlin.Array");
         typeMapping.put("list", "kotlin.collections.List");
         typeMapping.put("map", "kotlin.collections.Map");
         typeMapping.put("object", "kotlin.Any");
         typeMapping.put("binary", "kotlin.Array<kotlin.Byte>");
-        typeMapping.put("Date", "java.time.LocalDateTime");
+        typeMapping.put("Date", "java.time.LocalDate");
         typeMapping.put("DateTime", "java.time.LocalDateTime");
 
         instantiationTypes.put("array", "kotlin.arrayOf");
@@ -208,12 +209,17 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String apiDocFileFolder() {
-        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+        return (outputFolder + File.separator + apiDocPath).replace('/', File.separatorChar);
     }
 
     @Override
     public String apiFileFolder() {
-        return outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar);
+        return (outputFolder + File.separator + sourceFolder + File.separator + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String apiTestFileFolder() {
+        return (outputFolder + File.separator + testFolder + File.separator + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar) ;
     }
 
     @Override
@@ -408,6 +414,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
+    }
+
+    public void setTestFolder(String testFolder) {
+        this.testFolder = testFolder;
     }
 
     public Boolean getParcelizeModels() {

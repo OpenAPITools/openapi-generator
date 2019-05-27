@@ -51,7 +51,7 @@ sedi () {
 for filename in "${files[@]}"; do
   # e.g. sed -i '' "s/3.0.1-SNAPSHOT/3.0.1/g" CI/pom.xml.bash
   #echo "Running command: sed -i '' "s/$FROM/$TO/g" $filename"
-  if sedi "s/$FROM/$TO/g" $filename; then
+  if sedi "s/>$FROM</>$TO</g" $filename; then
     echo "Updated $filename successfully!"
   else
     echo "ERROR: Failed to update $filename with the following command"
