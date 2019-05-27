@@ -672,6 +672,7 @@ Here is a list of template creators:
    * TypeScript (jQuery): @bherila
    * TypeScript (Node):  @mhardorf
    * TypeScript (Rxjs): @denyo
+   * TypeScript (Inversify): @gualtierim
  * Server Stubs
    * Ada: @stcarrez
    * C# ASP.NET5: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
