@@ -67,5 +67,4 @@ class ExpressServer {
     }
   }
 }
-
-module.exports = ExpressServer;
+ module.exports = ExpressServer;

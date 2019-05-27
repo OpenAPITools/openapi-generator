@@ -20,12 +20,14 @@ class {{classname}} {
         def bodyParams
         def contentType
 
-        {{#allParams}}{{#required}}
+        {{#allParams}}
+        {{#required}}
         // verify required params are set
         if ({{paramName}} == null) {
             throw new RuntimeException("missing required params {{paramName}}")
         }
-        {{/required}}{{/allParams}}
+        {{/required}}
+        {{/allParams}}
 
         {{#queryParams}}
         if ({{paramName}} != null) {
@@ -47,15 +49,19 @@ class {{classname}} {
         contentType = '{{{mediaType}}}';
         {{/consumes.0}}
         {{/bodyParam}}
+        {{#bodyParams.0}}
+        {{^hasMore}}
+        bodyParams = {{paramName}}
+        {{/hasMore}}
+        {{#hasMore}}
+        bodyParams = [:]
+        bodyParams.put("{{baseName}}", {{paramName}})
+        {{/hasMore}}
+        {{/bodyParams.0}}
         {{#bodyParams}}
-        // only one body parameter
-        if (1 == {{bodyParams.size}}) {
-            bodyParams = {{paramName}}
-        }
-        // array of body parameters
-        else {
-            bodyParams.put("{{baseName}}", {{paramName}})
-        }
+        {{#secondaryParam}}
+        bodyParams.put("{{baseName}}", {{paramName}})
+        {{/secondaryParam}}
         {{/bodyParams}}
 
         {{#hasFormParams}}
@@ -63,20 +69,18 @@ class {{classname}} {
         contentType = '{{{mediaType}}}';
         {{/consumes.0}}
         {{#formParams.0}}
-        // only one form parameter
-        if (1 == {{formParams.size}}) {
-            bodyParams = {{paramName}}
-        }
-        // array of form parameters
-        else {
-            bodyParams = [:]
-        }
+        {{^hasMore}}
+        bodyParams = {{paramName}}
+        {{/hasMore}}
+        {{#hasMore}}
+        bodyParams = [:]
+        bodyParams.put("{{baseName}}", {{paramName}})
+        {{/hasMore}}
         {{/formParams.0}}
         {{#formParams}}
-        // array of form parameters
-        if (1 < {{formParams.size}}) {
-            bodyParams.put("{{baseName}}", {{paramName}})
-        }
+        {{#secondaryParam}}
+        bodyParams.put("{{baseName}}", {{paramName}})
+        {{/secondaryParam}}
         {{/formParams}}
         {{/hasFormParams}}
 

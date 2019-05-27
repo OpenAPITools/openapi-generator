@@ -15,9 +15,7 @@
   "dependencies": {
     "connect": "^3.2.0",
     "express": "^4.16.4",
-    "http-status-codes": "^1.3.2",
     "js-yaml": "^3.3.0",
-    "lodash": "^4.17.11",
     "swagger-express-middleware": "^2.0.2",
     "swagger-tools": "^0.10.4",
     "swagger-ui-express": "^4.0.2",
