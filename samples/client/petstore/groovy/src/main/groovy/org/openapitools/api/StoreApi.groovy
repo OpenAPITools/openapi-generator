@@ -17,12 +17,10 @@ class StoreApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (orderId == null) {
             throw new RuntimeException("missing required params orderId")
         }
-        
 
 
 
@@ -43,7 +41,6 @@ class StoreApi {
         def bodyParams
         def contentType
 
-        
 
 
 
@@ -64,12 +61,10 @@ class StoreApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (orderId == null) {
             throw new RuntimeException("missing required params orderId")
         }
-        
 
 
 
@@ -90,24 +85,15 @@ class StoreApi {
         def bodyParams
         def contentType
 
-        
         // verify required params are set
         if (body == null) {
             throw new RuntimeException("missing required params body")
         }
-        
 
 
 
         contentType = 'application/json';
-        // only one body parameter
-        if (1 == 1) {
-            bodyParams = body
-        }
-        // array of body parameters
-        else {
-            bodyParams.put("body", body)
-        }
+        bodyParams = body
 
 
         apiUtils.invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams, bodyParams, contentType,

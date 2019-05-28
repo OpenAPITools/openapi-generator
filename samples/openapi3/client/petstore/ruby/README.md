@@ -180,7 +180,7 @@ Class | Method | HTTP request | Description
 
 ### bearer_test
 
-- **Type**: HTTP basic authentication
+- **Type**: Bearer authentication (JWT)
 
 ### http_basic_test
 

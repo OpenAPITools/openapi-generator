@@ -4833,10 +4833,19 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updateOption(String key, String defaultValue) {
+        for (CliOption cliOption : cliOptions) {
+            if (cliOption.getOpt().equals(key)) {
+                cliOption.setDefault(defaultValue);
+                break;
+            }
+        }
+    }
+
+    protected void removeOption(String key) {
         for(int i = 0; i < cliOptions.size(); i++) {
-            if(cliOptions.get(i).getOpt().equals(key)) {
-                cliOptions.get(i).setDefault(defaultValue);
-                return;
+            if (key.equals(cliOptions.get(i).getOpt())) {
+                cliOptions.remove(i);
+                break;
             }
         }
     }
@@ -4853,7 +4862,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param objs map of object
      */
-    public void generateJSONSpecFile(Map<String, Object> objs) {
+    protected void generateJSONSpecFile(Map<String, Object> objs) {
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
         if (openAPI != null) {
             try {

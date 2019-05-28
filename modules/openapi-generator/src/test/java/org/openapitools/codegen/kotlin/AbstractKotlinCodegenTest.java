@@ -2,7 +2,10 @@ package org.openapitools.codegen.kotlin;
 
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.File;
 
 import static org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.*;
 import static org.testng.Assert.*;
@@ -135,5 +138,22 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toApiName("Fake"), "FakeTest");
         assertEquals(codegen.toApiName(""), "DefaultApi");
     }
+
+    @Test
+    public void apIFileFolder() {
+        codegen.setOutputDir("/User/open/api/tools");
+        codegen.setSourceFolder("src/folder");
+        codegen.setApiPackage("org.openapitools.codegen.api");
+        Assert.assertEquals(codegen.apiFileFolder(), "/User/open/api/tools/src/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+    }
+
+    @Test
+    public void apiTestFileFolder() {
+        codegen.setOutputDir("/User/open/api/tools");
+        codegen.setTestFolder("test/folder");
+        codegen.setApiPackage("org.openapitools.codegen.api");
+        Assert.assertEquals(codegen.apiTestFileFolder(), "/User/open/api/tools/test/folder/org/openapitools/codegen/api".replace('/', File.separatorChar));
+    }
+
 
 }

@@ -12,17 +12,17 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Observable } from "rxjs/Observable";
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
+
+import { map } from "rxjs/operators";
 import IHttpClient from "../IHttpClient";
 import { inject, injectable } from "inversify";
 import { IAPIConfiguration } from "../IAPIConfiguration";
 import { Headers } from "../Headers";
 import HttpResponse from "../HttpResponse";
 
-import { Order } from '../model/order';
+import { Order } from "../model/order";
 
-import { COLLECTION_FORMATS }  from '../variables';
+import { COLLECTION_FORMATS }  from "../variables";
 
 
 
@@ -53,7 +53,9 @@ export class StoreService {
 
         const response: Observable<HttpResponse<any>> = this.httpClient.delete(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, headers);
         if (observe == 'body') {
-               return response.map(httpResponse => <any>(httpResponse.response));
+               return response.pipe(
+                   map(httpResponse => <any>(httpResponse.response))
+               );
         }
         return response;
     }
@@ -75,7 +77,9 @@ export class StoreService {
 
         const response: Observable<HttpResponse<{ [key: string]: number; }>> = this.httpClient.get(`${this.basePath}/store/inventory`, headers);
         if (observe == 'body') {
-               return response.map(httpResponse => <{ [key: string]: number; }>(httpResponse.response));
+               return response.pipe(
+                   map(httpResponse => <{ [key: string]: number; }>(httpResponse.response))
+               );
         }
         return response;
     }
@@ -98,7 +102,9 @@ export class StoreService {
 
         const response: Observable<HttpResponse<Order>> = this.httpClient.get(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, headers);
         if (observe == 'body') {
-               return response.map(httpResponse => <Order>(httpResponse.response));
+               return response.pipe(
+                   map(httpResponse => <Order>(httpResponse.response))
+               );
         }
         return response;
     }
@@ -122,7 +128,9 @@ export class StoreService {
 
         const response: Observable<HttpResponse<Order>> = this.httpClient.post(`${this.basePath}/store/order`, body , headers);
         if (observe == 'body') {
-               return response.map(httpResponse => <Order>(httpResponse.response));
+               return response.pipe(
+                   map(httpResponse => <Order>(httpResponse.response))
+               );
         }
         return response;
     }
