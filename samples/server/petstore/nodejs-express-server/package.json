@@ -17,8 +17,9 @@
     "express": "^4.16.4",
     "js-yaml": "^3.3.0",
     "swagger-express-middleware": "^2.0.2",
-    "swagger-tools": "0.10.1",
+    "swagger-tools": "^0.10.4",
     "swagger-ui-express": "^4.0.2",
+    "winston": "^3.2.1",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
@@ -28,6 +29,7 @@
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.2",
-    "mocha": "^6.1.4"
+    "mocha": "^6.1.4",
+    "form-data": "^2.3.3"
   }
 }

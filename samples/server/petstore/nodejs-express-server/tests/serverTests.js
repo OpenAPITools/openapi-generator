@@ -1,56 +1,62 @@
-const path = require("path");
-const describe = require("mocha").describe;
-const chai = require("chai");
-const chaiAsPromised = require("chai-as-promised");
-const axios = require("axios");
-const ExpressServer = require("../expressServer");
+const path = require('path');
+const fs = require('fs');
+const {
+  describe, before, after, it,
+} = require('mocha');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const { get, post } = require('axios');
 
+const logger = require('./logger');
+const config = require('./config');
+const App = require('../app');
+
+const app = new App(config);
 chai.use(chaiAsPromised);
-const should = chai.should();
+chai.should();
+const filesDirectory = path.join(__dirname, 'testFiles');
 
-const config = {
-    ROOT_DIR: path.join(__dirname, "../"),
-    URL_PORT: 3009
-    };
-config.OPENAPI_YAML = path.join(config.ROOT_DIR, "api", "openapi.yaml");
+describe('Server tests, checking launch, terminate, and various error messages', () => {
+  before(async () => {
+    try {
+      await app.launch();
+      logger.info('express server launched\n');
+    } catch (error) {
+      logger.info(error);
+      await app.close();
+      throw (error);
+    }
+  });
 
-describe("Server tests, checking launch, terminate, and various error messages", () =>{
-   let expressServer;
-   before(async ()=>{
-       try{
-           expressServer = new ExpressServer(config.URL_PORT, config.OPENAPI_YAML);
-           await expressServer.launch();
-           console.log("express server launched\n");
-       }
-       catch(error){
-           console.log(error);
-           throw(error);
-       }
-   });
-   after(async() =>{
-       if(expressServer !== undefined){
-           await expressServer.close();
-           console.log("express server closed");
-       }
-   });
-   it("should launch express server successfully", async() =>{
-      const indexResponse = await axios.get(`http://localhost:${config.URL_PORT}/`);
-      indexResponse.status.should.equal(200, "Expecting a call to root directory of server to return 200 code");
-   });
-    it("should fail with a 404 on non-existing page", async() =>{
-        try{
-            const response = await axios.get(`http://localhost:${config.URL_PORT}/someRandomPage`);
-            response.status.should.not.equal(200, "Expecting a 404, got 200");
-        }
-        catch(error){
-            if(error.response !== undefined){
-                error.response.status.should.equal(404, "expecting to receive a 404 on requesting a non-existing page");
-            }
-            console.log(error);
-        }
-    });
-    it("should load api-doc", async() =>{
-        const response = await axios.get(`http://localhost:${config.URL_PORT}/api-docs`);
-        response.status.should.equal(200, "Expecting 200");
-    });
+  after(async () => {
+    await app.close()
+      .catch(error => logger.error(error));
+    logger.error('express server closed');
+  });
+
+  it('should launch express server successfully', async () => {
+    const indexResponse = await get(`${config.URL_PATH}:${config.URL_PORT}/`);
+    indexResponse.status.should.equal(200, 'Expecting a call to root directory of server to return 200 code');
+  });
+
+  it('should fail with a 404 on non-existing page', async () => {
+    get(`${config.FULL_PATH}/someRandomPage`)
+      .catch((responseError) => {
+        responseError.response.status.should.not.equal(undefined);
+        responseError.response.status.should.equal(404, 'expecting to receive a 404 on requesting a non-existing page');
+      })
+      .then(response => response.status.should.equal(404, 'expecting a 404 on a non-existing page request'));
+  });
+
+  it('should load api-doc', async () => {
+    const response = await get(`http://localhost:${config.URL_PORT}/api-docs`);
+    response.status.should.equal(200, 'Expecting 200');
+  });
+
+  it('should run a post request to add new pet', async () => {
+    const pet = JSON.parse(fs.readFileSync(path.join(filesDirectory, 'pet.json')));
+    const url = `${config.FULL_PATH}/pet`;
+    const response = await post(url, pet);
+    response.status.should.equal(200);
+  });
 });
