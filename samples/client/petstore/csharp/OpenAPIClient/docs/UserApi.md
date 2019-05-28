@@ -49,7 +49,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.CreateUser: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -115,7 +115,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.CreateUsersWithArrayInput: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -181,7 +181,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.CreateUsersWithListInput: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -249,7 +249,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.DeleteUser: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -316,7 +316,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.GetUserByName: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -384,7 +384,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.LoginUser: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -450,7 +450,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.LogoutUser: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -516,7 +516,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling UserApi.UpdateUser: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }

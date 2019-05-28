@@ -89,7 +89,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling AnotherFakeApi.Call123TestSpecialTags: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
 

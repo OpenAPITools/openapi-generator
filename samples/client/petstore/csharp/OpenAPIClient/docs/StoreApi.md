@@ -45,7 +45,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling StoreApi.DeleteOrder: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -118,7 +118,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling StoreApi.GetInventory: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -184,7 +184,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling StoreApi.GetOrderById: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -251,7 +251,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling StoreApi.PlaceOrder: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }

@@ -156,7 +156,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
 {{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}

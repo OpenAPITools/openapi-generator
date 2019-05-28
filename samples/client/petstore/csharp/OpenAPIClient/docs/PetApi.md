@@ -51,7 +51,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling PetApi.AddPet: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -121,7 +121,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling PetApi.DeletePet: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -194,7 +194,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling PetApi.FindPetsByStatus: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -266,7 +266,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling PetApi.FindPetsByTags: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -340,7 +340,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling PetApi.GetPetById: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -409,7 +409,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling PetApi.UpdatePet: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -480,7 +480,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling PetApi.UpdatePetWithForm: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -554,7 +554,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling PetApi.UploadFile: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -628,7 +628,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling PetApi.UploadFileWithRequiredFile: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }

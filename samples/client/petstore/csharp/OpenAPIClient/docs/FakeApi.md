@@ -54,7 +54,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling FakeApi.CreateXmlItem: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -122,7 +122,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling FakeApi.FakeOuterBooleanSerialize: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -190,7 +190,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling FakeApi.FakeOuterCompositeSerialize: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -258,7 +258,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling FakeApi.FakeOuterNumberSerialize: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -326,7 +326,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling FakeApi.FakeOuterStringSerialize: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -393,7 +393,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling FakeApi.TestBodyWithFileSchema: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -459,7 +459,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling FakeApi.TestBodyWithQueryParams: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -529,7 +529,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling FakeApi.TestClientModel: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -614,7 +614,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling FakeApi.TestEndpointParameters: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -702,7 +702,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling FakeApi.TestEnumParameters: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -782,7 +782,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling FakeApi.TestGroupParameters: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -853,7 +853,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling FakeApi.TestInlineAdditionalProperties: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
@@ -920,7 +920,7 @@ namespace Example
             catch (ApiException e)
             {
                 Debug.Print("Exception when calling FakeApi.TestJsonFormData: " + e.Message );
-                Debug.Print("Response Code: "+ e.ErrorCode);
+                Debug.Print("Status Code: "+ e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
         }
