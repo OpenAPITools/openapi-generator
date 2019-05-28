@@ -23,7 +23,6 @@ Method | HTTP request | Description
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using {{packageName}}.{{apiPackage}};
 using {{packageName}}.Client;
@@ -33,7 +32,7 @@ namespace Example
 {
     public class {{operationId}}Example
     {
-        public static void main()
+        public static void Main()
         {
             Configuration.Default.BasePath = "{{{basePath}}}";
             {{#hasAuthMethods}}
