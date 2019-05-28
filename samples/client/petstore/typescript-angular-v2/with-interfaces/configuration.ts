@@ -63,6 +63,23 @@ export class Configuration {
     }
 
     /**
+    * Select the response type to use for httpclient library.
+    * Uses {@link Configuration#isJsonMime} to determine the correct accept content-type.
+    * If no content type is found set to json as default
+    * @param accept - the content types set as accepted in the request.
+    * @returns the selected content-type.
+    */
+    public selectResponseType(accept: string): 'arraybuffer' | 'blob' | 'json' | 'text' {
+        if (this.isTextMime(accept)) {
+            return 'text';
+        }
+        if (this.isBinaryMime(accept)) {
+            return 'blob';
+        }
+        return 'json';
+    }
+
+    /**
      * Check if the given MIME is a JSON MIME.
      * JSON MIME examples:
      *   application/json
@@ -75,5 +92,28 @@ export class Configuration {
     public isJsonMime(mime: string): boolean {
         const jsonMime: RegExp = new RegExp('^(application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(;.*)?$', 'i');
         return mime !== null && (jsonMime.test(mime) || mime.toLowerCase() === 'application/json-patch+json');
+    }
+
+    /**
+    * Check if the given MIME is a text MIME.
+    * text MIME examples:
+    *   text/plain
+    *   text/html
+    * @param mime - MIME (Multipurpose Internet Mail Extensions)
+    * @return True if the given MIME is text, false otherwise.
+    */
+    public isTextMime(mime: string): boolean {
+        return mime.toLowerCase().startsWith('text/');
+    }
+
+    /**
+    * Check if the given MIME is a binary MIME.
+    * binary MIME examples:
+    *   application/octet-stream
+    * @param mime - MIME (Multipurpose Internet Mail Extensions)
+    * @return True if the given MIME is binary, false otherwise.
+    */
+    public isBinaryMime(mime: string): boolean {
+        return mime.toLowerCase() === 'application/octet-stream';
     }
 }
