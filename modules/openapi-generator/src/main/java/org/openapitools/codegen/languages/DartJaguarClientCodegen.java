@@ -43,6 +43,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     static {
         modelToIgnore.add("datetime");
         modelToIgnore.add("map");
+        modelToIgnore.add("object");
         modelToIgnore.add("list");
         modelToIgnore.add("file");
         modelToIgnore.add("uint8list");
