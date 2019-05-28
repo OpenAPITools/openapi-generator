@@ -95,6 +95,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
 
         setSupportNullable(Boolean.TRUE);
 

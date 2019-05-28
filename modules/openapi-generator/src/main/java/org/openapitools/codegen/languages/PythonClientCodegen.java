@@ -113,6 +113,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("ByteArray", "str");
         // map uuid to string for the time being
         typeMapping.put("UUID", "str");
+        typeMapping.put("URI", "str");
 
         // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
         setReservedWordsLowerCase(

@@ -108,6 +108,7 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("boolean", "boolean");
         typeMapping.put("string", "string");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "string");
         typeMapping.put("password", "string");
