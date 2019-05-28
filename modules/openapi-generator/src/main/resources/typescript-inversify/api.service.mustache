@@ -8,7 +8,7 @@ import { Observable } from "rxjs/Observable";
 import { Observable } from "rxjs";
 {{/useRxJS6}}
 
-import { map } from "rxjs/operators";
+import { GlobalImportOperators } from "rxjs/operators";
 import IHttpClient from "../IHttpClient";
 import { inject, injectable } from "inversify";
 import { IAPIConfiguration } from "../IAPIConfiguration";
@@ -177,7 +177,7 @@ export class {{classname}} {
         const response: Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>> = this.httpClient.{{httpMethod}}(`${this.basePath}{{{path}}}{{#hasQueryParams}}?${queryParameters.join('&')}{{/hasQueryParams}}`{{#bodyParam}}, {{paramName}} {{/bodyParam}}{{#hasFormParams}}, body{{/hasFormParams}}, headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>(httpResponse.response))
                ){{#usePromise}}.toPromise(){{/usePromise}};
         }
         return response{{#usePromise}}.toPromise(){{/usePromise}};

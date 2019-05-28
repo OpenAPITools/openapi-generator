@@ -13,7 +13,7 @@
 
 import { Observable } from "rxjs/Observable";
 
-import { map } from "rxjs/operators";
+import { GlobalImportOperators } from "rxjs/operators";
 import IHttpClient from "../IHttpClient";
 import { inject, injectable } from "inversify";
 import { IAPIConfiguration } from "../IAPIConfiguration";
@@ -55,7 +55,7 @@ export class UserService {
         const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/user`, body , headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <any>(httpResponse.response))
                );
         }
         return response;
@@ -81,7 +81,7 @@ export class UserService {
         const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/user/createWithArray`, body , headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <any>(httpResponse.response))
                );
         }
         return response;
@@ -107,7 +107,7 @@ export class UserService {
         const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/user/createWithList`, body , headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <any>(httpResponse.response))
                );
         }
         return response;
@@ -132,7 +132,7 @@ export class UserService {
         const response: Observable<HttpResponse<any>> = this.httpClient.delete(`${this.basePath}/user/${encodeURIComponent(String(username))}`, headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <any>(httpResponse.response))
                );
         }
         return response;
@@ -157,7 +157,7 @@ export class UserService {
         const response: Observable<HttpResponse<User>> = this.httpClient.get(`${this.basePath}/user/${encodeURIComponent(String(username))}`, headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <User>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <User>(httpResponse.response))
                );
         }
         return response;
@@ -195,7 +195,7 @@ export class UserService {
         const response: Observable<HttpResponse<string>> = this.httpClient.get(`${this.basePath}/user/login?${queryParameters.join('&')}`, headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <string>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <string>(httpResponse.response))
                );
         }
         return response;
@@ -215,7 +215,7 @@ export class UserService {
         const response: Observable<HttpResponse<any>> = this.httpClient.get(`${this.basePath}/user/logout`, headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <any>(httpResponse.response))
                );
         }
         return response;
@@ -246,7 +246,7 @@ export class UserService {
         const response: Observable<HttpResponse<any>> = this.httpClient.put(`${this.basePath}/user/${encodeURIComponent(String(username))}`, body , headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <any>(httpResponse.response))
                );
         }
         return response;

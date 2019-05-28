@@ -13,7 +13,7 @@
 
 import { Observable } from "rxjs/Observable";
 
-import { map } from "rxjs/operators";
+import { GlobalImportOperators } from "rxjs/operators";
 import IHttpClient from "../IHttpClient";
 import { inject, injectable } from "inversify";
 import { IAPIConfiguration } from "../IAPIConfiguration";
@@ -54,7 +54,7 @@ export class StoreService {
         const response: Observable<HttpResponse<any>> = this.httpClient.delete(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <any>(httpResponse.response))
                );
         }
         return response;
@@ -78,7 +78,7 @@ export class StoreService {
         const response: Observable<HttpResponse<{ [key: string]: number; }>> = this.httpClient.get(`${this.basePath}/store/inventory`, headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <{ [key: string]: number; }>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <{ [key: string]: number; }>(httpResponse.response))
                );
         }
         return response;
@@ -103,7 +103,7 @@ export class StoreService {
         const response: Observable<HttpResponse<Order>> = this.httpClient.get(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <Order>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <Order>(httpResponse.response))
                );
         }
         return response;
@@ -129,7 +129,7 @@ export class StoreService {
         const response: Observable<HttpResponse<Order>> = this.httpClient.post(`${this.basePath}/store/order`, body , headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <Order>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <Order>(httpResponse.response))
                );
         }
         return response;

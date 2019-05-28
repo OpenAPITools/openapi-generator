@@ -52,8 +52,6 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         apiPackage = "api";
         modelPackage = "model";
 
-        this.reservedWords.add("map");
-
         this.cliOptions.add(new CliOption(NPM_REPOSITORY,
                 "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES,

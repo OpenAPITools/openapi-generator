@@ -13,7 +13,7 @@
 
 import { Observable } from "rxjs/Observable";
 
-import { map } from "rxjs/operators";
+import { GlobalImportOperators } from "rxjs/operators";
 import IHttpClient from "../IHttpClient";
 import { inject, injectable } from "inversify";
 import { IAPIConfiguration } from "../IAPIConfiguration";
@@ -63,7 +63,7 @@ export class PetService {
         const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/pet`, body , headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <any>(httpResponse.response))
                );
         }
         return response;
@@ -100,7 +100,7 @@ export class PetService {
         const response: Observable<HttpResponse<any>> = this.httpClient.delete(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <any>(httpResponse.response))
                );
         }
         return response;
@@ -137,7 +137,7 @@ export class PetService {
         const response: Observable<HttpResponse<Array<Pet>>> = this.httpClient.get(`${this.basePath}/pet/findByStatus?${queryParameters.join('&')}`, headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <Array<Pet>>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <Array<Pet>>(httpResponse.response))
                );
         }
         return response;
@@ -174,7 +174,7 @@ export class PetService {
         const response: Observable<HttpResponse<Array<Pet>>> = this.httpClient.get(`${this.basePath}/pet/findByTags?${queryParameters.join('&')}`, headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <Array<Pet>>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <Array<Pet>>(httpResponse.response))
                );
         }
         return response;
@@ -203,7 +203,7 @@ export class PetService {
         const response: Observable<HttpResponse<Pet>> = this.httpClient.get(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <Pet>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <Pet>(httpResponse.response))
                );
         }
         return response;
@@ -236,7 +236,7 @@ export class PetService {
         const response: Observable<HttpResponse<any>> = this.httpClient.put(`${this.basePath}/pet`, body , headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <any>(httpResponse.response))
                );
         }
         return response;
@@ -279,7 +279,7 @@ export class PetService {
         const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, body, headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <any>(httpResponse.response))
                );
         }
         return response;
@@ -322,7 +322,7 @@ export class PetService {
         const response: Observable<HttpResponse<ApiResponse>> = this.httpClient.post(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`, body, headers);
         if (observe == 'body') {
                return response.pipe(
-                   map(httpResponse => <ApiResponse>(httpResponse.response))
+                   GlobalImportOperators(httpResponse => <ApiResponse>(httpResponse.response))
                );
         }
         return response;
