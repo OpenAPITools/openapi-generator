@@ -58,6 +58,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** | successful operation |  -  |
+
 <a name="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
 > createUsersWithArrayInput(body)
@@ -100,6 +105,11 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** | successful operation |  -  |
+
 <a name="createUsersWithListInput"></a>
 # **createUsersWithListInput**
 > createUsersWithListInput(body)
@@ -141,6 +151,11 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** | successful operation |  -  |
 
 <a name="deleteUser"></a>
 # **deleteUser**
@@ -186,6 +201,12 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**400** | Invalid username supplied |  -  |
+**404** | User not found |  -  |
+
 <a name="getUserByName"></a>
 # **getUserByName**
 > User getUserByName(username)
@@ -228,6 +249,13 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  -  |
+**400** | Invalid username supplied |  -  |
+**404** | User not found |  -  |
 
 <a name="loginUser"></a>
 # **loginUser**
@@ -274,6 +302,12 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | successful operation |  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  |
+**400** | Invalid username/password supplied |  -  |
+
 <a name="logoutUser"></a>
 # **logoutUser**
 > logoutUser()
@@ -311,6 +345,11 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** | successful operation |  -  |
 
 <a name="updateUser"></a>
 # **updateUser**
@@ -357,4 +396,10 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**400** | Invalid user supplied |  -  |
+**404** | User not found |  -  |
 
