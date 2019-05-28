@@ -60,6 +60,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SWAGGER_ANNOTATIONS = "swaggerAnnotations";
     public static final String SERVICE_INTERFACE = "serviceInterface";
     public static final String SERVICE_IMPLEMENTATION = "serviceImplementation";
+    public static final String INTERFACE_ONLY = "interfaceOnly";
 
     private String basePackage;
     private String invokerPackage;
@@ -72,6 +73,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean swaggerAnnotations = false;
     private boolean serviceInterface = false;
     private boolean serviceImplementation = false;
+    private boolean interfaceOnly = false;
 
     public KotlinSpringServerCodegen() {
         super();
@@ -155,6 +157,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         cliOpt.setDefault(SPRING_BOOT);
         cliOpt.setEnum(supportedLibraries);
         cliOptions.add(cliOpt);
+        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", this.interfaceOnly));
     }
 
     public String getResourceFolder() {
@@ -231,6 +234,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public boolean getUseBeanValidation() {
         return this.useBeanValidation;
+    }
+
+    public void setInterfaceOnly(boolean interfaceOnly) {
+        this.interfaceOnly = interfaceOnly;
     }
 
     @Override
@@ -329,6 +336,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+
+        if (additionalProperties.containsKey(INTERFACE_ONLY)) {
+            this.setInterfaceOnly(Boolean.valueOf(additionalProperties.get(INTERFACE_ONLY).toString()));
+        }
 
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("apiController.mustache", ".kt");
