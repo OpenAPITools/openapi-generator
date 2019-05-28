@@ -22,7 +22,6 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -32,9 +31,10 @@ namespace Example
 {
     public class DeleteOrderExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new StoreApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new StoreApi(Configuration.Default);
             var orderId = orderId_example;  // string | ID of the order that needs to be deleted
 
             try
@@ -42,9 +42,11 @@ namespace Example
                 // Delete purchase order by ID
                 apiInstance.DeleteOrder(orderId);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling StoreApi.DeleteOrder: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -88,7 +90,6 @@ Returns a map of status codes to quantities
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -98,14 +99,15 @@ namespace Example
 {
     public class GetInventoryExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             // Configure API key authorization: api_key
             Configuration.Default.AddApiKey("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
             // Configuration.Default.AddApiKeyPrefix("api_key", "Bearer");
 
-            var apiInstance = new StoreApi();
+            var apiInstance = new StoreApi(Configuration.Default);
 
             try
             {
@@ -113,9 +115,11 @@ namespace Example
                 Dictionary&lt;string, int?&gt; result = apiInstance.GetInventory();
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling StoreApi.GetInventory: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -156,7 +160,6 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -166,9 +169,10 @@ namespace Example
 {
     public class GetOrderByIdExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new StoreApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new StoreApi(Configuration.Default);
             var orderId = 789;  // long? | ID of pet that needs to be fetched
 
             try
@@ -177,9 +181,11 @@ namespace Example
                 Order result = apiInstance.GetOrderById(orderId);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling StoreApi.GetOrderById: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -221,7 +227,6 @@ Place an order for a pet
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -231,9 +236,10 @@ namespace Example
 {
     public class PlaceOrderExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new StoreApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new StoreApi(Configuration.Default);
             var body = new Order(); // Order | order placed for purchasing the pet
 
             try
@@ -242,9 +248,11 @@ namespace Example
                 Order result = apiInstance.PlaceOrder(body);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling StoreApi.PlaceOrder: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
