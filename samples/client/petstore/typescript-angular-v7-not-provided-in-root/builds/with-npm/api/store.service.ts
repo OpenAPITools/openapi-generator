@@ -11,17 +11,17 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent }                           from '@angular/common/http';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
+         HttpResponse, HttpEvent } from '@angular/common/http';
+import { CustomHttpUrlEncodingCodec } from '../encoder';
 
-import { Observable }                                        from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { Order } from '../model/order';
 
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { Configuration } from '../configuration';
 
 
 @Injectable()
@@ -86,14 +86,15 @@ export class StoreService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`, httpOptions);
     }
 
     /**
@@ -127,14 +128,15 @@ export class StoreService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<{ [key: string]: number; }>(`${this.configuration.basePath}/store/inventory`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
+        return this.httpClient.get<{ [key: string]: number; }>(`${this.configuration.basePath}/store/inventory`, httpOptions);
     }
 
     /**
@@ -168,14 +170,15 @@ export class StoreService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Order>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
+        return this.httpClient.get<Order>(`${this.configuration.basePath}/store/order/${encodeURIComponent(String(orderId))}`, httpOptions);
     }
 
     /**
@@ -213,15 +216,16 @@ export class StoreService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
         return this.httpClient.post<Order>(`${this.configuration.basePath}/store/order`,
-            body,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+            body, httpOptions);
     }
 
 }

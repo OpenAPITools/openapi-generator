@@ -11,17 +11,17 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent }                           from '@angular/common/http';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
+         HttpResponse, HttpEvent } from '@angular/common/http';
+import { CustomHttpUrlEncodingCodec } from '../encoder';
 
-import { Observable }                                        from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { User } from '../model/user';
 
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { Configuration } from '../configuration';
 
 
 @Injectable()
@@ -90,15 +90,16 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/user`,
-            body,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+            body, httpOptions);
     }
 
     /**
@@ -134,15 +135,16 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithArray`,
-            body,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+            body, httpOptions);
     }
 
     /**
@@ -178,15 +180,16 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/user/createWithList`,
-            body,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+            body, httpOptions);
     }
 
     /**
@@ -218,14 +221,15 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`, httpOptions);
     }
 
     /**
@@ -259,14 +263,15 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<User>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
+        return this.httpClient.get<User>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`, httpOptions);
     }
 
     /**
@@ -312,15 +317,16 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<string>(`${this.configuration.basePath}/user/login`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+        const httpOptions: Object = {
+            params: queryParameters,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
+        return this.httpClient.get<string>(`${this.configuration.basePath}/user/login`, httpOptions);
     }
 
     /**
@@ -348,14 +354,15 @@ export class UserService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/user/logout`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/user/logout`, httpOptions);
     }
 
     /**
@@ -395,15 +402,16 @@ export class UserService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
         return this.httpClient.put<any>(`${this.configuration.basePath}/user/${encodeURIComponent(String(username))}`,
-            body,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+            body, httpOptions);
     }
 
 }

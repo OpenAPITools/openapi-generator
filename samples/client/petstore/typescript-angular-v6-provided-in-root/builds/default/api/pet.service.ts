@@ -11,18 +11,18 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent }                           from '@angular/common/http';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
+         HttpResponse, HttpEvent } from '@angular/common/http';
+import { CustomHttpUrlEncodingCodec } from '../encoder';
 
-import { Observable }                                        from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { ApiResponse } from '../model/apiResponse';
 import { Pet } from '../model/pet';
 
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { Configuration } from '../configuration';
 
 
 @Injectable({
@@ -103,15 +103,16 @@ export class PetService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/pet`,
-            body,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+            body, httpOptions);
     }
 
     /**
@@ -155,14 +156,15 @@ export class PetService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`, httpOptions);
     }
 
     /**
@@ -209,15 +211,16 @@ export class PetService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<Pet>>(`${this.configuration.basePath}/pet/findByStatus`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+        const httpOptions: Object = {
+            params: queryParameters,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
+        return this.httpClient.get<Array<Pet>>(`${this.configuration.basePath}/pet/findByStatus`, httpOptions);
     }
 
     /**
@@ -264,15 +267,16 @@ export class PetService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Array<Pet>>(`${this.configuration.basePath}/pet/findByTags`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+        const httpOptions: Object = {
+            params: queryParameters,
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
+        return this.httpClient.get<Array<Pet>>(`${this.configuration.basePath}/pet/findByTags`, httpOptions);
     }
 
     /**
@@ -311,14 +315,15 @@ export class PetService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<Pet>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
+        return this.httpClient.get<Pet>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`, httpOptions);
     }
 
     /**
@@ -364,15 +369,16 @@ export class PetService {
             headers = headers.set('Content-Type', httpContentTypeSelected);
         }
 
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
         return this.httpClient.put<any>(`${this.configuration.basePath}/pet`,
-            body,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+            body, httpOptions);
     }
 
     /**
@@ -433,15 +439,16 @@ export class PetService {
             formParams = formParams.append('status', <any>status) as any || formParams;
         }
 
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}`,
-            convertFormParamsToString ? formParams.toString() : formParams,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+            convertFormParamsToString ? formParams.toString() : formParams, httpOptions);
     }
 
     /**
@@ -506,15 +513,16 @@ export class PetService {
             formParams = formParams.append('file', <any>file) as any || formParams;
         }
 
+        const httpOptions: Object = {
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+        };
+
         return this.httpClient.post<ApiResponse>(`${this.configuration.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`,
-            convertFormParamsToString ? formParams.toString() : formParams,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+            convertFormParamsToString ? formParams.toString() : formParams, httpOptions);
     }
 
 }

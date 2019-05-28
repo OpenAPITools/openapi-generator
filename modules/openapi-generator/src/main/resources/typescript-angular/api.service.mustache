@@ -1,24 +1,24 @@
 {{>licenseInfo}}
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 {{#useHttpClient}}
 import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent }                           from '@angular/common/http';
-import { CustomHttpUrlEncodingCodec }                        from '../encoder';
+         HttpResponse, HttpEvent } from '@angular/common/http';
+import { CustomHttpUrlEncodingCodec } from '../encoder';
 {{/useHttpClient}}
 {{^useHttpClient}}
-import { Http, Headers, URLSearchParams }                    from '@angular/http';
+import { Http, Headers, URLSearchParams } from '@angular/http';
 import { RequestMethod, RequestOptions, RequestOptionsArgs } from '@angular/http';
-import { Response, ResponseContentType }                     from '@angular/http';
-import { CustomQueryEncoderHelper }                          from '../encoder';
+import { Response, ResponseContentType } from '@angular/http';
+import { CustomQueryEncoderHelper } from '../encoder';
 {{/useHttpClient}}
 
 {{^useRxJS6}}
-import { Observable }                                        from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 {{/useRxJS6}}
 {{#useRxJS6}}
-import { Observable }                                        from 'rxjs';
+import { Observable } from 'rxjs';
 {{/useRxJS6}}
 {{^useHttpClient}}
 import '../rxjs-operators';
@@ -28,10 +28,10 @@ import '../rxjs-operators';
 import { {{classname}} } from '../{{filename}}';
 {{/imports}}
 
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
+import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { Configuration } from '../configuration';
 {{#withInterfaces}}
-import { {{classname}}Interface }                            from './{{classFilename}}Interface';
+import { {{classname}}Interface } from './{{classFilename}}Interface';
 {{/withInterfaces}}
 
 {{#operations}}
@@ -319,21 +319,24 @@ export class {{classname}} {
 
 {{/hasFormParams}}
 {{#useHttpClient}}
+        const httpOptions: Object = {
+            {{#hasQueryParams}}
+            params: queryParameters,
+            {{/hasQueryParams}}
+            withCredentials: this.configuration.withCredentials,
+            headers: headers,
+            observe: observe,
+            reportProgress: reportProgress,
+            {{^isResponseFile}}
+            responseType: this.configuration.selectResponseType(httpHeaderAcceptSelected)
+            {{/isResponseFile}}
+            {{#isResponseFile}}
+            responseType: 'blob',
+            {{/isResponseFile}}
+        };
+
         return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.configuration.basePath}{{{path}}}`,{{#isBodyAllowed}}
-            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
-            {
-{{#hasQueryParams}}
-                params: queryParameters,
-{{/hasQueryParams}}
-{{#isResponseFile}}
-                responseType: "blob",
-{{/isResponseFile}}
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+            {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams.toString() : formParams{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}} httpOptions);
 {{/useHttpClient}}
 {{^useHttpClient}}
         let requestOptions: RequestOptionsArgs = new RequestOptions({

@@ -1,16 +1,16 @@
 {{>licenseInfo}}
 {{#useHttpClient}}
-import { HttpHeaders }                                       from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 {{/useHttpClient}}
 {{^useHttpClient}}
-import { Headers }                                           from '@angular/http';
+import { Headers } from '@angular/http';
 {{/useHttpClient}}
 
 {{^useRxJS6}}
-import { Observable }                                        from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 {{/useRxJS6}}
 {{#useRxJS6}}
-import { Observable }                                        from 'rxjs';
+import { Observable } from 'rxjs';
 {{/useRxJS6}}
 
 {{#imports}}
@@ -18,7 +18,7 @@ import { {{classname}} } from '../{{filename}}';
 {{/imports}}
 
 
-import { Configuration }                                     from '../configuration';
+import { Configuration } from '../configuration';
 
 {{#operations}}
 

@@ -9,15 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Headers }                                           from '@angular/http';
+import { Headers } from '@angular/http';
 
-import { Observable }                                        from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 
 import { ApiResponse } from '../model/apiResponse';
 import { Pet } from '../model/pet';
 
 
-import { Configuration }                                     from '../configuration';
+import { Configuration } from '../configuration';
 
 
 export interface PetServiceInterface {
