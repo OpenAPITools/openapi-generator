@@ -1,0 +1,15 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import java.util.List;
+import java.util.Map;
+
+public interface {{classname}}  {
+{{#operations}}
+    {{#operation}}
+        suspend fun {{operationId}}({{#allParams}}{{paramName}}:{{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}}):{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}
+    {{/operation}}
+{{/operations}}
+}

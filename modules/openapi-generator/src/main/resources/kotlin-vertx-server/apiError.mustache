@@ -1,0 +1,22 @@
+package {{rootPackage}};
+
+public class {{classname}}Error extends Exception {
+    private int statusCode;
+    private String statusMessage;
+
+    public {{classname}}Error(int statusCode, String statusMessage) {
+        super();
+        this.statusCode = statusCode;
+        this.statusMessage = statusMessage;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+    
+    public static final {{classname}}Error INTERNAL_SERVER_ERROR = new {{classname}}Error(500, "Internal Server Error");
+}

@@ -1,0 +1,146 @@
+package {{package}}
+
+import io.vertx.core.AbstractVerticle
+import io.vertx.core.eventbus.Message
+import io.vertx.core.json.Json
+import io.vertx.core.json.JsonArray
+import io.vertx.core.json.JsonObject
+import io.vertx.core.logging.Logger
+import io.vertx.core.logging.LoggerFactory
+import io.vertx.ext.asyncsql.MySQLClient
+import io.vertx.ext.asyncsql.AsyncSQLClient
+import org.jooq.SQLDialect
+import org.jooq.impl.DefaultConfiguration
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import io.vertx.kotlin.coroutines.dispatcher
+import io.swagger.parser.OpenAPIParser
+import io.swagger.v3.oas.models.OpenAPI
+import io.vertx.core.Vertx
+import java.nio.charset.Charset
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+class {{classname}}Verticle:AbstractVerticle() {
+    companion object {
+        fun register(vertx:Vertx,file:String): OpenAPI {
+            val vertxFileSystem = vertx.fileSystem()
+            val authBuffer = vertxFileSystem.readFileBlocking(file)
+            return OpenAPIParser().readContents(authBuffer.toString(Charset.forName("utf-8")), null, null).openAPI
+        }
+    }
+    {{#operations}}{{#operation}}{{#vendorExtensions}}
+    private val {{x-serviceid-varname}} = "{{x-serviceid}}"
+    {{/vendorExtensions}}{{/operation}}{{/operations}}
+    private val logger = LoggerFactory.getLogger(this::class.java)
+    private lateinit var service:{{classname}}
+    override fun start() {
+        super.start()
+        val configuration = DefaultConfiguration()
+        configuration.set(SQLDialect.MYSQL) //or SQLDialect.POSTGRES
+        val client = MySQLClient.createNonShared(vertx, config().getJsonObject("mysql"))
+        init(client)
+        {{#operations}}{{#operation}}
+        //Consumer for {{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}
+        vertx.eventBus().consumer<JsonObject>({{#vendorExtensions}}{{x-serviceid-varname}}{{/vendorExtensions}}).handler { message->
+            try{
+                val serviceId = "{{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}"
+        {{#hasParams}}
+            {{#allParams}}
+                {{#isListContainer}}
+                val {{paramName}}Param = message.body().getJsonArray("{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                    {{#required}}
+                if({{paramName}}Param == null) {
+                    manageError(message,  {{classname}}Error(400, "{{baseName}} is required"), serviceId)
+                    return@handler
+                }
+                val {{paramName}}:{{{dataType}}} = Json.mapper.readValue({{paramName}}Param.encode(),
+                            Json.mapper.getTypeFactory().constructCollectionType(List::class.java, {{{baseType}}}::class.java))
+                    {{/required}}
+                    {{^required}}
+                val {{paramName}}:{{{dataType}}} = if({{paramName}}Param == null) {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
+                    else Json.mapper.readValue({{paramName}}Param.encode(),
+                            Json.mapper.getTypeFactory().constructCollectionType(List::class.java, {{{baseType}}}::class.java))
+                    {{/required}}
+                {{/isListContainer}}
+                {{^isListContainer}}
+                    {{#isPrimitiveType}}
+                        {{#isString}}
+                val {{paramName}}Param = message.body().getString("{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                            {{#required}}
+                if({{paramName}}Param == null) {
+                    manageError(message,  {{classname}}Error(400, "{{baseName}} is required"), serviceId)
+                    return@handler
+                }
+                val {{paramName}}:{{{dataType}}} = {{paramName}}Param
+                            {{/required}}
+                            {{^required}}
+                val {{paramName}}:{{{dataType}}} = if({{paramName}}Param == null) {{#defaultValue}}{{#isEnum}}"{{/isEnum}}{{{defaultValue}}}{{#isEnum}}"{{/isEnum}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} else {{paramName}}Param
+                            {{/required}}
+                        {{/isString}}
+                        {{^isString}}
+                val {{paramName}}Param = message.body().getString("{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                            {{#required}}
+                if({{paramName}}Param == null) {
+                    manageError(message,  {{classname}}Error(400, "{{baseName}} is required"), serviceId)
+                    return@handler
+                }
+                val {{paramName}}:{{{dataType}}} = Json.mapper.readValue({{paramName}}Param, {{{dataType}}}::class.java)
+                            {{/required}}
+                            {{^required}}
+                val {{paramName}}:{{{dataType}}} = if({{paramName}}Param == null) {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} else Json.mapper.readValue({{paramName}}Param, {{{dataType}}}::class.java)
+                            {{/required}}
+                        {{/isString}}
+                    {{/isPrimitiveType}}
+                    {{^isPrimitiveType}}
+                val {{paramName}}Param = message.body().getJsonObject("{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                if ({{paramName}}Param == null) {
+                    manageError(message,  {{classname}}Error(400, "{{baseName}} is required"), serviceId)
+                    return@handler
+                }
+                val {{paramName}}:{{{dataType}}} = Json.mapper.readValue({{paramName}}Param.encode(), {{{dataType}}}::class.java)
+                    {{/isPrimitiveType}}
+                {{/isListContainer}}
+            {{/allParams}}
+        {{/hasParams}}
+                GlobalScope.launch(vertx.dispatcher()){
+                    val result = service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/allParams}}{{/hasParams}}
+        {{#returnType}}
+            {{#isListContainer}}
+                    message.reply(JsonArray(Json.encode(result)).encodePrettily())
+            {{/isListContainer}}
+            {{^isListContainer}}
+                    message.reply(JsonObject(Json.encode(result)).encodePrettily())
+            {{/isListContainer}}
+        {{/returnType}}
+        {{^returnType}}
+                    message.reply(null)
+        {{/returnType}}
+                }.invokeOnCompletion {
+                    if(it!=null) manageError(message, it, "{{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}")
+                }
+            }catch(e:Exception){
+                logger.error("Unexpected error in {{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}",e)
+            }
+        }
+        {{/operation}}{{/operations}}
+
+    }
+
+    private fun manageError(message: Message<JsonObject>, cause: Throwable, serviceName: String) {
+        var code = {{classname}}Error.INTERNAL_SERVER_ERROR.statusCode
+        var statusMessage = {{classname}}Error.INTERNAL_SERVER_ERROR.statusMessage
+        if (cause is {{classname}}Error) {
+            code = cause.statusCode
+            statusMessage = cause.statusMessage
+        } else {
+            logger.error(serviceName, cause)
+        }
+        message.fail(code, statusMessage)
+    }
+
+    fun init(client:AsyncSQLClient){
+
+    }
+}
