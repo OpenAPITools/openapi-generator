@@ -76,8 +76,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public KotlinSpringServerCodegen() {
         super();
 
-        apiTestTemplateFiles.put("apiController_test.mustache", ".kt");
-
         reservedWords.addAll(VARIABLE_RESERVED_WORDS);
 
         outputFolder = "generated-code/kotlin-spring";
@@ -334,6 +332,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         modelTemplateFiles.put("model.mustache", ".kt");
         apiTemplateFiles.put("apiController.mustache", ".kt");
+        apiTestTemplateFiles.put("apiController_test.mustache", ".kt");
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         if (this.serviceInterface) {
