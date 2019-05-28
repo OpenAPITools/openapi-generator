@@ -76,7 +76,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public KotlinSpringServerCodegen() {
         super();
 
-        apiTestTemplateFiles.put("api_test.mustache", ".kt");
+        apiTestTemplateFiles.put("apiController_test.mustache", ".kt");
 
         reservedWords.addAll(VARIABLE_RESERVED_WORDS);
 
@@ -333,7 +333,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
 
         modelTemplateFiles.put("model.mustache", ".kt");
-        apiTemplateFiles.put("api.mustache", ".kt");
+        apiTemplateFiles.put("apiController.mustache", ".kt");
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         if (this.serviceInterface) {
