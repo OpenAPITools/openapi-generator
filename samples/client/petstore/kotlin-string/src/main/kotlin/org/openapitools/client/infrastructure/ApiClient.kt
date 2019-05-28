@@ -1,8 +1,5 @@
 package org.openapitools.client.infrastructure
 
-import com.squareup.moshi.KotlinJsonAdapterFactory
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Rfc3339DateJsonAdapter
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.MediaType
@@ -11,7 +8,6 @@ import okhttp3.HttpUrl
 import okhttp3.ResponseBody
 import okhttp3.Request
 import java.io.File
-import java.util.Date
 
 open class ApiClient(val baseUrl: String) {
     companion object {
@@ -62,14 +58,7 @@ open class ApiClient(val baseUrl: String) {
             return null
         }
         return when(mediaType) {
-            JsonMediaType -> Moshi.Builder()
-                .add(Date::class.java, Rfc3339DateJsonAdapter().nullSafe())
-                .add(LocalDateTimeAdapter())
-                .add(LocalDateAdapter())
-                .add(UUIDAdapter())
-                .add(ByteArrayAdapter())
-                .add(KotlinJsonAdapterFactory())
-                .build().adapter(T::class.java).fromJson(bodyContent)
+            JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(bodyContent)
             else ->  TODO("responseBody currently only supports JSON body.")
         }
     }
