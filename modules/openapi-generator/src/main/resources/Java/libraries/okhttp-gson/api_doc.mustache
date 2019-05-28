@@ -32,7 +32,7 @@ import {{{package}}}.{{{classname}}};
 public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("{{basePath}}");
+    defaultClient.setBasePath("{{{basePath}}}");
     {{#hasAuthMethods}}
     {{#authMethods}}{{#isBasic}}
     // Configure HTTP basic authorization: {{{name}}}
