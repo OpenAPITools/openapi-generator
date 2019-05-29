@@ -16,7 +16,7 @@ describe('PetApi', () => {
             });
 
             it('should add and delete Pet', () => {
-                return api.addPet({ pet: fixture }).then(() => {
+                return api.addPet({ body: fixture }).then(() => {
                 });
             });
 
