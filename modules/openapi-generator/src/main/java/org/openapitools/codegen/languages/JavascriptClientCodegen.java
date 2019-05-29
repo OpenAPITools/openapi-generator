@@ -156,6 +156,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("binary", "File");
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "String");
+        typeMapping.put("URI", "String");
 
         importMapping.clear();
 

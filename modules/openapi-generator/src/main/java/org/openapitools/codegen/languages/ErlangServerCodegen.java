@@ -102,6 +102,7 @@ public class ErlangServerCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("bytearray", "binary");
         typeMapping.put("byte", "binary");
         typeMapping.put("uuid", "binary");
+        typeMapping.put("uri", "binary");
         typeMapping.put("password", "binary");
 
         cliOptions.clear();

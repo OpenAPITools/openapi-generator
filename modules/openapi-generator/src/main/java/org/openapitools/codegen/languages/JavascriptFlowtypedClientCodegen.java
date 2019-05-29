@@ -95,6 +95,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
 
         defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
         outputFolder = "generated-code/javascript-flowtyped";

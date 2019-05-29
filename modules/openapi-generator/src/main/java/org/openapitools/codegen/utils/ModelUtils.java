@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 
 public class ModelUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelUtils.class);
+    private static final String URI_FORMAT = "uri";
     private static boolean generateAliasAsModel = false;
 
     public static void setGenerateAliasAsModel(boolean value) {
@@ -495,6 +496,14 @@ public class ModelUtils {
         }
         if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
                 && SchemaTypeUtil.UUID_FORMAT.equals(schema.getFormat())) { // format: uuid
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isURISchema(Schema schema) {
+        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                && URI_FORMAT.equals(schema.getFormat())) { // format: uri
             return true;
         }
         return false;
