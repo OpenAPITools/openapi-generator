@@ -29,7 +29,7 @@ describe('PetApi', () => {
             it('should update Pet by ID', () => {
                 return api.getPetById({ petId: fixture.id }).then((result: Pet) => {
                     result.name = 'newname';
-                    return api.updatePet({ pet: result }).then(() => {
+                    return api.updatePet({ body: result }).then(() => {
                         return api.getPetById({ petId: fixture.id }).then((result: Pet) => {
                             return expect(result.name).to.deep.equal('newname');
                         });
