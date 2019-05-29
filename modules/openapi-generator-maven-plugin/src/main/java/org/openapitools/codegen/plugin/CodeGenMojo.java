@@ -127,6 +127,12 @@ public class CodeGenMojo extends AbstractMojo {
     private File templateDirectory;
 
     /**
+     * The name of templating engine to use, "mustache" (default) or "handlebars" (beta)
+     */
+    @Parameter(name = "engine", defaultValue = "mustache")
+    private String engine;
+
+    /**
      * Adds authorization headers when fetching the swagger definitions remotely. " Pass in a
      * URL-encoded string of name:header with a comma separating multiple values
      */
@@ -548,6 +554,10 @@ public class CodeGenMojo extends AbstractMojo {
 
             if (null != templateDirectory) {
                 configurator.setTemplateDir(templateDirectory.getAbsolutePath());
+            }
+
+            if (null != engine) {
+                configurator.setTemplatingEngineName(engine);
             }
 
             // Set generation options
