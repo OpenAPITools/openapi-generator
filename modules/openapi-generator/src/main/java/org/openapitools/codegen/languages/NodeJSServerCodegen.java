@@ -28,6 +28,8 @@ import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.GeneratorProperties;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +59,10 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
     public NodeJSServerCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
 
         // set the output folder here
         outputFolder = "generated-code/nodejs";
