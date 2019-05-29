@@ -7,40 +7,37 @@ import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
 import io.vertx.core.logging.Logger
 import io.vertx.core.logging.LoggerFactory
-import io.vertx.ext.asyncsql.MySQLClient
-import io.vertx.ext.asyncsql.AsyncSQLClient
-import org.jooq.SQLDialect
-import org.jooq.impl.DefaultConfiguration
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import io.vertx.kotlin.coroutines.dispatcher
+import com.github.wooyme.openapi.SwaggerRouter
 import io.swagger.parser.OpenAPIParser
 import io.swagger.v3.oas.models.OpenAPI
 import io.vertx.core.Vertx
+import io.vertx.ext.web.Router
 import java.nio.charset.Charset
+import com.github.wooyme.openapi.Response
 
 {{#imports}}import {{import}};
 {{/imports}}
 
-class {{classname}}Verticle:AbstractVerticle() {
+class {{classname}}Verticle(private val service:{{classname}}):AbstractVerticle() {
     companion object {
-        fun register(vertx:Vertx,file:String): OpenAPI {
+        fun register(vertx:Vertx,file:String,router:Router) {
             val vertxFileSystem = vertx.fileSystem()
             val authBuffer = vertxFileSystem.readFileBlocking(file)
-            return OpenAPIParser().readContents(authBuffer.toString(Charset.forName("utf-8")), null, null).openAPI
+            val result = OpenAPIParser().readContents(authBuffer.toString(Charset.forName("utf-8")), null, null).openAPI
+            SwaggerRouter.swaggerRouter(router, result, vertx.eventBus())
         }
     }
     {{#operations}}{{#operation}}{{#vendorExtensions}}
     private val {{x-serviceid-varname}} = "{{x-serviceid}}"
     {{/vendorExtensions}}{{/operation}}{{/operations}}
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private lateinit var service:{{classname}}
+
     override fun start() {
         super.start()
-        val configuration = DefaultConfiguration()
-        configuration.set(SQLDialect.MYSQL) //or SQLDialect.POSTGRES
-        val client = MySQLClient.createNonShared(vertx, config().getJsonObject("mysql"))
-        init(client)
+        service.init(vertx,config())
         {{#operations}}{{#operation}}
         //Consumer for {{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}
         vertx.eventBus().consumer<JsonObject>({{#vendorExtensions}}{{x-serviceid-varname}}{{/vendorExtensions}}).handler { message->
@@ -104,19 +101,17 @@ class {{classname}}Verticle:AbstractVerticle() {
                 {{/isListContainer}}
             {{/allParams}}
         {{/hasParams}}
+                val session = message.body().getJsonObject("session");
                 GlobalScope.launch(vertx.dispatcher()){
-                    val result = service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/allParams}}{{/hasParams}}
+                    val result = service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/hasParams}},session)
+                    val json = JsonObject()
+                    if(result.session!=null){
+                        json.put("session",result.session)
+                    }
         {{#returnType}}
-            {{#isListContainer}}
-                    message.reply(JsonArray(Json.encode(result)).encodePrettily())
-            {{/isListContainer}}
-            {{^isListContainer}}
-                    message.reply(JsonObject(Json.encode(result)).encodePrettily())
-            {{/isListContainer}}
+                    json.put("body",Json.encode(result.body))
         {{/returnType}}
-        {{^returnType}}
-                    message.reply(null)
-        {{/returnType}}
+                    message.reply(json)
                 }.invokeOnCompletion {
                     if(it!=null) manageError(message, it, "{{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}")
                 }
@@ -138,9 +133,5 @@ class {{classname}}Verticle:AbstractVerticle() {
             logger.error(serviceName, cause)
         }
         message.fail(code, statusMessage)
-    }
-
-    fun init(client:AsyncSQLClient){
-
     }
 }

@@ -67,8 +67,7 @@ public class KotlinVertxServerCodegen extends AbstractJavaCodegen {
         apiTemplateFiles.put("api.mustache", ".kt");
         apiTemplateFiles.put("apiVerticle.mustache", "Verticle.kt");
         apiTemplateFiles.put("apiError.mustache","Error.java");
-//        apiTemplateFiles.put("apiException.mustache", "Exception.java");
-
+        apiTemplateFiles.put("main.mustache","Main.kt");
         this.setDateLibrary("java8");
 
         embeddedTemplateDir = templateDir = "kotlin-vertx-server";
@@ -84,6 +83,8 @@ public class KotlinVertxServerCodegen extends AbstractJavaCodegen {
         updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
         updateOption(this.DATE_LIBRARY, this.getDateLibrary());
         additionalProperties.put(ROOT_PACKAGE, rootPackage);
+
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
     }
 
     @Override
