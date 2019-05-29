@@ -30,8 +30,8 @@ public class ApiException extends{{#useRuntimeException}} RuntimeException {{/us
         this.code = code;
         {{#caseInsensitiveResponseHeaders}}
         Map<String, List<String>> headers = new TreeMap<String, List<String>>(String.CASE_INSENSITIVE_ORDER);
-        for(Entry<String, List<String>> entry : responseHeaders.entrySet()){		
-        	headers.put(entry.getKey().toLowerCase(), entry.getValue());		
+        for(Entry<String, List<String>> entry : responseHeaders.entrySet()){
+        	headers.put(entry.getKey().toLowerCase(), entry.getValue());
         }
         {{/caseInsensitiveResponseHeaders}}
         this.responseHeaders = {{#caseInsensitiveResponseHeaders}}headers{{/caseInsensitiveResponseHeaders}}{{^caseInsensitiveResponseHeaders}}responseHeaders{{/caseInsensitiveResponseHeaders}};
@@ -59,8 +59,8 @@ public class ApiException extends{{#useRuntimeException}} RuntimeException {{/us
         this(code, message);
         {{#caseInsensitiveResponseHeaders}}
         Map<String, List<String>> headers = new TreeMap<String, List<String>>(String.CASE_INSENSITIVE_ORDER);
-        for(Entry<String, List<String>> entry : responseHeaders.entrySet()){		
-        	headers.put(entry.getKey().toLowerCase(), entry.getValue());		
+        for(Entry<String, List<String>> entry : responseHeaders.entrySet()){
+        	headers.put(entry.getKey().toLowerCase(), entry.getValue());
         }
         {{/caseInsensitiveResponseHeaders}}
         this.responseHeaders = {{#caseInsensitiveResponseHeaders}}headers{{/caseInsensitiveResponseHeaders}}{{^caseInsensitiveResponseHeaders}}responseHeaders{{/caseInsensitiveResponseHeaders}};
