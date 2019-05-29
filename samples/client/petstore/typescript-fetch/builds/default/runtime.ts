@@ -15,7 +15,6 @@
 export const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
 
 const isBlob = (value: any) => typeof Blob !== 'undefined' && value instanceof Blob;
-const isBuffer = (value: any) => typeof Buffer !== 'undefined' && value instanceof Buffer;
 
 /**
  * This is the base class for all generated API classes.
@@ -61,7 +60,7 @@ export class BaseAPI {
             // do not handle correctly sometimes.
             url += '?' + querystring(context.query);
         }
-        const body = (context.body instanceof FormData || isBlob(context.body) || isBuffer(context.body))
+        const body = (context.body instanceof FormData || isBlob(context.body))
 	    ? context.body
 	    : JSON.stringify(context.body);
         const init = {
