@@ -554,6 +554,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [unblu inc.](https://www.unblu.com/)
 - [Veamly](https://www.veamly.com/)
 - [Xero](https://www.xero.com/)
+- [Yelp](https://www.yelp.com/)
 - [Zalando](https://www.zalando.com)
 
 ## [5 - Presentations/Videos/Tutorials/Books](#table-of-contents)
@@ -583,9 +584,13 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2019-03-25 - [Access any REST service with the SAP S/4HANA Cloud SDK](https://blogs.sap.com/2019/03/25/integrate-sap-s4hana-cloud-sdk-with-open-api/) by [Alexander Duemont](https://people.sap.com/alexander.duemont)
 - 2019-03-25 - [OpenAPI generatorを試してみる](https://qiita.com/amuyikam/items/e8a45daae59c68be0fc8) by [@amuyikam](https://twitter.com/amuyikam)
 - 2019-03-27 - [OpenAPI3を使ってみよう！Go言語でクライアントとスタブの自動生成まで！](https://techblog.zozo.com/entry/openapi3/go) by [@gold_kou](https://twitter.com/gold_kou)
+- 2019-04-17 - [OpenAPIによるスキーマファースト開発の実施サンプルとCloud Runについて](https://tech-blog.optim.co.jp/entry/2019/04/17/174000) by [@yukey1031](https://twitter.com/yukey1031)
 - 2019-04-18 - [How to use OpenAPI3 for API developer (RubyKaigi 2019)](https://speakerdeck.com/ota42y/how-to-use-openapi3-for-api-developer) by [@ota42y](https://twitter.com/ota42y) at [RubyKaigi 2019](https://rubykaigi.org/2019)
 - 2019-04-29 - [A Beginner's Guide to Code Generation for REST APIs (OpenAPI Generator)](https://gum.co/openapi_generator_ebook) by [William Cheng](https://twitter.com/wing328)
 - 2019-05-01 - [Design and generate a REST API from Swagger / OpenAPI in Java, Python, C# and more](https://simply-how.com/design-and-generate-api-code-from-openapi) by [Simply How](https://simply-how.com/)
+- 2019-05-17 - [Generate Spring Boot REST API using Swagger/OpenAPI](https://www.47northlabs.com/knowledge-base/generate-spring-boot-rest-api-using-swagger-openapi/) by [Antonie Zafirov](https://www.47northlabs.com/author/antonie-zafirov/)
+- 2019-05-22 - [REST APIs代码生成指南(OpenAPI Generator)](https://gum.co/openapi_generator_ebook_gb) by [William Cheng](https://twitter.com/wing328), [Xin Meng](https://github.com/xmeng1)
+- 2019-05/24 - [REST API 代碼生成指南 (OpenAPI Generator)](https://gum.co/openapi_generator_ebook_big5) by [William Cheng](https://twitter.com/wing328)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -667,6 +672,7 @@ Here is a list of template creators:
    * TypeScript (jQuery): @bherila
    * TypeScript (Node):  @mhardorf
    * TypeScript (Rxjs): @denyo
+   * TypeScript (Inversify): @gualtierim
  * Server Stubs
    * Ada: @stcarrez
    * C# ASP.NET5: @jimschubert [:heart:](https://www.patreon.com/jimschubert)
@@ -750,7 +756,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Apex      |  |
 | Bash      | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09) |
 | C         | @zhemant (2018/11) |
-| C++       | @ravinikam (2017/07) @stkrwork (2017/07) @fvarose (2017/11) @etherealjoy (2018/02) @martindelille (2018/03) |
+| C++       | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) |
 | C#        | @mandrean (2017/08), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert) |
 | Clojure   |  |
 | Dart      | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) |

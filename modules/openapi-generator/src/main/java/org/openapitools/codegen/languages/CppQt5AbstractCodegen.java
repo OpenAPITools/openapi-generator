@@ -88,6 +88,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         //   come out of the box and will need to be sorted out (at least imply
         //   modifications on multiple templates)
         typeMapping.put("UUID", "QString");
+        typeMapping.put("URI", "QString");
         typeMapping.put("file", "QIODevice");
         typeMapping.put("binary", "QIODevice");
         importMapping = new HashMap<String, String>();

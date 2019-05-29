@@ -1015,6 +1015,7 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("binary", "File");
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "UUID");
+        typeMapping.put("URI", "URI");
         //typeMapping.put("BigDecimal", "BigDecimal"); //TODO need the mapping?
 
 
@@ -1025,6 +1026,7 @@ public class DefaultCodegen implements CodegenConfig {
         importMapping = new HashMap<String, String>();
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
+        importMapping.put("URI", "java.net.URI");
         importMapping.put("File", "java.io.File");
         importMapping.put("Date", "java.util.Date");
         importMapping.put("Timestamp", "java.sql.Timestamp");
@@ -1233,6 +1235,8 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.example = "2013-10-20T19:20:30+01:00";
         } else if (Boolean.TRUE.equals(codegenParameter.isUuid)) {
             codegenParameter.example = "38400000-8cf0-11bd-b23e-10b96e4ef00d";
+        } else if (Boolean.TRUE.equals(codegenParameter.isUri)) {
+            codegenParameter.example = "https://openapi-generator.tech";
         } else if (Boolean.TRUE.equals(codegenParameter.isString)) {
             codegenParameter.example = codegenParameter.paramName + "_example";
         } else if (Boolean.TRUE.equals(codegenParameter.isFreeFormObject)) {
@@ -1512,6 +1516,8 @@ public class DefaultCodegen implements CodegenConfig {
             return "array";
         } else if (ModelUtils.isUUIDSchema(schema)) {
             return "UUID";
+        } else if (ModelUtils.isURISchema(schema)) {
+            return "URI";
         } else if (ModelUtils.isStringSchema(schema)) {
             return "string";
         } else if (ModelUtils.isFreeFormObject(schema)) {
@@ -2038,6 +2044,9 @@ public class DefaultCodegen implements CodegenConfig {
                 // keep isString to true to make it backward compatible
                 property.isString = true;
                 property.isUuid = true;
+            } else if (ModelUtils.isURISchema(p)) {
+                property.isString = true; // for backward compatibility
+                property.isUri = true;
             } else if (ModelUtils.isEmailSchema(p)) {
                 property.isString = true;
                 property.isEmail = true;
@@ -4833,10 +4842,19 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updateOption(String key, String defaultValue) {
+        for (CliOption cliOption : cliOptions) {
+            if (cliOption.getOpt().equals(key)) {
+                cliOption.setDefault(defaultValue);
+                break;
+            }
+        }
+    }
+
+    protected void removeOption(String key) {
         for(int i = 0; i < cliOptions.size(); i++) {
-            if(cliOptions.get(i).getOpt().equals(key)) {
-                cliOptions.get(i).setDefault(defaultValue);
-                return;
+            if (key.equals(cliOptions.get(i).getOpt())) {
+                cliOptions.remove(i);
+                break;
             }
         }
     }
@@ -4853,7 +4871,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param objs map of object
      */
-    public void generateJSONSpecFile(Map<String, Object> objs) {
+    protected void generateJSONSpecFile(Map<String, Object> objs) {
         OpenAPI openAPI = (OpenAPI) objs.get("openAPI");
         if (openAPI != null) {
             try {

@@ -11,7 +11,7 @@
  * Do not edit the class manually.
  */
 
-import { exists } from '../runtime';
+import { exists, mapValues } from '../runtime';
 /**
  * A User who is purchasing from the pet store
  * @export

@@ -1,11 +1,34 @@
 {{>licenseInfo}}
 
-module Request.{{classname}} exposing ({{#operations}}{{#operation}}{{^-first}}, {{/-first}}{{operationId}}{{/operation}}{{/operations}})
+module Request.{{classname}} exposing ({{#operations}}{{#operation}}{{^-first}}, {{/-first}}{{operationId}}{{#allParams}}{{#isEnum}}, {{enumName}}(..){{/isEnum}}{{/allParams}}{{/operation}}{{/operations}})
 
 {{>imports}}import Dict
 import Http
 import Json.Decode as Decode
 import Url.Builder as Url
+
+
+{{#operations}}
+{{#operation}}
+{{#allParams}}
+{{#isEnum}}
+type {{enumName}}
+{{#allowableValues.enumVars}}    {{#-first}}= {{/-first}}{{^-first}}| {{/-first}}{{name}}
+{{/allowableValues.enumVars}}
+
+{{paramName}}ToString : {{enumName}} -> String
+{{paramName}}ToString value =
+    case value of
+{{#allowableValues.enumVars}}        {{name}} ->
+            {{{value}}}
+
+{{/allowableValues.enumVars}}
+
+
+{{/isEnum}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
 
 
 {{^enableCustomBasePaths}}basePath : String
@@ -29,8 +52,8 @@ basePath =
 {{#enableCustomBasePaths}}    , basePath : String{{/enableCustomBasePaths}}
 {{#enableHttpRequestTrackers}}    , tracker : Maybe String{{/enableHttpRequestTrackers}}
 {{#bodyParam}}    , body : {{^required}}Maybe {{/required}}{{dataType}}{{/bodyParam}}
-{{#pathParams}}    , {{paramName}} : {{#isListContainer}}List {{/isListContainer}}{{dataType}}{{/pathParams}}
-{{#queryParams}}    , {{paramName}} : {{^required}}Maybe ({{/required}}{{#isListContainer}}List {{/isListContainer}}{{dataType}}{{^required}}){{/required}}{{/queryParams}}
+{{#pathParams}}    , {{paramName}} : {{#isListContainer}}List {{/isListContainer}}{{#datatypeWithEnum}}{{datatypeWithEnum}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{dataType}}{{/datatypeWithEnum}}{{/pathParams}}
+{{#queryParams}}    , {{paramName}} : {{^required}}Maybe ({{/required}}{{#isListContainer}}List {{/isListContainer}}{{#datatypeWithEnum}}{{datatypeWithEnum}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{dataType}}{{/datatypeWithEnum}}{{^required}}){{/required}}{{/queryParams}}
     }
     -> Cmd msg
 {{operationId}} {{#headerParams.0}}headers {{/headerParams.0}}params =

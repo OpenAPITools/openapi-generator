@@ -111,6 +111,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "string");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
 
         cliOptions.clear();
         cliOptions.add(new CliOption(MODULE_NAME, "Perl module name (convention: CamelCase or Long::Module).").defaultValue("OpenAPIClient"));

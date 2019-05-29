@@ -93,6 +93,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
         typeMapping.put("object", "object");
         typeMapping.put("file", "file");
         typeMapping.put("UUID", "str");
+        typeMapping.put("URI", "str");
         typeMapping.put("byte", "bytearray");
         typeMapping.put("ByteArray", "bytearray");
 

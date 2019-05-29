@@ -94,7 +94,7 @@ export class {{classname}} extends runtime.BaseAPI {
         {{#headerParams}}
         {{#isListContainer}}
         if (requestParameters.{{paramName}}) {
-            headerParameters['{{baseName}}'] = requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
+            headerParameters['{{baseName}}'] = requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
         }
 
         {{/isListContainer}}
