@@ -153,6 +153,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-version}</version>
                 <configuration>
+<!--                    <forkCount>0</forkCount>-->
+<!--                    <reuseForks>false</reuseForks>-->
+                    <printSummary>true</printSummary>
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <junitArtifactName>none:none</junitArtifactName>
                     <testNGArtifactName>org.testng:testng</testNGArtifactName>
