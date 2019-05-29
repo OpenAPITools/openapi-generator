@@ -89,6 +89,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         typeMapping.put("binary", "restbed::Bytes");
         typeMapping.put("number", "double");
         typeMapping.put("UUID", "std::string");
+        typeMapping.put("URI", "std::string");
         typeMapping.put("ByteArray", "std::string");
 
         super.importMapping = new HashMap<String, String>();
