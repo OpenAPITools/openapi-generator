@@ -28,3 +28,4 @@ sidebar_label: csharp
 |netCoreProjectFile|Use the new format (.NET Core) for .NET project files (.csproj).| |false|
 |validatable|Generates self-validatable models.| |true|
 |useCompareNetObjects|Use KellermanSoftware.CompareNetObjects for deep recursive object comparison. WARNING: this option incurs potential performance impact.| |false|
+|caseInsensitiveResponseHeaders|Make API response's headers case-insensitive| |false|
