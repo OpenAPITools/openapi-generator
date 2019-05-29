@@ -12,17 +12,17 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import { Observable } from "rxjs/Observable";
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/toPromise';
+
+import { map } from "rxjs/operators";
 import IHttpClient from "../IHttpClient";
 import { inject, injectable } from "inversify";
 import { IAPIConfiguration } from "../IAPIConfiguration";
 import { Headers } from "../Headers";
 import HttpResponse from "../HttpResponse";
 
-import { User } from '../model/user';
+import { User } from "../model/user";
 
-import { COLLECTION_FORMATS }  from '../variables';
+import { COLLECTION_FORMATS }  from "../variables";
 
 
 
@@ -54,7 +54,9 @@ export class UserService {
 
         const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/user`, body , headers);
         if (observe == 'body') {
-               return response.map(httpResponse => <any>(httpResponse.response));
+               return response.pipe(
+                   map(httpResponse => <any>(httpResponse.response))
+               );
         }
         return response;
     }
@@ -78,7 +80,9 @@ export class UserService {
 
         const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/user/createWithArray`, body , headers);
         if (observe == 'body') {
-               return response.map(httpResponse => <any>(httpResponse.response));
+               return response.pipe(
+                   map(httpResponse => <any>(httpResponse.response))
+               );
         }
         return response;
     }
@@ -102,7 +106,9 @@ export class UserService {
 
         const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/user/createWithList`, body , headers);
         if (observe == 'body') {
-               return response.map(httpResponse => <any>(httpResponse.response));
+               return response.pipe(
+                   map(httpResponse => <any>(httpResponse.response))
+               );
         }
         return response;
     }
@@ -125,7 +131,9 @@ export class UserService {
 
         const response: Observable<HttpResponse<any>> = this.httpClient.delete(`${this.basePath}/user/${encodeURIComponent(String(username))}`, headers);
         if (observe == 'body') {
-               return response.map(httpResponse => <any>(httpResponse.response));
+               return response.pipe(
+                   map(httpResponse => <any>(httpResponse.response))
+               );
         }
         return response;
     }
@@ -148,7 +156,9 @@ export class UserService {
 
         const response: Observable<HttpResponse<User>> = this.httpClient.get(`${this.basePath}/user/${encodeURIComponent(String(username))}`, headers);
         if (observe == 'body') {
-               return response.map(httpResponse => <User>(httpResponse.response));
+               return response.pipe(
+                   map(httpResponse => <User>(httpResponse.response))
+               );
         }
         return response;
     }
@@ -184,7 +194,9 @@ export class UserService {
 
         const response: Observable<HttpResponse<string>> = this.httpClient.get(`${this.basePath}/user/login?${queryParameters.join('&')}`, headers);
         if (observe == 'body') {
-               return response.map(httpResponse => <string>(httpResponse.response));
+               return response.pipe(
+                   map(httpResponse => <string>(httpResponse.response))
+               );
         }
         return response;
     }
@@ -202,7 +214,9 @@ export class UserService {
 
         const response: Observable<HttpResponse<any>> = this.httpClient.get(`${this.basePath}/user/logout`, headers);
         if (observe == 'body') {
-               return response.map(httpResponse => <any>(httpResponse.response));
+               return response.pipe(
+                   map(httpResponse => <any>(httpResponse.response))
+               );
         }
         return response;
     }
@@ -231,7 +245,9 @@ export class UserService {
 
         const response: Observable<HttpResponse<any>> = this.httpClient.put(`${this.basePath}/user/${encodeURIComponent(String(username))}`, body , headers);
         if (observe == 'body') {
-               return response.map(httpResponse => <any>(httpResponse.response));
+               return response.pipe(
+                   map(httpResponse => <any>(httpResponse.response))
+               );
         }
         return response;
     }

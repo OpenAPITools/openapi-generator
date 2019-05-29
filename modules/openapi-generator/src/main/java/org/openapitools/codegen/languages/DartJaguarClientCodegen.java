@@ -43,6 +43,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     static {
         modelToIgnore.add("datetime");
         modelToIgnore.add("map");
+        modelToIgnore.add("object");
         modelToIgnore.add("list");
         modelToIgnore.add("file");
         modelToIgnore.add("uint8list");
@@ -177,6 +178,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
 
         final String authFolder = sourceFolder + File.separator + "lib" + File.separator + "auth";
         supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));

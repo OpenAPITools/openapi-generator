@@ -23,10 +23,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.StringUtils;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -36,6 +34,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String USE_PROMISE = "usePromise";
+    public static final String USE_RXJS6 = "useRxJS6";
     public static final String TAGGED_UNIONS = "taggedUnions";
 
     protected String npmRepository = null;
@@ -53,6 +52,8 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
         apiPackage = "api";
         modelPackage = "model";
 
+        this.reservedWords.add("map");
+
         this.cliOptions.add(new CliOption(NPM_REPOSITORY,
                 "Use this property to set an url your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES,
@@ -60,6 +61,9 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
                 SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(USE_PROMISE,
                 "Setting this property to use promise instead of observable inside every service.",
+                SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(USE_RXJS6,
+                "Setting this property to use rxjs 6 instead of rxjs 5.",
                 SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
@@ -85,7 +89,7 @@ public class TypeScriptInversifyClientCodegen extends AbstractTypeScriptClientCo
     @Override
     public void processOpts() {
         super.processOpts();
-        // HttpClient
+        // HttpCliens
         supportingFiles.add(new SupportingFile("IHttpClient.mustache", getIndexDirectory(), "IHttpClient.ts"));
         supportingFiles.add(new SupportingFile("IAPIConfiguration.mustache", getIndexDirectory(), "IAPIConfiguration.ts"));
         supportingFiles.add(new SupportingFile("HttpClient.mustache", getIndexDirectory(), "HttpClient.ts"));

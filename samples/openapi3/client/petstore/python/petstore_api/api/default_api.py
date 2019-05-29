@@ -50,11 +50,7 @@ class DefaultApi(object):
                  returns the request thread.
         """
         kwargs['_return_http_data_only'] = True
-        if kwargs.get('async_req'):
-            return self.foo_get_with_http_info(**kwargs)  # noqa: E501
-        else:
-            (data) = self.foo_get_with_http_info(**kwargs)  # noqa: E501
-            return data
+        return self.foo_get_with_http_info(**kwargs)  # noqa: E501
 
     def foo_get_with_http_info(self, **kwargs):  # noqa: E501
         """foo_get  # noqa: E501
