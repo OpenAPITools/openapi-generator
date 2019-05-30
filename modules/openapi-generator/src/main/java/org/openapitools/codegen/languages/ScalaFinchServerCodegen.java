@@ -25,7 +25,7 @@ import org.openapitools.codegen.utils.ModelUtils;
 import java.io.File;
 import java.util.*;
 
-public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig {
+public class ScalaFinchServerCodegen extends DefaultCodegen implements CodegenConfig {
     protected String invokerPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "finch-server";
@@ -33,12 +33,12 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
     protected String sourceFolder = "src/main/scala";
     protected String packageName = "org.openapitools";
 
-    public FinchServerCodegen() {
+    public ScalaFinchServerCodegen() {
         super();
         outputFolder = "generated-code/finch";
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
-        embeddedTemplateDir = templateDir = "finch";
+        embeddedTemplateDir = templateDir = "scala-finch";
 
         apiPackage = packageName + ".apis";
         modelPackage = packageName + ".models";
