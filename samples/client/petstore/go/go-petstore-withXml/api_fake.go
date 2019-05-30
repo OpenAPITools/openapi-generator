@@ -15,7 +15,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 	"github.com/antihax/optional"
 	"os"
 )
