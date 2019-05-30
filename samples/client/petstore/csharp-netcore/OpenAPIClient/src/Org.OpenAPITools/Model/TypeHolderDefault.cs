@@ -186,12 +186,9 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 if (this.StringItem != null)
                     hashCode = hashCode * 59 + this.StringItem.GetHashCode();
-                if (this.NumberItem != null)
-                    hashCode = hashCode * 59 + this.NumberItem.GetHashCode();
-                if (this.IntegerItem != null)
-                    hashCode = hashCode * 59 + this.IntegerItem.GetHashCode();
-                if (this.BoolItem != null)
-                    hashCode = hashCode * 59 + this.BoolItem.GetHashCode();
+                hashCode = hashCode * 59 + this.NumberItem.GetHashCode();
+                hashCode = hashCode * 59 + this.IntegerItem.GetHashCode();
+                hashCode = hashCode * 59 + this.BoolItem.GetHashCode();
                 if (this.ArrayItem != null)
                     hashCode = hashCode * 59 + this.ArrayItem.GetHashCode();
                 return hashCode;
