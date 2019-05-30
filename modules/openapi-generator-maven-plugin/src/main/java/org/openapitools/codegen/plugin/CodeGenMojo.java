@@ -129,7 +129,7 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * The name of templating engine to use, "mustache" (default) or "handlebars" (beta)
      */
-    @Parameter(name = "engine", defaultValue = "mustache")
+    @Parameter(name = "engine", defaultValue = "mustache", property="openapi.generator.maven.plugin.engine")
     private String engine;
 
     /**
