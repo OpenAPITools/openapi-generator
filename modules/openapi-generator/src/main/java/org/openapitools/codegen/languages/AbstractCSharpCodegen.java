@@ -76,6 +76,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     // nullable type
     protected Set<String> nullableType = new HashSet<String>();
 
+    protected Set<String> valueTypes = new HashSet<String>();
+
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
     public AbstractCSharpCodegen() {
@@ -190,6 +192,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // nullable type
         nullableType = new HashSet<String>(
                 Arrays.asList("decimal", "bool", "int", "float", "long", "double", "DateTime", "Guid")
+        );
+        // value Types
+        valueTypes = new HashSet<String>(
+                Arrays.asList("decimal", "bool", "int", "float", "long", "double")
         );
     }
 
@@ -415,6 +421,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         final Map<String, Object> processed = super.postProcessAllModels(objs);
         postProcessEnumRefs(processed);
+        updateValueTypeProperty(processed);
         return processed;
     }
 
@@ -443,6 +450,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
             if (model != null) {
                 for (CodegenProperty var : model.allVars) {
+                    if (enumRefs.containsKey(var.dataType)) {
+                        // Handle any enum properties referred to by $ref.
+                        // This is different in C# than most other generators, because enums in C# are compiled to integral types,
+                        // while enums in many other languages are true objects.
+                        CodegenModel refModel = enumRefs.get(var.dataType);
+                        var.allowableValues = refModel.allowableValues;
+                        var.isEnum = true;
+
+                        // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
+                        var.isPrimitiveType = true;
+                    }
+                }
+                for (CodegenProperty var : model.vars) {
                     if (enumRefs.containsKey(var.dataType)) {
                         // Handle any enum properties referred to by $ref.
                         // This is different in C# than most other generators, because enums in C# are compiled to integral types,
@@ -538,6 +558,23 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 var.isString = true;
                 var.isInteger = false;
                 var.isLong = false;
+            }
+        }
+    }
+
+    /**
+     * Update property if it is a C# value type
+     *
+     * @param models list of all models
+     */
+    protected void updateValueTypeProperty(Map<String, Object> models) {
+        for (Map.Entry<String, Object> entry : models.entrySet()) {
+            String openAPIName = entry.getKey();
+            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
+            if (model != null) {
+                for (CodegenProperty var : model.vars) {
+                    var.vendorExtensions.put("isValueType", isValueType(var));
+                }
             }
         }
     }
@@ -1054,6 +1091,17 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return "String".equalsIgnoreCase(dataType) ||
                 "double?".equals(dataType) || "decimal?".equals(dataType) || "float?".equals(dataType) ||
                 "double".equals(dataType) || "decimal".equals(dataType) || "float".equals(dataType);
+    }
+
+    /**
+     * Return true if the property being passed is a C# value type
+     *
+     * @param var property
+     * @return true if property is a value type
+     */
+
+    protected boolean isValueType(CodegenProperty var) {
+        return (valueTypes.contains(var.dataType) || var.isEnum ) ;
     }
 
     @Override
