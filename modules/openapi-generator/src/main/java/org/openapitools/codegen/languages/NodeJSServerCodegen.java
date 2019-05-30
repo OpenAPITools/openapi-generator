@@ -60,6 +60,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
     public NodeJSServerCodegen() {
         super();
 
+        // mark the generator as deprecated in the documentation
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.DEPRECATED)
                 .build();
