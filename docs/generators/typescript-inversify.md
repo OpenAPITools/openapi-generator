@@ -19,4 +19,5 @@ sidebar_label: typescript-inversify
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 |usePromise|Setting this property to use promise instead of observable inside every service.| |false|
+|useRxJS6|Setting this property to use rxjs 6 instead of rxjs 5.| |false|
 |taggedUnions|Use discriminators to create tagged unions instead of extending interfaces.| |false|

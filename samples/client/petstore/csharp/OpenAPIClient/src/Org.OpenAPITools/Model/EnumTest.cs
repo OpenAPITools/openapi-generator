@@ -140,6 +140,11 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name="enum_number", EmitDefaultValue=false)]
         public EnumNumberEnum? EnumNumber { get; set; }
         /// <summary>
+        /// Gets or Sets OuterEnum
+        /// </summary>
+        [DataMember(Name="outerEnum", EmitDefaultValue=false)]
+        public OuterEnum? OuterEnum { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
@@ -174,11 +179,6 @@ namespace Org.OpenAPITools.Model
 
 
 
-        /// <summary>
-        /// Gets or Sets OuterEnum
-        /// </summary>
-        [DataMember(Name="outerEnum", EmitDefaultValue=false)]
-        public OuterEnum OuterEnum { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

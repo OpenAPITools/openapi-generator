@@ -94,6 +94,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         typeMapping.put("number", "Double");
         typeMapping.put("short", "Integer");
         typeMapping.put("UUID", "String");
+        typeMapping.put("URI", "String");
 
         // https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_reserved_words.htm
         setReservedWordsLowerCase(
