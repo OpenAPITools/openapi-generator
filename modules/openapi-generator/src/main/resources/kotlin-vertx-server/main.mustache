@@ -14,8 +14,8 @@ fun main(args:Array<String>){
     router.route().handler(SessionHandler.create(SessionStore.create(vertx)))
     {{classname}}Verticle.register(vertx,if(args.size>1) args[1] else "openapi.json",router)
     //vertx.deployVerticle(DefaultApiVerticle(DefaultApiImpl(...)))
-    httpServer.requestHandler(router).listen({{serverPort}}){
+    httpServer.requestHandler(router).listen(80){
         if(it.failed()) it.cause().printStackTrace()
-        else println("Listen at {{serverPort}} !")
+        else println("Listen at 80 !")
     }
 }

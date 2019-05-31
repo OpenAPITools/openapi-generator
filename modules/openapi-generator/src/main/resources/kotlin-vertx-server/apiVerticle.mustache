@@ -5,6 +5,7 @@ import io.vertx.core.eventbus.Message
 import io.vertx.core.json.Json
 import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
+import com.google.gson.Gson
 import io.vertx.core.logging.Logger
 import io.vertx.core.logging.LoggerFactory
 import kotlinx.coroutines.GlobalScope
@@ -18,7 +19,7 @@ import io.vertx.ext.web.Router
 import java.nio.charset.Charset
 import com.github.wooyme.openapi.Response
 
-{{#imports}}import {{import}};
+{{#imports}}import {{import}}
 {{/imports}}
 
 class {{classname}}Verticle(private val service:{{classname}}):AbstractVerticle() {
@@ -30,19 +31,16 @@ class {{classname}}Verticle(private val service:{{classname}}):AbstractVerticle(
             SwaggerRouter.swaggerRouter(router, result, vertx.eventBus())
         }
     }
-    {{#operations}}{{#operation}}{{#vendorExtensions}}
-    private val {{x-serviceid-varname}} = "{{x-serviceid}}"
-    {{/vendorExtensions}}{{/operation}}{{/operations}}
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     override fun start() {
         super.start()
         service.init(vertx,config())
         {{#operations}}{{#operation}}
-        //Consumer for {{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}
-        vertx.eventBus().consumer<JsonObject>({{#vendorExtensions}}{{x-serviceid-varname}}{{/vendorExtensions}}).handler { message->
+        //Consumer for {{#vendorExtensions}}{{operationId}}{{/vendorExtensions}}
+        vertx.eventBus().consumer<JsonObject>({{#vendorExtensions}}"{{operationId}}"{{/vendorExtensions}}).handler { message->
             try{
-                val serviceId = "{{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}"
+                val serviceId = "{{#vendorExtensions}}{{operationId}}{{/vendorExtensions}}"
         {{#hasParams}}
             {{#allParams}}
                 {{#isListContainer}}
@@ -52,58 +50,68 @@ class {{classname}}Verticle(private val service:{{classname}}):AbstractVerticle(
                     manageError(message,  {{classname}}Error(400, "{{baseName}} is required"), serviceId)
                     return@handler
                 }
-                val {{paramName}}:{{{dataType}}} = Json.mapper.readValue({{paramName}}Param.encode(),
-                            Json.mapper.getTypeFactory().constructCollectionType(List::class.java, {{{baseType}}}::class.java))
+                val {{paramName}}:{{{dataType}}} = Gson().fromJson({{paramName}}Param.encode()
+                            , object : TypeToken<kotlin.List<{{{baseType}}}>>(){}.type)
                     {{/required}}
                     {{^required}}
-                val {{paramName}}:{{{dataType}}} = if({{paramName}}Param == null) {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
-                    else Json.mapper.readValue({{paramName}}Param.encode(),
-                            Json.mapper.getTypeFactory().constructCollectionType(List::class.java, {{{baseType}}}::class.java))
+                val {{paramName}}:{{{dataType}}}? = if({{paramName}}Param == null) {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
+                    else Gson().fromJson({{paramName}}Param.encode(),
+                            , object : TypeToken<kotlin.List<{{{baseType}}}>>(){}.type)
                     {{/required}}
                 {{/isListContainer}}
                 {{^isListContainer}}
                     {{#isPrimitiveType}}
+                val {{paramName}}Param = message.body().getString("{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                        {{#required}}
+                if({{paramName}}Param == null) {
+                    manageError(message,  {{classname}}Error(400, "{{baseName}} is required"), serviceId)
+                    return@handler
+                }
+                        {{/required}}
                         {{#isString}}
-                val {{paramName}}Param = message.body().getString("{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
-                            {{#required}}
-                if({{paramName}}Param == null) {
-                    manageError(message,  {{classname}}Error(400, "{{baseName}} is required"), serviceId)
-                    return@handler
-                }
-                val {{paramName}}:{{{dataType}}} = {{paramName}}Param
-                            {{/required}}
-                            {{^required}}
-                val {{paramName}}:{{{dataType}}} = if({{paramName}}Param == null) {{#defaultValue}}{{#isEnum}}"{{/isEnum}}{{{defaultValue}}}{{#isEnum}}"{{/isEnum}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} else {{paramName}}Param
-                            {{/required}}
+                val {{paramName}} = {{paramName}}Param
                         {{/isString}}
-                        {{^isString}}
-                val {{paramName}}Param = message.body().getString("{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
-                            {{#required}}
-                if({{paramName}}Param == null) {
-                    manageError(message,  {{classname}}Error(400, "{{baseName}} is required"), serviceId)
-                    return@handler
-                }
-                val {{paramName}}:{{{dataType}}} = Json.mapper.readValue({{paramName}}Param, {{{dataType}}}::class.java)
-                            {{/required}}
-                            {{^required}}
-                val {{paramName}}:{{{dataType}}} = if({{paramName}}Param == null) {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} else Json.mapper.readValue({{paramName}}Param, {{{dataType}}}::class.java)
-                            {{/required}}
-                        {{/isString}}
+                        {{#isNumber}}
+                val {{paramName}} = {{paramName}}Param{{^required}}?{{/required}}.toBigDecimal()
+                        {{/isNumber}}
+                        {{#isLong}}
+                val {{paramName}} = {{paramName}}Param{{^required}}?{{/required}}.toLong()
+                        {{/isLong}}
+                        {{#isInteger}}
+                val {{paramName}} = {{paramName}}Param{{^required}}?{{/required}}.toInt()
+                        {{/isInteger}}
+                        {{#isFloat}}
+                val {{paramName}} = {{paramName}}Param{{^required}}?{{/required}}.toFloat()
+                        {{/isFloat}}
+                        {{#isDouble}}
+                val {{paramName}} = {{paramName}}Param{{^required}}?{{/required}}.toDouble()
+                        {{/isDouble}}
+                        {{#isBoolean}}
+                val {{paramName}} = {{paramName}}Param{{^required}}?{{/required}}.toBoolean()
+                        {{/isBoolean}}
+                        {{#isFreeFormObject}}
+                val {{paramName}} = {{paramName}}Param{{^required}}?{{/required}}.let{ try { JsonObject({{paramName}}Param) }catch( e:Exception ){ {{paramName}}Param } }
+                        {{/isFreeFormObject}}
                     {{/isPrimitiveType}}
                     {{^isPrimitiveType}}
                 val {{paramName}}Param = message.body().getJsonObject("{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                        {{#required}}
                 if ({{paramName}}Param == null) {
                     manageError(message,  {{classname}}Error(400, "{{baseName}} is required"), serviceId)
                     return@handler
                 }
-                val {{paramName}}:{{{dataType}}} = Json.mapper.readValue({{paramName}}Param.encode(), {{{dataType}}}::class.java)
+                val {{paramName}} = Gson().fromJson({{paramName}}Param.encode(), {{{dataType}}}::class.java)
+                        {{/required}}
+                        {{^required}}
+                val {{paramName}} = if({{paramName}}Param ==null) null else Gson().fromJson({{paramName}}Param.encode(), {{{dataType}}}::class.java)
+                        {{/required}}
                     {{/isPrimitiveType}}
                 {{/isListContainer}}
             {{/allParams}}
         {{/hasParams}}
-                val session = message.body().getJsonObject("session");
+                val session = message.body().getJsonObject("session")
                 GlobalScope.launch(vertx.dispatcher()){
-                    val result = service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/hasParams}},session)
+                    val result = service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}},{{/allParams}}{{/hasParams}}session)
                     val json = JsonObject()
                     if(result.session!=null){
                         json.put("session",result.session)
@@ -113,10 +121,10 @@ class {{classname}}Verticle(private val service:{{classname}}):AbstractVerticle(
         {{/returnType}}
                     message.reply(json)
                 }.invokeOnCompletion {
-                    if(it!=null) manageError(message, it, "{{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}")
+                    if(it!=null) manageError(message, it, "{{#vendorExtensions}}{{operationId}}{{/vendorExtensions}}")
                 }
             }catch(e:Exception){
-                logger.error("Unexpected error in {{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}",e)
+                logger.error("Unexpected error in {{#vendorExtensions}}{{operationId}}{{/vendorExtensions}}",e)
             }
         }
         {{/operation}}{{/operations}}

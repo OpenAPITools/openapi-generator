@@ -12,7 +12,9 @@ interface {{classname}}  {
     fun init(vertx:Vertx,config:JsonObject)
 {{#operations}}
     {{#operation}}
-    suspend fun {{operationId}}({{#allParams}}{{paramName}}:{{{dataType}}}{{#hasMore}}, {{/hasMore}}{{/allParams}},session:JsonObject?):Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>
+    /* {{operationId}}
+     * {{summary}} */
+    suspend fun {{operationId}}({{#allParams}}{{paramName}}:{{{dataType}}}{{^isRequired}}?{{/isRequired}},{{/allParams}}session:JsonObject?):Response<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>
     {{/operation}}
 {{/operations}}
 }

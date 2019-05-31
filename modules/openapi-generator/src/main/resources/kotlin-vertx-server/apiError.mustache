@@ -1,22 +1,7 @@
 package {{package}};
 
-public class {{classname}}Error extends Exception {
-    private int statusCode;
-    private String statusMessage;
-
-    public {{classname}}Error(int statusCode, String statusMessage) {
-        super();
-        this.statusCode = statusCode;
-        this.statusMessage = statusMessage;
+class {{classname}}Error(val statusCode:Int,val statusMessage:String):Exception() {
+    companion object {
+        val  INTERNAL_SERVER_ERROR = {{classname}}Error(500, "Internal Server Error")
     }
-
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    public String getStatusMessage() {
-        return statusMessage;
-    }
-    
-    public static final {{classname}}Error INTERNAL_SERVER_ERROR = new {{classname}}Error(500, "Internal Server Error");
 }
