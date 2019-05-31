@@ -78,6 +78,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         typeMapping.put("integer", "qint32");
         typeMapping.put("long", "qint64");
         typeMapping.put("boolean", "bool");
+        typeMapping.put("number", "double");        
         typeMapping.put("array", "QList");
         typeMapping.put("map", "QMap");
         typeMapping.put("object", PREFIX + "Object");
