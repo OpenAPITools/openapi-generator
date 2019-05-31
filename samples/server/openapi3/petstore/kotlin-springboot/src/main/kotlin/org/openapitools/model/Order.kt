@@ -3,8 +3,13 @@ package org.openapitools.model
 import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
-import javax.validation.Valid
-import javax.validation.constraints.*
+import javax.validation.constraints.DecimalMax
+import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.Max
+import javax.validation.constraints.Min
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
 import io.swagger.annotations.ApiModelProperty
 
 /**
@@ -19,13 +24,13 @@ import io.swagger.annotations.ApiModelProperty
 data class Order (
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") val id: Long? = null,
+        @JsonProperty("id") val id: kotlin.Long? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("petId") val petId: Long? = null,
+        @JsonProperty("petId") val petId: kotlin.Long? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("quantity") val quantity: Int? = null,
+        @JsonProperty("quantity") val quantity: kotlin.Int? = null,
 
         @ApiModelProperty(example = "null", value = "")
         @JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
@@ -34,14 +39,14 @@ data class Order (
         @JsonProperty("status") val status: Order.Status? = null,
 
         @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("complete") val complete: Boolean? = null
+        @JsonProperty("complete") val complete: kotlin.Boolean? = null
 ) {
 
     /**
     * Order Status
     * Values: placed,approved,delivered
     */
-    enum class Status(val value: String) {
+    enum class Status(val value: kotlin.String) {
     
         @JsonProperty("placed") placed("placed"),
     
