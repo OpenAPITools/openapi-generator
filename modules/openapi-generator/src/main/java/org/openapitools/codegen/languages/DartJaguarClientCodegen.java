@@ -87,6 +87,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         protoTypeMapping.put("file", "bytes");
         protoTypeMapping.put("binary", "bytes");
         protoTypeMapping.put("UUID", "string");
+        protoTypeMapping.put("URI", "string");
         protoTypeMapping.put("ByteArray", "bytes");
 
     }

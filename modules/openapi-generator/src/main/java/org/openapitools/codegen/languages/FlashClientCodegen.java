@@ -74,6 +74,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("object", "Object");
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "String");
+        typeMapping.put("URI", "String");
         typeMapping.put("binary", "File");
 
         importMapping = new HashMap<String, String>();
