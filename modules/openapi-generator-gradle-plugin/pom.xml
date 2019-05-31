@@ -72,7 +72,7 @@
                                 <!-- calls "clean assemble install" -->
                                 <task>clean</task>
                                 <task>assemble</task>
-                                <task>install</task>
+                                <task>publishToMavenLocal</task>
                             </tasks>
                         </configuration>
                     </execution>
