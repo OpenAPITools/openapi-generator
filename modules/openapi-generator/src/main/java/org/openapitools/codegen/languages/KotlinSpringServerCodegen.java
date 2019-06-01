@@ -342,9 +342,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         modelTemplateFiles.put("model.mustache", ".kt");
-        apiTemplateFiles.put("apiController.mustache", ".kt");
-        apiTestTemplateFiles.put("apiController_test.mustache", ".kt");
-        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+        if (interfaceOnly) {
+            apiTemplateFiles.put("api.mustache", ".kt");
+        } else {
+            apiTemplateFiles.put("apiController.mustache", ".kt");
+            apiTestTemplateFiles.put("apiController_test.mustache", ".kt");
+        }
 
         if (this.serviceInterface) {
             apiTemplateFiles.put("service.mustache", "Service.kt");
@@ -354,6 +358,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             apiTemplateFiles.put("service.mustache", "Service.kt");
             apiTemplateFiles.put("serviceImpl.mustache", "ServiceImpl.kt");
         }
+
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
 
         if (this.exceptionHandler) {
             supportingFiles.add(new SupportingFile("exceptions.mustache",
