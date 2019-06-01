@@ -1,6 +1,9 @@
 {{>partial_header}}
 use std::rc::Rc;
 use std::borrow::Borrow;
+{{#x-codegen-generate-option-query-params}}
+use std::option::Option;
+{{/x-codegen-generate-option-query-params}}
 
 use reqwest;
 
@@ -21,7 +24,7 @@ impl {{{classname}}}Client {
 pub trait {{{classname}}} {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#x-codegen-generate-option-query-params}}{{^required}}Option<{{/required}}{{/x-codegen-generate-option-query-params}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#x-codegen-generate-option-query-params}}{{^required}}>{{/required}}{{/x-codegen-generate-option-query-params}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
 {{/operation}}
 {{/operations}}
 }
@@ -29,7 +32,7 @@ pub trait {{{classname}}} {
 impl {{{classname}}} for {{{classname}}}Client {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#x-codegen-generate-option-query-params}}{{^required}}Option<{{/required}}{{/x-codegen-generate-option-query-params}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#x-codegen-generate-option-query-params}}{{^required}}>{{/required}}{{/x-codegen-generate-option-query-params}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -37,7 +40,19 @@ impl {{{classname}}} for {{{classname}}}Client {
         let mut req_builder = client.{{{httpMethod}}}(uri_str.as_str());
 
         {{#queryParams}}
+        {{^x-codegen-generate-option-query-params}}
         req_builder = req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}{{#isListContainer}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string())]);
+        {{/x-codegen-generate-option-query-params}}
+        {{#x-codegen-generate-option-query-params}}
+        {{#required}}
+        req_builder = req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}{{#isListContainer}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string())]);
+        {{/required}}
+        {{^required}}
+        if let Some(ref s) = {{{paramName}}} {
+            req_builder = req_builder.query(&[("{{{baseName}}}", &s{{#isListContainer}}.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(","){{/isListContainer}}.to_string())]);
+        }
+        {{/required}}
+        {{/x-codegen-generate-option-query-params}}
         {{/queryParams}}
         {{#hasAuthMethods}}
         {{#authMethods}}

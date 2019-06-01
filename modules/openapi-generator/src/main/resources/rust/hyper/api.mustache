@@ -1,6 +1,9 @@
 {{>partial_header}}
 use std::rc::Rc;
 use std::borrow::Borrow;
+{{#x-codegen-generate-option-query-params}}
+use std::option::Option;
+{{/x-codegen-generate-option-query-params}}
 
 use hyper;
 use serde_json;
@@ -24,17 +27,16 @@ impl<C: hyper::client::Connect> {{{classname}}}Client<C> {
 pub trait {{{classname}}} {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error = Error<serde_json::Value>>>;
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#x-codegen-generate-option-query-params}}{{^required}}Option<{{/required}}{{/x-codegen-generate-option-query-params}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#x-codegen-generate-option-query-params}}{{^required}}>{{/required}}{{/x-codegen-generate-option-query-params}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error = Error<serde_json::Value>>>;
 {{/operation}}
 {{/operations}}
 }
 
-
 impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{.}}}{{/returnType}}, Error = Error<serde_json::Value>>> {
-        __internal_request::Request::new(hyper::Method::{{{httpMethod}}}, "{{{path}}}".to_string())
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{#x-codegen-generate-option-query-params}}{{^required}}Option<{{/required}}{{/x-codegen-generate-option-query-params}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{#x-codegen-generate-option-query-params}}{{^required}}>{{/required}}{{/x-codegen-generate-option-query-params}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Box<Future<Item = {{^returnType}}(){{/returnType}}{{#returnType}}{{{.}}}{{/returnType}}, Error = Error<serde_json::Value>>> {
+        let mut req = __internal_request::Request::new(hyper::Method::{{{httpMethod}}}, "{{{path}}}".to_string())
         {{#hasAuthMethods}}
         {{#authMethods}}
         {{#isApiKey}}
@@ -52,9 +54,6 @@ impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
         {{/isOAuth}}
         {{/authMethods}}
         {{/hasAuthMethods}}
-        {{#queryParams}}
-            .with_query_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string())
-        {{/queryParams}}
         {{#pathParams}}
             .with_path_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string())
         {{/pathParams}}
@@ -81,7 +80,25 @@ impl<C: hyper::client::Connect>{{{classname}}} for {{{classname}}}Client<C> {
         {{^returnType}}
             .returns_nothing()
         {{/returnType}}
-            .execute(self.configuration.borrow())
+	    ;
+
+        {{#queryParams}}
+        {{#x-codegen-generate-option-query-params}}
+        {{#required}}
+        req = req.with_query_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/required}}
+        {{^required}}
+        if let Some(ref s) = {{{paramName}}} {
+            req = req.with_query_param("{{{baseName}}}".to_string(), s{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        }
+        {{/required}}
+        {{/x-codegen-generate-option-query-params}}
+        {{^x-codegen-generate-option-query-params}}
+        req = req.with_query_param("{{{baseName}}}".to_string(), {{{paramName}}}{{#isListContainer}}.join(","){{/isListContainer}}.to_string());
+        {{/x-codegen-generate-option-query-params}}
+        {{/queryParams}}
+
+        req.execute(self.configuration.borrow())
     }
 
 {{/operation}}
