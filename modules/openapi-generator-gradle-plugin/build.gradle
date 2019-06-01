@@ -97,6 +97,10 @@ task sourcesJar(type: Jar) {
     classifier = 'sources'
 }
 
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -139,11 +143,14 @@ publishing {
     }
 }
 
+nexusStaging {
+    username = project.properties["ossrhUsername"]
+    password = project.properties["ossrhPassword"]
+}
+
 nexusPublishing {
-    username = ossrhUsername
-    password = ossrhPassword
-    stagingProfileId = "org.openapitools"
-    packageGroup = "org.openapitools"
+    // To retrieve: ./gradlew -Psigning.keyId="$SIGNING_KEY" -Psigning.password="$SIGNING_PASSPHRASE" -Psigning.secretKeyRingFile="$SIGNING_SECRET" getStagingProfile --no-daemon
+    stagingProfileId = "456297f829bbbe"
 }
 
 gradlePlugin {
