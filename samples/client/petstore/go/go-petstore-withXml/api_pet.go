@@ -16,6 +16,7 @@ import (
 	"net/http"
 	"net/url"
 	"fmt"
+	"strings"
 	"github.com/antihax/optional"
 	"os"
 )

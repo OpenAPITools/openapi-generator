@@ -15,6 +15,7 @@ import (
 	"net/http"
 	"net/url"
 	"fmt"
+	"strings"
 )
 
 // Linger please
