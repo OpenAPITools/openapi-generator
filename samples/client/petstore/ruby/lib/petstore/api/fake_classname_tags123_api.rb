@@ -11,6 +11,7 @@ OpenAPI Generator version: 4.0.2-SNAPSHOT
 =end
 
 require 'uri'
+require 'cgi'
 
 module Petstore
   class FakeClassnameTags123Api

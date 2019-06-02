@@ -3,6 +3,7 @@
 =end
 
 require 'uri'
+require 'cgi'
 
 module {{moduleName}}
 {{#operations}}
@@ -123,7 +124,7 @@ module {{moduleName}}
       {{/hasValidation}}
       {{/allParams}}
       # resource path
-      local_var_path = '{{{path}}}'{{#pathParams}}.sub('{' + '{{baseName}}' + '}', {{paramName}}.to_s){{/pathParams}}
+      local_var_path = '{{{path}}}'{{#pathParams}}.sub('{' + '{{baseName}}' + '}', CGI.escape({{paramName}}.to_s)){{/pathParams}}
 
       # query parameters
       query_params = opts[:query_params] || {}
