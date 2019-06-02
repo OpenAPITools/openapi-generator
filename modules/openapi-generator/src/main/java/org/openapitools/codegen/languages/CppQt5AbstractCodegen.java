@@ -78,6 +78,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         typeMapping.put("integer", "qint32");
         typeMapping.put("long", "qint64");
         typeMapping.put("boolean", "bool");
+        typeMapping.put("number", "double");        
         typeMapping.put("array", "QList");
         typeMapping.put("map", "QMap");
         typeMapping.put("object", PREFIX + "Object");
@@ -88,6 +89,7 @@ public class CppQt5AbstractCodegen extends AbstractCppCodegen implements Codegen
         //   come out of the box and will need to be sorted out (at least imply
         //   modifications on multiple templates)
         typeMapping.put("UUID", "QString");
+        typeMapping.put("URI", "QString");
         typeMapping.put("file", "QIODevice");
         typeMapping.put("binary", "QIODevice");
         importMapping = new HashMap<String, String>();

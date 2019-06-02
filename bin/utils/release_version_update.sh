@@ -33,8 +33,10 @@ fi
 
 echo "Release preparation: replacing $FROM with $TO in different files"
 
+# This script assumes the files defined here have a version surrounded by angle brackets within an xml node.
+# For example, >4.0.0< becomes >4.0.1-SNAPSHOT<.
+# Verify the sed command below against a file before adding here.
 declare -a files=("modules/openapi-generator-cli/pom.xml"
-                  "modules/openapi-generator-gradle-plugin/gradle.properties"
                   "modules/openapi-generator-gradle-plugin/pom.xml"
                   "modules/openapi-generator-core/pom.xml"
                   "modules/openapi-generator-maven-plugin/pom.xml"

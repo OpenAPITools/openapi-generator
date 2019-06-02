@@ -76,10 +76,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public KotlinSpringServerCodegen() {
         super();
 
+        apiTestTemplateFiles.put("api_test.mustache", ".kt");
+
         reservedWords.addAll(VARIABLE_RESERVED_WORDS);
 
         outputFolder = "generated-code/kotlin-spring";
-        apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "kotlin-spring";
 
         artifactId = "openapi-spring";

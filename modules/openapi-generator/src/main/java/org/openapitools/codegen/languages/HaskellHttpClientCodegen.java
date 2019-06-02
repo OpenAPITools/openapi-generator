@@ -227,6 +227,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         // lib
         typeMapping.put("string", "Text");
         typeMapping.put("UUID", "Text");
+        typeMapping.put("URI", "Text");
         typeMapping.put("any", "A.Value");
         typeMapping.put("set", "Set.Set");
         // newtype

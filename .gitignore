@@ -88,6 +88,9 @@ samples/client/petstore/java/jersey2/build/
 samples/client/petstore/java/okhttp-gson/.gradle/
 samples/client/petstore/java/okhttp-gson/build/
 samples/client/petstore/java/feign/build/
+samples/client/petstore/java/feign10x/build/
+samples/client/petstore/java/feign/project/
+samples/client/petstore/java/feign10x/project/
 samples/client/petstore/java/retrofit/build/
 samples/client/petstore/java/retrofit2/build/
 samples/client/petstore/java/retrofit2/hello.txt
@@ -218,6 +221,7 @@ samples/server/petstore/erlang-server/rebar.lock
 samples/client/petstore/dart/petstore/packages
 samples/client/petstore/dart/flutter_petstore/test/packages
 samples/client/petstore/dart/petstore/test/packages
+**/.dart_tool
 
 # JS
 samples/client/petstore/javascript/package-lock.json
