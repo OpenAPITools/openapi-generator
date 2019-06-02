@@ -41,7 +41,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithArrayInput
      */
-    default Mono<ResponseEntity<Void>> createUsersWithArrayInput(Flux<List> body,
+    default Mono<ResponseEntity<Void>> createUsersWithArrayInput(Flux<User> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);
@@ -52,7 +52,7 @@ public interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithListInput
      */
-    default Mono<ResponseEntity<Void>> createUsersWithListInput(Flux<List> body,
+    default Mono<ResponseEntity<Void>> createUsersWithListInput(Flux<User> body,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
         exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);

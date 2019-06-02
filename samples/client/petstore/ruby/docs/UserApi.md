@@ -74,7 +74,7 @@ Creates list of users with given input array
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-body = nil # Array<User> | List of user object
+body = [Petstore::User.new] # Array<User> | List of user object
 
 begin
   #Creates list of users with given input array
@@ -89,7 +89,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Array&lt;User&gt;**](Array.md)| List of user object | 
+ **body** | [**Array&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -118,7 +118,7 @@ Creates list of users with given input array
 require 'petstore'
 
 api_instance = Petstore::UserApi.new
-body = nil # Array<User> | List of user object
+body = [Petstore::User.new] # Array<User> | List of user object
 
 begin
   #Creates list of users with given input array
@@ -133,7 +133,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Array&lt;User&gt;**](Array.md)| List of user object | 
+ **body** | [**Array&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 

@@ -53,7 +53,7 @@ public class JavaClientCodegenTest {
         CodegenParameter codegenParameter1 = codegen.fromRequestBody(body1, new HashSet<String>(), null);
         Assert.assertEquals(codegenParameter1.description, "A list of ids");
         Assert.assertEquals(codegenParameter1.dataType, "List<String>");
-        Assert.assertEquals(codegenParameter1.baseType, "List");
+        Assert.assertEquals(codegenParameter1.baseType, "String");
 
         RequestBody body2 = new RequestBody();
         body2.setDescription("A list of list of values");
@@ -73,7 +73,7 @@ public class JavaClientCodegenTest {
         CodegenParameter codegenParameter3 = codegen.fromRequestBody(body3, new HashSet<String>(), null);
         Assert.assertEquals(codegenParameter3.description, "A list of points");
         Assert.assertEquals(codegenParameter3.dataType, "List<Point>");
-        Assert.assertEquals(codegenParameter3.baseType, "List");
+        Assert.assertEquals(codegenParameter3.baseType, "Point");
     }
 
     @Test
