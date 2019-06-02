@@ -50,7 +50,7 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/createWithArray",
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody Flux<List> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody Flux<User> body, ServerWebExchange exchange) {
         return getDelegate().createUsersWithArrayInput(body, exchange);
     }
 
@@ -60,7 +60,7 @@ public interface UserApi {
         @ApiResponse(code = 200, message = "successful operation") })
     @RequestMapping(value = "/user/createWithList",
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody Flux<List> body, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true )  @Valid @RequestBody Flux<User> body, ServerWebExchange exchange) {
         return getDelegate().createUsersWithListInput(body, exchange);
     }
 

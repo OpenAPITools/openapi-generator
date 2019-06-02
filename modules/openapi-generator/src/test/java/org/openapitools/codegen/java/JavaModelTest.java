@@ -1104,7 +1104,7 @@ public class JavaModelTest {
                 .items(new Schema<>().$ref("#/components/schemas/Pet"));
         Operation operation = new Operation()
                 .requestBody(new RequestBody()
-                        .content(new Content().addMediaType("application/json", 
+                        .content(new Content().addMediaType("application/json",
                                 new MediaType().schema(testSchema))))
                 .responses(
                         new ApiResponses().addApiResponse("204", new ApiResponse()
@@ -1116,7 +1116,7 @@ public class JavaModelTest {
 
         Assert.assertEquals(co.bodyParams.size(), 1);
         CodegenParameter cp1 = co.bodyParams.get(0);
-        Assert.assertEquals(cp1.baseType, "List");
+        Assert.assertEquals(cp1.baseType, "Pet");
         Assert.assertEquals(cp1.dataType, "List<Pet>");
         Assert.assertTrue(cp1.isContainer);
         Assert.assertTrue(cp1.isListContainer);
@@ -1138,7 +1138,7 @@ public class JavaModelTest {
         Operation operation = new Operation().responses(
                 new ApiResponses().addApiResponse("200", new ApiResponse()
                         .description("Ok response")
-                        .content(new Content().addMediaType("application/json", 
+                        .content(new Content().addMediaType("application/json",
                                 new MediaType().schema(testSchema)))));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
@@ -1184,7 +1184,7 @@ public class JavaModelTest {
                         .items(new Schema<>().$ref("#/components/schemas/Pet")));
         Operation operation = new Operation()
                 .requestBody(new RequestBody()
-                        .content(new Content().addMediaType("application/json", 
+                        .content(new Content().addMediaType("application/json",
                                 new MediaType().schema(testSchema))))
                 .responses(
                         new ApiResponses().addApiResponse("204", new ApiResponse()
@@ -1222,7 +1222,7 @@ public class JavaModelTest {
         Operation operation = new Operation().responses(
                 new ApiResponses().addApiResponse("200", new ApiResponse()
                         .description("Ok response")
-                        .content(new Content().addMediaType("application/json", 
+                        .content(new Content().addMediaType("application/json",
                                 new MediaType().schema(testSchema)))));
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema().addProperties("name", new StringSchema()));
         final DefaultCodegen codegen = new JavaClientCodegen();
