@@ -118,6 +118,7 @@ public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServer
         supportingFiles.add(new SupportingFile("app/{{packageName}}/__main__.mustache", APP_PACKAGE_PATH, "__main__.py"));
         supportingFiles.add(new SupportingFile("app/{{packageName}}/encoder.mustache", APP_PACKAGE_PATH, "encoder.py"));
         supportingFiles.add(new SupportingFile("app/{{packageName}}/util.mustache", APP_PACKAGE_PATH, "util.py"));
+        supportingFiles.add(new SupportingFile("app/{{packageName}}/typing_utils.mustache", APP_PACKAGE_PATH, "typing_utils.py"));
 
         supportingFiles.add(new SupportingFile("app/{{packageName}}/controllers/__init__.mustache", CONTROLLER_PATH, "__init__.py"));
 
@@ -192,6 +193,7 @@ public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServer
         supportingFiles.add(new SupportingFile("app/{{packageName}}/__main__.mustache", APP_PACKAGE_PATH, "__main__.py"));
         supportingFiles.add(new SupportingFile("app/{{packageName}}/encoder.mustache", APP_PACKAGE_PATH, "encoder.py"));
         supportingFiles.add(new SupportingFile("app/{{packageName}}/util.mustache", APP_PACKAGE_PATH, "util.py"));
+        supportingFiles.add(new SupportingFile("app/{{packageName}}/typing_utils.mustache", APP_PACKAGE_PATH, "typing_utils.py"));
 
         supportingFiles.add(new SupportingFile("app/{{packageName}}/controllers/__init__.mustache", CONTROLLER_PATH, "__init__.py"));
 

@@ -277,6 +277,8 @@ public class ExampleGenerator {
             return mp;
         } else if (ModelUtils.isUUIDSchema(property)) {
             return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
+        } else if (ModelUtils.isURISchema(property)) {
+            return "https://openapi-generator.tech";
         } else if (ModelUtils.isStringSchema(property)) {
             LOGGER.debug("String property");
             String defaultValue = (String) property.getDefault();

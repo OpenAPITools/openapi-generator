@@ -82,6 +82,7 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
         typeMapping.put("boolean", "Boolean");
         typeMapping.put("string", "String");
         typeMapping.put("UUID", "ID");
+        typeMapping.put("URI", "String");
         typeMapping.put("date", "String");
         typeMapping.put("DateTime", "String");
         typeMapping.put("password", "String");
