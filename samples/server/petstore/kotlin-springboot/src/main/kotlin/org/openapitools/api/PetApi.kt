@@ -86,7 +86,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List"),ApiResponse(code = 400, message = "Invalid status value")])
     @RequestMapping(
         value = ["/pet/findByStatus"],
-        produces = ["application/xml", "application/json"],
+        produces = ["application/xml", "application/json"], 
         method = [RequestMethod.GET])
     fun findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) status: List<String>
 ): ResponseEntity<List<Pet>> {
@@ -104,7 +104,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class, responseContainer = "List"),ApiResponse(code = 400, message = "Invalid tag value")])
     @RequestMapping(
         value = ["/pet/findByTags"],
-        produces = ["application/xml", "application/json"],
+        produces = ["application/xml", "application/json"], 
         method = [RequestMethod.GET])
     fun findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: List<String>
 ): ResponseEntity<List<Pet>> {
@@ -121,7 +121,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Pet not found")])
     @RequestMapping(
         value = ["/pet/{petId}"],
-        produces = ["application/xml", "application/json"],
+        produces = ["application/xml", "application/json"], 
         method = [RequestMethod.GET])
     fun getPetById(@ApiParam(value = "ID of pet to return", required=true) @PathVariable("petId") petId: Long
 ): ResponseEntity<Pet> {
@@ -156,8 +156,8 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         consumes = ["application/x-www-form-urlencoded"],
         method = [RequestMethod.POST])
     fun updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated", required=true) @PathVariable("petId") petId: Long
-,@ApiParam(value = "Updated name of the pet") @RequestParam(value="name", required=false) name: String?
-,@ApiParam(value = "Updated status of the pet") @RequestParam(value="status", required=false) status: String?
+,@ApiParam(value = "Updated name of the pet") @RequestParam(value="name", required=false) name: String? 
+,@ApiParam(value = "Updated status of the pet") @RequestParam(value="status", required=false) status: String? 
 ): ResponseEntity<Unit> {
         return ResponseEntity(service.updatePetWithForm(petId, name, status), HttpStatus.valueOf(405))
     }
@@ -172,7 +172,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = [ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse::class)])
     @RequestMapping(
         value = ["/pet/{petId}/uploadImage"],
-        produces = ["application/json"],
+        produces = ["application/json"], 
         consumes = ["multipart/form-data"],
         method = [RequestMethod.POST])
     fun uploadFile(@ApiParam(value = "ID of pet to update", required=true) @PathVariable("petId") petId: Long
