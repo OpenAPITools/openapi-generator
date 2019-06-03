@@ -152,6 +152,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
+        addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
 
@@ -159,7 +160,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         cliOpt.setDefault(SPRING_BOOT);
         cliOpt.setEnum(supportedLibraries);
         cliOptions.add(cliOpt);
-        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", this.interfaceOnly));
     }
 
     public String getResourceFolder() {
