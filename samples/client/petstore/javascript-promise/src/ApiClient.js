@@ -598,7 +598,8 @@
       ];
     };
 
-    exports.getBasePathFromSettings = function(index, variables={}) {
+    exports.getBasePathFromSettings = function(index, variables) {
+        var variables = variables || {};
         var servers = this.hostSettings();
 
         // check array index out of bound
