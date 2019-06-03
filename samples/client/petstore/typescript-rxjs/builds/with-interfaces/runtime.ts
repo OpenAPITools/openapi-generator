@@ -193,6 +193,7 @@ export const throwIfRequired = (params: {[key: string]: any}, key: string, nickn
     if (!params || params[key] === null || params[key] === undefined) {
         throw new RequiredError(`Required parameter ${key} was null or undefined when calling ${nickname}.`);
     }
+}
 
 export interface RequestContext extends RequestArgs {}
 export interface ResponseContext extends RequestArgs {
