@@ -132,7 +132,8 @@ export class BaseAPI {
         Object.assign(Object.create(Object.getPrototypeOf(this)), this)
 }
 
-class RequiredError extends Error {
+// export for not being a breaking change
+export class RequiredError extends Error {
     name: 'RequiredError' = 'RequiredError';
 }
 
@@ -163,7 +164,7 @@ export interface RequestOpts {
     body?: HttpBody;
 }
 
-const queryString =(params: HttpQuery): string => Object.keys(params)
+const queryString = (params: HttpQuery): string => Object.keys(params)
     .map((key) => {
         const value = params[key];
         if (value instanceof Array) {
@@ -174,9 +175,12 @@ const queryString =(params: HttpQuery): string => Object.keys(params)
     })
     .join('&');
 
-export const throwIfRequired = (params: {[key: string]: any}, paramName: string, nickname: string) => {
-    if (!params || params[paramName] === null || params[paramName] === undefined) {
-        throw new RequiredError(`Required parameter ${paramName} was null or undefined when calling ${nickname}.`);
+// alias fallback for not being a breaking change
+export const querystring = queryString;
+
+export const throwIfRequired = (params: {[key: string]: any}, key: string, nickname: string) => {
+    if (!params || params[key] === null || params[key] === undefined) {
+        throw new RequiredError(`Required parameter ${key} was null or undefined when calling ${nickname}.`);
     }
 
 export interface RequestContext extends RequestArgs {}
