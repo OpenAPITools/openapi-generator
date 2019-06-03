@@ -137,7 +137,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
         } else if (typeMapping.containsKey(typeDeclaration)) {
             return typeMapping.get(typeDeclaration);
         } else {
-            return getTypeDeclaration(toModelName(snakeCase(typeDeclaration)));
+            return getTypeDeclaration(toModelName(lowerCamelCase(typeDeclaration)));
         }
     }
 
@@ -179,7 +179,7 @@ public class ErlangProperCodegen extends DefaultCodegen implements CodegenConfig
         } else if (typeMapping.containsKey(schemaType)) {
             return typeMapping.get(schemaType);
         } else {
-            return getTypeDeclaration(toModelName(snakeCase(schemaType)));
+            return getTypeDeclaration(toModelName(lowerCamelCase(schemaType)));
         }
     }
 
