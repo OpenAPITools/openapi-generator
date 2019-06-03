@@ -11,6 +11,7 @@ OpenAPI Generator version: 5.0.0-SNAPSHOT
 =end
 
 require 'uri'
+require 'cgi'
 
 module Petstore
   class DefaultApi

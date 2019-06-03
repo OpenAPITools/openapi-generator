@@ -142,6 +142,11 @@ namespace Org.OpenAPITools.Model
         [DataMember(Name="enum_number", EmitDefaultValue=false)]
         public EnumNumberEnum? EnumNumber { get; set; }
         /// <summary>
+        /// Gets or Sets OuterEnum
+        /// </summary>
+        [DataMember(Name="outerEnum", EmitDefaultValue=false)]
+        public OuterEnum? OuterEnum { get; set; }
+        /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
@@ -163,12 +168,6 @@ namespace Org.OpenAPITools.Model
             this.OuterEnum = outerEnum;
         }
         
-        /// <summary>
-        /// Gets or Sets OuterEnum
-        /// </summary>
-        [DataMember(Name="outerEnum", EmitDefaultValue=false)]
-        public OuterEnum OuterEnum { get; set; }
-
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
@@ -228,8 +227,7 @@ namespace Org.OpenAPITools.Model
                 hashCode = hashCode * 59 + this.EnumStringRequired.GetHashCode();
                 hashCode = hashCode * 59 + this.EnumInteger.GetHashCode();
                 hashCode = hashCode * 59 + this.EnumNumber.GetHashCode();
-                if (this.OuterEnum != null)
-                    hashCode = hashCode * 59 + this.OuterEnum.GetHashCode();
+                hashCode = hashCode * 59 + this.OuterEnum.GetHashCode();
                 return hashCode;
             }
         }

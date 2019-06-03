@@ -11,7 +11,6 @@
 */
 package org.openapitools.client.models
 
-import org.threeten.bp.LocalDateTime
 
 import com.squareup.moshi.Json
 /**

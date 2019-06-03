@@ -232,6 +232,8 @@ public class CodegenConstants {
     public static final String PARCELIZE_MODELS = "parcelizeModels";
     public static final String PARCELIZE_MODELS_DESC = "toggle \"@Parcelize\" for generated models";
 
+    public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
+    public static final String CASE_INSENSITIVE_RESPONSE_HEADERS_DESC = "Make API response's headers case-insensitive";
 
     // Not user-configurable. System provided for use in templates.
 
