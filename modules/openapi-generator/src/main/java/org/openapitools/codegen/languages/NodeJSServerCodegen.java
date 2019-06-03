@@ -83,7 +83,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
          */
         apiTemplateFiles.put(
                 "controller.mustache",   // the template to use
-                ".js");       // the extension for each file to write
+                ".js");                  // the extension for each file to write
 
         /*
          * Template Location.  This is the location which templates will be read from.  The generator
