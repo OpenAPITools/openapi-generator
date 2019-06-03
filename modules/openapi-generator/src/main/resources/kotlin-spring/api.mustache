@@ -1,7 +1,6 @@
 package {{package}}
 
-{{#imports}}
-import {{import}}
+{{#imports}}import {{import}}
 {{/imports}}
 {{#swaggerAnnotations}}
 import io.swagger.annotations.Api
@@ -40,10 +39,11 @@ import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 {{/useBeanValidation}}
 
+{{#reactive}}
+import kotlinx.coroutines.flow.Flow;
+{{/reactive}}
 import kotlin.collections.List
 import kotlin.collections.Map
-
-
 
 {{#useBeanValidation}}
 @Validated
@@ -69,13 +69,15 @@ interface {{classname}} {
         @ApiResponses(
         value = [{{#responses}}ApiResponse(code = {{{code}}}, message = "{{{message}}}"{{#baseType}}, response = {{{baseType}}}::class{{/baseType}}{{#containerType}}, responseContainer = "{{{containerType}}}"{{/containerType}}){{#hasMore}},{{/hasMore}}{{/responses}}]){{/swaggerAnnotations}}
     @RequestMapping(
-        value = ["{{#lambda.escapeDoubleQuote}}{{path}}{{/lambda.escapeDoubleQuote}}"],{{#singleContentTypes}}{{#hasProduces}}
-        produces = "{{{vendorExtensions.x-accepts}}}", {{/hasProduces}}{{#hasConsumes}}
-        consumes = "{{{vendorExtensions.x-contentType}}}",{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
-        produces = [{{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}], {{/hasProduces}}{{#hasConsumes}}
-        consumes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}],{{/hasConsumes}}{{/singleContentTypes}}
-        method = [RequestMethod.{{httpMethod}}])
-    fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}): ResponseEntity<{{>returnTypes}}>
+            value = ["{{#lambda.escapeDoubleQuote}}{{path}}{{/lambda.escapeDoubleQuote}}"],{{#singleContentTypes}}{{#hasProduces}}
+            produces = "{{{vendorExtensions.x-accepts}}}",{{/hasProduces}}{{#hasConsumes}}
+            consumes = "{{{vendorExtensions.x-contentType}}}",{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}}
+            produces = [{{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}], {{/hasProduces}}{{#hasConsumes}}
+            consumes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}],{{/hasConsumes}}{{/singleContentTypes}}
+            method = [RequestMethod.{{httpMethod}}])
+    {{#reactive}}{{^isListContainer}}suspend {{/isListContainer}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}): ResponseEntity<{{>returnTypes}}> {
+        return {{>returnValue}}
+    }
 {{/operation}}
 }
 {{/operations}}

@@ -81,7 +81,7 @@ api.createUsersWithArrayInput()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](List.md)| List of user object |
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 
@@ -121,7 +121,7 @@ api.createUsersWithListInput()
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](List.md)| List of user object |
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 
