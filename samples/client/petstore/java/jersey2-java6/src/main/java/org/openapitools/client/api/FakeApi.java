@@ -58,6 +58,7 @@ public class FakeApi {
    * creates an XmlItem
    * this route creates an XmlItem
    * @param xmlItem XmlItem Body (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> createXmlItemWithHttpInfo(XmlItem xmlItem) throws ApiException {
@@ -297,6 +298,7 @@ public class FakeApi {
    * 
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
    * @param body  (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass body) throws ApiException {
@@ -350,6 +352,7 @@ public class FakeApi {
    * 
    * @param query  (required)
    * @param body  (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(String query, User body) throws ApiException {
@@ -485,6 +488,7 @@ public class FakeApi {
    * @param dateTime None (optional)
    * @param password None (optional)
    * @param paramCallback None (optional)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
@@ -593,6 +597,7 @@ if (paramCallback != null)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
    * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
@@ -661,6 +666,7 @@ if (enumFormString != null)
    * @param stringGroup String in group parameters (optional)
    * @param booleanGroup Boolean in group parameters (optional)
    * @param int64Group Integer in group parameters (optional)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
@@ -730,6 +736,7 @@ if (booleanGroup != null)
    * test inline additionalProperties
    * 
    * @param param request body (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> param) throws ApiException {
@@ -783,6 +790,7 @@ if (booleanGroup != null)
    * 
    * @param param field1 (required)
    * @param param2 field2 (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> testJsonFormDataWithHttpInfo(String param, String param2) throws ApiException {

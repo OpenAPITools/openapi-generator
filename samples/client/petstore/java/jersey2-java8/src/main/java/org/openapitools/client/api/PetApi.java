@@ -52,6 +52,7 @@ public class PetApi {
    * Add a new pet to the store
    * 
    * @param body Pet object that needs to be added to the store (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
@@ -105,6 +106,7 @@ public class PetApi {
    * 
    * @param petId Pet id to delete (required)
    * @param apiKey  (optional)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
@@ -322,6 +324,7 @@ public class PetApi {
    * Update an existing pet
    * 
    * @param body Pet object that needs to be added to the store (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
@@ -377,6 +380,7 @@ public class PetApi {
    * @param petId ID of pet that needs to be updated (required)
    * @param name Updated name of the pet (optional)
    * @param status Updated status of the pet (optional)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {

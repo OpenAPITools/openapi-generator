@@ -50,6 +50,7 @@ public class UserApi {
    * Create user
    * This can only be done by the logged in user.
    * @param body Created user object (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> createUserWithHttpInfo(User body) throws ApiException {
@@ -101,6 +102,7 @@ public class UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
@@ -152,6 +154,7 @@ public class UserApi {
    * Creates list of users with given input array
    * 
    * @param body List of user object (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body) throws ApiException {
@@ -203,6 +206,7 @@ public class UserApi {
    * Delete user
    * This can only be done by the logged in user.
    * @param username The name that needs to be deleted (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
@@ -367,6 +371,7 @@ public class UserApi {
   /**
    * Logs out current logged in user session
    * 
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> logoutUserWithHttpInfo() throws ApiException {
@@ -415,6 +420,7 @@ public class UserApi {
    * This can only be done by the logged in user.
    * @param username name that need to be deleted (required)
    * @param body Updated user object (required)
+   * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    */
   public ApiResponse<Void> updateUserWithHttpInfo(String username, User body) throws ApiException {
