@@ -44,39 +44,6 @@ export class {{classname}} extends BaseAPI {
         {{/required}}
         {{/allParams}}
 
-        const query: HttpQuery = {
-            {{#queryParams}}
-            {{#isListContainer}}
-            {{#isCollectionFormatMulti}}
-            '{{baseName}}': requestParameters.{{paramName}},
-            {{/isCollectionFormatMulti}}
-            {{^isCollectionFormatMulti}}
-            '{{baseName}}': requestParameters.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']),
-            {{/isCollectionFormatMulti}}
-            {{/isListContainer}}
-            {{^isListContainer}}
-            {{#isDateTime}}
-            '{{baseName}}': (requestParameters.{{paramName}} as any).toISOString(),
-            {{/isDateTime}}
-            {{^isDateTime}}
-            {{#isDate}}
-            '{{baseName}}': (requestParameters.{{paramName}} as any).toISOString(),
-            {{/isDate}}
-            {{^isDate}}
-            '{{baseName}}': requestParameters.{{paramName}},
-            {{/isDate}}
-            {{/isDateTime}}
-            {{/isListContainer}}
-            {{/queryParams}}
-            {{#authMethods}}
-            {{#isApiKey}}
-            {{#isKeyInQuery}}
-            '{{keyParamName}}': this.configuration.apiKey && this.configuration.apiKey('{{keyParamName}}'), // {{name}} authentication
-            {{/isKeyInQuery}}
-            {{/isApiKey}}
-            {{/authMethods}}
-        };
-
         const headers: HttpHeaders = {
             {{#bodyParam}}
             {{^consumes}}
@@ -109,6 +76,39 @@ export class {{classname}} extends BaseAPI {
                 ? this.configuration.accessToken('{{name}}', [{{#scopes}}'{{{scope}}}'{{^-last}}, {{/-last}}{{/scopes}}])
                 : this.configuration.accessToken),
             {{/isOAuth}}
+            {{/authMethods}}
+        };
+
+        const query: HttpQuery = {
+            {{#queryParams}}
+            {{#isListContainer}}
+            {{#isCollectionFormatMulti}}
+            '{{baseName}}': requestParameters.{{paramName}},
+            {{/isCollectionFormatMulti}}
+            {{^isCollectionFormatMulti}}
+            '{{baseName}}': requestParameters.{{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}']),
+            {{/isCollectionFormatMulti}}
+            {{/isListContainer}}
+            {{^isListContainer}}
+            {{#isDateTime}}
+            '{{baseName}}': (requestParameters.{{paramName}} as any).toISOString(),
+            {{/isDateTime}}
+            {{^isDateTime}}
+            {{#isDate}}
+            '{{baseName}}': (requestParameters.{{paramName}} as any).toISOString(),
+            {{/isDate}}
+            {{^isDate}}
+            '{{baseName}}': requestParameters.{{paramName}},
+            {{/isDate}}
+            {{/isDateTime}}
+            {{/isListContainer}}
+            {{/queryParams}}
+            {{#authMethods}}
+            {{#isApiKey}}
+            {{#isKeyInQuery}}
+            '{{keyParamName}}': this.configuration.apiKey && this.configuration.apiKey('{{keyParamName}}'), // {{name}} authentication
+            {{/isKeyInQuery}}
+            {{/isApiKey}}
             {{/authMethods}}
         };
 
