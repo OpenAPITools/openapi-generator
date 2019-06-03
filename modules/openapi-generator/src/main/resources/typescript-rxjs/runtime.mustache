@@ -132,11 +132,8 @@ export class BaseAPI {
         Object.assign(Object.create(Object.getPrototypeOf(this)), this)
 }
 
-export class RequiredError extends Error {
+class RequiredError extends Error {
     name: 'RequiredError' = 'RequiredError';
-    constructor(public field: string, msg?: string) {
-        super(msg);
-    }
 }
 
 export const COLLECTION_FORMATS = {
@@ -176,6 +173,11 @@ const queryString =(params: HttpQuery): string => Object.keys(params)
         return `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`;
     })
     .join('&');
+
+export const throwIfRequired = (params: {[key: string]: any}, paramName: string, nickname: string) => {
+    if (!params || params[paramName] === null || params[paramName] === undefined) {
+        throw new RequiredError(`Required parameter ${paramName} was null or undefined when calling ${nickname}.`);
+    }
 
 export interface RequestContext extends RequestArgs {}
 export interface ResponseContext extends RequestArgs {
