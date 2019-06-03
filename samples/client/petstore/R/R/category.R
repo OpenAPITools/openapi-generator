@@ -54,16 +54,24 @@ Category <- R6::R6Class(
       }
     },
     toJSONString = function() {
-      sprintf(
-        '{
-           "id":
-             %d,
-           "name":
-             "%s"
-        }',
-        self$`id`,
+      jsoncontent <- c(
+        if (!is.null(self$`id`)) {
+        sprintf(
+        '"id":
+          %d
+                ',
+        self$`id`
+        )},
+        if (!is.null(self$`name`)) {
+        sprintf(
+        '"name":
+          "%s"
+                ',
         self$`name`
+        )}
       )
+      jsoncontent <- paste(jsoncontent, collapse = ",")
+      paste('{', jsoncontent, '}', sep = "")
     },
     fromJSONString = function(CategoryJson) {
       CategoryObject <- jsonlite::fromJSON(CategoryJson)

@@ -23,7 +23,7 @@ This can only be done by the logged in user.
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.body <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Created user object
 
@@ -60,9 +60,9 @@ Creates list of users with given input array
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
-var.body <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # User | List of user object
+var.body <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
 #Creates list of users with given input array
 api.instance <- UserApi$new()
@@ -73,7 +73,7 @@ api.instance$CreateUsersWithArrayInput(var.body)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| List of user object | 
+ **body** | [**array[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -97,9 +97,9 @@ Creates list of users with given input array
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
-var.body <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # User | List of user object
+var.body <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
 #Creates list of users with given input array
 api.instance <- UserApi$new()
@@ -110,7 +110,7 @@ api.instance$CreateUsersWithListInput(var.body)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](User.md)| List of user object | 
+ **body** | [**array[User]**](User.md)| List of user object | 
 
 ### Return type
 
@@ -136,7 +136,7 @@ This can only be done by the logged in user.
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.username <- 'username_example' # character | The name that needs to be deleted
 
@@ -173,7 +173,7 @@ Get user by user name
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.username <- 'username_example' # character | The name that needs to be fetched. Use user1 for testing.
 
@@ -211,7 +211,7 @@ Logs user into the system
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.username <- 'username_example' # character | The user name for login
 var.password <- 'password_example' # character | The password for login in clear text
@@ -251,7 +251,7 @@ Logs out current logged in user session
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 
 #Logs out current logged in user session
@@ -286,7 +286,7 @@ This can only be done by the logged in user.
 
 ### Example
 ```R
-library(petstore)
+library(openapi)
 
 var.username <- 'username_example' # character | name that need to be deleted
 var.body <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object

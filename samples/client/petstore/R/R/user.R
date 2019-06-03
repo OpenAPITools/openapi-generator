@@ -132,34 +132,66 @@ User <- R6::R6Class(
       }
     },
     toJSONString = function() {
-      sprintf(
-        '{
-           "id":
-             %d,
-           "username":
-             "%s",
-           "firstName":
-             "%s",
-           "lastName":
-             "%s",
-           "email":
-             "%s",
-           "password":
-             "%s",
-           "phone":
-             "%s",
-           "userStatus":
-             %d
-        }',
-        self$`id`,
-        self$`username`,
-        self$`firstName`,
-        self$`lastName`,
-        self$`email`,
-        self$`password`,
-        self$`phone`,
+      jsoncontent <- c(
+        if (!is.null(self$`id`)) {
+        sprintf(
+        '"id":
+          %d
+                ',
+        self$`id`
+        )},
+        if (!is.null(self$`username`)) {
+        sprintf(
+        '"username":
+          "%s"
+                ',
+        self$`username`
+        )},
+        if (!is.null(self$`firstName`)) {
+        sprintf(
+        '"firstName":
+          "%s"
+                ',
+        self$`firstName`
+        )},
+        if (!is.null(self$`lastName`)) {
+        sprintf(
+        '"lastName":
+          "%s"
+                ',
+        self$`lastName`
+        )},
+        if (!is.null(self$`email`)) {
+        sprintf(
+        '"email":
+          "%s"
+                ',
+        self$`email`
+        )},
+        if (!is.null(self$`password`)) {
+        sprintf(
+        '"password":
+          "%s"
+                ',
+        self$`password`
+        )},
+        if (!is.null(self$`phone`)) {
+        sprintf(
+        '"phone":
+          "%s"
+                ',
+        self$`phone`
+        )},
+        if (!is.null(self$`userStatus`)) {
+        sprintf(
+        '"userStatus":
+          %d
+                ',
         self$`userStatus`
+        )}
       )
+      jsoncontent <- paste(jsoncontent, collapse = ",")
+      paste('{', jsoncontent, '}', sep = "")
     },
     fromJSONString = function(UserJson) {
       UserObject <- jsonlite::fromJSON(UserJson)

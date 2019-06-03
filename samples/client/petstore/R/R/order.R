@@ -105,28 +105,52 @@ Order <- R6::R6Class(
       }
     },
     toJSONString = function() {
-      sprintf(
-        '{
-           "id":
-             %d,
-           "petId":
-             %d,
-           "quantity":
-             %d,
-           "shipDate":
-             "%s",
-           "status":
-             "%s",
-           "complete":
-             "%s"
-        }',
-        self$`id`,
-        self$`petId`,
-        self$`quantity`,
-        self$`shipDate`,
-        self$`status`,
+      jsoncontent <- c(
+        if (!is.null(self$`id`)) {
+        sprintf(
+        '"id":
+          %d
+                ',
+        self$`id`
+        )},
+        if (!is.null(self$`petId`)) {
+        sprintf(
+        '"petId":
+          %d
+                ',
+        self$`petId`
+        )},
+        if (!is.null(self$`quantity`)) {
+        sprintf(
+        '"quantity":
+          %d
+                ',
+        self$`quantity`
+        )},
+        if (!is.null(self$`shipDate`)) {
+        sprintf(
+        '"shipDate":
+          "%s"
+                ',
+        self$`shipDate`
+        )},
+        if (!is.null(self$`status`)) {
+        sprintf(
+        '"status":
+          "%s"
+                ',
+        self$`status`
+        )},
+        if (!is.null(self$`complete`)) {
+        sprintf(
+        '"complete":
+          "%s"
+                ',
         self$`complete`
+        )}
       )
+      jsoncontent <- paste(jsoncontent, collapse = ",")
+      paste('{', jsoncontent, '}', sep = "")
     },
     fromJSONString = function(OrderJson) {
       OrderObject <- jsonlite::fromJSON(OrderJson)

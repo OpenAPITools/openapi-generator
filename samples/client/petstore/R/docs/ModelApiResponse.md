@@ -1,4 +1,4 @@
-# petstore::ModelApiResponse
+# openapi::ModelApiResponse
 
 ## Properties
 Name | Type | Description | Notes

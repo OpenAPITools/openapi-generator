@@ -1,4 +1,4 @@
-# petstore::User
+# openapi::User
 
 ## Properties
 Name | Type | Description | Notes
