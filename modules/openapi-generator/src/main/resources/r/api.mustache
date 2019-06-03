@@ -122,11 +122,13 @@
         httr::content(resp, "text", encoding = "UTF-8"
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
-        {{returnType}}$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
+        deserializedRespObj <- self$apiClient$deserialize(resp, "{{returnType}}", "package:{{packageName}}")
+        ApiResponse$new(deserializedRespObj, resp)
         {{/isPrimitiveType}}
         {{/returnType}}
         {{^returnType}}
-        # void response, no need to return anything
+        {{! Returning the ApiResponse object with NULL object when the endpoint doesn't return anything}}
+        ApiResponse$new(NULL, resp)
         {{/returnType}}
       } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
         ApiResponse$new("API client error", resp)
