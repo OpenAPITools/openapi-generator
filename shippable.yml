@@ -12,6 +12,9 @@ build:
   ci:
     - java -version
     - mvn --quiet clean install -Dmaven.javadoc.skip=true
+    # test maven plugin
+    - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/java-client.xml
+    - mvn clean compile -f modules/openapi-generator-maven-plugin/examples/multi-module/pom.xml
     # ensure all modifications created by 'mature' generators are in the git repo
     # below move to CircleCI ./bin/utils/ensure-up-to-date
     # prepare environment for tests
