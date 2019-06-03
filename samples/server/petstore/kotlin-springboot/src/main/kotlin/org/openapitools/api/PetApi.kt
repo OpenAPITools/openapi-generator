@@ -56,7 +56,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             method = [RequestMethod.POST])
     fun addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody body: Pet
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.addPet(body), HttpStatus.OK)
+        return ResponseEntity(service.addPet(body), HttpStatus.valueOf(405))
     }
 
     @ApiOperation(
@@ -72,7 +72,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     fun deletePet(@ApiParam(value = "Pet id to delete", required=true) @PathVariable("petId") petId: Long
 ,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) apiKey: String?
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.deletePet(petId, apiKey), HttpStatus.OK)
+        return ResponseEntity(service.deletePet(petId, apiKey), HttpStatus.valueOf(400))
     }
 
     @ApiOperation(
@@ -90,7 +90,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             method = [RequestMethod.GET])
     fun findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) status: List<String>
 ): ResponseEntity<List<Pet>> {
-        return ResponseEntity(service.findPetsByStatus(status), HttpStatus.OK)
+        return ResponseEntity(service.findPetsByStatus(status), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(
@@ -108,7 +108,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             method = [RequestMethod.GET])
     fun findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: List<String>
 ): ResponseEntity<List<Pet>> {
-        return ResponseEntity(service.findPetsByTags(tags), HttpStatus.OK)
+        return ResponseEntity(service.findPetsByTags(tags), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(
@@ -125,7 +125,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             method = [RequestMethod.GET])
     fun getPetById(@ApiParam(value = "ID of pet to return", required=true) @PathVariable("petId") petId: Long
 ): ResponseEntity<Pet> {
-        return ResponseEntity(service.getPetById(petId), HttpStatus.OK)
+        return ResponseEntity(service.getPetById(petId), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(
@@ -141,7 +141,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
             method = [RequestMethod.PUT])
     fun updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody body: Pet
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.updatePet(body), HttpStatus.OK)
+        return ResponseEntity(service.updatePet(body), HttpStatus.valueOf(400))
     }
 
     @ApiOperation(
@@ -159,7 +159,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
 ,@ApiParam(value = "Updated name of the pet") @RequestParam(value="name", required=false) name: String? 
 ,@ApiParam(value = "Updated status of the pet") @RequestParam(value="status", required=false) status: String? 
 ): ResponseEntity<Unit> {
-        return ResponseEntity(service.updatePetWithForm(petId, name, status), HttpStatus.OK)
+        return ResponseEntity(service.updatePetWithForm(petId, name, status), HttpStatus.valueOf(405))
     }
 
     @ApiOperation(
@@ -179,6 +179,6 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
 ,@ApiParam(value = "Additional data to pass to server") @RequestParam(value="additionalMetadata", required=false) additionalMetadata: String? 
 ,@ApiParam(value = "file detail") @Valid @RequestPart("file") file: org.springframework.core.io.Resource?
 ): ResponseEntity<ModelApiResponse> {
-        return ResponseEntity(service.uploadFile(petId, additionalMetadata, file), HttpStatus.OK)
+        return ResponseEntity(service.uploadFile(petId, additionalMetadata, file), HttpStatus.valueOf(200))
     }
 }
