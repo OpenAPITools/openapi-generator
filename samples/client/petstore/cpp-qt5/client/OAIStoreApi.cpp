@@ -19,7 +19,8 @@
 namespace OpenAPI {
 
 OAIStoreApi::OAIStoreApi() : basePath("/v2"),
-    host("petstore.swagger.io") {
+    host("petstore.swagger.io"),
+    timeout(0){
 
 }
 
@@ -27,9 +28,10 @@ OAIStoreApi::~OAIStoreApi() {
 
 }
 
-OAIStoreApi::OAIStoreApi(const QString& host, const QString& basePath) {
+OAIStoreApi::OAIStoreApi(const QString& host, const QString& basePath, const int tout) {
     this->host = host;
     this->basePath = basePath;
+    this->timeout = tout;
 }
 
 void OAIStoreApi::setBasePath(const QString& basePath){
@@ -38,6 +40,10 @@ void OAIStoreApi::setBasePath(const QString& basePath){
 
 void OAIStoreApi::setHost(const QString& host){
     this->host = host;
+}
+
+void OAIStoreApi::setApiTimeOutMs(const int tout){
+    timeout = tout;
 }
 
 void OAIStoreApi::addHeaders(const QString& key, const QString& value){
@@ -54,6 +60,7 @@ OAIStoreApi::deleteOrder(const QString& order_id) {
     fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(order_id)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    worker->setTimeOut(timeout);    
     OAIHttpRequestInput input(fullPath, "DELETE");
 
 
@@ -98,6 +105,7 @@ OAIStoreApi::getInventory() {
     fullPath.append(this->host).append(this->basePath).append("/store/inventory");
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    worker->setTimeOut(timeout);    
     OAIHttpRequestInput input(fullPath, "GET");
 
 
@@ -155,6 +163,7 @@ OAIStoreApi::getOrderById(const qint64& order_id) {
     fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::OpenAPI::toStringValue(order_id)));
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    worker->setTimeOut(timeout);    
     OAIHttpRequestInput input(fullPath, "GET");
 
 
@@ -200,6 +209,7 @@ OAIStoreApi::placeOrder(const OAIOrder& body) {
     fullPath.append(this->host).append(this->basePath).append("/store/order");
     
     OAIHttpRequestWorker *worker = new OAIHttpRequestWorker();
+    worker->setTimeOut(timeout);    
     OAIHttpRequestInput input(fullPath, "POST");
 
     
