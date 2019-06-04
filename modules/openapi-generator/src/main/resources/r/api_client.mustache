@@ -80,23 +80,23 @@ ApiClient  <- R6::R6Class(
       headers <- httr::add_headers(c(headerParams, self$defaultHeaders))
 
       {{! Adding timeout that can be set at the apiClient object level}}
-      httrtimeout <- NULL
+      httpTimeout <- NULL
       if (!is.null(self$timeout)) {
-        httrtimeout <- httr::timeout(self$timeout)
+        httpTimeout <- httr::timeout(self$timeout)
       }
 
       if (method == "GET") {
-        httr::GET(url, query = queryParams, headers, httrtimeout, ...)
+        httr::GET(url, query = queryParams, headers, httpTimeout, ...)
       } else if (method == "POST") {
-        httr::POST(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httrtimeout, ...)
+        httr::POST(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, ...)
       } else if (method == "PUT") {
-        httr::PUT(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httrtimeout, ...)
+        httr::PUT(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, ...)
       } else if (method == "PATCH") {
-        httr::PATCH(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httrtimeout, ...)
+        httr::PATCH(url, query = queryParams, headers, body = body, httr::content_type("application/json"), httpTimeout, ...)
       } else if (method == "HEAD") {
-        httr::HEAD(url, query = queryParams, headers, httrtimeout, ...)
+        httr::HEAD(url, query = queryParams, headers, httpTimeout, ...)
       } else if (method == "DELETE") {
-        httr::DELETE(url, query = queryParams, headers, httrtimeout, ...)
+        httr::DELETE(url, query = queryParams, headers, httpTimeout, ...)
       } else {
         stop("http method must be `GET`, `HEAD`, `OPTIONS`, `POST`, `PATCH`, `PUT` or `DELETE`.")
       }

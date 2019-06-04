@@ -1,4 +1,4 @@
-# openapi::Tag
+# petstore::Tag
 
 ## Properties
 Name | Type | Description | Notes

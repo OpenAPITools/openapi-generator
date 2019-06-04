@@ -1,4 +1,4 @@
-# openapi::Pet
+# petstore::Pet
 
 ## Properties
 Name | Type | Description | Notes
