@@ -100,10 +100,10 @@ Pet <- R6::R6Class(
         self$`name` <- PetObject$`name`
       }
       if (!is.null(PetObject$`photoUrls`)) {
-        self$`photoUrls` <- ApiClient$new()$deserializeObj(PetObject$`photoUrls`, "array[character]", "package:openapi")
+        self$`photoUrls` <- ApiClient$new()$deserializeObj(PetObject$`photoUrls`, "array[character]", "package:petstore")
       }
       if (!is.null(PetObject$`tags`)) {
-        self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]", "package:openapi")
+        self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]", "package:petstore")
       }
       if (!is.null(PetObject$`status`)) {
         self$`status` <- PetObject$`status`
@@ -162,8 +162,8 @@ Pet <- R6::R6Class(
       self$`id` <- PetObject$`id`
       self$`category` <- Category$new()$fromJSON(jsonlite::toJSON(PetObject$category, auto_unbox = TRUE, digits = NA))
       self$`name` <- PetObject$`name`
-      self$`photoUrls` <- ApiClient$new()$deserializeObj(PetObject$`photoUrls`, "array[character]","package:openapi")
-      self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]","package:openapi")
+      self$`photoUrls` <- ApiClient$new()$deserializeObj(PetObject$`photoUrls`, "array[character]","package:petstore")
+      self$`tags` <- ApiClient$new()$deserializeObj(PetObject$`tags`, "array[Tag]","package:petstore")
       self$`status` <- PetObject$`status`
       self
     }

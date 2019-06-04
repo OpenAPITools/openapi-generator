@@ -97,13 +97,13 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("string", "character");
         typeMapping.put("UUID", "character");
         typeMapping.put("URI", "character");
-        //typeMapping.put("date", "character");
+        typeMapping.put("date", "character");
         typeMapping.put("DateTime", "character");
         typeMapping.put("password", "character");
         typeMapping.put("file", "data.frame");
         typeMapping.put("binary", "data.frame");
         typeMapping.put("ByteArray", "character");
-        //typeMapping.put("map", "object");
+        typeMapping.put("map", "map");
         typeMapping.put("object", "object");
 
         importMapping.clear();

@@ -23,7 +23,7 @@ This can only be done by the logged in user.
 
 ### Example
 ```R
-library(openapi)
+library(petstore)
 
 var.body <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Created user object
 
@@ -60,7 +60,7 @@ Creates list of users with given input array
 
 ### Example
 ```R
-library(openapi)
+library(petstore)
 
 var.body <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
@@ -97,7 +97,7 @@ Creates list of users with given input array
 
 ### Example
 ```R
-library(openapi)
+library(petstore)
 
 var.body <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
@@ -136,7 +136,7 @@ This can only be done by the logged in user.
 
 ### Example
 ```R
-library(openapi)
+library(petstore)
 
 var.username <- 'username_example' # character | The name that needs to be deleted
 
@@ -173,7 +173,7 @@ Get user by user name
 
 ### Example
 ```R
-library(openapi)
+library(petstore)
 
 var.username <- 'username_example' # character | The name that needs to be fetched. Use user1 for testing.
 
@@ -211,7 +211,7 @@ Logs user into the system
 
 ### Example
 ```R
-library(openapi)
+library(petstore)
 
 var.username <- 'username_example' # character | The user name for login
 var.password <- 'password_example' # character | The password for login in clear text
@@ -251,7 +251,7 @@ Logs out current logged in user session
 
 ### Example
 ```R
-library(openapi)
+library(petstore)
 
 
 #Logs out current logged in user session
@@ -286,7 +286,7 @@ This can only be done by the logged in user.
 
 ### Example
 ```R
-library(openapi)
+library(petstore)
 
 var.username <- 'username_example' # character | name that need to be deleted
 var.body <- User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123) # User | Updated user object

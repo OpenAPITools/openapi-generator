@@ -1,4 +1,4 @@
-# openapi::Order
+# petstore::Order
 
 ## Properties
 Name | Type | Description | Notes
