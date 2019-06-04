@@ -22,11 +22,11 @@ from . import _validate
 
 {{! NOTE: This file is written to handle multiple related models, but the generator/parser needs work before that will happen. }}
 __all__ = [{{#models}}{{#model}}
-    '{{classname}}', '{{classname}}Schema',
+    "{{classname}}", "{{classname}}Schema",
 {{/model}}{{/models}}]
 
 {{#models}}{{#model}}{{! TODO: non-object models? maybe lists? }}
-{{classname}} = namedtuple('{{classname}}', field_names=[{{#vars}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/vars}}])
+{{classname}} = namedtuple("{{classname}}", field_names=[{{#vars}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/vars}}])
 {{/model}}{{/models}}
 {{#models}}{{#model}}
 class {{classname}}Schema(SchemaBase):

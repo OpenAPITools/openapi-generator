@@ -22,12 +22,12 @@ from ..decorators import *  # http methods, security, media_type
 {{import}}  # TODO: fix Schema import
 {{/imports}}
 
-__all__ = ['{{classname}}']
+__all__ = ["{{classname}}"]
 
 
 {{#vendorExtensions}}
 {{#useClassSecurity}}
-@security({{#allOpsAuthMethods}}'{{{name}}}'{{#hasMore}}, {{/hasMore}}{{/allOpsAuthMethods}})
+@security({{#allOpsAuthMethods}}"{{{name}}}"{{#hasMore}}, {{/hasMore}}{{/allOpsAuthMethods}})
 {{/useClassSecurity}}
 {{#allOpsSendJson}}
 @json  # serialization
@@ -43,8 +43,8 @@ __all__ = ['{{classname}}']
 {{/allOpsReturnJson}}
 {{#useClassMimeType}}
 @mime_type(
-    content_type=[{{#classContentTypes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/classContentTypes}}],
-    accept=[{{#classAcceptMimeTypes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/classAcceptMimeTypes}}],
+    content_type=[{{#classContentTypes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/classContentTypes}}],
+    accept=[{{#classAcceptMimeTypes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/classAcceptMimeTypes}}],
 )
 {{/useClassMimeType}}
 {{/vendorExtensions}}
@@ -58,7 +58,7 @@ class {{classname}}(BaseApiConsumer):
 
 {{#vendorExtensions}}
 {{^useClassSecurity}}
-    @security({{#authMethods}}'{{name}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}})
+    @security({{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}})
 {{/useClassSecurity}}
 {{^allOpsSendJson}}
 {{#isJsonOp}}
@@ -78,21 +78,21 @@ class {{classname}}(BaseApiConsumer):
 {{^useClassMimeType}}
     @mime_type(
     {{#hasConsumes}}
-        content_type=[{{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}],
+        content_type=[{{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}}],
     {{/hasConsumes}}
     {{#hasProduces}}
-        accept=[{{#produces}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/produces}}],
+        accept=[{{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}}],
     {{/hasProduces}}
     )
 {{/useClassMimeType}}
 {{! TODO: Handle no return type }}
     @returns{{#opReturnsJson}}.json{{/opReturnsJson}}{{#returnType}}({{returnType}}){{/returnType}}
 {{/vendorExtensions}}
-    @{{httpMethod}}('{{{path}}}', args={
+    @{{httpMethod}}("{{{path}}}", args={
 {{#allParams}}
 {{^isPathParam}}
 {{! sortParamsByRequiredFlag must be true for this client }}
-        '{{paramName}}': {{#isQueryParam}}Query{{/isQueryParam}}{{#isHeaderParam}}Header{{/isHeaderParam}}{{#isCookieParam}}Cookie{{/isCookieParam}}{{#isBodyParam}}Body{{/isBodyParam}}{{#isFormParam}}{{#vendorExtensions}}{{#isMultipartOp}}Part{{/isMultipartOp}}{{#isFormOp}}Field{{/isFormOp}}{{/vendorExtensions}}{{/isFormParam}}{{#hasMore}},{{/hasMore}}
+        "{{paramName}}": {{#isQueryParam}}Query{{/isQueryParam}}{{#isHeaderParam}}Header{{/isHeaderParam}}{{#isCookieParam}}Cookie{{/isCookieParam}}{{#isBodyParam}}Body{{/isBodyParam}}{{#isFormParam}}{{#vendorExtensions}}{{#isMultipartOp}}Part{{/isMultipartOp}}{{#isFormOp}}Field{{/isFormOp}}{{/vendorExtensions}}{{/isFormParam}}{{#hasMore}},{{/hasMore}}
 {{/isPathParam}}
 {{/allParams}}
     })

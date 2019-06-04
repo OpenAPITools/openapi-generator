@@ -12,7 +12,7 @@ from uplink.utils import no_op
 from theatro_configapi_pyclient.security import MultiAuth
 
 
-__all__ = ['BaseApiConsumer']
+__all__ = ["BaseApiConsumer"]
 
 
 class BaseApiConsumer(Consumer):
@@ -25,13 +25,13 @@ class BaseApiConsumer(Consumer):
     _security = {
         # Security postfix on all spec-defined security auth types
 {{#authMethods}}
-        '{{vendorExtensions.classname}}': no_op,
+        "{{vendorExtensions.classname}}": no_op,
 {{/authMethods}}
     }
 
     def __init__(
         self,
-        base_url='{{{basePath}}}',
+        base_url="{{{basePath}}}",
         client=None,
         converters=(),
         auth=None,
@@ -52,12 +52,12 @@ class BaseApiConsumer(Consumer):
             base_url=base_url, client=client, converters=converters, auth=auth, hooks=hooks, **kwargs
         )
         {{#httpUserAgent}}
-        user_agent = '{{{.}}}'
+        user_agent = "{{{.}}}"
         {{/httpUserAgent}}{{^httpUserAgent}}
         client_type = self.__client.__class__.__name__
-        user_agent = 'OpenAPI-Generator/{{{packageVersion}}}/python-uplink/%s' % client_type
+        user_agent = "OpenAPI-Generator/{{{packageVersion}}}/python-uplink/%s" % client_type
         {{/httpUserAgent}}
-        self.session.headers['User-Agent'] = user_agent
+        self.session.headers["User-Agent"] = user_agent
 
     def _setup_security_and_auth(self, security, auth):
         global_auth = []

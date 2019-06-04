@@ -8,10 +8,10 @@ __metaclass__ = type
 from uplink.auth import BasicAuth, ProxyAuth, BearerToken, get_auth
 
 __all__ = [
-    'ProxyAuth',
-    'MultiAuth',
+    "ProxyAuth",
+    "MultiAuth",
 {{#authMethods}}
-    '{{vendorExtensions.classname}}',
+    "{{vendorExtensions.classname}}",
 {{/authMethods}}
 ]
 
@@ -72,18 +72,18 @@ class ApiTokenCookie(object):
 
     @property
     def _cookie(self):
-        return '%s=%s' % (self._cookie_name, self._token)
+        return "%s=%s" % (self._cookie_name, self._token)
 
     def __call__(self, request_builder):
         cookie_header = self._cookie
 
-        headers = request_builder.info['headers']
-        cookie_keys = [header for header in headers.keys() if header.lower() == 'cookie']
+        headers = request_builder.info["headers"]
+        cookie_keys = [header for header in headers.keys() if header.lower() == "cookie"]
         for key in cookie_keys:
-            cookie_header += '; ' + headers.pop(key)
-        cookie_header = cookie_header.strip('; ')
+            cookie_header += "; " + headers.pop(key)
+        cookie_header = cookie_header.strip("; ")
 
-        headers['Cookie'] = cookie_header
+        headers["Cookie"] = cookie_header
 
 
 class MultiAuth(object):
@@ -117,7 +117,9 @@ class MultiAuth(object):
         self._auth_methods.append(get_auth(auth_method))
 
     def extend(self, auth_methods):
-        self._auth_methods.extend([get_auth(auth_method) for auth_method in auth_methods])
+        self._auth_methods.extend(
+			[get_auth(auth_method) for auth_method in auth_methods]
+		)
 {{#authMethods}}
 
 
@@ -133,8 +135,8 @@ class {{classname}}(ApiTokenHeader):
     {{>partials/auto_generated_class_docblock}}
     """
 
-    _header = '{{keyParamName}}'
-    {{#x-prefix}}_prefix = '{{{.}}}'  # defined by x-prefix extension in the spec{{/x-prefix}}
+    _header = "{{keyParamName}}"
+    {{#x-prefix}}_prefix = "{{{.}}}"  # defined by x-prefix extension in the spec{{/x-prefix}}
 
     # noinspection PyMissingConstructor
     def __init__(self, token{{^x-prefix}}, prefix=None{{/x-prefix}}):
@@ -151,7 +153,7 @@ class {{classname}}(ApiTokenParam):
     {{>partials/auto_generated_class_docblock}}
     """
 
-    _param = '{{keyParamName}}'
+    _param = "{{keyParamName}}"
 
     # noinspection PyMissingConstructor
     def __init__(self, token):
@@ -167,7 +169,7 @@ class {{classname}}(ApiTokenCookie):
     {{>partials/auto_generated_class_docblock}}
     """
 
-    _cookie_name = '{{keyParamName}}'
+    _cookie_name = "{{keyParamName}}"
 
     # noinspection PyMissingConstructor
     def __init__(self, token):
@@ -210,7 +212,7 @@ class {{classname}}(BearerToken):
     """
 {{#bearerFormat}}
 
-    _format = '{{{.}}}'  # not used
+    _format = "{{{.}}}"  # not used
 {{/bearerFormat}}
 {{/isBasicBearer}}
 {{/isBasic}}

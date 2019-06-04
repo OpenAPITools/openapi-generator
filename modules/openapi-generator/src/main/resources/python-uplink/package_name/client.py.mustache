@@ -68,7 +68,10 @@ class {{clientClassName}}:
 
         def __set__(self, instance, value):
             if not isinstance(value, self._api_class.__class__):
-                raise TypeError("%s must be a %s. Got %s." % (self._name, self._api_class.__name__, type(value)))
+                raise TypeError(
+					"%s must be a %s. Got %s."
+					% (self._name, self._api_class.__name__, type(value))
+				)
             instance.__dict__[self._name] = value
 {{#apiInfo}}{{#apis}}
     {{classVarName}} = ApiDescriptor("{{classVarName}}", {{classname}})
