@@ -7,7 +7,7 @@ __metaclass__ = type
 __version__ = "{{packageVersion}}"
 
 # import super client
-from {{packageName}}.client import {{clientClassName}}
+from .client import {{clientClassName}}
 
 # import apis into SDK package
 {{#apiInfo}}{{#apis}}from {{apiPackage}}.{{classVarName}} import {{classname}}
@@ -15,9 +15,9 @@ from {{packageName}}.client import {{clientClassName}}
 {{/apiInfo}}
 
 # import api security/auth methods into SDK package
-from {{packageName}}.security import ProxyAuth, MultiAuth
+from .security import ProxyAuth, MultiAuth
 {{#authMethods}}
-from {{packageName}}.security import {{vendorExtensions.classname}}
+from .security import {{vendorExtensions.classname}}
 {{/authMethods}}
 
 # import models into SDK package

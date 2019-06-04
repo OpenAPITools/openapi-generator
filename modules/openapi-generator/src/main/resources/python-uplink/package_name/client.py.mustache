@@ -6,7 +6,9 @@ __metaclass__ = type
 
 from uplink.session import Session
 
-from {{packageName}} import {{apiPackage}}
+{{#apiInfo}}{{#apis}}
+from {{apiPackage}}.{{classVarName}} import {{classname}}
+{{/apis}}{{/apiInfo}}
 
 __all__ = ["{{{clientClassName}}}"]
 
@@ -69,6 +71,6 @@ class {{clientClassName}}:
                 raise TypeError("%s must be a %s. Got %s." % (self._name, self._api_class.__name__, type(value)))
             instance.__dict__[self._name] = value
 {{#apiInfo}}{{#apis}}
-    {{classVarName}} = ApiDescriptor("{{classVarName}}", {{apiPackage}}.{{classVarName}}.{{classname}})
+    {{classVarName}} = ApiDescriptor("{{classVarName}}", {{classname}})
 {{/apis}}{{/apiInfo}}
 

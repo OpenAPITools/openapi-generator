@@ -8,8 +8,8 @@ from collections import namedtuple
 
 from marshmallow import fields, validate
 
-from {{modelPackage}}._schema import SchemaBase
-from {{modelPackage}} import _validate
+from ._schema import SchemaBase
+from . import _validate
 
 {{#models}}
 {{#hasImports}}

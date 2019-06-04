@@ -15,8 +15,8 @@ from uplink.arguments import *  # type hints for arguments
 from uplink.decorators import *  # request decorators
 from uplink.types import *  # type hints for return types
 
-from {{apiPackage}}.consumer import BaseApiConsumer
-from {{packageName}}.decorators import *  # http methods, security, media_type
+from .consumer import BaseApiConsumer
+from ..decorators import *  # http methods, security, media_type
 {{#operations}}
 {{#imports}}
 {{import}}  # TODO: fix Schema import
