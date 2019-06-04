@@ -6,7 +6,7 @@ __metaclass__ = type
 
 from marshmallow import validate, ValidationError
 
-__all__ = ['Regexp']
+__all__ = ["Pattern", "Range", "MultipleOf"]
 
 
 class Pattern(validate.Regexp):
@@ -47,8 +47,8 @@ class Range(validate.Validator):
         self.exclusive_max=exclusive_max
 
     def _repr_args(self):
-        return 'min={0!r}, max={1!r}, equal={2!r}, exclusive_min={3!r}, exclusive_max={4!r}'.format(
-            self.min, self.max, self.equal, self.exclusive_min, self.exlusive_max)
+        return 'min={0!r}, max={1!r}, exclusive_min={2!r}, exclusive_max={3!r}'.format(
+            self.min, self.max, self.exclusive_min, self.exclusive_max)
 
     def _format_error(self, value, message):
         return (self.error or message).format(input=value, min=self.min, max=self.max)
@@ -111,7 +111,7 @@ class MultipleOf(validate.Validator):
         return (self.error or message).format(input=value, multiple=self.multiple)
 
     def __call__(self, value):
-        if value % self.multiple != 0;
-            raise ValidationError(self._format_error(value))
+        if value % self.multiple != 0:
+            raise ValidationError(self._format_error(value, self.default_message))
         return value
 
