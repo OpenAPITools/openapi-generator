@@ -26,17 +26,17 @@ class Order {
     if (json['id'] == null) {
       id = null;
     } else {
-      id = json['id'];
+          id = json['id'];
     }
     if (json['petId'] == null) {
       petId = null;
     } else {
-      petId = json['petId'];
+          petId = json['petId'];
     }
     if (json['quantity'] == null) {
       quantity = null;
     } else {
-      quantity = json['quantity'];
+          quantity = json['quantity'];
     }
     if (json['shipDate'] == null) {
       shipDate = null;
@@ -46,12 +46,12 @@ class Order {
     if (json['status'] == null) {
       status = null;
     } else {
-      status = json['status'];
+          status = json['status'];
     }
     if (json['complete'] == null) {
       complete = null;
     } else {
-      complete = json['complete'];
+          complete = json['complete'];
     }
   }
 
@@ -72,7 +72,7 @@ class Order {
 
   static Map<String, Order> mapFromJson(Map<String, dynamic> json) {
     var map = new Map<String, Order>();
-    if (json != null && json.length > 0) {
+    if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic value) => map[key] = new Order.fromJson(value));
     }
     return map;

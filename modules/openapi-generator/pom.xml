@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>4.0.2-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -216,6 +216,16 @@
             <version>${jmustache-version}</version>
         </dependency>
         <dependency>
+            <groupId>com.github.jknack</groupId>
+            <artifactId>handlebars</artifactId>
+            <version>${handlebars.java-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jknack</groupId>
+            <artifactId>handlebars-jackson2</artifactId>
+            <version>${handlebars.java-version}</version>
+        </dependency>
+        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io-version}</version>
@@ -299,6 +309,11 @@
             <groupId>com.github.joschi.jackson</groupId>
             <artifactId>jackson-datatype-threetenbp</artifactId>
             <version>${jackson-threetenbp-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>openapi-generator-core</artifactId>
+            <version>4.0.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <repositories>

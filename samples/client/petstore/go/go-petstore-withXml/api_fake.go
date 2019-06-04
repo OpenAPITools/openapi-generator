@@ -15,7 +15,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 	"github.com/antihax/optional"
 	"os"
 )
@@ -26,6 +25,74 @@ var (
 )
 
 type FakeApiService service
+
+/*
+FakeApiService creates an XmlItem
+this route creates an XmlItem
+ * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param xmlItem XmlItem Body
+*/
+func (a *FakeApiService) CreateXmlItem(ctx context.Context, xmlItem XmlItem) (*http.Response, error) {
+	var (
+		localVarHttpMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/fake/create_xml_item"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHttpContentTypes := []string{"application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16"}
+
+	// set Content-Type header
+	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
+	if localVarHttpContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHttpContentType
+	}
+
+	// to determine the Accept header
+	localVarHttpHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
+	if localVarHttpHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
+	}
+	// body params
+	localVarPostBody = &xmlItem
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHttpResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHttpResponse == nil {
+		return localVarHttpResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
+	localVarHttpResponse.Body.Close()
+	if err != nil {
+		return localVarHttpResponse, err
+	}
+
+	if localVarHttpResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHttpResponse.Status,
+		}
+		return localVarHttpResponse, newErr
+	}
+
+	return localVarHttpResponse, nil
+}
 
 /*
 FakeApiService
@@ -42,7 +109,7 @@ type FakeOuterBooleanSerializeOpts struct {
 
 func (a *FakeApiService) FakeOuterBooleanSerialize(ctx context.Context, localVarOptionals *FakeOuterBooleanSerializeOpts) (bool, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -140,7 +207,7 @@ type FakeOuterCompositeSerializeOpts struct {
 
 func (a *FakeApiService) FakeOuterCompositeSerialize(ctx context.Context, localVarOptionals *FakeOuterCompositeSerializeOpts) (OuterComposite, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -242,7 +309,7 @@ type FakeOuterNumberSerializeOpts struct {
 
 func (a *FakeApiService) FakeOuterNumberSerialize(ctx context.Context, localVarOptionals *FakeOuterNumberSerializeOpts) (float32, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -340,7 +407,7 @@ type FakeOuterStringSerializeOpts struct {
 
 func (a *FakeApiService) FakeOuterStringSerialize(ctx context.Context, localVarOptionals *FakeOuterStringSerializeOpts) (string, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -431,7 +498,7 @@ For this test, the body for this request much reference a schema named &#x60;Fil
 */
 func (a *FakeApiService) TestBodyWithFileSchema(ctx context.Context, body FileSchemaTestClass) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Put")
+		localVarHttpMethod   = http.MethodPut
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -499,7 +566,7 @@ FakeApiService
 */
 func (a *FakeApiService) TestBodyWithQueryParams(ctx context.Context, query string, body User) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Put")
+		localVarHttpMethod   = http.MethodPut
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -569,7 +636,7 @@ To test \&quot;client\&quot; model
 */
 func (a *FakeApiService) TestClientModel(ctx context.Context, body Client) (Client, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Patch")
+		localVarHttpMethod   = http.MethodPatch
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -685,7 +752,7 @@ type TestEndpointParametersOpts struct {
 
 func (a *FakeApiService) TestEndpointParameters(ctx context.Context, number float32, double float64, patternWithoutDelimiter string, byte_ string, localVarOptionals *TestEndpointParametersOpts) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -829,7 +896,7 @@ type TestEnumParametersOpts struct {
 
 func (a *FakeApiService) TestEnumParameters(ctx context.Context, localVarOptionals *TestEnumParametersOpts) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -932,7 +999,7 @@ type TestGroupParametersOpts struct {
 
 func (a *FakeApiService) TestGroupParameters(ctx context.Context, requiredStringGroup int32, requiredBooleanGroup bool, requiredInt64Group int64, localVarOptionals *TestGroupParametersOpts) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Delete")
+		localVarHttpMethod   = http.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1009,7 +1076,7 @@ FakeApiService test inline additionalProperties
 */
 func (a *FakeApiService) TestInlineAdditionalProperties(ctx context.Context, param map[string]string) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Post")
+		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1077,7 +1144,7 @@ FakeApiService test json serialization of form data
 */
 func (a *FakeApiService) TestJsonFormData(ctx context.Context, param string, param2 string) (*http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string

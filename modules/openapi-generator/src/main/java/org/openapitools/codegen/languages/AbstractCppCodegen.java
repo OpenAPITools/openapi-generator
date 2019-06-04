@@ -19,17 +19,21 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
-import org.openapitools.codegen.mustache.IndentedLambda;
+import org.openapitools.codegen.templating.mustache.IndentedLambda;
+import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -299,5 +303,18 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());
             }
         }
+    }
+    
+    @Override
+    public void preprocessOpenAPI(OpenAPI openAPI) {
+        URL url = URLPathUtils.getServerURL(openAPI);
+        String port = URLPathUtils.getPort(url, "");
+        String host = url.getHost();
+        if(!port.isEmpty()) {
+            this.additionalProperties.put("serverPort", port);          
+        }
+        if(!host.isEmpty()) {
+            this.additionalProperties.put("serverHost", host);          
+        }        
     }
 }

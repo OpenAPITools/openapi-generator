@@ -300,7 +300,13 @@ export class {{classname}} {
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])){{#useHttpClient}} as any || formParams{{/useHttpClient}};
+            if (useForm) {
+                {{paramName}}.forEach((element) => {
+                    {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', <any>element){{#useHttpClient}} as any || formParams{{/useHttpClient}};
+            })
+            } else {
+                {{#useHttpClient}}formParams = {{/useHttpClient}}formParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])){{#useHttpClient}} as any || formParams{{/useHttpClient}};
+            }
         {{/isCollectionFormatMulti}}
         }
         {{/isListContainer}}

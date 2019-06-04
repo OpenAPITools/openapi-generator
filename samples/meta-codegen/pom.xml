@@ -8,5 +8,6 @@
     <modules>
         <module>lib/</module>
         <module>../../modules/openapi-generator</module>
+        <module>../../modules/openapi-generator-core</module>
     </modules>
 </project>

@@ -28,7 +28,8 @@ task execute(type:JavaExec) {
 
 ext {
     swagger_annotations_version = "1.5.21"
-    jackson_version = "{{^threetenbp}}2.8.9{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}"
+    jackson_version = "{{^threetenbp}}2.9.9{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}"
+    jackson_databind_version = "{{^threetenbp}}2.9.9{{/threetenbp}}{{#threetenbp}}2.6.4{{/threetenbp}}"
     vertx_version = "3.4.2"
     junit_version = "4.12"
 }
@@ -39,7 +40,7 @@ dependencies {
     compile "io.vertx:vertx-rx-java:$vertx_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
-    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     {{#joda}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
     {{/joda}}

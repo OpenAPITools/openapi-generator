@@ -1,4 +1,4 @@
-/*ap Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+/* Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
  * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -124,6 +125,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         typeMapping.put("binary", "string");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
+        typeMapping.put("URI", "string");
 
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PACKAGE, CodegenConstants.MODEL_PACKAGE_DESC));
         cliOptions.add(new CliOption(CodegenConstants.API_PACKAGE, CodegenConstants.API_PACKAGE_DESC));
@@ -132,8 +134,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         cliOptions.add(new CliOption(CodegenConstants.INVOKER_PACKAGE, "The main namespace to use for all classes. e.g. Yay\\Pets"));
         cliOptions.add(new CliOption(PACKAGE_NAME, "The main package name for classes. e.g. GeneratedPetstore"));
         cliOptions.add(new CliOption(SRC_BASE_PATH, "The directory to serve as source root."));
-        cliOptions.add(new CliOption(CodegenConstants.GIT_USER_ID, CodegenConstants.GIT_USER_ID_DESC));
-        cliOptions.add(new CliOption(CodegenConstants.GIT_REPO_ID, CodegenConstants.GIT_REPO_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_VERSION, "The version to use in the composer package version field. e.g. 1.2.3"));
     }
 
@@ -179,18 +179,6 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             apiPackage = invokerPackage + "\\" + (String) additionalProperties.get(CodegenConstants.API_PACKAGE);
         }
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
-
-        if (additionalProperties.containsKey(CodegenConstants.GIT_USER_ID)) {
-            this.setGitUserId((String) additionalProperties.get(CodegenConstants.GIT_USER_ID));
-        } else {
-            additionalProperties.put(CodegenConstants.GIT_USER_ID, gitUserId);
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.GIT_REPO_ID)) {
-            this.setGitRepoId((String) additionalProperties.get(CodegenConstants.GIT_REPO_ID));
-        } else {
-            additionalProperties.put(CodegenConstants.GIT_REPO_ID, gitRepoId);
-        }
 
         if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
             this.setArtifactVersion((String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION));
@@ -239,16 +227,18 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     public String toSrcPath(String packageName, String basePath) {
         packageName = packageName.replace(invokerPackage, ""); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         if (basePath != null && basePath.length() > 0) {
-            basePath = basePath.replaceAll("[\\\\/]?$", "") + '/'; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+            basePath = basePath.replaceAll("[\\\\/]?$", "") + File.separator; // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         }
 
-        return (basePath
-                // Replace period, backslash, forward slash with file separator in package name
-                + packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/"))
-                // Trim prefix file separators from package path
-                .replaceAll("^/", ""))
-                // Trim trailing file separators from the overall path
-                .replaceAll("/$", "");
+        // Trim prefix file separators from package path
+        String packagePath = StringUtils.removeStart(
+            // Replace period, backslash, forward slash with file separator in package name
+            packageName.replaceAll("[\\.\\\\/]", Matcher.quoteReplacement("/")),
+            File.separator
+        );
+
+        // Trim trailing file separators from the overall path
+        return StringUtils.removeEnd(basePath + packagePath, File.separator);
     }
 
     @Override

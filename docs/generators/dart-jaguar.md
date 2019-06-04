@@ -19,3 +19,4 @@ sidebar_label: dart-jaguar
 |sourceFolder|source folder for generated code| |null|
 |supportDart2|support dart2| |true|
 |nullableFields|Is the null fields should be in the JSON payload| |null|
+|serialization|Choose serialization format JSON or PROTO is supported| |null|

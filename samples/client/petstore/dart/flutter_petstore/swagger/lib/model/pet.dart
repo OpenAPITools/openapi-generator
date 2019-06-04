@@ -26,7 +26,7 @@ class Pet {
     if (json['id'] == null) {
       id = null;
     } else {
-      id = json['id'];
+          id = json['id'];
     }
     if (json['category'] == null) {
       category = null;
@@ -36,12 +36,12 @@ class Pet {
     if (json['name'] == null) {
       name = null;
     } else {
-      name = json['name'];
+          name = json['name'];
     }
     if (json['photoUrls'] == null) {
       photoUrls = null;
     } else {
-      photoUrls = ((json['photoUrls'] ?? []) as List).map((item) => item as String).toList();
+      photoUrls = (json['photoUrls'] as List).cast<String>();
     }
     if (json['tags'] == null) {
       tags = null;
@@ -51,7 +51,7 @@ class Pet {
     if (json['status'] == null) {
       status = null;
     } else {
-      status = json['status'];
+          status = json['status'];
     }
   }
 
@@ -72,7 +72,7 @@ class Pet {
 
   static Map<String, Pet> mapFromJson(Map<String, dynamic> json) {
     var map = new Map<String, Pet>();
-    if (json != null && json.length > 0) {
+    if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic value) => map[key] = new Pet.fromJson(value));
     }
     return map;

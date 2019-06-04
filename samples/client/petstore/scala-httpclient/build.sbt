@@ -4,8 +4,8 @@ organization := "org.openapitools"
 scalaVersion := "2.11.12"
 
 libraryDependencies ++= Seq(
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.9.2",
-  "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.9.2",
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.9.9",
+  "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.9.9",
   "com.sun.jersey" % "jersey-core" % "1.19.4",
   "com.sun.jersey" % "jersey-client" % "1.19.4",
   "com.sun.jersey.contribs" % "jersey-multipart" % "1.19.4",

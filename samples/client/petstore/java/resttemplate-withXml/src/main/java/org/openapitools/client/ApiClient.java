@@ -60,6 +60,7 @@ import java.util.TimeZone;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
@@ -176,6 +177,20 @@ public class ApiClient {
      */
     public Authentication getAuthentication(String authName) {
         return authentications.get(authName);
+    }
+
+    /**
+     * Helper method to set token for HTTP bearer authentication.
+     * @param bearerToken the token
+     */
+    public void setBearerToken(String bearerToken) {
+      for (Authentication auth : authentications.values()) {
+        if (auth instanceof HttpBearerAuth) {
+          ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+          return;
+        }
+      }
+      throw new RuntimeException("No Bearer authentication configured!");
     }
 
     /**
@@ -331,6 +346,8 @@ public class ApiClient {
 
     /**
      * Parse the given string into Date object.
+     * @param str the string to parse
+     * @return the Date parsed from the string
      */
     public Date parseDate(String str) {
         try {
@@ -342,6 +359,8 @@ public class ApiClient {
 
     /**
      * Format the given Date object into string.
+     * @param date the date to format
+     * @return the formatted date as string
      */
     public String formatDate(Date date) {
         return dateFormat.format(date);
@@ -375,7 +394,7 @@ public class ApiClient {
     * Formats the specified collection path parameter to a string value.
     *
     * @param collectionFormat The collection format of the parameter.
-    * @param value The value of the parameter.
+    * @param values The values of the parameter.
     * @return String representation of the parameter
     */
     public String collectionPathParameterToString(CollectionFormat collectionFormat, Collection<? extends CharSequence> values) {

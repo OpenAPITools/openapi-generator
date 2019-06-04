@@ -36,6 +36,9 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 public class JavaClientCodegenTest {
 
     @Test
@@ -47,15 +50,15 @@ public class JavaClientCodegenTest {
         RequestBody body1 = new RequestBody();
         body1.setDescription("A list of ids");
         body1.setContent(new Content().addMediaType("application/json", new MediaType().schema(new ArraySchema().items(new StringSchema()))));
-        CodegenParameter codegenParameter1 = codegen.fromRequestBody(body1 , new HashSet<String>(), null);
+        CodegenParameter codegenParameter1 = codegen.fromRequestBody(body1, new HashSet<String>(), null);
         Assert.assertEquals(codegenParameter1.description, "A list of ids");
         Assert.assertEquals(codegenParameter1.dataType, "List<String>");
-        Assert.assertEquals(codegenParameter1.baseType, "List");
+        Assert.assertEquals(codegenParameter1.baseType, "String");
 
         RequestBody body2 = new RequestBody();
         body2.setDescription("A list of list of values");
         body2.setContent(new Content().addMediaType("application/json", new MediaType().schema(new ArraySchema().items(new ArraySchema().items(new IntegerSchema())))));
-        CodegenParameter codegenParameter2 = codegen.fromRequestBody(body2 , new HashSet<String>(), null);
+        CodegenParameter codegenParameter2 = codegen.fromRequestBody(body2, new HashSet<String>(), null);
         Assert.assertEquals(codegenParameter2.description, "A list of list of values");
         Assert.assertEquals(codegenParameter2.dataType, "List<List<Integer>>");
         Assert.assertEquals(codegenParameter2.baseType, "List");
@@ -67,10 +70,10 @@ public class JavaClientCodegenTest {
         point.addProperties("message", new StringSchema());
         point.addProperties("x", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
         point.addProperties("y", new IntegerSchema().format(SchemaTypeUtil.INTEGER32_FORMAT));
-        CodegenParameter codegenParameter3 = codegen.fromRequestBody(body3 , new HashSet<String>(), null);
+        CodegenParameter codegenParameter3 = codegen.fromRequestBody(body3, new HashSet<String>(), null);
         Assert.assertEquals(codegenParameter3.description, "A list of points");
         Assert.assertEquals(codegenParameter3.dataType, "List<Point>");
-        Assert.assertEquals(codegenParameter3.baseType, "List");
+        Assert.assertEquals(codegenParameter3.baseType, "Point");
     }
 
     @Test
@@ -84,7 +87,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void testParametersAreCorrectlyOrderedWhenUsingRetrofit(){
+    public void testParametersAreCorrectlyOrderedWhenUsingRetrofit() {
         JavaClientCodegen javaClientCodegen = new JavaClientCodegen();
         javaClientCodegen.setLibrary(JavaClientCodegen.RETROFIT_2);
 
@@ -102,9 +105,9 @@ public class JavaClientCodegenTest {
         javaClientCodegen.postProcessOperationsWithModels(objs, Collections.emptyList());
 
         Assert.assertEquals(Arrays.asList(pathParam1, pathParam2, queryParamRequired, queryParamOptional), codegenOperation.allParams);
-        Assert.assertTrue(pathParam1.hasMore);
-        Assert.assertTrue(pathParam2.hasMore);
-        Assert.assertTrue(queryParamRequired.hasMore);
+        assertTrue(pathParam1.hasMore);
+        assertTrue(pathParam2.hasMore);
+        assertTrue(queryParamRequired.hasMore);
         Assert.assertFalse(queryParamOptional.hasMore);
     }
 
@@ -149,7 +152,7 @@ public class JavaClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.yyyyy.zzzzzzz.mmmmm.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.yyyyy.zzzzzzz.aaaaa.api");
-        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE,"xyz.yyyyy.zzzzzzz.iiii.invoker");
+        codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.zzzzzzz.iiii.invoker");
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
@@ -190,7 +193,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.mmmmm");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.mmmmm");
     }
-    
+
     @Test
     public void testGetSchemaTypeWithComposedSchemaWithAllOf() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/composed-allof.yaml");
@@ -213,7 +216,7 @@ public class JavaClientCodegenTest {
         Assert.assertNotNull(enumVars);
         Map<String, String> testedEnumVar = enumVars.get(0);
         Assert.assertNotNull(testedEnumVar);
-        Assert.assertEquals(testedEnumVar.getOrDefault("name", ""),"NUMBER_1");
+        Assert.assertEquals(testedEnumVar.getOrDefault("name", ""), "NUMBER_1");
         Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
     }
 
@@ -229,7 +232,7 @@ public class JavaClientCodegenTest {
         Assert.assertNotNull(enumVars);
         Map<String, String> testedEnumVar = enumVars.get(0);
         Assert.assertNotNull(testedEnumVar);
-        Assert.assertEquals(testedEnumVar.getOrDefault("name", ""),"ONE");
+        Assert.assertEquals(testedEnumVar.getOrDefault("name", ""), "ONE");
         Assert.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
     }
 
@@ -293,7 +296,7 @@ public class JavaClientCodegenTest {
 
         String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/DefaultApi.java").getAbsolutePath().replace("\\", "/");
         String defaultApiConent = generatedFiles.get(defaultApiFilename);
-        Assert.assertTrue(defaultApiConent.contains("public class DefaultApi")); 
+        assertTrue(defaultApiConent.contains("public class DefaultApi"));
 
         WrittenTemplateBasedFile templateBasedFile = TestUtils.getTemplateBasedFile(generator, output, "src/main/java/xyz/abcdef/api/DefaultApi.java");
         Assert.assertEquals(templateBasedFile.getTemplateData().get("classname"), "DefaultApi");
@@ -314,6 +317,38 @@ public class JavaClientCodegenTest {
         CodegenProperty header = response.headers.get(0);
         Assert.assertEquals("UUID", header.dataType);
         Assert.assertEquals("Request", header.baseName);
+    }
+
+    @Test
+    public void testAuthorizationScopeValues_Issue392() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue392.yaml");
+
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.setOpenAPI(openAPI);
+        clientOptInput.setConfig(new JavaClientCodegen());
+
+        final ClientOpts clientOpts = new ClientOpts();
+        clientOpts.setProperties(Collections.emptyMap());
+        clientOptInput.setOpts(clientOpts);
+
+        defaultGenerator.opts(clientOptInput);
+        final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
+
+        // Verify GET only has 'read' scope
+        final CodegenOperation getCodegenOperation = codegenOperations.stream().filter(it -> it.httpMethod.equals("GET")).collect(Collectors.toList()).get(0);
+        assertTrue(getCodegenOperation.hasAuthMethods);
+        assertEquals(getCodegenOperation.authMethods.size(), 1);
+        final List<Map<String, Object>> getScopes = getCodegenOperation.authMethods.get(0).scopes;
+        assertEquals(getScopes.size(), 1, "GET scopes don't match. actual::" + getScopes);
+
+        // POST operation should have both 'read' and 'write' scope on it
+        final CodegenOperation postCodegenOperation = codegenOperations.stream().filter(it -> it.httpMethod.equals("POST")).collect(Collectors.toList()).get(0);
+        assertTrue(postCodegenOperation.hasAuthMethods);
+        assertEquals(postCodegenOperation.authMethods.size(), 1);
+        final List<Map<String, Object>> postScopes = postCodegenOperation.authMethods.get(0).scopes;
+        assertEquals(postScopes.size(), 2, "POST scopes don't match. actual:" + postScopes);
     }
 
     @Test
@@ -352,11 +387,11 @@ public class JavaClientCodegenTest {
     private void ensureContainsFile(Map<String, String> generatedFiles, File root, String filename) {
         File file = new File(root, filename);
         String absoluteFilename = file.getAbsolutePath().replace("\\", "/");
-        if(!generatedFiles.containsKey(absoluteFilename)) {
-            Assert.fail("Could not find '" + absoluteFilename + "' file in list:\n" + 
+        if (!generatedFiles.containsKey(absoluteFilename)) {
+            Assert.fail("Could not find '" + absoluteFilename + "' file in list:\n" +
                     generatedFiles.keySet().stream().sorted().collect(Collectors.joining(",\n")));
         }
-        Assert.assertTrue(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was not fould in the list of generated files");
+        assertTrue(generatedFiles.containsKey(absoluteFilename), "File '" + absoluteFilename + "' was not fould in the list of generated files");
     }
 
     private CodegenProperty codegenPropertyWithArrayOfIntegerValues() {
@@ -385,7 +420,7 @@ public class JavaClientCodegenTest {
         return codegenParameter;
     }
 
-    private CodegenParameter createStringParam(String name){
+    private CodegenParameter createStringParam(String name) {
         CodegenParameter codegenParameter = new CodegenParameter();
         codegenParameter.paramName = name;
         codegenParameter.baseName = name;

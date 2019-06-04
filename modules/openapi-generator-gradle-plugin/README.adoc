@@ -48,7 +48,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:3.3.4"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:4.0.1"
   }
 }
 
@@ -117,6 +117,11 @@ The gradle plugin is not currently published to https://plugins.gradle.org/m2/.
 |Boolean
 |false
 |Specifies if the existing files should be overwritten during the generation.
+
+|packageName
+|String
+|(generator specific)
+|Package for generated classes (where supported).
 
 |apiPackage
 |String
@@ -266,7 +271,7 @@ The gradle plugin is not currently published to https://plugins.gradle.org/m2/.
 |configOptions
 |Map(String,String)
 |None
-|A map of options specific to a generator.
+|A map of options specific to a generator. To see the full list of generator-specified parameters, please refer to [generators docs](https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators.md)
 
 |logToStderr
 |Boolean
@@ -594,7 +599,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:3.3.4') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:4.0.1') {
             exclude group: 'com.google.guava'
         }
     }

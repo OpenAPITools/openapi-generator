@@ -3,7 +3,7 @@
     <parent>
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
-        <version>4.0.0-SNAPSHOT</version>
+        <version>4.0.2-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -72,7 +72,7 @@
                                 <!-- calls "clean assemble install" -->
                                 <task>clean</task>
                                 <task>assemble</task>
-                                <task>install</task>
+                                <task>publishToMavenLocal</task>
                             </tasks>
                         </configuration>
                     </execution>

@@ -117,6 +117,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
                         "binary",
                         "file",
                         "UUID",
+                        "URI",
                         "BigDecimal",
                         "mixed",
                         "number",
@@ -148,6 +149,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("binary", "MEDIUMBLOB");
         typeMapping.put("file", "MEDIUMBLOB");
         typeMapping.put("UUID", "TEXT");
+        typeMapping.put("URI", "TEXT");
         typeMapping.put("BigDecimal", "DECIMAL");
 
         embeddedTemplateDir = templateDir = "mysql-schema";

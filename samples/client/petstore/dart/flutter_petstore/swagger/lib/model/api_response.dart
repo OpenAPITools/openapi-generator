@@ -19,17 +19,17 @@ class ApiResponse {
     if (json['code'] == null) {
       code = null;
     } else {
-      code = json['code'];
+          code = json['code'];
     }
     if (json['type'] == null) {
       type = null;
     } else {
-      type = json['type'];
+          type = json['type'];
     }
     if (json['message'] == null) {
       message = null;
     } else {
-      message = json['message'];
+          message = json['message'];
     }
   }
 
@@ -47,7 +47,7 @@ class ApiResponse {
 
   static Map<String, ApiResponse> mapFromJson(Map<String, dynamic> json) {
     var map = new Map<String, ApiResponse>();
-    if (json != null && json.length > 0) {
+    if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic value) => map[key] = new ApiResponse.fromJson(value));
     }
     return map;

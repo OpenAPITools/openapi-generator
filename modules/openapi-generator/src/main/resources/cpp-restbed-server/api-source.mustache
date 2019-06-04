@@ -54,6 +54,22 @@ void {{classname}}::stopService() {
 {
 }
 
+void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::set_handler_{{httpMethod}}(
+	std::function<std::pair<int, std::string>(
+		{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+	)> handler) {
+	handler_{{httpMethod}}_ = std::move(handler);
+}
+
+{{#vendorExtensions.x-codegen-otherMethods}}
+void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::set_handler_{{httpMethod}}(
+	std::function<std::pair<int, std::string>(
+		{{#allParams}}{{{dataType}}} const &{{#hasMore}}, {{/hasMore}}{{/allParams}}
+	)> handler) {
+	handler_{{httpMethod}}_ = std::move(handler);
+}
+{{/vendorExtensions.x-codegen-otherMethods}}
+
 void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMethod}}_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
@@ -65,12 +81,12 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 		{
 
 			const auto request = session->get_request();
-			std::string requestBody = restbed::String::format("%.*s\n", ( int ) body.size( ), body.data( ));
+			std::string file = restbed::String::format("%.*s\n", ( int ) body.size( ), body.data( ));
 			/**
-			 * Get body params or form params here from the requestBody string
+			 * Get body params or form params here from the file string
 			 */
 	{{/hasBodyParam}}
-			
+
 			{{#hasPathParams}}
 			// Getting the path params
 			{{#pathParams}}
@@ -79,7 +95,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			{{/isPrimitiveType}}
 			{{/pathParams}}
 			{{/hasPathParams}}
-			
+
 			{{#hasQueryParams}}
 			// Getting the query params
 			{{#queryParams}}
@@ -97,21 +113,25 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			{{/isPrimitiveType}}
 			{{/headerParams}}
 			{{/hasHeaderParams}}
-			
+
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
-			
-			/**
-			 * Process the received information here
-			 */
-			
+			std::string result = "successful operation";
+
+			if (handler_{{httpMethod}}_)
+			{
+				std::tie(status_code, result) = handler_{{httpMethod}}_(
+					{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}
+				);
+			}
+
 			{{#responses}}
 			if (status_code == {{code}}) {
 				{{#headers}}
 				// Description: {{description}}
 				session->set_header("{{baseName}}", ""); // Change second param to your header value
 				{{/headers}}
-				session->close({{code}}, "{{message}}", { {"Connection", "close"} });
+				session->close({{code}}, result.empty() ? "{{message}}" : std::move(result), { {"Connection", "close"} });
 				return;
 			}
 			{{/responses}}
@@ -133,7 +153,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 		{
 
 			const auto request = session->get_request();
-			std::string requestBody = restbed::String::format("%.*s\n", ( int ) body.size( ), body.data( ));
+			std::string file = restbed::String::format("%.*s\n", ( int ) body.size( ), body.data( ));
 	{{/hasBodyParam}}
 
 			{{#hasPathParams}}
@@ -144,7 +164,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			{{/isPrimitiveType}}
 			{{/pathParams}}
 			{{/hasPathParams}}
-			
+
 			{{#hasQueryParams}}
 			// Getting the query params
 			{{#queryParams}}
@@ -162,14 +182,18 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 			{{/isPrimitiveType}}
 			{{/headerParams}}
 			{{/hasHeaderParams}}
-			
+
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
-			
-			/**
-			 * Process the received information here
-			 */
-			
+			std::string result = "successful operation";
+
+			if (handler_{{httpMethod}}_)
+			{
+				std::tie(status_code, result) = handler_{{httpMethod}}_(
+					{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}
+				);
+			}
+
 			{{#responses}}
 			if (status_code == {{code}}) {
 				{{#baseType}}
@@ -179,7 +203,7 @@ void {{classname}}{{vendorExtensions.x-codegen-resourceName}}Resource::{{httpMet
 				// Description: {{description}}
 				session->set_header("{{baseName}}", ""); // Change second param to your header value
 				{{/headers}}
-				session->close({{code}}, "{{message}}", { {"Connection", "close"} });
+				session->close({{code}}, result.empty() ? "{{message}}" : std::move(result), { {"Connection", "close"} });
 				return;
 			}
 			{{/responses}}

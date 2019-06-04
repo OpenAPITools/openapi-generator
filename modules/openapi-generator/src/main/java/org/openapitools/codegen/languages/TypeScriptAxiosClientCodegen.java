@@ -23,6 +23,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -32,15 +33,11 @@ import java.util.*;
 
 public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodegen {
 
-    public static final String NPM_NAME = "npmName";
-    public static final String NPM_VERSION = "npmVersion";
     public static final String NPM_REPOSITORY = "npmRepository";
-    public static final String SNAPSHOT = "snapshot";
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String SEPARATE_MODELS_AND_API = "withSeparateModelsAndApi";
+    public static final String WITHOUT_PREFIX_ENUMS = "withoutPrefixEnums";
 
-    protected String npmName = null;
-    protected String npmVersion = "1.0.0";
     protected String npmRepository = null;
 
     private String tsModelPackage = "";
@@ -55,12 +52,10 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         outputFolder = "generated-code/typescript-axios";
         embeddedTemplateDir = templateDir = "typescript-axios";
 
-        this.cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package"));
-        this.cliOptions.add(new CliOption(NPM_VERSION, "The version of your npm package"));
-        this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
-        this.cliOptions.add(new CliOption(SNAPSHOT, "When setting this property to true the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url of your private npmRepo in the package.json"));
         this.cliOptions.add(new CliOption(WITH_INTERFACES, "Setting this property to true will generate interfaces next to the default class implementations.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(SEPARATE_MODELS_AND_API, "Put the model and api in separate folders and in separate classes", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(WITHOUT_PREFIX_ENUMS, "Don't prefix enum names with class names", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -71,22 +66,6 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public String getHelp() {
         return "Generates a TypeScript client library using axios.";
-    }
-
-    public String getNpmName() {
-        return npmName;
-    }
-
-    public void setNpmName(String npmName) {
-        this.npmName = npmName;
-    }
-
-    public String getNpmVersion() {
-        return npmVersion;
-    }
-
-    public void setNpmVersion(String npmVersion) {
-        this.npmVersion = npmVersion;
     }
 
     public String getNpmRepository() {
@@ -132,40 +111,22 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 
-        boolean separateModelsAndApi = (boolean)additionalProperties.getOrDefault(SEPARATE_MODELS_AND_API, false);
-
-        if (separateModelsAndApi) {
-            modelTemplateFiles.put("model.mustache", ".ts");
-            apiTemplateFiles.put("apiInner.mustache", ".ts");
-            supportingFiles.add(new SupportingFile("modelIndex.mustache", tsModelPackage, "index.ts"));
+        if (additionalProperties.containsKey(SEPARATE_MODELS_AND_API)) {
+            boolean separateModelsAndApi = Boolean.parseBoolean(additionalProperties.get(SEPARATE_MODELS_AND_API).toString());
+            if (separateModelsAndApi) {
+                if (StringUtils.isAnyBlank(modelPackage, apiPackage)) {
+                    throw new RuntimeException("apiPackage and modelPackage must be defined");
+                }
+                modelTemplateFiles.put("model.mustache", ".ts");
+                apiTemplateFiles.put("apiInner.mustache", ".ts");
+                supportingFiles.add(new SupportingFile("modelIndex.mustache", tsModelPackage, "index.ts"));
+            }
         }
 
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
 
-        boolean emptyModelOrApi = separateModelsAndApi && StringUtils.isAnyBlank(modelPackage, apiPackage);
-        if (emptyModelOrApi) {
-            throw new RuntimeException("apiPackage and modelPackage must be defined");
-        }
-    }
-
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        Schema inner;
-        if (ModelUtils.isArraySchema(p)) {
-            inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            inner = ModelUtils.getAdditionalProperties(p);
-            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
-        } else if (ModelUtils.isFileSchema(p)) {
-            return "any";
-        } else if (ModelUtils.isBinarySchema(p)) {
-            return "any";
-        } else {
-            return super.getTypeDeclaration(p);
-        }
     }
 
     @Override
@@ -193,22 +154,50 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
-        Map<String, Object> ret = super.postProcessModels(objs);
-        // Deduce the model file name in kebab case
-        List<Map<String, Object>> models = (List<Map<String, Object>>) ret.get("models");
-        for (Map<String, Object> m : models) {
-            CodegenModel model = (CodegenModel) m.get("model");
-            model.classFilename = model.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
+        List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
+
+        boolean withoutPrefixEnums = false;
+        if (additionalProperties.containsKey(WITHOUT_PREFIX_ENUMS)) {
+            withoutPrefixEnums = Boolean.parseBoolean(additionalProperties.get(WITHOUT_PREFIX_ENUMS).toString());
         }
+
+        for (Object _mo  : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            // Deduce the model file name in kebab case
+            cm.classFilename = cm.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
+
+            //processed enum names
+            if(!withoutPrefixEnums) {
+                cm.imports = new TreeSet(cm.imports);
+                // name enum with model name, e.g. StatusEnum => PetStatusEnum
+                for (CodegenProperty var : cm.vars) {
+                    if (Boolean.TRUE.equals(var.isEnum)) {
+                        var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+                        var.enumName = var.enumName.replace(var.enumName, cm.classname + var.enumName);
+                    }
+                }
+                if (cm.parent != null) {
+                    for (CodegenProperty var : cm.allVars) {
+                        if (Boolean.TRUE.equals(var.isEnum)) {
+                            var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+                            var.enumName = var.enumName.replace(var.enumName, cm.classname + var.enumName);
+                        }
+                    }
+                }
+            }
+        }
+        
         // Apply the model file name to the imports as well
-        for (Map<String, String> m : (List<Map<String, String>>) ret.get("imports")) {
+        for (Map<String, String> m : (List<Map<String, String>>) objs.get("imports")) {
             String javaImport = m.get("import").substring(modelPackage.length() + 1);
             String tsImport = tsModelPackage + "/" + javaImport;
             m.put("tsImport", tsImport);
             m.put("class", javaImport);
             m.put("filename", javaImport.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT));
         }
-        return ret;
+        return objs;
     }
 
     @Override
@@ -222,18 +211,6 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     private void addNpmPackageGeneration() {
-        if (additionalProperties.containsKey(NPM_NAME)) {
-            this.setNpmName(additionalProperties.get(NPM_NAME).toString());
-        }
-
-        if (additionalProperties.containsKey(NPM_VERSION)) {
-            this.setNpmVersion(additionalProperties.get(NPM_VERSION).toString());
-        }
-
-        if (additionalProperties.containsKey(SNAPSHOT) && Boolean.valueOf(additionalProperties.get(SNAPSHOT).toString())) {
-            this.setNpmVersion(npmVersion + "-SNAPSHOT." + SNAPSHOT_SUFFIX_FORMAT.format(new Date()));
-        }
-        additionalProperties.put(NPM_VERSION, npmVersion);
 
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());

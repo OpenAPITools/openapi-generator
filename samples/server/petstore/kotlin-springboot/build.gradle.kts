@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.3.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.0.M3")
     }
 }
 
@@ -23,15 +23,16 @@ tasks.withType<KotlinCompile> {
 }
 
 plugins {
-    val kotlinVersion = "1.2.60"
+    val kotlinVersion = "1.3.30"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
-    id("org.springframework.boot") version "2.0.3.RELEASE"
+    id("org.springframework.boot") version "2.2.0.M3"
     id("io.spring.dependency-management") version "1.0.5.RELEASE"
 }
 
 dependencies {
+	val kotlinxCoroutinesVersion="1.2.0"
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     compile("org.jetbrains.kotlin:kotlin-reflect")
     compile("org.springframework.boot:spring-boot-starter-web")
@@ -40,7 +41,14 @@ dependencies {
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml")
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+    testCompile("org.jetbrains.kotlin:kotlin-test-junit5")
     testCompile("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
     }
+}
+
+repositories {
+	mavenCentral()
+	maven { url = uri("https://repo.spring.io/snapshot") }
+	maven { url = uri("https://repo.spring.io/milestone") }
 }

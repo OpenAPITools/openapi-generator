@@ -18,6 +18,10 @@
 #include <vector>
 #include <functional>
 
+#if  defined (_WIN32) || defined (_WIN64)
+#undef U
+#endif
+
 #include <cpprest/details/basic_types.h>
 #include <cpprest/http_client.h>
 

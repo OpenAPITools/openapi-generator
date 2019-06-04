@@ -232,16 +232,8 @@ public class ExampleGenerator {
             Schema innerType = ((ArraySchema) property).getItems();
             if (innerType != null) {
                 int arrayLength = null == ((ArraySchema) property).getMaxItems() ? 2 : ((ArraySchema) property).getMaxItems();
-                if (arrayLength == Integer.MAX_VALUE) {
-                    // swagger-jersey2-jaxrs generated spec may contain maxItem = 2147483647
-                    // semantically this means there is no upper limit
-                    // treating this as if the property was not present at all
-                    LOGGER.warn("The max items allowed in property {} of {} equals Integer.MAX_VALUE. Treating this as if no max items has been specified.", property, arrayLength);
-                    arrayLength = 2;
-                } else if (arrayLength > 1024) {
-                    LOGGER.warn("The max items allowed in property {} is too large ({} items), restricting it to 1024 items", property, arrayLength);
-                    arrayLength = 1024;
-                }
+                // avoid memory issues by limiting to max. 5 items
+                arrayLength = Math.min(arrayLength, 5);
                 Object[] objectProperties = new Object[arrayLength];
                 Object objProperty = resolvePropertyToExample(propertyName, mediaType, innerType, processedModels);
                 for (int i = 0; i < arrayLength; i++) {
@@ -285,6 +277,8 @@ public class ExampleGenerator {
             return mp;
         } else if (ModelUtils.isUUIDSchema(property)) {
             return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
+        } else if (ModelUtils.isURISchema(property)) {
+            return "https://openapi-generator.tech";
         } else if (ModelUtils.isStringSchema(property)) {
             LOGGER.debug("String property");
             String defaultValue = (String) property.getDefault();

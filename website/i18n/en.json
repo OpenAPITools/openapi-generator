@@ -94,6 +94,9 @@
       "generators/csharp-nancyfx": {
         "title": "generators/csharp-nancyfx"
       },
+      "generators/csharp-netcore": {
+        "title": "generators/csharp-netcore"
+      },
       "generators/csharp-refactor": {
         "title": "generators/csharp-refactor"
       },
@@ -202,6 +205,9 @@
       "generators/jaxrs-cxf-client": {
         "title": "generators/jaxrs-cxf-client"
       },
+      "generators/jaxrs-cxf-extended": {
+        "title": "generators/jaxrs-cxf-extended"
+      },
       "generators/jaxrs-cxf": {
         "title": "generators/jaxrs-cxf"
       },
@@ -277,6 +283,9 @@
       "generators/python-aiohttp": {
         "title": "generators/python-aiohttp"
       },
+      "generators/python-blueplanet": {
+        "title": "generators/python-blueplanet"
+      },
       "generators/python-flask": {
         "title": "generators/python-flask"
       },
@@ -313,11 +322,20 @@
       "generators/scala-gatling": {
         "title": "generators/scala-gatling"
       },
+      "generators/scala-httpclient-deprecated": {
+        "title": "generators/scala-httpclient-deprecated"
+      },
       "generators/scala-httpclient": {
         "title": "generators/scala-httpclient"
       },
       "generators/scala-lagom-server": {
         "title": "generators/scala-lagom-server"
+      },
+      "generators/scala-play-framework": {
+        "title": "generators/scala-play-framework"
+      },
+      "generators/scala-play-server": {
+        "title": "generators/scala-play-server"
       },
       "generators/scalatra": {
         "title": "generators/scalatra"

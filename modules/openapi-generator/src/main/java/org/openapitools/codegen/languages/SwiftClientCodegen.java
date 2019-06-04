@@ -25,6 +25,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,6 +89,11 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     public SwiftClientCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
+
         outputFolder = "generated-code" + File.separator + "swift";
         modelTemplateFiles.put("model.mustache", ".swift");
         apiTemplateFiles.put("api.mustache", ".swift");
@@ -162,6 +169,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
         typeMapping.put("binary", "NSURL");
         typeMapping.put("ByteArray", "NSData");
         typeMapping.put("UUID", "NSUUID");
+        typeMapping.put("URI", "String");
 
         importMapping = new HashMap<String, String>();
 
@@ -434,7 +442,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
     public String toApiName(String name) {
         if (name.length() == 0)
             return "DefaultAPI";
-        return initialCaps(name) + "API";
+        return camelize(name) + "API";
     }
 
     @Override

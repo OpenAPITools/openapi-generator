@@ -1,0 +1,16 @@
+organization := "{{groupId}}"
+version      := "{{artifactVersion}}"
+name         := "{{artifactId}}"
+scalaVersion := "2.12.6"
+
+enablePlugins(PlayScala)
+
+libraryDependencies ++= Seq(
+  guice,
+  ws,
+{{#useSwaggerUI}}
+  "org.webjars" % "swagger-ui" % "3.1.5",
+{{/useSwaggerUI}}
+  "org.scalatest"          %% "scalatest"          % "3.0.4" % Test,
+  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
+)

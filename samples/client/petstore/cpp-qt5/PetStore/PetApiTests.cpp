@@ -13,8 +13,7 @@ PetApiTests::~PetApiTests () {
 
 OAIPetApi* PetApiTests::getApi() {
     auto api = new OAIPetApi();
-    api->host = "http://petstore.swagger.io";
-    api->basePath = "/v2";
+    api->setHost("http://petstore.swagger.io");
     return api;
 }
 

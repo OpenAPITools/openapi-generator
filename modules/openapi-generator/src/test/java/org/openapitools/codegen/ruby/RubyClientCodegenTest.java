@@ -21,16 +21,14 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FileUtils;
-import org.junit.rules.TemporaryFolder;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.RubyClientCodegen;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,21 +42,12 @@ import static org.testng.Assert.fail;
  */
 public class RubyClientCodegenTest {
 
-    public TemporaryFolder folder = new TemporaryFolder();
-
-    @BeforeMethod
-    public void setUp() throws Exception {
-        folder.create();
-    }
-
-    @AfterMethod
-    public void tearDown() throws Exception {
-        folder.delete();
-    }
 
     @Test
     public void testGenerateRubyClientWithHtmlEntity() throws Exception {
-        final File output = folder.getRoot();
+        final File output = Files.createTempDirectory("test").toFile();
+        output.mkdirs();
+        output.deleteOnExit();
 
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/pathWithHtmlEntity.yaml");
         CodegenConfig codegenConfig = new RubyClientCodegen();
@@ -120,7 +109,9 @@ public class RubyClientCodegenTest {
 
     @Test
     public void testBooleanDefaultValue() throws Exception {
-        final File output = folder.getRoot();
+        final File output = Files.createTempDirectory("test").toFile();
+        output.mkdirs();
+        output.deleteOnExit();
 
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/npe1.yaml");
         CodegenConfig codegenConfig = new RubyClientCodegen();
@@ -529,6 +520,47 @@ public class RubyClientCodegenTest {
         cp1 = adult.getRequiredVars().get(1);
         Assert.assertEquals(cp1.name, "person_required");
     }
+
+    @Test(description = "test allOf composition")
+    public void allOfCompositionTest() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/allOf_composition.yaml");
+        final RubyClientCodegen codegen = new RubyClientCodegen();
+        codegen.setModuleName("OnlinePetstore");
+
+        final Schema schema = openAPI.getComponents().getSchemas().get("SuperMan");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel superMan = codegen.fromModel("SuperMan", schema);
+        Assert.assertNotNull(superMan);
+
+        // to test all properties
+        Assert.assertEquals(superMan.getVars().size(), 6);
+
+        CodegenProperty cp0 = superMan.getVars().get(0);
+        Assert.assertEquals(cp0.name, "id");
+        Assert.assertTrue(cp0.required);
+
+        CodegenProperty cp1 = superMan.getVars().get(1);
+        Assert.assertEquals(cp1.name, "name");
+        Assert.assertFalse(cp1.required);
+
+        CodegenProperty cp2 = superMan.getVars().get(2);
+        Assert.assertEquals(cp2.name, "reward");
+        Assert.assertFalse(cp2.required);
+
+        CodegenProperty cp3 = superMan.getVars().get(3);
+        Assert.assertEquals(cp3.name, "origin");
+        Assert.assertTrue(cp3.required);
+
+        CodegenProperty cp4 = superMan.getVars().get(4);
+        Assert.assertEquals(cp4.name, "category");
+        Assert.assertFalse(cp4.required);
+
+        CodegenProperty cp5 = superMan.getVars().get(5);
+        Assert.assertEquals(cp5.name, "level");
+        Assert.assertTrue(cp5.required);
+
+    }
+
 
     @Test(description = "test example string imported from x-example parameterr (OAS2)")
     public void exampleStringFromExampleParameterOAS2Test() {
